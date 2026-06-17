@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,6 +11,7 @@ import { Loader2, CheckCircle } from "lucide-react";
 import { requestPasswordReset } from "@/app/actions/auth";
 
 export function ForgotPasswordForm() {
+  const t = useTranslations();
   const [isLoading, setIsLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -30,7 +32,7 @@ export function ForgotPasswordForm() {
         setEmail("");
       }
     } catch (err) {
-      setError("An error occurred. Please try again.");
+      setError(t("errors.serverError"));
     } finally {
       setIsLoading(false);
     }
@@ -41,23 +43,23 @@ export function ForgotPasswordForm() {
       {submitted ? (
         <div className="space-y-6">
           <div className="space-y-2">
-            <h1 className="text-3xl font-bold text-center">Check Your Email</h1>
+            <h1 className="text-3xl font-bold text-center">{t("auth.forgotPassword.checkEmail")}</h1>
             <p className="text-center text-sm text-muted-foreground">
-              We've sent you a password reset link
+              {t("auth.forgotPassword.title")}
             </p>
           </div>
 
           <Alert>
             <CheckCircle className="h-4 w-4" />
             <AlertDescription>
-              If an account exists for {email}, you will receive an email with instructions to reset your password.
+              {t("auth.forgotPassword.emailSent", { email })}
             </AlertDescription>
           </Alert>
 
           <div className="space-y-2 text-center">
             <p className="text-sm text-muted-foreground">
               <Link href="/login" className="text-primary hover:underline">
-                Back to sign in
+                {t("auth.forgotPassword.backToSignIn")}
               </Link>
             </p>
           </div>
@@ -65,9 +67,9 @@ export function ForgotPasswordForm() {
       ) : (
         <form onSubmit={onSubmit} className="space-y-6">
           <div className="space-y-2">
-            <h1 className="text-3xl font-bold text-center">Reset Password</h1>
+            <h1 className="text-3xl font-bold text-center">{t("auth.forgotPassword.title")}</h1>
             <p className="text-center text-sm text-muted-foreground">
-              Enter your email address to receive a password reset link
+              {t("auth.forgotPassword.subtitle")}
             </p>
           </div>
 
@@ -78,11 +80,11 @@ export function ForgotPasswordForm() {
           )}
 
           <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email">{t("common.email")}</Label>
             <Input
               id="email"
               type="email"
-              placeholder="your@email.com"
+              placeholder={t("auth.login.emailPlaceholder")}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -92,12 +94,12 @@ export function ForgotPasswordForm() {
 
           <Button type="submit" className="w-full" disabled={isLoading}>
             {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            Send Reset Link
+            {t("auth.forgotPassword.submitButton")}
           </Button>
 
           <div className="text-center text-sm text-muted-foreground">
             <Link href="/login" className="text-primary hover:underline">
-              Back to sign in
+              {t("auth.forgotPassword.backToSignIn")}
             </Link>
           </div>
         </form>

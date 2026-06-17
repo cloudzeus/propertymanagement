@@ -1,0 +1,114 @@
+{
+  "common": {
+    "appName": "Διαχείριση Κτηρίων",
+    "signIn": "Σύνδεση",
+    "signUp": "Εγγραφή",
+    "logout": "Αποσύνδεση",
+    "language": "Γλώσσα",
+    "loading": "Φόρτωση...",
+    "error": "Σφάλμα",
+    "success": "Επιτυχία",
+    "cancel": "Ακύρωση",
+    "save": "Αποθήκευση",
+    "delete": "Διαγραφή",
+    "edit": "Επεξεργασία",
+    "add": "Προσθήκη",
+    "close": "Κλείσιμο",
+    "back": "Πίσω",
+    "next": "Επόμενο",
+    "submit": "Υποβολή",
+    "email": "Email",
+    "password": "Κωδικός πρόσβασης",
+    "confirmPassword": "Επιβεβαίωση κωδικού",
+    "name": "Όνομα",
+    "fullName": "Πλήρες όνομα"
+  },
+  "auth": {
+    "login": {
+      "title": "Σύνδεση",
+      "subtitle": "Εισάγετε τα διαπιστευτήριά σας για πρόσβαση στο λογαριασμό σας",
+      "emailPlaceholder": "το@email.com",
+      "passwordPlaceholder": "••••••••",
+      "forgotPassword": "Ξέχασες τον κωδικό;",
+      "noAccount": "Δεν έχετε λογαριασμό;",
+      "signUpLink": "Εγγραφή",
+      "invalidCredentials": "Email ή κωδικός εσφαλμένος",
+      "submitButton": "Σύνδεση"
+    },
+    "register": {
+      "title": "Δημιουργία λογαριασμού",
+      "subtitle": "Εγγραφείτε για να ξεκινήσετε με τη Διαχείριση Κτηρίων",
+      "accountType": "Τύπος λογαριασμού",
+      "propertyOwner": "Ιδιοκτήτης ακινήτου",
+      "resident": "Ενοικιαστής",
+      "companyAdmin": "Διαχειριστής εταιρείας",
+      "passwordMismatch": "Οι κωδικοί δεν ταιριάζουν",
+      "passwordTooShort": "Ο κωδικός πρέπει να έχει τουλάχιστον 8 χαρακτήρες",
+      "userExists": "Ο χρήστης υπάρχει ήδη",
+      "alreadyHaveAccount": "Έχετε ήδη λογαριασμό;",
+      "signInLink": "Σύνδεση",
+      "submitButton": "Δημιουργία λογαριασμού"
+    },
+    "forgotPassword": {
+      "title": "Επαναφορά κωδικού",
+      "subtitle": "Εισάγετε το email σας για να λάβετε σύνδεσμο επαναφοράς κωδικού",
+      "checkEmail": "Ελέγξτε το email σας",
+      "emailSent": "Αν υπάρχει λογαριασμός για το {email}, θα λάβετε email με οδηγίες για την επαναφορά του κωδικού σας.",
+      "submitButton": "Αποστολή συνδέσμου επαναφοράς",
+      "backToSignIn": "Πίσω στη σύνδεση"
+    },
+    "resetPassword": {
+      "title": "Επαναφορά κωδικού",
+      "subtitle": "Εισάγετε τον νέο σας κωδικό",
+      "newPassword": "Νέος κωδικός",
+      "confirmNewPassword": "Επιβεβαίωση νέου κωδικού",
+      "invalidToken": "Μη έγκυρο ή λήξεν token",
+      "submitButton": "Επαναφορά κωδικού"
+    }
+  },
+  "dashboard": {
+    "title": "Πίνακας ελέγχου",
+    "welcome": "Καλώς ήρθατε, {name}",
+    "menu": {
+      "dashboard": "Πίνακας ελέγχου",
+      "properties": "Κτήρια",
+      "units": "Διαμερίσματα",
+      "users": "Χρήστες",
+      "announcements": "Ανακοινώσεις",
+      "maintenance": "Συντήρηση",
+      "billing": "Λογιστική",
+      "reports": "Αναφορές",
+      "settings": "Ρυθμίσεις",
+      "teams": "Ομάδες",
+      "tasks": "Εργασίες",
+      "subscriptions": "Συνδρομές",
+      "companies": "Εταιρείες",
+      "aiTools": "Εργαλεία AI",
+      "integrations": "Ενσωματώσεις"
+    }
+  },
+  "roles": {
+    "SUPER_ADMIN": "Υπερδιαχειριστής",
+    "ADMIN": "Διαχειριστής",
+    "MANAGER": "Διευθυντής",
+    "EMPLOYEE": "Υπάλληλος",
+    "PROPERTY_ADMIN": "Διαχειριστής κτηρίου",
+    "PROPERTY_OWNER": "Ιδιοκτήτης",
+    "PROPERTY_RESIDENT": "Ενοικιαστής",
+    "PROPERTY_VIEWER": "Θεατής",
+    "COLLABORATOR": "Συνεργάτης"
+  },
+  "validation": {
+    "required": "Το πεδίο είναι υποχρεωτικό",
+    "invalidEmail": "Email μη έγκυρο",
+    "passwordMinLength": "Ο κωδικός πρέπει να έχει τουλάχιστον 8 χαρακτήρες",
+    "passwordMismatch": "Οι κωδικοί δεν ταιριάζουν"
+  },
+  "errors": {
+    "unauthorized": "Δεν έχετε άδεια για πρόσβαση σε αυτή τη σελίδα",
+    "notFound": "Η σελίδα δεν βρέθηκε",
+    "serverError": "Σφάλμα διακομιστή",
+    "tryAgain": "Προσπαθήστε ξανά",
+    "goHome": "Επιστροφή στην αρχική σελίδα"
+  }
+}

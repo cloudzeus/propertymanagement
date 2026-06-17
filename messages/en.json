@@ -1,0 +1,114 @@
+{
+  "common": {
+    "appName": "Property Management",
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "logout": "Logout",
+    "language": "Language",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "submit": "Submit",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "name": "Name",
+    "fullName": "Full Name"
+  },
+  "auth": {
+    "login": {
+      "title": "Sign In",
+      "subtitle": "Enter your credentials to access your account",
+      "emailPlaceholder": "your@email.com",
+      "passwordPlaceholder": "••••••••",
+      "forgotPassword": "Forgot password?",
+      "noAccount": "Don't have an account?",
+      "signUpLink": "Sign up",
+      "invalidCredentials": "Invalid email or password",
+      "submitButton": "Sign In"
+    },
+    "register": {
+      "title": "Create Account",
+      "subtitle": "Sign up to get started with Property Management",
+      "accountType": "Account Type",
+      "propertyOwner": "Property Owner",
+      "resident": "Resident",
+      "companyAdmin": "Company Admin",
+      "passwordMismatch": "Passwords do not match",
+      "passwordTooShort": "Password must be at least 8 characters",
+      "userExists": "User already exists",
+      "alreadyHaveAccount": "Already have an account?",
+      "signInLink": "Sign in",
+      "submitButton": "Create Account"
+    },
+    "forgotPassword": {
+      "title": "Reset Password",
+      "subtitle": "Enter your email address to receive a password reset link",
+      "checkEmail": "Check Your Email",
+      "emailSent": "If an account exists for {email}, you will receive an email with instructions to reset your password.",
+      "submitButton": "Send Reset Link",
+      "backToSignIn": "Back to sign in"
+    },
+    "resetPassword": {
+      "title": "Reset Password",
+      "subtitle": "Enter your new password",
+      "newPassword": "New Password",
+      "confirmNewPassword": "Confirm New Password",
+      "invalidToken": "Invalid or expired token",
+      "submitButton": "Reset Password"
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welcome, {name}",
+    "menu": {
+      "dashboard": "Dashboard",
+      "properties": "Properties",
+      "units": "Units",
+      "users": "Users",
+      "announcements": "Announcements",
+      "maintenance": "Maintenance",
+      "billing": "Billing",
+      "reports": "Reports",
+      "settings": "Settings",
+      "teams": "Teams",
+      "tasks": "Tasks",
+      "subscriptions": "Subscriptions",
+      "companies": "Companies",
+      "aiTools": "AI Tools",
+      "integrations": "Integrations"
+    }
+  },
+  "roles": {
+    "SUPER_ADMIN": "Super Administrator",
+    "ADMIN": "Administrator",
+    "MANAGER": "Manager",
+    "EMPLOYEE": "Employee",
+    "PROPERTY_ADMIN": "Property Admin",
+    "PROPERTY_OWNER": "Property Owner",
+    "PROPERTY_RESIDENT": "Resident",
+    "PROPERTY_VIEWER": "Viewer",
+    "COLLABORATOR": "Collaborator"
+  },
+  "validation": {
+    "required": "This field is required",
+    "invalidEmail": "Invalid email",
+    "passwordMinLength": "Password must be at least 8 characters",
+    "passwordMismatch": "Passwords do not match"
+  },
+  "errors": {
+    "unauthorized": "You don't have permission to access this page",
+    "notFound": "Page not found",
+    "serverError": "Server error",
+    "tryAgain": "Try again",
+    "goHome": "Go home"
+  }
+}

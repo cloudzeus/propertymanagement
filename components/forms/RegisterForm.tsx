@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -20,6 +21,7 @@ import { registerUser } from "@/app/actions/auth";
 type UserRole = "ADMIN" | "PROPERTY_OWNER" | "PROPERTY_RESIDENT";
 
 export function RegisterForm() {
+  const t = useTranslations();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -38,13 +40,13 @@ export function RegisterForm() {
 
     // Validate
     if (formData.password !== formData.confirmPassword) {
-      setError("Passwords do not match");
+      setError(t("auth.register.passwordMismatch"));
       setIsLoading(false);
       return;
     }
 
     if (formData.password.length < 8) {
-      setError("Password must be at least 8 characters");
+      setError(t("auth.register.passwordTooShort"));
       setIsLoading(false);
       return;
     }
@@ -63,7 +65,7 @@ export function RegisterForm() {
         router.push("/dashboard");
       }
     } catch (err) {
-      setError("An error occurred. Please try again.");
+      setError(t("errors.serverError"));
     } finally {
       setIsLoading(false);
     }
@@ -73,9 +75,9 @@ export function RegisterForm() {
     <div className="w-full max-w-md mx-auto">
       <form onSubmit={onSubmit} className="space-y-6">
         <div className="space-y-2">
-          <h1 className="text-3xl font-bold text-center">Create Account</h1>
+          <h1 className="text-3xl font-bold text-center">{t("auth.register.title")}</h1>
           <p className="text-center text-sm text-muted-foreground">
-            Sign up to get started with Property Management
+            {t("auth.register.subtitle")}
           </p>
         </div>
 
@@ -87,7 +89,7 @@ export function RegisterForm() {
 
         <div className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="name">Full Name</Label>
+            <Label htmlFor="name">{t("common.fullName")}</Label>
             <Input
               id="name"
               type="text"
@@ -102,11 +104,11 @@ export function RegisterForm() {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email">{t("common.email")}</Label>
             <Input
               id="email"
               type="email"
-              placeholder="your@email.com"
+              placeholder={t("auth.login.emailPlaceholder")}
               value={formData.email}
               onChange={(e) =>
                 setFormData({ ...formData, email: e.target.value })
@@ -117,7 +119,7 @@ export function RegisterForm() {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="role">Account Type</Label>
+            <Label htmlFor="role">{t("auth.register.accountType")}</Label>
             <Select
               value={formData.role}
               onValueChange={(value) =>
@@ -129,19 +131,19 @@ export function RegisterForm() {
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="PROPERTY_OWNER">Property Owner</SelectItem>
-                <SelectItem value="PROPERTY_RESIDENT">Resident</SelectItem>
-                <SelectItem value="ADMIN">Company Admin</SelectItem>
+                <SelectItem value="PROPERTY_OWNER">{t("auth.register.propertyOwner")}</SelectItem>
+                <SelectItem value="PROPERTY_RESIDENT">{t("auth.register.resident")}</SelectItem>
+                <SelectItem value="ADMIN">{t("auth.register.companyAdmin")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="password">{t("common.password")}</Label>
             <Input
               id="password"
               type="password"
-              placeholder="••••••••"
+              placeholder={t("auth.login.passwordPlaceholder")}
               value={formData.password}
               onChange={(e) =>
                 setFormData({ ...formData, password: e.target.value })
@@ -152,11 +154,11 @@ export function RegisterForm() {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="confirmPassword">Confirm Password</Label>
+            <Label htmlFor="confirmPassword">{t("common.confirmPassword")}</Label>
             <Input
               id="confirmPassword"
               type="password"
-              placeholder="••••••••"
+              placeholder={t("auth.login.passwordPlaceholder")}
               value={formData.confirmPassword}
               onChange={(e) =>
                 setFormData({ ...formData, confirmPassword: e.target.value })
@@ -169,13 +171,13 @@ export function RegisterForm() {
 
         <Button type="submit" className="w-full" disabled={isLoading}>
           {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-          Create Account
+          {t("auth.register.submitButton")}
         </Button>
 
         <p className="text-center text-sm text-muted-foreground">
-          Already have an account?{" "}
+          {t("auth.register.alreadyHaveAccount")}{" "}
           <Link href="/login" className="text-primary hover:underline">
-            Sign in
+            {t("auth.register.signInLink")}
           </Link>
         </p>
       </form>
