@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "timestamp": "2026-06-17T11:33:58.003Z",
+  "timestamp": "2026-06-17T11:35:01.344Z",
   "source": "auto-postool",
   "partial": false,
   "phase": null,
@@ -18,41 +18,13 @@
   "uncommitted_files": [
     {
       "status": "M",
-      "path": ".planning/HANDOFF.json"
-    },
-    {
-      "status": "M",
-      "path": "package-lock.json"
-    },
-    {
-      "status": "M",
-      "path": "package.json"
-    },
-    {
-      "status": "M",
-      "path": "prisma.config.ts"
-    },
-    {
-      "status": "M",
       "path": "prisma/schema.prisma"
     },
     {
-      "status": "??",
-      "path": ".prisma/"
-    },
-    {
-      "status": "??",
-      "path": "lib/translate.ts"
-    },
-    {
-      "status": "??",
+      "status": "M",
       "path": "prisma/seed.js"
-    },
-    {
-      "status": "??",
-      "path": "prisma/seed.ts"
     }
   ],
   "next_action": null,
-  "context_notes": "Recent commits:\nbe0e8a7 Add OTP system documentation\n27a37af Add OTP-based password reset and change via email\nf771fad Add comprehensive setup documentation\n3f226c0 Setup database migrations and integrate services (Mailgun, BunnyCDN, AI)\nd7f1986 Add internationalization documentation"
+  "context_notes": "Recent commits:\nd3ed9ad Add translation service (Deepseek) and seed script setup\nbe0e8a7 Add OTP system documentation\n27a37af Add OTP-based password reset and change via email\nf771fad Add comprehensive setup documentation\n3f226c0 Setup database migrations and integrate services (Mailgun, BunnyCDN, AI)"
 }

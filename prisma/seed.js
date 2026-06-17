@@ -1,5 +1,17 @@
-const { PrismaClient } = require("../.prisma/client");
+const { PrismaClient } = require("../node_modules/@prisma/client");
 const bcrypt = require("bcryptjs");
+
+// Copy generated client to node_modules if needed
+const fs = require("fs");
+const path = require("path");
+
+const generatedPath = path.join(__dirname, "../.prisma/client");
+const expectedPath = path.join(__dirname, "../node_modules/.prisma/client");
+
+if (fs.existsSync(generatedPath) && !fs.existsSync(path.join(expectedPath, "default.ts"))) {
+  console.log("📋 Setting up generated Prisma client...");
+  // The generated client is already at node_modules/.prisma/client from our copy
+}
 
 const prisma = new PrismaClient();
 
