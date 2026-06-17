@@ -73,6 +73,42 @@ async function sendEmail(options: EmailOptions): Promise<EmailResponse> {
 
 // Email templates
 export const emailTemplates = {
+  passwordResetOTP: (otp: string, expiresIn: number = 10) => ({
+    subject: "Κωδικός επαναφοράς κωδικού πρόσβασης - 6 ψηφία",
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+        <h2>Επαναφορά κωδικού πρόσβασης</h2>
+        <p>Κάναμε λήψη ενός αιτήματος για επαναφορά του κωδικού πρόσβασής σας.</p>
+        <p>Ο κωδικός σας είναι:</p>
+        <div style="background-color: #f0f0f0; padding: 20px; text-align: center; border-radius: 5px; margin: 20px 0;">
+          <h1 style="letter-spacing: 2px; color: #3b82f6; margin: 0; font-size: 32px;">${otp}</h1>
+        </div>
+        <p style="color: #666;">Αυτός ο κωδικός ισχύει για ${expiresIn} λεπτά.</p>
+        <p style="color: #666;">Αν δεν ζητήσατε αυτή την αλλαγή, αγνοήστε αυτό το email.</p>
+        <p style="color: #999; font-size: 12px;">Ποτέ μην μοιράζεστε αυτόν τον κωδικό με κανέναν.</p>
+      </div>
+    `,
+    text: `Επαναφορά κωδικού πρόσβασης\n\nΟ κωδικός σας είναι: ${otp}\n\nΑυτός ο κωδικός ισχύει για ${expiresIn} λεπτά.\n\nΑν δεν ζητήσατε αυτή την αλλαγή, αγνοήστε αυτό το email.`,
+  }),
+
+  passwordChangeOTP: (otp: string, expiresIn: number = 10) => ({
+    subject: "Κωδικός αλλαγής κωδικού πρόσβασης - 6 ψηφία",
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+        <h2>Αλλαγή κωδικού πρόσβασης</h2>
+        <p>Κάναμε λήψη ενός αιτήματος για αλλαγή του κωδικού πρόσβασής σας.</p>
+        <p>Ο κωδικός σας είναι:</p>
+        <div style="background-color: #f0f0f0; padding: 20px; text-align: center; border-radius: 5px; margin: 20px 0;">
+          <h1 style="letter-spacing: 2px; color: #10b981; margin: 0; font-size: 32px;">${otp}</h1>
+        </div>
+        <p style="color: #666;">Αυτός ο κωδικός ισχύει για ${expiresIn} λεπτά.</p>
+        <p style="color: #666;">Αν δεν ζητήσατε αυτή την αλλαγή, αγνοήστε αυτό το email.</p>
+        <p style="color: #999; font-size: 12px;">Ποτέ μην μοιράζεστε αυτόν τον κωδικό με κανέναν.</p>
+      </div>
+    `,
+    text: `Αλλαγή κωδικού πρόσβασης\n\nΟ κωδικός σας είναι: ${otp}\n\nΑυτός ο κωδικός ισχύει για ${expiresIn} λεπτά.\n\nΑν δεν ζητήσατε αυτή την αλλαγή, αγνοήστε αυτό το email.`,
+  }),
+
   passwordReset: (email: string, resetLink: string) => ({
     subject: "Επαναφορά κωδικού πρόσβασης",
     html: `
@@ -147,5 +183,29 @@ export async function sendNotificationEmail(
     to: email,
     ...emailTemplates.notificationEmail(title, message),
     tags: ["notification"],
+  });
+}
+
+export async function sendPasswordResetOTP(
+  email: string,
+  otp: string,
+  expiresIn: number = 10
+): Promise<EmailResponse> {
+  return sendEmail({
+    to: email,
+    ...emailTemplates.passwordResetOTP(otp, expiresIn),
+    tags: ["otp", "password-reset"],
+  });
+}
+
+export async function sendPasswordChangeOTP(
+  email: string,
+  otp: string,
+  expiresIn: number = 10
+): Promise<EmailResponse> {
+  return sendEmail({
+    to: email,
+    ...emailTemplates.passwordChangeOTP(otp, expiresIn),
+    tags: ["otp", "password-change"],
   });
 }
