@@ -4,7 +4,6 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
 enum UserRole {
@@ -68,7 +67,7 @@ model User {
 
   // Company association (null for SUPER_ADMIN)
   companyId           String?
-  company             Company? @relation(fields: [companyId], references: [id], onDelete: SetNull)
+  company             Company? @relation("users", fields: [companyId], references: [id], onDelete: SetNull)
 
   // Property association (for property-specific roles)
   propertyId          String?
@@ -80,6 +79,21 @@ model User {
 
   // Relationships for multi-role users
   companyRoles        UserCompanyRole[]
+
+  // Companies created by this user (for SUPER_ADMIN)
+  createdCompanies    Company[] @relation("createdCompanies")
+
+  // Menu configs created by this user
+  createdMenuConfigs  MenuConfig[] @relation("menuConfigCreatedBy")
+
+  // Announcements created by this user
+  createdAnnouncements Announcement[] @relation("announcementCreatedBy")
+
+  // Maintenance requests reported by this user
+  reportedMaintenance MaintenanceRequest[] @relation("maintenanceReportedBy")
+
+  // Maintenance requests assigned to this user
+  assignedMaintenance MaintenanceRequest[] @relation("maintenanceAssignedTo")
 
   // Audit fields
   createdAt           DateTime @default(now())
@@ -147,8 +161,6 @@ model Company {
   logoUrl               String?  // BunnyCDN URL
 
   // Subscription details
-  subscriptionId        String?
-  subscription          Subscription? @relation(fields: [subscriptionId], references: [id])
   subscriptionTier      SubscriptionTier @default(STARTER)
 
   // Limits
@@ -162,13 +174,14 @@ model Company {
 
   // Relations
   createdById           String?
-  createdBy             User?    @relation(fields: [createdById], references: [id], onDelete: SetNull)
+  createdBy             User?    @relation("createdCompanies", fields: [createdById], references: [id], onDelete: SetNull)
 
-  users                 User[]
+  users                 User[] @relation("users")
   properties            Property[]
-  subscriptions         Subscription[] @relation("companies")
+  subscription          Subscription?
   addonFeatures         AddonFeature[]
   menuConfigs           MenuConfig[]
+  userRoles             UserCompanyRole[]
 
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt
@@ -184,7 +197,6 @@ model Subscription {
   // Company link
   companyId             String   @unique
   company               Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
-  companies             Company[] @relation("companies")
 
   // Billing details
   vivaBatchId           String?  // Viva Payments reference
@@ -338,7 +350,7 @@ model MenuConfig {
   isDefault             Boolean  @default(true)
 
   createdById           String?
-  createdBy             User?    @relation(fields: [createdById], references: [id], onDelete: SetNull)
+  createdBy             User?    @relation("menuConfigCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
 
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt
@@ -364,7 +376,7 @@ model Announcement {
   expiresAt             DateTime?
 
   createdById           String?
-  createdBy             User?    @relation(fields: [createdById], references: [id], onDelete: SetNull)
+  createdBy             User?    @relation("announcementCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
 
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt
@@ -400,10 +412,10 @@ model MaintenanceRequest {
   status                String   @default("OPEN") // OPEN, IN_PROGRESS, COMPLETED, CANCELLED
 
   reportedById          String?
-  reportedBy            User?    @relation(fields: [reportedById], references: [id], onDelete: SetNull)
+  reportedBy            User?    @relation("maintenanceReportedBy", fields: [reportedById], references: [id], onDelete: SetNull)
 
   assignedToId          String?
-  assignedTo            User?    @relation(fields: [assignedToId], references: [id], onDelete: SetNull)
+  assignedTo            User?    @relation("maintenanceAssignedTo", fields: [assignedToId], references: [id], onDelete: SetNull)
 
   attachmentUrl         String?  // BunnyCDN URL
 
