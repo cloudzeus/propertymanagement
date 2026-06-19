@@ -15,6 +15,30 @@ export function pickCategory(code: string | null, validCodes: string[]): string 
   return validCodes.includes(code) ? code : null;
 }
 
+const isEmpty = (v: unknown) => v == null || v === "";
+
+/**
+ * Non-destructive merge: start from the Gemini (`base`) result and only fill
+ * fields the model left empty with the DeepSeek (`extra`) value. DeepSeek can
+ * ADD information but must never erase what the vision pass already found.
+ * Confidence is kept from `base` unless it was missing.
+ */
+function mergeFill(base: ExtractedDoc, extra: ExtractedDoc): ExtractedDoc {
+  const out: ExtractedDoc = { ...base };
+  for (const k of Object.keys(base) as (keyof ExtractedDoc)[]) {
+    if (k === "meter" || k === "confidence") continue;
+    if (isEmpty(out[k]) && !isEmpty(extra[k])) (out[k] as unknown) = extra[k];
+  }
+  // Meter: prefer base; fill its empty sub-fields from extra; keep a meter if either has one.
+  if (base.meter || extra.meter) {
+    const bm = base.meter ?? ({} as NonNullable<ExtractedDoc["meter"]>);
+    const em = extra.meter ?? ({} as NonNullable<ExtractedDoc["meter"]>);
+    const meter = { ...em, ...Object.fromEntries(Object.entries(bm).filter(([, v]) => !isEmpty(v))) } as NonNullable<ExtractedDoc["meter"]>;
+    out.meter = meter;
+  }
+  return out;
+}
+
 const DEEPSEEK_URL = process.env.DEEPSEEK_API_URL ?? "https://api.deepseek.com/v1/chat/completions";
 
 export async function normalizeExtraction(doc: ExtractedDoc, rawText: string, validCodes: string[]): Promise<ExtractedDoc> {
@@ -26,7 +50,7 @@ export async function normalizeExtraction(doc: ExtractedDoc, rawText: string, va
       body: JSON.stringify({
         model: "deepseek-chat", temperature: 0.1, response_format: { type: "json_object" },
         messages: [
-          { role: "system", content: `Καθάρισε και κανονικοποίησε τα εξαγμένα δεδομένα παραστατικού. Επίστρεψε το ίδιο JSON schema. Το suggestedCategoryCode πρέπει να είναι ένα από: ${validCodes.join(", ")} ή null. Ημερομηνίες σε YYYY-MM-DD, ποσά ως αριθμοί.` },
+          { role: "system", content: `Σου δίνονται προ-εξαγμένα δεδομένα παραστατικού (extracted) και το ακατέργαστο κείμενο (rawText). ΜΗΝ διαγράψεις/μηδενίσεις σωστές υπάρχουσες τιμές — μόνο συμπλήρωσε όσα λείπουν (null) και διόρθωσε προφανή λάθη μορφής. Επίστρεψε το ίδιο JSON schema. suggestedCategoryCode ένα από: ${validCodes.join(", ")} ή null. Ημερομηνίες YYYY-MM-DD, ποσά ως αριθμοί.` },
           { role: "user", content: JSON.stringify({ extracted: doc, rawText }) },
         ],
       }),
@@ -35,7 +59,9 @@ export async function normalizeExtraction(doc: ExtractedDoc, rawText: string, va
       const data = await res.json();
       const u = data?.usage ?? {};
       logDeepSeek({ model: "deepseek-chat", tokens: u.total_tokens ?? null });
-      result = ExtractedDocSchema.parse(parseJsonLoose(data?.choices?.[0]?.message?.content ?? ""));
+      const cleaned = ExtractedDocSchema.parse(parseJsonLoose(data?.choices?.[0]?.message?.content ?? ""));
+      // Merge: DeepSeek may only fill gaps, never overwrite Gemini's findings.
+      result = mergeFill(doc, cleaned);
     } else {
       logDeepSeek({ model: "deepseek-chat", tokens: null, status: "FAILED" });
     }
