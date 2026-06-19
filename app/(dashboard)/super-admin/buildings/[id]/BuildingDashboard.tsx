@@ -10,6 +10,8 @@ import {
 } from "react-icons/ri";
 import { FilesPanel, type FileRow } from "./FilesPanel";
 import { PeoplePanel, type Person } from "./PeoplePanel";
+import { ContactsPanel, type ContactRow } from "./ContactsPanel";
+import { InfraPanel, type InfraRow } from "./InfraPanel";
 
 type Building = {
   id: string; name: string; address: string; city: string; postalCode: string;
@@ -40,7 +42,7 @@ const TABS: { key: TabKey; label: string; icon: React.ElementType; badge?: (k: K
   { key: "ann", label: "Ανακοινώσεις", icon: RiMegaphoneLine },
 ];
 
-export function BuildingDashboard({ building, kpis, files, people }: { building: Building; kpis: Kpis; files: FileRow[]; people: Person[] }) {
+export function BuildingDashboard({ building, kpis, files, people, contacts, infraPoints }: { building: Building; kpis: Kpis; files: FileRow[]; people: Person[]; contacts: ContactRow[]; infraPoints: InfraRow[] }) {
   const [tab, setTab] = useState<TabKey>("overview");
 
   const subParts = [
@@ -127,6 +129,10 @@ export function BuildingDashboard({ building, kpis, files, people }: { building:
           <FilesPanel buildingId={building.id} files={files} />
         ) : tab === "people" ? (
           <PeoplePanel people={people} />
+        ) : tab === "contacts" ? (
+          <ContactsPanel buildingId={building.id} contacts={contacts} />
+        ) : tab === "infra" ? (
+          <InfraPanel buildingId={building.id} points={infraPoints} />
         ) : (
           <Placeholder label={TABS.find((t) => t.key === tab)?.label ?? ""} />
         )}
