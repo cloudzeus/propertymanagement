@@ -486,6 +486,7 @@ function OccupantsModal({ unit, onClose, onDone }: { unit: TUnit; onClose: () =>
 }
 
 function Slot({ unitId, role, label, current, onDone }: { unitId: string; role: "OWNER" | "RESIDENT"; label: string; current: TOccupant | null; onDone: () => void }) {
+  const [occupant, setOccupant] = useState<TOccupant | null>(current);
   const [adding, setAdding] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", password: "" });
   const [error, setError] = useState<string | null>(null);
@@ -493,19 +494,19 @@ function Slot({ unitId, role, label, current, onDone }: { unitId: string; role: 
   const f = (k: keyof typeof form) => (v: string) => setForm((p) => ({ ...p, [k]: v }));
   function create() {
     setError(null);
-    startTransition(async () => { const res = await createOccupant(unitId, role, form); if ("error" in res && res.error) { setError(res.error); return; } setAdding(false); setForm({ name: "", email: "", password: "" }); onDone(); });
+    startTransition(async () => { const res = await createOccupant(unitId, role, form); if ("error" in res && res.error) { setError(res.error); return; } setOccupant(res.occupant ?? null); setAdding(false); setForm({ name: "", email: "", password: "" }); onDone(); });
   }
-  function clear() { if (!confirm(`Αφαίρεση ${label.toLowerCase()};`)) return; startTransition(async () => { await clearOccupant(unitId, role); onDone(); }); }
+  function clear() { if (!confirm(`Αφαίρεση ${label.toLowerCase()};`)) return; startTransition(async () => { await clearOccupant(unitId, role); setOccupant(null); onDone(); }); }
   return (
     <div style={{ border: "1px solid var(--border)", borderRadius: 8, padding: 14 }}>
       <div style={{ fontSize: 12, fontWeight: 700, color: "var(--muted-foreground)", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: 10, display: "flex", alignItems: "center", gap: 6 }}>
         {role === "OWNER" ? <RiUserStarLine /> : <RiUserLine />} {label}
       </div>
-      {current ? (
+      {occupant ? (
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontSize: 13, fontWeight: 600, color: "var(--foreground)" }}>{current.name || "—"}</div>
-            <div style={{ fontSize: 12, color: "var(--muted-foreground)" }}>{current.email}</div>
+            <div style={{ fontSize: 13, fontWeight: 600, color: "var(--foreground)" }}>{occupant.name || "—"}</div>
+            <div style={{ fontSize: 12, color: "var(--muted-foreground)" }}>{occupant.email}</div>
           </div>
           <button onClick={clear} disabled={isPending} style={{ ...smallBtn, color: "#c50f1f" }}><RiCloseLine /> Αφαίρεση</button>
         </div>
