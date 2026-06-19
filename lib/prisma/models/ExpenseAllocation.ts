@@ -45,8 +45,14 @@ export type ExpenseAllocationMinAggregateOutputType = {
   unitShare: runtime.Decimal | null
   tenantUserId: string | null
   tenantAmount: runtime.Decimal | null
+  tenantPaid: boolean | null
+  tenantPaidAt: Date | null
+  tenantPaymentMethod: $Enums.ExpensePaymentMethod | null
   ownerUserId: string | null
   ownerAmount: runtime.Decimal | null
+  ownerPaid: boolean | null
+  ownerPaidAt: Date | null
+  ownerPaymentMethod: $Enums.ExpensePaymentMethod | null
   createdAt: Date | null
 }
 
@@ -57,8 +63,14 @@ export type ExpenseAllocationMaxAggregateOutputType = {
   unitShare: runtime.Decimal | null
   tenantUserId: string | null
   tenantAmount: runtime.Decimal | null
+  tenantPaid: boolean | null
+  tenantPaidAt: Date | null
+  tenantPaymentMethod: $Enums.ExpensePaymentMethod | null
   ownerUserId: string | null
   ownerAmount: runtime.Decimal | null
+  ownerPaid: boolean | null
+  ownerPaidAt: Date | null
+  ownerPaymentMethod: $Enums.ExpensePaymentMethod | null
   createdAt: Date | null
 }
 
@@ -69,8 +81,14 @@ export type ExpenseAllocationCountAggregateOutputType = {
   unitShare: number
   tenantUserId: number
   tenantAmount: number
+  tenantPaid: number
+  tenantPaidAt: number
+  tenantPaymentMethod: number
   ownerUserId: number
   ownerAmount: number
+  ownerPaid: number
+  ownerPaidAt: number
+  ownerPaymentMethod: number
   createdAt: number
   _all: number
 }
@@ -95,8 +113,14 @@ export type ExpenseAllocationMinAggregateInputType = {
   unitShare?: true
   tenantUserId?: true
   tenantAmount?: true
+  tenantPaid?: true
+  tenantPaidAt?: true
+  tenantPaymentMethod?: true
   ownerUserId?: true
   ownerAmount?: true
+  ownerPaid?: true
+  ownerPaidAt?: true
+  ownerPaymentMethod?: true
   createdAt?: true
 }
 
@@ -107,8 +131,14 @@ export type ExpenseAllocationMaxAggregateInputType = {
   unitShare?: true
   tenantUserId?: true
   tenantAmount?: true
+  tenantPaid?: true
+  tenantPaidAt?: true
+  tenantPaymentMethod?: true
   ownerUserId?: true
   ownerAmount?: true
+  ownerPaid?: true
+  ownerPaidAt?: true
+  ownerPaymentMethod?: true
   createdAt?: true
 }
 
@@ -119,8 +149,14 @@ export type ExpenseAllocationCountAggregateInputType = {
   unitShare?: true
   tenantUserId?: true
   tenantAmount?: true
+  tenantPaid?: true
+  tenantPaidAt?: true
+  tenantPaymentMethod?: true
   ownerUserId?: true
   ownerAmount?: true
+  ownerPaid?: true
+  ownerPaidAt?: true
+  ownerPaymentMethod?: true
   createdAt?: true
   _all?: true
 }
@@ -218,8 +254,14 @@ export type ExpenseAllocationGroupByOutputType = {
   unitShare: runtime.Decimal
   tenantUserId: string | null
   tenantAmount: runtime.Decimal
+  tenantPaid: boolean
+  tenantPaidAt: Date | null
+  tenantPaymentMethod: $Enums.ExpensePaymentMethod | null
   ownerUserId: string | null
   ownerAmount: runtime.Decimal
+  ownerPaid: boolean
+  ownerPaidAt: Date | null
+  ownerPaymentMethod: $Enums.ExpensePaymentMethod | null
   createdAt: Date
   _count: ExpenseAllocationCountAggregateOutputType | null
   _avg: ExpenseAllocationAvgAggregateOutputType | null
@@ -253,8 +295,14 @@ export type ExpenseAllocationWhereInput = {
   unitShare?: Prisma.DecimalFilter<"ExpenseAllocation"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   tenantUserId?: Prisma.StringNullableFilter<"ExpenseAllocation"> | string | null
   tenantAmount?: Prisma.DecimalFilter<"ExpenseAllocation"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tenantPaid?: Prisma.BoolFilter<"ExpenseAllocation"> | boolean
+  tenantPaidAt?: Prisma.DateTimeNullableFilter<"ExpenseAllocation"> | Date | string | null
+  tenantPaymentMethod?: Prisma.EnumExpensePaymentMethodNullableFilter<"ExpenseAllocation"> | $Enums.ExpensePaymentMethod | null
   ownerUserId?: Prisma.StringNullableFilter<"ExpenseAllocation"> | string | null
   ownerAmount?: Prisma.DecimalFilter<"ExpenseAllocation"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  ownerPaid?: Prisma.BoolFilter<"ExpenseAllocation"> | boolean
+  ownerPaidAt?: Prisma.DateTimeNullableFilter<"ExpenseAllocation"> | Date | string | null
+  ownerPaymentMethod?: Prisma.EnumExpensePaymentMethodNullableFilter<"ExpenseAllocation"> | $Enums.ExpensePaymentMethod | null
   createdAt?: Prisma.DateTimeFilter<"ExpenseAllocation"> | Date | string
   expense?: Prisma.XOR<Prisma.BuildingExpenseScalarRelationFilter, Prisma.BuildingExpenseWhereInput>
   unit?: Prisma.XOR<Prisma.UnitScalarRelationFilter, Prisma.UnitWhereInput>
@@ -267,8 +315,14 @@ export type ExpenseAllocationOrderByWithRelationInput = {
   unitShare?: Prisma.SortOrder
   tenantUserId?: Prisma.SortOrderInput | Prisma.SortOrder
   tenantAmount?: Prisma.SortOrder
+  tenantPaid?: Prisma.SortOrder
+  tenantPaidAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  tenantPaymentMethod?: Prisma.SortOrderInput | Prisma.SortOrder
   ownerUserId?: Prisma.SortOrderInput | Prisma.SortOrder
   ownerAmount?: Prisma.SortOrder
+  ownerPaid?: Prisma.SortOrder
+  ownerPaidAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  ownerPaymentMethod?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   expense?: Prisma.BuildingExpenseOrderByWithRelationInput
   unit?: Prisma.UnitOrderByWithRelationInput
@@ -284,8 +338,14 @@ export type ExpenseAllocationWhereUniqueInput = Prisma.AtLeast<{
   unitShare?: Prisma.DecimalFilter<"ExpenseAllocation"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   tenantUserId?: Prisma.StringNullableFilter<"ExpenseAllocation"> | string | null
   tenantAmount?: Prisma.DecimalFilter<"ExpenseAllocation"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tenantPaid?: Prisma.BoolFilter<"ExpenseAllocation"> | boolean
+  tenantPaidAt?: Prisma.DateTimeNullableFilter<"ExpenseAllocation"> | Date | string | null
+  tenantPaymentMethod?: Prisma.EnumExpensePaymentMethodNullableFilter<"ExpenseAllocation"> | $Enums.ExpensePaymentMethod | null
   ownerUserId?: Prisma.StringNullableFilter<"ExpenseAllocation"> | string | null
   ownerAmount?: Prisma.DecimalFilter<"ExpenseAllocation"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  ownerPaid?: Prisma.BoolFilter<"ExpenseAllocation"> | boolean
+  ownerPaidAt?: Prisma.DateTimeNullableFilter<"ExpenseAllocation"> | Date | string | null
+  ownerPaymentMethod?: Prisma.EnumExpensePaymentMethodNullableFilter<"ExpenseAllocation"> | $Enums.ExpensePaymentMethod | null
   createdAt?: Prisma.DateTimeFilter<"ExpenseAllocation"> | Date | string
   expense?: Prisma.XOR<Prisma.BuildingExpenseScalarRelationFilter, Prisma.BuildingExpenseWhereInput>
   unit?: Prisma.XOR<Prisma.UnitScalarRelationFilter, Prisma.UnitWhereInput>
@@ -298,8 +358,14 @@ export type ExpenseAllocationOrderByWithAggregationInput = {
   unitShare?: Prisma.SortOrder
   tenantUserId?: Prisma.SortOrderInput | Prisma.SortOrder
   tenantAmount?: Prisma.SortOrder
+  tenantPaid?: Prisma.SortOrder
+  tenantPaidAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  tenantPaymentMethod?: Prisma.SortOrderInput | Prisma.SortOrder
   ownerUserId?: Prisma.SortOrderInput | Prisma.SortOrder
   ownerAmount?: Prisma.SortOrder
+  ownerPaid?: Prisma.SortOrder
+  ownerPaidAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  ownerPaymentMethod?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.ExpenseAllocationCountOrderByAggregateInput
   _avg?: Prisma.ExpenseAllocationAvgOrderByAggregateInput
@@ -318,8 +384,14 @@ export type ExpenseAllocationScalarWhereWithAggregatesInput = {
   unitShare?: Prisma.DecimalWithAggregatesFilter<"ExpenseAllocation"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   tenantUserId?: Prisma.StringNullableWithAggregatesFilter<"ExpenseAllocation"> | string | null
   tenantAmount?: Prisma.DecimalWithAggregatesFilter<"ExpenseAllocation"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tenantPaid?: Prisma.BoolWithAggregatesFilter<"ExpenseAllocation"> | boolean
+  tenantPaidAt?: Prisma.DateTimeNullableWithAggregatesFilter<"ExpenseAllocation"> | Date | string | null
+  tenantPaymentMethod?: Prisma.EnumExpensePaymentMethodNullableWithAggregatesFilter<"ExpenseAllocation"> | $Enums.ExpensePaymentMethod | null
   ownerUserId?: Prisma.StringNullableWithAggregatesFilter<"ExpenseAllocation"> | string | null
   ownerAmount?: Prisma.DecimalWithAggregatesFilter<"ExpenseAllocation"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  ownerPaid?: Prisma.BoolWithAggregatesFilter<"ExpenseAllocation"> | boolean
+  ownerPaidAt?: Prisma.DateTimeNullableWithAggregatesFilter<"ExpenseAllocation"> | Date | string | null
+  ownerPaymentMethod?: Prisma.EnumExpensePaymentMethodNullableWithAggregatesFilter<"ExpenseAllocation"> | $Enums.ExpensePaymentMethod | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"ExpenseAllocation"> | Date | string
 }
 
@@ -328,8 +400,14 @@ export type ExpenseAllocationCreateInput = {
   unitShare: runtime.Decimal | runtime.DecimalJsLike | number | string
   tenantUserId?: string | null
   tenantAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tenantPaid?: boolean
+  tenantPaidAt?: Date | string | null
+  tenantPaymentMethod?: $Enums.ExpensePaymentMethod | null
   ownerUserId?: string | null
   ownerAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  ownerPaid?: boolean
+  ownerPaidAt?: Date | string | null
+  ownerPaymentMethod?: $Enums.ExpensePaymentMethod | null
   createdAt?: Date | string
   expense: Prisma.BuildingExpenseCreateNestedOneWithoutAllocationsInput
   unit: Prisma.UnitCreateNestedOneWithoutExpenseAllocationsInput
@@ -342,8 +420,14 @@ export type ExpenseAllocationUncheckedCreateInput = {
   unitShare: runtime.Decimal | runtime.DecimalJsLike | number | string
   tenantUserId?: string | null
   tenantAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tenantPaid?: boolean
+  tenantPaidAt?: Date | string | null
+  tenantPaymentMethod?: $Enums.ExpensePaymentMethod | null
   ownerUserId?: string | null
   ownerAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  ownerPaid?: boolean
+  ownerPaidAt?: Date | string | null
+  ownerPaymentMethod?: $Enums.ExpensePaymentMethod | null
   createdAt?: Date | string
 }
 
@@ -352,8 +436,14 @@ export type ExpenseAllocationUpdateInput = {
   unitShare?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   tenantUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenantAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tenantPaid?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  tenantPaidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tenantPaymentMethod?: Prisma.NullableEnumExpensePaymentMethodFieldUpdateOperationsInput | $Enums.ExpensePaymentMethod | null
   ownerUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ownerAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  ownerPaid?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ownerPaidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  ownerPaymentMethod?: Prisma.NullableEnumExpensePaymentMethodFieldUpdateOperationsInput | $Enums.ExpensePaymentMethod | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expense?: Prisma.BuildingExpenseUpdateOneRequiredWithoutAllocationsNestedInput
   unit?: Prisma.UnitUpdateOneRequiredWithoutExpenseAllocationsNestedInput
@@ -366,8 +456,14 @@ export type ExpenseAllocationUncheckedUpdateInput = {
   unitShare?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   tenantUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenantAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tenantPaid?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  tenantPaidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tenantPaymentMethod?: Prisma.NullableEnumExpensePaymentMethodFieldUpdateOperationsInput | $Enums.ExpensePaymentMethod | null
   ownerUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ownerAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  ownerPaid?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ownerPaidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  ownerPaymentMethod?: Prisma.NullableEnumExpensePaymentMethodFieldUpdateOperationsInput | $Enums.ExpensePaymentMethod | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -378,8 +474,14 @@ export type ExpenseAllocationCreateManyInput = {
   unitShare: runtime.Decimal | runtime.DecimalJsLike | number | string
   tenantUserId?: string | null
   tenantAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tenantPaid?: boolean
+  tenantPaidAt?: Date | string | null
+  tenantPaymentMethod?: $Enums.ExpensePaymentMethod | null
   ownerUserId?: string | null
   ownerAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  ownerPaid?: boolean
+  ownerPaidAt?: Date | string | null
+  ownerPaymentMethod?: $Enums.ExpensePaymentMethod | null
   createdAt?: Date | string
 }
 
@@ -388,8 +490,14 @@ export type ExpenseAllocationUpdateManyMutationInput = {
   unitShare?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   tenantUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenantAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tenantPaid?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  tenantPaidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tenantPaymentMethod?: Prisma.NullableEnumExpensePaymentMethodFieldUpdateOperationsInput | $Enums.ExpensePaymentMethod | null
   ownerUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ownerAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  ownerPaid?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ownerPaidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  ownerPaymentMethod?: Prisma.NullableEnumExpensePaymentMethodFieldUpdateOperationsInput | $Enums.ExpensePaymentMethod | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -400,8 +508,14 @@ export type ExpenseAllocationUncheckedUpdateManyInput = {
   unitShare?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   tenantUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenantAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tenantPaid?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  tenantPaidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tenantPaymentMethod?: Prisma.NullableEnumExpensePaymentMethodFieldUpdateOperationsInput | $Enums.ExpensePaymentMethod | null
   ownerUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ownerAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  ownerPaid?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ownerPaidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  ownerPaymentMethod?: Prisma.NullableEnumExpensePaymentMethodFieldUpdateOperationsInput | $Enums.ExpensePaymentMethod | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -422,8 +536,14 @@ export type ExpenseAllocationCountOrderByAggregateInput = {
   unitShare?: Prisma.SortOrder
   tenantUserId?: Prisma.SortOrder
   tenantAmount?: Prisma.SortOrder
+  tenantPaid?: Prisma.SortOrder
+  tenantPaidAt?: Prisma.SortOrder
+  tenantPaymentMethod?: Prisma.SortOrder
   ownerUserId?: Prisma.SortOrder
   ownerAmount?: Prisma.SortOrder
+  ownerPaid?: Prisma.SortOrder
+  ownerPaidAt?: Prisma.SortOrder
+  ownerPaymentMethod?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -440,8 +560,14 @@ export type ExpenseAllocationMaxOrderByAggregateInput = {
   unitShare?: Prisma.SortOrder
   tenantUserId?: Prisma.SortOrder
   tenantAmount?: Prisma.SortOrder
+  tenantPaid?: Prisma.SortOrder
+  tenantPaidAt?: Prisma.SortOrder
+  tenantPaymentMethod?: Prisma.SortOrder
   ownerUserId?: Prisma.SortOrder
   ownerAmount?: Prisma.SortOrder
+  ownerPaid?: Prisma.SortOrder
+  ownerPaidAt?: Prisma.SortOrder
+  ownerPaymentMethod?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -452,8 +578,14 @@ export type ExpenseAllocationMinOrderByAggregateInput = {
   unitShare?: Prisma.SortOrder
   tenantUserId?: Prisma.SortOrder
   tenantAmount?: Prisma.SortOrder
+  tenantPaid?: Prisma.SortOrder
+  tenantPaidAt?: Prisma.SortOrder
+  tenantPaymentMethod?: Prisma.SortOrder
   ownerUserId?: Prisma.SortOrder
   ownerAmount?: Prisma.SortOrder
+  ownerPaid?: Prisma.SortOrder
+  ownerPaidAt?: Prisma.SortOrder
+  ownerPaymentMethod?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -552,8 +684,14 @@ export type ExpenseAllocationCreateWithoutExpenseInput = {
   unitShare: runtime.Decimal | runtime.DecimalJsLike | number | string
   tenantUserId?: string | null
   tenantAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tenantPaid?: boolean
+  tenantPaidAt?: Date | string | null
+  tenantPaymentMethod?: $Enums.ExpensePaymentMethod | null
   ownerUserId?: string | null
   ownerAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  ownerPaid?: boolean
+  ownerPaidAt?: Date | string | null
+  ownerPaymentMethod?: $Enums.ExpensePaymentMethod | null
   createdAt?: Date | string
   unit: Prisma.UnitCreateNestedOneWithoutExpenseAllocationsInput
 }
@@ -564,8 +702,14 @@ export type ExpenseAllocationUncheckedCreateWithoutExpenseInput = {
   unitShare: runtime.Decimal | runtime.DecimalJsLike | number | string
   tenantUserId?: string | null
   tenantAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tenantPaid?: boolean
+  tenantPaidAt?: Date | string | null
+  tenantPaymentMethod?: $Enums.ExpensePaymentMethod | null
   ownerUserId?: string | null
   ownerAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  ownerPaid?: boolean
+  ownerPaidAt?: Date | string | null
+  ownerPaymentMethod?: $Enums.ExpensePaymentMethod | null
   createdAt?: Date | string
 }
 
@@ -605,8 +749,14 @@ export type ExpenseAllocationScalarWhereInput = {
   unitShare?: Prisma.DecimalFilter<"ExpenseAllocation"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   tenantUserId?: Prisma.StringNullableFilter<"ExpenseAllocation"> | string | null
   tenantAmount?: Prisma.DecimalFilter<"ExpenseAllocation"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tenantPaid?: Prisma.BoolFilter<"ExpenseAllocation"> | boolean
+  tenantPaidAt?: Prisma.DateTimeNullableFilter<"ExpenseAllocation"> | Date | string | null
+  tenantPaymentMethod?: Prisma.EnumExpensePaymentMethodNullableFilter<"ExpenseAllocation"> | $Enums.ExpensePaymentMethod | null
   ownerUserId?: Prisma.StringNullableFilter<"ExpenseAllocation"> | string | null
   ownerAmount?: Prisma.DecimalFilter<"ExpenseAllocation"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  ownerPaid?: Prisma.BoolFilter<"ExpenseAllocation"> | boolean
+  ownerPaidAt?: Prisma.DateTimeNullableFilter<"ExpenseAllocation"> | Date | string | null
+  ownerPaymentMethod?: Prisma.EnumExpensePaymentMethodNullableFilter<"ExpenseAllocation"> | $Enums.ExpensePaymentMethod | null
   createdAt?: Prisma.DateTimeFilter<"ExpenseAllocation"> | Date | string
 }
 
@@ -615,8 +765,14 @@ export type ExpenseAllocationCreateWithoutUnitInput = {
   unitShare: runtime.Decimal | runtime.DecimalJsLike | number | string
   tenantUserId?: string | null
   tenantAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tenantPaid?: boolean
+  tenantPaidAt?: Date | string | null
+  tenantPaymentMethod?: $Enums.ExpensePaymentMethod | null
   ownerUserId?: string | null
   ownerAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  ownerPaid?: boolean
+  ownerPaidAt?: Date | string | null
+  ownerPaymentMethod?: $Enums.ExpensePaymentMethod | null
   createdAt?: Date | string
   expense: Prisma.BuildingExpenseCreateNestedOneWithoutAllocationsInput
 }
@@ -627,8 +783,14 @@ export type ExpenseAllocationUncheckedCreateWithoutUnitInput = {
   unitShare: runtime.Decimal | runtime.DecimalJsLike | number | string
   tenantUserId?: string | null
   tenantAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tenantPaid?: boolean
+  tenantPaidAt?: Date | string | null
+  tenantPaymentMethod?: $Enums.ExpensePaymentMethod | null
   ownerUserId?: string | null
   ownerAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  ownerPaid?: boolean
+  ownerPaidAt?: Date | string | null
+  ownerPaymentMethod?: $Enums.ExpensePaymentMethod | null
   createdAt?: Date | string
 }
 
@@ -664,8 +826,14 @@ export type ExpenseAllocationCreateManyExpenseInput = {
   unitShare: runtime.Decimal | runtime.DecimalJsLike | number | string
   tenantUserId?: string | null
   tenantAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tenantPaid?: boolean
+  tenantPaidAt?: Date | string | null
+  tenantPaymentMethod?: $Enums.ExpensePaymentMethod | null
   ownerUserId?: string | null
   ownerAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  ownerPaid?: boolean
+  ownerPaidAt?: Date | string | null
+  ownerPaymentMethod?: $Enums.ExpensePaymentMethod | null
   createdAt?: Date | string
 }
 
@@ -674,8 +842,14 @@ export type ExpenseAllocationUpdateWithoutExpenseInput = {
   unitShare?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   tenantUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenantAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tenantPaid?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  tenantPaidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tenantPaymentMethod?: Prisma.NullableEnumExpensePaymentMethodFieldUpdateOperationsInput | $Enums.ExpensePaymentMethod | null
   ownerUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ownerAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  ownerPaid?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ownerPaidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  ownerPaymentMethod?: Prisma.NullableEnumExpensePaymentMethodFieldUpdateOperationsInput | $Enums.ExpensePaymentMethod | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   unit?: Prisma.UnitUpdateOneRequiredWithoutExpenseAllocationsNestedInput
 }
@@ -686,8 +860,14 @@ export type ExpenseAllocationUncheckedUpdateWithoutExpenseInput = {
   unitShare?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   tenantUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenantAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tenantPaid?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  tenantPaidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tenantPaymentMethod?: Prisma.NullableEnumExpensePaymentMethodFieldUpdateOperationsInput | $Enums.ExpensePaymentMethod | null
   ownerUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ownerAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  ownerPaid?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ownerPaidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  ownerPaymentMethod?: Prisma.NullableEnumExpensePaymentMethodFieldUpdateOperationsInput | $Enums.ExpensePaymentMethod | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -697,8 +877,14 @@ export type ExpenseAllocationUncheckedUpdateManyWithoutExpenseInput = {
   unitShare?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   tenantUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenantAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tenantPaid?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  tenantPaidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tenantPaymentMethod?: Prisma.NullableEnumExpensePaymentMethodFieldUpdateOperationsInput | $Enums.ExpensePaymentMethod | null
   ownerUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ownerAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  ownerPaid?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ownerPaidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  ownerPaymentMethod?: Prisma.NullableEnumExpensePaymentMethodFieldUpdateOperationsInput | $Enums.ExpensePaymentMethod | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -708,8 +894,14 @@ export type ExpenseAllocationCreateManyUnitInput = {
   unitShare: runtime.Decimal | runtime.DecimalJsLike | number | string
   tenantUserId?: string | null
   tenantAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  tenantPaid?: boolean
+  tenantPaidAt?: Date | string | null
+  tenantPaymentMethod?: $Enums.ExpensePaymentMethod | null
   ownerUserId?: string | null
   ownerAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  ownerPaid?: boolean
+  ownerPaidAt?: Date | string | null
+  ownerPaymentMethod?: $Enums.ExpensePaymentMethod | null
   createdAt?: Date | string
 }
 
@@ -718,8 +910,14 @@ export type ExpenseAllocationUpdateWithoutUnitInput = {
   unitShare?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   tenantUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenantAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tenantPaid?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  tenantPaidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tenantPaymentMethod?: Prisma.NullableEnumExpensePaymentMethodFieldUpdateOperationsInput | $Enums.ExpensePaymentMethod | null
   ownerUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ownerAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  ownerPaid?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ownerPaidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  ownerPaymentMethod?: Prisma.NullableEnumExpensePaymentMethodFieldUpdateOperationsInput | $Enums.ExpensePaymentMethod | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expense?: Prisma.BuildingExpenseUpdateOneRequiredWithoutAllocationsNestedInput
 }
@@ -730,8 +928,14 @@ export type ExpenseAllocationUncheckedUpdateWithoutUnitInput = {
   unitShare?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   tenantUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenantAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tenantPaid?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  tenantPaidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tenantPaymentMethod?: Prisma.NullableEnumExpensePaymentMethodFieldUpdateOperationsInput | $Enums.ExpensePaymentMethod | null
   ownerUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ownerAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  ownerPaid?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ownerPaidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  ownerPaymentMethod?: Prisma.NullableEnumExpensePaymentMethodFieldUpdateOperationsInput | $Enums.ExpensePaymentMethod | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -741,8 +945,14 @@ export type ExpenseAllocationUncheckedUpdateManyWithoutUnitInput = {
   unitShare?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   tenantUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenantAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  tenantPaid?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  tenantPaidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tenantPaymentMethod?: Prisma.NullableEnumExpensePaymentMethodFieldUpdateOperationsInput | $Enums.ExpensePaymentMethod | null
   ownerUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ownerAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  ownerPaid?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  ownerPaidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  ownerPaymentMethod?: Prisma.NullableEnumExpensePaymentMethodFieldUpdateOperationsInput | $Enums.ExpensePaymentMethod | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -755,8 +965,14 @@ export type ExpenseAllocationSelect<ExtArgs extends runtime.Types.Extensions.Int
   unitShare?: boolean
   tenantUserId?: boolean
   tenantAmount?: boolean
+  tenantPaid?: boolean
+  tenantPaidAt?: boolean
+  tenantPaymentMethod?: boolean
   ownerUserId?: boolean
   ownerAmount?: boolean
+  ownerPaid?: boolean
+  ownerPaidAt?: boolean
+  ownerPaymentMethod?: boolean
   createdAt?: boolean
   expense?: boolean | Prisma.BuildingExpenseDefaultArgs<ExtArgs>
   unit?: boolean | Prisma.UnitDefaultArgs<ExtArgs>
@@ -769,8 +985,14 @@ export type ExpenseAllocationSelectCreateManyAndReturn<ExtArgs extends runtime.T
   unitShare?: boolean
   tenantUserId?: boolean
   tenantAmount?: boolean
+  tenantPaid?: boolean
+  tenantPaidAt?: boolean
+  tenantPaymentMethod?: boolean
   ownerUserId?: boolean
   ownerAmount?: boolean
+  ownerPaid?: boolean
+  ownerPaidAt?: boolean
+  ownerPaymentMethod?: boolean
   createdAt?: boolean
   expense?: boolean | Prisma.BuildingExpenseDefaultArgs<ExtArgs>
   unit?: boolean | Prisma.UnitDefaultArgs<ExtArgs>
@@ -783,8 +1005,14 @@ export type ExpenseAllocationSelectUpdateManyAndReturn<ExtArgs extends runtime.T
   unitShare?: boolean
   tenantUserId?: boolean
   tenantAmount?: boolean
+  tenantPaid?: boolean
+  tenantPaidAt?: boolean
+  tenantPaymentMethod?: boolean
   ownerUserId?: boolean
   ownerAmount?: boolean
+  ownerPaid?: boolean
+  ownerPaidAt?: boolean
+  ownerPaymentMethod?: boolean
   createdAt?: boolean
   expense?: boolean | Prisma.BuildingExpenseDefaultArgs<ExtArgs>
   unit?: boolean | Prisma.UnitDefaultArgs<ExtArgs>
@@ -797,12 +1025,18 @@ export type ExpenseAllocationSelectScalar = {
   unitShare?: boolean
   tenantUserId?: boolean
   tenantAmount?: boolean
+  tenantPaid?: boolean
+  tenantPaidAt?: boolean
+  tenantPaymentMethod?: boolean
   ownerUserId?: boolean
   ownerAmount?: boolean
+  ownerPaid?: boolean
+  ownerPaidAt?: boolean
+  ownerPaymentMethod?: boolean
   createdAt?: boolean
 }
 
-export type ExpenseAllocationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "expenseId" | "unitId" | "unitShare" | "tenantUserId" | "tenantAmount" | "ownerUserId" | "ownerAmount" | "createdAt", ExtArgs["result"]["expenseAllocation"]>
+export type ExpenseAllocationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "expenseId" | "unitId" | "unitShare" | "tenantUserId" | "tenantAmount" | "tenantPaid" | "tenantPaidAt" | "tenantPaymentMethod" | "ownerUserId" | "ownerAmount" | "ownerPaid" | "ownerPaidAt" | "ownerPaymentMethod" | "createdAt", ExtArgs["result"]["expenseAllocation"]>
 export type ExpenseAllocationInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   expense?: boolean | Prisma.BuildingExpenseDefaultArgs<ExtArgs>
   unit?: boolean | Prisma.UnitDefaultArgs<ExtArgs>
@@ -829,8 +1063,14 @@ export type $ExpenseAllocationPayload<ExtArgs extends runtime.Types.Extensions.I
     unitShare: runtime.Decimal
     tenantUserId: string | null
     tenantAmount: runtime.Decimal
+    tenantPaid: boolean
+    tenantPaidAt: Date | null
+    tenantPaymentMethod: $Enums.ExpensePaymentMethod | null
     ownerUserId: string | null
     ownerAmount: runtime.Decimal
+    ownerPaid: boolean
+    ownerPaidAt: Date | null
+    ownerPaymentMethod: $Enums.ExpensePaymentMethod | null
     createdAt: Date
   }, ExtArgs["result"]["expenseAllocation"]>
   composites: {}
@@ -1263,8 +1503,14 @@ export interface ExpenseAllocationFieldRefs {
   readonly unitShare: Prisma.FieldRef<"ExpenseAllocation", 'Decimal'>
   readonly tenantUserId: Prisma.FieldRef<"ExpenseAllocation", 'String'>
   readonly tenantAmount: Prisma.FieldRef<"ExpenseAllocation", 'Decimal'>
+  readonly tenantPaid: Prisma.FieldRef<"ExpenseAllocation", 'Boolean'>
+  readonly tenantPaidAt: Prisma.FieldRef<"ExpenseAllocation", 'DateTime'>
+  readonly tenantPaymentMethod: Prisma.FieldRef<"ExpenseAllocation", 'ExpensePaymentMethod'>
   readonly ownerUserId: Prisma.FieldRef<"ExpenseAllocation", 'String'>
   readonly ownerAmount: Prisma.FieldRef<"ExpenseAllocation", 'Decimal'>
+  readonly ownerPaid: Prisma.FieldRef<"ExpenseAllocation", 'Boolean'>
+  readonly ownerPaidAt: Prisma.FieldRef<"ExpenseAllocation", 'DateTime'>
+  readonly ownerPaymentMethod: Prisma.FieldRef<"ExpenseAllocation", 'ExpensePaymentMethod'>
   readonly createdAt: Prisma.FieldRef<"ExpenseAllocation", 'DateTime'>
 }
     

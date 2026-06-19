@@ -896,8 +896,14 @@ model ExpenseAllocation {
   unitShare    Decimal @db.Decimal(10,2)
   tenantUserId String?
   tenantAmount Decimal @db.Decimal(10,2) @default(0)
+  tenantPaid   Boolean @default(false)
+  tenantPaidAt DateTime?
+  tenantPaymentMethod ExpensePaymentMethod?
   ownerUserId  String?
   ownerAmount  Decimal @db.Decimal(10,2) @default(0)
+  ownerPaid    Boolean @default(false)
+  ownerPaidAt  DateTime?
+  ownerPaymentMethod ExpensePaymentMethod?
   createdAt    DateTime @default(now())
   @@index([expenseId])
   @@index([unitId])

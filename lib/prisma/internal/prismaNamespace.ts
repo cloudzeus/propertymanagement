@@ -4452,8 +4452,14 @@ export const ExpenseAllocationScalarFieldEnum = {
   unitShare: 'unitShare',
   tenantUserId: 'tenantUserId',
   tenantAmount: 'tenantAmount',
+  tenantPaid: 'tenantPaid',
+  tenantPaidAt: 'tenantPaidAt',
+  tenantPaymentMethod: 'tenantPaymentMethod',
   ownerUserId: 'ownerUserId',
   ownerAmount: 'ownerAmount',
+  ownerPaid: 'ownerPaid',
+  ownerPaidAt: 'ownerPaidAt',
+  ownerPaymentMethod: 'ownerPaymentMethod',
   createdAt: 'createdAt'
 } as const
 

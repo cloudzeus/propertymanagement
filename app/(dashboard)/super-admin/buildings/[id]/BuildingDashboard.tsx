@@ -16,6 +16,7 @@ import { ContactsPanel, type ContactRow } from "./ContactsPanel";
 import { InfraPanel, type InfraRow } from "./InfraPanel";
 import { CalendarPanel, type TaskRow } from "./CalendarPanel";
 import { ExpensesPanel, type ExpenseRow } from "@/components/buildings/ExpensesPanel";
+import { KoinochristaPanel } from "@/components/buildings/KoinochristaPanel";
 import { type CategorySplit } from "@/components/buildings/ExpenseReviewForm";
 
 type Building = {
@@ -146,6 +147,8 @@ export function BuildingDashboard({ building, kpis, files, people, contacts, inf
           <ExpensesPanel buildingId={building.id} expenses={expenses} categories={categorySplits} />
         ) : tab === "splitsettings" ? (
           <CategorySplitSettings buildingId={building.id} rows={categorySplits} />
+        ) : tab === "koino" ? (
+          <KoinochristaPanel buildingId={building.id} />
         ) : (
           <Placeholder label={TABS.find((t) => t.key === tab)?.label ?? ""} />
         )}

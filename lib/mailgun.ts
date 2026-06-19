@@ -228,3 +228,52 @@ export async function sendPasswordChangeOTP(
     tags: ["otp", "password-change"],
   });
 }
+
+export interface EmailAttachment {
+  filename: string;
+  content: Buffer;
+  contentType?: string;
+}
+
+/** Send an HTML email with file attachments (e.g. a Word analysis + receipts). */
+export async function sendEmailWithAttachments(options: {
+  to: string | string[];
+  subject: string;
+  html: string;
+  replyTo?: string;
+  tags?: string[];
+  attachments: EmailAttachment[];
+}): Promise<EmailResponse> {
+  try {
+    const form = new FormData();
+    form.append("from", env.MAILGUN_FROM_EMAIL);
+    form.append("to", Array.isArray(options.to) ? options.to.join(",") : options.to);
+    form.append("subject", options.subject);
+    form.append("html", options.html);
+    if (options.replyTo) form.append("h:Reply-To", options.replyTo);
+    (options.tags ?? []).forEach((t) => form.append("o:tag", t));
+    for (const a of options.attachments) {
+      const blob = new Blob([new Uint8Array(a.content)], { type: a.contentType ?? "application/octet-stream" });
+      form.append("attachment", blob, a.filename);
+    }
+
+    const credentials = Buffer.from(`api:${env.MAILGUN_API_KEY}`).toString("base64");
+    const response = await fetch(`https://api.mailgun.net/v3/${env.MAILGUN_DOMAIN}/messages`, {
+      method: "POST",
+      headers: { Authorization: `Basic ${credentials}` },
+      body: form,
+    });
+    if (!response.ok) {
+      const error = await response.text();
+      console.error("Mailgun error:", error);
+      await logAPIUsage({ apiName: "mailgun", endpoint: "/messages", requestCount: 1, status: "FAILED", errorMessage: `HTTP ${response.status}` });
+      return { success: false, error: `Mailgun API error: ${response.status}` };
+    }
+    const data = (await response.json()) as any;
+    await logAPIUsage({ apiName: "mailgun", endpoint: "/messages", requestCount: 1, status: "SUCCESS" });
+    return { success: true, messageId: data.id };
+  } catch (error) {
+    console.error("Email send error:", error);
+    return { success: false, error: error instanceof Error ? error.message : "Unknown error" };
+  }
+}

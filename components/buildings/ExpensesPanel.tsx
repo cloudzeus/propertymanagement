@@ -8,6 +8,7 @@ import {
 } from "react-icons/ri";
 import { ExpenseOcrUpload } from "./ExpenseOcrUpload";
 import { ExpenseEditModal } from "./ExpenseEditModal";
+import { AllocationBreakdown } from "./AllocationBreakdown";
 import { type CategorySplit } from "./ExpenseReviewForm";
 import { deleteBuildingExpense, includeExpensesInIssuance, type ExpenseRowDTO } from "@/app/actions/building-expenses";
 
@@ -164,6 +165,7 @@ export function ExpensesPanel({
                               {e.receiptUrl && <a href={e.receiptUrl} target="_blank" rel="noreferrer" style={linkBtn}><RiFileTextLine /> Παραστατικό</a>}
                               {e.paymentUrl && <a href={e.paymentUrl} target="_blank" rel="noreferrer" style={linkBtn}><RiSecurePaymentLine /> Απόδειξη πληρωμής</a>}
                             </div>
+                            {e.allocationsCount > 0 && <AllocationBreakdown expenseId={e.id} />}
                           </div>
                         </td>
                       </tr>

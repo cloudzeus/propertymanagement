@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "timestamp": "2026-06-19T15:50:48.654Z",
+  "timestamp": "2026-06-19T17:11:06.329Z",
   "source": "auto-postool",
   "partial": false,
   "phase": null,
@@ -22,19 +22,11 @@
     },
     {
       "status": "M",
-      "path": "lib/prisma/browser.ts"
+      "path": "components/buildings/ExpensesPanel.tsx"
     },
     {
       "status": "M",
-      "path": "lib/prisma/client.ts"
-    },
-    {
-      "status": "M",
-      "path": "lib/prisma/commonInputTypes.ts"
-    },
-    {
-      "status": "M",
-      "path": "lib/prisma/enums.ts"
+      "path": "lib/mailgun.ts"
     },
     {
       "status": "M",
@@ -50,41 +42,33 @@
     },
     {
       "status": "M",
-      "path": "lib/prisma/models.ts"
-    },
-    {
-      "status": "M",
-      "path": "lib/prisma/models/Building.ts"
-    },
-    {
-      "status": "M",
-      "path": "lib/prisma/models/BuildingExpense.ts"
-    },
-    {
-      "status": "M",
-      "path": "lib/prisma/models/InfraPoint.ts"
-    },
-    {
-      "status": "M",
-      "path": "lib/prisma/models/Unit.ts"
-    },
-    {
-      "status": "??",
-      "path": "lib/prisma/models/BuildingCategoryOverride.ts"
-    },
-    {
-      "status": "??",
       "path": "lib/prisma/models/ExpenseAllocation.ts"
     },
     {
-      "status": "??",
-      "path": "lib/prisma/models/ExpenseCategory.ts"
+      "status": "M",
+      "path": "prisma/schema.prisma"
     },
     {
       "status": "??",
-      "path": "lib/prisma/models/MeterReading.ts"
+      "path": "app/actions/koinochrista.ts"
+    },
+    {
+      "status": "??",
+      "path": "components/buildings/AllocationBreakdown.tsx"
+    },
+    {
+      "status": "??",
+      "path": "components/buildings/KoinochristaPanel.tsx"
+    },
+    {
+      "status": "??",
+      "path": "lib/koinochrista-doc.ts"
+    },
+    {
+      "status": "??",
+      "path": "prisma/migrations/20260619170635_allocation_payment_tracking/"
     }
   ],
   "next_action": null,
-  "context_notes": "Recent commits:\nbd3bfa9 feat(expenses): per-building category split settings UI\n02411bd feat(expenses): building Έξοδα panel — OCR upload, review modal, list\n0194a77 feat(expenses): ExpenseCategory admin CRUD page\n20cbabd feat(expenses): upload+OCR extract, allocation preview, register/list/delete actions\n0b625e6 feat(expenses): category CRUD + per-building split override actions"
+  "context_notes": "Recent commits:\nb1fdc47 feat(expenses): row actions menu (edit), multi-select issuance lock, expandable details, payment status/method + proof upload\n6e47ea2 fix(expenses): return plain id from createBuildingExpense (Decimal not serializable to client)\n0da6fad fix(ocr): DeepSeek normalize must merge-fill, not overwrite Gemini extraction\n966a1f3 fix(ocr): tolerant extraction schema — coerce string/currency amounts, normalize dates, enum fallbacks\n2b8706b feat(expenses): manual entry option — upload file, skip OCR, fill fields by hand"
 }
