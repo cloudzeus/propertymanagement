@@ -3,54 +3,69 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Sketch 003 ▸ Building Control Center — Refined v2</title>
+<title>Sketch 003 ▸ Building Dashboard — in app shell, 2-row wrapping tabs</title>
 <link rel="stylesheet" href="../themes/default.css">
-<!-- Real Remix Icon set (same icons as react-icons/ri) -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css">
 <style>
   *{box-sizing:border-box;}
-  body{margin:0;font-family:var(--font-sans);color:var(--color-text);background:var(--color-bg);}
+  html,body{height:100%;}
+  body{margin:0;font-family:var(--font-sans);color:var(--color-text);background:var(--color-canvas);display:flex;overflow:hidden;}
   button{font-family:inherit;cursor:pointer;}
   i[class^="ri-"]{font-size:18px;line-height:1;display:inline-flex;}
   .i-sm{font-size:15px!important;} .i-lg{font-size:22px!important;}
 
-  /* HERO */
-  .hero{background:var(--color-surface);border-bottom:1px solid var(--color-border);}
-  .hero-in{max-width:1320px;margin:0 auto;padding:18px 28px 20px;}
-  .crumb{display:flex;align-items:center;gap:6px;font-size:var(--text-xs);color:var(--color-text-muted);}
+  /* ===== GLOBAL APP SIDEBAR (existing chrome — single vertical menu) ===== */
+  .appnav{width:236px;flex-shrink:0;background:var(--color-surface);border-right:1px solid var(--color-border);height:100vh;display:flex;flex-direction:column;}
+  .brand{display:flex;align-items:center;gap:10px;padding:16px 18px;border-bottom:1px solid var(--color-border);}
+  .brand .logo{width:30px;height:30px;border-radius:7px;background:var(--color-primary);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;}
+  .brand b{font-size:var(--text-base);}
+  .appnav-scroll{flex:1;overflow-y:auto;padding:10px 10px 14px;}
+  .g{font-size:10px;font-weight:800;letter-spacing:.09em;color:var(--color-text-muted);padding:14px 10px 5px;}
+  .appnav a{display:flex;align-items:center;gap:11px;padding:8px 10px;border-radius:var(--radius-sm);font-size:var(--text-sm);font-weight:600;color:var(--color-text-muted);text-decoration:none;transition:all .13s ease;}
+  .appnav a:hover{background:var(--color-canvas);color:var(--color-text);}
+  .appnav a.active{background:var(--color-primary-soft);color:var(--color-primary);}
+  .appnav a i{font-size:17px;}
+  .appuser{border-top:1px solid var(--color-border);padding:12px 16px;display:flex;align-items:center;gap:10px;}
+  .avatarsm{width:30px;height:30px;border-radius:50%;background:var(--color-blue-soft);color:var(--color-blue);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;}
+
+  /* ===== MAIN AREA ===== */
+  .main{flex:1;min-width:0;height:100vh;overflow-y:auto;}
+  .topbar{position:sticky;top:0;z-index:40;background:var(--color-canvas);border-bottom:1px solid var(--color-border);padding:12px 28px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
+  .crumb{display:flex;align-items:center;gap:6px;font-size:var(--text-sm);color:var(--color-text-muted);}
   .crumb a{color:var(--color-text-muted);text-decoration:none;} .crumb a:hover{color:var(--color-primary);}
-  .crumb i{font-size:14px;}
-  .hero-main{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:12px;flex-wrap:wrap;}
-  .hero-id{display:flex;align-items:center;gap:14px;}
-  .hero-avatar{width:54px;height:54px;border-radius:var(--radius-md);background:var(--color-primary-soft);color:var(--color-primary);display:flex;align-items:center;justify-content:center;}
-  .hero-avatar i{font-size:28px;}
-  .hero-title{font-size:var(--text-2xl);font-weight:800;line-height:1.15;}
-  .hero-sub{font-size:var(--text-sm);color:var(--color-text-muted);display:flex;align-items:center;gap:10px;margin-top:3px;flex-wrap:wrap;}
-  .hero-sub i{font-size:14px;vertical-align:-2px;}
-  .hero-sub .dot{width:3px;height:3px;border-radius:50%;background:var(--color-border-strong);}
-  .hero-actions{display:flex;gap:8px;}
-  .kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:0;margin-top:18px;border:1px solid var(--color-border);border-radius:var(--radius-md);overflow:hidden;}
-  .kpi{padding:12px 16px;border-right:1px solid var(--color-border);background:var(--color-surface);}
-  .kpi:last-child{border-right:none;}
+  .crumb i{font-size:15px;} .crumb b{color:var(--color-text);}
+  .topbar-r{display:flex;align-items:center;gap:10px;}
+  .input{display:flex;align-items:center;gap:8px;border:1px solid var(--color-border);border-radius:var(--radius-sm);padding:0 10px;height:34px;background:var(--color-surface);color:var(--color-text-muted);min-width:200px;}
+  .input input{border:none;outline:none;background:transparent;font-family:inherit;font-size:var(--text-sm);color:var(--color-text);width:100%;}
+
+  .page{padding:22px 28px 60px;}
+
+  /* building hero card */
+  .bhero{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:18px 20px;box-shadow:var(--shadow-sm);}
+  .bhero-top{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+  .bhero-id{display:flex;align-items:center;gap:14px;}
+  .bhero-avatar{width:54px;height:54px;border-radius:var(--radius-md);background:var(--color-primary-soft);color:var(--color-primary);display:flex;align-items:center;justify-content:center;}
+  .bhero-avatar i{font-size:28px;}
+  .bhero-title{font-size:var(--text-2xl);font-weight:800;line-height:1.15;}
+  .bhero-sub{font-size:var(--text-sm);color:var(--color-text-muted);display:flex;align-items:center;gap:10px;margin-top:3px;flex-wrap:wrap;}
+  .bhero-sub i{font-size:14px;vertical-align:-2px;} .bhero-sub .dot{width:3px;height:3px;border-radius:50%;background:var(--color-border-strong);}
+  .acts{display:flex;gap:8px;}
+  .kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:16px;}
+  .kpi{border:1px solid var(--color-border);border-radius:var(--radius-md);padding:11px 13px;background:var(--color-canvas);}
   .kpi .l{display:flex;align-items:center;gap:6px;font-size:var(--text-xs);color:var(--color-text-muted);font-weight:600;}
-  .kpi .v{font-size:var(--text-xl);font-weight:800;margin-top:4px;}
+  .kpi .v{font-size:var(--text-xl);font-weight:800;margin-top:3px;}
   .kpi .s{font-size:11px;color:var(--color-text-muted);}
-  @media(max-width:1000px){.kpis{grid-template-columns:repeat(2,1fr);} .kpi{border-bottom:1px solid var(--color-border);}}
+  @media(max-width:1100px){.kpis{grid-template-columns:repeat(2,1fr);}}
 
-  /* SHELL: vertical nav + content (NO horizontal scroll) */
-  .shell{max-width:1320px;margin:0 auto;padding:0 28px;display:grid;grid-template-columns:236px 1fr;gap:24px;align-items:start;}
-  .nav{position:sticky;top:16px;padding:16px 0;}
-  .nav-group{font-size:10px;font-weight:800;letter-spacing:.09em;color:var(--color-text-muted);padding:14px 12px 5px;}
-  .nav a{display:flex;align-items:center;gap:11px;padding:9px 12px;border-radius:var(--radius-sm);font-size:var(--text-sm);font-weight:600;color:var(--color-text-muted);text-decoration:none;cursor:pointer;transition:all .13s ease;position:relative;}
-  .nav a i{font-size:18px;}
-  .nav a:hover{background:var(--color-canvas);color:var(--color-text);}
-  .nav a.active{background:var(--color-primary-soft);color:var(--color-primary);}
-  .nav a.active::before{content:"";position:absolute;left:0;top:7px;bottom:7px;width:3px;border-radius:2px;background:var(--color-primary);}
-  .nav a .count{margin-left:auto;font-size:10px;font-weight:800;background:var(--color-canvas);color:var(--color-text-muted);border:1px solid var(--color-border);border-radius:var(--radius-full);padding:1px 7px;}
-  .nav a.active .count{background:#fff;color:var(--color-primary);border-color:var(--color-primary-soft);}
-  .nav a .count.warn{background:var(--color-orange-soft);color:var(--color-orange);border-color:transparent;}
+  /* ===== 2-ROW WRAPPING TABS (no horizontal scroll, no 2nd sidebar) ===== */
+  .tabs{display:flex;flex-wrap:wrap;gap:7px;margin:18px 0 18px;}
+  .tab{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--color-border);background:var(--color-surface);color:var(--color-text-muted);border-radius:var(--radius-full);padding:7px 13px;font-size:var(--text-sm);font-weight:600;transition:all .13s ease;}
+  .tab:hover{background:var(--color-canvas);color:var(--color-text);border-color:var(--color-border-strong);}
+  .tab.active{background:var(--color-primary);color:#fff;border-color:var(--color-primary);}
+  .tab i{font-size:16px;}
+  .tab .badge{font-size:10px;font-weight:800;background:var(--color-canvas);color:var(--color-text-muted);border-radius:var(--radius-full);padding:0 6px;}
+  .tab.active .badge{background:rgba(255,255,255,.25);color:#fff;}
 
-  .content{padding:22px 0 60px;min-width:0;}
   .panel{display:none;animation:fade .2s ease;} .panel.active{display:block;}
   @keyframes fade{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:none;}}
   .ph{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;gap:12px;flex-wrap:wrap;}
@@ -64,19 +79,12 @@
 
   .btn{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--color-border);background:var(--color-surface);color:var(--color-text);border-radius:var(--radius-sm);padding:7px 13px;font-size:var(--text-sm);font-weight:600;transition:all .13s ease;}
   .btn:hover{background:var(--color-canvas);border-color:var(--color-border-strong);}
-  .btn-primary{background:var(--color-primary);color:#fff;border-color:var(--color-primary);}
-  .btn-primary:hover{background:var(--color-primary-hover);}
-  .btn-ghost{border-color:transparent;background:transparent;color:var(--color-text-muted);padding:6px 8px;}
-  .btn-ghost:hover{background:var(--color-canvas);color:var(--color-text);}
-  .input{display:flex;align-items:center;gap:8px;border:1px solid var(--color-border);border-radius:var(--radius-sm);padding:0 10px;height:34px;background:var(--color-surface);color:var(--color-text-muted);min-width:200px;}
-  .input input{border:none;outline:none;background:transparent;font-family:inherit;font-size:var(--text-sm);color:var(--color-text);width:100%;}
+  .btn-primary{background:var(--color-primary);color:#fff;border-color:var(--color-primary);} .btn-primary:hover{background:var(--color-primary-hover);}
+  .btn-ghost{border-color:transparent;background:transparent;color:var(--color-text-muted);padding:6px 8px;} .btn-ghost:hover{background:var(--color-canvas);color:var(--color-text);}
 
-  .chip{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;padding:3px 9px;border-radius:var(--radius-full);}
-  .chip i{font-size:13px;}
-  .chip.green{background:var(--color-green-soft);color:var(--color-green);}
-  .chip.orange{background:var(--color-orange-soft);color:var(--color-orange);}
-  .chip.blue{background:var(--color-blue-soft);color:var(--color-blue);}
-  .chip.red{background:var(--color-primary-soft);color:var(--color-primary);}
+  .chip{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;padding:3px 9px;border-radius:var(--radius-full);} .chip i{font-size:13px;}
+  .chip.green{background:var(--color-green-soft);color:var(--color-green);} .chip.orange{background:var(--color-orange-soft);color:var(--color-orange);}
+  .chip.blue{background:var(--color-blue-soft);color:var(--color-blue);} .chip.red{background:var(--color-primary-soft);color:var(--color-primary);}
   .chip.grey{background:var(--color-canvas);color:var(--color-text-muted);border:1px solid var(--color-border);}
   .muted{color:var(--color-text-muted);}
 
@@ -85,94 +93,99 @@
   td{padding:11px 14px;border-top:1px solid var(--color-border);}
   tbody tr{transition:background .12s ease;} tbody tr:hover td{background:var(--color-canvas);}
 
-  .filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;}  /* wraps — never scrolls */
-  .row{display:flex;align-items:center;gap:12px;padding:12px 16px;border-top:1px solid var(--color-border);}
-  .row:first-child{border-top:none;}
-  .ico-badge{width:36px;height:36px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff;}
-  .ico-badge i{font-size:18px;}
+  .filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;}
+  .row{display:flex;align-items:center;gap:12px;padding:12px 16px;border-top:1px solid var(--color-border);} .row:first-child{border-top:none;}
+  .ico-badge{width:36px;height:36px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff;} .ico-badge i{font-size:18px;}
   .grow{flex:1;min-width:0;} .t1{font-size:var(--text-sm);font-weight:600;} .t2{font-size:var(--text-xs);color:var(--color-text-muted);}
 
   .dropzone{border:1.5px dashed var(--color-border-strong);border-radius:var(--radius-md);padding:22px;text-align:center;color:var(--color-text-muted);background:var(--color-canvas);transition:all .13s ease;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;}
   .dropzone:hover{border-color:var(--color-primary);color:var(--color-primary);background:var(--color-primary-soft);}
+  .grid2{display:grid;grid-template-columns:1.3fr 1fr;gap:14px;} .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+  @media(max-width:1100px){.grid2,.grid3{grid-template-columns:1fr;}}
 
-  .grid2{display:grid;grid-template-columns:1.3fr 1fr;gap:14px;}
-  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
-  @media(max-width:1100px){.shell{grid-template-columns:1fr;} .nav{position:static;display:grid;grid-template-columns:repeat(2,1fr);gap:2px 12px;} .grid2,.grid3{grid-template-columns:1fr;}}
-
-  .infra{overflow:hidden;}
-  .infra .photo{height:128px;background:linear-gradient(135deg,#ebe9e7,#f7f6f5);display:flex;align-items:center;justify-content:center;color:var(--color-text-muted);position:relative;}
-  .infra .photo i{font-size:36px;}
-  .infra .photo .floor{position:absolute;top:8px;left:8px;}
-  .infra .body{padding:13px 14px;}
-  .kv{display:flex;gap:8px;font-size:var(--text-xs);padding:3px 0;align-items:center;}
-  .kv .k{color:var(--color-text-muted);min-width:80px;display:flex;align-items:center;gap:5px;} .kv .k i{font-size:14px;}
+  .infra{overflow:hidden;} .infra .photo{height:128px;background:linear-gradient(135deg,#ebe9e7,#f7f6f5);display:flex;align-items:center;justify-content:center;color:var(--color-text-muted);position:relative;} .infra .photo i{font-size:36px;} .infra .photo .floor{position:absolute;top:8px;left:8px;} .infra .body{padding:13px 14px;}
+  .kv{display:flex;gap:8px;font-size:var(--text-xs);padding:3px 0;align-items:center;} .kv .k{color:var(--color-text-muted);min-width:80px;display:flex;align-items:center;gap:5px;} .kv .k i{font-size:14px;}
 
   .files{display:grid;grid-template-columns:repeat(auto-fill,minmax(186px,1fr));gap:13px;}
-  .file{border:1px solid var(--color-border);border-radius:var(--radius-md);overflow:hidden;background:var(--color-surface);transition:all .13s ease;cursor:pointer;}
-  .file:hover{box-shadow:var(--shadow-md);transform:translateY(-2px);}
-  .file .thumb{height:96px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;}
-  .file .meta{padding:10px 11px;}
+  .file{border:1px solid var(--color-border);border-radius:var(--radius-md);overflow:hidden;background:var(--color-surface);transition:all .13s ease;cursor:pointer;} .file:hover{box-shadow:var(--shadow-md);transform:translateY(-2px);}
+  .file .thumb{height:96px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;} .file .meta{padding:10px 11px;}
 
-  .cd{padding:7px 0;border-radius:var(--radius-sm);position:relative;}
-  .cd.now{background:var(--color-primary);color:#fff;font-weight:800;}
-  .cd.dot::after,.cd.hot::after{content:"";position:absolute;bottom:3px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;}
-  .cd.dot::after{background:var(--color-blue);} .cd.hot::after{background:var(--color-primary);}
+  .cd{padding:7px 0;border-radius:var(--radius-sm);position:relative;} .cd.now{background:var(--color-primary);color:#fff;font-weight:800;} .cd.dot::after,.cd.hot::after{content:"";position:absolute;bottom:3px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;} .cd.dot::after{background:var(--color-blue);} .cd.hot::after{background:var(--color-primary);}
 
-  #toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--color-text);color:#fff;padding:11px 18px;border-radius:var(--radius-md);font-size:var(--text-sm);display:flex;align-items:center;gap:8px;opacity:0;pointer-events:none;transition:all .25s ease;z-index:999;box-shadow:var(--shadow-lg);}
-  #toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+  #toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--color-text);color:#fff;padding:11px 18px;border-radius:var(--radius-md);font-size:var(--text-sm);display:flex;align-items:center;gap:8px;opacity:0;pointer-events:none;transition:all .25s ease;z-index:999;box-shadow:var(--shadow-lg);} #toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 </style>
 </head>
 <body>
 
-<div class="hero">
-  <div class="hero-in">
-    <div class="crumb"><a href="#">Ιδιοκτησίες</a><i class="ri-arrow-right-s-line"></i><a href="#">Συγκρότημα Κολωνακίου</a><i class="ri-arrow-right-s-line"></i><span>Κτήριο Α</span></div>
-    <div class="hero-main">
-      <div class="hero-id">
-        <div class="hero-avatar"><i class="ri-building-line"></i></div>
-        <div>
-          <div class="hero-title">Κτήριο Α — Σόλωνος 5</div>
-          <div class="hero-sub"><span><i class="ri-map-pin-line"></i> Αθήνα 10672</span><span class="dot"></span><span>3 όροφοι · 1 υπόγειο</span><span class="dot"></span><span>Ανελκυστήρας</span><span class="chip green" style="margin-left:4px;">● Ενεργό</span></div>
-        </div>
-      </div>
-      <div class="hero-actions">
-        <button class="btn" onclick="toast('Επεξεργασία')"><i class="ri-edit-line"></i> Επεξεργασία</button>
-        <button class="btn btn-primary" onclick="toast('Ενέργεια')"><i class="ri-add-line"></i> Ενέργεια</button>
-      </div>
-    </div>
-    <div class="kpis">
-      <div class="kpi"><div class="l"><i class="ri-home-4-line i-sm"></i> Μονάδες</div><div class="v">24</div><div class="s">20 κατοικημένες · 4 κενές</div></div>
-      <div class="kpi"><div class="l"><i class="ri-scales-3-line i-sm"></i> Χιλιοστά</div><div class="v">1000‰</div><div class="s">αναλογικά τ.μ.</div></div>
-      <div class="kpi"><div class="l"><i class="ri-hammer-line i-sm"></i> Βλάβες</div><div class="v" style="color:var(--color-orange)">3</div><div class="s">1 επείγουσα</div></div>
-      <div class="kpi"><div class="l"><i class="ri-wallet-3-line i-sm"></i> Οφειλές</div><div class="v" style="color:var(--color-orange)">€260</div><div class="s">3 μονάδες</div></div>
-      <div class="kpi"><div class="l"><i class="ri-folder-line i-sm"></i> Αρχεία</div><div class="v">18</div><div class="s">41 MB</div></div>
-    </div>
+<!-- ===== EXISTING GLOBAL SIDEBAR (single vertical menu) ===== -->
+<aside class="appnav">
+  <div class="brand"><div class="logo">DG</div><b>Property Mgmt</b></div>
+  <div class="appnav-scroll">
+    <div class="g">ΚΕΝΤΡΙΚΟ</div>
+    <a><i class="ri-dashboard-line"></i> Dashboard</a>
+    <a><i class="ri-bar-chart-line"></i> Αναφορές</a>
+    <div class="g">ΔΙΑΧΕΙΡΙΣΗ</div>
+    <a><i class="ri-contacts-line"></i> Πελάτες</a>
+    <a class="active"><i class="ri-community-line"></i> Ιδιοκτησίες</a>
+    <a><i class="ri-group-line"></i> Χρήστες</a>
+    <a><i class="ri-shield-user-line"></i> Ρόλοι</a>
+    <div class="g">ΟΙΚΟΝΟΜΙΚΑ</div>
+    <a><i class="ri-service-line"></i> Υπηρεσίες</a>
+    <a><i class="ri-money-dollar-circle-line"></i> Κόστη API</a>
+    <a><i class="ri-file-list-line"></i> Τιμολόγηση</a>
+    <div class="g">ΡΥΘΜΙΣΕΙΣ</div>
+    <a><i class="ri-building-line"></i> Εταιρία</a>
+    <a><i class="ri-settings-line"></i> Ρυθμίσεις</a>
   </div>
-</div>
+  <div class="appuser"><div class="avatarsm">GK</div><div style="min-width:0;"><div class="t1">G. Kozyris</div><div class="t2">Super Admin</div></div></div>
+</aside>
 
-<div class="shell">
-  <!-- VERTICAL grouped nav (no horizontal scroll) -->
-  <aside class="nav" id="nav">
-    <a class="active" data-p="overview"><i class="ri-dashboard-line"></i> Επισκόπηση</a>
-    <div class="nav-group">ΧΩΡΟΙ</div>
-    <a data-p="units"><i class="ri-home-4-line"></i> Μονάδες <span class="count">24</span></a>
-    <a data-p="people"><i class="ri-group-line"></i> Ένοικοι/Ιδιοκτήτες</a>
-    <a data-p="managers"><i class="ri-user-star-line"></i> Διαχειριστές <span class="count">2</span></a>
-    <div class="nav-group">ΑΡΧΕΙΟ & ΥΠΟΔΟΜΗ</div>
-    <a data-p="files"><i class="ri-folder-line"></i> Αρχεία <span class="count">18</span></a>
-    <a data-p="calendar"><i class="ri-calendar-todo-line"></i> Ημερολόγιο <span class="count warn">1</span></a>
-    <a data-p="contacts"><i class="ri-contacts-book-3-line"></i> Επαφές</a>
-    <a data-p="infra"><i class="ri-settings-3-line"></i> Εγκαταστάσεις</a>
-    <div class="nav-group">ΟΙΚΟΝΟΜΙΚΑ</div>
-    <a data-p="koino"><i class="ri-wallet-3-line"></i> Κοινόχρηστα</a>
-    <a data-p="pay"><i class="ri-bank-card-line"></i> Πληρωμές <span class="count warn">2</span></a>
-    <div class="nav-group">ΛΕΙΤΟΥΡΓΙΑ</div>
-    <a data-p="maint"><i class="ri-tools-line"></i> Συντήρηση <span class="count warn">3</span></a>
-    <a data-p="ann"><i class="ri-megaphone-line"></i> Ανακοινώσεις</a>
-  </aside>
+<!-- ===== MAIN ===== -->
+<div class="main">
+  <div class="topbar">
+    <div class="crumb"><a href="#">Ιδιοκτησίες</a><i class="ri-arrow-right-s-line"></i><a href="#">Συγκρότημα Κολωνακίου</a><i class="ri-arrow-right-s-line"></i><b>Κτήριο Α</b></div>
+    <div class="topbar-r"><div class="input"><i class="ri-search-line i-sm"></i><input placeholder="Αναζήτηση…"></div><button class="btn btn-ghost"><i class="ri-notification-3-line"></i></button></div>
+  </div>
 
-  <main class="content">
+  <div class="page">
+    <!-- building hero -->
+    <div class="bhero">
+      <div class="bhero-top">
+        <div class="bhero-id">
+          <div class="bhero-avatar"><i class="ri-building-line"></i></div>
+          <div>
+            <div class="bhero-title">Κτήριο Α — Σόλωνος 5</div>
+            <div class="bhero-sub"><span><i class="ri-map-pin-line"></i> Αθήνα 10672</span><span class="dot"></span><span>3 όροφοι · 1 υπόγειο</span><span class="dot"></span><span>Ανελκυστήρας</span><span class="chip green" style="margin-left:4px;">● Ενεργό</span></div>
+          </div>
+        </div>
+        <div class="acts"><button class="btn" onclick="toast('Επεξεργασία')"><i class="ri-edit-line"></i> Επεξεργασία</button><button class="btn btn-primary" onclick="toast('Ενέργεια')"><i class="ri-add-line"></i> Ενέργεια</button></div>
+      </div>
+      <div class="kpis">
+        <div class="kpi"><div class="l"><i class="ri-home-4-line i-sm"></i> Μονάδες</div><div class="v">24</div><div class="s">20 κατ. · 4 κενές</div></div>
+        <div class="kpi"><div class="l"><i class="ri-scales-3-line i-sm"></i> Χιλιοστά</div><div class="v">1000‰</div><div class="s">αναλογικά τ.μ.</div></div>
+        <div class="kpi"><div class="l"><i class="ri-hammer-line i-sm"></i> Βλάβες</div><div class="v" style="color:var(--color-orange)">3</div><div class="s">1 επείγουσα</div></div>
+        <div class="kpi"><div class="l"><i class="ri-wallet-3-line i-sm"></i> Οφειλές</div><div class="v" style="color:var(--color-orange)">€260</div><div class="s">3 μονάδες</div></div>
+        <div class="kpi"><div class="l"><i class="ri-folder-line i-sm"></i> Αρχεία</div><div class="v">18</div><div class="s">41 MB</div></div>
+      </div>
+    </div>
 
+    <!-- 2-row wrapping tabs -->
+    <div class="tabs" id="tabs">
+      <button class="tab active" data-p="overview"><i class="ri-dashboard-line"></i> Επισκόπηση</button>
+      <button class="tab" data-p="units"><i class="ri-home-4-line"></i> Μονάδες <span class="badge">24</span></button>
+      <button class="tab" data-p="people"><i class="ri-group-line"></i> Ένοικοι</button>
+      <button class="tab" data-p="managers"><i class="ri-user-star-line"></i> Διαχειριστές <span class="badge">2</span></button>
+      <button class="tab" data-p="files"><i class="ri-folder-line"></i> Αρχεία <span class="badge">18</span></button>
+      <button class="tab" data-p="calendar"><i class="ri-calendar-todo-line"></i> Ημερολόγιο</button>
+      <button class="tab" data-p="contacts"><i class="ri-contacts-book-3-line"></i> Επαφές</button>
+      <button class="tab" data-p="infra"><i class="ri-settings-3-line"></i> Εγκαταστάσεις</button>
+      <button class="tab" data-p="koino"><i class="ri-wallet-3-line"></i> Κοινόχρηστα</button>
+      <button class="tab" data-p="pay"><i class="ri-bank-card-line"></i> Πληρωμές</button>
+      <button class="tab" data-p="maint"><i class="ri-tools-line"></i> Συντήρηση <span class="badge">3</span></button>
+      <button class="tab" data-p="ann"><i class="ri-megaphone-line"></i> Ανακοινώσεις</button>
+    </div>
+
+    <!-- panels -->
     <div class="panel active" id="overview">
       <div class="grid2">
         <div class="card">
@@ -200,7 +213,7 @@
 
     <div class="panel" id="files">
       <div class="ph"><div><h2>Αρχεία Κτηρίου</h2><div class="sub"><i class="ri-folder-line i-sm"></i> properties/cmqk…/buildings/bld_8x… · 18 αρχεία · 41 MB</div></div>
-        <div style="display:flex;gap:8px;"><div class="input"><i class="ri-search-line i-sm"></i><input placeholder="Αναζήτηση…"></div><button class="btn btn-primary" onclick="toast('Ανέβασμα')"><i class="ri-upload-2-line"></i> Ανέβασμα</button></div></div>
+        <button class="btn btn-primary" onclick="toast('Ανέβασμα')"><i class="ri-upload-2-line"></i> Ανέβασμα</button></div>
       <div class="filters">
         <button class="btn btn-primary" onclick="pick(this)"><i class="ri-folder-line i-sm"></i> Όλα 18</button>
         <button class="btn" onclick="pick(this)"><i class="ri-ruler-line i-sm"></i> Σχέδια & Κατόψεις 4</button>
@@ -224,7 +237,7 @@
           <div class="row"><div class="ico-badge" style="background:var(--color-blue)"><i class="ri-loop-left-line"></i></div><div class="grow"><div class="t1">Συντήρηση ανελκυστήρα</div><div class="t2">Επόμενη 25/06 · KLEEMANN</div></div><span class="chip blue">Μηνιαία</span></div>
           <div class="row"><div class="ico-badge" style="background:var(--color-green)"><i class="ri-loop-left-line"></i></div><div class="grow"><div class="t1">Καθαρισμός κοινόχρηστων</div><div class="t2">Κάθε Δευτέρα</div></div><span class="chip green">Εβδομαδιαία</span></div>
           <div class="row"><div class="ico-badge" style="background:var(--color-orange)"><i class="ri-loop-left-line"></i></div><div class="grow"><div class="t1">Απολύμανση / μυοκτονία</div><div class="t2">Επόμενη 09/2026</div></div><span class="chip orange">Εξαμηνιαία</span></div>
-          <div class="row"><div class="ico-badge" style="background:var(--color-primary)"><i class="ri-fire-line"></i></div><div class="grow"><div class="t1">Καθαρισμός δεξαμενής πετρελαίου</div><div class="t2">Ετήσια · εκπρόθεσμη 3 ημέρες</div></div><span class="chip red">Εκπρόθεσμη</span></div>
+          <div class="row"><div class="ico-badge" style="background:var(--color-primary)"><i class="ri-fire-line"></i></div><div class="grow"><div class="t1">Καθαρισμός δεξαμενής πετρελαίου</div><div class="t2">Ετήσια · εκπρόθεσμη 3 ημ.</div></div><span class="chip red">Εκπρόθεσμη</span></div>
         </div></div>
         <div class="card"><div class="card-h"><h3><i class="ri-calendar-todo-line"></i> Ιούνιος 2026</h3></div><div class="card-b">
           <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center;font-size:var(--text-xs);">
@@ -327,19 +340,19 @@
     <div class="panel" id="managers"><div class="card"><div class="card-b muted">Διαχειριστές κτηρίου (ιδιοκτήτες/ένοικοι ή προσωπικό εταιρείας).</div></div></div>
     <div class="panel" id="maint"><div class="card"><div class="card-b muted">Βλάβες & συντήρηση — ροή αιτημάτων.</div></div></div>
     <div class="panel" id="ann"><div class="card"><div class="card-b muted">Ανακοινώσεις προς ενοίκους.</div></div></div>
-  </main>
+  </div>
 </div>
 
 <div id="toast"></div>
 
 <script>
-  document.querySelectorAll('#nav a').forEach(a=>{
-    a.addEventListener('click',()=>{
-      document.querySelectorAll('#nav a').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('#tabs .tab').forEach(t=>{
+    t.addEventListener('click',()=>{
+      document.querySelectorAll('#tabs .tab').forEach(x=>x.classList.remove('active'));
       document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
-      a.classList.add('active');
-      document.getElementById(a.dataset.p).classList.add('active');
-      window.scrollTo({top:0,behavior:'smooth'});
+      t.classList.add('active');
+      document.getElementById(t.dataset.p).classList.add('active');
+      document.querySelector('.main').scrollTo({top:0,behavior:'smooth'});
     });
   });
   function pick(b){b.parentElement.querySelectorAll('.btn').forEach(x=>x.classList.remove('btn-primary'));b.classList.add('btn-primary');}
