@@ -179,7 +179,9 @@ export async function createBuildingExpense(buildingId: string, input: CreateExp
   });
 
   revalidatePath(`/super-admin/buildings/${buildingId}`);
-  return expense;
+  // Return only a plain id — Prisma rows carry Decimal fields that cannot be
+  // serialized back to the calling client component.
+  return { id: expense.id };
 }
 
 export async function listBuildingExpenses(buildingId: string) {
