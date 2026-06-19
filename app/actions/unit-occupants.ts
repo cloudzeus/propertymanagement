@@ -116,6 +116,33 @@ export async function clearOccupant(unitId: string, role: "OWNER" | "RESIDENT") 
   return { success: true };
 }
 
+/** Set/correct the occupancy date range (από/έως) for a user in a unit+role.
+ *  Updates the most recent occupancy row, or creates one if none exists. */
+export async function setOccupancyDates(args: {
+  unitId: string; userId: string; role: "OWNER" | "RESIDENT";
+  startDate: string; endDate?: string | null;
+}) {
+  await requireStaff();
+  const start = args.startDate ? new Date(args.startDate) : new Date();
+  const end = args.endDate ? new Date(args.endDate) : null;
+  if (end && end < start) return { error: "Η ημ/νία λήξης δεν μπορεί να είναι πριν την έναρξη" };
+
+  const existing = await db.unitOccupancy.findFirst({
+    where: { unitId: args.unitId, userId: args.userId, role: args.role as any },
+    orderBy: { startDate: "desc" },
+    select: { id: true },
+  });
+  if (existing) {
+    await db.unitOccupancy.update({ where: { id: existing.id }, data: { startDate: start, endDate: end } });
+  } else {
+    await db.unitOccupancy.create({ data: { unitId: args.unitId, userId: args.userId, role: args.role as any, startDate: start, endDate: end } });
+  }
+
+  const ctx = await unitContext(args.unitId);
+  revalidate(ctx);
+  return { ok: true };
+}
+
 /** Update a user's contact fields (name / phone / mobile). */
 export async function updateUserContact(userId: string, data: { name?: string; phone?: string; mobile?: string }) {
   await requireStaff();

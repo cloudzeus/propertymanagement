@@ -4,13 +4,13 @@ import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { DataTable, type ColDef, type RowAction } from "@/components/ui/data-table";
 import { Modal, FormField, FieldInput } from "@/components/ui/modal";
-import { updateUserContact } from "@/app/actions/unit-occupants";
+import { updateUserContact, setOccupancyDates } from "@/app/actions/unit-occupants";
 import {
   RiMailLine, RiPhoneLine, RiSmartphoneLine, RiHome4Line, RiMapPin2Line,
-  RiPencilLine, RiCheckLine, RiLoaderLine,
+  RiPencilLine, RiCheckLine, RiLoaderLine, RiCalendarEventLine,
 } from "react-icons/ri";
 
-export type PUnit = { id: string; unitNumber: string; unitType: string; floor: number | null; areaSqm: number | null; millesimes: number | null; rel: string; from: string | null; to: string | null };
+export type PUnit = { key: string; unitId: string; unitNumber: string; unitType: string; floor: number | null; areaSqm: number | null; millesimes: number | null; role: "OWNER" | "RESIDENT"; rel: string; occupancyId: string | null; from: string | null; to: string | null };
 export type Person = {
   id: string; name: string | null; email: string; phone: string | null; mobile: string | null; role: string; status: string;
   relation: "OWNER" | "RESIDENT" | "BOTH";
@@ -54,8 +54,8 @@ export function PeoplePanel({ people }: { people: Person[] }) {
       id: "relation", header: "Ιδιότητα", width: 150, accessor: (p) => p.relation,
       cell: (p) => relChip(REL_LABEL[p.relation] ?? p.relation),
     },
-    { id: "units", header: "Μονάδες", width: 90, accessor: (p) => p.unitsHere.length,
-      cell: (p) => <span style={{ fontSize: 13, color: "var(--foreground)" }}>{p.unitsHere.length}</span> },
+    { id: "units", header: "Μονάδες", width: 90, accessor: (p) => new Set(p.unitsHere.map((u) => u.unitId)).size,
+      cell: (p) => <span style={{ fontSize: 13, color: "var(--foreground)" }}>{new Set(p.unitsHere.map((u) => u.unitId)).size}</span> },
   ];
 
   const getRowActions = (_p: Person): RowAction<Person>[] => [
@@ -110,6 +110,7 @@ function EditPersonModal({ person, onClose, onDone }: { person: Person; onClose:
 }
 
 function PersonExpanded({ person }: { person: Person }) {
+  const [editUnit, setEditUnit] = useState<PUnit | null>(null);
   return (
     <div style={{ display: "grid", gridTemplateColumns: "260px 1fr", gap: 18, padding: "4px 6px 8px" }}>
       {/* contact card */}
@@ -131,11 +132,11 @@ function PersonExpanded({ person }: { person: Person }) {
           <div style={{ fontSize: 11, fontWeight: 700, color: "var(--muted-foreground)", textTransform: "uppercase", letterSpacing: ".05em", marginBottom: 6, display: "flex", alignItems: "center", gap: 6 }}><RiHome4Line /> Μονάδες σε αυτό το κτήριο</div>
           <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
             <thead><tr style={{ textAlign: "left", color: "var(--muted-foreground)", fontSize: 11 }}>
-              <th style={th}>Μονάδα</th><th style={th}>Τύπος</th><th style={th}>Όροφος</th><th style={{ ...th, textAlign: "right" }}>τ.μ.</th><th style={{ ...th, textAlign: "right" }}>‰</th><th style={th}>Ιδιότητα</th><th style={th}>Από</th><th style={th}>Έως</th>
+              <th style={th}>Μονάδα</th><th style={th}>Τύπος</th><th style={th}>Όροφος</th><th style={{ ...th, textAlign: "right" }}>τ.μ.</th><th style={{ ...th, textAlign: "right" }}>‰</th><th style={th}>Ιδιότητα</th><th style={th}>Από</th><th style={th}>Έως</th><th style={th}></th>
             </tr></thead>
             <tbody>
               {person.unitsHere.map((u) => (
-                <tr key={u.id} style={{ borderTop: "1px solid var(--border)" }}>
+                <tr key={u.key} style={{ borderTop: "1px solid var(--border)" }}>
                   <td style={td}><b>{u.unitNumber}</b></td>
                   <td style={td}>{UNIT_TYPE[u.unitType] ?? u.unitType}</td>
                   <td style={td}>{u.floor ?? "—"}</td>
@@ -144,11 +145,17 @@ function PersonExpanded({ person }: { person: Person }) {
                   <td style={td}>{relChip(u.rel)}</td>
                   <td style={td}>{fmtDate(u.from) ?? "—"}</td>
                   <td style={td}>{fmtDate(u.to) ?? <span style={{ color: "var(--color-green)", fontWeight: 700 }}>Τρέχον</span>}</td>
+                  <td style={{ ...td, textAlign: "right" }}>
+                    <button onClick={() => setEditUnit(u)} title="Επεξεργασία ημερομηνιών" style={{ display: "inline-flex", alignItems: "center", gap: 4, border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)", borderRadius: 4, padding: "4px 8px", fontSize: 11, fontWeight: 600, cursor: "pointer" }}>
+                      <RiCalendarEventLine /> Ημ/νίες
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
+        {editUnit && <DatesModal person={person} unit={editUnit} onClose={() => setEditUnit(null)} />}
 
         {person.unitsElsewhere.length > 0 && (
           <div>
@@ -164,6 +171,38 @@ function PersonExpanded({ person }: { person: Person }) {
         )}
       </div>
     </div>
+  );
+}
+
+function DatesModal({ person, unit, onClose }: { person: Person; unit: PUnit; onClose: () => void }) {
+  const router = useRouter();
+  const toInput = (iso: string | null) => (iso ? new Date(iso).toISOString().slice(0, 10) : "");
+  const [from, setFrom] = useState(toInput(unit.from));
+  const [to, setTo] = useState(toInput(unit.to));
+  const [error, setError] = useState<string | null>(null);
+  const [isPending, startTransition] = useTransition();
+  function save() {
+    setError(null);
+    if (!from) { setError("Η ημ/νία έναρξης είναι υποχρεωτική"); return; }
+    startTransition(async () => {
+      const res = await setOccupancyDates({ unitId: unit.unitId, userId: person.id, role: unit.role, startDate: from, endDate: to || null });
+      if (res && "error" in res && res.error) { setError(res.error); return; }
+      onClose(); router.refresh();
+    });
+  }
+  return (
+    <Modal open onClose={onClose} title={`Ημερομηνίες — ${unit.unitNumber} (${unit.rel})`} width={420}
+      footer={<>
+        <button onClick={onClose} style={{ padding: "7px 16px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: 13, color: "var(--foreground)" }}>Ακύρωση</button>
+        <button onClick={save} disabled={isPending} style={{ padding: "7px 16px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: "pointer", fontSize: 13, fontWeight: 600, display: "flex", alignItems: "center", gap: 6 }}>{isPending ? <RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> : <RiCheckLine />} Αποθήκευση</button>
+      </>}>
+      {error && <div style={{ padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: 12, marginBottom: 12 }}>{error}</div>}
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+        <FormField label="Από" required><FieldInput type="date" value={from} onChange={setFrom} /></FormField>
+        <FormField label="Έως (κενό = τρέχον)"><FieldInput type="date" value={to} onChange={setTo} /></FormField>
+      </div>
+      <style>{`@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}`}</style>
+    </Modal>
   );
 }
 

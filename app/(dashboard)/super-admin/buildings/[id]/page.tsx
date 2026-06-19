@@ -48,16 +48,16 @@ export default async function BuildingDashboardPage({ params }: { params: Promis
   const occRows = await db.unitOccupancy.findMany({
     where: { unit: { buildingId: id } },
     orderBy: { startDate: "desc" },
-    select: { unitId: true, userId: true, role: true, startDate: true, endDate: true },
+    select: { id: true, unitId: true, userId: true, role: true, startDate: true, endDate: true },
   });
   const occKey = (unitId: string, userId: string, role: "OWNER" | "RESIDENT") => `${unitId}:${userId}:${role}`;
-  const occMap = new Map<string, { from: string | null; to: string | null }>();
+  const occMap = new Map<string, { id: string; from: string | null; to: string | null }>();
   for (const o of occRows) {
     const k = occKey(o.unitId, o.userId, o.role);
-    if (!occMap.has(k)) occMap.set(k, { from: o.startDate ? o.startDate.toISOString() : null, to: o.endDate ? o.endDate.toISOString() : null });
+    if (!occMap.has(k)) occMap.set(k, { id: o.id, from: o.startDate ? o.startDate.toISOString() : null, to: o.endDate ? o.endDate.toISOString() : null });
   }
 
-  type PUnit = { id: string; unitNumber: string; unitType: string; floor: number | null; areaSqm: number | null; millesimes: number | null; rel: string; from: string | null; to: string | null };
+  type PUnit = { key: string; unitId: string; unitNumber: string; unitType: string; floor: number | null; areaSqm: number | null; millesimes: number | null; role: "OWNER" | "RESIDENT"; rel: string; occupancyId: string | null; from: string | null; to: string | null };
   type Person = {
     id: string; name: string | null; email: string; phone: string | null; mobile: string | null; role: string; status: string;
     relation: "OWNER" | "RESIDENT" | "BOTH";
@@ -69,11 +69,13 @@ export default async function BuildingDashboardPage({ params }: { params: Promis
     let p = map.get(u.id);
     if (!p) { p = { id: u.id, name: u.name, email: u.email, phone: u.phone, mobile: u.mobile, role: u.role, status: u.status, relation: rel, unitsHere: [], unitsElsewhere: [] }; map.set(u.id, p); }
     else if (p.relation !== rel) p.relation = "BOTH";
-    const dates = occMap.get(occKey(unit.id, u.id, rel)) ?? { from: null, to: null };
-    const existing = p.unitsHere.find((x) => x.id === unit.id);
-    const label = rel === "OWNER" ? "Ιδιοκτήτης" : "Ένοικος";
-    if (existing) { existing.rel = "Ιδιοκτήτης & Ένοικος"; }
-    else p.unitsHere.push({ id: unit.id, unitNumber: unit.unitNumber, unitType: unit.unitType, floor: unit.floor, areaSqm: unit.areaSqm, millesimes: unit.millesimes, rel: label, from: dates.from, to: dates.to });
+    const occ = occMap.get(occKey(unit.id, u.id, rel)) ?? null;
+    p.unitsHere.push({
+      key: `${unit.id}:${rel}`, unitId: unit.id, unitNumber: unit.unitNumber, unitType: unit.unitType,
+      floor: unit.floor, areaSqm: unit.areaSqm, millesimes: unit.millesimes, role: rel,
+      rel: rel === "OWNER" ? "Ιδιοκτήτης" : "Ένοικος",
+      occupancyId: occ?.id ?? null, from: occ?.from ?? null, to: occ?.to ?? null,
+    });
   };
   for (const u of unitsHere) {
     if (u.owner) add(u.owner, u, "OWNER");
