@@ -96,10 +96,34 @@ export default async function BuildingDashboardPage({ params }: { params: Promis
 
   const [contacts, infraPoints, taskRows] = await Promise.all([
     db.contact.findMany({ where: { buildingId: id }, orderBy: { name: "asc" }, select: { id: true, name: true, category: true, phone: true, email: true, notes: true } }),
-    db.infraPoint.findMany({ where: { buildingId: id }, orderBy: { createdAt: "asc" }, select: { id: true, name: true, type: true, floorLabel: true, location: true, locked: true, accessNotes: true, keyHolder: true, photoUrl: true, notes: true } }),
+    db.infraPoint.findMany({
+      where: { buildingId: id }, orderBy: { createdAt: "asc" },
+      select: {
+        id: true, name: true, type: true, floorLabel: true, location: true, locked: true, notes: true,
+        keyHolderUserId: true,
+        keyHolderUser: { select: { id: true, name: true, email: true } },
+        access: { select: { user: { select: { id: true, name: true, email: true } } } },
+        media: { orderBy: { createdAt: "asc" }, select: { id: true, url: true, type: true } },
+      },
+    }),
     db.recurringTask.findMany({ where: { buildingId: id }, orderBy: { nextDueDate: "asc" }, select: { id: true, title: true, frequency: true, nextDueDate: true, vendor: true, notes: true, active: true } }),
   ]);
   const tasks = taskRows.map((t) => ({ ...t, nextDueDate: t.nextDueDate ? t.nextDueDate.toISOString() : null }));
+
+  const infra = infraPoints.map((p) => ({
+    id: p.id, name: p.name, type: p.type, floorLabel: p.floorLabel, location: p.location,
+    locked: p.locked, notes: p.notes,
+    keyHolderUserId: p.keyHolderUserId,
+    keyHolderName: p.keyHolderUser ? (p.keyHolderUser.name ?? p.keyHolderUser.email) : null,
+    access: p.access.map((a) => ({ id: a.user.id, name: a.user.name, email: a.user.email })),
+    media: p.media.map((m) => ({ id: m.id, url: m.url, type: m.type as "IMAGE" | "VIDEO" })),
+  }));
+
+  // Floor options for the infra combo (from the building structure + roof/ground)
+  const floorOptions: string[] = ["Ταράτσα"];
+  for (let i = building.floors ?? 0; i >= 1; i--) floorOptions.push(`${i}ος όροφος`);
+  floorOptions.push("Ισόγειο");
+  for (let i = 1; i <= (building.basements ?? 0); i++) floorOptions.push(`Υπόγειο ${i}`);
 
   return (
     <BuildingDashboard
@@ -127,7 +151,8 @@ export default async function BuildingDashboardPage({ params }: { params: Promis
       files={files.map((f) => ({ ...f, createdAt: f.createdAt.toISOString() }))}
       people={people}
       contacts={contacts}
-      infraPoints={infraPoints}
+      infraPoints={infra}
+      floorOptions={floorOptions}
       tasks={tasks}
       today={new Date().toISOString()}
     />

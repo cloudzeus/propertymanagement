@@ -153,6 +153,14 @@ export const InfraType = {
 export type InfraType = (typeof InfraType)[keyof typeof InfraType]
 
 
+export const InfraMediaType = {
+  IMAGE: 'IMAGE',
+  VIDEO: 'VIDEO'
+} as const
+
+export type InfraMediaType = (typeof InfraMediaType)[keyof typeof InfraMediaType]
+
+
 export const TaskFrequency = {
   WEEKLY: 'WEEKLY',
   MONTHLY: 'MONTHLY',

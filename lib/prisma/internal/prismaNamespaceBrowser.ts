@@ -67,6 +67,8 @@ export const ModelName = {
   UnitOccupancy: 'UnitOccupancy',
   BuildingFile: 'BuildingFile',
   InfraPoint: 'InfraPoint',
+  InfraAccess: 'InfraAccess',
+  InfraMedia: 'InfraMedia',
   Contact: 'Contact',
   RecurringTask: 'RecurringTask',
   BuildingExpense: 'BuildingExpense',
@@ -448,11 +450,34 @@ export const InfraPointScalarFieldEnum = {
   keyHolder: 'keyHolder',
   photoUrl: 'photoUrl',
   notes: 'notes',
+  keyHolderUserId: 'keyHolderUserId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type InfraPointScalarFieldEnum = (typeof InfraPointScalarFieldEnum)[keyof typeof InfraPointScalarFieldEnum]
+
+
+export const InfraAccessScalarFieldEnum = {
+  id: 'id',
+  infraPointId: 'infraPointId',
+  userId: 'userId'
+} as const
+
+export type InfraAccessScalarFieldEnum = (typeof InfraAccessScalarFieldEnum)[keyof typeof InfraAccessScalarFieldEnum]
+
+
+export const InfraMediaScalarFieldEnum = {
+  id: 'id',
+  infraPointId: 'infraPointId',
+  type: 'type',
+  url: 'url',
+  cdnPath: 'cdnPath',
+  name: 'name',
+  createdAt: 'createdAt'
+} as const
+
+export type InfraMediaScalarFieldEnum = (typeof InfraMediaScalarFieldEnum)[keyof typeof InfraMediaScalarFieldEnum]
 
 
 export const ContactScalarFieldEnum = {

@@ -3,6 +3,7 @@
 import { useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { uploadBuildingFile, deleteBuildingFile } from "@/app/actions/building-files";
+import { toWebpResized } from "@/lib/resize-image";
 import {
   RiFolderLine, RiRulerLine, RiImageLine, RiFileTextLine, RiShieldCheckLine,
   RiUploadCloud2Line, RiDownload2Line, RiDeleteBinLine, RiLoaderLine,
@@ -54,7 +55,8 @@ export function FilesPanel({ buildingId, files }: { buildingId: string; files: F
     if (!fileList || fileList.length === 0) return;
     setError(null);
     startTransition(async () => {
-      for (const file of Array.from(fileList)) {
+      for (const raw of Array.from(fileList)) {
+        const file = await toWebpResized(raw);
         const fd = new FormData();
         fd.set("buildingId", buildingId);
         fd.set("category", uploadCat);

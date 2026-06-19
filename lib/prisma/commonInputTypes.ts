@@ -443,6 +443,23 @@ export type EnumInfraTypeWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumInfraTypeFilter<$PrismaModel>
 }
 
+export type EnumInfraMediaTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.InfraMediaType | Prisma.EnumInfraMediaTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.InfraMediaType[] | Prisma.ListEnumInfraMediaTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.InfraMediaType[] | Prisma.ListEnumInfraMediaTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumInfraMediaTypeFilter<$PrismaModel> | $Enums.InfraMediaType
+}
+
+export type EnumInfraMediaTypeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.InfraMediaType | Prisma.EnumInfraMediaTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.InfraMediaType[] | Prisma.ListEnumInfraMediaTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.InfraMediaType[] | Prisma.ListEnumInfraMediaTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumInfraMediaTypeWithAggregatesFilter<$PrismaModel> | $Enums.InfraMediaType
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumInfraMediaTypeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumInfraMediaTypeFilter<$PrismaModel>
+}
+
 export type EnumTaskFrequencyFilter<$PrismaModel = never> = {
   equals?: $Enums.TaskFrequency | Prisma.EnumTaskFrequencyFieldRefInput<$PrismaModel>
   in?: $Enums.TaskFrequency[] | Prisma.ListEnumTaskFrequencyFieldRefInput<$PrismaModel>
@@ -1024,6 +1041,23 @@ export type NestedEnumInfraTypeWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumInfraTypeFilter<$PrismaModel>
   _max?: Prisma.NestedEnumInfraTypeFilter<$PrismaModel>
+}
+
+export type NestedEnumInfraMediaTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.InfraMediaType | Prisma.EnumInfraMediaTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.InfraMediaType[] | Prisma.ListEnumInfraMediaTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.InfraMediaType[] | Prisma.ListEnumInfraMediaTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumInfraMediaTypeFilter<$PrismaModel> | $Enums.InfraMediaType
+}
+
+export type NestedEnumInfraMediaTypeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.InfraMediaType | Prisma.EnumInfraMediaTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.InfraMediaType[] | Prisma.ListEnumInfraMediaTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.InfraMediaType[] | Prisma.ListEnumInfraMediaTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumInfraMediaTypeWithAggregatesFilter<$PrismaModel> | $Enums.InfraMediaType
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumInfraMediaTypeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumInfraMediaTypeFilter<$PrismaModel>
 }
 
 export type NestedEnumTaskFrequencyFilter<$PrismaModel = never> = {

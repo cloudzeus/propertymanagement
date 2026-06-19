@@ -43,7 +43,7 @@ const TABS: { key: TabKey; label: string; icon: React.ElementType; badge?: (k: K
   { key: "ann", label: "Ανακοινώσεις", icon: RiMegaphoneLine },
 ];
 
-export function BuildingDashboard({ building, kpis, files, people, contacts, infraPoints, tasks, today }: { building: Building; kpis: Kpis; files: FileRow[]; people: Person[]; contacts: ContactRow[]; infraPoints: InfraRow[]; tasks: TaskRow[]; today: string }) {
+export function BuildingDashboard({ building, kpis, files, people, contacts, infraPoints, floorOptions, tasks, today }: { building: Building; kpis: Kpis; files: FileRow[]; people: Person[]; contacts: ContactRow[]; infraPoints: InfraRow[]; floorOptions: string[]; tasks: TaskRow[]; today: string }) {
   const [tab, setTab] = useState<TabKey>("overview");
 
   const subParts = [
@@ -133,7 +133,7 @@ export function BuildingDashboard({ building, kpis, files, people, contacts, inf
         ) : tab === "contacts" ? (
           <ContactsPanel buildingId={building.id} contacts={contacts} />
         ) : tab === "infra" ? (
-          <InfraPanel buildingId={building.id} points={infraPoints} />
+          <InfraPanel buildingId={building.id} points={infraPoints} floorOptions={floorOptions} />
         ) : tab === "calendar" ? (
           <CalendarPanel buildingId={building.id} tasks={tasks} today={today} />
         ) : (

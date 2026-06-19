@@ -98,6 +98,16 @@ export type BuildingFile = Prisma.BuildingFileModel
  */
 export type InfraPoint = Prisma.InfraPointModel
 /**
+ * Model InfraAccess
+ * 
+ */
+export type InfraAccess = Prisma.InfraAccessModel
+/**
+ * Model InfraMedia
+ * 
+ */
+export type InfraMedia = Prisma.InfraMediaModel
+/**
  * Model Contact
  * 
  */

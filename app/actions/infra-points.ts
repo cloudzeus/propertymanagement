@@ -3,7 +3,7 @@
 import { auth } from "@/auth";
 import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
-import { uploadFile, buildingFolder } from "@/lib/bunnycdn";
+import { uploadFile, deleteFile, buildingFolder } from "@/lib/bunnycdn";
 
 async function requireStaff() {
   const session = await auth();
@@ -16,9 +16,44 @@ const TYPES = ["ELECTRICITY", "OTE", "ROOF", "ANTENNA", "BOILER", "PUMP", "FIRE"
 export type InfraType = (typeof TYPES)[number];
 export type InfraInput = {
   name: string; type: InfraType; floorLabel?: string | null; location?: string | null;
-  locked?: boolean; accessNotes?: string | null; keyHolder?: string | null; notes?: string | null;
+  locked?: boolean; notes?: string | null; keyHolderUserId?: string | null; accessUserIds?: string[];
 };
 const clean = (v?: string | null) => (v?.trim() ? v.trim() : null);
+
+export type InfraPerson = { id: string; name: string | null; email: string; role: string; origin: "occupant" | "manager" | "staff" };
+
+/** Candidate people for key-holder / access: building owners/residents + assigned
+ *  managers + company staff (ADMIN/MANAGER/EMPLOYEE). */
+export async function searchInfraPeople(buildingId: string, query: string): Promise<InfraPerson[]> {
+  await requireStaff();
+  const b = await db.building.findUnique({ where: { id: buildingId }, select: { companyId: true, propertyId: true } });
+  if (!b) return [];
+
+  const units = await db.unit.findMany({ where: { buildingId }, select: { ownerId: true, residentId: true } });
+  const occupantIds = new Set<string>();
+  for (const u of units) { if (u.ownerId) occupantIds.add(u.ownerId); if (u.residentId) occupantIds.add(u.residentId); }
+
+  const mgrs = await db.managementAssignment.findMany({
+    where: { OR: [{ buildingId }, { propertyId: b.propertyId }] },
+    select: { userId: true },
+  });
+  const managerIds = new Set(mgrs.map((m) => m.userId));
+
+  const q = query.trim();
+  const text = q ? { OR: [{ name: { contains: q, mode: "insensitive" as const } }, { email: { contains: q, mode: "insensitive" as const } }] } : {};
+  const users = await db.user.findMany({
+    where: {
+      AND: [text, { OR: [
+        { id: { in: [...occupantIds, ...managerIds] } },
+        { companyId: b.companyId, role: { in: ["ADMIN", "MANAGER", "EMPLOYEE"] as any } },
+      ] }],
+    },
+    select: { id: true, name: true, email: true, role: true },
+    orderBy: [{ name: "asc" }, { email: "asc" }],
+    take: 30,
+  });
+  return users.map((u) => ({ ...u, origin: occupantIds.has(u.id) ? "occupant" : managerIds.has(u.id) ? "manager" : "staff" }));
+}
 
 export async function createInfraPoint(buildingId: string, data: InfraInput) {
   await requireStaff();
@@ -28,11 +63,13 @@ export async function createInfraPoint(buildingId: string, data: InfraInput) {
     data: {
       buildingId, name: data.name.trim(), type: type as any,
       floorLabel: clean(data.floorLabel), location: clean(data.location),
-      locked: !!data.locked, accessNotes: clean(data.accessNotes), keyHolder: clean(data.keyHolder), notes: clean(data.notes),
+      locked: !!data.locked, notes: clean(data.notes),
+      keyHolderUserId: data.keyHolderUserId || null,
+      access: data.accessUserIds?.length ? { create: data.accessUserIds.map((userId) => ({ userId })) } : undefined,
     },
   });
   revalidatePath(`/super-admin/buildings/${buildingId}`);
-  return { infra: row };
+  return { infra: row.id };
 }
 
 export async function updateInfraPoint(id: string, data: Partial<InfraInput>) {
@@ -45,12 +82,19 @@ export async function updateInfraPoint(id: string, data: Partial<InfraInput>) {
       ...(data.floorLabel !== undefined ? { floorLabel: clean(data.floorLabel) } : {}),
       ...(data.location !== undefined ? { location: clean(data.location) } : {}),
       ...(data.locked !== undefined ? { locked: !!data.locked } : {}),
-      ...(data.accessNotes !== undefined ? { accessNotes: clean(data.accessNotes) } : {}),
-      ...(data.keyHolder !== undefined ? { keyHolder: clean(data.keyHolder) } : {}),
       ...(data.notes !== undefined ? { notes: clean(data.notes) } : {}),
+      ...(data.keyHolderUserId !== undefined ? { keyHolderUserId: data.keyHolderUserId || null } : {}),
     },
     select: { buildingId: true },
   });
+
+  if (data.accessUserIds !== undefined) {
+    await db.infraAccess.deleteMany({ where: { infraPointId: id } });
+    if (data.accessUserIds.length) {
+      await db.infraAccess.createMany({ data: data.accessUserIds.map((userId) => ({ infraPointId: id, userId })) });
+    }
+  }
+
   revalidatePath(`/super-admin/buildings/${row.buildingId}`);
   return { ok: true };
 }
@@ -63,8 +107,8 @@ export async function deleteInfraPoint(id: string) {
   return { ok: true };
 }
 
-/** Upload a photo for an infra point. FormData: infraPointId, file. */
-export async function uploadInfraPhoto(formData: FormData) {
+/** Upload one media (image or video) for an infra point. FormData: infraPointId, file. */
+export async function uploadInfraMedia(formData: FormData) {
   await requireStaff();
   const infraPointId = String(formData.get("infraPointId") || "");
   const file = formData.get("file") as File | null;
@@ -73,10 +117,21 @@ export async function uploadInfraPhoto(formData: FormData) {
   if (!point) return { error: "Το σημείο δεν βρέθηκε" };
   const buffer = Buffer.from(await file.arrayBuffer());
   const safe = file.name.replace(/[^\w.\-]+/g, "_").slice(0, 100);
-  const path = `${buildingFolder(point.building.propertyId, point.buildingId)}/infra/${Date.now()}-${safe}`;
-  const res = await uploadFile({ path, buffer, contentType: file.type || "image/jpeg" });
+  const path = `${buildingFolder(point.building.propertyId, point.buildingId)}/infra/${infraPointId}/${Date.now()}-${safe}`;
+  const res = await uploadFile({ path, buffer, contentType: file.type || "application/octet-stream" });
   if (!res.success || !res.url) return { error: res.error || "Αποτυχία ανεβάσματος" };
-  await db.infraPoint.update({ where: { id: infraPointId }, data: { photoUrl: res.url } });
+  const type = (file.type || "").startsWith("video/") ? "VIDEO" : "IMAGE";
+  await db.infraMedia.create({ data: { infraPointId, url: res.url, cdnPath: path, type: type as any, name: file.name } });
   revalidatePath(`/super-admin/buildings/${point.buildingId}`);
-  return { url: res.url };
+  return { ok: true };
+}
+
+export async function deleteInfraMedia(mediaId: string) {
+  await requireStaff();
+  const m = await db.infraMedia.findUnique({ where: { id: mediaId }, select: { cdnPath: true, infraPoint: { select: { buildingId: true } } } });
+  if (!m) return { error: "Δεν βρέθηκε" };
+  await deleteFile(m.cdnPath);
+  await db.infraMedia.delete({ where: { id: mediaId } });
+  revalidatePath(`/super-admin/buildings/${m.infraPoint.buildingId}`);
+  return { ok: true };
 }

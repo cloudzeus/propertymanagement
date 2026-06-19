@@ -107,6 +107,8 @@ model User {
   ownedUnits          Unit[] @relation("owner")
   residentUnits       Unit[] @relation("resident")
   occupancies         UnitOccupancy[] @relation("userOccupancies")
+  infraKeyOf          InfraPoint[] @relation("infraKeyHolder")
+  infraAccess         InfraAccess[] @relation("infraAccess")
 
   // Relationships for multi-role users
   companyRoles        UserCompanyRole[]
@@ -681,13 +683,49 @@ model InfraPoint {
   floorLabel  String?
   location    String?
   locked      Boolean  @default(false)
-  accessNotes String?  // who has access
-  keyHolder   String?  // who holds the key
-  photoUrl    String?
+  accessNotes String?  // legacy free-text (superseded by access[])
+  keyHolder   String?  // legacy free-text (superseded by keyHolderUser)
+  photoUrl    String?  // legacy cover (superseded by media[])
   notes       String?
+
+  // Key holder = a specific user (owner/resident/manager/employee)
+  keyHolderUserId String?
+  keyHolderUser   User?    @relation("infraKeyHolder", fields: [keyHolderUserId], references: [id], onDelete: SetNull)
+
+  // Who has access (many users) + media (many photos/videos)
+  access      InfraAccess[]
+  media       InfraMedia[]
+
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   @@index([buildingId])
+}
+
+model InfraAccess {
+  id           String     @id @default(cuid())
+  infraPointId String
+  infraPoint   InfraPoint @relation(fields: [infraPointId], references: [id], onDelete: Cascade)
+  userId       String
+  user         User       @relation("infraAccess", fields: [userId], references: [id], onDelete: Cascade)
+  @@unique([infraPointId, userId])
+  @@index([infraPointId])
+}
+
+enum InfraMediaType {
+  IMAGE
+  VIDEO
+}
+
+model InfraMedia {
+  id           String     @id @default(cuid())
+  infraPointId String
+  infraPoint   InfraPoint @relation(fields: [infraPointId], references: [id], onDelete: Cascade)
+  type         InfraMediaType @default(IMAGE)
+  url          String
+  cdnPath      String
+  name         String?
+  createdAt    DateTime   @default(now())
+  @@index([infraPointId])
 }
 
 model Contact {

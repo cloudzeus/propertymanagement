@@ -260,6 +260,8 @@ export type UserWhereInput = {
   ownedUnits?: Prisma.UnitListRelationFilter
   residentUnits?: Prisma.UnitListRelationFilter
   occupancies?: Prisma.UnitOccupancyListRelationFilter
+  infraKeyOf?: Prisma.InfraPointListRelationFilter
+  infraAccess?: Prisma.InfraAccessListRelationFilter
   companyRoles?: Prisma.UserCompanyRoleListRelationFilter
   createdCompanies?: Prisma.CompanyListRelationFilter
   createdMenuConfigs?: Prisma.MenuConfigListRelationFilter
@@ -294,6 +296,8 @@ export type UserOrderByWithRelationInput = {
   ownedUnits?: Prisma.UnitOrderByRelationAggregateInput
   residentUnits?: Prisma.UnitOrderByRelationAggregateInput
   occupancies?: Prisma.UnitOccupancyOrderByRelationAggregateInput
+  infraKeyOf?: Prisma.InfraPointOrderByRelationAggregateInput
+  infraAccess?: Prisma.InfraAccessOrderByRelationAggregateInput
   companyRoles?: Prisma.UserCompanyRoleOrderByRelationAggregateInput
   createdCompanies?: Prisma.CompanyOrderByRelationAggregateInput
   createdMenuConfigs?: Prisma.MenuConfigOrderByRelationAggregateInput
@@ -331,6 +335,8 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   ownedUnits?: Prisma.UnitListRelationFilter
   residentUnits?: Prisma.UnitListRelationFilter
   occupancies?: Prisma.UnitOccupancyListRelationFilter
+  infraKeyOf?: Prisma.InfraPointListRelationFilter
+  infraAccess?: Prisma.InfraAccessListRelationFilter
   companyRoles?: Prisma.UserCompanyRoleListRelationFilter
   createdCompanies?: Prisma.CompanyListRelationFilter
   createdMenuConfigs?: Prisma.MenuConfigListRelationFilter
@@ -402,6 +408,8 @@ export type UserCreateInput = {
   ownedUnits?: Prisma.UnitCreateNestedManyWithoutOwnerInput
   residentUnits?: Prisma.UnitCreateNestedManyWithoutResidentInput
   occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
+  infraKeyOf?: Prisma.InfraPointCreateNestedManyWithoutKeyHolderUserInput
+  infraAccess?: Prisma.InfraAccessCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCreatedByInput
@@ -433,6 +441,8 @@ export type UserUncheckedCreateInput = {
   ownedUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutOwnerInput
   residentUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutResidentInput
   occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
+  infraKeyOf?: Prisma.InfraPointUncheckedCreateNestedManyWithoutKeyHolderUserInput
+  infraAccess?: Prisma.InfraAccessUncheckedCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCreatedByInput
@@ -464,6 +474,8 @@ export type UserUpdateInput = {
   ownedUnits?: Prisma.UnitUpdateManyWithoutOwnerNestedInput
   residentUnits?: Prisma.UnitUpdateManyWithoutResidentNestedInput
   occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
+  infraKeyOf?: Prisma.InfraPointUpdateManyWithoutKeyHolderUserNestedInput
+  infraAccess?: Prisma.InfraAccessUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUpdateManyWithoutCreatedByNestedInput
@@ -495,6 +507,8 @@ export type UserUncheckedUpdateInput = {
   ownedUnits?: Prisma.UnitUncheckedUpdateManyWithoutOwnerNestedInput
   residentUnits?: Prisma.UnitUncheckedUpdateManyWithoutResidentNestedInput
   occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
+  infraKeyOf?: Prisma.InfraPointUncheckedUpdateManyWithoutKeyHolderUserNestedInput
+  infraAccess?: Prisma.InfraAccessUncheckedUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -851,6 +865,36 @@ export type UserUpdateOneRequiredWithoutOccupanciesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutOccupanciesInput, Prisma.UserUpdateWithoutOccupanciesInput>, Prisma.UserUncheckedUpdateWithoutOccupanciesInput>
 }
 
+export type UserCreateNestedOneWithoutInfraKeyOfInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutInfraKeyOfInput, Prisma.UserUncheckedCreateWithoutInfraKeyOfInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutInfraKeyOfInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneWithoutInfraKeyOfNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutInfraKeyOfInput, Prisma.UserUncheckedCreateWithoutInfraKeyOfInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutInfraKeyOfInput
+  upsert?: Prisma.UserUpsertWithoutInfraKeyOfInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutInfraKeyOfInput, Prisma.UserUpdateWithoutInfraKeyOfInput>, Prisma.UserUncheckedUpdateWithoutInfraKeyOfInput>
+}
+
+export type UserCreateNestedOneWithoutInfraAccessInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutInfraAccessInput, Prisma.UserUncheckedCreateWithoutInfraAccessInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutInfraAccessInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutInfraAccessNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutInfraAccessInput, Prisma.UserUncheckedCreateWithoutInfraAccessInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutInfraAccessInput
+  upsert?: Prisma.UserUpsertWithoutInfraAccessInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutInfraAccessInput, Prisma.UserUpdateWithoutInfraAccessInput>, Prisma.UserUncheckedUpdateWithoutInfraAccessInput>
+}
+
 export type UserCreateNestedOneWithoutManagementAssignmentsInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutManagementAssignmentsInput, Prisma.UserUncheckedCreateWithoutManagementAssignmentsInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutManagementAssignmentsInput
@@ -1009,6 +1053,8 @@ export type UserCreateWithoutAccountsInput = {
   ownedUnits?: Prisma.UnitCreateNestedManyWithoutOwnerInput
   residentUnits?: Prisma.UnitCreateNestedManyWithoutResidentInput
   occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
+  infraKeyOf?: Prisma.InfraPointCreateNestedManyWithoutKeyHolderUserInput
+  infraAccess?: Prisma.InfraAccessCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCreatedByInput
@@ -1039,6 +1085,8 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   ownedUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutOwnerInput
   residentUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutResidentInput
   occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
+  infraKeyOf?: Prisma.InfraPointUncheckedCreateNestedManyWithoutKeyHolderUserInput
+  infraAccess?: Prisma.InfraAccessUncheckedCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCreatedByInput
@@ -1085,6 +1133,8 @@ export type UserUpdateWithoutAccountsInput = {
   ownedUnits?: Prisma.UnitUpdateManyWithoutOwnerNestedInput
   residentUnits?: Prisma.UnitUpdateManyWithoutResidentNestedInput
   occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
+  infraKeyOf?: Prisma.InfraPointUpdateManyWithoutKeyHolderUserNestedInput
+  infraAccess?: Prisma.InfraAccessUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUpdateManyWithoutCreatedByNestedInput
@@ -1115,6 +1165,8 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   ownedUnits?: Prisma.UnitUncheckedUpdateManyWithoutOwnerNestedInput
   residentUnits?: Prisma.UnitUncheckedUpdateManyWithoutResidentNestedInput
   occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
+  infraKeyOf?: Prisma.InfraPointUncheckedUpdateManyWithoutKeyHolderUserNestedInput
+  infraAccess?: Prisma.InfraAccessUncheckedUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -1145,6 +1197,8 @@ export type UserCreateWithoutSessionsInput = {
   ownedUnits?: Prisma.UnitCreateNestedManyWithoutOwnerInput
   residentUnits?: Prisma.UnitCreateNestedManyWithoutResidentInput
   occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
+  infraKeyOf?: Prisma.InfraPointCreateNestedManyWithoutKeyHolderUserInput
+  infraAccess?: Prisma.InfraAccessCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCreatedByInput
@@ -1175,6 +1229,8 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   ownedUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutOwnerInput
   residentUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutResidentInput
   occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
+  infraKeyOf?: Prisma.InfraPointUncheckedCreateNestedManyWithoutKeyHolderUserInput
+  infraAccess?: Prisma.InfraAccessUncheckedCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCreatedByInput
@@ -1221,6 +1277,8 @@ export type UserUpdateWithoutSessionsInput = {
   ownedUnits?: Prisma.UnitUpdateManyWithoutOwnerNestedInput
   residentUnits?: Prisma.UnitUpdateManyWithoutResidentNestedInput
   occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
+  infraKeyOf?: Prisma.InfraPointUpdateManyWithoutKeyHolderUserNestedInput
+  infraAccess?: Prisma.InfraAccessUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUpdateManyWithoutCreatedByNestedInput
@@ -1251,6 +1309,8 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   ownedUnits?: Prisma.UnitUncheckedUpdateManyWithoutOwnerNestedInput
   residentUnits?: Prisma.UnitUncheckedUpdateManyWithoutResidentNestedInput
   occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
+  infraKeyOf?: Prisma.InfraPointUncheckedUpdateManyWithoutKeyHolderUserNestedInput
+  infraAccess?: Prisma.InfraAccessUncheckedUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -1281,6 +1341,8 @@ export type UserCreateWithoutCreatedCompaniesInput = {
   ownedUnits?: Prisma.UnitCreateNestedManyWithoutOwnerInput
   residentUnits?: Prisma.UnitCreateNestedManyWithoutResidentInput
   occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
+  infraKeyOf?: Prisma.InfraPointCreateNestedManyWithoutKeyHolderUserInput
+  infraAccess?: Prisma.InfraAccessCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
   createdMenuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCreatedByInput
   createdAnnouncements?: Prisma.AnnouncementCreateNestedManyWithoutCreatedByInput
@@ -1311,6 +1373,8 @@ export type UserUncheckedCreateWithoutCreatedCompaniesInput = {
   ownedUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutOwnerInput
   residentUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutResidentInput
   occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
+  infraKeyOf?: Prisma.InfraPointUncheckedCreateNestedManyWithoutKeyHolderUserInput
+  infraAccess?: Prisma.InfraAccessUncheckedCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCreatedByInput
   createdAnnouncements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutCreatedByInput
@@ -1345,6 +1409,8 @@ export type UserCreateWithoutCompanyInput = {
   ownedUnits?: Prisma.UnitCreateNestedManyWithoutOwnerInput
   residentUnits?: Prisma.UnitCreateNestedManyWithoutResidentInput
   occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
+  infraKeyOf?: Prisma.InfraPointCreateNestedManyWithoutKeyHolderUserInput
+  infraAccess?: Prisma.InfraAccessCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCreatedByInput
@@ -1375,6 +1441,8 @@ export type UserUncheckedCreateWithoutCompanyInput = {
   ownedUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutOwnerInput
   residentUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutResidentInput
   occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
+  infraKeyOf?: Prisma.InfraPointUncheckedCreateNestedManyWithoutKeyHolderUserInput
+  infraAccess?: Prisma.InfraAccessUncheckedCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCreatedByInput
@@ -1427,6 +1495,8 @@ export type UserUpdateWithoutCreatedCompaniesInput = {
   ownedUnits?: Prisma.UnitUpdateManyWithoutOwnerNestedInput
   residentUnits?: Prisma.UnitUpdateManyWithoutResidentNestedInput
   occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
+  infraKeyOf?: Prisma.InfraPointUpdateManyWithoutKeyHolderUserNestedInput
+  infraAccess?: Prisma.InfraAccessUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUpdateManyWithoutCreatedByNestedInput
   createdAnnouncements?: Prisma.AnnouncementUpdateManyWithoutCreatedByNestedInput
@@ -1457,6 +1527,8 @@ export type UserUncheckedUpdateWithoutCreatedCompaniesInput = {
   ownedUnits?: Prisma.UnitUncheckedUpdateManyWithoutOwnerNestedInput
   residentUnits?: Prisma.UnitUncheckedUpdateManyWithoutResidentNestedInput
   occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
+  infraKeyOf?: Prisma.InfraPointUncheckedUpdateManyWithoutKeyHolderUserNestedInput
+  infraAccess?: Prisma.InfraAccessUncheckedUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCreatedByNestedInput
   createdAnnouncements?: Prisma.AnnouncementUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -1523,6 +1595,8 @@ export type UserCreateWithoutEmployeeLinksInput = {
   ownedUnits?: Prisma.UnitCreateNestedManyWithoutOwnerInput
   residentUnits?: Prisma.UnitCreateNestedManyWithoutResidentInput
   occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
+  infraKeyOf?: Prisma.InfraPointCreateNestedManyWithoutKeyHolderUserInput
+  infraAccess?: Prisma.InfraAccessCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCreatedByInput
@@ -1553,6 +1627,8 @@ export type UserUncheckedCreateWithoutEmployeeLinksInput = {
   ownedUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutOwnerInput
   residentUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutResidentInput
   occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
+  infraKeyOf?: Prisma.InfraPointUncheckedCreateNestedManyWithoutKeyHolderUserInput
+  infraAccess?: Prisma.InfraAccessUncheckedCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCreatedByInput
@@ -1599,6 +1675,8 @@ export type UserUpdateWithoutEmployeeLinksInput = {
   ownedUnits?: Prisma.UnitUpdateManyWithoutOwnerNestedInput
   residentUnits?: Prisma.UnitUpdateManyWithoutResidentNestedInput
   occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
+  infraKeyOf?: Prisma.InfraPointUpdateManyWithoutKeyHolderUserNestedInput
+  infraAccess?: Prisma.InfraAccessUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUpdateManyWithoutCreatedByNestedInput
@@ -1629,6 +1707,8 @@ export type UserUncheckedUpdateWithoutEmployeeLinksInput = {
   ownedUnits?: Prisma.UnitUncheckedUpdateManyWithoutOwnerNestedInput
   residentUnits?: Prisma.UnitUncheckedUpdateManyWithoutResidentNestedInput
   occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
+  infraKeyOf?: Prisma.InfraPointUncheckedUpdateManyWithoutKeyHolderUserNestedInput
+  infraAccess?: Prisma.InfraAccessUncheckedUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -1658,6 +1738,8 @@ export type UserCreateWithoutCustomerInput = {
   ownedUnits?: Prisma.UnitCreateNestedManyWithoutOwnerInput
   residentUnits?: Prisma.UnitCreateNestedManyWithoutResidentInput
   occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
+  infraKeyOf?: Prisma.InfraPointCreateNestedManyWithoutKeyHolderUserInput
+  infraAccess?: Prisma.InfraAccessCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCreatedByInput
@@ -1688,6 +1770,8 @@ export type UserUncheckedCreateWithoutCustomerInput = {
   ownedUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutOwnerInput
   residentUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutResidentInput
   occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
+  infraKeyOf?: Prisma.InfraPointUncheckedCreateNestedManyWithoutKeyHolderUserInput
+  infraAccess?: Prisma.InfraAccessUncheckedCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCreatedByInput
@@ -1744,6 +1828,8 @@ export type UserCreateWithoutBuildingInput = {
   ownedUnits?: Prisma.UnitCreateNestedManyWithoutOwnerInput
   residentUnits?: Prisma.UnitCreateNestedManyWithoutResidentInput
   occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
+  infraKeyOf?: Prisma.InfraPointCreateNestedManyWithoutKeyHolderUserInput
+  infraAccess?: Prisma.InfraAccessCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCreatedByInput
@@ -1774,6 +1860,8 @@ export type UserUncheckedCreateWithoutBuildingInput = {
   ownedUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutOwnerInput
   residentUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutResidentInput
   occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
+  infraKeyOf?: Prisma.InfraPointUncheckedCreateNestedManyWithoutKeyHolderUserInput
+  infraAccess?: Prisma.InfraAccessUncheckedCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCreatedByInput
@@ -1830,6 +1918,8 @@ export type UserCreateWithoutOccupanciesInput = {
   building?: Prisma.BuildingCreateNestedOneWithoutUsersInput
   ownedUnits?: Prisma.UnitCreateNestedManyWithoutOwnerInput
   residentUnits?: Prisma.UnitCreateNestedManyWithoutResidentInput
+  infraKeyOf?: Prisma.InfraPointCreateNestedManyWithoutKeyHolderUserInput
+  infraAccess?: Prisma.InfraAccessCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCreatedByInput
@@ -1860,6 +1950,8 @@ export type UserUncheckedCreateWithoutOccupanciesInput = {
   lastLoginAt?: Date | string | null
   ownedUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutOwnerInput
   residentUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutResidentInput
+  infraKeyOf?: Prisma.InfraPointUncheckedCreateNestedManyWithoutKeyHolderUserInput
+  infraAccess?: Prisma.InfraAccessUncheckedCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCreatedByInput
@@ -1906,6 +1998,8 @@ export type UserUpdateWithoutOccupanciesInput = {
   building?: Prisma.BuildingUpdateOneWithoutUsersNestedInput
   ownedUnits?: Prisma.UnitUpdateManyWithoutOwnerNestedInput
   residentUnits?: Prisma.UnitUpdateManyWithoutResidentNestedInput
+  infraKeyOf?: Prisma.InfraPointUpdateManyWithoutKeyHolderUserNestedInput
+  infraAccess?: Prisma.InfraAccessUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUpdateManyWithoutCreatedByNestedInput
@@ -1936,6 +2030,296 @@ export type UserUncheckedUpdateWithoutOccupanciesInput = {
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   ownedUnits?: Prisma.UnitUncheckedUpdateManyWithoutOwnerNestedInput
   residentUnits?: Prisma.UnitUncheckedUpdateManyWithoutResidentNestedInput
+  infraKeyOf?: Prisma.InfraPointUncheckedUpdateManyWithoutKeyHolderUserNestedInput
+  infraAccess?: Prisma.InfraAccessUncheckedUpdateManyWithoutUserNestedInput
+  companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
+  createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
+  createdMenuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCreatedByNestedInput
+  createdAnnouncements?: Prisma.AnnouncementUncheckedUpdateManyWithoutCreatedByNestedInput
+  employeeLinks?: Prisma.EmployeeUncheckedUpdateManyWithoutUserNestedInput
+  reportedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutReportedByNestedInput
+  assignedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutAssignedToNestedInput
+  apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutUserNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutInfraKeyOfInput = {
+  id?: string
+  email: string
+  name?: string | null
+  phone?: string | null
+  mobile?: string | null
+  passwordHash?: string | null
+  role: $Enums.UserRole
+  status?: $Enums.UserStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lastLoginAt?: Date | string | null
+  company?: Prisma.CompanyCreateNestedOneWithoutUsersInput
+  customer?: Prisma.CustomerCreateNestedOneWithoutUsersInput
+  building?: Prisma.BuildingCreateNestedOneWithoutUsersInput
+  ownedUnits?: Prisma.UnitCreateNestedManyWithoutOwnerInput
+  residentUnits?: Prisma.UnitCreateNestedManyWithoutResidentInput
+  occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
+  infraAccess?: Prisma.InfraAccessCreateNestedManyWithoutUserInput
+  companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
+  createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
+  createdMenuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCreatedByInput
+  createdAnnouncements?: Prisma.AnnouncementCreateNestedManyWithoutCreatedByInput
+  employeeLinks?: Prisma.EmployeeCreateNestedManyWithoutUserInput
+  reportedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutReportedByInput
+  assignedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutAssignedToInput
+  apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
+  managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutInfraKeyOfInput = {
+  id?: string
+  email: string
+  name?: string | null
+  phone?: string | null
+  mobile?: string | null
+  passwordHash?: string | null
+  role: $Enums.UserRole
+  status?: $Enums.UserStatus
+  companyId?: string | null
+  customerId?: string | null
+  buildingId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lastLoginAt?: Date | string | null
+  ownedUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutOwnerInput
+  residentUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutResidentInput
+  occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
+  infraAccess?: Prisma.InfraAccessUncheckedCreateNestedManyWithoutUserInput
+  companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
+  createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
+  createdMenuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCreatedByInput
+  createdAnnouncements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutCreatedByInput
+  employeeLinks?: Prisma.EmployeeUncheckedCreateNestedManyWithoutUserInput
+  reportedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutReportedByInput
+  assignedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutAssignedToInput
+  apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutUserInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutInfraKeyOfInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutInfraKeyOfInput, Prisma.UserUncheckedCreateWithoutInfraKeyOfInput>
+}
+
+export type UserUpsertWithoutInfraKeyOfInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutInfraKeyOfInput, Prisma.UserUncheckedUpdateWithoutInfraKeyOfInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutInfraKeyOfInput, Prisma.UserUncheckedCreateWithoutInfraKeyOfInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutInfraKeyOfInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutInfraKeyOfInput, Prisma.UserUncheckedUpdateWithoutInfraKeyOfInput>
+}
+
+export type UserUpdateWithoutInfraKeyOfInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  company?: Prisma.CompanyUpdateOneWithoutUsersNestedInput
+  customer?: Prisma.CustomerUpdateOneWithoutUsersNestedInput
+  building?: Prisma.BuildingUpdateOneWithoutUsersNestedInput
+  ownedUnits?: Prisma.UnitUpdateManyWithoutOwnerNestedInput
+  residentUnits?: Prisma.UnitUpdateManyWithoutResidentNestedInput
+  occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
+  infraAccess?: Prisma.InfraAccessUpdateManyWithoutUserNestedInput
+  companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
+  createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
+  createdMenuConfigs?: Prisma.MenuConfigUpdateManyWithoutCreatedByNestedInput
+  createdAnnouncements?: Prisma.AnnouncementUpdateManyWithoutCreatedByNestedInput
+  employeeLinks?: Prisma.EmployeeUpdateManyWithoutUserNestedInput
+  reportedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutReportedByNestedInput
+  assignedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutAssignedToNestedInput
+  apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutInfraKeyOfInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  ownedUnits?: Prisma.UnitUncheckedUpdateManyWithoutOwnerNestedInput
+  residentUnits?: Prisma.UnitUncheckedUpdateManyWithoutResidentNestedInput
+  occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
+  infraAccess?: Prisma.InfraAccessUncheckedUpdateManyWithoutUserNestedInput
+  companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
+  createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
+  createdMenuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCreatedByNestedInput
+  createdAnnouncements?: Prisma.AnnouncementUncheckedUpdateManyWithoutCreatedByNestedInput
+  employeeLinks?: Prisma.EmployeeUncheckedUpdateManyWithoutUserNestedInput
+  reportedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutReportedByNestedInput
+  assignedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutAssignedToNestedInput
+  apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutUserNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutInfraAccessInput = {
+  id?: string
+  email: string
+  name?: string | null
+  phone?: string | null
+  mobile?: string | null
+  passwordHash?: string | null
+  role: $Enums.UserRole
+  status?: $Enums.UserStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lastLoginAt?: Date | string | null
+  company?: Prisma.CompanyCreateNestedOneWithoutUsersInput
+  customer?: Prisma.CustomerCreateNestedOneWithoutUsersInput
+  building?: Prisma.BuildingCreateNestedOneWithoutUsersInput
+  ownedUnits?: Prisma.UnitCreateNestedManyWithoutOwnerInput
+  residentUnits?: Prisma.UnitCreateNestedManyWithoutResidentInput
+  occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
+  infraKeyOf?: Prisma.InfraPointCreateNestedManyWithoutKeyHolderUserInput
+  companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
+  createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
+  createdMenuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCreatedByInput
+  createdAnnouncements?: Prisma.AnnouncementCreateNestedManyWithoutCreatedByInput
+  employeeLinks?: Prisma.EmployeeCreateNestedManyWithoutUserInput
+  reportedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutReportedByInput
+  assignedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutAssignedToInput
+  apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
+  managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutInfraAccessInput = {
+  id?: string
+  email: string
+  name?: string | null
+  phone?: string | null
+  mobile?: string | null
+  passwordHash?: string | null
+  role: $Enums.UserRole
+  status?: $Enums.UserStatus
+  companyId?: string | null
+  customerId?: string | null
+  buildingId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lastLoginAt?: Date | string | null
+  ownedUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutOwnerInput
+  residentUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutResidentInput
+  occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
+  infraKeyOf?: Prisma.InfraPointUncheckedCreateNestedManyWithoutKeyHolderUserInput
+  companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
+  createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
+  createdMenuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCreatedByInput
+  createdAnnouncements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutCreatedByInput
+  employeeLinks?: Prisma.EmployeeUncheckedCreateNestedManyWithoutUserInput
+  reportedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutReportedByInput
+  assignedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutAssignedToInput
+  apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutUserInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutInfraAccessInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutInfraAccessInput, Prisma.UserUncheckedCreateWithoutInfraAccessInput>
+}
+
+export type UserUpsertWithoutInfraAccessInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutInfraAccessInput, Prisma.UserUncheckedUpdateWithoutInfraAccessInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutInfraAccessInput, Prisma.UserUncheckedCreateWithoutInfraAccessInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutInfraAccessInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutInfraAccessInput, Prisma.UserUncheckedUpdateWithoutInfraAccessInput>
+}
+
+export type UserUpdateWithoutInfraAccessInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  company?: Prisma.CompanyUpdateOneWithoutUsersNestedInput
+  customer?: Prisma.CustomerUpdateOneWithoutUsersNestedInput
+  building?: Prisma.BuildingUpdateOneWithoutUsersNestedInput
+  ownedUnits?: Prisma.UnitUpdateManyWithoutOwnerNestedInput
+  residentUnits?: Prisma.UnitUpdateManyWithoutResidentNestedInput
+  occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
+  infraKeyOf?: Prisma.InfraPointUpdateManyWithoutKeyHolderUserNestedInput
+  companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
+  createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
+  createdMenuConfigs?: Prisma.MenuConfigUpdateManyWithoutCreatedByNestedInput
+  createdAnnouncements?: Prisma.AnnouncementUpdateManyWithoutCreatedByNestedInput
+  employeeLinks?: Prisma.EmployeeUpdateManyWithoutUserNestedInput
+  reportedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutReportedByNestedInput
+  assignedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutAssignedToNestedInput
+  apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutInfraAccessInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  ownedUnits?: Prisma.UnitUncheckedUpdateManyWithoutOwnerNestedInput
+  residentUnits?: Prisma.UnitUncheckedUpdateManyWithoutResidentNestedInput
+  occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
+  infraKeyOf?: Prisma.InfraPointUncheckedUpdateManyWithoutKeyHolderUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -1967,6 +2351,8 @@ export type UserCreateWithoutManagementAssignmentsInput = {
   ownedUnits?: Prisma.UnitCreateNestedManyWithoutOwnerInput
   residentUnits?: Prisma.UnitCreateNestedManyWithoutResidentInput
   occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
+  infraKeyOf?: Prisma.InfraPointCreateNestedManyWithoutKeyHolderUserInput
+  infraAccess?: Prisma.InfraAccessCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCreatedByInput
@@ -1997,6 +2383,8 @@ export type UserUncheckedCreateWithoutManagementAssignmentsInput = {
   ownedUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutOwnerInput
   residentUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutResidentInput
   occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
+  infraKeyOf?: Prisma.InfraPointUncheckedCreateNestedManyWithoutKeyHolderUserInput
+  infraAccess?: Prisma.InfraAccessUncheckedCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCreatedByInput
@@ -2043,6 +2431,8 @@ export type UserUpdateWithoutManagementAssignmentsInput = {
   ownedUnits?: Prisma.UnitUpdateManyWithoutOwnerNestedInput
   residentUnits?: Prisma.UnitUpdateManyWithoutResidentNestedInput
   occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
+  infraKeyOf?: Prisma.InfraPointUpdateManyWithoutKeyHolderUserNestedInput
+  infraAccess?: Prisma.InfraAccessUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUpdateManyWithoutCreatedByNestedInput
@@ -2073,6 +2463,8 @@ export type UserUncheckedUpdateWithoutManagementAssignmentsInput = {
   ownedUnits?: Prisma.UnitUncheckedUpdateManyWithoutOwnerNestedInput
   residentUnits?: Prisma.UnitUncheckedUpdateManyWithoutResidentNestedInput
   occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
+  infraKeyOf?: Prisma.InfraPointUncheckedUpdateManyWithoutKeyHolderUserNestedInput
+  infraAccess?: Prisma.InfraAccessUncheckedUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -2102,6 +2494,8 @@ export type UserCreateWithoutOwnedUnitsInput = {
   building?: Prisma.BuildingCreateNestedOneWithoutUsersInput
   residentUnits?: Prisma.UnitCreateNestedManyWithoutResidentInput
   occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
+  infraKeyOf?: Prisma.InfraPointCreateNestedManyWithoutKeyHolderUserInput
+  infraAccess?: Prisma.InfraAccessCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCreatedByInput
@@ -2132,6 +2526,8 @@ export type UserUncheckedCreateWithoutOwnedUnitsInput = {
   lastLoginAt?: Date | string | null
   residentUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutResidentInput
   occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
+  infraKeyOf?: Prisma.InfraPointUncheckedCreateNestedManyWithoutKeyHolderUserInput
+  infraAccess?: Prisma.InfraAccessUncheckedCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCreatedByInput
@@ -2167,6 +2563,8 @@ export type UserCreateWithoutResidentUnitsInput = {
   building?: Prisma.BuildingCreateNestedOneWithoutUsersInput
   ownedUnits?: Prisma.UnitCreateNestedManyWithoutOwnerInput
   occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
+  infraKeyOf?: Prisma.InfraPointCreateNestedManyWithoutKeyHolderUserInput
+  infraAccess?: Prisma.InfraAccessCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCreatedByInput
@@ -2197,6 +2595,8 @@ export type UserUncheckedCreateWithoutResidentUnitsInput = {
   lastLoginAt?: Date | string | null
   ownedUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutOwnerInput
   occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
+  infraKeyOf?: Prisma.InfraPointUncheckedCreateNestedManyWithoutKeyHolderUserInput
+  infraAccess?: Prisma.InfraAccessUncheckedCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCreatedByInput
@@ -2243,6 +2643,8 @@ export type UserUpdateWithoutOwnedUnitsInput = {
   building?: Prisma.BuildingUpdateOneWithoutUsersNestedInput
   residentUnits?: Prisma.UnitUpdateManyWithoutResidentNestedInput
   occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
+  infraKeyOf?: Prisma.InfraPointUpdateManyWithoutKeyHolderUserNestedInput
+  infraAccess?: Prisma.InfraAccessUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUpdateManyWithoutCreatedByNestedInput
@@ -2273,6 +2675,8 @@ export type UserUncheckedUpdateWithoutOwnedUnitsInput = {
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   residentUnits?: Prisma.UnitUncheckedUpdateManyWithoutResidentNestedInput
   occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
+  infraKeyOf?: Prisma.InfraPointUncheckedUpdateManyWithoutKeyHolderUserNestedInput
+  infraAccess?: Prisma.InfraAccessUncheckedUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -2314,6 +2718,8 @@ export type UserUpdateWithoutResidentUnitsInput = {
   building?: Prisma.BuildingUpdateOneWithoutUsersNestedInput
   ownedUnits?: Prisma.UnitUpdateManyWithoutOwnerNestedInput
   occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
+  infraKeyOf?: Prisma.InfraPointUpdateManyWithoutKeyHolderUserNestedInput
+  infraAccess?: Prisma.InfraAccessUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUpdateManyWithoutCreatedByNestedInput
@@ -2344,6 +2750,8 @@ export type UserUncheckedUpdateWithoutResidentUnitsInput = {
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   ownedUnits?: Prisma.UnitUncheckedUpdateManyWithoutOwnerNestedInput
   occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
+  infraKeyOf?: Prisma.InfraPointUncheckedUpdateManyWithoutKeyHolderUserNestedInput
+  infraAccess?: Prisma.InfraAccessUncheckedUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -2375,6 +2783,8 @@ export type UserCreateWithoutCompanyRolesInput = {
   ownedUnits?: Prisma.UnitCreateNestedManyWithoutOwnerInput
   residentUnits?: Prisma.UnitCreateNestedManyWithoutResidentInput
   occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
+  infraKeyOf?: Prisma.InfraPointCreateNestedManyWithoutKeyHolderUserInput
+  infraAccess?: Prisma.InfraAccessCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCreatedByInput
   createdAnnouncements?: Prisma.AnnouncementCreateNestedManyWithoutCreatedByInput
@@ -2405,6 +2815,8 @@ export type UserUncheckedCreateWithoutCompanyRolesInput = {
   ownedUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutOwnerInput
   residentUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutResidentInput
   occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
+  infraKeyOf?: Prisma.InfraPointUncheckedCreateNestedManyWithoutKeyHolderUserInput
+  infraAccess?: Prisma.InfraAccessUncheckedCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCreatedByInput
   createdAnnouncements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutCreatedByInput
@@ -2451,6 +2863,8 @@ export type UserUpdateWithoutCompanyRolesInput = {
   ownedUnits?: Prisma.UnitUpdateManyWithoutOwnerNestedInput
   residentUnits?: Prisma.UnitUpdateManyWithoutResidentNestedInput
   occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
+  infraKeyOf?: Prisma.InfraPointUpdateManyWithoutKeyHolderUserNestedInput
+  infraAccess?: Prisma.InfraAccessUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUpdateManyWithoutCreatedByNestedInput
   createdAnnouncements?: Prisma.AnnouncementUpdateManyWithoutCreatedByNestedInput
@@ -2481,6 +2895,8 @@ export type UserUncheckedUpdateWithoutCompanyRolesInput = {
   ownedUnits?: Prisma.UnitUncheckedUpdateManyWithoutOwnerNestedInput
   residentUnits?: Prisma.UnitUncheckedUpdateManyWithoutResidentNestedInput
   occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
+  infraKeyOf?: Prisma.InfraPointUncheckedUpdateManyWithoutKeyHolderUserNestedInput
+  infraAccess?: Prisma.InfraAccessUncheckedUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCreatedByNestedInput
   createdAnnouncements?: Prisma.AnnouncementUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -2511,6 +2927,8 @@ export type UserCreateWithoutCreatedMenuConfigsInput = {
   ownedUnits?: Prisma.UnitCreateNestedManyWithoutOwnerInput
   residentUnits?: Prisma.UnitCreateNestedManyWithoutResidentInput
   occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
+  infraKeyOf?: Prisma.InfraPointCreateNestedManyWithoutKeyHolderUserInput
+  infraAccess?: Prisma.InfraAccessCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
   createdAnnouncements?: Prisma.AnnouncementCreateNestedManyWithoutCreatedByInput
@@ -2541,6 +2959,8 @@ export type UserUncheckedCreateWithoutCreatedMenuConfigsInput = {
   ownedUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutOwnerInput
   residentUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutResidentInput
   occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
+  infraKeyOf?: Prisma.InfraPointUncheckedCreateNestedManyWithoutKeyHolderUserInput
+  infraAccess?: Prisma.InfraAccessUncheckedCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
   createdAnnouncements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutCreatedByInput
@@ -2587,6 +3007,8 @@ export type UserUpdateWithoutCreatedMenuConfigsInput = {
   ownedUnits?: Prisma.UnitUpdateManyWithoutOwnerNestedInput
   residentUnits?: Prisma.UnitUpdateManyWithoutResidentNestedInput
   occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
+  infraKeyOf?: Prisma.InfraPointUpdateManyWithoutKeyHolderUserNestedInput
+  infraAccess?: Prisma.InfraAccessUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
   createdAnnouncements?: Prisma.AnnouncementUpdateManyWithoutCreatedByNestedInput
@@ -2617,6 +3039,8 @@ export type UserUncheckedUpdateWithoutCreatedMenuConfigsInput = {
   ownedUnits?: Prisma.UnitUncheckedUpdateManyWithoutOwnerNestedInput
   residentUnits?: Prisma.UnitUncheckedUpdateManyWithoutResidentNestedInput
   occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
+  infraKeyOf?: Prisma.InfraPointUncheckedUpdateManyWithoutKeyHolderUserNestedInput
+  infraAccess?: Prisma.InfraAccessUncheckedUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
   createdAnnouncements?: Prisma.AnnouncementUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -2647,6 +3071,8 @@ export type UserCreateWithoutCreatedAnnouncementsInput = {
   ownedUnits?: Prisma.UnitCreateNestedManyWithoutOwnerInput
   residentUnits?: Prisma.UnitCreateNestedManyWithoutResidentInput
   occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
+  infraKeyOf?: Prisma.InfraPointCreateNestedManyWithoutKeyHolderUserInput
+  infraAccess?: Prisma.InfraAccessCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCreatedByInput
@@ -2677,6 +3103,8 @@ export type UserUncheckedCreateWithoutCreatedAnnouncementsInput = {
   ownedUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutOwnerInput
   residentUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutResidentInput
   occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
+  infraKeyOf?: Prisma.InfraPointUncheckedCreateNestedManyWithoutKeyHolderUserInput
+  infraAccess?: Prisma.InfraAccessUncheckedCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCreatedByInput
@@ -2723,6 +3151,8 @@ export type UserUpdateWithoutCreatedAnnouncementsInput = {
   ownedUnits?: Prisma.UnitUpdateManyWithoutOwnerNestedInput
   residentUnits?: Prisma.UnitUpdateManyWithoutResidentNestedInput
   occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
+  infraKeyOf?: Prisma.InfraPointUpdateManyWithoutKeyHolderUserNestedInput
+  infraAccess?: Prisma.InfraAccessUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUpdateManyWithoutCreatedByNestedInput
@@ -2753,6 +3183,8 @@ export type UserUncheckedUpdateWithoutCreatedAnnouncementsInput = {
   ownedUnits?: Prisma.UnitUncheckedUpdateManyWithoutOwnerNestedInput
   residentUnits?: Prisma.UnitUncheckedUpdateManyWithoutResidentNestedInput
   occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
+  infraKeyOf?: Prisma.InfraPointUncheckedUpdateManyWithoutKeyHolderUserNestedInput
+  infraAccess?: Prisma.InfraAccessUncheckedUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -2783,6 +3215,8 @@ export type UserCreateWithoutApiUsageLogsInput = {
   ownedUnits?: Prisma.UnitCreateNestedManyWithoutOwnerInput
   residentUnits?: Prisma.UnitCreateNestedManyWithoutResidentInput
   occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
+  infraKeyOf?: Prisma.InfraPointCreateNestedManyWithoutKeyHolderUserInput
+  infraAccess?: Prisma.InfraAccessCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCreatedByInput
@@ -2813,6 +3247,8 @@ export type UserUncheckedCreateWithoutApiUsageLogsInput = {
   ownedUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutOwnerInput
   residentUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutResidentInput
   occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
+  infraKeyOf?: Prisma.InfraPointUncheckedCreateNestedManyWithoutKeyHolderUserInput
+  infraAccess?: Prisma.InfraAccessUncheckedCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCreatedByInput
@@ -2859,6 +3295,8 @@ export type UserUpdateWithoutApiUsageLogsInput = {
   ownedUnits?: Prisma.UnitUpdateManyWithoutOwnerNestedInput
   residentUnits?: Prisma.UnitUpdateManyWithoutResidentNestedInput
   occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
+  infraKeyOf?: Prisma.InfraPointUpdateManyWithoutKeyHolderUserNestedInput
+  infraAccess?: Prisma.InfraAccessUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUpdateManyWithoutCreatedByNestedInput
@@ -2889,6 +3327,8 @@ export type UserUncheckedUpdateWithoutApiUsageLogsInput = {
   ownedUnits?: Prisma.UnitUncheckedUpdateManyWithoutOwnerNestedInput
   residentUnits?: Prisma.UnitUncheckedUpdateManyWithoutResidentNestedInput
   occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
+  infraKeyOf?: Prisma.InfraPointUncheckedUpdateManyWithoutKeyHolderUserNestedInput
+  infraAccess?: Prisma.InfraAccessUncheckedUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -2919,6 +3359,8 @@ export type UserCreateWithoutReportedMaintenanceInput = {
   ownedUnits?: Prisma.UnitCreateNestedManyWithoutOwnerInput
   residentUnits?: Prisma.UnitCreateNestedManyWithoutResidentInput
   occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
+  infraKeyOf?: Prisma.InfraPointCreateNestedManyWithoutKeyHolderUserInput
+  infraAccess?: Prisma.InfraAccessCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCreatedByInput
@@ -2949,6 +3391,8 @@ export type UserUncheckedCreateWithoutReportedMaintenanceInput = {
   ownedUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutOwnerInput
   residentUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutResidentInput
   occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
+  infraKeyOf?: Prisma.InfraPointUncheckedCreateNestedManyWithoutKeyHolderUserInput
+  infraAccess?: Prisma.InfraAccessUncheckedCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCreatedByInput
@@ -2984,6 +3428,8 @@ export type UserCreateWithoutAssignedMaintenanceInput = {
   ownedUnits?: Prisma.UnitCreateNestedManyWithoutOwnerInput
   residentUnits?: Prisma.UnitCreateNestedManyWithoutResidentInput
   occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
+  infraKeyOf?: Prisma.InfraPointCreateNestedManyWithoutKeyHolderUserInput
+  infraAccess?: Prisma.InfraAccessCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCreatedByInput
@@ -3014,6 +3460,8 @@ export type UserUncheckedCreateWithoutAssignedMaintenanceInput = {
   ownedUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutOwnerInput
   residentUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutResidentInput
   occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
+  infraKeyOf?: Prisma.InfraPointUncheckedCreateNestedManyWithoutKeyHolderUserInput
+  infraAccess?: Prisma.InfraAccessUncheckedCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCreatedByInput
@@ -3060,6 +3508,8 @@ export type UserUpdateWithoutReportedMaintenanceInput = {
   ownedUnits?: Prisma.UnitUpdateManyWithoutOwnerNestedInput
   residentUnits?: Prisma.UnitUpdateManyWithoutResidentNestedInput
   occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
+  infraKeyOf?: Prisma.InfraPointUpdateManyWithoutKeyHolderUserNestedInput
+  infraAccess?: Prisma.InfraAccessUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUpdateManyWithoutCreatedByNestedInput
@@ -3090,6 +3540,8 @@ export type UserUncheckedUpdateWithoutReportedMaintenanceInput = {
   ownedUnits?: Prisma.UnitUncheckedUpdateManyWithoutOwnerNestedInput
   residentUnits?: Prisma.UnitUncheckedUpdateManyWithoutResidentNestedInput
   occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
+  infraKeyOf?: Prisma.InfraPointUncheckedUpdateManyWithoutKeyHolderUserNestedInput
+  infraAccess?: Prisma.InfraAccessUncheckedUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -3131,6 +3583,8 @@ export type UserUpdateWithoutAssignedMaintenanceInput = {
   ownedUnits?: Prisma.UnitUpdateManyWithoutOwnerNestedInput
   residentUnits?: Prisma.UnitUpdateManyWithoutResidentNestedInput
   occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
+  infraKeyOf?: Prisma.InfraPointUpdateManyWithoutKeyHolderUserNestedInput
+  infraAccess?: Prisma.InfraAccessUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUpdateManyWithoutCreatedByNestedInput
@@ -3161,6 +3615,8 @@ export type UserUncheckedUpdateWithoutAssignedMaintenanceInput = {
   ownedUnits?: Prisma.UnitUncheckedUpdateManyWithoutOwnerNestedInput
   residentUnits?: Prisma.UnitUncheckedUpdateManyWithoutResidentNestedInput
   occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
+  infraKeyOf?: Prisma.InfraPointUncheckedUpdateManyWithoutKeyHolderUserNestedInput
+  infraAccess?: Prisma.InfraAccessUncheckedUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -3206,6 +3662,8 @@ export type UserUpdateWithoutCompanyInput = {
   ownedUnits?: Prisma.UnitUpdateManyWithoutOwnerNestedInput
   residentUnits?: Prisma.UnitUpdateManyWithoutResidentNestedInput
   occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
+  infraKeyOf?: Prisma.InfraPointUpdateManyWithoutKeyHolderUserNestedInput
+  infraAccess?: Prisma.InfraAccessUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUpdateManyWithoutCreatedByNestedInput
@@ -3236,6 +3694,8 @@ export type UserUncheckedUpdateWithoutCompanyInput = {
   ownedUnits?: Prisma.UnitUncheckedUpdateManyWithoutOwnerNestedInput
   residentUnits?: Prisma.UnitUncheckedUpdateManyWithoutResidentNestedInput
   occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
+  infraKeyOf?: Prisma.InfraPointUncheckedUpdateManyWithoutKeyHolderUserNestedInput
+  infraAccess?: Prisma.InfraAccessUncheckedUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -3298,6 +3758,8 @@ export type UserUpdateWithoutCustomerInput = {
   ownedUnits?: Prisma.UnitUpdateManyWithoutOwnerNestedInput
   residentUnits?: Prisma.UnitUpdateManyWithoutResidentNestedInput
   occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
+  infraKeyOf?: Prisma.InfraPointUpdateManyWithoutKeyHolderUserNestedInput
+  infraAccess?: Prisma.InfraAccessUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUpdateManyWithoutCreatedByNestedInput
@@ -3328,6 +3790,8 @@ export type UserUncheckedUpdateWithoutCustomerInput = {
   ownedUnits?: Prisma.UnitUncheckedUpdateManyWithoutOwnerNestedInput
   residentUnits?: Prisma.UnitUncheckedUpdateManyWithoutResidentNestedInput
   occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
+  infraKeyOf?: Prisma.InfraPointUncheckedUpdateManyWithoutKeyHolderUserNestedInput
+  infraAccess?: Prisma.InfraAccessUncheckedUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -3390,6 +3854,8 @@ export type UserUpdateWithoutBuildingInput = {
   ownedUnits?: Prisma.UnitUpdateManyWithoutOwnerNestedInput
   residentUnits?: Prisma.UnitUpdateManyWithoutResidentNestedInput
   occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
+  infraKeyOf?: Prisma.InfraPointUpdateManyWithoutKeyHolderUserNestedInput
+  infraAccess?: Prisma.InfraAccessUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUpdateManyWithoutCreatedByNestedInput
@@ -3420,6 +3886,8 @@ export type UserUncheckedUpdateWithoutBuildingInput = {
   ownedUnits?: Prisma.UnitUncheckedUpdateManyWithoutOwnerNestedInput
   residentUnits?: Prisma.UnitUncheckedUpdateManyWithoutResidentNestedInput
   occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
+  infraKeyOf?: Prisma.InfraPointUncheckedUpdateManyWithoutKeyHolderUserNestedInput
+  infraAccess?: Prisma.InfraAccessUncheckedUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -3458,6 +3926,8 @@ export type UserCountOutputType = {
   ownedUnits: number
   residentUnits: number
   occupancies: number
+  infraKeyOf: number
+  infraAccess: number
   companyRoles: number
   createdCompanies: number
   createdMenuConfigs: number
@@ -3475,6 +3945,8 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   ownedUnits?: boolean | UserCountOutputTypeCountOwnedUnitsArgs
   residentUnits?: boolean | UserCountOutputTypeCountResidentUnitsArgs
   occupancies?: boolean | UserCountOutputTypeCountOccupanciesArgs
+  infraKeyOf?: boolean | UserCountOutputTypeCountInfraKeyOfArgs
+  infraAccess?: boolean | UserCountOutputTypeCountInfraAccessArgs
   companyRoles?: boolean | UserCountOutputTypeCountCompanyRolesArgs
   createdCompanies?: boolean | UserCountOutputTypeCountCreatedCompaniesArgs
   createdMenuConfigs?: boolean | UserCountOutputTypeCountCreatedMenuConfigsArgs
@@ -3517,6 +3989,20 @@ export type UserCountOutputTypeCountResidentUnitsArgs<ExtArgs extends runtime.Ty
  */
 export type UserCountOutputTypeCountOccupanciesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.UnitOccupancyWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountInfraKeyOfArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.InfraPointWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountInfraAccessArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.InfraAccessWhereInput
 }
 
 /**
@@ -3618,6 +4104,8 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   ownedUnits?: boolean | Prisma.User$ownedUnitsArgs<ExtArgs>
   residentUnits?: boolean | Prisma.User$residentUnitsArgs<ExtArgs>
   occupancies?: boolean | Prisma.User$occupanciesArgs<ExtArgs>
+  infraKeyOf?: boolean | Prisma.User$infraKeyOfArgs<ExtArgs>
+  infraAccess?: boolean | Prisma.User$infraAccessArgs<ExtArgs>
   companyRoles?: boolean | Prisma.User$companyRolesArgs<ExtArgs>
   createdCompanies?: boolean | Prisma.User$createdCompaniesArgs<ExtArgs>
   createdMenuConfigs?: boolean | Prisma.User$createdMenuConfigsArgs<ExtArgs>
@@ -3697,6 +4185,8 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   ownedUnits?: boolean | Prisma.User$ownedUnitsArgs<ExtArgs>
   residentUnits?: boolean | Prisma.User$residentUnitsArgs<ExtArgs>
   occupancies?: boolean | Prisma.User$occupanciesArgs<ExtArgs>
+  infraKeyOf?: boolean | Prisma.User$infraKeyOfArgs<ExtArgs>
+  infraAccess?: boolean | Prisma.User$infraAccessArgs<ExtArgs>
   companyRoles?: boolean | Prisma.User$companyRolesArgs<ExtArgs>
   createdCompanies?: boolean | Prisma.User$createdCompaniesArgs<ExtArgs>
   createdMenuConfigs?: boolean | Prisma.User$createdMenuConfigsArgs<ExtArgs>
@@ -3730,6 +4220,8 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     ownedUnits: Prisma.$UnitPayload<ExtArgs>[]
     residentUnits: Prisma.$UnitPayload<ExtArgs>[]
     occupancies: Prisma.$UnitOccupancyPayload<ExtArgs>[]
+    infraKeyOf: Prisma.$InfraPointPayload<ExtArgs>[]
+    infraAccess: Prisma.$InfraAccessPayload<ExtArgs>[]
     companyRoles: Prisma.$UserCompanyRolePayload<ExtArgs>[]
     createdCompanies: Prisma.$CompanyPayload<ExtArgs>[]
     createdMenuConfigs: Prisma.$MenuConfigPayload<ExtArgs>[]
@@ -4157,6 +4649,8 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   ownedUnits<T extends Prisma.User$ownedUnitsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$ownedUnitsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UnitPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   residentUnits<T extends Prisma.User$residentUnitsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$residentUnitsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UnitPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   occupancies<T extends Prisma.User$occupanciesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$occupanciesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UnitOccupancyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  infraKeyOf<T extends Prisma.User$infraKeyOfArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$infraKeyOfArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InfraPointPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  infraAccess<T extends Prisma.User$infraAccessArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$infraAccessArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InfraAccessPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   companyRoles<T extends Prisma.User$companyRolesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$companyRolesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserCompanyRolePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   createdCompanies<T extends Prisma.User$createdCompaniesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$createdCompaniesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   createdMenuConfigs<T extends Prisma.User$createdMenuConfigsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$createdMenuConfigsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MenuConfigPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -4738,6 +5232,54 @@ export type User$occupanciesArgs<ExtArgs extends runtime.Types.Extensions.Intern
   take?: number
   skip?: number
   distinct?: Prisma.UnitOccupancyScalarFieldEnum | Prisma.UnitOccupancyScalarFieldEnum[]
+}
+
+/**
+ * User.infraKeyOf
+ */
+export type User$infraKeyOfArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the InfraPoint
+   */
+  select?: Prisma.InfraPointSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the InfraPoint
+   */
+  omit?: Prisma.InfraPointOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.InfraPointInclude<ExtArgs> | null
+  where?: Prisma.InfraPointWhereInput
+  orderBy?: Prisma.InfraPointOrderByWithRelationInput | Prisma.InfraPointOrderByWithRelationInput[]
+  cursor?: Prisma.InfraPointWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.InfraPointScalarFieldEnum | Prisma.InfraPointScalarFieldEnum[]
+}
+
+/**
+ * User.infraAccess
+ */
+export type User$infraAccessArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the InfraAccess
+   */
+  select?: Prisma.InfraAccessSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the InfraAccess
+   */
+  omit?: Prisma.InfraAccessOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.InfraAccessInclude<ExtArgs> | null
+  where?: Prisma.InfraAccessWhereInput
+  orderBy?: Prisma.InfraAccessOrderByWithRelationInput | Prisma.InfraAccessOrderByWithRelationInput[]
+  cursor?: Prisma.InfraAccessWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.InfraAccessScalarFieldEnum | Prisma.InfraAccessScalarFieldEnum[]
 }
 
 /**

@@ -400,6 +400,8 @@ export const ModelName = {
   UnitOccupancy: 'UnitOccupancy',
   BuildingFile: 'BuildingFile',
   InfraPoint: 'InfraPoint',
+  InfraAccess: 'InfraAccess',
+  InfraMedia: 'InfraMedia',
   Contact: 'Contact',
   RecurringTask: 'RecurringTask',
   BuildingExpense: 'BuildingExpense',
@@ -440,7 +442,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "account" | "session" | "verificationToken" | "company" | "department" | "jobPosition" | "employee" | "subscription" | "addonFeature" | "customer" | "property" | "building" | "unitOccupancy" | "buildingFile" | "infraPoint" | "contact" | "recurringTask" | "buildingExpense" | "unitPayment" | "managementAssignment" | "commonArea" | "unit" | "service" | "propertyService" | "serviceInvoice" | "serviceInvoiceLine" | "userCompanyRole" | "menuConfig" | "announcement" | "announcement_User" | "aPIUsageLog" | "aPICostConfig" | "monthlyCostSummary" | "maintenanceRequest" | "cMSPage" | "fAQ" | "pricingTier" | "contactMessage" | "cookieConsent" | "appSettings"
+    modelProps: "user" | "account" | "session" | "verificationToken" | "company" | "department" | "jobPosition" | "employee" | "subscription" | "addonFeature" | "customer" | "property" | "building" | "unitOccupancy" | "buildingFile" | "infraPoint" | "infraAccess" | "infraMedia" | "contact" | "recurringTask" | "buildingExpense" | "unitPayment" | "managementAssignment" | "commonArea" | "unit" | "service" | "propertyService" | "serviceInvoice" | "serviceInvoiceLine" | "userCompanyRole" | "menuConfig" | "announcement" | "announcement_User" | "aPIUsageLog" | "aPICostConfig" | "monthlyCostSummary" | "maintenanceRequest" | "cMSPage" | "fAQ" | "pricingTier" | "contactMessage" | "cookieConsent" | "appSettings"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1625,6 +1627,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.InfraPointCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.InfraPointCountAggregateOutputType> | number
+        }
+      }
+    }
+    InfraAccess: {
+      payload: Prisma.$InfraAccessPayload<ExtArgs>
+      fields: Prisma.InfraAccessFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.InfraAccessFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InfraAccessPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.InfraAccessFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InfraAccessPayload>
+        }
+        findFirst: {
+          args: Prisma.InfraAccessFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InfraAccessPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.InfraAccessFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InfraAccessPayload>
+        }
+        findMany: {
+          args: Prisma.InfraAccessFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InfraAccessPayload>[]
+        }
+        create: {
+          args: Prisma.InfraAccessCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InfraAccessPayload>
+        }
+        createMany: {
+          args: Prisma.InfraAccessCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.InfraAccessCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InfraAccessPayload>[]
+        }
+        delete: {
+          args: Prisma.InfraAccessDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InfraAccessPayload>
+        }
+        update: {
+          args: Prisma.InfraAccessUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InfraAccessPayload>
+        }
+        deleteMany: {
+          args: Prisma.InfraAccessDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.InfraAccessUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.InfraAccessUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InfraAccessPayload>[]
+        }
+        upsert: {
+          args: Prisma.InfraAccessUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InfraAccessPayload>
+        }
+        aggregate: {
+          args: Prisma.InfraAccessAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateInfraAccess>
+        }
+        groupBy: {
+          args: Prisma.InfraAccessGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.InfraAccessGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.InfraAccessCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.InfraAccessCountAggregateOutputType> | number
+        }
+      }
+    }
+    InfraMedia: {
+      payload: Prisma.$InfraMediaPayload<ExtArgs>
+      fields: Prisma.InfraMediaFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.InfraMediaFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InfraMediaPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.InfraMediaFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InfraMediaPayload>
+        }
+        findFirst: {
+          args: Prisma.InfraMediaFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InfraMediaPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.InfraMediaFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InfraMediaPayload>
+        }
+        findMany: {
+          args: Prisma.InfraMediaFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InfraMediaPayload>[]
+        }
+        create: {
+          args: Prisma.InfraMediaCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InfraMediaPayload>
+        }
+        createMany: {
+          args: Prisma.InfraMediaCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.InfraMediaCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InfraMediaPayload>[]
+        }
+        delete: {
+          args: Prisma.InfraMediaDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InfraMediaPayload>
+        }
+        update: {
+          args: Prisma.InfraMediaUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InfraMediaPayload>
+        }
+        deleteMany: {
+          args: Prisma.InfraMediaDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.InfraMediaUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.InfraMediaUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InfraMediaPayload>[]
+        }
+        upsert: {
+          args: Prisma.InfraMediaUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$InfraMediaPayload>
+        }
+        aggregate: {
+          args: Prisma.InfraMediaAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateInfraMedia>
+        }
+        groupBy: {
+          args: Prisma.InfraMediaGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.InfraMediaGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.InfraMediaCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.InfraMediaCountAggregateOutputType> | number
         }
       }
     }
@@ -3855,11 +4005,34 @@ export const InfraPointScalarFieldEnum = {
   keyHolder: 'keyHolder',
   photoUrl: 'photoUrl',
   notes: 'notes',
+  keyHolderUserId: 'keyHolderUserId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type InfraPointScalarFieldEnum = (typeof InfraPointScalarFieldEnum)[keyof typeof InfraPointScalarFieldEnum]
+
+
+export const InfraAccessScalarFieldEnum = {
+  id: 'id',
+  infraPointId: 'infraPointId',
+  userId: 'userId'
+} as const
+
+export type InfraAccessScalarFieldEnum = (typeof InfraAccessScalarFieldEnum)[keyof typeof InfraAccessScalarFieldEnum]
+
+
+export const InfraMediaScalarFieldEnum = {
+  id: 'id',
+  infraPointId: 'infraPointId',
+  type: 'type',
+  url: 'url',
+  cdnPath: 'cdnPath',
+  name: 'name',
+  createdAt: 'createdAt'
+} as const
+
+export type InfraMediaScalarFieldEnum = (typeof InfraMediaScalarFieldEnum)[keyof typeof InfraMediaScalarFieldEnum]
 
 
 export const ContactScalarFieldEnum = {
@@ -4531,6 +4704,20 @@ export type ListEnumInfraTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$Pr
 
 
 /**
+ * Reference to a field of type 'InfraMediaType'
+ */
+export type EnumInfraMediaTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'InfraMediaType'>
+    
+
+
+/**
+ * Reference to a field of type 'InfraMediaType[]'
+ */
+export type ListEnumInfraMediaTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'InfraMediaType[]'>
+    
+
+
+/**
  * Reference to a field of type 'TaskFrequency'
  */
 export type EnumTaskFrequencyFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TaskFrequency'>
@@ -4753,6 +4940,8 @@ export type GlobalOmitConfig = {
   unitOccupancy?: Prisma.UnitOccupancyOmit
   buildingFile?: Prisma.BuildingFileOmit
   infraPoint?: Prisma.InfraPointOmit
+  infraAccess?: Prisma.InfraAccessOmit
+  infraMedia?: Prisma.InfraMediaOmit
   contact?: Prisma.ContactOmit
   recurringTask?: Prisma.RecurringTaskOmit
   buildingExpense?: Prisma.BuildingExpenseOmit

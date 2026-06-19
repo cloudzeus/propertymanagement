@@ -36,6 +36,7 @@ export type InfraPointMinAggregateOutputType = {
   keyHolder: string | null
   photoUrl: string | null
   notes: string | null
+  keyHolderUserId: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -52,6 +53,7 @@ export type InfraPointMaxAggregateOutputType = {
   keyHolder: string | null
   photoUrl: string | null
   notes: string | null
+  keyHolderUserId: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -68,6 +70,7 @@ export type InfraPointCountAggregateOutputType = {
   keyHolder: number
   photoUrl: number
   notes: number
+  keyHolderUserId: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -86,6 +89,7 @@ export type InfraPointMinAggregateInputType = {
   keyHolder?: true
   photoUrl?: true
   notes?: true
+  keyHolderUserId?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -102,6 +106,7 @@ export type InfraPointMaxAggregateInputType = {
   keyHolder?: true
   photoUrl?: true
   notes?: true
+  keyHolderUserId?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -118,6 +123,7 @@ export type InfraPointCountAggregateInputType = {
   keyHolder?: true
   photoUrl?: true
   notes?: true
+  keyHolderUserId?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -207,6 +213,7 @@ export type InfraPointGroupByOutputType = {
   keyHolder: string | null
   photoUrl: string | null
   notes: string | null
+  keyHolderUserId: string | null
   createdAt: Date
   updatedAt: Date
   _count: InfraPointCountAggregateOutputType | null
@@ -244,9 +251,13 @@ export type InfraPointWhereInput = {
   keyHolder?: Prisma.StringNullableFilter<"InfraPoint"> | string | null
   photoUrl?: Prisma.StringNullableFilter<"InfraPoint"> | string | null
   notes?: Prisma.StringNullableFilter<"InfraPoint"> | string | null
+  keyHolderUserId?: Prisma.StringNullableFilter<"InfraPoint"> | string | null
   createdAt?: Prisma.DateTimeFilter<"InfraPoint"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"InfraPoint"> | Date | string
   building?: Prisma.XOR<Prisma.BuildingScalarRelationFilter, Prisma.BuildingWhereInput>
+  keyHolderUser?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  access?: Prisma.InfraAccessListRelationFilter
+  media?: Prisma.InfraMediaListRelationFilter
 }
 
 export type InfraPointOrderByWithRelationInput = {
@@ -261,9 +272,13 @@ export type InfraPointOrderByWithRelationInput = {
   keyHolder?: Prisma.SortOrderInput | Prisma.SortOrder
   photoUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
+  keyHolderUserId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   building?: Prisma.BuildingOrderByWithRelationInput
+  keyHolderUser?: Prisma.UserOrderByWithRelationInput
+  access?: Prisma.InfraAccessOrderByRelationAggregateInput
+  media?: Prisma.InfraMediaOrderByRelationAggregateInput
 }
 
 export type InfraPointWhereUniqueInput = Prisma.AtLeast<{
@@ -281,9 +296,13 @@ export type InfraPointWhereUniqueInput = Prisma.AtLeast<{
   keyHolder?: Prisma.StringNullableFilter<"InfraPoint"> | string | null
   photoUrl?: Prisma.StringNullableFilter<"InfraPoint"> | string | null
   notes?: Prisma.StringNullableFilter<"InfraPoint"> | string | null
+  keyHolderUserId?: Prisma.StringNullableFilter<"InfraPoint"> | string | null
   createdAt?: Prisma.DateTimeFilter<"InfraPoint"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"InfraPoint"> | Date | string
   building?: Prisma.XOR<Prisma.BuildingScalarRelationFilter, Prisma.BuildingWhereInput>
+  keyHolderUser?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  access?: Prisma.InfraAccessListRelationFilter
+  media?: Prisma.InfraMediaListRelationFilter
 }, "id">
 
 export type InfraPointOrderByWithAggregationInput = {
@@ -298,6 +317,7 @@ export type InfraPointOrderByWithAggregationInput = {
   keyHolder?: Prisma.SortOrderInput | Prisma.SortOrder
   photoUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
+  keyHolderUserId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.InfraPointCountOrderByAggregateInput
@@ -320,6 +340,7 @@ export type InfraPointScalarWhereWithAggregatesInput = {
   keyHolder?: Prisma.StringNullableWithAggregatesFilter<"InfraPoint"> | string | null
   photoUrl?: Prisma.StringNullableWithAggregatesFilter<"InfraPoint"> | string | null
   notes?: Prisma.StringNullableWithAggregatesFilter<"InfraPoint"> | string | null
+  keyHolderUserId?: Prisma.StringNullableWithAggregatesFilter<"InfraPoint"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"InfraPoint"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"InfraPoint"> | Date | string
 }
@@ -338,6 +359,9 @@ export type InfraPointCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   building: Prisma.BuildingCreateNestedOneWithoutInfraPointsInput
+  keyHolderUser?: Prisma.UserCreateNestedOneWithoutInfraKeyOfInput
+  access?: Prisma.InfraAccessCreateNestedManyWithoutInfraPointInput
+  media?: Prisma.InfraMediaCreateNestedManyWithoutInfraPointInput
 }
 
 export type InfraPointUncheckedCreateInput = {
@@ -352,8 +376,11 @@ export type InfraPointUncheckedCreateInput = {
   keyHolder?: string | null
   photoUrl?: string | null
   notes?: string | null
+  keyHolderUserId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  access?: Prisma.InfraAccessUncheckedCreateNestedManyWithoutInfraPointInput
+  media?: Prisma.InfraMediaUncheckedCreateNestedManyWithoutInfraPointInput
 }
 
 export type InfraPointUpdateInput = {
@@ -370,6 +397,9 @@ export type InfraPointUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   building?: Prisma.BuildingUpdateOneRequiredWithoutInfraPointsNestedInput
+  keyHolderUser?: Prisma.UserUpdateOneWithoutInfraKeyOfNestedInput
+  access?: Prisma.InfraAccessUpdateManyWithoutInfraPointNestedInput
+  media?: Prisma.InfraMediaUpdateManyWithoutInfraPointNestedInput
 }
 
 export type InfraPointUncheckedUpdateInput = {
@@ -384,8 +414,11 @@ export type InfraPointUncheckedUpdateInput = {
   keyHolder?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keyHolderUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  access?: Prisma.InfraAccessUncheckedUpdateManyWithoutInfraPointNestedInput
+  media?: Prisma.InfraMediaUncheckedUpdateManyWithoutInfraPointNestedInput
 }
 
 export type InfraPointCreateManyInput = {
@@ -400,6 +433,7 @@ export type InfraPointCreateManyInput = {
   keyHolder?: string | null
   photoUrl?: string | null
   notes?: string | null
+  keyHolderUserId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -431,6 +465,7 @@ export type InfraPointUncheckedUpdateManyInput = {
   keyHolder?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keyHolderUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -457,6 +492,7 @@ export type InfraPointCountOrderByAggregateInput = {
   keyHolder?: Prisma.SortOrder
   photoUrl?: Prisma.SortOrder
   notes?: Prisma.SortOrder
+  keyHolderUserId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -473,6 +509,7 @@ export type InfraPointMaxOrderByAggregateInput = {
   keyHolder?: Prisma.SortOrder
   photoUrl?: Prisma.SortOrder
   notes?: Prisma.SortOrder
+  keyHolderUserId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -489,8 +526,56 @@ export type InfraPointMinOrderByAggregateInput = {
   keyHolder?: Prisma.SortOrder
   photoUrl?: Prisma.SortOrder
   notes?: Prisma.SortOrder
+  keyHolderUserId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type InfraPointScalarRelationFilter = {
+  is?: Prisma.InfraPointWhereInput
+  isNot?: Prisma.InfraPointWhereInput
+}
+
+export type InfraPointCreateNestedManyWithoutKeyHolderUserInput = {
+  create?: Prisma.XOR<Prisma.InfraPointCreateWithoutKeyHolderUserInput, Prisma.InfraPointUncheckedCreateWithoutKeyHolderUserInput> | Prisma.InfraPointCreateWithoutKeyHolderUserInput[] | Prisma.InfraPointUncheckedCreateWithoutKeyHolderUserInput[]
+  connectOrCreate?: Prisma.InfraPointCreateOrConnectWithoutKeyHolderUserInput | Prisma.InfraPointCreateOrConnectWithoutKeyHolderUserInput[]
+  createMany?: Prisma.InfraPointCreateManyKeyHolderUserInputEnvelope
+  connect?: Prisma.InfraPointWhereUniqueInput | Prisma.InfraPointWhereUniqueInput[]
+}
+
+export type InfraPointUncheckedCreateNestedManyWithoutKeyHolderUserInput = {
+  create?: Prisma.XOR<Prisma.InfraPointCreateWithoutKeyHolderUserInput, Prisma.InfraPointUncheckedCreateWithoutKeyHolderUserInput> | Prisma.InfraPointCreateWithoutKeyHolderUserInput[] | Prisma.InfraPointUncheckedCreateWithoutKeyHolderUserInput[]
+  connectOrCreate?: Prisma.InfraPointCreateOrConnectWithoutKeyHolderUserInput | Prisma.InfraPointCreateOrConnectWithoutKeyHolderUserInput[]
+  createMany?: Prisma.InfraPointCreateManyKeyHolderUserInputEnvelope
+  connect?: Prisma.InfraPointWhereUniqueInput | Prisma.InfraPointWhereUniqueInput[]
+}
+
+export type InfraPointUpdateManyWithoutKeyHolderUserNestedInput = {
+  create?: Prisma.XOR<Prisma.InfraPointCreateWithoutKeyHolderUserInput, Prisma.InfraPointUncheckedCreateWithoutKeyHolderUserInput> | Prisma.InfraPointCreateWithoutKeyHolderUserInput[] | Prisma.InfraPointUncheckedCreateWithoutKeyHolderUserInput[]
+  connectOrCreate?: Prisma.InfraPointCreateOrConnectWithoutKeyHolderUserInput | Prisma.InfraPointCreateOrConnectWithoutKeyHolderUserInput[]
+  upsert?: Prisma.InfraPointUpsertWithWhereUniqueWithoutKeyHolderUserInput | Prisma.InfraPointUpsertWithWhereUniqueWithoutKeyHolderUserInput[]
+  createMany?: Prisma.InfraPointCreateManyKeyHolderUserInputEnvelope
+  set?: Prisma.InfraPointWhereUniqueInput | Prisma.InfraPointWhereUniqueInput[]
+  disconnect?: Prisma.InfraPointWhereUniqueInput | Prisma.InfraPointWhereUniqueInput[]
+  delete?: Prisma.InfraPointWhereUniqueInput | Prisma.InfraPointWhereUniqueInput[]
+  connect?: Prisma.InfraPointWhereUniqueInput | Prisma.InfraPointWhereUniqueInput[]
+  update?: Prisma.InfraPointUpdateWithWhereUniqueWithoutKeyHolderUserInput | Prisma.InfraPointUpdateWithWhereUniqueWithoutKeyHolderUserInput[]
+  updateMany?: Prisma.InfraPointUpdateManyWithWhereWithoutKeyHolderUserInput | Prisma.InfraPointUpdateManyWithWhereWithoutKeyHolderUserInput[]
+  deleteMany?: Prisma.InfraPointScalarWhereInput | Prisma.InfraPointScalarWhereInput[]
+}
+
+export type InfraPointUncheckedUpdateManyWithoutKeyHolderUserNestedInput = {
+  create?: Prisma.XOR<Prisma.InfraPointCreateWithoutKeyHolderUserInput, Prisma.InfraPointUncheckedCreateWithoutKeyHolderUserInput> | Prisma.InfraPointCreateWithoutKeyHolderUserInput[] | Prisma.InfraPointUncheckedCreateWithoutKeyHolderUserInput[]
+  connectOrCreate?: Prisma.InfraPointCreateOrConnectWithoutKeyHolderUserInput | Prisma.InfraPointCreateOrConnectWithoutKeyHolderUserInput[]
+  upsert?: Prisma.InfraPointUpsertWithWhereUniqueWithoutKeyHolderUserInput | Prisma.InfraPointUpsertWithWhereUniqueWithoutKeyHolderUserInput[]
+  createMany?: Prisma.InfraPointCreateManyKeyHolderUserInputEnvelope
+  set?: Prisma.InfraPointWhereUniqueInput | Prisma.InfraPointWhereUniqueInput[]
+  disconnect?: Prisma.InfraPointWhereUniqueInput | Prisma.InfraPointWhereUniqueInput[]
+  delete?: Prisma.InfraPointWhereUniqueInput | Prisma.InfraPointWhereUniqueInput[]
+  connect?: Prisma.InfraPointWhereUniqueInput | Prisma.InfraPointWhereUniqueInput[]
+  update?: Prisma.InfraPointUpdateWithWhereUniqueWithoutKeyHolderUserInput | Prisma.InfraPointUpdateWithWhereUniqueWithoutKeyHolderUserInput[]
+  updateMany?: Prisma.InfraPointUpdateManyWithWhereWithoutKeyHolderUserInput | Prisma.InfraPointUpdateManyWithWhereWithoutKeyHolderUserInput[]
+  deleteMany?: Prisma.InfraPointScalarWhereInput | Prisma.InfraPointScalarWhereInput[]
 }
 
 export type InfraPointCreateNestedManyWithoutBuildingInput = {
@@ -539,6 +624,116 @@ export type EnumInfraTypeFieldUpdateOperationsInput = {
   set?: $Enums.InfraType
 }
 
+export type InfraPointCreateNestedOneWithoutAccessInput = {
+  create?: Prisma.XOR<Prisma.InfraPointCreateWithoutAccessInput, Prisma.InfraPointUncheckedCreateWithoutAccessInput>
+  connectOrCreate?: Prisma.InfraPointCreateOrConnectWithoutAccessInput
+  connect?: Prisma.InfraPointWhereUniqueInput
+}
+
+export type InfraPointUpdateOneRequiredWithoutAccessNestedInput = {
+  create?: Prisma.XOR<Prisma.InfraPointCreateWithoutAccessInput, Prisma.InfraPointUncheckedCreateWithoutAccessInput>
+  connectOrCreate?: Prisma.InfraPointCreateOrConnectWithoutAccessInput
+  upsert?: Prisma.InfraPointUpsertWithoutAccessInput
+  connect?: Prisma.InfraPointWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.InfraPointUpdateToOneWithWhereWithoutAccessInput, Prisma.InfraPointUpdateWithoutAccessInput>, Prisma.InfraPointUncheckedUpdateWithoutAccessInput>
+}
+
+export type InfraPointCreateNestedOneWithoutMediaInput = {
+  create?: Prisma.XOR<Prisma.InfraPointCreateWithoutMediaInput, Prisma.InfraPointUncheckedCreateWithoutMediaInput>
+  connectOrCreate?: Prisma.InfraPointCreateOrConnectWithoutMediaInput
+  connect?: Prisma.InfraPointWhereUniqueInput
+}
+
+export type InfraPointUpdateOneRequiredWithoutMediaNestedInput = {
+  create?: Prisma.XOR<Prisma.InfraPointCreateWithoutMediaInput, Prisma.InfraPointUncheckedCreateWithoutMediaInput>
+  connectOrCreate?: Prisma.InfraPointCreateOrConnectWithoutMediaInput
+  upsert?: Prisma.InfraPointUpsertWithoutMediaInput
+  connect?: Prisma.InfraPointWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.InfraPointUpdateToOneWithWhereWithoutMediaInput, Prisma.InfraPointUpdateWithoutMediaInput>, Prisma.InfraPointUncheckedUpdateWithoutMediaInput>
+}
+
+export type InfraPointCreateWithoutKeyHolderUserInput = {
+  id?: string
+  name: string
+  type?: $Enums.InfraType
+  floorLabel?: string | null
+  location?: string | null
+  locked?: boolean
+  accessNotes?: string | null
+  keyHolder?: string | null
+  photoUrl?: string | null
+  notes?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  building: Prisma.BuildingCreateNestedOneWithoutInfraPointsInput
+  access?: Prisma.InfraAccessCreateNestedManyWithoutInfraPointInput
+  media?: Prisma.InfraMediaCreateNestedManyWithoutInfraPointInput
+}
+
+export type InfraPointUncheckedCreateWithoutKeyHolderUserInput = {
+  id?: string
+  buildingId: string
+  name: string
+  type?: $Enums.InfraType
+  floorLabel?: string | null
+  location?: string | null
+  locked?: boolean
+  accessNotes?: string | null
+  keyHolder?: string | null
+  photoUrl?: string | null
+  notes?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  access?: Prisma.InfraAccessUncheckedCreateNestedManyWithoutInfraPointInput
+  media?: Prisma.InfraMediaUncheckedCreateNestedManyWithoutInfraPointInput
+}
+
+export type InfraPointCreateOrConnectWithoutKeyHolderUserInput = {
+  where: Prisma.InfraPointWhereUniqueInput
+  create: Prisma.XOR<Prisma.InfraPointCreateWithoutKeyHolderUserInput, Prisma.InfraPointUncheckedCreateWithoutKeyHolderUserInput>
+}
+
+export type InfraPointCreateManyKeyHolderUserInputEnvelope = {
+  data: Prisma.InfraPointCreateManyKeyHolderUserInput | Prisma.InfraPointCreateManyKeyHolderUserInput[]
+  skipDuplicates?: boolean
+}
+
+export type InfraPointUpsertWithWhereUniqueWithoutKeyHolderUserInput = {
+  where: Prisma.InfraPointWhereUniqueInput
+  update: Prisma.XOR<Prisma.InfraPointUpdateWithoutKeyHolderUserInput, Prisma.InfraPointUncheckedUpdateWithoutKeyHolderUserInput>
+  create: Prisma.XOR<Prisma.InfraPointCreateWithoutKeyHolderUserInput, Prisma.InfraPointUncheckedCreateWithoutKeyHolderUserInput>
+}
+
+export type InfraPointUpdateWithWhereUniqueWithoutKeyHolderUserInput = {
+  where: Prisma.InfraPointWhereUniqueInput
+  data: Prisma.XOR<Prisma.InfraPointUpdateWithoutKeyHolderUserInput, Prisma.InfraPointUncheckedUpdateWithoutKeyHolderUserInput>
+}
+
+export type InfraPointUpdateManyWithWhereWithoutKeyHolderUserInput = {
+  where: Prisma.InfraPointScalarWhereInput
+  data: Prisma.XOR<Prisma.InfraPointUpdateManyMutationInput, Prisma.InfraPointUncheckedUpdateManyWithoutKeyHolderUserInput>
+}
+
+export type InfraPointScalarWhereInput = {
+  AND?: Prisma.InfraPointScalarWhereInput | Prisma.InfraPointScalarWhereInput[]
+  OR?: Prisma.InfraPointScalarWhereInput[]
+  NOT?: Prisma.InfraPointScalarWhereInput | Prisma.InfraPointScalarWhereInput[]
+  id?: Prisma.StringFilter<"InfraPoint"> | string
+  buildingId?: Prisma.StringFilter<"InfraPoint"> | string
+  name?: Prisma.StringFilter<"InfraPoint"> | string
+  type?: Prisma.EnumInfraTypeFilter<"InfraPoint"> | $Enums.InfraType
+  floorLabel?: Prisma.StringNullableFilter<"InfraPoint"> | string | null
+  location?: Prisma.StringNullableFilter<"InfraPoint"> | string | null
+  locked?: Prisma.BoolFilter<"InfraPoint"> | boolean
+  accessNotes?: Prisma.StringNullableFilter<"InfraPoint"> | string | null
+  keyHolder?: Prisma.StringNullableFilter<"InfraPoint"> | string | null
+  photoUrl?: Prisma.StringNullableFilter<"InfraPoint"> | string | null
+  notes?: Prisma.StringNullableFilter<"InfraPoint"> | string | null
+  keyHolderUserId?: Prisma.StringNullableFilter<"InfraPoint"> | string | null
+  createdAt?: Prisma.DateTimeFilter<"InfraPoint"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"InfraPoint"> | Date | string
+}
+
 export type InfraPointCreateWithoutBuildingInput = {
   id?: string
   name: string
@@ -552,6 +747,9 @@ export type InfraPointCreateWithoutBuildingInput = {
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  keyHolderUser?: Prisma.UserCreateNestedOneWithoutInfraKeyOfInput
+  access?: Prisma.InfraAccessCreateNestedManyWithoutInfraPointInput
+  media?: Prisma.InfraMediaCreateNestedManyWithoutInfraPointInput
 }
 
 export type InfraPointUncheckedCreateWithoutBuildingInput = {
@@ -565,8 +763,11 @@ export type InfraPointUncheckedCreateWithoutBuildingInput = {
   keyHolder?: string | null
   photoUrl?: string | null
   notes?: string | null
+  keyHolderUserId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  access?: Prisma.InfraAccessUncheckedCreateNestedManyWithoutInfraPointInput
+  media?: Prisma.InfraMediaUncheckedCreateNestedManyWithoutInfraPointInput
 }
 
 export type InfraPointCreateOrConnectWithoutBuildingInput = {
@@ -595,23 +796,248 @@ export type InfraPointUpdateManyWithWhereWithoutBuildingInput = {
   data: Prisma.XOR<Prisma.InfraPointUpdateManyMutationInput, Prisma.InfraPointUncheckedUpdateManyWithoutBuildingInput>
 }
 
-export type InfraPointScalarWhereInput = {
-  AND?: Prisma.InfraPointScalarWhereInput | Prisma.InfraPointScalarWhereInput[]
-  OR?: Prisma.InfraPointScalarWhereInput[]
-  NOT?: Prisma.InfraPointScalarWhereInput | Prisma.InfraPointScalarWhereInput[]
-  id?: Prisma.StringFilter<"InfraPoint"> | string
-  buildingId?: Prisma.StringFilter<"InfraPoint"> | string
-  name?: Prisma.StringFilter<"InfraPoint"> | string
-  type?: Prisma.EnumInfraTypeFilter<"InfraPoint"> | $Enums.InfraType
-  floorLabel?: Prisma.StringNullableFilter<"InfraPoint"> | string | null
-  location?: Prisma.StringNullableFilter<"InfraPoint"> | string | null
-  locked?: Prisma.BoolFilter<"InfraPoint"> | boolean
-  accessNotes?: Prisma.StringNullableFilter<"InfraPoint"> | string | null
-  keyHolder?: Prisma.StringNullableFilter<"InfraPoint"> | string | null
-  photoUrl?: Prisma.StringNullableFilter<"InfraPoint"> | string | null
-  notes?: Prisma.StringNullableFilter<"InfraPoint"> | string | null
-  createdAt?: Prisma.DateTimeFilter<"InfraPoint"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"InfraPoint"> | Date | string
+export type InfraPointCreateWithoutAccessInput = {
+  id?: string
+  name: string
+  type?: $Enums.InfraType
+  floorLabel?: string | null
+  location?: string | null
+  locked?: boolean
+  accessNotes?: string | null
+  keyHolder?: string | null
+  photoUrl?: string | null
+  notes?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  building: Prisma.BuildingCreateNestedOneWithoutInfraPointsInput
+  keyHolderUser?: Prisma.UserCreateNestedOneWithoutInfraKeyOfInput
+  media?: Prisma.InfraMediaCreateNestedManyWithoutInfraPointInput
+}
+
+export type InfraPointUncheckedCreateWithoutAccessInput = {
+  id?: string
+  buildingId: string
+  name: string
+  type?: $Enums.InfraType
+  floorLabel?: string | null
+  location?: string | null
+  locked?: boolean
+  accessNotes?: string | null
+  keyHolder?: string | null
+  photoUrl?: string | null
+  notes?: string | null
+  keyHolderUserId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  media?: Prisma.InfraMediaUncheckedCreateNestedManyWithoutInfraPointInput
+}
+
+export type InfraPointCreateOrConnectWithoutAccessInput = {
+  where: Prisma.InfraPointWhereUniqueInput
+  create: Prisma.XOR<Prisma.InfraPointCreateWithoutAccessInput, Prisma.InfraPointUncheckedCreateWithoutAccessInput>
+}
+
+export type InfraPointUpsertWithoutAccessInput = {
+  update: Prisma.XOR<Prisma.InfraPointUpdateWithoutAccessInput, Prisma.InfraPointUncheckedUpdateWithoutAccessInput>
+  create: Prisma.XOR<Prisma.InfraPointCreateWithoutAccessInput, Prisma.InfraPointUncheckedCreateWithoutAccessInput>
+  where?: Prisma.InfraPointWhereInput
+}
+
+export type InfraPointUpdateToOneWithWhereWithoutAccessInput = {
+  where?: Prisma.InfraPointWhereInput
+  data: Prisma.XOR<Prisma.InfraPointUpdateWithoutAccessInput, Prisma.InfraPointUncheckedUpdateWithoutAccessInput>
+}
+
+export type InfraPointUpdateWithoutAccessInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumInfraTypeFieldUpdateOperationsInput | $Enums.InfraType
+  floorLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  accessNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keyHolder?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  building?: Prisma.BuildingUpdateOneRequiredWithoutInfraPointsNestedInput
+  keyHolderUser?: Prisma.UserUpdateOneWithoutInfraKeyOfNestedInput
+  media?: Prisma.InfraMediaUpdateManyWithoutInfraPointNestedInput
+}
+
+export type InfraPointUncheckedUpdateWithoutAccessInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  buildingId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumInfraTypeFieldUpdateOperationsInput | $Enums.InfraType
+  floorLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  accessNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keyHolder?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keyHolderUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  media?: Prisma.InfraMediaUncheckedUpdateManyWithoutInfraPointNestedInput
+}
+
+export type InfraPointCreateWithoutMediaInput = {
+  id?: string
+  name: string
+  type?: $Enums.InfraType
+  floorLabel?: string | null
+  location?: string | null
+  locked?: boolean
+  accessNotes?: string | null
+  keyHolder?: string | null
+  photoUrl?: string | null
+  notes?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  building: Prisma.BuildingCreateNestedOneWithoutInfraPointsInput
+  keyHolderUser?: Prisma.UserCreateNestedOneWithoutInfraKeyOfInput
+  access?: Prisma.InfraAccessCreateNestedManyWithoutInfraPointInput
+}
+
+export type InfraPointUncheckedCreateWithoutMediaInput = {
+  id?: string
+  buildingId: string
+  name: string
+  type?: $Enums.InfraType
+  floorLabel?: string | null
+  location?: string | null
+  locked?: boolean
+  accessNotes?: string | null
+  keyHolder?: string | null
+  photoUrl?: string | null
+  notes?: string | null
+  keyHolderUserId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  access?: Prisma.InfraAccessUncheckedCreateNestedManyWithoutInfraPointInput
+}
+
+export type InfraPointCreateOrConnectWithoutMediaInput = {
+  where: Prisma.InfraPointWhereUniqueInput
+  create: Prisma.XOR<Prisma.InfraPointCreateWithoutMediaInput, Prisma.InfraPointUncheckedCreateWithoutMediaInput>
+}
+
+export type InfraPointUpsertWithoutMediaInput = {
+  update: Prisma.XOR<Prisma.InfraPointUpdateWithoutMediaInput, Prisma.InfraPointUncheckedUpdateWithoutMediaInput>
+  create: Prisma.XOR<Prisma.InfraPointCreateWithoutMediaInput, Prisma.InfraPointUncheckedCreateWithoutMediaInput>
+  where?: Prisma.InfraPointWhereInput
+}
+
+export type InfraPointUpdateToOneWithWhereWithoutMediaInput = {
+  where?: Prisma.InfraPointWhereInput
+  data: Prisma.XOR<Prisma.InfraPointUpdateWithoutMediaInput, Prisma.InfraPointUncheckedUpdateWithoutMediaInput>
+}
+
+export type InfraPointUpdateWithoutMediaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumInfraTypeFieldUpdateOperationsInput | $Enums.InfraType
+  floorLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  accessNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keyHolder?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  building?: Prisma.BuildingUpdateOneRequiredWithoutInfraPointsNestedInput
+  keyHolderUser?: Prisma.UserUpdateOneWithoutInfraKeyOfNestedInput
+  access?: Prisma.InfraAccessUpdateManyWithoutInfraPointNestedInput
+}
+
+export type InfraPointUncheckedUpdateWithoutMediaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  buildingId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumInfraTypeFieldUpdateOperationsInput | $Enums.InfraType
+  floorLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  accessNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keyHolder?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keyHolderUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  access?: Prisma.InfraAccessUncheckedUpdateManyWithoutInfraPointNestedInput
+}
+
+export type InfraPointCreateManyKeyHolderUserInput = {
+  id?: string
+  buildingId: string
+  name: string
+  type?: $Enums.InfraType
+  floorLabel?: string | null
+  location?: string | null
+  locked?: boolean
+  accessNotes?: string | null
+  keyHolder?: string | null
+  photoUrl?: string | null
+  notes?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type InfraPointUpdateWithoutKeyHolderUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumInfraTypeFieldUpdateOperationsInput | $Enums.InfraType
+  floorLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  accessNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keyHolder?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  building?: Prisma.BuildingUpdateOneRequiredWithoutInfraPointsNestedInput
+  access?: Prisma.InfraAccessUpdateManyWithoutInfraPointNestedInput
+  media?: Prisma.InfraMediaUpdateManyWithoutInfraPointNestedInput
+}
+
+export type InfraPointUncheckedUpdateWithoutKeyHolderUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  buildingId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumInfraTypeFieldUpdateOperationsInput | $Enums.InfraType
+  floorLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  accessNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keyHolder?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  access?: Prisma.InfraAccessUncheckedUpdateManyWithoutInfraPointNestedInput
+  media?: Prisma.InfraMediaUncheckedUpdateManyWithoutInfraPointNestedInput
+}
+
+export type InfraPointUncheckedUpdateManyWithoutKeyHolderUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  buildingId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumInfraTypeFieldUpdateOperationsInput | $Enums.InfraType
+  floorLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  accessNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keyHolder?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type InfraPointCreateManyBuildingInput = {
@@ -625,6 +1051,7 @@ export type InfraPointCreateManyBuildingInput = {
   keyHolder?: string | null
   photoUrl?: string | null
   notes?: string | null
+  keyHolderUserId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -642,6 +1069,9 @@ export type InfraPointUpdateWithoutBuildingInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  keyHolderUser?: Prisma.UserUpdateOneWithoutInfraKeyOfNestedInput
+  access?: Prisma.InfraAccessUpdateManyWithoutInfraPointNestedInput
+  media?: Prisma.InfraMediaUpdateManyWithoutInfraPointNestedInput
 }
 
 export type InfraPointUncheckedUpdateWithoutBuildingInput = {
@@ -655,8 +1085,11 @@ export type InfraPointUncheckedUpdateWithoutBuildingInput = {
   keyHolder?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keyHolderUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  access?: Prisma.InfraAccessUncheckedUpdateManyWithoutInfraPointNestedInput
+  media?: Prisma.InfraMediaUncheckedUpdateManyWithoutInfraPointNestedInput
 }
 
 export type InfraPointUncheckedUpdateManyWithoutBuildingInput = {
@@ -670,10 +1103,49 @@ export type InfraPointUncheckedUpdateManyWithoutBuildingInput = {
   keyHolder?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keyHolderUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
+
+/**
+ * Count Type InfraPointCountOutputType
+ */
+
+export type InfraPointCountOutputType = {
+  access: number
+  media: number
+}
+
+export type InfraPointCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  access?: boolean | InfraPointCountOutputTypeCountAccessArgs
+  media?: boolean | InfraPointCountOutputTypeCountMediaArgs
+}
+
+/**
+ * InfraPointCountOutputType without action
+ */
+export type InfraPointCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the InfraPointCountOutputType
+   */
+  select?: Prisma.InfraPointCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * InfraPointCountOutputType without action
+ */
+export type InfraPointCountOutputTypeCountAccessArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.InfraAccessWhereInput
+}
+
+/**
+ * InfraPointCountOutputType without action
+ */
+export type InfraPointCountOutputTypeCountMediaArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.InfraMediaWhereInput
+}
 
 
 export type InfraPointSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -688,9 +1160,14 @@ export type InfraPointSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   keyHolder?: boolean
   photoUrl?: boolean
   notes?: boolean
+  keyHolderUserId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
+  keyHolderUser?: boolean | Prisma.InfraPoint$keyHolderUserArgs<ExtArgs>
+  access?: boolean | Prisma.InfraPoint$accessArgs<ExtArgs>
+  media?: boolean | Prisma.InfraPoint$mediaArgs<ExtArgs>
+  _count?: boolean | Prisma.InfraPointCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["infraPoint"]>
 
 export type InfraPointSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -705,9 +1182,11 @@ export type InfraPointSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   keyHolder?: boolean
   photoUrl?: boolean
   notes?: boolean
+  keyHolderUserId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
+  keyHolderUser?: boolean | Prisma.InfraPoint$keyHolderUserArgs<ExtArgs>
 }, ExtArgs["result"]["infraPoint"]>
 
 export type InfraPointSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -722,9 +1201,11 @@ export type InfraPointSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   keyHolder?: boolean
   photoUrl?: boolean
   notes?: boolean
+  keyHolderUserId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
+  keyHolderUser?: boolean | Prisma.InfraPoint$keyHolderUserArgs<ExtArgs>
 }, ExtArgs["result"]["infraPoint"]>
 
 export type InfraPointSelectScalar = {
@@ -739,25 +1220,35 @@ export type InfraPointSelectScalar = {
   keyHolder?: boolean
   photoUrl?: boolean
   notes?: boolean
+  keyHolderUserId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type InfraPointOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "buildingId" | "name" | "type" | "floorLabel" | "location" | "locked" | "accessNotes" | "keyHolder" | "photoUrl" | "notes" | "createdAt" | "updatedAt", ExtArgs["result"]["infraPoint"]>
+export type InfraPointOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "buildingId" | "name" | "type" | "floorLabel" | "location" | "locked" | "accessNotes" | "keyHolder" | "photoUrl" | "notes" | "keyHolderUserId" | "createdAt" | "updatedAt", ExtArgs["result"]["infraPoint"]>
 export type InfraPointInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
+  keyHolderUser?: boolean | Prisma.InfraPoint$keyHolderUserArgs<ExtArgs>
+  access?: boolean | Prisma.InfraPoint$accessArgs<ExtArgs>
+  media?: boolean | Prisma.InfraPoint$mediaArgs<ExtArgs>
+  _count?: boolean | Prisma.InfraPointCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type InfraPointIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
+  keyHolderUser?: boolean | Prisma.InfraPoint$keyHolderUserArgs<ExtArgs>
 }
 export type InfraPointIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
+  keyHolderUser?: boolean | Prisma.InfraPoint$keyHolderUserArgs<ExtArgs>
 }
 
 export type $InfraPointPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "InfraPoint"
   objects: {
     building: Prisma.$BuildingPayload<ExtArgs>
+    keyHolderUser: Prisma.$UserPayload<ExtArgs> | null
+    access: Prisma.$InfraAccessPayload<ExtArgs>[]
+    media: Prisma.$InfraMediaPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -771,6 +1262,7 @@ export type $InfraPointPayload<ExtArgs extends runtime.Types.Extensions.Internal
     keyHolder: string | null
     photoUrl: string | null
     notes: string | null
+    keyHolderUserId: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["infraPoint"]>
@@ -1168,6 +1660,9 @@ readonly fields: InfraPointFieldRefs;
 export interface Prisma__InfraPointClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   building<T extends Prisma.BuildingDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.BuildingDefaultArgs<ExtArgs>>): Prisma.Prisma__BuildingClient<runtime.Types.Result.GetResult<Prisma.$BuildingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  keyHolderUser<T extends Prisma.InfraPoint$keyHolderUserArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.InfraPoint$keyHolderUserArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  access<T extends Prisma.InfraPoint$accessArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.InfraPoint$accessArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InfraAccessPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  media<T extends Prisma.InfraPoint$mediaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.InfraPoint$mediaArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InfraMediaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1208,6 +1703,7 @@ export interface InfraPointFieldRefs {
   readonly keyHolder: Prisma.FieldRef<"InfraPoint", 'String'>
   readonly photoUrl: Prisma.FieldRef<"InfraPoint", 'String'>
   readonly notes: Prisma.FieldRef<"InfraPoint", 'String'>
+  readonly keyHolderUserId: Prisma.FieldRef<"InfraPoint", 'String'>
   readonly createdAt: Prisma.FieldRef<"InfraPoint", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"InfraPoint", 'DateTime'>
 }
@@ -1608,6 +2104,73 @@ export type InfraPointDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.In
    * Limit how many InfraPoints to delete.
    */
   limit?: number
+}
+
+/**
+ * InfraPoint.keyHolderUser
+ */
+export type InfraPoint$keyHolderUserArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the User
+   */
+  select?: Prisma.UserSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the User
+   */
+  omit?: Prisma.UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
+  where?: Prisma.UserWhereInput
+}
+
+/**
+ * InfraPoint.access
+ */
+export type InfraPoint$accessArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the InfraAccess
+   */
+  select?: Prisma.InfraAccessSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the InfraAccess
+   */
+  omit?: Prisma.InfraAccessOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.InfraAccessInclude<ExtArgs> | null
+  where?: Prisma.InfraAccessWhereInput
+  orderBy?: Prisma.InfraAccessOrderByWithRelationInput | Prisma.InfraAccessOrderByWithRelationInput[]
+  cursor?: Prisma.InfraAccessWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.InfraAccessScalarFieldEnum | Prisma.InfraAccessScalarFieldEnum[]
+}
+
+/**
+ * InfraPoint.media
+ */
+export type InfraPoint$mediaArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the InfraMedia
+   */
+  select?: Prisma.InfraMediaSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the InfraMedia
+   */
+  omit?: Prisma.InfraMediaOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.InfraMediaInclude<ExtArgs> | null
+  where?: Prisma.InfraMediaWhereInput
+  orderBy?: Prisma.InfraMediaOrderByWithRelationInput | Prisma.InfraMediaOrderByWithRelationInput[]
+  cursor?: Prisma.InfraMediaWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.InfraMediaScalarFieldEnum | Prisma.InfraMediaScalarFieldEnum[]
 }
 
 /**
