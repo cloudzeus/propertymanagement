@@ -119,6 +119,14 @@ export const EmployeeStatus = {
 export type EmployeeStatus = (typeof EmployeeStatus)[keyof typeof EmployeeStatus]
 
 
+export const OccupancyRole = {
+  OWNER: 'OWNER',
+  RESIDENT: 'RESIDENT'
+} as const
+
+export type OccupancyRole = (typeof OccupancyRole)[keyof typeof OccupancyRole]
+
+
 export const BuildingFileCategory = {
   PLANS: 'PLANS',
   PHOTOS: 'PHOTOS',

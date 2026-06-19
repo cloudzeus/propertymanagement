@@ -397,6 +397,7 @@ export const ModelName = {
   Customer: 'Customer',
   Property: 'Property',
   Building: 'Building',
+  UnitOccupancy: 'UnitOccupancy',
   BuildingFile: 'BuildingFile',
   InfraPoint: 'InfraPoint',
   Contact: 'Contact',
@@ -439,7 +440,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "account" | "session" | "verificationToken" | "company" | "department" | "jobPosition" | "employee" | "subscription" | "addonFeature" | "customer" | "property" | "building" | "buildingFile" | "infraPoint" | "contact" | "recurringTask" | "buildingExpense" | "unitPayment" | "managementAssignment" | "commonArea" | "unit" | "service" | "propertyService" | "serviceInvoice" | "serviceInvoiceLine" | "userCompanyRole" | "menuConfig" | "announcement" | "announcement_User" | "aPIUsageLog" | "aPICostConfig" | "monthlyCostSummary" | "maintenanceRequest" | "cMSPage" | "fAQ" | "pricingTier" | "contactMessage" | "cookieConsent" | "appSettings"
+    modelProps: "user" | "account" | "session" | "verificationToken" | "company" | "department" | "jobPosition" | "employee" | "subscription" | "addonFeature" | "customer" | "property" | "building" | "unitOccupancy" | "buildingFile" | "infraPoint" | "contact" | "recurringTask" | "buildingExpense" | "unitPayment" | "managementAssignment" | "commonArea" | "unit" | "service" | "propertyService" | "serviceInvoice" | "serviceInvoiceLine" | "userCompanyRole" | "menuConfig" | "announcement" | "announcement_User" | "aPIUsageLog" | "aPICostConfig" | "monthlyCostSummary" | "maintenanceRequest" | "cMSPage" | "fAQ" | "pricingTier" | "contactMessage" | "cookieConsent" | "appSettings"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1402,6 +1403,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.BuildingCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.BuildingCountAggregateOutputType> | number
+        }
+      }
+    }
+    UnitOccupancy: {
+      payload: Prisma.$UnitOccupancyPayload<ExtArgs>
+      fields: Prisma.UnitOccupancyFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.UnitOccupancyFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UnitOccupancyPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.UnitOccupancyFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UnitOccupancyPayload>
+        }
+        findFirst: {
+          args: Prisma.UnitOccupancyFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UnitOccupancyPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.UnitOccupancyFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UnitOccupancyPayload>
+        }
+        findMany: {
+          args: Prisma.UnitOccupancyFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UnitOccupancyPayload>[]
+        }
+        create: {
+          args: Prisma.UnitOccupancyCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UnitOccupancyPayload>
+        }
+        createMany: {
+          args: Prisma.UnitOccupancyCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.UnitOccupancyCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UnitOccupancyPayload>[]
+        }
+        delete: {
+          args: Prisma.UnitOccupancyDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UnitOccupancyPayload>
+        }
+        update: {
+          args: Prisma.UnitOccupancyUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UnitOccupancyPayload>
+        }
+        deleteMany: {
+          args: Prisma.UnitOccupancyDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.UnitOccupancyUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.UnitOccupancyUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UnitOccupancyPayload>[]
+        }
+        upsert: {
+          args: Prisma.UnitOccupancyUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UnitOccupancyPayload>
+        }
+        aggregate: {
+          args: Prisma.UnitOccupancyAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateUnitOccupancy>
+        }
+        groupBy: {
+          args: Prisma.UnitOccupancyGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UnitOccupancyGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.UnitOccupancyCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UnitOccupancyCountAggregateOutputType> | number
         }
       }
     }
@@ -3446,6 +3521,8 @@ export const UserScalarFieldEnum = {
   id: 'id',
   email: 'email',
   name: 'name',
+  phone: 'phone',
+  mobile: 'mobile',
   passwordHash: 'passwordHash',
   role: 'role',
   status: 'status',
@@ -3734,6 +3811,20 @@ export const BuildingScalarFieldEnum = {
 } as const
 
 export type BuildingScalarFieldEnum = (typeof BuildingScalarFieldEnum)[keyof typeof BuildingScalarFieldEnum]
+
+
+export const UnitOccupancyScalarFieldEnum = {
+  id: 'id',
+  unitId: 'unitId',
+  userId: 'userId',
+  role: 'role',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  notes: 'notes',
+  createdAt: 'createdAt'
+} as const
+
+export type UnitOccupancyScalarFieldEnum = (typeof UnitOccupancyScalarFieldEnum)[keyof typeof UnitOccupancyScalarFieldEnum]
 
 
 export const BuildingFileScalarFieldEnum = {
@@ -4398,6 +4489,20 @@ export type ListEnumCustomerTypeFieldRefInput<$PrismaModel> = FieldRefInputType<
 
 
 /**
+ * Reference to a field of type 'OccupancyRole'
+ */
+export type EnumOccupancyRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OccupancyRole'>
+    
+
+
+/**
+ * Reference to a field of type 'OccupancyRole[]'
+ */
+export type ListEnumOccupancyRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OccupancyRole[]'>
+    
+
+
+/**
  * Reference to a field of type 'BuildingFileCategory'
  */
 export type EnumBuildingFileCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BuildingFileCategory'>
@@ -4645,6 +4750,7 @@ export type GlobalOmitConfig = {
   customer?: Prisma.CustomerOmit
   property?: Prisma.PropertyOmit
   building?: Prisma.BuildingOmit
+  unitOccupancy?: Prisma.UnitOccupancyOmit
   buildingFile?: Prisma.BuildingFileOmit
   infraPoint?: Prisma.InfraPointOmit
   contact?: Prisma.ContactOmit

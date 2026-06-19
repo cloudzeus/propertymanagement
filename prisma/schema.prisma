@@ -85,6 +85,8 @@ model User {
   id                  String   @id @default(cuid())
   email               String   @unique
   name                String?
+  phone               String?
+  mobile              String?
   passwordHash        String?
   role                UserRole
   status              UserStatus @default(ACTIVE)
@@ -104,6 +106,7 @@ model User {
   // Unit association (for residents/owners)
   ownedUnits          Unit[] @relation("owner")
   residentUnits       Unit[] @relation("resident")
+  occupancies         UnitOccupancy[] @relation("userOccupancies")
 
   // Relationships for multi-role users
   companyRoles        UserCompanyRole[]
@@ -609,6 +612,29 @@ model Building {
 
 // ── Building control-center sub-entities ─────────────────────────────────────
 
+enum OccupancyRole {
+  OWNER
+  RESIDENT
+}
+
+// Occupancy timeline per unit — residents/owners change over time (από/έως).
+// The "current" occupant of a role is the row with endDate = null.
+model UnitOccupancy {
+  id          String   @id @default(cuid())
+  unitId      String
+  unit        Unit     @relation(fields: [unitId], references: [id], onDelete: Cascade)
+  userId      String
+  user        User     @relation("userOccupancies", fields: [userId], references: [id], onDelete: Cascade)
+  role        OccupancyRole
+  startDate   DateTime @default(now())
+  endDate     DateTime?
+  notes       String?
+  createdAt   DateTime @default(now())
+  @@index([unitId])
+  @@index([userId])
+  @@index([unitId, role, endDate])
+}
+
 enum BuildingFileCategory {
   PLANS
   PHOTOS
@@ -805,6 +831,7 @@ model Unit {
   // Relations
   maintenanceRequests   MaintenanceRequest[]
   payments              UnitPayment[]
+  occupancies           UnitOccupancy[]
 
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt

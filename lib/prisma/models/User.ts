@@ -28,6 +28,8 @@ export type UserMinAggregateOutputType = {
   id: string | null
   email: string | null
   name: string | null
+  phone: string | null
+  mobile: string | null
   passwordHash: string | null
   role: $Enums.UserRole | null
   status: $Enums.UserStatus | null
@@ -43,6 +45,8 @@ export type UserMaxAggregateOutputType = {
   id: string | null
   email: string | null
   name: string | null
+  phone: string | null
+  mobile: string | null
   passwordHash: string | null
   role: $Enums.UserRole | null
   status: $Enums.UserStatus | null
@@ -58,6 +62,8 @@ export type UserCountAggregateOutputType = {
   id: number
   email: number
   name: number
+  phone: number
+  mobile: number
   passwordHash: number
   role: number
   status: number
@@ -75,6 +81,8 @@ export type UserMinAggregateInputType = {
   id?: true
   email?: true
   name?: true
+  phone?: true
+  mobile?: true
   passwordHash?: true
   role?: true
   status?: true
@@ -90,6 +98,8 @@ export type UserMaxAggregateInputType = {
   id?: true
   email?: true
   name?: true
+  phone?: true
+  mobile?: true
   passwordHash?: true
   role?: true
   status?: true
@@ -105,6 +115,8 @@ export type UserCountAggregateInputType = {
   id?: true
   email?: true
   name?: true
+  phone?: true
+  mobile?: true
   passwordHash?: true
   role?: true
   status?: true
@@ -193,6 +205,8 @@ export type UserGroupByOutputType = {
   id: string
   email: string
   name: string | null
+  phone: string | null
+  mobile: string | null
   passwordHash: string | null
   role: $Enums.UserRole
   status: $Enums.UserStatus
@@ -229,6 +243,8 @@ export type UserWhereInput = {
   id?: Prisma.StringFilter<"User"> | string
   email?: Prisma.StringFilter<"User"> | string
   name?: Prisma.StringNullableFilter<"User"> | string | null
+  phone?: Prisma.StringNullableFilter<"User"> | string | null
+  mobile?: Prisma.StringNullableFilter<"User"> | string | null
   passwordHash?: Prisma.StringNullableFilter<"User"> | string | null
   role?: Prisma.EnumUserRoleFilter<"User"> | $Enums.UserRole
   status?: Prisma.EnumUserStatusFilter<"User"> | $Enums.UserStatus
@@ -243,6 +259,7 @@ export type UserWhereInput = {
   building?: Prisma.XOR<Prisma.BuildingNullableScalarRelationFilter, Prisma.BuildingWhereInput> | null
   ownedUnits?: Prisma.UnitListRelationFilter
   residentUnits?: Prisma.UnitListRelationFilter
+  occupancies?: Prisma.UnitOccupancyListRelationFilter
   companyRoles?: Prisma.UserCompanyRoleListRelationFilter
   createdCompanies?: Prisma.CompanyListRelationFilter
   createdMenuConfigs?: Prisma.MenuConfigListRelationFilter
@@ -260,6 +277,8 @@ export type UserOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   email?: Prisma.SortOrder
   name?: Prisma.SortOrderInput | Prisma.SortOrder
+  phone?: Prisma.SortOrderInput | Prisma.SortOrder
+  mobile?: Prisma.SortOrderInput | Prisma.SortOrder
   passwordHash?: Prisma.SortOrderInput | Prisma.SortOrder
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -274,6 +293,7 @@ export type UserOrderByWithRelationInput = {
   building?: Prisma.BuildingOrderByWithRelationInput
   ownedUnits?: Prisma.UnitOrderByRelationAggregateInput
   residentUnits?: Prisma.UnitOrderByRelationAggregateInput
+  occupancies?: Prisma.UnitOccupancyOrderByRelationAggregateInput
   companyRoles?: Prisma.UserCompanyRoleOrderByRelationAggregateInput
   createdCompanies?: Prisma.CompanyOrderByRelationAggregateInput
   createdMenuConfigs?: Prisma.MenuConfigOrderByRelationAggregateInput
@@ -294,6 +314,8 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.UserWhereInput[]
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   name?: Prisma.StringNullableFilter<"User"> | string | null
+  phone?: Prisma.StringNullableFilter<"User"> | string | null
+  mobile?: Prisma.StringNullableFilter<"User"> | string | null
   passwordHash?: Prisma.StringNullableFilter<"User"> | string | null
   role?: Prisma.EnumUserRoleFilter<"User"> | $Enums.UserRole
   status?: Prisma.EnumUserStatusFilter<"User"> | $Enums.UserStatus
@@ -308,6 +330,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   building?: Prisma.XOR<Prisma.BuildingNullableScalarRelationFilter, Prisma.BuildingWhereInput> | null
   ownedUnits?: Prisma.UnitListRelationFilter
   residentUnits?: Prisma.UnitListRelationFilter
+  occupancies?: Prisma.UnitOccupancyListRelationFilter
   companyRoles?: Prisma.UserCompanyRoleListRelationFilter
   createdCompanies?: Prisma.CompanyListRelationFilter
   createdMenuConfigs?: Prisma.MenuConfigListRelationFilter
@@ -325,6 +348,8 @@ export type UserOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   email?: Prisma.SortOrder
   name?: Prisma.SortOrderInput | Prisma.SortOrder
+  phone?: Prisma.SortOrderInput | Prisma.SortOrder
+  mobile?: Prisma.SortOrderInput | Prisma.SortOrder
   passwordHash?: Prisma.SortOrderInput | Prisma.SortOrder
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -346,6 +371,8 @@ export type UserScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"User"> | string
   email?: Prisma.StringWithAggregatesFilter<"User"> | string
   name?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  phone?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  mobile?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   passwordHash?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   role?: Prisma.EnumUserRoleWithAggregatesFilter<"User"> | $Enums.UserRole
   status?: Prisma.EnumUserStatusWithAggregatesFilter<"User"> | $Enums.UserStatus
@@ -361,6 +388,8 @@ export type UserCreateInput = {
   id?: string
   email: string
   name?: string | null
+  phone?: string | null
+  mobile?: string | null
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
@@ -372,6 +401,7 @@ export type UserCreateInput = {
   building?: Prisma.BuildingCreateNestedOneWithoutUsersInput
   ownedUnits?: Prisma.UnitCreateNestedManyWithoutOwnerInput
   residentUnits?: Prisma.UnitCreateNestedManyWithoutResidentInput
+  occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCreatedByInput
@@ -389,6 +419,8 @@ export type UserUncheckedCreateInput = {
   id?: string
   email: string
   name?: string | null
+  phone?: string | null
+  mobile?: string | null
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
@@ -400,6 +432,7 @@ export type UserUncheckedCreateInput = {
   lastLoginAt?: Date | string | null
   ownedUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutOwnerInput
   residentUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutResidentInput
+  occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCreatedByInput
@@ -417,6 +450,8 @@ export type UserUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -428,6 +463,7 @@ export type UserUpdateInput = {
   building?: Prisma.BuildingUpdateOneWithoutUsersNestedInput
   ownedUnits?: Prisma.UnitUpdateManyWithoutOwnerNestedInput
   residentUnits?: Prisma.UnitUpdateManyWithoutResidentNestedInput
+  occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUpdateManyWithoutCreatedByNestedInput
@@ -445,6 +481,8 @@ export type UserUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -456,6 +494,7 @@ export type UserUncheckedUpdateInput = {
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   ownedUnits?: Prisma.UnitUncheckedUpdateManyWithoutOwnerNestedInput
   residentUnits?: Prisma.UnitUncheckedUpdateManyWithoutResidentNestedInput
+  occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -473,6 +512,8 @@ export type UserCreateManyInput = {
   id?: string
   email: string
   name?: string | null
+  phone?: string | null
+  mobile?: string | null
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
@@ -488,6 +529,8 @@ export type UserUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -500,6 +543,8 @@ export type UserUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -515,6 +560,8 @@ export type UserCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   email?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  phone?: Prisma.SortOrder
+  mobile?: Prisma.SortOrder
   passwordHash?: Prisma.SortOrder
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -530,6 +577,8 @@ export type UserMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   email?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  phone?: Prisma.SortOrder
+  mobile?: Prisma.SortOrder
   passwordHash?: Prisma.SortOrder
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -545,6 +594,8 @@ export type UserMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   email?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  phone?: Prisma.SortOrder
+  mobile?: Prisma.SortOrder
   passwordHash?: Prisma.SortOrder
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -786,6 +837,20 @@ export type UserUncheckedUpdateManyWithoutBuildingNestedInput = {
   deleteMany?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[]
 }
 
+export type UserCreateNestedOneWithoutOccupanciesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutOccupanciesInput, Prisma.UserUncheckedCreateWithoutOccupanciesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutOccupanciesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutOccupanciesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutOccupanciesInput, Prisma.UserUncheckedCreateWithoutOccupanciesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutOccupanciesInput
+  upsert?: Prisma.UserUpsertWithoutOccupanciesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutOccupanciesInput, Prisma.UserUpdateWithoutOccupanciesInput>, Prisma.UserUncheckedUpdateWithoutOccupanciesInput>
+}
+
 export type UserCreateNestedOneWithoutManagementAssignmentsInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutManagementAssignmentsInput, Prisma.UserUncheckedCreateWithoutManagementAssignmentsInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutManagementAssignmentsInput
@@ -930,6 +995,8 @@ export type UserCreateWithoutAccountsInput = {
   id?: string
   email: string
   name?: string | null
+  phone?: string | null
+  mobile?: string | null
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
@@ -941,6 +1008,7 @@ export type UserCreateWithoutAccountsInput = {
   building?: Prisma.BuildingCreateNestedOneWithoutUsersInput
   ownedUnits?: Prisma.UnitCreateNestedManyWithoutOwnerInput
   residentUnits?: Prisma.UnitCreateNestedManyWithoutResidentInput
+  occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCreatedByInput
@@ -957,6 +1025,8 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   id?: string
   email: string
   name?: string | null
+  phone?: string | null
+  mobile?: string | null
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
@@ -968,6 +1038,7 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   lastLoginAt?: Date | string | null
   ownedUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutOwnerInput
   residentUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutResidentInput
+  occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCreatedByInput
@@ -1000,6 +1071,8 @@ export type UserUpdateWithoutAccountsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -1011,6 +1084,7 @@ export type UserUpdateWithoutAccountsInput = {
   building?: Prisma.BuildingUpdateOneWithoutUsersNestedInput
   ownedUnits?: Prisma.UnitUpdateManyWithoutOwnerNestedInput
   residentUnits?: Prisma.UnitUpdateManyWithoutResidentNestedInput
+  occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUpdateManyWithoutCreatedByNestedInput
@@ -1027,6 +1101,8 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -1038,6 +1114,7 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   ownedUnits?: Prisma.UnitUncheckedUpdateManyWithoutOwnerNestedInput
   residentUnits?: Prisma.UnitUncheckedUpdateManyWithoutResidentNestedInput
+  occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -1054,6 +1131,8 @@ export type UserCreateWithoutSessionsInput = {
   id?: string
   email: string
   name?: string | null
+  phone?: string | null
+  mobile?: string | null
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
@@ -1065,6 +1144,7 @@ export type UserCreateWithoutSessionsInput = {
   building?: Prisma.BuildingCreateNestedOneWithoutUsersInput
   ownedUnits?: Prisma.UnitCreateNestedManyWithoutOwnerInput
   residentUnits?: Prisma.UnitCreateNestedManyWithoutResidentInput
+  occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCreatedByInput
@@ -1081,6 +1161,8 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   id?: string
   email: string
   name?: string | null
+  phone?: string | null
+  mobile?: string | null
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
@@ -1092,6 +1174,7 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   lastLoginAt?: Date | string | null
   ownedUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutOwnerInput
   residentUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutResidentInput
+  occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCreatedByInput
@@ -1124,6 +1207,8 @@ export type UserUpdateWithoutSessionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -1135,6 +1220,7 @@ export type UserUpdateWithoutSessionsInput = {
   building?: Prisma.BuildingUpdateOneWithoutUsersNestedInput
   ownedUnits?: Prisma.UnitUpdateManyWithoutOwnerNestedInput
   residentUnits?: Prisma.UnitUpdateManyWithoutResidentNestedInput
+  occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUpdateManyWithoutCreatedByNestedInput
@@ -1151,6 +1237,8 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -1162,6 +1250,7 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   ownedUnits?: Prisma.UnitUncheckedUpdateManyWithoutOwnerNestedInput
   residentUnits?: Prisma.UnitUncheckedUpdateManyWithoutResidentNestedInput
+  occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -1178,6 +1267,8 @@ export type UserCreateWithoutCreatedCompaniesInput = {
   id?: string
   email: string
   name?: string | null
+  phone?: string | null
+  mobile?: string | null
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
@@ -1189,6 +1280,7 @@ export type UserCreateWithoutCreatedCompaniesInput = {
   building?: Prisma.BuildingCreateNestedOneWithoutUsersInput
   ownedUnits?: Prisma.UnitCreateNestedManyWithoutOwnerInput
   residentUnits?: Prisma.UnitCreateNestedManyWithoutResidentInput
+  occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
   createdMenuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCreatedByInput
   createdAnnouncements?: Prisma.AnnouncementCreateNestedManyWithoutCreatedByInput
@@ -1205,6 +1297,8 @@ export type UserUncheckedCreateWithoutCreatedCompaniesInput = {
   id?: string
   email: string
   name?: string | null
+  phone?: string | null
+  mobile?: string | null
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
@@ -1216,6 +1310,7 @@ export type UserUncheckedCreateWithoutCreatedCompaniesInput = {
   lastLoginAt?: Date | string | null
   ownedUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutOwnerInput
   residentUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutResidentInput
+  occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCreatedByInput
   createdAnnouncements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutCreatedByInput
@@ -1237,6 +1332,8 @@ export type UserCreateWithoutCompanyInput = {
   id?: string
   email: string
   name?: string | null
+  phone?: string | null
+  mobile?: string | null
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
@@ -1247,6 +1344,7 @@ export type UserCreateWithoutCompanyInput = {
   building?: Prisma.BuildingCreateNestedOneWithoutUsersInput
   ownedUnits?: Prisma.UnitCreateNestedManyWithoutOwnerInput
   residentUnits?: Prisma.UnitCreateNestedManyWithoutResidentInput
+  occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCreatedByInput
@@ -1264,6 +1362,8 @@ export type UserUncheckedCreateWithoutCompanyInput = {
   id?: string
   email: string
   name?: string | null
+  phone?: string | null
+  mobile?: string | null
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
@@ -1274,6 +1374,7 @@ export type UserUncheckedCreateWithoutCompanyInput = {
   lastLoginAt?: Date | string | null
   ownedUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutOwnerInput
   residentUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutResidentInput
+  occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCreatedByInput
@@ -1312,6 +1413,8 @@ export type UserUpdateWithoutCreatedCompaniesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -1323,6 +1426,7 @@ export type UserUpdateWithoutCreatedCompaniesInput = {
   building?: Prisma.BuildingUpdateOneWithoutUsersNestedInput
   ownedUnits?: Prisma.UnitUpdateManyWithoutOwnerNestedInput
   residentUnits?: Prisma.UnitUpdateManyWithoutResidentNestedInput
+  occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUpdateManyWithoutCreatedByNestedInput
   createdAnnouncements?: Prisma.AnnouncementUpdateManyWithoutCreatedByNestedInput
@@ -1339,6 +1443,8 @@ export type UserUncheckedUpdateWithoutCreatedCompaniesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -1350,6 +1456,7 @@ export type UserUncheckedUpdateWithoutCreatedCompaniesInput = {
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   ownedUnits?: Prisma.UnitUncheckedUpdateManyWithoutOwnerNestedInput
   residentUnits?: Prisma.UnitUncheckedUpdateManyWithoutResidentNestedInput
+  occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCreatedByNestedInput
   createdAnnouncements?: Prisma.AnnouncementUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -1385,6 +1492,8 @@ export type UserScalarWhereInput = {
   id?: Prisma.StringFilter<"User"> | string
   email?: Prisma.StringFilter<"User"> | string
   name?: Prisma.StringNullableFilter<"User"> | string | null
+  phone?: Prisma.StringNullableFilter<"User"> | string | null
+  mobile?: Prisma.StringNullableFilter<"User"> | string | null
   passwordHash?: Prisma.StringNullableFilter<"User"> | string | null
   role?: Prisma.EnumUserRoleFilter<"User"> | $Enums.UserRole
   status?: Prisma.EnumUserStatusFilter<"User"> | $Enums.UserStatus
@@ -1400,6 +1509,8 @@ export type UserCreateWithoutEmployeeLinksInput = {
   id?: string
   email: string
   name?: string | null
+  phone?: string | null
+  mobile?: string | null
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
@@ -1411,6 +1522,7 @@ export type UserCreateWithoutEmployeeLinksInput = {
   building?: Prisma.BuildingCreateNestedOneWithoutUsersInput
   ownedUnits?: Prisma.UnitCreateNestedManyWithoutOwnerInput
   residentUnits?: Prisma.UnitCreateNestedManyWithoutResidentInput
+  occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCreatedByInput
@@ -1427,6 +1539,8 @@ export type UserUncheckedCreateWithoutEmployeeLinksInput = {
   id?: string
   email: string
   name?: string | null
+  phone?: string | null
+  mobile?: string | null
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
@@ -1438,6 +1552,7 @@ export type UserUncheckedCreateWithoutEmployeeLinksInput = {
   lastLoginAt?: Date | string | null
   ownedUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutOwnerInput
   residentUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutResidentInput
+  occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCreatedByInput
@@ -1470,6 +1585,8 @@ export type UserUpdateWithoutEmployeeLinksInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -1481,6 +1598,7 @@ export type UserUpdateWithoutEmployeeLinksInput = {
   building?: Prisma.BuildingUpdateOneWithoutUsersNestedInput
   ownedUnits?: Prisma.UnitUpdateManyWithoutOwnerNestedInput
   residentUnits?: Prisma.UnitUpdateManyWithoutResidentNestedInput
+  occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUpdateManyWithoutCreatedByNestedInput
@@ -1497,6 +1615,8 @@ export type UserUncheckedUpdateWithoutEmployeeLinksInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -1508,6 +1628,7 @@ export type UserUncheckedUpdateWithoutEmployeeLinksInput = {
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   ownedUnits?: Prisma.UnitUncheckedUpdateManyWithoutOwnerNestedInput
   residentUnits?: Prisma.UnitUncheckedUpdateManyWithoutResidentNestedInput
+  occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -1524,6 +1645,8 @@ export type UserCreateWithoutCustomerInput = {
   id?: string
   email: string
   name?: string | null
+  phone?: string | null
+  mobile?: string | null
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
@@ -1534,6 +1657,7 @@ export type UserCreateWithoutCustomerInput = {
   building?: Prisma.BuildingCreateNestedOneWithoutUsersInput
   ownedUnits?: Prisma.UnitCreateNestedManyWithoutOwnerInput
   residentUnits?: Prisma.UnitCreateNestedManyWithoutResidentInput
+  occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCreatedByInput
@@ -1551,6 +1675,8 @@ export type UserUncheckedCreateWithoutCustomerInput = {
   id?: string
   email: string
   name?: string | null
+  phone?: string | null
+  mobile?: string | null
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
@@ -1561,6 +1687,7 @@ export type UserUncheckedCreateWithoutCustomerInput = {
   lastLoginAt?: Date | string | null
   ownedUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutOwnerInput
   residentUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutResidentInput
+  occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCreatedByInput
@@ -1604,6 +1731,8 @@ export type UserCreateWithoutBuildingInput = {
   id?: string
   email: string
   name?: string | null
+  phone?: string | null
+  mobile?: string | null
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
@@ -1614,6 +1743,7 @@ export type UserCreateWithoutBuildingInput = {
   customer?: Prisma.CustomerCreateNestedOneWithoutUsersInput
   ownedUnits?: Prisma.UnitCreateNestedManyWithoutOwnerInput
   residentUnits?: Prisma.UnitCreateNestedManyWithoutResidentInput
+  occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCreatedByInput
@@ -1631,6 +1761,8 @@ export type UserUncheckedCreateWithoutBuildingInput = {
   id?: string
   email: string
   name?: string | null
+  phone?: string | null
+  mobile?: string | null
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
@@ -1641,6 +1773,7 @@ export type UserUncheckedCreateWithoutBuildingInput = {
   lastLoginAt?: Date | string | null
   ownedUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutOwnerInput
   residentUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutResidentInput
+  occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCreatedByInput
@@ -1680,10 +1813,12 @@ export type UserUpdateManyWithWhereWithoutBuildingInput = {
   data: Prisma.XOR<Prisma.UserUpdateManyMutationInput, Prisma.UserUncheckedUpdateManyWithoutBuildingInput>
 }
 
-export type UserCreateWithoutManagementAssignmentsInput = {
+export type UserCreateWithoutOccupanciesInput = {
   id?: string
   email: string
   name?: string | null
+  phone?: string | null
+  mobile?: string | null
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
@@ -1703,14 +1838,17 @@ export type UserCreateWithoutManagementAssignmentsInput = {
   reportedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutAssignedToInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
+  managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
 }
 
-export type UserUncheckedCreateWithoutManagementAssignmentsInput = {
+export type UserUncheckedCreateWithoutOccupanciesInput = {
   id?: string
   email: string
   name?: string | null
+  phone?: string | null
+  mobile?: string | null
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
@@ -1722,6 +1860,143 @@ export type UserUncheckedCreateWithoutManagementAssignmentsInput = {
   lastLoginAt?: Date | string | null
   ownedUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutOwnerInput
   residentUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutResidentInput
+  companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
+  createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
+  createdMenuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCreatedByInput
+  createdAnnouncements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutCreatedByInput
+  employeeLinks?: Prisma.EmployeeUncheckedCreateNestedManyWithoutUserInput
+  reportedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutReportedByInput
+  assignedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutAssignedToInput
+  apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutUserInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutOccupanciesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutOccupanciesInput, Prisma.UserUncheckedCreateWithoutOccupanciesInput>
+}
+
+export type UserUpsertWithoutOccupanciesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutOccupanciesInput, Prisma.UserUncheckedUpdateWithoutOccupanciesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutOccupanciesInput, Prisma.UserUncheckedCreateWithoutOccupanciesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutOccupanciesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutOccupanciesInput, Prisma.UserUncheckedUpdateWithoutOccupanciesInput>
+}
+
+export type UserUpdateWithoutOccupanciesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  company?: Prisma.CompanyUpdateOneWithoutUsersNestedInput
+  customer?: Prisma.CustomerUpdateOneWithoutUsersNestedInput
+  building?: Prisma.BuildingUpdateOneWithoutUsersNestedInput
+  ownedUnits?: Prisma.UnitUpdateManyWithoutOwnerNestedInput
+  residentUnits?: Prisma.UnitUpdateManyWithoutResidentNestedInput
+  companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
+  createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
+  createdMenuConfigs?: Prisma.MenuConfigUpdateManyWithoutCreatedByNestedInput
+  createdAnnouncements?: Prisma.AnnouncementUpdateManyWithoutCreatedByNestedInput
+  employeeLinks?: Prisma.EmployeeUpdateManyWithoutUserNestedInput
+  reportedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutReportedByNestedInput
+  assignedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutAssignedToNestedInput
+  apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutOccupanciesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  ownedUnits?: Prisma.UnitUncheckedUpdateManyWithoutOwnerNestedInput
+  residentUnits?: Prisma.UnitUncheckedUpdateManyWithoutResidentNestedInput
+  companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
+  createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
+  createdMenuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCreatedByNestedInput
+  createdAnnouncements?: Prisma.AnnouncementUncheckedUpdateManyWithoutCreatedByNestedInput
+  employeeLinks?: Prisma.EmployeeUncheckedUpdateManyWithoutUserNestedInput
+  reportedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutReportedByNestedInput
+  assignedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutAssignedToNestedInput
+  apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutUserNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutManagementAssignmentsInput = {
+  id?: string
+  email: string
+  name?: string | null
+  phone?: string | null
+  mobile?: string | null
+  passwordHash?: string | null
+  role: $Enums.UserRole
+  status?: $Enums.UserStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lastLoginAt?: Date | string | null
+  company?: Prisma.CompanyCreateNestedOneWithoutUsersInput
+  customer?: Prisma.CustomerCreateNestedOneWithoutUsersInput
+  building?: Prisma.BuildingCreateNestedOneWithoutUsersInput
+  ownedUnits?: Prisma.UnitCreateNestedManyWithoutOwnerInput
+  residentUnits?: Prisma.UnitCreateNestedManyWithoutResidentInput
+  occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
+  companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
+  createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
+  createdMenuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCreatedByInput
+  createdAnnouncements?: Prisma.AnnouncementCreateNestedManyWithoutCreatedByInput
+  employeeLinks?: Prisma.EmployeeCreateNestedManyWithoutUserInput
+  reportedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutReportedByInput
+  assignedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutAssignedToInput
+  apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutManagementAssignmentsInput = {
+  id?: string
+  email: string
+  name?: string | null
+  phone?: string | null
+  mobile?: string | null
+  passwordHash?: string | null
+  role: $Enums.UserRole
+  status?: $Enums.UserStatus
+  companyId?: string | null
+  customerId?: string | null
+  buildingId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lastLoginAt?: Date | string | null
+  ownedUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutOwnerInput
+  residentUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutResidentInput
+  occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCreatedByInput
@@ -1754,6 +2029,8 @@ export type UserUpdateWithoutManagementAssignmentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -1765,6 +2042,7 @@ export type UserUpdateWithoutManagementAssignmentsInput = {
   building?: Prisma.BuildingUpdateOneWithoutUsersNestedInput
   ownedUnits?: Prisma.UnitUpdateManyWithoutOwnerNestedInput
   residentUnits?: Prisma.UnitUpdateManyWithoutResidentNestedInput
+  occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUpdateManyWithoutCreatedByNestedInput
@@ -1781,6 +2059,8 @@ export type UserUncheckedUpdateWithoutManagementAssignmentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -1792,6 +2072,7 @@ export type UserUncheckedUpdateWithoutManagementAssignmentsInput = {
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   ownedUnits?: Prisma.UnitUncheckedUpdateManyWithoutOwnerNestedInput
   residentUnits?: Prisma.UnitUncheckedUpdateManyWithoutResidentNestedInput
+  occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -1808,6 +2089,8 @@ export type UserCreateWithoutOwnedUnitsInput = {
   id?: string
   email: string
   name?: string | null
+  phone?: string | null
+  mobile?: string | null
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
@@ -1818,6 +2101,7 @@ export type UserCreateWithoutOwnedUnitsInput = {
   customer?: Prisma.CustomerCreateNestedOneWithoutUsersInput
   building?: Prisma.BuildingCreateNestedOneWithoutUsersInput
   residentUnits?: Prisma.UnitCreateNestedManyWithoutResidentInput
+  occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCreatedByInput
@@ -1835,6 +2119,8 @@ export type UserUncheckedCreateWithoutOwnedUnitsInput = {
   id?: string
   email: string
   name?: string | null
+  phone?: string | null
+  mobile?: string | null
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
@@ -1845,6 +2131,7 @@ export type UserUncheckedCreateWithoutOwnedUnitsInput = {
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
   residentUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutResidentInput
+  occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCreatedByInput
@@ -1867,6 +2154,8 @@ export type UserCreateWithoutResidentUnitsInput = {
   id?: string
   email: string
   name?: string | null
+  phone?: string | null
+  mobile?: string | null
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
@@ -1877,6 +2166,7 @@ export type UserCreateWithoutResidentUnitsInput = {
   customer?: Prisma.CustomerCreateNestedOneWithoutUsersInput
   building?: Prisma.BuildingCreateNestedOneWithoutUsersInput
   ownedUnits?: Prisma.UnitCreateNestedManyWithoutOwnerInput
+  occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCreatedByInput
@@ -1894,6 +2184,8 @@ export type UserUncheckedCreateWithoutResidentUnitsInput = {
   id?: string
   email: string
   name?: string | null
+  phone?: string | null
+  mobile?: string | null
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
@@ -1904,6 +2196,7 @@ export type UserUncheckedCreateWithoutResidentUnitsInput = {
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
   ownedUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutOwnerInput
+  occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCreatedByInput
@@ -1937,6 +2230,8 @@ export type UserUpdateWithoutOwnedUnitsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -1947,6 +2242,7 @@ export type UserUpdateWithoutOwnedUnitsInput = {
   customer?: Prisma.CustomerUpdateOneWithoutUsersNestedInput
   building?: Prisma.BuildingUpdateOneWithoutUsersNestedInput
   residentUnits?: Prisma.UnitUpdateManyWithoutResidentNestedInput
+  occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUpdateManyWithoutCreatedByNestedInput
@@ -1964,6 +2260,8 @@ export type UserUncheckedUpdateWithoutOwnedUnitsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -1974,6 +2272,7 @@ export type UserUncheckedUpdateWithoutOwnedUnitsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   residentUnits?: Prisma.UnitUncheckedUpdateManyWithoutResidentNestedInput
+  occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -2002,6 +2301,8 @@ export type UserUpdateWithoutResidentUnitsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -2012,6 +2313,7 @@ export type UserUpdateWithoutResidentUnitsInput = {
   customer?: Prisma.CustomerUpdateOneWithoutUsersNestedInput
   building?: Prisma.BuildingUpdateOneWithoutUsersNestedInput
   ownedUnits?: Prisma.UnitUpdateManyWithoutOwnerNestedInput
+  occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUpdateManyWithoutCreatedByNestedInput
@@ -2029,6 +2331,8 @@ export type UserUncheckedUpdateWithoutResidentUnitsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -2039,6 +2343,7 @@ export type UserUncheckedUpdateWithoutResidentUnitsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   ownedUnits?: Prisma.UnitUncheckedUpdateManyWithoutOwnerNestedInput
+  occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -2056,6 +2361,8 @@ export type UserCreateWithoutCompanyRolesInput = {
   id?: string
   email: string
   name?: string | null
+  phone?: string | null
+  mobile?: string | null
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
@@ -2067,6 +2374,7 @@ export type UserCreateWithoutCompanyRolesInput = {
   building?: Prisma.BuildingCreateNestedOneWithoutUsersInput
   ownedUnits?: Prisma.UnitCreateNestedManyWithoutOwnerInput
   residentUnits?: Prisma.UnitCreateNestedManyWithoutResidentInput
+  occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCreatedByInput
   createdAnnouncements?: Prisma.AnnouncementCreateNestedManyWithoutCreatedByInput
@@ -2083,6 +2391,8 @@ export type UserUncheckedCreateWithoutCompanyRolesInput = {
   id?: string
   email: string
   name?: string | null
+  phone?: string | null
+  mobile?: string | null
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
@@ -2094,6 +2404,7 @@ export type UserUncheckedCreateWithoutCompanyRolesInput = {
   lastLoginAt?: Date | string | null
   ownedUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutOwnerInput
   residentUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutResidentInput
+  occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCreatedByInput
   createdAnnouncements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutCreatedByInput
@@ -2126,6 +2437,8 @@ export type UserUpdateWithoutCompanyRolesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -2137,6 +2450,7 @@ export type UserUpdateWithoutCompanyRolesInput = {
   building?: Prisma.BuildingUpdateOneWithoutUsersNestedInput
   ownedUnits?: Prisma.UnitUpdateManyWithoutOwnerNestedInput
   residentUnits?: Prisma.UnitUpdateManyWithoutResidentNestedInput
+  occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUpdateManyWithoutCreatedByNestedInput
   createdAnnouncements?: Prisma.AnnouncementUpdateManyWithoutCreatedByNestedInput
@@ -2153,6 +2467,8 @@ export type UserUncheckedUpdateWithoutCompanyRolesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -2164,6 +2480,7 @@ export type UserUncheckedUpdateWithoutCompanyRolesInput = {
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   ownedUnits?: Prisma.UnitUncheckedUpdateManyWithoutOwnerNestedInput
   residentUnits?: Prisma.UnitUncheckedUpdateManyWithoutResidentNestedInput
+  occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCreatedByNestedInput
   createdAnnouncements?: Prisma.AnnouncementUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -2180,6 +2497,8 @@ export type UserCreateWithoutCreatedMenuConfigsInput = {
   id?: string
   email: string
   name?: string | null
+  phone?: string | null
+  mobile?: string | null
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
@@ -2191,6 +2510,7 @@ export type UserCreateWithoutCreatedMenuConfigsInput = {
   building?: Prisma.BuildingCreateNestedOneWithoutUsersInput
   ownedUnits?: Prisma.UnitCreateNestedManyWithoutOwnerInput
   residentUnits?: Prisma.UnitCreateNestedManyWithoutResidentInput
+  occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
   createdAnnouncements?: Prisma.AnnouncementCreateNestedManyWithoutCreatedByInput
@@ -2207,6 +2527,8 @@ export type UserUncheckedCreateWithoutCreatedMenuConfigsInput = {
   id?: string
   email: string
   name?: string | null
+  phone?: string | null
+  mobile?: string | null
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
@@ -2218,6 +2540,7 @@ export type UserUncheckedCreateWithoutCreatedMenuConfigsInput = {
   lastLoginAt?: Date | string | null
   ownedUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutOwnerInput
   residentUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutResidentInput
+  occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
   createdAnnouncements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutCreatedByInput
@@ -2250,6 +2573,8 @@ export type UserUpdateWithoutCreatedMenuConfigsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -2261,6 +2586,7 @@ export type UserUpdateWithoutCreatedMenuConfigsInput = {
   building?: Prisma.BuildingUpdateOneWithoutUsersNestedInput
   ownedUnits?: Prisma.UnitUpdateManyWithoutOwnerNestedInput
   residentUnits?: Prisma.UnitUpdateManyWithoutResidentNestedInput
+  occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
   createdAnnouncements?: Prisma.AnnouncementUpdateManyWithoutCreatedByNestedInput
@@ -2277,6 +2603,8 @@ export type UserUncheckedUpdateWithoutCreatedMenuConfigsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -2288,6 +2616,7 @@ export type UserUncheckedUpdateWithoutCreatedMenuConfigsInput = {
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   ownedUnits?: Prisma.UnitUncheckedUpdateManyWithoutOwnerNestedInput
   residentUnits?: Prisma.UnitUncheckedUpdateManyWithoutResidentNestedInput
+  occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
   createdAnnouncements?: Prisma.AnnouncementUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -2304,6 +2633,8 @@ export type UserCreateWithoutCreatedAnnouncementsInput = {
   id?: string
   email: string
   name?: string | null
+  phone?: string | null
+  mobile?: string | null
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
@@ -2315,6 +2646,7 @@ export type UserCreateWithoutCreatedAnnouncementsInput = {
   building?: Prisma.BuildingCreateNestedOneWithoutUsersInput
   ownedUnits?: Prisma.UnitCreateNestedManyWithoutOwnerInput
   residentUnits?: Prisma.UnitCreateNestedManyWithoutResidentInput
+  occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCreatedByInput
@@ -2331,6 +2663,8 @@ export type UserUncheckedCreateWithoutCreatedAnnouncementsInput = {
   id?: string
   email: string
   name?: string | null
+  phone?: string | null
+  mobile?: string | null
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
@@ -2342,6 +2676,7 @@ export type UserUncheckedCreateWithoutCreatedAnnouncementsInput = {
   lastLoginAt?: Date | string | null
   ownedUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutOwnerInput
   residentUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutResidentInput
+  occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCreatedByInput
@@ -2374,6 +2709,8 @@ export type UserUpdateWithoutCreatedAnnouncementsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -2385,6 +2722,7 @@ export type UserUpdateWithoutCreatedAnnouncementsInput = {
   building?: Prisma.BuildingUpdateOneWithoutUsersNestedInput
   ownedUnits?: Prisma.UnitUpdateManyWithoutOwnerNestedInput
   residentUnits?: Prisma.UnitUpdateManyWithoutResidentNestedInput
+  occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUpdateManyWithoutCreatedByNestedInput
@@ -2401,6 +2739,8 @@ export type UserUncheckedUpdateWithoutCreatedAnnouncementsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -2412,6 +2752,7 @@ export type UserUncheckedUpdateWithoutCreatedAnnouncementsInput = {
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   ownedUnits?: Prisma.UnitUncheckedUpdateManyWithoutOwnerNestedInput
   residentUnits?: Prisma.UnitUncheckedUpdateManyWithoutResidentNestedInput
+  occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -2428,6 +2769,8 @@ export type UserCreateWithoutApiUsageLogsInput = {
   id?: string
   email: string
   name?: string | null
+  phone?: string | null
+  mobile?: string | null
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
@@ -2439,6 +2782,7 @@ export type UserCreateWithoutApiUsageLogsInput = {
   building?: Prisma.BuildingCreateNestedOneWithoutUsersInput
   ownedUnits?: Prisma.UnitCreateNestedManyWithoutOwnerInput
   residentUnits?: Prisma.UnitCreateNestedManyWithoutResidentInput
+  occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCreatedByInput
@@ -2455,6 +2799,8 @@ export type UserUncheckedCreateWithoutApiUsageLogsInput = {
   id?: string
   email: string
   name?: string | null
+  phone?: string | null
+  mobile?: string | null
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
@@ -2466,6 +2812,7 @@ export type UserUncheckedCreateWithoutApiUsageLogsInput = {
   lastLoginAt?: Date | string | null
   ownedUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutOwnerInput
   residentUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutResidentInput
+  occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCreatedByInput
@@ -2498,6 +2845,8 @@ export type UserUpdateWithoutApiUsageLogsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -2509,6 +2858,7 @@ export type UserUpdateWithoutApiUsageLogsInput = {
   building?: Prisma.BuildingUpdateOneWithoutUsersNestedInput
   ownedUnits?: Prisma.UnitUpdateManyWithoutOwnerNestedInput
   residentUnits?: Prisma.UnitUpdateManyWithoutResidentNestedInput
+  occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUpdateManyWithoutCreatedByNestedInput
@@ -2525,6 +2875,8 @@ export type UserUncheckedUpdateWithoutApiUsageLogsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -2536,6 +2888,7 @@ export type UserUncheckedUpdateWithoutApiUsageLogsInput = {
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   ownedUnits?: Prisma.UnitUncheckedUpdateManyWithoutOwnerNestedInput
   residentUnits?: Prisma.UnitUncheckedUpdateManyWithoutResidentNestedInput
+  occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -2552,6 +2905,8 @@ export type UserCreateWithoutReportedMaintenanceInput = {
   id?: string
   email: string
   name?: string | null
+  phone?: string | null
+  mobile?: string | null
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
@@ -2563,6 +2918,7 @@ export type UserCreateWithoutReportedMaintenanceInput = {
   building?: Prisma.BuildingCreateNestedOneWithoutUsersInput
   ownedUnits?: Prisma.UnitCreateNestedManyWithoutOwnerInput
   residentUnits?: Prisma.UnitCreateNestedManyWithoutResidentInput
+  occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCreatedByInput
@@ -2579,6 +2935,8 @@ export type UserUncheckedCreateWithoutReportedMaintenanceInput = {
   id?: string
   email: string
   name?: string | null
+  phone?: string | null
+  mobile?: string | null
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
@@ -2590,6 +2948,7 @@ export type UserUncheckedCreateWithoutReportedMaintenanceInput = {
   lastLoginAt?: Date | string | null
   ownedUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutOwnerInput
   residentUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutResidentInput
+  occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCreatedByInput
@@ -2611,6 +2970,8 @@ export type UserCreateWithoutAssignedMaintenanceInput = {
   id?: string
   email: string
   name?: string | null
+  phone?: string | null
+  mobile?: string | null
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
@@ -2622,6 +2983,7 @@ export type UserCreateWithoutAssignedMaintenanceInput = {
   building?: Prisma.BuildingCreateNestedOneWithoutUsersInput
   ownedUnits?: Prisma.UnitCreateNestedManyWithoutOwnerInput
   residentUnits?: Prisma.UnitCreateNestedManyWithoutResidentInput
+  occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCreatedByInput
@@ -2638,6 +3000,8 @@ export type UserUncheckedCreateWithoutAssignedMaintenanceInput = {
   id?: string
   email: string
   name?: string | null
+  phone?: string | null
+  mobile?: string | null
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
@@ -2649,6 +3013,7 @@ export type UserUncheckedCreateWithoutAssignedMaintenanceInput = {
   lastLoginAt?: Date | string | null
   ownedUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutOwnerInput
   residentUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutResidentInput
+  occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCreatedByInput
@@ -2681,6 +3046,8 @@ export type UserUpdateWithoutReportedMaintenanceInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -2692,6 +3059,7 @@ export type UserUpdateWithoutReportedMaintenanceInput = {
   building?: Prisma.BuildingUpdateOneWithoutUsersNestedInput
   ownedUnits?: Prisma.UnitUpdateManyWithoutOwnerNestedInput
   residentUnits?: Prisma.UnitUpdateManyWithoutResidentNestedInput
+  occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUpdateManyWithoutCreatedByNestedInput
@@ -2708,6 +3076,8 @@ export type UserUncheckedUpdateWithoutReportedMaintenanceInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -2719,6 +3089,7 @@ export type UserUncheckedUpdateWithoutReportedMaintenanceInput = {
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   ownedUnits?: Prisma.UnitUncheckedUpdateManyWithoutOwnerNestedInput
   residentUnits?: Prisma.UnitUncheckedUpdateManyWithoutResidentNestedInput
+  occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -2746,6 +3117,8 @@ export type UserUpdateWithoutAssignedMaintenanceInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -2757,6 +3130,7 @@ export type UserUpdateWithoutAssignedMaintenanceInput = {
   building?: Prisma.BuildingUpdateOneWithoutUsersNestedInput
   ownedUnits?: Prisma.UnitUpdateManyWithoutOwnerNestedInput
   residentUnits?: Prisma.UnitUpdateManyWithoutResidentNestedInput
+  occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUpdateManyWithoutCreatedByNestedInput
@@ -2773,6 +3147,8 @@ export type UserUncheckedUpdateWithoutAssignedMaintenanceInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -2784,6 +3160,7 @@ export type UserUncheckedUpdateWithoutAssignedMaintenanceInput = {
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   ownedUnits?: Prisma.UnitUncheckedUpdateManyWithoutOwnerNestedInput
   residentUnits?: Prisma.UnitUncheckedUpdateManyWithoutResidentNestedInput
+  occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -2800,6 +3177,8 @@ export type UserCreateManyCompanyInput = {
   id?: string
   email: string
   name?: string | null
+  phone?: string | null
+  mobile?: string | null
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
@@ -2814,6 +3193,8 @@ export type UserUpdateWithoutCompanyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -2824,6 +3205,7 @@ export type UserUpdateWithoutCompanyInput = {
   building?: Prisma.BuildingUpdateOneWithoutUsersNestedInput
   ownedUnits?: Prisma.UnitUpdateManyWithoutOwnerNestedInput
   residentUnits?: Prisma.UnitUpdateManyWithoutResidentNestedInput
+  occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUpdateManyWithoutCreatedByNestedInput
@@ -2841,6 +3223,8 @@ export type UserUncheckedUpdateWithoutCompanyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -2851,6 +3235,7 @@ export type UserUncheckedUpdateWithoutCompanyInput = {
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   ownedUnits?: Prisma.UnitUncheckedUpdateManyWithoutOwnerNestedInput
   residentUnits?: Prisma.UnitUncheckedUpdateManyWithoutResidentNestedInput
+  occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -2868,6 +3253,8 @@ export type UserUncheckedUpdateManyWithoutCompanyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -2882,6 +3269,8 @@ export type UserCreateManyCustomerInput = {
   id?: string
   email: string
   name?: string | null
+  phone?: string | null
+  mobile?: string | null
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
@@ -2896,6 +3285,8 @@ export type UserUpdateWithoutCustomerInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -2906,6 +3297,7 @@ export type UserUpdateWithoutCustomerInput = {
   building?: Prisma.BuildingUpdateOneWithoutUsersNestedInput
   ownedUnits?: Prisma.UnitUpdateManyWithoutOwnerNestedInput
   residentUnits?: Prisma.UnitUpdateManyWithoutResidentNestedInput
+  occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUpdateManyWithoutCreatedByNestedInput
@@ -2923,6 +3315,8 @@ export type UserUncheckedUpdateWithoutCustomerInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -2933,6 +3327,7 @@ export type UserUncheckedUpdateWithoutCustomerInput = {
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   ownedUnits?: Prisma.UnitUncheckedUpdateManyWithoutOwnerNestedInput
   residentUnits?: Prisma.UnitUncheckedUpdateManyWithoutResidentNestedInput
+  occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -2950,6 +3345,8 @@ export type UserUncheckedUpdateManyWithoutCustomerInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -2964,6 +3361,8 @@ export type UserCreateManyBuildingInput = {
   id?: string
   email: string
   name?: string | null
+  phone?: string | null
+  mobile?: string | null
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
@@ -2978,6 +3377,8 @@ export type UserUpdateWithoutBuildingInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -2988,6 +3389,7 @@ export type UserUpdateWithoutBuildingInput = {
   customer?: Prisma.CustomerUpdateOneWithoutUsersNestedInput
   ownedUnits?: Prisma.UnitUpdateManyWithoutOwnerNestedInput
   residentUnits?: Prisma.UnitUpdateManyWithoutResidentNestedInput
+  occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUpdateManyWithoutCreatedByNestedInput
@@ -3005,6 +3407,8 @@ export type UserUncheckedUpdateWithoutBuildingInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -3015,6 +3419,7 @@ export type UserUncheckedUpdateWithoutBuildingInput = {
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   ownedUnits?: Prisma.UnitUncheckedUpdateManyWithoutOwnerNestedInput
   residentUnits?: Prisma.UnitUncheckedUpdateManyWithoutResidentNestedInput
+  occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -3032,6 +3437,8 @@ export type UserUncheckedUpdateManyWithoutBuildingInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
@@ -3050,6 +3457,7 @@ export type UserUncheckedUpdateManyWithoutBuildingInput = {
 export type UserCountOutputType = {
   ownedUnits: number
   residentUnits: number
+  occupancies: number
   companyRoles: number
   createdCompanies: number
   createdMenuConfigs: number
@@ -3066,6 +3474,7 @@ export type UserCountOutputType = {
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   ownedUnits?: boolean | UserCountOutputTypeCountOwnedUnitsArgs
   residentUnits?: boolean | UserCountOutputTypeCountResidentUnitsArgs
+  occupancies?: boolean | UserCountOutputTypeCountOccupanciesArgs
   companyRoles?: boolean | UserCountOutputTypeCountCompanyRolesArgs
   createdCompanies?: boolean | UserCountOutputTypeCountCreatedCompaniesArgs
   createdMenuConfigs?: boolean | UserCountOutputTypeCountCreatedMenuConfigsArgs
@@ -3101,6 +3510,13 @@ export type UserCountOutputTypeCountOwnedUnitsArgs<ExtArgs extends runtime.Types
  */
 export type UserCountOutputTypeCountResidentUnitsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.UnitWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountOccupanciesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.UnitOccupancyWhereInput
 }
 
 /**
@@ -3185,6 +3601,8 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   id?: boolean
   email?: boolean
   name?: boolean
+  phone?: boolean
+  mobile?: boolean
   passwordHash?: boolean
   role?: boolean
   status?: boolean
@@ -3199,6 +3617,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   building?: boolean | Prisma.User$buildingArgs<ExtArgs>
   ownedUnits?: boolean | Prisma.User$ownedUnitsArgs<ExtArgs>
   residentUnits?: boolean | Prisma.User$residentUnitsArgs<ExtArgs>
+  occupancies?: boolean | Prisma.User$occupanciesArgs<ExtArgs>
   companyRoles?: boolean | Prisma.User$companyRolesArgs<ExtArgs>
   createdCompanies?: boolean | Prisma.User$createdCompaniesArgs<ExtArgs>
   createdMenuConfigs?: boolean | Prisma.User$createdMenuConfigsArgs<ExtArgs>
@@ -3217,6 +3636,8 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   id?: boolean
   email?: boolean
   name?: boolean
+  phone?: boolean
+  mobile?: boolean
   passwordHash?: boolean
   role?: boolean
   status?: boolean
@@ -3235,6 +3656,8 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   id?: boolean
   email?: boolean
   name?: boolean
+  phone?: boolean
+  mobile?: boolean
   passwordHash?: boolean
   role?: boolean
   status?: boolean
@@ -3253,6 +3676,8 @@ export type UserSelectScalar = {
   id?: boolean
   email?: boolean
   name?: boolean
+  phone?: boolean
+  mobile?: boolean
   passwordHash?: boolean
   role?: boolean
   status?: boolean
@@ -3264,13 +3689,14 @@ export type UserSelectScalar = {
   lastLoginAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "name" | "passwordHash" | "role" | "status" | "companyId" | "customerId" | "buildingId" | "createdAt" | "updatedAt" | "lastLoginAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "name" | "phone" | "mobile" | "passwordHash" | "role" | "status" | "companyId" | "customerId" | "buildingId" | "createdAt" | "updatedAt" | "lastLoginAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   company?: boolean | Prisma.User$companyArgs<ExtArgs>
   customer?: boolean | Prisma.User$customerArgs<ExtArgs>
   building?: boolean | Prisma.User$buildingArgs<ExtArgs>
   ownedUnits?: boolean | Prisma.User$ownedUnitsArgs<ExtArgs>
   residentUnits?: boolean | Prisma.User$residentUnitsArgs<ExtArgs>
+  occupancies?: boolean | Prisma.User$occupanciesArgs<ExtArgs>
   companyRoles?: boolean | Prisma.User$companyRolesArgs<ExtArgs>
   createdCompanies?: boolean | Prisma.User$createdCompaniesArgs<ExtArgs>
   createdMenuConfigs?: boolean | Prisma.User$createdMenuConfigsArgs<ExtArgs>
@@ -3303,6 +3729,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     building: Prisma.$BuildingPayload<ExtArgs> | null
     ownedUnits: Prisma.$UnitPayload<ExtArgs>[]
     residentUnits: Prisma.$UnitPayload<ExtArgs>[]
+    occupancies: Prisma.$UnitOccupancyPayload<ExtArgs>[]
     companyRoles: Prisma.$UserCompanyRolePayload<ExtArgs>[]
     createdCompanies: Prisma.$CompanyPayload<ExtArgs>[]
     createdMenuConfigs: Prisma.$MenuConfigPayload<ExtArgs>[]
@@ -3319,6 +3746,8 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     id: string
     email: string
     name: string | null
+    phone: string | null
+    mobile: string | null
     passwordHash: string | null
     role: $Enums.UserRole
     status: $Enums.UserStatus
@@ -3727,6 +4156,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   building<T extends Prisma.User$buildingArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$buildingArgs<ExtArgs>>): Prisma.Prisma__BuildingClient<runtime.Types.Result.GetResult<Prisma.$BuildingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   ownedUnits<T extends Prisma.User$ownedUnitsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$ownedUnitsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UnitPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   residentUnits<T extends Prisma.User$residentUnitsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$residentUnitsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UnitPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  occupancies<T extends Prisma.User$occupanciesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$occupanciesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UnitOccupancyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   companyRoles<T extends Prisma.User$companyRolesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$companyRolesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserCompanyRolePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   createdCompanies<T extends Prisma.User$createdCompaniesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$createdCompaniesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   createdMenuConfigs<T extends Prisma.User$createdMenuConfigsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$createdMenuConfigsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MenuConfigPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -3770,6 +4200,8 @@ export interface UserFieldRefs {
   readonly id: Prisma.FieldRef<"User", 'String'>
   readonly email: Prisma.FieldRef<"User", 'String'>
   readonly name: Prisma.FieldRef<"User", 'String'>
+  readonly phone: Prisma.FieldRef<"User", 'String'>
+  readonly mobile: Prisma.FieldRef<"User", 'String'>
   readonly passwordHash: Prisma.FieldRef<"User", 'String'>
   readonly role: Prisma.FieldRef<"User", 'UserRole'>
   readonly status: Prisma.FieldRef<"User", 'UserStatus'>
@@ -4282,6 +4714,30 @@ export type User$residentUnitsArgs<ExtArgs extends runtime.Types.Extensions.Inte
   take?: number
   skip?: number
   distinct?: Prisma.UnitScalarFieldEnum | Prisma.UnitScalarFieldEnum[]
+}
+
+/**
+ * User.occupancies
+ */
+export type User$occupanciesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the UnitOccupancy
+   */
+  select?: Prisma.UnitOccupancySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the UnitOccupancy
+   */
+  omit?: Prisma.UnitOccupancyOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UnitOccupancyInclude<ExtArgs> | null
+  where?: Prisma.UnitOccupancyWhereInput
+  orderBy?: Prisma.UnitOccupancyOrderByWithRelationInput | Prisma.UnitOccupancyOrderByWithRelationInput[]
+  cursor?: Prisma.UnitOccupancyWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.UnitOccupancyScalarFieldEnum | Prisma.UnitOccupancyScalarFieldEnum[]
 }
 
 /**

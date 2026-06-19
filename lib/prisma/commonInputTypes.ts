@@ -392,6 +392,23 @@ export type EnumCustomerTypeWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumCustomerTypeFilter<$PrismaModel>
 }
 
+export type EnumOccupancyRoleFilter<$PrismaModel = never> = {
+  equals?: $Enums.OccupancyRole | Prisma.EnumOccupancyRoleFieldRefInput<$PrismaModel>
+  in?: $Enums.OccupancyRole[] | Prisma.ListEnumOccupancyRoleFieldRefInput<$PrismaModel>
+  notIn?: $Enums.OccupancyRole[] | Prisma.ListEnumOccupancyRoleFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumOccupancyRoleFilter<$PrismaModel> | $Enums.OccupancyRole
+}
+
+export type EnumOccupancyRoleWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.OccupancyRole | Prisma.EnumOccupancyRoleFieldRefInput<$PrismaModel>
+  in?: $Enums.OccupancyRole[] | Prisma.ListEnumOccupancyRoleFieldRefInput<$PrismaModel>
+  notIn?: $Enums.OccupancyRole[] | Prisma.ListEnumOccupancyRoleFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumOccupancyRoleWithAggregatesFilter<$PrismaModel> | $Enums.OccupancyRole
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumOccupancyRoleFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumOccupancyRoleFilter<$PrismaModel>
+}
+
 export type EnumBuildingFileCategoryFilter<$PrismaModel = never> = {
   equals?: $Enums.BuildingFileCategory | Prisma.EnumBuildingFileCategoryFieldRefInput<$PrismaModel>
   in?: $Enums.BuildingFileCategory[] | Prisma.ListEnumBuildingFileCategoryFieldRefInput<$PrismaModel>
@@ -956,6 +973,23 @@ export type NestedEnumCustomerTypeWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumCustomerTypeFilter<$PrismaModel>
   _max?: Prisma.NestedEnumCustomerTypeFilter<$PrismaModel>
+}
+
+export type NestedEnumOccupancyRoleFilter<$PrismaModel = never> = {
+  equals?: $Enums.OccupancyRole | Prisma.EnumOccupancyRoleFieldRefInput<$PrismaModel>
+  in?: $Enums.OccupancyRole[] | Prisma.ListEnumOccupancyRoleFieldRefInput<$PrismaModel>
+  notIn?: $Enums.OccupancyRole[] | Prisma.ListEnumOccupancyRoleFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumOccupancyRoleFilter<$PrismaModel> | $Enums.OccupancyRole
+}
+
+export type NestedEnumOccupancyRoleWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.OccupancyRole | Prisma.EnumOccupancyRoleFieldRefInput<$PrismaModel>
+  in?: $Enums.OccupancyRole[] | Prisma.ListEnumOccupancyRoleFieldRefInput<$PrismaModel>
+  notIn?: $Enums.OccupancyRole[] | Prisma.ListEnumOccupancyRoleFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumOccupancyRoleWithAggregatesFilter<$PrismaModel> | $Enums.OccupancyRole
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumOccupancyRoleFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumOccupancyRoleFilter<$PrismaModel>
 }
 
 export type NestedEnumBuildingFileCategoryFilter<$PrismaModel = never> = {

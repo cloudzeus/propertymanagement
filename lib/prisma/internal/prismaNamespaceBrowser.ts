@@ -64,6 +64,7 @@ export const ModelName = {
   Customer: 'Customer',
   Property: 'Property',
   Building: 'Building',
+  UnitOccupancy: 'UnitOccupancy',
   BuildingFile: 'BuildingFile',
   InfraPoint: 'InfraPoint',
   Contact: 'Contact',
@@ -113,6 +114,8 @@ export const UserScalarFieldEnum = {
   id: 'id',
   email: 'email',
   name: 'name',
+  phone: 'phone',
+  mobile: 'mobile',
   passwordHash: 'passwordHash',
   role: 'role',
   status: 'status',
@@ -401,6 +404,20 @@ export const BuildingScalarFieldEnum = {
 } as const
 
 export type BuildingScalarFieldEnum = (typeof BuildingScalarFieldEnum)[keyof typeof BuildingScalarFieldEnum]
+
+
+export const UnitOccupancyScalarFieldEnum = {
+  id: 'id',
+  unitId: 'unitId',
+  userId: 'userId',
+  role: 'role',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  notes: 'notes',
+  createdAt: 'createdAt'
+} as const
+
+export type UnitOccupancyScalarFieldEnum = (typeof UnitOccupancyScalarFieldEnum)[keyof typeof UnitOccupancyScalarFieldEnum]
 
 
 export const BuildingFileScalarFieldEnum = {

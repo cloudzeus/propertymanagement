@@ -107,6 +107,11 @@ export type Property = Prisma.PropertyModel
  */
 export type Building = Prisma.BuildingModel
 /**
+ * Model UnitOccupancy
+ * 
+ */
+export type UnitOccupancy = Prisma.UnitOccupancyModel
+/**
  * Model BuildingFile
  * 
  */
