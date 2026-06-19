@@ -10,8 +10,10 @@ import {
   recalculateMillesimes,
 } from "@/app/actions/buildings";
 import { computeMillesimes } from "@/lib/millesimes";
-import { createOccupant, clearOccupant } from "@/app/actions/unit-occupants";
+import { createOccupant, assignOccupant, clearOccupant } from "@/app/actions/unit-occupants";
 import { deleteProperty } from "@/app/actions/properties";
+import { UserCombo } from "@/components/ui/user-combo";
+import { CUSTOMER_ROLES } from "@/lib/roles-constants";
 import {
   RiArrowRightSLine, RiArrowUpSLine, RiArrowDownSLine, RiCommunityLine, RiBuildingLine, RiStairsLine, RiHome2Line,
   RiStore2Line, RiParkingBoxLine, RiBox3Line, RiDoorOpenLine, RiMoreFill,
@@ -496,6 +498,10 @@ function Slot({ unitId, role, label, current, onDone }: { unitId: string; role: 
     setError(null);
     startTransition(async () => { const res = await createOccupant(unitId, role, form); if ("error" in res && res.error) { setError(res.error); return; } setOccupant(res.occupant ?? null); setAdding(false); setForm({ name: "", email: "", password: "" }); onDone(); });
   }
+  function pickExisting(userId: string) {
+    setError(null);
+    startTransition(async () => { const res = await assignOccupant(unitId, role, userId); if ("error" in res && res.error) { setError(res.error); return; } setOccupant(res.occupant ?? null); onDone(); });
+  }
   function clear() { if (!confirm(`Αφαίρεση ${label.toLowerCase()};`)) return; startTransition(async () => { await clearOccupant(unitId, role); setOccupant(null); onDone(); }); }
   return (
     <div style={{ border: "1px solid var(--border)", borderRadius: 8, padding: 14 }}>
@@ -524,7 +530,16 @@ function Slot({ unitId, role, label, current, onDone }: { unitId: string; role: 
           </div>
         </div>
       ) : (
-        <button onClick={() => setAdding(true)} style={smallBtn}><RiAddLine /> Δημιουργία {label.toLowerCase()}</button>
+        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+          {error && <div style={errBox}>{error}</div>}
+          <UserCombo
+            selected={null}
+            onSelect={(u) => { if (u) pickExisting(u.id); }}
+            placeholder="Αναζήτηση με email ή όνομα…"
+            roles={CUSTOMER_ROLES}
+          />
+          <button onClick={() => setAdding(true)} style={smallBtn}><RiAddLine /> Δημιουργία νέου</button>
+        </div>
       )}
     </div>
   );
