@@ -7,7 +7,9 @@ import {
   RiDashboardLine, RiHome4Line, RiGroupLine, RiUserStarLine, RiFolderLine,
   RiCalendarTodoLine, RiContactsBook3Line, RiSettings3Line, RiWallet3Line,
   RiBankCardLine, RiToolsLine, RiMegaphoneLine, RiScales3Line, RiMoneyEuroCircleLine,
+  RiPieChartLine,
 } from "react-icons/ri";
+import { CategorySplitSettings } from "@/components/buildings/CategorySplitSettings";
 import { FilesPanel, type FileRow } from "./FilesPanel";
 import { PeoplePanel, type Person } from "./PeoplePanel";
 import { ContactsPanel, type ContactRow } from "./ContactsPanel";
@@ -28,7 +30,7 @@ type Kpis = {
 
 type TabKey =
   | "overview" | "units" | "people" | "managers" | "files" | "calendar"
-  | "contacts" | "infra" | "expenses" | "koino" | "pay" | "maint" | "ann";
+  | "contacts" | "infra" | "expenses" | "splitsettings" | "koino" | "pay" | "maint" | "ann";
 
 const TABS: { key: TabKey; label: string; icon: React.ElementType; badge?: (k: Kpis) => number | undefined }[] = [
   { key: "overview", label: "Επισκόπηση", icon: RiDashboardLine },
@@ -40,6 +42,7 @@ const TABS: { key: TabKey; label: string; icon: React.ElementType; badge?: (k: K
   { key: "contacts", label: "Επαφές", icon: RiContactsBook3Line, badge: (k) => k.contacts || undefined },
   { key: "infra", label: "Εγκαταστάσεις", icon: RiSettings3Line, badge: (k) => k.infraPoints || undefined },
   { key: "expenses", label: "Έξοδα", icon: RiMoneyEuroCircleLine },
+  { key: "splitsettings", label: "Ρυθμίσεις κατανομής", icon: RiPieChartLine },
   { key: "koino", label: "Κοινόχρηστα", icon: RiWallet3Line },
   { key: "pay", label: "Πληρωμές", icon: RiBankCardLine },
   { key: "maint", label: "Συντήρηση", icon: RiToolsLine },
@@ -141,6 +144,8 @@ export function BuildingDashboard({ building, kpis, files, people, contacts, inf
           <CalendarPanel buildingId={building.id} tasks={tasks} today={today} />
         ) : tab === "expenses" ? (
           <ExpensesPanel buildingId={building.id} expenses={expenses} categories={categorySplits} />
+        ) : tab === "splitsettings" ? (
+          <CategorySplitSettings buildingId={building.id} rows={categorySplits} />
         ) : (
           <Placeholder label={TABS.find((t) => t.key === tab)?.label ?? ""} />
         )}
