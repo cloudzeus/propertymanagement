@@ -1,29 +1,76 @@
 import { z } from "zod";
 
+/**
+ * Parse a money/number value that an LLM may return as a number OR a messy
+ * string ("123.45 EUR", "1.234,56 €", "€ 12,00"). Returns a clean number or null.
+ * Handles both Greek (1.234,56) and English (1,234.56) thousand/decimal separators.
+ */
+export function parseAmount(v: unknown): number | null {
+  if (v == null || v === "") return null;
+  if (typeof v === "number") return isFinite(v) ? v : null;
+  if (typeof v !== "string") return null;
+  let s = v.replace(/[^\d.,-]/g, "").trim();
+  if (!s || s === "-" || s === "." || s === ",") return null;
+  const hasDot = s.includes("."), hasComma = s.includes(",");
+  if (hasDot && hasComma) {
+    // The last-occurring separator is the decimal mark; the other groups thousands.
+    if (s.lastIndexOf(",") > s.lastIndexOf(".")) s = s.replace(/\./g, "").replace(",", ".");
+    else s = s.replace(/,/g, "");
+  } else if (hasComma) {
+    s = s.replace(/,/g, ".");
+  }
+  const n = parseFloat(s);
+  return isNaN(n) ? null : n;
+}
+
+// A numeric field tolerant of strings/currency; never throws — bad input → null.
+const looseAmount = z.preprocess(parseAmount, z.number().nullable()).catch(null);
+
+/**
+ * Normalize a date to YYYY-MM-DD. Accepts ISO, dd/mm/yyyy, dd-mm-yyyy, dd.mm.yyyy.
+ * Returns the cleaned ISO string, or the original string if it can't be parsed
+ * (so nothing is lost — the user can fix it in the form), or null.
+ */
+export function normalizeDate(v: unknown): string | null {
+  if (v == null || v === "") return null;
+  if (typeof v !== "string") return null;
+  const s = v.trim();
+  if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
+  const m = s.match(/^(\d{1,2})[/.\-](\d{1,2})[/.\-](\d{2,4})$/);
+  if (m) {
+    let [, d, mo, y] = m;
+    if (y.length === 2) y = (Number(y) > 50 ? "19" : "20") + y;
+    return `${y}-${mo.padStart(2, "0")}-${d.padStart(2, "0")}`;
+  }
+  return s;
+}
+
+const looseDate = z.preprocess(normalizeDate, z.string().nullable()).catch(null);
+
 export const MeterDataSchema = z.object({
-  meterType: z.enum(["POWER", "WATER", "GAS"]).nullable().default(null),
-  meterNumber: z.string().nullable().default(null),
-  unit: z.string().nullable().default(null),
-  periodFrom: z.string().nullable().default(null),
-  periodTo: z.string().nullable().default(null),
-  previousReading: z.number().nullable().default(null),
-  currentReading: z.number().nullable().default(null),
-  consumption: z.number().nullable().default(null),
+  meterType: z.enum(["POWER", "WATER", "GAS"]).nullable().catch(null).default(null),
+  meterNumber: z.coerce.string().nullable().catch(null).default(null),
+  unit: z.coerce.string().nullable().catch(null).default(null),
+  periodFrom: looseDate.default(null),
+  periodTo: looseDate.default(null),
+  previousReading: looseAmount.default(null),
+  currentReading: looseAmount.default(null),
+  consumption: looseAmount.default(null),
 });
 
 export const ExtractedDocSchema = z.object({
-  docType: z.enum(["invoice", "receipt", "utility", "tax", "other"]).default("other"),
-  supplierName: z.string().nullable().default(null),
-  supplierVat: z.string().nullable().default(null),
-  supplierDoy: z.string().nullable().default(null),
-  documentNumber: z.string().nullable().default(null),
-  documentDate: z.string().nullable().default(null),
-  netAmount: z.number().nullable().default(null),
-  vatAmount: z.number().nullable().default(null),
-  totalAmount: z.number().nullable().default(null),
-  suggestedCategoryCode: z.string().nullable().default(null),
-  meter: MeterDataSchema.nullable().default(null),
-  confidence: z.number().min(0).max(1).default(0.5),
+  docType: z.enum(["invoice", "receipt", "utility", "tax", "other"]).catch("other").default("other"),
+  supplierName: z.coerce.string().nullable().catch(null).default(null),
+  supplierVat: z.coerce.string().nullable().catch(null).default(null),
+  supplierDoy: z.coerce.string().nullable().catch(null).default(null),
+  documentNumber: z.coerce.string().nullable().catch(null).default(null),
+  documentDate: looseDate.default(null),
+  netAmount: looseAmount.default(null),
+  vatAmount: looseAmount.default(null),
+  totalAmount: looseAmount.default(null),
+  suggestedCategoryCode: z.coerce.string().nullable().catch(null).default(null),
+  meter: MeterDataSchema.nullable().catch(null).default(null),
+  confidence: z.coerce.number().catch(0.5).default(0.5),
 });
 
 export type ExtractedDoc = z.infer<typeof ExtractedDocSchema>;
