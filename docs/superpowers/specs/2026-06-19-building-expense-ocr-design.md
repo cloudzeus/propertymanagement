@@ -74,8 +74,15 @@ across units by χιλιοστά (`Unit.millesimes`).
     Διαχείριση/αμοιβή διαχειριστή, Λειτουργία ανελκυστήρα) → **tenant 100 / owner 0**.
   - Capital/maintenance (Επισκευές/Συντήρηση, Αποθεματικό, Ασφάλεια, μεγάλες
     συντηρήσεις ανελκυστήρα) → **owner 100 / tenant 0**.
-- `BuildingExpense.tenantPct` / `ownerPct` are seeded from the category and are
-  **editable in the review modal** (override per expense — "ποσοστό επί της αξίας").
+- **Categories are not fixed.** The seeds are only starting defaults — SUPER_ADMIN /
+  ADMIN can add unlimited categories and edit/disable any (full CRUD).
+- **Per-building override.** A building can override a category's split via
+  `BuildingCategoryOverride` (unique per `buildingId` + `categoryId`). Managed from a
+  "Ρυθμίσεις κατανομής" section on the building page.
+- **Effective split resolution** (used to seed the review modal):
+  `BuildingCategoryOverride` → else `ExpenseCategory` default. The value is still
+  **editable per expense in the review modal** ("ποσοστό επί της αξίας") and stored on
+  `BuildingExpense.tenantPct` / `ownerPct`.
 
 On register, generate `ExpenseAllocation` rows — one per unit:
 - `unitShare = totalAmount × (unit.millesimes / Σ millesimes)`.
@@ -135,8 +142,23 @@ model ExpenseCategory {
   active    Boolean @default(true)
   sortOrder Int     @default(0)
   expenses  BuildingExpense[]
+  overrides BuildingCategoryOverride[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model BuildingCategoryOverride {
+  id         String   @id @default(cuid())
+  buildingId String
+  building   Building @relation(fields: [buildingId], references: [id], onDelete: Cascade)
+  categoryId String
+  category   ExpenseCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  tenantPct  Int            // overrides category default (sum with ownerPct = 100)
+  ownerPct   Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  @@unique([buildingId, categoryId])
+  @@index([buildingId])
 }
 
 model ExpenseAllocation {
@@ -236,7 +258,10 @@ both unit-tested.
 
 `app/actions/expense-categories.ts`:
 - `listExpenseCategories()`, `createExpenseCategory`, `updateExpenseCategory`,
-  `deleteExpenseCategory` (soft-disable when referenced).
+  `deleteExpenseCategory` (soft-disable when referenced). SUPER_ADMIN/ADMIN only.
+- `getBuildingCategorySplits(buildingId)` → categories with effective split
+  (override applied), `upsertBuildingCategoryOverride(buildingId, categoryId, pct)`,
+  `clearBuildingCategoryOverride(buildingId, categoryId)`.
 
 All actions authorize against company roles (SUPER_ADMIN/ADMIN/MANAGER) before mutating.
 
@@ -253,7 +278,11 @@ All actions authorize against company roles (SUPER_ADMIN/ADMIN/MANAGER) before m
   χιλιοστά, μερίδιο, ποσό ενοικιαστή/ιδιοκτήτη).
 - `app/(dashboard)/super-admin/settings/expense-categories/` — ExpenseCategory CRUD
   page (table + add/edit modal), following the `settings/costs` page pattern.
-- Mount `ExpensesPanel` in `app/(dashboard)/super-admin/buildings/[id]`.
+- `components/buildings/CategorySplitSettings.tsx` — per-building "Ρυθμίσεις κατανομής"
+  table: each category with effective tenant/owner %, inline edit to set/clear a
+  `BuildingCategoryOverride` (badge shows "override" vs "default").
+- Mount `ExpensesPanel` + `CategorySplitSettings` in
+  `app/(dashboard)/super-admin/buildings/[id]`.
 
 ## Error handling
 
