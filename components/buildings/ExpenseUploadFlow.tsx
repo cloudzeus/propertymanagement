@@ -24,6 +24,7 @@ export function ExpenseUploadFlow({
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<{ fileId: string; fileUrl: string; extracted: ExtractedDoc } | null>(null);
   const [dragOver, setDragOver] = useState(false);
+  const [manual, setManual] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   async function handleFile(file: File | null | undefined) {
@@ -33,6 +34,7 @@ export function ExpenseUploadFlow({
     try {
       const fd = new FormData();
       fd.set("file", file);
+      if (manual) fd.set("manual", "1");
       const res = await extractExpenseDocument(buildingId, fd);
       setResult(res);
     } catch (e) {
@@ -78,16 +80,22 @@ export function ExpenseUploadFlow({
         {loading ? (
           <>
             <RiLoaderLine style={{ fontSize: 26, animation: "spin 1s linear infinite" }} />
-            <div>Επεξεργασία παραστατικού…</div>
+            <div>{manual ? "Ανέβασμα αρχείου…" : "Επεξεργασία παραστατικού…"}</div>
           </>
         ) : (
           <>
             <RiUploadCloud2Line style={{ fontSize: 28 }} />
             <div>Σύρε ή κάνε κλικ για ανέβασμα παραστατικού</div>
-            <div style={{ fontSize: 11 }}>Εικόνα ή PDF (έως 15MB)</div>
+            <div style={{ fontSize: 11 }}>
+              {manual ? "Χειροκίνητη καταχώρηση — το αρχείο αποθηκεύεται χωρίς OCR" : "Εικόνα ή PDF (έως 15MB) — αυτόματη ανάγνωση"}
+            </div>
           </>
         )}
       </div>
+      <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 12, color: "var(--muted-foreground)", cursor: loading ? "default" : "pointer" }}>
+        <input type="checkbox" checked={manual} disabled={loading} onChange={(e) => setManual(e.target.checked)} />
+        Χειροκίνητη καταχώρηση (χωρίς αυτόματη ανάγνωση OCR)
+      </label>
       <input
         ref={inputRef}
         type="file"

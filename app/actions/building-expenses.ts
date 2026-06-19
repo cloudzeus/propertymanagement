@@ -17,6 +17,12 @@ function assertSplit(t: number, o: number) {
   if (t < 0 || o < 0 || t + o !== 100) throw new Error("Τα ποσοστά ενοικιαστή/ιδιοκτήτη πρέπει να αθροίζουν 100.");
 }
 
+const EMPTY_EXTRACTED = (): ExtractedDoc => ({
+  docType: "other", supplierName: null, supplierVat: null, supplierDoy: null,
+  documentNumber: null, documentDate: null, netAmount: null, vatAmount: null,
+  totalAmount: null, suggestedCategoryCode: null, meter: null, confidence: 0,
+});
+
 async function requireBuildingAccess(buildingId: string): Promise<string> {
   const session = await auth();
   if (!session?.user) throw new Error("Unauthorized");
@@ -82,13 +88,18 @@ export async function extractExpenseDocument(buildingId: string, formData: FormD
     data: { buildingId, category: "RECEIPT", name: file.name, cdnPath: path, url: up.url, mimeType: file.type, sizeBytes: buffer.length, uploadedById: uid },
   });
 
+  // Manual mode: store the file but skip OCR — the user fills the fields by hand.
+  if (formData.get("manual") === "1") {
+    return { fileId: bf.id, fileUrl: up.url, extracted: EMPTY_EXTRACTED() };
+  }
+
   const codes = (await db.expenseCategory.findMany({ where: { active: true }, select: { code: true } })).map((c) => c.code);
   let extracted: ExtractedDoc;
   try {
     const out = await extractDocument({ buffer, mimeType: file.type, categoryCodes: codes });
     extracted = await normalizeExtraction(out.data, out.rawText, codes);
   } catch {
-    extracted = { docType: "other", supplierName: null, supplierVat: null, supplierDoy: null, documentNumber: null, documentDate: null, netAmount: null, vatAmount: null, totalAmount: null, suggestedCategoryCode: null, meter: null, confidence: 0 };
+    extracted = EMPTY_EXTRACTED();
   }
   return { fileId: bf.id, fileUrl: up.url, extracted };
 }
