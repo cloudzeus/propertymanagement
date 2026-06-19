@@ -3,9 +3,17 @@
 Date: 2026-06-19
 Status: Approved (pending spec review)
 
+## Authorization
+
+Who may register / edit / delete a building's expenses:
+- Company roles: SUPER_ADMIN, ADMIN, MANAGER.
+- **Building manager**: any user with a `ManagementAssignment` for that building
+  (`buildingId` set, role `PROPERTY_ADMIN`/`PROPERTY_MANAGER`). A shared helper
+  `canManageBuildingExpenses(userId, buildingId)` is used by every action.
+
 ## Purpose
 
-Allow SUPER_ADMIN / ADMIN / MANAGER users to upload a bill, expense, receipt,
+Allow authorized users (see Authorization) to upload a bill, expense, receipt,
 invoice or tax document for a building. The system OCR-extracts the structured
 data (supplier, ΑΦΜ, document number/date, net / VAT / total amounts, and — for
 utility bills — meter readings), the user reviews and corrects it in a modal,
@@ -50,8 +58,34 @@ SoftOne posting).
    chosen category has `utilityType !== NONE`, meter-reading fields are shown
    (pre-filled from OCR). Confidence badge shown per the OCR `ocrConfidence`.
 4. **Register** — `createBuildingExpense` server action: creates `BuildingExpense`
-   (`status = CONFIRMED`) linked to the `BuildingFile`, and a `MeterReading` row if
-   meter data is present (linked to the matching `InfraPoint` when one exists).
+   (`status = CONFIRMED`) linked to the `BuildingFile`, a `MeterReading` row if
+   meter data is present (linked to the matching `InfraPoint` when one exists), and
+   the per-unit/per-person **allocation** (see below).
+
+## Payer split & per-unit allocation (κοινόχρηστα)
+
+Each expense carries an **owner/tenant responsibility split** plus a distribution
+across units by χιλιοστά (`Unit.millesimes`).
+
+- **Default split per category** lives on `ExpenseCategory`
+  (`defaultTenantPct` + `defaultOwnerPct`, summing to 100), following typical Greek
+  κοινόχρηστα practice:
+  - Operating (Ρεύμα κοινοχρήστων, Νερό, Φυσικό αέριο/Θέρμανση, Καθαριότητα,
+    Διαχείριση/αμοιβή διαχειριστή, Λειτουργία ανελκυστήρα) → **tenant 100 / owner 0**.
+  - Capital/maintenance (Επισκευές/Συντήρηση, Αποθεματικό, Ασφάλεια, μεγάλες
+    συντηρήσεις ανελκυστήρα) → **owner 100 / tenant 0**.
+- `BuildingExpense.tenantPct` / `ownerPct` are seeded from the category and are
+  **editable in the review modal** (override per expense — "ποσοστό επί της αξίας").
+
+On register, generate `ExpenseAllocation` rows — one per unit:
+- `unitShare = totalAmount × (unit.millesimes / Σ millesimes)`.
+- `tenantAmount = unitShare × tenantPct/100`, charged to the unit's current
+  RESIDENT (`UnitOccupancy` role RESIDENT, `endDate=null`, fallback `Unit.residentId`).
+- `ownerAmount = unitShare × ownerPct/100`, charged to the unit's current OWNER
+  (`UnitOccupancy` role OWNER, fallback `Unit.ownerId`).
+- Units with null `millesimes` are flagged in a modal preview before commit
+  (equal split fallback or skip — user decides at preview time).
+A live **allocation preview table** is shown in the review modal before "Καταχώρηση".
 
 ## Engine — `lib/ocr/`
 
@@ -96,11 +130,29 @@ model ExpenseCategory {
   name      String
   code      String  @unique
   utilityType ExpenseUtilityType @default(NONE)
+  defaultTenantPct Int @default(0)   // owner/tenant responsibility split (sum = 100)
+  defaultOwnerPct  Int @default(100)
   active    Boolean @default(true)
   sortOrder Int     @default(0)
   expenses  BuildingExpense[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model ExpenseAllocation {
+  id           String  @id @default(cuid())
+  expenseId    String
+  expense      BuildingExpense @relation(fields: [expenseId], references: [id], onDelete: Cascade)
+  unitId       String
+  unit         Unit    @relation(fields: [unitId], references: [id], onDelete: Cascade)
+  unitShare    Decimal @db.Decimal(10,2)
+  tenantUserId String?
+  tenantAmount Decimal @db.Decimal(10,2) @default(0)
+  ownerUserId  String?
+  ownerAmount  Decimal @db.Decimal(10,2) @default(0)
+  createdAt    DateTime @default(now())
+  @@index([expenseId])
+  @@index([unitId])
 }
 
 model MeterReading {
@@ -136,9 +188,12 @@ model BuildingExpense {
   netAmount      Decimal? @db.Decimal(10,2)
   vatAmount      Decimal? @db.Decimal(10,2)
   status         ExpenseStatus @default(CONFIRMED)
+  tenantPct      Int      @default(0)   // effective split (defaults from category)
+  ownerPct       Int      @default(100)
   ocrRaw         Json?
   ocrConfidence  Float?
   meterReadings  MeterReading[]
+  allocations    ExpenseAllocation[]
   @@index([categoryId])
 }
 
@@ -152,15 +207,32 @@ Migration is additive (no destructive change to existing `BuildingExpense` rows;
 
 ### Seed — default categories
 
-ΔΕΗ/Ρεύμα (POWER), Νερό/ΕΥΔΑΠ-ΕΥΑΘ (WATER), Φυσικό αέριο (GAS), Ανελκυστήρας,
-Καθαριότητα, Συντήρηση, Ασφάλεια, Κοινόχρηστα, Διαχείριση, Λοιπά (NONE).
+Each seeded with utilityType + default split (tenant/owner):
+- Ρεύμα κοινοχρήστων / ΔΕΗ (POWER) — 100/0
+- Νερό / ΕΥΔΑΠ-ΕΥΑΘ (WATER) — 100/0
+- Φυσικό αέριο / Θέρμανση (GAS) — 100/0
+- Καθαριότητα (NONE) — 100/0
+- Διαχείριση (NONE) — 100/0
+- Ανελκυστήρας – Λειτουργία (NONE) — 100/0
+- Ανελκυστήρας – Συντήρηση/Επισκευή (NONE) — 0/100
+- Συντήρηση / Επισκευές (NONE) — 0/100
+- Ασφάλεια (NONE) — 0/100
+- Αποθεματικό (NONE) — 0/100
+- Λοιπά (NONE) — 0/100
 
 ## Server actions — `app/actions/building-expenses.ts`
 
 - `extractExpenseDocument(buildingId, formData)` → `{ fileId, fileUrl, extracted }`.
-- `createBuildingExpense(buildingId, input)` → creates expense (+ optional meter reading).
-- `updateBuildingExpense(id, input)`, `deleteBuildingExpense(id)`.
+- `previewExpenseAllocation(buildingId, { totalAmount, tenantPct, ownerPct })` →
+  computed per-unit allocation rows (for the modal preview, no write).
+- `createBuildingExpense(buildingId, input)` → creates expense (+ optional meter
+  reading + `ExpenseAllocation` rows) atomically in a transaction.
+- `updateBuildingExpense(id, input)` (re-generates allocations), `deleteBuildingExpense(id)`.
 - `listBuildingExpenses(buildingId)`.
+
+Allocation + authorization helpers live in `lib/expenses/allocation.ts`
+(`computeAllocation`) and `lib/expenses/authz.ts` (`canManageBuildingExpenses`),
+both unit-tested.
 
 `app/actions/expense-categories.ts`:
 - `listExpenseCategories()`, `createExpenseCategory`, `updateExpenseCategory`,
@@ -176,7 +248,9 @@ All actions authorize against company roles (SUPER_ADMIN/ADMIN/MANAGER) before m
 - `components/buildings/ExpenseOcrUpload.tsx` — dropzone modal → progress →
   review form. Uses native drag-drop + `<input type=file>` (no react-dropzone dep).
 - `components/buildings/ExpenseReviewForm.tsx` — fields + file preview + category
-  select + conditional meter-reading section + confidence badge.
+  select + conditional meter-reading section + confidence badge + **tenant/owner split
+  sliders** (seeded from category) + **live allocation preview table** (per unit:
+  χιλιοστά, μερίδιο, ποσό ενοικιαστή/ιδιοκτήτη).
 - `app/(dashboard)/super-admin/settings/expense-categories/` — ExpenseCategory CRUD
   page (table + add/edit modal), following the `settings/costs` page pattern.
 - Mount `ExpensesPanel` in `app/(dashboard)/super-admin/buildings/[id]`.
@@ -197,8 +271,12 @@ All actions authorize against company roles (SUPER_ADMIN/ADMIN/MANAGER) before m
 - `lib/ocr/__tests__/model-fallback.test.ts` — chain ordering, retry-on-error.
 - `lib/ocr/__tests__/normalize.test.ts` — consumption math, category mapping, null-safety.
 - `lib/ocr/__tests__/parse-json-loose.test.ts` — fenced/partial JSON recovery.
-- Action-level: `createBuildingExpense` creates expense + meter reading atomically;
-  role gate rejects unauthorized.
+- `lib/expenses/__tests__/allocation.test.ts` — millième distribution sums to total,
+  tenant/owner split, null-millième fallback, rounding (last unit absorbs remainder).
+- `lib/expenses/__tests__/authz.test.ts` — company roles + building-manager assignment
+  allowed; unrelated user rejected.
+- Action-level: `createBuildingExpense` creates expense + meter reading + allocations
+  atomically; role gate rejects unauthorized.
 
 ## New dependency
 
@@ -208,5 +286,6 @@ All actions authorize against company roles (SUPER_ADMIN/ADMIN/MANAGER) before m
 ## Out of scope (future)
 
 OCR templates, supplier auto-matching, SoftOne posting, batch upload, line-item
-extraction, meter-reading charts, automatic millième-based allocation of the expense
-to units.
+extraction, meter-reading charts, turning `ExpenseAllocation` rows into payable
+`UnitPayment` records / issued κοινόχρηστα statements, and the 3-set millième model
+(general/elevator/heating) — allocation uses the single `Unit.millesimes` for now.
