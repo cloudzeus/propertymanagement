@@ -100,9 +100,10 @@ export function KoinochristaPanel({ buildingId }: { buildingId: string }) {
                   <span style={{ display: "flex", alignItems: "center", gap: 12, minWidth: 0 }}>
                     <span className="kx-chev">{open ? <RiArrowDownSLine style={{ fontSize: 18 }} /> : <RiArrowRightSLine style={{ fontSize: 18 }} />}</span>
                     <span style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 3 }}>
-                      <span style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                      <span style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
                         <b style={{ fontSize: 15, letterSpacing: "-0.01em" }}>{monthLabel(iss.month)}</b>
                         {iss.issued && <span style={dotBadge("#16a34a")}><span style={dot("#16a34a")} /> Εκδόθηκε</span>}
+                        {iss.unallocated > 0 && <span style={dotBadge("#f59e0b")} className="kx-num" title="Μερίδια χωρίς ανατεθειμένο ένοικο/ιδιοκτήτη"><span style={dot("#f59e0b")} /> Αδιάθετα {eur(iss.unallocated)}</span>}
                       </span>
                       <span style={{ fontSize: 11.5, color: "var(--muted-foreground)" }}>{iss.expenseCount} έξοδα · {iss.personCount} πρόσωπα</span>
                     </span>
@@ -121,7 +122,7 @@ export function KoinochristaPanel({ buildingId }: { buildingId: string }) {
                     </span>
                   </span>
                 </button>
-                {open && <IssuanceDetail buildingId={buildingId} month={iss.month} onChanged={reload} />}
+                {open && <IssuanceDetail buildingId={buildingId} month={iss.month} unallocated={iss.unallocated} onChanged={reload} />}
               </div>
             );
           })}
@@ -132,7 +133,7 @@ export function KoinochristaPanel({ buildingId }: { buildingId: string }) {
   );
 }
 
-function IssuanceDetail({ buildingId, month, onChanged }: { buildingId: string; month: string; onChanged?: () => void }) {
+function IssuanceDetail({ buildingId, month, unallocated, onChanged }: { buildingId: string; month: string; unallocated: number; onChanged?: () => void }) {
   const [tab, setTab] = useState<"people" | "expenses">("people");
   const [people, setPeople] = useState<KoinoPersonDTO[] | null>(null);
   const [expenses, setExpenses] = useState<MonthExpenseDTO[] | null>(null);
@@ -203,6 +204,21 @@ function IssuanceDetail({ buildingId, month, onChanged }: { buildingId: string; 
                       </td>
                     </tr>
                   ))}
+                  {unallocated > 0 && (
+                    <tr style={{ borderTop: "1px dashed var(--border-strong)" }}>
+                      <td style={td}>
+                        <span style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                          <span style={avatar(true)}>!</span>
+                          <span><div style={{ fontWeight: 600 }}>Αδιάθετα</div><div style={{ fontSize: 11, color: "var(--muted-foreground)" }}>Μονάδες χωρίς ένοικο/ιδιοκτήτη</div></span>
+                        </span>
+                      </td>
+                      <td style={td}>—</td>
+                      <td style={{ ...td, textAlign: "right" }} className="kx-num">{eur(unallocated)}</td>
+                      <td style={{ ...td, textAlign: "right" }} className="kx-num">—</td>
+                      <td style={{ ...td, textAlign: "right" }}><span style={{ ...duePill, color: "#b45309", background: "color-mix(in srgb, #f59e0b 14%, transparent)" }} className="kx-num">{eur(unallocated)}</span></td>
+                      <td style={td} />
+                    </tr>
+                  )}
                 </tbody>
               </table>
             </div>

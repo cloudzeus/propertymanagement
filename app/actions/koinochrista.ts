@@ -124,9 +124,11 @@ export async function listExpenseMonths(buildingId: string): Promise<string[]> {
   return rows.map((r) => r.month);
 }
 
-export type IssuanceDTO = { month: string; total: number; paid: number; due: number; expenseCount: number; personCount: number; issued: boolean };
+export type IssuanceDTO = { month: string; total: number; paid: number; due: number; unallocated: number; expenseCount: number; personCount: number; issued: boolean };
 
-/** One row per monthly issuance, with aggregate totals for the accordion table. */
+/** One row per monthly issuance, with aggregate totals for the accordion table.
+ *  `unallocated` = charge shares whose owner/tenant slot has no assigned person
+ *  (e.g. a unit with no current resident) — money that lands on nobody. */
 export async function listIssuances(buildingId: string): Promise<IssuanceDTO[]> {
   await requireAccess(buildingId);
   const expenses = await db.buildingExpense.findMany({
@@ -136,20 +138,20 @@ export async function listIssuances(buildingId: string): Promise<IssuanceDTO[]> 
       allocations: { select: { ownerUserId: true, ownerAmount: true, ownerPaid: true, tenantUserId: true, tenantAmount: true, tenantPaid: true } },
     },
   });
-  const map = new Map<string, { total: number; paid: number; expenses: number; people: Set<string>; issued: boolean }>();
+  const map = new Map<string, { total: number; paid: number; unallocated: number; expenses: number; people: Set<string>; issued: boolean }>();
   for (const e of expenses) {
     let m = map.get(e.month);
-    if (!m) { m = { total: 0, paid: 0, expenses: 0, people: new Set(), issued: false }; map.set(e.month, m); }
+    if (!m) { m = { total: 0, paid: 0, unallocated: 0, expenses: 0, people: new Set(), issued: false }; map.set(e.month, m); }
     m.expenses += 1;
     if (e.status === "ISSUED") m.issued = true;
     for (const a of e.allocations) {
       const oa = num(a.ownerAmount), ta = num(a.tenantAmount);
-      if (a.ownerUserId && oa > 0) { m.total += oa; if (a.ownerPaid) m.paid += oa; m.people.add(a.ownerUserId); }
-      if (a.tenantUserId && ta > 0) { m.total += ta; if (a.tenantPaid) m.paid += ta; m.people.add(a.tenantUserId); }
+      if (oa > 0) { if (a.ownerUserId) { m.total += oa; if (a.ownerPaid) m.paid += oa; m.people.add(a.ownerUserId); } else m.unallocated += oa; }
+      if (ta > 0) { if (a.tenantUserId) { m.total += ta; if (a.tenantPaid) m.paid += ta; m.people.add(a.tenantUserId); } else m.unallocated += ta; }
     }
   }
   return [...map.entries()]
-    .map(([month, v]) => ({ month, total: v.total, paid: v.paid, due: v.total - v.paid, expenseCount: v.expenses, personCount: v.people.size, issued: v.issued }))
+    .map(([month, v]) => ({ month, total: v.total, paid: v.paid, due: v.total - v.paid, unallocated: v.unallocated, expenseCount: v.expenses, personCount: v.people.size, issued: v.issued }))
     .sort((a, b) => (a.month < b.month ? 1 : -1));
 }
 
