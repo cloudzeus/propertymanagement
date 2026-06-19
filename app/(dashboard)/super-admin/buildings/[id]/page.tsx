@@ -94,10 +94,12 @@ export default async function BuildingDashboardPage({ params }: { params: Promis
   }
   const people = [...map.values()].sort((a, b) => (a.name ?? a.email).localeCompare(b.name ?? b.email, "el"));
 
-  const [contacts, infraPoints] = await Promise.all([
+  const [contacts, infraPoints, taskRows] = await Promise.all([
     db.contact.findMany({ where: { buildingId: id }, orderBy: { name: "asc" }, select: { id: true, name: true, category: true, phone: true, email: true, notes: true } }),
     db.infraPoint.findMany({ where: { buildingId: id }, orderBy: { createdAt: "asc" }, select: { id: true, name: true, type: true, floorLabel: true, location: true, locked: true, accessNotes: true, keyHolder: true, photoUrl: true, notes: true } }),
+    db.recurringTask.findMany({ where: { buildingId: id }, orderBy: { nextDueDate: "asc" }, select: { id: true, title: true, frequency: true, nextDueDate: true, vendor: true, notes: true, active: true } }),
   ]);
+  const tasks = taskRows.map((t) => ({ ...t, nextDueDate: t.nextDueDate ? t.nextDueDate.toISOString() : null }));
 
   return (
     <BuildingDashboard
@@ -126,6 +128,8 @@ export default async function BuildingDashboardPage({ params }: { params: Promis
       people={people}
       contacts={contacts}
       infraPoints={infraPoints}
+      tasks={tasks}
+      today={new Date().toISOString()}
     />
   );
 }

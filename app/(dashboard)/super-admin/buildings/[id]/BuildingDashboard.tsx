@@ -12,6 +12,7 @@ import { FilesPanel, type FileRow } from "./FilesPanel";
 import { PeoplePanel, type Person } from "./PeoplePanel";
 import { ContactsPanel, type ContactRow } from "./ContactsPanel";
 import { InfraPanel, type InfraRow } from "./InfraPanel";
+import { CalendarPanel, type TaskRow } from "./CalendarPanel";
 
 type Building = {
   id: string; name: string; address: string; city: string; postalCode: string;
@@ -42,7 +43,7 @@ const TABS: { key: TabKey; label: string; icon: React.ElementType; badge?: (k: K
   { key: "ann", label: "Ανακοινώσεις", icon: RiMegaphoneLine },
 ];
 
-export function BuildingDashboard({ building, kpis, files, people, contacts, infraPoints }: { building: Building; kpis: Kpis; files: FileRow[]; people: Person[]; contacts: ContactRow[]; infraPoints: InfraRow[] }) {
+export function BuildingDashboard({ building, kpis, files, people, contacts, infraPoints, tasks, today }: { building: Building; kpis: Kpis; files: FileRow[]; people: Person[]; contacts: ContactRow[]; infraPoints: InfraRow[]; tasks: TaskRow[]; today: string }) {
   const [tab, setTab] = useState<TabKey>("overview");
 
   const subParts = [
@@ -133,6 +134,8 @@ export function BuildingDashboard({ building, kpis, files, people, contacts, inf
           <ContactsPanel buildingId={building.id} contacts={contacts} />
         ) : tab === "infra" ? (
           <InfraPanel buildingId={building.id} points={infraPoints} />
+        ) : tab === "calendar" ? (
+          <CalendarPanel buildingId={building.id} tasks={tasks} today={today} />
         ) : (
           <Placeholder label={TABS.find((t) => t.key === tab)?.label ?? ""} />
         )}
