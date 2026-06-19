@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sketch 003 ▸ Building Control Center — Refined (Variant B)</title>
+<link rel="stylesheet" href="../themes/default.css">
+<style>
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:var(--font-sans);color:var(--color-text);background:var(--color-bg);}
+  button{font-family:inherit;cursor:pointer;}
+  svg.ic{width:18px;height:18px;flex-shrink:0;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;}
+  .ic-sm{width:15px;height:15px;}
+  .ic-lg{width:22px;height:22px;}
+
+  /* ── Hero ── */
+  .hero{background:var(--color-surface);border-bottom:1px solid var(--color-border);}
+  .hero-in{max-width:1280px;margin:0 auto;padding:18px 28px 0;}
+  .crumb{display:flex;align-items:center;gap:6px;font-size:var(--text-xs);color:var(--color-text-muted);}
+  .crumb a{color:var(--color-text-muted);text-decoration:none;}
+  .crumb a:hover{color:var(--color-primary);}
+  .hero-main{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:12px;flex-wrap:wrap;}
+  .hero-id{display:flex;align-items:center;gap:14px;}
+  .hero-avatar{width:52px;height:52px;border-radius:var(--radius-md);background:var(--color-primary-soft);color:var(--color-primary);display:flex;align-items:center;justify-content:center;}
+  .hero-avatar svg{width:26px;height:26px;}
+  .hero-title{font-size:var(--text-2xl);font-weight:800;line-height:1.15;}
+  .hero-sub{font-size:var(--text-sm);color:var(--color-text-muted);display:flex;align-items:center;gap:10px;margin-top:3px;flex-wrap:wrap;}
+  .hero-sub .dot{width:3px;height:3px;border-radius:50%;background:var(--color-border-strong);}
+  .hero-actions{display:flex;gap:8px;}
+
+  /* KPI strip */
+  .kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:0;margin-top:18px;border:1px solid var(--color-border);border-radius:var(--radius-md);overflow:hidden;background:var(--color-canvas);}
+  .kpi{padding:12px 16px;border-right:1px solid var(--color-border);background:var(--color-surface);}
+  .kpi:last-child{border-right:none;}
+  .kpi .l{display:flex;align-items:center;gap:6px;font-size:var(--text-xs);color:var(--color-text-muted);font-weight:600;}
+  .kpi .v{font-size:var(--text-xl);font-weight:800;margin-top:4px;}
+  .kpi .s{font-size:11px;color:var(--color-text-muted);}
+
+  /* sticky tabs */
+  .tabbar{position:sticky;top:0;z-index:50;background:var(--color-surface);border-bottom:1px solid var(--color-border);margin-top:18px;}
+  .tabbar-in{max-width:1280px;margin:0 auto;padding:0 28px;display:flex;gap:2px;overflow-x:auto;}
+  .tab{display:flex;align-items:center;gap:7px;border:none;background:transparent;padding:13px 14px;font-size:var(--text-sm);font-weight:600;color:var(--color-text-muted);border-bottom:2px solid transparent;white-space:nowrap;transition:all .15s ease;}
+  .tab:hover{color:var(--color-text);background:var(--color-canvas);}
+  .tab.active{color:var(--color-primary);border-bottom-color:var(--color-primary);}
+  .tab .badge{font-size:10px;font-weight:800;background:var(--color-primary-soft);color:var(--color-primary);border-radius:var(--radius-full);padding:1px 6px;}
+
+  /* content */
+  .content{max-width:1280px;margin:0 auto;padding:22px 28px 60px;}
+  .panel{display:none;animation:fade .2s ease;}
+  .panel.active{display:block;}
+  @keyframes fade{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:none;}}
+  .ph{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;gap:12px;flex-wrap:wrap;}
+  .ph h2{margin:0;font-size:var(--text-xl);font-weight:800;}
+  .ph .sub{font-size:var(--text-sm);color:var(--color-text-muted);}
+
+  .card{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);}
+  .card-h{padding:13px 16px;border-bottom:1px solid var(--color-border);display:flex;align-items:center;justify-content:space-between;gap:8px;}
+  .card-h h3{margin:0;font-size:var(--text-base);font-weight:700;display:flex;align-items:center;gap:8px;}
+  .card-b{padding:16px;}
+
+  .btn{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--color-border);background:var(--color-surface);color:var(--color-text);border-radius:var(--radius-sm);padding:7px 13px;font-size:var(--text-sm);font-weight:600;transition:all .15s ease;}
+  .btn:hover{background:var(--color-canvas);border-color:var(--color-border-strong);}
+  .btn-primary{background:var(--color-primary);color:#fff;border-color:var(--color-primary);}
+  .btn-primary:hover{background:var(--color-primary-hover);}
+  .btn-ghost{border-color:transparent;background:transparent;color:var(--color-text-muted);padding:6px 8px;}
+  .btn-ghost:hover{background:var(--color-canvas);color:var(--color-text);}
+  .input{display:flex;align-items:center;gap:8px;border:1px solid var(--color-border);border-radius:var(--radius-sm);padding:0 10px;height:34px;background:var(--color-surface);color:var(--color-text-muted);min-width:220px;}
+  .input input{border:none;outline:none;background:transparent;font-family:inherit;font-size:var(--text-sm);color:var(--color-text);width:100%;}
+
+  .chip{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;padding:3px 9px;border-radius:var(--radius-full);}
+  .chip.green{background:var(--color-green-soft);color:var(--color-green);}
+  .chip.orange{background:var(--color-orange-soft);color:var(--color-orange);}
+  .chip.blue{background:var(--color-blue-soft);color:var(--color-blue);}
+  .chip.red{background:var(--color-primary-soft);color:var(--color-primary);}
+  .chip.grey{background:var(--color-canvas);color:var(--color-text-muted);border:1px solid var(--color-border);}
+  .muted{color:var(--color-text-muted);}
+
+  table{width:100%;border-collapse:collapse;font-size:var(--text-sm);}
+  th{text-align:left;font-size:var(--text-xs);text-transform:uppercase;letter-spacing:.04em;color:var(--color-text-muted);padding:10px 14px;border-bottom:1px solid var(--color-border);}
+  td{padding:11px 14px;border-top:1px solid var(--color-border);}
+  tbody tr{transition:background .12s ease;}
+  tbody tr:hover td{background:var(--color-canvas);}
+
+  .seg{display:flex;gap:4px;background:var(--color-canvas);border:1px solid var(--color-border);border-radius:var(--radius-sm);padding:3px;}
+  .seg button{border:none;background:transparent;border-radius:4px;padding:5px 11px;font-size:var(--text-sm);font-weight:600;color:var(--color-text-muted);display:flex;align-items:center;gap:6px;}
+  .seg button.active{background:var(--color-surface);color:var(--color-primary);box-shadow:var(--shadow-sm);}
+
+  .row{display:flex;align-items:center;gap:12px;padding:12px 16px;border-top:1px solid var(--color-border);}
+  .row:first-child{border-top:none;}
+  .ico-badge{width:36px;height:36px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .ico-badge svg{width:18px;height:18px;color:#fff;}
+  .grow{flex:1;min-width:0;}
+  .t1{font-size:var(--text-sm);font-weight:600;}
+  .t2{font-size:var(--text-xs);color:var(--color-text-muted);}
+
+  .dropzone{border:1.5px dashed var(--color-border-strong);border-radius:var(--radius-md);padding:24px;text-align:center;color:var(--color-text-muted);background:var(--color-canvas);transition:all .15s ease;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;}
+  .dropzone:hover{border-color:var(--color-primary);color:var(--color-primary);background:var(--color-primary-soft);}
+
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+  .grid2{display:grid;grid-template-columns:1.3fr 1fr;gap:14px;}
+  @media(max-width:1000px){.kpis{grid-template-columns:repeat(2,1fr);}.grid3{grid-template-columns:1fr;}.grid2{grid-template-columns:1fr;}}
+
+  /* infra card */
+  .infra{overflow:hidden;}
+  .infra .photo{height:128px;background:linear-gradient(135deg,#ebe9e7,#f7f6f5);display:flex;align-items:center;justify-content:center;color:var(--color-text-muted);position:relative;}
+  .infra .photo svg{width:34px;height:34px;}
+  .infra .photo .floor{position:absolute;top:8px;left:8px;}
+  .infra .body{padding:13px 14px;}
+  .kv{display:flex;gap:8px;font-size:var(--text-xs);padding:3px 0;align-items:center;}
+  .kv .k{color:var(--color-text-muted);min-width:74px;display:flex;align-items:center;gap:5px;}
+
+  .files{display:grid;grid-template-columns:repeat(auto-fill,minmax(186px,1fr));gap:13px;}
+  .file{border:1px solid var(--color-border);border-radius:var(--radius-md);overflow:hidden;background:var(--color-surface);transition:all .15s ease;cursor:pointer;}
+  .file:hover{box-shadow:var(--shadow-md);transform:translateY(-2px);}
+  .file .thumb{height:96px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;}
+  .file .meta{padding:10px 11px;}
+
+  #toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--color-text);color:#fff;padding:11px 18px;border-radius:var(--radius-md);font-size:var(--text-sm);display:flex;align-items:center;gap:8px;opacity:0;pointer-events:none;transition:all .25s ease;z-index:999;box-shadow:var(--shadow-lg);}
+  #toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+</style>
+</head>
+<body>
+
+<!-- ============ ICON SPRITE (Remix-style line icons) ============ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></symbol>
+<symbol id="i-building" viewBox="0 0 24 24"><path d="M4 21V5a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v16"/><path d="M15 9h4a1 1 0 0 1 1 1v11"/><path d="M3 21h18"/><path d="M8 8h3M8 12h3M8 16h3"/></symbol>
+<symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></symbol>
+<symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 20a5.5 5.5 0 0 1 11 0"/><path d="M16 5.2a3.2 3.2 0 0 1 0 6"/><path d="M17.5 14.5A5.5 5.5 0 0 1 20.5 20"/></symbol>
+<symbol id="i-star" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.4"/><path d="M5.5 20a6.5 6.5 0 0 1 13 0"/><path d="M12 2.5l.7 1.6 1.7.2-1.3 1.2.4 1.7-1.5-.9-1.5.9.4-1.7-1.3-1.2 1.7-.2z" transform="translate(6 -1) scale(.5)"/></symbol>
+<symbol id="i-file" viewBox="0 0 24 24"><path d="M14 3H7a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V8z"/><path d="M14 3v5h4"/><path d="M9 13h6M9 17h6"/></symbol>
+<symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7a1 1 0 0 1 1-1h5l2 2h8a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/></symbol>
+<symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.6"/><path d="M21 16l-5-5L5 20"/></symbol>
+<symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="16" rx="2"/><path d="M3.5 9.5h17M8 3v4M16 3v4"/></symbol>
+<symbol id="i-phone" viewBox="0 0 24 24"><path d="M6.5 4h3l1.5 4-2 1.5a11 11 0 0 0 5 5l1.5-2 4 1.5v3a2 2 0 0 1-2 2A16 16 0 0 1 4.5 6a2 2 0 0 1 2-2z"/></symbol>
+<symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></symbol>
+<symbol id="i-wallet" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 9h18M16 13h2"/></symbol>
+<symbol id="i-card" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 9.5h18M6 15h4"/></symbol>
+<symbol id="i-tools" viewBox="0 0 24 24"><path d="M14 6a3.5 3.5 0 0 1 4.7 4.2L21 12l-2 2-6.5-6.5L14 6z" transform="rotate(0 12 12)"/><path d="M10.5 9.5L4 16v4h4l6.5-6.5"/></symbol>
+<symbol id="i-mega" viewBox="0 0 24 24"><path d="M4 10v4a1 1 0 0 0 1 1h2l8 4V5L7 9H5a1 1 0 0 0-1 1z"/><path d="M18 9a4 4 0 0 1 0 6"/></symbol>
+<symbol id="i-scale" viewBox="0 0 24 24"><path d="M12 4v16M7 20h10"/><path d="M12 6l-6 2 2.5 5a3 3 0 0 1-5 0L6 8M12 6l6 2-2.5 5a3 3 0 0 0 5 0L18 8"/></symbol>
+<symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V5M7 10l5-5 5 5"/><path d="M5 19h14"/></symbol>
+<symbol id="i-download" viewBox="0 0 24 24"><path d="M12 5v11M7 11l5 5 5-5"/><path d="M5 20h14"/></symbol>
+<symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4-4"/></symbol>
+<symbol id="i-add" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+<symbol id="i-flash" viewBox="0 0 24 24"><path d="M13 3L5 13h6l-1 8 8-10h-6z"/></symbol>
+<symbol id="i-antenna" viewBox="0 0 24 24"><circle cx="12" cy="8" r="2"/><path d="M12 10v11M8 21l4-9 4 9"/><path d="M7.5 5a6 6 0 0 1 9 0M5 3a9 9 0 0 1 14 0"/></symbol>
+<symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></symbol>
+<symbol id="i-key" viewBox="0 0 24 24"><circle cx="8" cy="8" r="4"/><path d="M11 11l8 8M16 16l2-2M18 18l2-2"/></symbol>
+<symbol id="i-fire" viewBox="0 0 24 24"><path d="M12 3c1 3-2 4-2 7a2 2 0 0 0 4 0c0-1 0-1 0-1 2 2 3 4 3 6a5 5 0 0 1-10 0c0-4 5-6 5-12z"/></symbol>
+<symbol id="i-roof" viewBox="0 0 24 24"><path d="M3 12l9-7 9 7"/><path d="M5 11v9h14v-9"/><path d="M9 20v-5h6v5"/></symbol>
+<symbol id="i-more" viewBox="0 0 24 24"><circle cx="6" cy="12" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="18" cy="12" r="1.4"/></symbol>
+<symbol id="i-edit" viewBox="0 0 24 24"><path d="M5 19h14"/><path d="M14 5l4 4-9 9H5v-4z"/></symbol>
+<symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 9a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6z"/><path d="M10 20a2 2 0 0 0 4 0"/></symbol>
+<symbol id="i-repeat" viewBox="0 0 24 24"><path d="M4 8a6 6 0 0 1 11-2l2 2M20 16a6 6 0 0 1-11 2l-2-2"/><path d="M17 4v4h-4M7 20v-4h4"/></symbol>
+<symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s7-6 7-11a7 7 0 0 0-14 0c0 5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></symbol>
+</defs></svg>
+
+<!-- ============ HERO ============ -->
+<div class="hero">
+  <div class="hero-in">
+    <div class="crumb">
+      <a href="#">Ιδιοκτησίες</a><svg class="ic ic-sm"><use href="#i-more"/></svg>
+      <a href="#">Συγκρότημα Κολωνακίου</a><svg class="ic ic-sm"><use href="#i-more"/></svg>
+      <span>Κτήριο Α</span>
+    </div>
+    <div class="hero-main">
+      <div class="hero-id">
+        <div class="hero-avatar"><svg><use href="#i-building"/></svg></div>
+        <div>
+          <div class="hero-title">Κτήριο Α — Σόλωνος 5</div>
+          <div class="hero-sub">
+            <span><svg class="ic ic-sm" style="vertical-align:-2px"><use href="#i-pin"/></svg> Αθήνα 10672</span>
+            <span class="dot"></span><span>3 όροφοι · 1 υπόγειο</span>
+            <span class="dot"></span><span>Ανελκυστήρας</span>
+            <span class="chip green" style="margin-left:4px;">● Ενεργό</span>
+          </div>
+        </div>
+      </div>
+      <div class="hero-actions">
+        <button class="btn" onclick="toast('Επεξεργασία κτηρίου')"><svg class="ic"><use href="#i-edit"/></svg> Επεξεργασία</button>
+        <button class="btn btn-primary" onclick="toast('Γρήγορη ενέργεια')"><svg class="ic"><use href="#i-add"/></svg> Ενέργεια</button>
+      </div>
+    </div>
+
+    <div class="kpis">
+      <div class="kpi"><div class="l"><svg class="ic ic-sm"><use href="#i-home"/></svg> Μονάδες</div><div class="v">24</div><div class="s">20 κατοικημένες · 4 κενές</div></div>
+      <div class="kpi"><div class="l"><svg class="ic ic-sm"><use href="#i-scale"/></svg> Χιλιοστά</div><div class="v">1000‰</div><div class="s">αναλογικά τ.μ.</div></div>
+      <div class="kpi"><div class="l"><svg class="ic ic-sm"><use href="#i-tools"/></svg> Βλάβες</div><div class="v" style="color:var(--color-orange)">3</div><div class="s">1 επείγουσα</div></div>
+      <div class="kpi"><div class="l"><svg class="ic ic-sm"><use href="#i-wallet"/></svg> Οφειλές</div><div class="v" style="color:var(--color-orange)">€260</div><div class="s">3 μονάδες</div></div>
+      <div class="kpi"><div class="l"><svg class="ic ic-sm"><use href="#i-file"/></svg> Αρχεία</div><div class="v">18</div><div class="s">41 MB</div></div>
+    </div>
+  </div>
+
+  <!-- sticky tabs -->
+  <div class="tabbar"><div class="tabbar-in" id="tabs">
+    <button class="tab active" data-p="overview"><svg class="ic"><use href="#i-grid"/></svg> Επισκόπηση</button>
+    <button class="tab" data-p="units"><svg class="ic"><use href="#i-home"/></svg> Μονάδες</button>
+    <button class="tab" data-p="people"><svg class="ic"><use href="#i-users"/></svg> Ένοικοι</button>
+    <button class="tab" data-p="managers"><svg class="ic"><use href="#i-star"/></svg> Διαχειριστές</button>
+    <button class="tab" data-p="files"><svg class="ic"><use href="#i-folder"/></svg> Αρχεία <span class="badge">18</span></button>
+    <button class="tab" data-p="calendar"><svg class="ic"><use href="#i-calendar"/></svg> Ημερολόγιο</button>
+    <button class="tab" data-p="contacts"><svg class="ic"><use href="#i-phone"/></svg> Επαφές</button>
+    <button class="tab" data-p="infra"><svg class="ic"><use href="#i-gear"/></svg> Εγκαταστάσεις</button>
+    <button class="tab" data-p="koino"><svg class="ic"><use href="#i-wallet"/></svg> Κοινόχρηστα</button>
+    <button class="tab" data-p="pay"><svg class="ic"><use href="#i-card"/></svg> Πληρωμές</button>
+    <button class="tab" data-p="maint"><svg class="ic"><use href="#i-tools"/></svg> Συντήρηση <span class="badge">3</span></button>
+    <button class="tab" data-p="ann"><svg class="ic"><use href="#i-mega"/></svg> Ανακοινώσεις</button>
+  </div></div>
+</div>
+
+<div class="content">
+
+  <!-- OVERVIEW -->
+  <div class="panel active" id="overview">
+    <div class="grid2">
+      <div class="card">
+        <div class="card-h"><h3><svg class="ic"><use href="#i-bell"/></svg> Πρόσφατη δραστηριότητα</h3><button class="btn-ghost btn">Όλα</button></div>
+        <div>
+          <div class="row"><div class="ico-badge" style="background:var(--color-orange)"><svg><use href="#i-tools"/></svg></div><div class="grow"><div class="t1">Νέα βλάβη: Διαρροή στο γκαράζ</div><div class="t2">Γ. Παπαδόπουλος · πριν 2 ώρες</div></div><span class="chip orange">Επείγον</span></div>
+          <div class="row"><div class="ico-badge" style="background:var(--color-blue)"><svg><use href="#i-file"/></svg></div><div class="grow"><div class="t1">Ανέβηκε: Συμβόλαιο ανελκυστήρα.pdf</div><div class="t2">Διαχειριστής · σήμερα 09:14</div></div></div>
+          <div class="row"><div class="ico-badge" style="background:var(--color-green)"><svg><use href="#i-scale"/></svg></div><div class="grow"><div class="t1">Υπολογισμός χιλιοστών — άθροισμα 1000,00</div><div class="t2">Super Admin · χθες</div></div></div>
+          <div class="row"><div class="ico-badge" style="background:var(--color-purple)"><svg><use href="#i-card"/></svg></div><div class="grow"><div class="t1">Πληρωμή κοινοχρήστων — Μονάδα Α1</div><div class="t2">€85,00 · χθες</div></div><span class="chip green">Πληρωμένο</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-h"><h3><svg class="ic"><use href="#i-grid"/></svg> Γρήγορες ενέργειες</h3></div>
+        <div class="card-b" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+          <button class="btn" onclick="toast('Μονάδα')"><svg class="ic"><use href="#i-add"/></svg> Μονάδα</button>
+          <button class="btn" onclick="toast('Αρχείο')"><svg class="ic"><use href="#i-upload"/></svg> Αρχείο</button>
+          <button class="btn" onclick="toast('Εργασία')"><svg class="ic"><use href="#i-repeat"/></svg> Εργασία</button>
+          <button class="btn" onclick="toast('Επαφή')"><svg class="ic"><use href="#i-phone"/></svg> Επαφή</button>
+          <button class="btn" onclick="toast('Δαπάνη')"><svg class="ic"><use href="#i-wallet"/></svg> Δαπάνη</button>
+          <button class="btn" onclick="toast('Βλάβη')"><svg class="ic"><use href="#i-tools"/></svg> Βλάβη</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FILES -->
+  <div class="panel" id="files">
+    <div class="ph">
+      <div><h2>Αρχεία Κτηρίου</h2><div class="sub"><svg class="ic ic-sm" style="vertical-align:-2px"><use href="#i-folder"/></svg> properties/cmqk…/buildings/bld_8x… · 18 αρχεία · 41 MB</div></div>
+      <div style="display:flex;gap:8px;">
+        <div class="input"><svg class="ic ic-sm"><use href="#i-search"/></svg><input placeholder="Αναζήτηση αρχείου…"></div>
+        <button class="btn btn-primary" onclick="toast('Ανέβασμα')"><svg class="ic"><use href="#i-upload"/></svg> Ανέβασμα</button>
+      </div>
+    </div>
+    <div class="seg" style="width:fit-content;margin-bottom:16px;">
+      <button class="active" onclick="segPick(this)"><svg class="ic ic-sm"><use href="#i-folder"/></svg> Όλα 18</button>
+      <button onclick="segPick(this)"><svg class="ic ic-sm"><use href="#i-image"/></svg> Σχέδια & Κατόψεις 4</button>
+      <button onclick="segPick(this)"><svg class="ic ic-sm"><use href="#i-image"/></svg> Φωτογραφίες 7</button>
+      <button onclick="segPick(this)"><svg class="ic ic-sm"><use href="#i-file"/></svg> Έγγραφα 5</button>
+      <button onclick="segPick(this)"><svg class="ic ic-sm"><use href="#i-lock"/></svg> Πιστοποιητικά 2</button>
+    </div>
+    <div class="files">
+      <div class="file" onclick="toast('Άνοιγμα')"><div class="thumb" style="background:#d1343815;color:#d13438">PDF</div><div class="meta"><div class="t1">Συμβόλαιο ανελκυστήρα.pdf</div><div class="t2">2,4 MB · σήμερα</div></div></div>
+      <div class="file" onclick="toast('Άνοιγμα')"><div class="thumb" style="background:var(--color-blue-soft);color:var(--color-blue)">PNG</div><div class="meta"><div class="t1">Κάτοψη ισογείου.png</div><div class="t2">820 KB · 2 ημ.</div></div></div>
+      <div class="file" onclick="toast('Άνοιγμα')"><div class="thumb" style="background:var(--color-blue-soft);color:var(--color-blue)">JPG</div><div class="meta"><div class="t1">Πρόσοψη κτηρίου.jpg</div><div class="t2">1,1 MB · χθες</div></div></div>
+      <div class="file" onclick="toast('Άνοιγμα')"><div class="thumb" style="background:var(--color-green-soft);color:var(--color-green)">XLS</div><div class="meta"><div class="t1">Πίνακας χιλιοστών.xlsx</div><div class="t2">48 KB · 3 ημ.</div></div></div>
+      <div class="dropzone" onclick="toast('Επιλογή αρχείων…')"><svg class="ic ic-lg"><use href="#i-upload"/></svg><div>Σύρε ή κάνε κλικ</div></div>
+    </div>
+  </div>
+
+  <!-- CALENDAR -->
+  <div class="panel" id="calendar">
+    <div class="ph"><div><h2>Ημερολόγιο & Επαναλαμβανόμενες Εργασίες</h2></div><button class="btn btn-primary" onclick="toast('Νέα εργασία')"><svg class="ic"><use href="#i-add"/></svg> Εργασία</button></div>
+    <div class="grid2">
+      <div class="card">
+        <div class="card-h"><h3><svg class="ic"><use href="#i-repeat"/></svg> Προγραμματισμένες</h3></div>
+        <div>
+          <div class="row"><div class="ico-badge" style="background:var(--color-blue)"><svg><use href="#i-repeat"/></svg></div><div class="grow"><div class="t1">Συντήρηση ανελκυστήρα</div><div class="t2">Επόμενη 25/06 · KLEEMANN</div></div><span class="chip blue">Μηνιαία</span></div>
+          <div class="row"><div class="ico-badge" style="background:var(--color-green)"><svg><use href="#i-repeat"/></svg></div><div class="grow"><div class="t1">Καθαρισμός κοινόχρηστων</div><div class="t2">Κάθε Δευτέρα</div></div><span class="chip green">Εβδομαδιαία</span></div>
+          <div class="row"><div class="ico-badge" style="background:var(--color-orange)"><svg><use href="#i-repeat"/></svg></div><div class="grow"><div class="t1">Απολύμανση / μυοκτονία</div><div class="t2">Επόμενη 09/2026</div></div><span class="chip orange">Εξαμηνιαία</span></div>
+          <div class="row"><div class="ico-badge" style="background:var(--color-primary)"><svg><use href="#i-fire"/></svg></div><div class="grow"><div class="t1">Καθαρισμός δεξαμενής πετρελαίου</div><div class="t2">Ετήσια · εκπρόθεσμη 3 ημέρες</div></div><span class="chip red">Εκπρόθεσμη</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-h"><h3><svg class="ic"><use href="#i-calendar"/></svg> Ιούνιος 2026</h3></div>
+        <div class="card-b">
+          <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center;font-size:var(--text-xs);">
+            <div class="muted">Δε</div><div class="muted">Τρ</div><div class="muted">Τε</div><div class="muted">Πε</div><div class="muted">Πα</div><div class="muted">Σα</div><div class="muted">Κυ</div>
+            <span class="cd">1</span><span class="cd">2</span><span class="cd">3</span><span class="cd">4</span><span class="cd">5</span><span class="cd">6</span><span class="cd">7</span>
+            <span class="cd">8</span><span class="cd dot">9</span><span class="cd">10</span><span class="cd">11</span><span class="cd">12</span><span class="cd">13</span><span class="cd">14</span>
+            <span class="cd">15</span><span class="cd dot">16</span><span class="cd">17</span><span class="cd">18</span><span class="cd now">19</span><span class="cd">20</span><span class="cd">21</span>
+            <span class="cd">22</span><span class="cd">23</span><span class="cd dot">24</span><span class="cd hot">25</span><span class="cd">26</span><span class="cd">27</span><span class="cd">28</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTACTS -->
+  <div class="panel" id="contacts">
+    <div class="ph"><div><h2>Επαφές & Χρήσιμα Τηλέφωνα</h2></div><button class="btn btn-primary" onclick="toast('Νέα επαφή')"><svg class="ic"><use href="#i-add"/></svg> Επαφή</button></div>
+    <div class="card"><table>
+      <thead><tr><th>Όνομα</th><th>Κατηγορία</th><th>Τηλέφωνο</th><th>Email</th><th></th></tr></thead>
+      <tbody>
+        <tr><td><b>KLEEMANN</b></td><td><span class="chip blue">Ανελκυστήρας</span></td><td>2310 123456</td><td>service@kleemann.gr</td><td><button class="btn btn-ghost" onclick="toast('Κλήση')"><svg class="ic"><use href="#i-phone"/></svg></button></td></tr>
+        <tr><td><b>Γ. Παπαδόπουλος</b></td><td><span class="chip green">Υδραυλικός</span></td><td>697 1234567</td><td>—</td><td><button class="btn btn-ghost" onclick="toast('Κλήση')"><svg class="ic"><use href="#i-phone"/></svg></button></td></tr>
+        <tr><td><b>ΔΕΗ Βλάβες</b></td><td><span class="chip orange">Έκτακτη ανάγκη</span></td><td>10500</td><td>—</td><td><button class="btn btn-ghost" onclick="toast('Κλήση')"><svg class="ic"><use href="#i-phone"/></svg></button></td></tr>
+        <tr><td><b>Καθαριότητα ΑΒ</b></td><td><span class="chip blue">Συνεργείο</span></td><td>210 9876543</td><td>info@ab-clean.gr</td><td><button class="btn btn-ghost" onclick="toast('Κλήση')"><svg class="ic"><use href="#i-phone"/></svg></button></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <!-- INFRASTRUCTURE -->
+  <div class="panel" id="infra">
+    <div class="ph"><div><h2>Εγκαταστάσεις & Σημεία Πρόσβασης</h2><div class="sub">Φωτογραφία, όροφος/θέση, κλείδωμα, ποιος έχει πρόσβαση & ποιος κρατά το κλειδί</div></div><button class="btn btn-primary" onclick="toast('Νέο σημείο')"><svg class="ic"><use href="#i-add"/></svg> Σημείο</button></div>
+    <div class="grid3">
+      <div class="card infra"><div class="photo"><span class="chip grey floor">Ισόγειο</span><svg><use href="#i-flash"/></svg></div><div class="body">
+        <div style="display:flex;justify-content:space-between;align-items:center;"><b>Μετρητές ΔΕΗ</b><span class="chip orange"><svg class="ic ic-sm"><use href="#i-lock"/></svg> Κλειδωμένο</span></div>
+        <div class="kv"><span class="k"><svg class="ic ic-sm"><use href="#i-pin"/></svg> Θέση</span><span>Κολώνα εισόδου</span></div>
+        <div class="kv"><span class="k"><svg class="ic ic-sm"><use href="#i-users"/></svg> Πρόσβαση</span><span>Διαχειριστής, ΔΕΗ</span></div>
+        <div class="kv"><span class="k"><svg class="ic ic-sm"><use href="#i-key"/></svg> Κλειδί</span><span>Διαχειριστής (Α2)</span></div>
+      </div></div>
+
+      <div class="card infra"><div class="photo"><span class="chip grey floor">Ισόγειο</span><svg><use href="#i-phone"/></svg></div><div class="body">
+        <div style="display:flex;justify-content:space-between;align-items:center;"><b>Κουτί ΟΤΕ</b><span class="chip orange"><svg class="ic ic-sm"><use href="#i-lock"/></svg> Κλειδωμένο</span></div>
+        <div class="kv"><span class="k"><svg class="ic ic-sm"><use href="#i-pin"/></svg> Θέση</span><span>Λεβητοστάσιο</span></div>
+        <div class="kv"><span class="k"><svg class="ic ic-sm"><use href="#i-users"/></svg> Πρόσβαση</span><span>ΟΤΕ, Διαχειριστής</span></div>
+        <div class="kv"><span class="k"><svg class="ic ic-sm"><use href="#i-key"/></svg> Κλειδί</span><span>Κοινό λεβητοστασίου</span></div>
+      </div></div>
+
+      <div class="card infra"><div class="photo"><span class="chip grey floor">3ος</span><svg><use href="#i-roof"/></svg></div><div class="body">
+        <div style="display:flex;justify-content:space-between;align-items:center;"><b>Πρόσβαση Ταράτσας</b><span class="chip green">Ελεύθερο</span></div>
+        <div class="kv"><span class="k"><svg class="ic ic-sm"><use href="#i-pin"/></svg> Θέση</span><span>Κλιμακοστάσιο</span></div>
+        <div class="kv"><span class="k"><svg class="ic ic-sm"><use href="#i-users"/></svg> Πρόσβαση</span><span>Όλοι οι ένοικοι</span></div>
+        <div class="kv"><span class="k"><svg class="ic ic-sm"><use href="#i-key"/></svg> Κλειδί</span><span>—</span></div>
+      </div></div>
+
+      <div class="card infra"><div class="photo"><span class="chip grey floor">Ταράτσα</span><svg><use href="#i-antenna"/></svg></div><div class="body">
+        <div style="display:flex;justify-content:space-between;align-items:center;"><b>Κεραία Τηλεόρασης</b><span class="chip grey">Κοινόχρηστη</span></div>
+        <div class="kv"><span class="k"><svg class="ic ic-sm"><use href="#i-pin"/></svg> Θέση</span><span>ΒΑ γωνία</span></div>
+        <div class="kv"><span class="k"><svg class="ic ic-sm"><use href="#i-gear"/></svg> Τύπος</span><span>Επίγεια + δορυφορική</span></div>
+        <div class="kv"><span class="k"><svg class="ic ic-sm"><use href="#i-phone"/></svg> Συντηρητής</span><span>βλ. Επαφές</span></div>
+      </div></div>
+
+      <div class="card infra"><div class="photo"><span class="chip grey floor">Υπόγειο</span><svg><use href="#i-fire"/></svg></div><div class="body">
+        <div style="display:flex;justify-content:space-between;align-items:center;"><b>Λεβητοστάσιο</b><span class="chip orange"><svg class="ic ic-sm"><use href="#i-lock"/></svg> Κλειδωμένο</span></div>
+        <div class="kv"><span class="k"><svg class="ic ic-sm"><use href="#i-pin"/></svg> Θέση</span><span>Υπόγειο</span></div>
+        <div class="kv"><span class="k"><svg class="ic ic-sm"><use href="#i-users"/></svg> Πρόσβαση</span><span>Διαχειριστής, συντηρητής</span></div>
+        <div class="kv"><span class="k"><svg class="ic ic-sm"><use href="#i-key"/></svg> Κλειδί</span><span>Διαχειριστής (Α2)</span></div>
+      </div></div>
+
+      <div class="card infra" style="border:1.5px dashed var(--color-border-strong);display:flex;align-items:center;justify-content:center;min-height:236px;cursor:pointer;color:var(--color-text-muted);" onclick="toast('Νέο σημείο')">
+        <div style="text-align:center;"><svg class="ic ic-lg"><use href="#i-add"/></svg><div style="margin-top:6px;">Νέο σημείο<br><span class="t2">αντλιοστάσιο, πυρόσβεση, κήπος…</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- KOINO -->
+  <div class="panel" id="koino">
+    <div class="ph"><div><h2>Κοινόχρηστα & Αποδείξεις</h2><div class="sub">Ιούνιος 2026</div></div><div style="display:flex;gap:8px;"><button class="btn" onclick="toast('Έκδοση')">Έκδοση μήνα</button><button class="btn btn-primary" onclick="toast('Δαπάνη')"><svg class="ic"><use href="#i-add"/></svg> Δαπάνη</button></div></div>
+    <div class="kpis" style="grid-template-columns:repeat(4,1fr);margin:0 0 16px;">
+      <div class="kpi"><div class="l">Σύνολο μήνα</div><div class="v">€1.240</div></div>
+      <div class="kpi"><div class="l">Εισπραγμένα</div><div class="v" style="color:var(--color-green)">€980</div><div class="s">79%</div></div>
+      <div class="kpi"><div class="l">Οφειλές</div><div class="v" style="color:var(--color-orange)">€260</div></div>
+      <div class="kpi"><div class="l">Αποδείξεις</div><div class="v">9</div></div>
+    </div>
+    <div class="card"><table>
+      <thead><tr><th>Δαπάνη</th><th>Κατηγορία</th><th>Ποσό</th><th>Απόδειξη</th></tr></thead>
+      <tbody>
+        <tr><td>ΔΕΗ κοινόχρηστα</td><td>Ρεύμα</td><td>€420,50</td><td><span class="chip green"><svg class="ic ic-sm"><use href="#i-file"/></svg> PDF</span></td></tr>
+        <tr><td>Πετρέλαιο θέρμανσης</td><td>Θέρμανση</td><td>€560,00</td><td><span class="chip green"><svg class="ic ic-sm"><use href="#i-file"/></svg> PDF</span></td></tr>
+        <tr><td>Συντήρηση ανελκυστήρα</td><td>Ανελκυστήρας</td><td>€110,00</td><td><span class="chip green"><svg class="ic ic-sm"><use href="#i-file"/></svg> PDF</span></td></tr>
+        <tr><td>Καθαριότητα</td><td>Υπηρεσίες</td><td>€150,00</td><td><span class="chip orange">Εκκρεμεί</span></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <!-- PAY -->
+  <div class="panel" id="pay">
+    <div class="ph"><div><h2>Πληρωμές ανά μονάδα</h2></div><button class="btn btn-primary" onclick="toast('Πληρωμή')"><svg class="ic"><use href="#i-add"/></svg> Πληρωμή</button></div>
+    <div class="card"><table>
+      <thead><tr><th>Μονάδα</th><th>Ένοικος/Ιδιοκτήτης</th><th>Χρέωση</th><th>Κατάσταση</th><th></th></tr></thead>
+      <tbody>
+        <tr><td>Α1</td><td>Μαρία Ν.</td><td>€85,00</td><td><span class="chip green">Πληρωμένο</span></td><td><button class="btn btn-ghost" onclick="toast('Απόδειξη')"><svg class="ic"><use href="#i-download"/></svg></button></td></tr>
+        <tr><td>Α2</td><td>Γ. Παπαδόπουλος</td><td>€92,50</td><td><span class="chip orange">Εκκρεμεί</span></td><td><button class="btn btn-ghost" onclick="toast('Υπενθύμιση')"><svg class="ic"><use href="#i-bell"/></svg></button></td></tr>
+        <tr><td>Β1</td><td>Eleni K.</td><td>€78,00</td><td><span class="chip green">Πληρωμένο</span></td><td><button class="btn btn-ghost" onclick="toast('Απόδειξη')"><svg class="ic"><use href="#i-download"/></svg></button></td></tr>
+        <tr><td>Β2</td><td>—</td><td>€78,00</td><td><span class="chip red">Ληξιπρόθεσμο</span></td><td><button class="btn btn-ghost" onclick="toast('Υπενθύμιση')"><svg class="ic"><use href="#i-bell"/></svg></button></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <!-- light placeholders -->
+  <div class="panel" id="units"><div class="card"><div class="card-b muted">Πίνακας μονάδων (DataTable): ιδιοκτήτης/ένοικος, τ.μ., χιλιοστά, όροφος.</div></div></div>
+  <div class="panel" id="people"><div class="card"><div class="card-b muted">Ένοικοι / ιδιοκτήτες του κτηρίου.</div></div></div>
+  <div class="panel" id="managers"><div class="card"><div class="card-b muted">Διαχειριστές κτηρίου (ιδιοκτήτες/ένοικοι ή προσωπικό εταιρείας).</div></div></div>
+  <div class="panel" id="maint"><div class="card"><div class="card-b muted">Βλάβες & συντήρηση — ροή αιτημάτων.</div></div></div>
+  <div class="panel" id="ann"><div class="card"><div class="card-b muted">Ανακοινώσεις προς ενοίκους.</div></div></div>
+</div>
+
+<div id="toast"></div>
+
+<style>
+  .cd{padding:7px 0;border-radius:var(--radius-sm);}
+  .cd.now{background:var(--color-primary);color:#fff;font-weight:800;}
+  .cd.dot{position:relative;}
+  .cd.dot::after{content:"";position:absolute;bottom:3px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:var(--color-blue);}
+  .cd.hot{position:relative;font-weight:700;}
+  .cd.hot::after{content:"";position:absolute;bottom:3px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:var(--color-primary);}
+</style>
+
+<script>
+  document.querySelectorAll('#tabs .tab').forEach(t=>{
+    t.addEventListener('click',()=>{
+      document.querySelectorAll('#tabs .tab').forEach(x=>x.classList.remove('active'));
+      document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+      t.classList.add('active');
+      document.getElementById(t.dataset.p).classList.add('active');
+      window.scrollTo({top:document.querySelector('.tabbar').offsetTop-1,behavior:'instant'});
+    });
+  });
+  function segPick(b){ b.parentElement.querySelectorAll('button').forEach(x=>x.classList.remove('active')); b.classList.add('active'); }
+  let tt; function toast(m){const e=document.getElementById('toast');e.innerHTML='<svg class="ic" style="stroke:#fff"><use href="#i-grid"/></svg>'+m;e.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>e.classList.remove('show'),1500);}
+</script>
+</body>
+</html>
