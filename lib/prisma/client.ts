@@ -107,6 +107,11 @@ export type Property = Prisma.PropertyModel
  */
 export type Building = Prisma.BuildingModel
 /**
+ * Model ManagementAssignment
+ * 
+ */
+export type ManagementAssignment = Prisma.ManagementAssignmentModel
+/**
  * Model CommonArea
  * 
  */

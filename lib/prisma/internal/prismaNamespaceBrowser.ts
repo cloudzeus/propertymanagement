@@ -64,6 +64,7 @@ export const ModelName = {
   Customer: 'Customer',
   Property: 'Property',
   Building: 'Building',
+  ManagementAssignment: 'ManagementAssignment',
   CommonArea: 'CommonArea',
   Unit: 'Unit',
   Service: 'Service',
@@ -394,6 +395,18 @@ export const BuildingScalarFieldEnum = {
 } as const
 
 export type BuildingScalarFieldEnum = (typeof BuildingScalarFieldEnum)[keyof typeof BuildingScalarFieldEnum]
+
+
+export const ManagementAssignmentScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  propertyId: 'propertyId',
+  buildingId: 'buildingId',
+  role: 'role',
+  createdAt: 'createdAt'
+} as const
+
+export type ManagementAssignmentScalarFieldEnum = (typeof ManagementAssignmentScalarFieldEnum)[keyof typeof ManagementAssignmentScalarFieldEnum]
 
 
 export const CommonAreaScalarFieldEnum = {

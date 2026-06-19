@@ -320,6 +320,7 @@ export type PropertyWhereInput = {
   customer?: Prisma.XOR<Prisma.CustomerScalarRelationFilter, Prisma.CustomerWhereInput>
   buildings?: Prisma.BuildingListRelationFilter
   services?: Prisma.PropertyServiceListRelationFilter
+  managementAssignments?: Prisma.ManagementAssignmentListRelationFilter
 }
 
 export type PropertyOrderByWithRelationInput = {
@@ -344,6 +345,7 @@ export type PropertyOrderByWithRelationInput = {
   customer?: Prisma.CustomerOrderByWithRelationInput
   buildings?: Prisma.BuildingOrderByRelationAggregateInput
   services?: Prisma.PropertyServiceOrderByRelationAggregateInput
+  managementAssignments?: Prisma.ManagementAssignmentOrderByRelationAggregateInput
 }
 
 export type PropertyWhereUniqueInput = Prisma.AtLeast<{
@@ -371,6 +373,7 @@ export type PropertyWhereUniqueInput = Prisma.AtLeast<{
   customer?: Prisma.XOR<Prisma.CustomerScalarRelationFilter, Prisma.CustomerWhereInput>
   buildings?: Prisma.BuildingListRelationFilter
   services?: Prisma.PropertyServiceListRelationFilter
+  managementAssignments?: Prisma.ManagementAssignmentListRelationFilter
 }, "id">
 
 export type PropertyOrderByWithAggregationInput = {
@@ -441,6 +444,7 @@ export type PropertyCreateInput = {
   customer: Prisma.CustomerCreateNestedOneWithoutPropertiesInput
   buildings?: Prisma.BuildingCreateNestedManyWithoutPropertyInput
   services?: Prisma.PropertyServiceCreateNestedManyWithoutPropertyInput
+  managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutPropertyInput
 }
 
 export type PropertyUncheckedCreateInput = {
@@ -463,6 +467,7 @@ export type PropertyUncheckedCreateInput = {
   updatedAt?: Date | string
   buildings?: Prisma.BuildingUncheckedCreateNestedManyWithoutPropertyInput
   services?: Prisma.PropertyServiceUncheckedCreateNestedManyWithoutPropertyInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutPropertyInput
 }
 
 export type PropertyUpdateInput = {
@@ -485,6 +490,7 @@ export type PropertyUpdateInput = {
   customer?: Prisma.CustomerUpdateOneRequiredWithoutPropertiesNestedInput
   buildings?: Prisma.BuildingUpdateManyWithoutPropertyNestedInput
   services?: Prisma.PropertyServiceUpdateManyWithoutPropertyNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutPropertyNestedInput
 }
 
 export type PropertyUncheckedUpdateInput = {
@@ -507,6 +513,7 @@ export type PropertyUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   buildings?: Prisma.BuildingUncheckedUpdateManyWithoutPropertyNestedInput
   services?: Prisma.PropertyServiceUncheckedUpdateManyWithoutPropertyNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutPropertyNestedInput
 }
 
 export type PropertyCreateManyInput = {
@@ -652,6 +659,11 @@ export type PropertyScalarRelationFilter = {
   isNot?: Prisma.PropertyWhereInput
 }
 
+export type PropertyNullableScalarRelationFilter = {
+  is?: Prisma.PropertyWhereInput | null
+  isNot?: Prisma.PropertyWhereInput | null
+}
+
 export type PropertyCreateNestedManyWithoutCompanyInput = {
   create?: Prisma.XOR<Prisma.PropertyCreateWithoutCompanyInput, Prisma.PropertyUncheckedCreateWithoutCompanyInput> | Prisma.PropertyCreateWithoutCompanyInput[] | Prisma.PropertyUncheckedCreateWithoutCompanyInput[]
   connectOrCreate?: Prisma.PropertyCreateOrConnectWithoutCompanyInput | Prisma.PropertyCreateOrConnectWithoutCompanyInput[]
@@ -750,6 +762,22 @@ export type PropertyUpdateOneRequiredWithoutBuildingsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.PropertyUpdateToOneWithWhereWithoutBuildingsInput, Prisma.PropertyUpdateWithoutBuildingsInput>, Prisma.PropertyUncheckedUpdateWithoutBuildingsInput>
 }
 
+export type PropertyCreateNestedOneWithoutManagementAssignmentsInput = {
+  create?: Prisma.XOR<Prisma.PropertyCreateWithoutManagementAssignmentsInput, Prisma.PropertyUncheckedCreateWithoutManagementAssignmentsInput>
+  connectOrCreate?: Prisma.PropertyCreateOrConnectWithoutManagementAssignmentsInput
+  connect?: Prisma.PropertyWhereUniqueInput
+}
+
+export type PropertyUpdateOneWithoutManagementAssignmentsNestedInput = {
+  create?: Prisma.XOR<Prisma.PropertyCreateWithoutManagementAssignmentsInput, Prisma.PropertyUncheckedCreateWithoutManagementAssignmentsInput>
+  connectOrCreate?: Prisma.PropertyCreateOrConnectWithoutManagementAssignmentsInput
+  upsert?: Prisma.PropertyUpsertWithoutManagementAssignmentsInput
+  disconnect?: Prisma.PropertyWhereInput | boolean
+  delete?: Prisma.PropertyWhereInput | boolean
+  connect?: Prisma.PropertyWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.PropertyUpdateToOneWithWhereWithoutManagementAssignmentsInput, Prisma.PropertyUpdateWithoutManagementAssignmentsInput>, Prisma.PropertyUncheckedUpdateWithoutManagementAssignmentsInput>
+}
+
 export type PropertyCreateNestedOneWithoutServicesInput = {
   create?: Prisma.XOR<Prisma.PropertyCreateWithoutServicesInput, Prisma.PropertyUncheckedCreateWithoutServicesInput>
   connectOrCreate?: Prisma.PropertyCreateOrConnectWithoutServicesInput
@@ -783,6 +811,7 @@ export type PropertyCreateWithoutCompanyInput = {
   customer: Prisma.CustomerCreateNestedOneWithoutPropertiesInput
   buildings?: Prisma.BuildingCreateNestedManyWithoutPropertyInput
   services?: Prisma.PropertyServiceCreateNestedManyWithoutPropertyInput
+  managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutPropertyInput
 }
 
 export type PropertyUncheckedCreateWithoutCompanyInput = {
@@ -804,6 +833,7 @@ export type PropertyUncheckedCreateWithoutCompanyInput = {
   updatedAt?: Date | string
   buildings?: Prisma.BuildingUncheckedCreateNestedManyWithoutPropertyInput
   services?: Prisma.PropertyServiceUncheckedCreateNestedManyWithoutPropertyInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutPropertyInput
 }
 
 export type PropertyCreateOrConnectWithoutCompanyInput = {
@@ -874,6 +904,7 @@ export type PropertyCreateWithoutCustomerInput = {
   company: Prisma.CompanyCreateNestedOneWithoutPropertiesInput
   buildings?: Prisma.BuildingCreateNestedManyWithoutPropertyInput
   services?: Prisma.PropertyServiceCreateNestedManyWithoutPropertyInput
+  managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutPropertyInput
 }
 
 export type PropertyUncheckedCreateWithoutCustomerInput = {
@@ -895,6 +926,7 @@ export type PropertyUncheckedCreateWithoutCustomerInput = {
   updatedAt?: Date | string
   buildings?: Prisma.BuildingUncheckedCreateNestedManyWithoutPropertyInput
   services?: Prisma.PropertyServiceUncheckedCreateNestedManyWithoutPropertyInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutPropertyInput
 }
 
 export type PropertyCreateOrConnectWithoutCustomerInput = {
@@ -942,6 +974,7 @@ export type PropertyCreateWithoutBuildingsInput = {
   company: Prisma.CompanyCreateNestedOneWithoutPropertiesInput
   customer: Prisma.CustomerCreateNestedOneWithoutPropertiesInput
   services?: Prisma.PropertyServiceCreateNestedManyWithoutPropertyInput
+  managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutPropertyInput
 }
 
 export type PropertyUncheckedCreateWithoutBuildingsInput = {
@@ -963,6 +996,7 @@ export type PropertyUncheckedCreateWithoutBuildingsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   services?: Prisma.PropertyServiceUncheckedCreateNestedManyWithoutPropertyInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutPropertyInput
 }
 
 export type PropertyCreateOrConnectWithoutBuildingsInput = {
@@ -1000,6 +1034,7 @@ export type PropertyUpdateWithoutBuildingsInput = {
   company?: Prisma.CompanyUpdateOneRequiredWithoutPropertiesNestedInput
   customer?: Prisma.CustomerUpdateOneRequiredWithoutPropertiesNestedInput
   services?: Prisma.PropertyServiceUpdateManyWithoutPropertyNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutPropertyNestedInput
 }
 
 export type PropertyUncheckedUpdateWithoutBuildingsInput = {
@@ -1020,6 +1055,111 @@ export type PropertyUncheckedUpdateWithoutBuildingsInput = {
   vivaSourceCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  services?: Prisma.PropertyServiceUncheckedUpdateManyWithoutPropertyNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutPropertyNestedInput
+}
+
+export type PropertyCreateWithoutManagementAssignmentsInput = {
+  id?: string
+  name: string
+  notes?: string | null
+  address?: string | null
+  city?: string | null
+  postalCode?: string | null
+  country?: string | null
+  lat?: number | null
+  lng?: number | null
+  vivaEnabled?: boolean
+  vivaMerchantId?: string | null
+  vivaApiKeyEnc?: string | null
+  vivaSourceCode?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  company: Prisma.CompanyCreateNestedOneWithoutPropertiesInput
+  customer: Prisma.CustomerCreateNestedOneWithoutPropertiesInput
+  buildings?: Prisma.BuildingCreateNestedManyWithoutPropertyInput
+  services?: Prisma.PropertyServiceCreateNestedManyWithoutPropertyInput
+}
+
+export type PropertyUncheckedCreateWithoutManagementAssignmentsInput = {
+  id?: string
+  companyId: string
+  customerId: string
+  name: string
+  notes?: string | null
+  address?: string | null
+  city?: string | null
+  postalCode?: string | null
+  country?: string | null
+  lat?: number | null
+  lng?: number | null
+  vivaEnabled?: boolean
+  vivaMerchantId?: string | null
+  vivaApiKeyEnc?: string | null
+  vivaSourceCode?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  buildings?: Prisma.BuildingUncheckedCreateNestedManyWithoutPropertyInput
+  services?: Prisma.PropertyServiceUncheckedCreateNestedManyWithoutPropertyInput
+}
+
+export type PropertyCreateOrConnectWithoutManagementAssignmentsInput = {
+  where: Prisma.PropertyWhereUniqueInput
+  create: Prisma.XOR<Prisma.PropertyCreateWithoutManagementAssignmentsInput, Prisma.PropertyUncheckedCreateWithoutManagementAssignmentsInput>
+}
+
+export type PropertyUpsertWithoutManagementAssignmentsInput = {
+  update: Prisma.XOR<Prisma.PropertyUpdateWithoutManagementAssignmentsInput, Prisma.PropertyUncheckedUpdateWithoutManagementAssignmentsInput>
+  create: Prisma.XOR<Prisma.PropertyCreateWithoutManagementAssignmentsInput, Prisma.PropertyUncheckedCreateWithoutManagementAssignmentsInput>
+  where?: Prisma.PropertyWhereInput
+}
+
+export type PropertyUpdateToOneWithWhereWithoutManagementAssignmentsInput = {
+  where?: Prisma.PropertyWhereInput
+  data: Prisma.XOR<Prisma.PropertyUpdateWithoutManagementAssignmentsInput, Prisma.PropertyUncheckedUpdateWithoutManagementAssignmentsInput>
+}
+
+export type PropertyUpdateWithoutManagementAssignmentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  vivaEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  vivaMerchantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vivaApiKeyEnc?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vivaSourceCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  company?: Prisma.CompanyUpdateOneRequiredWithoutPropertiesNestedInput
+  customer?: Prisma.CustomerUpdateOneRequiredWithoutPropertiesNestedInput
+  buildings?: Prisma.BuildingUpdateManyWithoutPropertyNestedInput
+  services?: Prisma.PropertyServiceUpdateManyWithoutPropertyNestedInput
+}
+
+export type PropertyUncheckedUpdateWithoutManagementAssignmentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  companyId?: Prisma.StringFieldUpdateOperationsInput | string
+  customerId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  vivaEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  vivaMerchantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vivaApiKeyEnc?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vivaSourceCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  buildings?: Prisma.BuildingUncheckedUpdateManyWithoutPropertyNestedInput
   services?: Prisma.PropertyServiceUncheckedUpdateManyWithoutPropertyNestedInput
 }
 
@@ -1042,6 +1182,7 @@ export type PropertyCreateWithoutServicesInput = {
   company: Prisma.CompanyCreateNestedOneWithoutPropertiesInput
   customer: Prisma.CustomerCreateNestedOneWithoutPropertiesInput
   buildings?: Prisma.BuildingCreateNestedManyWithoutPropertyInput
+  managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutPropertyInput
 }
 
 export type PropertyUncheckedCreateWithoutServicesInput = {
@@ -1063,6 +1204,7 @@ export type PropertyUncheckedCreateWithoutServicesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   buildings?: Prisma.BuildingUncheckedCreateNestedManyWithoutPropertyInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutPropertyInput
 }
 
 export type PropertyCreateOrConnectWithoutServicesInput = {
@@ -1100,6 +1242,7 @@ export type PropertyUpdateWithoutServicesInput = {
   company?: Prisma.CompanyUpdateOneRequiredWithoutPropertiesNestedInput
   customer?: Prisma.CustomerUpdateOneRequiredWithoutPropertiesNestedInput
   buildings?: Prisma.BuildingUpdateManyWithoutPropertyNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutPropertyNestedInput
 }
 
 export type PropertyUncheckedUpdateWithoutServicesInput = {
@@ -1121,6 +1264,7 @@ export type PropertyUncheckedUpdateWithoutServicesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   buildings?: Prisma.BuildingUncheckedUpdateManyWithoutPropertyNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutPropertyNestedInput
 }
 
 export type PropertyCreateManyCompanyInput = {
@@ -1161,6 +1305,7 @@ export type PropertyUpdateWithoutCompanyInput = {
   customer?: Prisma.CustomerUpdateOneRequiredWithoutPropertiesNestedInput
   buildings?: Prisma.BuildingUpdateManyWithoutPropertyNestedInput
   services?: Prisma.PropertyServiceUpdateManyWithoutPropertyNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutPropertyNestedInput
 }
 
 export type PropertyUncheckedUpdateWithoutCompanyInput = {
@@ -1182,6 +1327,7 @@ export type PropertyUncheckedUpdateWithoutCompanyInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   buildings?: Prisma.BuildingUncheckedUpdateManyWithoutPropertyNestedInput
   services?: Prisma.PropertyServiceUncheckedUpdateManyWithoutPropertyNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutPropertyNestedInput
 }
 
 export type PropertyUncheckedUpdateManyWithoutCompanyInput = {
@@ -1241,6 +1387,7 @@ export type PropertyUpdateWithoutCustomerInput = {
   company?: Prisma.CompanyUpdateOneRequiredWithoutPropertiesNestedInput
   buildings?: Prisma.BuildingUpdateManyWithoutPropertyNestedInput
   services?: Prisma.PropertyServiceUpdateManyWithoutPropertyNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutPropertyNestedInput
 }
 
 export type PropertyUncheckedUpdateWithoutCustomerInput = {
@@ -1262,6 +1409,7 @@ export type PropertyUncheckedUpdateWithoutCustomerInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   buildings?: Prisma.BuildingUncheckedUpdateManyWithoutPropertyNestedInput
   services?: Prisma.PropertyServiceUncheckedUpdateManyWithoutPropertyNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutPropertyNestedInput
 }
 
 export type PropertyUncheckedUpdateManyWithoutCustomerInput = {
@@ -1291,11 +1439,13 @@ export type PropertyUncheckedUpdateManyWithoutCustomerInput = {
 export type PropertyCountOutputType = {
   buildings: number
   services: number
+  managementAssignments: number
 }
 
 export type PropertyCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   buildings?: boolean | PropertyCountOutputTypeCountBuildingsArgs
   services?: boolean | PropertyCountOutputTypeCountServicesArgs
+  managementAssignments?: boolean | PropertyCountOutputTypeCountManagementAssignmentsArgs
 }
 
 /**
@@ -1322,6 +1472,13 @@ export type PropertyCountOutputTypeCountServicesArgs<ExtArgs extends runtime.Typ
   where?: Prisma.PropertyServiceWhereInput
 }
 
+/**
+ * PropertyCountOutputType without action
+ */
+export type PropertyCountOutputTypeCountManagementAssignmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ManagementAssignmentWhereInput
+}
+
 
 export type PropertySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1345,6 +1502,7 @@ export type PropertySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
   buildings?: boolean | Prisma.Property$buildingsArgs<ExtArgs>
   services?: boolean | Prisma.Property$servicesArgs<ExtArgs>
+  managementAssignments?: boolean | Prisma.Property$managementAssignmentsArgs<ExtArgs>
   _count?: boolean | Prisma.PropertyCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["property"]>
 
@@ -1418,6 +1576,7 @@ export type PropertyInclude<ExtArgs extends runtime.Types.Extensions.InternalArg
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
   buildings?: boolean | Prisma.Property$buildingsArgs<ExtArgs>
   services?: boolean | Prisma.Property$servicesArgs<ExtArgs>
+  managementAssignments?: boolean | Prisma.Property$managementAssignmentsArgs<ExtArgs>
   _count?: boolean | Prisma.PropertyCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type PropertyIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1436,6 +1595,7 @@ export type $PropertyPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     customer: Prisma.$CustomerPayload<ExtArgs>
     buildings: Prisma.$BuildingPayload<ExtArgs>[]
     services: Prisma.$PropertyServicePayload<ExtArgs>[]
+    managementAssignments: Prisma.$ManagementAssignmentPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1853,6 +2013,7 @@ export interface Prisma__PropertyClient<T, Null = never, ExtArgs extends runtime
   customer<T extends Prisma.CustomerDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CustomerDefaultArgs<ExtArgs>>): Prisma.Prisma__CustomerClient<runtime.Types.Result.GetResult<Prisma.$CustomerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   buildings<T extends Prisma.Property$buildingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Property$buildingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BuildingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   services<T extends Prisma.Property$servicesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Property$servicesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PropertyServicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  managementAssignments<T extends Prisma.Property$managementAssignmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Property$managementAssignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ManagementAssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2345,6 +2506,30 @@ export type Property$servicesArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   distinct?: Prisma.PropertyServiceScalarFieldEnum | Prisma.PropertyServiceScalarFieldEnum[]
+}
+
+/**
+ * Property.managementAssignments
+ */
+export type Property$managementAssignmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ManagementAssignment
+   */
+  select?: Prisma.ManagementAssignmentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ManagementAssignment
+   */
+  omit?: Prisma.ManagementAssignmentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ManagementAssignmentInclude<ExtArgs> | null
+  where?: Prisma.ManagementAssignmentWhereInput
+  orderBy?: Prisma.ManagementAssignmentOrderByWithRelationInput | Prisma.ManagementAssignmentOrderByWithRelationInput[]
+  cursor?: Prisma.ManagementAssignmentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ManagementAssignmentScalarFieldEnum | Prisma.ManagementAssignmentScalarFieldEnum[]
 }
 
 /**

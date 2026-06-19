@@ -85,8 +85,10 @@ export async function addManager(scope: { propertyId: string } | { buildingId: s
 export async function removeManager(assignmentId: string): Promise<{ ok: true } | { error: string }>
 ```
 
-- `addManager`: επιτρέπεται μόνο αν ο `userId` είναι ήδη owner/resident σε εκείνο το scope
-  (ιδιοκτησία ή κτήριο). Δημιουργεί `ManagementAssignment` με `role = PROPERTY_ADMIN`.
+- `addManager`: ο `userId` πρέπει να ανήκει στη **δεξαμενή υποψηφίων** εκείνου του scope:
+  (α) ιδιοκτήτης/ένοικος μονάδας μέσα στο scope (ιδιοκτησία ή κτήριο), **ή**
+  (β) προσωπικό της εταιρείας διαχείρισης (ρόλος ADMIN/MANAGER/EMPLOYEE).
+  Δημιουργεί `ManagementAssignment` με `role = PROPERTY_ADMIN`.
 - Auth: SUPER_ADMIN/ADMIN/MANAGER/PROPERTY_ADMIN (όπως τα υπόλοιπα).
 
 ### `app/actions/employees.ts` — `searchUsers`
@@ -116,7 +118,8 @@ export async function removeManager(assignmentId: string): Promise<{ ok: true } 
   PropertyDetailClient ή στην κορυφή του δέντρου) → `ManagersModal` με scope ιδιοκτησίας.
 - `ManagersModal`:
   - Λίστα τρεχόντων διαχειριστών (όνομα, email) + κουμπί αφαίρεσης (`removeManager`).
-  - `UserCombo` περιορισμένο στους owners/residents **αυτού** του scope, για προσθήκη
+  - `UserCombo` (ή ειδικό combo) με τη δεξαμενή υποψηφίων του scope: owners/residents
+    **αυτού** του scope + προσωπικό εταιρείας (ADMIN/MANAGER/EMPLOYEE), για προσθήκη
     (`addManager`).
 
 ## Δικαιώματα (ελεγχόμενα)

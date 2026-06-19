@@ -129,6 +129,9 @@ model User {
   // API usage logs triggered by this user
   apiUsageLogs        APIUsageLog[]
 
+  // Per-scope management assignments (διαχειριστής of a property/building)
+  managementAssignments ManagementAssignment[] @relation("userManagements")
+
   // Audit fields
   createdAt           DateTime @default(now())
   updatedAt           DateTime @updatedAt
@@ -539,6 +542,7 @@ model Property {
   // Relations
   buildings             Building[]
   services              PropertyService[]
+  managementAssignments ManagementAssignment[]
 
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt
@@ -588,6 +592,7 @@ model Building {
   addons                AddonFeature[]
   announcements         Announcement[]
   maintenanceRequests   MaintenanceRequest[]
+  managementAssignments ManagementAssignment[]
 
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt
@@ -595,6 +600,31 @@ model Building {
   @@index([companyId])
   @@index([propertyId])
   @@index([name])
+}
+
+// Per-scope manager (διαχειριστής) assignment. Grants PROPERTY_ADMIN-level
+// management of ONE property or ONE building. A user may hold many assignments
+// (manage multiple scopes) and still be an owner/resident elsewhere.
+model ManagementAssignment {
+  id          String    @id @default(cuid())
+
+  userId      String
+  user        User      @relation("userManagements", fields: [userId], references: [id], onDelete: Cascade)
+
+  // Exactly one of propertyId / buildingId is set (property-level or building-level).
+  propertyId  String?
+  property    Property? @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  buildingId  String?
+  building    Building? @relation(fields: [buildingId], references: [id], onDelete: Cascade)
+
+  role        UserRole  @default(PROPERTY_ADMIN)
+
+  createdAt   DateTime  @default(now())
+
+  @@unique([userId, propertyId, buildingId])
+  @@index([userId])
+  @@index([propertyId])
+  @@index([buildingId])
 }
 
 // Common areas (κοινόχρηστοι χώροι) — drive PER_COMMON_AREA pricing.

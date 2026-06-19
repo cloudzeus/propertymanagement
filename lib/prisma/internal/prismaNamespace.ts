@@ -397,6 +397,7 @@ export const ModelName = {
   Customer: 'Customer',
   Property: 'Property',
   Building: 'Building',
+  ManagementAssignment: 'ManagementAssignment',
   CommonArea: 'CommonArea',
   Unit: 'Unit',
   Service: 'Service',
@@ -432,7 +433,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "account" | "session" | "verificationToken" | "company" | "department" | "jobPosition" | "employee" | "subscription" | "addonFeature" | "customer" | "property" | "building" | "commonArea" | "unit" | "service" | "propertyService" | "serviceInvoice" | "serviceInvoiceLine" | "userCompanyRole" | "menuConfig" | "announcement" | "announcement_User" | "aPIUsageLog" | "aPICostConfig" | "monthlyCostSummary" | "maintenanceRequest" | "cMSPage" | "fAQ" | "pricingTier" | "contactMessage" | "cookieConsent" | "appSettings"
+    modelProps: "user" | "account" | "session" | "verificationToken" | "company" | "department" | "jobPosition" | "employee" | "subscription" | "addonFeature" | "customer" | "property" | "building" | "managementAssignment" | "commonArea" | "unit" | "service" | "propertyService" | "serviceInvoice" | "serviceInvoiceLine" | "userCompanyRole" | "menuConfig" | "announcement" | "announcement_User" | "aPIUsageLog" | "aPICostConfig" | "monthlyCostSummary" | "maintenanceRequest" | "cMSPage" | "fAQ" | "pricingTier" | "contactMessage" | "cookieConsent" | "appSettings"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1395,6 +1396,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.BuildingCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.BuildingCountAggregateOutputType> | number
+        }
+      }
+    }
+    ManagementAssignment: {
+      payload: Prisma.$ManagementAssignmentPayload<ExtArgs>
+      fields: Prisma.ManagementAssignmentFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ManagementAssignmentFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ManagementAssignmentPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ManagementAssignmentFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ManagementAssignmentPayload>
+        }
+        findFirst: {
+          args: Prisma.ManagementAssignmentFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ManagementAssignmentPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ManagementAssignmentFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ManagementAssignmentPayload>
+        }
+        findMany: {
+          args: Prisma.ManagementAssignmentFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ManagementAssignmentPayload>[]
+        }
+        create: {
+          args: Prisma.ManagementAssignmentCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ManagementAssignmentPayload>
+        }
+        createMany: {
+          args: Prisma.ManagementAssignmentCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ManagementAssignmentCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ManagementAssignmentPayload>[]
+        }
+        delete: {
+          args: Prisma.ManagementAssignmentDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ManagementAssignmentPayload>
+        }
+        update: {
+          args: Prisma.ManagementAssignmentUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ManagementAssignmentPayload>
+        }
+        deleteMany: {
+          args: Prisma.ManagementAssignmentDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ManagementAssignmentUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ManagementAssignmentUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ManagementAssignmentPayload>[]
+        }
+        upsert: {
+          args: Prisma.ManagementAssignmentUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ManagementAssignmentPayload>
+        }
+        aggregate: {
+          args: Prisma.ManagementAssignmentAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateManagementAssignment>
+        }
+        groupBy: {
+          args: Prisma.ManagementAssignmentGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ManagementAssignmentGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ManagementAssignmentCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ManagementAssignmentCountAggregateOutputType> | number
         }
       }
     }
@@ -3211,6 +3286,18 @@ export const BuildingScalarFieldEnum = {
 export type BuildingScalarFieldEnum = (typeof BuildingScalarFieldEnum)[keyof typeof BuildingScalarFieldEnum]
 
 
+export const ManagementAssignmentScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  propertyId: 'propertyId',
+  buildingId: 'buildingId',
+  role: 'role',
+  createdAt: 'createdAt'
+} as const
+
+export type ManagementAssignmentScalarFieldEnum = (typeof ManagementAssignmentScalarFieldEnum)[keyof typeof ManagementAssignmentScalarFieldEnum]
+
+
 export const CommonAreaScalarFieldEnum = {
   id: 'id',
   buildingId: 'buildingId',
@@ -3957,6 +4044,7 @@ export type GlobalOmitConfig = {
   customer?: Prisma.CustomerOmit
   property?: Prisma.PropertyOmit
   building?: Prisma.BuildingOmit
+  managementAssignment?: Prisma.ManagementAssignmentOmit
   commonArea?: Prisma.CommonAreaOmit
   unit?: Prisma.UnitOmit
   service?: Prisma.ServiceOmit

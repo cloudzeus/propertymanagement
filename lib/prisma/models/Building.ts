@@ -360,6 +360,7 @@ export type BuildingWhereInput = {
   addons?: Prisma.AddonFeatureListRelationFilter
   announcements?: Prisma.AnnouncementListRelationFilter
   maintenanceRequests?: Prisma.MaintenanceRequestListRelationFilter
+  managementAssignments?: Prisma.ManagementAssignmentListRelationFilter
 }
 
 export type BuildingOrderByWithRelationInput = {
@@ -391,6 +392,7 @@ export type BuildingOrderByWithRelationInput = {
   addons?: Prisma.AddonFeatureOrderByRelationAggregateInput
   announcements?: Prisma.AnnouncementOrderByRelationAggregateInput
   maintenanceRequests?: Prisma.MaintenanceRequestOrderByRelationAggregateInput
+  managementAssignments?: Prisma.ManagementAssignmentOrderByRelationAggregateInput
 }
 
 export type BuildingWhereUniqueInput = Prisma.AtLeast<{
@@ -425,6 +427,7 @@ export type BuildingWhereUniqueInput = Prisma.AtLeast<{
   addons?: Prisma.AddonFeatureListRelationFilter
   announcements?: Prisma.AnnouncementListRelationFilter
   maintenanceRequests?: Prisma.MaintenanceRequestListRelationFilter
+  managementAssignments?: Prisma.ManagementAssignmentListRelationFilter
 }, "id">
 
 export type BuildingOrderByWithAggregationInput = {
@@ -508,6 +511,7 @@ export type BuildingCreateInput = {
   addons?: Prisma.AddonFeatureCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutBuildingInput
+  managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUncheckedCreateInput = {
@@ -537,6 +541,7 @@ export type BuildingUncheckedCreateInput = {
   addons?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutBuildingInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUpdateInput = {
@@ -566,6 +571,7 @@ export type BuildingUpdateInput = {
   addons?: Prisma.AddonFeatureUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutBuildingNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateInput = {
@@ -595,6 +601,7 @@ export type BuildingUncheckedUpdateInput = {
   addons?: Prisma.AddonFeatureUncheckedUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutBuildingNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingCreateManyInput = {
@@ -885,6 +892,22 @@ export type BuildingUncheckedUpdateManyWithoutPropertyNestedInput = {
   deleteMany?: Prisma.BuildingScalarWhereInput | Prisma.BuildingScalarWhereInput[]
 }
 
+export type BuildingCreateNestedOneWithoutManagementAssignmentsInput = {
+  create?: Prisma.XOR<Prisma.BuildingCreateWithoutManagementAssignmentsInput, Prisma.BuildingUncheckedCreateWithoutManagementAssignmentsInput>
+  connectOrCreate?: Prisma.BuildingCreateOrConnectWithoutManagementAssignmentsInput
+  connect?: Prisma.BuildingWhereUniqueInput
+}
+
+export type BuildingUpdateOneWithoutManagementAssignmentsNestedInput = {
+  create?: Prisma.XOR<Prisma.BuildingCreateWithoutManagementAssignmentsInput, Prisma.BuildingUncheckedCreateWithoutManagementAssignmentsInput>
+  connectOrCreate?: Prisma.BuildingCreateOrConnectWithoutManagementAssignmentsInput
+  upsert?: Prisma.BuildingUpsertWithoutManagementAssignmentsInput
+  disconnect?: Prisma.BuildingWhereInput | boolean
+  delete?: Prisma.BuildingWhereInput | boolean
+  connect?: Prisma.BuildingWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.BuildingUpdateToOneWithWhereWithoutManagementAssignmentsInput, Prisma.BuildingUpdateWithoutManagementAssignmentsInput>, Prisma.BuildingUncheckedUpdateWithoutManagementAssignmentsInput>
+}
+
 export type BuildingCreateNestedOneWithoutCommonAreasInput = {
   create?: Prisma.XOR<Prisma.BuildingCreateWithoutCommonAreasInput, Prisma.BuildingUncheckedCreateWithoutCommonAreasInput>
   connectOrCreate?: Prisma.BuildingCreateOrConnectWithoutCommonAreasInput
@@ -967,6 +990,7 @@ export type BuildingCreateWithoutUsersInput = {
   addons?: Prisma.AddonFeatureCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutBuildingInput
+  managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUncheckedCreateWithoutUsersInput = {
@@ -995,6 +1019,7 @@ export type BuildingUncheckedCreateWithoutUsersInput = {
   addons?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutBuildingInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingCreateOrConnectWithoutUsersInput = {
@@ -1039,6 +1064,7 @@ export type BuildingUpdateWithoutUsersInput = {
   addons?: Prisma.AddonFeatureUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutBuildingNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateWithoutUsersInput = {
@@ -1067,6 +1093,7 @@ export type BuildingUncheckedUpdateWithoutUsersInput = {
   addons?: Prisma.AddonFeatureUncheckedUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutBuildingNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingCreateWithoutCompanyInput = {
@@ -1095,6 +1122,7 @@ export type BuildingCreateWithoutCompanyInput = {
   addons?: Prisma.AddonFeatureCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutBuildingInput
+  managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUncheckedCreateWithoutCompanyInput = {
@@ -1123,6 +1151,7 @@ export type BuildingUncheckedCreateWithoutCompanyInput = {
   addons?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutBuildingInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingCreateOrConnectWithoutCompanyInput = {
@@ -1203,6 +1232,7 @@ export type BuildingCreateWithoutAddonsInput = {
   commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutBuildingInput
+  managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUncheckedCreateWithoutAddonsInput = {
@@ -1231,6 +1261,7 @@ export type BuildingUncheckedCreateWithoutAddonsInput = {
   commonAreas?: Prisma.CommonAreaUncheckedCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutBuildingInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingCreateOrConnectWithoutAddonsInput = {
@@ -1275,6 +1306,7 @@ export type BuildingUpdateWithoutAddonsInput = {
   commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutBuildingNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateWithoutAddonsInput = {
@@ -1303,6 +1335,7 @@ export type BuildingUncheckedUpdateWithoutAddonsInput = {
   commonAreas?: Prisma.CommonAreaUncheckedUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutBuildingNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingCreateWithoutPropertyInput = {
@@ -1331,6 +1364,7 @@ export type BuildingCreateWithoutPropertyInput = {
   addons?: Prisma.AddonFeatureCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutBuildingInput
+  managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUncheckedCreateWithoutPropertyInput = {
@@ -1359,6 +1393,7 @@ export type BuildingUncheckedCreateWithoutPropertyInput = {
   addons?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutBuildingInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingCreateOrConnectWithoutPropertyInput = {
@@ -1387,6 +1422,138 @@ export type BuildingUpdateManyWithWhereWithoutPropertyInput = {
   data: Prisma.XOR<Prisma.BuildingUpdateManyMutationInput, Prisma.BuildingUncheckedUpdateManyWithoutPropertyInput>
 }
 
+export type BuildingCreateWithoutManagementAssignmentsInput = {
+  id?: string
+  name: string
+  address: string
+  city: string
+  postalCode: string
+  country?: string
+  imageUrl?: string | null
+  floors?: number | null
+  basements?: number | null
+  unitsCount?: number
+  hasElevator?: boolean
+  hasBoiler?: boolean
+  hasFireSafety?: boolean
+  technicalNotes?: string | null
+  lat?: number | null
+  lng?: number | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
+  property: Prisma.PropertyCreateNestedOneWithoutBuildingsInput
+  users?: Prisma.UserCreateNestedManyWithoutBuildingInput
+  units?: Prisma.UnitCreateNestedManyWithoutBuildingInput
+  commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
+  addons?: Prisma.AddonFeatureCreateNestedManyWithoutBuildingInput
+  announcements?: Prisma.AnnouncementCreateNestedManyWithoutBuildingInput
+  maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutBuildingInput
+}
+
+export type BuildingUncheckedCreateWithoutManagementAssignmentsInput = {
+  id?: string
+  companyId: string
+  propertyId: string
+  name: string
+  address: string
+  city: string
+  postalCode: string
+  country?: string
+  imageUrl?: string | null
+  floors?: number | null
+  basements?: number | null
+  unitsCount?: number
+  hasElevator?: boolean
+  hasBoiler?: boolean
+  hasFireSafety?: boolean
+  technicalNotes?: string | null
+  lat?: number | null
+  lng?: number | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
+  units?: Prisma.UnitUncheckedCreateNestedManyWithoutBuildingInput
+  commonAreas?: Prisma.CommonAreaUncheckedCreateNestedManyWithoutBuildingInput
+  addons?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutBuildingInput
+  announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutBuildingInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutBuildingInput
+}
+
+export type BuildingCreateOrConnectWithoutManagementAssignmentsInput = {
+  where: Prisma.BuildingWhereUniqueInput
+  create: Prisma.XOR<Prisma.BuildingCreateWithoutManagementAssignmentsInput, Prisma.BuildingUncheckedCreateWithoutManagementAssignmentsInput>
+}
+
+export type BuildingUpsertWithoutManagementAssignmentsInput = {
+  update: Prisma.XOR<Prisma.BuildingUpdateWithoutManagementAssignmentsInput, Prisma.BuildingUncheckedUpdateWithoutManagementAssignmentsInput>
+  create: Prisma.XOR<Prisma.BuildingCreateWithoutManagementAssignmentsInput, Prisma.BuildingUncheckedCreateWithoutManagementAssignmentsInput>
+  where?: Prisma.BuildingWhereInput
+}
+
+export type BuildingUpdateToOneWithWhereWithoutManagementAssignmentsInput = {
+  where?: Prisma.BuildingWhereInput
+  data: Prisma.XOR<Prisma.BuildingUpdateWithoutManagementAssignmentsInput, Prisma.BuildingUncheckedUpdateWithoutManagementAssignmentsInput>
+}
+
+export type BuildingUpdateWithoutManagementAssignmentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.StringFieldUpdateOperationsInput | string
+  postalCode?: Prisma.StringFieldUpdateOperationsInput | string
+  country?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  floors?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  basements?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  unitsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  hasElevator?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasBoiler?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasFireSafety?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
+  property?: Prisma.PropertyUpdateOneRequiredWithoutBuildingsNestedInput
+  users?: Prisma.UserUpdateManyWithoutBuildingNestedInput
+  units?: Prisma.UnitUpdateManyWithoutBuildingNestedInput
+  commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
+  addons?: Prisma.AddonFeatureUpdateManyWithoutBuildingNestedInput
+  announcements?: Prisma.AnnouncementUpdateManyWithoutBuildingNestedInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutBuildingNestedInput
+}
+
+export type BuildingUncheckedUpdateWithoutManagementAssignmentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  companyId?: Prisma.StringFieldUpdateOperationsInput | string
+  propertyId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.StringFieldUpdateOperationsInput | string
+  postalCode?: Prisma.StringFieldUpdateOperationsInput | string
+  country?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  floors?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  basements?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  unitsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  hasElevator?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasBoiler?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasFireSafety?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
+  units?: Prisma.UnitUncheckedUpdateManyWithoutBuildingNestedInput
+  commonAreas?: Prisma.CommonAreaUncheckedUpdateManyWithoutBuildingNestedInput
+  addons?: Prisma.AddonFeatureUncheckedUpdateManyWithoutBuildingNestedInput
+  announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutBuildingNestedInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutBuildingNestedInput
+}
+
 export type BuildingCreateWithoutCommonAreasInput = {
   id?: string
   name: string
@@ -1413,6 +1580,7 @@ export type BuildingCreateWithoutCommonAreasInput = {
   addons?: Prisma.AddonFeatureCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutBuildingInput
+  managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUncheckedCreateWithoutCommonAreasInput = {
@@ -1441,6 +1609,7 @@ export type BuildingUncheckedCreateWithoutCommonAreasInput = {
   addons?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutBuildingInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingCreateOrConnectWithoutCommonAreasInput = {
@@ -1485,6 +1654,7 @@ export type BuildingUpdateWithoutCommonAreasInput = {
   addons?: Prisma.AddonFeatureUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutBuildingNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateWithoutCommonAreasInput = {
@@ -1513,6 +1683,7 @@ export type BuildingUncheckedUpdateWithoutCommonAreasInput = {
   addons?: Prisma.AddonFeatureUncheckedUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutBuildingNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingCreateWithoutUnitsInput = {
@@ -1541,6 +1712,7 @@ export type BuildingCreateWithoutUnitsInput = {
   addons?: Prisma.AddonFeatureCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutBuildingInput
+  managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUncheckedCreateWithoutUnitsInput = {
@@ -1569,6 +1741,7 @@ export type BuildingUncheckedCreateWithoutUnitsInput = {
   addons?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutBuildingInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingCreateOrConnectWithoutUnitsInput = {
@@ -1613,6 +1786,7 @@ export type BuildingUpdateWithoutUnitsInput = {
   addons?: Prisma.AddonFeatureUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutBuildingNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateWithoutUnitsInput = {
@@ -1641,6 +1815,7 @@ export type BuildingUncheckedUpdateWithoutUnitsInput = {
   addons?: Prisma.AddonFeatureUncheckedUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutBuildingNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingCreateWithoutAnnouncementsInput = {
@@ -1669,6 +1844,7 @@ export type BuildingCreateWithoutAnnouncementsInput = {
   commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutBuildingInput
+  managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUncheckedCreateWithoutAnnouncementsInput = {
@@ -1697,6 +1873,7 @@ export type BuildingUncheckedCreateWithoutAnnouncementsInput = {
   commonAreas?: Prisma.CommonAreaUncheckedCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutBuildingInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingCreateOrConnectWithoutAnnouncementsInput = {
@@ -1741,6 +1918,7 @@ export type BuildingUpdateWithoutAnnouncementsInput = {
   commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutBuildingNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateWithoutAnnouncementsInput = {
@@ -1769,6 +1947,7 @@ export type BuildingUncheckedUpdateWithoutAnnouncementsInput = {
   commonAreas?: Prisma.CommonAreaUncheckedUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUncheckedUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutBuildingNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingCreateWithoutMaintenanceRequestsInput = {
@@ -1797,6 +1976,7 @@ export type BuildingCreateWithoutMaintenanceRequestsInput = {
   commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutBuildingInput
+  managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUncheckedCreateWithoutMaintenanceRequestsInput = {
@@ -1825,6 +2005,7 @@ export type BuildingUncheckedCreateWithoutMaintenanceRequestsInput = {
   commonAreas?: Prisma.CommonAreaUncheckedCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutBuildingInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingCreateOrConnectWithoutMaintenanceRequestsInput = {
@@ -1869,6 +2050,7 @@ export type BuildingUpdateWithoutMaintenanceRequestsInput = {
   commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUpdateManyWithoutBuildingNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateWithoutMaintenanceRequestsInput = {
@@ -1897,6 +2079,7 @@ export type BuildingUncheckedUpdateWithoutMaintenanceRequestsInput = {
   commonAreas?: Prisma.CommonAreaUncheckedUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUncheckedUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutBuildingNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingCreateManyCompanyInput = {
@@ -1947,6 +2130,7 @@ export type BuildingUpdateWithoutCompanyInput = {
   addons?: Prisma.AddonFeatureUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutBuildingNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateWithoutCompanyInput = {
@@ -1975,6 +2159,7 @@ export type BuildingUncheckedUpdateWithoutCompanyInput = {
   addons?: Prisma.AddonFeatureUncheckedUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutBuildingNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateManyWithoutCompanyInput = {
@@ -2047,6 +2232,7 @@ export type BuildingUpdateWithoutPropertyInput = {
   addons?: Prisma.AddonFeatureUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutBuildingNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateWithoutPropertyInput = {
@@ -2075,6 +2261,7 @@ export type BuildingUncheckedUpdateWithoutPropertyInput = {
   addons?: Prisma.AddonFeatureUncheckedUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutBuildingNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateManyWithoutPropertyInput = {
@@ -2111,6 +2298,7 @@ export type BuildingCountOutputType = {
   addons: number
   announcements: number
   maintenanceRequests: number
+  managementAssignments: number
 }
 
 export type BuildingCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2120,6 +2308,7 @@ export type BuildingCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensio
   addons?: boolean | BuildingCountOutputTypeCountAddonsArgs
   announcements?: boolean | BuildingCountOutputTypeCountAnnouncementsArgs
   maintenanceRequests?: boolean | BuildingCountOutputTypeCountMaintenanceRequestsArgs
+  managementAssignments?: boolean | BuildingCountOutputTypeCountManagementAssignmentsArgs
 }
 
 /**
@@ -2174,6 +2363,13 @@ export type BuildingCountOutputTypeCountMaintenanceRequestsArgs<ExtArgs extends 
   where?: Prisma.MaintenanceRequestWhereInput
 }
 
+/**
+ * BuildingCountOutputType without action
+ */
+export type BuildingCountOutputTypeCountManagementAssignmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ManagementAssignmentWhereInput
+}
+
 
 export type BuildingSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -2204,6 +2400,7 @@ export type BuildingSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   addons?: boolean | Prisma.Building$addonsArgs<ExtArgs>
   announcements?: boolean | Prisma.Building$announcementsArgs<ExtArgs>
   maintenanceRequests?: boolean | Prisma.Building$maintenanceRequestsArgs<ExtArgs>
+  managementAssignments?: boolean | Prisma.Building$managementAssignmentsArgs<ExtArgs>
   _count?: boolean | Prisma.BuildingCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["building"]>
 
@@ -2290,6 +2487,7 @@ export type BuildingInclude<ExtArgs extends runtime.Types.Extensions.InternalArg
   addons?: boolean | Prisma.Building$addonsArgs<ExtArgs>
   announcements?: boolean | Prisma.Building$announcementsArgs<ExtArgs>
   maintenanceRequests?: boolean | Prisma.Building$maintenanceRequestsArgs<ExtArgs>
+  managementAssignments?: boolean | Prisma.Building$managementAssignmentsArgs<ExtArgs>
   _count?: boolean | Prisma.BuildingCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type BuildingIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2312,6 +2510,7 @@ export type $BuildingPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     addons: Prisma.$AddonFeaturePayload<ExtArgs>[]
     announcements: Prisma.$AnnouncementPayload<ExtArgs>[]
     maintenanceRequests: Prisma.$MaintenanceRequestPayload<ExtArgs>[]
+    managementAssignments: Prisma.$ManagementAssignmentPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2736,6 +2935,7 @@ export interface Prisma__BuildingClient<T, Null = never, ExtArgs extends runtime
   addons<T extends Prisma.Building$addonsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Building$addonsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AddonFeaturePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   announcements<T extends Prisma.Building$announcementsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Building$announcementsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AnnouncementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   maintenanceRequests<T extends Prisma.Building$maintenanceRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Building$maintenanceRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MaintenanceRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  managementAssignments<T extends Prisma.Building$managementAssignmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Building$managementAssignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ManagementAssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3327,6 +3527,30 @@ export type Building$maintenanceRequestsArgs<ExtArgs extends runtime.Types.Exten
   take?: number
   skip?: number
   distinct?: Prisma.MaintenanceRequestScalarFieldEnum | Prisma.MaintenanceRequestScalarFieldEnum[]
+}
+
+/**
+ * Building.managementAssignments
+ */
+export type Building$managementAssignmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ManagementAssignment
+   */
+  select?: Prisma.ManagementAssignmentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ManagementAssignment
+   */
+  omit?: Prisma.ManagementAssignmentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ManagementAssignmentInclude<ExtArgs> | null
+  where?: Prisma.ManagementAssignmentWhereInput
+  orderBy?: Prisma.ManagementAssignmentOrderByWithRelationInput | Prisma.ManagementAssignmentOrderByWithRelationInput[]
+  cursor?: Prisma.ManagementAssignmentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ManagementAssignmentScalarFieldEnum | Prisma.ManagementAssignmentScalarFieldEnum[]
 }
 
 /**

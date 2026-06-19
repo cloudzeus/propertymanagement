@@ -15,6 +15,10 @@ import { deleteProperty } from "@/app/actions/properties";
 import { UserCombo } from "@/components/ui/user-combo";
 import { CUSTOMER_ROLES } from "@/lib/roles-constants";
 import {
+  listManagers, searchManagerCandidates, addManager, removeManager,
+  type ManagerRow, type ManagerCandidate, type ManagerScope,
+} from "@/app/actions/managers";
+import {
   RiArrowRightSLine, RiArrowUpSLine, RiArrowDownSLine, RiCommunityLine, RiBuildingLine, RiStairsLine, RiHome2Line,
   RiStore2Line, RiParkingBoxLine, RiBox3Line, RiDoorOpenLine, RiMoreFill,
   RiAddLine, RiPencilLine, RiDeleteBinLine, RiSettings3Line, RiUserStarLine, RiUserLine,
@@ -37,6 +41,7 @@ type Modal_ =
   | { kind: "commonArea"; buildingId: string; defaultFloor?: number | null }
   | { kind: "occupants"; unit: TUnit }
   | { kind: "millesimes"; building: TBuilding }
+  | { kind: "managers"; scope: ManagerScope; title: string }
   | null;
 
 export function CustomerTree({ properties }: { properties: TProperty[] }) {
@@ -88,8 +93,9 @@ export function BuildingsTree({ propertyId, buildings, depthBase = 0, showAddBui
   return (
     <div>
       {showAddBuilding && (
-        <div style={{ paddingLeft: 10 + depthBase * 22, marginBottom: 6 }}>
+        <div style={{ paddingLeft: 10 + depthBase * 22, marginBottom: 6, display: "flex", gap: 6 }}>
           <button onClick={() => setModal({ kind: "building", propertyId, editing: null })} style={smallBtn}><RiAddLine /> Νέο Κτήριο</button>
+          <button onClick={() => setModal({ kind: "managers", scope: { propertyId }, title: "Διαχειριστές ιδιοκτησίας" })} style={smallBtn}><RiUserStarLine /> Διαχειριστές ιδιοκτησίας</button>
         </div>
       )}
       {buildings.length === 0 && !showAddBuilding && (
@@ -118,6 +124,7 @@ export function BuildingsTree({ propertyId, buildings, depthBase = 0, showAddBui
                 { label: "Προσθήκη μονάδας", icon: <RiAddLine />, onClick: () => setModal({ kind: "unit", buildingId: b.id, editing: null }) },
                 { label: "Προσθήκη κοιν. χώρου", icon: <RiDoorOpenLine />, onClick: () => setModal({ kind: "commonArea", buildingId: b.id }) },
                 { label: "Υπολογισμός χιλιοστών", icon: <RiCalculatorLine />, onClick: () => setModal({ kind: "millesimes", building: b }) },
+                { label: "Διαχειριστές κτηρίου", icon: <RiUserStarLine />, onClick: () => setModal({ kind: "managers", scope: { buildingId: b.id }, title: `Διαχειριστές — ${b.name}` }) },
                 { label: "Διαγραφή", icon: <RiDeleteBinLine />, danger: true, onClick: () => { if (confirm(`Διαγραφή κτηρίου «${b.name}»;`)) act(() => deleteBuilding(b.id)); } },
               ]} />
             {bOpen && floors.map((fl) => {
@@ -163,6 +170,7 @@ export function BuildingsTree({ propertyId, buildings, depthBase = 0, showAddBui
       {modal?.kind === "commonArea" && <CommonAreaModal buildingId={modal.buildingId} defaultFloor={modal.defaultFloor} onClose={close} onDone={done} />}
       {modal?.kind === "occupants" && <OccupantsModal unit={modal.unit} onClose={close} onDone={() => router.refresh()} />}
       {modal?.kind === "millesimes" && <MillesimesModal building={modal.building} onClose={close} onDone={done} />}
+      {modal?.kind === "managers" && <ManagersModal scope={modal.scope} title={modal.title} onClose={close} />}
     </div>
   );
 }
@@ -441,6 +449,109 @@ function MillesimesModal({ building, onClose, onDone }: { building: TBuilding; o
           </tr>
         </tfoot>
       </table>
+    </Modal>
+  );
+}
+
+function ManagersModal({ scope, title, onClose }: { scope: ManagerScope; title: string; onClose: () => void }) {
+  const [managers, setManagers] = useState<ManagerRow[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [query, setQuery] = useState("");
+  const [results, setResults] = useState<ManagerCandidate[]>([]);
+  const [open, setOpen] = useState(false);
+  const [searching, setSearching] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [isPending, startTransition] = useTransition();
+
+  function reload() { return listManagers(scope).then(setManagers).finally(() => setLoading(false)); }
+  useEffect(() => { reload(); /* eslint-disable-next-line react-hooks/exhaustive-deps */ }, []);
+
+  useEffect(() => {
+    if (!open) return;
+    setSearching(true);
+    const h = setTimeout(async () => {
+      try { setResults(await searchManagerCandidates(scope, query)); } finally { setSearching(false); }
+    }, 250);
+    return () => clearTimeout(h);
+  }, [query, open]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  function add(userId: string) {
+    setError(null);
+    startTransition(async () => {
+      const r = await addManager(scope, userId);
+      if (r && "error" in r && r.error) { setError(r.error); return; }
+      setQuery(""); setOpen(false); await reload();
+    });
+  }
+  function remove(assignmentId: string) {
+    startTransition(async () => { await removeManager(assignmentId); await reload(); });
+  }
+
+  const assignedIds = new Set(managers.map((m) => m.id));
+  const visible = results.filter((r) => !assignedIds.has(r.id));
+
+  return (
+    <Modal open onClose={onClose} title={title} width={520}
+      footer={<button onClick={onClose} style={cancelBtn}>Κλείσιμο</button>}>
+      {error && <div style={errBox}>{error}</div>}
+
+      <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+        <div>
+          <div style={{ fontSize: 12, fontWeight: 700, color: "var(--muted-foreground)", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: 8 }}>Διαχειριστές</div>
+          {loading ? (
+            <div style={{ fontSize: 12, color: "var(--muted-foreground)" }}>Φόρτωση…</div>
+          ) : managers.length === 0 ? (
+            <div style={{ fontSize: 12, color: "var(--muted-foreground)" }}>Δεν έχουν οριστεί διαχειριστές.</div>
+          ) : (
+            <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+              {managers.map((m) => (
+                <div key={m.assignmentId} style={{ display: "flex", alignItems: "center", gap: 10, border: "1px solid var(--border)", borderRadius: 8, padding: "8px 10px" }}>
+                  <RiUserStarLine style={{ color: "var(--color-primary)", flexShrink: 0 }} />
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ fontSize: 13, fontWeight: 600, color: "var(--foreground)" }}>{m.name || "—"}</div>
+                    <div style={{ fontSize: 12, color: "var(--muted-foreground)" }}>{m.email}</div>
+                  </div>
+                  <button onClick={() => remove(m.assignmentId)} disabled={isPending} style={{ ...smallBtn, color: "#c50f1f" }}><RiCloseLine /> Αφαίρεση</button>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        <div style={{ position: "relative" }}>
+          <div style={{ fontSize: 12, fontWeight: 700, color: "var(--muted-foreground)", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: 8 }}>Προσθήκη διαχειριστή</div>
+          <input
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            onFocus={() => setOpen(true)}
+            placeholder="Αναζήτηση: ιδιοκτήτες/ένοικοι ή προσωπικό εταιρείας…"
+            autoComplete="off"
+            style={{ height: 36, padding: "0 10px", borderRadius: 6, border: "1px solid var(--border)", fontSize: 13, color: "var(--foreground)", background: "var(--card)", outline: "none", boxSizing: "border-box", width: "100%" }}
+          />
+          {open && (
+            <div style={{ position: "absolute", top: "100%", left: 0, right: 0, zIndex: 300, background: "var(--card)", border: "1px solid var(--border)", borderRadius: 6, marginTop: 4, boxShadow: "0 4px 16px rgba(0,0,0,.12)", maxHeight: 240, overflowY: "auto" }}>
+              {searching && visible.length === 0 && <div style={{ padding: "12px 14px", fontSize: 12, color: "var(--muted-foreground)" }}>Φόρτωση…</div>}
+              {!searching && visible.length === 0 && <div style={{ padding: "12px 14px", fontSize: 12, color: "var(--muted-foreground)" }}>Κανένας διαθέσιμος υποψήφιος</div>}
+              {visible.map((c) => (
+                <button key={c.id} type="button" onClick={() => add(c.id)} disabled={isPending}
+                  style={{ display: "flex", alignItems: "center", gap: 8, width: "100%", padding: "9px 12px", border: "none", background: "transparent", cursor: "pointer", textAlign: "left", borderBottom: "1px solid var(--border)" }}
+                  onMouseEnter={(e) => (e.currentTarget.style.background = "var(--bg-canvas)")}
+                  onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}>
+                  <span style={{ flex: 1, minWidth: 0 }}>
+                    <span style={{ display: "block", fontSize: 13, fontWeight: 600, color: "var(--foreground)" }}>{c.name || c.email}</span>
+                    <span style={{ display: "block", fontSize: 11, color: "var(--muted-foreground)" }}>{c.email}</span>
+                  </span>
+                  <span style={{ flexShrink: 0, fontSize: 10, fontWeight: 700, padding: "2px 6px", borderRadius: 4, background: c.origin === "staff" ? "#0078D418" : "#16a34a18", color: c.origin === "staff" ? "#0078D4" : "#16a34a" }}>
+                    {c.origin === "staff" ? "Εταιρεία" : "Ένοικος/Ιδιοκτήτης"}
+                  </span>
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+      {spin}
     </Modal>
   );
 }
