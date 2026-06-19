@@ -435,7 +435,7 @@ function MillesimesModal({ building, onClose, onDone }: { building: TBuilding; o
             <td style={{ padding: "6px 8px" }}>Σύνολο</td>
             <td style={{ padding: "6px 8px", textAlign: "right" }}>{totalSqm || "—"}</td>
             <td style={{ padding: "6px 8px" }} />
-            <td style={{ padding: "6px 8px", textAlign: "right" }}>{totalNew.toFixed(2)}</td>
+            <td style={{ padding: "6px 8px", textAlign: "right" }}>{(Math.round(totalNew * 100) / 100).toFixed(2)}</td>
           </tr>
         </tfoot>
       </table>
