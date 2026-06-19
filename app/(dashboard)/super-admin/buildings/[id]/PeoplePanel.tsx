@@ -1,9 +1,13 @@
 "use client";
 
-import { DataTable, type ColDef } from "@/components/ui/data-table";
+import { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
+import { DataTable, type ColDef, type RowAction } from "@/components/ui/data-table";
+import { Modal, FormField, FieldInput } from "@/components/ui/modal";
+import { updateUserContact } from "@/app/actions/unit-occupants";
 import {
-  RiUserStarLine, RiUserLine, RiMailLine, RiPhoneLine, RiSmartphoneLine,
-  RiHome4Line, RiMapPin2Line,
+  RiMailLine, RiPhoneLine, RiSmartphoneLine, RiHome4Line, RiMapPin2Line,
+  RiPencilLine, RiCheckLine, RiLoaderLine,
 } from "react-icons/ri";
 
 export type PUnit = { id: string; unitNumber: string; unitType: string; floor: number | null; areaSqm: number | null; millesimes: number | null; rel: string; from: string | null; to: string | null };
@@ -26,6 +30,8 @@ function relChip(rel: string) {
 }
 
 export function PeoplePanel({ people }: { people: Person[] }) {
+  const router = useRouter();
+  const [editing, setEditing] = useState<Person | null>(null);
   const columns: ColDef<Person>[] = [
     {
       id: "name", header: "Όνομα", sortKey: "name", width: 220, accessor: (p) => p.name ?? p.email,
@@ -52,18 +58,54 @@ export function PeoplePanel({ people }: { people: Person[] }) {
       cell: (p) => <span style={{ fontSize: 13, color: "var(--foreground)" }}>{p.unitsHere.length}</span> },
   ];
 
+  const getRowActions = (_p: Person): RowAction<Person>[] => [
+    { label: "Επεξεργασία", icon: <RiPencilLine />, onClick: (p) => setEditing(p) },
+  ];
+
   return (
-    <DataTable
-      data={people}
-      columns={columns}
-      totalRows={people.length}
-      page={1}
-      pageSize={25}
-      clientSide
-      storageKey="building-people"
-      searchPlaceholder="Αναζήτηση ενοίκου / ιδιοκτήτη…"
-      expandedContent={(p) => <PersonExpanded person={p} />}
-    />
+    <>
+      <DataTable
+        data={people}
+        columns={columns}
+        totalRows={people.length}
+        page={1}
+        pageSize={25}
+        clientSide
+        storageKey="building-people"
+        searchPlaceholder="Αναζήτηση ενοίκου / ιδιοκτήτη…"
+        getRowActions={getRowActions}
+        expandedContent={(p) => <PersonExpanded person={p} />}
+      />
+      {editing && (
+        <EditPersonModal person={editing} onClose={() => setEditing(null)} onDone={() => { setEditing(null); router.refresh(); }} />
+      )}
+    </>
+  );
+}
+
+function EditPersonModal({ person, onClose, onDone }: { person: Person; onClose: () => void; onDone: () => void }) {
+  const [form, setForm] = useState({ name: person.name ?? "", phone: person.phone ?? "", mobile: person.mobile ?? "" });
+  const [isPending, startTransition] = useTransition();
+  const f = (k: keyof typeof form) => (v: string) => setForm((p) => ({ ...p, [k]: v }));
+  function save() {
+    startTransition(async () => { await updateUserContact(person.id, form); onDone(); });
+  }
+  return (
+    <Modal open onClose={onClose} title={`Επεξεργασία — ${person.name ?? person.email}`} width={460}
+      footer={<>
+        <button onClick={onClose} style={{ padding: "7px 16px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: 13, color: "var(--foreground)" }}>Ακύρωση</button>
+        <button onClick={save} disabled={isPending} style={{ padding: "7px 16px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: "pointer", fontSize: 13, fontWeight: 600, display: "flex", alignItems: "center", gap: 6 }}>{isPending ? <RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> : <RiCheckLine />} Αποθήκευση</button>
+      </>}>
+      <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+        <FormField label="Ονοματεπώνυμο"><FieldInput value={form.name} onChange={f("name")} /></FormField>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+          <FormField label="Τηλέφωνο"><FieldInput value={form.phone} onChange={f("phone")} /></FormField>
+          <FormField label="Κινητό"><FieldInput value={form.mobile} onChange={f("mobile")} /></FormField>
+        </div>
+        <p style={{ fontSize: 11, color: "var(--muted-foreground)", margin: 0 }}>Το email δεν αλλάζει εδώ (είναι το username εισόδου).</p>
+      </div>
+      <style>{`@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}`}</style>
+    </Modal>
   );
 }
 
