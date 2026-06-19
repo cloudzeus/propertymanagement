@@ -171,6 +171,63 @@ export async function listMonthExpenses(buildingId: string, month: string): Prom
   }));
 }
 
+// ── Per-person statement (movements / balance) ───────────────────────────────
+
+export type StatementLine = {
+  allocationId: string; party: "owner" | "tenant";
+  expenseId: string; category: string | null; supplier: string | null; documentNumber: string | null; documentDate: string | null;
+  unitNumber: string; amount: number; paid: boolean; paymentMethod: string | null;
+};
+export type PersonStatement = {
+  userId: string; name: string; email: string | null; units: string[];
+  total: number; paid: number; due: number; lines: StatementLine[];
+};
+
+export async function getPersonStatement(buildingId: string, month: string, userId: string): Promise<PersonStatement> {
+  await requireAccess(buildingId);
+  const [user, expenses] = await Promise.all([
+    db.user.findUnique({ where: { id: userId }, select: { name: true, email: true } }),
+    db.buildingExpense.findMany({
+      where: { buildingId, month },
+      include: { categoryRef: { select: { name: true } }, allocations: { include: { unit: { select: { unitNumber: true } } } } },
+    }),
+  ]);
+  const lines: StatementLine[] = [];
+  const units = new Set<string>();
+  let total = 0, paid = 0;
+  for (const e of expenses) {
+    const base = { expenseId: e.id, category: e.categoryRef?.name ?? e.category ?? null, supplier: e.supplierName, documentNumber: e.documentNumber, documentDate: e.documentDate ? e.documentDate.toISOString() : null };
+    for (const a of e.allocations) {
+      if (a.ownerUserId === userId && num(a.ownerAmount) > 0) {
+        const amt = num(a.ownerAmount); total += amt; if (a.ownerPaid) paid += amt; units.add(a.unit.unitNumber);
+        lines.push({ ...base, allocationId: a.id, party: "owner", unitNumber: a.unit.unitNumber, amount: amt, paid: a.ownerPaid, paymentMethod: a.ownerPaymentMethod });
+      }
+      if (a.tenantUserId === userId && num(a.tenantAmount) > 0) {
+        const amt = num(a.tenantAmount); total += amt; if (a.tenantPaid) paid += amt; units.add(a.unit.unitNumber);
+        lines.push({ ...base, allocationId: a.id, party: "tenant", unitNumber: a.unit.unitNumber, amount: amt, paid: a.tenantPaid, paymentMethod: a.tenantPaymentMethod });
+      }
+    }
+  }
+  return { userId, name: user?.name ?? user?.email ?? "—", email: user?.email ?? null, units: [...units].sort(), total, paid, due: total - paid, lines };
+}
+
+/** Mark several allocation portions paid/unpaid in one go (used by the person modal). */
+export async function setAllocationsPaid(buildingId: string, items: { allocationId: string; party: "owner" | "tenant" }[], paid: boolean, method: PaymentMethod | null) {
+  await requireAccess(buildingId);
+  if (!items.length) return { count: 0 };
+  const when = paid ? new Date() : null;
+  let count = 0;
+  for (const it of items) {
+    const data = it.party === "owner"
+      ? { ownerPaid: paid, ownerPaidAt: when, ownerPaymentMethod: paid ? method : null }
+      : { tenantPaid: paid, tenantPaidAt: when, tenantPaymentMethod: paid ? method : null };
+    await db.expenseAllocation.update({ where: { id: it.allocationId }, data });
+    count++;
+  }
+  revalidatePath(`/super-admin/buildings/${buildingId}`);
+  return { count };
+}
+
 const MAX_ATTACH_BYTES = 10 * 1024 * 1024;
 const MAX_RECEIPTS = 20;
 

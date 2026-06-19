@@ -3,12 +3,14 @@
 import { useEffect, useState, useTransition } from "react";
 import {
   RiLoaderLine, RiMailSendLine, RiWallet3Line, RiArrowRightSLine, RiArrowDownSLine,
-  RiGroupLine, RiFileList3Line, RiFileTextLine, RiCheckboxCircleFill,
+  RiGroupLine, RiFileList3Line, RiFileTextLine, RiCheckboxCircleFill, RiMore2Fill,
+  RiSecurePaymentLine, RiFileListLine,
 } from "react-icons/ri";
 import {
   listIssuances, getKoinochristaByPerson, listMonthExpenses, sendKoinochristaReminder,
   type IssuanceDTO, type KoinoPersonDTO, type MonthExpenseDTO,
 } from "@/app/actions/koinochrista";
+import { PersonStatementModal } from "./PersonStatementModal";
 
 const eur = (n: number) => `${n.toLocaleString("el-GR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €`;
 const GR_MONTHS = ["Ιανουαρίου", "Φεβρουαρίου", "Μαρτίου", "Απριλίου", "Μαΐου", "Ιουνίου", "Ιουλίου", "Αυγούστου", "Σεπτεμβρίου", "Οκτωβρίου", "Νοεμβρίου", "Δεκεμβρίου"];
@@ -81,7 +83,7 @@ export function KoinochristaPanel({ buildingId }: { buildingId: string }) {
                     </span>
                   </span>
                 </button>
-                {open && <IssuanceDetail buildingId={buildingId} month={iss.month} />}
+                {open && <IssuanceDetail buildingId={buildingId} month={iss.month} onChanged={() => listIssuances(buildingId).then(setIssuances).catch(() => {})} />}
               </div>
             );
           })}
@@ -92,14 +94,17 @@ export function KoinochristaPanel({ buildingId }: { buildingId: string }) {
   );
 }
 
-function IssuanceDetail({ buildingId, month }: { buildingId: string; month: string }) {
+function IssuanceDetail({ buildingId, month, onChanged }: { buildingId: string; month: string; onChanged?: () => void }) {
   const [tab, setTab] = useState<"people" | "expenses">("people");
   const [people, setPeople] = useState<KoinoPersonDTO[] | null>(null);
   const [expenses, setExpenses] = useState<MonthExpenseDTO[] | null>(null);
   const [sendingId, setSendingId] = useState<string | null>(null);
+  const [menuId, setMenuId] = useState<string | null>(null);
+  const [statementUser, setStatementUser] = useState<string | null>(null);
   const [, startTransition] = useTransition();
 
-  useEffect(() => { getKoinochristaByPerson(buildingId, month).then(setPeople).catch(() => setPeople([])); }, [buildingId, month]);
+  const reloadPeople = () => getKoinochristaByPerson(buildingId, month).then(setPeople).catch(() => setPeople([]));
+  useEffect(() => { reloadPeople(); /* eslint-disable-next-line */ }, [buildingId, month]);
   useEffect(() => { if (tab === "expenses" && !expenses) listMonthExpenses(buildingId, month).then(setExpenses).catch(() => setExpenses([])); }, [tab, expenses, buildingId, month]);
 
   function remind(p: KoinoPersonDTO) {
@@ -138,10 +143,20 @@ function IssuanceDetail({ buildingId, month }: { buildingId: string; month: stri
                       <td style={{ ...td, textAlign: "right" }}>{eur(p.total)}</td>
                       <td style={{ ...td, textAlign: "right", color: "#16a34a" }}>{eur(p.paid)}</td>
                       <td style={{ ...td, textAlign: "right", fontWeight: 700, color: p.due > 0 ? "#b91c1c" : "inherit" }}>{eur(p.due)}</td>
-                      <td style={{ ...td, textAlign: "right" }}>
-                        <button onClick={() => remind(p)} disabled={!p.email || sendingId === p.userId} style={btnRemind} title={p.email ? "Αποστολή υπενθύμισης με ανάλυση + αποδείξεις" : "Χωρίς email"}>
-                          {sendingId === p.userId ? <RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> : <RiMailSendLine />} Υπενθύμιση
+                      <td style={{ ...td, textAlign: "right", position: "relative" }}>
+                        <button onClick={() => setMenuId(menuId === p.userId ? null : p.userId)} style={iconBtn} title="Ενέργειες">
+                          {sendingId === p.userId ? <RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> : <RiMore2Fill />}
                         </button>
+                        {menuId === p.userId && (
+                          <>
+                            <div onClick={() => setMenuId(null)} style={{ position: "fixed", inset: 0, zIndex: 40 }} />
+                            <div style={menu}>
+                              <button style={menuItem} onClick={() => { setStatementUser(p.userId); setMenuId(null); }}><RiSecurePaymentLine /> Πληρωμή</button>
+                              <button style={menuItem} onClick={() => { setStatementUser(p.userId); setMenuId(null); }}><RiFileListLine /> Λεπτομέρειες</button>
+                              <button style={menuItem} disabled={!p.email} onClick={() => { setMenuId(null); remind(p); }}><RiMailSendLine /> Υπενθύμιση</button>
+                            </div>
+                          </>
+                        )}
                       </td>
                     </tr>
                   ))}
@@ -173,6 +188,16 @@ function IssuanceDetail({ buildingId, month }: { buildingId: string; month: stri
           )
         )}
       </div>
+      {statementUser && (
+        <PersonStatementModal
+          open={!!statementUser}
+          onClose={() => setStatementUser(null)}
+          buildingId={buildingId}
+          month={month}
+          userId={statementUser}
+          onChanged={() => { reloadPeople(); onChanged?.(); }}
+        />
+      )}
       <style>{`@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}`}</style>
     </div>
   );
@@ -214,5 +239,7 @@ const trHead: React.CSSProperties = { textAlign: "left", color: "var(--muted-for
 const trBody: React.CSSProperties = { borderBottom: "1px solid var(--border-subtle)" };
 const th: React.CSSProperties = { padding: "8px 10px", fontWeight: 600, fontSize: 12 };
 const td: React.CSSProperties = { padding: "8px 10px", verticalAlign: "middle" };
-const btnRemind: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 6, height: 30, padding: "0 12px", borderRadius: 6, border: "1px solid var(--color-primary)", background: "var(--color-primary)", color: "#fff", fontSize: 12, fontWeight: 600, cursor: "pointer" };
 const link: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 4, color: "var(--color-primary)", textDecoration: "none", fontSize: 12 };
+const iconBtn: React.CSSProperties = { display: "inline-flex", alignItems: "center", justifyContent: "center", width: 30, height: 30, borderRadius: 6, border: "1px solid var(--border-strong)", background: "var(--bg-canvas)", cursor: "pointer", color: "var(--foreground)", fontSize: 16 };
+const menu: React.CSSProperties = { position: "absolute", right: 8, top: 38, zIndex: 41, minWidth: 180, background: "var(--bg-surface)", border: "1px solid var(--border-strong)", borderRadius: 8, boxShadow: "0 8px 24px rgba(0,0,0,0.14)", padding: 4, display: "flex", flexDirection: "column" };
+const menuItem: React.CSSProperties = { display: "flex", alignItems: "center", gap: 8, padding: "8px 10px", borderRadius: 6, border: "none", background: "transparent", cursor: "pointer", fontSize: 13, color: "var(--foreground)", textAlign: "left", width: "100%" };
