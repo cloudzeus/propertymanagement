@@ -1,6 +1,10 @@
 import { db } from '@/lib/db';
 import Link from 'next/link';
 
+// Reads pricing tiers from the DB, so it must not be statically prerendered at
+// build time (no database during the Docker build).
+export const dynamic = 'force-dynamic';
+
 export default async function PricingPage() {
   // Fetch published pricing tiers ordered by display order
   const tiers = await db.pricingTier.findMany({
