@@ -4386,6 +4386,11 @@ export const BuildingExpenseScalarFieldEnum = {
   ownerPct: 'ownerPct',
   ocrRaw: 'ocrRaw',
   ocrConfidence: 'ocrConfidence',
+  issuedMonth: 'issuedMonth',
+  paid: 'paid',
+  paymentMethod: 'paymentMethod',
+  paidAt: 'paidAt',
+  paymentFileId: 'paymentFileId',
   createdAt: 'createdAt'
 } as const
 
@@ -5153,6 +5158,20 @@ export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'J
  * Reference to a field of type 'QueryMode'
  */
 export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
+    
+
+
+/**
+ * Reference to a field of type 'ExpensePaymentMethod'
+ */
+export type EnumExpensePaymentMethodFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ExpensePaymentMethod'>
+    
+
+
+/**
+ * Reference to a field of type 'ExpensePaymentMethod[]'
+ */
+export type ListEnumExpensePaymentMethodFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ExpensePaymentMethod[]'>
     
 
 

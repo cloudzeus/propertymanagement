@@ -136,8 +136,11 @@ export type CreateExpenseInput = {
   description?: string | null;
   tenantPct: number; ownerPct: number;
   ocrRaw?: any; ocrConfidence?: number | null;
+  paid?: boolean; paymentMethod?: "CARD" | "CASH" | "VIVA" | "BANK_TRANSFER" | "CHECK" | "OTHER" | null; paidAt?: string | null;
   meter?: { meterType: "POWER" | "WATER" | "GAS"; meterNumber?: string | null; unit?: string | null; periodFrom?: string | null; periodTo?: string | null; previousReading?: number | null; currentReading?: number | null; consumption?: number | null } | null;
 };
+
+export type PaymentMethod = "CARD" | "CASH" | "VIVA" | "BANK_TRANSFER" | "CHECK" | "OTHER";
 
 export async function createBuildingExpense(buildingId: string, input: CreateExpenseInput) {
   await requireBuildingAccess(buildingId);
@@ -156,6 +159,9 @@ export async function createBuildingExpense(buildingId: string, input: CreateExp
         description: input.description ?? null, status: "CONFIRMED",
         tenantPct: input.tenantPct, ownerPct: input.ownerPct,
         ocrRaw: input.ocrRaw ?? undefined, ocrConfidence: input.ocrConfidence ?? null,
+        paid: input.paid ?? false,
+        paymentMethod: input.paymentMethod ?? null,
+        paidAt: input.paid && input.paidAt ? new Date(input.paidAt) : (input.paid ? new Date() : null),
       },
     });
     if (input.meter && input.meter.meterType) {
@@ -184,19 +190,166 @@ export async function createBuildingExpense(buildingId: string, input: CreateExp
   return { id: expense.id };
 }
 
-export async function listBuildingExpenses(buildingId: string) {
+export type UpdateExpenseInput = {
+  categoryId: string | null;
+  month: string;
+  supplierName?: string | null; supplierVat?: string | null;
+  documentNumber?: string | null; documentDate?: string | null;
+  netAmount?: number | null; vatAmount?: number | null; totalAmount: number;
+  description?: string | null;
+  tenantPct: number; ownerPct: number;
+  paid?: boolean; paymentMethod?: PaymentMethod | null; paidAt?: string | null;
+  meter?: CreateExpenseInput["meter"];
+};
+
+/** Edit an expense and regenerate its allocations. Locked (ISSUED) expenses
+ *  cannot be edited — they belong to a closed κοινόχρηστα issuance. */
+export async function updateBuildingExpense(id: string, input: UpdateExpenseInput) {
+  const current = await db.buildingExpense.findUnique({ where: { id }, select: { buildingId: true, status: true } });
+  if (!current) throw new Error("Δεν βρέθηκε το έξοδο.");
+  await requireBuildingAccess(current.buildingId);
+  if (current.status === "ISSUED") throw new Error("Το έξοδο έχει ήδη συμπεριληφθεί σε έκδοση κοινοχρήστων και δεν επεξεργάζεται.");
+  assertSplit(input.tenantPct, input.ownerPct);
+
+  const units = await loadAllocUnits(current.buildingId);
+  const rows = computeAllocation({ total: input.totalAmount, tenantPct: input.tenantPct, ownerPct: input.ownerPct, units });
+
+  await db.$transaction(async (tx) => {
+    await tx.buildingExpense.update({
+      where: { id },
+      data: {
+        categoryId: input.categoryId, month: input.month,
+        amount: input.totalAmount, netAmount: input.netAmount ?? null, vatAmount: input.vatAmount ?? null,
+        supplierName: input.supplierName ?? null, supplierVat: input.supplierVat ?? null,
+        documentNumber: input.documentNumber ?? null,
+        documentDate: input.documentDate ? new Date(input.documentDate) : null,
+        description: input.description ?? null,
+        tenantPct: input.tenantPct, ownerPct: input.ownerPct,
+        paid: input.paid ?? false,
+        paymentMethod: input.paymentMethod ?? null,
+        paidAt: input.paid && input.paidAt ? new Date(input.paidAt) : (input.paid ? new Date() : null),
+      },
+    });
+    // Regenerate meter reading (single, OCR-style) and allocations.
+    await tx.meterReading.deleteMany({ where: { expenseId: id } });
+    if (input.meter && input.meter.meterType) {
+      await tx.meterReading.create({
+        data: {
+          buildingId: current.buildingId, expenseId: id, meterType: input.meter.meterType, meterNumber: input.meter.meterNumber ?? null,
+          unit: input.meter.unit ?? null,
+          periodFrom: input.meter.periodFrom ? new Date(input.meter.periodFrom) : null,
+          periodTo: input.meter.periodTo ? new Date(input.meter.periodTo) : null,
+          previousReading: input.meter.previousReading ?? null, currentReading: input.meter.currentReading ?? null,
+          consumption: input.meter.consumption ?? null,
+        },
+      });
+    }
+    await tx.expenseAllocation.deleteMany({ where: { expenseId: id } });
+    if (rows.length) {
+      await tx.expenseAllocation.createMany({
+        data: rows.map((r) => ({ expenseId: id, unitId: r.unitId, unitShare: r.unitShare, tenantUserId: r.tenantUserId, tenantAmount: r.tenantAmount, ownerUserId: r.ownerUserId, ownerAmount: r.ownerAmount })),
+      });
+    }
+  });
+
+  revalidatePath(`/super-admin/buildings/${current.buildingId}`);
+  return { id };
+}
+
+/** Lock selected expenses into a κοινόχρηστα issuance for `month` (YYYY-MM).
+ *  Already-issued expenses are skipped so a document can't be reused next month. */
+export async function includeExpensesInIssuance(buildingId: string, ids: string[], month: string) {
   await requireBuildingAccess(buildingId);
-  return db.buildingExpense.findMany({
+  if (!/^\d{4}-\d{2}$/.test(month)) throw new Error("Μη έγκυρος μήνας έκδοσης (YYYY-MM).");
+  if (!ids.length) return { count: 0 };
+  const res = await db.buildingExpense.updateMany({
+    where: { id: { in: ids }, buildingId, status: { not: "ISSUED" } },
+    data: { status: "ISSUED", issuedMonth: month },
+  });
+  revalidatePath(`/super-admin/buildings/${buildingId}`);
+  return { count: res.count };
+}
+
+/** Attach a payment-proof file (image/PDF) to an expense and mark it paid. */
+export async function uploadExpensePayment(expenseId: string, formData: FormData): Promise<{ url: string }> {
+  const exp = await db.buildingExpense.findUnique({ where: { id: expenseId }, select: { buildingId: true, paid: true, paidAt: true } });
+  if (!exp) throw new Error("Δεν βρέθηκε το έξοδο.");
+  const uid = await requireBuildingAccess(exp.buildingId);
+  const file = formData.get("file") as File | null;
+  if (!file) throw new Error("Δεν δόθηκε αρχείο.");
+  if (file.size > MAX_BYTES) throw new Error("Το αρχείο ξεπερνά τα 15MB.");
+  if (!ALLOWED.includes(file.type)) throw new Error("Μη υποστηριζόμενος τύπος αρχείου.");
+
+  const building = await db.building.findUnique({ where: { id: exp.buildingId }, select: { propertyId: true } });
+  if (!building) throw new Error("Δεν βρέθηκε κτήριο.");
+  const buffer = Buffer.from(await file.arrayBuffer());
+  const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+  const path = `${buildingFolder(building.propertyId, exp.buildingId)}/expenses/payments/${Date.now()}-${safeName}`;
+  const up = await uploadFile({ path, buffer, contentType: file.type });
+  if (!up.success || !up.url) throw new Error(up.error ?? "Αποτυχία ανεβάσματος.");
+
+  const bf = await db.buildingFile.create({
+    data: { buildingId: exp.buildingId, category: "PAYMENT", name: file.name, cdnPath: path, url: up.url, mimeType: file.type, sizeBytes: buffer.length, uploadedById: uid },
+  });
+  await db.buildingExpense.update({
+    where: { id: expenseId },
+    data: { paymentFileId: bf.id, paid: true, paidAt: exp.paidAt ?? new Date() },
+  });
+  revalidatePath(`/super-admin/buildings/${exp.buildingId}`);
+  return { url: up.url };
+}
+
+export type ExpenseRowDTO = {
+  id: string; month: string; status: string; issuedMonth: string | null;
+  documentDate: string | null; supplierName: string | null; supplierVat: string | null; documentNumber: string | null;
+  categoryId: string | null; categoryName: string | null;
+  netAmount: number | null; vatAmount: number | null; amount: number; description: string | null;
+  tenantPct: number; ownerPct: number; ocrConfidence: number | null;
+  paid: boolean; paymentMethod: string | null; paidAt: string | null;
+  receiptUrl: string | null; receiptName: string | null; paymentUrl: string | null; paymentName: string | null;
+  allocationsCount: number;
+  meter: { meterType: string; meterNumber: string | null; unit: string | null; periodFrom: string | null; periodTo: string | null; previousReading: number | null; currentReading: number | null; consumption: number | null } | null;
+};
+
+export async function listBuildingExpenses(buildingId: string): Promise<ExpenseRowDTO[]> {
+  await requireBuildingAccess(buildingId);
+  const rows = await db.buildingExpense.findMany({
     where: { buildingId },
     orderBy: [{ documentDate: "desc" }, { createdAt: "desc" }],
-    include: { categoryRef: true, receiptFile: true, _count: { select: { allocations: true } } },
+    include: {
+      categoryRef: true, receiptFile: true, paymentFile: true,
+      meterReadings: { take: 1, orderBy: { createdAt: "asc" } },
+      _count: { select: { allocations: true } },
+    },
+  });
+  const num = (v: unknown) => (v == null ? null : Number(v));
+  return rows.map((e) => {
+    const m = e.meterReadings[0];
+    return {
+      id: e.id, month: e.month, status: e.status, issuedMonth: e.issuedMonth,
+      documentDate: e.documentDate ? e.documentDate.toISOString() : null,
+      supplierName: e.supplierName, supplierVat: e.supplierVat, documentNumber: e.documentNumber,
+      categoryId: e.categoryId, categoryName: e.categoryRef?.name ?? null,
+      netAmount: num(e.netAmount), vatAmount: num(e.vatAmount), amount: Number(e.amount), description: e.description,
+      tenantPct: e.tenantPct, ownerPct: e.ownerPct, ocrConfidence: e.ocrConfidence,
+      paid: e.paid, paymentMethod: e.paymentMethod, paidAt: e.paidAt ? e.paidAt.toISOString() : null,
+      receiptUrl: e.receiptFile?.url ?? null, receiptName: e.receiptFile?.name ?? null,
+      paymentUrl: e.paymentFile?.url ?? null, paymentName: e.paymentFile?.name ?? null,
+      allocationsCount: e._count.allocations,
+      meter: m ? {
+        meterType: m.meterType, meterNumber: m.meterNumber, unit: m.unit,
+        periodFrom: m.periodFrom ? m.periodFrom.toISOString() : null, periodTo: m.periodTo ? m.periodTo.toISOString() : null,
+        previousReading: num(m.previousReading), currentReading: num(m.currentReading), consumption: num(m.consumption),
+      } : null,
+    };
   });
 }
 
 export async function deleteBuildingExpense(id: string) {
-  const exp = await db.buildingExpense.findUnique({ where: { id }, select: { buildingId: true } });
+  const exp = await db.buildingExpense.findUnique({ where: { id }, select: { buildingId: true, status: true } });
   if (!exp) return;
   await requireBuildingAccess(exp.buildingId);
+  if (exp.status === "ISSUED") throw new Error("Το έξοδο έχει συμπεριληφθεί σε έκδοση κοινοχρήστων και δεν διαγράφεται.");
   await db.buildingExpense.delete({ where: { id } });
   revalidatePath(`/super-admin/buildings/${exp.buildingId}`);
 }

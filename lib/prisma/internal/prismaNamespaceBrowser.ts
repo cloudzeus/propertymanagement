@@ -535,6 +535,11 @@ export const BuildingExpenseScalarFieldEnum = {
   ownerPct: 'ownerPct',
   ocrRaw: 'ocrRaw',
   ocrConfidence: 'ocrConfidence',
+  issuedMonth: 'issuedMonth',
+  paid: 'paid',
+  paymentMethod: 'paymentMethod',
+  paidAt: 'paidAt',
+  paymentFileId: 'paymentFileId',
   createdAt: 'createdAt'
 } as const
 

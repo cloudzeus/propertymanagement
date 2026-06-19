@@ -121,10 +121,23 @@ export type ExpenseUtilityType = (typeof ExpenseUtilityType)[keyof typeof Expens
 
 export const ExpenseStatus = {
   DRAFT: 'DRAFT',
-  CONFIRMED: 'CONFIRMED'
+  CONFIRMED: 'CONFIRMED',
+  ISSUED: 'ISSUED'
 } as const
 
 export type ExpenseStatus = (typeof ExpenseStatus)[keyof typeof ExpenseStatus]
+
+
+export const ExpensePaymentMethod = {
+  CARD: 'CARD',
+  CASH: 'CASH',
+  VIVA: 'VIVA',
+  BANK_TRANSFER: 'BANK_TRANSFER',
+  CHECK: 'CHECK',
+  OTHER: 'OTHER'
+} as const
+
+export type ExpensePaymentMethod = (typeof ExpensePaymentMethod)[keyof typeof ExpensePaymentMethod]
 
 
 export const MeterType = {
@@ -160,6 +173,7 @@ export const BuildingFileCategory = {
   DOCUMENTS: 'DOCUMENTS',
   CERTIFICATES: 'CERTIFICATES',
   RECEIPT: 'RECEIPT',
+  PAYMENT: 'PAYMENT',
   OTHER: 'OTHER'
 } as const
 

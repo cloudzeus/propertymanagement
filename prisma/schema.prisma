@@ -90,6 +90,16 @@ enum ExpenseUtilityType {
 enum ExpenseStatus {
   DRAFT
   CONFIRMED
+  ISSUED
+}
+
+enum ExpensePaymentMethod {
+  CARD
+  CASH
+  VIVA
+  BANK_TRANSFER
+  CHECK
+  OTHER
 }
 
 enum MeterType {
@@ -663,6 +673,7 @@ enum BuildingFileCategory {
   DOCUMENTS
   CERTIFICATES
   RECEIPT
+  PAYMENT
   OTHER
 }
 
@@ -679,6 +690,7 @@ model BuildingFile {
   uploadedById String?
   createdAt   DateTime @default(now())
   expenseLinks BuildingExpense[] @relation("expenseReceipt")
+  paymentLinks BuildingExpense[] @relation("expensePayment")
   @@index([buildingId])
   @@index([buildingId, category])
 }
@@ -811,6 +823,12 @@ model BuildingExpense {
   ownerPct       Int      @default(100)
   ocrRaw         Json?
   ocrConfidence  Float?
+  issuedMonth    String?  // YYYY-MM of the κοινόχρηστα issuance this expense was locked into
+  paid           Boolean  @default(false)
+  paymentMethod  ExpensePaymentMethod?
+  paidAt         DateTime?
+  paymentFileId  String?
+  paymentFile    BuildingFile? @relation("expensePayment", fields: [paymentFileId], references: [id], onDelete: SetNull)
   meterReadings  MeterReading[]
   allocations    ExpenseAllocation[]
   createdAt   DateTime @default(now())

@@ -113,7 +113,7 @@ export default async function BuildingDashboardPage({ params }: { params: Promis
   const tasks = taskRows.map((t) => ({ ...t, nextDueDate: t.nextDueDate ? t.nextDueDate.toISOString() : null }));
 
   // ── Expenses (OCR) ──────────────────────────────────────────────────────────
-  let expenses: { id: string; documentDate: string | null; supplierName: string | null; categoryName: string | null; netAmount: number | null; vatAmount: number | null; amount: number; status: string; receiptUrl: string | null }[] = [];
+  let expenses: Awaited<ReturnType<typeof listBuildingExpenses>> = [];
   let categorySplits: Awaited<ReturnType<typeof getBuildingCategorySplits>> = [];
   try {
     const [rawExpenses, splits] = await Promise.all([
@@ -121,17 +121,7 @@ export default async function BuildingDashboardPage({ params }: { params: Promis
       getBuildingCategorySplits(id),
     ]);
     categorySplits = splits;
-    expenses = rawExpenses.map((e) => ({
-      id: e.id,
-      documentDate: e.documentDate ? e.documentDate.toISOString() : null,
-      supplierName: e.supplierName,
-      categoryName: e.categoryRef?.name ?? null,
-      netAmount: e.netAmount != null ? Number(e.netAmount) : null,
-      vatAmount: e.vatAmount != null ? Number(e.vatAmount) : null,
-      amount: Number(e.amount),
-      status: e.status,
-      receiptUrl: e.receiptFile?.url ?? null,
-    }));
+    expenses = rawExpenses;
   } catch {
     expenses = [];
     categorySplits = [];
