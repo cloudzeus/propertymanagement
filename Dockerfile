@@ -36,4 +36,6 @@ ENV NEXT_TELEMETRY_DISABLED=1
 # .next output, node_modules, config, public, and runtime files).
 COPY --from=builder /app ./
 EXPOSE 3000
-CMD ["npm", "run", "start"]
+# Apply pending DB migrations on boot, then start the server. DATABASE_URL is
+# provided by Coolify at runtime.
+CMD ["sh", "-c", "npx prisma migrate deploy && npm run start"]
