@@ -7,7 +7,7 @@ export async function canManageBuildingExpenses(userId: string, buildingId: stri
   if (!user) return false;
   if (COMPANY_ROLES.includes(user.role)) return true;
   const assignment = await db.managementAssignment.findFirst({
-    where: { userId, OR: [{ buildingId }, { building: { id: buildingId } }] },
+    where: { userId, buildingId },
     select: { id: true },
   });
   return !!assignment;

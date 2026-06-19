@@ -120,12 +120,13 @@ export function ExpenseReviewForm({
 
   // auto consumption = current - previous
   useEffect(() => {
+    if (consumption.trim() !== "") return;
     const prev = num(previousReading);
     const cur = num(currentReading);
     if (prev != null && cur != null && cur - prev >= 0) {
       setConsumption(String(Math.round((cur - prev) * 1000) / 1000));
     }
-  }, [previousReading, currentReading]);
+  }, [previousReading, currentReading, consumption]);
 
   function onCategoryChange(id: string) {
     setCategoryId(id);
@@ -151,7 +152,7 @@ export function ExpenseReviewForm({
     return () => clearTimeout(t);
   }, [buildingId, total, tenantPct, ownerPct]);
 
-  const isPdf = fileUrl.toLowerCase().endsWith(".pdf") || extracted.docType === "other";
+  const isPdf = /\.pdf($|\?)/i.test(fileUrl);
 
   const conf = Math.round(extracted.confidence * 100);
   const confColor = extracted.confidence >= 0.8 ? "#16a34a" : extracted.confidence >= 0.5 ? "#d97706" : "#dc2626";

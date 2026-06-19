@@ -13,6 +13,10 @@ import type { ExtractedDoc } from "@/lib/ocr/prompt";
 const MAX_BYTES = 15 * 1024 * 1024;
 const ALLOWED = ["image/jpeg", "image/png", "image/webp", "application/pdf"];
 
+function assertSplit(t: number, o: number) {
+  if (t < 0 || o < 0 || t + o !== 100) throw new Error("Τα ποσοστά ενοικιαστή/ιδιοκτήτη πρέπει να αθροίζουν 100.");
+}
+
 async function requireBuildingAccess(buildingId: string): Promise<string> {
   const session = await auth();
   if (!session?.user) throw new Error("Unauthorized");
@@ -69,6 +73,7 @@ async function loadAllocUnits(buildingId: string): Promise<AllocUnit[]> {
 
 export async function previewExpenseAllocation(buildingId: string, args: { total: number; tenantPct: number; ownerPct: number }) {
   await requireBuildingAccess(buildingId);
+  assertSplit(args.tenantPct, args.ownerPct);
   const units = await loadAllocUnits(buildingId);
   return computeAllocation({ total: args.total, tenantPct: args.tenantPct, ownerPct: args.ownerPct, units });
 }
@@ -88,6 +93,7 @@ export type CreateExpenseInput = {
 
 export async function createBuildingExpense(buildingId: string, input: CreateExpenseInput) {
   await requireBuildingAccess(buildingId);
+  assertSplit(input.tenantPct, input.ownerPct);
   const units = await loadAllocUnits(buildingId);
   const rows = computeAllocation({ total: input.totalAmount, tenantPct: input.tenantPct, ownerPct: input.ownerPct, units });
 

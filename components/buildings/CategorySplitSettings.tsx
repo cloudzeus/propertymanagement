@@ -85,7 +85,7 @@ export function CategorySplitSettings({
       </div>
 
       {error && (
-        <div style={{ marginBottom: 12, padding: "8px 12px", borderRadius: 6, fontSize: 13, background: "var(--color-danger)15", color: "var(--color-danger)", border: "1px solid var(--color-danger)" }}>
+        <div style={{ marginBottom: 12, padding: "8px 12px", borderRadius: 6, fontSize: 13, background: "color-mix(in srgb, var(--color-danger) 12%, transparent)", color: "var(--color-danger)", border: "1px solid var(--color-danger)" }}>
           {error}
         </div>
       )}
@@ -137,7 +137,7 @@ export function CategorySplitSettings({
                     <td style={td}>
                       <span style={{
                         display: "inline-block", padding: "2px 8px", borderRadius: 999, fontSize: 11, fontWeight: 600,
-                        background: r.isOverridden ? "var(--color-primary)15" : "var(--bg-canvas)",
+                        background: r.isOverridden ? "color-mix(in srgb, var(--color-primary) 12%, transparent)" : "var(--bg-canvas)",
                         color: r.isOverridden ? "var(--color-primary)" : "var(--muted-foreground)",
                         border: `1px solid ${r.isOverridden ? "var(--color-primary)" : "var(--border)"}`,
                       }}>
