@@ -184,17 +184,18 @@ export async function recalculateMillesimes(buildingId: string) {
   if (!building) return { error: "Το κτήριο δεν βρέθηκε" };
 
   const results = computeMillesimes(building.units);
-  const updates = results.filter((r) => r.millesimes != null);
-  if (updates.length === 0) {
+  if (!results.some((r) => r.millesimes != null)) {
     return { error: "Καμία μονάδα δεν έχει τετραγωνικά για υπολογισμό" };
   }
 
+  // Update every unit: units with area get their share, units without area are
+  // reset to null so the building's millesimes always sum to exactly 1000.
   await db.$transaction(
-    updates.map((r) =>
+    results.map((r) =>
       db.unit.update({ where: { id: r.id }, data: { millesimes: r.millesimes } })
     )
   );
 
   revalidatePath(`/super-admin/properties/${building.property.id}`);
-  return { updated: updates.length };
+  return { updated: results.filter((r) => r.millesimes != null).length };
 }

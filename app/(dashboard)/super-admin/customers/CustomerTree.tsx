@@ -401,7 +401,7 @@ function MillesimesModal({ building, onClose, onDone }: { building: TBuilding; o
       )}
       {missing > 0 && canApply && (
         <div style={{ padding: "8px 12px", borderRadius: 6, background: "#fef9c318", color: "#a16207", fontSize: 12, border: "1px solid #fde04740", marginBottom: 12 }}>
-          {missing} μονάδες χωρίς τ.μ. — δεν θα ενημερωθούν.
+          {missing} μονάδες χωρίς τ.μ. — τα χιλιοστά τους θα μηδενιστούν.
         </div>
       )}
 
