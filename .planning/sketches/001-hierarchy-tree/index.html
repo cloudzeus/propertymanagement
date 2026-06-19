@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sketch 001 — Ιεραρχία</title>
+<link rel="stylesheet" href="../themes/default.css">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: var(--font-sans); background: var(--color-bg); color: var(--color-text); padding-top: 46px; font-size: var(--text-base); }
+  #variant-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 9998; background: var(--color-surface); border-bottom: 1px solid var(--color-border); padding: 7px 16px; display: flex; gap: 8px; align-items: center; }
+  .variant-tab { padding: 6px 14px; border: 1px solid var(--color-border); background: var(--color-surface); border-radius: var(--radius-sm); font-size: var(--text-sm); cursor: pointer; color: var(--color-text-muted); font-weight: 600; }
+  .variant-tab.active { background: var(--color-primary); color: #fff; border-color: var(--color-primary); }
+  .page { max-width: 1080px; margin: 24px auto; padding: 0 20px; }
+  .h { font-size: var(--text-xl); font-weight: 700; margin: 0 0 4px; }
+  .sub { color: var(--color-text-muted); font-size: var(--text-sm); margin: 0 0 18px; }
+  .card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-md); box-shadow: var(--shadow-sm); }
+
+  /* ── shared tree row ── */
+  .node { display: flex; align-items: center; gap: 8px; padding: 7px 10px; border-radius: var(--radius-sm); transition: background .12s; position: relative; }
+  .node:hover { background: var(--color-canvas); }
+  .chev { width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--color-text-muted); transition: transform .15s; flex-shrink: 0; user-select: none; }
+  .node.open > .chev { transform: rotate(90deg); }
+  .ico { width: 26px; height: 26px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+  .title { font-weight: 600; font-size: var(--text-sm); }
+  .meta { font-size: var(--text-xs); color: var(--color-text-muted); }
+  .grow { flex: 1; min-width: 0; }
+  .kebab { width: 28px; height: 28px; border-radius: var(--radius-sm); border: 1px solid var(--color-border); background: var(--color-surface); cursor: pointer; color: var(--color-text-muted); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity .12s; }
+  .node:hover .kebab { opacity: 1; }
+  .children { display: none; }
+  .node.open + .children { display: block; }
+  .badge { font-size: 10px; font-weight: 700; padding: 1px 7px; border-radius: var(--radius-full); }
+  .menu { position: absolute; right: 8px; top: 38px; z-index: 50; min-width: 210px; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-md); box-shadow: var(--shadow-lg); overflow: hidden; display: none; }
+  .menu.show { display: block; }
+  .menu button { display: flex; align-items: center; gap: 10px; width: 100%; padding: 9px 13px; border: none; background: none; cursor: pointer; font-size: var(--text-sm); color: var(--color-text); text-align: left; }
+  .menu button:hover { background: var(--color-canvas); }
+  .menu button.danger { color: var(--color-danger); }
+  .menu .sep { height: 1px; background: var(--color-border); }
+
+  /* tints */
+  .t-prop { background: var(--color-purple-soft); color: var(--color-purple); }
+  .t-bld { background: var(--color-primary-soft); color: var(--color-primary); }
+  .t-flr { background: var(--color-orange-soft); color: var(--color-orange); }
+  .t-unit { background: var(--color-blue-soft); color: var(--color-blue); }
+  .t-area { background: #efefef; color: var(--color-grey); }
+
+  /* Variant A connector lines */
+  .va .children { margin-left: 22px; border-left: 1.5px solid var(--color-border); padding-left: 6px; }
+
+  /* Variant B miller columns */
+  .miller { display: flex; gap: 0; overflow-x: auto; }
+  .col { min-width: 240px; flex: 1; border-right: 1px solid var(--color-border); max-height: 520px; overflow-y: auto; }
+  .col:last-child { border-right: none; }
+  .col-h { font-size: var(--text-xs); font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--color-text-muted); padding: 10px 12px; border-bottom: 1px solid var(--color-border); position: sticky; top: 0; background: var(--color-surface); }
+  .mrow { display: flex; align-items: center; gap: 8px; padding: 8px 12px; cursor: pointer; border-bottom: 1px solid var(--color-canvas); }
+  .mrow:hover { background: var(--color-canvas); }
+  .mrow.sel { background: var(--color-primary-soft); }
+  .mrow .arr { margin-left: auto; color: var(--color-text-muted); }
+
+  /* Variant C nested cards */
+  .vc .ncard { border: 1px solid var(--color-border); border-radius: var(--radius-md); margin: 8px 0; overflow: hidden; background: var(--color-surface); }
+  .vc .ncard > .children { padding: 4px 10px 10px; background: var(--color-canvas); }
+  .vc .ncard > .node { background: var(--color-surface); }
+</style>
+</head>
+<body>
+
+<div id="variant-nav">
+  <button class="variant-tab active" onclick="showVariant('a',event)">A: Indented tree</button>
+  <button class="variant-tab" onclick="showVariant('b',event)">B: Miller columns</button>
+  <button class="variant-tab" onclick="showVariant('c',event)">C: Nested cards</button>
+  <span style="margin-left:auto;font-size:12px;color:var(--color-text-muted)">Sketch 001 · Ιεραρχία δομής</span>
+</div>
+
+<!-- ════════════════ VARIANT A ════════════════ -->
+<div id="variant-a" class="variant">
+  <div class="page">
+    <h1 class="h">ΑΦΟΙ ΚΟΛΛΕΡΗ ΙΚΕ</h1>
+    <p class="sub">Πελάτης · 2 ιδιοκτησίες · 3 κτήρια · 14 μονάδες</p>
+    <div class="card va" style="padding:8px" id="treeA"></div>
+  </div>
+</div>
+
+<!-- ════════════════ VARIANT B ════════════════ -->
+<div id="variant-b" class="variant" style="display:none">
+  <div class="page">
+    <h1 class="h">ΑΦΟΙ ΚΟΛΛΕΡΗ ΙΚΕ</h1>
+    <p class="sub">Επιλέξτε επίπεδο-επίπεδο — κάθε στήλη ανοίγει την επόμενη</p>
+    <div class="card miller">
+      <div class="col">
+        <div class="col-h">Ιδιοκτησίες</div>
+        <div class="mrow sel" onclick="bSel(this,'Συγκρότημα Κολωνακίου')"><span class="ico t-prop">🏘️</span><span><div class="title">Συγκρότημα Κολωνακίου</div><div class="meta">2 κτήρια · 9 μον.</div></span><span class="arr">›</span></div>
+        <div class="mrow" onclick="bSel(this,'Κατάστημα Πειραιά')"><span class="ico t-prop">🏘️</span><span><div class="title">Κατάστημα Πειραιά</div><div class="meta">1 κτήριο · 5 μον.</div></span><span class="arr">›</span></div>
+      </div>
+      <div class="col">
+        <div class="col-h">Κτήρια</div>
+        <div class="mrow sel"><span class="ico t-bld">🏢</span><span><div class="title">Κτήριο Α</div><div class="meta">Σκουφά 12 · 5 μον.</div></span><span class="arr">›</span></div>
+        <div class="mrow"><span class="ico t-bld">🏢</span><span><div class="title">Κτήριο Β</div><div class="meta">Σκουφά 14 · 4 μον.</div></span><span class="arr">›</span></div>
+      </div>
+      <div class="col">
+        <div class="col-h">Όροφοι</div>
+        <div class="mrow"><span class="ico t-flr">▦</span><span><div class="title">Ισόγειο</div><div class="meta">2 χώροι</div></span><span class="arr">›</span></div>
+        <div class="mrow sel"><span class="ico t-flr">▦</span><span><div class="title">1ος όροφος</div><div class="meta">2 μονάδες</div></span><span class="arr">›</span></div>
+        <div class="mrow"><span class="ico t-flr">▦</span><span><div class="title">2ος όροφος</div><div class="meta">2 μονάδες</div></span><span class="arr">›</span></div>
+      </div>
+      <div class="col">
+        <div class="col-h">Χώροι & Μονάδες</div>
+        <div class="mrow"><span class="ico t-area">🚪</span><span><div class="title">Κλιμακοστάσιο</div><div class="meta">Κοιν. χώρος</div></span></div>
+        <div class="mrow sel"><span class="ico t-unit">🏠</span><span><div class="title">Α1 · Διαμέρισμα</div><div class="meta">Ιδ: Γ. Παπαδόπουλος</div></span></div>
+        <div class="mrow"><span class="ico t-unit">🏪</span><span><div class="title">Α2 · Μαγαζί</div><div class="meta">85 τ.μ.</div></span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════ VARIANT C ════════════════ -->
+<div id="variant-c" class="variant" style="display:none">
+  <div class="page vc">
+    <h1 class="h">ΑΦΟΙ ΚΟΛΛΕΡΗ ΙΚΕ</h1>
+    <p class="sub">Φωλιασμένες κάρτες ανά επίπεδο</p>
+    <div id="treeC"></div>
+  </div>
+</div>
+
+<!-- sketch toolbar -->
+<div id="sketch-tools" style="position:fixed;bottom:12px;right:12px;z-index:9999;font-family:system-ui;font-size:12px;background:rgba(0,0,0,0.72);color:#fff;padding:8px 12px;border-radius:8px;opacity:0.4;transition:opacity .2s;display:flex;gap:8px;align-items:center" onmouseenter="this.style.opacity='1'" onmouseleave="this.style.opacity='0.4'">
+  <span>Θέμα:</span>
+  <select onchange="document.querySelector('link[href*=themes]').href='../themes/'+this.value+'.css'" style="font-size:12px"><option value="default">DG/Fluent</option></select>
+</div>
+
+<script>
+  // hierarchy data
+  const DATA = [
+    { t:'Συγκρότημα Κολωνακίου', k:'prop', meta:'2 κτήρια · 9 μονάδες', actions:['Διαχείριση','Προσθήκη κτηρίου','—','Διαγραφή'], c:[
+      { t:'Κτήριο Α — Σκουφά 12', k:'bld', meta:'Ασανσέρ · Καυστήρας · 3 όροφοι', actions:['Επεξεργασία','Προσθήκη μονάδας','Προσθήκη κοιν. χώρου','—','Διαγραφή'], c:[
+        { t:'Ισόγειο', k:'flr', meta:'2 κοιν. χώροι', actions:['Προσθήκη μονάδας','Προσθήκη κοιν. χώρου'], c:[
+          { t:'Είσοδος / Lobby', k:'area', meta:'Κοινόχρηστος χώρος', actions:['Άνοιγμα','Επεξεργασία','Διαγραφή'] },
+          { t:'Κλιμακοστάσιο', k:'area', meta:'Κοινόχρηστος χώρος', actions:['Άνοιγμα','Επεξεργασία','Διαγραφή'] },
+        ]},
+        { t:'1ος όροφος', k:'flr', meta:'2 μονάδες', actions:['Προσθήκη μονάδας','Προσθήκη κοιν. χώρου'], c:[
+          { t:'Α1 · Διαμέρισμα', k:'unit', meta:'Ιδ: Γ. Παπαδόπουλος · Εν: Μ. Ιωάννου · 95 τ.μ. · 120‰', actions:['Άνοιγμα καρτέλας','Ιδιοκτήτης/Ένοικος','Επεξεργασία','Διαγραφή'] },
+          { t:'Α2 · Μαγαζί', k:'unit', meta:'85 τ.μ. · 90‰', actions:['Άνοιγμα καρτέλας','Ιδιοκτήτης/Ένοικος','Επεξεργασία','Διαγραφή'] },
+        ]},
+        { t:'2ος όροφος', k:'flr', meta:'2 μονάδες', actions:['Προσθήκη μονάδας','Προσθήκη κοιν. χώρου'], c:[
+          { t:'Β1 · Διαμέρισμα', k:'unit', meta:'Ιδ: Α. Δήμου · 70 τ.μ. · 80‰', actions:['Άνοιγμα καρτέλας','Ιδιοκτήτης/Ένοικος','Επεξεργασία','Διαγραφή'] },
+          { t:'Π1 · Πάρκινγκ', k:'unit', meta:'12 τ.μ. · 10‰', actions:['Άνοιγμα καρτέλας','Ιδιοκτήτης/Ένοικος','Επεξεργασία','Διαγραφή'] },
+        ]},
+      ]},
+      { t:'Κτήριο Β — Σκουφά 14', k:'bld', meta:'Πυρασφάλεια · 2 όροφοι', actions:['Επεξεργασία','Προσθήκη μονάδας','Προσθήκη κοιν. χώρου','—','Διαγραφή'], c:[] },
+    ]},
+    { t:'Κατάστημα Πειραιά', k:'prop', meta:'1 κτήριο · 5 μονάδες', actions:['Διαχείριση','Προσθήκη κτηρίου','—','Διαγραφή'], c:[] },
+  ];
+  const ICON = { prop:['🏘️','t-prop'], bld:['🏢','t-bld'], flr:['▦','t-flr'], unit:['🏠','t-unit'], area:['🚪','t-area'] };
+  function iconFor(n){ if(n.k==='unit'){ if(n.t.includes('Μαγαζί'))return['🏪','t-unit']; if(n.t.includes('Πάρκινγκ'))return['🅿️','t-unit']; } return ICON[n.k]; }
+
+  function renderNode(n, depth){
+    const [emoji, tint] = iconFor(n);
+    const hasC = n.c && n.c.length;
+    const wrap = document.createElement('div');
+    const row = document.createElement('div');
+    row.className = 'node';
+    row.innerHTML = `
+      <span class="chev">${hasC?'▶':''}</span>
+      <span class="ico ${tint}">${emoji}</span>
+      <span class="grow"><span class="title">${n.t}</span> <div class="meta">${n.meta||''}</div></span>
+      <button class="kebab">⋯</button>`;
+    // menu
+    const menu = document.createElement('div'); menu.className='menu';
+    (n.actions||['Άνοιγμα']).forEach(a=>{ if(a==='—'){const s=document.createElement('div');s.className='sep';menu.appendChild(s);return;} const b=document.createElement('button'); if(a==='Διαγραφή')b.className='danger'; b.textContent=a; b.onclick=(e)=>{e.stopPropagation(); toast(a+' → '+n.t); menu.classList.remove('show');}; menu.appendChild(b); });
+    row.querySelector('.kebab').onclick=(e)=>{e.stopPropagation(); document.querySelectorAll('.menu.show').forEach(m=>m!==menu&&m.classList.remove('show')); menu.classList.toggle('show');};
+    row.appendChild(menu);
+    const chev = row.querySelector('.chev');
+    const kids = document.createElement('div'); kids.className='children';
+    if(hasC){ n.c.forEach(ch=>kids.appendChild(renderNode(ch, depth+1))); chev.onclick=()=>row.classList.toggle('open'); row.querySelector('.grow').style.cursor='pointer'; row.querySelector('.grow').onclick=()=>row.classList.toggle('open'); }
+    wrap.appendChild(row); wrap.appendChild(kids);
+    return wrap;
+  }
+  function buildTreeA(){ const root=document.getElementById('treeA'); DATA.forEach(n=>root.appendChild(renderNode(n,0))); }
+  function buildTreeC(){
+    const root=document.getElementById('treeC');
+    function card(n){ const c=document.createElement('div'); c.className='ncard'; const node=renderNode(n,0); c.appendChild(node); return c; }
+    DATA.forEach(n=>root.appendChild(card(n)));
+  }
+  buildTreeA(); buildTreeC();
+  // open first prop+building by default in A
+  setTimeout(()=>{ const first=document.querySelector('#treeA .node'); if(first)first.classList.add('open'); const fb=document.querySelector('#treeA .children .node'); if(fb)fb.classList.add('open'); },0);
+
+  function showVariant(id,e){ document.querySelectorAll('.variant').forEach(v=>v.style.display='none'); document.querySelectorAll('.variant-tab').forEach(t=>t.classList.remove('active')); document.getElementById('variant-'+id).style.display='block'; e.target.classList.add('active'); }
+  function bSel(el,name){ el.parentElement.querySelectorAll('.mrow').forEach(r=>r.classList.remove('sel')); el.classList.add('sel'); }
+  document.addEventListener('click',()=>document.querySelectorAll('.menu.show').forEach(m=>m.classList.remove('show')));
+  function toast(msg){ const t=document.createElement('div'); t.textContent=msg; t.style.cssText='position:fixed;bottom:60px;left:50%;transform:translateX(-50%);background:#201f1e;color:#fff;padding:10px 18px;border-radius:8px;font-size:13px;z-index:99999;box-shadow:var(--shadow-lg)'; document.body.appendChild(t); setTimeout(()=>t.remove(),1400); }
+</script>
+</body>
+</html>

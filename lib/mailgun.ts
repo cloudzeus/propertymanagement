@@ -1,6 +1,5 @@
 import { env } from "./env";
-import FormData from "form-data";
-import fetch from "node-fetch";
+import { logAPIUsage } from "./api-costs";
 
 interface EmailOptions {
   to: string | string[];
@@ -39,11 +38,14 @@ async function sendEmail(options: EmailOptions): Promise<EmailResponse> {
       });
     }
 
+    const credentials = Buffer.from(`api:${env.MAILGUN_API_KEY}`).toString("base64");
     const response = await fetch(
       `https://api.mailgun.net/v3/${env.MAILGUN_DOMAIN}/messages`,
       {
         method: "POST",
-        auth: `api:${env.MAILGUN_API_KEY}`,
+        headers: {
+          Authorization: `Basic ${credentials}`,
+        },
         body: form,
       }
     );
@@ -51,6 +53,13 @@ async function sendEmail(options: EmailOptions): Promise<EmailResponse> {
     if (!response.ok) {
       const error = await response.text();
       console.error("Mailgun error:", error);
+      await logAPIUsage({
+        apiName: 'mailgun',
+        endpoint: '/messages',
+        requestCount: 1,
+        status: 'FAILED',
+        errorMessage: `HTTP ${response.status}`,
+      });
       return {
         success: false,
         error: `Mailgun API error: ${response.status}`,
@@ -58,6 +67,16 @@ async function sendEmail(options: EmailOptions): Promise<EmailResponse> {
     }
 
     const data = await response.json() as any;
+
+    // Log successful email send
+    const recipientCount = Array.isArray(options.to) ? options.to.length : 1;
+    await logAPIUsage({
+      apiName: 'mailgun',
+      endpoint: '/messages',
+      requestCount: recipientCount,
+      status: 'SUCCESS',
+    });
+
     return {
       success: true,
       messageId: data.id,

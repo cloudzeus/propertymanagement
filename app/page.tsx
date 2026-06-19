@@ -1,43 +1,37 @@
-"use client";
+'use client';
 
-import { useEffect } from "react";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { Building2, Shield, BarChart3, Users } from "lucide-react";
+import { useEffect } from 'react';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export default function Home() {
   const { data: session, status } = useSession();
   const router = useRouter();
 
   useEffect(() => {
-    if (session) {
+    if (status === 'authenticated' && session) {
       // Redirect to appropriate dashboard based on role
       const role = (session.user as any)?.role;
-      if (role === "SUPER_ADMIN") {
-        router.push("/super-admin");
-      } else if (role === "ADMIN") {
-        router.push("/admin");
-      } else if (role === "MANAGER") {
-        router.push("/manager");
-      } else if (role === "EMPLOYEE") {
-        router.push("/employee");
-      } else if (role === "PROPERTY_ADMIN") {
-        router.push("/property-admin");
-      } else if (role === "PROPERTY_OWNER") {
-        router.push("/property-owner");
-      } else if (role === "PROPERTY_RESIDENT") {
-        router.push("/property-resident");
-      } else if (role === "PROPERTY_VIEWER") {
-        router.push("/property-viewer");
-      } else if (role === "COLLABORATOR") {
-        router.push("/collaborator");
-      }
-    }
-  }, [session, router]);
+      const redirectMap: Record<string, string> = {
+        SUPER_ADMIN:       '/super-admin',
+        ADMIN:             '/admin',
+        MANAGER:           '/manager',
+        PROPERTY_ADMIN:    '/manager',
+        EMPLOYEE:          '/staff',
+        COLLABORATOR:      '/staff',
+        PROPERTY_OWNER:    '/owner',
+        PROPERTY_RESIDENT: '/portal',
+        PROPERTY_VIEWER:   '/portal',
+      };
 
-  if (status === "loading") {
+      const destination = redirectMap[role] || '/';
+      router.push(destination);
+    }
+  }, [session, status, router]);
+
+  // If authenticated, show loading while redirecting
+  if (status === 'authenticated') {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100">
         <div className="animate-pulse">
@@ -47,91 +41,155 @@ export default function Home() {
     );
   }
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100">
-      {/* Navigation */}
-      <nav className="border-b border-slate-200 bg-white/80 backdrop-blur-md sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center space-x-2">
-              <Building2 className="h-8 w-8 text-blue-600" />
-              <span className="font-bold text-xl text-slate-900">Property Management</span>
-            </div>
-            <div className="space-x-4">
-              <Link href="/login">
-                <Button variant="ghost">Sign In</Button>
-              </Link>
-              <Link href="/register">
-                <Button>Get Started</Button>
-              </Link>
-            </div>
-          </div>
+  if (status === 'loading') {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100">
+        <div className="animate-pulse">
+          <div className="h-12 w-12 bg-slate-300 rounded-lg"></div>
         </div>
-      </nav>
+      </div>
+    );
+  }
+
+  // Show public home page for unauthenticated users
+  return (
+    <div className="min-h-screen bg-white">
+      {/* Header */}
+      <header className="sticky top-0 z-40 bg-white border-b border-gray-200">
+        <nav className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+          <Link href="/" className="text-2xl font-bold text-blue-600">
+            PropertyPro
+          </Link>
+
+          <div className="hidden md:flex gap-8">
+            <Link href="/" className="text-gray-700 hover:text-blue-600 font-medium">
+              Home
+            </Link>
+            <Link href="/pricing" className="text-gray-700 hover:text-blue-600 font-medium">
+              Pricing
+            </Link>
+            <Link href="/faq" className="text-gray-700 hover:text-blue-600 font-medium">
+              FAQ
+            </Link>
+            <Link href="/contact" className="text-gray-700 hover:text-blue-600 font-medium">
+              Contact
+            </Link>
+          </div>
+
+          <div className="flex gap-3">
+            <Link
+              href="/auth/login"
+              className="px-4 py-2 text-blue-600 border border-blue-600 rounded-md hover:bg-blue-50 font-medium"
+            >
+              Login
+            </Link>
+            <Link
+              href="/auth/register"
+              className="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 font-medium"
+            >
+              Sign Up
+            </Link>
+          </div>
+        </nav>
+      </header>
 
       {/* Hero Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div className="text-center space-y-8">
-          <h1 className="text-5xl md:text-6xl font-bold text-slate-900 leading-tight">
-            Professional Property <span className="text-blue-600">Management</span> Made Simple
+      <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-20">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h1 className="text-5xl md:text-6xl font-bold mb-6">
+            Manage Your Properties Effortlessly
           </h1>
-          <p className="text-xl text-slate-600 max-w-2xl mx-auto">
-            Streamline building operations, tenant management, and maintenance with our comprehensive SaaS platform designed for property managers and building owners.
+          <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
+            The all-in-one platform for property managers to streamline operations, reduce costs, and improve tenant satisfaction.
           </p>
-          <div className="flex justify-center space-x-4">
-            <Link href="/register">
-              <Button size="lg" className="text-lg h-12 px-8">Start Free Trial</Button>
+          <div className="flex gap-4 justify-center">
+            <Link
+              href="/auth/register"
+              className="px-8 py-3 bg-white text-blue-600 rounded-lg font-semibold hover:bg-gray-100"
+            >
+              Start Free Trial
             </Link>
-            <Link href="/login">
-              <Button size="lg" variant="outline" className="text-lg h-12 px-8">
-                Sign In
-              </Button>
+            <Link
+              href="/contact"
+              className="px-8 py-3 border-2 border-white rounded-lg font-semibold hover:bg-blue-700"
+            >
+              Request Demo
             </Link>
           </div>
         </div>
-      </div>
+      </section>
 
       {/* Features Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div className="grid md:grid-cols-4 gap-8">
-          <div className="space-y-4">
-            <Building2 className="h-12 w-12 text-blue-600" />
-            <h3 className="text-lg font-semibold text-slate-900">Property Management</h3>
-            <p className="text-slate-600">Manage multiple properties and units from a single dashboard</p>
-          </div>
-          <div className="space-y-4">
-            <Users className="h-12 w-12 text-green-600" />
-            <h3 className="text-lg font-semibold text-slate-900">Tenant Portal</h3>
-            <p className="text-slate-600">Residents view announcements and billing information easily</p>
-          </div>
-          <div className="space-y-4">
-            <Shield className="h-12 w-12 text-purple-600" />
-            <h3 className="text-lg font-semibold text-slate-900">Role-Based Access</h3>
-            <p className="text-slate-600">Secure access control with 9 different user roles</p>
-          </div>
-          <div className="space-y-4">
-            <BarChart3 className="h-12 w-12 text-orange-600" />
-            <h3 className="text-lg font-semibold text-slate-900">Advanced Analytics</h3>
-            <p className="text-slate-600">Track maintenance, expenses, and occupancy reports</p>
-          </div>
-        </div>
-      </div>
+      <section className="py-20 bg-gray-50">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-4xl font-bold text-center mb-12">Powerful Features</h2>
 
-      {/* Pricing Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 border-t border-slate-200">
-        <h2 className="text-3xl font-bold text-center mb-12">Simple, Per-Unit Pricing</h2>
-        <div className="grid md:grid-cols-3 gap-8">
-          {["Starter", "Professional", "Enterprise"].map((tier) => (
-            <div key={tier} className="bg-white rounded-lg border border-slate-200 p-8 space-y-6">
-              <h3 className="text-xl font-semibold text-slate-900">{tier}</h3>
-              <p className="text-slate-600">Billed per property unit (apartment, shop, parking)</p>
-              <Link href="/register">
-                <Button className="w-full">Get Started</Button>
-              </Link>
-            </div>
-          ))}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              { icon: '🏢', title: 'Property Management', desc: 'Manage multiple properties and units from a single dashboard.' },
+              { icon: '📋', title: 'Maintenance Tracking', desc: 'Handle maintenance requests with real-time tracking and scheduling.' },
+              { icon: '💰', title: 'Billing & Payments', desc: 'Automated billing, rent collection, and financial reporting.' },
+              { icon: '📢', title: 'Announcements', desc: 'Share updates and digital signage with residents.' },
+              { icon: '👥', title: 'Role-Based Access', desc: '9 different role types with customizable permissions.' },
+              { icon: '🌐', title: 'Multi-Language', desc: 'Full support for Greek and English.' },
+            ].map((feature, idx) => (
+              <div key={idx} className="bg-white rounded-lg p-8 shadow-sm">
+                <div className="text-4xl mb-4">{feature.icon}</div>
+                <h3 className="text-xl font-semibold mb-3">{feature.title}</h3>
+                <p className="text-gray-600">{feature.desc}</p>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="bg-blue-600 text-white py-16">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-4xl font-bold mb-4">Ready to transform your property management?</h2>
+          <p className="text-xl text-blue-100 mb-8">
+            Join hundreds of property managers who trust PropertyPro to streamline their operations.
+          </p>
+          <Link
+            href="/auth/register"
+            className="inline-block px-8 py-3 bg-white text-blue-600 rounded-lg font-semibold hover:bg-gray-100"
+          >
+            Start Your Free Trial Today
+          </Link>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-gray-900 text-gray-300">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+            <div>
+              <h4 className="text-white font-semibold mb-4">Product</h4>
+              <ul className="space-y-2 text-sm">
+                <li><Link href="/pricing" className="hover:text-white">Pricing</Link></li>
+                <li><Link href="/faq" className="hover:text-white">FAQ</Link></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-white font-semibold mb-4">Support</h4>
+              <ul className="space-y-2 text-sm">
+                <li><Link href="/contact" className="hover:text-white">Contact Us</Link></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-white font-semibold mb-4">Legal</h4>
+              <ul className="space-y-2 text-sm">
+                <li><Link href="/privacy" className="hover:text-white">Privacy Policy</Link></li>
+                <li><Link href="/terms" className="hover:text-white">Terms of Service</Link></li>
+                <li><Link href="/cookie-policy" className="hover:text-white">Cookie Policy</Link></li>
+              </ul>
+            </div>
+          </div>
+          <div className="border-t border-gray-800 pt-8 text-center text-sm">
+            <p>&copy; 2026 PropertyPro. All rights reserved.</p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }

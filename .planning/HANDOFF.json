@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "timestamp": "2026-06-17T11:35:01.344Z",
+  "timestamp": "2026-06-19T06:46:31.515Z",
   "source": "auto-postool",
   "partial": false,
   "phase": null,
@@ -18,13 +18,393 @@
   "uncommitted_files": [
     {
       "status": "M",
+      "path": ".planning/HANDOFF.json"
+    },
+    {
+      "status": "M",
+      "path": "app/actions/auth.ts"
+    },
+    {
+      "status": "M",
+      "path": "app/globals.css"
+    },
+    {
+      "status": "M",
+      "path": "app/layout.tsx"
+    },
+    {
+      "status": "M",
+      "path": "app/page.tsx"
+    },
+    {
+      "status": "M",
+      "path": "auth.ts"
+    },
+    {
+      "status": "M",
+      "path": "components/forms/LoginForm.tsx"
+    },
+    {
+      "status": "M",
+      "path": "i18n.ts"
+    },
+    {
+      "status": "M",
+      "path": "lib/ai.ts"
+    },
+    {
+      "status": "M",
+      "path": "lib/auth-hooks.ts"
+    },
+    {
+      "status": "M",
+      "path": "lib/bunnycdn.ts"
+    },
+    {
+      "status": "M",
+      "path": "lib/db.ts"
+    },
+    {
+      "status": "M",
+      "path": "lib/mailgun.ts"
+    },
+    {
+      "status": "M",
+      "path": "lib/roles.ts"
+    },
+    {
+      "status": "M",
+      "path": "lib/translate.ts"
+    },
+    {
+      "status": "D",
+      "path": "middleware.ts"
+    },
+    {
+      "status": "M",
+      "path": "next.config.ts"
+    },
+    {
+      "status": "M",
       "path": "prisma/schema.prisma"
     },
     {
       "status": "M",
       "path": "prisma/seed.js"
+    },
+    {
+      "status": "??",
+      "path": ".planning/sketches/"
+    },
+    {
+      "status": "??",
+      "path": "CMS_IMPLEMENTATION.md"
+    },
+    {
+      "status": "??",
+      "path": "KOINOXRISTA_ANALYSIS.md"
+    },
+    {
+      "status": "??",
+      "path": "PRICING_MANAGEMENT_GUIDE.md"
+    },
+    {
+      "status": "??",
+      "path": "SUPER_ADMIN_DASHBOARD.md"
+    },
+    {
+      "status": "??",
+      "path": "TEST_USERS_GUIDE.md"
+    },
+    {
+      "status": "??",
+      "path": "app/(dashboard)/admin/"
+    },
+    {
+      "status": "??",
+      "path": "app/(dashboard)/manager/"
+    },
+    {
+      "status": "??",
+      "path": "app/(dashboard)/owner/"
+    },
+    {
+      "status": "??",
+      "path": "app/(dashboard)/portal/"
+    },
+    {
+      "status": "??",
+      "path": "app/(dashboard)/staff/"
+    },
+    {
+      "status": "??",
+      "path": "app/(dashboard)/super-admin/ai-tools/"
+    },
+    {
+      "status": "??",
+      "path": "app/(dashboard)/super-admin/billing/"
+    },
+    {
+      "status": "??",
+      "path": "app/(dashboard)/super-admin/companies/"
+    },
+    {
+      "status": "??",
+      "path": "app/(dashboard)/super-admin/customers/CustomersClient.tsx"
+    },
+    {
+      "status": "??",
+      "path": "app/(dashboard)/super-admin/customers/[id]/"
+    },
+    {
+      "status": "??",
+      "path": "app/(dashboard)/super-admin/customers/page.tsx"
+    },
+    {
+      "status": "??",
+      "path": "app/(dashboard)/super-admin/integrations/"
+    },
+    {
+      "status": "??",
+      "path": "app/(dashboard)/super-admin/layout.tsx"
+    },
+    {
+      "status": "??",
+      "path": "app/(dashboard)/super-admin/page.tsx"
+    },
+    {
+      "status": "??",
+      "path": "app/(dashboard)/super-admin/properties/AddPropertyModal.tsx"
+    },
+    {
+      "status": "??",
+      "path": "app/(dashboard)/super-admin/properties/[id]/"
+    },
+    {
+      "status": "??",
+      "path": "app/(dashboard)/super-admin/reports/"
+    },
+    {
+      "status": "??",
+      "path": "app/(dashboard)/super-admin/roles/"
+    },
+    {
+      "status": "??",
+      "path": "app/(dashboard)/super-admin/services/"
+    },
+    {
+      "status": "??",
+      "path": "app/(dashboard)/super-admin/settings/"
+    },
+    {
+      "status": "??",
+      "path": "app/(dashboard)/super-admin/users/"
+    },
+    {
+      "status": "??",
+      "path": "app/actions/company-profile.ts"
+    },
+    {
+      "status": "??",
+      "path": "app/actions/customers.ts"
+    },
+    {
+      "status": "??",
+      "path": "app/actions/departments.ts"
+    },
+    {
+      "status": "??",
+      "path": "app/actions/employees.ts"
+    },
+    {
+      "status": "??",
+      "path": "app/actions/job-positions.ts"
+    },
+    {
+      "status": "??",
+      "path": "app/actions/properties.ts"
+    },
+    {
+      "status": "??",
+      "path": "app/actions/property-geodata.ts"
+    },
+    {
+      "status": "??",
+      "path": "app/actions/property-package.ts"
+    },
+    {
+      "status": "??",
+      "path": "app/actions/services.ts"
+    },
+    {
+      "status": "??",
+      "path": "app/actions/sign-out.ts"
+    },
+    {
+      "status": "??",
+      "path": "app/actions/users.ts"
+    },
+    {
+      "status": "??",
+      "path": "app/api/aade/"
+    },
+    {
+      "status": "??",
+      "path": "app/api/contact/"
+    },
+    {
+      "status": "??",
+      "path": "app/api/cookie-consent/"
+    },
+    {
+      "status": "??",
+      "path": "app/api/geocode/"
+    },
+    {
+      "status": "??",
+      "path": "app/api/places/"
+    },
+    {
+      "status": "??",
+      "path": "app/api/super-admin/"
+    },
+    {
+      "status": "??",
+      "path": "app/contact/"
+    },
+    {
+      "status": "??",
+      "path": "app/cookie-policy/"
+    },
+    {
+      "status": "??",
+      "path": "app/faq/"
+    },
+    {
+      "status": "??",
+      "path": "app/pricing/"
+    },
+    {
+      "status": "??",
+      "path": "app/privacy/"
+    },
+    {
+      "status": "??",
+      "path": "app/terms/"
+    },
+    {
+      "status": "??",
+      "path": "auth.config.ts"
+    },
+    {
+      "status": "??",
+      "path": "components/CookieConsent.tsx"
+    },
+    {
+      "status": "??",
+      "path": "components/LogoutButton.tsx"
+    },
+    {
+      "status": "??",
+      "path": "components/admin/"
+    },
+    {
+      "status": "??",
+      "path": "components/maps/"
+    },
+    {
+      "status": "??",
+      "path": "components/ui/data-table.tsx"
+    },
+    {
+      "status": "??",
+      "path": "components/ui/modal.tsx"
+    },
+    {
+      "status": "??",
+      "path": "components/ui/user-combo.tsx"
+    },
+    {
+      "status": "??",
+      "path": "i18n/"
+    },
+    {
+      "status": "??",
+      "path": "lib/api-costs.ts"
+    },
+    {
+      "status": "??",
+      "path": "lib/app-settings.ts"
+    },
+    {
+      "status": "??",
+      "path": "lib/geocoding.ts"
+    },
+    {
+      "status": "??",
+      "path": "lib/prisma/"
+    },
+    {
+      "status": "??",
+      "path": "lib/roles-constants.ts"
+    },
+    {
+      "status": "??",
+      "path": "prisma/migrations/20260617113758_add_api_cost_tracking/"
+    },
+    {
+      "status": "??",
+      "path": "prisma/migrations/20260617123641_add_cms_models/"
+    },
+    {
+      "status": "??",
+      "path": "prisma/migrations/20260617135549_add_app_settings/"
+    },
+    {
+      "status": "??",
+      "path": "prisma/migrations/20260617150613_add_property_geodata/"
+    },
+    {
+      "status": "??",
+      "path": "prisma/migrations/20260617154827_add_company_profile_departments_employees/"
+    },
+    {
+      "status": "??",
+      "path": "prisma/migrations/20260617155757_add_company_extra_softone_fields/"
+    },
+    {
+      "status": "??",
+      "path": "prisma/migrations/20260618053057_add_employee_user_link/"
+    },
+    {
+      "status": "??",
+      "path": "prisma/migrations/20260618100851_restructure_customer_property_building_services/"
+    },
+    {
+      "status": "??",
+      "path": "prisma/migrations/20260618102759_customer_softone_trdr_alignment/"
+    },
+    {
+      "status": "??",
+      "path": "prisma/migrations/20260618103658_move_viva_to_property_customer_geo/"
+    },
+    {
+      "status": "??",
+      "path": "prisma/migrations/20260618130745_property_address_geo/"
+    },
+    {
+      "status": "??",
+      "path": "prisma/migrations/20260618140145_commonarea_floor/"
+    },
+    {
+      "status": "??",
+      "path": "prisma/migrations/20260618144637_building_basements/"
+    },
+    {
+      "status": "??",
+      "path": "proxy.ts"
     }
   ],
   "next_action": null,
-  "context_notes": "Recent commits:\nd3ed9ad Add translation service (Deepseek) and seed script setup\nbe0e8a7 Add OTP system documentation\n27a37af Add OTP-based password reset and change via email\nf771fad Add comprehensive setup documentation\n3f226c0 Setup database migrations and integrate services (Mailgun, BunnyCDN, AI)"
+  "context_notes": "Recent commits:\n96f904d feat: pick existing user as owner/resident via email autocomplete\n7f2c79b fix: show newly created occupant in modal immediately after save\n320e57f docs: add \"resident same as owner\" checkbox to users/managers spec\n16a0afb feat: inline-expand buildings/units tree in properties list\n7211c7a feat: zero out millesimes for units without area on recalc"
 }

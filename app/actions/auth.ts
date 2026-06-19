@@ -3,7 +3,6 @@
 import { db } from "@/lib/db";
 import bcrypt from "bcryptjs";
 import { signIn } from "@/auth";
-import { VerificationToken } from "@prisma/client";
 import { v4 as uuid } from "uuid";
 import { createOTP, validateOTP, deleteOTP } from "@/lib/otp";
 import { sendPasswordResetOTP, sendPasswordChangeOTP } from "@/lib/mailgun";

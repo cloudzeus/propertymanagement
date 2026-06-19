@@ -1,4 +1,4 @@
-import { UserRole } from "@prisma/client";
+import { UserRole } from "@/lib/prisma/enums";
 
 export type Permission =
   | "read:dashboard"

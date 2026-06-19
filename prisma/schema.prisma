@@ -1,6 +1,6 @@
 generator client {
   provider = "prisma-client"
-  output   = "../node_modules/.prisma/client"
+  output   = "../lib/prisma"
 }
 
 datasource db {
@@ -57,6 +57,29 @@ enum UnitType {
   OTHER
 }
 
+// Customer (πελάτης) — individual or company that is billed for our services
+enum CustomerType {
+  INDIVIDUAL
+  COMPANY
+}
+
+// How a catalog Service is priced (all charges are monthly)
+enum ServicePricingModel {
+  PER_UNIT         // × number of units (apartments+shops) — used by CORE
+  PER_BUILDING     // × number of buildings
+  PER_COMMON_AREA  // × number of common areas
+  FLAT             // fixed monthly amount
+  METERED_PREPAID  // usage-based with prepaid balance (assemblies: minutes × participants)
+}
+
+// Status of a monthly service invoice to a Customer
+enum InvoiceStatus {
+  PENDING
+  PAID
+  OVERDUE
+  CANCELLED
+}
+
 // Users table - all users in the system
 model User {
   id                  String   @id @default(cuid())
@@ -70,9 +93,13 @@ model User {
   companyId           String?
   company             Company? @relation("users", fields: [companyId], references: [id], onDelete: SetNull)
 
-  // Property association (for property-specific roles)
-  propertyId          String?
-  property            Property? @relation(fields: [propertyId], references: [id], onDelete: SetNull)
+  // Customer association (for the customer's manager/staff users)
+  customerId          String?
+  customer            Customer? @relation("customerUsers", fields: [customerId], references: [id], onDelete: SetNull)
+
+  // Building association (for building-specific roles, e.g. building manager)
+  buildingId          String?
+  building            Building? @relation(fields: [buildingId], references: [id], onDelete: SetNull)
 
   // Unit association (for residents/owners)
   ownedUnits          Unit[] @relation("owner")
@@ -90,11 +117,17 @@ model User {
   // Announcements created by this user
   createdAnnouncements Announcement[] @relation("announcementCreatedBy")
 
+  // Employee records linked to this user
+  employeeLinks       Employee[] @relation("employeeUser")
+
   // Maintenance requests reported by this user
   reportedMaintenance MaintenanceRequest[] @relation("maintenanceReportedBy")
 
   // Maintenance requests assigned to this user
   assignedMaintenance MaintenanceRequest[] @relation("maintenanceAssignedTo")
+
+  // API usage logs triggered by this user
+  apiUsageLogs        APIUsageLog[]
 
   // Audit fields
   createdAt           DateTime @default(now())
@@ -107,7 +140,8 @@ model User {
 
   @@index([email])
   @@index([companyId])
-  @@index([propertyId])
+  @@index([customerId])
+  @@index([buildingId])
 }
 
 // Auth.js Account model
@@ -159,7 +193,7 @@ model Company {
   id                    String   @id @default(cuid())
   name                  String
   slug                  String   @unique
-  logoUrl               String?  // BunnyCDN URL
+  logoUrl               String?
 
   // Subscription details
   subscriptionTier      SubscriptionTier @default(STARTER)
@@ -167,28 +201,194 @@ model Company {
   // Limits
   maxProperties         Int      @default(1)
   maxUsers              Int      @default(5)
-  maxStorage            Int      @default(10) // GB
+  maxStorage            Int      @default(10)
 
   // Status
   status                CompanyStatus @default(TRIAL)
   trialEndsAt           DateTime?
+
+  // ── Business profile (SoftOne COMPANY aligned) ───────────────────────────
+  // Identity
+  afm                   String?   // ΑΦΜ
+  taxOffice             String?   // ΔΟΥ
+  legalName             String?   // Εναλλακτική επωνυμία (NAME2)
+  legalForm             String?   // Νομική μορφή (ΑΕ, ΙΚΕ, ΕΠΕ…)
+  activity              String?   // Αντικείμενο δραστηριότητας
+  title                 String?   // Τίτλος (SOTITLE)
+
+  // Address
+  address               String?
+  district              String?   // Νομός/Περιοχή
+  city                  String?
+  postalCode            String?
+  country               String?   @default("Ελλάδα")
+  lat                   Float?
+  lng                   Float?
+
+  // Contact
+  phone1                String?
+  phone2                String?
+  phone3                String?
+  fax                   String?
+  email                 String?
+  website               String?
+
+  // Identity extras
+  glnCode               String?   // GLNCODE — GLN
+  registryNumber        String?   // NUMBERM — Αριθ. μητρώου
+  vatStatus             String?   // VATSTS  — Καθεστώς ΦΠΑ (Κανονικό/Απαλλαγμένο…)
+  distStats             String?   // DISTSTATS — Υ.Σ.Ν.
+
+  // Registration
+  gemhNumber            String?   // NUMCG   — ΓΕΜΗ
+  ikaNumber             String?   // IKA     — Ε.Φ.Κ.Α. υποκατάστημα
+  ikaRegistry           String?   // IKAM    — Μητρώο Ε.Φ.Κ.Α.
+  folderNumber          String?   // FOLDERNUM — Αρ. φακέλου
+  kadCode               String?   // KAD     — ΚΑΔ
+
+  // Dates
+  foundedAt             DateTime? // CRTDATE — Ίδρυση
+  dissolutionDate       DateTime? // FNLDATE — Λύση
+
+  // Financial
+  iban                  String?
+  bank                  String?
+  initialCapital        Float?    // INITCAPITAL
+  paidCapital           Float?    // PAIDCAPITAL
+
+  // Legal representative
+  legalRep              String?   // CFONAME     — Πρόεδρος Δ.Σ.
+  legalRepId            String?   // IDENTITYNUM — Α.Δ.Τ.
+
+  // HR / Social security
+  tpte                  String?   // TPTE        — Τ.Π.Τ.Ε e-Ε.Φ.Κ.Α.
+  tpteteka              String?   // TPTETEKA    — Τ.Π.Τ.Ε Τ.Ε.Κ.Α
+  employmentOrg         String?   // ERGORGANOSI — Εργοδοτική οργάνωση
+
+  // Misc
+  remarks               String?   @db.Text // REMARKS — Παρατηρήσεις
+
+  // SoftOne integration
+  softoneCompanyCode    Int?      // COMPANY.COMPANY code in SoftOne ERP
+  // ─────────────────────────────────────────────────────────────────────────
 
   // Relations
   createdById           String?
   createdBy             User?    @relation("createdCompanies", fields: [createdById], references: [id], onDelete: SetNull)
 
   users                 User[] @relation("users")
+  customers             Customer[]
   properties            Property[]
+  buildings             Building[]
+  services              Service[]
   subscription          Subscription?
   addonFeatures         AddonFeature[]
   menuConfigs           MenuConfig[]
   userRoles             UserCompanyRole[]
+  apiUsageLogs          APIUsageLog[]
+  costSummaries         MonthlyCostSummary[]
+  departments           Department[]
+  jobPositions          JobPosition[]
+  employees             Employee[]
 
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt
 
   @@index([slug])
   @@index([status])
+}
+
+// Departments (Τμήματα εταιρείας)
+model Department {
+  id            String      @id @default(cuid())
+  companyId     String
+  company       Company     @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  name          String
+  description   String?     @db.Text
+  isActive      Boolean     @default(true)
+  sortOrder     Int         @default(0)
+
+  positions     JobPosition[]
+  employees     Employee[]
+
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  @@index([companyId])
+}
+
+// Job Positions (Θέσεις εργασίας)
+model JobPosition {
+  id            String      @id @default(cuid())
+  companyId     String
+  company       Company     @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  departmentId  String?
+  department    Department? @relation(fields: [departmentId], references: [id], onDelete: SetNull)
+  title         String
+  description   String?     @db.Text
+  level         String?     // Junior, Senior, Manager, Director, Executive
+  isActive      Boolean     @default(true)
+
+  employees     Employee[]
+
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  @@index([companyId])
+  @@index([departmentId])
+}
+
+// Employees (Υπάλληλοι)
+model Employee {
+  id              String         @id @default(cuid())
+  companyId       String
+  company         Company        @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  departmentId    String?
+  department      Department?    @relation(fields: [departmentId], references: [id], onDelete: SetNull)
+  jobPositionId   String?
+  jobPosition     JobPosition?   @relation(fields: [jobPositionId], references: [id], onDelete: SetNull)
+
+  // Linked application user account (optional)
+  userId          String?
+  user            User?          @relation("employeeUser", fields: [userId], references: [id], onDelete: SetNull)
+
+  // Personal
+  firstName       String
+  lastName        String
+  email           String?
+  phone           String?
+  mobile          String?
+
+  // Employment
+  employeeCode    String?
+  hireDate        DateTime?
+  terminationDate DateTime?
+  status          EmployeeStatus @default(ACTIVE)
+
+  // Tax / Social security
+  afm             String?
+  amka            String?
+  ikaNumber       String?
+
+  // Address
+  address         String?
+  city            String?
+  postalCode      String?
+
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+
+  @@index([companyId])
+  @@index([departmentId])
+  @@index([jobPositionId])
+  @@index([userId])
+}
+
+enum EmployeeStatus {
+  ACTIVE
+  INACTIVE
+  ON_LEAVE
+  TERMINATED
 }
 
 // Subscriptions - billing records
@@ -230,8 +430,8 @@ model AddonFeature {
   companyId             String
   company               Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
 
-  propertyId            String?
-  property              Property? @relation(fields: [propertyId], references: [id], onDelete: SetNull)
+  buildingId            String?
+  building              Building? @relation(fields: [buildingId], references: [id], onDelete: SetNull)
 
   // Feature type
   featureKey            String   // 'analytics', 'api', 'sms', 'whitelabel'
@@ -249,17 +449,114 @@ model AddonFeature {
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt
 
-  @@unique([companyId, propertyId, featureKey])
+  @@unique([companyId, buildingId, featureKey])
   @@index([companyId])
-  @@index([propertyId])
+  @@index([buildingId])
 }
 
-// Properties - buildings/complexes
+// Customer (πελάτης) — individual or company billed for our services.
+// Owns one or more Properties; is the target of service invoicing.
+model Customer {
+  id                    String   @id @default(cuid())
+
+  companyId             String
+  company               Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  type                  CustomerType @default(INDIVIDUAL)
+
+  // ── SoftOne TRDR alignment (future ERP sync) ─────────────────────────────
+  // SODTYPE distinguishes trading-partner kind in SoftOne's shared TRDR table:
+  //   13 = Πελάτης (Customer)  ·  12 = Προμηθευτής (Supplier)
+  sodType               Int      @default(13) // SODTYPE — 13 customer / 12 supplier
+  softoneTrdr           Int?     // TRDR (AutoInc PK in SoftOne) — link for sync
+  code                  String?  // CODE — Κωδικός συναλλασσόμενου
+  // ─────────────────────────────────────────────────────────────────────────
+
+  // Identity / billing (TRDR-aligned)
+  name                  String   // NAME — Επωνυμία (company) / full name (individual)
+  afm                   String?  // AFM — ΑΦΜ
+  doy                   String?  // IRSDATA — ΔΟΥ
+  email                 String?  // EMAIL
+  phone                 String?  // PHONE01 — Τηλ.1
+  phone2                String?  // PHONE02 — Τηλ.2
+  fax                   String?  // FAX
+  webpage               String?  // WEBPAGE
+  address               String?  // ADDRESS — Διεύθυνση
+  city                  String?  // CITY — Πόλη
+  district              String?  // DISTRICT — Περιοχή
+  postalCode            String?  // ZIP — Τ.Κ.
+  country               String?  // COUNTRY (SoftOne uses Smallint code; stored as text here)
+  isActive              Boolean  @default(true) // ISACTIVE
+  remarks               String?  // REMARKS — Παρατηρήσεις
+
+  // Geodata (geocoded from the address)
+  lat                   Float?
+  lng                   Float?
+
+  // Relations
+  users                 User[]   @relation("customerUsers")
+  properties            Property[]
+  invoices              ServiceInvoice[]
+
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  @@unique([companyId, softoneTrdr])
+  @@index([companyId])
+  @@index([sodType])
+  @@index([afm])
+}
+
+// Property (Ιδιοκτησία) — a customer's holding; can contain MANY buildings.
+// The service package and billing live at this level.
 model Property {
   id                    String   @id @default(cuid())
 
   companyId             String
   company               Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  customerId            String
+  customer              Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+
+  name                  String
+  notes                 String?
+
+  // Address & geodata
+  address               String?
+  city                  String?
+  postalCode            String?
+  country               String?  @default("Ελλάδα")
+  lat                   Float?
+  lng                   Float?
+
+  // Optional OWN Viva account — κοινόχρηστα are managed INDEPENDENTLY per property,
+  // so residents' κοινόχρηστα payments go to this property's own Viva account.
+  vivaEnabled           Boolean  @default(false)
+  vivaMerchantId        String?
+  vivaApiKeyEnc         String?  // stored encrypted
+  vivaSourceCode        String?
+
+  // Relations
+  buildings             Building[]
+  services              PropertyService[]
+
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  @@index([companyId])
+  @@index([customerId])
+  @@index([name])
+}
+
+// Building (Κτήριο) — a physical building under a Property.
+model Building {
+  id                    String   @id @default(cuid())
+
+  companyId             String
+  company               Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  propertyId            String
+  property              Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
 
   // Basic info
   name                  String
@@ -270,11 +567,24 @@ model Property {
   imageUrl              String?  // BunnyCDN URL
 
   // Details
+  floors                Int?     // above-ground όροφοι (excludes ισόγειο)
+  basements             Int?     // υπόγεια (number of basement levels)
   unitsCount            Int      @default(0)
+
+  // Technical
+  hasElevator           Boolean  @default(false)
+  hasBoiler             Boolean  @default(false)
+  hasFireSafety         Boolean  @default(false)
+  technicalNotes        String?
+
+  // Geodata
+  lat                   Float?
+  lng                   Float?
 
   // Relations
   users                 User[]
   units                 Unit[]
+  commonAreas           CommonArea[]
   addons                AddonFeature[]
   announcements         Announcement[]
   maintenanceRequests   MaintenanceRequest[]
@@ -283,20 +593,41 @@ model Property {
   updatedAt             DateTime @updatedAt
 
   @@index([companyId])
+  @@index([propertyId])
   @@index([name])
+}
+
+// Common areas (κοινόχρηστοι χώροι) — drive PER_COMMON_AREA pricing.
+model CommonArea {
+  id                    String   @id @default(cuid())
+
+  buildingId            String
+  building              Building @relation(fields: [buildingId], references: [id], onDelete: Cascade)
+
+  name                  String
+  type                  String?
+  floor                 Int?
+  notes                 String?
+
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  @@index([buildingId])
 }
 
 // Units - apartments, shops, parking spaces
 model Unit {
   id                    String   @id @default(cuid())
 
-  propertyId            String
-  property              Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  buildingId            String
+  building              Building @relation(fields: [buildingId], references: [id], onDelete: Cascade)
 
   // Basic info
   unitNumber            String
   unitType              UnitType @default(APARTMENT)
   floor                 Int?
+  areaSqm               Float?   // τετραγωνικά
+  millesimes            Float?   // χιλιοστά (for κοινόχρηστα distribution)
 
   // Ownership
   ownerId               String?
@@ -311,10 +642,98 @@ model Unit {
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt
 
-  @@unique([propertyId, unitNumber])
-  @@index([propertyId])
+  @@unique([buildingId, unitNumber])
+  @@index([buildingId])
   @@index([ownerId])
   @@index([residentId])
+}
+
+// Service catalog (provider-defined) — each service has a pricing model.
+model Service {
+  id                    String   @id @default(cuid())
+
+  companyId             String
+  company               Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  name                  String
+  code                  String   @unique
+  description           String?
+  isCore                Boolean  @default(false)
+  pricingModel          ServicePricingModel
+  price                 Decimal  @db.Decimal(10, 2) // monthly rate / unit rate
+  active                Boolean  @default(true)
+
+  propertyServices      PropertyService[]
+
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  @@index([companyId])
+}
+
+// PropertyService — a service enabled on a Property (the package).
+model PropertyService {
+  id                    String   @id @default(cuid())
+
+  propertyId            String
+  property              Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+
+  serviceId             String
+  service               Service  @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+
+  active                Boolean  @default(true)
+  startedAt             DateTime?
+  endedAt               DateTime?
+
+  // For METERED_PREPAID (assemblies): prepaid balance in person-minutes.
+  prepaidPersonMinutes  Int      @default(0)
+
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  @@unique([propertyId, serviceId])
+  @@index([propertyId])
+  @@index([serviceId])
+}
+
+// Monthly service invoice issued by the provider to a Customer.
+model ServiceInvoice {
+  id                    String   @id @default(cuid())
+
+  customerId            String
+  customer              Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+
+  period                String   // "YYYY-MM"
+  amount                Decimal  @db.Decimal(10, 2)
+  status                InvoiceStatus @default(PENDING)
+
+  issuedAt              DateTime @default(now())
+  dueDate               DateTime?
+  paidAt                DateTime?
+  vivaOrderRef          String?  // provider Viva transaction reference
+
+  lines                 ServiceInvoiceLine[]
+
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  @@unique([customerId, period])
+  @@index([customerId])
+  @@index([status])
+}
+
+model ServiceInvoiceLine {
+  id                    String   @id @default(cuid())
+
+  invoiceId             String
+  invoice               ServiceInvoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+
+  description           String
+  qty                   Int      @default(1)
+  unitPrice             Decimal  @db.Decimal(10, 2)
+  amount                Decimal  @db.Decimal(10, 2)
+
+  @@index([invoiceId])
 }
 
 // User Company Role - for multi-role support
@@ -364,8 +783,8 @@ model MenuConfig {
 model Announcement {
   id                    String   @id @default(cuid())
 
-  propertyId            String
-  property              Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  buildingId            String
+  building              Building @relation(fields: [buildingId], references: [id], onDelete: Cascade)
 
   title                 String
   content               String   @db.Text
@@ -382,7 +801,7 @@ model Announcement {
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt
 
-  @@index([propertyId])
+  @@index([buildingId])
   @@index([status])
 }
 
@@ -395,12 +814,98 @@ model Announcement_User {
   @@unique([announcementId, userId])
 }
 
+// API Usage Tracking - for cost monitoring
+model APIUsageLog {
+  id                    String   @id @default(cuid())
+
+  // API details
+  apiName               String   // 'mailgun', 'bunnycdn', 'deepseek', 'gemini'
+  endpoint              String?  // e.g., '/send-email', '/upload-file', '/translate'
+  model                 String?  // e.g., 'deepseek-chat', 'gemini-pro'
+
+  // Usage metrics
+  requestCount          Int      @default(1)
+  tokensUsed            Int?     // For LLM APIs
+  bytesProcessed        Int?     // For storage/bandwidth
+  costPerUnit           Float    // Cost per request/token/byte in EUR
+  totalCost             Float    // Total cost in EUR
+  currency              String   @default("EUR")
+
+  // Metadata
+  companyId             String?  // Which company triggered this (null = system)
+  company               Company? @relation(fields: [companyId], references: [id], onDelete: SetNull)
+
+  userId                String?  // Which user triggered this
+  user                  User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  status                String   @default("SUCCESS") // SUCCESS, FAILED, RETRY
+  errorMessage          String?
+
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  @@index([apiName])
+  @@index([companyId])
+  @@index([userId])
+  @@index([createdAt])
+}
+
+// API Cost Settings - configurable by SUPER_ADMIN
+model APICostConfig {
+  id                    String   @id @default(cuid())
+
+  // API pricing
+  apiName               String   @unique
+  displayName           String   // "Mailgun", "BunnyCDN", "Deepseek", "Gemini"
+
+  // Pricing structure
+  costModel             String   // 'per_request', 'per_token', 'per_gb', 'per_email'
+  basePrice             Float    // Cost per unit in EUR
+  freeQuota             Int      @default(0) // Free units per month
+  quotaResetDay         Int      @default(1) // Day of month to reset quota
+
+  // Limits
+  monthlyBudgetLimit    Float?   // Optional budget cap in EUR
+  enabled               Boolean  @default(true)
+
+  // Metadata
+  notes                 String?  @db.Text
+  documentationUrl      String?
+
+  updatedAt             DateTime @updatedAt
+  updatedBy             String?  // SUPER_ADMIN user ID
+
+  @@index([apiName])
+}
+
+// Monthly Cost Summary - pre-calculated for faster reporting
+model MonthlyCostSummary {
+  id                    String   @id @default(cuid())
+
+  year                  Int
+  month                 Int
+  apiName               String
+
+  requestCount          Int      @default(0)
+  tokensUsed            Int      @default(0)
+  bytesProcessed        Int      @default(0)
+  totalCost             Float    @default(0)
+
+  companyId             String?
+  company               Company? @relation(fields: [companyId], references: [id], onDelete: SetNull)
+
+  createdAt             DateTime @default(now())
+
+  @@unique([year, month, apiName, companyId])
+  @@index([companyId])
+}
+
 // Maintenance Requests - core feature
 model MaintenanceRequest {
   id                    String   @id @default(cuid())
 
-  propertyId            String
-  property              Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  buildingId            String
+  building              Building @relation(fields: [buildingId], references: [id], onDelete: Cascade)
 
   unitId                String?
   unit                  Unit?    @relation(fields: [unitId], references: [id], onDelete: SetNull)
@@ -427,8 +932,130 @@ model MaintenanceRequest {
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt
 
-  @@index([propertyId])
+  @@index([buildingId])
   @@index([unitId])
   @@index([status])
   @@index([priority])
+}
+
+// CMS Content Models for public website
+
+model CMSPage {
+  id                    String   @id @default(cuid())
+  slug                  String   @unique // e.g., 'home', 'privacy', 'terms'
+  title                 String
+  content               String   @db.Text
+  metaDescription       String?
+  metaKeywords          String?
+  publishedAt           DateTime?
+  status                String   @default("DRAFT") // DRAFT, PUBLISHED, ARCHIVED
+
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  @@index([slug])
+  @@index([status])
+}
+
+model FAQ {
+  id                    String   @id @default(cuid())
+  question              String
+  answer                String   @db.Text
+  category              String   @default("general") // general, billing, features, technical
+  order                 Int      @default(0)
+  published             Boolean  @default(true)
+
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  @@index([category])
+  @@index([published])
+  @@index([order])
+}
+
+model PricingTier {
+  id                    String   @id @default(cuid())
+  name                  String   // STARTER, PROFESSIONAL, ENTERPRISE
+  slug                  String   @unique
+  description           String?
+  monthlyPrice          Float
+  annualPrice           Float
+  features              String[] // Array of feature strings
+  highlighted           Boolean  @default(false)
+  order                 Int      @default(0)
+  published             Boolean  @default(true)
+
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  @@index([slug])
+  @@index([published])
+  @@index([order])
+}
+
+model ContactMessage {
+  id                    String   @id @default(cuid())
+  name                  String
+  email                 String
+  phone                 String?
+  subject               String
+  message               String   @db.Text
+  status                String   @default("NEW") // NEW, READ, RESPONDED, SPAM
+  ipAddress             String?
+  userAgent             String?
+
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  @@index([email])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model CookieConsent {
+  id                    String   @id @default(cuid())
+  sessionId             String   @unique // Browser session identifier
+  analytics             Boolean  @default(false)
+  marketing             Boolean  @default(false)
+  functional            Boolean  @default(false)
+  essential             Boolean  @default(true) // Always true
+  consentedAt           DateTime @default(now())
+  expiresAt             DateTime // Consent valid for 12 months
+  ipAddress             String?
+  userAgent             String?
+
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  @@index([sessionId])
+  @@index([expiresAt])
+}
+
+// App-wide brand & settings — always one row (id = "singleton")
+model AppSettings {
+  id              String   @id @default("singleton")
+
+  // Client identity
+  companyName     String   @default("PropertyPro")
+  logoUrl         String?  // BunnyCDN — full horizontal logo
+  logoSquareUrl   String?  // BunnyCDN — square/icon logo
+
+  // Brand colors (hex)
+  colorPrimary    String   @default("#0078D4")
+  colorPrimaryDk  String   @default("#005A9E")
+  colorAccent     String   @default("#E31E2A")
+  colorSuccess    String   @default("#107C10")
+  colorWarning    String   @default("#CA5D00")
+  colorDanger     String   @default("#A4262C")
+  colorPurple     String   @default("#8764B8")
+  colorTeal       String   @default("#038387")
+
+  // Contact info (shown in footer / about)
+  contactEmail    String?
+  contactPhone    String?
+  contactAddress  String?
+  websiteUrl      String?
+
+  updatedAt       DateTime @updatedAt
+  updatedById     String?
 }

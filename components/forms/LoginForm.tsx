@@ -35,8 +35,9 @@ export function LoginForm() {
       if (result?.error) {
         setError(t("auth.login.invalidCredentials"));
       } else if (result?.ok) {
-        const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
+        const callbackUrl = searchParams.get("callbackUrl") || "/";
         router.push(callbackUrl);
+        router.refresh();
       }
     } catch (err) {
       setError(t("errors.serverError"));

@@ -1,4 +1,5 @@
 import { env } from "./env";
+import { logAPIUsage } from "./api-costs";
 
 interface UploadOptions {
   path: string; // e.g., "properties/123/logo.jpg"
@@ -33,11 +34,26 @@ async function uploadFile(options: UploadOptions): Promise<UploadResponse> {
     if (!response.ok) {
       const error = await response.text();
       console.error("BunnyCDN upload error:", error);
+      await logAPIUsage({
+        apiName: 'bunnycdn',
+        endpoint: '/storage',
+        bytesProcessed: options.buffer.length,
+        status: 'FAILED',
+        errorMessage: `HTTP ${response.status}`,
+      });
       return {
         success: false,
         error: `Upload failed: ${response.status}`,
       };
     }
+
+    // Log successful upload
+    await logAPIUsage({
+      apiName: 'bunnycdn',
+      endpoint: '/storage',
+      bytesProcessed: options.buffer.length,
+      status: 'SUCCESS',
+    });
 
     const cdnUrl = `${env.BUNNY_CDN_URL}/${options.path}`;
     return {
@@ -66,11 +82,24 @@ async function deleteFile(path: string): Promise<DeleteResponse> {
 
     if (!response.ok) {
       console.error("BunnyCDN delete error:", response.status);
+      await logAPIUsage({
+        apiName: 'bunnycdn',
+        endpoint: '/storage',
+        status: 'FAILED',
+        errorMessage: `HTTP ${response.status}`,
+      });
       return {
         success: false,
         error: `Delete failed: ${response.status}`,
       };
     }
+
+    // Log successful delete
+    await logAPIUsage({
+      apiName: 'bunnycdn',
+      endpoint: '/storage',
+      status: 'SUCCESS',
+    });
 
     return { success: true };
   } catch (error) {

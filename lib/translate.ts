@@ -1,4 +1,5 @@
 import { env } from "./env";
+import { logAPIUsage } from "./api-costs";
 
 interface TranslationResult {
   success: boolean;
@@ -55,6 +56,13 @@ export async function translateGreekToEnglish(
     if (!response.ok) {
       const error = await response.text();
       console.error("Deepseek translation error:", error);
+      await logAPIUsage({
+        apiName: 'deepseek',
+        endpoint: '/chat/completions',
+        model: 'deepseek-chat',
+        status: 'FAILED',
+        errorMessage: `HTTP ${response.status}`,
+      });
       return {
         success: false,
         error: `Translation API error: ${response.status}`,
@@ -70,6 +78,16 @@ export async function translateGreekToEnglish(
         error: "Empty translation response",
       };
     }
+
+    // Log API usage with token counts
+    const tokensUsed = data.usage?.total_tokens || 0;
+    await logAPIUsage({
+      apiName: 'deepseek',
+      endpoint: '/chat/completions',
+      model: 'deepseek-chat',
+      tokensUsed,
+      status: 'SUCCESS',
+    });
 
     return {
       success: true,

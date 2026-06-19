@@ -1,4 +1,5 @@
 import { env } from "./env";
+import { logAPIUsage } from "./api-costs";
 
 /**
  * AI Service Utilities
@@ -46,6 +47,13 @@ async function deepseekRequest(
     if (!response.ok) {
       const error = await response.text();
       console.error("Deepseek error:", error);
+      await logAPIUsage({
+        apiName: 'deepseek',
+        endpoint: '/chat/completions',
+        model,
+        status: 'FAILED',
+        errorMessage: `HTTP ${response.status}`,
+      });
       return {
         success: false,
         error: `Deepseek API error: ${response.status}`,
@@ -53,6 +61,17 @@ async function deepseekRequest(
     }
 
     const data = await response.json() as any;
+
+    // Log API usage with token counts
+    const tokensUsed = data.usage?.total_tokens || 0;
+    await logAPIUsage({
+      apiName: 'deepseek',
+      endpoint: '/chat/completions',
+      model,
+      tokensUsed,
+      status: 'SUCCESS',
+    });
+
     return {
       success: true,
       content: data.choices?.[0]?.message?.content,
@@ -103,6 +122,13 @@ async function geminiRequest(
     if (!response.ok) {
       const error = await response.text();
       console.error("Gemini error:", error);
+      await logAPIUsage({
+        apiName: 'gemini',
+        endpoint: '/generateContent',
+        model,
+        status: 'FAILED',
+        errorMessage: `HTTP ${response.status}`,
+      });
       return {
         success: false,
         error: `Gemini API error: ${response.status}`,
@@ -110,6 +136,17 @@ async function geminiRequest(
     }
 
     const data = await response.json() as any;
+
+    // Log API usage (Gemini includes usage data in response)
+    const tokensUsed = data.usageMetadata?.totalTokenCount || 0;
+    await logAPIUsage({
+      apiName: 'gemini',
+      endpoint: '/generateContent',
+      model,
+      tokensUsed,
+      status: 'SUCCESS',
+    });
+
     return {
       success: true,
       content: data.candidates?.[0]?.content?.parts?.[0]?.text,
