@@ -124,6 +124,53 @@ export async function listExpenseMonths(buildingId: string): Promise<string[]> {
   return rows.map((r) => r.month);
 }
 
+export type IssuanceDTO = { month: string; total: number; paid: number; due: number; expenseCount: number; personCount: number; issued: boolean };
+
+/** One row per monthly issuance, with aggregate totals for the accordion table. */
+export async function listIssuances(buildingId: string): Promise<IssuanceDTO[]> {
+  await requireAccess(buildingId);
+  const expenses = await db.buildingExpense.findMany({
+    where: { buildingId },
+    select: {
+      month: true, status: true,
+      allocations: { select: { ownerUserId: true, ownerAmount: true, ownerPaid: true, tenantUserId: true, tenantAmount: true, tenantPaid: true } },
+    },
+  });
+  const map = new Map<string, { total: number; paid: number; expenses: number; people: Set<string>; issued: boolean }>();
+  for (const e of expenses) {
+    let m = map.get(e.month);
+    if (!m) { m = { total: 0, paid: 0, expenses: 0, people: new Set(), issued: false }; map.set(e.month, m); }
+    m.expenses += 1;
+    if (e.status === "ISSUED") m.issued = true;
+    for (const a of e.allocations) {
+      const oa = num(a.ownerAmount), ta = num(a.tenantAmount);
+      if (a.ownerUserId && oa > 0) { m.total += oa; if (a.ownerPaid) m.paid += oa; m.people.add(a.ownerUserId); }
+      if (a.tenantUserId && ta > 0) { m.total += ta; if (a.tenantPaid) m.paid += ta; m.people.add(a.tenantUserId); }
+    }
+  }
+  return [...map.entries()]
+    .map(([month, v]) => ({ month, total: v.total, paid: v.paid, due: v.total - v.paid, expenseCount: v.expenses, personCount: v.people.size, issued: v.issued }))
+    .sort((a, b) => (a.month < b.month ? 1 : -1));
+}
+
+export type MonthExpenseDTO = { id: string; documentDate: string | null; supplier: string | null; category: string | null; amount: number; status: string; receiptUrl: string | null };
+
+/** Lightweight list of a month's expenses for the issuance "Έξοδα" tab. */
+export async function listMonthExpenses(buildingId: string, month: string): Promise<MonthExpenseDTO[]> {
+  await requireAccess(buildingId);
+  const rows = await db.buildingExpense.findMany({
+    where: { buildingId, month },
+    orderBy: [{ documentDate: "desc" }, { createdAt: "desc" }],
+    include: { categoryRef: { select: { name: true } }, receiptFile: { select: { url: true } } },
+  });
+  return rows.map((e) => ({
+    id: e.id,
+    documentDate: e.documentDate ? e.documentDate.toISOString() : null,
+    supplier: e.supplierName, category: e.categoryRef?.name ?? e.category ?? null,
+    amount: num(e.amount), status: e.status, receiptUrl: e.receiptFile?.url ?? null,
+  }));
+}
+
 const MAX_ATTACH_BYTES = 10 * 1024 * 1024;
 const MAX_RECEIPTS = 20;
 
