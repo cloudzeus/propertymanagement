@@ -211,11 +211,15 @@ function PeoplePicker({ buildingId, multi, selected, onChange, placeholder }: {
 }
 
 function InfraModal({ buildingId, floorOptions, editing, onClose, onDone }: { buildingId: string; floorOptions: string[]; editing: InfraRow | null; onClose: () => void; onDone: () => void }) {
+  const router = useRouter();
+  const [tab, setTab] = useState<"info" | "media">("info");
   const [form, setForm] = useState({ name: editing?.name ?? "", type: (editing?.type ?? "OTHER") as InfraType, floorLabel: editing?.floorLabel ?? "", location: editing?.location ?? "", locked: editing?.locked ?? false, notes: editing?.notes ?? "" });
   const [keyHolder, setKeyHolder] = useState<AccessUser[]>(editing?.keyHolderUserId && editing.keyHolderName ? [{ id: editing.keyHolderUserId, name: editing.keyHolderName, email: "" }] : []);
   const [access, setAccess] = useState<AccessUser[]>(editing?.access ?? []);
+  const [media, setMedia] = useState<MediaRow[]>(editing?.media ?? []);
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
+  const mediaInput = useRef<HTMLInputElement>(null);
   const f = (k: keyof typeof form) => (v: string) => setForm((p) => ({ ...p, [k]: v }));
   const floorSelectOpts = [{ value: "", label: "—" }, ...floorOptions.map((o) => ({ value: o, label: o }))];
 
@@ -228,10 +232,54 @@ function InfraModal({ buildingId, floorOptions, editing, onClose, onDone }: { bu
       onDone();
     });
   }
+  function pickMedia(files: FileList | null) {
+    if (!files?.length || !editing) return;
+    startTransition(async () => {
+      for (const raw of Array.from(files)) {
+        const file = await toWebpResized(raw);
+        const fd = new FormData(); fd.set("infraPointId", editing.id); fd.set("file", file);
+        const res = await uploadInfraMedia(fd);
+        if (res && "media" in res && res.media) setMedia((m) => [...m, res.media]);
+      }
+      if (mediaInput.current) mediaInput.current.value = "";
+      router.refresh();
+    });
+  }
+  function delMedia(id: string) {
+    if (!confirm("Διαγραφή αρχείου;")) return;
+    startTransition(async () => { await deleteInfraMedia(id); setMedia((m) => m.filter((x) => x.id !== id)); router.refresh(); });
+  }
+
   return (
     <Modal open onClose={onClose} title={editing ? "Επεξεργασία σημείου" : "Νέο σημείο πρόσβασης"} width={540}
       footer={<><button onClick={onClose} style={cancelBtn}>Ακύρωση</button><button onClick={save} disabled={isPending} style={saveBtn}>{isPending ? <RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> : <RiCheckLine />} Αποθήκευση</button></>}>
       {error && <div style={errBox}>{error}</div>}
+      {editing && (
+        <div style={{ display: "flex", gap: 2, borderBottom: "1px solid var(--border)", marginBottom: 14 }}>
+          {([["info", "Στοιχεία"], ["media", `Φωτο/Βίντεο (${media.length})`]] as const).map(([k, lbl]) => (
+            <button key={k} onClick={() => setTab(k)} style={{ border: "none", background: "transparent", padding: "8px 14px", fontSize: 13, fontWeight: 600, cursor: "pointer", color: tab === k ? "var(--color-primary)" : "var(--muted-foreground)", borderBottom: `2px solid ${tab === k ? "var(--color-primary)" : "transparent"}` }}>{lbl}</button>
+          ))}
+        </div>
+      )}
+
+      {editing && tab === "media" ? (
+        <div>
+          <button onClick={() => mediaInput.current?.click()} disabled={isPending} style={{ ...saveBtn, marginBottom: 14 }}>{isPending ? <RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> : <RiImageAddLine />} Προσθήκη φωτο/βίντεο</button>
+          <input ref={mediaInput} type="file" accept="image/*,video/*" multiple style={{ display: "none" }} onChange={(e) => pickMedia(e.target.files)} />
+          {media.length === 0 ? (
+            <div style={{ color: "var(--muted-foreground)", fontSize: 13, textAlign: "center", padding: 24 }}>Δεν υπάρχουν αρχεία.</div>
+          ) : (
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(110px,1fr))", gap: 10 }}>
+              {media.map((m) => (
+                <div key={m.id} style={{ position: "relative", borderRadius: 6, overflow: "hidden", border: "1px solid var(--border)", height: 90 }}>
+                  {m.type === "VIDEO" ? <video src={m.url} style={{ width: "100%", height: "100%", objectFit: "cover" }} muted /> : <img src={m.url} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />}
+                  <button onClick={() => delMedia(m.id)} disabled={isPending} title="Διαγραφή" style={{ position: "absolute", top: 3, right: 3, width: 20, height: 20, borderRadius: "50%", border: "none", background: "rgba(0,0,0,.6)", color: "#fff", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}><RiDeleteBinLine style={{ fontSize: 12 }} /></button>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      ) : (
       <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
           <FormField label="Όνομα" required><FieldInput value={form.name} onChange={f("name")} placeholder="π.χ. Μετρητές ΔΕΗ" /></FormField>
@@ -247,8 +295,9 @@ function InfraModal({ buildingId, floorOptions, editing, onClose, onDone }: { bu
         <FormField label="Κάτοχος κλειδιού"><PeoplePicker buildingId={buildingId} selected={keyHolder} onChange={setKeyHolder} placeholder="Αναζήτηση προσώπου…" /></FormField>
         <FormField label="Πρόσβαση (ποιοι)"><PeoplePicker buildingId={buildingId} multi selected={access} onChange={setAccess} placeholder="Πρόσθεσε πρόσωπα…" /></FormField>
         <FormField label="Σημειώσεις"><FieldTextarea value={form.notes} onChange={f("notes")} rows={2} /></FormField>
-        {!editing && <p style={{ fontSize: 11, color: "var(--muted-foreground)", margin: 0 }}>Φωτο/βίντεο προστίθενται μετά τη δημιουργία, από την κάρτα (εικόνες → WebP ≤1920px).</p>}
+        {!editing && <p style={{ fontSize: 11, color: "var(--muted-foreground)", margin: 0 }}>Φωτο/βίντεο προστίθενται μετά τη δημιουργία, από την καρτέλα «Φωτο/Βίντεο» (εικόνες → WebP ≤1920px).</p>}
       </div>
+      )}
       <style>{`@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}`}</style>
     </Modal>
   );

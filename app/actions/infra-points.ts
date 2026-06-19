@@ -121,9 +121,9 @@ export async function uploadInfraMedia(formData: FormData) {
   const res = await uploadFile({ path, buffer, contentType: file.type || "application/octet-stream" });
   if (!res.success || !res.url) return { error: res.error || "Αποτυχία ανεβάσματος" };
   const type = (file.type || "").startsWith("video/") ? "VIDEO" : "IMAGE";
-  await db.infraMedia.create({ data: { infraPointId, url: res.url, cdnPath: path, type: type as any, name: file.name } });
+  const row = await db.infraMedia.create({ data: { infraPointId, url: res.url, cdnPath: path, type: type as any, name: file.name } });
   revalidatePath(`/super-admin/buildings/${point.buildingId}`);
-  return { ok: true };
+  return { media: { id: row.id, url: row.url, type: row.type as "IMAGE" | "VIDEO" } };
 }
 
 export async function deleteInfraMedia(mediaId: string) {
