@@ -1,6 +1,10 @@
 import type { NextAuthConfig } from "next-auth";
 
 export const authConfig = {
+  // Behind Coolify's reverse proxy the Host header is the public domain. Trust it
+  // here (shared by proxy.ts middleware AND auth.ts) so Auth.js doesn't reject
+  // requests with UntrustedHost.
+  trustHost: true,
   pages: {
     signIn: "/login",
     error: "/login",

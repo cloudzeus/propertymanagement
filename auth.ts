@@ -6,9 +6,6 @@ import { authConfig } from "./auth.config";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
-  // Behind Coolify's reverse proxy the Host header is the public domain; trust it
-  // so Auth.js doesn't reject /api/auth/* with UntrustedHost.
-  trustHost: true,
   session: { strategy: "jwt", maxAge: 30 * 24 * 60 * 60 },
   providers: [
     Credentials({
