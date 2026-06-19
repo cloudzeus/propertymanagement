@@ -20,7 +20,7 @@ interface DeleteResponse {
 
 async function uploadFile(options: UploadOptions): Promise<UploadResponse> {
   try {
-    const url = `https://ny.storage.bunnycdn.com/${env.BUNNY_STORAGE_ZONE}/${options.path}`;
+    const url = `https://${env.BUNNY_STORAGE_HOST}/${env.BUNNY_STORAGE_ZONE}/${options.path}`;
 
     const response = await fetch(url, {
       method: "PUT",
@@ -71,7 +71,7 @@ async function uploadFile(options: UploadOptions): Promise<UploadResponse> {
 
 async function deleteFile(path: string): Promise<DeleteResponse> {
   try {
-    const url = `https://ny.storage.bunnycdn.com/${env.BUNNY_STORAGE_ZONE}/${path}`;
+    const url = `https://${env.BUNNY_STORAGE_HOST}/${env.BUNNY_STORAGE_ZONE}/${path}`;
 
     const response = await fetch(url, {
       method: "DELETE",
