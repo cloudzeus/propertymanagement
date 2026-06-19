@@ -43,29 +43,29 @@ export function AllocationBreakdown({ expenseId }: { expenseId: string }) {
 
   return (
     <div style={{ gridColumn: "1 / -1" }}>
-      <div style={{ fontSize: 12, fontWeight: 700, margin: "4px 0 6px" }}>Ανάλυση ανά μονάδα</div>
-      <div style={{ overflowX: "auto" }}>
+      <div style={{ fontSize: 11.5, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".03em", color: "var(--muted-foreground)", marginBottom: 10 }}>Ανάλυση ανά μονάδα</div>
+      <div style={{ overflowX: "auto", border: "1px solid var(--border)", borderRadius: 8 }}>
         <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}>
           <thead>
-            <tr style={{ textAlign: "left", color: "var(--muted-foreground)", borderBottom: "1px solid var(--border-subtle)" }}>
-              <th style={c}>Μονάδα</th>
-              <th style={c}>Ιδιοκτήτης</th>
-              <th style={{ ...c, textAlign: "right" }}>Ποσό</th>
-              <th style={c}>Πληρωμή</th>
-              <th style={c}>Ενοικιαστής</th>
-              <th style={{ ...c, textAlign: "right" }}>Ποσό</th>
-              <th style={c}>Πληρωμή</th>
+            <tr style={{ color: "var(--muted-foreground)", background: "var(--bg-canvas)" }}>
+              <th style={{ ...c, borderBottom: "1px solid var(--border)" }} rowSpan={2}>Μονάδα</th>
+              <th style={{ ...grp, borderLeft: "1px solid var(--border)" }} colSpan={3}>Ιδιοκτήτης</th>
+              <th style={{ ...grp, borderLeft: "2px solid var(--border)" }} colSpan={3}>Ενοικιαστής</th>
+            </tr>
+            <tr style={{ color: "var(--muted-foreground)", background: "var(--bg-canvas)", borderBottom: "1px solid var(--border)" }}>
+              <th style={{ ...c, borderLeft: "1px solid var(--border)" }}>Όνομα</th><th style={{ ...c, textAlign: "right" }}>Ποσό</th><th style={c}>Πληρωμή</th>
+              <th style={{ ...c, borderLeft: "2px solid var(--border)" }}>Όνομα</th><th style={{ ...c, textAlign: "right" }}>Ποσό</th><th style={c}>Πληρωμή</th>
             </tr>
           </thead>
           <tbody>
-            {rows.map((r) => (
-              <tr key={r.id} style={{ borderBottom: "1px solid var(--border-subtle)" }}>
+            {rows.map((r, i) => (
+              <tr key={r.id} style={{ borderTop: i ? "1px solid var(--border)" : "none", background: i % 2 ? "color-mix(in srgb, var(--bg-canvas) 45%, transparent)" : "transparent" }}>
                 <td style={c}><b>{r.unitNumber}</b></td>
-                <td style={c}>{r.ownerName ?? "—"}</td>
-                <td style={{ ...c, textAlign: "right" }}>{eur(r.ownerAmount)}</td>
+                <td style={{ ...c, borderLeft: "1px solid var(--border)" }}>{r.ownerName ?? <span style={{ color: "var(--muted-foreground)" }}>—</span>}</td>
+                <td style={{ ...c, textAlign: "right", fontWeight: 600, fontVariantNumeric: "tabular-nums" }}>{eur(r.ownerAmount)}</td>
                 <td style={c}><PayCell paid={r.ownerPaid} method={r.ownerPaymentMethod} disabled={!r.ownerUserId || r.ownerAmount <= 0} onToggle={(p, m) => mark(r.id, "owner", p, m)} /></td>
-                <td style={c}>{r.tenantName ?? "—"}</td>
-                <td style={{ ...c, textAlign: "right" }}>{eur(r.tenantAmount)}</td>
+                <td style={{ ...c, borderLeft: "2px solid var(--border)" }}>{r.tenantName ?? <span style={{ color: "var(--muted-foreground)" }}>—</span>}</td>
+                <td style={{ ...c, textAlign: "right", fontWeight: 600, fontVariantNumeric: "tabular-nums" }}>{eur(r.tenantAmount)}</td>
                 <td style={c}><PayCell paid={r.tenantPaid} method={r.tenantPaymentMethod} disabled={!r.tenantUserId || r.tenantAmount <= 0} onToggle={(p, m) => mark(r.id, "tenant", p, m)} /></td>
               </tr>
             ))}
@@ -99,5 +99,6 @@ function PayCell({ paid, method, disabled, onToggle }: { paid: boolean; method: 
   );
 }
 
-const c: React.CSSProperties = { padding: "5px 8px", verticalAlign: "middle" };
+const c: React.CSSProperties = { padding: "7px 10px", verticalAlign: "middle", fontSize: 11.5 };
+const grp: React.CSSProperties = { padding: "6px 10px", textAlign: "center", fontSize: 10.5, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".03em" };
 const undoBtn: React.CSSProperties = { border: "none", background: "transparent", cursor: "pointer", color: "var(--muted-foreground)", fontSize: 13 };

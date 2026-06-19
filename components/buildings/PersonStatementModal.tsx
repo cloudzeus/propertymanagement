@@ -80,7 +80,7 @@ export function PersonStatementModal({
                 {data.lines.map((l) => {
                   const k = key(l);
                   return (
-                    <tr key={k} style={{ borderBottom: "1px solid var(--border-subtle)" }}>
+                    <tr key={k} style={{ borderBottom: "1px solid var(--border)" }}>
                       <td style={td}>{!l.paid ? <input type="checkbox" checked={sel.has(k)} onChange={() => toggle(k)} /> : null}</td>
                       <td style={td}>{l.category ?? "—"}</td>
                       <td style={td}>{l.supplier ?? "—"}<div style={{ fontSize: 10, color: "var(--muted-foreground)" }}>{fmtDate(l.documentDate)}{l.documentNumber ? " · " + l.documentNumber : ""}</div></td>
@@ -100,7 +100,7 @@ export function PersonStatementModal({
             </table>
           </div>
 
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", gap: 10, borderTop: "1px solid var(--border-subtle)", paddingTop: 12 }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", gap: 10, borderTop: "1px solid var(--border)", paddingTop: 12 }}>
             <span style={{ fontSize: 12, color: "var(--muted-foreground)" }}>{sel.size} επιλεγμένα</span>
             <select value={method} onChange={(e) => setMethod(e.target.value as PaymentMethod)} style={{ height: 34, padding: "0 10px", borderRadius: 6, border: "1px solid var(--border-strong)", background: "var(--bg-canvas)", fontSize: 13 }}>
               {METHODS.map((m) => <option key={m.value} value={m.value}>{m.label}</option>)}
@@ -116,7 +116,7 @@ export function PersonStatementModal({
 
 function Stat({ label, value, color }: { label: string; value: string; color?: string }) {
   return (
-    <div style={{ border: "1px solid var(--border-strong)", borderRadius: 8, padding: "6px 12px", background: "var(--bg-surface)", minWidth: 100 }}>
+    <div style={{ border: "1px solid var(--border-strong)", borderRadius: 8, padding: "6px 12px", background: "var(--card)", minWidth: 100 }}>
       <div style={{ fontSize: 10, color: "var(--muted-foreground)", fontWeight: 600 }}>{label}</div>
       <div style={{ fontSize: 15, fontWeight: 800, color: color ?? "var(--foreground)" }}>{value}</div>
     </div>

@@ -142,6 +142,6 @@ const backBtn: React.CSSProperties = {
 
 const row: React.CSSProperties = {
   display: "flex", alignItems: "center", gap: 10,
-  padding: "8px 10px", borderRadius: 6, border: "1px solid var(--border-subtle)",
-  background: "var(--bg-surface)", cursor: "pointer", textAlign: "left", width: "100%",
+  padding: "8px 10px", borderRadius: 6, border: "1px solid var(--border)",
+  background: "var(--card)", cursor: "pointer", textAlign: "left", width: "100%",
 };

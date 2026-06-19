@@ -114,7 +114,7 @@ export function ExpensesPanel({
                 const isOpen = expanded.has(e.id);
                 return (
                   <Fragment key={e.id}>
-                    <tr style={{ borderBottom: "1px solid var(--border-subtle)" }}>
+                    <tr style={{ borderBottom: "1px solid var(--border)" }}>
                       <td style={td}><input type="checkbox" checked={selected.has(e.id)} disabled={e.status === "ISSUED"} onChange={() => toggle(e.id)} /></td>
                       <td style={td}><button onClick={() => toggleExpand(e.id)} style={iconBtn} title="Λεπτομέρειες">{isOpen ? <RiArrowDownSLine /> : <RiArrowRightSLine />}</button></td>
                       <td style={td}>{fmtDate(e.documentDate)}</td>
@@ -145,27 +145,33 @@ export function ExpensesPanel({
                     {isOpen && (
                       <tr>
                         <td colSpan={9} style={{ padding: 0 }}>
-                          <div style={detailWrap}>
-                            <Detail label="Αρ. παραστατικού" value={e.documentNumber ?? "—"} />
-                            <Detail label="ΑΦΜ προμηθευτή" value={e.supplierVat ?? "—"} />
-                            <Detail label="Μήνας" value={e.month} />
-                            <Detail label="Καθαρή αξία" value={eur(e.netAmount)} />
-                            <Detail label="ΦΠΑ" value={eur(e.vatAmount)} />
-                            <Detail label="Σύνολο" value={eur(e.amount)} />
-                            <Detail label="Επιμερισμός" value={`Ενοικιαστής ${e.tenantPct}% / Ιδιοκτήτης ${e.ownerPct}%`} />
-                            <Detail label="Κατανομή σε μονάδες" value={`${e.allocationsCount}`} />
-                            <Detail label="Αξιοπιστία OCR" value={e.ocrConfidence != null ? `${Math.round(e.ocrConfidence * 100)}%` : "—"} />
-                            <Detail label="Περιγραφή" value={e.description ?? "—"} />
-                            {e.paid && <Detail label="Πληρωμή" value={`${e.paymentMethod ? PM_LABEL[e.paymentMethod] ?? e.paymentMethod : "Ναι"}${e.paidAt ? " · " + fmtDate(e.paidAt) : ""}`} />}
-                            {e.status === "ISSUED" && <Detail label="Έκδοση κοινοχρήστων" value={e.issuedMonth ?? "—"} />}
-                            {e.meter && (
-                              <Detail label="Ένδειξη μετρητή" value={`${e.meter.meterType}${e.meter.meterNumber ? " #" + e.meter.meterNumber : ""} · ${e.meter.previousReading ?? "—"} → ${e.meter.currentReading ?? "—"}${e.meter.consumption != null ? " (" + e.meter.consumption + " " + (e.meter.unit ?? "") + ")" : ""}`} />
-                            )}
-                            <div style={{ display: "flex", gap: 10, gridColumn: "1 / -1", marginTop: 4 }}>
-                              {e.receiptUrl && <a href={e.receiptUrl} target="_blank" rel="noreferrer" style={linkBtn}><RiFileTextLine /> Παραστατικό</a>}
-                              {e.paymentUrl && <a href={e.paymentUrl} target="_blank" rel="noreferrer" style={linkBtn}><RiSecurePaymentLine /> Απόδειξη πληρωμής</a>}
+                          <div style={detailContainer}>
+                            <div style={sectionCard}>
+                              <div style={sectionTitle}>Στοιχεία παραστατικού</div>
+                              <div style={detailGrid}>
+                                <Detail label="Αρ. παραστατικού" value={e.documentNumber ?? "—"} />
+                                <Detail label="ΑΦΜ προμηθευτή" value={e.supplierVat ?? "—"} />
+                                <Detail label="Μήνας" value={e.month} />
+                                <Detail label="Καθαρή αξία" value={eur(e.netAmount)} />
+                                <Detail label="ΦΠΑ" value={eur(e.vatAmount)} />
+                                <Detail label="Σύνολο" value={eur(e.amount)} strong />
+                                <Detail label="Επιμερισμός" value={`Ενοικ. ${e.tenantPct}% · Ιδιοκτ. ${e.ownerPct}%`} />
+                                <Detail label="Αξιοπιστία OCR" value={e.ocrConfidence != null ? `${Math.round(e.ocrConfidence * 100)}%` : "—"} />
+                                {e.paid && <Detail label="Πληρωμή" value={`${e.paymentMethod ? PM_LABEL[e.paymentMethod] ?? e.paymentMethod : "Ναι"}${e.paidAt ? " · " + fmtDate(e.paidAt) : ""}`} />}
+                                {e.status === "ISSUED" && <Detail label="Έκδοση κοινοχρήστων" value={e.issuedMonth ?? "—"} />}
+                                {e.meter && (
+                                  <Detail label="Ένδειξη μετρητή" value={`${e.meter.meterType}${e.meter.meterNumber ? " #" + e.meter.meterNumber : ""} · ${e.meter.previousReading ?? "—"} → ${e.meter.currentReading ?? "—"}${e.meter.consumption != null ? " (" + e.meter.consumption + " " + (e.meter.unit ?? "") + ")" : ""}`} />
+                                )}
+                                {e.description && <Detail label="Περιγραφή" value={e.description} />}
+                              </div>
+                              {(e.receiptUrl || e.paymentUrl) && (
+                                <div style={{ display: "flex", gap: 14, marginTop: 12, paddingTop: 12, borderTop: "1px solid var(--border)" }}>
+                                  {e.receiptUrl && <a href={e.receiptUrl} target="_blank" rel="noreferrer" style={linkBtn}><RiFileTextLine /> Παραστατικό</a>}
+                                  {e.paymentUrl && <a href={e.paymentUrl} target="_blank" rel="noreferrer" style={linkBtn}><RiSecurePaymentLine /> Απόδειξη πληρωμής</a>}
+                                </div>
+                              )}
                             </div>
-                            {e.allocationsCount > 0 && <AllocationBreakdown expenseId={e.id} />}
+                            {e.allocationsCount > 0 && <div style={sectionCard}><AllocationBreakdown expenseId={e.id} /></div>}
                           </div>
                         </td>
                       </tr>
@@ -183,11 +189,11 @@ export function ExpensesPanel({
   );
 }
 
-function Detail({ label, value }: { label: string; value: string }) {
+function Detail({ label, value, strong }: { label: string; value: string; strong?: boolean }) {
   return (
     <div>
-      <div style={{ fontSize: 11, color: "var(--muted-foreground)" }}>{label}</div>
-      <div style={{ fontSize: 13, fontWeight: 500 }}>{value}</div>
+      <div style={{ fontSize: 10.5, color: "var(--muted-foreground)", fontWeight: 600, textTransform: "uppercase", letterSpacing: ".02em", marginBottom: 2 }}>{label}</div>
+      <div style={{ fontSize: 13, fontWeight: strong ? 700 : 500, fontVariantNumeric: "tabular-nums" }}>{value}</div>
     </div>
   );
 }
@@ -196,8 +202,11 @@ const th: React.CSSProperties = { padding: "8px 10px", fontWeight: 600, fontSize
 const td: React.CSSProperties = { padding: "8px 10px", verticalAlign: "middle" };
 const badge: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 3, padding: "1px 8px", borderRadius: 999, border: "1px solid", fontSize: 11, fontWeight: 600 };
 const iconBtn: React.CSSProperties = { display: "inline-flex", alignItems: "center", justifyContent: "center", width: 28, height: 28, borderRadius: 6, border: "none", background: "transparent", cursor: "pointer", color: "var(--foreground)", fontSize: 16 };
-const menu: React.CSSProperties = { position: "absolute", right: 8, top: 36, zIndex: 41, minWidth: 190, background: "var(--bg-surface)", border: "1px solid var(--border-strong)", borderRadius: 8, boxShadow: "0 8px 24px rgba(0,0,0,0.14)", padding: 4, display: "flex", flexDirection: "column" };
+const menu: React.CSSProperties = { position: "absolute", right: 8, top: 36, zIndex: 41, minWidth: 190, background: "var(--card)", border: "1px solid var(--border-strong)", borderRadius: 8, boxShadow: "0 8px 24px rgba(0,0,0,0.14)", padding: 4, display: "flex", flexDirection: "column" };
 const menuItem: React.CSSProperties = { display: "flex", alignItems: "center", gap: 8, padding: "8px 10px", borderRadius: 6, border: "none", background: "transparent", cursor: "pointer", fontSize: 13, color: "var(--foreground)", textAlign: "left", width: "100%", textDecoration: "none" };
-const detailWrap: React.CSSProperties = { display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))", gap: 12, padding: "12px 16px", background: "var(--bg-canvas)", borderBottom: "1px solid var(--border-subtle)" };
+const detailContainer: React.CSSProperties = { display: "flex", flexDirection: "column", gap: 12, padding: 16, background: "var(--bg-canvas)", borderBottom: "1px solid var(--border)" };
+const sectionCard: React.CSSProperties = { background: "var(--card)", border: "1px solid var(--border)", borderRadius: 10, padding: 14 };
+const sectionTitle: React.CSSProperties = { fontSize: 11.5, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".03em", color: "var(--muted-foreground)", marginBottom: 12 };
+const detailGrid: React.CSSProperties = { display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(170px, 1fr))", gap: "14px 18px" };
 const btnIssue: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 6, height: 36, padding: "0 14px", borderRadius: 6, border: "1px solid #16a34a", background: "#16a34a", color: "#fff", fontSize: 13, fontWeight: 600, cursor: "pointer" };
 const linkBtn: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 5, fontSize: 12, color: "var(--color-primary)", textDecoration: "none" };

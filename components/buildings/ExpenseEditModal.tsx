@@ -158,7 +158,7 @@ export function ExpenseEditModal({
         <div><label style={lbl}>Περιγραφή</label><input value={f.description} onChange={(e) => set("description", e.target.value)} style={inp} /></div>
 
         {isUtility && (
-          <fieldset style={{ border: "1px solid var(--border-subtle)", borderRadius: 8, padding: 10 }}>
+          <fieldset style={{ border: "1px solid var(--border)", borderRadius: 8, padding: 10 }}>
             <legend style={{ fontSize: 12, fontWeight: 600, padding: "0 6px" }}>Ένδειξη μετρητή</legend>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 8 }}>
               <div><label style={lbl}>Αρ. μετρητή</label><input value={meter.meterNumber} onChange={(e) => setM("meterNumber", e.target.value)} style={inp} /></div>
@@ -173,7 +173,7 @@ export function ExpenseEditModal({
           </fieldset>
         )}
 
-        <fieldset style={{ border: "1px solid var(--border-subtle)", borderRadius: 8, padding: 10 }}>
+        <fieldset style={{ border: "1px solid var(--border)", borderRadius: 8, padding: 10 }}>
           <legend style={{ fontSize: 12, fontWeight: 600, padding: "0 6px" }}>Πληρωμή</legend>
           <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, marginBottom: 8 }}>
             <input type="checkbox" checked={f.paid} onChange={(e) => set("paid", e.target.checked)} /> Πληρώθηκε
