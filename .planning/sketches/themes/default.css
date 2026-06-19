@@ -1,28 +1,35 @@
+/* Synced with the central app (app/globals.css): Geist font, Fluent blue primary
+   (#0078D4), DG Red as accent (#E31E2A), same greys / borders / canvas. */
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&display=swap');
+
 :root {
-  /* DG / Fluent 2 — light */
-  --color-bg: #f3f2f1;
-  --color-canvas: #faf9f8;
-  --color-surface: #ffffff;
-  --color-border: #e1dfdd;
-  --color-border-strong: #c8c6c4;
-  --color-text: #201f1e;
-  --color-text-muted: #605e5c;
-  --color-primary: #e31e2a;       /* DG Red */
-  --color-primary-hover: #c50f1f;
-  --color-primary-soft: #fde7e9;
-  --color-blue: #0078d4;          /* Fluent accent */
-  --color-blue-soft: #deecf9;
-  --color-purple: #8764b8;
-  --color-purple-soft: #efe9f6;
-  --color-orange: #ca5d00;
-  --color-orange-soft: #fdf0e3;
-  --color-green: #107c10;
-  --color-green-soft: #dff6dd;
-  --color-danger: #c50f1f;
+  /* Surfaces — match globals.css */
+  --color-bg: #F3F2F1;          /* --bg-canvas */
+  --color-canvas: #FAFAFA;      /* --bg-elevated */
+  --color-surface: #FFFFFF;     /* --card */
+  --color-border: #E1DFDD;
+  --color-border-strong: #C8C6C4;
+  --color-text: #201F1E;        /* --foreground */
+  --color-text-muted: #707070;  /* --muted-foreground */
+
+  /* Primary = Fluent blue (central app primary), DG Red is the accent */
+  --color-primary: #0078D4;
+  --color-primary-hover: #005A9E;
+  --color-primary-soft: #DEECF9;
+  --color-accent: #E31E2A;      /* DG Red */
+  --color-accent-soft: #FDE7E9;
+
+  --color-blue: #0078D4;  --color-blue-soft: #DEECF9;
+  --color-purple: #8764B8; --color-purple-soft: #EFE9F6;
+  --color-teal: #038387;
+  --color-orange: #CA5D00; --color-orange-soft: #FDF0E3;  /* --color-warning */
+  --color-green: #107C10;  --color-green-soft: #DFF6DD;   /* --color-success */
+  --color-danger: #A4262C; --color-danger-soft: #FDE7E9;
   --color-grey: #707070;
 
-  --font-sans: 'Segoe UI', system-ui, -apple-system, sans-serif;
-  --font-mono: 'Consolas', 'JetBrains Mono', monospace;
+  /* Type — Geist, matching the app's --font-sans fallback chain */
+  --font-sans: 'Geist', "Segoe UI Variable", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-geist-mono, 'Geist Mono', 'Consolas', monospace);
   --text-xs: 0.6875rem;
   --text-sm: 0.8125rem;
   --text-base: 0.875rem;
@@ -33,6 +40,7 @@
   --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px;
   --space-6: 24px; --space-8: 32px; --space-12: 48px;
 
+  /* Radius — match app (--radius 8, --radius-sm 4) */
   --radius-sm: 4px; --radius-md: 8px; --radius-lg: 12px; --radius-full: 9999px;
 
   --shadow-sm: 0 1px 2px rgba(0,0,0,0.06);
