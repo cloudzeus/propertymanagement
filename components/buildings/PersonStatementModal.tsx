@@ -15,9 +15,9 @@ const fmtDate = (s: string | null) => { if (!s) return "—"; try { return new D
 const PM_LABEL: Record<string, string> = { CARD: "Κάρτα", CASH: "Μετρητά", VIVA: "Viva", BANK_TRANSFER: "Τράπεζα", CHECK: "Επιταγή", OTHER: "Άλλο" };
 
 export function PersonStatementModal({
-  open, onClose, buildingId, month, userId, onChanged,
+  open, onClose, buildingId, userId, onChanged,
 }: {
-  open: boolean; onClose: () => void; buildingId: string; month: string; userId: string; onChanged?: () => void;
+  open: boolean; onClose: () => void; buildingId: string; userId: string; onChanged?: () => void;
 }) {
   const [data, setData] = useState<PersonStatement | null>(null);
   const [sel, setSel] = useState<Set<string>>(new Set());
@@ -27,9 +27,9 @@ export function PersonStatementModal({
 
   function load() {
     setData(null);
-    getPersonStatement(buildingId, month, userId).then((d) => { setData(d); setSel(new Set()); }).catch((e) => setError(e instanceof Error ? e.message : "Σφάλμα"));
+    getPersonStatement(buildingId, userId).then((d) => { setData(d); setSel(new Set()); }).catch((e) => setError(e instanceof Error ? e.message : "Σφάλμα"));
   }
-  useEffect(() => { if (open) load(); /* eslint-disable-next-line */ }, [open, buildingId, month, userId]);
+  useEffect(() => { if (open) load(); /* eslint-disable-next-line */ }, [open, buildingId, userId]);
 
   const unpaid = data?.lines.filter((l) => !l.paid) ?? [];
   const key = (l: { allocationId: string; party: string }) => `${l.allocationId}:${l.party}`;
@@ -54,7 +54,7 @@ export function PersonStatementModal({
   }
 
   return (
-    <Modal open={open} onClose={onClose} title={data ? `Καρτέλα — ${data.name}` : "Καρτέλα προσώπου"} width={720}>
+    <Modal open={open} onClose={onClose} title={data ? `Καρτέλα — ${data.name}` : "Καρτέλα προσώπου"} width={860}>
       {error && <div style={{ padding: 10, borderRadius: 6, background: "color-mix(in srgb, var(--color-danger) 12%, transparent)", border: "1px solid var(--color-danger)", color: "var(--color-danger)", fontSize: 12, marginBottom: 10 }}>{error}</div>}
       {!data ? (
         <div style={{ padding: 20, color: "var(--muted-foreground)", display: "flex", alignItems: "center", gap: 6 }}><RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> Φόρτωση…</div>
@@ -72,7 +72,7 @@ export function PersonStatementModal({
               <thead>
                 <tr style={{ textAlign: "left", color: "var(--muted-foreground)", borderBottom: "1px solid var(--border-strong)" }}>
                   <th style={th}><input type="checkbox" checked={allUnpaidSelected} onChange={toggleAll} disabled={!unpaid.length} title="Επιλογή ανεξόφλητων" /></th>
-                  <th style={th}>Κατηγορία</th><th style={th}>Προμηθευτής</th><th style={th}>Μονάδα</th><th style={th}>Ιδιότητα</th>
+                  <th style={th}>Μήνας</th><th style={th}>Κατηγορία</th><th style={th}>Προμηθευτής</th><th style={th}>Μονάδα</th><th style={th}>Ιδιότητα</th>
                   <th style={{ ...th, textAlign: "right" }}>Ποσό</th><th style={th}>Κατάσταση</th>
                 </tr>
               </thead>
@@ -82,11 +82,12 @@ export function PersonStatementModal({
                   return (
                     <tr key={k} style={{ borderBottom: "1px solid var(--border)" }}>
                       <td style={td}>{!l.paid ? <input type="checkbox" checked={sel.has(k)} onChange={() => toggle(k)} /> : null}</td>
+                      <td style={{ ...td, whiteSpace: "nowrap", fontVariantNumeric: "tabular-nums", color: "var(--muted-foreground)" }}>{l.month}</td>
                       <td style={td}>{l.category ?? "—"}</td>
                       <td style={td}>{l.supplier ?? "—"}<div style={{ fontSize: 10, color: "var(--muted-foreground)" }}>{fmtDate(l.documentDate)}{l.documentNumber ? " · " + l.documentNumber : ""}</div></td>
                       <td style={td}>{l.unitNumber}</td>
                       <td style={td}>{l.party === "owner" ? "Ιδιοκτήτης" : "Ενοικιαστής"}</td>
-                      <td style={{ ...td, textAlign: "right", fontWeight: 600 }}>{eur(l.amount)}</td>
+                      <td style={{ ...td, textAlign: "right", fontWeight: 600, whiteSpace: "nowrap", fontVariantNumeric: "tabular-nums" }}>{eur(l.amount)}</td>
                       <td style={td}>
                         {l.paid
                           ? <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}><span style={{ color: "#16a34a", fontWeight: 600, display: "inline-flex", alignItems: "center", gap: 2 }}><RiCheckLine /> {l.paymentMethod ? PM_LABEL[l.paymentMethod] ?? "Ναι" : "Πληρωμένο"}</span><button onClick={() => unpay(l)} disabled={pending} style={undoBtn} title="Αναίρεση">↺</button></span>
@@ -95,7 +96,7 @@ export function PersonStatementModal({
                     </tr>
                   );
                 })}
-                {data.lines.length === 0 && <tr><td colSpan={7} style={{ ...td, textAlign: "center", color: "var(--muted-foreground)" }}>Καμία κίνηση.</td></tr>}
+                {data.lines.length === 0 && <tr><td colSpan={8} style={{ ...td, textAlign: "center", color: "var(--muted-foreground)" }}>Καμία κίνηση.</td></tr>}
               </tbody>
             </table>
           </div>

@@ -176,7 +176,7 @@ export async function listMonthExpenses(buildingId: string, month: string): Prom
 // ── Per-person statement (movements / balance) ───────────────────────────────
 
 export type StatementLine = {
-  allocationId: string; party: "owner" | "tenant";
+  allocationId: string; party: "owner" | "tenant"; month: string;
   expenseId: string; category: string | null; supplier: string | null; documentNumber: string | null; documentDate: string | null;
   unitNumber: string; amount: number; paid: boolean; paymentMethod: string | null;
 };
@@ -185,12 +185,15 @@ export type PersonStatement = {
   total: number; paid: number; due: number; lines: StatementLine[];
 };
 
-export async function getPersonStatement(buildingId: string, month: string, userId: string): Promise<PersonStatement> {
+/** Full ledger for one person. Pass `month` to scope to a single issuance, or
+ *  omit it to get the person's entire history across all months. */
+export async function getPersonStatement(buildingId: string, userId: string, month?: string): Promise<PersonStatement> {
   await requireAccess(buildingId);
   const [user, expenses] = await Promise.all([
     db.user.findUnique({ where: { id: userId }, select: { name: true, email: true } }),
     db.buildingExpense.findMany({
-      where: { buildingId, month },
+      where: { buildingId, ...(month ? { month } : {}) },
+      orderBy: [{ documentDate: "desc" }, { createdAt: "desc" }],
       include: { categoryRef: { select: { name: true } }, allocations: { include: { unit: { select: { unitNumber: true } } } } },
     }),
   ]);
@@ -198,7 +201,7 @@ export async function getPersonStatement(buildingId: string, month: string, user
   const units = new Set<string>();
   let total = 0, paid = 0;
   for (const e of expenses) {
-    const base = { expenseId: e.id, category: e.categoryRef?.name ?? e.category ?? null, supplier: e.supplierName, documentNumber: e.documentNumber, documentDate: e.documentDate ? e.documentDate.toISOString() : null };
+    const base = { month: e.month, expenseId: e.id, category: e.categoryRef?.name ?? e.category ?? null, supplier: e.supplierName, documentNumber: e.documentNumber, documentDate: e.documentDate ? e.documentDate.toISOString() : null };
     for (const a of e.allocations) {
       if (a.ownerUserId === userId && num(a.ownerAmount) > 0) {
         const amt = num(a.ownerAmount); total += amt; if (a.ownerPaid) paid += amt; units.add(a.unit.unitNumber);

@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "timestamp": "2026-06-19T19:06:03.898Z",
+  "timestamp": "2026-06-19T19:40:08.951Z",
   "source": "auto-postool",
   "partial": false,
   "phase": null,
@@ -22,19 +22,7 @@
     },
     {
       "status": "M",
-      "path": "components/buildings/AllocationBreakdown.tsx"
-    },
-    {
-      "status": "M",
-      "path": "components/buildings/ExpenseEditModal.tsx"
-    },
-    {
-      "status": "M",
-      "path": "components/buildings/ExpensesPanel.tsx"
-    },
-    {
-      "status": "M",
-      "path": "components/buildings/GlobalExpenseButton.tsx"
+      "path": "app/actions/koinochrista.ts"
     },
     {
       "status": "M",
@@ -46,5 +34,5 @@
     }
   ],
   "next_action": null,
-  "context_notes": "Recent commits:\n82f28ac feat(koinochrista): surface unallocated (αδιάθετα) shares — charges on units with no assigned resident/owner\n5f0d7a7 fix(koinochrista): person actions menu was clipped by overflow-x container — render as fixed-positioned dropdown anchored to the button\n97dc8e1 design(koinochrista): world-class UI pass — Fluent 2 motion, avatars, status dots, progress, segmented tabs\n246db55 feat(koinochrista): per-person actions dropdown (Πληρωμή / Λεπτομέρειες / Υπενθύμιση) + statement modal\n118ebf1 feat(koinochrista): redesign tab as accordion data table of all monthly issuances"
+  "context_notes": "Recent commits:\n1c843fc fix(ui): use defined tokens (--card/--border) across expense+koinochrista components + readability pass\n82f28ac feat(koinochrista): surface unallocated (αδιάθετα) shares — charges on units with no assigned resident/owner\n5f0d7a7 fix(koinochrista): person actions menu was clipped by overflow-x container — render as fixed-positioned dropdown anchored to the button\n97dc8e1 design(koinochrista): world-class UI pass — Fluent 2 motion, avatars, status dots, progress, segmented tabs\n246db55 feat(koinochrista): per-person actions dropdown (Πληρωμή / Λεπτομέρειες / Υπενθύμιση) + statement modal"
 }

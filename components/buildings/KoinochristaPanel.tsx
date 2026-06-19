@@ -260,7 +260,7 @@ function IssuanceDetail({ buildingId, month, unallocated, onChanged }: { buildin
       )}
 
       {statementUser && (
-        <PersonStatementModal open={!!statementUser} onClose={() => setStatementUser(null)} buildingId={buildingId} month={month} userId={statementUser} onChanged={() => { reloadPeople(); onChanged?.(); }} />
+        <PersonStatementModal open={!!statementUser} onClose={() => setStatementUser(null)} buildingId={buildingId} userId={statementUser} onChanged={() => { reloadPeople(); onChanged?.(); }} />
       )}
     </div>
   );
