@@ -31,10 +31,14 @@ function validateEnv() {
 }
 validateEnv();
 
-// Tolerate alternate var names actually provided in deployment (Coolify / BunnyCDN).
+// BunnyCDN via S3-compatible API.
+// Public pull-zone URL: BUNNY_CDN_URL, else the b-cdn.net host that the project
+// stores in BUNNY_STORAGE_API_HOST, else the default zone pull zone.
+const cdnRaw = process.env.BUNNY_CDN_URL
+  ?? process.env.BUNNY_STORAGE_API_HOST
+  ?? (process.env.BUNNY_STORAGE_ZONE ? `https://${process.env.BUNNY_STORAGE_ZONE}.b-cdn.net` : "");
+const BUNNY_CDN = cdnRaw.replace(/\/+$/, "");
 const BUNNY_KEY = process.env.BUNNY_API_KEY ?? process.env.BUNNY_ACCESS_KEY ?? "";
-const BUNNY_HOST = process.env.BUNNY_STORAGE_API_HOST ?? "storage.bunnycdn.com";
-const BUNNY_CDN = process.env.BUNNY_CDN_URL ?? (process.env.BUNNY_STORAGE_ZONE ? `https://${process.env.BUNNY_STORAGE_ZONE}.b-cdn.net` : "");
 
 export const env = {
   // Database
@@ -49,11 +53,13 @@ export const env = {
   MAILGUN_API_KEY: process.env.MAILGUN_API_KEY ?? "",
   MAILGUN_FROM_EMAIL: process.env.MAILGUN_FROM_EMAIL ?? "",
 
-  // BunnyCDN (storage REST API)
+  // BunnyCDN (S3-compatible API)
   BUNNY_API_KEY: BUNNY_KEY,
   BUNNY_STORAGE_ZONE: process.env.BUNNY_STORAGE_ZONE ?? "",
-  BUNNY_STORAGE_HOST: BUNNY_HOST,
   BUNNY_CDN_URL: BUNNY_CDN,
+  BUNNY_S3_ENDPOINT: process.env.BUNNY_S3_REGION_ENDPOINT ?? "",
+  BUNNY_S3_ACCESS: process.env.BUNNY_ACCESS_KEY ?? "",
+  BUNNY_S3_SECRET: process.env.BUNNY_S3_REGION_SECRET_KEY ?? "",
 
   // AI Services (Optional)
   DEEPSEEK_API_KEY: process.env.DEEPSEEK_API_KEY,

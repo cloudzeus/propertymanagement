@@ -1,5 +1,6 @@
 import { env } from "./env";
 import { logAPIUsage } from "./api-costs";
+import { S3Client, PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
 
 interface UploadOptions {
   path: string; // e.g., "properties/123/logo.jpg"
@@ -18,96 +19,51 @@ interface DeleteResponse {
   error?: string;
 }
 
+// Region code is the prefix of the S3 endpoint host (e.g. "de" from de-s3.storage.bunnycdn.com).
+function s3Region(): string {
+  const m = env.BUNNY_S3_ENDPOINT.match(/\/\/([a-z0-9]+)-s3\./i);
+  return m ? m[1] : "de";
+}
+
+let _s3: S3Client | null = null;
+function s3(): S3Client {
+  if (!_s3) {
+    _s3 = new S3Client({
+      endpoint: env.BUNNY_S3_ENDPOINT,
+      region: s3Region(),
+      forcePathStyle: true,
+      credentials: { accessKeyId: env.BUNNY_S3_ACCESS, secretAccessKey: env.BUNNY_S3_SECRET },
+    });
+  }
+  return _s3;
+}
+
 async function uploadFile(options: UploadOptions): Promise<UploadResponse> {
   try {
-    const url = `https://${env.BUNNY_STORAGE_HOST}/${env.BUNNY_STORAGE_ZONE}/${options.path}`;
+    await s3().send(new PutObjectCommand({
+      Bucket: env.BUNNY_STORAGE_ZONE,
+      Key: options.path,
+      Body: options.buffer,
+      ContentType: options.contentType || "application/octet-stream",
+    }));
 
-    const response = await fetch(url, {
-      method: "PUT",
-      headers: {
-        AccessKey: env.BUNNY_API_KEY,
-        "Content-Type": options.contentType || "application/octet-stream",
-      },
-      body: options.buffer,
-    });
-
-    if (!response.ok) {
-      const error = await response.text();
-      console.error("BunnyCDN upload error:", error);
-      await logAPIUsage({
-        apiName: 'bunnycdn',
-        endpoint: '/storage',
-        bytesProcessed: options.buffer.length,
-        status: 'FAILED',
-        errorMessage: `HTTP ${response.status}`,
-      });
-      return {
-        success: false,
-        error: `Upload failed: ${response.status}`,
-      };
-    }
-
-    // Log successful upload
-    await logAPIUsage({
-      apiName: 'bunnycdn',
-      endpoint: '/storage',
-      bytesProcessed: options.buffer.length,
-      status: 'SUCCESS',
-    });
-
-    const cdnUrl = `${env.BUNNY_CDN_URL}/${options.path}`;
-    return {
-      success: true,
-      url: cdnUrl,
-    };
+    await logAPIUsage({ apiName: "bunnycdn", endpoint: "/s3", bytesProcessed: options.buffer.length, status: "SUCCESS" });
+    return { success: true, url: `${env.BUNNY_CDN_URL}/${options.path}` };
   } catch (error) {
-    console.error("BunnyCDN error:", error);
-    return {
-      success: false,
-      error: error instanceof Error ? error.message : "Unknown error",
-    };
+    console.error("BunnyCDN S3 upload error:", error);
+    await logAPIUsage({ apiName: "bunnycdn", endpoint: "/s3", bytesProcessed: options.buffer.length, status: "FAILED", errorMessage: error instanceof Error ? error.message : "unknown" });
+    return { success: false, error: error instanceof Error ? error.message : "Upload failed" };
   }
 }
 
 async function deleteFile(path: string): Promise<DeleteResponse> {
   try {
-    const url = `https://${env.BUNNY_STORAGE_HOST}/${env.BUNNY_STORAGE_ZONE}/${path}`;
-
-    const response = await fetch(url, {
-      method: "DELETE",
-      headers: {
-        AccessKey: env.BUNNY_API_KEY,
-      },
-    });
-
-    if (!response.ok) {
-      console.error("BunnyCDN delete error:", response.status);
-      await logAPIUsage({
-        apiName: 'bunnycdn',
-        endpoint: '/storage',
-        status: 'FAILED',
-        errorMessage: `HTTP ${response.status}`,
-      });
-      return {
-        success: false,
-        error: `Delete failed: ${response.status}`,
-      };
-    }
-
-    // Log successful delete
-    await logAPIUsage({
-      apiName: 'bunnycdn',
-      endpoint: '/storage',
-      status: 'SUCCESS',
-    });
-
+    await s3().send(new DeleteObjectCommand({ Bucket: env.BUNNY_STORAGE_ZONE, Key: path }));
+    await logAPIUsage({ apiName: "bunnycdn", endpoint: "/s3", status: "SUCCESS" });
     return { success: true };
   } catch (error) {
-    console.error("BunnyCDN error:", error);
-    return {
-      success: false,
-      error: error instanceof Error ? error.message : "Unknown error",
-    };
+    console.error("BunnyCDN S3 delete error:", error);
+    return { success: false, error: error instanceof Error ? error.message : "Delete failed" };
   }
 }
 
