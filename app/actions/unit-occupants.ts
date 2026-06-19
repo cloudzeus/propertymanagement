@@ -9,19 +9,36 @@ async function requireStaff() {
   const session = await auth();
   if (!session?.user) throw new Error("Unauthorized");
   const user = await db.user.findUnique({ where: { id: session.user.id as string }, select: { role: true } });
-  // Super-admin / admin (provider) or a property admin (customer) may manage occupants
   if (!["SUPER_ADMIN", "ADMIN", "MANAGER", "PROPERTY_ADMIN"].includes(user?.role ?? "")) throw new Error("Forbidden");
   return user!.role as string;
 }
 
-type Ctx = { propertyId: string; companyId: string; customerId: string };
+type Ctx = { buildingId: string; propertyId: string; companyId: string; customerId: string };
 async function unitContext(unitId: string): Promise<Ctx> {
   const unit = await db.unit.findUnique({
     where: { id: unitId },
-    select: { building: { select: { propertyId: true, companyId: true, property: { select: { customerId: true } } } } },
+    select: { buildingId: true, building: { select: { propertyId: true, companyId: true, property: { select: { customerId: true } } } } },
   });
   if (!unit) throw new Error("Unit not found");
-  return { propertyId: unit.building.propertyId, companyId: unit.building.companyId, customerId: unit.building.property.customerId };
+  return { buildingId: unit.buildingId, propertyId: unit.building.propertyId, companyId: unit.building.companyId, customerId: unit.building.property.customerId };
+}
+
+function revalidate(ctx: Ctx) {
+  revalidatePath(`/super-admin/properties/${ctx.propertyId}`);
+  revalidatePath(`/super-admin/buildings/${ctx.buildingId}`);
+}
+
+/** Close the currently-open occupancy (endDate = null) for a unit+role. */
+async function closeOpenOccupancy(unitId: string, role: "OWNER" | "RESIDENT", endDate: Date) {
+  await db.unitOccupancy.updateMany({
+    where: { unitId, role: role as any, endDate: null },
+    data: { endDate },
+  });
+}
+
+/** Open a new occupancy record (από). */
+async function openOccupancy(unitId: string, userId: string, role: "OWNER" | "RESIDENT", startDate: Date) {
+  await db.unitOccupancy.create({ data: { unitId, userId, role: role as any, startDate } });
 }
 
 export type Occupant = { id: string; name: string | null; email: string };
@@ -30,7 +47,7 @@ export type Occupant = { id: string; name: string | null; email: string };
 export async function createOccupant(
   unitId: string,
   role: "OWNER" | "RESIDENT",
-  data: { name: string; email: string; password: string },
+  data: { name: string; email: string; password: string; phone?: string; mobile?: string; startDate?: string },
 ) {
   await requireStaff();
   const email = data.email.trim().toLowerCase();
@@ -45,6 +62,8 @@ export async function createOccupant(
     data: {
       email,
       name: data.name.trim(),
+      phone: data.phone?.trim() || null,
+      mobile: data.mobile?.trim() || null,
       role: (role === "OWNER" ? "PROPERTY_OWNER" : "PROPERTY_RESIDENT") as any,
       status: "ACTIVE" as any,
       companyId: ctx.companyId,
@@ -54,44 +73,59 @@ export async function createOccupant(
     select: { id: true, name: true, email: true },
   });
 
-  await db.unit.update({
-    where: { id: unitId },
-    data: role === "OWNER" ? { ownerId: user.id } : { residentId: user.id },
-  });
+  const start = data.startDate ? new Date(data.startDate) : new Date();
+  await closeOpenOccupancy(unitId, role, start);
+  await db.unit.update({ where: { id: unitId }, data: role === "OWNER" ? { ownerId: user.id } : { residentId: user.id } });
+  await openOccupancy(unitId, user.id, role, start);
 
-  revalidatePath(`/super-admin/properties/${ctx.propertyId}`);
+  revalidate(ctx);
   return { occupant: user };
 }
 
-/** Link an EXISTING user as owner/resident of the unit (no new user created).
- *  Lets one person be owner/resident across many units. */
+/** Link an EXISTING user as owner/resident of the unit (no new user created). */
 export async function assignOccupant(
   unitId: string,
   role: "OWNER" | "RESIDENT",
   userId: string,
+  startDate?: string,
 ) {
   await requireStaff();
   const user = await db.user.findUnique({ where: { id: userId }, select: { id: true, name: true, email: true } });
   if (!user) return { error: "Ο χρήστης δεν βρέθηκε" };
 
   const ctx = await unitContext(unitId);
-  await db.unit.update({
-    where: { id: unitId },
-    data: role === "OWNER" ? { ownerId: user.id } : { residentId: user.id },
-  });
+  const start = startDate ? new Date(startDate) : new Date();
+  await closeOpenOccupancy(unitId, role, start);
+  await db.unit.update({ where: { id: unitId }, data: role === "OWNER" ? { ownerId: user.id } : { residentId: user.id } });
+  await openOccupancy(unitId, user.id, role, start);
 
-  revalidatePath(`/super-admin/properties/${ctx.propertyId}`);
+  revalidate(ctx);
   return { occupant: user };
 }
 
-/** Remove the owner/resident link from a unit (does not delete the user). */
+/** End the current owner/resident occupancy (έως) and clear the unit pointer. */
 export async function clearOccupant(unitId: string, role: "OWNER" | "RESIDENT") {
   await requireStaff();
   const ctx = await unitContext(unitId);
+  await closeOpenOccupancy(unitId, role, new Date());
   await db.unit.update({
     where: { id: unitId },
     data: role === "OWNER" ? { ownerId: null } : { residentId: null },
   });
-  revalidatePath(`/super-admin/properties/${ctx.propertyId}`);
+  revalidate(ctx);
   return { success: true };
+}
+
+/** Update a user's contact fields (name / phone / mobile). */
+export async function updateUserContact(userId: string, data: { name?: string; phone?: string; mobile?: string }) {
+  await requireStaff();
+  await db.user.update({
+    where: { id: userId },
+    data: {
+      ...(data.name !== undefined ? { name: data.name.trim() || null } : {}),
+      ...(data.phone !== undefined ? { phone: data.phone.trim() || null } : {}),
+      ...(data.mobile !== undefined ? { mobile: data.mobile.trim() || null } : {}),
+    },
+  });
+  return { ok: true };
 }

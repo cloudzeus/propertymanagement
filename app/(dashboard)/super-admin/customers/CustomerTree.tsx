@@ -602,13 +602,13 @@ function OccupantsModal({ unit, onClose, onDone }: { unit: TUnit; onClose: () =>
 function Slot({ unitId, role, label, current, onDone }: { unitId: string; role: "OWNER" | "RESIDENT"; label: string; current: TOccupant | null; onDone: () => void }) {
   const [occupant, setOccupant] = useState<TOccupant | null>(current);
   const [adding, setAdding] = useState(false);
-  const [form, setForm] = useState({ name: "", email: "", password: "" });
+  const [form, setForm] = useState({ name: "", email: "", password: "", phone: "", mobile: "", startDate: "" });
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
   const f = (k: keyof typeof form) => (v: string) => setForm((p) => ({ ...p, [k]: v }));
   function create() {
     setError(null);
-    startTransition(async () => { const res = await createOccupant(unitId, role, form); if ("error" in res && res.error) { setError(res.error); return; } setOccupant(res.occupant ?? null); setAdding(false); setForm({ name: "", email: "", password: "" }); onDone(); });
+    startTransition(async () => { const res = await createOccupant(unitId, role, form); if ("error" in res && res.error) { setError(res.error); return; } setOccupant(res.occupant ?? null); setAdding(false); setForm({ name: "", email: "", password: "", phone: "", mobile: "", startDate: "" }); onDone(); });
   }
   function pickExisting(userId: string) {
     setError(null);
@@ -635,7 +635,14 @@ function Slot({ unitId, role, label, current, onDone }: { unitId: string; role: 
             <FormField label="Ονοματεπώνυμο" required><FieldInput value={form.name} onChange={f("name")} /></FormField>
             <FormField label="Email" required><FieldInput type="email" value={form.email} onChange={f("email")} /></FormField>
           </div>
-          <FormField label="Κωδικός εισόδου" required><FieldInput type="password" value={form.password} onChange={f("password")} placeholder="Τουλάχιστον 6 χαρακτήρες" /></FormField>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+            <FormField label="Τηλέφωνο"><FieldInput value={form.phone} onChange={f("phone")} /></FormField>
+            <FormField label="Κινητό"><FieldInput value={form.mobile} onChange={f("mobile")} /></FormField>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+            <FormField label="Κωδικός εισόδου" required><FieldInput type="password" value={form.password} onChange={f("password")} placeholder="Τουλάχιστον 6 χαρακτήρες" /></FormField>
+            <FormField label="Ένοικος από"><FieldInput type="date" value={form.startDate} onChange={f("startDate")} /></FormField>
+          </div>
           <div style={{ display: "flex", gap: 8, justifyContent: "flex-end" }}>
             <button onClick={() => setAdding(false)} style={cancelBtn}>Άκυρο</button>
             <button onClick={create} disabled={isPending} style={saveBtn}>{isPending ? <RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> : <RiCheckLine />} Δημιουργία</button>
