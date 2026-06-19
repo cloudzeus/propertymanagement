@@ -30,6 +30,12 @@ export default async function BuildingDashboardPage({ params }: { params: Promis
     _sum: { millesimes: true },
   });
 
+  const files = await db.buildingFile.findMany({
+    where: { buildingId: id },
+    orderBy: { createdAt: "desc" },
+    select: { id: true, name: true, url: true, category: true, mimeType: true, sizeBytes: true, createdAt: true },
+  });
+
   return (
     <BuildingDashboard
       building={{
@@ -53,6 +59,7 @@ export default async function BuildingDashboardPage({ params }: { params: Promis
         contacts: building._count.contacts,
         recurringTasks: building._count.recurringTasks,
       }}
+      files={files.map((f) => ({ ...f, createdAt: f.createdAt.toISOString() }))}
     />
   );
 }

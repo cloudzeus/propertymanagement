@@ -8,6 +8,7 @@ import {
   RiCalendarTodoLine, RiContactsBook3Line, RiSettings3Line, RiWallet3Line,
   RiBankCardLine, RiToolsLine, RiMegaphoneLine, RiScales3Line,
 } from "react-icons/ri";
+import { FilesPanel, type FileRow } from "./FilesPanel";
 
 type Building = {
   id: string; name: string; address: string; city: string; postalCode: string;
@@ -38,7 +39,7 @@ const TABS: { key: TabKey; label: string; icon: React.ElementType; badge?: (k: K
   { key: "ann", label: "Ανακοινώσεις", icon: RiMegaphoneLine },
 ];
 
-export function BuildingDashboard({ building, kpis }: { building: Building; kpis: Kpis }) {
+export function BuildingDashboard({ building, kpis, files }: { building: Building; kpis: Kpis; files: FileRow[] }) {
   const [tab, setTab] = useState<TabKey>("overview");
 
   const subParts = [
@@ -121,6 +122,8 @@ export function BuildingDashboard({ building, kpis }: { building: Building; kpis
       <div>
         {tab === "overview" ? (
           <Overview building={building} />
+        ) : tab === "files" ? (
+          <FilesPanel buildingId={building.id} files={files} />
         ) : (
           <Placeholder label={TABS.find((t) => t.key === tab)?.label ?? ""} />
         )}
