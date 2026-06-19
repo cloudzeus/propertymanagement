@@ -80,6 +80,24 @@ enum InvoiceStatus {
   CANCELLED
 }
 
+enum ExpenseUtilityType {
+  NONE
+  POWER
+  WATER
+  GAS
+}
+
+enum ExpenseStatus {
+  DRAFT
+  CONFIRMED
+}
+
+enum MeterType {
+  POWER
+  WATER
+  GAS
+}
+
 // Users table - all users in the system
 model User {
   id                  String   @id @default(cuid())
@@ -603,6 +621,8 @@ model Building {
   contacts              Contact[]
   recurringTasks        RecurringTask[]
   expenses              BuildingExpense[]
+  categoryOverrides     BuildingCategoryOverride[]
+  meterReadings         MeterReading[]
 
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt
@@ -642,6 +662,7 @@ enum BuildingFileCategory {
   PHOTOS
   DOCUMENTS
   CERTIFICATES
+  RECEIPT
   OTHER
 }
 
@@ -695,6 +716,7 @@ model InfraPoint {
   // Who has access (many users) + media (many photos/videos)
   access      InfraAccess[]
   media       InfraMedia[]
+  meterReadings MeterReading[]
 
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -776,9 +798,91 @@ model BuildingExpense {
   description String?
   receiptFileId String?
   receiptFile BuildingFile? @relation("expenseReceipt", fields: [receiptFileId], references: [id], onDelete: SetNull)
+  categoryId     String?
+  categoryRef    ExpenseCategory? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  supplierName   String?
+  supplierVat    String?
+  documentNumber String?
+  documentDate   DateTime?
+  netAmount      Decimal? @db.Decimal(10, 2)
+  vatAmount      Decimal? @db.Decimal(10, 2)
+  status         ExpenseStatus @default(CONFIRMED)
+  tenantPct      Int      @default(0)
+  ownerPct       Int      @default(100)
+  ocrRaw         Json?
+  ocrConfidence  Float?
+  meterReadings  MeterReading[]
+  allocations    ExpenseAllocation[]
   createdAt   DateTime @default(now())
   @@index([buildingId])
   @@index([buildingId, month])
+  @@index([categoryId])
+}
+
+model ExpenseCategory {
+  id        String  @id @default(cuid())
+  name      String
+  code      String  @unique
+  utilityType ExpenseUtilityType @default(NONE)
+  defaultTenantPct Int @default(0)
+  defaultOwnerPct  Int @default(100)
+  active    Boolean @default(true)
+  sortOrder Int     @default(0)
+  expenses  BuildingExpense[]
+  overrides BuildingCategoryOverride[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model BuildingCategoryOverride {
+  id         String   @id @default(cuid())
+  buildingId String
+  building   Building @relation(fields: [buildingId], references: [id], onDelete: Cascade)
+  categoryId String
+  category   ExpenseCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  tenantPct  Int
+  ownerPct   Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  @@unique([buildingId, categoryId])
+  @@index([buildingId])
+}
+
+model MeterReading {
+  id             String   @id @default(cuid())
+  buildingId     String
+  building       Building @relation(fields: [buildingId], references: [id], onDelete: Cascade)
+  infraPointId   String?
+  infraPoint     InfraPoint? @relation(fields: [infraPointId], references: [id], onDelete: SetNull)
+  expenseId      String?
+  expense        BuildingExpense? @relation(fields: [expenseId], references: [id], onDelete: SetNull)
+  meterType      MeterType
+  meterNumber    String?
+  periodFrom     DateTime?
+  periodTo       DateTime?
+  previousReading Decimal? @db.Decimal(12,3)
+  currentReading  Decimal? @db.Decimal(12,3)
+  consumption     Decimal? @db.Decimal(12,3)
+  unit           String?
+  createdAt      DateTime @default(now())
+  @@index([buildingId])
+  @@index([infraPointId])
+}
+
+model ExpenseAllocation {
+  id           String  @id @default(cuid())
+  expenseId    String
+  expense      BuildingExpense @relation(fields: [expenseId], references: [id], onDelete: Cascade)
+  unitId       String
+  unit         Unit    @relation(fields: [unitId], references: [id], onDelete: Cascade)
+  unitShare    Decimal @db.Decimal(10,2)
+  tenantUserId String?
+  tenantAmount Decimal @db.Decimal(10,2) @default(0)
+  ownerUserId  String?
+  ownerAmount  Decimal @db.Decimal(10,2) @default(0)
+  createdAt    DateTime @default(now())
+  @@index([expenseId])
+  @@index([unitId])
 }
 
 enum PaymentStatus {
@@ -870,6 +974,7 @@ model Unit {
   maintenanceRequests   MaintenanceRequest[]
   payments              UnitPayment[]
   occupancies           UnitOccupancy[]
+  expenseAllocations    ExpenseAllocation[]
 
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt
