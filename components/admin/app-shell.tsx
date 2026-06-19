@@ -3,6 +3,10 @@ import { redirect } from "next/navigation";
 import { getAppSettings } from "@/lib/app-settings";
 import { signOutAction } from "@/app/actions/sign-out";
 import { SidebarNav } from "./sidebar-nav";
+import { GlobalExpenseButton } from "@/components/buildings/GlobalExpenseButton";
+import { listManageableBuildings } from "@/app/actions/building-expenses";
+
+const EXPENSE_ROLES = ["SUPER_ADMIN", "ADMIN", "MANAGER", "PROPERTY_ADMIN"];
 
 type UserRole =
   | "SUPER_ADMIN" | "ADMIN" | "MANAGER" | "EMPLOYEE"
@@ -26,6 +30,7 @@ export async function AppShell({ children, allowedRoles }: Props) {
   }
 
   const settings = await getAppSettings();
+  const expenseBuildings = EXPENSE_ROLES.includes(role) ? await listManageableBuildings() : [];
 
   return (
     <div style={{
@@ -48,6 +53,8 @@ export async function AppShell({ children, allowedRoles }: Props) {
       <main style={{ flex: 1, overflowY: "auto", padding: 28, minWidth: 0 }}>
         {children}
       </main>
+
+      {expenseBuildings.length > 0 && <GlobalExpenseButton buildings={expenseBuildings} />}
     </div>
   );
 }

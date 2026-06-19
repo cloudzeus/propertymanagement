@@ -25,6 +25,43 @@ async function requireBuildingAccess(buildingId: string): Promise<string> {
   return uid;
 }
 
+export type ManageableBuilding = { id: string; name: string; city: string | null; propertyName: string | null };
+
+/** Buildings the current user may register expenses for. Company staff
+ *  (SUPER_ADMIN/ADMIN/MANAGER) see all; building/property managers see only the
+ *  buildings reachable through their ManagementAssignments. */
+export async function listManageableBuildings(): Promise<ManageableBuilding[]> {
+  const session = await auth();
+  if (!session?.user) return [];
+  const uid = session.user.id as string;
+  const user = await db.user.findUnique({ where: { id: uid }, select: { role: true } });
+  const role = user?.role ?? "";
+
+  const select = { id: true, name: true, city: true, property: { select: { name: true } } } as const;
+  const toResult = (b: { id: string; name: string; city: string | null; property: { name: string | null } | null }): ManageableBuilding =>
+    ({ id: b.id, name: b.name, city: b.city, propertyName: b.property?.name ?? null });
+
+  if (["SUPER_ADMIN", "ADMIN", "MANAGER"].includes(role)) {
+    const buildings = await db.building.findMany({ select, orderBy: { name: "asc" } });
+    return buildings.map(toResult);
+  }
+
+  // Manager: buildings assigned directly, or any building under an assigned property.
+  const assignments = await db.managementAssignment.findMany({
+    where: { userId: uid },
+    select: { buildingId: true, propertyId: true },
+  });
+  const buildingIds = assignments.map((a) => a.buildingId).filter((x): x is string => !!x);
+  const propertyIds = assignments.map((a) => a.propertyId).filter((x): x is string => !!x);
+  if (!buildingIds.length && !propertyIds.length) return [];
+
+  const buildings = await db.building.findMany({
+    where: { OR: [{ id: { in: buildingIds } }, { propertyId: { in: propertyIds } }] },
+    select, orderBy: { name: "asc" },
+  });
+  return buildings.map(toResult);
+}
+
 export async function extractExpenseDocument(buildingId: string, formData: FormData): Promise<{ fileId: string; fileUrl: string; extracted: ExtractedDoc }> {
   const uid = await requireBuildingAccess(buildingId);
   const file = formData.get("file") as File | null;
