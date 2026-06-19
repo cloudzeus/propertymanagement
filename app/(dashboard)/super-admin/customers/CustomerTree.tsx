@@ -118,6 +118,7 @@ export function BuildingsTree({ propertyId, buildings, depthBase = 0, showAddBui
               icon={<RiBuildingLine style={{ color: "var(--color-primary)" }} />}
               title={b.name} subtitle={[b.address, b.city].filter(Boolean).join(", ") || "—"} extra={bStats}
               actions={[
+                { label: "Άνοιγμα (dashboard)", icon: <RiSettings3Line />, onClick: () => router.push(`/super-admin/buildings/${b.id}`) },
                 { label: "Επεξεργασία", icon: <RiPencilLine />, onClick: () => setModal({ kind: "building", propertyId, editing: b }) },
                 { label: "Προσθήκη ορόφου", icon: <RiArrowUpSLine />, onClick: () => act(() => updateBuilding(b.id, { floors: (b.floors ?? 0) + 1 })) },
                 { label: "Προσθήκη υπογείου", icon: <RiArrowDownSLine />, onClick: () => act(() => updateBuilding(b.id, { basements: (b.basements ?? 0) + 1 })) },

@@ -2,7 +2,7 @@
 sketch: 003
 name: building-dashboard
 question: "How should a single building's control-center dashboard be organized, with a Documents tab/area?"
-winner: null
+winner: "refined (B): in-app-shell + 2-row wrapping tabs, synced theme"
 tags: [dashboard, building, documents, control-center]
 ---
 

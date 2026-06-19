@@ -83,6 +83,36 @@ export type Property = Prisma.PropertyModel
  */
 export type Building = Prisma.BuildingModel
 /**
+ * Model BuildingFile
+ * 
+ */
+export type BuildingFile = Prisma.BuildingFileModel
+/**
+ * Model InfraPoint
+ * 
+ */
+export type InfraPoint = Prisma.InfraPointModel
+/**
+ * Model Contact
+ * 
+ */
+export type Contact = Prisma.ContactModel
+/**
+ * Model RecurringTask
+ * 
+ */
+export type RecurringTask = Prisma.RecurringTaskModel
+/**
+ * Model BuildingExpense
+ * 
+ */
+export type BuildingExpense = Prisma.BuildingExpenseModel
+/**
+ * Model UnitPayment
+ * 
+ */
+export type UnitPayment = Prisma.UnitPaymentModel
+/**
  * Model ManagementAssignment
  * 
  */

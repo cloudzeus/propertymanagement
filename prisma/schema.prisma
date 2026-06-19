@@ -593,6 +593,11 @@ model Building {
   announcements         Announcement[]
   maintenanceRequests   MaintenanceRequest[]
   managementAssignments ManagementAssignment[]
+  files                 BuildingFile[]
+  infraPoints           InfraPoint[]
+  contacts              Contact[]
+  recurringTasks        RecurringTask[]
+  expenses              BuildingExpense[]
 
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt
@@ -600,6 +605,137 @@ model Building {
   @@index([companyId])
   @@index([propertyId])
   @@index([name])
+}
+
+// ── Building control-center sub-entities ─────────────────────────────────────
+
+enum BuildingFileCategory {
+  PLANS
+  PHOTOS
+  DOCUMENTS
+  CERTIFICATES
+  OTHER
+}
+
+model BuildingFile {
+  id          String   @id @default(cuid())
+  buildingId  String
+  building    Building @relation(fields: [buildingId], references: [id], onDelete: Cascade)
+  category    BuildingFileCategory @default(OTHER)
+  name        String
+  cdnPath     String   // storage path inside the building folder
+  url         String   // public CDN url
+  mimeType    String?
+  sizeBytes   Int?
+  uploadedById String?
+  createdAt   DateTime @default(now())
+  expenseLinks BuildingExpense[] @relation("expenseReceipt")
+  @@index([buildingId])
+  @@index([buildingId, category])
+}
+
+enum InfraType {
+  ELECTRICITY
+  OTE
+  ROOF
+  ANTENNA
+  BOILER
+  PUMP
+  FIRE
+  WATER
+  OTHER
+}
+
+model InfraPoint {
+  id          String   @id @default(cuid())
+  buildingId  String
+  building    Building @relation(fields: [buildingId], references: [id], onDelete: Cascade)
+  name        String
+  type        InfraType @default(OTHER)
+  floorLabel  String?
+  location    String?
+  locked      Boolean  @default(false)
+  accessNotes String?  // who has access
+  keyHolder   String?  // who holds the key
+  photoUrl    String?
+  notes       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  @@index([buildingId])
+}
+
+model Contact {
+  id          String   @id @default(cuid())
+  buildingId  String
+  building    Building @relation(fields: [buildingId], references: [id], onDelete: Cascade)
+  name        String
+  category    String?
+  phone       String?
+  email       String?
+  notes       String?
+  createdAt   DateTime @default(now())
+  @@index([buildingId])
+}
+
+enum TaskFrequency {
+  WEEKLY
+  MONTHLY
+  QUARTERLY
+  SEMIANNUAL
+  ANNUAL
+  CUSTOM
+}
+
+model RecurringTask {
+  id          String   @id @default(cuid())
+  buildingId  String
+  building    Building @relation(fields: [buildingId], references: [id], onDelete: Cascade)
+  title       String
+  frequency   TaskFrequency @default(MONTHLY)
+  nextDueDate DateTime?
+  lastDoneDate DateTime?
+  vendor      String?
+  notes       String?
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  @@index([buildingId])
+}
+
+model BuildingExpense {
+  id          String   @id @default(cuid())
+  buildingId  String
+  building    Building @relation(fields: [buildingId], references: [id], onDelete: Cascade)
+  month       String   // YYYY-MM
+  category    String?
+  amount      Decimal  @db.Decimal(10, 2)
+  description String?
+  receiptFileId String?
+  receiptFile BuildingFile? @relation("expenseReceipt", fields: [receiptFileId], references: [id], onDelete: SetNull)
+  createdAt   DateTime @default(now())
+  @@index([buildingId])
+  @@index([buildingId, month])
+}
+
+enum PaymentStatus {
+  PAID
+  PENDING
+  OVERDUE
+}
+
+model UnitPayment {
+  id          String   @id @default(cuid())
+  unitId      String
+  unit        Unit     @relation(fields: [unitId], references: [id], onDelete: Cascade)
+  month       String   // YYYY-MM
+  amount      Decimal  @db.Decimal(10, 2)
+  status      PaymentStatus @default(PENDING)
+  paidAt      DateTime?
+  notes       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  @@unique([unitId, month])
+  @@index([unitId])
 }
 
 // Per-scope manager (διαχειριστής) assignment. Grants PROPERTY_ADMIN-level
@@ -668,6 +804,7 @@ model Unit {
 
   // Relations
   maintenanceRequests   MaintenanceRequest[]
+  payments              UnitPayment[]
 
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt

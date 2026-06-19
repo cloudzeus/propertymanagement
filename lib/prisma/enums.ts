@@ -117,3 +117,50 @@ export const EmployeeStatus = {
 } as const
 
 export type EmployeeStatus = (typeof EmployeeStatus)[keyof typeof EmployeeStatus]
+
+
+export const BuildingFileCategory = {
+  PLANS: 'PLANS',
+  PHOTOS: 'PHOTOS',
+  DOCUMENTS: 'DOCUMENTS',
+  CERTIFICATES: 'CERTIFICATES',
+  OTHER: 'OTHER'
+} as const
+
+export type BuildingFileCategory = (typeof BuildingFileCategory)[keyof typeof BuildingFileCategory]
+
+
+export const InfraType = {
+  ELECTRICITY: 'ELECTRICITY',
+  OTE: 'OTE',
+  ROOF: 'ROOF',
+  ANTENNA: 'ANTENNA',
+  BOILER: 'BOILER',
+  PUMP: 'PUMP',
+  FIRE: 'FIRE',
+  WATER: 'WATER',
+  OTHER: 'OTHER'
+} as const
+
+export type InfraType = (typeof InfraType)[keyof typeof InfraType]
+
+
+export const TaskFrequency = {
+  WEEKLY: 'WEEKLY',
+  MONTHLY: 'MONTHLY',
+  QUARTERLY: 'QUARTERLY',
+  SEMIANNUAL: 'SEMIANNUAL',
+  ANNUAL: 'ANNUAL',
+  CUSTOM: 'CUSTOM'
+} as const
+
+export type TaskFrequency = (typeof TaskFrequency)[keyof typeof TaskFrequency]
+
+
+export const PaymentStatus = {
+  PAID: 'PAID',
+  PENDING: 'PENDING',
+  OVERDUE: 'OVERDUE'
+} as const
+
+export type PaymentStatus = (typeof PaymentStatus)[keyof typeof PaymentStatus]

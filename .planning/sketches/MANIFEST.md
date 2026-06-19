@@ -18,4 +18,4 @@ per-entity action menus; (2) a leaf-level detail page (Common area / Unit) that 
 |---|------|----------------|--------|------|
 | 001 | hierarchy-tree | How to schematically present the deep entity hierarchy with per-entity actions? | TBD | tree, navigation |
 | 002 | entity-detail | How should the leaf detail page (common area / unit) present βλάβες + functions? | TBD | detail, issues |
-| 003 | building-dashboard | How to organize a building control-center dashboard with a Documents tab/area? | TBD | dashboard, building, documents |
+| 003 | building-dashboard | How to organize a building control-center dashboard with a Documents tab/area? | refined.html — in app shell + 2-row wrapping tabs, theme synced to app | dashboard, building, documents |

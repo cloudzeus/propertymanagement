@@ -64,6 +64,12 @@ export const ModelName = {
   Customer: 'Customer',
   Property: 'Property',
   Building: 'Building',
+  BuildingFile: 'BuildingFile',
+  InfraPoint: 'InfraPoint',
+  Contact: 'Contact',
+  RecurringTask: 'RecurringTask',
+  BuildingExpense: 'BuildingExpense',
+  UnitPayment: 'UnitPayment',
   ManagementAssignment: 'ManagementAssignment',
   CommonArea: 'CommonArea',
   Unit: 'Unit',
@@ -395,6 +401,101 @@ export const BuildingScalarFieldEnum = {
 } as const
 
 export type BuildingScalarFieldEnum = (typeof BuildingScalarFieldEnum)[keyof typeof BuildingScalarFieldEnum]
+
+
+export const BuildingFileScalarFieldEnum = {
+  id: 'id',
+  buildingId: 'buildingId',
+  category: 'category',
+  name: 'name',
+  cdnPath: 'cdnPath',
+  url: 'url',
+  mimeType: 'mimeType',
+  sizeBytes: 'sizeBytes',
+  uploadedById: 'uploadedById',
+  createdAt: 'createdAt'
+} as const
+
+export type BuildingFileScalarFieldEnum = (typeof BuildingFileScalarFieldEnum)[keyof typeof BuildingFileScalarFieldEnum]
+
+
+export const InfraPointScalarFieldEnum = {
+  id: 'id',
+  buildingId: 'buildingId',
+  name: 'name',
+  type: 'type',
+  floorLabel: 'floorLabel',
+  location: 'location',
+  locked: 'locked',
+  accessNotes: 'accessNotes',
+  keyHolder: 'keyHolder',
+  photoUrl: 'photoUrl',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type InfraPointScalarFieldEnum = (typeof InfraPointScalarFieldEnum)[keyof typeof InfraPointScalarFieldEnum]
+
+
+export const ContactScalarFieldEnum = {
+  id: 'id',
+  buildingId: 'buildingId',
+  name: 'name',
+  category: 'category',
+  phone: 'phone',
+  email: 'email',
+  notes: 'notes',
+  createdAt: 'createdAt'
+} as const
+
+export type ContactScalarFieldEnum = (typeof ContactScalarFieldEnum)[keyof typeof ContactScalarFieldEnum]
+
+
+export const RecurringTaskScalarFieldEnum = {
+  id: 'id',
+  buildingId: 'buildingId',
+  title: 'title',
+  frequency: 'frequency',
+  nextDueDate: 'nextDueDate',
+  lastDoneDate: 'lastDoneDate',
+  vendor: 'vendor',
+  notes: 'notes',
+  active: 'active',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type RecurringTaskScalarFieldEnum = (typeof RecurringTaskScalarFieldEnum)[keyof typeof RecurringTaskScalarFieldEnum]
+
+
+export const BuildingExpenseScalarFieldEnum = {
+  id: 'id',
+  buildingId: 'buildingId',
+  month: 'month',
+  category: 'category',
+  amount: 'amount',
+  description: 'description',
+  receiptFileId: 'receiptFileId',
+  createdAt: 'createdAt'
+} as const
+
+export type BuildingExpenseScalarFieldEnum = (typeof BuildingExpenseScalarFieldEnum)[keyof typeof BuildingExpenseScalarFieldEnum]
+
+
+export const UnitPaymentScalarFieldEnum = {
+  id: 'id',
+  unitId: 'unitId',
+  month: 'month',
+  amount: 'amount',
+  status: 'status',
+  paidAt: 'paidAt',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type UnitPaymentScalarFieldEnum = (typeof UnitPaymentScalarFieldEnum)[keyof typeof UnitPaymentScalarFieldEnum]
 
 
 export const ManagementAssignmentScalarFieldEnum = {

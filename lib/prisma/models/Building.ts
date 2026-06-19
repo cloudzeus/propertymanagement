@@ -361,6 +361,11 @@ export type BuildingWhereInput = {
   announcements?: Prisma.AnnouncementListRelationFilter
   maintenanceRequests?: Prisma.MaintenanceRequestListRelationFilter
   managementAssignments?: Prisma.ManagementAssignmentListRelationFilter
+  files?: Prisma.BuildingFileListRelationFilter
+  infraPoints?: Prisma.InfraPointListRelationFilter
+  contacts?: Prisma.ContactListRelationFilter
+  recurringTasks?: Prisma.RecurringTaskListRelationFilter
+  expenses?: Prisma.BuildingExpenseListRelationFilter
 }
 
 export type BuildingOrderByWithRelationInput = {
@@ -393,6 +398,11 @@ export type BuildingOrderByWithRelationInput = {
   announcements?: Prisma.AnnouncementOrderByRelationAggregateInput
   maintenanceRequests?: Prisma.MaintenanceRequestOrderByRelationAggregateInput
   managementAssignments?: Prisma.ManagementAssignmentOrderByRelationAggregateInput
+  files?: Prisma.BuildingFileOrderByRelationAggregateInput
+  infraPoints?: Prisma.InfraPointOrderByRelationAggregateInput
+  contacts?: Prisma.ContactOrderByRelationAggregateInput
+  recurringTasks?: Prisma.RecurringTaskOrderByRelationAggregateInput
+  expenses?: Prisma.BuildingExpenseOrderByRelationAggregateInput
 }
 
 export type BuildingWhereUniqueInput = Prisma.AtLeast<{
@@ -428,6 +438,11 @@ export type BuildingWhereUniqueInput = Prisma.AtLeast<{
   announcements?: Prisma.AnnouncementListRelationFilter
   maintenanceRequests?: Prisma.MaintenanceRequestListRelationFilter
   managementAssignments?: Prisma.ManagementAssignmentListRelationFilter
+  files?: Prisma.BuildingFileListRelationFilter
+  infraPoints?: Prisma.InfraPointListRelationFilter
+  contacts?: Prisma.ContactListRelationFilter
+  recurringTasks?: Prisma.RecurringTaskListRelationFilter
+  expenses?: Prisma.BuildingExpenseListRelationFilter
 }, "id">
 
 export type BuildingOrderByWithAggregationInput = {
@@ -512,6 +527,11 @@ export type BuildingCreateInput = {
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutBuildingInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutBuildingInput
+  files?: Prisma.BuildingFileCreateNestedManyWithoutBuildingInput
+  infraPoints?: Prisma.InfraPointCreateNestedManyWithoutBuildingInput
+  contacts?: Prisma.ContactCreateNestedManyWithoutBuildingInput
+  recurringTasks?: Prisma.RecurringTaskCreateNestedManyWithoutBuildingInput
+  expenses?: Prisma.BuildingExpenseCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUncheckedCreateInput = {
@@ -542,6 +562,11 @@ export type BuildingUncheckedCreateInput = {
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutBuildingInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutBuildingInput
+  files?: Prisma.BuildingFileUncheckedCreateNestedManyWithoutBuildingInput
+  infraPoints?: Prisma.InfraPointUncheckedCreateNestedManyWithoutBuildingInput
+  contacts?: Prisma.ContactUncheckedCreateNestedManyWithoutBuildingInput
+  recurringTasks?: Prisma.RecurringTaskUncheckedCreateNestedManyWithoutBuildingInput
+  expenses?: Prisma.BuildingExpenseUncheckedCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUpdateInput = {
@@ -572,6 +597,11 @@ export type BuildingUpdateInput = {
   announcements?: Prisma.AnnouncementUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutBuildingNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutBuildingNestedInput
+  files?: Prisma.BuildingFileUpdateManyWithoutBuildingNestedInput
+  infraPoints?: Prisma.InfraPointUpdateManyWithoutBuildingNestedInput
+  contacts?: Prisma.ContactUpdateManyWithoutBuildingNestedInput
+  recurringTasks?: Prisma.RecurringTaskUpdateManyWithoutBuildingNestedInput
+  expenses?: Prisma.BuildingExpenseUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateInput = {
@@ -602,6 +632,11 @@ export type BuildingUncheckedUpdateInput = {
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutBuildingNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutBuildingNestedInput
+  files?: Prisma.BuildingFileUncheckedUpdateManyWithoutBuildingNestedInput
+  infraPoints?: Prisma.InfraPointUncheckedUpdateManyWithoutBuildingNestedInput
+  contacts?: Prisma.ContactUncheckedUpdateManyWithoutBuildingNestedInput
+  recurringTasks?: Prisma.RecurringTaskUncheckedUpdateManyWithoutBuildingNestedInput
+  expenses?: Prisma.BuildingExpenseUncheckedUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingCreateManyInput = {
@@ -892,6 +927,76 @@ export type BuildingUncheckedUpdateManyWithoutPropertyNestedInput = {
   deleteMany?: Prisma.BuildingScalarWhereInput | Prisma.BuildingScalarWhereInput[]
 }
 
+export type BuildingCreateNestedOneWithoutFilesInput = {
+  create?: Prisma.XOR<Prisma.BuildingCreateWithoutFilesInput, Prisma.BuildingUncheckedCreateWithoutFilesInput>
+  connectOrCreate?: Prisma.BuildingCreateOrConnectWithoutFilesInput
+  connect?: Prisma.BuildingWhereUniqueInput
+}
+
+export type BuildingUpdateOneRequiredWithoutFilesNestedInput = {
+  create?: Prisma.XOR<Prisma.BuildingCreateWithoutFilesInput, Prisma.BuildingUncheckedCreateWithoutFilesInput>
+  connectOrCreate?: Prisma.BuildingCreateOrConnectWithoutFilesInput
+  upsert?: Prisma.BuildingUpsertWithoutFilesInput
+  connect?: Prisma.BuildingWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.BuildingUpdateToOneWithWhereWithoutFilesInput, Prisma.BuildingUpdateWithoutFilesInput>, Prisma.BuildingUncheckedUpdateWithoutFilesInput>
+}
+
+export type BuildingCreateNestedOneWithoutInfraPointsInput = {
+  create?: Prisma.XOR<Prisma.BuildingCreateWithoutInfraPointsInput, Prisma.BuildingUncheckedCreateWithoutInfraPointsInput>
+  connectOrCreate?: Prisma.BuildingCreateOrConnectWithoutInfraPointsInput
+  connect?: Prisma.BuildingWhereUniqueInput
+}
+
+export type BuildingUpdateOneRequiredWithoutInfraPointsNestedInput = {
+  create?: Prisma.XOR<Prisma.BuildingCreateWithoutInfraPointsInput, Prisma.BuildingUncheckedCreateWithoutInfraPointsInput>
+  connectOrCreate?: Prisma.BuildingCreateOrConnectWithoutInfraPointsInput
+  upsert?: Prisma.BuildingUpsertWithoutInfraPointsInput
+  connect?: Prisma.BuildingWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.BuildingUpdateToOneWithWhereWithoutInfraPointsInput, Prisma.BuildingUpdateWithoutInfraPointsInput>, Prisma.BuildingUncheckedUpdateWithoutInfraPointsInput>
+}
+
+export type BuildingCreateNestedOneWithoutContactsInput = {
+  create?: Prisma.XOR<Prisma.BuildingCreateWithoutContactsInput, Prisma.BuildingUncheckedCreateWithoutContactsInput>
+  connectOrCreate?: Prisma.BuildingCreateOrConnectWithoutContactsInput
+  connect?: Prisma.BuildingWhereUniqueInput
+}
+
+export type BuildingUpdateOneRequiredWithoutContactsNestedInput = {
+  create?: Prisma.XOR<Prisma.BuildingCreateWithoutContactsInput, Prisma.BuildingUncheckedCreateWithoutContactsInput>
+  connectOrCreate?: Prisma.BuildingCreateOrConnectWithoutContactsInput
+  upsert?: Prisma.BuildingUpsertWithoutContactsInput
+  connect?: Prisma.BuildingWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.BuildingUpdateToOneWithWhereWithoutContactsInput, Prisma.BuildingUpdateWithoutContactsInput>, Prisma.BuildingUncheckedUpdateWithoutContactsInput>
+}
+
+export type BuildingCreateNestedOneWithoutRecurringTasksInput = {
+  create?: Prisma.XOR<Prisma.BuildingCreateWithoutRecurringTasksInput, Prisma.BuildingUncheckedCreateWithoutRecurringTasksInput>
+  connectOrCreate?: Prisma.BuildingCreateOrConnectWithoutRecurringTasksInput
+  connect?: Prisma.BuildingWhereUniqueInput
+}
+
+export type BuildingUpdateOneRequiredWithoutRecurringTasksNestedInput = {
+  create?: Prisma.XOR<Prisma.BuildingCreateWithoutRecurringTasksInput, Prisma.BuildingUncheckedCreateWithoutRecurringTasksInput>
+  connectOrCreate?: Prisma.BuildingCreateOrConnectWithoutRecurringTasksInput
+  upsert?: Prisma.BuildingUpsertWithoutRecurringTasksInput
+  connect?: Prisma.BuildingWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.BuildingUpdateToOneWithWhereWithoutRecurringTasksInput, Prisma.BuildingUpdateWithoutRecurringTasksInput>, Prisma.BuildingUncheckedUpdateWithoutRecurringTasksInput>
+}
+
+export type BuildingCreateNestedOneWithoutExpensesInput = {
+  create?: Prisma.XOR<Prisma.BuildingCreateWithoutExpensesInput, Prisma.BuildingUncheckedCreateWithoutExpensesInput>
+  connectOrCreate?: Prisma.BuildingCreateOrConnectWithoutExpensesInput
+  connect?: Prisma.BuildingWhereUniqueInput
+}
+
+export type BuildingUpdateOneRequiredWithoutExpensesNestedInput = {
+  create?: Prisma.XOR<Prisma.BuildingCreateWithoutExpensesInput, Prisma.BuildingUncheckedCreateWithoutExpensesInput>
+  connectOrCreate?: Prisma.BuildingCreateOrConnectWithoutExpensesInput
+  upsert?: Prisma.BuildingUpsertWithoutExpensesInput
+  connect?: Prisma.BuildingWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.BuildingUpdateToOneWithWhereWithoutExpensesInput, Prisma.BuildingUpdateWithoutExpensesInput>, Prisma.BuildingUncheckedUpdateWithoutExpensesInput>
+}
+
 export type BuildingCreateNestedOneWithoutManagementAssignmentsInput = {
   create?: Prisma.XOR<Prisma.BuildingCreateWithoutManagementAssignmentsInput, Prisma.BuildingUncheckedCreateWithoutManagementAssignmentsInput>
   connectOrCreate?: Prisma.BuildingCreateOrConnectWithoutManagementAssignmentsInput
@@ -991,6 +1096,11 @@ export type BuildingCreateWithoutUsersInput = {
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutBuildingInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutBuildingInput
+  files?: Prisma.BuildingFileCreateNestedManyWithoutBuildingInput
+  infraPoints?: Prisma.InfraPointCreateNestedManyWithoutBuildingInput
+  contacts?: Prisma.ContactCreateNestedManyWithoutBuildingInput
+  recurringTasks?: Prisma.RecurringTaskCreateNestedManyWithoutBuildingInput
+  expenses?: Prisma.BuildingExpenseCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUncheckedCreateWithoutUsersInput = {
@@ -1020,6 +1130,11 @@ export type BuildingUncheckedCreateWithoutUsersInput = {
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutBuildingInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutBuildingInput
+  files?: Prisma.BuildingFileUncheckedCreateNestedManyWithoutBuildingInput
+  infraPoints?: Prisma.InfraPointUncheckedCreateNestedManyWithoutBuildingInput
+  contacts?: Prisma.ContactUncheckedCreateNestedManyWithoutBuildingInput
+  recurringTasks?: Prisma.RecurringTaskUncheckedCreateNestedManyWithoutBuildingInput
+  expenses?: Prisma.BuildingExpenseUncheckedCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingCreateOrConnectWithoutUsersInput = {
@@ -1065,6 +1180,11 @@ export type BuildingUpdateWithoutUsersInput = {
   announcements?: Prisma.AnnouncementUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutBuildingNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutBuildingNestedInput
+  files?: Prisma.BuildingFileUpdateManyWithoutBuildingNestedInput
+  infraPoints?: Prisma.InfraPointUpdateManyWithoutBuildingNestedInput
+  contacts?: Prisma.ContactUpdateManyWithoutBuildingNestedInput
+  recurringTasks?: Prisma.RecurringTaskUpdateManyWithoutBuildingNestedInput
+  expenses?: Prisma.BuildingExpenseUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateWithoutUsersInput = {
@@ -1094,6 +1214,11 @@ export type BuildingUncheckedUpdateWithoutUsersInput = {
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutBuildingNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutBuildingNestedInput
+  files?: Prisma.BuildingFileUncheckedUpdateManyWithoutBuildingNestedInput
+  infraPoints?: Prisma.InfraPointUncheckedUpdateManyWithoutBuildingNestedInput
+  contacts?: Prisma.ContactUncheckedUpdateManyWithoutBuildingNestedInput
+  recurringTasks?: Prisma.RecurringTaskUncheckedUpdateManyWithoutBuildingNestedInput
+  expenses?: Prisma.BuildingExpenseUncheckedUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingCreateWithoutCompanyInput = {
@@ -1123,6 +1248,11 @@ export type BuildingCreateWithoutCompanyInput = {
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutBuildingInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutBuildingInput
+  files?: Prisma.BuildingFileCreateNestedManyWithoutBuildingInput
+  infraPoints?: Prisma.InfraPointCreateNestedManyWithoutBuildingInput
+  contacts?: Prisma.ContactCreateNestedManyWithoutBuildingInput
+  recurringTasks?: Prisma.RecurringTaskCreateNestedManyWithoutBuildingInput
+  expenses?: Prisma.BuildingExpenseCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUncheckedCreateWithoutCompanyInput = {
@@ -1152,6 +1282,11 @@ export type BuildingUncheckedCreateWithoutCompanyInput = {
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutBuildingInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutBuildingInput
+  files?: Prisma.BuildingFileUncheckedCreateNestedManyWithoutBuildingInput
+  infraPoints?: Prisma.InfraPointUncheckedCreateNestedManyWithoutBuildingInput
+  contacts?: Prisma.ContactUncheckedCreateNestedManyWithoutBuildingInput
+  recurringTasks?: Prisma.RecurringTaskUncheckedCreateNestedManyWithoutBuildingInput
+  expenses?: Prisma.BuildingExpenseUncheckedCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingCreateOrConnectWithoutCompanyInput = {
@@ -1233,6 +1368,11 @@ export type BuildingCreateWithoutAddonsInput = {
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutBuildingInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutBuildingInput
+  files?: Prisma.BuildingFileCreateNestedManyWithoutBuildingInput
+  infraPoints?: Prisma.InfraPointCreateNestedManyWithoutBuildingInput
+  contacts?: Prisma.ContactCreateNestedManyWithoutBuildingInput
+  recurringTasks?: Prisma.RecurringTaskCreateNestedManyWithoutBuildingInput
+  expenses?: Prisma.BuildingExpenseCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUncheckedCreateWithoutAddonsInput = {
@@ -1262,6 +1402,11 @@ export type BuildingUncheckedCreateWithoutAddonsInput = {
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutBuildingInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutBuildingInput
+  files?: Prisma.BuildingFileUncheckedCreateNestedManyWithoutBuildingInput
+  infraPoints?: Prisma.InfraPointUncheckedCreateNestedManyWithoutBuildingInput
+  contacts?: Prisma.ContactUncheckedCreateNestedManyWithoutBuildingInput
+  recurringTasks?: Prisma.RecurringTaskUncheckedCreateNestedManyWithoutBuildingInput
+  expenses?: Prisma.BuildingExpenseUncheckedCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingCreateOrConnectWithoutAddonsInput = {
@@ -1307,6 +1452,11 @@ export type BuildingUpdateWithoutAddonsInput = {
   announcements?: Prisma.AnnouncementUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutBuildingNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutBuildingNestedInput
+  files?: Prisma.BuildingFileUpdateManyWithoutBuildingNestedInput
+  infraPoints?: Prisma.InfraPointUpdateManyWithoutBuildingNestedInput
+  contacts?: Prisma.ContactUpdateManyWithoutBuildingNestedInput
+  recurringTasks?: Prisma.RecurringTaskUpdateManyWithoutBuildingNestedInput
+  expenses?: Prisma.BuildingExpenseUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateWithoutAddonsInput = {
@@ -1336,6 +1486,11 @@ export type BuildingUncheckedUpdateWithoutAddonsInput = {
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutBuildingNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutBuildingNestedInput
+  files?: Prisma.BuildingFileUncheckedUpdateManyWithoutBuildingNestedInput
+  infraPoints?: Prisma.InfraPointUncheckedUpdateManyWithoutBuildingNestedInput
+  contacts?: Prisma.ContactUncheckedUpdateManyWithoutBuildingNestedInput
+  recurringTasks?: Prisma.RecurringTaskUncheckedUpdateManyWithoutBuildingNestedInput
+  expenses?: Prisma.BuildingExpenseUncheckedUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingCreateWithoutPropertyInput = {
@@ -1365,6 +1520,11 @@ export type BuildingCreateWithoutPropertyInput = {
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutBuildingInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutBuildingInput
+  files?: Prisma.BuildingFileCreateNestedManyWithoutBuildingInput
+  infraPoints?: Prisma.InfraPointCreateNestedManyWithoutBuildingInput
+  contacts?: Prisma.ContactCreateNestedManyWithoutBuildingInput
+  recurringTasks?: Prisma.RecurringTaskCreateNestedManyWithoutBuildingInput
+  expenses?: Prisma.BuildingExpenseCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUncheckedCreateWithoutPropertyInput = {
@@ -1394,6 +1554,11 @@ export type BuildingUncheckedCreateWithoutPropertyInput = {
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutBuildingInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutBuildingInput
+  files?: Prisma.BuildingFileUncheckedCreateNestedManyWithoutBuildingInput
+  infraPoints?: Prisma.InfraPointUncheckedCreateNestedManyWithoutBuildingInput
+  contacts?: Prisma.ContactUncheckedCreateNestedManyWithoutBuildingInput
+  recurringTasks?: Prisma.RecurringTaskUncheckedCreateNestedManyWithoutBuildingInput
+  expenses?: Prisma.BuildingExpenseUncheckedCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingCreateOrConnectWithoutPropertyInput = {
@@ -1420,6 +1585,766 @@ export type BuildingUpdateWithWhereUniqueWithoutPropertyInput = {
 export type BuildingUpdateManyWithWhereWithoutPropertyInput = {
   where: Prisma.BuildingScalarWhereInput
   data: Prisma.XOR<Prisma.BuildingUpdateManyMutationInput, Prisma.BuildingUncheckedUpdateManyWithoutPropertyInput>
+}
+
+export type BuildingCreateWithoutFilesInput = {
+  id?: string
+  name: string
+  address: string
+  city: string
+  postalCode: string
+  country?: string
+  imageUrl?: string | null
+  floors?: number | null
+  basements?: number | null
+  unitsCount?: number
+  hasElevator?: boolean
+  hasBoiler?: boolean
+  hasFireSafety?: boolean
+  technicalNotes?: string | null
+  lat?: number | null
+  lng?: number | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
+  property: Prisma.PropertyCreateNestedOneWithoutBuildingsInput
+  users?: Prisma.UserCreateNestedManyWithoutBuildingInput
+  units?: Prisma.UnitCreateNestedManyWithoutBuildingInput
+  commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
+  addons?: Prisma.AddonFeatureCreateNestedManyWithoutBuildingInput
+  announcements?: Prisma.AnnouncementCreateNestedManyWithoutBuildingInput
+  maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutBuildingInput
+  managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutBuildingInput
+  infraPoints?: Prisma.InfraPointCreateNestedManyWithoutBuildingInput
+  contacts?: Prisma.ContactCreateNestedManyWithoutBuildingInput
+  recurringTasks?: Prisma.RecurringTaskCreateNestedManyWithoutBuildingInput
+  expenses?: Prisma.BuildingExpenseCreateNestedManyWithoutBuildingInput
+}
+
+export type BuildingUncheckedCreateWithoutFilesInput = {
+  id?: string
+  companyId: string
+  propertyId: string
+  name: string
+  address: string
+  city: string
+  postalCode: string
+  country?: string
+  imageUrl?: string | null
+  floors?: number | null
+  basements?: number | null
+  unitsCount?: number
+  hasElevator?: boolean
+  hasBoiler?: boolean
+  hasFireSafety?: boolean
+  technicalNotes?: string | null
+  lat?: number | null
+  lng?: number | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
+  units?: Prisma.UnitUncheckedCreateNestedManyWithoutBuildingInput
+  commonAreas?: Prisma.CommonAreaUncheckedCreateNestedManyWithoutBuildingInput
+  addons?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutBuildingInput
+  announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutBuildingInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutBuildingInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutBuildingInput
+  infraPoints?: Prisma.InfraPointUncheckedCreateNestedManyWithoutBuildingInput
+  contacts?: Prisma.ContactUncheckedCreateNestedManyWithoutBuildingInput
+  recurringTasks?: Prisma.RecurringTaskUncheckedCreateNestedManyWithoutBuildingInput
+  expenses?: Prisma.BuildingExpenseUncheckedCreateNestedManyWithoutBuildingInput
+}
+
+export type BuildingCreateOrConnectWithoutFilesInput = {
+  where: Prisma.BuildingWhereUniqueInput
+  create: Prisma.XOR<Prisma.BuildingCreateWithoutFilesInput, Prisma.BuildingUncheckedCreateWithoutFilesInput>
+}
+
+export type BuildingUpsertWithoutFilesInput = {
+  update: Prisma.XOR<Prisma.BuildingUpdateWithoutFilesInput, Prisma.BuildingUncheckedUpdateWithoutFilesInput>
+  create: Prisma.XOR<Prisma.BuildingCreateWithoutFilesInput, Prisma.BuildingUncheckedCreateWithoutFilesInput>
+  where?: Prisma.BuildingWhereInput
+}
+
+export type BuildingUpdateToOneWithWhereWithoutFilesInput = {
+  where?: Prisma.BuildingWhereInput
+  data: Prisma.XOR<Prisma.BuildingUpdateWithoutFilesInput, Prisma.BuildingUncheckedUpdateWithoutFilesInput>
+}
+
+export type BuildingUpdateWithoutFilesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.StringFieldUpdateOperationsInput | string
+  postalCode?: Prisma.StringFieldUpdateOperationsInput | string
+  country?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  floors?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  basements?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  unitsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  hasElevator?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasBoiler?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasFireSafety?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
+  property?: Prisma.PropertyUpdateOneRequiredWithoutBuildingsNestedInput
+  users?: Prisma.UserUpdateManyWithoutBuildingNestedInput
+  units?: Prisma.UnitUpdateManyWithoutBuildingNestedInput
+  commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
+  addons?: Prisma.AddonFeatureUpdateManyWithoutBuildingNestedInput
+  announcements?: Prisma.AnnouncementUpdateManyWithoutBuildingNestedInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutBuildingNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutBuildingNestedInput
+  infraPoints?: Prisma.InfraPointUpdateManyWithoutBuildingNestedInput
+  contacts?: Prisma.ContactUpdateManyWithoutBuildingNestedInput
+  recurringTasks?: Prisma.RecurringTaskUpdateManyWithoutBuildingNestedInput
+  expenses?: Prisma.BuildingExpenseUpdateManyWithoutBuildingNestedInput
+}
+
+export type BuildingUncheckedUpdateWithoutFilesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  companyId?: Prisma.StringFieldUpdateOperationsInput | string
+  propertyId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.StringFieldUpdateOperationsInput | string
+  postalCode?: Prisma.StringFieldUpdateOperationsInput | string
+  country?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  floors?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  basements?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  unitsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  hasElevator?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasBoiler?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasFireSafety?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
+  units?: Prisma.UnitUncheckedUpdateManyWithoutBuildingNestedInput
+  commonAreas?: Prisma.CommonAreaUncheckedUpdateManyWithoutBuildingNestedInput
+  addons?: Prisma.AddonFeatureUncheckedUpdateManyWithoutBuildingNestedInput
+  announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutBuildingNestedInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutBuildingNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutBuildingNestedInput
+  infraPoints?: Prisma.InfraPointUncheckedUpdateManyWithoutBuildingNestedInput
+  contacts?: Prisma.ContactUncheckedUpdateManyWithoutBuildingNestedInput
+  recurringTasks?: Prisma.RecurringTaskUncheckedUpdateManyWithoutBuildingNestedInput
+  expenses?: Prisma.BuildingExpenseUncheckedUpdateManyWithoutBuildingNestedInput
+}
+
+export type BuildingCreateWithoutInfraPointsInput = {
+  id?: string
+  name: string
+  address: string
+  city: string
+  postalCode: string
+  country?: string
+  imageUrl?: string | null
+  floors?: number | null
+  basements?: number | null
+  unitsCount?: number
+  hasElevator?: boolean
+  hasBoiler?: boolean
+  hasFireSafety?: boolean
+  technicalNotes?: string | null
+  lat?: number | null
+  lng?: number | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
+  property: Prisma.PropertyCreateNestedOneWithoutBuildingsInput
+  users?: Prisma.UserCreateNestedManyWithoutBuildingInput
+  units?: Prisma.UnitCreateNestedManyWithoutBuildingInput
+  commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
+  addons?: Prisma.AddonFeatureCreateNestedManyWithoutBuildingInput
+  announcements?: Prisma.AnnouncementCreateNestedManyWithoutBuildingInput
+  maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutBuildingInput
+  managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutBuildingInput
+  files?: Prisma.BuildingFileCreateNestedManyWithoutBuildingInput
+  contacts?: Prisma.ContactCreateNestedManyWithoutBuildingInput
+  recurringTasks?: Prisma.RecurringTaskCreateNestedManyWithoutBuildingInput
+  expenses?: Prisma.BuildingExpenseCreateNestedManyWithoutBuildingInput
+}
+
+export type BuildingUncheckedCreateWithoutInfraPointsInput = {
+  id?: string
+  companyId: string
+  propertyId: string
+  name: string
+  address: string
+  city: string
+  postalCode: string
+  country?: string
+  imageUrl?: string | null
+  floors?: number | null
+  basements?: number | null
+  unitsCount?: number
+  hasElevator?: boolean
+  hasBoiler?: boolean
+  hasFireSafety?: boolean
+  technicalNotes?: string | null
+  lat?: number | null
+  lng?: number | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
+  units?: Prisma.UnitUncheckedCreateNestedManyWithoutBuildingInput
+  commonAreas?: Prisma.CommonAreaUncheckedCreateNestedManyWithoutBuildingInput
+  addons?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutBuildingInput
+  announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutBuildingInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutBuildingInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutBuildingInput
+  files?: Prisma.BuildingFileUncheckedCreateNestedManyWithoutBuildingInput
+  contacts?: Prisma.ContactUncheckedCreateNestedManyWithoutBuildingInput
+  recurringTasks?: Prisma.RecurringTaskUncheckedCreateNestedManyWithoutBuildingInput
+  expenses?: Prisma.BuildingExpenseUncheckedCreateNestedManyWithoutBuildingInput
+}
+
+export type BuildingCreateOrConnectWithoutInfraPointsInput = {
+  where: Prisma.BuildingWhereUniqueInput
+  create: Prisma.XOR<Prisma.BuildingCreateWithoutInfraPointsInput, Prisma.BuildingUncheckedCreateWithoutInfraPointsInput>
+}
+
+export type BuildingUpsertWithoutInfraPointsInput = {
+  update: Prisma.XOR<Prisma.BuildingUpdateWithoutInfraPointsInput, Prisma.BuildingUncheckedUpdateWithoutInfraPointsInput>
+  create: Prisma.XOR<Prisma.BuildingCreateWithoutInfraPointsInput, Prisma.BuildingUncheckedCreateWithoutInfraPointsInput>
+  where?: Prisma.BuildingWhereInput
+}
+
+export type BuildingUpdateToOneWithWhereWithoutInfraPointsInput = {
+  where?: Prisma.BuildingWhereInput
+  data: Prisma.XOR<Prisma.BuildingUpdateWithoutInfraPointsInput, Prisma.BuildingUncheckedUpdateWithoutInfraPointsInput>
+}
+
+export type BuildingUpdateWithoutInfraPointsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.StringFieldUpdateOperationsInput | string
+  postalCode?: Prisma.StringFieldUpdateOperationsInput | string
+  country?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  floors?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  basements?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  unitsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  hasElevator?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasBoiler?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasFireSafety?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
+  property?: Prisma.PropertyUpdateOneRequiredWithoutBuildingsNestedInput
+  users?: Prisma.UserUpdateManyWithoutBuildingNestedInput
+  units?: Prisma.UnitUpdateManyWithoutBuildingNestedInput
+  commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
+  addons?: Prisma.AddonFeatureUpdateManyWithoutBuildingNestedInput
+  announcements?: Prisma.AnnouncementUpdateManyWithoutBuildingNestedInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutBuildingNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutBuildingNestedInput
+  files?: Prisma.BuildingFileUpdateManyWithoutBuildingNestedInput
+  contacts?: Prisma.ContactUpdateManyWithoutBuildingNestedInput
+  recurringTasks?: Prisma.RecurringTaskUpdateManyWithoutBuildingNestedInput
+  expenses?: Prisma.BuildingExpenseUpdateManyWithoutBuildingNestedInput
+}
+
+export type BuildingUncheckedUpdateWithoutInfraPointsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  companyId?: Prisma.StringFieldUpdateOperationsInput | string
+  propertyId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.StringFieldUpdateOperationsInput | string
+  postalCode?: Prisma.StringFieldUpdateOperationsInput | string
+  country?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  floors?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  basements?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  unitsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  hasElevator?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasBoiler?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasFireSafety?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
+  units?: Prisma.UnitUncheckedUpdateManyWithoutBuildingNestedInput
+  commonAreas?: Prisma.CommonAreaUncheckedUpdateManyWithoutBuildingNestedInput
+  addons?: Prisma.AddonFeatureUncheckedUpdateManyWithoutBuildingNestedInput
+  announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutBuildingNestedInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutBuildingNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutBuildingNestedInput
+  files?: Prisma.BuildingFileUncheckedUpdateManyWithoutBuildingNestedInput
+  contacts?: Prisma.ContactUncheckedUpdateManyWithoutBuildingNestedInput
+  recurringTasks?: Prisma.RecurringTaskUncheckedUpdateManyWithoutBuildingNestedInput
+  expenses?: Prisma.BuildingExpenseUncheckedUpdateManyWithoutBuildingNestedInput
+}
+
+export type BuildingCreateWithoutContactsInput = {
+  id?: string
+  name: string
+  address: string
+  city: string
+  postalCode: string
+  country?: string
+  imageUrl?: string | null
+  floors?: number | null
+  basements?: number | null
+  unitsCount?: number
+  hasElevator?: boolean
+  hasBoiler?: boolean
+  hasFireSafety?: boolean
+  technicalNotes?: string | null
+  lat?: number | null
+  lng?: number | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
+  property: Prisma.PropertyCreateNestedOneWithoutBuildingsInput
+  users?: Prisma.UserCreateNestedManyWithoutBuildingInput
+  units?: Prisma.UnitCreateNestedManyWithoutBuildingInput
+  commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
+  addons?: Prisma.AddonFeatureCreateNestedManyWithoutBuildingInput
+  announcements?: Prisma.AnnouncementCreateNestedManyWithoutBuildingInput
+  maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutBuildingInput
+  managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutBuildingInput
+  files?: Prisma.BuildingFileCreateNestedManyWithoutBuildingInput
+  infraPoints?: Prisma.InfraPointCreateNestedManyWithoutBuildingInput
+  recurringTasks?: Prisma.RecurringTaskCreateNestedManyWithoutBuildingInput
+  expenses?: Prisma.BuildingExpenseCreateNestedManyWithoutBuildingInput
+}
+
+export type BuildingUncheckedCreateWithoutContactsInput = {
+  id?: string
+  companyId: string
+  propertyId: string
+  name: string
+  address: string
+  city: string
+  postalCode: string
+  country?: string
+  imageUrl?: string | null
+  floors?: number | null
+  basements?: number | null
+  unitsCount?: number
+  hasElevator?: boolean
+  hasBoiler?: boolean
+  hasFireSafety?: boolean
+  technicalNotes?: string | null
+  lat?: number | null
+  lng?: number | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
+  units?: Prisma.UnitUncheckedCreateNestedManyWithoutBuildingInput
+  commonAreas?: Prisma.CommonAreaUncheckedCreateNestedManyWithoutBuildingInput
+  addons?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutBuildingInput
+  announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutBuildingInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutBuildingInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutBuildingInput
+  files?: Prisma.BuildingFileUncheckedCreateNestedManyWithoutBuildingInput
+  infraPoints?: Prisma.InfraPointUncheckedCreateNestedManyWithoutBuildingInput
+  recurringTasks?: Prisma.RecurringTaskUncheckedCreateNestedManyWithoutBuildingInput
+  expenses?: Prisma.BuildingExpenseUncheckedCreateNestedManyWithoutBuildingInput
+}
+
+export type BuildingCreateOrConnectWithoutContactsInput = {
+  where: Prisma.BuildingWhereUniqueInput
+  create: Prisma.XOR<Prisma.BuildingCreateWithoutContactsInput, Prisma.BuildingUncheckedCreateWithoutContactsInput>
+}
+
+export type BuildingUpsertWithoutContactsInput = {
+  update: Prisma.XOR<Prisma.BuildingUpdateWithoutContactsInput, Prisma.BuildingUncheckedUpdateWithoutContactsInput>
+  create: Prisma.XOR<Prisma.BuildingCreateWithoutContactsInput, Prisma.BuildingUncheckedCreateWithoutContactsInput>
+  where?: Prisma.BuildingWhereInput
+}
+
+export type BuildingUpdateToOneWithWhereWithoutContactsInput = {
+  where?: Prisma.BuildingWhereInput
+  data: Prisma.XOR<Prisma.BuildingUpdateWithoutContactsInput, Prisma.BuildingUncheckedUpdateWithoutContactsInput>
+}
+
+export type BuildingUpdateWithoutContactsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.StringFieldUpdateOperationsInput | string
+  postalCode?: Prisma.StringFieldUpdateOperationsInput | string
+  country?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  floors?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  basements?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  unitsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  hasElevator?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasBoiler?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasFireSafety?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
+  property?: Prisma.PropertyUpdateOneRequiredWithoutBuildingsNestedInput
+  users?: Prisma.UserUpdateManyWithoutBuildingNestedInput
+  units?: Prisma.UnitUpdateManyWithoutBuildingNestedInput
+  commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
+  addons?: Prisma.AddonFeatureUpdateManyWithoutBuildingNestedInput
+  announcements?: Prisma.AnnouncementUpdateManyWithoutBuildingNestedInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutBuildingNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutBuildingNestedInput
+  files?: Prisma.BuildingFileUpdateManyWithoutBuildingNestedInput
+  infraPoints?: Prisma.InfraPointUpdateManyWithoutBuildingNestedInput
+  recurringTasks?: Prisma.RecurringTaskUpdateManyWithoutBuildingNestedInput
+  expenses?: Prisma.BuildingExpenseUpdateManyWithoutBuildingNestedInput
+}
+
+export type BuildingUncheckedUpdateWithoutContactsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  companyId?: Prisma.StringFieldUpdateOperationsInput | string
+  propertyId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.StringFieldUpdateOperationsInput | string
+  postalCode?: Prisma.StringFieldUpdateOperationsInput | string
+  country?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  floors?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  basements?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  unitsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  hasElevator?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasBoiler?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasFireSafety?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
+  units?: Prisma.UnitUncheckedUpdateManyWithoutBuildingNestedInput
+  commonAreas?: Prisma.CommonAreaUncheckedUpdateManyWithoutBuildingNestedInput
+  addons?: Prisma.AddonFeatureUncheckedUpdateManyWithoutBuildingNestedInput
+  announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutBuildingNestedInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutBuildingNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutBuildingNestedInput
+  files?: Prisma.BuildingFileUncheckedUpdateManyWithoutBuildingNestedInput
+  infraPoints?: Prisma.InfraPointUncheckedUpdateManyWithoutBuildingNestedInput
+  recurringTasks?: Prisma.RecurringTaskUncheckedUpdateManyWithoutBuildingNestedInput
+  expenses?: Prisma.BuildingExpenseUncheckedUpdateManyWithoutBuildingNestedInput
+}
+
+export type BuildingCreateWithoutRecurringTasksInput = {
+  id?: string
+  name: string
+  address: string
+  city: string
+  postalCode: string
+  country?: string
+  imageUrl?: string | null
+  floors?: number | null
+  basements?: number | null
+  unitsCount?: number
+  hasElevator?: boolean
+  hasBoiler?: boolean
+  hasFireSafety?: boolean
+  technicalNotes?: string | null
+  lat?: number | null
+  lng?: number | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
+  property: Prisma.PropertyCreateNestedOneWithoutBuildingsInput
+  users?: Prisma.UserCreateNestedManyWithoutBuildingInput
+  units?: Prisma.UnitCreateNestedManyWithoutBuildingInput
+  commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
+  addons?: Prisma.AddonFeatureCreateNestedManyWithoutBuildingInput
+  announcements?: Prisma.AnnouncementCreateNestedManyWithoutBuildingInput
+  maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutBuildingInput
+  managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutBuildingInput
+  files?: Prisma.BuildingFileCreateNestedManyWithoutBuildingInput
+  infraPoints?: Prisma.InfraPointCreateNestedManyWithoutBuildingInput
+  contacts?: Prisma.ContactCreateNestedManyWithoutBuildingInput
+  expenses?: Prisma.BuildingExpenseCreateNestedManyWithoutBuildingInput
+}
+
+export type BuildingUncheckedCreateWithoutRecurringTasksInput = {
+  id?: string
+  companyId: string
+  propertyId: string
+  name: string
+  address: string
+  city: string
+  postalCode: string
+  country?: string
+  imageUrl?: string | null
+  floors?: number | null
+  basements?: number | null
+  unitsCount?: number
+  hasElevator?: boolean
+  hasBoiler?: boolean
+  hasFireSafety?: boolean
+  technicalNotes?: string | null
+  lat?: number | null
+  lng?: number | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
+  units?: Prisma.UnitUncheckedCreateNestedManyWithoutBuildingInput
+  commonAreas?: Prisma.CommonAreaUncheckedCreateNestedManyWithoutBuildingInput
+  addons?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutBuildingInput
+  announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutBuildingInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutBuildingInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutBuildingInput
+  files?: Prisma.BuildingFileUncheckedCreateNestedManyWithoutBuildingInput
+  infraPoints?: Prisma.InfraPointUncheckedCreateNestedManyWithoutBuildingInput
+  contacts?: Prisma.ContactUncheckedCreateNestedManyWithoutBuildingInput
+  expenses?: Prisma.BuildingExpenseUncheckedCreateNestedManyWithoutBuildingInput
+}
+
+export type BuildingCreateOrConnectWithoutRecurringTasksInput = {
+  where: Prisma.BuildingWhereUniqueInput
+  create: Prisma.XOR<Prisma.BuildingCreateWithoutRecurringTasksInput, Prisma.BuildingUncheckedCreateWithoutRecurringTasksInput>
+}
+
+export type BuildingUpsertWithoutRecurringTasksInput = {
+  update: Prisma.XOR<Prisma.BuildingUpdateWithoutRecurringTasksInput, Prisma.BuildingUncheckedUpdateWithoutRecurringTasksInput>
+  create: Prisma.XOR<Prisma.BuildingCreateWithoutRecurringTasksInput, Prisma.BuildingUncheckedCreateWithoutRecurringTasksInput>
+  where?: Prisma.BuildingWhereInput
+}
+
+export type BuildingUpdateToOneWithWhereWithoutRecurringTasksInput = {
+  where?: Prisma.BuildingWhereInput
+  data: Prisma.XOR<Prisma.BuildingUpdateWithoutRecurringTasksInput, Prisma.BuildingUncheckedUpdateWithoutRecurringTasksInput>
+}
+
+export type BuildingUpdateWithoutRecurringTasksInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.StringFieldUpdateOperationsInput | string
+  postalCode?: Prisma.StringFieldUpdateOperationsInput | string
+  country?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  floors?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  basements?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  unitsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  hasElevator?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasBoiler?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasFireSafety?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
+  property?: Prisma.PropertyUpdateOneRequiredWithoutBuildingsNestedInput
+  users?: Prisma.UserUpdateManyWithoutBuildingNestedInput
+  units?: Prisma.UnitUpdateManyWithoutBuildingNestedInput
+  commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
+  addons?: Prisma.AddonFeatureUpdateManyWithoutBuildingNestedInput
+  announcements?: Prisma.AnnouncementUpdateManyWithoutBuildingNestedInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutBuildingNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutBuildingNestedInput
+  files?: Prisma.BuildingFileUpdateManyWithoutBuildingNestedInput
+  infraPoints?: Prisma.InfraPointUpdateManyWithoutBuildingNestedInput
+  contacts?: Prisma.ContactUpdateManyWithoutBuildingNestedInput
+  expenses?: Prisma.BuildingExpenseUpdateManyWithoutBuildingNestedInput
+}
+
+export type BuildingUncheckedUpdateWithoutRecurringTasksInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  companyId?: Prisma.StringFieldUpdateOperationsInput | string
+  propertyId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.StringFieldUpdateOperationsInput | string
+  postalCode?: Prisma.StringFieldUpdateOperationsInput | string
+  country?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  floors?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  basements?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  unitsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  hasElevator?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasBoiler?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasFireSafety?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
+  units?: Prisma.UnitUncheckedUpdateManyWithoutBuildingNestedInput
+  commonAreas?: Prisma.CommonAreaUncheckedUpdateManyWithoutBuildingNestedInput
+  addons?: Prisma.AddonFeatureUncheckedUpdateManyWithoutBuildingNestedInput
+  announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutBuildingNestedInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutBuildingNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutBuildingNestedInput
+  files?: Prisma.BuildingFileUncheckedUpdateManyWithoutBuildingNestedInput
+  infraPoints?: Prisma.InfraPointUncheckedUpdateManyWithoutBuildingNestedInput
+  contacts?: Prisma.ContactUncheckedUpdateManyWithoutBuildingNestedInput
+  expenses?: Prisma.BuildingExpenseUncheckedUpdateManyWithoutBuildingNestedInput
+}
+
+export type BuildingCreateWithoutExpensesInput = {
+  id?: string
+  name: string
+  address: string
+  city: string
+  postalCode: string
+  country?: string
+  imageUrl?: string | null
+  floors?: number | null
+  basements?: number | null
+  unitsCount?: number
+  hasElevator?: boolean
+  hasBoiler?: boolean
+  hasFireSafety?: boolean
+  technicalNotes?: string | null
+  lat?: number | null
+  lng?: number | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
+  property: Prisma.PropertyCreateNestedOneWithoutBuildingsInput
+  users?: Prisma.UserCreateNestedManyWithoutBuildingInput
+  units?: Prisma.UnitCreateNestedManyWithoutBuildingInput
+  commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
+  addons?: Prisma.AddonFeatureCreateNestedManyWithoutBuildingInput
+  announcements?: Prisma.AnnouncementCreateNestedManyWithoutBuildingInput
+  maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutBuildingInput
+  managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutBuildingInput
+  files?: Prisma.BuildingFileCreateNestedManyWithoutBuildingInput
+  infraPoints?: Prisma.InfraPointCreateNestedManyWithoutBuildingInput
+  contacts?: Prisma.ContactCreateNestedManyWithoutBuildingInput
+  recurringTasks?: Prisma.RecurringTaskCreateNestedManyWithoutBuildingInput
+}
+
+export type BuildingUncheckedCreateWithoutExpensesInput = {
+  id?: string
+  companyId: string
+  propertyId: string
+  name: string
+  address: string
+  city: string
+  postalCode: string
+  country?: string
+  imageUrl?: string | null
+  floors?: number | null
+  basements?: number | null
+  unitsCount?: number
+  hasElevator?: boolean
+  hasBoiler?: boolean
+  hasFireSafety?: boolean
+  technicalNotes?: string | null
+  lat?: number | null
+  lng?: number | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
+  units?: Prisma.UnitUncheckedCreateNestedManyWithoutBuildingInput
+  commonAreas?: Prisma.CommonAreaUncheckedCreateNestedManyWithoutBuildingInput
+  addons?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutBuildingInput
+  announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutBuildingInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutBuildingInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutBuildingInput
+  files?: Prisma.BuildingFileUncheckedCreateNestedManyWithoutBuildingInput
+  infraPoints?: Prisma.InfraPointUncheckedCreateNestedManyWithoutBuildingInput
+  contacts?: Prisma.ContactUncheckedCreateNestedManyWithoutBuildingInput
+  recurringTasks?: Prisma.RecurringTaskUncheckedCreateNestedManyWithoutBuildingInput
+}
+
+export type BuildingCreateOrConnectWithoutExpensesInput = {
+  where: Prisma.BuildingWhereUniqueInput
+  create: Prisma.XOR<Prisma.BuildingCreateWithoutExpensesInput, Prisma.BuildingUncheckedCreateWithoutExpensesInput>
+}
+
+export type BuildingUpsertWithoutExpensesInput = {
+  update: Prisma.XOR<Prisma.BuildingUpdateWithoutExpensesInput, Prisma.BuildingUncheckedUpdateWithoutExpensesInput>
+  create: Prisma.XOR<Prisma.BuildingCreateWithoutExpensesInput, Prisma.BuildingUncheckedCreateWithoutExpensesInput>
+  where?: Prisma.BuildingWhereInput
+}
+
+export type BuildingUpdateToOneWithWhereWithoutExpensesInput = {
+  where?: Prisma.BuildingWhereInput
+  data: Prisma.XOR<Prisma.BuildingUpdateWithoutExpensesInput, Prisma.BuildingUncheckedUpdateWithoutExpensesInput>
+}
+
+export type BuildingUpdateWithoutExpensesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.StringFieldUpdateOperationsInput | string
+  postalCode?: Prisma.StringFieldUpdateOperationsInput | string
+  country?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  floors?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  basements?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  unitsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  hasElevator?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasBoiler?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasFireSafety?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
+  property?: Prisma.PropertyUpdateOneRequiredWithoutBuildingsNestedInput
+  users?: Prisma.UserUpdateManyWithoutBuildingNestedInput
+  units?: Prisma.UnitUpdateManyWithoutBuildingNestedInput
+  commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
+  addons?: Prisma.AddonFeatureUpdateManyWithoutBuildingNestedInput
+  announcements?: Prisma.AnnouncementUpdateManyWithoutBuildingNestedInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutBuildingNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutBuildingNestedInput
+  files?: Prisma.BuildingFileUpdateManyWithoutBuildingNestedInput
+  infraPoints?: Prisma.InfraPointUpdateManyWithoutBuildingNestedInput
+  contacts?: Prisma.ContactUpdateManyWithoutBuildingNestedInput
+  recurringTasks?: Prisma.RecurringTaskUpdateManyWithoutBuildingNestedInput
+}
+
+export type BuildingUncheckedUpdateWithoutExpensesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  companyId?: Prisma.StringFieldUpdateOperationsInput | string
+  propertyId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.StringFieldUpdateOperationsInput | string
+  postalCode?: Prisma.StringFieldUpdateOperationsInput | string
+  country?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  floors?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  basements?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  unitsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  hasElevator?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasBoiler?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasFireSafety?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
+  units?: Prisma.UnitUncheckedUpdateManyWithoutBuildingNestedInput
+  commonAreas?: Prisma.CommonAreaUncheckedUpdateManyWithoutBuildingNestedInput
+  addons?: Prisma.AddonFeatureUncheckedUpdateManyWithoutBuildingNestedInput
+  announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutBuildingNestedInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutBuildingNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutBuildingNestedInput
+  files?: Prisma.BuildingFileUncheckedUpdateManyWithoutBuildingNestedInput
+  infraPoints?: Prisma.InfraPointUncheckedUpdateManyWithoutBuildingNestedInput
+  contacts?: Prisma.ContactUncheckedUpdateManyWithoutBuildingNestedInput
+  recurringTasks?: Prisma.RecurringTaskUncheckedUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingCreateWithoutManagementAssignmentsInput = {
@@ -1449,6 +2374,11 @@ export type BuildingCreateWithoutManagementAssignmentsInput = {
   addons?: Prisma.AddonFeatureCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutBuildingInput
+  files?: Prisma.BuildingFileCreateNestedManyWithoutBuildingInput
+  infraPoints?: Prisma.InfraPointCreateNestedManyWithoutBuildingInput
+  contacts?: Prisma.ContactCreateNestedManyWithoutBuildingInput
+  recurringTasks?: Prisma.RecurringTaskCreateNestedManyWithoutBuildingInput
+  expenses?: Prisma.BuildingExpenseCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUncheckedCreateWithoutManagementAssignmentsInput = {
@@ -1478,6 +2408,11 @@ export type BuildingUncheckedCreateWithoutManagementAssignmentsInput = {
   addons?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutBuildingInput
+  files?: Prisma.BuildingFileUncheckedCreateNestedManyWithoutBuildingInput
+  infraPoints?: Prisma.InfraPointUncheckedCreateNestedManyWithoutBuildingInput
+  contacts?: Prisma.ContactUncheckedCreateNestedManyWithoutBuildingInput
+  recurringTasks?: Prisma.RecurringTaskUncheckedCreateNestedManyWithoutBuildingInput
+  expenses?: Prisma.BuildingExpenseUncheckedCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingCreateOrConnectWithoutManagementAssignmentsInput = {
@@ -1523,6 +2458,11 @@ export type BuildingUpdateWithoutManagementAssignmentsInput = {
   addons?: Prisma.AddonFeatureUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutBuildingNestedInput
+  files?: Prisma.BuildingFileUpdateManyWithoutBuildingNestedInput
+  infraPoints?: Prisma.InfraPointUpdateManyWithoutBuildingNestedInput
+  contacts?: Prisma.ContactUpdateManyWithoutBuildingNestedInput
+  recurringTasks?: Prisma.RecurringTaskUpdateManyWithoutBuildingNestedInput
+  expenses?: Prisma.BuildingExpenseUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateWithoutManagementAssignmentsInput = {
@@ -1552,6 +2492,11 @@ export type BuildingUncheckedUpdateWithoutManagementAssignmentsInput = {
   addons?: Prisma.AddonFeatureUncheckedUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutBuildingNestedInput
+  files?: Prisma.BuildingFileUncheckedUpdateManyWithoutBuildingNestedInput
+  infraPoints?: Prisma.InfraPointUncheckedUpdateManyWithoutBuildingNestedInput
+  contacts?: Prisma.ContactUncheckedUpdateManyWithoutBuildingNestedInput
+  recurringTasks?: Prisma.RecurringTaskUncheckedUpdateManyWithoutBuildingNestedInput
+  expenses?: Prisma.BuildingExpenseUncheckedUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingCreateWithoutCommonAreasInput = {
@@ -1581,6 +2526,11 @@ export type BuildingCreateWithoutCommonAreasInput = {
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutBuildingInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutBuildingInput
+  files?: Prisma.BuildingFileCreateNestedManyWithoutBuildingInput
+  infraPoints?: Prisma.InfraPointCreateNestedManyWithoutBuildingInput
+  contacts?: Prisma.ContactCreateNestedManyWithoutBuildingInput
+  recurringTasks?: Prisma.RecurringTaskCreateNestedManyWithoutBuildingInput
+  expenses?: Prisma.BuildingExpenseCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUncheckedCreateWithoutCommonAreasInput = {
@@ -1610,6 +2560,11 @@ export type BuildingUncheckedCreateWithoutCommonAreasInput = {
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutBuildingInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutBuildingInput
+  files?: Prisma.BuildingFileUncheckedCreateNestedManyWithoutBuildingInput
+  infraPoints?: Prisma.InfraPointUncheckedCreateNestedManyWithoutBuildingInput
+  contacts?: Prisma.ContactUncheckedCreateNestedManyWithoutBuildingInput
+  recurringTasks?: Prisma.RecurringTaskUncheckedCreateNestedManyWithoutBuildingInput
+  expenses?: Prisma.BuildingExpenseUncheckedCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingCreateOrConnectWithoutCommonAreasInput = {
@@ -1655,6 +2610,11 @@ export type BuildingUpdateWithoutCommonAreasInput = {
   announcements?: Prisma.AnnouncementUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutBuildingNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutBuildingNestedInput
+  files?: Prisma.BuildingFileUpdateManyWithoutBuildingNestedInput
+  infraPoints?: Prisma.InfraPointUpdateManyWithoutBuildingNestedInput
+  contacts?: Prisma.ContactUpdateManyWithoutBuildingNestedInput
+  recurringTasks?: Prisma.RecurringTaskUpdateManyWithoutBuildingNestedInput
+  expenses?: Prisma.BuildingExpenseUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateWithoutCommonAreasInput = {
@@ -1684,6 +2644,11 @@ export type BuildingUncheckedUpdateWithoutCommonAreasInput = {
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutBuildingNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutBuildingNestedInput
+  files?: Prisma.BuildingFileUncheckedUpdateManyWithoutBuildingNestedInput
+  infraPoints?: Prisma.InfraPointUncheckedUpdateManyWithoutBuildingNestedInput
+  contacts?: Prisma.ContactUncheckedUpdateManyWithoutBuildingNestedInput
+  recurringTasks?: Prisma.RecurringTaskUncheckedUpdateManyWithoutBuildingNestedInput
+  expenses?: Prisma.BuildingExpenseUncheckedUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingCreateWithoutUnitsInput = {
@@ -1713,6 +2678,11 @@ export type BuildingCreateWithoutUnitsInput = {
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutBuildingInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutBuildingInput
+  files?: Prisma.BuildingFileCreateNestedManyWithoutBuildingInput
+  infraPoints?: Prisma.InfraPointCreateNestedManyWithoutBuildingInput
+  contacts?: Prisma.ContactCreateNestedManyWithoutBuildingInput
+  recurringTasks?: Prisma.RecurringTaskCreateNestedManyWithoutBuildingInput
+  expenses?: Prisma.BuildingExpenseCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUncheckedCreateWithoutUnitsInput = {
@@ -1742,6 +2712,11 @@ export type BuildingUncheckedCreateWithoutUnitsInput = {
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutBuildingInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutBuildingInput
+  files?: Prisma.BuildingFileUncheckedCreateNestedManyWithoutBuildingInput
+  infraPoints?: Prisma.InfraPointUncheckedCreateNestedManyWithoutBuildingInput
+  contacts?: Prisma.ContactUncheckedCreateNestedManyWithoutBuildingInput
+  recurringTasks?: Prisma.RecurringTaskUncheckedCreateNestedManyWithoutBuildingInput
+  expenses?: Prisma.BuildingExpenseUncheckedCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingCreateOrConnectWithoutUnitsInput = {
@@ -1787,6 +2762,11 @@ export type BuildingUpdateWithoutUnitsInput = {
   announcements?: Prisma.AnnouncementUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutBuildingNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutBuildingNestedInput
+  files?: Prisma.BuildingFileUpdateManyWithoutBuildingNestedInput
+  infraPoints?: Prisma.InfraPointUpdateManyWithoutBuildingNestedInput
+  contacts?: Prisma.ContactUpdateManyWithoutBuildingNestedInput
+  recurringTasks?: Prisma.RecurringTaskUpdateManyWithoutBuildingNestedInput
+  expenses?: Prisma.BuildingExpenseUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateWithoutUnitsInput = {
@@ -1816,6 +2796,11 @@ export type BuildingUncheckedUpdateWithoutUnitsInput = {
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutBuildingNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutBuildingNestedInput
+  files?: Prisma.BuildingFileUncheckedUpdateManyWithoutBuildingNestedInput
+  infraPoints?: Prisma.InfraPointUncheckedUpdateManyWithoutBuildingNestedInput
+  contacts?: Prisma.ContactUncheckedUpdateManyWithoutBuildingNestedInput
+  recurringTasks?: Prisma.RecurringTaskUncheckedUpdateManyWithoutBuildingNestedInput
+  expenses?: Prisma.BuildingExpenseUncheckedUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingCreateWithoutAnnouncementsInput = {
@@ -1845,6 +2830,11 @@ export type BuildingCreateWithoutAnnouncementsInput = {
   addons?: Prisma.AddonFeatureCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutBuildingInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutBuildingInput
+  files?: Prisma.BuildingFileCreateNestedManyWithoutBuildingInput
+  infraPoints?: Prisma.InfraPointCreateNestedManyWithoutBuildingInput
+  contacts?: Prisma.ContactCreateNestedManyWithoutBuildingInput
+  recurringTasks?: Prisma.RecurringTaskCreateNestedManyWithoutBuildingInput
+  expenses?: Prisma.BuildingExpenseCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUncheckedCreateWithoutAnnouncementsInput = {
@@ -1874,6 +2864,11 @@ export type BuildingUncheckedCreateWithoutAnnouncementsInput = {
   addons?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutBuildingInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutBuildingInput
+  files?: Prisma.BuildingFileUncheckedCreateNestedManyWithoutBuildingInput
+  infraPoints?: Prisma.InfraPointUncheckedCreateNestedManyWithoutBuildingInput
+  contacts?: Prisma.ContactUncheckedCreateNestedManyWithoutBuildingInput
+  recurringTasks?: Prisma.RecurringTaskUncheckedCreateNestedManyWithoutBuildingInput
+  expenses?: Prisma.BuildingExpenseUncheckedCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingCreateOrConnectWithoutAnnouncementsInput = {
@@ -1919,6 +2914,11 @@ export type BuildingUpdateWithoutAnnouncementsInput = {
   addons?: Prisma.AddonFeatureUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutBuildingNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutBuildingNestedInput
+  files?: Prisma.BuildingFileUpdateManyWithoutBuildingNestedInput
+  infraPoints?: Prisma.InfraPointUpdateManyWithoutBuildingNestedInput
+  contacts?: Prisma.ContactUpdateManyWithoutBuildingNestedInput
+  recurringTasks?: Prisma.RecurringTaskUpdateManyWithoutBuildingNestedInput
+  expenses?: Prisma.BuildingExpenseUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateWithoutAnnouncementsInput = {
@@ -1948,6 +2948,11 @@ export type BuildingUncheckedUpdateWithoutAnnouncementsInput = {
   addons?: Prisma.AddonFeatureUncheckedUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutBuildingNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutBuildingNestedInput
+  files?: Prisma.BuildingFileUncheckedUpdateManyWithoutBuildingNestedInput
+  infraPoints?: Prisma.InfraPointUncheckedUpdateManyWithoutBuildingNestedInput
+  contacts?: Prisma.ContactUncheckedUpdateManyWithoutBuildingNestedInput
+  recurringTasks?: Prisma.RecurringTaskUncheckedUpdateManyWithoutBuildingNestedInput
+  expenses?: Prisma.BuildingExpenseUncheckedUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingCreateWithoutMaintenanceRequestsInput = {
@@ -1977,6 +2982,11 @@ export type BuildingCreateWithoutMaintenanceRequestsInput = {
   addons?: Prisma.AddonFeatureCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutBuildingInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutBuildingInput
+  files?: Prisma.BuildingFileCreateNestedManyWithoutBuildingInput
+  infraPoints?: Prisma.InfraPointCreateNestedManyWithoutBuildingInput
+  contacts?: Prisma.ContactCreateNestedManyWithoutBuildingInput
+  recurringTasks?: Prisma.RecurringTaskCreateNestedManyWithoutBuildingInput
+  expenses?: Prisma.BuildingExpenseCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUncheckedCreateWithoutMaintenanceRequestsInput = {
@@ -2006,6 +3016,11 @@ export type BuildingUncheckedCreateWithoutMaintenanceRequestsInput = {
   addons?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutBuildingInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutBuildingInput
+  files?: Prisma.BuildingFileUncheckedCreateNestedManyWithoutBuildingInput
+  infraPoints?: Prisma.InfraPointUncheckedCreateNestedManyWithoutBuildingInput
+  contacts?: Prisma.ContactUncheckedCreateNestedManyWithoutBuildingInput
+  recurringTasks?: Prisma.RecurringTaskUncheckedCreateNestedManyWithoutBuildingInput
+  expenses?: Prisma.BuildingExpenseUncheckedCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingCreateOrConnectWithoutMaintenanceRequestsInput = {
@@ -2051,6 +3066,11 @@ export type BuildingUpdateWithoutMaintenanceRequestsInput = {
   addons?: Prisma.AddonFeatureUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUpdateManyWithoutBuildingNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutBuildingNestedInput
+  files?: Prisma.BuildingFileUpdateManyWithoutBuildingNestedInput
+  infraPoints?: Prisma.InfraPointUpdateManyWithoutBuildingNestedInput
+  contacts?: Prisma.ContactUpdateManyWithoutBuildingNestedInput
+  recurringTasks?: Prisma.RecurringTaskUpdateManyWithoutBuildingNestedInput
+  expenses?: Prisma.BuildingExpenseUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateWithoutMaintenanceRequestsInput = {
@@ -2080,6 +3100,11 @@ export type BuildingUncheckedUpdateWithoutMaintenanceRequestsInput = {
   addons?: Prisma.AddonFeatureUncheckedUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutBuildingNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutBuildingNestedInput
+  files?: Prisma.BuildingFileUncheckedUpdateManyWithoutBuildingNestedInput
+  infraPoints?: Prisma.InfraPointUncheckedUpdateManyWithoutBuildingNestedInput
+  contacts?: Prisma.ContactUncheckedUpdateManyWithoutBuildingNestedInput
+  recurringTasks?: Prisma.RecurringTaskUncheckedUpdateManyWithoutBuildingNestedInput
+  expenses?: Prisma.BuildingExpenseUncheckedUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingCreateManyCompanyInput = {
@@ -2131,6 +3156,11 @@ export type BuildingUpdateWithoutCompanyInput = {
   announcements?: Prisma.AnnouncementUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutBuildingNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutBuildingNestedInput
+  files?: Prisma.BuildingFileUpdateManyWithoutBuildingNestedInput
+  infraPoints?: Prisma.InfraPointUpdateManyWithoutBuildingNestedInput
+  contacts?: Prisma.ContactUpdateManyWithoutBuildingNestedInput
+  recurringTasks?: Prisma.RecurringTaskUpdateManyWithoutBuildingNestedInput
+  expenses?: Prisma.BuildingExpenseUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateWithoutCompanyInput = {
@@ -2160,6 +3190,11 @@ export type BuildingUncheckedUpdateWithoutCompanyInput = {
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutBuildingNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutBuildingNestedInput
+  files?: Prisma.BuildingFileUncheckedUpdateManyWithoutBuildingNestedInput
+  infraPoints?: Prisma.InfraPointUncheckedUpdateManyWithoutBuildingNestedInput
+  contacts?: Prisma.ContactUncheckedUpdateManyWithoutBuildingNestedInput
+  recurringTasks?: Prisma.RecurringTaskUncheckedUpdateManyWithoutBuildingNestedInput
+  expenses?: Prisma.BuildingExpenseUncheckedUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateManyWithoutCompanyInput = {
@@ -2233,6 +3268,11 @@ export type BuildingUpdateWithoutPropertyInput = {
   announcements?: Prisma.AnnouncementUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutBuildingNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutBuildingNestedInput
+  files?: Prisma.BuildingFileUpdateManyWithoutBuildingNestedInput
+  infraPoints?: Prisma.InfraPointUpdateManyWithoutBuildingNestedInput
+  contacts?: Prisma.ContactUpdateManyWithoutBuildingNestedInput
+  recurringTasks?: Prisma.RecurringTaskUpdateManyWithoutBuildingNestedInput
+  expenses?: Prisma.BuildingExpenseUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateWithoutPropertyInput = {
@@ -2262,6 +3302,11 @@ export type BuildingUncheckedUpdateWithoutPropertyInput = {
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutBuildingNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutBuildingNestedInput
+  files?: Prisma.BuildingFileUncheckedUpdateManyWithoutBuildingNestedInput
+  infraPoints?: Prisma.InfraPointUncheckedUpdateManyWithoutBuildingNestedInput
+  contacts?: Prisma.ContactUncheckedUpdateManyWithoutBuildingNestedInput
+  recurringTasks?: Prisma.RecurringTaskUncheckedUpdateManyWithoutBuildingNestedInput
+  expenses?: Prisma.BuildingExpenseUncheckedUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateManyWithoutPropertyInput = {
@@ -2299,6 +3344,11 @@ export type BuildingCountOutputType = {
   announcements: number
   maintenanceRequests: number
   managementAssignments: number
+  files: number
+  infraPoints: number
+  contacts: number
+  recurringTasks: number
+  expenses: number
 }
 
 export type BuildingCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2309,6 +3359,11 @@ export type BuildingCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensio
   announcements?: boolean | BuildingCountOutputTypeCountAnnouncementsArgs
   maintenanceRequests?: boolean | BuildingCountOutputTypeCountMaintenanceRequestsArgs
   managementAssignments?: boolean | BuildingCountOutputTypeCountManagementAssignmentsArgs
+  files?: boolean | BuildingCountOutputTypeCountFilesArgs
+  infraPoints?: boolean | BuildingCountOutputTypeCountInfraPointsArgs
+  contacts?: boolean | BuildingCountOutputTypeCountContactsArgs
+  recurringTasks?: boolean | BuildingCountOutputTypeCountRecurringTasksArgs
+  expenses?: boolean | BuildingCountOutputTypeCountExpensesArgs
 }
 
 /**
@@ -2370,6 +3425,41 @@ export type BuildingCountOutputTypeCountManagementAssignmentsArgs<ExtArgs extend
   where?: Prisma.ManagementAssignmentWhereInput
 }
 
+/**
+ * BuildingCountOutputType without action
+ */
+export type BuildingCountOutputTypeCountFilesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.BuildingFileWhereInput
+}
+
+/**
+ * BuildingCountOutputType without action
+ */
+export type BuildingCountOutputTypeCountInfraPointsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.InfraPointWhereInput
+}
+
+/**
+ * BuildingCountOutputType without action
+ */
+export type BuildingCountOutputTypeCountContactsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ContactWhereInput
+}
+
+/**
+ * BuildingCountOutputType without action
+ */
+export type BuildingCountOutputTypeCountRecurringTasksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.RecurringTaskWhereInput
+}
+
+/**
+ * BuildingCountOutputType without action
+ */
+export type BuildingCountOutputTypeCountExpensesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.BuildingExpenseWhereInput
+}
+
 
 export type BuildingSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -2401,6 +3491,11 @@ export type BuildingSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   announcements?: boolean | Prisma.Building$announcementsArgs<ExtArgs>
   maintenanceRequests?: boolean | Prisma.Building$maintenanceRequestsArgs<ExtArgs>
   managementAssignments?: boolean | Prisma.Building$managementAssignmentsArgs<ExtArgs>
+  files?: boolean | Prisma.Building$filesArgs<ExtArgs>
+  infraPoints?: boolean | Prisma.Building$infraPointsArgs<ExtArgs>
+  contacts?: boolean | Prisma.Building$contactsArgs<ExtArgs>
+  recurringTasks?: boolean | Prisma.Building$recurringTasksArgs<ExtArgs>
+  expenses?: boolean | Prisma.Building$expensesArgs<ExtArgs>
   _count?: boolean | Prisma.BuildingCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["building"]>
 
@@ -2488,6 +3583,11 @@ export type BuildingInclude<ExtArgs extends runtime.Types.Extensions.InternalArg
   announcements?: boolean | Prisma.Building$announcementsArgs<ExtArgs>
   maintenanceRequests?: boolean | Prisma.Building$maintenanceRequestsArgs<ExtArgs>
   managementAssignments?: boolean | Prisma.Building$managementAssignmentsArgs<ExtArgs>
+  files?: boolean | Prisma.Building$filesArgs<ExtArgs>
+  infraPoints?: boolean | Prisma.Building$infraPointsArgs<ExtArgs>
+  contacts?: boolean | Prisma.Building$contactsArgs<ExtArgs>
+  recurringTasks?: boolean | Prisma.Building$recurringTasksArgs<ExtArgs>
+  expenses?: boolean | Prisma.Building$expensesArgs<ExtArgs>
   _count?: boolean | Prisma.BuildingCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type BuildingIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2511,6 +3611,11 @@ export type $BuildingPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     announcements: Prisma.$AnnouncementPayload<ExtArgs>[]
     maintenanceRequests: Prisma.$MaintenanceRequestPayload<ExtArgs>[]
     managementAssignments: Prisma.$ManagementAssignmentPayload<ExtArgs>[]
+    files: Prisma.$BuildingFilePayload<ExtArgs>[]
+    infraPoints: Prisma.$InfraPointPayload<ExtArgs>[]
+    contacts: Prisma.$ContactPayload<ExtArgs>[]
+    recurringTasks: Prisma.$RecurringTaskPayload<ExtArgs>[]
+    expenses: Prisma.$BuildingExpensePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2936,6 +4041,11 @@ export interface Prisma__BuildingClient<T, Null = never, ExtArgs extends runtime
   announcements<T extends Prisma.Building$announcementsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Building$announcementsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AnnouncementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   maintenanceRequests<T extends Prisma.Building$maintenanceRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Building$maintenanceRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MaintenanceRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   managementAssignments<T extends Prisma.Building$managementAssignmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Building$managementAssignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ManagementAssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  files<T extends Prisma.Building$filesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Building$filesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BuildingFilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  infraPoints<T extends Prisma.Building$infraPointsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Building$infraPointsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InfraPointPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  contacts<T extends Prisma.Building$contactsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Building$contactsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ContactPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  recurringTasks<T extends Prisma.Building$recurringTasksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Building$recurringTasksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RecurringTaskPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  expenses<T extends Prisma.Building$expensesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Building$expensesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BuildingExpensePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3551,6 +4661,126 @@ export type Building$managementAssignmentsArgs<ExtArgs extends runtime.Types.Ext
   take?: number
   skip?: number
   distinct?: Prisma.ManagementAssignmentScalarFieldEnum | Prisma.ManagementAssignmentScalarFieldEnum[]
+}
+
+/**
+ * Building.files
+ */
+export type Building$filesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the BuildingFile
+   */
+  select?: Prisma.BuildingFileSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the BuildingFile
+   */
+  omit?: Prisma.BuildingFileOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BuildingFileInclude<ExtArgs> | null
+  where?: Prisma.BuildingFileWhereInput
+  orderBy?: Prisma.BuildingFileOrderByWithRelationInput | Prisma.BuildingFileOrderByWithRelationInput[]
+  cursor?: Prisma.BuildingFileWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.BuildingFileScalarFieldEnum | Prisma.BuildingFileScalarFieldEnum[]
+}
+
+/**
+ * Building.infraPoints
+ */
+export type Building$infraPointsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the InfraPoint
+   */
+  select?: Prisma.InfraPointSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the InfraPoint
+   */
+  omit?: Prisma.InfraPointOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.InfraPointInclude<ExtArgs> | null
+  where?: Prisma.InfraPointWhereInput
+  orderBy?: Prisma.InfraPointOrderByWithRelationInput | Prisma.InfraPointOrderByWithRelationInput[]
+  cursor?: Prisma.InfraPointWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.InfraPointScalarFieldEnum | Prisma.InfraPointScalarFieldEnum[]
+}
+
+/**
+ * Building.contacts
+ */
+export type Building$contactsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Contact
+   */
+  select?: Prisma.ContactSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Contact
+   */
+  omit?: Prisma.ContactOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ContactInclude<ExtArgs> | null
+  where?: Prisma.ContactWhereInput
+  orderBy?: Prisma.ContactOrderByWithRelationInput | Prisma.ContactOrderByWithRelationInput[]
+  cursor?: Prisma.ContactWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ContactScalarFieldEnum | Prisma.ContactScalarFieldEnum[]
+}
+
+/**
+ * Building.recurringTasks
+ */
+export type Building$recurringTasksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the RecurringTask
+   */
+  select?: Prisma.RecurringTaskSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the RecurringTask
+   */
+  omit?: Prisma.RecurringTaskOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RecurringTaskInclude<ExtArgs> | null
+  where?: Prisma.RecurringTaskWhereInput
+  orderBy?: Prisma.RecurringTaskOrderByWithRelationInput | Prisma.RecurringTaskOrderByWithRelationInput[]
+  cursor?: Prisma.RecurringTaskWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.RecurringTaskScalarFieldEnum | Prisma.RecurringTaskScalarFieldEnum[]
+}
+
+/**
+ * Building.expenses
+ */
+export type Building$expensesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the BuildingExpense
+   */
+  select?: Prisma.BuildingExpenseSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the BuildingExpense
+   */
+  omit?: Prisma.BuildingExpenseOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BuildingExpenseInclude<ExtArgs> | null
+  where?: Prisma.BuildingExpenseWhereInput
+  orderBy?: Prisma.BuildingExpenseOrderByWithRelationInput | Prisma.BuildingExpenseOrderByWithRelationInput[]
+  cursor?: Prisma.BuildingExpenseWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.BuildingExpenseScalarFieldEnum | Prisma.BuildingExpenseScalarFieldEnum[]
 }
 
 /**
