@@ -3,6 +3,7 @@
 import { auth } from "@/auth";
 import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
+import { ensureFolder, propertyFolder, buildingFolder } from "@/lib/bunnycdn";
 
 async function requireSuperAdmin() {
   const session = await auth();
@@ -71,7 +72,7 @@ export async function createProperty(data: PropertyInput) {
 
   // Every property starts with at least one default building.
   const sameAddress = data.sameAddressBuilding ?? true;
-  await db.building.create({
+  const building = await db.building.create({
     data: {
       companyId,
       propertyId: property.id,
@@ -84,6 +85,14 @@ export async function createProperty(data: PropertyInput) {
       lng: sameAddress ? property.lng : null,
     },
   });
+
+  // Best-effort BunnyCDN folder setup (don't fail creation if storage is down).
+  try {
+    await ensureFolder(propertyFolder(property.id));
+    await ensureFolder(buildingFolder(property.id, building.id));
+  } catch (e) {
+    console.error("BunnyCDN folder creation failed for property", property.id, e);
+  }
 
   revalidatePath("/super-admin/properties");
   return {

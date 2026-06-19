@@ -4,6 +4,7 @@ import { auth } from "@/auth";
 import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import { computeMillesimes } from "@/lib/millesimes";
+import { ensureFolder, buildingFolder } from "@/lib/bunnycdn";
 
 async function requireSuperAdmin() {
   const session = await auth();
@@ -77,6 +78,14 @@ export async function createBuilding(propertyId: string, data: BuildingInput) {
       lng: data.lng ?? null,
     },
   });
+
+  // Best-effort BunnyCDN folder for this building's files.
+  try {
+    await ensureFolder(buildingFolder(propertyId, building.id));
+  } catch (e) {
+    console.error("BunnyCDN folder creation failed for building", building.id, e);
+  }
+
   revalidatePath(`/super-admin/properties/${propertyId}`);
   return { building };
 }

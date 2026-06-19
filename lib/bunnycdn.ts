@@ -154,4 +154,26 @@ export async function deleteFromCDN(cdnUrl: string): Promise<DeleteResponse> {
   return deleteFile(path);
 }
 
+// ── Folder layout for property/building file storage ─────────────────────────
+// BunnyCDN storage has no explicit "create folder" call — a folder comes into
+// existence when an object is written under it. We materialise the folder by
+// uploading a tiny `.keep` placeholder so it is visible/usable immediately.
+
+export function propertyFolder(propertyId: string): string {
+  return `properties/${propertyId}`;
+}
+
+export function buildingFolder(propertyId: string, buildingId: string): string {
+  return `properties/${propertyId}/buildings/${buildingId}`;
+}
+
+/** Ensure a storage folder exists by writing a `.keep` placeholder inside it. */
+export async function ensureFolder(folderPath: string): Promise<UploadResponse> {
+  return uploadFile({
+    path: `${folderPath}/.keep`,
+    buffer: Buffer.from(""),
+    contentType: "text/plain",
+  });
+}
+
 export { uploadFile, deleteFile, generateSignedUrl };
