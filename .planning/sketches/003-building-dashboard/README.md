@@ -9,10 +9,18 @@ tags: [dashboard, building, documents, control-center]
 # Sketch 003: Building Dashboard / Control Center
 
 ## Design Question
-A richer, dashboard-style page for ONE building that acts as a control center — KPIs,
-quick access to all building functions (units, occupants, managers, maintenance,
-announcements, millèsimes), and a first-class **Documents** area backed by the
-BunnyCDN folder (`properties/{id}/buildings/{id}/`).
+A richer, dashboard-style page for ONE building that acts as a control center holding a
+LOT of information across many modules:
+
+- **Αρχεία** — σχέδια/κατόψεις, φωτογραφίες, έγγραφα/συμβόλαια, πιστοποιητικά (BunnyCDN `properties/{id}/buildings/{id}/`)
+- **Ημερολόγιο & Εργασίες** — επαναλαμβανόμενες εργασίες (συντήρηση ανελκυστήρα, καθαρισμός, απολύμανση…)
+- **Επαφές & Χρήσιμα τηλέφωνα** — συντηρητές, προμηθευτές, έκτακτη ανάγκη
+- **Κοινόχρηστα & Αποδείξεις** — μηνιαία έξοδα + συνημμένες αποδείξεις
+- **Πληρωμές** — εισπράξεις/οφειλές ανά μονάδα
+- **Εγκαταστάσεις & Σημεία Πρόσβασης** — ΔΕΗ μετρητές, κουτί ΟΤΕ, ταράτσα, κεραία TV, λεβητοστάσιο: φωτογραφία, όροφος/θέση, κλείδωμα, ποιος έχει πρόσβαση, ποιος κρατά το κλειδί
+- Μονάδες · Ένοικοι/Ιδιοκτήτες · Διαχειριστές · Συντήρηση/Βλάβες · Ανακοινώσεις · Χιλιοστά
+
+Plus KPIs and quick actions at the top.
 
 ## How to View
 open .planning/sketches/003-building-dashboard/index.html

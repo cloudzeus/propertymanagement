@@ -74,6 +74,20 @@
   .grid-kpi { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
   .grid-modules { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
   @media (max-width: 900px) { .grid-kpi { grid-template-columns: repeat(2,1fr);} .grid-modules{grid-template-columns:1fr;} }
+
+  .rail-group { font-size: 10px; font-weight: 700; letter-spacing: .08em; color: var(--color-text-muted); padding: 12px 10px 4px; }
+  .cal-d { padding: 6px 0; border-radius: var(--radius-sm); position: relative; }
+  .cal-d.today { background: var(--color-primary); color: #fff; font-weight: 700; }
+  .cal-d.dot::after { content: "●"; position: absolute; bottom: -2px; left: 50%; transform: translateX(-50%); font-size: 6px; color: var(--color-blue); }
+  .cal-d.dot2::after { content: "●"; position: absolute; bottom: -2px; left: 50%; transform: translateX(-50%); font-size: 6px; color: var(--color-primary); }
+
+  /* infrastructure / access points */
+  .infra-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; }
+  @media (max-width: 900px){ .infra-grid{ grid-template-columns:1fr; } }
+  .infra-photo { height: 120px; background: linear-gradient(135deg,#e1dfdd,#f3f2f1); display:flex; align-items:center; justify-content:center; font-size:30px; color: var(--color-text-muted); }
+  .kv { display:flex; gap:6px; font-size: var(--text-xs); padding: 3px 0; }
+  .kv .k { color: var(--color-text-muted); min-width: 64px; }
+  .lock { font-size: var(--text-xs); font-weight:700; }
 </style>
 </head>
 <body>
@@ -97,13 +111,22 @@
       </div>
       <nav id="railA">
         <a class="rail active" data-p="a-overview">▦ Επισκόπηση</a>
+        <div class="rail-group">ΧΩΡΟΙ</div>
         <a class="rail" data-p="a-units">▣ Μονάδες <span class="muted">24</span></a>
         <a class="rail" data-p="a-people">◓ Ένοικοι/Ιδιοκτήτες</a>
         <a class="rail" data-p="a-managers">★ Διαχειριστές</a>
-        <a class="rail" data-p="a-docs">▤ Έγγραφα <span class="muted">18</span></a>
+        <div class="rail-group">ΑΡΧΕΙΟ</div>
+        <a class="rail" data-p="a-docs">▤ Αρχεία <span class="muted">18</span></a>
+        <a class="rail" data-p="a-cal">▦ Ημερολόγιο & Εργασίες <span class="chip blue" style="padding:1px 6px;">5</span></a>
+        <a class="rail" data-p="a-contacts">☎ Επαφές & Τηλέφωνα</a>
+        <a class="rail" data-p="a-infra">⚙ Εγκαταστάσεις & Πρόσβαση</a>
+        <div class="rail-group">ΟΙΚΟΝΟΜΙΚΑ</div>
+        <a class="rail" data-p="a-koino">€ Κοινόχρηστα & Αποδείξεις</a>
+        <a class="rail" data-p="a-pay">▸ Πληρωμές <span class="chip orange" style="padding:1px 6px;">2</span></a>
+        <a class="rail" data-p="a-mill">∺ Χιλιοστά</a>
+        <div class="rail-group">ΛΕΙΤΟΥΡΓΙΑ</div>
         <a class="rail" data-p="a-maint">⚠ Συντήρηση <span class="chip orange" style="padding:1px 6px;">3</span></a>
         <a class="rail" data-p="a-ann">◈ Ανακοινώσεις</a>
-        <a class="rail" data-p="a-mill">∺ Χιλιοστά</a>
       </nav>
     </aside>
 
@@ -169,6 +192,11 @@
       <section class="apanel" id="a-maint"><h1 style="font-size:var(--text-2xl)">Συντήρηση / Βλάβες</h1><p class="muted">Ροή βλαβών & αιτημάτων.</p></section>
       <section class="apanel" id="a-ann"><h1 style="font-size:var(--text-2xl)">Ανακοινώσεις</h1><p class="muted">Ανακοινώσεις προς ενοίκους.</p></section>
       <section class="apanel" id="a-mill"><h1 style="font-size:var(--text-2xl)">Χιλιοστά</h1><p class="muted">Προβολή/υπολογισμός χιλιοστών.</p></section>
+      <section class="apanel" id="a-cal"><h1 style="font-size:var(--text-2xl)">Ημερολόγιο & Εργασίες</h1><p class="muted">Επαναλαμβανόμενες εργασίες (καθαρισμός, συντήρηση ανελκυστήρα, απολύμανση…) — δες το αναλυτικό στο Variant B.</p></section>
+      <section class="apanel" id="a-contacts"><h1 style="font-size:var(--text-2xl)">Επαφές & Τηλέφωνα</h1><p class="muted">Χρήσιμα τηλέφωνα: συντηρητές, προμηθευτές, έκτακτη ανάγκη — δες το αναλυτικό στο Variant B.</p></section>
+      <section class="apanel" id="a-koino"><h1 style="font-size:var(--text-2xl)">Κοινόχρηστα & Αποδείξεις</h1><p class="muted">Μηνιαία κοινόχρηστα, αποδείξεις εξόδων — δες το αναλυτικό στο Variant B.</p></section>
+      <section class="apanel" id="a-pay"><h1 style="font-size:var(--text-2xl)">Πληρωμές</h1><p class="muted">Εισπράξεις/οφειλές ανά μονάδα — δες το αναλυτικό στο Variant B.</p></section>
+      <section class="apanel" id="a-infra"><h1 style="font-size:var(--text-2xl)">Εγκαταστάσεις & Σημεία Πρόσβασης</h1><p class="muted">ΔΕΗ μετρητές, κουτί ΟΤΕ, ταράτσα, κεραία, λεβητοστάσιο — με φωτογραφία, όροφο, κλείδωμα, πρόσβαση & κάτοχο κλειδιού. Δες το αναλυτικό στο Variant B (tab «Εγκαταστάσεις»).</p></section>
     </main>
   </div>
 </div>
@@ -208,7 +236,12 @@
       <button class="tab" data-p="b-units">Μονάδες</button>
       <button class="tab" data-p="b-people">Ένοικοι</button>
       <button class="tab" data-p="b-managers">Διαχειριστές</button>
-      <button class="tab active" data-p="b-docs">Έγγραφα</button>
+      <button class="tab active" data-p="b-docs">Αρχεία</button>
+      <button class="tab" data-p="b-cal">Ημερολόγιο</button>
+      <button class="tab" data-p="b-contacts">Επαφές</button>
+      <button class="tab" data-p="b-infra">Εγκαταστάσεις</button>
+      <button class="tab" data-p="b-koino">Κοινόχρηστα</button>
+      <button class="tab" data-p="b-pay">Πληρωμές</button>
       <button class="tab" data-p="b-maint">Συντήρηση</button>
       <button class="tab" data-p="b-ann">Ανακοινώσεις</button>
       <button class="tab" data-p="b-mill">Χιλιοστά</button>
@@ -221,7 +254,14 @@
       <div class="bpanel active" id="b-docs">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
           <div class="folderbar" style="margin:0;">📁 <code>…/buildings/bld_8x…/</code> · 18 αρχεία · 41 MB</div>
-          <div style="display:flex; gap:8px;"><input placeholder="Αναζήτηση εγγράφου…" class="btn" style="cursor:text; min-width:200px;"><button class="btn btn-primary" onclick="toast('Ανέβασμα')">⬆ Ανέβασμα</button></div>
+          <div style="display:flex; gap:8px;"><input placeholder="Αναζήτηση αρχείου…" class="btn" style="cursor:text; min-width:200px;"><button class="btn btn-primary" onclick="toast('Ανέβασμα')">⬆ Ανέβασμα</button></div>
+        </div>
+        <div style="display:flex; gap:8px; margin-bottom:14px; flex-wrap:wrap;">
+          <button class="btn btn-primary" onclick="toast('Όλα')">Όλα <span class="muted" style="color:#fff;opacity:.7">18</span></button>
+          <button class="btn" onclick="toast('Σχέδια / Κατόψεις')">📐 Σχέδια & Κατόψεις <span class="muted">4</span></button>
+          <button class="btn" onclick="toast('Φωτογραφίες')">🖼 Φωτογραφίες <span class="muted">7</span></button>
+          <button class="btn" onclick="toast('Έγγραφα / Συμβόλαια')">📄 Έγγραφα & Συμβόλαια <span class="muted">5</span></button>
+          <button class="btn" onclick="toast('Πιστοποιητικά')">🛡 Πιστοποιητικά <span class="muted">2</span></button>
         </div>
         <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(190px,1fr)); gap:12px;">
           <div class="card" style="overflow:hidden;"><div style="height:90px;background:#d1343815;display:flex;align-items:center;justify-content:center;font-weight:800;color:#d13438;">PDF</div><div class="card-b" style="padding:10px;"><div class="file-name">Συμβόλαιο ανελκυστήρα.pdf</div><div class="file-sub">2,4 MB · σήμερα</div></div></div>
@@ -232,12 +272,166 @@
         </div>
       </div>
 
-      <div class="bpanel" id="b-units"><p class="muted">Πίνακας μονάδων.</p></div>
-      <div class="bpanel" id="b-people"><p class="muted">Ένοικοι / ιδιοκτήτες.</p></div>
-      <div class="bpanel" id="b-managers"><p class="muted">Διαχειριστές κτηρίου.</p></div>
+      <div class="bpanel" id="b-units"><p class="muted">Πίνακας μονάδων (DataTable): ιδιοκτήτης/ένοικος, τ.μ., χιλιοστά, όροφος.</p></div>
+      <div class="bpanel" id="b-people"><p class="muted">Ένοικοι / ιδιοκτήτες του κτηρίου.</p></div>
+      <div class="bpanel" id="b-managers"><p class="muted">Διαχειριστές κτηρίου (ιδιοκτήτες/ένοικοι ή προσωπικό εταιρείας).</p></div>
       <div class="bpanel" id="b-maint"><p class="muted">Βλάβες & συντήρηση.</p></div>
       <div class="bpanel" id="b-ann"><p class="muted">Ανακοινώσεις.</p></div>
-      <div class="bpanel" id="b-mill"><p class="muted">Χιλιοστά.</p></div>
+      <div class="bpanel" id="b-mill"><p class="muted">Χιλιοστά — προβολή & επανυπολογισμός.</p></div>
+
+      <!-- Ημερολόγιο & επαναλαμβανόμενες εργασίες -->
+      <div class="bpanel" id="b-cal">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+          <h3 style="margin:0;">Ημερολόγιο & Επαναλαμβανόμενες Εργασίες</h3>
+          <button class="btn btn-primary" onclick="toast('Νέα εργασία')">+ Εργασία</button>
+        </div>
+        <div style="display:grid; grid-template-columns:1.2fr 1fr; gap:14px;">
+          <div class="card"><div class="card-h"><h3>Προγραμματισμένες</h3></div><div class="card-b" style="padding:0;">
+            <div class="file-row" style="border-top:none;"><span class="file-ico" style="background:var(--color-blue)">⟳</span><div class="file-meta"><div class="file-name">Συντήρηση ανελκυστήρα</div><div class="file-sub">Κάθε μήνα · επόμενη 25/06 · KLEEMANN</div></div><span class="chip blue">Μηνιαία</span></div>
+            <div class="file-row"><span class="file-ico" style="background:var(--color-green)">⟳</span><div class="file-meta"><div class="file-name">Καθαρισμός κοινόχρηστων</div><div class="file-sub">Κάθε εβδομάδα · Δευτέρα</div></div><span class="chip green">Εβδομαδιαία</span></div>
+            <div class="file-row"><span class="file-ico" style="background:var(--color-orange)">⟳</span><div class="file-meta"><div class="file-name">Απολύμανση / μυοκτονία</div><div class="file-sub">Κάθε 6 μήνες · επόμενη 09/2026</div></div><span class="chip orange">Εξαμηνιαία</span></div>
+            <div class="file-row"><span class="file-ico" style="background:var(--color-primary)">!</span><div class="file-meta"><div class="file-name">Καθαρισμός δεξαμενής πετρελαίου</div><div class="file-sub">Ετήσια · ΕΚΠΡΟΘΕΣΜΗ 3 ημέρες</div></div><span class="chip red">Εκπρόθεσμη</span></div>
+          </div></div>
+          <div class="card"><div class="card-h"><h3>Ιούνιος 2026</h3></div><div class="card-b">
+            <div style="display:grid; grid-template-columns:repeat(7,1fr); gap:4px; font-size:var(--text-xs); text-align:center;">
+              <div class="muted">Δε</div><div class="muted">Τρ</div><div class="muted">Τε</div><div class="muted">Πε</div><div class="muted">Πα</div><div class="muted">Σα</div><div class="muted">Κυ</div>
+              <div class="cal-d">1</div><div class="cal-d">2</div><div class="cal-d">3</div><div class="cal-d">4</div><div class="cal-d">5</div><div class="cal-d">6</div><div class="cal-d">7</div>
+              <div class="cal-d">8</div><div class="cal-d dot">9</div><div class="cal-d">10</div><div class="cal-d">11</div><div class="cal-d">12</div><div class="cal-d">13</div><div class="cal-d">14</div>
+              <div class="cal-d">15</div><div class="cal-d dot">16</div><div class="cal-d">17</div><div class="cal-d">18</div><div class="cal-d today">19</div><div class="cal-d">20</div><div class="cal-d">21</div>
+              <div class="cal-d">22</div><div class="cal-d">23</div><div class="cal-d dot">24</div><div class="cal-d dot2">25</div><div class="cal-d">26</div><div class="cal-d">27</div><div class="cal-d">28</div>
+            </div>
+            <div class="file-sub" style="margin-top:10px;">● εργασία · <span style="color:var(--color-primary)">●</span> εκπρόθεσμη/σημαντική</div>
+          </div></div>
+        </div>
+      </div>
+
+      <!-- Επαφές & χρήσιμα τηλέφωνα -->
+      <div class="bpanel" id="b-contacts">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+          <h3 style="margin:0;">Επαφές & Χρήσιμα Τηλέφωνα</h3>
+          <button class="btn btn-primary" onclick="toast('Νέα επαφή')">+ Επαφή</button>
+        </div>
+        <div class="card"><table>
+          <thead><tr><th>Όνομα</th><th>Κατηγορία</th><th>Τηλέφωνο</th><th>Email</th><th></th></tr></thead>
+          <tbody>
+            <tr><td><b>KLEEMANN</b></td><td><span class="chip blue">Ανελκυστήρας</span></td><td>2310 123456</td><td>service@kleemann.gr</td><td><button class="btn" onclick="toast('Κλήση')">☎</button></td></tr>
+            <tr><td><b>Γ. Παπαδόπουλος</b></td><td><span class="chip green">Υδραυλικός</span></td><td>697 1234567</td><td>—</td><td><button class="btn" onclick="toast('Κλήση')">☎</button></td></tr>
+            <tr><td><b>ΔΕΗ Βλάβες</b></td><td><span class="chip orange">Έκτακτη ανάγκη</span></td><td>10500</td><td>—</td><td><button class="btn" onclick="toast('Κλήση')">☎</button></td></tr>
+            <tr><td><b>Καθαριότητα ΑΒ</b></td><td><span class="chip blue">Συνεργείο</span></td><td>210 9876543</td><td>info@ab-clean.gr</td><td><button class="btn" onclick="toast('Κλήση')">☎</button></td></tr>
+          </tbody>
+        </table></div>
+      </div>
+
+      <!-- Εγκαταστάσεις & σημεία πρόσβασης -->
+      <div class="bpanel" id="b-infra">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+          <h3 style="margin:0;">Εγκαταστάσεις & Σημεία Πρόσβασης</h3>
+          <button class="btn btn-primary" onclick="toast('Νέο σημείο')">+ Σημείο</button>
+        </div>
+        <p class="muted" style="margin:0 0 14px; font-size:var(--text-sm);">Πού βρίσκεται, φωτογραφία, αν είναι κλειδωμένο, ποιος έχει πρόσβαση και ποιος κρατά το κλειδί.</p>
+        <div class="infra-grid">
+
+          <div class="card" style="overflow:hidden;">
+            <div class="infra-photo" onclick="toast('Προβολή φωτογραφίας')" style="cursor:pointer;">⚡🖼</div>
+            <div class="card-b" style="padding:12px;">
+              <div style="display:flex; justify-content:space-between; align-items:center;"><b>Μετρητές ΔΕΗ</b><span class="lock" style="color:var(--color-orange)">🔒 Κλειδωμένο</span></div>
+              <div class="kv"><span class="k">Θέση</span><span>Ισόγειο — κολώνα εισόδου</span></div>
+              <div class="kv"><span class="k">Πρόσβαση</span><span>Διαχειριστής, ΔΕΗ</span></div>
+              <div class="kv"><span class="k">Κλειδί</span><span>Διαχειριστής (Α2)</span></div>
+              <div class="kv"><span class="k">Όροφος</span><span><span class="chip blue">Ισόγειο</span></span></div>
+            </div>
+          </div>
+
+          <div class="card" style="overflow:hidden;">
+            <div class="infra-photo" onclick="toast('Προβολή φωτογραφίας')" style="cursor:pointer;">☎🖼</div>
+            <div class="card-b" style="padding:12px;">
+              <div style="display:flex; justify-content:space-between; align-items:center;"><b>Κουτί ΟΤΕ</b><span class="lock" style="color:var(--color-orange)">🔒 Κλειδωμένο</span></div>
+              <div class="kv"><span class="k">Θέση</span><span>Ισόγειο — λεβητοστάσιο</span></div>
+              <div class="kv"><span class="k">Πρόσβαση</span><span>ΟΤΕ, Διαχειριστής</span></div>
+              <div class="kv"><span class="k">Κλειδί</span><span>Κοινό κλειδί λεβητοστασίου</span></div>
+              <div class="kv"><span class="k">Όροφος</span><span><span class="chip blue">Ισόγειο</span></span></div>
+            </div>
+          </div>
+
+          <div class="card" style="overflow:hidden;">
+            <div class="infra-photo" onclick="toast('Προβολή φωτογραφίας')" style="cursor:pointer;">🏚🖼</div>
+            <div class="card-b" style="padding:12px;">
+              <div style="display:flex; justify-content:space-between; align-items:center;"><b>Πρόσβαση Ταράτσας</b><span class="lock" style="color:var(--color-green)">🔓 Ελεύθερο</span></div>
+              <div class="kv"><span class="k">Θέση</span><span>3ος όροφος — κλιμακοστάσιο</span></div>
+              <div class="kv"><span class="k">Πρόσβαση</span><span>Όλοι οι ένοικοι</span></div>
+              <div class="kv"><span class="k">Κλειδί</span><span>—</span></div>
+              <div class="kv"><span class="k">Όροφος</span><span><span class="chip blue">3ος</span></span></div>
+            </div>
+          </div>
+
+          <div class="card" style="overflow:hidden;">
+            <div class="infra-photo" onclick="toast('Προβολή φωτογραφίας')" style="cursor:pointer;">📺🖼</div>
+            <div class="card-b" style="padding:12px;">
+              <div style="display:flex; justify-content:space-between; align-items:center;"><b>Κεραία Τηλεόρασης</b><span class="lock" style="color:var(--color-text-muted)">— Κοινόχρηστη</span></div>
+              <div class="kv"><span class="k">Θέση</span><span>Ταράτσα — ΒΑ γωνία</span></div>
+              <div class="kv"><span class="k">Τύπος</span><span>Επίγεια + δορυφορική</span></div>
+              <div class="kv"><span class="k">Συντηρητής</span><span>βλ. Επαφές</span></div>
+              <div class="kv"><span class="k">Όροφος</span><span><span class="chip blue">Ταράτσα</span></span></div>
+            </div>
+          </div>
+
+          <div class="card" style="overflow:hidden;">
+            <div class="infra-photo" onclick="toast('Προβολή φωτογραφίας')" style="cursor:pointer;">🔥🖼</div>
+            <div class="card-b" style="padding:12px;">
+              <div style="display:flex; justify-content:space-between; align-items:center;"><b>Λεβητοστάσιο</b><span class="lock" style="color:var(--color-orange)">🔒 Κλειδωμένο</span></div>
+              <div class="kv"><span class="k">Θέση</span><span>Υπόγειο</span></div>
+              <div class="kv"><span class="k">Πρόσβαση</span><span>Διαχειριστής, συντηρητής καυστήρα</span></div>
+              <div class="kv"><span class="k">Κλειδί</span><span>Διαχειριστής (Α2)</span></div>
+              <div class="kv"><span class="k">Όροφος</span><span><span class="chip blue">Υπόγειο</span></span></div>
+            </div>
+          </div>
+
+          <div class="card" style="overflow:hidden; border:2px dashed var(--color-border-strong); display:flex; align-items:center; justify-content:center; min-height:200px; cursor:pointer; color:var(--color-text-muted);" onclick="toast('Νέο σημείο')">
+            + Προσθήκη σημείου<br>(αντλιοστάσιο, πυρόσβεση, κήπος…)
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Κοινόχρηστα & αποδείξεις -->
+      <div class="bpanel" id="b-koino">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+          <h3 style="margin:0;">Κοινόχρηστα & Αποδείξεις</h3>
+          <div style="display:flex; gap:8px;"><button class="btn" onclick="toast('Έκδοση κοινοχρήστων')">Έκδοση μήνα</button><button class="btn btn-primary" onclick="toast('Νέα δαπάνη')">+ Δαπάνη/Απόδειξη</button></div>
+        </div>
+        <div class="grid-kpi" style="margin-bottom:14px;">
+          <div class="kpi"><div class="label">Σύνολο μήνα</div><div class="value">€1.240<span class="unit"></span></div><div class="sub">Ιούνιος 2026</div></div>
+          <div class="kpi"><div class="label">Εισπραγμένα</div><div class="value" style="color:var(--color-green)">€980</div><div class="sub">79%</div></div>
+          <div class="kpi"><div class="label">Οφειλές</div><div class="value" style="color:var(--color-orange)">€260</div><div class="sub">3 μονάδες</div></div>
+          <div class="kpi"><div class="label">Αποδείξεις</div><div class="value">9</div><div class="sub">συνημμένες</div></div>
+        </div>
+        <div class="card"><div class="card-h"><h3>Δαπάνες μήνα</h3></div><table>
+          <thead><tr><th>Δαπάνη</th><th>Κατηγορία</th><th>Ποσό</th><th>Απόδειξη</th></tr></thead>
+          <tbody>
+            <tr><td>ΔΕΗ κοινόχρηστα</td><td>Ρεύμα</td><td>€420,50</td><td><span class="chip green">📎 PDF</span></td></tr>
+            <tr><td>Πετρέλαιο θέρμανσης</td><td>Θέρμανση</td><td>€560,00</td><td><span class="chip green">📎 PDF</span></td></tr>
+            <tr><td>Συντήρηση ανελκυστήρα</td><td>Ανελκυστήρας</td><td>€110,00</td><td><span class="chip green">📎 PDF</span></td></tr>
+            <tr><td>Καθαριότητα</td><td>Υπηρεσίες</td><td>€150,00</td><td><span class="chip orange">Εκκρεμεί</span></td></tr>
+          </tbody>
+        </table></div>
+      </div>
+
+      <!-- Πληρωμές -->
+      <div class="bpanel" id="b-pay">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+          <h3 style="margin:0;">Πληρωμές ανά μονάδα</h3>
+          <button class="btn btn-primary" onclick="toast('Καταχώρηση πληρωμής')">+ Πληρωμή</button>
+        </div>
+        <div class="card"><table>
+          <thead><tr><th>Μονάδα</th><th>Ένοικος/Ιδιοκτήτης</th><th>Χρέωση</th><th>Κατάσταση</th><th></th></tr></thead>
+          <tbody>
+            <tr><td>Α1</td><td>Μαρία Ν.</td><td>€85,00</td><td><span class="chip green">Πληρωμένο</span></td><td><button class="btn" onclick="toast('Απόδειξη')">Απόδειξη</button></td></tr>
+            <tr><td>Α2</td><td>Γ. Παπαδόπουλος</td><td>€92,50</td><td><span class="chip orange">Εκκρεμεί</span></td><td><button class="btn" onclick="toast('Υπενθύμιση')">Υπενθύμιση</button></td></tr>
+            <tr><td>Β1</td><td>Eleni K.</td><td>€78,00</td><td><span class="chip green">Πληρωμένο</span></td><td><button class="btn" onclick="toast('Απόδειξη')">Απόδειξη</button></td></tr>
+            <tr><td>Β2</td><td>—</td><td>€78,00</td><td><span class="chip red">Ληξιπρόθεσμο</span></td><td><button class="btn" onclick="toast('Υπενθύμιση')">Υπενθύμιση</button></td></tr>
+          </tbody>
+        </table></div>
+      </div>
     </div>
   </div>
 </div>
