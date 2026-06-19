@@ -76,7 +76,7 @@ export default async function PricingPage() {
                     )}
 
                     <Link
-                      href={tier.slug === 'enterprise' ? '/contact' : '/auth/register'}
+                      href={tier.slug === 'enterprise' ? '/contact' : '/register'}
                       className={`w-full block text-center py-3 rounded-lg font-semibold transition ${
                         tier.highlighted
                           ? 'bg-blue-600 text-white hover:bg-blue-700'
@@ -115,7 +115,7 @@ export default async function PricingPage() {
             Choose a plan and start your 14-day free trial today. No credit card required.
           </p>
           <Link
-            href="/auth/register"
+            href="/register"
             className="inline-block px-8 py-3 bg-white text-blue-600 rounded-lg font-semibold hover:bg-gray-100"
           >
             Start Free Trial

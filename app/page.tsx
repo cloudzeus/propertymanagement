@@ -78,13 +78,13 @@ export default function Home() {
 
           <div className="flex gap-3">
             <Link
-              href="/auth/login"
+              href="/login"
               className="px-4 py-2 text-blue-600 border border-blue-600 rounded-md hover:bg-blue-50 font-medium"
             >
               Login
             </Link>
             <Link
-              href="/auth/register"
+              href="/register"
               className="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 font-medium"
             >
               Sign Up
@@ -104,7 +104,7 @@ export default function Home() {
           </p>
           <div className="flex gap-4 justify-center">
             <Link
-              href="/auth/register"
+              href="/register"
               className="px-8 py-3 bg-white text-blue-600 rounded-lg font-semibold hover:bg-gray-100"
             >
               Start Free Trial
@@ -151,7 +151,7 @@ export default function Home() {
             Join hundreds of property managers who trust PropertyPro to streamline their operations.
           </p>
           <Link
-            href="/auth/register"
+            href="/register"
             className="inline-block px-8 py-3 bg-white text-blue-600 rounded-lg font-semibold hover:bg-gray-100"
           >
             Start Your Free Trial Today
