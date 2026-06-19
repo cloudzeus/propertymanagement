@@ -2,6 +2,8 @@ import { auth } from "@/auth";
 import { db } from "@/lib/db";
 import { redirect, notFound } from "next/navigation";
 import { BuildingDashboard } from "./BuildingDashboard";
+import { listBuildingExpenses } from "@/app/actions/building-expenses";
+import { getBuildingCategorySplits } from "@/app/actions/expense-categories";
 
 export const metadata = { title: "Κτήριο — Super Admin" };
 
@@ -110,6 +112,31 @@ export default async function BuildingDashboardPage({ params }: { params: Promis
   ]);
   const tasks = taskRows.map((t) => ({ ...t, nextDueDate: t.nextDueDate ? t.nextDueDate.toISOString() : null }));
 
+  // ── Expenses (OCR) ──────────────────────────────────────────────────────────
+  let expenses: { id: string; documentDate: string | null; supplierName: string | null; categoryName: string | null; netAmount: number | null; vatAmount: number | null; amount: number; status: string; receiptUrl: string | null }[] = [];
+  let categorySplits: Awaited<ReturnType<typeof getBuildingCategorySplits>> = [];
+  try {
+    const [rawExpenses, splits] = await Promise.all([
+      listBuildingExpenses(id),
+      getBuildingCategorySplits(id),
+    ]);
+    categorySplits = splits;
+    expenses = rawExpenses.map((e) => ({
+      id: e.id,
+      documentDate: e.documentDate ? e.documentDate.toISOString() : null,
+      supplierName: e.supplierName,
+      categoryName: e.categoryRef?.name ?? null,
+      netAmount: e.netAmount != null ? Number(e.netAmount) : null,
+      vatAmount: e.vatAmount != null ? Number(e.vatAmount) : null,
+      amount: Number(e.amount),
+      status: e.status,
+      receiptUrl: e.receiptFile?.url ?? null,
+    }));
+  } catch {
+    expenses = [];
+    categorySplits = [];
+  }
+
   const infra = infraPoints.map((p) => ({
     id: p.id, name: p.name, type: p.type, floorLabel: p.floorLabel, location: p.location,
     locked: p.locked, notes: p.notes,
@@ -154,6 +181,8 @@ export default async function BuildingDashboardPage({ params }: { params: Promis
       infraPoints={infra}
       floorOptions={floorOptions}
       tasks={tasks}
+      expenses={expenses}
+      categorySplits={categorySplits}
       today={new Date().toISOString()}
     />
   );

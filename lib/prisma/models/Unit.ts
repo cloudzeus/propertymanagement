@@ -278,6 +278,7 @@ export type UnitWhereInput = {
   maintenanceRequests?: Prisma.MaintenanceRequestListRelationFilter
   payments?: Prisma.UnitPaymentListRelationFilter
   occupancies?: Prisma.UnitOccupancyListRelationFilter
+  expenseAllocations?: Prisma.ExpenseAllocationListRelationFilter
 }
 
 export type UnitOrderByWithRelationInput = {
@@ -298,6 +299,7 @@ export type UnitOrderByWithRelationInput = {
   maintenanceRequests?: Prisma.MaintenanceRequestOrderByRelationAggregateInput
   payments?: Prisma.UnitPaymentOrderByRelationAggregateInput
   occupancies?: Prisma.UnitOccupancyOrderByRelationAggregateInput
+  expenseAllocations?: Prisma.ExpenseAllocationOrderByRelationAggregateInput
 }
 
 export type UnitWhereUniqueInput = Prisma.AtLeast<{
@@ -322,6 +324,7 @@ export type UnitWhereUniqueInput = Prisma.AtLeast<{
   maintenanceRequests?: Prisma.MaintenanceRequestListRelationFilter
   payments?: Prisma.UnitPaymentListRelationFilter
   occupancies?: Prisma.UnitOccupancyListRelationFilter
+  expenseAllocations?: Prisma.ExpenseAllocationListRelationFilter
 }, "id" | "buildingId_unitNumber">
 
 export type UnitOrderByWithAggregationInput = {
@@ -375,6 +378,7 @@ export type UnitCreateInput = {
   maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutUnitInput
   payments?: Prisma.UnitPaymentCreateNestedManyWithoutUnitInput
   occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUnitInput
+  expenseAllocations?: Prisma.ExpenseAllocationCreateNestedManyWithoutUnitInput
 }
 
 export type UnitUncheckedCreateInput = {
@@ -392,6 +396,7 @@ export type UnitUncheckedCreateInput = {
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutUnitInput
   payments?: Prisma.UnitPaymentUncheckedCreateNestedManyWithoutUnitInput
   occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUnitInput
+  expenseAllocations?: Prisma.ExpenseAllocationUncheckedCreateNestedManyWithoutUnitInput
 }
 
 export type UnitUpdateInput = {
@@ -409,6 +414,7 @@ export type UnitUpdateInput = {
   maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutUnitNestedInput
   payments?: Prisma.UnitPaymentUpdateManyWithoutUnitNestedInput
   occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUnitNestedInput
+  expenseAllocations?: Prisma.ExpenseAllocationUpdateManyWithoutUnitNestedInput
 }
 
 export type UnitUncheckedUpdateInput = {
@@ -426,6 +432,7 @@ export type UnitUncheckedUpdateInput = {
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutUnitNestedInput
   payments?: Prisma.UnitPaymentUncheckedUpdateManyWithoutUnitNestedInput
   occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUnitNestedInput
+  expenseAllocations?: Prisma.ExpenseAllocationUncheckedUpdateManyWithoutUnitNestedInput
 }
 
 export type UnitCreateManyInput = {
@@ -686,6 +693,20 @@ export type UnitUpdateOneRequiredWithoutOccupanciesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UnitUpdateToOneWithWhereWithoutOccupanciesInput, Prisma.UnitUpdateWithoutOccupanciesInput>, Prisma.UnitUncheckedUpdateWithoutOccupanciesInput>
 }
 
+export type UnitCreateNestedOneWithoutExpenseAllocationsInput = {
+  create?: Prisma.XOR<Prisma.UnitCreateWithoutExpenseAllocationsInput, Prisma.UnitUncheckedCreateWithoutExpenseAllocationsInput>
+  connectOrCreate?: Prisma.UnitCreateOrConnectWithoutExpenseAllocationsInput
+  connect?: Prisma.UnitWhereUniqueInput
+}
+
+export type UnitUpdateOneRequiredWithoutExpenseAllocationsNestedInput = {
+  create?: Prisma.XOR<Prisma.UnitCreateWithoutExpenseAllocationsInput, Prisma.UnitUncheckedCreateWithoutExpenseAllocationsInput>
+  connectOrCreate?: Prisma.UnitCreateOrConnectWithoutExpenseAllocationsInput
+  upsert?: Prisma.UnitUpsertWithoutExpenseAllocationsInput
+  connect?: Prisma.UnitWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UnitUpdateToOneWithWhereWithoutExpenseAllocationsInput, Prisma.UnitUpdateWithoutExpenseAllocationsInput>, Prisma.UnitUncheckedUpdateWithoutExpenseAllocationsInput>
+}
+
 export type UnitCreateNestedOneWithoutPaymentsInput = {
   create?: Prisma.XOR<Prisma.UnitCreateWithoutPaymentsInput, Prisma.UnitUncheckedCreateWithoutPaymentsInput>
   connectOrCreate?: Prisma.UnitCreateOrConnectWithoutPaymentsInput
@@ -734,6 +755,7 @@ export type UnitCreateWithoutOwnerInput = {
   maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutUnitInput
   payments?: Prisma.UnitPaymentCreateNestedManyWithoutUnitInput
   occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUnitInput
+  expenseAllocations?: Prisma.ExpenseAllocationCreateNestedManyWithoutUnitInput
 }
 
 export type UnitUncheckedCreateWithoutOwnerInput = {
@@ -750,6 +772,7 @@ export type UnitUncheckedCreateWithoutOwnerInput = {
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutUnitInput
   payments?: Prisma.UnitPaymentUncheckedCreateNestedManyWithoutUnitInput
   occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUnitInput
+  expenseAllocations?: Prisma.ExpenseAllocationUncheckedCreateNestedManyWithoutUnitInput
 }
 
 export type UnitCreateOrConnectWithoutOwnerInput = {
@@ -776,6 +799,7 @@ export type UnitCreateWithoutResidentInput = {
   maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutUnitInput
   payments?: Prisma.UnitPaymentCreateNestedManyWithoutUnitInput
   occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUnitInput
+  expenseAllocations?: Prisma.ExpenseAllocationCreateNestedManyWithoutUnitInput
 }
 
 export type UnitUncheckedCreateWithoutResidentInput = {
@@ -792,6 +816,7 @@ export type UnitUncheckedCreateWithoutResidentInput = {
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutUnitInput
   payments?: Prisma.UnitPaymentUncheckedCreateNestedManyWithoutUnitInput
   occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUnitInput
+  expenseAllocations?: Prisma.ExpenseAllocationUncheckedCreateNestedManyWithoutUnitInput
 }
 
 export type UnitCreateOrConnectWithoutResidentInput = {
@@ -867,6 +892,7 @@ export type UnitCreateWithoutBuildingInput = {
   maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutUnitInput
   payments?: Prisma.UnitPaymentCreateNestedManyWithoutUnitInput
   occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUnitInput
+  expenseAllocations?: Prisma.ExpenseAllocationCreateNestedManyWithoutUnitInput
 }
 
 export type UnitUncheckedCreateWithoutBuildingInput = {
@@ -883,6 +909,7 @@ export type UnitUncheckedCreateWithoutBuildingInput = {
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutUnitInput
   payments?: Prisma.UnitPaymentUncheckedCreateNestedManyWithoutUnitInput
   occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUnitInput
+  expenseAllocations?: Prisma.ExpenseAllocationUncheckedCreateNestedManyWithoutUnitInput
 }
 
 export type UnitCreateOrConnectWithoutBuildingInput = {
@@ -925,6 +952,7 @@ export type UnitCreateWithoutOccupanciesInput = {
   resident?: Prisma.UserCreateNestedOneWithoutResidentUnitsInput
   maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutUnitInput
   payments?: Prisma.UnitPaymentCreateNestedManyWithoutUnitInput
+  expenseAllocations?: Prisma.ExpenseAllocationCreateNestedManyWithoutUnitInput
 }
 
 export type UnitUncheckedCreateWithoutOccupanciesInput = {
@@ -941,6 +969,7 @@ export type UnitUncheckedCreateWithoutOccupanciesInput = {
   updatedAt?: Date | string
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutUnitInput
   payments?: Prisma.UnitPaymentUncheckedCreateNestedManyWithoutUnitInput
+  expenseAllocations?: Prisma.ExpenseAllocationUncheckedCreateNestedManyWithoutUnitInput
 }
 
 export type UnitCreateOrConnectWithoutOccupanciesInput = {
@@ -973,6 +1002,7 @@ export type UnitUpdateWithoutOccupanciesInput = {
   resident?: Prisma.UserUpdateOneWithoutResidentUnitsNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutUnitNestedInput
   payments?: Prisma.UnitPaymentUpdateManyWithoutUnitNestedInput
+  expenseAllocations?: Prisma.ExpenseAllocationUpdateManyWithoutUnitNestedInput
 }
 
 export type UnitUncheckedUpdateWithoutOccupanciesInput = {
@@ -989,6 +1019,91 @@ export type UnitUncheckedUpdateWithoutOccupanciesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutUnitNestedInput
   payments?: Prisma.UnitPaymentUncheckedUpdateManyWithoutUnitNestedInput
+  expenseAllocations?: Prisma.ExpenseAllocationUncheckedUpdateManyWithoutUnitNestedInput
+}
+
+export type UnitCreateWithoutExpenseAllocationsInput = {
+  id?: string
+  unitNumber: string
+  unitType?: $Enums.UnitType
+  floor?: number | null
+  areaSqm?: number | null
+  millesimes?: number | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  building: Prisma.BuildingCreateNestedOneWithoutUnitsInput
+  owner?: Prisma.UserCreateNestedOneWithoutOwnedUnitsInput
+  resident?: Prisma.UserCreateNestedOneWithoutResidentUnitsInput
+  maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutUnitInput
+  payments?: Prisma.UnitPaymentCreateNestedManyWithoutUnitInput
+  occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUnitInput
+}
+
+export type UnitUncheckedCreateWithoutExpenseAllocationsInput = {
+  id?: string
+  buildingId: string
+  unitNumber: string
+  unitType?: $Enums.UnitType
+  floor?: number | null
+  areaSqm?: number | null
+  millesimes?: number | null
+  ownerId?: string | null
+  residentId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutUnitInput
+  payments?: Prisma.UnitPaymentUncheckedCreateNestedManyWithoutUnitInput
+  occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUnitInput
+}
+
+export type UnitCreateOrConnectWithoutExpenseAllocationsInput = {
+  where: Prisma.UnitWhereUniqueInput
+  create: Prisma.XOR<Prisma.UnitCreateWithoutExpenseAllocationsInput, Prisma.UnitUncheckedCreateWithoutExpenseAllocationsInput>
+}
+
+export type UnitUpsertWithoutExpenseAllocationsInput = {
+  update: Prisma.XOR<Prisma.UnitUpdateWithoutExpenseAllocationsInput, Prisma.UnitUncheckedUpdateWithoutExpenseAllocationsInput>
+  create: Prisma.XOR<Prisma.UnitCreateWithoutExpenseAllocationsInput, Prisma.UnitUncheckedCreateWithoutExpenseAllocationsInput>
+  where?: Prisma.UnitWhereInput
+}
+
+export type UnitUpdateToOneWithWhereWithoutExpenseAllocationsInput = {
+  where?: Prisma.UnitWhereInput
+  data: Prisma.XOR<Prisma.UnitUpdateWithoutExpenseAllocationsInput, Prisma.UnitUncheckedUpdateWithoutExpenseAllocationsInput>
+}
+
+export type UnitUpdateWithoutExpenseAllocationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  unitNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  unitType?: Prisma.EnumUnitTypeFieldUpdateOperationsInput | $Enums.UnitType
+  floor?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  areaSqm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  millesimes?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  building?: Prisma.BuildingUpdateOneRequiredWithoutUnitsNestedInput
+  owner?: Prisma.UserUpdateOneWithoutOwnedUnitsNestedInput
+  resident?: Prisma.UserUpdateOneWithoutResidentUnitsNestedInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutUnitNestedInput
+  payments?: Prisma.UnitPaymentUpdateManyWithoutUnitNestedInput
+  occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUnitNestedInput
+}
+
+export type UnitUncheckedUpdateWithoutExpenseAllocationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  buildingId?: Prisma.StringFieldUpdateOperationsInput | string
+  unitNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  unitType?: Prisma.EnumUnitTypeFieldUpdateOperationsInput | $Enums.UnitType
+  floor?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  areaSqm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  millesimes?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ownerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  residentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutUnitNestedInput
+  payments?: Prisma.UnitPaymentUncheckedUpdateManyWithoutUnitNestedInput
+  occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUnitNestedInput
 }
 
 export type UnitCreateWithoutPaymentsInput = {
@@ -1005,6 +1120,7 @@ export type UnitCreateWithoutPaymentsInput = {
   resident?: Prisma.UserCreateNestedOneWithoutResidentUnitsInput
   maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutUnitInput
   occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUnitInput
+  expenseAllocations?: Prisma.ExpenseAllocationCreateNestedManyWithoutUnitInput
 }
 
 export type UnitUncheckedCreateWithoutPaymentsInput = {
@@ -1021,6 +1137,7 @@ export type UnitUncheckedCreateWithoutPaymentsInput = {
   updatedAt?: Date | string
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutUnitInput
   occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUnitInput
+  expenseAllocations?: Prisma.ExpenseAllocationUncheckedCreateNestedManyWithoutUnitInput
 }
 
 export type UnitCreateOrConnectWithoutPaymentsInput = {
@@ -1053,6 +1170,7 @@ export type UnitUpdateWithoutPaymentsInput = {
   resident?: Prisma.UserUpdateOneWithoutResidentUnitsNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutUnitNestedInput
   occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUnitNestedInput
+  expenseAllocations?: Prisma.ExpenseAllocationUpdateManyWithoutUnitNestedInput
 }
 
 export type UnitUncheckedUpdateWithoutPaymentsInput = {
@@ -1069,6 +1187,7 @@ export type UnitUncheckedUpdateWithoutPaymentsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutUnitNestedInput
   occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUnitNestedInput
+  expenseAllocations?: Prisma.ExpenseAllocationUncheckedUpdateManyWithoutUnitNestedInput
 }
 
 export type UnitCreateWithoutMaintenanceRequestsInput = {
@@ -1085,6 +1204,7 @@ export type UnitCreateWithoutMaintenanceRequestsInput = {
   resident?: Prisma.UserCreateNestedOneWithoutResidentUnitsInput
   payments?: Prisma.UnitPaymentCreateNestedManyWithoutUnitInput
   occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUnitInput
+  expenseAllocations?: Prisma.ExpenseAllocationCreateNestedManyWithoutUnitInput
 }
 
 export type UnitUncheckedCreateWithoutMaintenanceRequestsInput = {
@@ -1101,6 +1221,7 @@ export type UnitUncheckedCreateWithoutMaintenanceRequestsInput = {
   updatedAt?: Date | string
   payments?: Prisma.UnitPaymentUncheckedCreateNestedManyWithoutUnitInput
   occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUnitInput
+  expenseAllocations?: Prisma.ExpenseAllocationUncheckedCreateNestedManyWithoutUnitInput
 }
 
 export type UnitCreateOrConnectWithoutMaintenanceRequestsInput = {
@@ -1133,6 +1254,7 @@ export type UnitUpdateWithoutMaintenanceRequestsInput = {
   resident?: Prisma.UserUpdateOneWithoutResidentUnitsNestedInput
   payments?: Prisma.UnitPaymentUpdateManyWithoutUnitNestedInput
   occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUnitNestedInput
+  expenseAllocations?: Prisma.ExpenseAllocationUpdateManyWithoutUnitNestedInput
 }
 
 export type UnitUncheckedUpdateWithoutMaintenanceRequestsInput = {
@@ -1149,6 +1271,7 @@ export type UnitUncheckedUpdateWithoutMaintenanceRequestsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   payments?: Prisma.UnitPaymentUncheckedUpdateManyWithoutUnitNestedInput
   occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUnitNestedInput
+  expenseAllocations?: Prisma.ExpenseAllocationUncheckedUpdateManyWithoutUnitNestedInput
 }
 
 export type UnitCreateManyOwnerInput = {
@@ -1191,6 +1314,7 @@ export type UnitUpdateWithoutOwnerInput = {
   maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutUnitNestedInput
   payments?: Prisma.UnitPaymentUpdateManyWithoutUnitNestedInput
   occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUnitNestedInput
+  expenseAllocations?: Prisma.ExpenseAllocationUpdateManyWithoutUnitNestedInput
 }
 
 export type UnitUncheckedUpdateWithoutOwnerInput = {
@@ -1207,6 +1331,7 @@ export type UnitUncheckedUpdateWithoutOwnerInput = {
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutUnitNestedInput
   payments?: Prisma.UnitPaymentUncheckedUpdateManyWithoutUnitNestedInput
   occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUnitNestedInput
+  expenseAllocations?: Prisma.ExpenseAllocationUncheckedUpdateManyWithoutUnitNestedInput
 }
 
 export type UnitUncheckedUpdateManyWithoutOwnerInput = {
@@ -1236,6 +1361,7 @@ export type UnitUpdateWithoutResidentInput = {
   maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutUnitNestedInput
   payments?: Prisma.UnitPaymentUpdateManyWithoutUnitNestedInput
   occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUnitNestedInput
+  expenseAllocations?: Prisma.ExpenseAllocationUpdateManyWithoutUnitNestedInput
 }
 
 export type UnitUncheckedUpdateWithoutResidentInput = {
@@ -1252,6 +1378,7 @@ export type UnitUncheckedUpdateWithoutResidentInput = {
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutUnitNestedInput
   payments?: Prisma.UnitPaymentUncheckedUpdateManyWithoutUnitNestedInput
   occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUnitNestedInput
+  expenseAllocations?: Prisma.ExpenseAllocationUncheckedUpdateManyWithoutUnitNestedInput
 }
 
 export type UnitUncheckedUpdateManyWithoutResidentInput = {
@@ -1294,6 +1421,7 @@ export type UnitUpdateWithoutBuildingInput = {
   maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutUnitNestedInput
   payments?: Prisma.UnitPaymentUpdateManyWithoutUnitNestedInput
   occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUnitNestedInput
+  expenseAllocations?: Prisma.ExpenseAllocationUpdateManyWithoutUnitNestedInput
 }
 
 export type UnitUncheckedUpdateWithoutBuildingInput = {
@@ -1310,6 +1438,7 @@ export type UnitUncheckedUpdateWithoutBuildingInput = {
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutUnitNestedInput
   payments?: Prisma.UnitPaymentUncheckedUpdateManyWithoutUnitNestedInput
   occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUnitNestedInput
+  expenseAllocations?: Prisma.ExpenseAllocationUncheckedUpdateManyWithoutUnitNestedInput
 }
 
 export type UnitUncheckedUpdateManyWithoutBuildingInput = {
@@ -1334,12 +1463,14 @@ export type UnitCountOutputType = {
   maintenanceRequests: number
   payments: number
   occupancies: number
+  expenseAllocations: number
 }
 
 export type UnitCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   maintenanceRequests?: boolean | UnitCountOutputTypeCountMaintenanceRequestsArgs
   payments?: boolean | UnitCountOutputTypeCountPaymentsArgs
   occupancies?: boolean | UnitCountOutputTypeCountOccupanciesArgs
+  expenseAllocations?: boolean | UnitCountOutputTypeCountExpenseAllocationsArgs
 }
 
 /**
@@ -1373,6 +1504,13 @@ export type UnitCountOutputTypeCountOccupanciesArgs<ExtArgs extends runtime.Type
   where?: Prisma.UnitOccupancyWhereInput
 }
 
+/**
+ * UnitCountOutputType without action
+ */
+export type UnitCountOutputTypeCountExpenseAllocationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ExpenseAllocationWhereInput
+}
+
 
 export type UnitSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1392,6 +1530,7 @@ export type UnitSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   maintenanceRequests?: boolean | Prisma.Unit$maintenanceRequestsArgs<ExtArgs>
   payments?: boolean | Prisma.Unit$paymentsArgs<ExtArgs>
   occupancies?: boolean | Prisma.Unit$occupanciesArgs<ExtArgs>
+  expenseAllocations?: boolean | Prisma.Unit$expenseAllocationsArgs<ExtArgs>
   _count?: boolean | Prisma.UnitCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["unit"]>
 
@@ -1451,6 +1590,7 @@ export type UnitInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   maintenanceRequests?: boolean | Prisma.Unit$maintenanceRequestsArgs<ExtArgs>
   payments?: boolean | Prisma.Unit$paymentsArgs<ExtArgs>
   occupancies?: boolean | Prisma.Unit$occupanciesArgs<ExtArgs>
+  expenseAllocations?: boolean | Prisma.Unit$expenseAllocationsArgs<ExtArgs>
   _count?: boolean | Prisma.UnitCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UnitIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1473,6 +1613,7 @@ export type $UnitPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     maintenanceRequests: Prisma.$MaintenanceRequestPayload<ExtArgs>[]
     payments: Prisma.$UnitPaymentPayload<ExtArgs>[]
     occupancies: Prisma.$UnitOccupancyPayload<ExtArgs>[]
+    expenseAllocations: Prisma.$ExpenseAllocationPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1886,6 +2027,7 @@ export interface Prisma__UnitClient<T, Null = never, ExtArgs extends runtime.Typ
   maintenanceRequests<T extends Prisma.Unit$maintenanceRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Unit$maintenanceRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MaintenanceRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   payments<T extends Prisma.Unit$paymentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Unit$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UnitPaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   occupancies<T extends Prisma.Unit$occupanciesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Unit$occupanciesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UnitOccupancyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  expenseAllocations<T extends Prisma.Unit$expenseAllocationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Unit$expenseAllocationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ExpenseAllocationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2434,6 +2576,30 @@ export type Unit$occupanciesArgs<ExtArgs extends runtime.Types.Extensions.Intern
   take?: number
   skip?: number
   distinct?: Prisma.UnitOccupancyScalarFieldEnum | Prisma.UnitOccupancyScalarFieldEnum[]
+}
+
+/**
+ * Unit.expenseAllocations
+ */
+export type Unit$expenseAllocationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ExpenseAllocation
+   */
+  select?: Prisma.ExpenseAllocationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ExpenseAllocation
+   */
+  omit?: Prisma.ExpenseAllocationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ExpenseAllocationInclude<ExtArgs> | null
+  where?: Prisma.ExpenseAllocationWhereInput
+  orderBy?: Prisma.ExpenseAllocationOrderByWithRelationInput | Prisma.ExpenseAllocationOrderByWithRelationInput[]
+  cursor?: Prisma.ExpenseAllocationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ExpenseAllocationScalarFieldEnum | Prisma.ExpenseAllocationScalarFieldEnum[]
 }
 
 /**

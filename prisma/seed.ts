@@ -1,10 +1,14 @@
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
+import { seedExpenseCategories } from "./seed-expense-categories";
 
 const prisma = new PrismaClient();
 
 async function main() {
   console.log("🌱 Starting database seed...");
+
+  // Default reference data (idempotent — safe on every re-seed)
+  await seedExpenseCategories(prisma);
 
   // Create SUPER_ADMIN user
   const superAdminEmail = "gkozyris@i4ria.com";

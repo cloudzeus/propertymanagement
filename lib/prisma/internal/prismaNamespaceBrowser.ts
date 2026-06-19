@@ -72,6 +72,10 @@ export const ModelName = {
   Contact: 'Contact',
   RecurringTask: 'RecurringTask',
   BuildingExpense: 'BuildingExpense',
+  ExpenseCategory: 'ExpenseCategory',
+  BuildingCategoryOverride: 'BuildingCategoryOverride',
+  MeterReading: 'MeterReading',
+  ExpenseAllocation: 'ExpenseAllocation',
   UnitPayment: 'UnitPayment',
   ManagementAssignment: 'ManagementAssignment',
   CommonArea: 'CommonArea',
@@ -519,10 +523,85 @@ export const BuildingExpenseScalarFieldEnum = {
   amount: 'amount',
   description: 'description',
   receiptFileId: 'receiptFileId',
+  categoryId: 'categoryId',
+  supplierName: 'supplierName',
+  supplierVat: 'supplierVat',
+  documentNumber: 'documentNumber',
+  documentDate: 'documentDate',
+  netAmount: 'netAmount',
+  vatAmount: 'vatAmount',
+  status: 'status',
+  tenantPct: 'tenantPct',
+  ownerPct: 'ownerPct',
+  ocrRaw: 'ocrRaw',
+  ocrConfidence: 'ocrConfidence',
   createdAt: 'createdAt'
 } as const
 
 export type BuildingExpenseScalarFieldEnum = (typeof BuildingExpenseScalarFieldEnum)[keyof typeof BuildingExpenseScalarFieldEnum]
+
+
+export const ExpenseCategoryScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  code: 'code',
+  utilityType: 'utilityType',
+  defaultTenantPct: 'defaultTenantPct',
+  defaultOwnerPct: 'defaultOwnerPct',
+  active: 'active',
+  sortOrder: 'sortOrder',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ExpenseCategoryScalarFieldEnum = (typeof ExpenseCategoryScalarFieldEnum)[keyof typeof ExpenseCategoryScalarFieldEnum]
+
+
+export const BuildingCategoryOverrideScalarFieldEnum = {
+  id: 'id',
+  buildingId: 'buildingId',
+  categoryId: 'categoryId',
+  tenantPct: 'tenantPct',
+  ownerPct: 'ownerPct',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type BuildingCategoryOverrideScalarFieldEnum = (typeof BuildingCategoryOverrideScalarFieldEnum)[keyof typeof BuildingCategoryOverrideScalarFieldEnum]
+
+
+export const MeterReadingScalarFieldEnum = {
+  id: 'id',
+  buildingId: 'buildingId',
+  infraPointId: 'infraPointId',
+  expenseId: 'expenseId',
+  meterType: 'meterType',
+  meterNumber: 'meterNumber',
+  periodFrom: 'periodFrom',
+  periodTo: 'periodTo',
+  previousReading: 'previousReading',
+  currentReading: 'currentReading',
+  consumption: 'consumption',
+  unit: 'unit',
+  createdAt: 'createdAt'
+} as const
+
+export type MeterReadingScalarFieldEnum = (typeof MeterReadingScalarFieldEnum)[keyof typeof MeterReadingScalarFieldEnum]
+
+
+export const ExpenseAllocationScalarFieldEnum = {
+  id: 'id',
+  expenseId: 'expenseId',
+  unitId: 'unitId',
+  unitShare: 'unitShare',
+  tenantUserId: 'tenantUserId',
+  tenantAmount: 'tenantAmount',
+  ownerUserId: 'ownerUserId',
+  ownerAmount: 'ownerAmount',
+  createdAt: 'createdAt'
+} as const
+
+export type ExpenseAllocationScalarFieldEnum = (typeof ExpenseAllocationScalarFieldEnum)[keyof typeof ExpenseAllocationScalarFieldEnum]
 
 
 export const UnitPaymentScalarFieldEnum = {
@@ -891,6 +970,14 @@ export const SortOrder = {
 } as const
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
 export const JsonNullValueInput = {
