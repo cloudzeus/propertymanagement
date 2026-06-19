@@ -258,6 +258,7 @@ export type InfraPointWhereInput = {
   keyHolderUser?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   access?: Prisma.InfraAccessListRelationFilter
   media?: Prisma.InfraMediaListRelationFilter
+  meterReadings?: Prisma.MeterReadingListRelationFilter
 }
 
 export type InfraPointOrderByWithRelationInput = {
@@ -279,6 +280,7 @@ export type InfraPointOrderByWithRelationInput = {
   keyHolderUser?: Prisma.UserOrderByWithRelationInput
   access?: Prisma.InfraAccessOrderByRelationAggregateInput
   media?: Prisma.InfraMediaOrderByRelationAggregateInput
+  meterReadings?: Prisma.MeterReadingOrderByRelationAggregateInput
 }
 
 export type InfraPointWhereUniqueInput = Prisma.AtLeast<{
@@ -303,6 +305,7 @@ export type InfraPointWhereUniqueInput = Prisma.AtLeast<{
   keyHolderUser?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   access?: Prisma.InfraAccessListRelationFilter
   media?: Prisma.InfraMediaListRelationFilter
+  meterReadings?: Prisma.MeterReadingListRelationFilter
 }, "id">
 
 export type InfraPointOrderByWithAggregationInput = {
@@ -362,6 +365,7 @@ export type InfraPointCreateInput = {
   keyHolderUser?: Prisma.UserCreateNestedOneWithoutInfraKeyOfInput
   access?: Prisma.InfraAccessCreateNestedManyWithoutInfraPointInput
   media?: Prisma.InfraMediaCreateNestedManyWithoutInfraPointInput
+  meterReadings?: Prisma.MeterReadingCreateNestedManyWithoutInfraPointInput
 }
 
 export type InfraPointUncheckedCreateInput = {
@@ -381,6 +385,7 @@ export type InfraPointUncheckedCreateInput = {
   updatedAt?: Date | string
   access?: Prisma.InfraAccessUncheckedCreateNestedManyWithoutInfraPointInput
   media?: Prisma.InfraMediaUncheckedCreateNestedManyWithoutInfraPointInput
+  meterReadings?: Prisma.MeterReadingUncheckedCreateNestedManyWithoutInfraPointInput
 }
 
 export type InfraPointUpdateInput = {
@@ -400,6 +405,7 @@ export type InfraPointUpdateInput = {
   keyHolderUser?: Prisma.UserUpdateOneWithoutInfraKeyOfNestedInput
   access?: Prisma.InfraAccessUpdateManyWithoutInfraPointNestedInput
   media?: Prisma.InfraMediaUpdateManyWithoutInfraPointNestedInput
+  meterReadings?: Prisma.MeterReadingUpdateManyWithoutInfraPointNestedInput
 }
 
 export type InfraPointUncheckedUpdateInput = {
@@ -419,6 +425,7 @@ export type InfraPointUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   access?: Prisma.InfraAccessUncheckedUpdateManyWithoutInfraPointNestedInput
   media?: Prisma.InfraMediaUncheckedUpdateManyWithoutInfraPointNestedInput
+  meterReadings?: Prisma.MeterReadingUncheckedUpdateManyWithoutInfraPointNestedInput
 }
 
 export type InfraPointCreateManyInput = {
@@ -534,6 +541,11 @@ export type InfraPointMinOrderByAggregateInput = {
 export type InfraPointScalarRelationFilter = {
   is?: Prisma.InfraPointWhereInput
   isNot?: Prisma.InfraPointWhereInput
+}
+
+export type InfraPointNullableScalarRelationFilter = {
+  is?: Prisma.InfraPointWhereInput | null
+  isNot?: Prisma.InfraPointWhereInput | null
 }
 
 export type InfraPointCreateNestedManyWithoutKeyHolderUserInput = {
@@ -652,6 +664,22 @@ export type InfraPointUpdateOneRequiredWithoutMediaNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.InfraPointUpdateToOneWithWhereWithoutMediaInput, Prisma.InfraPointUpdateWithoutMediaInput>, Prisma.InfraPointUncheckedUpdateWithoutMediaInput>
 }
 
+export type InfraPointCreateNestedOneWithoutMeterReadingsInput = {
+  create?: Prisma.XOR<Prisma.InfraPointCreateWithoutMeterReadingsInput, Prisma.InfraPointUncheckedCreateWithoutMeterReadingsInput>
+  connectOrCreate?: Prisma.InfraPointCreateOrConnectWithoutMeterReadingsInput
+  connect?: Prisma.InfraPointWhereUniqueInput
+}
+
+export type InfraPointUpdateOneWithoutMeterReadingsNestedInput = {
+  create?: Prisma.XOR<Prisma.InfraPointCreateWithoutMeterReadingsInput, Prisma.InfraPointUncheckedCreateWithoutMeterReadingsInput>
+  connectOrCreate?: Prisma.InfraPointCreateOrConnectWithoutMeterReadingsInput
+  upsert?: Prisma.InfraPointUpsertWithoutMeterReadingsInput
+  disconnect?: Prisma.InfraPointWhereInput | boolean
+  delete?: Prisma.InfraPointWhereInput | boolean
+  connect?: Prisma.InfraPointWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.InfraPointUpdateToOneWithWhereWithoutMeterReadingsInput, Prisma.InfraPointUpdateWithoutMeterReadingsInput>, Prisma.InfraPointUncheckedUpdateWithoutMeterReadingsInput>
+}
+
 export type InfraPointCreateWithoutKeyHolderUserInput = {
   id?: string
   name: string
@@ -668,6 +696,7 @@ export type InfraPointCreateWithoutKeyHolderUserInput = {
   building: Prisma.BuildingCreateNestedOneWithoutInfraPointsInput
   access?: Prisma.InfraAccessCreateNestedManyWithoutInfraPointInput
   media?: Prisma.InfraMediaCreateNestedManyWithoutInfraPointInput
+  meterReadings?: Prisma.MeterReadingCreateNestedManyWithoutInfraPointInput
 }
 
 export type InfraPointUncheckedCreateWithoutKeyHolderUserInput = {
@@ -686,6 +715,7 @@ export type InfraPointUncheckedCreateWithoutKeyHolderUserInput = {
   updatedAt?: Date | string
   access?: Prisma.InfraAccessUncheckedCreateNestedManyWithoutInfraPointInput
   media?: Prisma.InfraMediaUncheckedCreateNestedManyWithoutInfraPointInput
+  meterReadings?: Prisma.MeterReadingUncheckedCreateNestedManyWithoutInfraPointInput
 }
 
 export type InfraPointCreateOrConnectWithoutKeyHolderUserInput = {
@@ -750,6 +780,7 @@ export type InfraPointCreateWithoutBuildingInput = {
   keyHolderUser?: Prisma.UserCreateNestedOneWithoutInfraKeyOfInput
   access?: Prisma.InfraAccessCreateNestedManyWithoutInfraPointInput
   media?: Prisma.InfraMediaCreateNestedManyWithoutInfraPointInput
+  meterReadings?: Prisma.MeterReadingCreateNestedManyWithoutInfraPointInput
 }
 
 export type InfraPointUncheckedCreateWithoutBuildingInput = {
@@ -768,6 +799,7 @@ export type InfraPointUncheckedCreateWithoutBuildingInput = {
   updatedAt?: Date | string
   access?: Prisma.InfraAccessUncheckedCreateNestedManyWithoutInfraPointInput
   media?: Prisma.InfraMediaUncheckedCreateNestedManyWithoutInfraPointInput
+  meterReadings?: Prisma.MeterReadingUncheckedCreateNestedManyWithoutInfraPointInput
 }
 
 export type InfraPointCreateOrConnectWithoutBuildingInput = {
@@ -812,6 +844,7 @@ export type InfraPointCreateWithoutAccessInput = {
   building: Prisma.BuildingCreateNestedOneWithoutInfraPointsInput
   keyHolderUser?: Prisma.UserCreateNestedOneWithoutInfraKeyOfInput
   media?: Prisma.InfraMediaCreateNestedManyWithoutInfraPointInput
+  meterReadings?: Prisma.MeterReadingCreateNestedManyWithoutInfraPointInput
 }
 
 export type InfraPointUncheckedCreateWithoutAccessInput = {
@@ -830,6 +863,7 @@ export type InfraPointUncheckedCreateWithoutAccessInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   media?: Prisma.InfraMediaUncheckedCreateNestedManyWithoutInfraPointInput
+  meterReadings?: Prisma.MeterReadingUncheckedCreateNestedManyWithoutInfraPointInput
 }
 
 export type InfraPointCreateOrConnectWithoutAccessInput = {
@@ -864,6 +898,7 @@ export type InfraPointUpdateWithoutAccessInput = {
   building?: Prisma.BuildingUpdateOneRequiredWithoutInfraPointsNestedInput
   keyHolderUser?: Prisma.UserUpdateOneWithoutInfraKeyOfNestedInput
   media?: Prisma.InfraMediaUpdateManyWithoutInfraPointNestedInput
+  meterReadings?: Prisma.MeterReadingUpdateManyWithoutInfraPointNestedInput
 }
 
 export type InfraPointUncheckedUpdateWithoutAccessInput = {
@@ -882,6 +917,7 @@ export type InfraPointUncheckedUpdateWithoutAccessInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   media?: Prisma.InfraMediaUncheckedUpdateManyWithoutInfraPointNestedInput
+  meterReadings?: Prisma.MeterReadingUncheckedUpdateManyWithoutInfraPointNestedInput
 }
 
 export type InfraPointCreateWithoutMediaInput = {
@@ -900,6 +936,7 @@ export type InfraPointCreateWithoutMediaInput = {
   building: Prisma.BuildingCreateNestedOneWithoutInfraPointsInput
   keyHolderUser?: Prisma.UserCreateNestedOneWithoutInfraKeyOfInput
   access?: Prisma.InfraAccessCreateNestedManyWithoutInfraPointInput
+  meterReadings?: Prisma.MeterReadingCreateNestedManyWithoutInfraPointInput
 }
 
 export type InfraPointUncheckedCreateWithoutMediaInput = {
@@ -918,6 +955,7 @@ export type InfraPointUncheckedCreateWithoutMediaInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   access?: Prisma.InfraAccessUncheckedCreateNestedManyWithoutInfraPointInput
+  meterReadings?: Prisma.MeterReadingUncheckedCreateNestedManyWithoutInfraPointInput
 }
 
 export type InfraPointCreateOrConnectWithoutMediaInput = {
@@ -952,6 +990,7 @@ export type InfraPointUpdateWithoutMediaInput = {
   building?: Prisma.BuildingUpdateOneRequiredWithoutInfraPointsNestedInput
   keyHolderUser?: Prisma.UserUpdateOneWithoutInfraKeyOfNestedInput
   access?: Prisma.InfraAccessUpdateManyWithoutInfraPointNestedInput
+  meterReadings?: Prisma.MeterReadingUpdateManyWithoutInfraPointNestedInput
 }
 
 export type InfraPointUncheckedUpdateWithoutMediaInput = {
@@ -970,6 +1009,99 @@ export type InfraPointUncheckedUpdateWithoutMediaInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   access?: Prisma.InfraAccessUncheckedUpdateManyWithoutInfraPointNestedInput
+  meterReadings?: Prisma.MeterReadingUncheckedUpdateManyWithoutInfraPointNestedInput
+}
+
+export type InfraPointCreateWithoutMeterReadingsInput = {
+  id?: string
+  name: string
+  type?: $Enums.InfraType
+  floorLabel?: string | null
+  location?: string | null
+  locked?: boolean
+  accessNotes?: string | null
+  keyHolder?: string | null
+  photoUrl?: string | null
+  notes?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  building: Prisma.BuildingCreateNestedOneWithoutInfraPointsInput
+  keyHolderUser?: Prisma.UserCreateNestedOneWithoutInfraKeyOfInput
+  access?: Prisma.InfraAccessCreateNestedManyWithoutInfraPointInput
+  media?: Prisma.InfraMediaCreateNestedManyWithoutInfraPointInput
+}
+
+export type InfraPointUncheckedCreateWithoutMeterReadingsInput = {
+  id?: string
+  buildingId: string
+  name: string
+  type?: $Enums.InfraType
+  floorLabel?: string | null
+  location?: string | null
+  locked?: boolean
+  accessNotes?: string | null
+  keyHolder?: string | null
+  photoUrl?: string | null
+  notes?: string | null
+  keyHolderUserId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  access?: Prisma.InfraAccessUncheckedCreateNestedManyWithoutInfraPointInput
+  media?: Prisma.InfraMediaUncheckedCreateNestedManyWithoutInfraPointInput
+}
+
+export type InfraPointCreateOrConnectWithoutMeterReadingsInput = {
+  where: Prisma.InfraPointWhereUniqueInput
+  create: Prisma.XOR<Prisma.InfraPointCreateWithoutMeterReadingsInput, Prisma.InfraPointUncheckedCreateWithoutMeterReadingsInput>
+}
+
+export type InfraPointUpsertWithoutMeterReadingsInput = {
+  update: Prisma.XOR<Prisma.InfraPointUpdateWithoutMeterReadingsInput, Prisma.InfraPointUncheckedUpdateWithoutMeterReadingsInput>
+  create: Prisma.XOR<Prisma.InfraPointCreateWithoutMeterReadingsInput, Prisma.InfraPointUncheckedCreateWithoutMeterReadingsInput>
+  where?: Prisma.InfraPointWhereInput
+}
+
+export type InfraPointUpdateToOneWithWhereWithoutMeterReadingsInput = {
+  where?: Prisma.InfraPointWhereInput
+  data: Prisma.XOR<Prisma.InfraPointUpdateWithoutMeterReadingsInput, Prisma.InfraPointUncheckedUpdateWithoutMeterReadingsInput>
+}
+
+export type InfraPointUpdateWithoutMeterReadingsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumInfraTypeFieldUpdateOperationsInput | $Enums.InfraType
+  floorLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  accessNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keyHolder?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  building?: Prisma.BuildingUpdateOneRequiredWithoutInfraPointsNestedInput
+  keyHolderUser?: Prisma.UserUpdateOneWithoutInfraKeyOfNestedInput
+  access?: Prisma.InfraAccessUpdateManyWithoutInfraPointNestedInput
+  media?: Prisma.InfraMediaUpdateManyWithoutInfraPointNestedInput
+}
+
+export type InfraPointUncheckedUpdateWithoutMeterReadingsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  buildingId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumInfraTypeFieldUpdateOperationsInput | $Enums.InfraType
+  floorLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  location?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  locked?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  accessNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keyHolder?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  keyHolderUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  access?: Prisma.InfraAccessUncheckedUpdateManyWithoutInfraPointNestedInput
+  media?: Prisma.InfraMediaUncheckedUpdateManyWithoutInfraPointNestedInput
 }
 
 export type InfraPointCreateManyKeyHolderUserInput = {
@@ -1004,6 +1136,7 @@ export type InfraPointUpdateWithoutKeyHolderUserInput = {
   building?: Prisma.BuildingUpdateOneRequiredWithoutInfraPointsNestedInput
   access?: Prisma.InfraAccessUpdateManyWithoutInfraPointNestedInput
   media?: Prisma.InfraMediaUpdateManyWithoutInfraPointNestedInput
+  meterReadings?: Prisma.MeterReadingUpdateManyWithoutInfraPointNestedInput
 }
 
 export type InfraPointUncheckedUpdateWithoutKeyHolderUserInput = {
@@ -1022,6 +1155,7 @@ export type InfraPointUncheckedUpdateWithoutKeyHolderUserInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   access?: Prisma.InfraAccessUncheckedUpdateManyWithoutInfraPointNestedInput
   media?: Prisma.InfraMediaUncheckedUpdateManyWithoutInfraPointNestedInput
+  meterReadings?: Prisma.MeterReadingUncheckedUpdateManyWithoutInfraPointNestedInput
 }
 
 export type InfraPointUncheckedUpdateManyWithoutKeyHolderUserInput = {
@@ -1072,6 +1206,7 @@ export type InfraPointUpdateWithoutBuildingInput = {
   keyHolderUser?: Prisma.UserUpdateOneWithoutInfraKeyOfNestedInput
   access?: Prisma.InfraAccessUpdateManyWithoutInfraPointNestedInput
   media?: Prisma.InfraMediaUpdateManyWithoutInfraPointNestedInput
+  meterReadings?: Prisma.MeterReadingUpdateManyWithoutInfraPointNestedInput
 }
 
 export type InfraPointUncheckedUpdateWithoutBuildingInput = {
@@ -1090,6 +1225,7 @@ export type InfraPointUncheckedUpdateWithoutBuildingInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   access?: Prisma.InfraAccessUncheckedUpdateManyWithoutInfraPointNestedInput
   media?: Prisma.InfraMediaUncheckedUpdateManyWithoutInfraPointNestedInput
+  meterReadings?: Prisma.MeterReadingUncheckedUpdateManyWithoutInfraPointNestedInput
 }
 
 export type InfraPointUncheckedUpdateManyWithoutBuildingInput = {
@@ -1116,11 +1252,13 @@ export type InfraPointUncheckedUpdateManyWithoutBuildingInput = {
 export type InfraPointCountOutputType = {
   access: number
   media: number
+  meterReadings: number
 }
 
 export type InfraPointCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   access?: boolean | InfraPointCountOutputTypeCountAccessArgs
   media?: boolean | InfraPointCountOutputTypeCountMediaArgs
+  meterReadings?: boolean | InfraPointCountOutputTypeCountMeterReadingsArgs
 }
 
 /**
@@ -1147,6 +1285,13 @@ export type InfraPointCountOutputTypeCountMediaArgs<ExtArgs extends runtime.Type
   where?: Prisma.InfraMediaWhereInput
 }
 
+/**
+ * InfraPointCountOutputType without action
+ */
+export type InfraPointCountOutputTypeCountMeterReadingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.MeterReadingWhereInput
+}
+
 
 export type InfraPointSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1167,6 +1312,7 @@ export type InfraPointSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   keyHolderUser?: boolean | Prisma.InfraPoint$keyHolderUserArgs<ExtArgs>
   access?: boolean | Prisma.InfraPoint$accessArgs<ExtArgs>
   media?: boolean | Prisma.InfraPoint$mediaArgs<ExtArgs>
+  meterReadings?: boolean | Prisma.InfraPoint$meterReadingsArgs<ExtArgs>
   _count?: boolean | Prisma.InfraPointCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["infraPoint"]>
 
@@ -1231,6 +1377,7 @@ export type InfraPointInclude<ExtArgs extends runtime.Types.Extensions.InternalA
   keyHolderUser?: boolean | Prisma.InfraPoint$keyHolderUserArgs<ExtArgs>
   access?: boolean | Prisma.InfraPoint$accessArgs<ExtArgs>
   media?: boolean | Prisma.InfraPoint$mediaArgs<ExtArgs>
+  meterReadings?: boolean | Prisma.InfraPoint$meterReadingsArgs<ExtArgs>
   _count?: boolean | Prisma.InfraPointCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type InfraPointIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1249,6 +1396,7 @@ export type $InfraPointPayload<ExtArgs extends runtime.Types.Extensions.Internal
     keyHolderUser: Prisma.$UserPayload<ExtArgs> | null
     access: Prisma.$InfraAccessPayload<ExtArgs>[]
     media: Prisma.$InfraMediaPayload<ExtArgs>[]
+    meterReadings: Prisma.$MeterReadingPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1663,6 +1811,7 @@ export interface Prisma__InfraPointClient<T, Null = never, ExtArgs extends runti
   keyHolderUser<T extends Prisma.InfraPoint$keyHolderUserArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.InfraPoint$keyHolderUserArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   access<T extends Prisma.InfraPoint$accessArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.InfraPoint$accessArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InfraAccessPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   media<T extends Prisma.InfraPoint$mediaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.InfraPoint$mediaArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InfraMediaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  meterReadings<T extends Prisma.InfraPoint$meterReadingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.InfraPoint$meterReadingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MeterReadingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2171,6 +2320,30 @@ export type InfraPoint$mediaArgs<ExtArgs extends runtime.Types.Extensions.Intern
   take?: number
   skip?: number
   distinct?: Prisma.InfraMediaScalarFieldEnum | Prisma.InfraMediaScalarFieldEnum[]
+}
+
+/**
+ * InfraPoint.meterReadings
+ */
+export type InfraPoint$meterReadingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the MeterReading
+   */
+  select?: Prisma.MeterReadingSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the MeterReading
+   */
+  omit?: Prisma.MeterReadingOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MeterReadingInclude<ExtArgs> | null
+  where?: Prisma.MeterReadingWhereInput
+  orderBy?: Prisma.MeterReadingOrderByWithRelationInput | Prisma.MeterReadingOrderByWithRelationInput[]
+  cursor?: Prisma.MeterReadingWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.MeterReadingScalarFieldEnum | Prisma.MeterReadingScalarFieldEnum[]
 }
 
 /**

@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import type { PrismaClient } from "../lib/prisma/client";
 
 type Cat = {
   code: string;

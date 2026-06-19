@@ -123,6 +123,26 @@ export type RecurringTask = Prisma.RecurringTaskModel
  */
 export type BuildingExpense = Prisma.BuildingExpenseModel
 /**
+ * Model ExpenseCategory
+ * 
+ */
+export type ExpenseCategory = Prisma.ExpenseCategoryModel
+/**
+ * Model BuildingCategoryOverride
+ * 
+ */
+export type BuildingCategoryOverride = Prisma.BuildingCategoryOverrideModel
+/**
+ * Model MeterReading
+ * 
+ */
+export type MeterReading = Prisma.MeterReadingModel
+/**
+ * Model ExpenseAllocation
+ * 
+ */
+export type ExpenseAllocation = Prisma.ExpenseAllocationModel
+/**
  * Model UnitPayment
  * 
  */

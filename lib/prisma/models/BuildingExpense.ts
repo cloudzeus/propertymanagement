@@ -28,10 +28,20 @@ export type AggregateBuildingExpense = {
 
 export type BuildingExpenseAvgAggregateOutputType = {
   amount: runtime.Decimal | null
+  netAmount: runtime.Decimal | null
+  vatAmount: runtime.Decimal | null
+  tenantPct: number | null
+  ownerPct: number | null
+  ocrConfidence: number | null
 }
 
 export type BuildingExpenseSumAggregateOutputType = {
   amount: runtime.Decimal | null
+  netAmount: runtime.Decimal | null
+  vatAmount: runtime.Decimal | null
+  tenantPct: number | null
+  ownerPct: number | null
+  ocrConfidence: number | null
 }
 
 export type BuildingExpenseMinAggregateOutputType = {
@@ -42,6 +52,17 @@ export type BuildingExpenseMinAggregateOutputType = {
   amount: runtime.Decimal | null
   description: string | null
   receiptFileId: string | null
+  categoryId: string | null
+  supplierName: string | null
+  supplierVat: string | null
+  documentNumber: string | null
+  documentDate: Date | null
+  netAmount: runtime.Decimal | null
+  vatAmount: runtime.Decimal | null
+  status: $Enums.ExpenseStatus | null
+  tenantPct: number | null
+  ownerPct: number | null
+  ocrConfidence: number | null
   createdAt: Date | null
 }
 
@@ -53,6 +74,17 @@ export type BuildingExpenseMaxAggregateOutputType = {
   amount: runtime.Decimal | null
   description: string | null
   receiptFileId: string | null
+  categoryId: string | null
+  supplierName: string | null
+  supplierVat: string | null
+  documentNumber: string | null
+  documentDate: Date | null
+  netAmount: runtime.Decimal | null
+  vatAmount: runtime.Decimal | null
+  status: $Enums.ExpenseStatus | null
+  tenantPct: number | null
+  ownerPct: number | null
+  ocrConfidence: number | null
   createdAt: Date | null
 }
 
@@ -64,6 +96,18 @@ export type BuildingExpenseCountAggregateOutputType = {
   amount: number
   description: number
   receiptFileId: number
+  categoryId: number
+  supplierName: number
+  supplierVat: number
+  documentNumber: number
+  documentDate: number
+  netAmount: number
+  vatAmount: number
+  status: number
+  tenantPct: number
+  ownerPct: number
+  ocrRaw: number
+  ocrConfidence: number
   createdAt: number
   _all: number
 }
@@ -71,10 +115,20 @@ export type BuildingExpenseCountAggregateOutputType = {
 
 export type BuildingExpenseAvgAggregateInputType = {
   amount?: true
+  netAmount?: true
+  vatAmount?: true
+  tenantPct?: true
+  ownerPct?: true
+  ocrConfidence?: true
 }
 
 export type BuildingExpenseSumAggregateInputType = {
   amount?: true
+  netAmount?: true
+  vatAmount?: true
+  tenantPct?: true
+  ownerPct?: true
+  ocrConfidence?: true
 }
 
 export type BuildingExpenseMinAggregateInputType = {
@@ -85,6 +139,17 @@ export type BuildingExpenseMinAggregateInputType = {
   amount?: true
   description?: true
   receiptFileId?: true
+  categoryId?: true
+  supplierName?: true
+  supplierVat?: true
+  documentNumber?: true
+  documentDate?: true
+  netAmount?: true
+  vatAmount?: true
+  status?: true
+  tenantPct?: true
+  ownerPct?: true
+  ocrConfidence?: true
   createdAt?: true
 }
 
@@ -96,6 +161,17 @@ export type BuildingExpenseMaxAggregateInputType = {
   amount?: true
   description?: true
   receiptFileId?: true
+  categoryId?: true
+  supplierName?: true
+  supplierVat?: true
+  documentNumber?: true
+  documentDate?: true
+  netAmount?: true
+  vatAmount?: true
+  status?: true
+  tenantPct?: true
+  ownerPct?: true
+  ocrConfidence?: true
   createdAt?: true
 }
 
@@ -107,6 +183,18 @@ export type BuildingExpenseCountAggregateInputType = {
   amount?: true
   description?: true
   receiptFileId?: true
+  categoryId?: true
+  supplierName?: true
+  supplierVat?: true
+  documentNumber?: true
+  documentDate?: true
+  netAmount?: true
+  vatAmount?: true
+  status?: true
+  tenantPct?: true
+  ownerPct?: true
+  ocrRaw?: true
+  ocrConfidence?: true
   createdAt?: true
   _all?: true
 }
@@ -205,6 +293,18 @@ export type BuildingExpenseGroupByOutputType = {
   amount: runtime.Decimal
   description: string | null
   receiptFileId: string | null
+  categoryId: string | null
+  supplierName: string | null
+  supplierVat: string | null
+  documentNumber: string | null
+  documentDate: Date | null
+  netAmount: runtime.Decimal | null
+  vatAmount: runtime.Decimal | null
+  status: $Enums.ExpenseStatus
+  tenantPct: number
+  ownerPct: number
+  ocrRaw: runtime.JsonValue | null
+  ocrConfidence: number | null
   createdAt: Date
   _count: BuildingExpenseCountAggregateOutputType | null
   _avg: BuildingExpenseAvgAggregateOutputType | null
@@ -239,9 +339,24 @@ export type BuildingExpenseWhereInput = {
   amount?: Prisma.DecimalFilter<"BuildingExpense"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.StringNullableFilter<"BuildingExpense"> | string | null
   receiptFileId?: Prisma.StringNullableFilter<"BuildingExpense"> | string | null
+  categoryId?: Prisma.StringNullableFilter<"BuildingExpense"> | string | null
+  supplierName?: Prisma.StringNullableFilter<"BuildingExpense"> | string | null
+  supplierVat?: Prisma.StringNullableFilter<"BuildingExpense"> | string | null
+  documentNumber?: Prisma.StringNullableFilter<"BuildingExpense"> | string | null
+  documentDate?: Prisma.DateTimeNullableFilter<"BuildingExpense"> | Date | string | null
+  netAmount?: Prisma.DecimalNullableFilter<"BuildingExpense"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  vatAmount?: Prisma.DecimalNullableFilter<"BuildingExpense"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  status?: Prisma.EnumExpenseStatusFilter<"BuildingExpense"> | $Enums.ExpenseStatus
+  tenantPct?: Prisma.IntFilter<"BuildingExpense"> | number
+  ownerPct?: Prisma.IntFilter<"BuildingExpense"> | number
+  ocrRaw?: Prisma.JsonNullableFilter<"BuildingExpense">
+  ocrConfidence?: Prisma.FloatNullableFilter<"BuildingExpense"> | number | null
   createdAt?: Prisma.DateTimeFilter<"BuildingExpense"> | Date | string
   building?: Prisma.XOR<Prisma.BuildingScalarRelationFilter, Prisma.BuildingWhereInput>
   receiptFile?: Prisma.XOR<Prisma.BuildingFileNullableScalarRelationFilter, Prisma.BuildingFileWhereInput> | null
+  categoryRef?: Prisma.XOR<Prisma.ExpenseCategoryNullableScalarRelationFilter, Prisma.ExpenseCategoryWhereInput> | null
+  meterReadings?: Prisma.MeterReadingListRelationFilter
+  allocations?: Prisma.ExpenseAllocationListRelationFilter
 }
 
 export type BuildingExpenseOrderByWithRelationInput = {
@@ -252,9 +367,24 @@ export type BuildingExpenseOrderByWithRelationInput = {
   amount?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   receiptFileId?: Prisma.SortOrderInput | Prisma.SortOrder
+  categoryId?: Prisma.SortOrderInput | Prisma.SortOrder
+  supplierName?: Prisma.SortOrderInput | Prisma.SortOrder
+  supplierVat?: Prisma.SortOrderInput | Prisma.SortOrder
+  documentNumber?: Prisma.SortOrderInput | Prisma.SortOrder
+  documentDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  netAmount?: Prisma.SortOrderInput | Prisma.SortOrder
+  vatAmount?: Prisma.SortOrderInput | Prisma.SortOrder
+  status?: Prisma.SortOrder
+  tenantPct?: Prisma.SortOrder
+  ownerPct?: Prisma.SortOrder
+  ocrRaw?: Prisma.SortOrderInput | Prisma.SortOrder
+  ocrConfidence?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   building?: Prisma.BuildingOrderByWithRelationInput
   receiptFile?: Prisma.BuildingFileOrderByWithRelationInput
+  categoryRef?: Prisma.ExpenseCategoryOrderByWithRelationInput
+  meterReadings?: Prisma.MeterReadingOrderByRelationAggregateInput
+  allocations?: Prisma.ExpenseAllocationOrderByRelationAggregateInput
 }
 
 export type BuildingExpenseWhereUniqueInput = Prisma.AtLeast<{
@@ -268,9 +398,24 @@ export type BuildingExpenseWhereUniqueInput = Prisma.AtLeast<{
   amount?: Prisma.DecimalFilter<"BuildingExpense"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.StringNullableFilter<"BuildingExpense"> | string | null
   receiptFileId?: Prisma.StringNullableFilter<"BuildingExpense"> | string | null
+  categoryId?: Prisma.StringNullableFilter<"BuildingExpense"> | string | null
+  supplierName?: Prisma.StringNullableFilter<"BuildingExpense"> | string | null
+  supplierVat?: Prisma.StringNullableFilter<"BuildingExpense"> | string | null
+  documentNumber?: Prisma.StringNullableFilter<"BuildingExpense"> | string | null
+  documentDate?: Prisma.DateTimeNullableFilter<"BuildingExpense"> | Date | string | null
+  netAmount?: Prisma.DecimalNullableFilter<"BuildingExpense"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  vatAmount?: Prisma.DecimalNullableFilter<"BuildingExpense"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  status?: Prisma.EnumExpenseStatusFilter<"BuildingExpense"> | $Enums.ExpenseStatus
+  tenantPct?: Prisma.IntFilter<"BuildingExpense"> | number
+  ownerPct?: Prisma.IntFilter<"BuildingExpense"> | number
+  ocrRaw?: Prisma.JsonNullableFilter<"BuildingExpense">
+  ocrConfidence?: Prisma.FloatNullableFilter<"BuildingExpense"> | number | null
   createdAt?: Prisma.DateTimeFilter<"BuildingExpense"> | Date | string
   building?: Prisma.XOR<Prisma.BuildingScalarRelationFilter, Prisma.BuildingWhereInput>
   receiptFile?: Prisma.XOR<Prisma.BuildingFileNullableScalarRelationFilter, Prisma.BuildingFileWhereInput> | null
+  categoryRef?: Prisma.XOR<Prisma.ExpenseCategoryNullableScalarRelationFilter, Prisma.ExpenseCategoryWhereInput> | null
+  meterReadings?: Prisma.MeterReadingListRelationFilter
+  allocations?: Prisma.ExpenseAllocationListRelationFilter
 }, "id">
 
 export type BuildingExpenseOrderByWithAggregationInput = {
@@ -281,6 +426,18 @@ export type BuildingExpenseOrderByWithAggregationInput = {
   amount?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   receiptFileId?: Prisma.SortOrderInput | Prisma.SortOrder
+  categoryId?: Prisma.SortOrderInput | Prisma.SortOrder
+  supplierName?: Prisma.SortOrderInput | Prisma.SortOrder
+  supplierVat?: Prisma.SortOrderInput | Prisma.SortOrder
+  documentNumber?: Prisma.SortOrderInput | Prisma.SortOrder
+  documentDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  netAmount?: Prisma.SortOrderInput | Prisma.SortOrder
+  vatAmount?: Prisma.SortOrderInput | Prisma.SortOrder
+  status?: Prisma.SortOrder
+  tenantPct?: Prisma.SortOrder
+  ownerPct?: Prisma.SortOrder
+  ocrRaw?: Prisma.SortOrderInput | Prisma.SortOrder
+  ocrConfidence?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.BuildingExpenseCountOrderByAggregateInput
   _avg?: Prisma.BuildingExpenseAvgOrderByAggregateInput
@@ -300,6 +457,18 @@ export type BuildingExpenseScalarWhereWithAggregatesInput = {
   amount?: Prisma.DecimalWithAggregatesFilter<"BuildingExpense"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.StringNullableWithAggregatesFilter<"BuildingExpense"> | string | null
   receiptFileId?: Prisma.StringNullableWithAggregatesFilter<"BuildingExpense"> | string | null
+  categoryId?: Prisma.StringNullableWithAggregatesFilter<"BuildingExpense"> | string | null
+  supplierName?: Prisma.StringNullableWithAggregatesFilter<"BuildingExpense"> | string | null
+  supplierVat?: Prisma.StringNullableWithAggregatesFilter<"BuildingExpense"> | string | null
+  documentNumber?: Prisma.StringNullableWithAggregatesFilter<"BuildingExpense"> | string | null
+  documentDate?: Prisma.DateTimeNullableWithAggregatesFilter<"BuildingExpense"> | Date | string | null
+  netAmount?: Prisma.DecimalNullableWithAggregatesFilter<"BuildingExpense"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  vatAmount?: Prisma.DecimalNullableWithAggregatesFilter<"BuildingExpense"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  status?: Prisma.EnumExpenseStatusWithAggregatesFilter<"BuildingExpense"> | $Enums.ExpenseStatus
+  tenantPct?: Prisma.IntWithAggregatesFilter<"BuildingExpense"> | number
+  ownerPct?: Prisma.IntWithAggregatesFilter<"BuildingExpense"> | number
+  ocrRaw?: Prisma.JsonNullableWithAggregatesFilter<"BuildingExpense">
+  ocrConfidence?: Prisma.FloatNullableWithAggregatesFilter<"BuildingExpense"> | number | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"BuildingExpense"> | Date | string
 }
 
@@ -309,9 +478,23 @@ export type BuildingExpenseCreateInput = {
   category?: string | null
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: string | null
+  supplierName?: string | null
+  supplierVat?: string | null
+  documentNumber?: string | null
+  documentDate?: Date | string | null
+  netAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  vatAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  status?: $Enums.ExpenseStatus
+  tenantPct?: number
+  ownerPct?: number
+  ocrRaw?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  ocrConfidence?: number | null
   createdAt?: Date | string
   building: Prisma.BuildingCreateNestedOneWithoutExpensesInput
   receiptFile?: Prisma.BuildingFileCreateNestedOneWithoutExpenseLinksInput
+  categoryRef?: Prisma.ExpenseCategoryCreateNestedOneWithoutExpensesInput
+  meterReadings?: Prisma.MeterReadingCreateNestedManyWithoutExpenseInput
+  allocations?: Prisma.ExpenseAllocationCreateNestedManyWithoutExpenseInput
 }
 
 export type BuildingExpenseUncheckedCreateInput = {
@@ -322,7 +505,21 @@ export type BuildingExpenseUncheckedCreateInput = {
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: string | null
   receiptFileId?: string | null
+  categoryId?: string | null
+  supplierName?: string | null
+  supplierVat?: string | null
+  documentNumber?: string | null
+  documentDate?: Date | string | null
+  netAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  vatAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  status?: $Enums.ExpenseStatus
+  tenantPct?: number
+  ownerPct?: number
+  ocrRaw?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  ocrConfidence?: number | null
   createdAt?: Date | string
+  meterReadings?: Prisma.MeterReadingUncheckedCreateNestedManyWithoutExpenseInput
+  allocations?: Prisma.ExpenseAllocationUncheckedCreateNestedManyWithoutExpenseInput
 }
 
 export type BuildingExpenseUpdateInput = {
@@ -331,9 +528,23 @@ export type BuildingExpenseUpdateInput = {
   category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierVat?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  documentNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  documentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  netAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  vatAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  status?: Prisma.EnumExpenseStatusFieldUpdateOperationsInput | $Enums.ExpenseStatus
+  tenantPct?: Prisma.IntFieldUpdateOperationsInput | number
+  ownerPct?: Prisma.IntFieldUpdateOperationsInput | number
+  ocrRaw?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  ocrConfidence?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   building?: Prisma.BuildingUpdateOneRequiredWithoutExpensesNestedInput
   receiptFile?: Prisma.BuildingFileUpdateOneWithoutExpenseLinksNestedInput
+  categoryRef?: Prisma.ExpenseCategoryUpdateOneWithoutExpensesNestedInput
+  meterReadings?: Prisma.MeterReadingUpdateManyWithoutExpenseNestedInput
+  allocations?: Prisma.ExpenseAllocationUpdateManyWithoutExpenseNestedInput
 }
 
 export type BuildingExpenseUncheckedUpdateInput = {
@@ -344,7 +555,21 @@ export type BuildingExpenseUncheckedUpdateInput = {
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   receiptFileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierVat?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  documentNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  documentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  netAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  vatAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  status?: Prisma.EnumExpenseStatusFieldUpdateOperationsInput | $Enums.ExpenseStatus
+  tenantPct?: Prisma.IntFieldUpdateOperationsInput | number
+  ownerPct?: Prisma.IntFieldUpdateOperationsInput | number
+  ocrRaw?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  ocrConfidence?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  meterReadings?: Prisma.MeterReadingUncheckedUpdateManyWithoutExpenseNestedInput
+  allocations?: Prisma.ExpenseAllocationUncheckedUpdateManyWithoutExpenseNestedInput
 }
 
 export type BuildingExpenseCreateManyInput = {
@@ -355,6 +580,18 @@ export type BuildingExpenseCreateManyInput = {
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: string | null
   receiptFileId?: string | null
+  categoryId?: string | null
+  supplierName?: string | null
+  supplierVat?: string | null
+  documentNumber?: string | null
+  documentDate?: Date | string | null
+  netAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  vatAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  status?: $Enums.ExpenseStatus
+  tenantPct?: number
+  ownerPct?: number
+  ocrRaw?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  ocrConfidence?: number | null
   createdAt?: Date | string
 }
 
@@ -364,6 +601,17 @@ export type BuildingExpenseUpdateManyMutationInput = {
   category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierVat?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  documentNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  documentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  netAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  vatAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  status?: Prisma.EnumExpenseStatusFieldUpdateOperationsInput | $Enums.ExpenseStatus
+  tenantPct?: Prisma.IntFieldUpdateOperationsInput | number
+  ownerPct?: Prisma.IntFieldUpdateOperationsInput | number
+  ocrRaw?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  ocrConfidence?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -375,6 +623,18 @@ export type BuildingExpenseUncheckedUpdateManyInput = {
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   receiptFileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierVat?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  documentNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  documentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  netAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  vatAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  status?: Prisma.EnumExpenseStatusFieldUpdateOperationsInput | $Enums.ExpenseStatus
+  tenantPct?: Prisma.IntFieldUpdateOperationsInput | number
+  ownerPct?: Prisma.IntFieldUpdateOperationsInput | number
+  ocrRaw?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  ocrConfidence?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -396,11 +656,28 @@ export type BuildingExpenseCountOrderByAggregateInput = {
   amount?: Prisma.SortOrder
   description?: Prisma.SortOrder
   receiptFileId?: Prisma.SortOrder
+  categoryId?: Prisma.SortOrder
+  supplierName?: Prisma.SortOrder
+  supplierVat?: Prisma.SortOrder
+  documentNumber?: Prisma.SortOrder
+  documentDate?: Prisma.SortOrder
+  netAmount?: Prisma.SortOrder
+  vatAmount?: Prisma.SortOrder
+  status?: Prisma.SortOrder
+  tenantPct?: Prisma.SortOrder
+  ownerPct?: Prisma.SortOrder
+  ocrRaw?: Prisma.SortOrder
+  ocrConfidence?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
 export type BuildingExpenseAvgOrderByAggregateInput = {
   amount?: Prisma.SortOrder
+  netAmount?: Prisma.SortOrder
+  vatAmount?: Prisma.SortOrder
+  tenantPct?: Prisma.SortOrder
+  ownerPct?: Prisma.SortOrder
+  ocrConfidence?: Prisma.SortOrder
 }
 
 export type BuildingExpenseMaxOrderByAggregateInput = {
@@ -411,6 +688,17 @@ export type BuildingExpenseMaxOrderByAggregateInput = {
   amount?: Prisma.SortOrder
   description?: Prisma.SortOrder
   receiptFileId?: Prisma.SortOrder
+  categoryId?: Prisma.SortOrder
+  supplierName?: Prisma.SortOrder
+  supplierVat?: Prisma.SortOrder
+  documentNumber?: Prisma.SortOrder
+  documentDate?: Prisma.SortOrder
+  netAmount?: Prisma.SortOrder
+  vatAmount?: Prisma.SortOrder
+  status?: Prisma.SortOrder
+  tenantPct?: Prisma.SortOrder
+  ownerPct?: Prisma.SortOrder
+  ocrConfidence?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -422,11 +710,37 @@ export type BuildingExpenseMinOrderByAggregateInput = {
   amount?: Prisma.SortOrder
   description?: Prisma.SortOrder
   receiptFileId?: Prisma.SortOrder
+  categoryId?: Prisma.SortOrder
+  supplierName?: Prisma.SortOrder
+  supplierVat?: Prisma.SortOrder
+  documentNumber?: Prisma.SortOrder
+  documentDate?: Prisma.SortOrder
+  netAmount?: Prisma.SortOrder
+  vatAmount?: Prisma.SortOrder
+  status?: Prisma.SortOrder
+  tenantPct?: Prisma.SortOrder
+  ownerPct?: Prisma.SortOrder
+  ocrConfidence?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
 export type BuildingExpenseSumOrderByAggregateInput = {
   amount?: Prisma.SortOrder
+  netAmount?: Prisma.SortOrder
+  vatAmount?: Prisma.SortOrder
+  tenantPct?: Prisma.SortOrder
+  ownerPct?: Prisma.SortOrder
+  ocrConfidence?: Prisma.SortOrder
+}
+
+export type BuildingExpenseNullableScalarRelationFilter = {
+  is?: Prisma.BuildingExpenseWhereInput | null
+  isNot?: Prisma.BuildingExpenseWhereInput | null
+}
+
+export type BuildingExpenseScalarRelationFilter = {
+  is?: Prisma.BuildingExpenseWhereInput
+  isNot?: Prisma.BuildingExpenseWhereInput
 }
 
 export type BuildingExpenseCreateNestedManyWithoutBuildingInput = {
@@ -521,14 +835,112 @@ export type DecimalFieldUpdateOperationsInput = {
   divide?: runtime.Decimal | runtime.DecimalJsLike | number | string
 }
 
+export type NullableDecimalFieldUpdateOperationsInput = {
+  set?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  increment?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  decrement?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  multiply?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  divide?: runtime.Decimal | runtime.DecimalJsLike | number | string
+}
+
+export type EnumExpenseStatusFieldUpdateOperationsInput = {
+  set?: $Enums.ExpenseStatus
+}
+
+export type BuildingExpenseCreateNestedManyWithoutCategoryRefInput = {
+  create?: Prisma.XOR<Prisma.BuildingExpenseCreateWithoutCategoryRefInput, Prisma.BuildingExpenseUncheckedCreateWithoutCategoryRefInput> | Prisma.BuildingExpenseCreateWithoutCategoryRefInput[] | Prisma.BuildingExpenseUncheckedCreateWithoutCategoryRefInput[]
+  connectOrCreate?: Prisma.BuildingExpenseCreateOrConnectWithoutCategoryRefInput | Prisma.BuildingExpenseCreateOrConnectWithoutCategoryRefInput[]
+  createMany?: Prisma.BuildingExpenseCreateManyCategoryRefInputEnvelope
+  connect?: Prisma.BuildingExpenseWhereUniqueInput | Prisma.BuildingExpenseWhereUniqueInput[]
+}
+
+export type BuildingExpenseUncheckedCreateNestedManyWithoutCategoryRefInput = {
+  create?: Prisma.XOR<Prisma.BuildingExpenseCreateWithoutCategoryRefInput, Prisma.BuildingExpenseUncheckedCreateWithoutCategoryRefInput> | Prisma.BuildingExpenseCreateWithoutCategoryRefInput[] | Prisma.BuildingExpenseUncheckedCreateWithoutCategoryRefInput[]
+  connectOrCreate?: Prisma.BuildingExpenseCreateOrConnectWithoutCategoryRefInput | Prisma.BuildingExpenseCreateOrConnectWithoutCategoryRefInput[]
+  createMany?: Prisma.BuildingExpenseCreateManyCategoryRefInputEnvelope
+  connect?: Prisma.BuildingExpenseWhereUniqueInput | Prisma.BuildingExpenseWhereUniqueInput[]
+}
+
+export type BuildingExpenseUpdateManyWithoutCategoryRefNestedInput = {
+  create?: Prisma.XOR<Prisma.BuildingExpenseCreateWithoutCategoryRefInput, Prisma.BuildingExpenseUncheckedCreateWithoutCategoryRefInput> | Prisma.BuildingExpenseCreateWithoutCategoryRefInput[] | Prisma.BuildingExpenseUncheckedCreateWithoutCategoryRefInput[]
+  connectOrCreate?: Prisma.BuildingExpenseCreateOrConnectWithoutCategoryRefInput | Prisma.BuildingExpenseCreateOrConnectWithoutCategoryRefInput[]
+  upsert?: Prisma.BuildingExpenseUpsertWithWhereUniqueWithoutCategoryRefInput | Prisma.BuildingExpenseUpsertWithWhereUniqueWithoutCategoryRefInput[]
+  createMany?: Prisma.BuildingExpenseCreateManyCategoryRefInputEnvelope
+  set?: Prisma.BuildingExpenseWhereUniqueInput | Prisma.BuildingExpenseWhereUniqueInput[]
+  disconnect?: Prisma.BuildingExpenseWhereUniqueInput | Prisma.BuildingExpenseWhereUniqueInput[]
+  delete?: Prisma.BuildingExpenseWhereUniqueInput | Prisma.BuildingExpenseWhereUniqueInput[]
+  connect?: Prisma.BuildingExpenseWhereUniqueInput | Prisma.BuildingExpenseWhereUniqueInput[]
+  update?: Prisma.BuildingExpenseUpdateWithWhereUniqueWithoutCategoryRefInput | Prisma.BuildingExpenseUpdateWithWhereUniqueWithoutCategoryRefInput[]
+  updateMany?: Prisma.BuildingExpenseUpdateManyWithWhereWithoutCategoryRefInput | Prisma.BuildingExpenseUpdateManyWithWhereWithoutCategoryRefInput[]
+  deleteMany?: Prisma.BuildingExpenseScalarWhereInput | Prisma.BuildingExpenseScalarWhereInput[]
+}
+
+export type BuildingExpenseUncheckedUpdateManyWithoutCategoryRefNestedInput = {
+  create?: Prisma.XOR<Prisma.BuildingExpenseCreateWithoutCategoryRefInput, Prisma.BuildingExpenseUncheckedCreateWithoutCategoryRefInput> | Prisma.BuildingExpenseCreateWithoutCategoryRefInput[] | Prisma.BuildingExpenseUncheckedCreateWithoutCategoryRefInput[]
+  connectOrCreate?: Prisma.BuildingExpenseCreateOrConnectWithoutCategoryRefInput | Prisma.BuildingExpenseCreateOrConnectWithoutCategoryRefInput[]
+  upsert?: Prisma.BuildingExpenseUpsertWithWhereUniqueWithoutCategoryRefInput | Prisma.BuildingExpenseUpsertWithWhereUniqueWithoutCategoryRefInput[]
+  createMany?: Prisma.BuildingExpenseCreateManyCategoryRefInputEnvelope
+  set?: Prisma.BuildingExpenseWhereUniqueInput | Prisma.BuildingExpenseWhereUniqueInput[]
+  disconnect?: Prisma.BuildingExpenseWhereUniqueInput | Prisma.BuildingExpenseWhereUniqueInput[]
+  delete?: Prisma.BuildingExpenseWhereUniqueInput | Prisma.BuildingExpenseWhereUniqueInput[]
+  connect?: Prisma.BuildingExpenseWhereUniqueInput | Prisma.BuildingExpenseWhereUniqueInput[]
+  update?: Prisma.BuildingExpenseUpdateWithWhereUniqueWithoutCategoryRefInput | Prisma.BuildingExpenseUpdateWithWhereUniqueWithoutCategoryRefInput[]
+  updateMany?: Prisma.BuildingExpenseUpdateManyWithWhereWithoutCategoryRefInput | Prisma.BuildingExpenseUpdateManyWithWhereWithoutCategoryRefInput[]
+  deleteMany?: Prisma.BuildingExpenseScalarWhereInput | Prisma.BuildingExpenseScalarWhereInput[]
+}
+
+export type BuildingExpenseCreateNestedOneWithoutMeterReadingsInput = {
+  create?: Prisma.XOR<Prisma.BuildingExpenseCreateWithoutMeterReadingsInput, Prisma.BuildingExpenseUncheckedCreateWithoutMeterReadingsInput>
+  connectOrCreate?: Prisma.BuildingExpenseCreateOrConnectWithoutMeterReadingsInput
+  connect?: Prisma.BuildingExpenseWhereUniqueInput
+}
+
+export type BuildingExpenseUpdateOneWithoutMeterReadingsNestedInput = {
+  create?: Prisma.XOR<Prisma.BuildingExpenseCreateWithoutMeterReadingsInput, Prisma.BuildingExpenseUncheckedCreateWithoutMeterReadingsInput>
+  connectOrCreate?: Prisma.BuildingExpenseCreateOrConnectWithoutMeterReadingsInput
+  upsert?: Prisma.BuildingExpenseUpsertWithoutMeterReadingsInput
+  disconnect?: Prisma.BuildingExpenseWhereInput | boolean
+  delete?: Prisma.BuildingExpenseWhereInput | boolean
+  connect?: Prisma.BuildingExpenseWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.BuildingExpenseUpdateToOneWithWhereWithoutMeterReadingsInput, Prisma.BuildingExpenseUpdateWithoutMeterReadingsInput>, Prisma.BuildingExpenseUncheckedUpdateWithoutMeterReadingsInput>
+}
+
+export type BuildingExpenseCreateNestedOneWithoutAllocationsInput = {
+  create?: Prisma.XOR<Prisma.BuildingExpenseCreateWithoutAllocationsInput, Prisma.BuildingExpenseUncheckedCreateWithoutAllocationsInput>
+  connectOrCreate?: Prisma.BuildingExpenseCreateOrConnectWithoutAllocationsInput
+  connect?: Prisma.BuildingExpenseWhereUniqueInput
+}
+
+export type BuildingExpenseUpdateOneRequiredWithoutAllocationsNestedInput = {
+  create?: Prisma.XOR<Prisma.BuildingExpenseCreateWithoutAllocationsInput, Prisma.BuildingExpenseUncheckedCreateWithoutAllocationsInput>
+  connectOrCreate?: Prisma.BuildingExpenseCreateOrConnectWithoutAllocationsInput
+  upsert?: Prisma.BuildingExpenseUpsertWithoutAllocationsInput
+  connect?: Prisma.BuildingExpenseWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.BuildingExpenseUpdateToOneWithWhereWithoutAllocationsInput, Prisma.BuildingExpenseUpdateWithoutAllocationsInput>, Prisma.BuildingExpenseUncheckedUpdateWithoutAllocationsInput>
+}
+
 export type BuildingExpenseCreateWithoutBuildingInput = {
   id?: string
   month: string
   category?: string | null
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: string | null
+  supplierName?: string | null
+  supplierVat?: string | null
+  documentNumber?: string | null
+  documentDate?: Date | string | null
+  netAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  vatAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  status?: $Enums.ExpenseStatus
+  tenantPct?: number
+  ownerPct?: number
+  ocrRaw?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  ocrConfidence?: number | null
   createdAt?: Date | string
   receiptFile?: Prisma.BuildingFileCreateNestedOneWithoutExpenseLinksInput
+  categoryRef?: Prisma.ExpenseCategoryCreateNestedOneWithoutExpensesInput
+  meterReadings?: Prisma.MeterReadingCreateNestedManyWithoutExpenseInput
+  allocations?: Prisma.ExpenseAllocationCreateNestedManyWithoutExpenseInput
 }
 
 export type BuildingExpenseUncheckedCreateWithoutBuildingInput = {
@@ -538,7 +950,21 @@ export type BuildingExpenseUncheckedCreateWithoutBuildingInput = {
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: string | null
   receiptFileId?: string | null
+  categoryId?: string | null
+  supplierName?: string | null
+  supplierVat?: string | null
+  documentNumber?: string | null
+  documentDate?: Date | string | null
+  netAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  vatAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  status?: $Enums.ExpenseStatus
+  tenantPct?: number
+  ownerPct?: number
+  ocrRaw?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  ocrConfidence?: number | null
   createdAt?: Date | string
+  meterReadings?: Prisma.MeterReadingUncheckedCreateNestedManyWithoutExpenseInput
+  allocations?: Prisma.ExpenseAllocationUncheckedCreateNestedManyWithoutExpenseInput
 }
 
 export type BuildingExpenseCreateOrConnectWithoutBuildingInput = {
@@ -578,6 +1004,18 @@ export type BuildingExpenseScalarWhereInput = {
   amount?: Prisma.DecimalFilter<"BuildingExpense"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.StringNullableFilter<"BuildingExpense"> | string | null
   receiptFileId?: Prisma.StringNullableFilter<"BuildingExpense"> | string | null
+  categoryId?: Prisma.StringNullableFilter<"BuildingExpense"> | string | null
+  supplierName?: Prisma.StringNullableFilter<"BuildingExpense"> | string | null
+  supplierVat?: Prisma.StringNullableFilter<"BuildingExpense"> | string | null
+  documentNumber?: Prisma.StringNullableFilter<"BuildingExpense"> | string | null
+  documentDate?: Prisma.DateTimeNullableFilter<"BuildingExpense"> | Date | string | null
+  netAmount?: Prisma.DecimalNullableFilter<"BuildingExpense"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  vatAmount?: Prisma.DecimalNullableFilter<"BuildingExpense"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  status?: Prisma.EnumExpenseStatusFilter<"BuildingExpense"> | $Enums.ExpenseStatus
+  tenantPct?: Prisma.IntFilter<"BuildingExpense"> | number
+  ownerPct?: Prisma.IntFilter<"BuildingExpense"> | number
+  ocrRaw?: Prisma.JsonNullableFilter<"BuildingExpense">
+  ocrConfidence?: Prisma.FloatNullableFilter<"BuildingExpense"> | number | null
   createdAt?: Prisma.DateTimeFilter<"BuildingExpense"> | Date | string
 }
 
@@ -587,8 +1025,22 @@ export type BuildingExpenseCreateWithoutReceiptFileInput = {
   category?: string | null
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: string | null
+  supplierName?: string | null
+  supplierVat?: string | null
+  documentNumber?: string | null
+  documentDate?: Date | string | null
+  netAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  vatAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  status?: $Enums.ExpenseStatus
+  tenantPct?: number
+  ownerPct?: number
+  ocrRaw?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  ocrConfidence?: number | null
   createdAt?: Date | string
   building: Prisma.BuildingCreateNestedOneWithoutExpensesInput
+  categoryRef?: Prisma.ExpenseCategoryCreateNestedOneWithoutExpensesInput
+  meterReadings?: Prisma.MeterReadingCreateNestedManyWithoutExpenseInput
+  allocations?: Prisma.ExpenseAllocationCreateNestedManyWithoutExpenseInput
 }
 
 export type BuildingExpenseUncheckedCreateWithoutReceiptFileInput = {
@@ -598,7 +1050,21 @@ export type BuildingExpenseUncheckedCreateWithoutReceiptFileInput = {
   category?: string | null
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: string | null
+  categoryId?: string | null
+  supplierName?: string | null
+  supplierVat?: string | null
+  documentNumber?: string | null
+  documentDate?: Date | string | null
+  netAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  vatAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  status?: $Enums.ExpenseStatus
+  tenantPct?: number
+  ownerPct?: number
+  ocrRaw?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  ocrConfidence?: number | null
   createdAt?: Date | string
+  meterReadings?: Prisma.MeterReadingUncheckedCreateNestedManyWithoutExpenseInput
+  allocations?: Prisma.ExpenseAllocationUncheckedCreateNestedManyWithoutExpenseInput
 }
 
 export type BuildingExpenseCreateOrConnectWithoutReceiptFileInput = {
@@ -627,6 +1093,304 @@ export type BuildingExpenseUpdateManyWithWhereWithoutReceiptFileInput = {
   data: Prisma.XOR<Prisma.BuildingExpenseUpdateManyMutationInput, Prisma.BuildingExpenseUncheckedUpdateManyWithoutReceiptFileInput>
 }
 
+export type BuildingExpenseCreateWithoutCategoryRefInput = {
+  id?: string
+  month: string
+  category?: string | null
+  amount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  description?: string | null
+  supplierName?: string | null
+  supplierVat?: string | null
+  documentNumber?: string | null
+  documentDate?: Date | string | null
+  netAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  vatAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  status?: $Enums.ExpenseStatus
+  tenantPct?: number
+  ownerPct?: number
+  ocrRaw?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  ocrConfidence?: number | null
+  createdAt?: Date | string
+  building: Prisma.BuildingCreateNestedOneWithoutExpensesInput
+  receiptFile?: Prisma.BuildingFileCreateNestedOneWithoutExpenseLinksInput
+  meterReadings?: Prisma.MeterReadingCreateNestedManyWithoutExpenseInput
+  allocations?: Prisma.ExpenseAllocationCreateNestedManyWithoutExpenseInput
+}
+
+export type BuildingExpenseUncheckedCreateWithoutCategoryRefInput = {
+  id?: string
+  buildingId: string
+  month: string
+  category?: string | null
+  amount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  description?: string | null
+  receiptFileId?: string | null
+  supplierName?: string | null
+  supplierVat?: string | null
+  documentNumber?: string | null
+  documentDate?: Date | string | null
+  netAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  vatAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  status?: $Enums.ExpenseStatus
+  tenantPct?: number
+  ownerPct?: number
+  ocrRaw?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  ocrConfidence?: number | null
+  createdAt?: Date | string
+  meterReadings?: Prisma.MeterReadingUncheckedCreateNestedManyWithoutExpenseInput
+  allocations?: Prisma.ExpenseAllocationUncheckedCreateNestedManyWithoutExpenseInput
+}
+
+export type BuildingExpenseCreateOrConnectWithoutCategoryRefInput = {
+  where: Prisma.BuildingExpenseWhereUniqueInput
+  create: Prisma.XOR<Prisma.BuildingExpenseCreateWithoutCategoryRefInput, Prisma.BuildingExpenseUncheckedCreateWithoutCategoryRefInput>
+}
+
+export type BuildingExpenseCreateManyCategoryRefInputEnvelope = {
+  data: Prisma.BuildingExpenseCreateManyCategoryRefInput | Prisma.BuildingExpenseCreateManyCategoryRefInput[]
+  skipDuplicates?: boolean
+}
+
+export type BuildingExpenseUpsertWithWhereUniqueWithoutCategoryRefInput = {
+  where: Prisma.BuildingExpenseWhereUniqueInput
+  update: Prisma.XOR<Prisma.BuildingExpenseUpdateWithoutCategoryRefInput, Prisma.BuildingExpenseUncheckedUpdateWithoutCategoryRefInput>
+  create: Prisma.XOR<Prisma.BuildingExpenseCreateWithoutCategoryRefInput, Prisma.BuildingExpenseUncheckedCreateWithoutCategoryRefInput>
+}
+
+export type BuildingExpenseUpdateWithWhereUniqueWithoutCategoryRefInput = {
+  where: Prisma.BuildingExpenseWhereUniqueInput
+  data: Prisma.XOR<Prisma.BuildingExpenseUpdateWithoutCategoryRefInput, Prisma.BuildingExpenseUncheckedUpdateWithoutCategoryRefInput>
+}
+
+export type BuildingExpenseUpdateManyWithWhereWithoutCategoryRefInput = {
+  where: Prisma.BuildingExpenseScalarWhereInput
+  data: Prisma.XOR<Prisma.BuildingExpenseUpdateManyMutationInput, Prisma.BuildingExpenseUncheckedUpdateManyWithoutCategoryRefInput>
+}
+
+export type BuildingExpenseCreateWithoutMeterReadingsInput = {
+  id?: string
+  month: string
+  category?: string | null
+  amount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  description?: string | null
+  supplierName?: string | null
+  supplierVat?: string | null
+  documentNumber?: string | null
+  documentDate?: Date | string | null
+  netAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  vatAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  status?: $Enums.ExpenseStatus
+  tenantPct?: number
+  ownerPct?: number
+  ocrRaw?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  ocrConfidence?: number | null
+  createdAt?: Date | string
+  building: Prisma.BuildingCreateNestedOneWithoutExpensesInput
+  receiptFile?: Prisma.BuildingFileCreateNestedOneWithoutExpenseLinksInput
+  categoryRef?: Prisma.ExpenseCategoryCreateNestedOneWithoutExpensesInput
+  allocations?: Prisma.ExpenseAllocationCreateNestedManyWithoutExpenseInput
+}
+
+export type BuildingExpenseUncheckedCreateWithoutMeterReadingsInput = {
+  id?: string
+  buildingId: string
+  month: string
+  category?: string | null
+  amount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  description?: string | null
+  receiptFileId?: string | null
+  categoryId?: string | null
+  supplierName?: string | null
+  supplierVat?: string | null
+  documentNumber?: string | null
+  documentDate?: Date | string | null
+  netAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  vatAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  status?: $Enums.ExpenseStatus
+  tenantPct?: number
+  ownerPct?: number
+  ocrRaw?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  ocrConfidence?: number | null
+  createdAt?: Date | string
+  allocations?: Prisma.ExpenseAllocationUncheckedCreateNestedManyWithoutExpenseInput
+}
+
+export type BuildingExpenseCreateOrConnectWithoutMeterReadingsInput = {
+  where: Prisma.BuildingExpenseWhereUniqueInput
+  create: Prisma.XOR<Prisma.BuildingExpenseCreateWithoutMeterReadingsInput, Prisma.BuildingExpenseUncheckedCreateWithoutMeterReadingsInput>
+}
+
+export type BuildingExpenseUpsertWithoutMeterReadingsInput = {
+  update: Prisma.XOR<Prisma.BuildingExpenseUpdateWithoutMeterReadingsInput, Prisma.BuildingExpenseUncheckedUpdateWithoutMeterReadingsInput>
+  create: Prisma.XOR<Prisma.BuildingExpenseCreateWithoutMeterReadingsInput, Prisma.BuildingExpenseUncheckedCreateWithoutMeterReadingsInput>
+  where?: Prisma.BuildingExpenseWhereInput
+}
+
+export type BuildingExpenseUpdateToOneWithWhereWithoutMeterReadingsInput = {
+  where?: Prisma.BuildingExpenseWhereInput
+  data: Prisma.XOR<Prisma.BuildingExpenseUpdateWithoutMeterReadingsInput, Prisma.BuildingExpenseUncheckedUpdateWithoutMeterReadingsInput>
+}
+
+export type BuildingExpenseUpdateWithoutMeterReadingsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  month?: Prisma.StringFieldUpdateOperationsInput | string
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierVat?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  documentNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  documentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  netAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  vatAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  status?: Prisma.EnumExpenseStatusFieldUpdateOperationsInput | $Enums.ExpenseStatus
+  tenantPct?: Prisma.IntFieldUpdateOperationsInput | number
+  ownerPct?: Prisma.IntFieldUpdateOperationsInput | number
+  ocrRaw?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  ocrConfidence?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  building?: Prisma.BuildingUpdateOneRequiredWithoutExpensesNestedInput
+  receiptFile?: Prisma.BuildingFileUpdateOneWithoutExpenseLinksNestedInput
+  categoryRef?: Prisma.ExpenseCategoryUpdateOneWithoutExpensesNestedInput
+  allocations?: Prisma.ExpenseAllocationUpdateManyWithoutExpenseNestedInput
+}
+
+export type BuildingExpenseUncheckedUpdateWithoutMeterReadingsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  buildingId?: Prisma.StringFieldUpdateOperationsInput | string
+  month?: Prisma.StringFieldUpdateOperationsInput | string
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  receiptFileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierVat?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  documentNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  documentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  netAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  vatAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  status?: Prisma.EnumExpenseStatusFieldUpdateOperationsInput | $Enums.ExpenseStatus
+  tenantPct?: Prisma.IntFieldUpdateOperationsInput | number
+  ownerPct?: Prisma.IntFieldUpdateOperationsInput | number
+  ocrRaw?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  ocrConfidence?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  allocations?: Prisma.ExpenseAllocationUncheckedUpdateManyWithoutExpenseNestedInput
+}
+
+export type BuildingExpenseCreateWithoutAllocationsInput = {
+  id?: string
+  month: string
+  category?: string | null
+  amount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  description?: string | null
+  supplierName?: string | null
+  supplierVat?: string | null
+  documentNumber?: string | null
+  documentDate?: Date | string | null
+  netAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  vatAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  status?: $Enums.ExpenseStatus
+  tenantPct?: number
+  ownerPct?: number
+  ocrRaw?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  ocrConfidence?: number | null
+  createdAt?: Date | string
+  building: Prisma.BuildingCreateNestedOneWithoutExpensesInput
+  receiptFile?: Prisma.BuildingFileCreateNestedOneWithoutExpenseLinksInput
+  categoryRef?: Prisma.ExpenseCategoryCreateNestedOneWithoutExpensesInput
+  meterReadings?: Prisma.MeterReadingCreateNestedManyWithoutExpenseInput
+}
+
+export type BuildingExpenseUncheckedCreateWithoutAllocationsInput = {
+  id?: string
+  buildingId: string
+  month: string
+  category?: string | null
+  amount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  description?: string | null
+  receiptFileId?: string | null
+  categoryId?: string | null
+  supplierName?: string | null
+  supplierVat?: string | null
+  documentNumber?: string | null
+  documentDate?: Date | string | null
+  netAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  vatAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  status?: $Enums.ExpenseStatus
+  tenantPct?: number
+  ownerPct?: number
+  ocrRaw?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  ocrConfidence?: number | null
+  createdAt?: Date | string
+  meterReadings?: Prisma.MeterReadingUncheckedCreateNestedManyWithoutExpenseInput
+}
+
+export type BuildingExpenseCreateOrConnectWithoutAllocationsInput = {
+  where: Prisma.BuildingExpenseWhereUniqueInput
+  create: Prisma.XOR<Prisma.BuildingExpenseCreateWithoutAllocationsInput, Prisma.BuildingExpenseUncheckedCreateWithoutAllocationsInput>
+}
+
+export type BuildingExpenseUpsertWithoutAllocationsInput = {
+  update: Prisma.XOR<Prisma.BuildingExpenseUpdateWithoutAllocationsInput, Prisma.BuildingExpenseUncheckedUpdateWithoutAllocationsInput>
+  create: Prisma.XOR<Prisma.BuildingExpenseCreateWithoutAllocationsInput, Prisma.BuildingExpenseUncheckedCreateWithoutAllocationsInput>
+  where?: Prisma.BuildingExpenseWhereInput
+}
+
+export type BuildingExpenseUpdateToOneWithWhereWithoutAllocationsInput = {
+  where?: Prisma.BuildingExpenseWhereInput
+  data: Prisma.XOR<Prisma.BuildingExpenseUpdateWithoutAllocationsInput, Prisma.BuildingExpenseUncheckedUpdateWithoutAllocationsInput>
+}
+
+export type BuildingExpenseUpdateWithoutAllocationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  month?: Prisma.StringFieldUpdateOperationsInput | string
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierVat?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  documentNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  documentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  netAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  vatAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  status?: Prisma.EnumExpenseStatusFieldUpdateOperationsInput | $Enums.ExpenseStatus
+  tenantPct?: Prisma.IntFieldUpdateOperationsInput | number
+  ownerPct?: Prisma.IntFieldUpdateOperationsInput | number
+  ocrRaw?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  ocrConfidence?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  building?: Prisma.BuildingUpdateOneRequiredWithoutExpensesNestedInput
+  receiptFile?: Prisma.BuildingFileUpdateOneWithoutExpenseLinksNestedInput
+  categoryRef?: Prisma.ExpenseCategoryUpdateOneWithoutExpensesNestedInput
+  meterReadings?: Prisma.MeterReadingUpdateManyWithoutExpenseNestedInput
+}
+
+export type BuildingExpenseUncheckedUpdateWithoutAllocationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  buildingId?: Prisma.StringFieldUpdateOperationsInput | string
+  month?: Prisma.StringFieldUpdateOperationsInput | string
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  receiptFileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierVat?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  documentNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  documentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  netAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  vatAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  status?: Prisma.EnumExpenseStatusFieldUpdateOperationsInput | $Enums.ExpenseStatus
+  tenantPct?: Prisma.IntFieldUpdateOperationsInput | number
+  ownerPct?: Prisma.IntFieldUpdateOperationsInput | number
+  ocrRaw?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  ocrConfidence?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  meterReadings?: Prisma.MeterReadingUncheckedUpdateManyWithoutExpenseNestedInput
+}
+
 export type BuildingExpenseCreateManyBuildingInput = {
   id?: string
   month: string
@@ -634,6 +1398,18 @@ export type BuildingExpenseCreateManyBuildingInput = {
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: string | null
   receiptFileId?: string | null
+  categoryId?: string | null
+  supplierName?: string | null
+  supplierVat?: string | null
+  documentNumber?: string | null
+  documentDate?: Date | string | null
+  netAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  vatAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  status?: $Enums.ExpenseStatus
+  tenantPct?: number
+  ownerPct?: number
+  ocrRaw?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  ocrConfidence?: number | null
   createdAt?: Date | string
 }
 
@@ -643,8 +1419,22 @@ export type BuildingExpenseUpdateWithoutBuildingInput = {
   category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierVat?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  documentNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  documentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  netAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  vatAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  status?: Prisma.EnumExpenseStatusFieldUpdateOperationsInput | $Enums.ExpenseStatus
+  tenantPct?: Prisma.IntFieldUpdateOperationsInput | number
+  ownerPct?: Prisma.IntFieldUpdateOperationsInput | number
+  ocrRaw?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  ocrConfidence?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   receiptFile?: Prisma.BuildingFileUpdateOneWithoutExpenseLinksNestedInput
+  categoryRef?: Prisma.ExpenseCategoryUpdateOneWithoutExpensesNestedInput
+  meterReadings?: Prisma.MeterReadingUpdateManyWithoutExpenseNestedInput
+  allocations?: Prisma.ExpenseAllocationUpdateManyWithoutExpenseNestedInput
 }
 
 export type BuildingExpenseUncheckedUpdateWithoutBuildingInput = {
@@ -654,7 +1444,21 @@ export type BuildingExpenseUncheckedUpdateWithoutBuildingInput = {
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   receiptFileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierVat?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  documentNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  documentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  netAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  vatAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  status?: Prisma.EnumExpenseStatusFieldUpdateOperationsInput | $Enums.ExpenseStatus
+  tenantPct?: Prisma.IntFieldUpdateOperationsInput | number
+  ownerPct?: Prisma.IntFieldUpdateOperationsInput | number
+  ocrRaw?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  ocrConfidence?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  meterReadings?: Prisma.MeterReadingUncheckedUpdateManyWithoutExpenseNestedInput
+  allocations?: Prisma.ExpenseAllocationUncheckedUpdateManyWithoutExpenseNestedInput
 }
 
 export type BuildingExpenseUncheckedUpdateManyWithoutBuildingInput = {
@@ -664,6 +1468,18 @@ export type BuildingExpenseUncheckedUpdateManyWithoutBuildingInput = {
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   receiptFileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierVat?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  documentNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  documentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  netAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  vatAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  status?: Prisma.EnumExpenseStatusFieldUpdateOperationsInput | $Enums.ExpenseStatus
+  tenantPct?: Prisma.IntFieldUpdateOperationsInput | number
+  ownerPct?: Prisma.IntFieldUpdateOperationsInput | number
+  ocrRaw?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  ocrConfidence?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -674,6 +1490,18 @@ export type BuildingExpenseCreateManyReceiptFileInput = {
   category?: string | null
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: string | null
+  categoryId?: string | null
+  supplierName?: string | null
+  supplierVat?: string | null
+  documentNumber?: string | null
+  documentDate?: Date | string | null
+  netAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  vatAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  status?: $Enums.ExpenseStatus
+  tenantPct?: number
+  ownerPct?: number
+  ocrRaw?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  ocrConfidence?: number | null
   createdAt?: Date | string
 }
 
@@ -683,8 +1511,22 @@ export type BuildingExpenseUpdateWithoutReceiptFileInput = {
   category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierVat?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  documentNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  documentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  netAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  vatAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  status?: Prisma.EnumExpenseStatusFieldUpdateOperationsInput | $Enums.ExpenseStatus
+  tenantPct?: Prisma.IntFieldUpdateOperationsInput | number
+  ownerPct?: Prisma.IntFieldUpdateOperationsInput | number
+  ocrRaw?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  ocrConfidence?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   building?: Prisma.BuildingUpdateOneRequiredWithoutExpensesNestedInput
+  categoryRef?: Prisma.ExpenseCategoryUpdateOneWithoutExpensesNestedInput
+  meterReadings?: Prisma.MeterReadingUpdateManyWithoutExpenseNestedInput
+  allocations?: Prisma.ExpenseAllocationUpdateManyWithoutExpenseNestedInput
 }
 
 export type BuildingExpenseUncheckedUpdateWithoutReceiptFileInput = {
@@ -694,7 +1536,21 @@ export type BuildingExpenseUncheckedUpdateWithoutReceiptFileInput = {
   category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierVat?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  documentNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  documentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  netAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  vatAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  status?: Prisma.EnumExpenseStatusFieldUpdateOperationsInput | $Enums.ExpenseStatus
+  tenantPct?: Prisma.IntFieldUpdateOperationsInput | number
+  ownerPct?: Prisma.IntFieldUpdateOperationsInput | number
+  ocrRaw?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  ocrConfidence?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  meterReadings?: Prisma.MeterReadingUncheckedUpdateManyWithoutExpenseNestedInput
+  allocations?: Prisma.ExpenseAllocationUncheckedUpdateManyWithoutExpenseNestedInput
 }
 
 export type BuildingExpenseUncheckedUpdateManyWithoutReceiptFileInput = {
@@ -704,9 +1560,151 @@ export type BuildingExpenseUncheckedUpdateManyWithoutReceiptFileInput = {
   category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierVat?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  documentNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  documentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  netAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  vatAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  status?: Prisma.EnumExpenseStatusFieldUpdateOperationsInput | $Enums.ExpenseStatus
+  tenantPct?: Prisma.IntFieldUpdateOperationsInput | number
+  ownerPct?: Prisma.IntFieldUpdateOperationsInput | number
+  ocrRaw?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  ocrConfidence?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
+export type BuildingExpenseCreateManyCategoryRefInput = {
+  id?: string
+  buildingId: string
+  month: string
+  category?: string | null
+  amount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  description?: string | null
+  receiptFileId?: string | null
+  supplierName?: string | null
+  supplierVat?: string | null
+  documentNumber?: string | null
+  documentDate?: Date | string | null
+  netAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  vatAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  status?: $Enums.ExpenseStatus
+  tenantPct?: number
+  ownerPct?: number
+  ocrRaw?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  ocrConfidence?: number | null
+  createdAt?: Date | string
+}
+
+export type BuildingExpenseUpdateWithoutCategoryRefInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  month?: Prisma.StringFieldUpdateOperationsInput | string
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierVat?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  documentNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  documentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  netAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  vatAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  status?: Prisma.EnumExpenseStatusFieldUpdateOperationsInput | $Enums.ExpenseStatus
+  tenantPct?: Prisma.IntFieldUpdateOperationsInput | number
+  ownerPct?: Prisma.IntFieldUpdateOperationsInput | number
+  ocrRaw?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  ocrConfidence?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  building?: Prisma.BuildingUpdateOneRequiredWithoutExpensesNestedInput
+  receiptFile?: Prisma.BuildingFileUpdateOneWithoutExpenseLinksNestedInput
+  meterReadings?: Prisma.MeterReadingUpdateManyWithoutExpenseNestedInput
+  allocations?: Prisma.ExpenseAllocationUpdateManyWithoutExpenseNestedInput
+}
+
+export type BuildingExpenseUncheckedUpdateWithoutCategoryRefInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  buildingId?: Prisma.StringFieldUpdateOperationsInput | string
+  month?: Prisma.StringFieldUpdateOperationsInput | string
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  receiptFileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierVat?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  documentNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  documentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  netAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  vatAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  status?: Prisma.EnumExpenseStatusFieldUpdateOperationsInput | $Enums.ExpenseStatus
+  tenantPct?: Prisma.IntFieldUpdateOperationsInput | number
+  ownerPct?: Prisma.IntFieldUpdateOperationsInput | number
+  ocrRaw?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  ocrConfidence?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  meterReadings?: Prisma.MeterReadingUncheckedUpdateManyWithoutExpenseNestedInput
+  allocations?: Prisma.ExpenseAllocationUncheckedUpdateManyWithoutExpenseNestedInput
+}
+
+export type BuildingExpenseUncheckedUpdateManyWithoutCategoryRefInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  buildingId?: Prisma.StringFieldUpdateOperationsInput | string
+  month?: Prisma.StringFieldUpdateOperationsInput | string
+  category?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  receiptFileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierVat?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  documentNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  documentDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  netAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  vatAmount?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  status?: Prisma.EnumExpenseStatusFieldUpdateOperationsInput | $Enums.ExpenseStatus
+  tenantPct?: Prisma.IntFieldUpdateOperationsInput | number
+  ownerPct?: Prisma.IntFieldUpdateOperationsInput | number
+  ocrRaw?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  ocrConfidence?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+
+/**
+ * Count Type BuildingExpenseCountOutputType
+ */
+
+export type BuildingExpenseCountOutputType = {
+  meterReadings: number
+  allocations: number
+}
+
+export type BuildingExpenseCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  meterReadings?: boolean | BuildingExpenseCountOutputTypeCountMeterReadingsArgs
+  allocations?: boolean | BuildingExpenseCountOutputTypeCountAllocationsArgs
+}
+
+/**
+ * BuildingExpenseCountOutputType without action
+ */
+export type BuildingExpenseCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the BuildingExpenseCountOutputType
+   */
+  select?: Prisma.BuildingExpenseCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * BuildingExpenseCountOutputType without action
+ */
+export type BuildingExpenseCountOutputTypeCountMeterReadingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.MeterReadingWhereInput
+}
+
+/**
+ * BuildingExpenseCountOutputType without action
+ */
+export type BuildingExpenseCountOutputTypeCountAllocationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ExpenseAllocationWhereInput
+}
 
 
 export type BuildingExpenseSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -717,9 +1715,25 @@ export type BuildingExpenseSelect<ExtArgs extends runtime.Types.Extensions.Inter
   amount?: boolean
   description?: boolean
   receiptFileId?: boolean
+  categoryId?: boolean
+  supplierName?: boolean
+  supplierVat?: boolean
+  documentNumber?: boolean
+  documentDate?: boolean
+  netAmount?: boolean
+  vatAmount?: boolean
+  status?: boolean
+  tenantPct?: boolean
+  ownerPct?: boolean
+  ocrRaw?: boolean
+  ocrConfidence?: boolean
   createdAt?: boolean
   building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
   receiptFile?: boolean | Prisma.BuildingExpense$receiptFileArgs<ExtArgs>
+  categoryRef?: boolean | Prisma.BuildingExpense$categoryRefArgs<ExtArgs>
+  meterReadings?: boolean | Prisma.BuildingExpense$meterReadingsArgs<ExtArgs>
+  allocations?: boolean | Prisma.BuildingExpense$allocationsArgs<ExtArgs>
+  _count?: boolean | Prisma.BuildingExpenseCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["buildingExpense"]>
 
 export type BuildingExpenseSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -730,9 +1744,22 @@ export type BuildingExpenseSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
   amount?: boolean
   description?: boolean
   receiptFileId?: boolean
+  categoryId?: boolean
+  supplierName?: boolean
+  supplierVat?: boolean
+  documentNumber?: boolean
+  documentDate?: boolean
+  netAmount?: boolean
+  vatAmount?: boolean
+  status?: boolean
+  tenantPct?: boolean
+  ownerPct?: boolean
+  ocrRaw?: boolean
+  ocrConfidence?: boolean
   createdAt?: boolean
   building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
   receiptFile?: boolean | Prisma.BuildingExpense$receiptFileArgs<ExtArgs>
+  categoryRef?: boolean | Prisma.BuildingExpense$categoryRefArgs<ExtArgs>
 }, ExtArgs["result"]["buildingExpense"]>
 
 export type BuildingExpenseSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -743,9 +1770,22 @@ export type BuildingExpenseSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   amount?: boolean
   description?: boolean
   receiptFileId?: boolean
+  categoryId?: boolean
+  supplierName?: boolean
+  supplierVat?: boolean
+  documentNumber?: boolean
+  documentDate?: boolean
+  netAmount?: boolean
+  vatAmount?: boolean
+  status?: boolean
+  tenantPct?: boolean
+  ownerPct?: boolean
+  ocrRaw?: boolean
+  ocrConfidence?: boolean
   createdAt?: boolean
   building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
   receiptFile?: boolean | Prisma.BuildingExpense$receiptFileArgs<ExtArgs>
+  categoryRef?: boolean | Prisma.BuildingExpense$categoryRefArgs<ExtArgs>
 }, ExtArgs["result"]["buildingExpense"]>
 
 export type BuildingExpenseSelectScalar = {
@@ -756,21 +1796,39 @@ export type BuildingExpenseSelectScalar = {
   amount?: boolean
   description?: boolean
   receiptFileId?: boolean
+  categoryId?: boolean
+  supplierName?: boolean
+  supplierVat?: boolean
+  documentNumber?: boolean
+  documentDate?: boolean
+  netAmount?: boolean
+  vatAmount?: boolean
+  status?: boolean
+  tenantPct?: boolean
+  ownerPct?: boolean
+  ocrRaw?: boolean
+  ocrConfidence?: boolean
   createdAt?: boolean
 }
 
-export type BuildingExpenseOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "buildingId" | "month" | "category" | "amount" | "description" | "receiptFileId" | "createdAt", ExtArgs["result"]["buildingExpense"]>
+export type BuildingExpenseOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "buildingId" | "month" | "category" | "amount" | "description" | "receiptFileId" | "categoryId" | "supplierName" | "supplierVat" | "documentNumber" | "documentDate" | "netAmount" | "vatAmount" | "status" | "tenantPct" | "ownerPct" | "ocrRaw" | "ocrConfidence" | "createdAt", ExtArgs["result"]["buildingExpense"]>
 export type BuildingExpenseInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
   receiptFile?: boolean | Prisma.BuildingExpense$receiptFileArgs<ExtArgs>
+  categoryRef?: boolean | Prisma.BuildingExpense$categoryRefArgs<ExtArgs>
+  meterReadings?: boolean | Prisma.BuildingExpense$meterReadingsArgs<ExtArgs>
+  allocations?: boolean | Prisma.BuildingExpense$allocationsArgs<ExtArgs>
+  _count?: boolean | Prisma.BuildingExpenseCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type BuildingExpenseIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
   receiptFile?: boolean | Prisma.BuildingExpense$receiptFileArgs<ExtArgs>
+  categoryRef?: boolean | Prisma.BuildingExpense$categoryRefArgs<ExtArgs>
 }
 export type BuildingExpenseIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
   receiptFile?: boolean | Prisma.BuildingExpense$receiptFileArgs<ExtArgs>
+  categoryRef?: boolean | Prisma.BuildingExpense$categoryRefArgs<ExtArgs>
 }
 
 export type $BuildingExpensePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -778,6 +1836,9 @@ export type $BuildingExpensePayload<ExtArgs extends runtime.Types.Extensions.Int
   objects: {
     building: Prisma.$BuildingPayload<ExtArgs>
     receiptFile: Prisma.$BuildingFilePayload<ExtArgs> | null
+    categoryRef: Prisma.$ExpenseCategoryPayload<ExtArgs> | null
+    meterReadings: Prisma.$MeterReadingPayload<ExtArgs>[]
+    allocations: Prisma.$ExpenseAllocationPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -787,6 +1848,18 @@ export type $BuildingExpensePayload<ExtArgs extends runtime.Types.Extensions.Int
     amount: runtime.Decimal
     description: string | null
     receiptFileId: string | null
+    categoryId: string | null
+    supplierName: string | null
+    supplierVat: string | null
+    documentNumber: string | null
+    documentDate: Date | null
+    netAmount: runtime.Decimal | null
+    vatAmount: runtime.Decimal | null
+    status: $Enums.ExpenseStatus
+    tenantPct: number
+    ownerPct: number
+    ocrRaw: runtime.JsonValue | null
+    ocrConfidence: number | null
     createdAt: Date
   }, ExtArgs["result"]["buildingExpense"]>
   composites: {}
@@ -1184,6 +2257,9 @@ export interface Prisma__BuildingExpenseClient<T, Null = never, ExtArgs extends 
   readonly [Symbol.toStringTag]: "PrismaPromise"
   building<T extends Prisma.BuildingDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.BuildingDefaultArgs<ExtArgs>>): Prisma.Prisma__BuildingClient<runtime.Types.Result.GetResult<Prisma.$BuildingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   receiptFile<T extends Prisma.BuildingExpense$receiptFileArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.BuildingExpense$receiptFileArgs<ExtArgs>>): Prisma.Prisma__BuildingFileClient<runtime.Types.Result.GetResult<Prisma.$BuildingFilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  categoryRef<T extends Prisma.BuildingExpense$categoryRefArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.BuildingExpense$categoryRefArgs<ExtArgs>>): Prisma.Prisma__ExpenseCategoryClient<runtime.Types.Result.GetResult<Prisma.$ExpenseCategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  meterReadings<T extends Prisma.BuildingExpense$meterReadingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.BuildingExpense$meterReadingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MeterReadingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  allocations<T extends Prisma.BuildingExpense$allocationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.BuildingExpense$allocationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ExpenseAllocationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1220,6 +2296,18 @@ export interface BuildingExpenseFieldRefs {
   readonly amount: Prisma.FieldRef<"BuildingExpense", 'Decimal'>
   readonly description: Prisma.FieldRef<"BuildingExpense", 'String'>
   readonly receiptFileId: Prisma.FieldRef<"BuildingExpense", 'String'>
+  readonly categoryId: Prisma.FieldRef<"BuildingExpense", 'String'>
+  readonly supplierName: Prisma.FieldRef<"BuildingExpense", 'String'>
+  readonly supplierVat: Prisma.FieldRef<"BuildingExpense", 'String'>
+  readonly documentNumber: Prisma.FieldRef<"BuildingExpense", 'String'>
+  readonly documentDate: Prisma.FieldRef<"BuildingExpense", 'DateTime'>
+  readonly netAmount: Prisma.FieldRef<"BuildingExpense", 'Decimal'>
+  readonly vatAmount: Prisma.FieldRef<"BuildingExpense", 'Decimal'>
+  readonly status: Prisma.FieldRef<"BuildingExpense", 'ExpenseStatus'>
+  readonly tenantPct: Prisma.FieldRef<"BuildingExpense", 'Int'>
+  readonly ownerPct: Prisma.FieldRef<"BuildingExpense", 'Int'>
+  readonly ocrRaw: Prisma.FieldRef<"BuildingExpense", 'Json'>
+  readonly ocrConfidence: Prisma.FieldRef<"BuildingExpense", 'Float'>
   readonly createdAt: Prisma.FieldRef<"BuildingExpense", 'DateTime'>
 }
     
@@ -1638,6 +2726,73 @@ export type BuildingExpense$receiptFileArgs<ExtArgs extends runtime.Types.Extens
    */
   include?: Prisma.BuildingFileInclude<ExtArgs> | null
   where?: Prisma.BuildingFileWhereInput
+}
+
+/**
+ * BuildingExpense.categoryRef
+ */
+export type BuildingExpense$categoryRefArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ExpenseCategory
+   */
+  select?: Prisma.ExpenseCategorySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ExpenseCategory
+   */
+  omit?: Prisma.ExpenseCategoryOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ExpenseCategoryInclude<ExtArgs> | null
+  where?: Prisma.ExpenseCategoryWhereInput
+}
+
+/**
+ * BuildingExpense.meterReadings
+ */
+export type BuildingExpense$meterReadingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the MeterReading
+   */
+  select?: Prisma.MeterReadingSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the MeterReading
+   */
+  omit?: Prisma.MeterReadingOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MeterReadingInclude<ExtArgs> | null
+  where?: Prisma.MeterReadingWhereInput
+  orderBy?: Prisma.MeterReadingOrderByWithRelationInput | Prisma.MeterReadingOrderByWithRelationInput[]
+  cursor?: Prisma.MeterReadingWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.MeterReadingScalarFieldEnum | Prisma.MeterReadingScalarFieldEnum[]
+}
+
+/**
+ * BuildingExpense.allocations
+ */
+export type BuildingExpense$allocationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ExpenseAllocation
+   */
+  select?: Prisma.ExpenseAllocationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ExpenseAllocation
+   */
+  omit?: Prisma.ExpenseAllocationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ExpenseAllocationInclude<ExtArgs> | null
+  where?: Prisma.ExpenseAllocationWhereInput
+  orderBy?: Prisma.ExpenseAllocationOrderByWithRelationInput | Prisma.ExpenseAllocationOrderByWithRelationInput[]
+  cursor?: Prisma.ExpenseAllocationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ExpenseAllocationScalarFieldEnum | Prisma.ExpenseAllocationScalarFieldEnum[]
 }
 
 /**

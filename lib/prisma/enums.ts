@@ -109,6 +109,33 @@ export const InvoiceStatus = {
 export type InvoiceStatus = (typeof InvoiceStatus)[keyof typeof InvoiceStatus]
 
 
+export const ExpenseUtilityType = {
+  NONE: 'NONE',
+  POWER: 'POWER',
+  WATER: 'WATER',
+  GAS: 'GAS'
+} as const
+
+export type ExpenseUtilityType = (typeof ExpenseUtilityType)[keyof typeof ExpenseUtilityType]
+
+
+export const ExpenseStatus = {
+  DRAFT: 'DRAFT',
+  CONFIRMED: 'CONFIRMED'
+} as const
+
+export type ExpenseStatus = (typeof ExpenseStatus)[keyof typeof ExpenseStatus]
+
+
+export const MeterType = {
+  POWER: 'POWER',
+  WATER: 'WATER',
+  GAS: 'GAS'
+} as const
+
+export type MeterType = (typeof MeterType)[keyof typeof MeterType]
+
+
 export const EmployeeStatus = {
   ACTIVE: 'ACTIVE',
   INACTIVE: 'INACTIVE',
@@ -132,6 +159,7 @@ export const BuildingFileCategory = {
   PHOTOS: 'PHOTOS',
   DOCUMENTS: 'DOCUMENTS',
   CERTIFICATES: 'CERTIFICATES',
+  RECEIPT: 'RECEIPT',
   OTHER: 'OTHER'
 } as const
 
