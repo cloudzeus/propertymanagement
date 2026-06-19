@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sketch 003 — Building Dashboard / Control Center</title>
+<link rel="stylesheet" href="../themes/default.css">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: var(--font-sans); color: var(--color-text); background: var(--color-bg); padding-top: 46px; }
+  button { font-family: inherit; cursor: pointer; }
+
+  /* variant nav */
+  #variant-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 9998; background: var(--color-surface); border-bottom: 1px solid var(--color-border); padding: 7px 14px; display: flex; gap: 6px; align-items: center; }
+  #variant-nav .brand { font-size: var(--text-xs); color: var(--color-text-muted); margin-right: 8px; font-weight: 600; letter-spacing: .04em; }
+  .variant-tab { border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text-muted); border-radius: var(--radius-sm); padding: 5px 12px; font-size: var(--text-sm); font-weight: 600; transition: all .15s ease; }
+  .variant-tab:hover { background: var(--color-canvas); }
+  .variant-tab.active { background: var(--color-primary); color: #fff; border-color: var(--color-primary); }
+  .variant { display: none; }
+  .variant.active { display: block; }
+
+  /* shared atoms */
+  .wrap { max-width: 1240px; margin: 0 auto; padding: var(--space-6); }
+  .kpi { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 14px 16px; box-shadow: var(--shadow-sm); }
+  .kpi .label { font-size: var(--text-xs); color: var(--color-text-muted); text-transform: uppercase; letter-spacing: .05em; }
+  .kpi .value { font-size: var(--text-2xl); font-weight: 700; margin-top: 4px; }
+  .kpi .sub { font-size: var(--text-xs); color: var(--color-text-muted); margin-top: 2px; }
+  .kpi .value .unit { font-size: var(--text-sm); font-weight: 600; color: var(--color-text-muted); }
+
+  .card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-md); box-shadow: var(--shadow-sm); }
+  .card-h { padding: 12px 16px; border-bottom: 1px solid var(--color-border); display: flex; align-items: center; justify-content: space-between; }
+  .card-h h3 { margin: 0; font-size: var(--text-base); font-weight: 700; }
+  .card-b { padding: 16px; }
+
+  .btn { border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text); border-radius: var(--radius-sm); padding: 6px 12px; font-size: var(--text-sm); font-weight: 600; transition: all .15s ease; display: inline-flex; gap: 6px; align-items: center; }
+  .btn:hover { background: var(--color-canvas); }
+  .btn-primary { background: var(--color-primary); color: #fff; border-color: var(--color-primary); }
+  .btn-primary:hover { background: var(--color-primary-hover); }
+  .chip { display: inline-flex; align-items: center; gap: 5px; font-size: var(--text-xs); font-weight: 700; padding: 3px 8px; border-radius: var(--radius-full); }
+  .chip.green { background: var(--color-green-soft); color: var(--color-green); }
+  .chip.orange { background: var(--color-orange-soft); color: var(--color-orange); }
+  .chip.blue { background: var(--color-blue-soft); color: var(--color-blue); }
+  .chip.red { background: var(--color-primary-soft); color: var(--color-primary); }
+  .muted { color: var(--color-text-muted); }
+
+  /* inner tabs (content tabs incl Documents) */
+  .tabs { display: flex; gap: 2px; border-bottom: 1px solid var(--color-border); flex-wrap: wrap; }
+  .tab { border: none; background: transparent; padding: 10px 14px; font-size: var(--text-sm); font-weight: 600; color: var(--color-text-muted); border-bottom: 2px solid transparent; transition: all .15s ease; }
+  .tab:hover { color: var(--color-text); }
+  .tab.active { color: var(--color-primary); border-bottom-color: var(--color-primary); }
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  table { width: 100%; border-collapse: collapse; font-size: var(--text-sm); }
+  th { text-align: left; font-size: var(--text-xs); text-transform: uppercase; letter-spacing: .04em; color: var(--color-text-muted); padding: 8px 10px; }
+  td { padding: 9px 10px; border-top: 1px solid var(--color-border); }
+  tr:hover td { background: var(--color-canvas); }
+
+  /* documents */
+  .dropzone { border: 2px dashed var(--color-border-strong); border-radius: var(--radius-md); padding: 26px; text-align: center; color: var(--color-text-muted); background: var(--color-canvas); transition: all .15s ease; cursor: pointer; }
+  .dropzone:hover { border-color: var(--color-primary); color: var(--color-primary); background: var(--color-primary-soft); }
+  .file-row { display: flex; align-items: center; gap: 12px; padding: 10px 8px; border-top: 1px solid var(--color-border); }
+  .file-ico { width: 34px; height: 34px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; color: #fff; flex-shrink: 0; }
+  .file-meta { flex: 1; min-width: 0; }
+  .file-name { font-size: var(--text-sm); font-weight: 600; }
+  .file-sub { font-size: var(--text-xs); color: var(--color-text-muted); }
+  .folderbar { display: flex; gap: 6px; align-items: center; font-size: var(--text-sm); color: var(--color-text-muted); margin-bottom: 12px; }
+  .folderbar code { background: var(--color-canvas); border: 1px solid var(--color-border); border-radius: var(--radius-sm); padding: 2px 6px; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-text); }
+
+  /* toast */
+  #toast { position: fixed; bottom: 56px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--color-text); color: #fff; padding: 10px 18px; border-radius: var(--radius-md); font-size: var(--text-sm); opacity: 0; pointer-events: none; transition: all .25s ease; z-index: 9999; }
+  #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  .grid-kpi { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .grid-modules { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  @media (max-width: 900px) { .grid-kpi { grid-template-columns: repeat(2,1fr);} .grid-modules{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+
+<div id="variant-nav">
+  <span class="brand">SKETCH 003 ▸ BUILDING CONTROL CENTER</span>
+  <button class="variant-tab active" onclick="showVariant('a',event)">A: Section Rail + KPIs</button>
+  <button class="variant-tab" onclick="showVariant('b',event)">B: Hero + Tabs</button>
+  <button class="variant-tab" onclick="showVariant('c',event)">C: Card-Grid Hub</button>
+</div>
+
+<!-- ============================ VARIANT A ============================ -->
+<div id="variant-a" class="variant active">
+  <div style="display:flex; min-height: calc(100vh - 46px);">
+    <!-- section rail -->
+    <aside style="width:210px; flex-shrink:0; background:var(--color-surface); border-right:1px solid var(--color-border); padding:14px 10px;">
+      <div style="padding:6px 10px 12px;">
+        <div style="font-size:var(--text-xs); color:var(--color-text-muted);">ΚΤΗΡΙΟ</div>
+        <div style="font-size:var(--text-lg); font-weight:800; line-height:1.2;">Κτήριο Α — Σόλωνος 5</div>
+        <div class="chip green" style="margin-top:6px;">● Ενεργό</div>
+      </div>
+      <nav id="railA">
+        <a class="rail active" data-p="a-overview">▦ Επισκόπηση</a>
+        <a class="rail" data-p="a-units">▣ Μονάδες <span class="muted">24</span></a>
+        <a class="rail" data-p="a-people">◓ Ένοικοι/Ιδιοκτήτες</a>
+        <a class="rail" data-p="a-managers">★ Διαχειριστές</a>
+        <a class="rail" data-p="a-docs">▤ Έγγραφα <span class="muted">18</span></a>
+        <a class="rail" data-p="a-maint">⚠ Συντήρηση <span class="chip orange" style="padding:1px 6px;">3</span></a>
+        <a class="rail" data-p="a-ann">◈ Ανακοινώσεις</a>
+        <a class="rail" data-p="a-mill">∺ Χιλιοστά</a>
+      </nav>
+    </aside>
+
+    <main style="flex:1; min-width:0; padding:var(--space-6);">
+      <!-- overview panel -->
+      <section class="apanel active" id="a-overview">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px;">
+          <div>
+            <h1 style="margin:0; font-size:var(--text-2xl);">Επισκόπηση Κτηρίου</h1>
+            <div class="muted" style="font-size:var(--text-sm);">Ιδιοκτησία: Συγκρότημα Κολωνακίου · 3 όροφοι · 1 υπόγειο</div>
+          </div>
+          <div style="display:flex; gap:8px;">
+            <button class="btn" onclick="toast('Άνοιγμα ρυθμίσεων')">⚙ Ρυθμίσεις</button>
+            <button class="btn-primary btn" onclick="toast('Νέα ενέργεια')">+ Ενέργεια</button>
+          </div>
+        </div>
+        <div class="grid-kpi" style="margin-bottom:16px;">
+          <div class="kpi"><div class="label">Μονάδες</div><div class="value">24</div><div class="sub">20 κατοικημένες · 4 κενές</div></div>
+          <div class="kpi"><div class="label">Χιλιοστά</div><div class="value">1000<span class="unit">‰</span></div><div class="sub">Καταν. αναλογικά τ.μ.</div></div>
+          <div class="kpi"><div class="label">Ανοιχτές βλάβες</div><div class="value" style="color:var(--color-orange)">3</div><div class="sub">1 επείγουσα</div></div>
+          <div class="kpi"><div class="label">Έγγραφα</div><div class="value">18</div><div class="sub">Τελευταίο: σήμερα</div></div>
+        </div>
+        <div style="display:grid; grid-template-columns:1.4fr 1fr; gap:14px;">
+          <div class="card">
+            <div class="card-h"><h3>Πρόσφατη δραστηριότητα</h3><a class="muted" style="font-size:var(--text-xs)">Όλα</a></div>
+            <div class="card-b" style="padding:0;">
+              <div class="file-row"><span class="file-ico" style="background:var(--color-orange)">!</span><div class="file-meta"><div class="file-name">Νέα βλάβη: Διαρροή στο γκαράζ</div><div class="file-sub">από Γ. Παπαδόπουλο · πριν 2 ώρες</div></div><span class="chip orange">Επείγον</span></div>
+              <div class="file-row"><span class="file-ico" style="background:var(--color-blue)">▤</span><div class="file-meta"><div class="file-name">Ανέβηκε: Συμβόλαιο ανελκυστήρα.pdf</div><div class="file-sub">από Διαχειριστή · σήμερα 09:14</div></div></div>
+              <div class="file-row"><span class="file-ico" style="background:var(--color-green)">✓</span><div class="file-meta"><div class="file-name">Υπολογισμός χιλιοστών — άθροισμα 1000,00</div><div class="file-sub">από Super Admin · χθες</div></div></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-h"><h3>Γρήγορες ενέργειες</h3></div>
+            <div class="card-b" style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+              <button class="btn" onclick="toast('Προσθήκη μονάδας')">+ Μονάδα</button>
+              <button class="btn" onclick="toast('Προσθήκη εγγράφου')">+ Έγγραφο</button>
+              <button class="btn" onclick="toast('Νέα ανακοίνωση')">+ Ανακοίνωση</button>
+              <button class="btn" onclick="toast('Προσθήκη διαχειριστή')">+ Διαχειριστής</button>
+              <button class="btn" onclick="toast('Υπολογισμός χιλιοστών')">∺ Χιλιοστά</button>
+              <button class="btn" onclick="toast('Καταχώρηση βλάβης')">! Βλάβη</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- documents panel (A) -->
+      <section class="apanel" id="a-docs">
+        <h1 style="margin:0 0 4px; font-size:var(--text-2xl);">Έγγραφα Κτηρίου</h1>
+        <div class="folderbar">Αποθηκευτικός φάκελος: <code>properties/cmqk…/buildings/bld_8x…/</code></div>
+        <div class="dropzone" onclick="toast('Επιλογή αρχείων…')" style="margin-bottom:16px;">⬆ Σύρε αρχεία εδώ ή κάνε κλικ για ανέβασμα<div class="file-sub" style="margin-top:4px;">PDF, εικόνες, έγγραφα — αποθήκευση στο BunnyCDN</div></div>
+        <div class="card"><div class="card-b" style="padding:6px 12px;">
+          <div class="file-row" style="border-top:none;"><span class="file-ico" style="background:#d13438">PDF</span><div class="file-meta"><div class="file-name">Συμβόλαιο ανελκυστήρα 2026.pdf</div><div class="file-sub">2,4 MB · ανέβηκε σήμερα</div></div><button class="btn" onclick="toast('Λήψη')">Λήψη</button></div>
+          <div class="file-row"><span class="file-ico" style="background:var(--color-blue)">IMG</span><div class="file-meta"><div class="file-name">Πρόσοψη κτηρίου.jpg</div><div class="file-sub">1,1 MB · χθες</div></div><button class="btn" onclick="toast('Λήψη')">Λήψη</button></div>
+          <div class="file-row"><span class="file-ico" style="background:var(--color-green)">XLS</span><div class="file-meta"><div class="file-name">Πίνακας χιλιοστών.xlsx</div><div class="file-sub">48 KB · πριν 3 ημέρες</div></div><button class="btn" onclick="toast('Λήψη')">Λήψη</button></div>
+          <div class="file-row"><span class="file-ico" style="background:var(--color-grey)">DOC</span><div class="file-meta"><div class="file-name">Κανονισμός πολυκατοικίας.docx</div><div class="file-sub">96 KB · πέρυσι</div></div><button class="btn" onclick="toast('Λήψη')">Λήψη</button></div>
+        </div></div>
+      </section>
+
+      <!-- generic placeholders for other sections -->
+      <section class="apanel" id="a-units"><h1 style="font-size:var(--text-2xl)">Μονάδες</h1><p class="muted">Πίνακας μονάδων (DataTable) με ιδιοκτήτη/ένοικο, τ.μ., χιλιοστά…</p></section>
+      <section class="apanel" id="a-people"><h1 style="font-size:var(--text-2xl)">Ένοικοι / Ιδιοκτήτες</h1><p class="muted">Λίστα προσώπων του κτηρίου.</p></section>
+      <section class="apanel" id="a-managers"><h1 style="font-size:var(--text-2xl)">Διαχειριστές</h1><p class="muted">Ανάθεση διαχειριστών (ιδιοκτήτες/ένοικοι ή προσωπικό εταιρείας).</p></section>
+      <section class="apanel" id="a-maint"><h1 style="font-size:var(--text-2xl)">Συντήρηση / Βλάβες</h1><p class="muted">Ροή βλαβών & αιτημάτων.</p></section>
+      <section class="apanel" id="a-ann"><h1 style="font-size:var(--text-2xl)">Ανακοινώσεις</h1><p class="muted">Ανακοινώσεις προς ενοίκους.</p></section>
+      <section class="apanel" id="a-mill"><h1 style="font-size:var(--text-2xl)">Χιλιοστά</h1><p class="muted">Προβολή/υπολογισμός χιλιοστών.</p></section>
+    </main>
+  </div>
+</div>
+
+<!-- ============================ VARIANT B ============================ -->
+<div id="variant-b" class="variant">
+  <!-- hero -->
+  <div style="background:linear-gradient(135deg,#201f1e,#3a3836); color:#fff; padding:22px var(--space-6);">
+    <div class="wrap" style="padding:0;">
+      <div class="muted" style="color:#c8c6c4; font-size:var(--text-xs);">ΙΔΙΟΚΤΗΣΙΑ ▸ Συγκρότημα Κολωνακίου</div>
+      <div style="display:flex; justify-content:space-between; align-items:center; gap:16px; margin-top:6px; flex-wrap:wrap;">
+        <div style="display:flex; align-items:center; gap:14px;">
+          <div style="width:54px;height:54px;border-radius:var(--radius-md);background:var(--color-primary);display:flex;align-items:center;justify-content:center;font-size:24px;">🏢</div>
+          <div>
+            <div style="font-size:var(--text-2xl); font-weight:800;">Κτήριο Α — Σόλωνος 5</div>
+            <div style="color:#c8c6c4; font-size:var(--text-sm);">Αθήνα 10672 · 3 όροφοι · 1 υπόγειο · ανελκυστήρας</div>
+          </div>
+        </div>
+        <div style="display:flex; gap:8px;">
+          <button class="btn" style="background:rgba(255,255,255,.12); color:#fff; border-color:rgba(255,255,255,.2)" onclick="toast('Επεξεργασία')">✎ Επεξεργασία</button>
+          <button class="btn btn-primary" onclick="toast('Νέα ενέργεια')">+ Ενέργεια</button>
+        </div>
+      </div>
+      <!-- KPI strip in hero -->
+      <div class="grid-kpi" style="margin-top:18px;">
+        <div class="kpi" style="background:rgba(255,255,255,.08); border-color:rgba(255,255,255,.14); color:#fff;"><div class="label" style="color:#c8c6c4">Μονάδες</div><div class="value">24</div></div>
+        <div class="kpi" style="background:rgba(255,255,255,.08); border-color:rgba(255,255,255,.14); color:#fff;"><div class="label" style="color:#c8c6c4">Χιλιοστά</div><div class="value">1000‰</div></div>
+        <div class="kpi" style="background:rgba(255,255,255,.08); border-color:rgba(255,255,255,.14); color:#fff;"><div class="label" style="color:#c8c6c4">Βλάβες</div><div class="value" style="color:#ffb784">3</div></div>
+        <div class="kpi" style="background:rgba(255,255,255,.08); border-color:rgba(255,255,255,.14); color:#fff;"><div class="label" style="color:#c8c6c4">Έγγραφα</div><div class="value">18</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="tabs" id="tabsB">
+      <button class="tab" data-p="b-overview">Επισκόπηση</button>
+      <button class="tab" data-p="b-units">Μονάδες</button>
+      <button class="tab" data-p="b-people">Ένοικοι</button>
+      <button class="tab" data-p="b-managers">Διαχειριστές</button>
+      <button class="tab active" data-p="b-docs">Έγγραφα</button>
+      <button class="tab" data-p="b-maint">Συντήρηση</button>
+      <button class="tab" data-p="b-ann">Ανακοινώσεις</button>
+      <button class="tab" data-p="b-mill">Χιλιοστά</button>
+    </div>
+
+    <div style="padding-top:18px;">
+      <div class="bpanel" id="b-overview"><div class="grid-modules"><div class="card"><div class="card-h"><h3>Σύνοψη</h3></div><div class="card-b muted">Βασικά στοιχεία & δραστηριότητα κτηρίου.</div></div></div></div>
+
+      <!-- Documents tab active by default in B to showcase it -->
+      <div class="bpanel active" id="b-docs">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+          <div class="folderbar" style="margin:0;">📁 <code>…/buildings/bld_8x…/</code> · 18 αρχεία · 41 MB</div>
+          <div style="display:flex; gap:8px;"><input placeholder="Αναζήτηση εγγράφου…" class="btn" style="cursor:text; min-width:200px;"><button class="btn btn-primary" onclick="toast('Ανέβασμα')">⬆ Ανέβασμα</button></div>
+        </div>
+        <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(190px,1fr)); gap:12px;">
+          <div class="card" style="overflow:hidden;"><div style="height:90px;background:#d1343815;display:flex;align-items:center;justify-content:center;font-weight:800;color:#d13438;">PDF</div><div class="card-b" style="padding:10px;"><div class="file-name">Συμβόλαιο ανελκυστήρα.pdf</div><div class="file-sub">2,4 MB · σήμερα</div></div></div>
+          <div class="card" style="overflow:hidden;"><div style="height:90px;background:var(--color-blue-soft);display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--color-blue);">IMG</div><div class="card-b" style="padding:10px;"><div class="file-name">Πρόσοψη.jpg</div><div class="file-sub">1,1 MB · χθες</div></div></div>
+          <div class="card" style="overflow:hidden;"><div style="height:90px;background:var(--color-green-soft);display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--color-green);">XLS</div><div class="card-b" style="padding:10px;"><div class="file-name">Χιλιοστά.xlsx</div><div class="file-sub">48 KB · 3 ημ.</div></div></div>
+          <div class="card" style="overflow:hidden;"><div style="height:90px;background:#f3f2f1;display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--color-grey);">DOC</div><div class="card-b" style="padding:10px;"><div class="file-name">Κανονισμός.docx</div><div class="file-sub">96 KB</div></div></div>
+          <div class="dropzone" style="min-height:150px; display:flex; flex-direction:column; align-items:center; justify-content:center;" onclick="toast('Επιλογή αρχείων…')">⬆<div style="margin-top:6px;">Ανέβασμα</div></div>
+        </div>
+      </div>
+
+      <div class="bpanel" id="b-units"><p class="muted">Πίνακας μονάδων.</p></div>
+      <div class="bpanel" id="b-people"><p class="muted">Ένοικοι / ιδιοκτήτες.</p></div>
+      <div class="bpanel" id="b-managers"><p class="muted">Διαχειριστές κτηρίου.</p></div>
+      <div class="bpanel" id="b-maint"><p class="muted">Βλάβες & συντήρηση.</p></div>
+      <div class="bpanel" id="b-ann"><p class="muted">Ανακοινώσεις.</p></div>
+      <div class="bpanel" id="b-mill"><p class="muted">Χιλιοστά.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================ VARIANT C ============================ -->
+<div id="variant-c" class="variant">
+  <div class="wrap">
+    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:18px;">
+      <div>
+        <div class="muted" style="font-size:var(--text-xs);">ΣΥΓΚΡΟΤΗΜΑ ΚΟΛΩΝΑΚΙΟΥ ▸ ΚΤΗΡΙΟ</div>
+        <h1 style="margin:4px 0 0; font-size:var(--text-2xl);">Κτήριο Α — Σόλωνος 5 <span class="chip green">● Ενεργό</span></h1>
+      </div>
+      <button class="btn btn-primary" onclick="toast('Νέα ενέργεια')">+ Ενέργεια</button>
+    </div>
+
+    <div class="grid-kpi" style="margin-bottom:18px;">
+      <div class="kpi"><div class="label">Μονάδες</div><div class="value">24</div></div>
+      <div class="kpi"><div class="label">Χιλιοστά</div><div class="value">1000‰</div></div>
+      <div class="kpi"><div class="label">Βλάβες</div><div class="value" style="color:var(--color-orange)">3</div></div>
+      <div class="kpi"><div class="label">Έγγραφα</div><div class="value">18</div></div>
+    </div>
+
+    <!-- module hub -->
+    <div class="grid-modules">
+      <div class="card" style="cursor:pointer;" onclick="toast('Άνοιγμα: Μονάδες')"><div class="card-h"><h3>▣ Μονάδες</h3><span class="chip blue">24</span></div><div class="card-b muted">20 κατοικημένες, 4 κενές. Διαχείριση ιδιοκτητών/ενοίκων & χιλιοστών.</div></div>
+      <div class="card" style="cursor:pointer;" onclick="toast('Άνοιγμα: Διαχειριστές')"><div class="card-h"><h3>★ Διαχειριστές</h3><span class="chip red">2</span></div><div class="card-b muted">Ανάθεση από ιδιοκτήτες/ενοίκους ή προσωπικό εταιρείας.</div></div>
+      <div class="card" style="cursor:pointer;" onclick="toast('Άνοιγμα: Συντήρηση')"><div class="card-h"><h3>⚠ Συντήρηση</h3><span class="chip orange">3 ανοιχτές</span></div><div class="card-b muted">1 επείγουσα βλάβη. Ροή αιτημάτων & αναθέσεις.</div></div>
+      <div class="card" style="grid-column:span 2; border:1.5px solid var(--color-primary);">
+        <div class="card-h"><h3>▤ Έγγραφα Κτηρίου</h3><button class="btn btn-primary" onclick="toast('Ανέβασμα'); event.stopPropagation();">⬆ Ανέβασμα</button></div>
+        <div class="card-b" style="padding:6px 12px;">
+          <div class="file-row" style="border-top:none;"><span class="file-ico" style="background:#d13438">PDF</span><div class="file-meta"><div class="file-name">Συμβόλαιο ανελκυστήρα.pdf</div><div class="file-sub">2,4 MB · σήμερα</div></div></div>
+          <div class="file-row"><span class="file-ico" style="background:var(--color-blue)">IMG</span><div class="file-meta"><div class="file-name">Πρόσοψη κτηρίου.jpg</div><div class="file-sub">1,1 MB · χθες</div></div></div>
+          <div class="file-row"><span class="file-ico" style="background:var(--color-green)">XLS</span><div class="file-meta"><div class="file-name">Πίνακας χιλιοστών.xlsx</div><div class="file-sub">48 KB</div></div></div>
+          <div style="padding:8px;"><a class="muted" style="font-size:var(--text-xs); cursor:pointer;" onclick="toast('Όλα τα έγγραφα')">Προβολή και των 18 →</a></div>
+        </div>
+      </div>
+      <div class="card" style="cursor:pointer;" onclick="toast('Άνοιγμα: Χιλιοστά')"><div class="card-h"><h3>∺ Χιλιοστά</h3><span class="chip green">1000‰</span></div><div class="card-b muted">Αναλογικά στα τ.μ. Επανυπολογισμός με ένα κλικ.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- toast -->
+<div id="toast"></div>
+
+<!-- sketch toolbar -->
+<div id="sketch-tools" style="position:fixed;bottom:12px;right:12px;z-index:9999;font-family:system-ui;font-size:12px;background:rgba(0,0,0,0.7);color:white;padding:8px 12px;border-radius:8px;opacity:0.4;transition:opacity 0.2s;display:flex;gap:8px;align-items:center;" onmouseenter="this.style.opacity='1'" onmouseleave="this.style.opacity='0.4'">
+  <span>Theme</span>
+  <select onchange="document.querySelector('link[href*=themes]').href='../themes/'+this.value+'.css'" style="font-size:12px;">
+    <option value="default">Default (DG/Fluent)</option>
+  </select>
+  <span style="opacity:.5">|</span>
+  <button onclick="setVP('375px')" style="font-size:11px;">📱</button>
+  <button onclick="setVP('768px')" style="font-size:11px;">▭</button>
+  <button onclick="setVP('100%')" style="font-size:11px;">🖥</button>
+</div>
+
+<script>
+function showVariant(id, e) {
+  document.querySelectorAll('.variant').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('#variant-nav .variant-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('variant-' + id).classList.add('active');
+  e.target.classList.add('active');
+}
+// Variant A rail
+document.querySelectorAll('#railA .rail').forEach(a => {
+  a.addEventListener('click', () => {
+    document.querySelectorAll('#railA .rail').forEach(x => x.classList.remove('active'));
+    document.querySelectorAll('.apanel').forEach(p => p.classList.remove('active'));
+    a.classList.add('active');
+    document.getElementById(a.dataset.p).classList.add('active');
+  });
+});
+// Variant B tabs
+document.querySelectorAll('#tabsB .tab').forEach(t => {
+  t.addEventListener('click', () => {
+    document.querySelectorAll('#tabsB .tab').forEach(x => x.classList.remove('active'));
+    document.querySelectorAll('.bpanel').forEach(p => p.classList.remove('active'));
+    t.classList.add('active');
+    document.getElementById(t.dataset.p).classList.add('active');
+  });
+});
+let toastT;
+function toast(msg){ const el=document.getElementById('toast'); el.textContent=msg; el.classList.add('show'); clearTimeout(toastT); toastT=setTimeout(()=>el.classList.remove('show'),1600); }
+function setVP(w){ document.querySelectorAll('.variant').forEach(v=>{ v.style.maxWidth=w; v.style.margin='0 auto'; v.style.boxShadow = w==='100%'?'none':'0 0 0 1px var(--color-border)'; }); }
+// rail link styling
+const st=document.createElement('style');
+st.textContent='.rail{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 10px;border-radius:var(--radius-sm);font-size:var(--text-sm);font-weight:600;color:var(--color-text-muted);text-decoration:none;cursor:pointer;transition:all .15s ease;} .rail:hover{background:var(--color-canvas);color:var(--color-text);} .rail.active{background:var(--color-primary-soft);color:var(--color-primary);} .apanel,.bpanel{display:none;} .apanel.active,.bpanel.active{display:block;}';
+document.head.appendChild(st);
+</script>
+</body>
+</html>
