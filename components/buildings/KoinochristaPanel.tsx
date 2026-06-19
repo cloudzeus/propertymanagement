@@ -137,7 +137,7 @@ function IssuanceDetail({ buildingId, month, onChanged }: { buildingId: string; 
   const [people, setPeople] = useState<KoinoPersonDTO[] | null>(null);
   const [expenses, setExpenses] = useState<MonthExpenseDTO[] | null>(null);
   const [sendingId, setSendingId] = useState<string | null>(null);
-  const [menuId, setMenuId] = useState<string | null>(null);
+  const [menu, setMenu] = useState<{ p: KoinoPersonDTO; top: number; left: number } | null>(null);
   const [statementUser, setStatementUser] = useState<string | null>(null);
   const [, startTransition] = useTransition();
 
@@ -193,20 +193,13 @@ function IssuanceDetail({ buildingId, month, onChanged }: { buildingId: string; 
                           ? <span style={duePill} className="kx-num">{eur(p.due)}</span>
                           : <span style={{ color: "#16a34a", fontWeight: 700 }} className="kx-num">{eur(0)}</span>}
                       </td>
-                      <td style={{ ...td, textAlign: "right", position: "relative" }}>
-                        <button onClick={() => setMenuId(menuId === p.userId ? null : p.userId)} className="kx-icon-btn" title="Ενέργειες">
+                      <td style={{ ...td, textAlign: "right" }}>
+                        <button
+                          onClick={(e) => { const r = e.currentTarget.getBoundingClientRect(); setMenu(menu?.p.userId === p.userId ? null : { p, top: r.bottom + 4, left: r.right - 188 }); }}
+                          className="kx-icon-btn" title="Ενέργειες"
+                        >
                           {sendingId === p.userId ? <RiLoaderLine style={{ animation: "kx-spin 1s linear infinite" }} /> : <RiMore2Fill />}
                         </button>
-                        {menuId === p.userId && (
-                          <>
-                            <div onClick={() => setMenuId(null)} style={{ position: "fixed", inset: 0, zIndex: 40 }} />
-                            <div className="kx-menu" style={menu}>
-                              <button className="kx-menuitem" onClick={() => { setStatementUser(p.userId); setMenuId(null); }}><RiSecurePaymentLine className="kx-mi" /> Πληρωμή</button>
-                              <button className="kx-menuitem" onClick={() => { setStatementUser(p.userId); setMenuId(null); }}><RiFileListLine className="kx-mi" /> Λεπτομέρειες</button>
-                              <button className="kx-menuitem" disabled={!p.email} onClick={() => { setMenuId(null); remind(p); }}><RiMailSendLine className="kx-mi" /> Υπενθύμιση</button>
-                            </div>
-                          </>
-                        )}
                       </td>
                     </tr>
                   ))}
@@ -238,6 +231,17 @@ function IssuanceDetail({ buildingId, month, onChanged }: { buildingId: string; 
           )
         )}
       </div>
+
+      {menu && (
+        <>
+          <div onClick={() => setMenu(null)} style={{ position: "fixed", inset: 0, zIndex: 9998 }} />
+          <div className="kx-menu" style={{ ...fixedMenu, top: menu.top, left: Math.max(8, menu.left) }}>
+            <button className="kx-menuitem" onClick={() => { setStatementUser(menu.p.userId); setMenu(null); }}><RiSecurePaymentLine className="kx-mi" /> Πληρωμή</button>
+            <button className="kx-menuitem" onClick={() => { setStatementUser(menu.p.userId); setMenu(null); }}><RiFileListLine className="kx-mi" /> Λεπτομέρειες</button>
+            <button className="kx-menuitem" disabled={!menu.p.email} onClick={() => { const p = menu.p; setMenu(null); remind(p); }}><RiMailSendLine className="kx-mi" /> Υπενθύμιση</button>
+          </div>
+        </>
+      )}
 
       {statementUser && (
         <PersonStatementModal open={!!statementUser} onClose={() => setStatementUser(null)} buildingId={buildingId} month={month} userId={statementUser} onChanged={() => { reloadPeople(); onChanged?.(); }} />
@@ -279,7 +283,7 @@ const trHead: React.CSSProperties = { textAlign: "left", color: "var(--muted-for
 const trBody: React.CSSProperties = { borderBottom: "1px solid var(--border-subtle)" };
 const th: React.CSSProperties = { padding: "9px 10px", fontWeight: 600, fontSize: 11, textTransform: "uppercase", letterSpacing: ".02em" };
 const td: React.CSSProperties = { padding: "9px 10px", verticalAlign: "middle" };
-const menu: React.CSSProperties = { position: "absolute", right: 8, top: 38, zIndex: 41, minWidth: 184, background: "var(--bg-surface)", border: "1px solid var(--border-strong)", borderRadius: 10, boxShadow: "0 1px 2px rgba(0,0,0,.08),0 12px 28px rgba(0,0,0,.16)", padding: 5 };
+const fixedMenu: React.CSSProperties = { position: "fixed", zIndex: 9999, minWidth: 184, background: "var(--bg-surface)", border: "1px solid var(--border-strong)", borderRadius: 10, boxShadow: "0 1px 2px rgba(0,0,0,.08),0 12px 28px rgba(0,0,0,.16)", padding: 5 };
 const link: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 4, color: "var(--color-primary)", textDecoration: "none", fontSize: 12, fontWeight: 600 };
 const avatar = (due: boolean): React.CSSProperties => ({ display: "grid", placeItems: "center", width: 32, height: 32, borderRadius: 999, flexShrink: 0, fontSize: 12, fontWeight: 700, color: due ? "#b91c1c" : "var(--color-primary)", background: due ? "color-mix(in srgb, #b91c1c 12%, transparent)" : "color-mix(in srgb, var(--color-primary) 12%, transparent)" });
 const chip: React.CSSProperties = { display: "inline-block", padding: "1px 8px", marginRight: 4, borderRadius: 6, fontSize: 11, fontWeight: 600, background: "var(--bg-surface)", border: "1px solid var(--border-strong)" };
