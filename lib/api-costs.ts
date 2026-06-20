@@ -100,7 +100,6 @@ export async function logAPIUsage(params: LogAPIUsageParams) {
       case "per_minute":
         totalCost = (params.requestCount || 0) * config.basePrice; // requestCount carries minutes
         break;
-      case "per_request":
       default:
         totalCost = (params.requestCount || 1) * config.basePrice;
     }
