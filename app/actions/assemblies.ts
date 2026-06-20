@@ -157,6 +157,38 @@ export async function approveAndSendMinutes(assemblyId: string, finalHtml: strin
   return { sent: owners.length };
 }
 
+export type AssemblyRow = {
+  id: string;
+  title: string;
+  scheduledAt: string;
+  status: string;
+  participantCount: number;
+  cost: number;
+};
+
+export async function listAssemblies(buildingId: string): Promise<AssemblyRow[]> {
+  await requireStaff();
+  const rows = await db.assembly.findMany({
+    where: { buildingId },
+    orderBy: { scheduledAt: "desc" },
+    select: { id: true, title: true, scheduledAt: true, status: true, _count: { select: { participants: true } } },
+  });
+  const costs = await db.aPIUsageLog.groupBy({
+    by: ["assemblyId"],
+    where: { assemblyId: { in: rows.map((r) => r.id) } },
+    _sum: { totalCost: true },
+  });
+  const costMap = new Map(costs.map((c) => [c.assemblyId, c._sum.totalCost ?? 0]));
+  return rows.map((r) => ({
+    id: r.id,
+    title: r.title,
+    scheduledAt: r.scheduledAt.toISOString(),
+    status: r.status,
+    participantCount: r._count.participants,
+    cost: costMap.get(r.id) ?? 0,
+  }));
+}
+
 /** Cost breakdown for one assembly (groups APIUsageLog by apiName). */
 export async function getAssemblyCost(assemblyId: string) {
   await requireStaff();
