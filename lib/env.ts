@@ -18,6 +18,9 @@ const optionalEnvVars = [
   "DEEPSEEK_API_KEY",
   "GEMINI_API_KEY",
   "NEXT_PUBLIC_APP_URL",
+  "DAILY_API_KEY",
+  "DEEP_GRAM_API_KEY",
+  "DAILY_WEBHOOK_SECRET",
 ];
 
 function validateEnv() {
@@ -64,6 +67,11 @@ export const env = {
   // AI Services (Optional)
   DEEPSEEK_API_KEY: process.env.DEEPSEEK_API_KEY,
   GEMINI_API_KEY: process.env.GEMINI_API_KEY,
+
+  // Assemblies (Daily + Deepgram)
+  DAILY_API_KEY: process.env.DAILY_API_KEY,
+  DEEP_GRAM_API_KEY: process.env.DEEP_GRAM_API_KEY,
+  DAILY_WEBHOOK_SECRET: process.env.DAILY_WEBHOOK_SECRET,
 
   // App
   NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000",
