@@ -940,6 +940,14 @@ git commit -m "feat(assemblies): add Συνελεύσεις tab to building dash
 5. Edit minutes → Έγκριση & Αποστολή → owners receive HTML MOM.
 6. Cost card shows non-zero `daily`, `deepgram`, `deepseek`, `mailgun` rows; confirm rows in `APIUsageLog` carry `buildingId`/`customerId`/`assemblyId`.
 
+## Production go-live checklist (deferred by user — do at the end)
+
+- **DB migration:** applied to live DB via additive `migrate diff`→`db execute`→`migrate resolve` (commits `…assemblies_module`, `…assembly_participant_email_host`). Already done.
+- **Daily Deepgram domain config:** done via `POST /v1/ {enable_transcription:"deepgram:<key>"}` (Greek nova-3).
+- **Coolify env:** `DAILY_API_KEY`, `DEEP_GRAM_API_KEY`, `NEXT_PUBLIC_DAILY_DOMAIN=wwa` (subdomain only — code now also tolerates full url), `DAILY_WEBHOOK_SECRET`.
+- **Daily webhook:** create AFTER deploy via `POST /v1/webhooks` with `hmac` = `DAILY_WEBHOOK_SECRET`; route already handles the `{"test":"test"}` verification ping + correct `X-Webhook-Signature`/`X-Webhook-Timestamp` base64 scheme.
+- **Mailgun env-name mismatch (IMPORTANT):** code reads `MAILGUN_DOMAIN` / `MAILGUN_API_KEY` / `MAILGUN_FROM_EMAIL`, but this deployment historically uses `MAILGUN_ENDPOINT` / `MAILGUN_EMAIL_SENDER`. Until aligned (either set the three expected names, or extend `lib/env.ts` to fall back to the existing ones), ALL emails (assembly invites + MOM + announcements) fail silently. Verify in production.
+
 ## Post-implementation follow-ups (from final code review)
 
 Fixed during implementation: mailgun cost attribution, transcript persistence on end + auto-draft, participant-row creation on join.
