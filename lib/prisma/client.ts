@@ -237,6 +237,11 @@ export type Assembly = Prisma.AssemblyModel
  */
 export type AssemblyParticipant = Prisma.AssemblyParticipantModel
 /**
+ * Model ProcessedWebhook
+ * 
+ */
+export type ProcessedWebhook = Prisma.ProcessedWebhookModel
+/**
  * Model APIUsageLog
  * 
  */

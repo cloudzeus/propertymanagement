@@ -90,6 +90,7 @@ export const ModelName = {
   Announcement_User: 'Announcement_User',
   Assembly: 'Assembly',
   AssemblyParticipant: 'AssemblyParticipant',
+  ProcessedWebhook: 'ProcessedWebhook',
   APIUsageLog: 'APIUsageLog',
   APICostConfig: 'APICostConfig',
   MonthlyCostSummary: 'MonthlyCostSummary',
@@ -835,6 +836,15 @@ export const AssemblyParticipantScalarFieldEnum = {
 } as const
 
 export type AssemblyParticipantScalarFieldEnum = (typeof AssemblyParticipantScalarFieldEnum)[keyof typeof AssemblyParticipantScalarFieldEnum]
+
+
+export const ProcessedWebhookScalarFieldEnum = {
+  id: 'id',
+  source: 'source',
+  createdAt: 'createdAt'
+} as const
+
+export type ProcessedWebhookScalarFieldEnum = (typeof ProcessedWebhookScalarFieldEnum)[keyof typeof ProcessedWebhookScalarFieldEnum]
 
 
 export const APIUsageLogScalarFieldEnum = {

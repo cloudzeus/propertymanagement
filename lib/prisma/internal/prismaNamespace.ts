@@ -423,6 +423,7 @@ export const ModelName = {
   Announcement_User: 'Announcement_User',
   Assembly: 'Assembly',
   AssemblyParticipant: 'AssemblyParticipant',
+  ProcessedWebhook: 'ProcessedWebhook',
   APIUsageLog: 'APIUsageLog',
   APICostConfig: 'APICostConfig',
   MonthlyCostSummary: 'MonthlyCostSummary',
@@ -448,7 +449,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "account" | "session" | "verificationToken" | "company" | "department" | "jobPosition" | "employee" | "subscription" | "addonFeature" | "customer" | "property" | "building" | "unitOccupancy" | "buildingFile" | "infraPoint" | "infraAccess" | "infraMedia" | "contact" | "recurringTask" | "buildingExpense" | "expenseCategory" | "buildingCategoryOverride" | "meterReading" | "expenseAllocation" | "unitPayment" | "managementAssignment" | "commonArea" | "unit" | "service" | "propertyService" | "serviceInvoice" | "serviceInvoiceLine" | "userCompanyRole" | "menuConfig" | "announcement" | "announcement_User" | "assembly" | "assemblyParticipant" | "aPIUsageLog" | "aPICostConfig" | "monthlyCostSummary" | "maintenanceRequest" | "cMSPage" | "fAQ" | "pricingTier" | "contactMessage" | "cookieConsent" | "appSettings"
+    modelProps: "user" | "account" | "session" | "verificationToken" | "company" | "department" | "jobPosition" | "employee" | "subscription" | "addonFeature" | "customer" | "property" | "building" | "unitOccupancy" | "buildingFile" | "infraPoint" | "infraAccess" | "infraMedia" | "contact" | "recurringTask" | "buildingExpense" | "expenseCategory" | "buildingCategoryOverride" | "meterReading" | "expenseAllocation" | "unitPayment" | "managementAssignment" | "commonArea" | "unit" | "service" | "propertyService" | "serviceInvoice" | "serviceInvoiceLine" | "userCompanyRole" | "menuConfig" | "announcement" | "announcement_User" | "assembly" | "assemblyParticipant" | "processedWebhook" | "aPIUsageLog" | "aPICostConfig" | "monthlyCostSummary" | "maintenanceRequest" | "cMSPage" | "fAQ" | "pricingTier" | "contactMessage" | "cookieConsent" | "appSettings"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -3338,6 +3339,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    ProcessedWebhook: {
+      payload: Prisma.$ProcessedWebhookPayload<ExtArgs>
+      fields: Prisma.ProcessedWebhookFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ProcessedWebhookFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProcessedWebhookPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ProcessedWebhookFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProcessedWebhookPayload>
+        }
+        findFirst: {
+          args: Prisma.ProcessedWebhookFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProcessedWebhookPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ProcessedWebhookFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProcessedWebhookPayload>
+        }
+        findMany: {
+          args: Prisma.ProcessedWebhookFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProcessedWebhookPayload>[]
+        }
+        create: {
+          args: Prisma.ProcessedWebhookCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProcessedWebhookPayload>
+        }
+        createMany: {
+          args: Prisma.ProcessedWebhookCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ProcessedWebhookCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProcessedWebhookPayload>[]
+        }
+        delete: {
+          args: Prisma.ProcessedWebhookDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProcessedWebhookPayload>
+        }
+        update: {
+          args: Prisma.ProcessedWebhookUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProcessedWebhookPayload>
+        }
+        deleteMany: {
+          args: Prisma.ProcessedWebhookDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ProcessedWebhookUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ProcessedWebhookUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProcessedWebhookPayload>[]
+        }
+        upsert: {
+          args: Prisma.ProcessedWebhookUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProcessedWebhookPayload>
+        }
+        aggregate: {
+          args: Prisma.ProcessedWebhookAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateProcessedWebhook>
+        }
+        groupBy: {
+          args: Prisma.ProcessedWebhookGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ProcessedWebhookGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ProcessedWebhookCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ProcessedWebhookCountAggregateOutputType> | number
+        }
+      }
+    }
     APIUsageLog: {
       payload: Prisma.$APIUsageLogPayload<ExtArgs>
       fields: Prisma.APIUsageLogFieldRefs
@@ -4836,6 +4911,15 @@ export const AssemblyParticipantScalarFieldEnum = {
 export type AssemblyParticipantScalarFieldEnum = (typeof AssemblyParticipantScalarFieldEnum)[keyof typeof AssemblyParticipantScalarFieldEnum]
 
 
+export const ProcessedWebhookScalarFieldEnum = {
+  id: 'id',
+  source: 'source',
+  createdAt: 'createdAt'
+} as const
+
+export type ProcessedWebhookScalarFieldEnum = (typeof ProcessedWebhookScalarFieldEnum)[keyof typeof ProcessedWebhookScalarFieldEnum]
+
+
 export const APIUsageLogScalarFieldEnum = {
   id: 'id',
   apiName: 'apiName',
@@ -5626,6 +5710,7 @@ export type GlobalOmitConfig = {
   announcement_User?: Prisma.Announcement_UserOmit
   assembly?: Prisma.AssemblyOmit
   assemblyParticipant?: Prisma.AssemblyParticipantOmit
+  processedWebhook?: Prisma.ProcessedWebhookOmit
   aPIUsageLog?: Prisma.APIUsageLogOmit
   aPICostConfig?: Prisma.APICostConfigOmit
   monthlyCostSummary?: Prisma.MonthlyCostSummaryOmit

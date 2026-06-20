@@ -37,9 +37,20 @@ export async function POST(req: NextRequest) {
     return new Response("ok", { status: 200 });
   }
 
-  if (!verify(raw, req.headers.get("x-webhook-signature"), req.headers.get("x-webhook-timestamp"))) {
+  const timestamp = req.headers.get("x-webhook-timestamp");
+  if (!verify(raw, req.headers.get("x-webhook-signature"), timestamp)) {
     return new Response("invalid signature", { status: 401 });
   }
+
+  // Replay protection: one row per delivery (keyed on the signed string). A replay
+  // reuses the exact timestamp+body, so the insert conflicts and we drop it with 200.
+  const dedupeId = crypto.createHash("sha256").update(`${timestamp}.${raw}`).digest("hex");
+  try {
+    await db.processedWebhook.create({ data: { id: dedupeId, source: "daily" } });
+  } catch {
+    return new Response("duplicate", { status: 200 });
+  }
+
   const evt = JSON.parse(raw) as { type: string; payload?: any };
   const p = evt.payload ?? {};
   const assembly = await findAssembly(p.room ?? p.room_name);

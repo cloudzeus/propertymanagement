@@ -1244,6 +1244,15 @@ model AssemblyParticipant {
   @@index([userId])
 }
 
+// Webhook replay protection — one row per processed delivery (id = sha256 of the signed string)
+model ProcessedWebhook {
+  id        String   @id
+  source    String   @default("daily")
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+}
+
 // API Usage Tracking - for cost monitoring
 model APIUsageLog {
   id                    String   @id @default(cuid())
