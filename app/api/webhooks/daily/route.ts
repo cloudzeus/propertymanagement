@@ -6,10 +6,12 @@ import { logAPIUsage } from "@/lib/api-costs";
 import { runMinutes } from "@/app/actions/assemblies";
 import { uploadFile, buildingFolder } from "@/lib/bunnycdn";
 
-function verify(raw: string, signature: string | null): boolean {
+// Daily signs each delivery as: base64( HMAC-SHA256( `${timestamp}.${rawBody}` ) )
+// sent in headers X-Webhook-Signature + X-Webhook-Timestamp.
+function verify(raw: string, signature: string | null, timestamp: string | null): boolean {
   const secret = env.DAILY_WEBHOOK_SECRET;
-  if (!secret || !signature) return false;
-  const expected = crypto.createHmac("sha256", secret).update(raw).digest("hex");
+  if (!secret || !signature || !timestamp) return false;
+  const expected = crypto.createHmac("sha256", secret).update(`${timestamp}.${raw}`).digest("base64");
   try {
     return crypto.timingSafeEqual(Buffer.from(expected), Buffer.from(signature));
   } catch {
@@ -28,7 +30,14 @@ async function findAssembly(roomName?: string) {
 
 export async function POST(req: NextRequest) {
   const raw = await req.text(); // raw FIRST
-  if (!verify(raw, req.headers.get("x-daily-signature"))) {
+
+  // Daily's endpoint-verification ping during webhook creation: body is {"test":"test"}
+  // and carries no valid signature. Must return 200 so the webhook can be created.
+  if (raw.trim() === '{"test":"test"}') {
+    return new Response("ok", { status: 200 });
+  }
+
+  if (!verify(raw, req.headers.get("x-webhook-signature"), req.headers.get("x-webhook-timestamp"))) {
     return new Response("invalid signature", { status: 401 });
   }
   const evt = JSON.parse(raw) as { type: string; payload?: any };
