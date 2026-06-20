@@ -118,6 +118,7 @@ const NAV_BY_ROLE: Record<string, NavGroup[]> = {
     {
       id: "settings", label: "Ρυθμίσεις", icon: RiSettingsLine, color: "#5C5C5C",
       items: [
+        { label: "Κόστη",       href: "/admin/costs",              icon: RiMoneyDollarCircleLine,   iconActive: RiMoneyDollarCircleFill,  color: "#107C10" },
         { label: "Ρυθμίσεις",   href: "/admin/settings",           icon: RiSettingsLine,            iconActive: RiSettingsFill,           color: "#5C5C5C" },
       ],
     },

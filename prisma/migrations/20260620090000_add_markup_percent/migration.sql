@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "APICostConfig" ADD COLUMN "markupPercent" DOUBLE PRECISION NOT NULL DEFAULT 0;
