@@ -55,6 +55,15 @@ export const DEFAULT_API_COSTS = {
   },
 } as const;
 
+/**
+ * Apply a per-API markup percentage to a real cost.
+ * billed = realCost * (1 + markupPercent/100)
+ */
+export function getBilledCost(realCost: number, markupPercent: number): number {
+  const pct = Number.isFinite(markupPercent) ? markupPercent : 0;
+  return realCost * (1 + pct / 100);
+}
+
 interface LogAPIUsageParams {
   apiName: string;
   endpoint?: string;
