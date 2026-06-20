@@ -16,7 +16,10 @@ interface EmailResponse {
   error?: string;
 }
 
-async function sendEmail(options: EmailOptions): Promise<EmailResponse> {
+async function sendEmail(
+  options: EmailOptions,
+  ctx?: { buildingId?: string; customerId?: string; assemblyId?: string; companyId?: string; userId?: string }
+): Promise<EmailResponse> {
   try {
     const form = new FormData();
     form.append("from", env.MAILGUN_FROM_EMAIL);
@@ -59,6 +62,7 @@ async function sendEmail(options: EmailOptions): Promise<EmailResponse> {
         requestCount: 1,
         status: 'FAILED',
         errorMessage: `HTTP ${response.status}`,
+        ...ctx,
       });
       return {
         success: false,
@@ -75,6 +79,7 @@ async function sendEmail(options: EmailOptions): Promise<EmailResponse> {
       endpoint: '/messages',
       requestCount: recipientCount,
       status: 'SUCCESS',
+      ...ctx,
     });
 
     return {
@@ -203,6 +208,34 @@ export async function sendNotificationEmail(
     ...emailTemplates.notificationEmail(title, message),
     tags: ["notification"],
   });
+}
+
+export async function sendAnnouncementEmail(
+  email: string,
+  recipientName: string | null,
+  buildingName: string,
+  title: string,
+  htmlBody: string,
+  ackUrl: string,
+  ctx?: { buildingId?: string; customerId?: string; assemblyId?: string; companyId?: string; userId?: string }
+): Promise<EmailResponse> {
+  const greeting = recipientName ? `Αγαπητέ/ή ${recipientName},` : "Αγαπητέ/ή ένοικε,";
+  const html = `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #1a1a1a;">
+      <p style="font-size: 13px; color: #666; margin: 0 0 4px;">Ανακοίνωση — ${buildingName}</p>
+      <h2 style="margin: 0 0 16px;">${title}</h2>
+      <p style="margin: 0 0 12px;">${greeting}</p>
+      <div style="border: 1px solid #e5e5e5; border-radius: 8px; padding: 16px; background: #fafafa; font-size: 14px; line-height: 1.6;">
+        ${htmlBody}
+      </div>
+      <div style="text-align: center; margin: 24px 0;">
+        <a href="${ackUrl}" style="display: inline-block; background: #c50f1f; color: #fff; text-decoration: none; padding: 12px 28px; border-radius: 6px; font-weight: 600; font-size: 14px;">Έλαβα γνώση</a>
+      </div>
+      <p style="font-size: 12px; color: #999; text-align: center; margin: 0;">Πατώντας το κουμπί επιβεβαιώνετε ότι λάβατε γνώση αυτής της ανακοίνωσης.</p>
+    </div>
+  `;
+  const text = `Ανακοίνωση — ${buildingName}\n\n${title}\n\n${greeting}\n\nΓια να δηλώσετε ότι λάβατε γνώση, επισκεφθείτε:\n${ackUrl}`;
+  return sendEmail({ to: email, subject: `Ανακοίνωση: ${title}`, html, text, tags: ["announcement"] }, ctx);
 }
 
 export async function sendPasswordResetOTP(

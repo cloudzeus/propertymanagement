@@ -34,7 +34,7 @@ async function buildingOwners(buildingId: string) {
 
 export async function createAssembly(input: { buildingId: string; title: string; scheduledAt: string }) {
   const userId = await requireStaff();
-  const building = await db.building.findUnique({ where: { id: input.buildingId }, select: { id: true, name: true, dailyRoomName: true } });
+  const building = await db.building.findUnique({ where: { id: input.buildingId }, select: { id: true, name: true, dailyRoomName: true, companyId: true, property: { select: { customerId: true } } } });
   if (!building) throw new Error("Building not found");
 
   const roomName = building.dailyRoomName ?? (await ensureRoom(building.id));
@@ -68,6 +68,7 @@ export async function createAssembly(input: { buildingId: string; title: string;
       `<p>Καλείστε σε Γενική Συνέλευση στις <strong>${new Date(input.scheduledAt).toLocaleString("el-GR")}</strong>.</p>
        <p>Πατήστε το κουμπί για να συμμετάσχετε.</p>`,
       link,
+      { buildingId: building.id, customerId: building.property?.customerId, assemblyId: assembly.id, companyId: building.companyId ?? undefined },
     );
   }
 
@@ -92,6 +93,14 @@ export async function getAssemblyToken(assemblyId: string) {
   const participant = await db.assemblyParticipant.findFirst({ where: { assemblyId, userId } });
   if (!isStaff && !participant) throw new Error("Forbidden");
 
+  // Ensure a participant row exists for join/leave aggregation (no unique constraint on assemblyId+userId).
+  const existing = participant ?? (await db.assemblyParticipant.findFirst({ where: { assemblyId, userId } }));
+  if (!existing) {
+    await db.assemblyParticipant.create({
+      data: { assemblyId, userId, displayName: me?.name ?? "Συμμετέχων" },
+    });
+  }
+
   const exp = Math.floor(Date.now() / 1000) + 4 * 60 * 60; // 4h window
   const token = await createMeetingToken({
     room: assembly.dailyRoomName,
@@ -101,6 +110,22 @@ export async function getAssemblyToken(assemblyId: string) {
     expEpochSeconds: exp,
   });
   return { token, roomName: assembly.dailyRoomName };
+}
+
+/** End the assembly: persist transcript as source of truth, then auto-draft minutes. */
+export async function endAssembly(assemblyId: string, transcript: string) {
+  await requireStaff();
+  const a = await db.assembly.findUnique({ where: { id: assemblyId }, select: { id: true, buildingId: true } });
+  if (!a) throw new Error("Assembly not found");
+  await db.assembly.update({
+    where: { id: assemblyId },
+    data: { transcriptRaw: transcript?.trim() ? transcript : null, status: transcript?.trim() ? "TRANSCRIBING" : "ENDED" },
+  });
+  if (transcript?.trim()) {
+    try { await runMinutes(assemblyId); } catch (e) { console.error("endAssembly runMinutes failed", e); }
+  }
+  revalidatePath(`/super-admin/buildings/${a.buildingId}/assemblies/${assemblyId}`);
+  return { ok: true };
 }
 
 /** Core minutes generation WITHOUT auth — callable by the webhook. */
@@ -133,7 +158,7 @@ export async function approveAndSendMinutes(assemblyId: string, finalHtml: strin
   await requireStaff();
   const a = await db.assembly.findUnique({
     where: { id: assemblyId },
-    select: { id: true, title: true, buildingId: true, building: { select: { name: true } }, participants: { select: { id: true, userId: true } } },
+    select: { id: true, title: true, buildingId: true, building: { select: { name: true, companyId: true, property: { select: { customerId: true } } } }, participants: { select: { id: true, userId: true } } },
   });
   if (!a) throw new Error("Assembly not found");
 
@@ -149,6 +174,7 @@ export async function approveAndSendMinutes(assemblyId: string, finalHtml: strin
       `Πρακτικά Γενικής Συνέλευσης — ${a.title}`,
       finalHtml,
       link,
+      { buildingId: a.buildingId, customerId: a.building.property?.customerId, assemblyId: a.id, companyId: a.building.companyId ?? undefined },
     );
   }
   await db.assemblyParticipant.updateMany({ where: { assemblyId }, data: { momSentAt: new Date() } });

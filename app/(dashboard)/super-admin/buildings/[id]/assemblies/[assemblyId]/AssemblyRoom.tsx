@@ -11,7 +11,7 @@ import {
   useTranscription,
 } from "@daily-co/daily-react";
 import { RiMicLine, RiRecordCircleLine, RiLogoutBoxLine, RiLoaderLine } from "react-icons/ri";
-import { getAssemblyToken } from "@/app/actions/assemblies";
+import { getAssemblyToken, endAssembly } from "@/app/actions/assemblies";
 
 const cardStyle: React.CSSProperties = {
   background: "var(--card)",
@@ -83,12 +83,12 @@ export function AssemblyRoom({ assemblyId, isStaff }: { assemblyId: string; isSt
 
   return (
     <DailyProvider callObject={callObject}>
-      <RoomInner isStaff={isStaff} />
+      <RoomInner assemblyId={assemblyId} isStaff={isStaff} />
     </DailyProvider>
   );
 }
 
-function RoomInner({ isStaff }: { isStaff: boolean }) {
+function RoomInner({ assemblyId, isStaff }: { assemblyId: string; isStaff: boolean }) {
   const daily = useDaily();
   const participantIds = useParticipantIds();
   const localId = useLocalSessionId();
@@ -105,6 +105,14 @@ function RoomInner({ isStaff }: { isStaff: boolean }) {
 
   async function handleEnd() {
     setEnding(true);
+    const transcriptText = transcriptions
+      .map((t) => `${t.user_name ?? "?"}: ${t.text}`)
+      .join("\n");
+    try {
+      await endAssembly(assemblyId, transcriptText);
+    } catch (e) {
+      console.error("endAssembly failed", e);
+    }
     try {
       stopTranscription?.();
     } catch {
