@@ -1487,8 +1487,14 @@ model AppSettings {
 
   // Client identity
   companyName     String   @default("PropertyPro")
-  logoUrl         String?  // BunnyCDN — full horizontal logo
-  logoSquareUrl   String?  // BunnyCDN — square/icon logo
+  logoUrl         String?  // BunnyCDN — full horizontal logo (legacy fallback)
+  logoSquareUrl   String?  // BunnyCDN — square/icon logo (legacy fallback)
+
+  // Logos per theme (BunnyCDN). Full = horizontal, Square = icon-only.
+  logoFullLight   String?  // full logo for light mode
+  logoFullDark    String?  // full logo for dark mode
+  logoSquareLight String?  // square logo for light mode
+  logoSquareDark  String?  // square logo for dark mode
 
   // Brand colors (hex)
   colorPrimary    String   @default("#0078D4")

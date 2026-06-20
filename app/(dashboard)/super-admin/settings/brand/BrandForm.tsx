@@ -1,10 +1,17 @@
 "use client";
 
-import { useState, useTransition } from "react";
-import { RiSaveLine, RiCheckLine } from "react-icons/ri";
+import { useState, useTransition, useRef } from "react";
+import { RiSaveLine, RiCheckLine, RiUploadCloud2Line, RiDeleteBin6Line, RiImageLine } from "react-icons/ri";
+import { uploadBrandLogo, removeBrandLogo } from "@/app/actions/brand";
+
+type LogoSlot = "logoFullLight" | "logoFullDark" | "logoSquareLight" | "logoSquareDark";
 
 type BrandSettings = {
   companyName: string;
+  logoFullLight: string | null;
+  logoFullDark: string | null;
+  logoSquareLight: string | null;
+  logoSquareDark: string | null;
   colorPrimary: string;
   colorPrimaryDk: string;
   colorAccent: string;
@@ -18,6 +25,89 @@ type BrandSettings = {
   contactAddress: string | null;
   websiteUrl: string | null;
 };
+
+const LOGO_SLOTS: { slot: LogoSlot; label: string; shape: "full" | "square"; bg: "light" | "dark" }[] = [
+  { slot: "logoFullLight",   label: "Full — Light mode",   shape: "full",   bg: "light" },
+  { slot: "logoFullDark",    label: "Full — Dark mode",    shape: "full",   bg: "dark" },
+  { slot: "logoSquareLight", label: "Square — Light mode", shape: "square", bg: "light" },
+  { slot: "logoSquareDark",  label: "Square — Dark mode",  shape: "square", bg: "dark" },
+];
+
+function LogoTile({ slot, label, shape, bg, initialUrl }: { slot: LogoSlot; label: string; shape: "full" | "square"; bg: "light" | "dark"; initialUrl: string | null }) {
+  const [url, setUrl] = useState<string | null>(initialUrl);
+  const [pending, startTransition] = useTransition();
+  const [err, setErr] = useState<string | null>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  function onPick(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setErr(null);
+    const fd = new FormData();
+    fd.append("slot", slot);
+    fd.append("file", file);
+    startTransition(async () => {
+      const res = await uploadBrandLogo(fd);
+      if (res?.error) setErr(res.error);
+      else if (res?.url) setUrl(res.url);
+      if (inputRef.current) inputRef.current.value = "";
+    });
+  }
+
+  function onRemove() {
+    setErr(null);
+    startTransition(async () => {
+      const res = await removeBrandLogo(slot);
+      if (res?.error) setErr(res.error);
+      else setUrl(null);
+    });
+  }
+
+  const previewBg = bg === "dark" ? "#1F1F1F" : "#FFFFFF";
+  const previewH = shape === "square" ? 96 : 80;
+
+  return (
+    <div style={{ border: "1px solid var(--border)", borderRadius: 10, padding: 14, background: "var(--bg-canvas)", display: "flex", flexDirection: "column", gap: 10 }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <span style={{ fontSize: 12, fontWeight: 600, color: "var(--foreground)" }}>{label}</span>
+        <span style={{ fontSize: 10, color: "var(--muted-foreground)" }}>{shape === "square" ? "1:1" : "οριζόντιο"}</span>
+      </div>
+      <div style={{
+        height: previewH, borderRadius: 8, background: previewBg,
+        border: "1px solid var(--border)", display: "flex", alignItems: "center", justifyContent: "center",
+        overflow: "hidden",
+      }}>
+        {url ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={url} alt={label} style={{ maxHeight: previewH - 20, maxWidth: "85%", objectFit: "contain" }} />
+        ) : (
+          <span style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4, color: bg === "dark" ? "#6B6B6B" : "#B3B3B3", fontSize: 11 }}>
+            <RiImageLine size={22} /> Χωρίς λογότυπο
+          </span>
+        )}
+      </div>
+      {err && <span style={{ fontSize: 11, color: "var(--color-danger)" }}>{err}</span>}
+      <div style={{ display: "flex", gap: 8 }}>
+        <input ref={inputRef} type="file" accept="image/svg+xml,image/png,image/jpeg,image/webp" onChange={onPick} style={{ display: "none" }} />
+        <button type="button" disabled={pending} onClick={() => inputRef.current?.click()} style={{
+          flex: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
+          padding: "7px 10px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)",
+          cursor: pending ? "not-allowed" : "pointer", fontSize: 12, fontWeight: 600, color: "var(--foreground)",
+        }}>
+          <RiUploadCloud2Line size={14} /> {pending ? "..." : url ? "Αλλαγή" : "Ανέβασμα"}
+        </button>
+        {url && (
+          <button type="button" disabled={pending} onClick={onRemove} title="Αφαίρεση" style={{
+            padding: "7px 10px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)",
+            cursor: pending ? "not-allowed" : "pointer", color: "var(--color-danger)",
+          }}>
+            <RiDeleteBin6Line size={14} />
+          </button>
+        )}
+      </div>
+    </div>
+  );
+}
 
 type Props = { settings: BrandSettings; action: (formData: FormData) => Promise<void> };
 
@@ -101,6 +191,19 @@ export function BrandForm({ settings, action }: Props) {
               }}
             />
           </div>
+        </div>
+      </div>
+
+      {/* Logos */}
+      <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius)", padding: 24 }}>
+        <h2 style={{ fontSize: 15, fontWeight: 600, color: "var(--foreground)", margin: "0 0 6px" }}>Λογότυπα</h2>
+        <p style={{ fontSize: 12, color: "var(--muted-foreground)", margin: "0 0 18px" }}>
+          Full (οριζόντιο) και Square (εικονίδιο), για light & dark mode. SVG αποθηκεύεται ως έχει· οποιαδήποτε άλλη μορφή μετατρέπεται αυτόματα σε WebP με διαφάνεια. Ανεβαίνουν αμέσως (ανεξάρτητα από την Αποθήκευση χρωμάτων).
+        </p>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 16 }}>
+          {LOGO_SLOTS.map((l) => (
+            <LogoTile key={l.slot} slot={l.slot} label={l.label} shape={l.shape} bg={l.bg} initialUrl={settings[l.slot]} />
+          ))}
         </div>
       </div>
 

@@ -5,6 +5,10 @@ export type AppSettings = {
   companyName: string;
   logoUrl: string | null;
   logoSquareUrl: string | null;
+  logoFullLight: string | null;
+  logoFullDark: string | null;
+  logoSquareLight: string | null;
+  logoSquareDark: string | null;
   colorPrimary: string;
   colorPrimaryDk: string;
   colorAccent: string;
@@ -23,6 +27,10 @@ const DEFAULTS: AppSettings = {
   companyName: "PropertyPro",
   logoUrl: null,
   logoSquareUrl: null,
+  logoFullLight: null,
+  logoFullDark: null,
+  logoSquareLight: null,
+  logoSquareDark: null,
   colorPrimary: "#0078D4",
   colorPrimaryDk: "#005A9E",
   colorAccent: "#E31E2A",

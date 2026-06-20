@@ -44,8 +44,8 @@ export async function AppShell({ children, allowedRoles }: Props) {
         role={role}
         userName={session.user.name ?? ""}
         userEmail={session.user.email ?? ""}
-        logoUrl={settings.logoUrl}
-        logoSquareUrl={settings.logoSquareUrl}
+        logoUrl={settings.logoFullLight ?? settings.logoUrl}
+        logoSquareUrl={settings.logoSquareLight ?? settings.logoSquareUrl}
         companyName={settings.companyName}
         onSignOut={signOutAction}
       />
