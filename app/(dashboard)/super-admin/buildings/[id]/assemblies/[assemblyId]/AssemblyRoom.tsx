@@ -48,11 +48,22 @@ export function AssemblyRoom({ assemblyId, isStaff }: { assemblyId: string; isSt
           return;
         }
         const url = `https://${domain}.daily.co/${roomName}`;
+        // Reuse/cleanup any existing instance (React StrictMode double-mount in dev
+        // otherwise throws "Duplicate DailyIframe instances are not allowed").
+        const existing = DailyIframe.getCallInstance();
+        if (existing) {
+          try { await existing.leave(); } catch { /* noop */ }
+          try { await existing.destroy(); } catch { /* noop */ }
+        }
         co = DailyIframe.createCallObject({ audioSource: true, videoSource: true });
         await co.join({ url, token, startVideoOff: false, startAudioOff: false });
         setCallObject(co);
       } catch (e) {
-        setError(e instanceof Error ? e.message : "Σφάλμα σύνδεσης.");
+        console.error("[AssemblyRoom] join failed:", e);
+        const msg =
+          e instanceof Error ? e.message
+          : (e as any)?.errorMsg ?? (e as any)?.error ?? (typeof e === "string" ? e : JSON.stringify(e));
+        setError(`Σφάλμα σύνδεσης: ${msg}`);
       } finally {
         setJoining(false);
       }
