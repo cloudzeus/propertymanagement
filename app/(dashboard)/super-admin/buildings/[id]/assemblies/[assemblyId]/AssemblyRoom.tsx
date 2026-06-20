@@ -31,7 +31,12 @@ export function AssemblyRoom({ assemblyId, isStaff }: { assemblyId: string; isSt
     if (startedRef.current) return;
     startedRef.current = true;
 
-    const domain = process.env.NEXT_PUBLIC_DAILY_DOMAIN;
+    // Accept any form: "wwa", "wwa.daily.co", or "https://wwa.daily.co" → subdomain.
+    const domain = (process.env.NEXT_PUBLIC_DAILY_DOMAIN ?? "")
+      .replace(/^https?:\/\//, "")
+      .replace(/\.daily\.co\/?$/, "")
+      .replace(/\/+$/, "")
+      .trim();
     if (!domain) {
       setError("Λείπει η ρύθμιση NEXT_PUBLIC_DAILY_DOMAIN.");
       setJoining(false);

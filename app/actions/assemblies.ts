@@ -132,7 +132,8 @@ export async function createTestAssembly(input: {
   // Guest — joins via raw Daily prebuilt UI with a non-owner meeting token.
   const exp = Math.floor(Date.now() / 1000) + 4 * 60 * 60;
   const guestToken = await createMeetingToken({ room: roomName, userName: input.guestEmail, userId: `guest-${assembly.id}`, isOwner: false, expEpochSeconds: exp });
-  const guestLink = `https://${env.NEXT_PUBLIC_DAILY_DOMAIN}.daily.co/${roomName}?t=${guestToken}`;
+  const dailySub = (env.NEXT_PUBLIC_DAILY_DOMAIN ?? "").replace(/^https?:\/\//, "").replace(/\.daily\.co\/?$/, "").replace(/\/+$/, "").trim();
+  const guestLink = `https://${dailySub}.daily.co/${roomName}?t=${guestToken}`;
   await db.assemblyParticipant.create({
     data: { assemblyId: assembly.id, email: input.guestEmail, isHost: false, displayName: input.guestEmail, invitedSentAt: new Date() },
   });
