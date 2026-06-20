@@ -16,6 +16,14 @@ async function requireStaff(): Promise<string> {
   return u!.id;
 }
 
+async function requireSuperAdmin(): Promise<string> {
+  const session = await auth();
+  if (!session?.user) throw new Error("Unauthorized");
+  const u = await db.user.findUnique({ where: { id: session.user.id as string }, select: { id: true, role: true } });
+  if (u?.role !== "SUPER_ADMIN") throw new Error("Forbidden");
+  return u!.id;
+}
+
 /** Owners of a building (users with an OWNER occupancy on any of its units). */
 async function buildingOwners(buildingId: string) {
   const occ = await db.unitOccupancy.findMany({
@@ -71,6 +79,69 @@ export async function createAssembly(input: { buildingId: string; title: string;
       { buildingId: building.id, customerId: building.property?.customerId, assemblyId: assembly.id, companyId: building.companyId ?? undefined },
     );
   }
+
+  revalidatePath(`/super-admin/buildings/${building.id}`);
+  return { id: assembly.id };
+}
+
+export async function createTestAssembly(input: {
+  buildingId: string;
+  title: string;
+  scheduledAt: string;
+  hostEmail: string;
+  guestEmail: string;
+}) {
+  const userId = await requireSuperAdmin();
+  const building = await db.building.findUnique({
+    where: { id: input.buildingId },
+    select: { id: true, name: true, dailyRoomName: true, companyId: true, property: { select: { customerId: true } } },
+  });
+  if (!building) throw new Error("Building not found");
+
+  const roomName = building.dailyRoomName ?? (await ensureRoom(building.id));
+  if (!building.dailyRoomName) {
+    await db.building.update({ where: { id: building.id }, data: { dailyRoomName: roomName } });
+  }
+
+  const assembly = await db.assembly.create({
+    data: {
+      buildingId: building.id,
+      title: `[TEST] ${input.title}`,
+      scheduledAt: new Date(input.scheduledAt),
+      status: "SCHEDULED",
+      dailyRoomName: roomName,
+      createdById: userId,
+    },
+  });
+
+  const ctx = { buildingId: building.id, customerId: building.property?.customerId ?? undefined, assemblyId: assembly.id, companyId: building.companyId ?? undefined };
+  const whenLabel = new Date(input.scheduledAt).toLocaleString("el-GR");
+
+  // Host (manager) — joins via OUR in-app page (logs in as super admin).
+  await db.assemblyParticipant.create({
+    data: { assemblyId: assembly.id, email: input.hostEmail, isHost: true, displayName: input.hostEmail, invitedSentAt: new Date() },
+  });
+  const hostLink = `${env.NEXT_PUBLIC_APP_URL}/super-admin/buildings/${building.id}/assemblies/${assembly.id}`;
+  await sendAnnouncementEmail(
+    input.hostEmail, null, building.name,
+    `[TEST] Διαχείριση Γενικής Συνέλευσης: ${input.title}`,
+    `<p>Δοκιμαστική συνέλευση στις <strong>${whenLabel}</strong>.</p><p>Είστε ο <strong>διαχειριστής</strong>. Συνδεθείτε και ανοίξτε τη σελίδα για να ξεκινήσετε.</p>`,
+    hostLink, ctx,
+  );
+
+  // Guest — joins via raw Daily prebuilt UI with a non-owner meeting token.
+  const exp = Math.floor(Date.now() / 1000) + 4 * 60 * 60;
+  const guestToken = await createMeetingToken({ room: roomName, userName: input.guestEmail, userId: `guest-${assembly.id}`, isOwner: false, expEpochSeconds: exp });
+  const guestLink = `https://${env.NEXT_PUBLIC_DAILY_DOMAIN}.daily.co/${roomName}?t=${guestToken}`;
+  await db.assemblyParticipant.create({
+    data: { assemblyId: assembly.id, email: input.guestEmail, isHost: false, displayName: input.guestEmail, invitedSentAt: new Date() },
+  });
+  await sendAnnouncementEmail(
+    input.guestEmail, null, building.name,
+    `[TEST] Πρόσκληση σε Γενική Συνέλευση: ${input.title}`,
+    `<p>Καλείστε σε δοκιμαστική Γενική Συνέλευση στις <strong>${whenLabel}</strong>.</p><p>Πατήστε για να συμμετάσχετε.</p>`,
+    guestLink, ctx,
+  );
 
   revalidatePath(`/super-admin/buildings/${building.id}`);
   return { id: assembly.id };
@@ -176,6 +247,16 @@ export async function approveAndSendMinutes(assemblyId: string, finalHtml: strin
       link,
       { buildingId: a.buildingId, customerId: a.building.property?.customerId, assemblyId: a.id, companyId: a.building.companyId ?? undefined },
     );
+  }
+  const participantEmails = await db.assemblyParticipant.findMany({
+    where: { assemblyId, email: { not: null } },
+    select: { email: true, displayName: true },
+  });
+  const ownerEmails = new Set(owners.map((o) => o.email));
+  for (const pe of participantEmails) {
+    if (pe.email && !ownerEmails.has(pe.email)) {
+      await sendAnnouncementEmail(pe.email, pe.displayName, a.building.name, `Πρακτικά Γενικής Συνέλευσης — ${a.title}`, finalHtml, link);
+    }
   }
   await db.assemblyParticipant.updateMany({ where: { assemblyId }, data: { momSentAt: new Date() } });
 

@@ -4,8 +4,8 @@ import { useState, useEffect, useCallback, useTransition } from "react";
 import Link from "next/link";
 import { DataTable, type ColDef } from "@/components/ui/data-table";
 import { Modal, FormField, FieldInput } from "@/components/ui/modal";
-import { listAssemblies, createAssembly, type AssemblyRow } from "@/app/actions/assemblies";
-import { RiVideoChatLine, RiAddLine, RiCheckLine, RiLoaderLine } from "react-icons/ri";
+import { listAssemblies, createAssembly, createTestAssembly, type AssemblyRow } from "@/app/actions/assemblies";
+import { RiVideoChatLine, RiAddLine, RiCheckLine, RiLoaderLine, RiFlaskLine } from "react-icons/ri";
 
 const STATUS_LABEL: Record<string, string> = {
   SCHEDULED: "Προγραμματισμένη",
@@ -19,6 +19,7 @@ export function AssembliesPanel({ buildingId }: { buildingId: string }) {
   const [rows, setRows] = useState<AssemblyRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [adding, setAdding] = useState(false);
+  const [testing, setTesting] = useState(false);
 
   const reload = useCallback(() => listAssemblies(buildingId).then(setRows).finally(() => setLoading(false)), [buildingId]);
   useEffect(() => { reload(); }, [reload]);
@@ -56,9 +57,13 @@ export function AssembliesPanel({ buildingId }: { buildingId: string }) {
         clientSide
         storageKey="building-assemblies"
         searchPlaceholder="Αναζήτηση συνέλευσης…"
-        toolbar={<button onClick={() => setAdding(true)} style={{ ...btn, ...btnPrimary }}><RiAddLine /> Νέα Συνέλευση</button>}
+        toolbar={<>
+          <button onClick={() => setAdding(true)} style={{ ...btn, ...btnPrimary }}><RiAddLine /> Νέα Συνέλευση</button>
+          <button onClick={() => setTesting(true)} style={btn}><RiFlaskLine /> Δοκιμή (Super Admin)</button>
+        </>}
       />
       {adding && <CreateModal buildingId={buildingId} onClose={() => setAdding(false)} onDone={() => { setAdding(false); reload(); }} />}
+      {testing && <TestModal buildingId={buildingId} onClose={() => setTesting(false)} onDone={() => { setTesting(false); reload(); }} />}
     </>
   );
 }
@@ -93,6 +98,48 @@ function CreateModal({ buildingId, onClose, onDone }: { buildingId: string; onCl
       <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
         <FormField label="Τίτλος" required><FieldInput value={title} onChange={setTitle} placeholder="π.χ. Τακτική Γενική Συνέλευση" /></FormField>
         <FormField label="Ημερομηνία/Ώρα" required><FieldInput type="datetime-local" value={scheduledAt} onChange={setScheduledAt} /></FormField>
+      </div>
+      <style>{`@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}`}</style>
+    </Modal>
+  );
+}
+
+function TestModal({ buildingId, onClose, onDone }: { buildingId: string; onClose: () => void; onDone: () => void }) {
+  const [title, setTitle] = useState("");
+  const [scheduledAt, setScheduledAt] = useState("");
+  const [hostEmail, setHostEmail] = useState("");
+  const [guestEmail, setGuestEmail] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [isPending, startTransition] = useTransition();
+
+  function save() {
+    setError(null);
+    if (!title.trim()) { setError("Ο τίτλος είναι υποχρεωτικός"); return; }
+    if (!scheduledAt) { setError("Η ημερομηνία/ώρα είναι υποχρεωτική"); return; }
+    if (!hostEmail.trim()) { setError("Το email διαχειριστή είναι υποχρεωτικό"); return; }
+    if (!guestEmail.trim()) { setError("Το email συμμετέχοντα είναι υποχρεωτικό"); return; }
+    startTransition(async () => {
+      try {
+        await createTestAssembly({ buildingId, title, scheduledAt: new Date(scheduledAt).toISOString(), hostEmail, guestEmail });
+        onDone();
+      } catch (e) {
+        setError(e instanceof Error ? e.message : "Σφάλμα");
+      }
+    });
+  }
+
+  return (
+    <Modal open onClose={onClose} title="Δοκιμαστική Συνέλευση (Super Admin)" width={520}
+      footer={<>
+        <button onClick={onClose} style={btnCancel}>Ακύρωση</button>
+        <button onClick={save} disabled={isPending} style={btnSave}>{isPending ? <RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> : <RiCheckLine />} Δημιουργία</button>
+      </>}>
+      {error && <div style={errBox}>{error}</div>}
+      <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+        <FormField label="Τίτλος" required><FieldInput value={title} onChange={setTitle} placeholder="π.χ. Δοκιμαστική Γενική Συνέλευση" /></FormField>
+        <FormField label="Ημερομηνία/Ώρα" required><FieldInput type="datetime-local" value={scheduledAt} onChange={setScheduledAt} /></FormField>
+        <FormField label="Email διαχειριστή" required><FieldInput type="email" value={hostEmail} onChange={setHostEmail} placeholder="host@example.com" /></FormField>
+        <FormField label="Email συμμετέχοντα" required><FieldInput type="email" value={guestEmail} onChange={setGuestEmail} placeholder="guest@example.com" /></FormField>
       </div>
       <style>{`@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}`}</style>
     </Modal>
