@@ -1232,6 +1232,8 @@ model AssemblyParticipant {
   assembly        Assembly  @relation(fields: [assemblyId], references: [id], onDelete: Cascade)
   userId          String?
   unitId          String?
+  email           String?   // for invited guests/test participants without an app account
+  isHost          Boolean   @default(false)
   displayName     String
   joinedAt        DateTime?
   leftAt          DateTime?
@@ -1308,6 +1310,9 @@ model APICostConfig {
   basePrice             Float    // Cost per unit in EUR
   freeQuota             Int      @default(0) // Free units per month
   quotaResetDay         Int      @default(1) // Day of month to reset quota
+
+  // Markup
+  markupPercent         Float    @default(0) // % added on top of real cost for admin-facing billing
 
   // Limits
   monthlyBudgetLimit    Float?   // Optional budget cap in EUR
