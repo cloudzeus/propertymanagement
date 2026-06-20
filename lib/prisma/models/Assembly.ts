@@ -32,7 +32,6 @@ export type AssemblyMinAggregateOutputType = {
   status: $Enums.AssemblyStatus | null
   dailyRoomName: string | null
   dailySessionId: string | null
-  recordingUrl: string | null
   transcriptRaw: string | null
   minutesDraft: string | null
   minutesFinal: string | null
@@ -51,7 +50,6 @@ export type AssemblyMaxAggregateOutputType = {
   status: $Enums.AssemblyStatus | null
   dailyRoomName: string | null
   dailySessionId: string | null
-  recordingUrl: string | null
   transcriptRaw: string | null
   minutesDraft: string | null
   minutesFinal: string | null
@@ -70,7 +68,6 @@ export type AssemblyCountAggregateOutputType = {
   status: number
   dailyRoomName: number
   dailySessionId: number
-  recordingUrl: number
   transcriptRaw: number
   minutesDraft: number
   minutesFinal: number
@@ -91,7 +88,6 @@ export type AssemblyMinAggregateInputType = {
   status?: true
   dailyRoomName?: true
   dailySessionId?: true
-  recordingUrl?: true
   transcriptRaw?: true
   minutesDraft?: true
   minutesFinal?: true
@@ -110,7 +106,6 @@ export type AssemblyMaxAggregateInputType = {
   status?: true
   dailyRoomName?: true
   dailySessionId?: true
-  recordingUrl?: true
   transcriptRaw?: true
   minutesDraft?: true
   minutesFinal?: true
@@ -129,7 +124,6 @@ export type AssemblyCountAggregateInputType = {
   status?: true
   dailyRoomName?: true
   dailySessionId?: true
-  recordingUrl?: true
   transcriptRaw?: true
   minutesDraft?: true
   minutesFinal?: true
@@ -221,7 +215,6 @@ export type AssemblyGroupByOutputType = {
   status: $Enums.AssemblyStatus
   dailyRoomName: string
   dailySessionId: string | null
-  recordingUrl: string | null
   transcriptRaw: string | null
   minutesDraft: string | null
   minutesFinal: string | null
@@ -261,7 +254,6 @@ export type AssemblyWhereInput = {
   status?: Prisma.EnumAssemblyStatusFilter<"Assembly"> | $Enums.AssemblyStatus
   dailyRoomName?: Prisma.StringFilter<"Assembly"> | string
   dailySessionId?: Prisma.StringNullableFilter<"Assembly"> | string | null
-  recordingUrl?: Prisma.StringNullableFilter<"Assembly"> | string | null
   transcriptRaw?: Prisma.StringNullableFilter<"Assembly"> | string | null
   minutesDraft?: Prisma.StringNullableFilter<"Assembly"> | string | null
   minutesFinal?: Prisma.StringNullableFilter<"Assembly"> | string | null
@@ -282,7 +274,6 @@ export type AssemblyOrderByWithRelationInput = {
   status?: Prisma.SortOrder
   dailyRoomName?: Prisma.SortOrder
   dailySessionId?: Prisma.SortOrderInput | Prisma.SortOrder
-  recordingUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   transcriptRaw?: Prisma.SortOrderInput | Prisma.SortOrder
   minutesDraft?: Prisma.SortOrderInput | Prisma.SortOrder
   minutesFinal?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -306,7 +297,6 @@ export type AssemblyWhereUniqueInput = Prisma.AtLeast<{
   status?: Prisma.EnumAssemblyStatusFilter<"Assembly"> | $Enums.AssemblyStatus
   dailyRoomName?: Prisma.StringFilter<"Assembly"> | string
   dailySessionId?: Prisma.StringNullableFilter<"Assembly"> | string | null
-  recordingUrl?: Prisma.StringNullableFilter<"Assembly"> | string | null
   transcriptRaw?: Prisma.StringNullableFilter<"Assembly"> | string | null
   minutesDraft?: Prisma.StringNullableFilter<"Assembly"> | string | null
   minutesFinal?: Prisma.StringNullableFilter<"Assembly"> | string | null
@@ -327,7 +317,6 @@ export type AssemblyOrderByWithAggregationInput = {
   status?: Prisma.SortOrder
   dailyRoomName?: Prisma.SortOrder
   dailySessionId?: Prisma.SortOrderInput | Prisma.SortOrder
-  recordingUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   transcriptRaw?: Prisma.SortOrderInput | Prisma.SortOrder
   minutesDraft?: Prisma.SortOrderInput | Prisma.SortOrder
   minutesFinal?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -352,7 +341,6 @@ export type AssemblyScalarWhereWithAggregatesInput = {
   status?: Prisma.EnumAssemblyStatusWithAggregatesFilter<"Assembly"> | $Enums.AssemblyStatus
   dailyRoomName?: Prisma.StringWithAggregatesFilter<"Assembly"> | string
   dailySessionId?: Prisma.StringNullableWithAggregatesFilter<"Assembly"> | string | null
-  recordingUrl?: Prisma.StringNullableWithAggregatesFilter<"Assembly"> | string | null
   transcriptRaw?: Prisma.StringNullableWithAggregatesFilter<"Assembly"> | string | null
   minutesDraft?: Prisma.StringNullableWithAggregatesFilter<"Assembly"> | string | null
   minutesFinal?: Prisma.StringNullableWithAggregatesFilter<"Assembly"> | string | null
@@ -370,7 +358,6 @@ export type AssemblyCreateInput = {
   status?: $Enums.AssemblyStatus
   dailyRoomName: string
   dailySessionId?: string | null
-  recordingUrl?: string | null
   transcriptRaw?: string | null
   minutesDraft?: string | null
   minutesFinal?: string | null
@@ -391,7 +378,6 @@ export type AssemblyUncheckedCreateInput = {
   status?: $Enums.AssemblyStatus
   dailyRoomName: string
   dailySessionId?: string | null
-  recordingUrl?: string | null
   transcriptRaw?: string | null
   minutesDraft?: string | null
   minutesFinal?: string | null
@@ -410,7 +396,6 @@ export type AssemblyUpdateInput = {
   status?: Prisma.EnumAssemblyStatusFieldUpdateOperationsInput | $Enums.AssemblyStatus
   dailyRoomName?: Prisma.StringFieldUpdateOperationsInput | string
   dailySessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  recordingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transcriptRaw?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   minutesDraft?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   minutesFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -431,7 +416,6 @@ export type AssemblyUncheckedUpdateInput = {
   status?: Prisma.EnumAssemblyStatusFieldUpdateOperationsInput | $Enums.AssemblyStatus
   dailyRoomName?: Prisma.StringFieldUpdateOperationsInput | string
   dailySessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  recordingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transcriptRaw?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   minutesDraft?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   minutesFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -451,7 +435,6 @@ export type AssemblyCreateManyInput = {
   status?: $Enums.AssemblyStatus
   dailyRoomName: string
   dailySessionId?: string | null
-  recordingUrl?: string | null
   transcriptRaw?: string | null
   minutesDraft?: string | null
   minutesFinal?: string | null
@@ -469,7 +452,6 @@ export type AssemblyUpdateManyMutationInput = {
   status?: Prisma.EnumAssemblyStatusFieldUpdateOperationsInput | $Enums.AssemblyStatus
   dailyRoomName?: Prisma.StringFieldUpdateOperationsInput | string
   dailySessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  recordingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transcriptRaw?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   minutesDraft?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   minutesFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -488,7 +470,6 @@ export type AssemblyUncheckedUpdateManyInput = {
   status?: Prisma.EnumAssemblyStatusFieldUpdateOperationsInput | $Enums.AssemblyStatus
   dailyRoomName?: Prisma.StringFieldUpdateOperationsInput | string
   dailySessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  recordingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transcriptRaw?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   minutesDraft?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   minutesFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -517,7 +498,6 @@ export type AssemblyCountOrderByAggregateInput = {
   status?: Prisma.SortOrder
   dailyRoomName?: Prisma.SortOrder
   dailySessionId?: Prisma.SortOrder
-  recordingUrl?: Prisma.SortOrder
   transcriptRaw?: Prisma.SortOrder
   minutesDraft?: Prisma.SortOrder
   minutesFinal?: Prisma.SortOrder
@@ -536,7 +516,6 @@ export type AssemblyMaxOrderByAggregateInput = {
   status?: Prisma.SortOrder
   dailyRoomName?: Prisma.SortOrder
   dailySessionId?: Prisma.SortOrder
-  recordingUrl?: Prisma.SortOrder
   transcriptRaw?: Prisma.SortOrder
   minutesDraft?: Prisma.SortOrder
   minutesFinal?: Prisma.SortOrder
@@ -555,7 +534,6 @@ export type AssemblyMinOrderByAggregateInput = {
   status?: Prisma.SortOrder
   dailyRoomName?: Prisma.SortOrder
   dailySessionId?: Prisma.SortOrder
-  recordingUrl?: Prisma.SortOrder
   transcriptRaw?: Prisma.SortOrder
   minutesDraft?: Prisma.SortOrder
   minutesFinal?: Prisma.SortOrder
@@ -638,7 +616,6 @@ export type AssemblyCreateWithoutBuildingInput = {
   status?: $Enums.AssemblyStatus
   dailyRoomName: string
   dailySessionId?: string | null
-  recordingUrl?: string | null
   transcriptRaw?: string | null
   minutesDraft?: string | null
   minutesFinal?: string | null
@@ -657,7 +634,6 @@ export type AssemblyUncheckedCreateWithoutBuildingInput = {
   status?: $Enums.AssemblyStatus
   dailyRoomName: string
   dailySessionId?: string | null
-  recordingUrl?: string | null
   transcriptRaw?: string | null
   minutesDraft?: string | null
   minutesFinal?: string | null
@@ -706,7 +682,6 @@ export type AssemblyScalarWhereInput = {
   status?: Prisma.EnumAssemblyStatusFilter<"Assembly"> | $Enums.AssemblyStatus
   dailyRoomName?: Prisma.StringFilter<"Assembly"> | string
   dailySessionId?: Prisma.StringNullableFilter<"Assembly"> | string | null
-  recordingUrl?: Prisma.StringNullableFilter<"Assembly"> | string | null
   transcriptRaw?: Prisma.StringNullableFilter<"Assembly"> | string | null
   minutesDraft?: Prisma.StringNullableFilter<"Assembly"> | string | null
   minutesFinal?: Prisma.StringNullableFilter<"Assembly"> | string | null
@@ -724,7 +699,6 @@ export type AssemblyCreateWithoutParticipantsInput = {
   status?: $Enums.AssemblyStatus
   dailyRoomName: string
   dailySessionId?: string | null
-  recordingUrl?: string | null
   transcriptRaw?: string | null
   minutesDraft?: string | null
   minutesFinal?: string | null
@@ -744,7 +718,6 @@ export type AssemblyUncheckedCreateWithoutParticipantsInput = {
   status?: $Enums.AssemblyStatus
   dailyRoomName: string
   dailySessionId?: string | null
-  recordingUrl?: string | null
   transcriptRaw?: string | null
   minutesDraft?: string | null
   minutesFinal?: string | null
@@ -778,7 +751,6 @@ export type AssemblyUpdateWithoutParticipantsInput = {
   status?: Prisma.EnumAssemblyStatusFieldUpdateOperationsInput | $Enums.AssemblyStatus
   dailyRoomName?: Prisma.StringFieldUpdateOperationsInput | string
   dailySessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  recordingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transcriptRaw?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   minutesDraft?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   minutesFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -798,7 +770,6 @@ export type AssemblyUncheckedUpdateWithoutParticipantsInput = {
   status?: Prisma.EnumAssemblyStatusFieldUpdateOperationsInput | $Enums.AssemblyStatus
   dailyRoomName?: Prisma.StringFieldUpdateOperationsInput | string
   dailySessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  recordingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transcriptRaw?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   minutesDraft?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   minutesFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -816,7 +787,6 @@ export type AssemblyCreateManyBuildingInput = {
   status?: $Enums.AssemblyStatus
   dailyRoomName: string
   dailySessionId?: string | null
-  recordingUrl?: string | null
   transcriptRaw?: string | null
   minutesDraft?: string | null
   minutesFinal?: string | null
@@ -834,7 +804,6 @@ export type AssemblyUpdateWithoutBuildingInput = {
   status?: Prisma.EnumAssemblyStatusFieldUpdateOperationsInput | $Enums.AssemblyStatus
   dailyRoomName?: Prisma.StringFieldUpdateOperationsInput | string
   dailySessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  recordingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transcriptRaw?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   minutesDraft?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   minutesFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -853,7 +822,6 @@ export type AssemblyUncheckedUpdateWithoutBuildingInput = {
   status?: Prisma.EnumAssemblyStatusFieldUpdateOperationsInput | $Enums.AssemblyStatus
   dailyRoomName?: Prisma.StringFieldUpdateOperationsInput | string
   dailySessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  recordingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transcriptRaw?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   minutesDraft?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   minutesFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -872,7 +840,6 @@ export type AssemblyUncheckedUpdateManyWithoutBuildingInput = {
   status?: Prisma.EnumAssemblyStatusFieldUpdateOperationsInput | $Enums.AssemblyStatus
   dailyRoomName?: Prisma.StringFieldUpdateOperationsInput | string
   dailySessionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  recordingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   transcriptRaw?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   minutesDraft?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   minutesFinal?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -922,7 +889,6 @@ export type AssemblySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   status?: boolean
   dailyRoomName?: boolean
   dailySessionId?: boolean
-  recordingUrl?: boolean
   transcriptRaw?: boolean
   minutesDraft?: boolean
   minutesFinal?: boolean
@@ -944,7 +910,6 @@ export type AssemblySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   status?: boolean
   dailyRoomName?: boolean
   dailySessionId?: boolean
-  recordingUrl?: boolean
   transcriptRaw?: boolean
   minutesDraft?: boolean
   minutesFinal?: boolean
@@ -964,7 +929,6 @@ export type AssemblySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   status?: boolean
   dailyRoomName?: boolean
   dailySessionId?: boolean
-  recordingUrl?: boolean
   transcriptRaw?: boolean
   minutesDraft?: boolean
   minutesFinal?: boolean
@@ -984,7 +948,6 @@ export type AssemblySelectScalar = {
   status?: boolean
   dailyRoomName?: boolean
   dailySessionId?: boolean
-  recordingUrl?: boolean
   transcriptRaw?: boolean
   minutesDraft?: boolean
   minutesFinal?: boolean
@@ -995,7 +958,7 @@ export type AssemblySelectScalar = {
   updatedAt?: boolean
 }
 
-export type AssemblyOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "buildingId" | "title" | "scheduledAt" | "status" | "dailyRoomName" | "dailySessionId" | "recordingUrl" | "transcriptRaw" | "minutesDraft" | "minutesFinal" | "approvedAt" | "sentAt" | "createdById" | "createdAt" | "updatedAt", ExtArgs["result"]["assembly"]>
+export type AssemblyOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "buildingId" | "title" | "scheduledAt" | "status" | "dailyRoomName" | "dailySessionId" | "transcriptRaw" | "minutesDraft" | "minutesFinal" | "approvedAt" | "sentAt" | "createdById" | "createdAt" | "updatedAt", ExtArgs["result"]["assembly"]>
 export type AssemblyInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
   participants?: boolean | Prisma.Assembly$participantsArgs<ExtArgs>
@@ -1022,7 +985,6 @@ export type $AssemblyPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     status: $Enums.AssemblyStatus
     dailyRoomName: string
     dailySessionId: string | null
-    recordingUrl: string | null
     transcriptRaw: string | null
     minutesDraft: string | null
     minutesFinal: string | null
@@ -1463,7 +1425,6 @@ export interface AssemblyFieldRefs {
   readonly status: Prisma.FieldRef<"Assembly", 'AssemblyStatus'>
   readonly dailyRoomName: Prisma.FieldRef<"Assembly", 'String'>
   readonly dailySessionId: Prisma.FieldRef<"Assembly", 'String'>
-  readonly recordingUrl: Prisma.FieldRef<"Assembly", 'String'>
   readonly transcriptRaw: Prisma.FieldRef<"Assembly", 'String'>
   readonly minutesDraft: Prisma.FieldRef<"Assembly", 'String'>
   readonly minutesFinal: Prisma.FieldRef<"Assembly", 'String'>

@@ -1212,7 +1212,6 @@ model Assembly {
   status          AssemblyStatus  @default(SCHEDULED)
   dailyRoomName   String
   dailySessionId  String?
-  recordingUrl    String?
   transcriptRaw   String?         @db.Text
   minutesDraft    String?         @db.Text
   minutesFinal    String?         @db.Text

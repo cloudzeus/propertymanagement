@@ -17,7 +17,7 @@ export function transcriptionSettings() {
   return { language: "el", model: "nova-3", punctuate: true } as const;
 }
 
-/** Get-or-create a persistent, audio-recording-enabled room for a building. */
+/** Get-or-create a persistent video-conference room for a building (no recording). */
 export async function ensureRoom(buildingId: string): Promise<string> {
   const name = roomNameForBuilding(buildingId);
   const get = await fetch(`${BASE}/rooms/${name}`, { headers: authHeaders(), cache: "no-store" });
@@ -29,10 +29,7 @@ export async function ensureRoom(buildingId: string): Promise<string> {
     body: JSON.stringify({
       name,
       privacy: "private",
-      properties: {
-        enable_recording: "cloud",
-        recordings_template: "{room_name}/{date}",
-      },
+      properties: {},
     }),
   });
   if (!res.ok) throw new Error(`Daily ensureRoom failed: ${res.status} ${await res.text()}`);

@@ -4881,7 +4881,6 @@ export const AssemblyScalarFieldEnum = {
   status: 'status',
   dailyRoomName: 'dailyRoomName',
   dailySessionId: 'dailySessionId',
-  recordingUrl: 'recordingUrl',
   transcriptRaw: 'transcriptRaw',
   minutesDraft: 'minutesDraft',
   minutesFinal: 'minutesFinal',

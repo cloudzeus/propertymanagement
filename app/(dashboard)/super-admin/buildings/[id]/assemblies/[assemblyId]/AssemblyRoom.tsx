@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import DailyIframe, { type DailyCall } from "@daily-co/daily-js";
 import {
   DailyProvider,
+  DailyVideo,
   useDaily,
   useParticipantIds,
   useParticipant,
@@ -47,8 +48,8 @@ export function AssemblyRoom({ assemblyId, isStaff }: { assemblyId: string; isSt
           return;
         }
         const url = `https://${domain}.daily.co/${roomName}`;
-        co = DailyIframe.createCallObject({ audioSource: true, videoSource: false });
-        await co.join({ url, token, startVideoOff: true, startAudioOff: false });
+        co = DailyIframe.createCallObject({ audioSource: true, videoSource: true });
+        await co.join({ url, token, startVideoOff: false, startAudioOff: false });
         setCallObject(co);
       } catch (e) {
         setError(e instanceof Error ? e.message : "Σφάλμα σύνδεσης.");
@@ -101,13 +102,6 @@ function RoomInner({ assemblyId, isStaff }: { assemblyId: string; isStaff: boole
     } catch {
       /* noop */
     }
-    if (isStaff && daily) {
-      try {
-        daily.startRecording({ layout: { preset: "audio-only" } });
-      } catch {
-        /* noop */
-      }
-    }
   }
 
   async function handleEnd() {
@@ -124,13 +118,6 @@ function RoomInner({ assemblyId, isStaff }: { assemblyId: string; isStaff: boole
       stopTranscription?.();
     } catch {
       /* noop */
-    }
-    if (isStaff && daily) {
-      try {
-        daily.stopRecording?.();
-      } catch {
-        /* noop */
-      }
     }
     try {
       await daily?.leave();
@@ -195,30 +182,59 @@ function RoomInner({ assemblyId, isStaff }: { assemblyId: string; isStaff: boole
 function ParticipantTile({ sessionId, isLocal }: { sessionId: string; isLocal: boolean }) {
   const p = useParticipant(sessionId);
   const name = p?.user_name || (isLocal ? "Εσείς" : "Συμμετέχων");
+  const hasVideo = !!p?.video;
   return (
     <div
       style={{
-        display: "flex",
-        alignItems: "center",
-        gap: 8,
-        padding: "8px 12px",
+        position: "relative",
+        width: 220,
+        height: 140,
         borderRadius: 8,
+        overflow: "hidden",
         background: "var(--bg-canvas)",
         border: "1px solid var(--border)",
-        fontSize: 13,
-        color: "var(--foreground)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
       }}
     >
-      <span
+      {hasVideo ? (
+        <DailyVideo
+          sessionId={sessionId}
+          type="video"
+          automirror={isLocal}
+          fit="cover"
+          style={{ width: "100%", height: "100%", objectFit: "cover" }}
+        />
+      ) : (
+        <span style={{ fontSize: 13, color: "var(--muted-foreground)" }}>Κάμερα κλειστή</span>
+      )}
+      <div
         style={{
-          width: 8,
-          height: 8,
-          borderRadius: 9999,
-          background: p?.audio ? "#22c55e" : "var(--border)",
+          position: "absolute",
+          left: 8,
+          bottom: 8,
+          display: "flex",
+          alignItems: "center",
+          gap: 6,
+          padding: "3px 8px",
+          borderRadius: 6,
+          background: "rgba(0,0,0,0.55)",
+          fontSize: 12,
+          color: "#fff",
         }}
-      />
-      {name}
-      {isLocal && <span style={{ fontSize: 11, color: "var(--muted-foreground)" }}>(εσείς)</span>}
+      >
+        <span
+          style={{
+            width: 8,
+            height: 8,
+            borderRadius: 9999,
+            background: p?.audio ? "#22c55e" : "rgba(255,255,255,0.4)",
+          }}
+        />
+        {name}
+        {isLocal && <span style={{ fontSize: 11, opacity: 0.8 }}>(εσείς)</span>}
+      </div>
     </div>
   );
 }
