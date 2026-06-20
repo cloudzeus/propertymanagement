@@ -39,6 +39,8 @@ export type AssemblyParticipantMinAggregateOutputType = {
   assemblyId: string | null
   userId: string | null
   unitId: string | null
+  email: string | null
+  isHost: boolean | null
   displayName: string | null
   joinedAt: Date | null
   leftAt: Date | null
@@ -52,6 +54,8 @@ export type AssemblyParticipantMaxAggregateOutputType = {
   assemblyId: string | null
   userId: string | null
   unitId: string | null
+  email: string | null
+  isHost: boolean | null
   displayName: string | null
   joinedAt: Date | null
   leftAt: Date | null
@@ -65,6 +69,8 @@ export type AssemblyParticipantCountAggregateOutputType = {
   assemblyId: number
   userId: number
   unitId: number
+  email: number
+  isHost: number
   displayName: number
   joinedAt: number
   leftAt: number
@@ -88,6 +94,8 @@ export type AssemblyParticipantMinAggregateInputType = {
   assemblyId?: true
   userId?: true
   unitId?: true
+  email?: true
+  isHost?: true
   displayName?: true
   joinedAt?: true
   leftAt?: true
@@ -101,6 +109,8 @@ export type AssemblyParticipantMaxAggregateInputType = {
   assemblyId?: true
   userId?: true
   unitId?: true
+  email?: true
+  isHost?: true
   displayName?: true
   joinedAt?: true
   leftAt?: true
@@ -114,6 +124,8 @@ export type AssemblyParticipantCountAggregateInputType = {
   assemblyId?: true
   userId?: true
   unitId?: true
+  email?: true
+  isHost?: true
   displayName?: true
   joinedAt?: true
   leftAt?: true
@@ -214,6 +226,8 @@ export type AssemblyParticipantGroupByOutputType = {
   assemblyId: string
   userId: string | null
   unitId: string | null
+  email: string | null
+  isHost: boolean
   displayName: string
   joinedAt: Date | null
   leftAt: Date | null
@@ -250,6 +264,8 @@ export type AssemblyParticipantWhereInput = {
   assemblyId?: Prisma.StringFilter<"AssemblyParticipant"> | string
   userId?: Prisma.StringNullableFilter<"AssemblyParticipant"> | string | null
   unitId?: Prisma.StringNullableFilter<"AssemblyParticipant"> | string | null
+  email?: Prisma.StringNullableFilter<"AssemblyParticipant"> | string | null
+  isHost?: Prisma.BoolFilter<"AssemblyParticipant"> | boolean
   displayName?: Prisma.StringFilter<"AssemblyParticipant"> | string
   joinedAt?: Prisma.DateTimeNullableFilter<"AssemblyParticipant"> | Date | string | null
   leftAt?: Prisma.DateTimeNullableFilter<"AssemblyParticipant"> | Date | string | null
@@ -264,6 +280,8 @@ export type AssemblyParticipantOrderByWithRelationInput = {
   assemblyId?: Prisma.SortOrder
   userId?: Prisma.SortOrderInput | Prisma.SortOrder
   unitId?: Prisma.SortOrderInput | Prisma.SortOrder
+  email?: Prisma.SortOrderInput | Prisma.SortOrder
+  isHost?: Prisma.SortOrder
   displayName?: Prisma.SortOrder
   joinedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   leftAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -281,6 +299,8 @@ export type AssemblyParticipantWhereUniqueInput = Prisma.AtLeast<{
   assemblyId?: Prisma.StringFilter<"AssemblyParticipant"> | string
   userId?: Prisma.StringNullableFilter<"AssemblyParticipant"> | string | null
   unitId?: Prisma.StringNullableFilter<"AssemblyParticipant"> | string | null
+  email?: Prisma.StringNullableFilter<"AssemblyParticipant"> | string | null
+  isHost?: Prisma.BoolFilter<"AssemblyParticipant"> | boolean
   displayName?: Prisma.StringFilter<"AssemblyParticipant"> | string
   joinedAt?: Prisma.DateTimeNullableFilter<"AssemblyParticipant"> | Date | string | null
   leftAt?: Prisma.DateTimeNullableFilter<"AssemblyParticipant"> | Date | string | null
@@ -295,6 +315,8 @@ export type AssemblyParticipantOrderByWithAggregationInput = {
   assemblyId?: Prisma.SortOrder
   userId?: Prisma.SortOrderInput | Prisma.SortOrder
   unitId?: Prisma.SortOrderInput | Prisma.SortOrder
+  email?: Prisma.SortOrderInput | Prisma.SortOrder
+  isHost?: Prisma.SortOrder
   displayName?: Prisma.SortOrder
   joinedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   leftAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -316,6 +338,8 @@ export type AssemblyParticipantScalarWhereWithAggregatesInput = {
   assemblyId?: Prisma.StringWithAggregatesFilter<"AssemblyParticipant"> | string
   userId?: Prisma.StringNullableWithAggregatesFilter<"AssemblyParticipant"> | string | null
   unitId?: Prisma.StringNullableWithAggregatesFilter<"AssemblyParticipant"> | string | null
+  email?: Prisma.StringNullableWithAggregatesFilter<"AssemblyParticipant"> | string | null
+  isHost?: Prisma.BoolWithAggregatesFilter<"AssemblyParticipant"> | boolean
   displayName?: Prisma.StringWithAggregatesFilter<"AssemblyParticipant"> | string
   joinedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"AssemblyParticipant"> | Date | string | null
   leftAt?: Prisma.DateTimeNullableWithAggregatesFilter<"AssemblyParticipant"> | Date | string | null
@@ -328,6 +352,8 @@ export type AssemblyParticipantCreateInput = {
   id?: string
   userId?: string | null
   unitId?: string | null
+  email?: string | null
+  isHost?: boolean
   displayName: string
   joinedAt?: Date | string | null
   leftAt?: Date | string | null
@@ -342,6 +368,8 @@ export type AssemblyParticipantUncheckedCreateInput = {
   assemblyId: string
   userId?: string | null
   unitId?: string | null
+  email?: string | null
+  isHost?: boolean
   displayName: string
   joinedAt?: Date | string | null
   leftAt?: Date | string | null
@@ -354,6 +382,8 @@ export type AssemblyParticipantUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   unitId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isHost?: Prisma.BoolFieldUpdateOperationsInput | boolean
   displayName?: Prisma.StringFieldUpdateOperationsInput | string
   joinedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -368,6 +398,8 @@ export type AssemblyParticipantUncheckedUpdateInput = {
   assemblyId?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   unitId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isHost?: Prisma.BoolFieldUpdateOperationsInput | boolean
   displayName?: Prisma.StringFieldUpdateOperationsInput | string
   joinedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -381,6 +413,8 @@ export type AssemblyParticipantCreateManyInput = {
   assemblyId: string
   userId?: string | null
   unitId?: string | null
+  email?: string | null
+  isHost?: boolean
   displayName: string
   joinedAt?: Date | string | null
   leftAt?: Date | string | null
@@ -393,6 +427,8 @@ export type AssemblyParticipantUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   unitId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isHost?: Prisma.BoolFieldUpdateOperationsInput | boolean
   displayName?: Prisma.StringFieldUpdateOperationsInput | string
   joinedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -406,6 +442,8 @@ export type AssemblyParticipantUncheckedUpdateManyInput = {
   assemblyId?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   unitId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isHost?: Prisma.BoolFieldUpdateOperationsInput | boolean
   displayName?: Prisma.StringFieldUpdateOperationsInput | string
   joinedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -429,6 +467,8 @@ export type AssemblyParticipantCountOrderByAggregateInput = {
   assemblyId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   unitId?: Prisma.SortOrder
+  email?: Prisma.SortOrder
+  isHost?: Prisma.SortOrder
   displayName?: Prisma.SortOrder
   joinedAt?: Prisma.SortOrder
   leftAt?: Prisma.SortOrder
@@ -446,6 +486,8 @@ export type AssemblyParticipantMaxOrderByAggregateInput = {
   assemblyId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   unitId?: Prisma.SortOrder
+  email?: Prisma.SortOrder
+  isHost?: Prisma.SortOrder
   displayName?: Prisma.SortOrder
   joinedAt?: Prisma.SortOrder
   leftAt?: Prisma.SortOrder
@@ -459,6 +501,8 @@ export type AssemblyParticipantMinOrderByAggregateInput = {
   assemblyId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   unitId?: Prisma.SortOrder
+  email?: Prisma.SortOrder
+  isHost?: Prisma.SortOrder
   displayName?: Prisma.SortOrder
   joinedAt?: Prisma.SortOrder
   leftAt?: Prisma.SortOrder
@@ -517,6 +561,8 @@ export type AssemblyParticipantCreateWithoutAssemblyInput = {
   id?: string
   userId?: string | null
   unitId?: string | null
+  email?: string | null
+  isHost?: boolean
   displayName: string
   joinedAt?: Date | string | null
   leftAt?: Date | string | null
@@ -529,6 +575,8 @@ export type AssemblyParticipantUncheckedCreateWithoutAssemblyInput = {
   id?: string
   userId?: string | null
   unitId?: string | null
+  email?: string | null
+  isHost?: boolean
   displayName: string
   joinedAt?: Date | string | null
   leftAt?: Date | string | null
@@ -571,6 +619,8 @@ export type AssemblyParticipantScalarWhereInput = {
   assemblyId?: Prisma.StringFilter<"AssemblyParticipant"> | string
   userId?: Prisma.StringNullableFilter<"AssemblyParticipant"> | string | null
   unitId?: Prisma.StringNullableFilter<"AssemblyParticipant"> | string | null
+  email?: Prisma.StringNullableFilter<"AssemblyParticipant"> | string | null
+  isHost?: Prisma.BoolFilter<"AssemblyParticipant"> | boolean
   displayName?: Prisma.StringFilter<"AssemblyParticipant"> | string
   joinedAt?: Prisma.DateTimeNullableFilter<"AssemblyParticipant"> | Date | string | null
   leftAt?: Prisma.DateTimeNullableFilter<"AssemblyParticipant"> | Date | string | null
@@ -583,6 +633,8 @@ export type AssemblyParticipantCreateManyAssemblyInput = {
   id?: string
   userId?: string | null
   unitId?: string | null
+  email?: string | null
+  isHost?: boolean
   displayName: string
   joinedAt?: Date | string | null
   leftAt?: Date | string | null
@@ -595,6 +647,8 @@ export type AssemblyParticipantUpdateWithoutAssemblyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   unitId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isHost?: Prisma.BoolFieldUpdateOperationsInput | boolean
   displayName?: Prisma.StringFieldUpdateOperationsInput | string
   joinedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -607,6 +661,8 @@ export type AssemblyParticipantUncheckedUpdateWithoutAssemblyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   unitId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isHost?: Prisma.BoolFieldUpdateOperationsInput | boolean
   displayName?: Prisma.StringFieldUpdateOperationsInput | string
   joinedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -619,6 +675,8 @@ export type AssemblyParticipantUncheckedUpdateManyWithoutAssemblyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   unitId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isHost?: Prisma.BoolFieldUpdateOperationsInput | boolean
   displayName?: Prisma.StringFieldUpdateOperationsInput | string
   joinedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   leftAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -634,6 +692,8 @@ export type AssemblyParticipantSelect<ExtArgs extends runtime.Types.Extensions.I
   assemblyId?: boolean
   userId?: boolean
   unitId?: boolean
+  email?: boolean
+  isHost?: boolean
   displayName?: boolean
   joinedAt?: boolean
   leftAt?: boolean
@@ -648,6 +708,8 @@ export type AssemblyParticipantSelectCreateManyAndReturn<ExtArgs extends runtime
   assemblyId?: boolean
   userId?: boolean
   unitId?: boolean
+  email?: boolean
+  isHost?: boolean
   displayName?: boolean
   joinedAt?: boolean
   leftAt?: boolean
@@ -662,6 +724,8 @@ export type AssemblyParticipantSelectUpdateManyAndReturn<ExtArgs extends runtime
   assemblyId?: boolean
   userId?: boolean
   unitId?: boolean
+  email?: boolean
+  isHost?: boolean
   displayName?: boolean
   joinedAt?: boolean
   leftAt?: boolean
@@ -676,6 +740,8 @@ export type AssemblyParticipantSelectScalar = {
   assemblyId?: boolean
   userId?: boolean
   unitId?: boolean
+  email?: boolean
+  isHost?: boolean
   displayName?: boolean
   joinedAt?: boolean
   leftAt?: boolean
@@ -684,7 +750,7 @@ export type AssemblyParticipantSelectScalar = {
   momSentAt?: boolean
 }
 
-export type AssemblyParticipantOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "assemblyId" | "userId" | "unitId" | "displayName" | "joinedAt" | "leftAt" | "durationSeconds" | "invitedSentAt" | "momSentAt", ExtArgs["result"]["assemblyParticipant"]>
+export type AssemblyParticipantOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "assemblyId" | "userId" | "unitId" | "email" | "isHost" | "displayName" | "joinedAt" | "leftAt" | "durationSeconds" | "invitedSentAt" | "momSentAt", ExtArgs["result"]["assemblyParticipant"]>
 export type AssemblyParticipantInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   assembly?: boolean | Prisma.AssemblyDefaultArgs<ExtArgs>
 }
@@ -705,6 +771,8 @@ export type $AssemblyParticipantPayload<ExtArgs extends runtime.Types.Extensions
     assemblyId: string
     userId: string | null
     unitId: string | null
+    email: string | null
+    isHost: boolean
     displayName: string
     joinedAt: Date | null
     leftAt: Date | null
@@ -1139,6 +1207,8 @@ export interface AssemblyParticipantFieldRefs {
   readonly assemblyId: Prisma.FieldRef<"AssemblyParticipant", 'String'>
   readonly userId: Prisma.FieldRef<"AssemblyParticipant", 'String'>
   readonly unitId: Prisma.FieldRef<"AssemblyParticipant", 'String'>
+  readonly email: Prisma.FieldRef<"AssemblyParticipant", 'String'>
+  readonly isHost: Prisma.FieldRef<"AssemblyParticipant", 'Boolean'>
   readonly displayName: Prisma.FieldRef<"AssemblyParticipant", 'String'>
   readonly joinedAt: Prisma.FieldRef<"AssemblyParticipant", 'DateTime'>
   readonly leftAt: Prisma.FieldRef<"AssemblyParticipant", 'DateTime'>

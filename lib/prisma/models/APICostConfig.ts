@@ -30,6 +30,7 @@ export type APICostConfigAvgAggregateOutputType = {
   basePrice: number | null
   freeQuota: number | null
   quotaResetDay: number | null
+  markupPercent: number | null
   monthlyBudgetLimit: number | null
 }
 
@@ -37,6 +38,7 @@ export type APICostConfigSumAggregateOutputType = {
   basePrice: number | null
   freeQuota: number | null
   quotaResetDay: number | null
+  markupPercent: number | null
   monthlyBudgetLimit: number | null
 }
 
@@ -48,6 +50,7 @@ export type APICostConfigMinAggregateOutputType = {
   basePrice: number | null
   freeQuota: number | null
   quotaResetDay: number | null
+  markupPercent: number | null
   monthlyBudgetLimit: number | null
   enabled: boolean | null
   notes: string | null
@@ -64,6 +67,7 @@ export type APICostConfigMaxAggregateOutputType = {
   basePrice: number | null
   freeQuota: number | null
   quotaResetDay: number | null
+  markupPercent: number | null
   monthlyBudgetLimit: number | null
   enabled: boolean | null
   notes: string | null
@@ -80,6 +84,7 @@ export type APICostConfigCountAggregateOutputType = {
   basePrice: number
   freeQuota: number
   quotaResetDay: number
+  markupPercent: number
   monthlyBudgetLimit: number
   enabled: number
   notes: number
@@ -94,6 +99,7 @@ export type APICostConfigAvgAggregateInputType = {
   basePrice?: true
   freeQuota?: true
   quotaResetDay?: true
+  markupPercent?: true
   monthlyBudgetLimit?: true
 }
 
@@ -101,6 +107,7 @@ export type APICostConfigSumAggregateInputType = {
   basePrice?: true
   freeQuota?: true
   quotaResetDay?: true
+  markupPercent?: true
   monthlyBudgetLimit?: true
 }
 
@@ -112,6 +119,7 @@ export type APICostConfigMinAggregateInputType = {
   basePrice?: true
   freeQuota?: true
   quotaResetDay?: true
+  markupPercent?: true
   monthlyBudgetLimit?: true
   enabled?: true
   notes?: true
@@ -128,6 +136,7 @@ export type APICostConfigMaxAggregateInputType = {
   basePrice?: true
   freeQuota?: true
   quotaResetDay?: true
+  markupPercent?: true
   monthlyBudgetLimit?: true
   enabled?: true
   notes?: true
@@ -144,6 +153,7 @@ export type APICostConfigCountAggregateInputType = {
   basePrice?: true
   freeQuota?: true
   quotaResetDay?: true
+  markupPercent?: true
   monthlyBudgetLimit?: true
   enabled?: true
   notes?: true
@@ -247,6 +257,7 @@ export type APICostConfigGroupByOutputType = {
   basePrice: number
   freeQuota: number
   quotaResetDay: number
+  markupPercent: number
   monthlyBudgetLimit: number | null
   enabled: boolean
   notes: string | null
@@ -286,6 +297,7 @@ export type APICostConfigWhereInput = {
   basePrice?: Prisma.FloatFilter<"APICostConfig"> | number
   freeQuota?: Prisma.IntFilter<"APICostConfig"> | number
   quotaResetDay?: Prisma.IntFilter<"APICostConfig"> | number
+  markupPercent?: Prisma.FloatFilter<"APICostConfig"> | number
   monthlyBudgetLimit?: Prisma.FloatNullableFilter<"APICostConfig"> | number | null
   enabled?: Prisma.BoolFilter<"APICostConfig"> | boolean
   notes?: Prisma.StringNullableFilter<"APICostConfig"> | string | null
@@ -302,6 +314,7 @@ export type APICostConfigOrderByWithRelationInput = {
   basePrice?: Prisma.SortOrder
   freeQuota?: Prisma.SortOrder
   quotaResetDay?: Prisma.SortOrder
+  markupPercent?: Prisma.SortOrder
   monthlyBudgetLimit?: Prisma.SortOrderInput | Prisma.SortOrder
   enabled?: Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -321,6 +334,7 @@ export type APICostConfigWhereUniqueInput = Prisma.AtLeast<{
   basePrice?: Prisma.FloatFilter<"APICostConfig"> | number
   freeQuota?: Prisma.IntFilter<"APICostConfig"> | number
   quotaResetDay?: Prisma.IntFilter<"APICostConfig"> | number
+  markupPercent?: Prisma.FloatFilter<"APICostConfig"> | number
   monthlyBudgetLimit?: Prisma.FloatNullableFilter<"APICostConfig"> | number | null
   enabled?: Prisma.BoolFilter<"APICostConfig"> | boolean
   notes?: Prisma.StringNullableFilter<"APICostConfig"> | string | null
@@ -337,6 +351,7 @@ export type APICostConfigOrderByWithAggregationInput = {
   basePrice?: Prisma.SortOrder
   freeQuota?: Prisma.SortOrder
   quotaResetDay?: Prisma.SortOrder
+  markupPercent?: Prisma.SortOrder
   monthlyBudgetLimit?: Prisma.SortOrderInput | Prisma.SortOrder
   enabled?: Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -361,6 +376,7 @@ export type APICostConfigScalarWhereWithAggregatesInput = {
   basePrice?: Prisma.FloatWithAggregatesFilter<"APICostConfig"> | number
   freeQuota?: Prisma.IntWithAggregatesFilter<"APICostConfig"> | number
   quotaResetDay?: Prisma.IntWithAggregatesFilter<"APICostConfig"> | number
+  markupPercent?: Prisma.FloatWithAggregatesFilter<"APICostConfig"> | number
   monthlyBudgetLimit?: Prisma.FloatNullableWithAggregatesFilter<"APICostConfig"> | number | null
   enabled?: Prisma.BoolWithAggregatesFilter<"APICostConfig"> | boolean
   notes?: Prisma.StringNullableWithAggregatesFilter<"APICostConfig"> | string | null
@@ -377,6 +393,7 @@ export type APICostConfigCreateInput = {
   basePrice: number
   freeQuota?: number
   quotaResetDay?: number
+  markupPercent?: number
   monthlyBudgetLimit?: number | null
   enabled?: boolean
   notes?: string | null
@@ -393,6 +410,7 @@ export type APICostConfigUncheckedCreateInput = {
   basePrice: number
   freeQuota?: number
   quotaResetDay?: number
+  markupPercent?: number
   monthlyBudgetLimit?: number | null
   enabled?: boolean
   notes?: string | null
@@ -409,6 +427,7 @@ export type APICostConfigUpdateInput = {
   basePrice?: Prisma.FloatFieldUpdateOperationsInput | number
   freeQuota?: Prisma.IntFieldUpdateOperationsInput | number
   quotaResetDay?: Prisma.IntFieldUpdateOperationsInput | number
+  markupPercent?: Prisma.FloatFieldUpdateOperationsInput | number
   monthlyBudgetLimit?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -425,6 +444,7 @@ export type APICostConfigUncheckedUpdateInput = {
   basePrice?: Prisma.FloatFieldUpdateOperationsInput | number
   freeQuota?: Prisma.IntFieldUpdateOperationsInput | number
   quotaResetDay?: Prisma.IntFieldUpdateOperationsInput | number
+  markupPercent?: Prisma.FloatFieldUpdateOperationsInput | number
   monthlyBudgetLimit?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -441,6 +461,7 @@ export type APICostConfigCreateManyInput = {
   basePrice: number
   freeQuota?: number
   quotaResetDay?: number
+  markupPercent?: number
   monthlyBudgetLimit?: number | null
   enabled?: boolean
   notes?: string | null
@@ -457,6 +478,7 @@ export type APICostConfigUpdateManyMutationInput = {
   basePrice?: Prisma.FloatFieldUpdateOperationsInput | number
   freeQuota?: Prisma.IntFieldUpdateOperationsInput | number
   quotaResetDay?: Prisma.IntFieldUpdateOperationsInput | number
+  markupPercent?: Prisma.FloatFieldUpdateOperationsInput | number
   monthlyBudgetLimit?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -473,6 +495,7 @@ export type APICostConfigUncheckedUpdateManyInput = {
   basePrice?: Prisma.FloatFieldUpdateOperationsInput | number
   freeQuota?: Prisma.IntFieldUpdateOperationsInput | number
   quotaResetDay?: Prisma.IntFieldUpdateOperationsInput | number
+  markupPercent?: Prisma.FloatFieldUpdateOperationsInput | number
   monthlyBudgetLimit?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -489,6 +512,7 @@ export type APICostConfigCountOrderByAggregateInput = {
   basePrice?: Prisma.SortOrder
   freeQuota?: Prisma.SortOrder
   quotaResetDay?: Prisma.SortOrder
+  markupPercent?: Prisma.SortOrder
   monthlyBudgetLimit?: Prisma.SortOrder
   enabled?: Prisma.SortOrder
   notes?: Prisma.SortOrder
@@ -501,6 +525,7 @@ export type APICostConfigAvgOrderByAggregateInput = {
   basePrice?: Prisma.SortOrder
   freeQuota?: Prisma.SortOrder
   quotaResetDay?: Prisma.SortOrder
+  markupPercent?: Prisma.SortOrder
   monthlyBudgetLimit?: Prisma.SortOrder
 }
 
@@ -512,6 +537,7 @@ export type APICostConfigMaxOrderByAggregateInput = {
   basePrice?: Prisma.SortOrder
   freeQuota?: Prisma.SortOrder
   quotaResetDay?: Prisma.SortOrder
+  markupPercent?: Prisma.SortOrder
   monthlyBudgetLimit?: Prisma.SortOrder
   enabled?: Prisma.SortOrder
   notes?: Prisma.SortOrder
@@ -528,6 +554,7 @@ export type APICostConfigMinOrderByAggregateInput = {
   basePrice?: Prisma.SortOrder
   freeQuota?: Prisma.SortOrder
   quotaResetDay?: Prisma.SortOrder
+  markupPercent?: Prisma.SortOrder
   monthlyBudgetLimit?: Prisma.SortOrder
   enabled?: Prisma.SortOrder
   notes?: Prisma.SortOrder
@@ -540,6 +567,7 @@ export type APICostConfigSumOrderByAggregateInput = {
   basePrice?: Prisma.SortOrder
   freeQuota?: Prisma.SortOrder
   quotaResetDay?: Prisma.SortOrder
+  markupPercent?: Prisma.SortOrder
   monthlyBudgetLimit?: Prisma.SortOrder
 }
 
@@ -553,6 +581,7 @@ export type APICostConfigSelect<ExtArgs extends runtime.Types.Extensions.Interna
   basePrice?: boolean
   freeQuota?: boolean
   quotaResetDay?: boolean
+  markupPercent?: boolean
   monthlyBudgetLimit?: boolean
   enabled?: boolean
   notes?: boolean
@@ -569,6 +598,7 @@ export type APICostConfigSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   basePrice?: boolean
   freeQuota?: boolean
   quotaResetDay?: boolean
+  markupPercent?: boolean
   monthlyBudgetLimit?: boolean
   enabled?: boolean
   notes?: boolean
@@ -585,6 +615,7 @@ export type APICostConfigSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   basePrice?: boolean
   freeQuota?: boolean
   quotaResetDay?: boolean
+  markupPercent?: boolean
   monthlyBudgetLimit?: boolean
   enabled?: boolean
   notes?: boolean
@@ -601,6 +632,7 @@ export type APICostConfigSelectScalar = {
   basePrice?: boolean
   freeQuota?: boolean
   quotaResetDay?: boolean
+  markupPercent?: boolean
   monthlyBudgetLimit?: boolean
   enabled?: boolean
   notes?: boolean
@@ -609,7 +641,7 @@ export type APICostConfigSelectScalar = {
   updatedBy?: boolean
 }
 
-export type APICostConfigOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "apiName" | "displayName" | "costModel" | "basePrice" | "freeQuota" | "quotaResetDay" | "monthlyBudgetLimit" | "enabled" | "notes" | "documentationUrl" | "updatedAt" | "updatedBy", ExtArgs["result"]["aPICostConfig"]>
+export type APICostConfigOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "apiName" | "displayName" | "costModel" | "basePrice" | "freeQuota" | "quotaResetDay" | "markupPercent" | "monthlyBudgetLimit" | "enabled" | "notes" | "documentationUrl" | "updatedAt" | "updatedBy", ExtArgs["result"]["aPICostConfig"]>
 
 export type $APICostConfigPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "APICostConfig"
@@ -622,6 +654,7 @@ export type $APICostConfigPayload<ExtArgs extends runtime.Types.Extensions.Inter
     basePrice: number
     freeQuota: number
     quotaResetDay: number
+    markupPercent: number
     monthlyBudgetLimit: number | null
     enabled: boolean
     notes: string | null
@@ -1058,6 +1091,7 @@ export interface APICostConfigFieldRefs {
   readonly basePrice: Prisma.FieldRef<"APICostConfig", 'Float'>
   readonly freeQuota: Prisma.FieldRef<"APICostConfig", 'Int'>
   readonly quotaResetDay: Prisma.FieldRef<"APICostConfig", 'Int'>
+  readonly markupPercent: Prisma.FieldRef<"APICostConfig", 'Float'>
   readonly monthlyBudgetLimit: Prisma.FieldRef<"APICostConfig", 'Float'>
   readonly enabled: Prisma.FieldRef<"APICostConfig", 'Boolean'>
   readonly notes: Prisma.FieldRef<"APICostConfig", 'String'>

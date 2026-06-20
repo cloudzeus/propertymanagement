@@ -165,6 +165,12 @@ export default async function BuildingDashboardPage({ params }: { params: Promis
         contacts: building._count.contacts,
         recurringTasks: building._count.recurringTasks,
       }}
+      units={unitsHere.map((u) => ({
+        id: u.id, unitNumber: u.unitNumber, unitType: u.unitType, floor: u.floor,
+        areaSqm: u.areaSqm, millesimes: u.millesimes,
+        owner: u.owner ? { id: u.owner.id, name: u.owner.name, email: u.owner.email } : null,
+        resident: u.resident ? { id: u.resident.id, name: u.resident.name, email: u.resident.email } : null,
+      }))}
       files={files.map((f) => ({ ...f, createdAt: f.createdAt.toISOString() }))}
       people={people}
       contacts={contacts}

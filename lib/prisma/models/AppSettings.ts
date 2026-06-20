@@ -29,6 +29,10 @@ export type AppSettingsMinAggregateOutputType = {
   companyName: string | null
   logoUrl: string | null
   logoSquareUrl: string | null
+  logoFullLight: string | null
+  logoFullDark: string | null
+  logoSquareLight: string | null
+  logoSquareDark: string | null
   colorPrimary: string | null
   colorPrimaryDk: string | null
   colorAccent: string | null
@@ -50,6 +54,10 @@ export type AppSettingsMaxAggregateOutputType = {
   companyName: string | null
   logoUrl: string | null
   logoSquareUrl: string | null
+  logoFullLight: string | null
+  logoFullDark: string | null
+  logoSquareLight: string | null
+  logoSquareDark: string | null
   colorPrimary: string | null
   colorPrimaryDk: string | null
   colorAccent: string | null
@@ -71,6 +79,10 @@ export type AppSettingsCountAggregateOutputType = {
   companyName: number
   logoUrl: number
   logoSquareUrl: number
+  logoFullLight: number
+  logoFullDark: number
+  logoSquareLight: number
+  logoSquareDark: number
   colorPrimary: number
   colorPrimaryDk: number
   colorAccent: number
@@ -94,6 +106,10 @@ export type AppSettingsMinAggregateInputType = {
   companyName?: true
   logoUrl?: true
   logoSquareUrl?: true
+  logoFullLight?: true
+  logoFullDark?: true
+  logoSquareLight?: true
+  logoSquareDark?: true
   colorPrimary?: true
   colorPrimaryDk?: true
   colorAccent?: true
@@ -115,6 +131,10 @@ export type AppSettingsMaxAggregateInputType = {
   companyName?: true
   logoUrl?: true
   logoSquareUrl?: true
+  logoFullLight?: true
+  logoFullDark?: true
+  logoSquareLight?: true
+  logoSquareDark?: true
   colorPrimary?: true
   colorPrimaryDk?: true
   colorAccent?: true
@@ -136,6 +156,10 @@ export type AppSettingsCountAggregateInputType = {
   companyName?: true
   logoUrl?: true
   logoSquareUrl?: true
+  logoFullLight?: true
+  logoFullDark?: true
+  logoSquareLight?: true
+  logoSquareDark?: true
   colorPrimary?: true
   colorPrimaryDk?: true
   colorAccent?: true
@@ -230,6 +254,10 @@ export type AppSettingsGroupByOutputType = {
   companyName: string
   logoUrl: string | null
   logoSquareUrl: string | null
+  logoFullLight: string | null
+  logoFullDark: string | null
+  logoSquareLight: string | null
+  logoSquareDark: string | null
   colorPrimary: string
   colorPrimaryDk: string
   colorAccent: string
@@ -272,6 +300,10 @@ export type AppSettingsWhereInput = {
   companyName?: Prisma.StringFilter<"AppSettings"> | string
   logoUrl?: Prisma.StringNullableFilter<"AppSettings"> | string | null
   logoSquareUrl?: Prisma.StringNullableFilter<"AppSettings"> | string | null
+  logoFullLight?: Prisma.StringNullableFilter<"AppSettings"> | string | null
+  logoFullDark?: Prisma.StringNullableFilter<"AppSettings"> | string | null
+  logoSquareLight?: Prisma.StringNullableFilter<"AppSettings"> | string | null
+  logoSquareDark?: Prisma.StringNullableFilter<"AppSettings"> | string | null
   colorPrimary?: Prisma.StringFilter<"AppSettings"> | string
   colorPrimaryDk?: Prisma.StringFilter<"AppSettings"> | string
   colorAccent?: Prisma.StringFilter<"AppSettings"> | string
@@ -293,6 +325,10 @@ export type AppSettingsOrderByWithRelationInput = {
   companyName?: Prisma.SortOrder
   logoUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   logoSquareUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  logoFullLight?: Prisma.SortOrderInput | Prisma.SortOrder
+  logoFullDark?: Prisma.SortOrderInput | Prisma.SortOrder
+  logoSquareLight?: Prisma.SortOrderInput | Prisma.SortOrder
+  logoSquareDark?: Prisma.SortOrderInput | Prisma.SortOrder
   colorPrimary?: Prisma.SortOrder
   colorPrimaryDk?: Prisma.SortOrder
   colorAccent?: Prisma.SortOrder
@@ -317,6 +353,10 @@ export type AppSettingsWhereUniqueInput = Prisma.AtLeast<{
   companyName?: Prisma.StringFilter<"AppSettings"> | string
   logoUrl?: Prisma.StringNullableFilter<"AppSettings"> | string | null
   logoSquareUrl?: Prisma.StringNullableFilter<"AppSettings"> | string | null
+  logoFullLight?: Prisma.StringNullableFilter<"AppSettings"> | string | null
+  logoFullDark?: Prisma.StringNullableFilter<"AppSettings"> | string | null
+  logoSquareLight?: Prisma.StringNullableFilter<"AppSettings"> | string | null
+  logoSquareDark?: Prisma.StringNullableFilter<"AppSettings"> | string | null
   colorPrimary?: Prisma.StringFilter<"AppSettings"> | string
   colorPrimaryDk?: Prisma.StringFilter<"AppSettings"> | string
   colorAccent?: Prisma.StringFilter<"AppSettings"> | string
@@ -338,6 +378,10 @@ export type AppSettingsOrderByWithAggregationInput = {
   companyName?: Prisma.SortOrder
   logoUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   logoSquareUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  logoFullLight?: Prisma.SortOrderInput | Prisma.SortOrder
+  logoFullDark?: Prisma.SortOrderInput | Prisma.SortOrder
+  logoSquareLight?: Prisma.SortOrderInput | Prisma.SortOrder
+  logoSquareDark?: Prisma.SortOrderInput | Prisma.SortOrder
   colorPrimary?: Prisma.SortOrder
   colorPrimaryDk?: Prisma.SortOrder
   colorAccent?: Prisma.SortOrder
@@ -365,6 +409,10 @@ export type AppSettingsScalarWhereWithAggregatesInput = {
   companyName?: Prisma.StringWithAggregatesFilter<"AppSettings"> | string
   logoUrl?: Prisma.StringNullableWithAggregatesFilter<"AppSettings"> | string | null
   logoSquareUrl?: Prisma.StringNullableWithAggregatesFilter<"AppSettings"> | string | null
+  logoFullLight?: Prisma.StringNullableWithAggregatesFilter<"AppSettings"> | string | null
+  logoFullDark?: Prisma.StringNullableWithAggregatesFilter<"AppSettings"> | string | null
+  logoSquareLight?: Prisma.StringNullableWithAggregatesFilter<"AppSettings"> | string | null
+  logoSquareDark?: Prisma.StringNullableWithAggregatesFilter<"AppSettings"> | string | null
   colorPrimary?: Prisma.StringWithAggregatesFilter<"AppSettings"> | string
   colorPrimaryDk?: Prisma.StringWithAggregatesFilter<"AppSettings"> | string
   colorAccent?: Prisma.StringWithAggregatesFilter<"AppSettings"> | string
@@ -386,6 +434,10 @@ export type AppSettingsCreateInput = {
   companyName?: string
   logoUrl?: string | null
   logoSquareUrl?: string | null
+  logoFullLight?: string | null
+  logoFullDark?: string | null
+  logoSquareLight?: string | null
+  logoSquareDark?: string | null
   colorPrimary?: string
   colorPrimaryDk?: string
   colorAccent?: string
@@ -407,6 +459,10 @@ export type AppSettingsUncheckedCreateInput = {
   companyName?: string
   logoUrl?: string | null
   logoSquareUrl?: string | null
+  logoFullLight?: string | null
+  logoFullDark?: string | null
+  logoSquareLight?: string | null
+  logoSquareDark?: string | null
   colorPrimary?: string
   colorPrimaryDk?: string
   colorAccent?: string
@@ -428,6 +484,10 @@ export type AppSettingsUpdateInput = {
   companyName?: Prisma.StringFieldUpdateOperationsInput | string
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logoSquareUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoFullLight?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoFullDark?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoSquareLight?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoSquareDark?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   colorPrimary?: Prisma.StringFieldUpdateOperationsInput | string
   colorPrimaryDk?: Prisma.StringFieldUpdateOperationsInput | string
   colorAccent?: Prisma.StringFieldUpdateOperationsInput | string
@@ -449,6 +509,10 @@ export type AppSettingsUncheckedUpdateInput = {
   companyName?: Prisma.StringFieldUpdateOperationsInput | string
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logoSquareUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoFullLight?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoFullDark?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoSquareLight?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoSquareDark?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   colorPrimary?: Prisma.StringFieldUpdateOperationsInput | string
   colorPrimaryDk?: Prisma.StringFieldUpdateOperationsInput | string
   colorAccent?: Prisma.StringFieldUpdateOperationsInput | string
@@ -470,6 +534,10 @@ export type AppSettingsCreateManyInput = {
   companyName?: string
   logoUrl?: string | null
   logoSquareUrl?: string | null
+  logoFullLight?: string | null
+  logoFullDark?: string | null
+  logoSquareLight?: string | null
+  logoSquareDark?: string | null
   colorPrimary?: string
   colorPrimaryDk?: string
   colorAccent?: string
@@ -491,6 +559,10 @@ export type AppSettingsUpdateManyMutationInput = {
   companyName?: Prisma.StringFieldUpdateOperationsInput | string
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logoSquareUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoFullLight?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoFullDark?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoSquareLight?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoSquareDark?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   colorPrimary?: Prisma.StringFieldUpdateOperationsInput | string
   colorPrimaryDk?: Prisma.StringFieldUpdateOperationsInput | string
   colorAccent?: Prisma.StringFieldUpdateOperationsInput | string
@@ -512,6 +584,10 @@ export type AppSettingsUncheckedUpdateManyInput = {
   companyName?: Prisma.StringFieldUpdateOperationsInput | string
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logoSquareUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoFullLight?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoFullDark?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoSquareLight?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoSquareDark?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   colorPrimary?: Prisma.StringFieldUpdateOperationsInput | string
   colorPrimaryDk?: Prisma.StringFieldUpdateOperationsInput | string
   colorAccent?: Prisma.StringFieldUpdateOperationsInput | string
@@ -533,6 +609,10 @@ export type AppSettingsCountOrderByAggregateInput = {
   companyName?: Prisma.SortOrder
   logoUrl?: Prisma.SortOrder
   logoSquareUrl?: Prisma.SortOrder
+  logoFullLight?: Prisma.SortOrder
+  logoFullDark?: Prisma.SortOrder
+  logoSquareLight?: Prisma.SortOrder
+  logoSquareDark?: Prisma.SortOrder
   colorPrimary?: Prisma.SortOrder
   colorPrimaryDk?: Prisma.SortOrder
   colorAccent?: Prisma.SortOrder
@@ -554,6 +634,10 @@ export type AppSettingsMaxOrderByAggregateInput = {
   companyName?: Prisma.SortOrder
   logoUrl?: Prisma.SortOrder
   logoSquareUrl?: Prisma.SortOrder
+  logoFullLight?: Prisma.SortOrder
+  logoFullDark?: Prisma.SortOrder
+  logoSquareLight?: Prisma.SortOrder
+  logoSquareDark?: Prisma.SortOrder
   colorPrimary?: Prisma.SortOrder
   colorPrimaryDk?: Prisma.SortOrder
   colorAccent?: Prisma.SortOrder
@@ -575,6 +659,10 @@ export type AppSettingsMinOrderByAggregateInput = {
   companyName?: Prisma.SortOrder
   logoUrl?: Prisma.SortOrder
   logoSquareUrl?: Prisma.SortOrder
+  logoFullLight?: Prisma.SortOrder
+  logoFullDark?: Prisma.SortOrder
+  logoSquareLight?: Prisma.SortOrder
+  logoSquareDark?: Prisma.SortOrder
   colorPrimary?: Prisma.SortOrder
   colorPrimaryDk?: Prisma.SortOrder
   colorAccent?: Prisma.SortOrder
@@ -598,6 +686,10 @@ export type AppSettingsSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   companyName?: boolean
   logoUrl?: boolean
   logoSquareUrl?: boolean
+  logoFullLight?: boolean
+  logoFullDark?: boolean
+  logoSquareLight?: boolean
+  logoSquareDark?: boolean
   colorPrimary?: boolean
   colorPrimaryDk?: boolean
   colorAccent?: boolean
@@ -619,6 +711,10 @@ export type AppSettingsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   companyName?: boolean
   logoUrl?: boolean
   logoSquareUrl?: boolean
+  logoFullLight?: boolean
+  logoFullDark?: boolean
+  logoSquareLight?: boolean
+  logoSquareDark?: boolean
   colorPrimary?: boolean
   colorPrimaryDk?: boolean
   colorAccent?: boolean
@@ -640,6 +736,10 @@ export type AppSettingsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   companyName?: boolean
   logoUrl?: boolean
   logoSquareUrl?: boolean
+  logoFullLight?: boolean
+  logoFullDark?: boolean
+  logoSquareLight?: boolean
+  logoSquareDark?: boolean
   colorPrimary?: boolean
   colorPrimaryDk?: boolean
   colorAccent?: boolean
@@ -661,6 +761,10 @@ export type AppSettingsSelectScalar = {
   companyName?: boolean
   logoUrl?: boolean
   logoSquareUrl?: boolean
+  logoFullLight?: boolean
+  logoFullDark?: boolean
+  logoSquareLight?: boolean
+  logoSquareDark?: boolean
   colorPrimary?: boolean
   colorPrimaryDk?: boolean
   colorAccent?: boolean
@@ -677,7 +781,7 @@ export type AppSettingsSelectScalar = {
   updatedById?: boolean
 }
 
-export type AppSettingsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "companyName" | "logoUrl" | "logoSquareUrl" | "colorPrimary" | "colorPrimaryDk" | "colorAccent" | "colorSuccess" | "colorWarning" | "colorDanger" | "colorPurple" | "colorTeal" | "contactEmail" | "contactPhone" | "contactAddress" | "websiteUrl" | "updatedAt" | "updatedById", ExtArgs["result"]["appSettings"]>
+export type AppSettingsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "companyName" | "logoUrl" | "logoSquareUrl" | "logoFullLight" | "logoFullDark" | "logoSquareLight" | "logoSquareDark" | "colorPrimary" | "colorPrimaryDk" | "colorAccent" | "colorSuccess" | "colorWarning" | "colorDanger" | "colorPurple" | "colorTeal" | "contactEmail" | "contactPhone" | "contactAddress" | "websiteUrl" | "updatedAt" | "updatedById", ExtArgs["result"]["appSettings"]>
 
 export type $AppSettingsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "AppSettings"
@@ -687,6 +791,10 @@ export type $AppSettingsPayload<ExtArgs extends runtime.Types.Extensions.Interna
     companyName: string
     logoUrl: string | null
     logoSquareUrl: string | null
+    logoFullLight: string | null
+    logoFullDark: string | null
+    logoSquareLight: string | null
+    logoSquareDark: string | null
     colorPrimary: string
     colorPrimaryDk: string
     colorAccent: string
@@ -1128,6 +1236,10 @@ export interface AppSettingsFieldRefs {
   readonly companyName: Prisma.FieldRef<"AppSettings", 'String'>
   readonly logoUrl: Prisma.FieldRef<"AppSettings", 'String'>
   readonly logoSquareUrl: Prisma.FieldRef<"AppSettings", 'String'>
+  readonly logoFullLight: Prisma.FieldRef<"AppSettings", 'String'>
+  readonly logoFullDark: Prisma.FieldRef<"AppSettings", 'String'>
+  readonly logoSquareLight: Prisma.FieldRef<"AppSettings", 'String'>
+  readonly logoSquareDark: Prisma.FieldRef<"AppSettings", 'String'>
   readonly colorPrimary: Prisma.FieldRef<"AppSettings", 'String'>
   readonly colorPrimaryDk: Prisma.FieldRef<"AppSettings", 'String'>
   readonly colorAccent: Prisma.FieldRef<"AppSettings", 'String'>

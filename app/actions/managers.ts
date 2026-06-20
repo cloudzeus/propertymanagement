@@ -93,22 +93,19 @@ export async function addManager(scope: ManagerScope, userId: string) {
     if (!occupantIds.has(userId) && !staff) return { error: "Ο χρήστης δεν είναι επιλέξιμος για διαχειριστής αυτού του χώρου" };
   }
 
-  await db.managementAssignment.upsert({
-    where: {
-      userId_propertyId_buildingId: {
-        userId,
-        propertyId: "propertyId" in scope ? scope.propertyId : (null as any),
-        buildingId: "buildingId" in scope ? scope.buildingId : (null as any),
-      },
-    },
-    create: {
-      userId,
-      propertyId: "propertyId" in scope ? scope.propertyId : null,
-      buildingId: "buildingId" in scope ? scope.buildingId : null,
-      role: "PROPERTY_ADMIN",
-    },
-    update: {},
+  // The compound unique (userId_propertyId_buildingId) contains a nullable column,
+  // which Prisma cannot match in an upsert `where`. Use find-then-create instead.
+  const targetPropertyId = "propertyId" in scope ? scope.propertyId : null;
+  const targetBuildingId = "buildingId" in scope ? scope.buildingId : null;
+  const existing = await db.managementAssignment.findFirst({
+    where: { userId, propertyId: targetPropertyId, buildingId: targetBuildingId },
+    select: { id: true },
   });
+  if (!existing) {
+    await db.managementAssignment.create({
+      data: { userId, propertyId: targetPropertyId, buildingId: targetBuildingId, role: "PROPERTY_ADMIN" },
+    });
+  }
 
   revalidatePath(`/super-admin/properties/${propertyId}`);
   revalidatePath(`/super-admin/properties`);
