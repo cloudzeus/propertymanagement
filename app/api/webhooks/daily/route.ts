@@ -4,6 +4,7 @@ import { db } from "@/lib/db";
 import { env } from "@/lib/env";
 import { logAPIUsage } from "@/lib/api-costs";
 import { runMinutes } from "@/app/actions/assemblies";
+import { uploadFile, buildingFolder } from "@/lib/bunnycdn";
 
 function verify(raw: string, signature: string | null): boolean {
   const secret = env.DAILY_WEBHOOK_SECRET;
@@ -21,7 +22,7 @@ async function findAssembly(roomName?: string) {
   return db.assembly.findFirst({
     where: { dailyRoomName: roomName, status: { in: ["SCHEDULED", "LIVE", "ENDED", "TRANSCRIBING"] } },
     orderBy: { scheduledAt: "desc" },
-    select: { id: true, buildingId: true, building: { select: { companyId: true, property: { select: { customerId: true } } } } },
+    select: { id: true, buildingId: true, building: { select: { companyId: true, propertyId: true, property: { select: { customerId: true } } } } },
   });
 }
 
@@ -71,7 +72,31 @@ export async function POST(req: NextRequest) {
       break;
     }
     case "recording.ready-to-download": {
-      if (assembly && p.download_link) await db.assembly.update({ where: { id: assembly.id }, data: { recordingUrl: p.download_link } });
+      if (assembly && p.download_link) {
+        try {
+          const resp = await fetch(p.download_link);
+          const buf = Buffer.from(await resp.arrayBuffer());
+          const folder = buildingFolder(assembly.building.propertyId, assembly.buildingId);
+          const path = `${folder}/assembly-${assembly.id}.mp3`;
+          const up = await uploadFile({ path, buffer: buf, contentType: "audio/mpeg" });
+          const url = up.url ?? p.download_link; // fall back to Daily link if upload shape differs
+          await db.assembly.update({ where: { id: assembly.id }, data: { recordingUrl: url } });
+          await db.buildingFile.create({
+            data: {
+              buildingId: assembly.buildingId,
+              category: "OTHER",
+              name: `Ηχογράφηση Συνέλευσης ${assembly.id}.mp3`,
+              cdnPath: path,
+              url,
+              mimeType: "audio/mpeg",
+              sizeBytes: buf.length,
+            },
+          });
+        } catch (e) {
+          console.error("recording archive failed", e);
+          await db.assembly.update({ where: { id: assembly.id }, data: { recordingUrl: p.download_link } });
+        }
+      }
       break;
     }
     case "batch-processor.job-finished": {

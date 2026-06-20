@@ -101,6 +101,13 @@ function RoomInner({ assemblyId, isStaff }: { assemblyId: string; isStaff: boole
     } catch {
       /* noop */
     }
+    if (isStaff && daily) {
+      try {
+        daily.startRecording({ layout: { preset: "audio-only" } });
+      } catch {
+        /* noop */
+      }
+    }
   }
 
   async function handleEnd() {
@@ -117,6 +124,13 @@ function RoomInner({ assemblyId, isStaff }: { assemblyId: string; isStaff: boole
       stopTranscription?.();
     } catch {
       /* noop */
+    }
+    if (isStaff && daily) {
+      try {
+        daily.stopRecording?.();
+      } catch {
+        /* noop */
+      }
     }
     try {
       await daily?.leave();
