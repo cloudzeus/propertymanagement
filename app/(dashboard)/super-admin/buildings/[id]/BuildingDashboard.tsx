@@ -12,6 +12,10 @@ import {
 import { CategorySplitSettings } from "@/components/buildings/CategorySplitSettings";
 import { FilesPanel, type FileRow } from "./FilesPanel";
 import { PeoplePanel, type Person } from "./PeoplePanel";
+import { UnitsPanel, type Unit } from "./UnitsPanel";
+import { ManagersPanel } from "./ManagersPanel";
+import { AnnouncementsPanel } from "./AnnouncementsPanel";
+import { AssembliesPanel } from "./AssembliesPanel";
 import { ContactsPanel, type ContactRow } from "./ContactsPanel";
 import { InfraPanel, type InfraRow } from "./InfraPanel";
 import { CalendarPanel, type TaskRow } from "./CalendarPanel";
@@ -31,7 +35,7 @@ type Kpis = {
 
 type TabKey =
   | "overview" | "units" | "people" | "managers" | "files" | "calendar"
-  | "contacts" | "infra" | "expenses" | "splitsettings" | "koino" | "pay" | "maint" | "ann";
+  | "contacts" | "infra" | "expenses" | "splitsettings" | "koino" | "pay" | "maint" | "ann" | "assemblies";
 
 const TABS: { key: TabKey; label: string; icon: React.ElementType; badge?: (k: Kpis) => number | undefined }[] = [
   { key: "overview", label: "Επισκόπηση", icon: RiDashboardLine },
@@ -48,9 +52,10 @@ const TABS: { key: TabKey; label: string; icon: React.ElementType; badge?: (k: K
   { key: "pay", label: "Πληρωμές", icon: RiBankCardLine },
   { key: "maint", label: "Συντήρηση", icon: RiToolsLine },
   { key: "ann", label: "Ανακοινώσεις", icon: RiMegaphoneLine },
+  { key: "assemblies", label: "Συνελεύσεις", icon: RiGroupLine },
 ];
 
-export function BuildingDashboard({ building, kpis, files, people, contacts, infraPoints, floorOptions, tasks, expenses, categorySplits, today }: { building: Building; kpis: Kpis; files: FileRow[]; people: Person[]; contacts: ContactRow[]; infraPoints: InfraRow[]; floorOptions: string[]; tasks: TaskRow[]; expenses: ExpenseRow[]; categorySplits: CategorySplit[]; today: string }) {
+export function BuildingDashboard({ building, kpis, units, files, people, contacts, infraPoints, floorOptions, tasks, expenses, categorySplits, today }: { building: Building; kpis: Kpis; units: Unit[]; files: FileRow[]; people: Person[]; contacts: ContactRow[]; infraPoints: InfraRow[]; floorOptions: string[]; tasks: TaskRow[]; expenses: ExpenseRow[]; categorySplits: CategorySplit[]; today: string }) {
   const [tab, setTab] = useState<TabKey>("overview");
 
   const subParts = [
@@ -133,6 +138,10 @@ export function BuildingDashboard({ building, kpis, files, people, contacts, inf
       <div>
         {tab === "overview" ? (
           <Overview building={building} />
+        ) : tab === "units" ? (
+          <UnitsPanel buildingId={building.id} units={units} />
+        ) : tab === "managers" ? (
+          <ManagersPanel buildingId={building.id} />
         ) : tab === "files" ? (
           <FilesPanel buildingId={building.id} files={files} />
         ) : tab === "people" ? (
@@ -149,6 +158,10 @@ export function BuildingDashboard({ building, kpis, files, people, contacts, inf
           <CategorySplitSettings buildingId={building.id} rows={categorySplits} />
         ) : tab === "koino" ? (
           <KoinochristaPanel buildingId={building.id} />
+        ) : tab === "ann" ? (
+          <AnnouncementsPanel buildingId={building.id} />
+        ) : tab === "assemblies" ? (
+          <AssembliesPanel buildingId={building.id} />
         ) : (
           <Placeholder label={TABS.find((t) => t.key === tab)?.label ?? ""} />
         )}
