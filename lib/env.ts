@@ -21,6 +21,7 @@ const optionalEnvVars = [
   "DAILY_API_KEY",
   "DEEP_GRAM_API_KEY",
   "DAILY_WEBHOOK_SECRET",
+  "NEXT_PUBLIC_DAILY_DOMAIN",
 ];
 
 function validateEnv() {
@@ -72,6 +73,7 @@ export const env = {
   DAILY_API_KEY: process.env.DAILY_API_KEY,
   DEEP_GRAM_API_KEY: process.env.DEEP_GRAM_API_KEY,
   DAILY_WEBHOOK_SECRET: process.env.DAILY_WEBHOOK_SECRET,
+  NEXT_PUBLIC_DAILY_DOMAIN: process.env.NEXT_PUBLIC_DAILY_DOMAIN,
 
   // App
   NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000",
