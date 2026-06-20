@@ -3,13 +3,6 @@
 import { useEffect, useState } from "react";
 import { RiMoneyEuroCircleLine, RiRefreshLine } from "react-icons/ri";
 
-const DEFAULT_API_COSTS: Record<string, { displayName: string; costModel: string; documentationUrl?: string }> = {
-  mailgun:  { displayName: "Mailgun",  costModel: "per_email", documentationUrl: "https://www.mailgun.com/pricing/" },
-  bunnycdn: { displayName: "BunnyCDN", costModel: "per_gb",    documentationUrl: "https://bunny.net/pricing/" },
-  deepseek: { displayName: "Deepseek", costModel: "per_token", documentationUrl: "https://deepseek.com/pricing/" },
-  gemini:   { displayName: "Gemini",   costModel: "per_token", documentationUrl: "https://ai.google.dev/pricing/" },
-};
-
 interface APICostData {
   apiName: string;
   period: string;
@@ -32,6 +25,34 @@ export default function CostsPage() {
   const [monthlyCosts, setMonthlyCosts] = useState<MonthlyCostData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [configs, setConfigs] = useState<any[]>([]);
+  const [editing, setEditing] = useState<string | null>(null);
+  const [draft, setDraft] = useState<{ basePrice: string; freeQuota: string; markupPercent: string }>({ basePrice: "", freeQuota: "", markupPercent: "" });
+  const [saving, setSaving] = useState(false);
+
+  const saveConfig = async (apiName: string) => {
+    setSaving(true);
+    try {
+      const res = await fetch("/api/super-admin/costs/config", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          apiName,
+          basePrice: parseFloat(draft.basePrice),
+          freeQuota: parseInt(draft.freeQuota || "0", 10),
+          markupPercent: parseFloat(draft.markupPercent || "0"),
+        }),
+      });
+      if (!res.ok) throw new Error("Save failed");
+      const { config } = await res.json();
+      setConfigs((cs) => cs.map((c) => (c.apiName === apiName ? { ...c, ...config } : c)));
+      setEditing(null);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Save failed");
+    } finally {
+      setSaving(false);
+    }
+  };
 
   useEffect(() => {
     const fetchCosts = async () => {
@@ -41,6 +62,12 @@ export default function CostsPage() {
         if (!response.ok) throw new Error("Failed to fetch costs");
         const data = await response.json();
         setApiCosts(data.breakdown || []);
+
+        const cfgRes = await fetch("/api/super-admin/costs/config");
+        if (cfgRes.ok) {
+          const cfgData = await cfgRes.json();
+          setConfigs(cfgData.configs || []);
+        }
 
         const now = new Date();
         const monthResponse = await fetch(
@@ -114,7 +141,7 @@ export default function CostsPage() {
         ) : (
           <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
             {apiCosts.map((api) => {
-              const config = DEFAULT_API_COSTS[api.apiName as keyof typeof DEFAULT_API_COSTS];
+              const config = configs.find((c) => c.apiName === api.apiName);
               const percentage = last30DaysTotal > 0 ? (api.totalCost / last30DaysTotal) * 100 : 0;
               return (
                 <div key={api.apiName} style={{
@@ -133,6 +160,49 @@ export default function CostsPage() {
                       <div style={{ fontSize: 12, color: "var(--muted-foreground)" }}>{percentage.toFixed(1)}% του συνόλου</div>
                     </div>
                   </div>
+                  {config && (
+                    <div style={{ display: "flex", gap: 20, fontSize: 12, marginBottom: 10, flexWrap: "wrap", alignItems: "center" }}>
+                      <span style={{ color: "var(--muted-foreground)" }}>
+                        Πραγματικό: <strong style={{ color: "var(--foreground)" }}>€{api.totalCost.toFixed(2)}</strong>
+                      </span>
+                      <span style={{ color: "var(--muted-foreground)" }}>
+                        Markup: <strong style={{ color: "var(--foreground)" }}>{config.markupPercent}%</strong>
+                      </span>
+                      <span style={{ color: "var(--muted-foreground)" }}>
+                        Χρέωση admin: <strong style={{ color: "var(--color-success)" }}>€{(api.totalCost * (1 + (config.markupPercent || 0) / 100)).toFixed(2)}</strong>
+                      </span>
+                      <button
+                        onClick={() => { setEditing(api.apiName); setDraft({ basePrice: String(config.basePrice), freeQuota: String(config.freeQuota), markupPercent: String(config.markupPercent) }); }}
+                        style={{ marginLeft: "auto", fontSize: 12, padding: "4px 10px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", color: "var(--foreground)" }}
+                      >
+                        Επεξεργασία
+                      </button>
+                    </div>
+                  )}
+                  {editing === api.apiName && (
+                    <div style={{ display: "flex", gap: 12, alignItems: "flex-end", marginBottom: 12, flexWrap: "wrap" }}>
+                      {([
+                        { key: "basePrice", label: `Τιμή/μονάδα (${config?.costModel})`, step: "0.0001" },
+                        { key: "freeQuota", label: "Δωρεάν όριο", step: "1" },
+                        { key: "markupPercent", label: "Markup %", step: "1" },
+                      ] as const).map((f) => (
+                        <label key={f.key} style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: 12, color: "var(--muted-foreground)" }}>
+                          {f.label}
+                          <input
+                            type="number" step={f.step} value={draft[f.key]}
+                            onChange={(e) => setDraft((d) => ({ ...d, [f.key]: e.target.value }))}
+                            style={{ width: 130, padding: "6px 8px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--bg-canvas)", color: "var(--foreground)" }}
+                          />
+                        </label>
+                      ))}
+                      <button disabled={saving} onClick={() => saveConfig(api.apiName)} style={{ padding: "7px 14px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: "pointer", fontWeight: 600 }}>
+                        {saving ? "Αποθήκευση…" : "Αποθήκευση"}
+                      </button>
+                      <button disabled={saving} onClick={() => setEditing(null)} style={{ padding: "7px 14px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)", cursor: "pointer" }}>
+                        Άκυρο
+                      </button>
+                    </div>
+                  )}
                   <div style={{ height: 6, background: "var(--border)", borderRadius: 3, overflow: "hidden", marginBottom: 10 }}>
                     <div style={{ height: "100%", width: `${Math.min(percentage, 100)}%`, background: "var(--color-primary)", borderRadius: 3 }} />
                   </div>
