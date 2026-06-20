@@ -133,7 +133,7 @@ interface LogAPIUsageParams {
  */
 export async function logAPIUsage(params: LogAPIUsageParams) {
   try {
-    const config = DEFAULT_API_COSTS[params.apiName as keyof typeof DEFAULT_API_COSTS];
+    const config = await getConfig(params.apiName);
     if (!config) {
       console.warn(`Unknown API: ${params.apiName}`);
       return null;
@@ -241,6 +241,10 @@ export async function getAPISpecificCosts(apiName: string, days: number = 30) {
     const totalBytes = logs.reduce((sum, log) => sum + (log.bytesProcessed || 0), 0);
     const totalCost = logs.reduce((sum, log) => sum + log.totalCost, 0);
 
+    const cfg = await getConfig(apiName);
+    const markupPercent = cfg?.markupPercent ?? 0;
+    const billedCost = getBilledCost(totalCost, markupPercent);
+
     return {
       apiName,
       period: `Last ${days} days`,
@@ -249,6 +253,8 @@ export async function getAPISpecificCosts(apiName: string, days: number = 30) {
       totalBytes,
       totalGB: (totalBytes / (1024 * 1024 * 1024)).toFixed(2),
       totalCost: parseFloat(totalCost.toFixed(2)),
+      markupPercent,
+      billedCost: parseFloat(billedCost.toFixed(2)),
       logs,
     };
   } catch (error) {
@@ -268,10 +274,12 @@ export async function getAllAPICosts(days: number = 30) {
     );
 
     const totalCost = costs.reduce((sum, c) => sum + (c?.totalCost || 0), 0);
+    const billedTotal = costs.reduce((sum, c) => sum + ((c as any)?.billedCost || 0), 0);
 
     return {
       period: `Last ${days} days`,
       totalCost: parseFloat(totalCost.toFixed(2)),
+      billedTotal: parseFloat(billedTotal.toFixed(2)),
       breakdown: costs,
     };
   } catch (error) {
