@@ -222,3 +222,17 @@ export const PaymentStatus = {
 } as const
 
 export type PaymentStatus = (typeof PaymentStatus)[keyof typeof PaymentStatus]
+
+
+export const AssemblyStatus = {
+  SCHEDULED: 'SCHEDULED',
+  LIVE: 'LIVE',
+  ENDED: 'ENDED',
+  TRANSCRIBING: 'TRANSCRIBING',
+  DRAFT_READY: 'DRAFT_READY',
+  APPROVED: 'APPROVED',
+  SENT: 'SENT',
+  CANCELLED: 'CANCELLED'
+} as const
+
+export type AssemblyStatus = (typeof AssemblyStatus)[keyof typeof AssemblyStatus]

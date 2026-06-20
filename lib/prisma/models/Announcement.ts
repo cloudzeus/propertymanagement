@@ -31,8 +31,10 @@ export type AnnouncementMinAggregateOutputType = {
   content: string | null
   imageUrl: string | null
   status: string | null
+  audience: string | null
   publishedAt: Date | null
   expiresAt: Date | null
+  recurringTaskId: string | null
   createdById: string | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -45,8 +47,10 @@ export type AnnouncementMaxAggregateOutputType = {
   content: string | null
   imageUrl: string | null
   status: string | null
+  audience: string | null
   publishedAt: Date | null
   expiresAt: Date | null
+  recurringTaskId: string | null
   createdById: string | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -59,8 +63,10 @@ export type AnnouncementCountAggregateOutputType = {
   content: number
   imageUrl: number
   status: number
+  audience: number
   publishedAt: number
   expiresAt: number
+  recurringTaskId: number
   createdById: number
   createdAt: number
   updatedAt: number
@@ -75,8 +81,10 @@ export type AnnouncementMinAggregateInputType = {
   content?: true
   imageUrl?: true
   status?: true
+  audience?: true
   publishedAt?: true
   expiresAt?: true
+  recurringTaskId?: true
   createdById?: true
   createdAt?: true
   updatedAt?: true
@@ -89,8 +97,10 @@ export type AnnouncementMaxAggregateInputType = {
   content?: true
   imageUrl?: true
   status?: true
+  audience?: true
   publishedAt?: true
   expiresAt?: true
+  recurringTaskId?: true
   createdById?: true
   createdAt?: true
   updatedAt?: true
@@ -103,8 +113,10 @@ export type AnnouncementCountAggregateInputType = {
   content?: true
   imageUrl?: true
   status?: true
+  audience?: true
   publishedAt?: true
   expiresAt?: true
+  recurringTaskId?: true
   createdById?: true
   createdAt?: true
   updatedAt?: true
@@ -190,8 +202,10 @@ export type AnnouncementGroupByOutputType = {
   content: string
   imageUrl: string | null
   status: string
+  audience: string
   publishedAt: Date | null
   expiresAt: Date | null
+  recurringTaskId: string | null
   createdById: string | null
   createdAt: Date
   updatedAt: Date
@@ -225,13 +239,16 @@ export type AnnouncementWhereInput = {
   content?: Prisma.StringFilter<"Announcement"> | string
   imageUrl?: Prisma.StringNullableFilter<"Announcement"> | string | null
   status?: Prisma.StringFilter<"Announcement"> | string
+  audience?: Prisma.StringFilter<"Announcement"> | string
   publishedAt?: Prisma.DateTimeNullableFilter<"Announcement"> | Date | string | null
   expiresAt?: Prisma.DateTimeNullableFilter<"Announcement"> | Date | string | null
+  recurringTaskId?: Prisma.StringNullableFilter<"Announcement"> | string | null
   createdById?: Prisma.StringNullableFilter<"Announcement"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Announcement"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Announcement"> | Date | string
   building?: Prisma.XOR<Prisma.BuildingScalarRelationFilter, Prisma.BuildingWhereInput>
   createdBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  recipients?: Prisma.Announcement_UserListRelationFilter
 }
 
 export type AnnouncementOrderByWithRelationInput = {
@@ -241,13 +258,16 @@ export type AnnouncementOrderByWithRelationInput = {
   content?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
+  audience?: Prisma.SortOrder
   publishedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   expiresAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  recurringTaskId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdById?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   building?: Prisma.BuildingOrderByWithRelationInput
   createdBy?: Prisma.UserOrderByWithRelationInput
+  recipients?: Prisma.Announcement_UserOrderByRelationAggregateInput
 }
 
 export type AnnouncementWhereUniqueInput = Prisma.AtLeast<{
@@ -260,13 +280,16 @@ export type AnnouncementWhereUniqueInput = Prisma.AtLeast<{
   content?: Prisma.StringFilter<"Announcement"> | string
   imageUrl?: Prisma.StringNullableFilter<"Announcement"> | string | null
   status?: Prisma.StringFilter<"Announcement"> | string
+  audience?: Prisma.StringFilter<"Announcement"> | string
   publishedAt?: Prisma.DateTimeNullableFilter<"Announcement"> | Date | string | null
   expiresAt?: Prisma.DateTimeNullableFilter<"Announcement"> | Date | string | null
+  recurringTaskId?: Prisma.StringNullableFilter<"Announcement"> | string | null
   createdById?: Prisma.StringNullableFilter<"Announcement"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Announcement"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Announcement"> | Date | string
   building?: Prisma.XOR<Prisma.BuildingScalarRelationFilter, Prisma.BuildingWhereInput>
   createdBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
+  recipients?: Prisma.Announcement_UserListRelationFilter
 }, "id">
 
 export type AnnouncementOrderByWithAggregationInput = {
@@ -276,8 +299,10 @@ export type AnnouncementOrderByWithAggregationInput = {
   content?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
+  audience?: Prisma.SortOrder
   publishedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   expiresAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  recurringTaskId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdById?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -296,8 +321,10 @@ export type AnnouncementScalarWhereWithAggregatesInput = {
   content?: Prisma.StringWithAggregatesFilter<"Announcement"> | string
   imageUrl?: Prisma.StringNullableWithAggregatesFilter<"Announcement"> | string | null
   status?: Prisma.StringWithAggregatesFilter<"Announcement"> | string
+  audience?: Prisma.StringWithAggregatesFilter<"Announcement"> | string
   publishedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Announcement"> | Date | string | null
   expiresAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Announcement"> | Date | string | null
+  recurringTaskId?: Prisma.StringNullableWithAggregatesFilter<"Announcement"> | string | null
   createdById?: Prisma.StringNullableWithAggregatesFilter<"Announcement"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Announcement"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Announcement"> | Date | string
@@ -309,12 +336,15 @@ export type AnnouncementCreateInput = {
   content: string
   imageUrl?: string | null
   status?: string
+  audience?: string
   publishedAt?: Date | string | null
   expiresAt?: Date | string | null
+  recurringTaskId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   building: Prisma.BuildingCreateNestedOneWithoutAnnouncementsInput
   createdBy?: Prisma.UserCreateNestedOneWithoutCreatedAnnouncementsInput
+  recipients?: Prisma.Announcement_UserCreateNestedManyWithoutAnnouncementInput
 }
 
 export type AnnouncementUncheckedCreateInput = {
@@ -324,11 +354,14 @@ export type AnnouncementUncheckedCreateInput = {
   content: string
   imageUrl?: string | null
   status?: string
+  audience?: string
   publishedAt?: Date | string | null
   expiresAt?: Date | string | null
+  recurringTaskId?: string | null
   createdById?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  recipients?: Prisma.Announcement_UserUncheckedCreateNestedManyWithoutAnnouncementInput
 }
 
 export type AnnouncementUpdateInput = {
@@ -337,12 +370,15 @@ export type AnnouncementUpdateInput = {
   content?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  audience?: Prisma.StringFieldUpdateOperationsInput | string
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  recurringTaskId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   building?: Prisma.BuildingUpdateOneRequiredWithoutAnnouncementsNestedInput
   createdBy?: Prisma.UserUpdateOneWithoutCreatedAnnouncementsNestedInput
+  recipients?: Prisma.Announcement_UserUpdateManyWithoutAnnouncementNestedInput
 }
 
 export type AnnouncementUncheckedUpdateInput = {
@@ -352,11 +388,14 @@ export type AnnouncementUncheckedUpdateInput = {
   content?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  audience?: Prisma.StringFieldUpdateOperationsInput | string
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  recurringTaskId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  recipients?: Prisma.Announcement_UserUncheckedUpdateManyWithoutAnnouncementNestedInput
 }
 
 export type AnnouncementCreateManyInput = {
@@ -366,8 +405,10 @@ export type AnnouncementCreateManyInput = {
   content: string
   imageUrl?: string | null
   status?: string
+  audience?: string
   publishedAt?: Date | string | null
   expiresAt?: Date | string | null
+  recurringTaskId?: string | null
   createdById?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -379,8 +420,10 @@ export type AnnouncementUpdateManyMutationInput = {
   content?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  audience?: Prisma.StringFieldUpdateOperationsInput | string
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  recurringTaskId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -392,8 +435,10 @@ export type AnnouncementUncheckedUpdateManyInput = {
   content?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  audience?: Prisma.StringFieldUpdateOperationsInput | string
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  recurringTaskId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -416,8 +461,10 @@ export type AnnouncementCountOrderByAggregateInput = {
   content?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  audience?: Prisma.SortOrder
   publishedAt?: Prisma.SortOrder
   expiresAt?: Prisma.SortOrder
+  recurringTaskId?: Prisma.SortOrder
   createdById?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -430,8 +477,10 @@ export type AnnouncementMaxOrderByAggregateInput = {
   content?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  audience?: Prisma.SortOrder
   publishedAt?: Prisma.SortOrder
   expiresAt?: Prisma.SortOrder
+  recurringTaskId?: Prisma.SortOrder
   createdById?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -444,11 +493,18 @@ export type AnnouncementMinOrderByAggregateInput = {
   content?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  audience?: Prisma.SortOrder
   publishedAt?: Prisma.SortOrder
   expiresAt?: Prisma.SortOrder
+  recurringTaskId?: Prisma.SortOrder
   createdById?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type AnnouncementScalarRelationFilter = {
+  is?: Prisma.AnnouncementWhereInput
+  isNot?: Prisma.AnnouncementWhereInput
 }
 
 export type AnnouncementCreateNestedManyWithoutCreatedByInput = {
@@ -535,17 +591,34 @@ export type AnnouncementUncheckedUpdateManyWithoutBuildingNestedInput = {
   deleteMany?: Prisma.AnnouncementScalarWhereInput | Prisma.AnnouncementScalarWhereInput[]
 }
 
+export type AnnouncementCreateNestedOneWithoutRecipientsInput = {
+  create?: Prisma.XOR<Prisma.AnnouncementCreateWithoutRecipientsInput, Prisma.AnnouncementUncheckedCreateWithoutRecipientsInput>
+  connectOrCreate?: Prisma.AnnouncementCreateOrConnectWithoutRecipientsInput
+  connect?: Prisma.AnnouncementWhereUniqueInput
+}
+
+export type AnnouncementUpdateOneRequiredWithoutRecipientsNestedInput = {
+  create?: Prisma.XOR<Prisma.AnnouncementCreateWithoutRecipientsInput, Prisma.AnnouncementUncheckedCreateWithoutRecipientsInput>
+  connectOrCreate?: Prisma.AnnouncementCreateOrConnectWithoutRecipientsInput
+  upsert?: Prisma.AnnouncementUpsertWithoutRecipientsInput
+  connect?: Prisma.AnnouncementWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.AnnouncementUpdateToOneWithWhereWithoutRecipientsInput, Prisma.AnnouncementUpdateWithoutRecipientsInput>, Prisma.AnnouncementUncheckedUpdateWithoutRecipientsInput>
+}
+
 export type AnnouncementCreateWithoutCreatedByInput = {
   id?: string
   title: string
   content: string
   imageUrl?: string | null
   status?: string
+  audience?: string
   publishedAt?: Date | string | null
   expiresAt?: Date | string | null
+  recurringTaskId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   building: Prisma.BuildingCreateNestedOneWithoutAnnouncementsInput
+  recipients?: Prisma.Announcement_UserCreateNestedManyWithoutAnnouncementInput
 }
 
 export type AnnouncementUncheckedCreateWithoutCreatedByInput = {
@@ -555,10 +628,13 @@ export type AnnouncementUncheckedCreateWithoutCreatedByInput = {
   content: string
   imageUrl?: string | null
   status?: string
+  audience?: string
   publishedAt?: Date | string | null
   expiresAt?: Date | string | null
+  recurringTaskId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  recipients?: Prisma.Announcement_UserUncheckedCreateNestedManyWithoutAnnouncementInput
 }
 
 export type AnnouncementCreateOrConnectWithoutCreatedByInput = {
@@ -597,8 +673,10 @@ export type AnnouncementScalarWhereInput = {
   content?: Prisma.StringFilter<"Announcement"> | string
   imageUrl?: Prisma.StringNullableFilter<"Announcement"> | string | null
   status?: Prisma.StringFilter<"Announcement"> | string
+  audience?: Prisma.StringFilter<"Announcement"> | string
   publishedAt?: Prisma.DateTimeNullableFilter<"Announcement"> | Date | string | null
   expiresAt?: Prisma.DateTimeNullableFilter<"Announcement"> | Date | string | null
+  recurringTaskId?: Prisma.StringNullableFilter<"Announcement"> | string | null
   createdById?: Prisma.StringNullableFilter<"Announcement"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Announcement"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Announcement"> | Date | string
@@ -610,11 +688,14 @@ export type AnnouncementCreateWithoutBuildingInput = {
   content: string
   imageUrl?: string | null
   status?: string
+  audience?: string
   publishedAt?: Date | string | null
   expiresAt?: Date | string | null
+  recurringTaskId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   createdBy?: Prisma.UserCreateNestedOneWithoutCreatedAnnouncementsInput
+  recipients?: Prisma.Announcement_UserCreateNestedManyWithoutAnnouncementInput
 }
 
 export type AnnouncementUncheckedCreateWithoutBuildingInput = {
@@ -623,11 +704,14 @@ export type AnnouncementUncheckedCreateWithoutBuildingInput = {
   content: string
   imageUrl?: string | null
   status?: string
+  audience?: string
   publishedAt?: Date | string | null
   expiresAt?: Date | string | null
+  recurringTaskId?: string | null
   createdById?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  recipients?: Prisma.Announcement_UserUncheckedCreateNestedManyWithoutAnnouncementInput
 }
 
 export type AnnouncementCreateOrConnectWithoutBuildingInput = {
@@ -656,6 +740,86 @@ export type AnnouncementUpdateManyWithWhereWithoutBuildingInput = {
   data: Prisma.XOR<Prisma.AnnouncementUpdateManyMutationInput, Prisma.AnnouncementUncheckedUpdateManyWithoutBuildingInput>
 }
 
+export type AnnouncementCreateWithoutRecipientsInput = {
+  id?: string
+  title: string
+  content: string
+  imageUrl?: string | null
+  status?: string
+  audience?: string
+  publishedAt?: Date | string | null
+  expiresAt?: Date | string | null
+  recurringTaskId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  building: Prisma.BuildingCreateNestedOneWithoutAnnouncementsInput
+  createdBy?: Prisma.UserCreateNestedOneWithoutCreatedAnnouncementsInput
+}
+
+export type AnnouncementUncheckedCreateWithoutRecipientsInput = {
+  id?: string
+  buildingId: string
+  title: string
+  content: string
+  imageUrl?: string | null
+  status?: string
+  audience?: string
+  publishedAt?: Date | string | null
+  expiresAt?: Date | string | null
+  recurringTaskId?: string | null
+  createdById?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type AnnouncementCreateOrConnectWithoutRecipientsInput = {
+  where: Prisma.AnnouncementWhereUniqueInput
+  create: Prisma.XOR<Prisma.AnnouncementCreateWithoutRecipientsInput, Prisma.AnnouncementUncheckedCreateWithoutRecipientsInput>
+}
+
+export type AnnouncementUpsertWithoutRecipientsInput = {
+  update: Prisma.XOR<Prisma.AnnouncementUpdateWithoutRecipientsInput, Prisma.AnnouncementUncheckedUpdateWithoutRecipientsInput>
+  create: Prisma.XOR<Prisma.AnnouncementCreateWithoutRecipientsInput, Prisma.AnnouncementUncheckedCreateWithoutRecipientsInput>
+  where?: Prisma.AnnouncementWhereInput
+}
+
+export type AnnouncementUpdateToOneWithWhereWithoutRecipientsInput = {
+  where?: Prisma.AnnouncementWhereInput
+  data: Prisma.XOR<Prisma.AnnouncementUpdateWithoutRecipientsInput, Prisma.AnnouncementUncheckedUpdateWithoutRecipientsInput>
+}
+
+export type AnnouncementUpdateWithoutRecipientsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  content?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  audience?: Prisma.StringFieldUpdateOperationsInput | string
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  recurringTaskId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  building?: Prisma.BuildingUpdateOneRequiredWithoutAnnouncementsNestedInput
+  createdBy?: Prisma.UserUpdateOneWithoutCreatedAnnouncementsNestedInput
+}
+
+export type AnnouncementUncheckedUpdateWithoutRecipientsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  buildingId?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  content?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  audience?: Prisma.StringFieldUpdateOperationsInput | string
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  recurringTaskId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
 export type AnnouncementCreateManyCreatedByInput = {
   id?: string
   buildingId: string
@@ -663,8 +827,10 @@ export type AnnouncementCreateManyCreatedByInput = {
   content: string
   imageUrl?: string | null
   status?: string
+  audience?: string
   publishedAt?: Date | string | null
   expiresAt?: Date | string | null
+  recurringTaskId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -675,11 +841,14 @@ export type AnnouncementUpdateWithoutCreatedByInput = {
   content?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  audience?: Prisma.StringFieldUpdateOperationsInput | string
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  recurringTaskId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   building?: Prisma.BuildingUpdateOneRequiredWithoutAnnouncementsNestedInput
+  recipients?: Prisma.Announcement_UserUpdateManyWithoutAnnouncementNestedInput
 }
 
 export type AnnouncementUncheckedUpdateWithoutCreatedByInput = {
@@ -689,10 +858,13 @@ export type AnnouncementUncheckedUpdateWithoutCreatedByInput = {
   content?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  audience?: Prisma.StringFieldUpdateOperationsInput | string
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  recurringTaskId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  recipients?: Prisma.Announcement_UserUncheckedUpdateManyWithoutAnnouncementNestedInput
 }
 
 export type AnnouncementUncheckedUpdateManyWithoutCreatedByInput = {
@@ -702,8 +874,10 @@ export type AnnouncementUncheckedUpdateManyWithoutCreatedByInput = {
   content?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  audience?: Prisma.StringFieldUpdateOperationsInput | string
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  recurringTaskId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -714,8 +888,10 @@ export type AnnouncementCreateManyBuildingInput = {
   content: string
   imageUrl?: string | null
   status?: string
+  audience?: string
   publishedAt?: Date | string | null
   expiresAt?: Date | string | null
+  recurringTaskId?: string | null
   createdById?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -727,11 +903,14 @@ export type AnnouncementUpdateWithoutBuildingInput = {
   content?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  audience?: Prisma.StringFieldUpdateOperationsInput | string
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  recurringTaskId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdBy?: Prisma.UserUpdateOneWithoutCreatedAnnouncementsNestedInput
+  recipients?: Prisma.Announcement_UserUpdateManyWithoutAnnouncementNestedInput
 }
 
 export type AnnouncementUncheckedUpdateWithoutBuildingInput = {
@@ -740,11 +919,14 @@ export type AnnouncementUncheckedUpdateWithoutBuildingInput = {
   content?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  audience?: Prisma.StringFieldUpdateOperationsInput | string
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  recurringTaskId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  recipients?: Prisma.Announcement_UserUncheckedUpdateManyWithoutAnnouncementNestedInput
 }
 
 export type AnnouncementUncheckedUpdateManyWithoutBuildingInput = {
@@ -753,13 +935,44 @@ export type AnnouncementUncheckedUpdateManyWithoutBuildingInput = {
   content?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  audience?: Prisma.StringFieldUpdateOperationsInput | string
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   expiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  recurringTaskId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
+
+/**
+ * Count Type AnnouncementCountOutputType
+ */
+
+export type AnnouncementCountOutputType = {
+  recipients: number
+}
+
+export type AnnouncementCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  recipients?: boolean | AnnouncementCountOutputTypeCountRecipientsArgs
+}
+
+/**
+ * AnnouncementCountOutputType without action
+ */
+export type AnnouncementCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AnnouncementCountOutputType
+   */
+  select?: Prisma.AnnouncementCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * AnnouncementCountOutputType without action
+ */
+export type AnnouncementCountOutputTypeCountRecipientsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.Announcement_UserWhereInput
+}
 
 
 export type AnnouncementSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -769,13 +982,17 @@ export type AnnouncementSelect<ExtArgs extends runtime.Types.Extensions.Internal
   content?: boolean
   imageUrl?: boolean
   status?: boolean
+  audience?: boolean
   publishedAt?: boolean
   expiresAt?: boolean
+  recurringTaskId?: boolean
   createdById?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
   createdBy?: boolean | Prisma.Announcement$createdByArgs<ExtArgs>
+  recipients?: boolean | Prisma.Announcement$recipientsArgs<ExtArgs>
+  _count?: boolean | Prisma.AnnouncementCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["announcement"]>
 
 export type AnnouncementSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -785,8 +1002,10 @@ export type AnnouncementSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   content?: boolean
   imageUrl?: boolean
   status?: boolean
+  audience?: boolean
   publishedAt?: boolean
   expiresAt?: boolean
+  recurringTaskId?: boolean
   createdById?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -801,8 +1020,10 @@ export type AnnouncementSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   content?: boolean
   imageUrl?: boolean
   status?: boolean
+  audience?: boolean
   publishedAt?: boolean
   expiresAt?: boolean
+  recurringTaskId?: boolean
   createdById?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -817,17 +1038,21 @@ export type AnnouncementSelectScalar = {
   content?: boolean
   imageUrl?: boolean
   status?: boolean
+  audience?: boolean
   publishedAt?: boolean
   expiresAt?: boolean
+  recurringTaskId?: boolean
   createdById?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type AnnouncementOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "buildingId" | "title" | "content" | "imageUrl" | "status" | "publishedAt" | "expiresAt" | "createdById" | "createdAt" | "updatedAt", ExtArgs["result"]["announcement"]>
+export type AnnouncementOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "buildingId" | "title" | "content" | "imageUrl" | "status" | "audience" | "publishedAt" | "expiresAt" | "recurringTaskId" | "createdById" | "createdAt" | "updatedAt", ExtArgs["result"]["announcement"]>
 export type AnnouncementInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
   createdBy?: boolean | Prisma.Announcement$createdByArgs<ExtArgs>
+  recipients?: boolean | Prisma.Announcement$recipientsArgs<ExtArgs>
+  _count?: boolean | Prisma.AnnouncementCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type AnnouncementIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
@@ -843,6 +1068,7 @@ export type $AnnouncementPayload<ExtArgs extends runtime.Types.Extensions.Intern
   objects: {
     building: Prisma.$BuildingPayload<ExtArgs>
     createdBy: Prisma.$UserPayload<ExtArgs> | null
+    recipients: Prisma.$Announcement_UserPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -851,8 +1077,10 @@ export type $AnnouncementPayload<ExtArgs extends runtime.Types.Extensions.Intern
     content: string
     imageUrl: string | null
     status: string
+    audience: string
     publishedAt: Date | null
     expiresAt: Date | null
+    recurringTaskId: string | null
     createdById: string | null
     createdAt: Date
     updatedAt: Date
@@ -1252,6 +1480,7 @@ export interface Prisma__AnnouncementClient<T, Null = never, ExtArgs extends run
   readonly [Symbol.toStringTag]: "PrismaPromise"
   building<T extends Prisma.BuildingDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.BuildingDefaultArgs<ExtArgs>>): Prisma.Prisma__BuildingClient<runtime.Types.Result.GetResult<Prisma.$BuildingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   createdBy<T extends Prisma.Announcement$createdByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Announcement$createdByArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  recipients<T extends Prisma.Announcement$recipientsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Announcement$recipientsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$Announcement_UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1287,8 +1516,10 @@ export interface AnnouncementFieldRefs {
   readonly content: Prisma.FieldRef<"Announcement", 'String'>
   readonly imageUrl: Prisma.FieldRef<"Announcement", 'String'>
   readonly status: Prisma.FieldRef<"Announcement", 'String'>
+  readonly audience: Prisma.FieldRef<"Announcement", 'String'>
   readonly publishedAt: Prisma.FieldRef<"Announcement", 'DateTime'>
   readonly expiresAt: Prisma.FieldRef<"Announcement", 'DateTime'>
+  readonly recurringTaskId: Prisma.FieldRef<"Announcement", 'String'>
   readonly createdById: Prisma.FieldRef<"Announcement", 'String'>
   readonly createdAt: Prisma.FieldRef<"Announcement", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Announcement", 'DateTime'>
@@ -1709,6 +1940,30 @@ export type Announcement$createdByArgs<ExtArgs extends runtime.Types.Extensions.
    */
   include?: Prisma.UserInclude<ExtArgs> | null
   where?: Prisma.UserWhereInput
+}
+
+/**
+ * Announcement.recipients
+ */
+export type Announcement$recipientsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Announcement_User
+   */
+  select?: Prisma.Announcement_UserSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Announcement_User
+   */
+  omit?: Prisma.Announcement_UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.Announcement_UserInclude<ExtArgs> | null
+  where?: Prisma.Announcement_UserWhereInput
+  orderBy?: Prisma.Announcement_UserOrderByWithRelationInput | Prisma.Announcement_UserOrderByWithRelationInput[]
+  cursor?: Prisma.Announcement_UserWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Announcement_UserScalarFieldEnum | Prisma.Announcement_UserScalarFieldEnum[]
 }
 
 /**

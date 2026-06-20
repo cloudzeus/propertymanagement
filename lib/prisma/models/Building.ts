@@ -61,6 +61,7 @@ export type BuildingMinAggregateOutputType = {
   technicalNotes: string | null
   lat: number | null
   lng: number | null
+  dailyRoomName: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -84,6 +85,7 @@ export type BuildingMaxAggregateOutputType = {
   technicalNotes: string | null
   lat: number | null
   lng: number | null
+  dailyRoomName: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -107,6 +109,7 @@ export type BuildingCountAggregateOutputType = {
   technicalNotes: number
   lat: number
   lng: number
+  dailyRoomName: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -148,6 +151,7 @@ export type BuildingMinAggregateInputType = {
   technicalNotes?: true
   lat?: true
   lng?: true
+  dailyRoomName?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -171,6 +175,7 @@ export type BuildingMaxAggregateInputType = {
   technicalNotes?: true
   lat?: true
   lng?: true
+  dailyRoomName?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -194,6 +199,7 @@ export type BuildingCountAggregateInputType = {
   technicalNotes?: true
   lat?: true
   lng?: true
+  dailyRoomName?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -304,6 +310,7 @@ export type BuildingGroupByOutputType = {
   technicalNotes: string | null
   lat: number | null
   lng: number | null
+  dailyRoomName: string | null
   createdAt: Date
   updatedAt: Date
   _count: BuildingCountAggregateOutputType | null
@@ -350,6 +357,7 @@ export type BuildingWhereInput = {
   technicalNotes?: Prisma.StringNullableFilter<"Building"> | string | null
   lat?: Prisma.FloatNullableFilter<"Building"> | number | null
   lng?: Prisma.FloatNullableFilter<"Building"> | number | null
+  dailyRoomName?: Prisma.StringNullableFilter<"Building"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Building"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Building"> | Date | string
   company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
@@ -359,6 +367,7 @@ export type BuildingWhereInput = {
   commonAreas?: Prisma.CommonAreaListRelationFilter
   addons?: Prisma.AddonFeatureListRelationFilter
   announcements?: Prisma.AnnouncementListRelationFilter
+  assemblies?: Prisma.AssemblyListRelationFilter
   maintenanceRequests?: Prisma.MaintenanceRequestListRelationFilter
   managementAssignments?: Prisma.ManagementAssignmentListRelationFilter
   files?: Prisma.BuildingFileListRelationFilter
@@ -389,6 +398,7 @@ export type BuildingOrderByWithRelationInput = {
   technicalNotes?: Prisma.SortOrderInput | Prisma.SortOrder
   lat?: Prisma.SortOrderInput | Prisma.SortOrder
   lng?: Prisma.SortOrderInput | Prisma.SortOrder
+  dailyRoomName?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   company?: Prisma.CompanyOrderByWithRelationInput
@@ -398,6 +408,7 @@ export type BuildingOrderByWithRelationInput = {
   commonAreas?: Prisma.CommonAreaOrderByRelationAggregateInput
   addons?: Prisma.AddonFeatureOrderByRelationAggregateInput
   announcements?: Prisma.AnnouncementOrderByRelationAggregateInput
+  assemblies?: Prisma.AssemblyOrderByRelationAggregateInput
   maintenanceRequests?: Prisma.MaintenanceRequestOrderByRelationAggregateInput
   managementAssignments?: Prisma.ManagementAssignmentOrderByRelationAggregateInput
   files?: Prisma.BuildingFileOrderByRelationAggregateInput
@@ -431,6 +442,7 @@ export type BuildingWhereUniqueInput = Prisma.AtLeast<{
   technicalNotes?: Prisma.StringNullableFilter<"Building"> | string | null
   lat?: Prisma.FloatNullableFilter<"Building"> | number | null
   lng?: Prisma.FloatNullableFilter<"Building"> | number | null
+  dailyRoomName?: Prisma.StringNullableFilter<"Building"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Building"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Building"> | Date | string
   company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
@@ -440,6 +452,7 @@ export type BuildingWhereUniqueInput = Prisma.AtLeast<{
   commonAreas?: Prisma.CommonAreaListRelationFilter
   addons?: Prisma.AddonFeatureListRelationFilter
   announcements?: Prisma.AnnouncementListRelationFilter
+  assemblies?: Prisma.AssemblyListRelationFilter
   maintenanceRequests?: Prisma.MaintenanceRequestListRelationFilter
   managementAssignments?: Prisma.ManagementAssignmentListRelationFilter
   files?: Prisma.BuildingFileListRelationFilter
@@ -470,6 +483,7 @@ export type BuildingOrderByWithAggregationInput = {
   technicalNotes?: Prisma.SortOrderInput | Prisma.SortOrder
   lat?: Prisma.SortOrderInput | Prisma.SortOrder
   lng?: Prisma.SortOrderInput | Prisma.SortOrder
+  dailyRoomName?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.BuildingCountOrderByAggregateInput
@@ -501,6 +515,7 @@ export type BuildingScalarWhereWithAggregatesInput = {
   technicalNotes?: Prisma.StringNullableWithAggregatesFilter<"Building"> | string | null
   lat?: Prisma.FloatNullableWithAggregatesFilter<"Building"> | number | null
   lng?: Prisma.FloatNullableWithAggregatesFilter<"Building"> | number | null
+  dailyRoomName?: Prisma.StringNullableWithAggregatesFilter<"Building"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Building"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Building"> | Date | string
 }
@@ -522,6 +537,7 @@ export type BuildingCreateInput = {
   technicalNotes?: string | null
   lat?: number | null
   lng?: number | null
+  dailyRoomName?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
@@ -531,6 +547,7 @@ export type BuildingCreateInput = {
   commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutBuildingInput
+  assemblies?: Prisma.AssemblyCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutBuildingInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutBuildingInput
   files?: Prisma.BuildingFileCreateNestedManyWithoutBuildingInput
@@ -561,6 +578,7 @@ export type BuildingUncheckedCreateInput = {
   technicalNotes?: string | null
   lat?: number | null
   lng?: number | null
+  dailyRoomName?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
@@ -568,6 +586,7 @@ export type BuildingUncheckedCreateInput = {
   commonAreas?: Prisma.CommonAreaUncheckedCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutBuildingInput
+  assemblies?: Prisma.AssemblyUncheckedCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutBuildingInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutBuildingInput
   files?: Prisma.BuildingFileUncheckedCreateNestedManyWithoutBuildingInput
@@ -596,6 +615,7 @@ export type BuildingUpdateInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
@@ -605,6 +625,7 @@ export type BuildingUpdateInput = {
   commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUpdateManyWithoutBuildingNestedInput
+  assemblies?: Prisma.AssemblyUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutBuildingNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutBuildingNestedInput
   files?: Prisma.BuildingFileUpdateManyWithoutBuildingNestedInput
@@ -635,6 +656,7 @@ export type BuildingUncheckedUpdateInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
@@ -642,6 +664,7 @@ export type BuildingUncheckedUpdateInput = {
   commonAreas?: Prisma.CommonAreaUncheckedUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUncheckedUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutBuildingNestedInput
+  assemblies?: Prisma.AssemblyUncheckedUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutBuildingNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutBuildingNestedInput
   files?: Prisma.BuildingFileUncheckedUpdateManyWithoutBuildingNestedInput
@@ -672,6 +695,7 @@ export type BuildingCreateManyInput = {
   technicalNotes?: string | null
   lat?: number | null
   lng?: number | null
+  dailyRoomName?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -693,6 +717,7 @@ export type BuildingUpdateManyMutationInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -716,6 +741,7 @@ export type BuildingUncheckedUpdateManyInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -754,6 +780,7 @@ export type BuildingCountOrderByAggregateInput = {
   technicalNotes?: Prisma.SortOrder
   lat?: Prisma.SortOrder
   lng?: Prisma.SortOrder
+  dailyRoomName?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -785,6 +812,7 @@ export type BuildingMaxOrderByAggregateInput = {
   technicalNotes?: Prisma.SortOrder
   lat?: Prisma.SortOrder
   lng?: Prisma.SortOrder
+  dailyRoomName?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -808,6 +836,7 @@ export type BuildingMinOrderByAggregateInput = {
   technicalNotes?: Prisma.SortOrder
   lat?: Prisma.SortOrder
   lng?: Prisma.SortOrder
+  dailyRoomName?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -1097,6 +1126,20 @@ export type BuildingUpdateOneRequiredWithoutAnnouncementsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.BuildingUpdateToOneWithWhereWithoutAnnouncementsInput, Prisma.BuildingUpdateWithoutAnnouncementsInput>, Prisma.BuildingUncheckedUpdateWithoutAnnouncementsInput>
 }
 
+export type BuildingCreateNestedOneWithoutAssembliesInput = {
+  create?: Prisma.XOR<Prisma.BuildingCreateWithoutAssembliesInput, Prisma.BuildingUncheckedCreateWithoutAssembliesInput>
+  connectOrCreate?: Prisma.BuildingCreateOrConnectWithoutAssembliesInput
+  connect?: Prisma.BuildingWhereUniqueInput
+}
+
+export type BuildingUpdateOneRequiredWithoutAssembliesNestedInput = {
+  create?: Prisma.XOR<Prisma.BuildingCreateWithoutAssembliesInput, Prisma.BuildingUncheckedCreateWithoutAssembliesInput>
+  connectOrCreate?: Prisma.BuildingCreateOrConnectWithoutAssembliesInput
+  upsert?: Prisma.BuildingUpsertWithoutAssembliesInput
+  connect?: Prisma.BuildingWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.BuildingUpdateToOneWithWhereWithoutAssembliesInput, Prisma.BuildingUpdateWithoutAssembliesInput>, Prisma.BuildingUncheckedUpdateWithoutAssembliesInput>
+}
+
 export type BuildingCreateNestedOneWithoutMaintenanceRequestsInput = {
   create?: Prisma.XOR<Prisma.BuildingCreateWithoutMaintenanceRequestsInput, Prisma.BuildingUncheckedCreateWithoutMaintenanceRequestsInput>
   connectOrCreate?: Prisma.BuildingCreateOrConnectWithoutMaintenanceRequestsInput
@@ -1128,6 +1171,7 @@ export type BuildingCreateWithoutUsersInput = {
   technicalNotes?: string | null
   lat?: number | null
   lng?: number | null
+  dailyRoomName?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
@@ -1136,6 +1180,7 @@ export type BuildingCreateWithoutUsersInput = {
   commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutBuildingInput
+  assemblies?: Prisma.AssemblyCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutBuildingInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutBuildingInput
   files?: Prisma.BuildingFileCreateNestedManyWithoutBuildingInput
@@ -1166,12 +1211,14 @@ export type BuildingUncheckedCreateWithoutUsersInput = {
   technicalNotes?: string | null
   lat?: number | null
   lng?: number | null
+  dailyRoomName?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   units?: Prisma.UnitUncheckedCreateNestedManyWithoutBuildingInput
   commonAreas?: Prisma.CommonAreaUncheckedCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutBuildingInput
+  assemblies?: Prisma.AssemblyUncheckedCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutBuildingInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutBuildingInput
   files?: Prisma.BuildingFileUncheckedCreateNestedManyWithoutBuildingInput
@@ -1216,6 +1263,7 @@ export type BuildingUpdateWithoutUsersInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
@@ -1224,6 +1272,7 @@ export type BuildingUpdateWithoutUsersInput = {
   commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUpdateManyWithoutBuildingNestedInput
+  assemblies?: Prisma.AssemblyUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutBuildingNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutBuildingNestedInput
   files?: Prisma.BuildingFileUpdateManyWithoutBuildingNestedInput
@@ -1254,12 +1303,14 @@ export type BuildingUncheckedUpdateWithoutUsersInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   units?: Prisma.UnitUncheckedUpdateManyWithoutBuildingNestedInput
   commonAreas?: Prisma.CommonAreaUncheckedUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUncheckedUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutBuildingNestedInput
+  assemblies?: Prisma.AssemblyUncheckedUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutBuildingNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutBuildingNestedInput
   files?: Prisma.BuildingFileUncheckedUpdateManyWithoutBuildingNestedInput
@@ -1288,6 +1339,7 @@ export type BuildingCreateWithoutCompanyInput = {
   technicalNotes?: string | null
   lat?: number | null
   lng?: number | null
+  dailyRoomName?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   property: Prisma.PropertyCreateNestedOneWithoutBuildingsInput
@@ -1296,6 +1348,7 @@ export type BuildingCreateWithoutCompanyInput = {
   commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutBuildingInput
+  assemblies?: Prisma.AssemblyCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutBuildingInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutBuildingInput
   files?: Prisma.BuildingFileCreateNestedManyWithoutBuildingInput
@@ -1325,6 +1378,7 @@ export type BuildingUncheckedCreateWithoutCompanyInput = {
   technicalNotes?: string | null
   lat?: number | null
   lng?: number | null
+  dailyRoomName?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
@@ -1332,6 +1386,7 @@ export type BuildingUncheckedCreateWithoutCompanyInput = {
   commonAreas?: Prisma.CommonAreaUncheckedCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutBuildingInput
+  assemblies?: Prisma.AssemblyUncheckedCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutBuildingInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutBuildingInput
   files?: Prisma.BuildingFileUncheckedCreateNestedManyWithoutBuildingInput
@@ -1391,6 +1446,7 @@ export type BuildingScalarWhereInput = {
   technicalNotes?: Prisma.StringNullableFilter<"Building"> | string | null
   lat?: Prisma.FloatNullableFilter<"Building"> | number | null
   lng?: Prisma.FloatNullableFilter<"Building"> | number | null
+  dailyRoomName?: Prisma.StringNullableFilter<"Building"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Building"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Building"> | Date | string
 }
@@ -1412,6 +1468,7 @@ export type BuildingCreateWithoutAddonsInput = {
   technicalNotes?: string | null
   lat?: number | null
   lng?: number | null
+  dailyRoomName?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
@@ -1420,6 +1477,7 @@ export type BuildingCreateWithoutAddonsInput = {
   units?: Prisma.UnitCreateNestedManyWithoutBuildingInput
   commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutBuildingInput
+  assemblies?: Prisma.AssemblyCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutBuildingInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutBuildingInput
   files?: Prisma.BuildingFileCreateNestedManyWithoutBuildingInput
@@ -1450,12 +1508,14 @@ export type BuildingUncheckedCreateWithoutAddonsInput = {
   technicalNotes?: string | null
   lat?: number | null
   lng?: number | null
+  dailyRoomName?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
   units?: Prisma.UnitUncheckedCreateNestedManyWithoutBuildingInput
   commonAreas?: Prisma.CommonAreaUncheckedCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutBuildingInput
+  assemblies?: Prisma.AssemblyUncheckedCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutBuildingInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutBuildingInput
   files?: Prisma.BuildingFileUncheckedCreateNestedManyWithoutBuildingInput
@@ -1500,6 +1560,7 @@ export type BuildingUpdateWithoutAddonsInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
@@ -1508,6 +1569,7 @@ export type BuildingUpdateWithoutAddonsInput = {
   units?: Prisma.UnitUpdateManyWithoutBuildingNestedInput
   commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUpdateManyWithoutBuildingNestedInput
+  assemblies?: Prisma.AssemblyUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutBuildingNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutBuildingNestedInput
   files?: Prisma.BuildingFileUpdateManyWithoutBuildingNestedInput
@@ -1538,12 +1600,14 @@ export type BuildingUncheckedUpdateWithoutAddonsInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
   units?: Prisma.UnitUncheckedUpdateManyWithoutBuildingNestedInput
   commonAreas?: Prisma.CommonAreaUncheckedUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutBuildingNestedInput
+  assemblies?: Prisma.AssemblyUncheckedUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutBuildingNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutBuildingNestedInput
   files?: Prisma.BuildingFileUncheckedUpdateManyWithoutBuildingNestedInput
@@ -1572,6 +1636,7 @@ export type BuildingCreateWithoutPropertyInput = {
   technicalNotes?: string | null
   lat?: number | null
   lng?: number | null
+  dailyRoomName?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
@@ -1580,6 +1645,7 @@ export type BuildingCreateWithoutPropertyInput = {
   commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutBuildingInput
+  assemblies?: Prisma.AssemblyCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutBuildingInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutBuildingInput
   files?: Prisma.BuildingFileCreateNestedManyWithoutBuildingInput
@@ -1609,6 +1675,7 @@ export type BuildingUncheckedCreateWithoutPropertyInput = {
   technicalNotes?: string | null
   lat?: number | null
   lng?: number | null
+  dailyRoomName?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
@@ -1616,6 +1683,7 @@ export type BuildingUncheckedCreateWithoutPropertyInput = {
   commonAreas?: Prisma.CommonAreaUncheckedCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutBuildingInput
+  assemblies?: Prisma.AssemblyUncheckedCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutBuildingInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutBuildingInput
   files?: Prisma.BuildingFileUncheckedCreateNestedManyWithoutBuildingInput
@@ -1670,6 +1738,7 @@ export type BuildingCreateWithoutFilesInput = {
   technicalNotes?: string | null
   lat?: number | null
   lng?: number | null
+  dailyRoomName?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
@@ -1679,6 +1748,7 @@ export type BuildingCreateWithoutFilesInput = {
   commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutBuildingInput
+  assemblies?: Prisma.AssemblyCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutBuildingInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutBuildingInput
   infraPoints?: Prisma.InfraPointCreateNestedManyWithoutBuildingInput
@@ -1708,6 +1778,7 @@ export type BuildingUncheckedCreateWithoutFilesInput = {
   technicalNotes?: string | null
   lat?: number | null
   lng?: number | null
+  dailyRoomName?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
@@ -1715,6 +1786,7 @@ export type BuildingUncheckedCreateWithoutFilesInput = {
   commonAreas?: Prisma.CommonAreaUncheckedCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutBuildingInput
+  assemblies?: Prisma.AssemblyUncheckedCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutBuildingInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutBuildingInput
   infraPoints?: Prisma.InfraPointUncheckedCreateNestedManyWithoutBuildingInput
@@ -1758,6 +1830,7 @@ export type BuildingUpdateWithoutFilesInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
@@ -1767,6 +1840,7 @@ export type BuildingUpdateWithoutFilesInput = {
   commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUpdateManyWithoutBuildingNestedInput
+  assemblies?: Prisma.AssemblyUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutBuildingNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutBuildingNestedInput
   infraPoints?: Prisma.InfraPointUpdateManyWithoutBuildingNestedInput
@@ -1796,6 +1870,7 @@ export type BuildingUncheckedUpdateWithoutFilesInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
@@ -1803,6 +1878,7 @@ export type BuildingUncheckedUpdateWithoutFilesInput = {
   commonAreas?: Prisma.CommonAreaUncheckedUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUncheckedUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutBuildingNestedInput
+  assemblies?: Prisma.AssemblyUncheckedUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutBuildingNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutBuildingNestedInput
   infraPoints?: Prisma.InfraPointUncheckedUpdateManyWithoutBuildingNestedInput
@@ -1830,6 +1906,7 @@ export type BuildingCreateWithoutInfraPointsInput = {
   technicalNotes?: string | null
   lat?: number | null
   lng?: number | null
+  dailyRoomName?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
@@ -1839,6 +1916,7 @@ export type BuildingCreateWithoutInfraPointsInput = {
   commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutBuildingInput
+  assemblies?: Prisma.AssemblyCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutBuildingInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutBuildingInput
   files?: Prisma.BuildingFileCreateNestedManyWithoutBuildingInput
@@ -1868,6 +1946,7 @@ export type BuildingUncheckedCreateWithoutInfraPointsInput = {
   technicalNotes?: string | null
   lat?: number | null
   lng?: number | null
+  dailyRoomName?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
@@ -1875,6 +1954,7 @@ export type BuildingUncheckedCreateWithoutInfraPointsInput = {
   commonAreas?: Prisma.CommonAreaUncheckedCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutBuildingInput
+  assemblies?: Prisma.AssemblyUncheckedCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutBuildingInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutBuildingInput
   files?: Prisma.BuildingFileUncheckedCreateNestedManyWithoutBuildingInput
@@ -1918,6 +1998,7 @@ export type BuildingUpdateWithoutInfraPointsInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
@@ -1927,6 +2008,7 @@ export type BuildingUpdateWithoutInfraPointsInput = {
   commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUpdateManyWithoutBuildingNestedInput
+  assemblies?: Prisma.AssemblyUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutBuildingNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutBuildingNestedInput
   files?: Prisma.BuildingFileUpdateManyWithoutBuildingNestedInput
@@ -1956,6 +2038,7 @@ export type BuildingUncheckedUpdateWithoutInfraPointsInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
@@ -1963,6 +2046,7 @@ export type BuildingUncheckedUpdateWithoutInfraPointsInput = {
   commonAreas?: Prisma.CommonAreaUncheckedUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUncheckedUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutBuildingNestedInput
+  assemblies?: Prisma.AssemblyUncheckedUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutBuildingNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutBuildingNestedInput
   files?: Prisma.BuildingFileUncheckedUpdateManyWithoutBuildingNestedInput
@@ -1990,6 +2074,7 @@ export type BuildingCreateWithoutContactsInput = {
   technicalNotes?: string | null
   lat?: number | null
   lng?: number | null
+  dailyRoomName?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
@@ -1999,6 +2084,7 @@ export type BuildingCreateWithoutContactsInput = {
   commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutBuildingInput
+  assemblies?: Prisma.AssemblyCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutBuildingInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutBuildingInput
   files?: Prisma.BuildingFileCreateNestedManyWithoutBuildingInput
@@ -2028,6 +2114,7 @@ export type BuildingUncheckedCreateWithoutContactsInput = {
   technicalNotes?: string | null
   lat?: number | null
   lng?: number | null
+  dailyRoomName?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
@@ -2035,6 +2122,7 @@ export type BuildingUncheckedCreateWithoutContactsInput = {
   commonAreas?: Prisma.CommonAreaUncheckedCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutBuildingInput
+  assemblies?: Prisma.AssemblyUncheckedCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutBuildingInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutBuildingInput
   files?: Prisma.BuildingFileUncheckedCreateNestedManyWithoutBuildingInput
@@ -2078,6 +2166,7 @@ export type BuildingUpdateWithoutContactsInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
@@ -2087,6 +2176,7 @@ export type BuildingUpdateWithoutContactsInput = {
   commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUpdateManyWithoutBuildingNestedInput
+  assemblies?: Prisma.AssemblyUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutBuildingNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutBuildingNestedInput
   files?: Prisma.BuildingFileUpdateManyWithoutBuildingNestedInput
@@ -2116,6 +2206,7 @@ export type BuildingUncheckedUpdateWithoutContactsInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
@@ -2123,6 +2214,7 @@ export type BuildingUncheckedUpdateWithoutContactsInput = {
   commonAreas?: Prisma.CommonAreaUncheckedUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUncheckedUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutBuildingNestedInput
+  assemblies?: Prisma.AssemblyUncheckedUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutBuildingNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutBuildingNestedInput
   files?: Prisma.BuildingFileUncheckedUpdateManyWithoutBuildingNestedInput
@@ -2150,6 +2242,7 @@ export type BuildingCreateWithoutRecurringTasksInput = {
   technicalNotes?: string | null
   lat?: number | null
   lng?: number | null
+  dailyRoomName?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
@@ -2159,6 +2252,7 @@ export type BuildingCreateWithoutRecurringTasksInput = {
   commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutBuildingInput
+  assemblies?: Prisma.AssemblyCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutBuildingInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutBuildingInput
   files?: Prisma.BuildingFileCreateNestedManyWithoutBuildingInput
@@ -2188,6 +2282,7 @@ export type BuildingUncheckedCreateWithoutRecurringTasksInput = {
   technicalNotes?: string | null
   lat?: number | null
   lng?: number | null
+  dailyRoomName?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
@@ -2195,6 +2290,7 @@ export type BuildingUncheckedCreateWithoutRecurringTasksInput = {
   commonAreas?: Prisma.CommonAreaUncheckedCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutBuildingInput
+  assemblies?: Prisma.AssemblyUncheckedCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutBuildingInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutBuildingInput
   files?: Prisma.BuildingFileUncheckedCreateNestedManyWithoutBuildingInput
@@ -2238,6 +2334,7 @@ export type BuildingUpdateWithoutRecurringTasksInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
@@ -2247,6 +2344,7 @@ export type BuildingUpdateWithoutRecurringTasksInput = {
   commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUpdateManyWithoutBuildingNestedInput
+  assemblies?: Prisma.AssemblyUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutBuildingNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutBuildingNestedInput
   files?: Prisma.BuildingFileUpdateManyWithoutBuildingNestedInput
@@ -2276,6 +2374,7 @@ export type BuildingUncheckedUpdateWithoutRecurringTasksInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
@@ -2283,6 +2382,7 @@ export type BuildingUncheckedUpdateWithoutRecurringTasksInput = {
   commonAreas?: Prisma.CommonAreaUncheckedUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUncheckedUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutBuildingNestedInput
+  assemblies?: Prisma.AssemblyUncheckedUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutBuildingNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutBuildingNestedInput
   files?: Prisma.BuildingFileUncheckedUpdateManyWithoutBuildingNestedInput
@@ -2310,6 +2410,7 @@ export type BuildingCreateWithoutExpensesInput = {
   technicalNotes?: string | null
   lat?: number | null
   lng?: number | null
+  dailyRoomName?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
@@ -2319,6 +2420,7 @@ export type BuildingCreateWithoutExpensesInput = {
   commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutBuildingInput
+  assemblies?: Prisma.AssemblyCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutBuildingInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutBuildingInput
   files?: Prisma.BuildingFileCreateNestedManyWithoutBuildingInput
@@ -2348,6 +2450,7 @@ export type BuildingUncheckedCreateWithoutExpensesInput = {
   technicalNotes?: string | null
   lat?: number | null
   lng?: number | null
+  dailyRoomName?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
@@ -2355,6 +2458,7 @@ export type BuildingUncheckedCreateWithoutExpensesInput = {
   commonAreas?: Prisma.CommonAreaUncheckedCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutBuildingInput
+  assemblies?: Prisma.AssemblyUncheckedCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutBuildingInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutBuildingInput
   files?: Prisma.BuildingFileUncheckedCreateNestedManyWithoutBuildingInput
@@ -2398,6 +2502,7 @@ export type BuildingUpdateWithoutExpensesInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
@@ -2407,6 +2512,7 @@ export type BuildingUpdateWithoutExpensesInput = {
   commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUpdateManyWithoutBuildingNestedInput
+  assemblies?: Prisma.AssemblyUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutBuildingNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutBuildingNestedInput
   files?: Prisma.BuildingFileUpdateManyWithoutBuildingNestedInput
@@ -2436,6 +2542,7 @@ export type BuildingUncheckedUpdateWithoutExpensesInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
@@ -2443,6 +2550,7 @@ export type BuildingUncheckedUpdateWithoutExpensesInput = {
   commonAreas?: Prisma.CommonAreaUncheckedUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUncheckedUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutBuildingNestedInput
+  assemblies?: Prisma.AssemblyUncheckedUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutBuildingNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutBuildingNestedInput
   files?: Prisma.BuildingFileUncheckedUpdateManyWithoutBuildingNestedInput
@@ -2470,6 +2578,7 @@ export type BuildingCreateWithoutCategoryOverridesInput = {
   technicalNotes?: string | null
   lat?: number | null
   lng?: number | null
+  dailyRoomName?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
@@ -2479,6 +2588,7 @@ export type BuildingCreateWithoutCategoryOverridesInput = {
   commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutBuildingInput
+  assemblies?: Prisma.AssemblyCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutBuildingInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutBuildingInput
   files?: Prisma.BuildingFileCreateNestedManyWithoutBuildingInput
@@ -2508,6 +2618,7 @@ export type BuildingUncheckedCreateWithoutCategoryOverridesInput = {
   technicalNotes?: string | null
   lat?: number | null
   lng?: number | null
+  dailyRoomName?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
@@ -2515,6 +2626,7 @@ export type BuildingUncheckedCreateWithoutCategoryOverridesInput = {
   commonAreas?: Prisma.CommonAreaUncheckedCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutBuildingInput
+  assemblies?: Prisma.AssemblyUncheckedCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutBuildingInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutBuildingInput
   files?: Prisma.BuildingFileUncheckedCreateNestedManyWithoutBuildingInput
@@ -2558,6 +2670,7 @@ export type BuildingUpdateWithoutCategoryOverridesInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
@@ -2567,6 +2680,7 @@ export type BuildingUpdateWithoutCategoryOverridesInput = {
   commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUpdateManyWithoutBuildingNestedInput
+  assemblies?: Prisma.AssemblyUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutBuildingNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutBuildingNestedInput
   files?: Prisma.BuildingFileUpdateManyWithoutBuildingNestedInput
@@ -2596,6 +2710,7 @@ export type BuildingUncheckedUpdateWithoutCategoryOverridesInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
@@ -2603,6 +2718,7 @@ export type BuildingUncheckedUpdateWithoutCategoryOverridesInput = {
   commonAreas?: Prisma.CommonAreaUncheckedUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUncheckedUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutBuildingNestedInput
+  assemblies?: Prisma.AssemblyUncheckedUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutBuildingNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutBuildingNestedInput
   files?: Prisma.BuildingFileUncheckedUpdateManyWithoutBuildingNestedInput
@@ -2630,6 +2746,7 @@ export type BuildingCreateWithoutMeterReadingsInput = {
   technicalNotes?: string | null
   lat?: number | null
   lng?: number | null
+  dailyRoomName?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
@@ -2639,6 +2756,7 @@ export type BuildingCreateWithoutMeterReadingsInput = {
   commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutBuildingInput
+  assemblies?: Prisma.AssemblyCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutBuildingInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutBuildingInput
   files?: Prisma.BuildingFileCreateNestedManyWithoutBuildingInput
@@ -2668,6 +2786,7 @@ export type BuildingUncheckedCreateWithoutMeterReadingsInput = {
   technicalNotes?: string | null
   lat?: number | null
   lng?: number | null
+  dailyRoomName?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
@@ -2675,6 +2794,7 @@ export type BuildingUncheckedCreateWithoutMeterReadingsInput = {
   commonAreas?: Prisma.CommonAreaUncheckedCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutBuildingInput
+  assemblies?: Prisma.AssemblyUncheckedCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutBuildingInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutBuildingInput
   files?: Prisma.BuildingFileUncheckedCreateNestedManyWithoutBuildingInput
@@ -2718,6 +2838,7 @@ export type BuildingUpdateWithoutMeterReadingsInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
@@ -2727,6 +2848,7 @@ export type BuildingUpdateWithoutMeterReadingsInput = {
   commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUpdateManyWithoutBuildingNestedInput
+  assemblies?: Prisma.AssemblyUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutBuildingNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutBuildingNestedInput
   files?: Prisma.BuildingFileUpdateManyWithoutBuildingNestedInput
@@ -2756,6 +2878,7 @@ export type BuildingUncheckedUpdateWithoutMeterReadingsInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
@@ -2763,6 +2886,7 @@ export type BuildingUncheckedUpdateWithoutMeterReadingsInput = {
   commonAreas?: Prisma.CommonAreaUncheckedUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUncheckedUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutBuildingNestedInput
+  assemblies?: Prisma.AssemblyUncheckedUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutBuildingNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutBuildingNestedInput
   files?: Prisma.BuildingFileUncheckedUpdateManyWithoutBuildingNestedInput
@@ -2790,6 +2914,7 @@ export type BuildingCreateWithoutManagementAssignmentsInput = {
   technicalNotes?: string | null
   lat?: number | null
   lng?: number | null
+  dailyRoomName?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
@@ -2799,6 +2924,7 @@ export type BuildingCreateWithoutManagementAssignmentsInput = {
   commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutBuildingInput
+  assemblies?: Prisma.AssemblyCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutBuildingInput
   files?: Prisma.BuildingFileCreateNestedManyWithoutBuildingInput
   infraPoints?: Prisma.InfraPointCreateNestedManyWithoutBuildingInput
@@ -2828,6 +2954,7 @@ export type BuildingUncheckedCreateWithoutManagementAssignmentsInput = {
   technicalNotes?: string | null
   lat?: number | null
   lng?: number | null
+  dailyRoomName?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
@@ -2835,6 +2962,7 @@ export type BuildingUncheckedCreateWithoutManagementAssignmentsInput = {
   commonAreas?: Prisma.CommonAreaUncheckedCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutBuildingInput
+  assemblies?: Prisma.AssemblyUncheckedCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutBuildingInput
   files?: Prisma.BuildingFileUncheckedCreateNestedManyWithoutBuildingInput
   infraPoints?: Prisma.InfraPointUncheckedCreateNestedManyWithoutBuildingInput
@@ -2878,6 +3006,7 @@ export type BuildingUpdateWithoutManagementAssignmentsInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
@@ -2887,6 +3016,7 @@ export type BuildingUpdateWithoutManagementAssignmentsInput = {
   commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUpdateManyWithoutBuildingNestedInput
+  assemblies?: Prisma.AssemblyUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutBuildingNestedInput
   files?: Prisma.BuildingFileUpdateManyWithoutBuildingNestedInput
   infraPoints?: Prisma.InfraPointUpdateManyWithoutBuildingNestedInput
@@ -2916,6 +3046,7 @@ export type BuildingUncheckedUpdateWithoutManagementAssignmentsInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
@@ -2923,6 +3054,7 @@ export type BuildingUncheckedUpdateWithoutManagementAssignmentsInput = {
   commonAreas?: Prisma.CommonAreaUncheckedUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUncheckedUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutBuildingNestedInput
+  assemblies?: Prisma.AssemblyUncheckedUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutBuildingNestedInput
   files?: Prisma.BuildingFileUncheckedUpdateManyWithoutBuildingNestedInput
   infraPoints?: Prisma.InfraPointUncheckedUpdateManyWithoutBuildingNestedInput
@@ -2950,6 +3082,7 @@ export type BuildingCreateWithoutCommonAreasInput = {
   technicalNotes?: string | null
   lat?: number | null
   lng?: number | null
+  dailyRoomName?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
@@ -2958,6 +3091,7 @@ export type BuildingCreateWithoutCommonAreasInput = {
   units?: Prisma.UnitCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutBuildingInput
+  assemblies?: Prisma.AssemblyCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutBuildingInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutBuildingInput
   files?: Prisma.BuildingFileCreateNestedManyWithoutBuildingInput
@@ -2988,12 +3122,14 @@ export type BuildingUncheckedCreateWithoutCommonAreasInput = {
   technicalNotes?: string | null
   lat?: number | null
   lng?: number | null
+  dailyRoomName?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
   units?: Prisma.UnitUncheckedCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutBuildingInput
+  assemblies?: Prisma.AssemblyUncheckedCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutBuildingInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutBuildingInput
   files?: Prisma.BuildingFileUncheckedCreateNestedManyWithoutBuildingInput
@@ -3038,6 +3174,7 @@ export type BuildingUpdateWithoutCommonAreasInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
@@ -3046,6 +3183,7 @@ export type BuildingUpdateWithoutCommonAreasInput = {
   units?: Prisma.UnitUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUpdateManyWithoutBuildingNestedInput
+  assemblies?: Prisma.AssemblyUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutBuildingNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutBuildingNestedInput
   files?: Prisma.BuildingFileUpdateManyWithoutBuildingNestedInput
@@ -3076,12 +3214,14 @@ export type BuildingUncheckedUpdateWithoutCommonAreasInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
   units?: Prisma.UnitUncheckedUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUncheckedUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutBuildingNestedInput
+  assemblies?: Prisma.AssemblyUncheckedUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutBuildingNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutBuildingNestedInput
   files?: Prisma.BuildingFileUncheckedUpdateManyWithoutBuildingNestedInput
@@ -3110,6 +3250,7 @@ export type BuildingCreateWithoutUnitsInput = {
   technicalNotes?: string | null
   lat?: number | null
   lng?: number | null
+  dailyRoomName?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
@@ -3118,6 +3259,7 @@ export type BuildingCreateWithoutUnitsInput = {
   commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutBuildingInput
+  assemblies?: Prisma.AssemblyCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutBuildingInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutBuildingInput
   files?: Prisma.BuildingFileCreateNestedManyWithoutBuildingInput
@@ -3148,12 +3290,14 @@ export type BuildingUncheckedCreateWithoutUnitsInput = {
   technicalNotes?: string | null
   lat?: number | null
   lng?: number | null
+  dailyRoomName?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
   commonAreas?: Prisma.CommonAreaUncheckedCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutBuildingInput
+  assemblies?: Prisma.AssemblyUncheckedCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutBuildingInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutBuildingInput
   files?: Prisma.BuildingFileUncheckedCreateNestedManyWithoutBuildingInput
@@ -3198,6 +3342,7 @@ export type BuildingUpdateWithoutUnitsInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
@@ -3206,6 +3351,7 @@ export type BuildingUpdateWithoutUnitsInput = {
   commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUpdateManyWithoutBuildingNestedInput
+  assemblies?: Prisma.AssemblyUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutBuildingNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutBuildingNestedInput
   files?: Prisma.BuildingFileUpdateManyWithoutBuildingNestedInput
@@ -3236,12 +3382,14 @@ export type BuildingUncheckedUpdateWithoutUnitsInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
   commonAreas?: Prisma.CommonAreaUncheckedUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUncheckedUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutBuildingNestedInput
+  assemblies?: Prisma.AssemblyUncheckedUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutBuildingNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutBuildingNestedInput
   files?: Prisma.BuildingFileUncheckedUpdateManyWithoutBuildingNestedInput
@@ -3270,6 +3418,7 @@ export type BuildingCreateWithoutAnnouncementsInput = {
   technicalNotes?: string | null
   lat?: number | null
   lng?: number | null
+  dailyRoomName?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
@@ -3278,6 +3427,7 @@ export type BuildingCreateWithoutAnnouncementsInput = {
   units?: Prisma.UnitCreateNestedManyWithoutBuildingInput
   commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureCreateNestedManyWithoutBuildingInput
+  assemblies?: Prisma.AssemblyCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutBuildingInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutBuildingInput
   files?: Prisma.BuildingFileCreateNestedManyWithoutBuildingInput
@@ -3308,12 +3458,14 @@ export type BuildingUncheckedCreateWithoutAnnouncementsInput = {
   technicalNotes?: string | null
   lat?: number | null
   lng?: number | null
+  dailyRoomName?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
   units?: Prisma.UnitUncheckedCreateNestedManyWithoutBuildingInput
   commonAreas?: Prisma.CommonAreaUncheckedCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutBuildingInput
+  assemblies?: Prisma.AssemblyUncheckedCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutBuildingInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutBuildingInput
   files?: Prisma.BuildingFileUncheckedCreateNestedManyWithoutBuildingInput
@@ -3358,6 +3510,7 @@ export type BuildingUpdateWithoutAnnouncementsInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
@@ -3366,6 +3519,7 @@ export type BuildingUpdateWithoutAnnouncementsInput = {
   units?: Prisma.UnitUpdateManyWithoutBuildingNestedInput
   commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUpdateManyWithoutBuildingNestedInput
+  assemblies?: Prisma.AssemblyUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutBuildingNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutBuildingNestedInput
   files?: Prisma.BuildingFileUpdateManyWithoutBuildingNestedInput
@@ -3396,12 +3550,182 @@ export type BuildingUncheckedUpdateWithoutAnnouncementsInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
   units?: Prisma.UnitUncheckedUpdateManyWithoutBuildingNestedInput
   commonAreas?: Prisma.CommonAreaUncheckedUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUncheckedUpdateManyWithoutBuildingNestedInput
+  assemblies?: Prisma.AssemblyUncheckedUpdateManyWithoutBuildingNestedInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutBuildingNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutBuildingNestedInput
+  files?: Prisma.BuildingFileUncheckedUpdateManyWithoutBuildingNestedInput
+  infraPoints?: Prisma.InfraPointUncheckedUpdateManyWithoutBuildingNestedInput
+  contacts?: Prisma.ContactUncheckedUpdateManyWithoutBuildingNestedInput
+  recurringTasks?: Prisma.RecurringTaskUncheckedUpdateManyWithoutBuildingNestedInput
+  expenses?: Prisma.BuildingExpenseUncheckedUpdateManyWithoutBuildingNestedInput
+  categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedUpdateManyWithoutBuildingNestedInput
+  meterReadings?: Prisma.MeterReadingUncheckedUpdateManyWithoutBuildingNestedInput
+}
+
+export type BuildingCreateWithoutAssembliesInput = {
+  id?: string
+  name: string
+  address: string
+  city: string
+  postalCode: string
+  country?: string
+  imageUrl?: string | null
+  floors?: number | null
+  basements?: number | null
+  unitsCount?: number
+  hasElevator?: boolean
+  hasBoiler?: boolean
+  hasFireSafety?: boolean
+  technicalNotes?: string | null
+  lat?: number | null
+  lng?: number | null
+  dailyRoomName?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
+  property: Prisma.PropertyCreateNestedOneWithoutBuildingsInput
+  users?: Prisma.UserCreateNestedManyWithoutBuildingInput
+  units?: Prisma.UnitCreateNestedManyWithoutBuildingInput
+  commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
+  addons?: Prisma.AddonFeatureCreateNestedManyWithoutBuildingInput
+  announcements?: Prisma.AnnouncementCreateNestedManyWithoutBuildingInput
+  maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutBuildingInput
+  managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutBuildingInput
+  files?: Prisma.BuildingFileCreateNestedManyWithoutBuildingInput
+  infraPoints?: Prisma.InfraPointCreateNestedManyWithoutBuildingInput
+  contacts?: Prisma.ContactCreateNestedManyWithoutBuildingInput
+  recurringTasks?: Prisma.RecurringTaskCreateNestedManyWithoutBuildingInput
+  expenses?: Prisma.BuildingExpenseCreateNestedManyWithoutBuildingInput
+  categoryOverrides?: Prisma.BuildingCategoryOverrideCreateNestedManyWithoutBuildingInput
+  meterReadings?: Prisma.MeterReadingCreateNestedManyWithoutBuildingInput
+}
+
+export type BuildingUncheckedCreateWithoutAssembliesInput = {
+  id?: string
+  companyId: string
+  propertyId: string
+  name: string
+  address: string
+  city: string
+  postalCode: string
+  country?: string
+  imageUrl?: string | null
+  floors?: number | null
+  basements?: number | null
+  unitsCount?: number
+  hasElevator?: boolean
+  hasBoiler?: boolean
+  hasFireSafety?: boolean
+  technicalNotes?: string | null
+  lat?: number | null
+  lng?: number | null
+  dailyRoomName?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
+  units?: Prisma.UnitUncheckedCreateNestedManyWithoutBuildingInput
+  commonAreas?: Prisma.CommonAreaUncheckedCreateNestedManyWithoutBuildingInput
+  addons?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutBuildingInput
+  announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutBuildingInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutBuildingInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutBuildingInput
+  files?: Prisma.BuildingFileUncheckedCreateNestedManyWithoutBuildingInput
+  infraPoints?: Prisma.InfraPointUncheckedCreateNestedManyWithoutBuildingInput
+  contacts?: Prisma.ContactUncheckedCreateNestedManyWithoutBuildingInput
+  recurringTasks?: Prisma.RecurringTaskUncheckedCreateNestedManyWithoutBuildingInput
+  expenses?: Prisma.BuildingExpenseUncheckedCreateNestedManyWithoutBuildingInput
+  categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedCreateNestedManyWithoutBuildingInput
+  meterReadings?: Prisma.MeterReadingUncheckedCreateNestedManyWithoutBuildingInput
+}
+
+export type BuildingCreateOrConnectWithoutAssembliesInput = {
+  where: Prisma.BuildingWhereUniqueInput
+  create: Prisma.XOR<Prisma.BuildingCreateWithoutAssembliesInput, Prisma.BuildingUncheckedCreateWithoutAssembliesInput>
+}
+
+export type BuildingUpsertWithoutAssembliesInput = {
+  update: Prisma.XOR<Prisma.BuildingUpdateWithoutAssembliesInput, Prisma.BuildingUncheckedUpdateWithoutAssembliesInput>
+  create: Prisma.XOR<Prisma.BuildingCreateWithoutAssembliesInput, Prisma.BuildingUncheckedCreateWithoutAssembliesInput>
+  where?: Prisma.BuildingWhereInput
+}
+
+export type BuildingUpdateToOneWithWhereWithoutAssembliesInput = {
+  where?: Prisma.BuildingWhereInput
+  data: Prisma.XOR<Prisma.BuildingUpdateWithoutAssembliesInput, Prisma.BuildingUncheckedUpdateWithoutAssembliesInput>
+}
+
+export type BuildingUpdateWithoutAssembliesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.StringFieldUpdateOperationsInput | string
+  postalCode?: Prisma.StringFieldUpdateOperationsInput | string
+  country?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  floors?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  basements?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  unitsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  hasElevator?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasBoiler?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasFireSafety?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
+  property?: Prisma.PropertyUpdateOneRequiredWithoutBuildingsNestedInput
+  users?: Prisma.UserUpdateManyWithoutBuildingNestedInput
+  units?: Prisma.UnitUpdateManyWithoutBuildingNestedInput
+  commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
+  addons?: Prisma.AddonFeatureUpdateManyWithoutBuildingNestedInput
+  announcements?: Prisma.AnnouncementUpdateManyWithoutBuildingNestedInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutBuildingNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutBuildingNestedInput
+  files?: Prisma.BuildingFileUpdateManyWithoutBuildingNestedInput
+  infraPoints?: Prisma.InfraPointUpdateManyWithoutBuildingNestedInput
+  contacts?: Prisma.ContactUpdateManyWithoutBuildingNestedInput
+  recurringTasks?: Prisma.RecurringTaskUpdateManyWithoutBuildingNestedInput
+  expenses?: Prisma.BuildingExpenseUpdateManyWithoutBuildingNestedInput
+  categoryOverrides?: Prisma.BuildingCategoryOverrideUpdateManyWithoutBuildingNestedInput
+  meterReadings?: Prisma.MeterReadingUpdateManyWithoutBuildingNestedInput
+}
+
+export type BuildingUncheckedUpdateWithoutAssembliesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  companyId?: Prisma.StringFieldUpdateOperationsInput | string
+  propertyId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.StringFieldUpdateOperationsInput | string
+  postalCode?: Prisma.StringFieldUpdateOperationsInput | string
+  country?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  floors?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  basements?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  unitsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  hasElevator?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasBoiler?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasFireSafety?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
+  units?: Prisma.UnitUncheckedUpdateManyWithoutBuildingNestedInput
+  commonAreas?: Prisma.CommonAreaUncheckedUpdateManyWithoutBuildingNestedInput
+  addons?: Prisma.AddonFeatureUncheckedUpdateManyWithoutBuildingNestedInput
+  announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutBuildingNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutBuildingNestedInput
   files?: Prisma.BuildingFileUncheckedUpdateManyWithoutBuildingNestedInput
@@ -3430,6 +3754,7 @@ export type BuildingCreateWithoutMaintenanceRequestsInput = {
   technicalNotes?: string | null
   lat?: number | null
   lng?: number | null
+  dailyRoomName?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
@@ -3439,6 +3764,7 @@ export type BuildingCreateWithoutMaintenanceRequestsInput = {
   commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutBuildingInput
+  assemblies?: Prisma.AssemblyCreateNestedManyWithoutBuildingInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutBuildingInput
   files?: Prisma.BuildingFileCreateNestedManyWithoutBuildingInput
   infraPoints?: Prisma.InfraPointCreateNestedManyWithoutBuildingInput
@@ -3468,6 +3794,7 @@ export type BuildingUncheckedCreateWithoutMaintenanceRequestsInput = {
   technicalNotes?: string | null
   lat?: number | null
   lng?: number | null
+  dailyRoomName?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
@@ -3475,6 +3802,7 @@ export type BuildingUncheckedCreateWithoutMaintenanceRequestsInput = {
   commonAreas?: Prisma.CommonAreaUncheckedCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutBuildingInput
+  assemblies?: Prisma.AssemblyUncheckedCreateNestedManyWithoutBuildingInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutBuildingInput
   files?: Prisma.BuildingFileUncheckedCreateNestedManyWithoutBuildingInput
   infraPoints?: Prisma.InfraPointUncheckedCreateNestedManyWithoutBuildingInput
@@ -3518,6 +3846,7 @@ export type BuildingUpdateWithoutMaintenanceRequestsInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
@@ -3527,6 +3856,7 @@ export type BuildingUpdateWithoutMaintenanceRequestsInput = {
   commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUpdateManyWithoutBuildingNestedInput
+  assemblies?: Prisma.AssemblyUpdateManyWithoutBuildingNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutBuildingNestedInput
   files?: Prisma.BuildingFileUpdateManyWithoutBuildingNestedInput
   infraPoints?: Prisma.InfraPointUpdateManyWithoutBuildingNestedInput
@@ -3556,6 +3886,7 @@ export type BuildingUncheckedUpdateWithoutMaintenanceRequestsInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
@@ -3563,6 +3894,7 @@ export type BuildingUncheckedUpdateWithoutMaintenanceRequestsInput = {
   commonAreas?: Prisma.CommonAreaUncheckedUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUncheckedUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutBuildingNestedInput
+  assemblies?: Prisma.AssemblyUncheckedUpdateManyWithoutBuildingNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutBuildingNestedInput
   files?: Prisma.BuildingFileUncheckedUpdateManyWithoutBuildingNestedInput
   infraPoints?: Prisma.InfraPointUncheckedUpdateManyWithoutBuildingNestedInput
@@ -3591,6 +3923,7 @@ export type BuildingCreateManyCompanyInput = {
   technicalNotes?: string | null
   lat?: number | null
   lng?: number | null
+  dailyRoomName?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -3612,6 +3945,7 @@ export type BuildingUpdateWithoutCompanyInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   property?: Prisma.PropertyUpdateOneRequiredWithoutBuildingsNestedInput
@@ -3620,6 +3954,7 @@ export type BuildingUpdateWithoutCompanyInput = {
   commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUpdateManyWithoutBuildingNestedInput
+  assemblies?: Prisma.AssemblyUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutBuildingNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutBuildingNestedInput
   files?: Prisma.BuildingFileUpdateManyWithoutBuildingNestedInput
@@ -3649,6 +3984,7 @@ export type BuildingUncheckedUpdateWithoutCompanyInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
@@ -3656,6 +3992,7 @@ export type BuildingUncheckedUpdateWithoutCompanyInput = {
   commonAreas?: Prisma.CommonAreaUncheckedUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUncheckedUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutBuildingNestedInput
+  assemblies?: Prisma.AssemblyUncheckedUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutBuildingNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutBuildingNestedInput
   files?: Prisma.BuildingFileUncheckedUpdateManyWithoutBuildingNestedInput
@@ -3685,6 +4022,7 @@ export type BuildingUncheckedUpdateManyWithoutCompanyInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -3707,6 +4045,7 @@ export type BuildingCreateManyPropertyInput = {
   technicalNotes?: string | null
   lat?: number | null
   lng?: number | null
+  dailyRoomName?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -3728,6 +4067,7 @@ export type BuildingUpdateWithoutPropertyInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
@@ -3736,6 +4076,7 @@ export type BuildingUpdateWithoutPropertyInput = {
   commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUpdateManyWithoutBuildingNestedInput
+  assemblies?: Prisma.AssemblyUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutBuildingNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutBuildingNestedInput
   files?: Prisma.BuildingFileUpdateManyWithoutBuildingNestedInput
@@ -3765,6 +4106,7 @@ export type BuildingUncheckedUpdateWithoutPropertyInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
@@ -3772,6 +4114,7 @@ export type BuildingUncheckedUpdateWithoutPropertyInput = {
   commonAreas?: Prisma.CommonAreaUncheckedUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUncheckedUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutBuildingNestedInput
+  assemblies?: Prisma.AssemblyUncheckedUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutBuildingNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutBuildingNestedInput
   files?: Prisma.BuildingFileUncheckedUpdateManyWithoutBuildingNestedInput
@@ -3801,6 +4144,7 @@ export type BuildingUncheckedUpdateManyWithoutPropertyInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -3816,6 +4160,7 @@ export type BuildingCountOutputType = {
   commonAreas: number
   addons: number
   announcements: number
+  assemblies: number
   maintenanceRequests: number
   managementAssignments: number
   files: number
@@ -3833,6 +4178,7 @@ export type BuildingCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensio
   commonAreas?: boolean | BuildingCountOutputTypeCountCommonAreasArgs
   addons?: boolean | BuildingCountOutputTypeCountAddonsArgs
   announcements?: boolean | BuildingCountOutputTypeCountAnnouncementsArgs
+  assemblies?: boolean | BuildingCountOutputTypeCountAssembliesArgs
   maintenanceRequests?: boolean | BuildingCountOutputTypeCountMaintenanceRequestsArgs
   managementAssignments?: boolean | BuildingCountOutputTypeCountManagementAssignmentsArgs
   files?: boolean | BuildingCountOutputTypeCountFilesArgs
@@ -3887,6 +4233,13 @@ export type BuildingCountOutputTypeCountAddonsArgs<ExtArgs extends runtime.Types
  */
 export type BuildingCountOutputTypeCountAnnouncementsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.AnnouncementWhereInput
+}
+
+/**
+ * BuildingCountOutputType without action
+ */
+export type BuildingCountOutputTypeCountAssembliesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AssemblyWhereInput
 }
 
 /**
@@ -3972,6 +4325,7 @@ export type BuildingSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   technicalNotes?: boolean
   lat?: boolean
   lng?: boolean
+  dailyRoomName?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
@@ -3981,6 +4335,7 @@ export type BuildingSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   commonAreas?: boolean | Prisma.Building$commonAreasArgs<ExtArgs>
   addons?: boolean | Prisma.Building$addonsArgs<ExtArgs>
   announcements?: boolean | Prisma.Building$announcementsArgs<ExtArgs>
+  assemblies?: boolean | Prisma.Building$assembliesArgs<ExtArgs>
   maintenanceRequests?: boolean | Prisma.Building$maintenanceRequestsArgs<ExtArgs>
   managementAssignments?: boolean | Prisma.Building$managementAssignmentsArgs<ExtArgs>
   files?: boolean | Prisma.Building$filesArgs<ExtArgs>
@@ -4012,6 +4367,7 @@ export type BuildingSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   technicalNotes?: boolean
   lat?: boolean
   lng?: boolean
+  dailyRoomName?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
@@ -4037,6 +4393,7 @@ export type BuildingSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   technicalNotes?: boolean
   lat?: boolean
   lng?: boolean
+  dailyRoomName?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
@@ -4062,11 +4419,12 @@ export type BuildingSelectScalar = {
   technicalNotes?: boolean
   lat?: boolean
   lng?: boolean
+  dailyRoomName?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type BuildingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "companyId" | "propertyId" | "name" | "address" | "city" | "postalCode" | "country" | "imageUrl" | "floors" | "basements" | "unitsCount" | "hasElevator" | "hasBoiler" | "hasFireSafety" | "technicalNotes" | "lat" | "lng" | "createdAt" | "updatedAt", ExtArgs["result"]["building"]>
+export type BuildingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "companyId" | "propertyId" | "name" | "address" | "city" | "postalCode" | "country" | "imageUrl" | "floors" | "basements" | "unitsCount" | "hasElevator" | "hasBoiler" | "hasFireSafety" | "technicalNotes" | "lat" | "lng" | "dailyRoomName" | "createdAt" | "updatedAt", ExtArgs["result"]["building"]>
 export type BuildingInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
   property?: boolean | Prisma.PropertyDefaultArgs<ExtArgs>
@@ -4075,6 +4433,7 @@ export type BuildingInclude<ExtArgs extends runtime.Types.Extensions.InternalArg
   commonAreas?: boolean | Prisma.Building$commonAreasArgs<ExtArgs>
   addons?: boolean | Prisma.Building$addonsArgs<ExtArgs>
   announcements?: boolean | Prisma.Building$announcementsArgs<ExtArgs>
+  assemblies?: boolean | Prisma.Building$assembliesArgs<ExtArgs>
   maintenanceRequests?: boolean | Prisma.Building$maintenanceRequestsArgs<ExtArgs>
   managementAssignments?: boolean | Prisma.Building$managementAssignmentsArgs<ExtArgs>
   files?: boolean | Prisma.Building$filesArgs<ExtArgs>
@@ -4105,6 +4464,7 @@ export type $BuildingPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     commonAreas: Prisma.$CommonAreaPayload<ExtArgs>[]
     addons: Prisma.$AddonFeaturePayload<ExtArgs>[]
     announcements: Prisma.$AnnouncementPayload<ExtArgs>[]
+    assemblies: Prisma.$AssemblyPayload<ExtArgs>[]
     maintenanceRequests: Prisma.$MaintenanceRequestPayload<ExtArgs>[]
     managementAssignments: Prisma.$ManagementAssignmentPayload<ExtArgs>[]
     files: Prisma.$BuildingFilePayload<ExtArgs>[]
@@ -4134,6 +4494,7 @@ export type $BuildingPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     technicalNotes: string | null
     lat: number | null
     lng: number | null
+    dailyRoomName: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["building"]>
@@ -4537,6 +4898,7 @@ export interface Prisma__BuildingClient<T, Null = never, ExtArgs extends runtime
   commonAreas<T extends Prisma.Building$commonAreasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Building$commonAreasArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CommonAreaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   addons<T extends Prisma.Building$addonsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Building$addonsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AddonFeaturePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   announcements<T extends Prisma.Building$announcementsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Building$announcementsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AnnouncementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  assemblies<T extends Prisma.Building$assembliesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Building$assembliesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AssemblyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   maintenanceRequests<T extends Prisma.Building$maintenanceRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Building$maintenanceRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MaintenanceRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   managementAssignments<T extends Prisma.Building$managementAssignmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Building$managementAssignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ManagementAssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   files<T extends Prisma.Building$filesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Building$filesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BuildingFilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -4593,6 +4955,7 @@ export interface BuildingFieldRefs {
   readonly technicalNotes: Prisma.FieldRef<"Building", 'String'>
   readonly lat: Prisma.FieldRef<"Building", 'Float'>
   readonly lng: Prisma.FieldRef<"Building", 'Float'>
+  readonly dailyRoomName: Prisma.FieldRef<"Building", 'String'>
   readonly createdAt: Prisma.FieldRef<"Building", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Building", 'DateTime'>
 }
@@ -5113,6 +5476,30 @@ export type Building$announcementsArgs<ExtArgs extends runtime.Types.Extensions.
   take?: number
   skip?: number
   distinct?: Prisma.AnnouncementScalarFieldEnum | Prisma.AnnouncementScalarFieldEnum[]
+}
+
+/**
+ * Building.assemblies
+ */
+export type Building$assembliesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Assembly
+   */
+  select?: Prisma.AssemblySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Assembly
+   */
+  omit?: Prisma.AssemblyOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AssemblyInclude<ExtArgs> | null
+  where?: Prisma.AssemblyWhereInput
+  orderBy?: Prisma.AssemblyOrderByWithRelationInput | Prisma.AssemblyOrderByWithRelationInput[]
+  cursor?: Prisma.AssemblyWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AssemblyScalarFieldEnum | Prisma.AssemblyScalarFieldEnum[]
 }
 
 /**

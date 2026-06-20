@@ -149,6 +149,7 @@ model User {
 
   // Announcements created by this user
   createdAnnouncements Announcement[] @relation("announcementCreatedBy")
+  announcementAcks     Announcement_User[] @relation("announcementAcks")
 
   // Employee records linked to this user
   employeeLinks       Employee[] @relation("employeeUser")
@@ -624,6 +625,8 @@ model Building {
   commonAreas           CommonArea[]
   addons                AddonFeature[]
   announcements         Announcement[]
+  dailyRoomName         String?
+  assemblies            Assembly[]
   maintenanceRequests   MaintenanceRequest[]
   managementAssignments ManagementAssignment[]
   files                 BuildingFile[]
@@ -1148,16 +1151,21 @@ model Announcement {
   building              Building @relation(fields: [buildingId], references: [id], onDelete: Cascade)
 
   title                 String
-  content               String   @db.Text
+  content               String   @db.Text   // rich text (HTML)
   imageUrl              String?  // BunnyCDN URL
 
   status                String   @default("ACTIVE") // ACTIVE, DRAFT, ARCHIVED
+  audience              String   @default("ALL") // ALL, OWNERS, RESIDENTS, CUSTOM
 
   publishedAt           DateTime?
   expiresAt             DateTime?
 
+  recurringTaskId       String?  // optional linked calendar entry
+
   createdById           String?
   createdBy             User?    @relation("announcementCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
+
+  recipients            Announcement_User[]
 
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt
@@ -1167,12 +1175,73 @@ model Announcement {
 }
 
 model Announcement_User {
-  id                    String   @id @default(cuid())
+  id                    String       @id @default(cuid())
   announcementId        String
+  announcement          Announcement @relation(fields: [announcementId], references: [id], onDelete: Cascade)
   userId                String
+  user                  User         @relation("announcementAcks", fields: [userId], references: [id], onDelete: Cascade)
+
+  token                 String       @unique @default(cuid())
+  sentAt                DateTime?
   readAt                DateTime?
+  acknowledgedAt        DateTime?
+  ipAddress             String?
+  userAgent             String?
 
   @@unique([announcementId, userId])
+  @@index([userId])
+}
+
+enum AssemblyStatus {
+  SCHEDULED
+  LIVE
+  ENDED
+  TRANSCRIBING
+  DRAFT_READY
+  APPROVED
+  SENT
+  CANCELLED
+}
+
+model Assembly {
+  id              String          @id @default(cuid())
+  buildingId      String
+  building        Building        @relation(fields: [buildingId], references: [id], onDelete: Cascade)
+  title           String
+  scheduledAt     DateTime
+  status          AssemblyStatus  @default(SCHEDULED)
+  dailyRoomName   String
+  dailySessionId  String?
+  recordingUrl    String?
+  transcriptRaw   String?         @db.Text
+  minutesDraft    String?         @db.Text
+  minutesFinal    String?         @db.Text
+  approvedAt      DateTime?
+  sentAt          DateTime?
+  createdById     String
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  participants    AssemblyParticipant[]
+
+  @@index([buildingId])
+  @@index([status])
+}
+
+model AssemblyParticipant {
+  id              String    @id @default(cuid())
+  assemblyId      String
+  assembly        Assembly  @relation(fields: [assemblyId], references: [id], onDelete: Cascade)
+  userId          String?
+  unitId          String?
+  displayName     String
+  joinedAt        DateTime?
+  leftAt          DateTime?
+  durationSeconds Int       @default(0)
+  invitedSentAt   DateTime?
+  momSentAt       DateTime?
+
+  @@index([assemblyId])
+  @@index([userId])
 }
 
 // API Usage Tracking - for cost monitoring
@@ -1199,6 +1268,10 @@ model APIUsageLog {
   userId                String?  // Which user triggered this
   user                  User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
 
+  buildingId            String?
+  customerId            String?
+  assemblyId            String?
+
   status                String   @default("SUCCESS") // SUCCESS, FAILED, RETRY
   errorMessage          String?
 
@@ -1209,6 +1282,9 @@ model APIUsageLog {
   @@index([companyId])
   @@index([userId])
   @@index([createdAt])
+  @@index([buildingId])
+  @@index([customerId])
+  @@index([assemblyId])
 }
 
 // API Cost Settings - configurable by SUPER_ADMIN

@@ -203,6 +203,16 @@ export type Announcement = Prisma.AnnouncementModel
  */
 export type Announcement_User = Prisma.Announcement_UserModel
 /**
+ * Model Assembly
+ * 
+ */
+export type Assembly = Prisma.AssemblyModel
+/**
+ * Model AssemblyParticipant
+ * 
+ */
+export type AssemblyParticipant = Prisma.AssemblyParticipantModel
+/**
  * Model APIUsageLog
  * 
  */

@@ -88,6 +88,8 @@ export const ModelName = {
   MenuConfig: 'MenuConfig',
   Announcement: 'Announcement',
   Announcement_User: 'Announcement_User',
+  Assembly: 'Assembly',
+  AssemblyParticipant: 'AssemblyParticipant',
   APIUsageLog: 'APIUsageLog',
   APICostConfig: 'APICostConfig',
   MonthlyCostSummary: 'MonthlyCostSummary',
@@ -405,6 +407,7 @@ export const BuildingScalarFieldEnum = {
   technicalNotes: 'technicalNotes',
   lat: 'lat',
   lng: 'lng',
+  dailyRoomName: 'dailyRoomName',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -769,8 +772,10 @@ export const AnnouncementScalarFieldEnum = {
   content: 'content',
   imageUrl: 'imageUrl',
   status: 'status',
+  audience: 'audience',
   publishedAt: 'publishedAt',
   expiresAt: 'expiresAt',
+  recurringTaskId: 'recurringTaskId',
   createdById: 'createdById',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -783,10 +788,53 @@ export const Announcement_UserScalarFieldEnum = {
   id: 'id',
   announcementId: 'announcementId',
   userId: 'userId',
-  readAt: 'readAt'
+  token: 'token',
+  sentAt: 'sentAt',
+  readAt: 'readAt',
+  acknowledgedAt: 'acknowledgedAt',
+  ipAddress: 'ipAddress',
+  userAgent: 'userAgent'
 } as const
 
 export type Announcement_UserScalarFieldEnum = (typeof Announcement_UserScalarFieldEnum)[keyof typeof Announcement_UserScalarFieldEnum]
+
+
+export const AssemblyScalarFieldEnum = {
+  id: 'id',
+  buildingId: 'buildingId',
+  title: 'title',
+  scheduledAt: 'scheduledAt',
+  status: 'status',
+  dailyRoomName: 'dailyRoomName',
+  dailySessionId: 'dailySessionId',
+  recordingUrl: 'recordingUrl',
+  transcriptRaw: 'transcriptRaw',
+  minutesDraft: 'minutesDraft',
+  minutesFinal: 'minutesFinal',
+  approvedAt: 'approvedAt',
+  sentAt: 'sentAt',
+  createdById: 'createdById',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AssemblyScalarFieldEnum = (typeof AssemblyScalarFieldEnum)[keyof typeof AssemblyScalarFieldEnum]
+
+
+export const AssemblyParticipantScalarFieldEnum = {
+  id: 'id',
+  assemblyId: 'assemblyId',
+  userId: 'userId',
+  unitId: 'unitId',
+  displayName: 'displayName',
+  joinedAt: 'joinedAt',
+  leftAt: 'leftAt',
+  durationSeconds: 'durationSeconds',
+  invitedSentAt: 'invitedSentAt',
+  momSentAt: 'momSentAt'
+} as const
+
+export type AssemblyParticipantScalarFieldEnum = (typeof AssemblyParticipantScalarFieldEnum)[keyof typeof AssemblyParticipantScalarFieldEnum]
 
 
 export const APIUsageLogScalarFieldEnum = {
@@ -802,6 +850,9 @@ export const APIUsageLogScalarFieldEnum = {
   currency: 'currency',
   companyId: 'companyId',
   userId: 'userId',
+  buildingId: 'buildingId',
+  customerId: 'customerId',
+  assemblyId: 'assemblyId',
   status: 'status',
   errorMessage: 'errorMessage',
   createdAt: 'createdAt',

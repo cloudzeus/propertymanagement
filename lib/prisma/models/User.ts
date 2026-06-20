@@ -266,6 +266,7 @@ export type UserWhereInput = {
   createdCompanies?: Prisma.CompanyListRelationFilter
   createdMenuConfigs?: Prisma.MenuConfigListRelationFilter
   createdAnnouncements?: Prisma.AnnouncementListRelationFilter
+  announcementAcks?: Prisma.Announcement_UserListRelationFilter
   employeeLinks?: Prisma.EmployeeListRelationFilter
   reportedMaintenance?: Prisma.MaintenanceRequestListRelationFilter
   assignedMaintenance?: Prisma.MaintenanceRequestListRelationFilter
@@ -302,6 +303,7 @@ export type UserOrderByWithRelationInput = {
   createdCompanies?: Prisma.CompanyOrderByRelationAggregateInput
   createdMenuConfigs?: Prisma.MenuConfigOrderByRelationAggregateInput
   createdAnnouncements?: Prisma.AnnouncementOrderByRelationAggregateInput
+  announcementAcks?: Prisma.Announcement_UserOrderByRelationAggregateInput
   employeeLinks?: Prisma.EmployeeOrderByRelationAggregateInput
   reportedMaintenance?: Prisma.MaintenanceRequestOrderByRelationAggregateInput
   assignedMaintenance?: Prisma.MaintenanceRequestOrderByRelationAggregateInput
@@ -341,6 +343,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   createdCompanies?: Prisma.CompanyListRelationFilter
   createdMenuConfigs?: Prisma.MenuConfigListRelationFilter
   createdAnnouncements?: Prisma.AnnouncementListRelationFilter
+  announcementAcks?: Prisma.Announcement_UserListRelationFilter
   employeeLinks?: Prisma.EmployeeListRelationFilter
   reportedMaintenance?: Prisma.MaintenanceRequestListRelationFilter
   assignedMaintenance?: Prisma.MaintenanceRequestListRelationFilter
@@ -414,6 +417,7 @@ export type UserCreateInput = {
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCreatedByInput
   createdAnnouncements?: Prisma.AnnouncementCreateNestedManyWithoutCreatedByInput
+  announcementAcks?: Prisma.Announcement_UserCreateNestedManyWithoutUserInput
   employeeLinks?: Prisma.EmployeeCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutAssignedToInput
@@ -447,6 +451,7 @@ export type UserUncheckedCreateInput = {
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCreatedByInput
   createdAnnouncements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutCreatedByInput
+  announcementAcks?: Prisma.Announcement_UserUncheckedCreateNestedManyWithoutUserInput
   employeeLinks?: Prisma.EmployeeUncheckedCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutAssignedToInput
@@ -480,6 +485,7 @@ export type UserUpdateInput = {
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUpdateManyWithoutCreatedByNestedInput
   createdAnnouncements?: Prisma.AnnouncementUpdateManyWithoutCreatedByNestedInput
+  announcementAcks?: Prisma.Announcement_UserUpdateManyWithoutUserNestedInput
   employeeLinks?: Prisma.EmployeeUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutAssignedToNestedInput
@@ -513,6 +519,7 @@ export type UserUncheckedUpdateInput = {
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCreatedByNestedInput
   createdAnnouncements?: Prisma.AnnouncementUncheckedUpdateManyWithoutCreatedByNestedInput
+  announcementAcks?: Prisma.Announcement_UserUncheckedUpdateManyWithoutUserNestedInput
   employeeLinks?: Prisma.EmployeeUncheckedUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutAssignedToNestedInput
@@ -987,6 +994,20 @@ export type UserUpdateOneWithoutCreatedAnnouncementsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCreatedAnnouncementsInput, Prisma.UserUpdateWithoutCreatedAnnouncementsInput>, Prisma.UserUncheckedUpdateWithoutCreatedAnnouncementsInput>
 }
 
+export type UserCreateNestedOneWithoutAnnouncementAcksInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAnnouncementAcksInput, Prisma.UserUncheckedCreateWithoutAnnouncementAcksInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAnnouncementAcksInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutAnnouncementAcksNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAnnouncementAcksInput, Prisma.UserUncheckedCreateWithoutAnnouncementAcksInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAnnouncementAcksInput
+  upsert?: Prisma.UserUpsertWithoutAnnouncementAcksInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAnnouncementAcksInput, Prisma.UserUpdateWithoutAnnouncementAcksInput>, Prisma.UserUncheckedUpdateWithoutAnnouncementAcksInput>
+}
+
 export type UserCreateNestedOneWithoutApiUsageLogsInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutApiUsageLogsInput, Prisma.UserUncheckedCreateWithoutApiUsageLogsInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutApiUsageLogsInput
@@ -1059,6 +1080,7 @@ export type UserCreateWithoutAccountsInput = {
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCreatedByInput
   createdAnnouncements?: Prisma.AnnouncementCreateNestedManyWithoutCreatedByInput
+  announcementAcks?: Prisma.Announcement_UserCreateNestedManyWithoutUserInput
   employeeLinks?: Prisma.EmployeeCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutAssignedToInput
@@ -1091,6 +1113,7 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCreatedByInput
   createdAnnouncements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutCreatedByInput
+  announcementAcks?: Prisma.Announcement_UserUncheckedCreateNestedManyWithoutUserInput
   employeeLinks?: Prisma.EmployeeUncheckedCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutAssignedToInput
@@ -1139,6 +1162,7 @@ export type UserUpdateWithoutAccountsInput = {
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUpdateManyWithoutCreatedByNestedInput
   createdAnnouncements?: Prisma.AnnouncementUpdateManyWithoutCreatedByNestedInput
+  announcementAcks?: Prisma.Announcement_UserUpdateManyWithoutUserNestedInput
   employeeLinks?: Prisma.EmployeeUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutAssignedToNestedInput
@@ -1171,6 +1195,7 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCreatedByNestedInput
   createdAnnouncements?: Prisma.AnnouncementUncheckedUpdateManyWithoutCreatedByNestedInput
+  announcementAcks?: Prisma.Announcement_UserUncheckedUpdateManyWithoutUserNestedInput
   employeeLinks?: Prisma.EmployeeUncheckedUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutAssignedToNestedInput
@@ -1203,6 +1228,7 @@ export type UserCreateWithoutSessionsInput = {
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCreatedByInput
   createdAnnouncements?: Prisma.AnnouncementCreateNestedManyWithoutCreatedByInput
+  announcementAcks?: Prisma.Announcement_UserCreateNestedManyWithoutUserInput
   employeeLinks?: Prisma.EmployeeCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutAssignedToInput
@@ -1235,6 +1261,7 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCreatedByInput
   createdAnnouncements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutCreatedByInput
+  announcementAcks?: Prisma.Announcement_UserUncheckedCreateNestedManyWithoutUserInput
   employeeLinks?: Prisma.EmployeeUncheckedCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutAssignedToInput
@@ -1283,6 +1310,7 @@ export type UserUpdateWithoutSessionsInput = {
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUpdateManyWithoutCreatedByNestedInput
   createdAnnouncements?: Prisma.AnnouncementUpdateManyWithoutCreatedByNestedInput
+  announcementAcks?: Prisma.Announcement_UserUpdateManyWithoutUserNestedInput
   employeeLinks?: Prisma.EmployeeUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutAssignedToNestedInput
@@ -1315,6 +1343,7 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCreatedByNestedInput
   createdAnnouncements?: Prisma.AnnouncementUncheckedUpdateManyWithoutCreatedByNestedInput
+  announcementAcks?: Prisma.Announcement_UserUncheckedUpdateManyWithoutUserNestedInput
   employeeLinks?: Prisma.EmployeeUncheckedUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutAssignedToNestedInput
@@ -1346,6 +1375,7 @@ export type UserCreateWithoutCreatedCompaniesInput = {
   companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
   createdMenuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCreatedByInput
   createdAnnouncements?: Prisma.AnnouncementCreateNestedManyWithoutCreatedByInput
+  announcementAcks?: Prisma.Announcement_UserCreateNestedManyWithoutUserInput
   employeeLinks?: Prisma.EmployeeCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutAssignedToInput
@@ -1378,6 +1408,7 @@ export type UserUncheckedCreateWithoutCreatedCompaniesInput = {
   companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCreatedByInput
   createdAnnouncements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutCreatedByInput
+  announcementAcks?: Prisma.Announcement_UserUncheckedCreateNestedManyWithoutUserInput
   employeeLinks?: Prisma.EmployeeUncheckedCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutAssignedToInput
@@ -1415,6 +1446,7 @@ export type UserCreateWithoutCompanyInput = {
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCreatedByInput
   createdAnnouncements?: Prisma.AnnouncementCreateNestedManyWithoutCreatedByInput
+  announcementAcks?: Prisma.Announcement_UserCreateNestedManyWithoutUserInput
   employeeLinks?: Prisma.EmployeeCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutAssignedToInput
@@ -1447,6 +1479,7 @@ export type UserUncheckedCreateWithoutCompanyInput = {
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCreatedByInput
   createdAnnouncements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutCreatedByInput
+  announcementAcks?: Prisma.Announcement_UserUncheckedCreateNestedManyWithoutUserInput
   employeeLinks?: Prisma.EmployeeUncheckedCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutAssignedToInput
@@ -1500,6 +1533,7 @@ export type UserUpdateWithoutCreatedCompaniesInput = {
   companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUpdateManyWithoutCreatedByNestedInput
   createdAnnouncements?: Prisma.AnnouncementUpdateManyWithoutCreatedByNestedInput
+  announcementAcks?: Prisma.Announcement_UserUpdateManyWithoutUserNestedInput
   employeeLinks?: Prisma.EmployeeUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutAssignedToNestedInput
@@ -1532,6 +1566,7 @@ export type UserUncheckedUpdateWithoutCreatedCompaniesInput = {
   companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCreatedByNestedInput
   createdAnnouncements?: Prisma.AnnouncementUncheckedUpdateManyWithoutCreatedByNestedInput
+  announcementAcks?: Prisma.Announcement_UserUncheckedUpdateManyWithoutUserNestedInput
   employeeLinks?: Prisma.EmployeeUncheckedUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutAssignedToNestedInput
@@ -1601,6 +1636,7 @@ export type UserCreateWithoutEmployeeLinksInput = {
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCreatedByInput
   createdAnnouncements?: Prisma.AnnouncementCreateNestedManyWithoutCreatedByInput
+  announcementAcks?: Prisma.Announcement_UserCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutAssignedToInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
@@ -1633,6 +1669,7 @@ export type UserUncheckedCreateWithoutEmployeeLinksInput = {
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCreatedByInput
   createdAnnouncements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutCreatedByInput
+  announcementAcks?: Prisma.Announcement_UserUncheckedCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutAssignedToInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutUserInput
@@ -1681,6 +1718,7 @@ export type UserUpdateWithoutEmployeeLinksInput = {
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUpdateManyWithoutCreatedByNestedInput
   createdAnnouncements?: Prisma.AnnouncementUpdateManyWithoutCreatedByNestedInput
+  announcementAcks?: Prisma.Announcement_UserUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutAssignedToNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
@@ -1713,6 +1751,7 @@ export type UserUncheckedUpdateWithoutEmployeeLinksInput = {
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCreatedByNestedInput
   createdAnnouncements?: Prisma.AnnouncementUncheckedUpdateManyWithoutCreatedByNestedInput
+  announcementAcks?: Prisma.Announcement_UserUncheckedUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutAssignedToNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutUserNestedInput
@@ -1744,6 +1783,7 @@ export type UserCreateWithoutCustomerInput = {
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCreatedByInput
   createdAnnouncements?: Prisma.AnnouncementCreateNestedManyWithoutCreatedByInput
+  announcementAcks?: Prisma.Announcement_UserCreateNestedManyWithoutUserInput
   employeeLinks?: Prisma.EmployeeCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutAssignedToInput
@@ -1776,6 +1816,7 @@ export type UserUncheckedCreateWithoutCustomerInput = {
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCreatedByInput
   createdAnnouncements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutCreatedByInput
+  announcementAcks?: Prisma.Announcement_UserUncheckedCreateNestedManyWithoutUserInput
   employeeLinks?: Prisma.EmployeeUncheckedCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutAssignedToInput
@@ -1834,6 +1875,7 @@ export type UserCreateWithoutBuildingInput = {
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCreatedByInput
   createdAnnouncements?: Prisma.AnnouncementCreateNestedManyWithoutCreatedByInput
+  announcementAcks?: Prisma.Announcement_UserCreateNestedManyWithoutUserInput
   employeeLinks?: Prisma.EmployeeCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutAssignedToInput
@@ -1866,6 +1908,7 @@ export type UserUncheckedCreateWithoutBuildingInput = {
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCreatedByInput
   createdAnnouncements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutCreatedByInput
+  announcementAcks?: Prisma.Announcement_UserUncheckedCreateNestedManyWithoutUserInput
   employeeLinks?: Prisma.EmployeeUncheckedCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutAssignedToInput
@@ -1924,6 +1967,7 @@ export type UserCreateWithoutOccupanciesInput = {
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCreatedByInput
   createdAnnouncements?: Prisma.AnnouncementCreateNestedManyWithoutCreatedByInput
+  announcementAcks?: Prisma.Announcement_UserCreateNestedManyWithoutUserInput
   employeeLinks?: Prisma.EmployeeCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutAssignedToInput
@@ -1956,6 +2000,7 @@ export type UserUncheckedCreateWithoutOccupanciesInput = {
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCreatedByInput
   createdAnnouncements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutCreatedByInput
+  announcementAcks?: Prisma.Announcement_UserUncheckedCreateNestedManyWithoutUserInput
   employeeLinks?: Prisma.EmployeeUncheckedCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutAssignedToInput
@@ -2004,6 +2049,7 @@ export type UserUpdateWithoutOccupanciesInput = {
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUpdateManyWithoutCreatedByNestedInput
   createdAnnouncements?: Prisma.AnnouncementUpdateManyWithoutCreatedByNestedInput
+  announcementAcks?: Prisma.Announcement_UserUpdateManyWithoutUserNestedInput
   employeeLinks?: Prisma.EmployeeUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutAssignedToNestedInput
@@ -2036,6 +2082,7 @@ export type UserUncheckedUpdateWithoutOccupanciesInput = {
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCreatedByNestedInput
   createdAnnouncements?: Prisma.AnnouncementUncheckedUpdateManyWithoutCreatedByNestedInput
+  announcementAcks?: Prisma.Announcement_UserUncheckedUpdateManyWithoutUserNestedInput
   employeeLinks?: Prisma.EmployeeUncheckedUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutAssignedToNestedInput
@@ -2068,6 +2115,7 @@ export type UserCreateWithoutInfraKeyOfInput = {
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCreatedByInput
   createdAnnouncements?: Prisma.AnnouncementCreateNestedManyWithoutCreatedByInput
+  announcementAcks?: Prisma.Announcement_UserCreateNestedManyWithoutUserInput
   employeeLinks?: Prisma.EmployeeCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutAssignedToInput
@@ -2100,6 +2148,7 @@ export type UserUncheckedCreateWithoutInfraKeyOfInput = {
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCreatedByInput
   createdAnnouncements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutCreatedByInput
+  announcementAcks?: Prisma.Announcement_UserUncheckedCreateNestedManyWithoutUserInput
   employeeLinks?: Prisma.EmployeeUncheckedCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutAssignedToInput
@@ -2148,6 +2197,7 @@ export type UserUpdateWithoutInfraKeyOfInput = {
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUpdateManyWithoutCreatedByNestedInput
   createdAnnouncements?: Prisma.AnnouncementUpdateManyWithoutCreatedByNestedInput
+  announcementAcks?: Prisma.Announcement_UserUpdateManyWithoutUserNestedInput
   employeeLinks?: Prisma.EmployeeUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutAssignedToNestedInput
@@ -2180,6 +2230,7 @@ export type UserUncheckedUpdateWithoutInfraKeyOfInput = {
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCreatedByNestedInput
   createdAnnouncements?: Prisma.AnnouncementUncheckedUpdateManyWithoutCreatedByNestedInput
+  announcementAcks?: Prisma.Announcement_UserUncheckedUpdateManyWithoutUserNestedInput
   employeeLinks?: Prisma.EmployeeUncheckedUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutAssignedToNestedInput
@@ -2212,6 +2263,7 @@ export type UserCreateWithoutInfraAccessInput = {
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCreatedByInput
   createdAnnouncements?: Prisma.AnnouncementCreateNestedManyWithoutCreatedByInput
+  announcementAcks?: Prisma.Announcement_UserCreateNestedManyWithoutUserInput
   employeeLinks?: Prisma.EmployeeCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutAssignedToInput
@@ -2244,6 +2296,7 @@ export type UserUncheckedCreateWithoutInfraAccessInput = {
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCreatedByInput
   createdAnnouncements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutCreatedByInput
+  announcementAcks?: Prisma.Announcement_UserUncheckedCreateNestedManyWithoutUserInput
   employeeLinks?: Prisma.EmployeeUncheckedCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutAssignedToInput
@@ -2292,6 +2345,7 @@ export type UserUpdateWithoutInfraAccessInput = {
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUpdateManyWithoutCreatedByNestedInput
   createdAnnouncements?: Prisma.AnnouncementUpdateManyWithoutCreatedByNestedInput
+  announcementAcks?: Prisma.Announcement_UserUpdateManyWithoutUserNestedInput
   employeeLinks?: Prisma.EmployeeUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutAssignedToNestedInput
@@ -2324,6 +2378,7 @@ export type UserUncheckedUpdateWithoutInfraAccessInput = {
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCreatedByNestedInput
   createdAnnouncements?: Prisma.AnnouncementUncheckedUpdateManyWithoutCreatedByNestedInput
+  announcementAcks?: Prisma.Announcement_UserUncheckedUpdateManyWithoutUserNestedInput
   employeeLinks?: Prisma.EmployeeUncheckedUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutAssignedToNestedInput
@@ -2357,6 +2412,7 @@ export type UserCreateWithoutManagementAssignmentsInput = {
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCreatedByInput
   createdAnnouncements?: Prisma.AnnouncementCreateNestedManyWithoutCreatedByInput
+  announcementAcks?: Prisma.Announcement_UserCreateNestedManyWithoutUserInput
   employeeLinks?: Prisma.EmployeeCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutAssignedToInput
@@ -2389,6 +2445,7 @@ export type UserUncheckedCreateWithoutManagementAssignmentsInput = {
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCreatedByInput
   createdAnnouncements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutCreatedByInput
+  announcementAcks?: Prisma.Announcement_UserUncheckedCreateNestedManyWithoutUserInput
   employeeLinks?: Prisma.EmployeeUncheckedCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutAssignedToInput
@@ -2437,6 +2494,7 @@ export type UserUpdateWithoutManagementAssignmentsInput = {
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUpdateManyWithoutCreatedByNestedInput
   createdAnnouncements?: Prisma.AnnouncementUpdateManyWithoutCreatedByNestedInput
+  announcementAcks?: Prisma.Announcement_UserUpdateManyWithoutUserNestedInput
   employeeLinks?: Prisma.EmployeeUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutAssignedToNestedInput
@@ -2469,6 +2527,7 @@ export type UserUncheckedUpdateWithoutManagementAssignmentsInput = {
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCreatedByNestedInput
   createdAnnouncements?: Prisma.AnnouncementUncheckedUpdateManyWithoutCreatedByNestedInput
+  announcementAcks?: Prisma.Announcement_UserUncheckedUpdateManyWithoutUserNestedInput
   employeeLinks?: Prisma.EmployeeUncheckedUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutAssignedToNestedInput
@@ -2500,6 +2559,7 @@ export type UserCreateWithoutOwnedUnitsInput = {
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCreatedByInput
   createdAnnouncements?: Prisma.AnnouncementCreateNestedManyWithoutCreatedByInput
+  announcementAcks?: Prisma.Announcement_UserCreateNestedManyWithoutUserInput
   employeeLinks?: Prisma.EmployeeCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutAssignedToInput
@@ -2532,6 +2592,7 @@ export type UserUncheckedCreateWithoutOwnedUnitsInput = {
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCreatedByInput
   createdAnnouncements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutCreatedByInput
+  announcementAcks?: Prisma.Announcement_UserUncheckedCreateNestedManyWithoutUserInput
   employeeLinks?: Prisma.EmployeeUncheckedCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutAssignedToInput
@@ -2569,6 +2630,7 @@ export type UserCreateWithoutResidentUnitsInput = {
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCreatedByInput
   createdAnnouncements?: Prisma.AnnouncementCreateNestedManyWithoutCreatedByInput
+  announcementAcks?: Prisma.Announcement_UserCreateNestedManyWithoutUserInput
   employeeLinks?: Prisma.EmployeeCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutAssignedToInput
@@ -2601,6 +2663,7 @@ export type UserUncheckedCreateWithoutResidentUnitsInput = {
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCreatedByInput
   createdAnnouncements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutCreatedByInput
+  announcementAcks?: Prisma.Announcement_UserUncheckedCreateNestedManyWithoutUserInput
   employeeLinks?: Prisma.EmployeeUncheckedCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutAssignedToInput
@@ -2649,6 +2712,7 @@ export type UserUpdateWithoutOwnedUnitsInput = {
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUpdateManyWithoutCreatedByNestedInput
   createdAnnouncements?: Prisma.AnnouncementUpdateManyWithoutCreatedByNestedInput
+  announcementAcks?: Prisma.Announcement_UserUpdateManyWithoutUserNestedInput
   employeeLinks?: Prisma.EmployeeUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutAssignedToNestedInput
@@ -2681,6 +2745,7 @@ export type UserUncheckedUpdateWithoutOwnedUnitsInput = {
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCreatedByNestedInput
   createdAnnouncements?: Prisma.AnnouncementUncheckedUpdateManyWithoutCreatedByNestedInput
+  announcementAcks?: Prisma.Announcement_UserUncheckedUpdateManyWithoutUserNestedInput
   employeeLinks?: Prisma.EmployeeUncheckedUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutAssignedToNestedInput
@@ -2724,6 +2789,7 @@ export type UserUpdateWithoutResidentUnitsInput = {
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUpdateManyWithoutCreatedByNestedInput
   createdAnnouncements?: Prisma.AnnouncementUpdateManyWithoutCreatedByNestedInput
+  announcementAcks?: Prisma.Announcement_UserUpdateManyWithoutUserNestedInput
   employeeLinks?: Prisma.EmployeeUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutAssignedToNestedInput
@@ -2756,6 +2822,7 @@ export type UserUncheckedUpdateWithoutResidentUnitsInput = {
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCreatedByNestedInput
   createdAnnouncements?: Prisma.AnnouncementUncheckedUpdateManyWithoutCreatedByNestedInput
+  announcementAcks?: Prisma.Announcement_UserUncheckedUpdateManyWithoutUserNestedInput
   employeeLinks?: Prisma.EmployeeUncheckedUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutAssignedToNestedInput
@@ -2788,6 +2855,7 @@ export type UserCreateWithoutCompanyRolesInput = {
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCreatedByInput
   createdAnnouncements?: Prisma.AnnouncementCreateNestedManyWithoutCreatedByInput
+  announcementAcks?: Prisma.Announcement_UserCreateNestedManyWithoutUserInput
   employeeLinks?: Prisma.EmployeeCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutAssignedToInput
@@ -2820,6 +2888,7 @@ export type UserUncheckedCreateWithoutCompanyRolesInput = {
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCreatedByInput
   createdAnnouncements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutCreatedByInput
+  announcementAcks?: Prisma.Announcement_UserUncheckedCreateNestedManyWithoutUserInput
   employeeLinks?: Prisma.EmployeeUncheckedCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutAssignedToInput
@@ -2868,6 +2937,7 @@ export type UserUpdateWithoutCompanyRolesInput = {
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUpdateManyWithoutCreatedByNestedInput
   createdAnnouncements?: Prisma.AnnouncementUpdateManyWithoutCreatedByNestedInput
+  announcementAcks?: Prisma.Announcement_UserUpdateManyWithoutUserNestedInput
   employeeLinks?: Prisma.EmployeeUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutAssignedToNestedInput
@@ -2900,6 +2970,7 @@ export type UserUncheckedUpdateWithoutCompanyRolesInput = {
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCreatedByNestedInput
   createdAnnouncements?: Prisma.AnnouncementUncheckedUpdateManyWithoutCreatedByNestedInput
+  announcementAcks?: Prisma.Announcement_UserUncheckedUpdateManyWithoutUserNestedInput
   employeeLinks?: Prisma.EmployeeUncheckedUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutAssignedToNestedInput
@@ -2932,6 +3003,7 @@ export type UserCreateWithoutCreatedMenuConfigsInput = {
   companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
   createdAnnouncements?: Prisma.AnnouncementCreateNestedManyWithoutCreatedByInput
+  announcementAcks?: Prisma.Announcement_UserCreateNestedManyWithoutUserInput
   employeeLinks?: Prisma.EmployeeCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutAssignedToInput
@@ -2964,6 +3036,7 @@ export type UserUncheckedCreateWithoutCreatedMenuConfigsInput = {
   companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
   createdAnnouncements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutCreatedByInput
+  announcementAcks?: Prisma.Announcement_UserUncheckedCreateNestedManyWithoutUserInput
   employeeLinks?: Prisma.EmployeeUncheckedCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutAssignedToInput
@@ -3012,6 +3085,7 @@ export type UserUpdateWithoutCreatedMenuConfigsInput = {
   companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
   createdAnnouncements?: Prisma.AnnouncementUpdateManyWithoutCreatedByNestedInput
+  announcementAcks?: Prisma.Announcement_UserUpdateManyWithoutUserNestedInput
   employeeLinks?: Prisma.EmployeeUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutAssignedToNestedInput
@@ -3044,6 +3118,7 @@ export type UserUncheckedUpdateWithoutCreatedMenuConfigsInput = {
   companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
   createdAnnouncements?: Prisma.AnnouncementUncheckedUpdateManyWithoutCreatedByNestedInput
+  announcementAcks?: Prisma.Announcement_UserUncheckedUpdateManyWithoutUserNestedInput
   employeeLinks?: Prisma.EmployeeUncheckedUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutAssignedToNestedInput
@@ -3076,6 +3151,7 @@ export type UserCreateWithoutCreatedAnnouncementsInput = {
   companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCreatedByInput
+  announcementAcks?: Prisma.Announcement_UserCreateNestedManyWithoutUserInput
   employeeLinks?: Prisma.EmployeeCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutAssignedToInput
@@ -3108,6 +3184,7 @@ export type UserUncheckedCreateWithoutCreatedAnnouncementsInput = {
   companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCreatedByInput
+  announcementAcks?: Prisma.Announcement_UserUncheckedCreateNestedManyWithoutUserInput
   employeeLinks?: Prisma.EmployeeUncheckedCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutAssignedToInput
@@ -3156,6 +3233,7 @@ export type UserUpdateWithoutCreatedAnnouncementsInput = {
   companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUpdateManyWithoutCreatedByNestedInput
+  announcementAcks?: Prisma.Announcement_UserUpdateManyWithoutUserNestedInput
   employeeLinks?: Prisma.EmployeeUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutAssignedToNestedInput
@@ -3188,6 +3266,155 @@ export type UserUncheckedUpdateWithoutCreatedAnnouncementsInput = {
   companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCreatedByNestedInput
+  announcementAcks?: Prisma.Announcement_UserUncheckedUpdateManyWithoutUserNestedInput
+  employeeLinks?: Prisma.EmployeeUncheckedUpdateManyWithoutUserNestedInput
+  reportedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutReportedByNestedInput
+  assignedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutAssignedToNestedInput
+  apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutUserNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutAnnouncementAcksInput = {
+  id?: string
+  email: string
+  name?: string | null
+  phone?: string | null
+  mobile?: string | null
+  passwordHash?: string | null
+  role: $Enums.UserRole
+  status?: $Enums.UserStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lastLoginAt?: Date | string | null
+  company?: Prisma.CompanyCreateNestedOneWithoutUsersInput
+  customer?: Prisma.CustomerCreateNestedOneWithoutUsersInput
+  building?: Prisma.BuildingCreateNestedOneWithoutUsersInput
+  ownedUnits?: Prisma.UnitCreateNestedManyWithoutOwnerInput
+  residentUnits?: Prisma.UnitCreateNestedManyWithoutResidentInput
+  occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
+  infraKeyOf?: Prisma.InfraPointCreateNestedManyWithoutKeyHolderUserInput
+  infraAccess?: Prisma.InfraAccessCreateNestedManyWithoutUserInput
+  companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
+  createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
+  createdMenuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCreatedByInput
+  createdAnnouncements?: Prisma.AnnouncementCreateNestedManyWithoutCreatedByInput
+  employeeLinks?: Prisma.EmployeeCreateNestedManyWithoutUserInput
+  reportedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutReportedByInput
+  assignedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutAssignedToInput
+  apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
+  managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutAnnouncementAcksInput = {
+  id?: string
+  email: string
+  name?: string | null
+  phone?: string | null
+  mobile?: string | null
+  passwordHash?: string | null
+  role: $Enums.UserRole
+  status?: $Enums.UserStatus
+  companyId?: string | null
+  customerId?: string | null
+  buildingId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lastLoginAt?: Date | string | null
+  ownedUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutOwnerInput
+  residentUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutResidentInput
+  occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
+  infraKeyOf?: Prisma.InfraPointUncheckedCreateNestedManyWithoutKeyHolderUserInput
+  infraAccess?: Prisma.InfraAccessUncheckedCreateNestedManyWithoutUserInput
+  companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
+  createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
+  createdMenuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCreatedByInput
+  createdAnnouncements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutCreatedByInput
+  employeeLinks?: Prisma.EmployeeUncheckedCreateNestedManyWithoutUserInput
+  reportedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutReportedByInput
+  assignedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutAssignedToInput
+  apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutUserInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutAnnouncementAcksInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutAnnouncementAcksInput, Prisma.UserUncheckedCreateWithoutAnnouncementAcksInput>
+}
+
+export type UserUpsertWithoutAnnouncementAcksInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutAnnouncementAcksInput, Prisma.UserUncheckedUpdateWithoutAnnouncementAcksInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutAnnouncementAcksInput, Prisma.UserUncheckedCreateWithoutAnnouncementAcksInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutAnnouncementAcksInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutAnnouncementAcksInput, Prisma.UserUncheckedUpdateWithoutAnnouncementAcksInput>
+}
+
+export type UserUpdateWithoutAnnouncementAcksInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  company?: Prisma.CompanyUpdateOneWithoutUsersNestedInput
+  customer?: Prisma.CustomerUpdateOneWithoutUsersNestedInput
+  building?: Prisma.BuildingUpdateOneWithoutUsersNestedInput
+  ownedUnits?: Prisma.UnitUpdateManyWithoutOwnerNestedInput
+  residentUnits?: Prisma.UnitUpdateManyWithoutResidentNestedInput
+  occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
+  infraKeyOf?: Prisma.InfraPointUpdateManyWithoutKeyHolderUserNestedInput
+  infraAccess?: Prisma.InfraAccessUpdateManyWithoutUserNestedInput
+  companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
+  createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
+  createdMenuConfigs?: Prisma.MenuConfigUpdateManyWithoutCreatedByNestedInput
+  createdAnnouncements?: Prisma.AnnouncementUpdateManyWithoutCreatedByNestedInput
+  employeeLinks?: Prisma.EmployeeUpdateManyWithoutUserNestedInput
+  reportedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutReportedByNestedInput
+  assignedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutAssignedToNestedInput
+  apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutAnnouncementAcksInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  ownedUnits?: Prisma.UnitUncheckedUpdateManyWithoutOwnerNestedInput
+  residentUnits?: Prisma.UnitUncheckedUpdateManyWithoutResidentNestedInput
+  occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
+  infraKeyOf?: Prisma.InfraPointUncheckedUpdateManyWithoutKeyHolderUserNestedInput
+  infraAccess?: Prisma.InfraAccessUncheckedUpdateManyWithoutUserNestedInput
+  companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
+  createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
+  createdMenuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCreatedByNestedInput
+  createdAnnouncements?: Prisma.AnnouncementUncheckedUpdateManyWithoutCreatedByNestedInput
   employeeLinks?: Prisma.EmployeeUncheckedUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutAssignedToNestedInput
@@ -3221,6 +3448,7 @@ export type UserCreateWithoutApiUsageLogsInput = {
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCreatedByInput
   createdAnnouncements?: Prisma.AnnouncementCreateNestedManyWithoutCreatedByInput
+  announcementAcks?: Prisma.Announcement_UserCreateNestedManyWithoutUserInput
   employeeLinks?: Prisma.EmployeeCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutAssignedToInput
@@ -3253,6 +3481,7 @@ export type UserUncheckedCreateWithoutApiUsageLogsInput = {
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCreatedByInput
   createdAnnouncements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutCreatedByInput
+  announcementAcks?: Prisma.Announcement_UserUncheckedCreateNestedManyWithoutUserInput
   employeeLinks?: Prisma.EmployeeUncheckedCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutAssignedToInput
@@ -3301,6 +3530,7 @@ export type UserUpdateWithoutApiUsageLogsInput = {
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUpdateManyWithoutCreatedByNestedInput
   createdAnnouncements?: Prisma.AnnouncementUpdateManyWithoutCreatedByNestedInput
+  announcementAcks?: Prisma.Announcement_UserUpdateManyWithoutUserNestedInput
   employeeLinks?: Prisma.EmployeeUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutAssignedToNestedInput
@@ -3333,6 +3563,7 @@ export type UserUncheckedUpdateWithoutApiUsageLogsInput = {
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCreatedByNestedInput
   createdAnnouncements?: Prisma.AnnouncementUncheckedUpdateManyWithoutCreatedByNestedInput
+  announcementAcks?: Prisma.Announcement_UserUncheckedUpdateManyWithoutUserNestedInput
   employeeLinks?: Prisma.EmployeeUncheckedUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutAssignedToNestedInput
@@ -3365,6 +3596,7 @@ export type UserCreateWithoutReportedMaintenanceInput = {
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCreatedByInput
   createdAnnouncements?: Prisma.AnnouncementCreateNestedManyWithoutCreatedByInput
+  announcementAcks?: Prisma.Announcement_UserCreateNestedManyWithoutUserInput
   employeeLinks?: Prisma.EmployeeCreateNestedManyWithoutUserInput
   assignedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutAssignedToInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
@@ -3397,6 +3629,7 @@ export type UserUncheckedCreateWithoutReportedMaintenanceInput = {
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCreatedByInput
   createdAnnouncements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutCreatedByInput
+  announcementAcks?: Prisma.Announcement_UserUncheckedCreateNestedManyWithoutUserInput
   employeeLinks?: Prisma.EmployeeUncheckedCreateNestedManyWithoutUserInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutAssignedToInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutUserInput
@@ -3434,6 +3667,7 @@ export type UserCreateWithoutAssignedMaintenanceInput = {
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCreatedByInput
   createdAnnouncements?: Prisma.AnnouncementCreateNestedManyWithoutCreatedByInput
+  announcementAcks?: Prisma.Announcement_UserCreateNestedManyWithoutUserInput
   employeeLinks?: Prisma.EmployeeCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutReportedByInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
@@ -3466,6 +3700,7 @@ export type UserUncheckedCreateWithoutAssignedMaintenanceInput = {
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCreatedByInput
   createdAnnouncements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutCreatedByInput
+  announcementAcks?: Prisma.Announcement_UserUncheckedCreateNestedManyWithoutUserInput
   employeeLinks?: Prisma.EmployeeUncheckedCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutReportedByInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutUserInput
@@ -3514,6 +3749,7 @@ export type UserUpdateWithoutReportedMaintenanceInput = {
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUpdateManyWithoutCreatedByNestedInput
   createdAnnouncements?: Prisma.AnnouncementUpdateManyWithoutCreatedByNestedInput
+  announcementAcks?: Prisma.Announcement_UserUpdateManyWithoutUserNestedInput
   employeeLinks?: Prisma.EmployeeUpdateManyWithoutUserNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutAssignedToNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
@@ -3546,6 +3782,7 @@ export type UserUncheckedUpdateWithoutReportedMaintenanceInput = {
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCreatedByNestedInput
   createdAnnouncements?: Prisma.AnnouncementUncheckedUpdateManyWithoutCreatedByNestedInput
+  announcementAcks?: Prisma.Announcement_UserUncheckedUpdateManyWithoutUserNestedInput
   employeeLinks?: Prisma.EmployeeUncheckedUpdateManyWithoutUserNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutAssignedToNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutUserNestedInput
@@ -3589,6 +3826,7 @@ export type UserUpdateWithoutAssignedMaintenanceInput = {
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUpdateManyWithoutCreatedByNestedInput
   createdAnnouncements?: Prisma.AnnouncementUpdateManyWithoutCreatedByNestedInput
+  announcementAcks?: Prisma.Announcement_UserUpdateManyWithoutUserNestedInput
   employeeLinks?: Prisma.EmployeeUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutReportedByNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
@@ -3621,6 +3859,7 @@ export type UserUncheckedUpdateWithoutAssignedMaintenanceInput = {
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCreatedByNestedInput
   createdAnnouncements?: Prisma.AnnouncementUncheckedUpdateManyWithoutCreatedByNestedInput
+  announcementAcks?: Prisma.Announcement_UserUncheckedUpdateManyWithoutUserNestedInput
   employeeLinks?: Prisma.EmployeeUncheckedUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutReportedByNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutUserNestedInput
@@ -3668,6 +3907,7 @@ export type UserUpdateWithoutCompanyInput = {
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUpdateManyWithoutCreatedByNestedInput
   createdAnnouncements?: Prisma.AnnouncementUpdateManyWithoutCreatedByNestedInput
+  announcementAcks?: Prisma.Announcement_UserUpdateManyWithoutUserNestedInput
   employeeLinks?: Prisma.EmployeeUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutAssignedToNestedInput
@@ -3700,6 +3940,7 @@ export type UserUncheckedUpdateWithoutCompanyInput = {
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCreatedByNestedInput
   createdAnnouncements?: Prisma.AnnouncementUncheckedUpdateManyWithoutCreatedByNestedInput
+  announcementAcks?: Prisma.Announcement_UserUncheckedUpdateManyWithoutUserNestedInput
   employeeLinks?: Prisma.EmployeeUncheckedUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutAssignedToNestedInput
@@ -3764,6 +4005,7 @@ export type UserUpdateWithoutCustomerInput = {
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUpdateManyWithoutCreatedByNestedInput
   createdAnnouncements?: Prisma.AnnouncementUpdateManyWithoutCreatedByNestedInput
+  announcementAcks?: Prisma.Announcement_UserUpdateManyWithoutUserNestedInput
   employeeLinks?: Prisma.EmployeeUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutAssignedToNestedInput
@@ -3796,6 +4038,7 @@ export type UserUncheckedUpdateWithoutCustomerInput = {
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCreatedByNestedInput
   createdAnnouncements?: Prisma.AnnouncementUncheckedUpdateManyWithoutCreatedByNestedInput
+  announcementAcks?: Prisma.Announcement_UserUncheckedUpdateManyWithoutUserNestedInput
   employeeLinks?: Prisma.EmployeeUncheckedUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutAssignedToNestedInput
@@ -3860,6 +4103,7 @@ export type UserUpdateWithoutBuildingInput = {
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUpdateManyWithoutCreatedByNestedInput
   createdAnnouncements?: Prisma.AnnouncementUpdateManyWithoutCreatedByNestedInput
+  announcementAcks?: Prisma.Announcement_UserUpdateManyWithoutUserNestedInput
   employeeLinks?: Prisma.EmployeeUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutAssignedToNestedInput
@@ -3892,6 +4136,7 @@ export type UserUncheckedUpdateWithoutBuildingInput = {
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCreatedByNestedInput
   createdAnnouncements?: Prisma.AnnouncementUncheckedUpdateManyWithoutCreatedByNestedInput
+  announcementAcks?: Prisma.Announcement_UserUncheckedUpdateManyWithoutUserNestedInput
   employeeLinks?: Prisma.EmployeeUncheckedUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutAssignedToNestedInput
@@ -3932,6 +4177,7 @@ export type UserCountOutputType = {
   createdCompanies: number
   createdMenuConfigs: number
   createdAnnouncements: number
+  announcementAcks: number
   employeeLinks: number
   reportedMaintenance: number
   assignedMaintenance: number
@@ -3951,6 +4197,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   createdCompanies?: boolean | UserCountOutputTypeCountCreatedCompaniesArgs
   createdMenuConfigs?: boolean | UserCountOutputTypeCountCreatedMenuConfigsArgs
   createdAnnouncements?: boolean | UserCountOutputTypeCountCreatedAnnouncementsArgs
+  announcementAcks?: boolean | UserCountOutputTypeCountAnnouncementAcksArgs
   employeeLinks?: boolean | UserCountOutputTypeCountEmployeeLinksArgs
   reportedMaintenance?: boolean | UserCountOutputTypeCountReportedMaintenanceArgs
   assignedMaintenance?: boolean | UserCountOutputTypeCountAssignedMaintenanceArgs
@@ -4036,6 +4283,13 @@ export type UserCountOutputTypeCountCreatedAnnouncementsArgs<ExtArgs extends run
 /**
  * UserCountOutputType without action
  */
+export type UserCountOutputTypeCountAnnouncementAcksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.Announcement_UserWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
 export type UserCountOutputTypeCountEmployeeLinksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.EmployeeWhereInput
 }
@@ -4110,6 +4364,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   createdCompanies?: boolean | Prisma.User$createdCompaniesArgs<ExtArgs>
   createdMenuConfigs?: boolean | Prisma.User$createdMenuConfigsArgs<ExtArgs>
   createdAnnouncements?: boolean | Prisma.User$createdAnnouncementsArgs<ExtArgs>
+  announcementAcks?: boolean | Prisma.User$announcementAcksArgs<ExtArgs>
   employeeLinks?: boolean | Prisma.User$employeeLinksArgs<ExtArgs>
   reportedMaintenance?: boolean | Prisma.User$reportedMaintenanceArgs<ExtArgs>
   assignedMaintenance?: boolean | Prisma.User$assignedMaintenanceArgs<ExtArgs>
@@ -4191,6 +4446,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   createdCompanies?: boolean | Prisma.User$createdCompaniesArgs<ExtArgs>
   createdMenuConfigs?: boolean | Prisma.User$createdMenuConfigsArgs<ExtArgs>
   createdAnnouncements?: boolean | Prisma.User$createdAnnouncementsArgs<ExtArgs>
+  announcementAcks?: boolean | Prisma.User$announcementAcksArgs<ExtArgs>
   employeeLinks?: boolean | Prisma.User$employeeLinksArgs<ExtArgs>
   reportedMaintenance?: boolean | Prisma.User$reportedMaintenanceArgs<ExtArgs>
   assignedMaintenance?: boolean | Prisma.User$assignedMaintenanceArgs<ExtArgs>
@@ -4226,6 +4482,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     createdCompanies: Prisma.$CompanyPayload<ExtArgs>[]
     createdMenuConfigs: Prisma.$MenuConfigPayload<ExtArgs>[]
     createdAnnouncements: Prisma.$AnnouncementPayload<ExtArgs>[]
+    announcementAcks: Prisma.$Announcement_UserPayload<ExtArgs>[]
     employeeLinks: Prisma.$EmployeePayload<ExtArgs>[]
     reportedMaintenance: Prisma.$MaintenanceRequestPayload<ExtArgs>[]
     assignedMaintenance: Prisma.$MaintenanceRequestPayload<ExtArgs>[]
@@ -4655,6 +4912,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   createdCompanies<T extends Prisma.User$createdCompaniesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$createdCompaniesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   createdMenuConfigs<T extends Prisma.User$createdMenuConfigsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$createdMenuConfigsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MenuConfigPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   createdAnnouncements<T extends Prisma.User$createdAnnouncementsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$createdAnnouncementsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AnnouncementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  announcementAcks<T extends Prisma.User$announcementAcksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$announcementAcksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$Announcement_UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   employeeLinks<T extends Prisma.User$employeeLinksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$employeeLinksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EmployeePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   reportedMaintenance<T extends Prisma.User$reportedMaintenanceArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$reportedMaintenanceArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MaintenanceRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   assignedMaintenance<T extends Prisma.User$assignedMaintenanceArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$assignedMaintenanceArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MaintenanceRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -5376,6 +5634,30 @@ export type User$createdAnnouncementsArgs<ExtArgs extends runtime.Types.Extensio
   take?: number
   skip?: number
   distinct?: Prisma.AnnouncementScalarFieldEnum | Prisma.AnnouncementScalarFieldEnum[]
+}
+
+/**
+ * User.announcementAcks
+ */
+export type User$announcementAcksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Announcement_User
+   */
+  select?: Prisma.Announcement_UserSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Announcement_User
+   */
+  omit?: Prisma.Announcement_UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.Announcement_UserInclude<ExtArgs> | null
+  where?: Prisma.Announcement_UserWhereInput
+  orderBy?: Prisma.Announcement_UserOrderByWithRelationInput | Prisma.Announcement_UserOrderByWithRelationInput[]
+  cursor?: Prisma.Announcement_UserWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.Announcement_UserScalarFieldEnum | Prisma.Announcement_UserScalarFieldEnum[]
 }
 
 /**

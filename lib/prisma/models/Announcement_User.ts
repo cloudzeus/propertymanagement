@@ -28,21 +28,36 @@ export type Announcement_UserMinAggregateOutputType = {
   id: string | null
   announcementId: string | null
   userId: string | null
+  token: string | null
+  sentAt: Date | null
   readAt: Date | null
+  acknowledgedAt: Date | null
+  ipAddress: string | null
+  userAgent: string | null
 }
 
 export type Announcement_UserMaxAggregateOutputType = {
   id: string | null
   announcementId: string | null
   userId: string | null
+  token: string | null
+  sentAt: Date | null
   readAt: Date | null
+  acknowledgedAt: Date | null
+  ipAddress: string | null
+  userAgent: string | null
 }
 
 export type Announcement_UserCountAggregateOutputType = {
   id: number
   announcementId: number
   userId: number
+  token: number
+  sentAt: number
   readAt: number
+  acknowledgedAt: number
+  ipAddress: number
+  userAgent: number
   _all: number
 }
 
@@ -51,21 +66,36 @@ export type Announcement_UserMinAggregateInputType = {
   id?: true
   announcementId?: true
   userId?: true
+  token?: true
+  sentAt?: true
   readAt?: true
+  acknowledgedAt?: true
+  ipAddress?: true
+  userAgent?: true
 }
 
 export type Announcement_UserMaxAggregateInputType = {
   id?: true
   announcementId?: true
   userId?: true
+  token?: true
+  sentAt?: true
   readAt?: true
+  acknowledgedAt?: true
+  ipAddress?: true
+  userAgent?: true
 }
 
 export type Announcement_UserCountAggregateInputType = {
   id?: true
   announcementId?: true
   userId?: true
+  token?: true
+  sentAt?: true
   readAt?: true
+  acknowledgedAt?: true
+  ipAddress?: true
+  userAgent?: true
   _all?: true
 }
 
@@ -145,7 +175,12 @@ export type Announcement_UserGroupByOutputType = {
   id: string
   announcementId: string
   userId: string
+  token: string
+  sentAt: Date | null
   readAt: Date | null
+  acknowledgedAt: Date | null
+  ipAddress: string | null
+  userAgent: string | null
   _count: Announcement_UserCountAggregateOutputType | null
   _min: Announcement_UserMinAggregateOutputType | null
   _max: Announcement_UserMaxAggregateOutputType | null
@@ -173,32 +208,58 @@ export type Announcement_UserWhereInput = {
   id?: Prisma.StringFilter<"Announcement_User"> | string
   announcementId?: Prisma.StringFilter<"Announcement_User"> | string
   userId?: Prisma.StringFilter<"Announcement_User"> | string
+  token?: Prisma.StringFilter<"Announcement_User"> | string
+  sentAt?: Prisma.DateTimeNullableFilter<"Announcement_User"> | Date | string | null
   readAt?: Prisma.DateTimeNullableFilter<"Announcement_User"> | Date | string | null
+  acknowledgedAt?: Prisma.DateTimeNullableFilter<"Announcement_User"> | Date | string | null
+  ipAddress?: Prisma.StringNullableFilter<"Announcement_User"> | string | null
+  userAgent?: Prisma.StringNullableFilter<"Announcement_User"> | string | null
+  announcement?: Prisma.XOR<Prisma.AnnouncementScalarRelationFilter, Prisma.AnnouncementWhereInput>
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
 export type Announcement_UserOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   announcementId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  token?: Prisma.SortOrder
+  sentAt?: Prisma.SortOrderInput | Prisma.SortOrder
   readAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  acknowledgedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  ipAddress?: Prisma.SortOrderInput | Prisma.SortOrder
+  userAgent?: Prisma.SortOrderInput | Prisma.SortOrder
+  announcement?: Prisma.AnnouncementOrderByWithRelationInput
+  user?: Prisma.UserOrderByWithRelationInput
 }
 
 export type Announcement_UserWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  token?: string
   announcementId_userId?: Prisma.Announcement_UserAnnouncementIdUserIdCompoundUniqueInput
   AND?: Prisma.Announcement_UserWhereInput | Prisma.Announcement_UserWhereInput[]
   OR?: Prisma.Announcement_UserWhereInput[]
   NOT?: Prisma.Announcement_UserWhereInput | Prisma.Announcement_UserWhereInput[]
   announcementId?: Prisma.StringFilter<"Announcement_User"> | string
   userId?: Prisma.StringFilter<"Announcement_User"> | string
+  sentAt?: Prisma.DateTimeNullableFilter<"Announcement_User"> | Date | string | null
   readAt?: Prisma.DateTimeNullableFilter<"Announcement_User"> | Date | string | null
-}, "id" | "announcementId_userId">
+  acknowledgedAt?: Prisma.DateTimeNullableFilter<"Announcement_User"> | Date | string | null
+  ipAddress?: Prisma.StringNullableFilter<"Announcement_User"> | string | null
+  userAgent?: Prisma.StringNullableFilter<"Announcement_User"> | string | null
+  announcement?: Prisma.XOR<Prisma.AnnouncementScalarRelationFilter, Prisma.AnnouncementWhereInput>
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+}, "id" | "token" | "announcementId_userId">
 
 export type Announcement_UserOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   announcementId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  token?: Prisma.SortOrder
+  sentAt?: Prisma.SortOrderInput | Prisma.SortOrder
   readAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  acknowledgedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  ipAddress?: Prisma.SortOrderInput | Prisma.SortOrder
+  userAgent?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.Announcement_UserCountOrderByAggregateInput
   _max?: Prisma.Announcement_UserMaxOrderByAggregateInput
   _min?: Prisma.Announcement_UserMinOrderByAggregateInput
@@ -211,56 +272,104 @@ export type Announcement_UserScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"Announcement_User"> | string
   announcementId?: Prisma.StringWithAggregatesFilter<"Announcement_User"> | string
   userId?: Prisma.StringWithAggregatesFilter<"Announcement_User"> | string
+  token?: Prisma.StringWithAggregatesFilter<"Announcement_User"> | string
+  sentAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Announcement_User"> | Date | string | null
   readAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Announcement_User"> | Date | string | null
+  acknowledgedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Announcement_User"> | Date | string | null
+  ipAddress?: Prisma.StringNullableWithAggregatesFilter<"Announcement_User"> | string | null
+  userAgent?: Prisma.StringNullableWithAggregatesFilter<"Announcement_User"> | string | null
 }
 
 export type Announcement_UserCreateInput = {
   id?: string
-  announcementId: string
-  userId: string
+  token?: string
+  sentAt?: Date | string | null
   readAt?: Date | string | null
+  acknowledgedAt?: Date | string | null
+  ipAddress?: string | null
+  userAgent?: string | null
+  announcement: Prisma.AnnouncementCreateNestedOneWithoutRecipientsInput
+  user: Prisma.UserCreateNestedOneWithoutAnnouncementAcksInput
 }
 
 export type Announcement_UserUncheckedCreateInput = {
   id?: string
   announcementId: string
   userId: string
+  token?: string
+  sentAt?: Date | string | null
   readAt?: Date | string | null
+  acknowledgedAt?: Date | string | null
+  ipAddress?: string | null
+  userAgent?: string | null
 }
 
 export type Announcement_UserUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  announcementId?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  token?: Prisma.StringFieldUpdateOperationsInput | string
+  sentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   readAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  ipAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userAgent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  announcement?: Prisma.AnnouncementUpdateOneRequiredWithoutRecipientsNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutAnnouncementAcksNestedInput
 }
 
 export type Announcement_UserUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   announcementId?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  token?: Prisma.StringFieldUpdateOperationsInput | string
+  sentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   readAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  ipAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userAgent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type Announcement_UserCreateManyInput = {
   id?: string
   announcementId: string
   userId: string
+  token?: string
+  sentAt?: Date | string | null
   readAt?: Date | string | null
+  acknowledgedAt?: Date | string | null
+  ipAddress?: string | null
+  userAgent?: string | null
 }
 
 export type Announcement_UserUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  announcementId?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  token?: Prisma.StringFieldUpdateOperationsInput | string
+  sentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   readAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  ipAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userAgent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type Announcement_UserUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   announcementId?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  token?: Prisma.StringFieldUpdateOperationsInput | string
+  sentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   readAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  ipAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userAgent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type Announcement_UserListRelationFilter = {
+  every?: Prisma.Announcement_UserWhereInput
+  some?: Prisma.Announcement_UserWhereInput
+  none?: Prisma.Announcement_UserWhereInput
+}
+
+export type Announcement_UserOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type Announcement_UserAnnouncementIdUserIdCompoundUniqueInput = {
@@ -272,21 +381,319 @@ export type Announcement_UserCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   announcementId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  token?: Prisma.SortOrder
+  sentAt?: Prisma.SortOrder
   readAt?: Prisma.SortOrder
+  acknowledgedAt?: Prisma.SortOrder
+  ipAddress?: Prisma.SortOrder
+  userAgent?: Prisma.SortOrder
 }
 
 export type Announcement_UserMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   announcementId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  token?: Prisma.SortOrder
+  sentAt?: Prisma.SortOrder
   readAt?: Prisma.SortOrder
+  acknowledgedAt?: Prisma.SortOrder
+  ipAddress?: Prisma.SortOrder
+  userAgent?: Prisma.SortOrder
 }
 
 export type Announcement_UserMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   announcementId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  token?: Prisma.SortOrder
+  sentAt?: Prisma.SortOrder
   readAt?: Prisma.SortOrder
+  acknowledgedAt?: Prisma.SortOrder
+  ipAddress?: Prisma.SortOrder
+  userAgent?: Prisma.SortOrder
+}
+
+export type Announcement_UserCreateNestedManyWithoutUserInput = {
+  create?: Prisma.XOR<Prisma.Announcement_UserCreateWithoutUserInput, Prisma.Announcement_UserUncheckedCreateWithoutUserInput> | Prisma.Announcement_UserCreateWithoutUserInput[] | Prisma.Announcement_UserUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.Announcement_UserCreateOrConnectWithoutUserInput | Prisma.Announcement_UserCreateOrConnectWithoutUserInput[]
+  createMany?: Prisma.Announcement_UserCreateManyUserInputEnvelope
+  connect?: Prisma.Announcement_UserWhereUniqueInput | Prisma.Announcement_UserWhereUniqueInput[]
+}
+
+export type Announcement_UserUncheckedCreateNestedManyWithoutUserInput = {
+  create?: Prisma.XOR<Prisma.Announcement_UserCreateWithoutUserInput, Prisma.Announcement_UserUncheckedCreateWithoutUserInput> | Prisma.Announcement_UserCreateWithoutUserInput[] | Prisma.Announcement_UserUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.Announcement_UserCreateOrConnectWithoutUserInput | Prisma.Announcement_UserCreateOrConnectWithoutUserInput[]
+  createMany?: Prisma.Announcement_UserCreateManyUserInputEnvelope
+  connect?: Prisma.Announcement_UserWhereUniqueInput | Prisma.Announcement_UserWhereUniqueInput[]
+}
+
+export type Announcement_UserUpdateManyWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.Announcement_UserCreateWithoutUserInput, Prisma.Announcement_UserUncheckedCreateWithoutUserInput> | Prisma.Announcement_UserCreateWithoutUserInput[] | Prisma.Announcement_UserUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.Announcement_UserCreateOrConnectWithoutUserInput | Prisma.Announcement_UserCreateOrConnectWithoutUserInput[]
+  upsert?: Prisma.Announcement_UserUpsertWithWhereUniqueWithoutUserInput | Prisma.Announcement_UserUpsertWithWhereUniqueWithoutUserInput[]
+  createMany?: Prisma.Announcement_UserCreateManyUserInputEnvelope
+  set?: Prisma.Announcement_UserWhereUniqueInput | Prisma.Announcement_UserWhereUniqueInput[]
+  disconnect?: Prisma.Announcement_UserWhereUniqueInput | Prisma.Announcement_UserWhereUniqueInput[]
+  delete?: Prisma.Announcement_UserWhereUniqueInput | Prisma.Announcement_UserWhereUniqueInput[]
+  connect?: Prisma.Announcement_UserWhereUniqueInput | Prisma.Announcement_UserWhereUniqueInput[]
+  update?: Prisma.Announcement_UserUpdateWithWhereUniqueWithoutUserInput | Prisma.Announcement_UserUpdateWithWhereUniqueWithoutUserInput[]
+  updateMany?: Prisma.Announcement_UserUpdateManyWithWhereWithoutUserInput | Prisma.Announcement_UserUpdateManyWithWhereWithoutUserInput[]
+  deleteMany?: Prisma.Announcement_UserScalarWhereInput | Prisma.Announcement_UserScalarWhereInput[]
+}
+
+export type Announcement_UserUncheckedUpdateManyWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.Announcement_UserCreateWithoutUserInput, Prisma.Announcement_UserUncheckedCreateWithoutUserInput> | Prisma.Announcement_UserCreateWithoutUserInput[] | Prisma.Announcement_UserUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.Announcement_UserCreateOrConnectWithoutUserInput | Prisma.Announcement_UserCreateOrConnectWithoutUserInput[]
+  upsert?: Prisma.Announcement_UserUpsertWithWhereUniqueWithoutUserInput | Prisma.Announcement_UserUpsertWithWhereUniqueWithoutUserInput[]
+  createMany?: Prisma.Announcement_UserCreateManyUserInputEnvelope
+  set?: Prisma.Announcement_UserWhereUniqueInput | Prisma.Announcement_UserWhereUniqueInput[]
+  disconnect?: Prisma.Announcement_UserWhereUniqueInput | Prisma.Announcement_UserWhereUniqueInput[]
+  delete?: Prisma.Announcement_UserWhereUniqueInput | Prisma.Announcement_UserWhereUniqueInput[]
+  connect?: Prisma.Announcement_UserWhereUniqueInput | Prisma.Announcement_UserWhereUniqueInput[]
+  update?: Prisma.Announcement_UserUpdateWithWhereUniqueWithoutUserInput | Prisma.Announcement_UserUpdateWithWhereUniqueWithoutUserInput[]
+  updateMany?: Prisma.Announcement_UserUpdateManyWithWhereWithoutUserInput | Prisma.Announcement_UserUpdateManyWithWhereWithoutUserInput[]
+  deleteMany?: Prisma.Announcement_UserScalarWhereInput | Prisma.Announcement_UserScalarWhereInput[]
+}
+
+export type Announcement_UserCreateNestedManyWithoutAnnouncementInput = {
+  create?: Prisma.XOR<Prisma.Announcement_UserCreateWithoutAnnouncementInput, Prisma.Announcement_UserUncheckedCreateWithoutAnnouncementInput> | Prisma.Announcement_UserCreateWithoutAnnouncementInput[] | Prisma.Announcement_UserUncheckedCreateWithoutAnnouncementInput[]
+  connectOrCreate?: Prisma.Announcement_UserCreateOrConnectWithoutAnnouncementInput | Prisma.Announcement_UserCreateOrConnectWithoutAnnouncementInput[]
+  createMany?: Prisma.Announcement_UserCreateManyAnnouncementInputEnvelope
+  connect?: Prisma.Announcement_UserWhereUniqueInput | Prisma.Announcement_UserWhereUniqueInput[]
+}
+
+export type Announcement_UserUncheckedCreateNestedManyWithoutAnnouncementInput = {
+  create?: Prisma.XOR<Prisma.Announcement_UserCreateWithoutAnnouncementInput, Prisma.Announcement_UserUncheckedCreateWithoutAnnouncementInput> | Prisma.Announcement_UserCreateWithoutAnnouncementInput[] | Prisma.Announcement_UserUncheckedCreateWithoutAnnouncementInput[]
+  connectOrCreate?: Prisma.Announcement_UserCreateOrConnectWithoutAnnouncementInput | Prisma.Announcement_UserCreateOrConnectWithoutAnnouncementInput[]
+  createMany?: Prisma.Announcement_UserCreateManyAnnouncementInputEnvelope
+  connect?: Prisma.Announcement_UserWhereUniqueInput | Prisma.Announcement_UserWhereUniqueInput[]
+}
+
+export type Announcement_UserUpdateManyWithoutAnnouncementNestedInput = {
+  create?: Prisma.XOR<Prisma.Announcement_UserCreateWithoutAnnouncementInput, Prisma.Announcement_UserUncheckedCreateWithoutAnnouncementInput> | Prisma.Announcement_UserCreateWithoutAnnouncementInput[] | Prisma.Announcement_UserUncheckedCreateWithoutAnnouncementInput[]
+  connectOrCreate?: Prisma.Announcement_UserCreateOrConnectWithoutAnnouncementInput | Prisma.Announcement_UserCreateOrConnectWithoutAnnouncementInput[]
+  upsert?: Prisma.Announcement_UserUpsertWithWhereUniqueWithoutAnnouncementInput | Prisma.Announcement_UserUpsertWithWhereUniqueWithoutAnnouncementInput[]
+  createMany?: Prisma.Announcement_UserCreateManyAnnouncementInputEnvelope
+  set?: Prisma.Announcement_UserWhereUniqueInput | Prisma.Announcement_UserWhereUniqueInput[]
+  disconnect?: Prisma.Announcement_UserWhereUniqueInput | Prisma.Announcement_UserWhereUniqueInput[]
+  delete?: Prisma.Announcement_UserWhereUniqueInput | Prisma.Announcement_UserWhereUniqueInput[]
+  connect?: Prisma.Announcement_UserWhereUniqueInput | Prisma.Announcement_UserWhereUniqueInput[]
+  update?: Prisma.Announcement_UserUpdateWithWhereUniqueWithoutAnnouncementInput | Prisma.Announcement_UserUpdateWithWhereUniqueWithoutAnnouncementInput[]
+  updateMany?: Prisma.Announcement_UserUpdateManyWithWhereWithoutAnnouncementInput | Prisma.Announcement_UserUpdateManyWithWhereWithoutAnnouncementInput[]
+  deleteMany?: Prisma.Announcement_UserScalarWhereInput | Prisma.Announcement_UserScalarWhereInput[]
+}
+
+export type Announcement_UserUncheckedUpdateManyWithoutAnnouncementNestedInput = {
+  create?: Prisma.XOR<Prisma.Announcement_UserCreateWithoutAnnouncementInput, Prisma.Announcement_UserUncheckedCreateWithoutAnnouncementInput> | Prisma.Announcement_UserCreateWithoutAnnouncementInput[] | Prisma.Announcement_UserUncheckedCreateWithoutAnnouncementInput[]
+  connectOrCreate?: Prisma.Announcement_UserCreateOrConnectWithoutAnnouncementInput | Prisma.Announcement_UserCreateOrConnectWithoutAnnouncementInput[]
+  upsert?: Prisma.Announcement_UserUpsertWithWhereUniqueWithoutAnnouncementInput | Prisma.Announcement_UserUpsertWithWhereUniqueWithoutAnnouncementInput[]
+  createMany?: Prisma.Announcement_UserCreateManyAnnouncementInputEnvelope
+  set?: Prisma.Announcement_UserWhereUniqueInput | Prisma.Announcement_UserWhereUniqueInput[]
+  disconnect?: Prisma.Announcement_UserWhereUniqueInput | Prisma.Announcement_UserWhereUniqueInput[]
+  delete?: Prisma.Announcement_UserWhereUniqueInput | Prisma.Announcement_UserWhereUniqueInput[]
+  connect?: Prisma.Announcement_UserWhereUniqueInput | Prisma.Announcement_UserWhereUniqueInput[]
+  update?: Prisma.Announcement_UserUpdateWithWhereUniqueWithoutAnnouncementInput | Prisma.Announcement_UserUpdateWithWhereUniqueWithoutAnnouncementInput[]
+  updateMany?: Prisma.Announcement_UserUpdateManyWithWhereWithoutAnnouncementInput | Prisma.Announcement_UserUpdateManyWithWhereWithoutAnnouncementInput[]
+  deleteMany?: Prisma.Announcement_UserScalarWhereInput | Prisma.Announcement_UserScalarWhereInput[]
+}
+
+export type Announcement_UserCreateWithoutUserInput = {
+  id?: string
+  token?: string
+  sentAt?: Date | string | null
+  readAt?: Date | string | null
+  acknowledgedAt?: Date | string | null
+  ipAddress?: string | null
+  userAgent?: string | null
+  announcement: Prisma.AnnouncementCreateNestedOneWithoutRecipientsInput
+}
+
+export type Announcement_UserUncheckedCreateWithoutUserInput = {
+  id?: string
+  announcementId: string
+  token?: string
+  sentAt?: Date | string | null
+  readAt?: Date | string | null
+  acknowledgedAt?: Date | string | null
+  ipAddress?: string | null
+  userAgent?: string | null
+}
+
+export type Announcement_UserCreateOrConnectWithoutUserInput = {
+  where: Prisma.Announcement_UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.Announcement_UserCreateWithoutUserInput, Prisma.Announcement_UserUncheckedCreateWithoutUserInput>
+}
+
+export type Announcement_UserCreateManyUserInputEnvelope = {
+  data: Prisma.Announcement_UserCreateManyUserInput | Prisma.Announcement_UserCreateManyUserInput[]
+  skipDuplicates?: boolean
+}
+
+export type Announcement_UserUpsertWithWhereUniqueWithoutUserInput = {
+  where: Prisma.Announcement_UserWhereUniqueInput
+  update: Prisma.XOR<Prisma.Announcement_UserUpdateWithoutUserInput, Prisma.Announcement_UserUncheckedUpdateWithoutUserInput>
+  create: Prisma.XOR<Prisma.Announcement_UserCreateWithoutUserInput, Prisma.Announcement_UserUncheckedCreateWithoutUserInput>
+}
+
+export type Announcement_UserUpdateWithWhereUniqueWithoutUserInput = {
+  where: Prisma.Announcement_UserWhereUniqueInput
+  data: Prisma.XOR<Prisma.Announcement_UserUpdateWithoutUserInput, Prisma.Announcement_UserUncheckedUpdateWithoutUserInput>
+}
+
+export type Announcement_UserUpdateManyWithWhereWithoutUserInput = {
+  where: Prisma.Announcement_UserScalarWhereInput
+  data: Prisma.XOR<Prisma.Announcement_UserUpdateManyMutationInput, Prisma.Announcement_UserUncheckedUpdateManyWithoutUserInput>
+}
+
+export type Announcement_UserScalarWhereInput = {
+  AND?: Prisma.Announcement_UserScalarWhereInput | Prisma.Announcement_UserScalarWhereInput[]
+  OR?: Prisma.Announcement_UserScalarWhereInput[]
+  NOT?: Prisma.Announcement_UserScalarWhereInput | Prisma.Announcement_UserScalarWhereInput[]
+  id?: Prisma.StringFilter<"Announcement_User"> | string
+  announcementId?: Prisma.StringFilter<"Announcement_User"> | string
+  userId?: Prisma.StringFilter<"Announcement_User"> | string
+  token?: Prisma.StringFilter<"Announcement_User"> | string
+  sentAt?: Prisma.DateTimeNullableFilter<"Announcement_User"> | Date | string | null
+  readAt?: Prisma.DateTimeNullableFilter<"Announcement_User"> | Date | string | null
+  acknowledgedAt?: Prisma.DateTimeNullableFilter<"Announcement_User"> | Date | string | null
+  ipAddress?: Prisma.StringNullableFilter<"Announcement_User"> | string | null
+  userAgent?: Prisma.StringNullableFilter<"Announcement_User"> | string | null
+}
+
+export type Announcement_UserCreateWithoutAnnouncementInput = {
+  id?: string
+  token?: string
+  sentAt?: Date | string | null
+  readAt?: Date | string | null
+  acknowledgedAt?: Date | string | null
+  ipAddress?: string | null
+  userAgent?: string | null
+  user: Prisma.UserCreateNestedOneWithoutAnnouncementAcksInput
+}
+
+export type Announcement_UserUncheckedCreateWithoutAnnouncementInput = {
+  id?: string
+  userId: string
+  token?: string
+  sentAt?: Date | string | null
+  readAt?: Date | string | null
+  acknowledgedAt?: Date | string | null
+  ipAddress?: string | null
+  userAgent?: string | null
+}
+
+export type Announcement_UserCreateOrConnectWithoutAnnouncementInput = {
+  where: Prisma.Announcement_UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.Announcement_UserCreateWithoutAnnouncementInput, Prisma.Announcement_UserUncheckedCreateWithoutAnnouncementInput>
+}
+
+export type Announcement_UserCreateManyAnnouncementInputEnvelope = {
+  data: Prisma.Announcement_UserCreateManyAnnouncementInput | Prisma.Announcement_UserCreateManyAnnouncementInput[]
+  skipDuplicates?: boolean
+}
+
+export type Announcement_UserUpsertWithWhereUniqueWithoutAnnouncementInput = {
+  where: Prisma.Announcement_UserWhereUniqueInput
+  update: Prisma.XOR<Prisma.Announcement_UserUpdateWithoutAnnouncementInput, Prisma.Announcement_UserUncheckedUpdateWithoutAnnouncementInput>
+  create: Prisma.XOR<Prisma.Announcement_UserCreateWithoutAnnouncementInput, Prisma.Announcement_UserUncheckedCreateWithoutAnnouncementInput>
+}
+
+export type Announcement_UserUpdateWithWhereUniqueWithoutAnnouncementInput = {
+  where: Prisma.Announcement_UserWhereUniqueInput
+  data: Prisma.XOR<Prisma.Announcement_UserUpdateWithoutAnnouncementInput, Prisma.Announcement_UserUncheckedUpdateWithoutAnnouncementInput>
+}
+
+export type Announcement_UserUpdateManyWithWhereWithoutAnnouncementInput = {
+  where: Prisma.Announcement_UserScalarWhereInput
+  data: Prisma.XOR<Prisma.Announcement_UserUpdateManyMutationInput, Prisma.Announcement_UserUncheckedUpdateManyWithoutAnnouncementInput>
+}
+
+export type Announcement_UserCreateManyUserInput = {
+  id?: string
+  announcementId: string
+  token?: string
+  sentAt?: Date | string | null
+  readAt?: Date | string | null
+  acknowledgedAt?: Date | string | null
+  ipAddress?: string | null
+  userAgent?: string | null
+}
+
+export type Announcement_UserUpdateWithoutUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  token?: Prisma.StringFieldUpdateOperationsInput | string
+  sentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  readAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  ipAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userAgent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  announcement?: Prisma.AnnouncementUpdateOneRequiredWithoutRecipientsNestedInput
+}
+
+export type Announcement_UserUncheckedUpdateWithoutUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  announcementId?: Prisma.StringFieldUpdateOperationsInput | string
+  token?: Prisma.StringFieldUpdateOperationsInput | string
+  sentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  readAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  ipAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userAgent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type Announcement_UserUncheckedUpdateManyWithoutUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  announcementId?: Prisma.StringFieldUpdateOperationsInput | string
+  token?: Prisma.StringFieldUpdateOperationsInput | string
+  sentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  readAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  ipAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userAgent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type Announcement_UserCreateManyAnnouncementInput = {
+  id?: string
+  userId: string
+  token?: string
+  sentAt?: Date | string | null
+  readAt?: Date | string | null
+  acknowledgedAt?: Date | string | null
+  ipAddress?: string | null
+  userAgent?: string | null
+}
+
+export type Announcement_UserUpdateWithoutAnnouncementInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  token?: Prisma.StringFieldUpdateOperationsInput | string
+  sentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  readAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  ipAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userAgent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  user?: Prisma.UserUpdateOneRequiredWithoutAnnouncementAcksNestedInput
+}
+
+export type Announcement_UserUncheckedUpdateWithoutAnnouncementInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  token?: Prisma.StringFieldUpdateOperationsInput | string
+  sentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  readAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  ipAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userAgent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type Announcement_UserUncheckedUpdateManyWithoutAnnouncementInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  token?: Prisma.StringFieldUpdateOperationsInput | string
+  sentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  readAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  acknowledgedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  ipAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userAgent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -295,40 +702,86 @@ export type Announcement_UserSelect<ExtArgs extends runtime.Types.Extensions.Int
   id?: boolean
   announcementId?: boolean
   userId?: boolean
+  token?: boolean
+  sentAt?: boolean
   readAt?: boolean
+  acknowledgedAt?: boolean
+  ipAddress?: boolean
+  userAgent?: boolean
+  announcement?: boolean | Prisma.AnnouncementDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["announcement_User"]>
 
 export type Announcement_UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   announcementId?: boolean
   userId?: boolean
+  token?: boolean
+  sentAt?: boolean
   readAt?: boolean
+  acknowledgedAt?: boolean
+  ipAddress?: boolean
+  userAgent?: boolean
+  announcement?: boolean | Prisma.AnnouncementDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["announcement_User"]>
 
 export type Announcement_UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   announcementId?: boolean
   userId?: boolean
+  token?: boolean
+  sentAt?: boolean
   readAt?: boolean
+  acknowledgedAt?: boolean
+  ipAddress?: boolean
+  userAgent?: boolean
+  announcement?: boolean | Prisma.AnnouncementDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["announcement_User"]>
 
 export type Announcement_UserSelectScalar = {
   id?: boolean
   announcementId?: boolean
   userId?: boolean
+  token?: boolean
+  sentAt?: boolean
   readAt?: boolean
+  acknowledgedAt?: boolean
+  ipAddress?: boolean
+  userAgent?: boolean
 }
 
-export type Announcement_UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "announcementId" | "userId" | "readAt", ExtArgs["result"]["announcement_User"]>
+export type Announcement_UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "announcementId" | "userId" | "token" | "sentAt" | "readAt" | "acknowledgedAt" | "ipAddress" | "userAgent", ExtArgs["result"]["announcement_User"]>
+export type Announcement_UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  announcement?: boolean | Prisma.AnnouncementDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
+export type Announcement_UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  announcement?: boolean | Prisma.AnnouncementDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
+export type Announcement_UserIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  announcement?: boolean | Prisma.AnnouncementDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
 
 export type $Announcement_UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Announcement_User"
-  objects: {}
+  objects: {
+    announcement: Prisma.$AnnouncementPayload<ExtArgs>
+    user: Prisma.$UserPayload<ExtArgs>
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     announcementId: string
     userId: string
+    token: string
+    sentAt: Date | null
     readAt: Date | null
+    acknowledgedAt: Date | null
+    ipAddress: string | null
+    userAgent: string | null
   }, ExtArgs["result"]["announcement_User"]>
   composites: {}
 }
@@ -723,6 +1176,8 @@ readonly fields: Announcement_UserFieldRefs;
  */
 export interface Prisma__Announcement_UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  announcement<T extends Prisma.AnnouncementDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AnnouncementDefaultArgs<ExtArgs>>): Prisma.Prisma__AnnouncementClient<runtime.Types.Result.GetResult<Prisma.$AnnouncementPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -755,7 +1210,12 @@ export interface Announcement_UserFieldRefs {
   readonly id: Prisma.FieldRef<"Announcement_User", 'String'>
   readonly announcementId: Prisma.FieldRef<"Announcement_User", 'String'>
   readonly userId: Prisma.FieldRef<"Announcement_User", 'String'>
+  readonly token: Prisma.FieldRef<"Announcement_User", 'String'>
+  readonly sentAt: Prisma.FieldRef<"Announcement_User", 'DateTime'>
   readonly readAt: Prisma.FieldRef<"Announcement_User", 'DateTime'>
+  readonly acknowledgedAt: Prisma.FieldRef<"Announcement_User", 'DateTime'>
+  readonly ipAddress: Prisma.FieldRef<"Announcement_User", 'String'>
+  readonly userAgent: Prisma.FieldRef<"Announcement_User", 'String'>
 }
     
 
@@ -772,6 +1232,10 @@ export type Announcement_UserFindUniqueArgs<ExtArgs extends runtime.Types.Extens
    * Omit specific fields from the Announcement_User
    */
   omit?: Prisma.Announcement_UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.Announcement_UserInclude<ExtArgs> | null
   /**
    * Filter, which Announcement_User to fetch.
    */
@@ -791,6 +1255,10 @@ export type Announcement_UserFindUniqueOrThrowArgs<ExtArgs extends runtime.Types
    */
   omit?: Prisma.Announcement_UserOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.Announcement_UserInclude<ExtArgs> | null
+  /**
    * Filter, which Announcement_User to fetch.
    */
   where: Prisma.Announcement_UserWhereUniqueInput
@@ -808,6 +1276,10 @@ export type Announcement_UserFindFirstArgs<ExtArgs extends runtime.Types.Extensi
    * Omit specific fields from the Announcement_User
    */
   omit?: Prisma.Announcement_UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.Announcement_UserInclude<ExtArgs> | null
   /**
    * Filter, which Announcement_User to fetch.
    */
@@ -857,6 +1329,10 @@ export type Announcement_UserFindFirstOrThrowArgs<ExtArgs extends runtime.Types.
    */
   omit?: Prisma.Announcement_UserOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.Announcement_UserInclude<ExtArgs> | null
+  /**
    * Filter, which Announcement_User to fetch.
    */
   where?: Prisma.Announcement_UserWhereInput
@@ -904,6 +1380,10 @@ export type Announcement_UserFindManyArgs<ExtArgs extends runtime.Types.Extensio
    * Omit specific fields from the Announcement_User
    */
   omit?: Prisma.Announcement_UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.Announcement_UserInclude<ExtArgs> | null
   /**
    * Filter, which Announcement_Users to fetch.
    */
@@ -953,6 +1433,10 @@ export type Announcement_UserCreateArgs<ExtArgs extends runtime.Types.Extensions
    */
   omit?: Prisma.Announcement_UserOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.Announcement_UserInclude<ExtArgs> | null
+  /**
    * The data needed to create a Announcement_User.
    */
   data: Prisma.XOR<Prisma.Announcement_UserCreateInput, Prisma.Announcement_UserUncheckedCreateInput>
@@ -986,6 +1470,10 @@ export type Announcement_UserCreateManyAndReturnArgs<ExtArgs extends runtime.Typ
    */
   data: Prisma.Announcement_UserCreateManyInput | Prisma.Announcement_UserCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.Announcement_UserIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1000,6 +1488,10 @@ export type Announcement_UserUpdateArgs<ExtArgs extends runtime.Types.Extensions
    * Omit specific fields from the Announcement_User
    */
   omit?: Prisma.Announcement_UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.Announcement_UserInclude<ExtArgs> | null
   /**
    * The data needed to update a Announcement_User.
    */
@@ -1052,6 +1544,10 @@ export type Announcement_UserUpdateManyAndReturnArgs<ExtArgs extends runtime.Typ
    * Limit how many Announcement_Users to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.Announcement_UserIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1066,6 +1562,10 @@ export type Announcement_UserUpsertArgs<ExtArgs extends runtime.Types.Extensions
    * Omit specific fields from the Announcement_User
    */
   omit?: Prisma.Announcement_UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.Announcement_UserInclude<ExtArgs> | null
   /**
    * The filter to search for the Announcement_User to update in case it exists.
    */
@@ -1092,6 +1592,10 @@ export type Announcement_UserDeleteArgs<ExtArgs extends runtime.Types.Extensions
    * Omit specific fields from the Announcement_User
    */
   omit?: Prisma.Announcement_UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.Announcement_UserInclude<ExtArgs> | null
   /**
    * Filter which Announcement_User to delete.
    */
@@ -1124,4 +1628,8 @@ export type Announcement_UserDefaultArgs<ExtArgs extends runtime.Types.Extension
    * Omit specific fields from the Announcement_User
    */
   omit?: Prisma.Announcement_UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.Announcement_UserInclude<ExtArgs> | null
 }

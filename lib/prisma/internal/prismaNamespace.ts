@@ -421,6 +421,8 @@ export const ModelName = {
   MenuConfig: 'MenuConfig',
   Announcement: 'Announcement',
   Announcement_User: 'Announcement_User',
+  Assembly: 'Assembly',
+  AssemblyParticipant: 'AssemblyParticipant',
   APIUsageLog: 'APIUsageLog',
   APICostConfig: 'APICostConfig',
   MonthlyCostSummary: 'MonthlyCostSummary',
@@ -446,7 +448,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "account" | "session" | "verificationToken" | "company" | "department" | "jobPosition" | "employee" | "subscription" | "addonFeature" | "customer" | "property" | "building" | "unitOccupancy" | "buildingFile" | "infraPoint" | "infraAccess" | "infraMedia" | "contact" | "recurringTask" | "buildingExpense" | "expenseCategory" | "buildingCategoryOverride" | "meterReading" | "expenseAllocation" | "unitPayment" | "managementAssignment" | "commonArea" | "unit" | "service" | "propertyService" | "serviceInvoice" | "serviceInvoiceLine" | "userCompanyRole" | "menuConfig" | "announcement" | "announcement_User" | "aPIUsageLog" | "aPICostConfig" | "monthlyCostSummary" | "maintenanceRequest" | "cMSPage" | "fAQ" | "pricingTier" | "contactMessage" | "cookieConsent" | "appSettings"
+    modelProps: "user" | "account" | "session" | "verificationToken" | "company" | "department" | "jobPosition" | "employee" | "subscription" | "addonFeature" | "customer" | "property" | "building" | "unitOccupancy" | "buildingFile" | "infraPoint" | "infraAccess" | "infraMedia" | "contact" | "recurringTask" | "buildingExpense" | "expenseCategory" | "buildingCategoryOverride" | "meterReading" | "expenseAllocation" | "unitPayment" | "managementAssignment" | "commonArea" | "unit" | "service" | "propertyService" | "serviceInvoice" | "serviceInvoiceLine" | "userCompanyRole" | "menuConfig" | "announcement" | "announcement_User" | "assembly" | "assemblyParticipant" | "aPIUsageLog" | "aPICostConfig" | "monthlyCostSummary" | "maintenanceRequest" | "cMSPage" | "fAQ" | "pricingTier" | "contactMessage" | "cookieConsent" | "appSettings"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -3188,6 +3190,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Assembly: {
+      payload: Prisma.$AssemblyPayload<ExtArgs>
+      fields: Prisma.AssemblyFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.AssemblyFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssemblyPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.AssemblyFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssemblyPayload>
+        }
+        findFirst: {
+          args: Prisma.AssemblyFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssemblyPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.AssemblyFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssemblyPayload>
+        }
+        findMany: {
+          args: Prisma.AssemblyFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssemblyPayload>[]
+        }
+        create: {
+          args: Prisma.AssemblyCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssemblyPayload>
+        }
+        createMany: {
+          args: Prisma.AssemblyCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.AssemblyCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssemblyPayload>[]
+        }
+        delete: {
+          args: Prisma.AssemblyDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssemblyPayload>
+        }
+        update: {
+          args: Prisma.AssemblyUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssemblyPayload>
+        }
+        deleteMany: {
+          args: Prisma.AssemblyDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.AssemblyUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.AssemblyUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssemblyPayload>[]
+        }
+        upsert: {
+          args: Prisma.AssemblyUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssemblyPayload>
+        }
+        aggregate: {
+          args: Prisma.AssemblyAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAssembly>
+        }
+        groupBy: {
+          args: Prisma.AssemblyGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AssemblyGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.AssemblyCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AssemblyCountAggregateOutputType> | number
+        }
+      }
+    }
+    AssemblyParticipant: {
+      payload: Prisma.$AssemblyParticipantPayload<ExtArgs>
+      fields: Prisma.AssemblyParticipantFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.AssemblyParticipantFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssemblyParticipantPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.AssemblyParticipantFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssemblyParticipantPayload>
+        }
+        findFirst: {
+          args: Prisma.AssemblyParticipantFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssemblyParticipantPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.AssemblyParticipantFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssemblyParticipantPayload>
+        }
+        findMany: {
+          args: Prisma.AssemblyParticipantFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssemblyParticipantPayload>[]
+        }
+        create: {
+          args: Prisma.AssemblyParticipantCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssemblyParticipantPayload>
+        }
+        createMany: {
+          args: Prisma.AssemblyParticipantCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.AssemblyParticipantCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssemblyParticipantPayload>[]
+        }
+        delete: {
+          args: Prisma.AssemblyParticipantDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssemblyParticipantPayload>
+        }
+        update: {
+          args: Prisma.AssemblyParticipantUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssemblyParticipantPayload>
+        }
+        deleteMany: {
+          args: Prisma.AssemblyParticipantDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.AssemblyParticipantUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.AssemblyParticipantUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssemblyParticipantPayload>[]
+        }
+        upsert: {
+          args: Prisma.AssemblyParticipantUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AssemblyParticipantPayload>
+        }
+        aggregate: {
+          args: Prisma.AssemblyParticipantAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAssemblyParticipant>
+        }
+        groupBy: {
+          args: Prisma.AssemblyParticipantGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AssemblyParticipantGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.AssemblyParticipantCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AssemblyParticipantCountAggregateOutputType> | number
+        }
+      }
+    }
     APIUsageLog: {
       payload: Prisma.$APIUsageLogPayload<ExtArgs>
       fields: Prisma.APIUsageLogFieldRefs
@@ -4256,6 +4406,7 @@ export const BuildingScalarFieldEnum = {
   technicalNotes: 'technicalNotes',
   lat: 'lat',
   lng: 'lng',
+  dailyRoomName: 'dailyRoomName',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -4620,8 +4771,10 @@ export const AnnouncementScalarFieldEnum = {
   content: 'content',
   imageUrl: 'imageUrl',
   status: 'status',
+  audience: 'audience',
   publishedAt: 'publishedAt',
   expiresAt: 'expiresAt',
+  recurringTaskId: 'recurringTaskId',
   createdById: 'createdById',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -4634,10 +4787,53 @@ export const Announcement_UserScalarFieldEnum = {
   id: 'id',
   announcementId: 'announcementId',
   userId: 'userId',
-  readAt: 'readAt'
+  token: 'token',
+  sentAt: 'sentAt',
+  readAt: 'readAt',
+  acknowledgedAt: 'acknowledgedAt',
+  ipAddress: 'ipAddress',
+  userAgent: 'userAgent'
 } as const
 
 export type Announcement_UserScalarFieldEnum = (typeof Announcement_UserScalarFieldEnum)[keyof typeof Announcement_UserScalarFieldEnum]
+
+
+export const AssemblyScalarFieldEnum = {
+  id: 'id',
+  buildingId: 'buildingId',
+  title: 'title',
+  scheduledAt: 'scheduledAt',
+  status: 'status',
+  dailyRoomName: 'dailyRoomName',
+  dailySessionId: 'dailySessionId',
+  recordingUrl: 'recordingUrl',
+  transcriptRaw: 'transcriptRaw',
+  minutesDraft: 'minutesDraft',
+  minutesFinal: 'minutesFinal',
+  approvedAt: 'approvedAt',
+  sentAt: 'sentAt',
+  createdById: 'createdById',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AssemblyScalarFieldEnum = (typeof AssemblyScalarFieldEnum)[keyof typeof AssemblyScalarFieldEnum]
+
+
+export const AssemblyParticipantScalarFieldEnum = {
+  id: 'id',
+  assemblyId: 'assemblyId',
+  userId: 'userId',
+  unitId: 'unitId',
+  displayName: 'displayName',
+  joinedAt: 'joinedAt',
+  leftAt: 'leftAt',
+  durationSeconds: 'durationSeconds',
+  invitedSentAt: 'invitedSentAt',
+  momSentAt: 'momSentAt'
+} as const
+
+export type AssemblyParticipantScalarFieldEnum = (typeof AssemblyParticipantScalarFieldEnum)[keyof typeof AssemblyParticipantScalarFieldEnum]
 
 
 export const APIUsageLogScalarFieldEnum = {
@@ -4653,6 +4849,9 @@ export const APIUsageLogScalarFieldEnum = {
   currency: 'currency',
   companyId: 'companyId',
   userId: 'userId',
+  buildingId: 'buildingId',
+  customerId: 'customerId',
+  assemblyId: 'assemblyId',
   status: 'status',
   errorMessage: 'errorMessage',
   createdAt: 'createdAt',
@@ -5264,6 +5463,20 @@ export type EnumInvoiceStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$Pr
 export type ListEnumInvoiceStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'InvoiceStatus[]'>
     
 
+
+/**
+ * Reference to a field of type 'AssemblyStatus'
+ */
+export type EnumAssemblyStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AssemblyStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'AssemblyStatus[]'
+ */
+export type ListEnumAssemblyStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AssemblyStatus[]'>
+    
+
 /**
  * Batch Payload for updateMany & deleteMany & createMany
  */
@@ -5411,6 +5624,8 @@ export type GlobalOmitConfig = {
   menuConfig?: Prisma.MenuConfigOmit
   announcement?: Prisma.AnnouncementOmit
   announcement_User?: Prisma.Announcement_UserOmit
+  assembly?: Prisma.AssemblyOmit
+  assemblyParticipant?: Prisma.AssemblyParticipantOmit
   aPIUsageLog?: Prisma.APIUsageLogOmit
   aPICostConfig?: Prisma.APICostConfigOmit
   monthlyCostSummary?: Prisma.MonthlyCostSummaryOmit
