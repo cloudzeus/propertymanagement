@@ -37,6 +37,22 @@ export const DEFAULT_API_COSTS = {
     quotaResetDay: 1,
     documentationUrl: "https://ai.google.dev/pricing/",
   },
+  daily: {
+    displayName: "Daily",
+    costModel: "per_minute",
+    basePrice: 0.004, // EUR per participant-minute
+    freeQuota: 0,
+    quotaResetDay: 1,
+    documentationUrl: "https://www.daily.co/pricing/",
+  },
+  deepgram: {
+    displayName: "Deepgram",
+    costModel: "per_minute",
+    basePrice: 0.0043, // EUR per audio-minute
+    freeQuota: 0,
+    quotaResetDay: 1,
+    documentationUrl: "https://deepgram.com/pricing/",
+  },
 } as const;
 
 interface LogAPIUsageParams {
@@ -48,6 +64,9 @@ interface LogAPIUsageParams {
   bytesProcessed?: number;
   companyId?: string;
   userId?: string;
+  buildingId?: string;
+  customerId?: string;
+  assemblyId?: string;
   status?: "SUCCESS" | "FAILED" | "RETRY";
   errorMessage?: string;
 }
@@ -78,6 +97,9 @@ export async function logAPIUsage(params: LogAPIUsageParams) {
         const tokens = params.tokensUsed || 0;
         totalCost = (tokens / 1000) * config.basePrice; // basePrice is per 1K tokens
         break;
+      case "per_minute":
+        totalCost = (params.requestCount || 0) * config.basePrice; // requestCount carries minutes
+        break;
       case "per_request":
       default:
         totalCost = (params.requestCount || 1) * config.basePrice;
@@ -96,6 +118,9 @@ export async function logAPIUsage(params: LogAPIUsageParams) {
         totalCost: parseFloat(totalCost.toFixed(6)), // Round to 6 decimal places
         companyId: params.companyId,
         userId: params.userId,
+        buildingId: params.buildingId,
+        customerId: params.customerId,
+        assemblyId: params.assemblyId,
         status: params.status || "SUCCESS",
         errorMessage: params.errorMessage,
       },
