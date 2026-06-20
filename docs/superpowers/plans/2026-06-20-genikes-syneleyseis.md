@@ -518,13 +518,13 @@ async function requireStaff(): Promise<string> {
 /** Owners of a building (users with an OWNER occupancy on any of its units). */
 async function buildingOwners(buildingId: string) {
   const occ = await db.unitOccupancy.findMany({
-    where: { unit: { buildingId }, role: "OWNER", user: { isNot: null } },
+    where: { unit: { buildingId }, role: "OWNER", endDate: null },
     select: { userId: true, unitId: true, user: { select: { id: true, name: true, email: true } } },
   });
-  // de-dupe by user
+  // de-dupe by user (UnitOccupancy.user is required/non-null)
   const seen = new Map<string, { userId: string; unitId: string; name: string | null; email: string }>();
   for (const o of occ) {
-    if (o.user?.email && !seen.has(o.user.id)) {
+    if (o.user.email && !seen.has(o.user.id)) {
       seen.set(o.user.id, { userId: o.user.id, unitId: o.unitId, name: o.user.name, email: o.user.email });
     }
   }
@@ -559,13 +559,15 @@ export async function createAssembly(input: { buildingId: string; title: string;
     await db.assemblyParticipant.create({
       data: { assemblyId: assembly.id, userId: o.userId, unitId: o.unitId, displayName: o.name ?? o.email, invitedSentAt: new Date() },
     });
-    await sendAnnouncementEmail({
-      to: o.email,
-      title: `Πρόσκληση σε Γενική Συνέλευση — ${building.name}`,
-      html: `<p>Καλείστε σε Γενική Συνέλευση: <strong>${input.title}</strong></p>
-             <p>Ημερομηνία: ${new Date(input.scheduledAt).toLocaleString("el-GR")}</p>
-             <p><a href="${link}">Συμμετοχή στη συνέλευση</a></p>`,
-    });
+    await sendAnnouncementEmail(
+      o.email,
+      o.name,
+      building.name,
+      `Πρόσκληση σε Γενική Συνέλευση: ${input.title}`,
+      `<p>Καλείστε σε Γενική Συνέλευση στις <strong>${new Date(input.scheduledAt).toLocaleString("el-GR")}</strong>.</p>
+       <p>Πατήστε το κουμπί για να συμμετάσχετε.</p>`,
+      link,
+    );
   }
 
   revalidatePath(`/super-admin/buildings/${building.id}`);
@@ -600,25 +602,30 @@ export async function getAssemblyToken(assemblyId: string) {
   return { token, roomName: assembly.dailyRoomName };
 }
 
-/** Generate (or regenerate) the DRAFT minutes from the stored transcript. */
-export async function generateMinutes(assemblyId: string) {
-  await requireStaff();
+/** Core minutes generation WITHOUT auth — callable by the webhook. */
+export async function runMinutes(assemblyId: string) {
   const a = await db.assembly.findUnique({
     where: { id: assemblyId },
-    select: { id: true, transcriptRaw: true, buildingId: true, building: { select: { name: true, customerId: true, companyId: true } } },
+    select: { id: true, transcriptRaw: true, buildingId: true, building: { select: { name: true, companyId: true, property: { select: { customerId: true } } } } },
   });
   if (!a?.transcriptRaw) throw new Error("No transcript yet");
 
   const result = await generateMinutesHtml({
     transcript: a.transcriptRaw,
     buildingName: a.building.name,
-    ctx: { companyId: a.building.companyId ?? undefined, customerId: a.building.customerId ?? undefined, buildingId: a.buildingId, assemblyId },
+    ctx: { companyId: a.building.companyId ?? undefined, customerId: a.building.property?.customerId ?? undefined, buildingId: a.buildingId, assemblyId },
   });
   if (!result.success) throw new Error(result.error ?? "DeepSeek failed");
 
   await db.assembly.update({ where: { id: assemblyId }, data: { minutesDraft: result.html, status: "DRAFT_READY" } });
   revalidatePath(`/super-admin/buildings/${a.buildingId}/assemblies/${assemblyId}`);
   return { html: result.html };
+}
+
+/** Staff-facing wrapper: auth-gate then run. */
+export async function generateMinutes(assemblyId: string) {
+  await requireStaff();
+  return runMinutes(assemblyId);
 }
 
 export async function approveAndSendMinutes(assemblyId: string, finalHtml: string) {
@@ -631,13 +638,17 @@ export async function approveAndSendMinutes(assemblyId: string, finalHtml: strin
 
   await db.assembly.update({ where: { id: assemblyId }, data: { minutesFinal: finalHtml, status: "SENT", approvedAt: new Date(), sentAt: new Date() } });
 
+  const link = `${env.NEXT_PUBLIC_APP_URL}/super-admin/buildings/${a.buildingId}/assemblies/${assemblyId}`;
   const owners = await buildingOwners(a.buildingId);
   for (const o of owners) {
-    await sendAnnouncementEmail({
-      to: o.email,
-      title: `Πρακτικά Γενικής Συνέλευσης — ${a.building.name}`,
-      html: finalHtml,
-    });
+    await sendAnnouncementEmail(
+      o.email,
+      o.name,
+      a.building.name,
+      `Πρακτικά Γενικής Συνέλευσης — ${a.title}`,
+      finalHtml,
+      link,
+    );
   }
   await db.assemblyParticipant.updateMany({ where: { assemblyId }, data: { momSentAt: new Date() } });
 
@@ -709,7 +720,7 @@ async function findAssembly(roomName?: string) {
   return db.assembly.findFirst({
     where: { dailyRoomName: roomName, status: { in: ["SCHEDULED", "LIVE", "ENDED", "TRANSCRIBING"] } },
     orderBy: { scheduledAt: "desc" },
-    select: { id: true, buildingId: true, building: { select: { customerId: true, companyId: true } } },
+    select: { id: true, buildingId: true, building: { select: { companyId: true, property: { select: { customerId: true } } } } },
   });
 }
 
@@ -747,7 +758,7 @@ export async function POST(req: NextRequest) {
           apiName: "daily",
           requestCount: Math.ceil(p.duration / 60), // minutes
           buildingId: assembly.buildingId,
-          customerId: assembly.building.customerId ?? undefined,
+          customerId: assembly.building.property?.customerId ?? undefined,
           companyId: assembly.building.companyId ?? undefined,
           assemblyId: assembly.id,
         });
@@ -773,7 +784,7 @@ export async function POST(req: NextRequest) {
             apiName: "deepgram",
             requestCount: minutes,
             buildingId: assembly.buildingId,
-            customerId: assembly.building.customerId ?? undefined,
+            customerId: assembly.building.property?.customerId ?? undefined,
             companyId: assembly.building.companyId ?? undefined,
             assemblyId: assembly.id,
           });
@@ -928,6 +939,17 @@ git commit -m "feat(assemblies): add Συνελεύσεις tab to building dash
 4. End meeting → status TRANSCRIBING → webhook fills transcript → status DRAFT_READY with DeepSeek minutes.
 5. Edit minutes → Έγκριση & Αποστολή → owners receive HTML MOM.
 6. Cost card shows non-zero `daily`, `deepgram`, `deepseek`, `mailgun` rows; confirm rows in `APIUsageLog` carry `buildingId`/`customerId`/`assemblyId`.
+
+## Post-implementation follow-ups (from final code review)
+
+Fixed during implementation: mailgun cost attribution, transcript persistence on end + auto-draft, participant-row creation on join.
+
+Still open — require confirming Daily's live webhook contract / are hardening items:
+- **Daily webhook signature scheme (verify before go-live):** `app/api/webhooks/daily/route.ts` currently HMACs the raw body with `DAILY_WEBHOOK_SECRET` and reads header `x-daily-signature`. Daily's real scheme (header names + whether the signing string is `timestamp + "." + body`) must be confirmed against current Daily docs and adjusted, or all real events will be rejected.
+- **Replay protection (spec §6):** persist Daily's event/delivery id with TTL and drop duplicates with 200 — otherwise a replayed `participant.left` re-bills `daily` minutes.
+- **Per-recipient email failure handling:** `createAssembly` / `approveAndSendMinutes` send in a serial loop with no per-recipient try/catch; one failure aborts the rest. Collect failures and report.
+- **Dedicated MOM email template:** MOM currently reuses `sendAnnouncementEmail`'s "Έλαβα γνώση" acknowledgment framing; a formal-minutes template is more appropriate.
+- **DeepSeek input/output token split:** cost uses a flat blended per-1K rate; refine if precise billing matters.
 
 ## Future / Out of scope (do NOT build now)
 
