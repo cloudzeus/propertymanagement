@@ -35,6 +35,7 @@ export default async function AssemblyDetailPage({ params }: { params: Promise<{
       buildingId: true,
       minutesDraft: true,
       minutesFinal: true,
+      transcriptRaw: true,
       participants: { select: { id: true, displayName: true, durationSeconds: true, momSentAt: true } },
     },
   });
@@ -77,6 +78,21 @@ export default async function AssemblyDetailPage({ params }: { params: Promise<{
           initialHtml={assembly.minutesFinal ?? assembly.minutesDraft ?? ""}
           readonly={assembly.status === "SENT"}
         />
+      )}
+
+      {/* Original transcript (read-only, source of the MOM) */}
+      {!!assembly.transcriptRaw && (
+        <details style={cardStyle}>
+          <summary style={{ cursor: "pointer", fontSize: 15, fontWeight: 700, color: "var(--foreground)" }}>
+            Πρωτότυπη Μεταγραφή
+          </summary>
+          <div style={{ fontSize: 11, color: "var(--muted-foreground)", margin: "6px 0 12px" }}>
+            Το πρωτότυπο κείμενο της μεταγραφής (Deepgram). Διατηρείται αμετάβλητο· τα Πρακτικά παράγονται από αυτό μέσω DeepSeek.
+          </div>
+          <pre style={{ whiteSpace: "pre-wrap", wordBreak: "break-word", fontSize: 13, lineHeight: 1.6, color: "var(--foreground)", margin: 0, fontFamily: "inherit" }}>
+            {assembly.transcriptRaw}
+          </pre>
+        </details>
       )}
 
       {/* Cost breakdown */}
