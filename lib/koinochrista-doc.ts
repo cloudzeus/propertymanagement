@@ -12,6 +12,7 @@ export type KoinoLine = {
   documentDate: string | null; // ISO
   role: "OWNER" | "TENANT";
   amount: number;
+  note?: string | null;
   paid: boolean;
 };
 
@@ -42,7 +43,7 @@ export function buildKoinochristaDoc(input: KoinoDocInput): Buffer {
     .map(
       (l) => `
       <tr>
-        <td>${esc(l.category)}</td>
+        <td>${esc(l.category)}${l.note ? `<div style="font-size:11px;color:#666">${esc(l.note)}</div>` : ""}</td>
         <td>${esc(l.supplier)}</td>
         <td>${esc(l.documentNumber)}</td>
         <td>${date(l.documentDate)}</td>

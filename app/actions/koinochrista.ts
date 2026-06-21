@@ -93,13 +93,13 @@ async function aggregateByPerson(buildingId: string, month: string) {
       if (a.ownerUserId && num(a.ownerAmount) > 0) {
         const p = ensure(a.ownerUserId); p.units.add(a.unit.unitNumber);
         p.total += num(a.ownerAmount); if (a.ownerPaid) p.paid += num(a.ownerAmount);
-        p.lines.push({ ...base, role: "OWNER", amount: num(a.ownerAmount), paid: a.ownerPaid });
+        p.lines.push({ ...base, role: "OWNER", amount: num(a.ownerAmount), paid: a.ownerPaid, note: a.breakdownNote });
         if (e.receiptFile?.url) p.receiptUrls.add(e.receiptFile.url);
       }
       if (a.tenantUserId && num(a.tenantAmount) > 0) {
         const p = ensure(a.tenantUserId); p.units.add(a.unit.unitNumber);
         p.total += num(a.tenantAmount); if (a.tenantPaid) p.paid += num(a.tenantAmount);
-        p.lines.push({ ...base, role: "TENANT", amount: num(a.tenantAmount), paid: a.tenantPaid });
+        p.lines.push({ ...base, role: "TENANT", amount: num(a.tenantAmount), paid: a.tenantPaid, note: a.breakdownNote });
         if (e.receiptFile?.url) p.receiptUrls.add(e.receiptFile.url);
       }
     }
