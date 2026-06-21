@@ -586,6 +586,19 @@ model Property {
   @@index([name])
 }
 
+enum MillesimeSource {
+  AUTO
+  MANUAL
+}
+
+enum DistributionBasis {
+  GENERAL_MILLESIMES
+  ELEVATOR_MILLESIMES
+  HEATING_MILLESIMES
+  EQUAL_PER_UNIT
+  METERED_70_30
+}
+
 // Building (Κτήριο) — a physical building under a Property.
 model Building {
   id                    String   @id @default(cuid())
@@ -614,6 +627,10 @@ model Building {
   hasBoiler             Boolean  @default(false)
   hasFireSafety         Boolean  @default(false)
   technicalNotes        String?
+
+  // Elevator floor parameters (κοινόχρηστα ασανσέρ)
+  elevatorSurchargePerFloor  Float   @default(0.10)
+  elevatorExemptGroundFloor  Boolean @default(true)
 
   // Geodata
   lat                   Float?
@@ -845,12 +862,14 @@ model ExpenseCategory {
   name      String
   code      String  @unique
   utilityType ExpenseUtilityType @default(NONE)
+  defaultBasis DistributionBasis @default(GENERAL_MILLESIMES)
   defaultTenantPct Int @default(0)
   defaultOwnerPct  Int @default(100)
   active    Boolean @default(true)
   sortOrder Int     @default(0)
   expenses  BuildingExpense[]
   overrides BuildingCategoryOverride[]
+  exclusions UnitCategoryExclusion[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -863,10 +882,23 @@ model BuildingCategoryOverride {
   category   ExpenseCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   tenantPct  Int
   ownerPct   Int
+  distributionBasis DistributionBasis?
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
   @@unique([buildingId, categoryId])
   @@index([buildingId])
+}
+
+model UnitCategoryExclusion {
+  id         String   @id @default(cuid())
+  unitId     String
+  unit       Unit     @relation(fields: [unitId], references: [id], onDelete: Cascade)
+  categoryId String
+  category   ExpenseCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+  @@unique([unitId, categoryId])
+  @@index([unitId])
+  @@index([categoryId])
 }
 
 model MeterReading {
@@ -897,6 +929,7 @@ model ExpenseAllocation {
   unitId       String
   unit         Unit    @relation(fields: [unitId], references: [id], onDelete: Cascade)
   unitShare    Decimal @db.Decimal(10,2)
+  breakdownNote String?
   tenantUserId String?
   tenantAmount Decimal @db.Decimal(10,2) @default(0)
   tenantPaid   Boolean @default(false)
@@ -989,6 +1022,12 @@ model Unit {
   floor                 Int?
   areaSqm               Float?   // τετραγωνικά
   millesimes            Float?   // χιλιοστά (for κοινόχρηστα distribution)
+  millesimesElevator    Float?
+  millesimesHeating     Float?
+  millesimesSource          MillesimeSource @default(AUTO)
+  millesimesElevatorSource  MillesimeSource @default(AUTO)
+  millesimesHeatingSource   MillesimeSource @default(AUTO)
+  categoryExclusions    UnitCategoryExclusion[]
 
   // Ownership
   ownerId               String?
