@@ -81,6 +81,7 @@ export function toConsumptionMap(rows: ReadingRow[]): Map<string, number>;
 - `listHeatingReadings(buildingId, period)` → ενδείξεις περιόδου + auto «previousReading» από το `currentReading` του προηγούμενου μήνα (max period < αυτή) όταν δεν υπάρχει ήδη τιμή· εξαιρεί μονάδες με `UnitCategoryExclusion` σε κατηγορία θέρμανσης.
 - `saveHeatingReading(buildingId, unitId, period, currentReading)` → upsert· υπολογίζει `previousReading` (από προηγ. μήνα) & `consumption`· γράφει.
 - `bulkSaveHeatingReadings(buildingId, period, items[])` → πολλαπλά σε μία transaction.
+- `saveHeatingMeterUnit(buildingId, label)` → γράφει το `Building.heatingMeterUnit` (ετικέτα μονάδας μέτρησης).
 
 ---
 
@@ -88,7 +89,7 @@ export function toConsumptionMap(rows: ReadingRow[]): Map<string, number>;
 
 Client component `HeatingReadingsPanel.tsx`, τοποθετημένο στη ροή κοινοχρήστων του μήνα. **Εμφανίζεται μόνο** αν το κτήριο έχει ≥1 κατηγορία με `defaultBasis`/override = `METERED_70_30` (αλλιώς κρυφό).
 
-- Header: επιλογή περιόδου (YYYY-MM) + ετικέτα μονάδας μέτρησης (`heatingMeterUnit`, editable → `saveElevatorParams`-style action ή inline).
+- Header: επιλογή περιόδου (YYYY-MM) + ετικέτα μονάδας μέτρησης (`heatingMeterUnit`, editable → `saveHeatingMeterUnit`).
 - Πίνακας ανά μονάδα (εξαιρώντας τις εξαιρεμένες από θέρμανση): Μονάδα | Προηγ. ένδειξη (read-only, auto) | Τρέχουσα ένδειξη (input) | Κατανάλωση (auto = τρέχ.−προηγ.) | Μερίδιο 70% (live %).
 - Auto «προηγούμενη» από προηγ. μήνα· auto κατανάλωση με **warning** σε αρνητικό/κενό· live προεπισκόπηση αναλογίας.
 - Save ανά κελί (on blur) ή «Αποθήκευση όλων» → `bulkSaveHeatingReadings` → `router.refresh()`.
