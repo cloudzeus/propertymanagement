@@ -16,13 +16,15 @@ export function useAiChat(opts: { endpoint?: string; agentKey: string; onToolCal
   const [error, setError] = useState<string | null>(null);
   const toolArgs = useRef<ToolAccumulator>(new Map());
   const abortRef = useRef<AbortController | null>(null);
+  const lastSent = useRef<string>("");
 
   // Abort any in-flight stream when the component unmounts.
   useEffect(() => () => abortRef.current?.abort(), []);
 
-  const send = useCallback(async () => {
-    const text = input.trim();
+  const send = useCallback(async (forced?: string) => {
+    const text = (forced ?? input).trim();
     if (!text || isStreaming) return;
+    lastSent.current = text;
     setError(null);
     const userMsg: ChatMessage = { id: nextId(), role: "user", content: text };
     const history = [...messages, userMsg];
@@ -73,5 +75,10 @@ export function useAiChat(opts: { endpoint?: string; agentKey: string; onToolCal
     }
   }, [endpoint, input, isStreaming, messages, opts]);
 
-  return { messages, input, setInput, send, isStreaming, error };
+  const retry = useCallback(() => {
+    if (isStreaming || !lastSent.current) return;
+    void send(lastSent.current);
+  }, [isStreaming, send]);
+
+  return { messages, input, setInput, send, isStreaming, error, retry };
 }
