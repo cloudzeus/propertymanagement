@@ -95,6 +95,10 @@ export async function saveHeatingReading(buildingId: string, unitId: string, per
 /** Save many readings for a period in one transaction. */
 export async function bulkSaveHeatingReadings(buildingId: string, period: string, items: { unitId: string; currentReading: number | null }[]) {
   await requireSuperAdmin();
+  // Verify every unit belongs to this building before stamping rows with buildingId.
+  const ids = items.map((i) => i.unitId);
+  const valid = new Set((await db.unit.findMany({ where: { id: { in: ids }, buildingId }, select: { id: true } })).map((u) => u.id));
+  if (valid.size !== new Set(ids).size) throw new Error("Μία ή περισσότερες μονάδες δεν ανήκουν σε αυτό το κτήριο.");
   const prevRows = await db.unitHeatingReading.findMany({ where: { buildingId, period: prevPeriod(period) }, select: { unitId: true, currentReading: true } });
   const prevMap = new Map(prevRows.map((r) => [r.unitId, r.currentReading == null ? null : Number(r.currentReading)]));
   await db.$transaction(items.map((it) => {

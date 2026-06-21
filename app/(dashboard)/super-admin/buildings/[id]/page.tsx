@@ -169,8 +169,9 @@ export default async function BuildingDashboardPage({ params, searchParams }: { 
       },
     })) > 0;
 
+  const rawHeatingPeriod = typeof resolvedSearchParams?.heatingPeriod === "string" ? resolvedSearchParams.heatingPeriod : null;
   const heatingPeriod =
-    (typeof resolvedSearchParams?.heatingPeriod === "string" ? resolvedSearchParams.heatingPeriod : null)
+    (rawHeatingPeriod && /^\d{4}-\d{2}$/.test(rawHeatingPeriod) ? rawHeatingPeriod : null)
     ?? (await db.buildingExpense.findFirst({ where: { buildingId: building.id }, orderBy: { month: "desc" }, select: { month: true } }))?.month
     ?? new Date().toISOString().slice(0, 7);
 
