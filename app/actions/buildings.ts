@@ -227,17 +227,18 @@ export async function recalculateMillesimes(buildingId: string) {
     e = byId(elevator),
     h = byId(heating);
 
-  let updated = 0;
-  await db.$transaction(
-    units.map((u) => {
-      const data: Record<string, number | null> = {};
-      if (u.millesimesSource === "AUTO") data.millesimes = g.get(u.id) ?? null;
-      if (u.millesimesElevatorSource === "AUTO") data.millesimesElevator = e.get(u.id) ?? null;
-      if (u.millesimesHeatingSource === "AUTO") data.millesimesHeating = h.get(u.id) ?? null;
-      updated++;
-      return db.unit.update({ where: { id: u.id }, data });
-    }),
-  );
+  // Only units with at least one AUTO cell are touched; fully-MANUAL units are
+  // skipped entirely so the count reflects units actually recomputed.
+  const updates = units.flatMap((u) => {
+    const data: Record<string, number | null> = {};
+    if (u.millesimesSource === "AUTO") data.millesimes = g.get(u.id) ?? null;
+    if (u.millesimesElevatorSource === "AUTO") data.millesimesElevator = e.get(u.id) ?? null;
+    if (u.millesimesHeatingSource === "AUTO") data.millesimesHeating = h.get(u.id) ?? null;
+    if (Object.keys(data).length === 0) return [];
+    return [db.unit.update({ where: { id: u.id }, data })];
+  });
+  await db.$transaction(updates);
+  const updated = updates.length;
   revalidatePath(`/super-admin/properties/${building.property.id}`);
   revalidatePath(`/super-admin/buildings/${buildingId}`);
   return { updated };
