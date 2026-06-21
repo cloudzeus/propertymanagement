@@ -12,6 +12,13 @@ async function requireSuperAdmin() {
   if (user?.role !== "SUPER_ADMIN") throw new Error("Forbidden");
 }
 
+/** Guard that a unit actually belongs to the given building before mutating it,
+ *  so a mismatched client-supplied id can't write across buildings. */
+async function assertUnitInBuilding(unitId: string, buildingId: string) {
+  const unit = await db.unit.findFirst({ where: { id: unitId, buildingId }, select: { id: true } });
+  if (!unit) throw new Error("Η μονάδα δεν ανήκει σε αυτό το κτήριο.");
+}
+
 type SetKey = "general" | "elevator" | "heating";
 
 /** Save one millesime cell. A non-null value locks it (MANUAL); passing
@@ -24,6 +31,7 @@ export async function saveMillesimeCell(
   reset = false,
 ) {
   await requireSuperAdmin();
+  await assertUnitInBuilding(unitId, buildingId);
   const field = set === "elevator" ? "millesimesElevator" : set === "heating" ? "millesimesHeating" : "millesimes";
   const sourceField = set === "elevator" ? "millesimesElevatorSource" : set === "heating" ? "millesimesHeatingSource" : "millesimesSource";
   const data: Record<string, unknown> = reset
@@ -57,6 +65,7 @@ export async function setCategoryBasis(buildingId: string, categoryId: string, b
  *  pay); false → row removed (unit pays, the default). */
 export async function setUnitCategoryExclusion(buildingId: string, unitId: string, categoryId: string, excluded: boolean) {
   await requireSuperAdmin();
+  await assertUnitInBuilding(unitId, buildingId);
   if (excluded) {
     await db.unitCategoryExclusion.upsert({
       where: { unitId_categoryId: { unitId, categoryId } },

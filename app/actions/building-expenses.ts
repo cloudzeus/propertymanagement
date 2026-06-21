@@ -153,7 +153,13 @@ function buildAllocUnits(loaded: LoadedUnit[], basis: DistributionBasis, meterRe
     ownerUserId: u.ownerUserId, tenantUserId: u.tenantUserId,
   }));
   const participants = loaded.filter((u) => !u.excluded).length;
-  const note = `Μέθοδος: ${BASIS_LABEL[basis]} · Συμμετέχουν ${participants}/${loaded.length} μονάδες`;
+  // METERED_70_30 silently falls back to pure heating millesimes when no meter
+  // readings are available — reflect that in the printed note so it isn't misleading.
+  const meteredFellBack =
+    basis === "METERED_70_30" &&
+    loaded.filter((u) => !u.excluded).reduce((s, u) => s + (meterReadings?.get(u.unitId) ?? 0), 0) === 0;
+  const label = meteredFellBack ? "χιλιοστά θέρμανσης (ελλείψει μετρήσεων)" : BASIS_LABEL[basis];
+  const note = `Μέθοδος: ${label} · Συμμετέχουν ${participants}/${loaded.length} μονάδες`;
   return { allocUnits, note };
 }
 
