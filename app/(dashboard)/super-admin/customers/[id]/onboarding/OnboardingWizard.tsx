@@ -2,7 +2,8 @@
 
 import { useMemo, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { useAiChat } from "@/hooks/useAiChat";
+import { AiChatWidget } from "@/components/ai/AiChatWidget";
+import { AddressGeocode } from "./AddressGeocode";
 import { createBuildingFromOnboarding } from "@/app/actions/building-onboarding";
 import { type HeatingType, type UnitTypeStr } from "@/lib/ai/agents/building-onboarding";
 import { distributeWeights, elevatorWeight } from "@/lib/millesimes";
@@ -16,16 +17,9 @@ export function OnboardingWizard({ customerId, customerName, customers }: { cust
   const [selectedCustomerId, setSelectedCustomerId] = useState<string>(customerId ?? "");
   const [info, setInfo] = useState<BuildingInfo>({ hasElevator: false, elevatorSurchargePerFloor: 0.1, elevatorExemptGroundFloor: true });
   const [units, setUnits] = useState<UnitRow[]>([]);
+  const [geo, setGeo] = useState<{ city?: string; postalCode?: string; lat?: number; lng?: number }>({});
   const [pending, startTransition] = useTransition();
   const [err, setErr] = useState<string | null>(null);
-
-  const { messages, input, setInput, send, isStreaming, error } = useAiChat({
-    agentKey: "building-onboarding",
-    onToolCall: (name, args) => {
-      if (name === "updateBuildingOnboardingData") setInfo((f) => ({ ...f, ...(args as BuildingInfo) }));
-      else if (name === "setUnits") setUnits(((args as { units?: UnitRow[] }).units ?? []).map((u) => ({ ...u })));
-    },
-  });
 
   // Live millesimes (pure libs)
   const mil = useMemo(() => {
@@ -53,7 +47,7 @@ export function OnboardingWizard({ customerId, customerName, customers }: { cust
     setErr(null);
     if (!selectedCustomerId) { setErr("Επιλέξτε πελάτη."); return; }
     startTransition(async () => {
-      const res = await createBuildingFromOnboarding(selectedCustomerId, { building: info, units });
+      const res = await createBuildingFromOnboarding(selectedCustomerId, { building: { ...info, ...geo }, units });
       if ("error" in res) { setErr(res.error); return; }
       router.push(`/super-admin/buildings/${res.buildingId}`);
     });
@@ -62,29 +56,9 @@ export function OnboardingWizard({ customerId, customerName, customers }: { cust
   const num = (v: string) => (v === "" ? null : Number(v));
 
   return (
-    <div style={{ display: "flex", gap: 16, height: "calc(100vh - 120px)" }}>
-      {/* LEFT: chat (unchanged from prior version) */}
-      <div style={{ flex: 1, display: "flex", flexDirection: "column", border: "1px solid var(--border)", borderRadius: 8 }}>
-        <div style={{ padding: 12, borderBottom: "1px solid var(--border)", fontWeight: 600 }}>
-          AI Onboarding{customerName ? ` — ${customerName}` : ""}
-        </div>
-        <div style={{ flex: 1, overflowY: "auto", padding: 12, fontSize: 14, lineHeight: 1.6 }}>
-          {messages.length === 0 && <div style={{ color: "var(--muted-foreground)" }}>Περιγράψτε το κτήριο και τις μονάδες (όροφοι, τ.μ.), τη θέρμανση και τον ανελκυστήρα.</div>}
-          {messages.map((m) => (
-            <div key={m.id} style={{ marginBottom: 10, textAlign: m.role === "user" ? "right" : "left" }}>
-              <span style={{ display: "inline-block", padding: "6px 10px", borderRadius: 10, background: m.role === "user" ? "#eef2ff" : "#f4f4f6" }}>{m.content || (isStreaming ? "…" : "")}</span>
-            </div>
-          ))}
-          {error && <div style={{ color: "#c00" }}>{error}</div>}
-        </div>
-        <form onSubmit={(e) => { e.preventDefault(); send(); }} style={{ display: "flex", gap: 8, padding: 10, borderTop: "1px solid var(--border)" }}>
-          <input value={input} onChange={(e) => setInput(e.target.value)} placeholder="Γράψτε μήνυμα…" disabled={isStreaming} style={{ flex: 1 }} />
-          <button type="submit" disabled={isStreaming || !input.trim()}>➤</button>
-        </form>
-      </div>
-
-      {/* RIGHT: building fields + units table */}
-      <div style={{ flex: 1.3, border: "1px solid var(--border)", borderRadius: 8, padding: 16, overflowY: "auto" }}>
+    <>
+      {/* Full-width body: building fields + units table */}
+      <div style={{ border: "1px solid var(--border)", borderRadius: 8, padding: 16 }}>
         <div style={{ fontWeight: 700, marginBottom: 10 }}>Στοιχεία κτηρίου <span style={{ fontSize: 11, color: "#16a34a" }}>● live</span></div>
         {showCustomerPicker && (
           <label style={{ display: "block", marginBottom: 6 }}>Πελάτης
@@ -96,6 +70,7 @@ export function OnboardingWizard({ customerId, customerName, customers }: { cust
         )}
         <label style={{ display: "block", marginBottom: 6 }}>Διαχειριστής <input value={info.managerName ?? ""} onChange={(e) => setInfo((f) => ({ ...f, managerName: e.target.value }))} /></label>
         <label style={{ display: "block", marginBottom: 6 }}>Διεύθυνση <input value={info.address ?? ""} onChange={(e) => setInfo((f) => ({ ...f, address: e.target.value }))} /></label>
+        <AddressGeocode address={info.address} onResolved={(r) => setGeo(r ? { city: r.city, postalCode: r.postalCode, lat: r.lat, lng: r.lng } : {})} />
         <label style={{ display: "block", marginBottom: 6 }}>Θέρμανση
           <select value={info.heatingType ?? ""} onChange={(e) => setInfo((f) => ({ ...f, heatingType: (e.target.value || undefined) as HeatingType }))}>
             <option value="">—</option>
@@ -150,6 +125,17 @@ export function OnboardingWizard({ customerId, customerName, customers }: { cust
           {pending ? "Δημιουργία…" : "Δημιουργία & συνέχεια στις λεπτομέρειες →"}
         </button>
       </div>
-    </div>
+
+      <AiChatWidget
+        agentKey="building-onboarding"
+        title={`AI Onboarding${customerName ? ` — ${customerName}` : ""}`}
+        greeting="Περιγράψτε το κτήριο και τις μονάδες (όροφοι, τ.μ.), τη θέρμανση και τον ανελκυστήρα."
+        quickReplies={["Έχει ασανσέρ", "Κεντρική θέρμανση", "Δεν ξέρω, βοήθησέ με"]}
+        onToolCall={(name, args) => {
+          if (name === "updateBuildingOnboardingData") setInfo((f) => ({ ...f, ...(args as BuildingInfo) }));
+          else if (name === "setUnits") setUnits(((args as { units?: UnitRow[] }).units ?? []).map((u) => ({ ...u })));
+        }}
+      />
+    </>
   );
 }
