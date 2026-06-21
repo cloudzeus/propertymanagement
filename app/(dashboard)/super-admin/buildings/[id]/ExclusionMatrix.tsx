@@ -21,9 +21,9 @@ export function ExclusionMatrix({
   const excludedSet = new Set(exclusions.map((e) => `${e.unitId}:${e.categoryId}`));
 
   function toggle(unitId: string, categoryId: string, nowChecked: boolean) {
-    // checked = pays; toggling off means excluded=true
+    // checked = pays; excluded is the inverse of the new checked state
     startTransition(async () => {
-      await setUnitCategoryExclusion(buildingId, unitId, categoryId, nowChecked);
+      await setUnitCategoryExclusion(buildingId, unitId, categoryId, !nowChecked);
       router.refresh();
     });
   }
