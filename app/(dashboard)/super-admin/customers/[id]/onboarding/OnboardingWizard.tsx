@@ -20,7 +20,10 @@ const UNIT_TYPE_LABEL: Record<UnitTypeStr, string> = { APARTMENT: "Διαμέρ�
 
 // Token-styled controls (always follow the app's light Fluent theme — no shadcn slate that flips to black in OS dark mode).
 const field = "h-9 w-full rounded-md border border-[var(--border)] bg-[var(--card)] px-2.5 text-sm text-[var(--foreground)] outline-none transition-colors placeholder:text-[var(--muted-foreground)] focus:border-[var(--primary)] focus:ring-2 focus:ring-[var(--primary)]/20";
-const fieldSm = "h-8 w-full rounded-md border border-[var(--border)] bg-[var(--card)] px-2 text-sm text-[var(--foreground)] outline-none transition-colors focus:border-[var(--primary)] focus:ring-2 focus:ring-[var(--primary)]/20";
+// No w-full here — table cells set explicit widths (w-full would override them and stretch every input).
+const fieldSm = "h-8 rounded-md border border-[var(--border)] bg-[var(--card)] px-2 text-sm text-[var(--foreground)] outline-none transition-colors focus:border-[var(--primary)] focus:ring-2 focus:ring-[var(--primary)]/20";
+// Number inputs without the ugly browser spinner arrows.
+const numField = `${fieldSm} [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none`;
 const lbl = "mb-1 block text-[11px] font-semibold uppercase tracking-wide text-[var(--muted-foreground)]";
 
 export function OnboardingWizard({ customerId, customerName, customers }: { customerId?: string; customerName?: string; customers?: { id: string; name: string }[] }) {
@@ -185,15 +188,15 @@ export function OnboardingWizard({ customerId, customerName, customers }: { cust
                     const missingArea = !((u.areaSqm ?? 0) > 0);
                     return (
                       <tr key={i}>
-                        <td className="px-1"><input className={`${fieldSm} w-14`} value={u.unitNumber ?? ""} placeholder={String(i + 1)} onChange={(e) => setUnit(i, { unitNumber: e.target.value })} /></td>
-                        <td className="px-1"><input className={`${fieldSm} w-16 text-right`} type="number" value={u.floor ?? ""} onChange={(e) => setUnit(i, { floor: num(e.target.value) as number | null })} /></td>
-                        <td className="px-1"><input className={`${fieldSm} w-20 text-right ${missingArea ? "border-red-300" : ""}`} type="number" value={u.areaSqm ?? ""} placeholder="—" onChange={(e) => setUnit(i, { areaSqm: num(e.target.value) })} /></td>
+                        <td className="px-1"><input className={`${fieldSm} w-24`} value={u.unitNumber ?? ""} placeholder={String(i + 1)} onChange={(e) => setUnit(i, { unitNumber: e.target.value })} /></td>
+                        <td className="px-1"><input className={`${numField} w-16 text-center`} type="number" value={u.floor ?? ""} placeholder="—" onChange={(e) => setUnit(i, { floor: num(e.target.value) as number | null })} /></td>
+                        <td className="px-1"><input className={`${numField} w-20 text-right`} type="number" inputMode="decimal" value={u.areaSqm ?? ""} placeholder="—" onChange={(e) => setUnit(i, { areaSqm: num(e.target.value) })} /></td>
                         <td className="px-1">
-                          <select className={`${fieldSm} w-32`} value={u.unitType ?? "APARTMENT"} onChange={(e) => setUnit(i, { unitType: e.target.value as UnitTypeStr })}>
+                          <select className={`${fieldSm} w-36 pr-7`} value={u.unitType ?? "APARTMENT"} onChange={(e) => setUnit(i, { unitType: e.target.value as UnitTypeStr })}>
                             {(Object.keys(UNIT_TYPE_LABEL) as UnitTypeStr[]).map((t) => <option key={t} value={t}>{UNIT_TYPE_LABEL[t]}</option>)}
                           </select>
                         </td>
-                        <td className={`px-1 text-right tabular-nums ${missingArea ? "text-red-500" : "text-[var(--foreground)]"}`}>{mil.g.get(String(i)) ?? "—"}</td>
+                        <td className="px-1 text-right tabular-nums text-[var(--muted-foreground)]">{mil.g.get(String(i)) ?? "—"}</td>
                         <td className="px-1 text-right tabular-nums text-[var(--muted-foreground)]">{mil.e ? (mil.e.get(String(i)) ?? (missingArea ? "—" : 0)) : "—"}</td>
                         <td className="px-1 text-right">
                           <button type="button" onClick={() => removeUnit(i)} aria-label="Διαγραφή" className="inline-flex h-7 w-7 items-center justify-center rounded text-[var(--muted-foreground)] transition-colors hover:bg-red-50 hover:text-red-600">
