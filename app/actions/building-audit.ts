@@ -30,10 +30,12 @@ export async function auditBuildingEntries(buildingId: string): Promise<Finding[
   });
   if (!building) throw new Error("Δεν βρέθηκε κτήριο.");
 
-  // Heating: is there a metered category (default or building override) and any reading in the most recent period?
+  // Heating: does THIS building actually use metered (70/30) heating? Only a
+  // building-scoped override counts — the global default basis of a category must
+  // not flag buildings that don't have metered heating (avoids a false positive).
   const meteredCategoryExists =
-    (await db.expenseCategory.count({
-      where: { OR: [{ defaultBasis: "METERED_70_30" }, { overrides: { some: { buildingId, distributionBasis: "METERED_70_30" } } }] },
+    (await db.buildingCategoryOverride.count({
+      where: { buildingId, distributionBasis: "METERED_70_30" },
     })) > 0;
   const latest = await db.unitHeatingReading.findFirst({ where: { buildingId }, orderBy: { period: "desc" }, select: { period: true } });
   const readingsForLatestPeriod = latest
