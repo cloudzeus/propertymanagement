@@ -13,12 +13,11 @@ import {
 type Props = {
   buildingId: string;
   period: string;
-  periods: string[];
   rows: HeatingReadingDTO[];
   heatingMeterUnit: string | null;
 };
 
-export function HeatingReadingsPanel({ buildingId, period, periods, rows, heatingMeterUnit }: Props) {
+export function HeatingReadingsPanel({ buildingId, period, rows, heatingMeterUnit }: Props) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [draft, setDraft] = useState<Record<string, string>>(
@@ -71,9 +70,7 @@ export function HeatingReadingsPanel({ buildingId, period, periods, rows, heatin
         </span>
         <label style={{ display: "inline-flex", alignItems: "center", gap: 8, fontSize: 13, color: "var(--foreground)" }}>
           Περίοδος
-          <select value={period} onChange={(e) => changePeriod(e.target.value)} style={inputStyle}>
-            {periods.map((p) => <option key={p} value={p}>{p}</option>)}
-          </select>
+          <input type="month" value={period} onChange={(e) => { if (e.target.value) changePeriod(e.target.value); }} style={inputStyle} />
         </label>
         <label style={{ display: "inline-flex", alignItems: "center", gap: 8, fontSize: 13, color: "var(--foreground)" }}>
           Μονάδα μέτρησης

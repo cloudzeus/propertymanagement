@@ -63,7 +63,7 @@ const TABS: { key: TabKey; label: string; icon: React.ElementType; badge?: (k: K
   { key: "assemblies", label: "Συνελεύσεις", icon: RiGroupLine },
 ];
 
-export function BuildingDashboard({ building, kpis, units, files, people, contacts, infraPoints, floorOptions, tasks, expenses, categorySplits, today, millesimeUnits, exclusionUnits, expenseCategories, categoryOverrides, unitExclusions, usesMeteredHeating, heatingPeriod, heatingPeriods, heatingReadingRows }: { building: Building; kpis: Kpis; units: Unit[]; files: FileRow[]; people: Person[]; contacts: ContactRow[]; infraPoints: InfraRow[]; floorOptions: string[]; tasks: TaskRow[]; expenses: ExpenseRow[]; categorySplits: CategorySplit[]; today: string; millesimeUnits: MillesimeUnit[]; exclusionUnits: Array<{ id: string; unitNumber: string; unitType: string }>; expenseCategories: Array<{ id: string; name: string; defaultBasis: string }>; categoryOverrides: Array<{ categoryId: string; distributionBasis: string | null }>; unitExclusions: Array<{ unitId: string; categoryId: string }>; usesMeteredHeating: boolean; heatingPeriod: string; heatingPeriods: string[]; heatingReadingRows: HeatingReadingDTO[] }) {
+export function BuildingDashboard({ building, kpis, units, files, people, contacts, infraPoints, floorOptions, tasks, expenses, categorySplits, today, millesimeUnits, exclusionUnits, expenseCategories, categoryOverrides, unitExclusions, usesMeteredHeating, heatingPeriod, heatingReadingRows }: { building: Building; kpis: Kpis; units: Unit[]; files: FileRow[]; people: Person[]; contacts: ContactRow[]; infraPoints: InfraRow[]; floorOptions: string[]; tasks: TaskRow[]; expenses: ExpenseRow[]; categorySplits: CategorySplit[]; today: string; millesimeUnits: MillesimeUnit[]; exclusionUnits: Array<{ id: string; unitNumber: string; unitType: string }>; expenseCategories: Array<{ id: string; name: string; defaultBasis: string }>; categoryOverrides: Array<{ categoryId: string; distributionBasis: string | null }>; unitExclusions: Array<{ unitId: string; categoryId: string }>; usesMeteredHeating: boolean; heatingPeriod: string; heatingReadingRows: HeatingReadingDTO[] }) {
   const [tab, setTab] = useState<TabKey>("overview");
 
   const subParts = [
@@ -178,7 +178,6 @@ export function BuildingDashboard({ building, kpis, units, files, people, contac
               <HeatingReadingsPanel
                 buildingId={building.id}
                 period={heatingPeriod}
-                periods={heatingPeriods.length ? heatingPeriods : [heatingPeriod]}
                 rows={heatingReadingRows}
                 heatingMeterUnit={building.heatingMeterUnit ?? null}
               />

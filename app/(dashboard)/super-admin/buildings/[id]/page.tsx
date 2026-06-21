@@ -175,16 +175,12 @@ export default async function BuildingDashboardPage({ params, searchParams }: { 
     ?? (await db.buildingExpense.findFirst({ where: { buildingId: building.id }, orderBy: { month: "desc" }, select: { month: true } }))?.month
     ?? new Date().toISOString().slice(0, 7);
 
-  const heatingPeriods = usesMeteredHeating
-    ? (await db.buildingExpense.findMany({ where: { buildingId: building.id }, select: { month: true }, distinct: ["month"], orderBy: { month: "desc" } })).map((r) => r.month)
-    : [];
   const heatingReadingRows = usesMeteredHeating ? await listHeatingReadings(building.id, heatingPeriod) : [];
 
   return (
     <BuildingDashboard
       usesMeteredHeating={usesMeteredHeating}
       heatingPeriod={heatingPeriod}
-      heatingPeriods={heatingPeriods.length ? heatingPeriods : [heatingPeriod]}
       heatingReadingRows={heatingReadingRows}
       building={{
         id: building.id,
