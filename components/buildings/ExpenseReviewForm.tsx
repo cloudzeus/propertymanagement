@@ -54,7 +54,7 @@ type AllocRow = {
   tenantAmount: number;
   ownerUserId: string | null;
   ownerAmount: number;
-  missingMillesimes: boolean;
+  missingWeight: boolean;
 };
 
 function currentMonth() {
@@ -338,7 +338,7 @@ export function ExpenseReviewForm({
                 <tr key={r.unitId}>
                   <td style={ptd}>
                     {r.unitId}
-                    {r.missingMillesimes && (
+                    {r.missingWeight && (
                       <span style={{ marginLeft: 6, padding: "1px 6px", borderRadius: 999, fontSize: 10, fontWeight: 700, color: "#d97706", background: "#d9770618", border: "1px solid #d9770644" }}>
                         χωρίς χιλιοστά
                       </span>

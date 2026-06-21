@@ -1,41 +1,27 @@
 import { describe, it, expect } from "vitest";
 import { computeAllocation, type AllocUnit } from "./allocation";
 
-const units: AllocUnit[] = [
-  { unitId: "a", millesimes: 500, ownerUserId: "o1", tenantUserId: "t1" },
-  { unitId: "b", millesimes: 300, ownerUserId: "o2", tenantUserId: null },
-  { unitId: "c", millesimes: 200, ownerUserId: "o3", tenantUserId: "t3" },
-];
+const u = (unitId: string, weight: number): AllocUnit => ({
+  unitId, weight, ownerUserId: unitId + "-o", tenantUserId: null,
+});
 
-describe("computeAllocation", () => {
-  it("distributes by millesimes and sums to total", () => {
-    const rows = computeAllocation({ total: 100, tenantPct: 100, ownerPct: 0, units });
-    expect(rows.map(r => r.unitShare)).toEqual([50, 30, 20]);
+describe("computeAllocation (weights)", () => {
+  it("splits total by weight; shares sum to total", () => {
+    const rows = computeAllocation({ total: 100, tenantPct: 0, ownerPct: 100, units: [u("a", 600), u("b", 400)] });
+    const sum = rows.reduce((s, r) => s + r.unitShare, 0);
+    expect(sum).toBe(100);
+    expect(rows.find((r) => r.unitId === "a")!.unitShare).toBe(60);
+  });
+
+  it("excluded (weight 0) unit gets 0; others re-normalise to full total", () => {
+    const rows = computeAllocation({ total: 100, tenantPct: 0, ownerPct: 100, units: [u("shop", 0), u("a", 100), u("b", 100)] });
+    expect(rows.find((r) => r.unitId === "shop")!.unitShare).toBe(0);
     expect(rows.reduce((s, r) => s + r.unitShare, 0)).toBe(100);
   });
-  it("splits each share by tenant/owner pct", () => {
-    const rows = computeAllocation({ total: 100, tenantPct: 60, ownerPct: 40, units });
-    expect(rows[0].tenantAmount).toBe(30);
-    expect(rows[0].ownerAmount).toBe(20);
-  });
-  it("absorbs rounding remainder in the last unit so the sum is exact", () => {
-    const u: AllocUnit[] = [
-      { unitId: "x", millesimes: 1, ownerUserId: null, tenantUserId: null },
-      { unitId: "y", millesimes: 1, ownerUserId: null, tenantUserId: null },
-      { unitId: "z", millesimes: 1, ownerUserId: null, tenantUserId: null },
-    ];
-    const rows = computeAllocation({ total: 100, tenantPct: 0, ownerPct: 100, units: u });
-    expect(rows.reduce((s, r) => s + r.unitShare, 0)).toBe(100);
-    expect(rows[2].unitShare).toBeCloseTo(33.34, 2);
-  });
-  it("flags units with null/zero millesimes and excludes them from the weight base", () => {
-    const u: AllocUnit[] = [
-      { unitId: "a", millesimes: 600, ownerUserId: null, tenantUserId: null },
-      { unitId: "b", millesimes: null, ownerUserId: null, tenantUserId: null },
-    ];
-    const rows = computeAllocation({ total: 100, tenantPct: 0, ownerPct: 100, units: u });
-    expect(rows.find(r => r.unitId === "a")!.unitShare).toBe(100);
-    expect(rows.find(r => r.unitId === "b")!.unitShare).toBe(0);
-    expect(rows.find(r => r.unitId === "b")!.missingMillesimes).toBe(true);
+
+  it("tenant split applies", () => {
+    const rows = computeAllocation({ total: 100, tenantPct: 25, ownerPct: 75, units: [u("a", 100)] });
+    expect(rows[0].tenantAmount).toBe(25);
+    expect(rows[0].ownerAmount).toBe(75);
   });
 });

@@ -1,6 +1,6 @@
 export type AllocUnit = {
   unitId: string;
-  millesimes: number | null;
+  weight: number;
   ownerUserId: string | null;
   tenantUserId: string | null;
 };
@@ -12,7 +12,7 @@ export type AllocRow = {
   tenantAmount: number;
   ownerUserId: string | null;
   ownerAmount: number;
-  missingMillesimes: boolean;
+  missingWeight: boolean;
 };
 
 const round2 = (n: number) => Math.round((n + Number.EPSILON) * 100) / 100;
@@ -21,33 +21,25 @@ export function computeAllocation(args: {
   total: number; tenantPct: number; ownerPct: number; units: AllocUnit[];
 }): AllocRow[] {
   const { total, tenantPct, units } = args;
-  const weight = units.reduce((s, u) => s + (u.millesimes && u.millesimes > 0 ? u.millesimes : 0), 0);
-  const weighted = units.filter((u) => u.millesimes && u.millesimes > 0);
+  const weighted = units.filter((u) => u.weight > 0);
+  const weight = weighted.reduce((s, u) => s + u.weight, 0);
   const lastWeightedId = weighted.length ? weighted[weighted.length - 1].unitId : null;
 
   let running = 0;
   return units.map((u) => {
-    const hasWeight = !!(u.millesimes && u.millesimes > 0);
+    const hasWeight = u.weight > 0;
     let share = 0;
     if (weight > 0 && hasWeight) {
       if (u.unitId === lastWeightedId) {
         share = round2(total - running);
       } else {
-        share = round2((total * (u.millesimes as number)) / weight);
+        share = round2((total * u.weight) / weight);
         running += share;
       }
     }
     const tenantAmount = round2((share * tenantPct) / 100);
     const ownerAmount = round2(share - tenantAmount);
-    return {
-      unitId: u.unitId,
-      unitShare: share,
-      tenantUserId: u.tenantUserId,
-      tenantAmount,
-      ownerUserId: u.ownerUserId,
-      ownerAmount,
-      missingMillesimes: !hasWeight,
-    };
+    return { unitId: u.unitId, unitShare: share, tenantUserId: u.tenantUserId, tenantAmount, ownerUserId: u.ownerUserId, ownerAmount, missingWeight: !hasWeight };
   });
 }
 
