@@ -55,7 +55,13 @@ export function AiChatWidget({
 
       <div ref={scrollRef} onScroll={onScroll} style={{ flex: 1, overflowY: "auto", padding: 10, fontSize: 13, lineHeight: 1.5, background: "#fafafa", position: "relative" }}>
         {messages.length === 0 && greeting && <div style={{ marginBottom: 8 }}><Bubble role="assistant">{greeting}</Bubble></div>}
-        {messages.map((m) => <div key={m.id} style={{ marginBottom: 8, textAlign: m.role === "user" ? "right" : "left" }}><Bubble role={m.role}>{m.content || (isStreaming ? "…" : "")}</Bubble></div>)}
+        {messages.map((m) => (
+          <div key={m.id} style={{ marginBottom: 8, textAlign: m.role === "user" ? "right" : "left" }}>
+            {m.role === "user"
+              ? <Bubble role="user">{m.content}</Bubble>
+              : <AssistantBubble content={m.content || (isStreaming ? "…" : "")} onSelect={(s) => send(s)} />}
+          </div>
+        ))}
         {showTyping && <div style={{ marginBottom: 8 }}><Bubble role="assistant"><Dots /></Bubble></div>}
         {badges.length > 0 && (
           <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginTop: 4 }}>
@@ -91,6 +97,39 @@ export function AiChatWidget({
 
 function Bubble({ role, children }: { role: "user" | "assistant"; children: React.ReactNode }) {
   return <span style={{ display: "inline-block", padding: "6px 10px", borderRadius: 12, background: role === "user" ? "#0a7" : "#fff", color: role === "user" ? "#fff" : "#1a1a1a", border: role === "user" ? "none" : "1px solid #eee", maxWidth: "85%", textAlign: "left" }}>{children}</span>;
+}
+
+// Render assistant text with **bold** markdown.
+function renderInline(text: string): React.ReactNode[] {
+  return text.split(/(\*\*[^*]+\*\*)/g).map((p, i) =>
+    p.startsWith("**") && p.endsWith("**") ? <b key={i}>{p.slice(2, -2)}</b> : <span key={i}>{p}</span>,
+  );
+}
+
+// A line is a selectable option if it starts with a bullet or a number.
+const OPTION_RE = /^\s*(?:[•\-*]|\d+[.)])\s+(.+)$/;
+// Keep a short, sendable label: drop the "→ CODE" mapping and any parenthetical explanation.
+function optionLabel(raw: string): string {
+  return raw.replace(/\*\*/g, "").split("→")[0].replace(/\([^)]*\)/g, "").trim().replace(/[:：]\s*$/, "");
+}
+
+// Assistant bubble: markdown-rendered text + clickable chips for any option list it contains.
+function AssistantBubble({ content, onSelect }: { content: string; onSelect: (s: string) => void }) {
+  const lines = content.split("\n");
+  const options: string[] = [];
+  for (const ln of lines) { const m = ln.match(OPTION_RE); if (m) { const l = optionLabel(m[1]); if (l) options.push(l); } }
+  return (
+    <span style={{ display: "inline-block", padding: "6px 10px", borderRadius: 12, background: "#fff", color: "#1a1a1a", border: "1px solid #eee", maxWidth: "90%", textAlign: "left" }}>
+      {lines.map((ln, i) => <div key={i} style={{ minHeight: ln ? undefined : 6 }}>{renderInline(ln)}</div>)}
+      {options.length > 0 && (
+        <span style={{ display: "flex", gap: 6, flexWrap: "wrap", marginTop: 6 }}>
+          {options.map((o, i) => (
+            <button key={i} onClick={() => onSelect(o)} style={{ border: "1px solid #0a7", color: "#0a7", background: "#f0fdf9", borderRadius: 14, padding: "3px 10px", fontSize: 12, cursor: "pointer" }}>{o}</button>
+          ))}
+        </span>
+      )}
+    </span>
+  );
 }
 function Dots() {
   return <span style={{ letterSpacing: 3, color: "#999" }}>● ● ●</span>;
