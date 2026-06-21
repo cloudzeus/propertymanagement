@@ -43,7 +43,7 @@ async function sendEmail(
 
     const credentials = Buffer.from(`api:${env.MAILGUN_API_KEY}`).toString("base64");
     const response = await fetch(
-      `https://api.mailgun.net/v3/${env.MAILGUN_DOMAIN}/messages`,
+      `${env.MAILGUN_BASE_URL}/v3/${env.MAILGUN_DOMAIN}/messages`,
       {
         method: "POST",
         headers: {
@@ -291,7 +291,7 @@ export async function sendEmailWithAttachments(options: {
     }
 
     const credentials = Buffer.from(`api:${env.MAILGUN_API_KEY}`).toString("base64");
-    const response = await fetch(`https://api.mailgun.net/v3/${env.MAILGUN_DOMAIN}/messages`, {
+    const response = await fetch(`${env.MAILGUN_BASE_URL}/v3/${env.MAILGUN_DOMAIN}/messages`, {
       method: "POST",
       headers: { Authorization: `Basic ${credentials}` },
       body: form,
