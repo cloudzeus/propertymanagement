@@ -1,4 +1,4 @@
-import type { DistributionBasis } from "@prisma/client";
+import type { DistributionBasis } from "@/lib/prisma/enums";
 
 export type BasisUnit = {
   unitId: string;

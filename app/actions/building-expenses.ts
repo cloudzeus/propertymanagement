@@ -5,7 +5,9 @@ import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import { uploadFile, buildingFolder } from "@/lib/bunnycdn";
 import { canManageBuildingExpenses } from "@/lib/expenses/authz";
-import { computeAllocation, type AllocUnit } from "@/lib/expenses/allocation";
+import { computeAllocation } from "@/lib/expenses/allocation";
+import { resolveWeights, type BasisUnit } from "@/lib/expenses/basis";
+import type { DistributionBasis } from "@/lib/prisma/enums";
 import { extractDocument } from "@/lib/ocr/extract";
 import { normalizeExtraction } from "@/lib/ocr/normalize";
 import type { ExtractedDoc } from "@/lib/ocr/prompt";
@@ -104,26 +106,63 @@ export async function extractExpenseDocument(buildingId: string, formData: FormD
   return { fileId: bf.id, fileUrl: up.url, extracted };
 }
 
-type UnitForAlloc = { id: string; millesimes: number | null; ownerId: string | null; residentId: string | null; occupancies: { userId: string; role: "OWNER" | "RESIDENT" }[] };
+type LoadedUnit = BasisUnit & { ownerUserId: string | null; tenantUserId: string | null; floor: number | null };
 
-async function loadAllocUnits(buildingId: string): Promise<AllocUnit[]> {
-  const units = await db.unit.findMany({
-    where: { buildingId },
-    select: { id: true, millesimes: true, ownerId: true, residentId: true,
-      occupancies: { where: { endDate: null }, select: { userId: true, role: true } } },
-  }) as unknown as UnitForAlloc[];
-  return units.map((u) => {
+async function loadAllocContext(buildingId: string, categoryId: string | null) {
+  const [units, category, override, exclusions] = await Promise.all([
+    db.unit.findMany({
+      where: { buildingId },
+      select: {
+        id: true, floor: true, millesimes: true, millesimesElevator: true, millesimesHeating: true,
+        ownerId: true, residentId: true,
+        occupancies: { where: { endDate: null }, select: { userId: true, role: true } },
+      },
+    }),
+    categoryId ? db.expenseCategory.findUnique({ where: { id: categoryId }, select: { defaultBasis: true } }) : null,
+    categoryId ? db.buildingCategoryOverride.findUnique({ where: { buildingId_categoryId: { buildingId, categoryId } }, select: { distributionBasis: true } }) : null,
+    categoryId ? db.unitCategoryExclusion.findMany({ where: { categoryId, unit: { buildingId } }, select: { unitId: true } }) : Promise.resolve([]),
+  ]);
+
+  const excludedIds = new Set(exclusions.map((e) => e.unitId));
+  const loaded: LoadedUnit[] = units.map((u) => {
     const owner = u.occupancies.find((o) => o.role === "OWNER")?.userId ?? u.ownerId ?? null;
     const tenant = u.occupancies.find((o) => o.role === "RESIDENT")?.userId ?? u.residentId ?? null;
-    return { unitId: u.id, millesimes: u.millesimes, ownerUserId: owner, tenantUserId: tenant };
+    return {
+      unitId: u.id, floor: u.floor,
+      millesimes: u.millesimes, millesimesElevator: u.millesimesElevator, millesimesHeating: u.millesimesHeating,
+      excluded: excludedIds.has(u.id), ownerUserId: owner, tenantUserId: tenant,
+    };
   });
+
+  const basis: DistributionBasis = override?.distributionBasis ?? category?.defaultBasis ?? "GENERAL_MILLESIMES";
+  return { loaded, basis };
 }
 
-export async function previewExpenseAllocation(buildingId: string, args: { total: number; tenantPct: number; ownerPct: number }) {
+const BASIS_LABEL: Record<DistributionBasis, string> = {
+  GENERAL_MILLESIMES: "γενικά χιλιοστά",
+  ELEVATOR_MILLESIMES: "χιλιοστά ανελκυστήρα",
+  HEATING_MILLESIMES: "χιλιοστά θέρμανσης",
+  EQUAL_PER_UNIT: "ισόποσα ανά μονάδα",
+  METERED_70_30: "70% μέτρηση + 30% χιλιοστά",
+};
+
+function buildAllocUnits(loaded: LoadedUnit[], basis: DistributionBasis, meterReadings: Map<string, number> | null) {
+  const weights = resolveWeights(basis, loaded, meterReadings);
+  const allocUnits = loaded.map((u) => ({
+    unitId: u.unitId, weight: weights.get(u.unitId) ?? 0,
+    ownerUserId: u.ownerUserId, tenantUserId: u.tenantUserId,
+  }));
+  const participants = loaded.filter((u) => !u.excluded).length;
+  const note = `Μέθοδος: ${BASIS_LABEL[basis]} · Συμμετέχουν ${participants}/${loaded.length} μονάδες`;
+  return { allocUnits, note };
+}
+
+export async function previewExpenseAllocation(buildingId: string, args: { total: number; tenantPct: number; ownerPct: number; categoryId: string | null }) {
   await requireBuildingAccess(buildingId);
   assertSplit(args.tenantPct, args.ownerPct);
-  const units = await loadAllocUnits(buildingId);
-  return computeAllocation({ total: args.total, tenantPct: args.tenantPct, ownerPct: args.ownerPct, units });
+  const { loaded, basis } = await loadAllocContext(buildingId, args.categoryId);
+  const { allocUnits } = buildAllocUnits(loaded, basis, null);
+  return computeAllocation({ total: args.total, tenantPct: args.tenantPct, ownerPct: args.ownerPct, units: allocUnits });
 }
 
 export type CreateExpenseInput = {
@@ -145,8 +184,9 @@ export type PaymentMethod = "CARD" | "CASH" | "VIVA" | "BANK_TRANSFER" | "CHECK"
 export async function createBuildingExpense(buildingId: string, input: CreateExpenseInput) {
   await requireBuildingAccess(buildingId);
   assertSplit(input.tenantPct, input.ownerPct);
-  const units = await loadAllocUnits(buildingId);
-  const rows = computeAllocation({ total: input.totalAmount, tenantPct: input.tenantPct, ownerPct: input.ownerPct, units });
+  const { loaded, basis } = await loadAllocContext(buildingId, input.categoryId);
+  const { allocUnits, note } = buildAllocUnits(loaded, basis, null);
+  const rows = computeAllocation({ total: input.totalAmount, tenantPct: input.tenantPct, ownerPct: input.ownerPct, units: allocUnits });
 
   const expense = await db.$transaction(async (tx) => {
     const exp = await tx.buildingExpense.create({
@@ -178,7 +218,7 @@ export async function createBuildingExpense(buildingId: string, input: CreateExp
     }
     if (rows.length) {
       await tx.expenseAllocation.createMany({
-        data: rows.map((r) => ({ expenseId: exp.id, unitId: r.unitId, unitShare: r.unitShare, tenantUserId: r.tenantUserId, tenantAmount: r.tenantAmount, ownerUserId: r.ownerUserId, ownerAmount: r.ownerAmount })),
+        data: rows.map((r) => ({ expenseId: exp.id, unitId: r.unitId, unitShare: r.unitShare, tenantUserId: r.tenantUserId, tenantAmount: r.tenantAmount, ownerUserId: r.ownerUserId, ownerAmount: r.ownerAmount, breakdownNote: note })),
       });
     }
     return exp;
@@ -211,8 +251,9 @@ export async function updateBuildingExpense(id: string, input: UpdateExpenseInpu
   if (current.status === "ISSUED") throw new Error("Το έξοδο έχει ήδη συμπεριληφθεί σε έκδοση κοινοχρήστων και δεν επεξεργάζεται.");
   assertSplit(input.tenantPct, input.ownerPct);
 
-  const units = await loadAllocUnits(current.buildingId);
-  const rows = computeAllocation({ total: input.totalAmount, tenantPct: input.tenantPct, ownerPct: input.ownerPct, units });
+  const { loaded, basis } = await loadAllocContext(current.buildingId, input.categoryId);
+  const { allocUnits, note } = buildAllocUnits(loaded, basis, null);
+  const rows = computeAllocation({ total: input.totalAmount, tenantPct: input.tenantPct, ownerPct: input.ownerPct, units: allocUnits });
 
   await db.$transaction(async (tx) => {
     await tx.buildingExpense.update({
@@ -247,7 +288,7 @@ export async function updateBuildingExpense(id: string, input: UpdateExpenseInpu
     await tx.expenseAllocation.deleteMany({ where: { expenseId: id } });
     if (rows.length) {
       await tx.expenseAllocation.createMany({
-        data: rows.map((r) => ({ expenseId: id, unitId: r.unitId, unitShare: r.unitShare, tenantUserId: r.tenantUserId, tenantAmount: r.tenantAmount, ownerUserId: r.ownerUserId, ownerAmount: r.ownerAmount })),
+        data: rows.map((r) => ({ expenseId: id, unitId: r.unitId, unitShare: r.unitShare, tenantUserId: r.tenantUserId, tenantAmount: r.tenantAmount, ownerUserId: r.ownerUserId, ownerAmount: r.ownerAmount, breakdownNote: note })),
       });
     }
   });

@@ -143,14 +143,14 @@ export function ExpenseReviewForm({
     }
     const t = setTimeout(async () => {
       try {
-        const rows = await previewExpenseAllocation(buildingId, { total, tenantPct, ownerPct });
+        const rows = await previewExpenseAllocation(buildingId, { total, tenantPct, ownerPct, categoryId: categoryId || null });
         setPreview(rows as AllocRow[]);
       } catch {
         setPreview(null);
       }
     }, 400);
     return () => clearTimeout(t);
-  }, [buildingId, total, tenantPct, ownerPct]);
+  }, [buildingId, total, tenantPct, ownerPct, categoryId]);
 
   const isPdf = /\.pdf($|\?)/i.test(fileUrl);
 
