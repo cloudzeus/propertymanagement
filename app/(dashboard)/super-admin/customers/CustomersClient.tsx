@@ -8,7 +8,7 @@ import { Modal, FormField, FieldInput, FieldSelect } from "@/components/ui/modal
 import { createCustomer, updateCustomer, deleteCustomer } from "@/app/actions/customers";
 import { AddPropertyModal } from "@/app/(dashboard)/super-admin/properties/AddPropertyModal";
 import { CustomerTree, type TProperty } from "./CustomerTree";
-import { RiCheckLine, RiLoaderLine, RiPencilLine, RiDeleteBinLine, RiSearchLine, RiMapPin2Line, RiEyeLine, RiAddLine } from "react-icons/ri";
+import { RiCheckLine, RiLoaderLine, RiPencilLine, RiDeleteBinLine, RiSearchLine, RiMapPin2Line, RiEyeLine, RiAddLine, RiRobot2Line } from "react-icons/ri";
 
 type Customer = {
   id: string;
@@ -199,6 +199,7 @@ export function CustomersClient({ initial }: { initial: Customer[] }) {
   const getRowActions = (_c: Customer): RowAction<Customer>[] => [
     { label: "Προβολή", icon: <RiEyeLine />, onClick: (c) => router.push(`/super-admin/customers/${c.id}`) },
     { label: "Προσθήκη Ιδιοκτησίας", icon: <RiAddLine />, onClick: (c) => setAddPropFor(c) },
+    { label: "Νέα πολυκατοικία με AI", icon: <RiRobot2Line />, onClick: (c) => router.push(`/super-admin/customers/${c.id}/onboarding`) },
     { label: "Επεξεργασία", icon: <RiPencilLine />, onClick: openEdit },
     { label: "Διαγραφή", icon: <RiDeleteBinLine />, danger: true, onClick: handleDelete },
   ];
