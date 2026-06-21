@@ -71,7 +71,10 @@ export function runAgentStream(opts: { system: string; messages: AgentMessage[];
             if (delta?.content) controller.enqueue(sse("token", { delta: delta.content }));
             if (delta?.tool_calls) {
               for (const tc of delta.tool_calls) {
-                controller.enqueue(sse("tool", { id: tc.id ?? `idx-${tc.index ?? 0}`, name: tc.function?.name, argsDelta: tc.function?.arguments ?? "" }));
+                // Key by `index`, which is present on EVERY delta. `tc.id` only
+                // appears on the opening delta of a call; continuation deltas omit
+                // it, so keying by id would split one call's args across buffers.
+                controller.enqueue(sse("tool", { id: String(tc.index ?? 0), name: tc.function?.name, argsDelta: tc.function?.arguments ?? "" }));
               }
             }
           }
@@ -80,7 +83,9 @@ export function runAgentStream(opts: { system: string; messages: AgentMessage[];
         controller.enqueue(sse("done", {}));
         controller.close();
       } catch (e) {
-        controller.enqueue(sse("error", { message: e instanceof Error ? e.message : "Άγνωστο σφάλμα" }));
+        const message = e instanceof Error ? e.message : "Άγνωστο σφάλμα";
+        await logAPIUsage({ apiName: "deepseek", endpoint: "/chat/completions", model, status: "FAILED", errorMessage: message });
+        controller.enqueue(sse("error", { message }));
         controller.enqueue(sse("done", {}));
         controller.close();
       }

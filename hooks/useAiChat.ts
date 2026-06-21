@@ -1,7 +1,7 @@
 "use client";
 
-import { useCallback, useRef, useState } from "react";
-import { parseAgentSse, type SseState } from "@/lib/ai/sse";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { parseAgentSse, accumulateTool, type SseState, type ToolAccumulator } from "@/lib/ai/sse";
 
 export type ChatMessage = { id: string; role: "user" | "assistant"; content: string };
 
@@ -14,7 +14,11 @@ export function useAiChat(opts: { endpoint?: string; agentKey: string; onToolCal
   const [input, setInput] = useState("");
   const [isStreaming, setIsStreaming] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const toolArgs = useRef<Map<string, { name?: string; args: string }>>(new Map());
+  const toolArgs = useRef<ToolAccumulator>(new Map());
+  const abortRef = useRef<AbortController | null>(null);
+
+  // Abort any in-flight stream when the component unmounts.
+  useEffect(() => () => abortRef.current?.abort(), []);
 
   const send = useCallback(async () => {
     const text = input.trim();
@@ -30,11 +34,14 @@ export function useAiChat(opts: { endpoint?: string; agentKey: string; onToolCal
     setMessages((m) => [...m, { id: assistantId, role: "assistant", content: "" }]);
     toolArgs.current.clear();
 
+    const controller = new AbortController();
+    abortRef.current = controller;
     try {
       const res = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ agentKey: opts.agentKey, messages: history.map((m) => ({ role: m.role, content: m.content })) }),
+        signal: controller.signal,
       });
       if (!res.ok || !res.body) { setError(`Σφάλμα ${res.status}`); setIsStreaming(false); return; }
 
@@ -50,21 +57,18 @@ export function useAiChat(opts: { endpoint?: string; agentKey: string; onToolCal
           if (ev.type === "token") {
             setMessages((m) => m.map((x) => (x.id === assistantId ? { ...x, content: x.content + ev.delta } : x)));
           } else if (ev.type === "tool") {
-            const cur = toolArgs.current.get(ev.id) ?? { name: undefined, args: "" };
-            const merged = { name: ev.name ?? cur.name, args: cur.args + ev.argsDelta };
-            toolArgs.current.set(ev.id, merged);
-            try {
-              const parsed = JSON.parse(merged.args);
-              if (merged.name) opts.onToolCall?.(merged.name, parsed);
-            } catch { /* args still incomplete */ }
+            const completed = accumulateTool(toolArgs.current, ev);
+            if (completed) opts.onToolCall?.(completed.name, completed.args);
           } else if (ev.type === "error") {
             setError(ev.message);
           }
         }
       }
     } catch (e) {
+      if ((e as Error)?.name === "AbortError") return; // unmounted / cancelled — not an error
       setError(e instanceof Error ? e.message : "Σφάλμα σύνδεσης");
     } finally {
+      if (abortRef.current === controller) abortRef.current = null;
       setIsStreaming(false);
     }
   }, [endpoint, input, isStreaming, messages, opts]);

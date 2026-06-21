@@ -6,6 +6,21 @@ export type AgentEvent =
 
 export type SseState = { buffer: string };
 
+export type ToolAccumulator = Map<string, { name?: string; args: string }>;
+export type CompletedToolCall = { name: string; args: unknown };
+
+/** Fold a tool event into the accumulator (keyed by the event id, which the
+ *  server derives from the stream `index` so it is stable across continuation
+ *  deltas). Returns a completed call once the accumulated args parse as JSON and
+ *  a tool name is known; otherwise null. */
+export function accumulateTool(acc: ToolAccumulator, ev: { id: string; name?: string; argsDelta: string }): CompletedToolCall | null {
+  const cur = acc.get(ev.id) ?? { name: undefined, args: "" };
+  const merged = { name: ev.name ?? cur.name, args: cur.args + ev.argsDelta };
+  acc.set(ev.id, merged);
+  if (!merged.name) return null;
+  try { return { name: merged.name, args: JSON.parse(merged.args) }; } catch { return null; }
+}
+
 /** Incremental SSE parser for the normalized agent stream. Accumulates a buffer
  *  across chunks; emits one AgentEvent per complete `event:/data:` block. Blank
  *  lines, comments (`:`), and malformed JSON are tolerated (skipped). */
