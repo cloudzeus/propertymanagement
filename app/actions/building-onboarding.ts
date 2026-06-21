@@ -28,16 +28,16 @@ export async function createBuildingFromOnboarding(
   const data = (raw ?? {}) as { building?: unknown; units?: unknown };
   const building = buildingInfoSchema.safeParse(data.building);
   const unitsParsed = setUnitsSchema.safeParse({ units: Array.isArray(data.units) ? data.units : [] });
-  if (!building.success || !building.data.address || !building.data.managerName || !building.data.heatingType) {
-    return { error: "Συμπληρώστε διεύθυνση, διαχειριστή και τύπο θέρμανσης." };
+  // Minimum to create the shell: an address + at least one unit. Manager, heating
+  // type and τ.μ./millesimes are optional here and can be completed later in the
+  // building detail (the audit flags what's still missing).
+  if (!building.success || !building.data.address) {
+    return { error: "Συμπληρώστε τουλάχιστον τη διεύθυνση." };
   }
   if (!unitsParsed.success || unitsParsed.data.units.length === 0) {
     return { error: "Προσθέστε τουλάχιστον μία μονάδα." };
   }
   const payload = buildOnboardingPayload({ building: building.data, units: unitsParsed.data.units });
-  if (!payload.units.some((u) => u.areaSqm != null && u.areaSqm > 0)) {
-    return { error: "Συμπληρώστε τετραγωνικά σε τουλάχιστον μία μονάδα για να υπολογιστούν τα χιλιοστά." };
-  }
   const companyId = await managingCompanyId();
 
   const buildingId = await db.$transaction(async (tx) => {

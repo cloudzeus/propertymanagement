@@ -47,7 +47,9 @@ export function OnboardingWizard({ customerId, customerName, customers }: { cust
   const removeUnit = (i: number) => setUnits((us) => us.filter((_, j) => j !== i));
 
   const hasArea = units.some((u) => (u.areaSqm ?? 0) > 0);
-  const complete = !!(selectedCustomerId && info.address && info.managerName && info.heatingType && units.length && hasArea);
+  // Minimum to create: customer + address + at least one unit. Everything else
+  // (manager, heating, τ.μ./millesimes) can be filled later in the building detail.
+  const complete = !!(selectedCustomerId && info.address && units.length);
   const method =
     info.heatingType === "GAS" ? "ατομική — εκτός κοινοχρήστων"
     : (info.heatingType === "AUTONOMOUS_METERS" || info.heatingType === "AUTONOMOUS_HOURS") ? "70/30 μετρητής"
@@ -219,7 +221,7 @@ export function OnboardingWizard({ customerId, customerName, customers }: { cust
       {/* Sticky footer action bar */}
       <div className="fixed inset-x-0 bottom-0 z-40 border-t border-[var(--border)] bg-[var(--card)]/90 backdrop-blur">
         <div className="mx-auto flex max-w-3xl items-center justify-between gap-3 px-4 py-3">
-          <span className="text-[13px] text-[var(--muted-foreground)]">{complete ? "Έτοιμο για δημιουργία" : "Συμπλήρωσε πελάτη, διεύθυνση, διαχειριστή, θέρμανση και ≥1 μονάδα με τ.μ."}</span>
+          <span className="text-[13px] text-[var(--muted-foreground)]">{complete ? "Έτοιμο — τα υπόλοιπα (τ.μ., θέρμανση) μπαίνουν μετά" : "Χρειάζονται: πελάτης, διεύθυνση και ≥1 μονάδα"}</span>
           <button onClick={create} disabled={!complete || pending} className="inline-flex h-10 shrink-0 items-center gap-1.5 rounded-md bg-[var(--primary)] px-5 text-sm font-medium text-white shadow-sm transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40">
             {pending ? "Δημιουργία…" : <>Δημιουργία <RiArrowRightLine /></>}
           </button>
