@@ -4,9 +4,8 @@ import { runAgentStream, type AgentMessage } from "@/lib/ai/agent";
 
 export async function POST(request: Request) {
   const session = await auth();
-  if (!session?.user || (session.user as any).role !== "SUPER_ADMIN") {
-    return new Response("Unauthorized", { status: 401 });
-  }
+  if (!session?.user) return new Response("Unauthorized", { status: 401 });
+  if ((session.user as any).role !== "SUPER_ADMIN") return new Response("Forbidden", { status: 403 });
 
   let body: { agentKey?: string; messages?: AgentMessage[] };
   try {
