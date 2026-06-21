@@ -3,7 +3,7 @@
 import { auth } from "@/auth";
 import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
-import { computeMillesimes } from "@/lib/millesimes";
+import { distributeWeights, elevatorWeight, type WeightInput } from "@/lib/millesimes";
 import { ensureFolder, buildingFolder } from "@/lib/bunnycdn";
 
 async function requireSuperAdmin() {
@@ -179,32 +179,66 @@ export async function deleteCommonArea(id: string) {
   return { success: true };
 }
 
-/** Auto-distribute χιλιοστά across a building's units, proportional to area. */
+/** Auto-distribute the 3 χιλιοστά sets across a building's units. Each set is
+ *  recomputed from its AUTO cells; MANUAL-locked cells keep their stored value. */
 export async function recalculateMillesimes(buildingId: string) {
   await requireSuperAdmin();
-
   const building = await db.building.findUnique({
     where: { id: buildingId },
     select: {
       property: { select: { id: true } },
-      units: { select: { id: true, areaSqm: true } },
+      elevatorSurchargePerFloor: true,
+      elevatorExemptGroundFloor: true,
+      units: {
+        select: {
+          id: true,
+          areaSqm: true,
+          floor: true,
+          millesimesSource: true,
+          millesimesElevatorSource: true,
+          millesimesHeatingSource: true,
+        },
+      },
     },
   });
   if (!building) return { error: "Το κτήριο δεν βρέθηκε" };
-
-  const results = computeMillesimes(building.units);
-  if (!results.some((r) => r.millesimes != null)) {
+  const units = building.units;
+  if (!units.some((u) => u.areaSqm != null && u.areaSqm > 0)) {
     return { error: "Καμία μονάδα δεν έχει τετραγωνικά για υπολογισμό" };
   }
 
-  // Update every unit: units with area get their share, units without area are
-  // reset to null so the building's millesimes always sum to exactly 1000.
-  await db.$transaction(
-    results.map((r) =>
-      db.unit.update({ where: { id: r.id }, data: { millesimes: r.millesimes } })
-    )
+  // Each set computed from AUTO cells; MANUAL cells keep their stored value.
+  const general = distributeWeights(units.map((u) => ({ id: u.id, weight: u.areaSqm ?? 0 })));
+  const elevator = distributeWeights(
+    units.map((u): WeightInput => ({
+      id: u.id,
+      weight: elevatorWeight(
+        u.areaSqm ?? 0,
+        u.floor,
+        building.elevatorSurchargePerFloor,
+        building.elevatorExemptGroundFloor,
+      ),
+    })),
   );
+  const heating = distributeWeights(units.map((u) => ({ id: u.id, weight: u.areaSqm ?? 0 })));
+  const byId = (arr: { id: string; value: number | null }[]) =>
+    new Map(arr.map((r) => [r.id, r.value]));
+  const g = byId(general),
+    e = byId(elevator),
+    h = byId(heating);
 
+  let updated = 0;
+  await db.$transaction(
+    units.map((u) => {
+      const data: Record<string, number | null> = {};
+      if (u.millesimesSource === "AUTO") data.millesimes = g.get(u.id) ?? null;
+      if (u.millesimesElevatorSource === "AUTO") data.millesimesElevator = e.get(u.id) ?? null;
+      if (u.millesimesHeatingSource === "AUTO") data.millesimesHeating = h.get(u.id) ?? null;
+      updated++;
+      return db.unit.update({ where: { id: u.id }, data });
+    }),
+  );
   revalidatePath(`/super-admin/properties/${building.property.id}`);
-  return { updated: results.filter((r) => r.millesimes != null).length };
+  revalidatePath(`/super-admin/buildings/${buildingId}`);
+  return { updated };
 }
