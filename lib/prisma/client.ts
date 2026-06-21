@@ -162,6 +162,11 @@ export type BuildingCategoryOverride = Prisma.BuildingCategoryOverrideModel
  */
 export type UnitCategoryExclusion = Prisma.UnitCategoryExclusionModel
 /**
+ * Model UnitHeatingReading
+ * 
+ */
+export type UnitHeatingReading = Prisma.UnitHeatingReadingModel
+/**
  * Model MeterReading
  * 
  */

@@ -75,6 +75,7 @@ export const ModelName = {
   ExpenseCategory: 'ExpenseCategory',
   BuildingCategoryOverride: 'BuildingCategoryOverride',
   UnitCategoryExclusion: 'UnitCategoryExclusion',
+  UnitHeatingReading: 'UnitHeatingReading',
   MeterReading: 'MeterReading',
   ExpenseAllocation: 'ExpenseAllocation',
   UnitPayment: 'UnitPayment',
@@ -409,6 +410,7 @@ export const BuildingScalarFieldEnum = {
   technicalNotes: 'technicalNotes',
   elevatorSurchargePerFloor: 'elevatorSurchargePerFloor',
   elevatorExemptGroundFloor: 'elevatorExemptGroundFloor',
+  heatingMeterUnit: 'heatingMeterUnit',
   lat: 'lat',
   lng: 'lng',
   dailyRoomName: 'dailyRoomName',
@@ -592,6 +594,21 @@ export const UnitCategoryExclusionScalarFieldEnum = {
 } as const
 
 export type UnitCategoryExclusionScalarFieldEnum = (typeof UnitCategoryExclusionScalarFieldEnum)[keyof typeof UnitCategoryExclusionScalarFieldEnum]
+
+
+export const UnitHeatingReadingScalarFieldEnum = {
+  id: 'id',
+  buildingId: 'buildingId',
+  unitId: 'unitId',
+  period: 'period',
+  previousReading: 'previousReading',
+  currentReading: 'currentReading',
+  consumption: 'consumption',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type UnitHeatingReadingScalarFieldEnum = (typeof UnitHeatingReadingScalarFieldEnum)[keyof typeof UnitHeatingReadingScalarFieldEnum]
 
 
 export const MeterReadingScalarFieldEnum = {

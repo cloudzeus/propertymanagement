@@ -63,6 +63,7 @@ export type BuildingMinAggregateOutputType = {
   technicalNotes: string | null
   elevatorSurchargePerFloor: number | null
   elevatorExemptGroundFloor: boolean | null
+  heatingMeterUnit: string | null
   lat: number | null
   lng: number | null
   dailyRoomName: string | null
@@ -89,6 +90,7 @@ export type BuildingMaxAggregateOutputType = {
   technicalNotes: string | null
   elevatorSurchargePerFloor: number | null
   elevatorExemptGroundFloor: boolean | null
+  heatingMeterUnit: string | null
   lat: number | null
   lng: number | null
   dailyRoomName: string | null
@@ -115,6 +117,7 @@ export type BuildingCountAggregateOutputType = {
   technicalNotes: number
   elevatorSurchargePerFloor: number
   elevatorExemptGroundFloor: number
+  heatingMeterUnit: number
   lat: number
   lng: number
   dailyRoomName: number
@@ -161,6 +164,7 @@ export type BuildingMinAggregateInputType = {
   technicalNotes?: true
   elevatorSurchargePerFloor?: true
   elevatorExemptGroundFloor?: true
+  heatingMeterUnit?: true
   lat?: true
   lng?: true
   dailyRoomName?: true
@@ -187,6 +191,7 @@ export type BuildingMaxAggregateInputType = {
   technicalNotes?: true
   elevatorSurchargePerFloor?: true
   elevatorExemptGroundFloor?: true
+  heatingMeterUnit?: true
   lat?: true
   lng?: true
   dailyRoomName?: true
@@ -213,6 +218,7 @@ export type BuildingCountAggregateInputType = {
   technicalNotes?: true
   elevatorSurchargePerFloor?: true
   elevatorExemptGroundFloor?: true
+  heatingMeterUnit?: true
   lat?: true
   lng?: true
   dailyRoomName?: true
@@ -326,6 +332,7 @@ export type BuildingGroupByOutputType = {
   technicalNotes: string | null
   elevatorSurchargePerFloor: number
   elevatorExemptGroundFloor: boolean
+  heatingMeterUnit: string | null
   lat: number | null
   lng: number | null
   dailyRoomName: string | null
@@ -375,6 +382,7 @@ export type BuildingWhereInput = {
   technicalNotes?: Prisma.StringNullableFilter<"Building"> | string | null
   elevatorSurchargePerFloor?: Prisma.FloatFilter<"Building"> | number
   elevatorExemptGroundFloor?: Prisma.BoolFilter<"Building"> | boolean
+  heatingMeterUnit?: Prisma.StringNullableFilter<"Building"> | string | null
   lat?: Prisma.FloatNullableFilter<"Building"> | number | null
   lng?: Prisma.FloatNullableFilter<"Building"> | number | null
   dailyRoomName?: Prisma.StringNullableFilter<"Building"> | string | null
@@ -397,6 +405,7 @@ export type BuildingWhereInput = {
   expenses?: Prisma.BuildingExpenseListRelationFilter
   categoryOverrides?: Prisma.BuildingCategoryOverrideListRelationFilter
   meterReadings?: Prisma.MeterReadingListRelationFilter
+  heatingReadings?: Prisma.UnitHeatingReadingListRelationFilter
 }
 
 export type BuildingOrderByWithRelationInput = {
@@ -418,6 +427,7 @@ export type BuildingOrderByWithRelationInput = {
   technicalNotes?: Prisma.SortOrderInput | Prisma.SortOrder
   elevatorSurchargePerFloor?: Prisma.SortOrder
   elevatorExemptGroundFloor?: Prisma.SortOrder
+  heatingMeterUnit?: Prisma.SortOrderInput | Prisma.SortOrder
   lat?: Prisma.SortOrderInput | Prisma.SortOrder
   lng?: Prisma.SortOrderInput | Prisma.SortOrder
   dailyRoomName?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -440,6 +450,7 @@ export type BuildingOrderByWithRelationInput = {
   expenses?: Prisma.BuildingExpenseOrderByRelationAggregateInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideOrderByRelationAggregateInput
   meterReadings?: Prisma.MeterReadingOrderByRelationAggregateInput
+  heatingReadings?: Prisma.UnitHeatingReadingOrderByRelationAggregateInput
 }
 
 export type BuildingWhereUniqueInput = Prisma.AtLeast<{
@@ -464,6 +475,7 @@ export type BuildingWhereUniqueInput = Prisma.AtLeast<{
   technicalNotes?: Prisma.StringNullableFilter<"Building"> | string | null
   elevatorSurchargePerFloor?: Prisma.FloatFilter<"Building"> | number
   elevatorExemptGroundFloor?: Prisma.BoolFilter<"Building"> | boolean
+  heatingMeterUnit?: Prisma.StringNullableFilter<"Building"> | string | null
   lat?: Prisma.FloatNullableFilter<"Building"> | number | null
   lng?: Prisma.FloatNullableFilter<"Building"> | number | null
   dailyRoomName?: Prisma.StringNullableFilter<"Building"> | string | null
@@ -486,6 +498,7 @@ export type BuildingWhereUniqueInput = Prisma.AtLeast<{
   expenses?: Prisma.BuildingExpenseListRelationFilter
   categoryOverrides?: Prisma.BuildingCategoryOverrideListRelationFilter
   meterReadings?: Prisma.MeterReadingListRelationFilter
+  heatingReadings?: Prisma.UnitHeatingReadingListRelationFilter
 }, "id">
 
 export type BuildingOrderByWithAggregationInput = {
@@ -507,6 +520,7 @@ export type BuildingOrderByWithAggregationInput = {
   technicalNotes?: Prisma.SortOrderInput | Prisma.SortOrder
   elevatorSurchargePerFloor?: Prisma.SortOrder
   elevatorExemptGroundFloor?: Prisma.SortOrder
+  heatingMeterUnit?: Prisma.SortOrderInput | Prisma.SortOrder
   lat?: Prisma.SortOrderInput | Prisma.SortOrder
   lng?: Prisma.SortOrderInput | Prisma.SortOrder
   dailyRoomName?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -541,6 +555,7 @@ export type BuildingScalarWhereWithAggregatesInput = {
   technicalNotes?: Prisma.StringNullableWithAggregatesFilter<"Building"> | string | null
   elevatorSurchargePerFloor?: Prisma.FloatWithAggregatesFilter<"Building"> | number
   elevatorExemptGroundFloor?: Prisma.BoolWithAggregatesFilter<"Building"> | boolean
+  heatingMeterUnit?: Prisma.StringNullableWithAggregatesFilter<"Building"> | string | null
   lat?: Prisma.FloatNullableWithAggregatesFilter<"Building"> | number | null
   lng?: Prisma.FloatNullableWithAggregatesFilter<"Building"> | number | null
   dailyRoomName?: Prisma.StringNullableWithAggregatesFilter<"Building"> | string | null
@@ -565,6 +580,7 @@ export type BuildingCreateInput = {
   technicalNotes?: string | null
   elevatorSurchargePerFloor?: number
   elevatorExemptGroundFloor?: boolean
+  heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -587,6 +603,7 @@ export type BuildingCreateInput = {
   expenses?: Prisma.BuildingExpenseCreateNestedManyWithoutBuildingInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingCreateNestedManyWithoutBuildingInput
+  heatingReadings?: Prisma.UnitHeatingReadingCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUncheckedCreateInput = {
@@ -608,6 +625,7 @@ export type BuildingUncheckedCreateInput = {
   technicalNotes?: string | null
   elevatorSurchargePerFloor?: number
   elevatorExemptGroundFloor?: boolean
+  heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -628,6 +646,7 @@ export type BuildingUncheckedCreateInput = {
   expenses?: Prisma.BuildingExpenseUncheckedCreateNestedManyWithoutBuildingInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingUncheckedCreateNestedManyWithoutBuildingInput
+  heatingReadings?: Prisma.UnitHeatingReadingUncheckedCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUpdateInput = {
@@ -647,6 +666,7 @@ export type BuildingUpdateInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
   elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -669,6 +689,7 @@ export type BuildingUpdateInput = {
   expenses?: Prisma.BuildingExpenseUpdateManyWithoutBuildingNestedInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUpdateManyWithoutBuildingNestedInput
+  heatingReadings?: Prisma.UnitHeatingReadingUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateInput = {
@@ -690,6 +711,7 @@ export type BuildingUncheckedUpdateInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
   elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -710,6 +732,7 @@ export type BuildingUncheckedUpdateInput = {
   expenses?: Prisma.BuildingExpenseUncheckedUpdateManyWithoutBuildingNestedInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUncheckedUpdateManyWithoutBuildingNestedInput
+  heatingReadings?: Prisma.UnitHeatingReadingUncheckedUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingCreateManyInput = {
@@ -731,6 +754,7 @@ export type BuildingCreateManyInput = {
   technicalNotes?: string | null
   elevatorSurchargePerFloor?: number
   elevatorExemptGroundFloor?: boolean
+  heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -755,6 +779,7 @@ export type BuildingUpdateManyMutationInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
   elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -781,6 +806,7 @@ export type BuildingUncheckedUpdateManyInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
   elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -822,6 +848,7 @@ export type BuildingCountOrderByAggregateInput = {
   technicalNotes?: Prisma.SortOrder
   elevatorSurchargePerFloor?: Prisma.SortOrder
   elevatorExemptGroundFloor?: Prisma.SortOrder
+  heatingMeterUnit?: Prisma.SortOrder
   lat?: Prisma.SortOrder
   lng?: Prisma.SortOrder
   dailyRoomName?: Prisma.SortOrder
@@ -857,6 +884,7 @@ export type BuildingMaxOrderByAggregateInput = {
   technicalNotes?: Prisma.SortOrder
   elevatorSurchargePerFloor?: Prisma.SortOrder
   elevatorExemptGroundFloor?: Prisma.SortOrder
+  heatingMeterUnit?: Prisma.SortOrder
   lat?: Prisma.SortOrder
   lng?: Prisma.SortOrder
   dailyRoomName?: Prisma.SortOrder
@@ -883,6 +911,7 @@ export type BuildingMinOrderByAggregateInput = {
   technicalNotes?: Prisma.SortOrder
   elevatorSurchargePerFloor?: Prisma.SortOrder
   elevatorExemptGroundFloor?: Prisma.SortOrder
+  heatingMeterUnit?: Prisma.SortOrder
   lat?: Prisma.SortOrder
   lng?: Prisma.SortOrder
   dailyRoomName?: Prisma.SortOrder
@@ -1104,6 +1133,20 @@ export type BuildingUpdateOneRequiredWithoutCategoryOverridesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.BuildingUpdateToOneWithWhereWithoutCategoryOverridesInput, Prisma.BuildingUpdateWithoutCategoryOverridesInput>, Prisma.BuildingUncheckedUpdateWithoutCategoryOverridesInput>
 }
 
+export type BuildingCreateNestedOneWithoutHeatingReadingsInput = {
+  create?: Prisma.XOR<Prisma.BuildingCreateWithoutHeatingReadingsInput, Prisma.BuildingUncheckedCreateWithoutHeatingReadingsInput>
+  connectOrCreate?: Prisma.BuildingCreateOrConnectWithoutHeatingReadingsInput
+  connect?: Prisma.BuildingWhereUniqueInput
+}
+
+export type BuildingUpdateOneRequiredWithoutHeatingReadingsNestedInput = {
+  create?: Prisma.XOR<Prisma.BuildingCreateWithoutHeatingReadingsInput, Prisma.BuildingUncheckedCreateWithoutHeatingReadingsInput>
+  connectOrCreate?: Prisma.BuildingCreateOrConnectWithoutHeatingReadingsInput
+  upsert?: Prisma.BuildingUpsertWithoutHeatingReadingsInput
+  connect?: Prisma.BuildingWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.BuildingUpdateToOneWithWhereWithoutHeatingReadingsInput, Prisma.BuildingUpdateWithoutHeatingReadingsInput>, Prisma.BuildingUncheckedUpdateWithoutHeatingReadingsInput>
+}
+
 export type BuildingCreateNestedOneWithoutMeterReadingsInput = {
   create?: Prisma.XOR<Prisma.BuildingCreateWithoutMeterReadingsInput, Prisma.BuildingUncheckedCreateWithoutMeterReadingsInput>
   connectOrCreate?: Prisma.BuildingCreateOrConnectWithoutMeterReadingsInput
@@ -1221,6 +1264,7 @@ export type BuildingCreateWithoutUsersInput = {
   technicalNotes?: string | null
   elevatorSurchargePerFloor?: number
   elevatorExemptGroundFloor?: boolean
+  heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -1242,6 +1286,7 @@ export type BuildingCreateWithoutUsersInput = {
   expenses?: Prisma.BuildingExpenseCreateNestedManyWithoutBuildingInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingCreateNestedManyWithoutBuildingInput
+  heatingReadings?: Prisma.UnitHeatingReadingCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUncheckedCreateWithoutUsersInput = {
@@ -1263,6 +1308,7 @@ export type BuildingUncheckedCreateWithoutUsersInput = {
   technicalNotes?: string | null
   elevatorSurchargePerFloor?: number
   elevatorExemptGroundFloor?: boolean
+  heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -1282,6 +1328,7 @@ export type BuildingUncheckedCreateWithoutUsersInput = {
   expenses?: Prisma.BuildingExpenseUncheckedCreateNestedManyWithoutBuildingInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingUncheckedCreateNestedManyWithoutBuildingInput
+  heatingReadings?: Prisma.UnitHeatingReadingUncheckedCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingCreateOrConnectWithoutUsersInput = {
@@ -1317,6 +1364,7 @@ export type BuildingUpdateWithoutUsersInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
   elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1338,6 +1386,7 @@ export type BuildingUpdateWithoutUsersInput = {
   expenses?: Prisma.BuildingExpenseUpdateManyWithoutBuildingNestedInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUpdateManyWithoutBuildingNestedInput
+  heatingReadings?: Prisma.UnitHeatingReadingUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateWithoutUsersInput = {
@@ -1359,6 +1408,7 @@ export type BuildingUncheckedUpdateWithoutUsersInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
   elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1378,6 +1428,7 @@ export type BuildingUncheckedUpdateWithoutUsersInput = {
   expenses?: Prisma.BuildingExpenseUncheckedUpdateManyWithoutBuildingNestedInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUncheckedUpdateManyWithoutBuildingNestedInput
+  heatingReadings?: Prisma.UnitHeatingReadingUncheckedUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingCreateWithoutCompanyInput = {
@@ -1397,6 +1448,7 @@ export type BuildingCreateWithoutCompanyInput = {
   technicalNotes?: string | null
   elevatorSurchargePerFloor?: number
   elevatorExemptGroundFloor?: boolean
+  heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -1418,6 +1470,7 @@ export type BuildingCreateWithoutCompanyInput = {
   expenses?: Prisma.BuildingExpenseCreateNestedManyWithoutBuildingInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingCreateNestedManyWithoutBuildingInput
+  heatingReadings?: Prisma.UnitHeatingReadingCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUncheckedCreateWithoutCompanyInput = {
@@ -1438,6 +1491,7 @@ export type BuildingUncheckedCreateWithoutCompanyInput = {
   technicalNotes?: string | null
   elevatorSurchargePerFloor?: number
   elevatorExemptGroundFloor?: boolean
+  heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -1458,6 +1512,7 @@ export type BuildingUncheckedCreateWithoutCompanyInput = {
   expenses?: Prisma.BuildingExpenseUncheckedCreateNestedManyWithoutBuildingInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingUncheckedCreateNestedManyWithoutBuildingInput
+  heatingReadings?: Prisma.UnitHeatingReadingUncheckedCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingCreateOrConnectWithoutCompanyInput = {
@@ -1508,6 +1563,7 @@ export type BuildingScalarWhereInput = {
   technicalNotes?: Prisma.StringNullableFilter<"Building"> | string | null
   elevatorSurchargePerFloor?: Prisma.FloatFilter<"Building"> | number
   elevatorExemptGroundFloor?: Prisma.BoolFilter<"Building"> | boolean
+  heatingMeterUnit?: Prisma.StringNullableFilter<"Building"> | string | null
   lat?: Prisma.FloatNullableFilter<"Building"> | number | null
   lng?: Prisma.FloatNullableFilter<"Building"> | number | null
   dailyRoomName?: Prisma.StringNullableFilter<"Building"> | string | null
@@ -1532,6 +1588,7 @@ export type BuildingCreateWithoutAddonsInput = {
   technicalNotes?: string | null
   elevatorSurchargePerFloor?: number
   elevatorExemptGroundFloor?: boolean
+  heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -1553,6 +1610,7 @@ export type BuildingCreateWithoutAddonsInput = {
   expenses?: Prisma.BuildingExpenseCreateNestedManyWithoutBuildingInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingCreateNestedManyWithoutBuildingInput
+  heatingReadings?: Prisma.UnitHeatingReadingCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUncheckedCreateWithoutAddonsInput = {
@@ -1574,6 +1632,7 @@ export type BuildingUncheckedCreateWithoutAddonsInput = {
   technicalNotes?: string | null
   elevatorSurchargePerFloor?: number
   elevatorExemptGroundFloor?: boolean
+  heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -1593,6 +1652,7 @@ export type BuildingUncheckedCreateWithoutAddonsInput = {
   expenses?: Prisma.BuildingExpenseUncheckedCreateNestedManyWithoutBuildingInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingUncheckedCreateNestedManyWithoutBuildingInput
+  heatingReadings?: Prisma.UnitHeatingReadingUncheckedCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingCreateOrConnectWithoutAddonsInput = {
@@ -1628,6 +1688,7 @@ export type BuildingUpdateWithoutAddonsInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
   elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1649,6 +1710,7 @@ export type BuildingUpdateWithoutAddonsInput = {
   expenses?: Prisma.BuildingExpenseUpdateManyWithoutBuildingNestedInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUpdateManyWithoutBuildingNestedInput
+  heatingReadings?: Prisma.UnitHeatingReadingUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateWithoutAddonsInput = {
@@ -1670,6 +1732,7 @@ export type BuildingUncheckedUpdateWithoutAddonsInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
   elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1689,6 +1752,7 @@ export type BuildingUncheckedUpdateWithoutAddonsInput = {
   expenses?: Prisma.BuildingExpenseUncheckedUpdateManyWithoutBuildingNestedInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUncheckedUpdateManyWithoutBuildingNestedInput
+  heatingReadings?: Prisma.UnitHeatingReadingUncheckedUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingCreateWithoutPropertyInput = {
@@ -1708,6 +1772,7 @@ export type BuildingCreateWithoutPropertyInput = {
   technicalNotes?: string | null
   elevatorSurchargePerFloor?: number
   elevatorExemptGroundFloor?: boolean
+  heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -1729,6 +1794,7 @@ export type BuildingCreateWithoutPropertyInput = {
   expenses?: Prisma.BuildingExpenseCreateNestedManyWithoutBuildingInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingCreateNestedManyWithoutBuildingInput
+  heatingReadings?: Prisma.UnitHeatingReadingCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUncheckedCreateWithoutPropertyInput = {
@@ -1749,6 +1815,7 @@ export type BuildingUncheckedCreateWithoutPropertyInput = {
   technicalNotes?: string | null
   elevatorSurchargePerFloor?: number
   elevatorExemptGroundFloor?: boolean
+  heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -1769,6 +1836,7 @@ export type BuildingUncheckedCreateWithoutPropertyInput = {
   expenses?: Prisma.BuildingExpenseUncheckedCreateNestedManyWithoutBuildingInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingUncheckedCreateNestedManyWithoutBuildingInput
+  heatingReadings?: Prisma.UnitHeatingReadingUncheckedCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingCreateOrConnectWithoutPropertyInput = {
@@ -1814,6 +1882,7 @@ export type BuildingCreateWithoutFilesInput = {
   technicalNotes?: string | null
   elevatorSurchargePerFloor?: number
   elevatorExemptGroundFloor?: boolean
+  heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -1835,6 +1904,7 @@ export type BuildingCreateWithoutFilesInput = {
   expenses?: Prisma.BuildingExpenseCreateNestedManyWithoutBuildingInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingCreateNestedManyWithoutBuildingInput
+  heatingReadings?: Prisma.UnitHeatingReadingCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUncheckedCreateWithoutFilesInput = {
@@ -1856,6 +1926,7 @@ export type BuildingUncheckedCreateWithoutFilesInput = {
   technicalNotes?: string | null
   elevatorSurchargePerFloor?: number
   elevatorExemptGroundFloor?: boolean
+  heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -1875,6 +1946,7 @@ export type BuildingUncheckedCreateWithoutFilesInput = {
   expenses?: Prisma.BuildingExpenseUncheckedCreateNestedManyWithoutBuildingInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingUncheckedCreateNestedManyWithoutBuildingInput
+  heatingReadings?: Prisma.UnitHeatingReadingUncheckedCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingCreateOrConnectWithoutFilesInput = {
@@ -1910,6 +1982,7 @@ export type BuildingUpdateWithoutFilesInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
   elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1931,6 +2004,7 @@ export type BuildingUpdateWithoutFilesInput = {
   expenses?: Prisma.BuildingExpenseUpdateManyWithoutBuildingNestedInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUpdateManyWithoutBuildingNestedInput
+  heatingReadings?: Prisma.UnitHeatingReadingUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateWithoutFilesInput = {
@@ -1952,6 +2026,7 @@ export type BuildingUncheckedUpdateWithoutFilesInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
   elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1971,6 +2046,7 @@ export type BuildingUncheckedUpdateWithoutFilesInput = {
   expenses?: Prisma.BuildingExpenseUncheckedUpdateManyWithoutBuildingNestedInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUncheckedUpdateManyWithoutBuildingNestedInput
+  heatingReadings?: Prisma.UnitHeatingReadingUncheckedUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingCreateWithoutInfraPointsInput = {
@@ -1990,6 +2066,7 @@ export type BuildingCreateWithoutInfraPointsInput = {
   technicalNotes?: string | null
   elevatorSurchargePerFloor?: number
   elevatorExemptGroundFloor?: boolean
+  heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -2011,6 +2088,7 @@ export type BuildingCreateWithoutInfraPointsInput = {
   expenses?: Prisma.BuildingExpenseCreateNestedManyWithoutBuildingInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingCreateNestedManyWithoutBuildingInput
+  heatingReadings?: Prisma.UnitHeatingReadingCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUncheckedCreateWithoutInfraPointsInput = {
@@ -2032,6 +2110,7 @@ export type BuildingUncheckedCreateWithoutInfraPointsInput = {
   technicalNotes?: string | null
   elevatorSurchargePerFloor?: number
   elevatorExemptGroundFloor?: boolean
+  heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -2051,6 +2130,7 @@ export type BuildingUncheckedCreateWithoutInfraPointsInput = {
   expenses?: Prisma.BuildingExpenseUncheckedCreateNestedManyWithoutBuildingInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingUncheckedCreateNestedManyWithoutBuildingInput
+  heatingReadings?: Prisma.UnitHeatingReadingUncheckedCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingCreateOrConnectWithoutInfraPointsInput = {
@@ -2086,6 +2166,7 @@ export type BuildingUpdateWithoutInfraPointsInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
   elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2107,6 +2188,7 @@ export type BuildingUpdateWithoutInfraPointsInput = {
   expenses?: Prisma.BuildingExpenseUpdateManyWithoutBuildingNestedInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUpdateManyWithoutBuildingNestedInput
+  heatingReadings?: Prisma.UnitHeatingReadingUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateWithoutInfraPointsInput = {
@@ -2128,6 +2210,7 @@ export type BuildingUncheckedUpdateWithoutInfraPointsInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
   elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2147,6 +2230,7 @@ export type BuildingUncheckedUpdateWithoutInfraPointsInput = {
   expenses?: Prisma.BuildingExpenseUncheckedUpdateManyWithoutBuildingNestedInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUncheckedUpdateManyWithoutBuildingNestedInput
+  heatingReadings?: Prisma.UnitHeatingReadingUncheckedUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingCreateWithoutContactsInput = {
@@ -2166,6 +2250,7 @@ export type BuildingCreateWithoutContactsInput = {
   technicalNotes?: string | null
   elevatorSurchargePerFloor?: number
   elevatorExemptGroundFloor?: boolean
+  heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -2187,6 +2272,7 @@ export type BuildingCreateWithoutContactsInput = {
   expenses?: Prisma.BuildingExpenseCreateNestedManyWithoutBuildingInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingCreateNestedManyWithoutBuildingInput
+  heatingReadings?: Prisma.UnitHeatingReadingCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUncheckedCreateWithoutContactsInput = {
@@ -2208,6 +2294,7 @@ export type BuildingUncheckedCreateWithoutContactsInput = {
   technicalNotes?: string | null
   elevatorSurchargePerFloor?: number
   elevatorExemptGroundFloor?: boolean
+  heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -2227,6 +2314,7 @@ export type BuildingUncheckedCreateWithoutContactsInput = {
   expenses?: Prisma.BuildingExpenseUncheckedCreateNestedManyWithoutBuildingInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingUncheckedCreateNestedManyWithoutBuildingInput
+  heatingReadings?: Prisma.UnitHeatingReadingUncheckedCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingCreateOrConnectWithoutContactsInput = {
@@ -2262,6 +2350,7 @@ export type BuildingUpdateWithoutContactsInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
   elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2283,6 +2372,7 @@ export type BuildingUpdateWithoutContactsInput = {
   expenses?: Prisma.BuildingExpenseUpdateManyWithoutBuildingNestedInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUpdateManyWithoutBuildingNestedInput
+  heatingReadings?: Prisma.UnitHeatingReadingUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateWithoutContactsInput = {
@@ -2304,6 +2394,7 @@ export type BuildingUncheckedUpdateWithoutContactsInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
   elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2323,6 +2414,7 @@ export type BuildingUncheckedUpdateWithoutContactsInput = {
   expenses?: Prisma.BuildingExpenseUncheckedUpdateManyWithoutBuildingNestedInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUncheckedUpdateManyWithoutBuildingNestedInput
+  heatingReadings?: Prisma.UnitHeatingReadingUncheckedUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingCreateWithoutRecurringTasksInput = {
@@ -2342,6 +2434,7 @@ export type BuildingCreateWithoutRecurringTasksInput = {
   technicalNotes?: string | null
   elevatorSurchargePerFloor?: number
   elevatorExemptGroundFloor?: boolean
+  heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -2363,6 +2456,7 @@ export type BuildingCreateWithoutRecurringTasksInput = {
   expenses?: Prisma.BuildingExpenseCreateNestedManyWithoutBuildingInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingCreateNestedManyWithoutBuildingInput
+  heatingReadings?: Prisma.UnitHeatingReadingCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUncheckedCreateWithoutRecurringTasksInput = {
@@ -2384,6 +2478,7 @@ export type BuildingUncheckedCreateWithoutRecurringTasksInput = {
   technicalNotes?: string | null
   elevatorSurchargePerFloor?: number
   elevatorExemptGroundFloor?: boolean
+  heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -2403,6 +2498,7 @@ export type BuildingUncheckedCreateWithoutRecurringTasksInput = {
   expenses?: Prisma.BuildingExpenseUncheckedCreateNestedManyWithoutBuildingInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingUncheckedCreateNestedManyWithoutBuildingInput
+  heatingReadings?: Prisma.UnitHeatingReadingUncheckedCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingCreateOrConnectWithoutRecurringTasksInput = {
@@ -2438,6 +2534,7 @@ export type BuildingUpdateWithoutRecurringTasksInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
   elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2459,6 +2556,7 @@ export type BuildingUpdateWithoutRecurringTasksInput = {
   expenses?: Prisma.BuildingExpenseUpdateManyWithoutBuildingNestedInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUpdateManyWithoutBuildingNestedInput
+  heatingReadings?: Prisma.UnitHeatingReadingUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateWithoutRecurringTasksInput = {
@@ -2480,6 +2578,7 @@ export type BuildingUncheckedUpdateWithoutRecurringTasksInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
   elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2499,6 +2598,7 @@ export type BuildingUncheckedUpdateWithoutRecurringTasksInput = {
   expenses?: Prisma.BuildingExpenseUncheckedUpdateManyWithoutBuildingNestedInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUncheckedUpdateManyWithoutBuildingNestedInput
+  heatingReadings?: Prisma.UnitHeatingReadingUncheckedUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingCreateWithoutExpensesInput = {
@@ -2518,6 +2618,7 @@ export type BuildingCreateWithoutExpensesInput = {
   technicalNotes?: string | null
   elevatorSurchargePerFloor?: number
   elevatorExemptGroundFloor?: boolean
+  heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -2539,6 +2640,7 @@ export type BuildingCreateWithoutExpensesInput = {
   recurringTasks?: Prisma.RecurringTaskCreateNestedManyWithoutBuildingInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingCreateNestedManyWithoutBuildingInput
+  heatingReadings?: Prisma.UnitHeatingReadingCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUncheckedCreateWithoutExpensesInput = {
@@ -2560,6 +2662,7 @@ export type BuildingUncheckedCreateWithoutExpensesInput = {
   technicalNotes?: string | null
   elevatorSurchargePerFloor?: number
   elevatorExemptGroundFloor?: boolean
+  heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -2579,6 +2682,7 @@ export type BuildingUncheckedCreateWithoutExpensesInput = {
   recurringTasks?: Prisma.RecurringTaskUncheckedCreateNestedManyWithoutBuildingInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingUncheckedCreateNestedManyWithoutBuildingInput
+  heatingReadings?: Prisma.UnitHeatingReadingUncheckedCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingCreateOrConnectWithoutExpensesInput = {
@@ -2614,6 +2718,7 @@ export type BuildingUpdateWithoutExpensesInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
   elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2635,6 +2740,7 @@ export type BuildingUpdateWithoutExpensesInput = {
   recurringTasks?: Prisma.RecurringTaskUpdateManyWithoutBuildingNestedInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUpdateManyWithoutBuildingNestedInput
+  heatingReadings?: Prisma.UnitHeatingReadingUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateWithoutExpensesInput = {
@@ -2656,6 +2762,7 @@ export type BuildingUncheckedUpdateWithoutExpensesInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
   elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2675,6 +2782,7 @@ export type BuildingUncheckedUpdateWithoutExpensesInput = {
   recurringTasks?: Prisma.RecurringTaskUncheckedUpdateManyWithoutBuildingNestedInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUncheckedUpdateManyWithoutBuildingNestedInput
+  heatingReadings?: Prisma.UnitHeatingReadingUncheckedUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingCreateWithoutCategoryOverridesInput = {
@@ -2694,6 +2802,7 @@ export type BuildingCreateWithoutCategoryOverridesInput = {
   technicalNotes?: string | null
   elevatorSurchargePerFloor?: number
   elevatorExemptGroundFloor?: boolean
+  heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -2715,6 +2824,7 @@ export type BuildingCreateWithoutCategoryOverridesInput = {
   recurringTasks?: Prisma.RecurringTaskCreateNestedManyWithoutBuildingInput
   expenses?: Prisma.BuildingExpenseCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingCreateNestedManyWithoutBuildingInput
+  heatingReadings?: Prisma.UnitHeatingReadingCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUncheckedCreateWithoutCategoryOverridesInput = {
@@ -2736,6 +2846,7 @@ export type BuildingUncheckedCreateWithoutCategoryOverridesInput = {
   technicalNotes?: string | null
   elevatorSurchargePerFloor?: number
   elevatorExemptGroundFloor?: boolean
+  heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -2755,6 +2866,7 @@ export type BuildingUncheckedCreateWithoutCategoryOverridesInput = {
   recurringTasks?: Prisma.RecurringTaskUncheckedCreateNestedManyWithoutBuildingInput
   expenses?: Prisma.BuildingExpenseUncheckedCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingUncheckedCreateNestedManyWithoutBuildingInput
+  heatingReadings?: Prisma.UnitHeatingReadingUncheckedCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingCreateOrConnectWithoutCategoryOverridesInput = {
@@ -2790,6 +2902,7 @@ export type BuildingUpdateWithoutCategoryOverridesInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
   elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2811,6 +2924,7 @@ export type BuildingUpdateWithoutCategoryOverridesInput = {
   recurringTasks?: Prisma.RecurringTaskUpdateManyWithoutBuildingNestedInput
   expenses?: Prisma.BuildingExpenseUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUpdateManyWithoutBuildingNestedInput
+  heatingReadings?: Prisma.UnitHeatingReadingUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateWithoutCategoryOverridesInput = {
@@ -2832,6 +2946,7 @@ export type BuildingUncheckedUpdateWithoutCategoryOverridesInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
   elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2851,9 +2966,10 @@ export type BuildingUncheckedUpdateWithoutCategoryOverridesInput = {
   recurringTasks?: Prisma.RecurringTaskUncheckedUpdateManyWithoutBuildingNestedInput
   expenses?: Prisma.BuildingExpenseUncheckedUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUncheckedUpdateManyWithoutBuildingNestedInput
+  heatingReadings?: Prisma.UnitHeatingReadingUncheckedUpdateManyWithoutBuildingNestedInput
 }
 
-export type BuildingCreateWithoutMeterReadingsInput = {
+export type BuildingCreateWithoutHeatingReadingsInput = {
   id?: string
   name: string
   address: string
@@ -2870,6 +2986,7 @@ export type BuildingCreateWithoutMeterReadingsInput = {
   technicalNotes?: string | null
   elevatorSurchargePerFloor?: number
   elevatorExemptGroundFloor?: boolean
+  heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -2891,6 +3008,191 @@ export type BuildingCreateWithoutMeterReadingsInput = {
   recurringTasks?: Prisma.RecurringTaskCreateNestedManyWithoutBuildingInput
   expenses?: Prisma.BuildingExpenseCreateNestedManyWithoutBuildingInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideCreateNestedManyWithoutBuildingInput
+  meterReadings?: Prisma.MeterReadingCreateNestedManyWithoutBuildingInput
+}
+
+export type BuildingUncheckedCreateWithoutHeatingReadingsInput = {
+  id?: string
+  companyId: string
+  propertyId: string
+  name: string
+  address: string
+  city: string
+  postalCode: string
+  country?: string
+  imageUrl?: string | null
+  floors?: number | null
+  basements?: number | null
+  unitsCount?: number
+  hasElevator?: boolean
+  hasBoiler?: boolean
+  hasFireSafety?: boolean
+  technicalNotes?: string | null
+  elevatorSurchargePerFloor?: number
+  elevatorExemptGroundFloor?: boolean
+  heatingMeterUnit?: string | null
+  lat?: number | null
+  lng?: number | null
+  dailyRoomName?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
+  units?: Prisma.UnitUncheckedCreateNestedManyWithoutBuildingInput
+  commonAreas?: Prisma.CommonAreaUncheckedCreateNestedManyWithoutBuildingInput
+  addons?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutBuildingInput
+  announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutBuildingInput
+  assemblies?: Prisma.AssemblyUncheckedCreateNestedManyWithoutBuildingInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutBuildingInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutBuildingInput
+  files?: Prisma.BuildingFileUncheckedCreateNestedManyWithoutBuildingInput
+  infraPoints?: Prisma.InfraPointUncheckedCreateNestedManyWithoutBuildingInput
+  contacts?: Prisma.ContactUncheckedCreateNestedManyWithoutBuildingInput
+  recurringTasks?: Prisma.RecurringTaskUncheckedCreateNestedManyWithoutBuildingInput
+  expenses?: Prisma.BuildingExpenseUncheckedCreateNestedManyWithoutBuildingInput
+  categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedCreateNestedManyWithoutBuildingInput
+  meterReadings?: Prisma.MeterReadingUncheckedCreateNestedManyWithoutBuildingInput
+}
+
+export type BuildingCreateOrConnectWithoutHeatingReadingsInput = {
+  where: Prisma.BuildingWhereUniqueInput
+  create: Prisma.XOR<Prisma.BuildingCreateWithoutHeatingReadingsInput, Prisma.BuildingUncheckedCreateWithoutHeatingReadingsInput>
+}
+
+export type BuildingUpsertWithoutHeatingReadingsInput = {
+  update: Prisma.XOR<Prisma.BuildingUpdateWithoutHeatingReadingsInput, Prisma.BuildingUncheckedUpdateWithoutHeatingReadingsInput>
+  create: Prisma.XOR<Prisma.BuildingCreateWithoutHeatingReadingsInput, Prisma.BuildingUncheckedCreateWithoutHeatingReadingsInput>
+  where?: Prisma.BuildingWhereInput
+}
+
+export type BuildingUpdateToOneWithWhereWithoutHeatingReadingsInput = {
+  where?: Prisma.BuildingWhereInput
+  data: Prisma.XOR<Prisma.BuildingUpdateWithoutHeatingReadingsInput, Prisma.BuildingUncheckedUpdateWithoutHeatingReadingsInput>
+}
+
+export type BuildingUpdateWithoutHeatingReadingsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.StringFieldUpdateOperationsInput | string
+  postalCode?: Prisma.StringFieldUpdateOperationsInput | string
+  country?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  floors?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  basements?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  unitsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  hasElevator?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasBoiler?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasFireSafety?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
+  elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
+  property?: Prisma.PropertyUpdateOneRequiredWithoutBuildingsNestedInput
+  users?: Prisma.UserUpdateManyWithoutBuildingNestedInput
+  units?: Prisma.UnitUpdateManyWithoutBuildingNestedInput
+  commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
+  addons?: Prisma.AddonFeatureUpdateManyWithoutBuildingNestedInput
+  announcements?: Prisma.AnnouncementUpdateManyWithoutBuildingNestedInput
+  assemblies?: Prisma.AssemblyUpdateManyWithoutBuildingNestedInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutBuildingNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutBuildingNestedInput
+  files?: Prisma.BuildingFileUpdateManyWithoutBuildingNestedInput
+  infraPoints?: Prisma.InfraPointUpdateManyWithoutBuildingNestedInput
+  contacts?: Prisma.ContactUpdateManyWithoutBuildingNestedInput
+  recurringTasks?: Prisma.RecurringTaskUpdateManyWithoutBuildingNestedInput
+  expenses?: Prisma.BuildingExpenseUpdateManyWithoutBuildingNestedInput
+  categoryOverrides?: Prisma.BuildingCategoryOverrideUpdateManyWithoutBuildingNestedInput
+  meterReadings?: Prisma.MeterReadingUpdateManyWithoutBuildingNestedInput
+}
+
+export type BuildingUncheckedUpdateWithoutHeatingReadingsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  companyId?: Prisma.StringFieldUpdateOperationsInput | string
+  propertyId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.StringFieldUpdateOperationsInput | string
+  postalCode?: Prisma.StringFieldUpdateOperationsInput | string
+  country?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  floors?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  basements?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  unitsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  hasElevator?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasBoiler?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasFireSafety?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
+  elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
+  units?: Prisma.UnitUncheckedUpdateManyWithoutBuildingNestedInput
+  commonAreas?: Prisma.CommonAreaUncheckedUpdateManyWithoutBuildingNestedInput
+  addons?: Prisma.AddonFeatureUncheckedUpdateManyWithoutBuildingNestedInput
+  announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutBuildingNestedInput
+  assemblies?: Prisma.AssemblyUncheckedUpdateManyWithoutBuildingNestedInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutBuildingNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutBuildingNestedInput
+  files?: Prisma.BuildingFileUncheckedUpdateManyWithoutBuildingNestedInput
+  infraPoints?: Prisma.InfraPointUncheckedUpdateManyWithoutBuildingNestedInput
+  contacts?: Prisma.ContactUncheckedUpdateManyWithoutBuildingNestedInput
+  recurringTasks?: Prisma.RecurringTaskUncheckedUpdateManyWithoutBuildingNestedInput
+  expenses?: Prisma.BuildingExpenseUncheckedUpdateManyWithoutBuildingNestedInput
+  categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedUpdateManyWithoutBuildingNestedInput
+  meterReadings?: Prisma.MeterReadingUncheckedUpdateManyWithoutBuildingNestedInput
+}
+
+export type BuildingCreateWithoutMeterReadingsInput = {
+  id?: string
+  name: string
+  address: string
+  city: string
+  postalCode: string
+  country?: string
+  imageUrl?: string | null
+  floors?: number | null
+  basements?: number | null
+  unitsCount?: number
+  hasElevator?: boolean
+  hasBoiler?: boolean
+  hasFireSafety?: boolean
+  technicalNotes?: string | null
+  elevatorSurchargePerFloor?: number
+  elevatorExemptGroundFloor?: boolean
+  heatingMeterUnit?: string | null
+  lat?: number | null
+  lng?: number | null
+  dailyRoomName?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
+  property: Prisma.PropertyCreateNestedOneWithoutBuildingsInput
+  users?: Prisma.UserCreateNestedManyWithoutBuildingInput
+  units?: Prisma.UnitCreateNestedManyWithoutBuildingInput
+  commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
+  addons?: Prisma.AddonFeatureCreateNestedManyWithoutBuildingInput
+  announcements?: Prisma.AnnouncementCreateNestedManyWithoutBuildingInput
+  assemblies?: Prisma.AssemblyCreateNestedManyWithoutBuildingInput
+  maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutBuildingInput
+  managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutBuildingInput
+  files?: Prisma.BuildingFileCreateNestedManyWithoutBuildingInput
+  infraPoints?: Prisma.InfraPointCreateNestedManyWithoutBuildingInput
+  contacts?: Prisma.ContactCreateNestedManyWithoutBuildingInput
+  recurringTasks?: Prisma.RecurringTaskCreateNestedManyWithoutBuildingInput
+  expenses?: Prisma.BuildingExpenseCreateNestedManyWithoutBuildingInput
+  categoryOverrides?: Prisma.BuildingCategoryOverrideCreateNestedManyWithoutBuildingInput
+  heatingReadings?: Prisma.UnitHeatingReadingCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUncheckedCreateWithoutMeterReadingsInput = {
@@ -2912,6 +3214,7 @@ export type BuildingUncheckedCreateWithoutMeterReadingsInput = {
   technicalNotes?: string | null
   elevatorSurchargePerFloor?: number
   elevatorExemptGroundFloor?: boolean
+  heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -2931,6 +3234,7 @@ export type BuildingUncheckedCreateWithoutMeterReadingsInput = {
   recurringTasks?: Prisma.RecurringTaskUncheckedCreateNestedManyWithoutBuildingInput
   expenses?: Prisma.BuildingExpenseUncheckedCreateNestedManyWithoutBuildingInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedCreateNestedManyWithoutBuildingInput
+  heatingReadings?: Prisma.UnitHeatingReadingUncheckedCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingCreateOrConnectWithoutMeterReadingsInput = {
@@ -2966,6 +3270,7 @@ export type BuildingUpdateWithoutMeterReadingsInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
   elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2987,6 +3292,7 @@ export type BuildingUpdateWithoutMeterReadingsInput = {
   recurringTasks?: Prisma.RecurringTaskUpdateManyWithoutBuildingNestedInput
   expenses?: Prisma.BuildingExpenseUpdateManyWithoutBuildingNestedInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideUpdateManyWithoutBuildingNestedInput
+  heatingReadings?: Prisma.UnitHeatingReadingUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateWithoutMeterReadingsInput = {
@@ -3008,6 +3314,7 @@ export type BuildingUncheckedUpdateWithoutMeterReadingsInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
   elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3027,6 +3334,7 @@ export type BuildingUncheckedUpdateWithoutMeterReadingsInput = {
   recurringTasks?: Prisma.RecurringTaskUncheckedUpdateManyWithoutBuildingNestedInput
   expenses?: Prisma.BuildingExpenseUncheckedUpdateManyWithoutBuildingNestedInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedUpdateManyWithoutBuildingNestedInput
+  heatingReadings?: Prisma.UnitHeatingReadingUncheckedUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingCreateWithoutManagementAssignmentsInput = {
@@ -3046,6 +3354,7 @@ export type BuildingCreateWithoutManagementAssignmentsInput = {
   technicalNotes?: string | null
   elevatorSurchargePerFloor?: number
   elevatorExemptGroundFloor?: boolean
+  heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -3067,6 +3376,7 @@ export type BuildingCreateWithoutManagementAssignmentsInput = {
   expenses?: Prisma.BuildingExpenseCreateNestedManyWithoutBuildingInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingCreateNestedManyWithoutBuildingInput
+  heatingReadings?: Prisma.UnitHeatingReadingCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUncheckedCreateWithoutManagementAssignmentsInput = {
@@ -3088,6 +3398,7 @@ export type BuildingUncheckedCreateWithoutManagementAssignmentsInput = {
   technicalNotes?: string | null
   elevatorSurchargePerFloor?: number
   elevatorExemptGroundFloor?: boolean
+  heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -3107,6 +3418,7 @@ export type BuildingUncheckedCreateWithoutManagementAssignmentsInput = {
   expenses?: Prisma.BuildingExpenseUncheckedCreateNestedManyWithoutBuildingInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingUncheckedCreateNestedManyWithoutBuildingInput
+  heatingReadings?: Prisma.UnitHeatingReadingUncheckedCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingCreateOrConnectWithoutManagementAssignmentsInput = {
@@ -3142,6 +3454,7 @@ export type BuildingUpdateWithoutManagementAssignmentsInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
   elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3163,6 +3476,7 @@ export type BuildingUpdateWithoutManagementAssignmentsInput = {
   expenses?: Prisma.BuildingExpenseUpdateManyWithoutBuildingNestedInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUpdateManyWithoutBuildingNestedInput
+  heatingReadings?: Prisma.UnitHeatingReadingUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateWithoutManagementAssignmentsInput = {
@@ -3184,6 +3498,7 @@ export type BuildingUncheckedUpdateWithoutManagementAssignmentsInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
   elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3203,6 +3518,7 @@ export type BuildingUncheckedUpdateWithoutManagementAssignmentsInput = {
   expenses?: Prisma.BuildingExpenseUncheckedUpdateManyWithoutBuildingNestedInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUncheckedUpdateManyWithoutBuildingNestedInput
+  heatingReadings?: Prisma.UnitHeatingReadingUncheckedUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingCreateWithoutCommonAreasInput = {
@@ -3222,6 +3538,7 @@ export type BuildingCreateWithoutCommonAreasInput = {
   technicalNotes?: string | null
   elevatorSurchargePerFloor?: number
   elevatorExemptGroundFloor?: boolean
+  heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -3243,6 +3560,7 @@ export type BuildingCreateWithoutCommonAreasInput = {
   expenses?: Prisma.BuildingExpenseCreateNestedManyWithoutBuildingInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingCreateNestedManyWithoutBuildingInput
+  heatingReadings?: Prisma.UnitHeatingReadingCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUncheckedCreateWithoutCommonAreasInput = {
@@ -3264,6 +3582,7 @@ export type BuildingUncheckedCreateWithoutCommonAreasInput = {
   technicalNotes?: string | null
   elevatorSurchargePerFloor?: number
   elevatorExemptGroundFloor?: boolean
+  heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -3283,6 +3602,7 @@ export type BuildingUncheckedCreateWithoutCommonAreasInput = {
   expenses?: Prisma.BuildingExpenseUncheckedCreateNestedManyWithoutBuildingInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingUncheckedCreateNestedManyWithoutBuildingInput
+  heatingReadings?: Prisma.UnitHeatingReadingUncheckedCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingCreateOrConnectWithoutCommonAreasInput = {
@@ -3318,6 +3638,7 @@ export type BuildingUpdateWithoutCommonAreasInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
   elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3339,6 +3660,7 @@ export type BuildingUpdateWithoutCommonAreasInput = {
   expenses?: Prisma.BuildingExpenseUpdateManyWithoutBuildingNestedInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUpdateManyWithoutBuildingNestedInput
+  heatingReadings?: Prisma.UnitHeatingReadingUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateWithoutCommonAreasInput = {
@@ -3360,6 +3682,7 @@ export type BuildingUncheckedUpdateWithoutCommonAreasInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
   elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3379,6 +3702,7 @@ export type BuildingUncheckedUpdateWithoutCommonAreasInput = {
   expenses?: Prisma.BuildingExpenseUncheckedUpdateManyWithoutBuildingNestedInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUncheckedUpdateManyWithoutBuildingNestedInput
+  heatingReadings?: Prisma.UnitHeatingReadingUncheckedUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingCreateWithoutUnitsInput = {
@@ -3398,6 +3722,7 @@ export type BuildingCreateWithoutUnitsInput = {
   technicalNotes?: string | null
   elevatorSurchargePerFloor?: number
   elevatorExemptGroundFloor?: boolean
+  heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -3419,6 +3744,7 @@ export type BuildingCreateWithoutUnitsInput = {
   expenses?: Prisma.BuildingExpenseCreateNestedManyWithoutBuildingInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingCreateNestedManyWithoutBuildingInput
+  heatingReadings?: Prisma.UnitHeatingReadingCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUncheckedCreateWithoutUnitsInput = {
@@ -3440,6 +3766,7 @@ export type BuildingUncheckedCreateWithoutUnitsInput = {
   technicalNotes?: string | null
   elevatorSurchargePerFloor?: number
   elevatorExemptGroundFloor?: boolean
+  heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -3459,6 +3786,7 @@ export type BuildingUncheckedCreateWithoutUnitsInput = {
   expenses?: Prisma.BuildingExpenseUncheckedCreateNestedManyWithoutBuildingInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingUncheckedCreateNestedManyWithoutBuildingInput
+  heatingReadings?: Prisma.UnitHeatingReadingUncheckedCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingCreateOrConnectWithoutUnitsInput = {
@@ -3494,6 +3822,7 @@ export type BuildingUpdateWithoutUnitsInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
   elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3515,6 +3844,7 @@ export type BuildingUpdateWithoutUnitsInput = {
   expenses?: Prisma.BuildingExpenseUpdateManyWithoutBuildingNestedInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUpdateManyWithoutBuildingNestedInput
+  heatingReadings?: Prisma.UnitHeatingReadingUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateWithoutUnitsInput = {
@@ -3536,6 +3866,7 @@ export type BuildingUncheckedUpdateWithoutUnitsInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
   elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3555,6 +3886,7 @@ export type BuildingUncheckedUpdateWithoutUnitsInput = {
   expenses?: Prisma.BuildingExpenseUncheckedUpdateManyWithoutBuildingNestedInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUncheckedUpdateManyWithoutBuildingNestedInput
+  heatingReadings?: Prisma.UnitHeatingReadingUncheckedUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingCreateWithoutAnnouncementsInput = {
@@ -3574,6 +3906,7 @@ export type BuildingCreateWithoutAnnouncementsInput = {
   technicalNotes?: string | null
   elevatorSurchargePerFloor?: number
   elevatorExemptGroundFloor?: boolean
+  heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -3595,6 +3928,7 @@ export type BuildingCreateWithoutAnnouncementsInput = {
   expenses?: Prisma.BuildingExpenseCreateNestedManyWithoutBuildingInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingCreateNestedManyWithoutBuildingInput
+  heatingReadings?: Prisma.UnitHeatingReadingCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUncheckedCreateWithoutAnnouncementsInput = {
@@ -3616,6 +3950,7 @@ export type BuildingUncheckedCreateWithoutAnnouncementsInput = {
   technicalNotes?: string | null
   elevatorSurchargePerFloor?: number
   elevatorExemptGroundFloor?: boolean
+  heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -3635,6 +3970,7 @@ export type BuildingUncheckedCreateWithoutAnnouncementsInput = {
   expenses?: Prisma.BuildingExpenseUncheckedCreateNestedManyWithoutBuildingInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingUncheckedCreateNestedManyWithoutBuildingInput
+  heatingReadings?: Prisma.UnitHeatingReadingUncheckedCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingCreateOrConnectWithoutAnnouncementsInput = {
@@ -3670,6 +4006,7 @@ export type BuildingUpdateWithoutAnnouncementsInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
   elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3691,6 +4028,7 @@ export type BuildingUpdateWithoutAnnouncementsInput = {
   expenses?: Prisma.BuildingExpenseUpdateManyWithoutBuildingNestedInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUpdateManyWithoutBuildingNestedInput
+  heatingReadings?: Prisma.UnitHeatingReadingUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateWithoutAnnouncementsInput = {
@@ -3712,6 +4050,7 @@ export type BuildingUncheckedUpdateWithoutAnnouncementsInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
   elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3731,6 +4070,7 @@ export type BuildingUncheckedUpdateWithoutAnnouncementsInput = {
   expenses?: Prisma.BuildingExpenseUncheckedUpdateManyWithoutBuildingNestedInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUncheckedUpdateManyWithoutBuildingNestedInput
+  heatingReadings?: Prisma.UnitHeatingReadingUncheckedUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingCreateWithoutAssembliesInput = {
@@ -3750,6 +4090,7 @@ export type BuildingCreateWithoutAssembliesInput = {
   technicalNotes?: string | null
   elevatorSurchargePerFloor?: number
   elevatorExemptGroundFloor?: boolean
+  heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -3771,6 +4112,7 @@ export type BuildingCreateWithoutAssembliesInput = {
   expenses?: Prisma.BuildingExpenseCreateNestedManyWithoutBuildingInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingCreateNestedManyWithoutBuildingInput
+  heatingReadings?: Prisma.UnitHeatingReadingCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUncheckedCreateWithoutAssembliesInput = {
@@ -3792,6 +4134,7 @@ export type BuildingUncheckedCreateWithoutAssembliesInput = {
   technicalNotes?: string | null
   elevatorSurchargePerFloor?: number
   elevatorExemptGroundFloor?: boolean
+  heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -3811,6 +4154,7 @@ export type BuildingUncheckedCreateWithoutAssembliesInput = {
   expenses?: Prisma.BuildingExpenseUncheckedCreateNestedManyWithoutBuildingInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingUncheckedCreateNestedManyWithoutBuildingInput
+  heatingReadings?: Prisma.UnitHeatingReadingUncheckedCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingCreateOrConnectWithoutAssembliesInput = {
@@ -3846,6 +4190,7 @@ export type BuildingUpdateWithoutAssembliesInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
   elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3867,6 +4212,7 @@ export type BuildingUpdateWithoutAssembliesInput = {
   expenses?: Prisma.BuildingExpenseUpdateManyWithoutBuildingNestedInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUpdateManyWithoutBuildingNestedInput
+  heatingReadings?: Prisma.UnitHeatingReadingUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateWithoutAssembliesInput = {
@@ -3888,6 +4234,7 @@ export type BuildingUncheckedUpdateWithoutAssembliesInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
   elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3907,6 +4254,7 @@ export type BuildingUncheckedUpdateWithoutAssembliesInput = {
   expenses?: Prisma.BuildingExpenseUncheckedUpdateManyWithoutBuildingNestedInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUncheckedUpdateManyWithoutBuildingNestedInput
+  heatingReadings?: Prisma.UnitHeatingReadingUncheckedUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingCreateWithoutMaintenanceRequestsInput = {
@@ -3926,6 +4274,7 @@ export type BuildingCreateWithoutMaintenanceRequestsInput = {
   technicalNotes?: string | null
   elevatorSurchargePerFloor?: number
   elevatorExemptGroundFloor?: boolean
+  heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -3947,6 +4296,7 @@ export type BuildingCreateWithoutMaintenanceRequestsInput = {
   expenses?: Prisma.BuildingExpenseCreateNestedManyWithoutBuildingInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingCreateNestedManyWithoutBuildingInput
+  heatingReadings?: Prisma.UnitHeatingReadingCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUncheckedCreateWithoutMaintenanceRequestsInput = {
@@ -3968,6 +4318,7 @@ export type BuildingUncheckedCreateWithoutMaintenanceRequestsInput = {
   technicalNotes?: string | null
   elevatorSurchargePerFloor?: number
   elevatorExemptGroundFloor?: boolean
+  heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -3987,6 +4338,7 @@ export type BuildingUncheckedCreateWithoutMaintenanceRequestsInput = {
   expenses?: Prisma.BuildingExpenseUncheckedCreateNestedManyWithoutBuildingInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingUncheckedCreateNestedManyWithoutBuildingInput
+  heatingReadings?: Prisma.UnitHeatingReadingUncheckedCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingCreateOrConnectWithoutMaintenanceRequestsInput = {
@@ -4022,6 +4374,7 @@ export type BuildingUpdateWithoutMaintenanceRequestsInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
   elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4043,6 +4396,7 @@ export type BuildingUpdateWithoutMaintenanceRequestsInput = {
   expenses?: Prisma.BuildingExpenseUpdateManyWithoutBuildingNestedInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUpdateManyWithoutBuildingNestedInput
+  heatingReadings?: Prisma.UnitHeatingReadingUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateWithoutMaintenanceRequestsInput = {
@@ -4064,6 +4418,7 @@ export type BuildingUncheckedUpdateWithoutMaintenanceRequestsInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
   elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4083,6 +4438,7 @@ export type BuildingUncheckedUpdateWithoutMaintenanceRequestsInput = {
   expenses?: Prisma.BuildingExpenseUncheckedUpdateManyWithoutBuildingNestedInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUncheckedUpdateManyWithoutBuildingNestedInput
+  heatingReadings?: Prisma.UnitHeatingReadingUncheckedUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingCreateManyCompanyInput = {
@@ -4103,6 +4459,7 @@ export type BuildingCreateManyCompanyInput = {
   technicalNotes?: string | null
   elevatorSurchargePerFloor?: number
   elevatorExemptGroundFloor?: boolean
+  heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -4127,6 +4484,7 @@ export type BuildingUpdateWithoutCompanyInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
   elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4148,6 +4506,7 @@ export type BuildingUpdateWithoutCompanyInput = {
   expenses?: Prisma.BuildingExpenseUpdateManyWithoutBuildingNestedInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUpdateManyWithoutBuildingNestedInput
+  heatingReadings?: Prisma.UnitHeatingReadingUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateWithoutCompanyInput = {
@@ -4168,6 +4527,7 @@ export type BuildingUncheckedUpdateWithoutCompanyInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
   elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4188,6 +4548,7 @@ export type BuildingUncheckedUpdateWithoutCompanyInput = {
   expenses?: Prisma.BuildingExpenseUncheckedUpdateManyWithoutBuildingNestedInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUncheckedUpdateManyWithoutBuildingNestedInput
+  heatingReadings?: Prisma.UnitHeatingReadingUncheckedUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateManyWithoutCompanyInput = {
@@ -4208,6 +4569,7 @@ export type BuildingUncheckedUpdateManyWithoutCompanyInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
   elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4233,6 +4595,7 @@ export type BuildingCreateManyPropertyInput = {
   technicalNotes?: string | null
   elevatorSurchargePerFloor?: number
   elevatorExemptGroundFloor?: boolean
+  heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -4257,6 +4620,7 @@ export type BuildingUpdateWithoutPropertyInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
   elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4278,6 +4642,7 @@ export type BuildingUpdateWithoutPropertyInput = {
   expenses?: Prisma.BuildingExpenseUpdateManyWithoutBuildingNestedInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUpdateManyWithoutBuildingNestedInput
+  heatingReadings?: Prisma.UnitHeatingReadingUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateWithoutPropertyInput = {
@@ -4298,6 +4663,7 @@ export type BuildingUncheckedUpdateWithoutPropertyInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
   elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4318,6 +4684,7 @@ export type BuildingUncheckedUpdateWithoutPropertyInput = {
   expenses?: Prisma.BuildingExpenseUncheckedUpdateManyWithoutBuildingNestedInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUncheckedUpdateManyWithoutBuildingNestedInput
+  heatingReadings?: Prisma.UnitHeatingReadingUncheckedUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateManyWithoutPropertyInput = {
@@ -4338,6 +4705,7 @@ export type BuildingUncheckedUpdateManyWithoutPropertyInput = {
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
   elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4366,6 +4734,7 @@ export type BuildingCountOutputType = {
   expenses: number
   categoryOverrides: number
   meterReadings: number
+  heatingReadings: number
 }
 
 export type BuildingCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -4384,6 +4753,7 @@ export type BuildingCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensio
   expenses?: boolean | BuildingCountOutputTypeCountExpensesArgs
   categoryOverrides?: boolean | BuildingCountOutputTypeCountCategoryOverridesArgs
   meterReadings?: boolean | BuildingCountOutputTypeCountMeterReadingsArgs
+  heatingReadings?: boolean | BuildingCountOutputTypeCountHeatingReadingsArgs
 }
 
 /**
@@ -4501,6 +4871,13 @@ export type BuildingCountOutputTypeCountMeterReadingsArgs<ExtArgs extends runtim
   where?: Prisma.MeterReadingWhereInput
 }
 
+/**
+ * BuildingCountOutputType without action
+ */
+export type BuildingCountOutputTypeCountHeatingReadingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.UnitHeatingReadingWhereInput
+}
+
 
 export type BuildingSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -4521,6 +4898,7 @@ export type BuildingSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   technicalNotes?: boolean
   elevatorSurchargePerFloor?: boolean
   elevatorExemptGroundFloor?: boolean
+  heatingMeterUnit?: boolean
   lat?: boolean
   lng?: boolean
   dailyRoomName?: boolean
@@ -4543,6 +4921,7 @@ export type BuildingSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   expenses?: boolean | Prisma.Building$expensesArgs<ExtArgs>
   categoryOverrides?: boolean | Prisma.Building$categoryOverridesArgs<ExtArgs>
   meterReadings?: boolean | Prisma.Building$meterReadingsArgs<ExtArgs>
+  heatingReadings?: boolean | Prisma.Building$heatingReadingsArgs<ExtArgs>
   _count?: boolean | Prisma.BuildingCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["building"]>
 
@@ -4565,6 +4944,7 @@ export type BuildingSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   technicalNotes?: boolean
   elevatorSurchargePerFloor?: boolean
   elevatorExemptGroundFloor?: boolean
+  heatingMeterUnit?: boolean
   lat?: boolean
   lng?: boolean
   dailyRoomName?: boolean
@@ -4593,6 +4973,7 @@ export type BuildingSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   technicalNotes?: boolean
   elevatorSurchargePerFloor?: boolean
   elevatorExemptGroundFloor?: boolean
+  heatingMeterUnit?: boolean
   lat?: boolean
   lng?: boolean
   dailyRoomName?: boolean
@@ -4621,6 +5002,7 @@ export type BuildingSelectScalar = {
   technicalNotes?: boolean
   elevatorSurchargePerFloor?: boolean
   elevatorExemptGroundFloor?: boolean
+  heatingMeterUnit?: boolean
   lat?: boolean
   lng?: boolean
   dailyRoomName?: boolean
@@ -4628,7 +5010,7 @@ export type BuildingSelectScalar = {
   updatedAt?: boolean
 }
 
-export type BuildingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "companyId" | "propertyId" | "name" | "address" | "city" | "postalCode" | "country" | "imageUrl" | "floors" | "basements" | "unitsCount" | "hasElevator" | "hasBoiler" | "hasFireSafety" | "technicalNotes" | "elevatorSurchargePerFloor" | "elevatorExemptGroundFloor" | "lat" | "lng" | "dailyRoomName" | "createdAt" | "updatedAt", ExtArgs["result"]["building"]>
+export type BuildingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "companyId" | "propertyId" | "name" | "address" | "city" | "postalCode" | "country" | "imageUrl" | "floors" | "basements" | "unitsCount" | "hasElevator" | "hasBoiler" | "hasFireSafety" | "technicalNotes" | "elevatorSurchargePerFloor" | "elevatorExemptGroundFloor" | "heatingMeterUnit" | "lat" | "lng" | "dailyRoomName" | "createdAt" | "updatedAt", ExtArgs["result"]["building"]>
 export type BuildingInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
   property?: boolean | Prisma.PropertyDefaultArgs<ExtArgs>
@@ -4647,6 +5029,7 @@ export type BuildingInclude<ExtArgs extends runtime.Types.Extensions.InternalArg
   expenses?: boolean | Prisma.Building$expensesArgs<ExtArgs>
   categoryOverrides?: boolean | Prisma.Building$categoryOverridesArgs<ExtArgs>
   meterReadings?: boolean | Prisma.Building$meterReadingsArgs<ExtArgs>
+  heatingReadings?: boolean | Prisma.Building$heatingReadingsArgs<ExtArgs>
   _count?: boolean | Prisma.BuildingCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type BuildingIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -4678,6 +5061,7 @@ export type $BuildingPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     expenses: Prisma.$BuildingExpensePayload<ExtArgs>[]
     categoryOverrides: Prisma.$BuildingCategoryOverridePayload<ExtArgs>[]
     meterReadings: Prisma.$MeterReadingPayload<ExtArgs>[]
+    heatingReadings: Prisma.$UnitHeatingReadingPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -4698,6 +5082,7 @@ export type $BuildingPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     technicalNotes: string | null
     elevatorSurchargePerFloor: number
     elevatorExemptGroundFloor: boolean
+    heatingMeterUnit: string | null
     lat: number | null
     lng: number | null
     dailyRoomName: string | null
@@ -5114,6 +5499,7 @@ export interface Prisma__BuildingClient<T, Null = never, ExtArgs extends runtime
   expenses<T extends Prisma.Building$expensesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Building$expensesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BuildingExpensePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   categoryOverrides<T extends Prisma.Building$categoryOverridesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Building$categoryOverridesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BuildingCategoryOverridePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   meterReadings<T extends Prisma.Building$meterReadingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Building$meterReadingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MeterReadingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  heatingReadings<T extends Prisma.Building$heatingReadingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Building$heatingReadingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UnitHeatingReadingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5161,6 +5547,7 @@ export interface BuildingFieldRefs {
   readonly technicalNotes: Prisma.FieldRef<"Building", 'String'>
   readonly elevatorSurchargePerFloor: Prisma.FieldRef<"Building", 'Float'>
   readonly elevatorExemptGroundFloor: Prisma.FieldRef<"Building", 'Boolean'>
+  readonly heatingMeterUnit: Prisma.FieldRef<"Building", 'String'>
   readonly lat: Prisma.FieldRef<"Building", 'Float'>
   readonly lng: Prisma.FieldRef<"Building", 'Float'>
   readonly dailyRoomName: Prisma.FieldRef<"Building", 'String'>
@@ -5924,6 +6311,30 @@ export type Building$meterReadingsArgs<ExtArgs extends runtime.Types.Extensions.
   take?: number
   skip?: number
   distinct?: Prisma.MeterReadingScalarFieldEnum | Prisma.MeterReadingScalarFieldEnum[]
+}
+
+/**
+ * Building.heatingReadings
+ */
+export type Building$heatingReadingsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the UnitHeatingReading
+   */
+  select?: Prisma.UnitHeatingReadingSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the UnitHeatingReading
+   */
+  omit?: Prisma.UnitHeatingReadingOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UnitHeatingReadingInclude<ExtArgs> | null
+  where?: Prisma.UnitHeatingReadingWhereInput
+  orderBy?: Prisma.UnitHeatingReadingOrderByWithRelationInput | Prisma.UnitHeatingReadingOrderByWithRelationInput[]
+  cursor?: Prisma.UnitHeatingReadingWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.UnitHeatingReadingScalarFieldEnum | Prisma.UnitHeatingReadingScalarFieldEnum[]
 }
 
 /**

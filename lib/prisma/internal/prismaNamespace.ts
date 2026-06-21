@@ -408,6 +408,7 @@ export const ModelName = {
   ExpenseCategory: 'ExpenseCategory',
   BuildingCategoryOverride: 'BuildingCategoryOverride',
   UnitCategoryExclusion: 'UnitCategoryExclusion',
+  UnitHeatingReading: 'UnitHeatingReading',
   MeterReading: 'MeterReading',
   ExpenseAllocation: 'ExpenseAllocation',
   UnitPayment: 'UnitPayment',
@@ -450,7 +451,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "account" | "session" | "verificationToken" | "company" | "department" | "jobPosition" | "employee" | "subscription" | "addonFeature" | "customer" | "property" | "building" | "unitOccupancy" | "buildingFile" | "infraPoint" | "infraAccess" | "infraMedia" | "contact" | "recurringTask" | "buildingExpense" | "expenseCategory" | "buildingCategoryOverride" | "unitCategoryExclusion" | "meterReading" | "expenseAllocation" | "unitPayment" | "managementAssignment" | "commonArea" | "unit" | "service" | "propertyService" | "serviceInvoice" | "serviceInvoiceLine" | "userCompanyRole" | "menuConfig" | "announcement" | "announcement_User" | "assembly" | "assemblyParticipant" | "processedWebhook" | "aPIUsageLog" | "aPICostConfig" | "monthlyCostSummary" | "maintenanceRequest" | "cMSPage" | "fAQ" | "pricingTier" | "contactMessage" | "cookieConsent" | "appSettings"
+    modelProps: "user" | "account" | "session" | "verificationToken" | "company" | "department" | "jobPosition" | "employee" | "subscription" | "addonFeature" | "customer" | "property" | "building" | "unitOccupancy" | "buildingFile" | "infraPoint" | "infraAccess" | "infraMedia" | "contact" | "recurringTask" | "buildingExpense" | "expenseCategory" | "buildingCategoryOverride" | "unitCategoryExclusion" | "unitHeatingReading" | "meterReading" | "expenseAllocation" | "unitPayment" | "managementAssignment" | "commonArea" | "unit" | "service" | "propertyService" | "serviceInvoice" | "serviceInvoiceLine" | "userCompanyRole" | "menuConfig" | "announcement" | "announcement_User" | "assembly" | "assemblyParticipant" | "processedWebhook" | "aPIUsageLog" | "aPICostConfig" | "monthlyCostSummary" | "maintenanceRequest" | "cMSPage" | "fAQ" | "pricingTier" | "contactMessage" | "cookieConsent" | "appSettings"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -2227,6 +2228,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.UnitCategoryExclusionCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.UnitCategoryExclusionCountAggregateOutputType> | number
+        }
+      }
+    }
+    UnitHeatingReading: {
+      payload: Prisma.$UnitHeatingReadingPayload<ExtArgs>
+      fields: Prisma.UnitHeatingReadingFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.UnitHeatingReadingFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UnitHeatingReadingPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.UnitHeatingReadingFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UnitHeatingReadingPayload>
+        }
+        findFirst: {
+          args: Prisma.UnitHeatingReadingFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UnitHeatingReadingPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.UnitHeatingReadingFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UnitHeatingReadingPayload>
+        }
+        findMany: {
+          args: Prisma.UnitHeatingReadingFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UnitHeatingReadingPayload>[]
+        }
+        create: {
+          args: Prisma.UnitHeatingReadingCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UnitHeatingReadingPayload>
+        }
+        createMany: {
+          args: Prisma.UnitHeatingReadingCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.UnitHeatingReadingCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UnitHeatingReadingPayload>[]
+        }
+        delete: {
+          args: Prisma.UnitHeatingReadingDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UnitHeatingReadingPayload>
+        }
+        update: {
+          args: Prisma.UnitHeatingReadingUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UnitHeatingReadingPayload>
+        }
+        deleteMany: {
+          args: Prisma.UnitHeatingReadingDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.UnitHeatingReadingUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.UnitHeatingReadingUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UnitHeatingReadingPayload>[]
+        }
+        upsert: {
+          args: Prisma.UnitHeatingReadingUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UnitHeatingReadingPayload>
+        }
+        aggregate: {
+          args: Prisma.UnitHeatingReadingAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateUnitHeatingReading>
+        }
+        groupBy: {
+          args: Prisma.UnitHeatingReadingGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UnitHeatingReadingGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.UnitHeatingReadingCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UnitHeatingReadingCountAggregateOutputType> | number
         }
       }
     }
@@ -4556,6 +4631,7 @@ export const BuildingScalarFieldEnum = {
   technicalNotes: 'technicalNotes',
   elevatorSurchargePerFloor: 'elevatorSurchargePerFloor',
   elevatorExemptGroundFloor: 'elevatorExemptGroundFloor',
+  heatingMeterUnit: 'heatingMeterUnit',
   lat: 'lat',
   lng: 'lng',
   dailyRoomName: 'dailyRoomName',
@@ -4739,6 +4815,21 @@ export const UnitCategoryExclusionScalarFieldEnum = {
 } as const
 
 export type UnitCategoryExclusionScalarFieldEnum = (typeof UnitCategoryExclusionScalarFieldEnum)[keyof typeof UnitCategoryExclusionScalarFieldEnum]
+
+
+export const UnitHeatingReadingScalarFieldEnum = {
+  id: 'id',
+  buildingId: 'buildingId',
+  unitId: 'unitId',
+  period: 'period',
+  previousReading: 'previousReading',
+  currentReading: 'currentReading',
+  consumption: 'consumption',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type UnitHeatingReadingScalarFieldEnum = (typeof UnitHeatingReadingScalarFieldEnum)[keyof typeof UnitHeatingReadingScalarFieldEnum]
 
 
 export const MeterReadingScalarFieldEnum = {
@@ -5824,6 +5915,7 @@ export type GlobalOmitConfig = {
   expenseCategory?: Prisma.ExpenseCategoryOmit
   buildingCategoryOverride?: Prisma.BuildingCategoryOverrideOmit
   unitCategoryExclusion?: Prisma.UnitCategoryExclusionOmit
+  unitHeatingReading?: Prisma.UnitHeatingReadingOmit
   meterReading?: Prisma.MeterReadingOmit
   expenseAllocation?: Prisma.ExpenseAllocationOmit
   unitPayment?: Prisma.UnitPaymentOmit

@@ -631,6 +631,7 @@ model Building {
   // Elevator floor parameters (κοινόχρηστα ασανσέρ)
   elevatorSurchargePerFloor  Float   @default(0.10)
   elevatorExemptGroundFloor  Boolean @default(true)
+  heatingMeterUnit           String?
 
   // Geodata
   lat                   Float?
@@ -653,6 +654,7 @@ model Building {
   expenses              BuildingExpense[]
   categoryOverrides     BuildingCategoryOverride[]
   meterReadings         MeterReading[]
+  heatingReadings       UnitHeatingReading[]
 
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt
@@ -901,6 +903,22 @@ model UnitCategoryExclusion {
   @@index([categoryId])
 }
 
+model UnitHeatingReading {
+  id              String   @id @default(cuid())
+  buildingId      String
+  building        Building @relation(fields: [buildingId], references: [id], onDelete: Cascade)
+  unitId          String
+  unit            Unit     @relation(fields: [unitId], references: [id], onDelete: Cascade)
+  period          String   // YYYY-MM
+  previousReading Decimal? @db.Decimal(12, 3)
+  currentReading  Decimal? @db.Decimal(12, 3)
+  consumption     Decimal? @db.Decimal(12, 3)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  @@unique([unitId, period])
+  @@index([buildingId, period])
+}
+
 model MeterReading {
   id             String   @id @default(cuid())
   buildingId     String
@@ -1028,6 +1046,7 @@ model Unit {
   millesimesElevatorSource  MillesimeSource @default(AUTO)
   millesimesHeatingSource   MillesimeSource @default(AUTO)
   categoryExclusions    UnitCategoryExclusion[]
+  heatingReadings       UnitHeatingReading[]
 
   // Ownership
   ownerId               String?
