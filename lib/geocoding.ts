@@ -38,7 +38,7 @@ export async function geocodeAddress(address: string): Promise<GeocodingResult[]
   // MapTiler
   try {
     const res = await fetch(
-      `https://api.maptiler.com/geocoding/${query}.json?key=${MAPTILER_KEY}&language=el,en&limit=5`,
+      `https://api.maptiler.com/geocoding/${query}.json?key=${MAPTILER_KEY}&language=el,en&country=gr&limit=5`,
       { cache: "no-store" }
     );
     if (res.ok) {
