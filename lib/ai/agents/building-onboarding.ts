@@ -12,6 +12,10 @@ export const buildingInfoSchema = z.object({
   hasElevator: z.boolean().optional(),
   elevatorSurchargePerFloor: z.number().min(0).max(1).optional(),
   elevatorExemptGroundFloor: z.boolean().optional(),
+  city: z.string().optional(),
+  postalCode: z.string().optional(),
+  lat: z.number().optional(),
+  lng: z.number().optional(),
 });
 export type BuildingInfo = z.infer<typeof buildingInfoSchema>;
 

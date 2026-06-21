@@ -57,6 +57,10 @@ export function buildOnboardingPayload(input: OnboardingPayloadInput) {
     building: {
       address: input.building.address ?? "",
       managerName: input.building.managerName ?? "",
+      city: input.building.city ?? "",
+      postalCode: input.building.postalCode ?? "",
+      lat: input.building.lat ?? null,
+      lng: input.building.lng ?? null,
       hasElevator,
       elevatorSurchargePerFloor: surcharge,
       elevatorExemptGroundFloor: exemptGround,

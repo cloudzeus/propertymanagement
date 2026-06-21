@@ -12,6 +12,13 @@ describe("buildOnboardingPayload", () => {
     expect(p.units[0].unitType).toBe("APARTMENT");
   });
 
+  it("carries geocoded city/postalCode/lat/lng", () => {
+    const p = buildOnboardingPayload({ building: { ...base.building, city: "Αθήνα", postalCode: "10672", lat: 37.98, lng: 23.73 }, units: [{ floor: 1, areaSqm: 80 }] });
+    expect(p.building.city).toBe("Αθήνα");
+    expect(p.building.postalCode).toBe("10672");
+    expect(p.building.lat).toBe(37.98);
+  });
+
   it("computes general millesimes from area summing to 1000", () => {
     const p = buildOnboardingPayload({ ...base, units: [{ floor: 1, areaSqm: 100 }, { floor: 2, areaSqm: 100 }, { floor: 3, areaSqm: 200 }] });
     const sum = p.units.reduce((s, u) => s + (u.millesimes ?? 0), 0);

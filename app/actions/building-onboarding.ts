@@ -42,13 +42,18 @@ export async function createBuildingFromOnboarding(
 
   const buildingId = await db.$transaction(async (tx) => {
     const property = await tx.property.create({
-      data: { companyId, customerId, name: payload.building.address, address: payload.building.address },
+      data: {
+        companyId, customerId, name: payload.building.address, address: payload.building.address,
+        city: payload.building.city || null, postalCode: payload.building.postalCode || null,
+        lat: payload.building.lat ?? null, lng: payload.building.lng ?? null,
+      },
     });
     const b = await tx.building.create({
       data: {
         companyId, propertyId: property.id,
         name: payload.building.address, address: payload.building.address,
-        city: "", postalCode: "", country: "Greece",
+        city: payload.building.city || "", postalCode: payload.building.postalCode || "", country: "Greece",
+        lat: payload.building.lat ?? null, lng: payload.building.lng ?? null,
         hasElevator: payload.building.hasElevator,
         elevatorSurchargePerFloor: payload.building.elevatorSurchargePerFloor,
         elevatorExemptGroundFloor: payload.building.elevatorExemptGroundFloor,
