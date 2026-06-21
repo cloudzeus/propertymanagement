@@ -4,11 +4,13 @@ import { redirect, notFound } from "next/navigation";
 import { BuildingDashboard } from "./BuildingDashboard";
 import { listBuildingExpenses } from "@/app/actions/building-expenses";
 import { getBuildingCategorySplits } from "@/app/actions/expense-categories";
+import { listHeatingReadings } from "@/app/actions/heating-readings";
 
 export const metadata = { title: "Κτήριο — Super Admin" };
 
-export default async function BuildingDashboardPage({ params }: { params: Promise<{ id: string }> }) {
+export default async function BuildingDashboardPage({ params, searchParams }: { params: Promise<{ id: string }>; searchParams: Promise<Record<string, string | string[] | undefined>> }) {
   const { id } = await params;
+  const resolvedSearchParams = await searchParams;
   const session = await auth();
   if (!session?.user) redirect("/login");
   const me = await db.user.findUnique({ where: { id: session.user.id as string }, select: { role: true } });
@@ -20,6 +22,7 @@ export default async function BuildingDashboardPage({ params }: { params: Promis
       id: true, name: true, address: true, city: true, postalCode: true,
       floors: true, basements: true, hasElevator: true,
       elevatorSurchargePerFloor: true, elevatorExemptGroundFloor: true,
+      heatingMeterUnit: true,
       property: { select: { id: true, name: true, customer: { select: { name: true } } } },
       _count: {
         select: { units: true, files: true, infraPoints: true, contacts: true, recurringTasks: true },
@@ -155,8 +158,33 @@ export default async function BuildingDashboardPage({ params }: { params: Promis
   floorOptions.push("Ισόγειο");
   for (let i = 1; i <= (building.basements ?? 0); i++) floorOptions.push(`Υπόγειο ${i}`);
 
+  // ── Heating readings (gated on metered heating) ─────────────────────────────
+  const usesMeteredHeating =
+    (await db.expenseCategory.count({
+      where: {
+        OR: [
+          { defaultBasis: "METERED_70_30" },
+          { overrides: { some: { buildingId: building.id, distributionBasis: "METERED_70_30" } } },
+        ],
+      },
+    })) > 0;
+
+  const heatingPeriod =
+    (typeof resolvedSearchParams?.heatingPeriod === "string" ? resolvedSearchParams.heatingPeriod : null)
+    ?? (await db.buildingExpense.findFirst({ where: { buildingId: building.id }, orderBy: { month: "desc" }, select: { month: true } }))?.month
+    ?? new Date().toISOString().slice(0, 7);
+
+  const heatingPeriods = usesMeteredHeating
+    ? (await db.buildingExpense.findMany({ where: { buildingId: building.id }, select: { month: true }, distinct: ["month"], orderBy: { month: "desc" } })).map((r) => r.month)
+    : [];
+  const heatingReadingRows = usesMeteredHeating ? await listHeatingReadings(building.id, heatingPeriod) : [];
+
   return (
     <BuildingDashboard
+      usesMeteredHeating={usesMeteredHeating}
+      heatingPeriod={heatingPeriod}
+      heatingPeriods={heatingPeriods.length ? heatingPeriods : [heatingPeriod]}
+      heatingReadingRows={heatingReadingRows}
       building={{
         id: building.id,
         name: building.name,
@@ -171,6 +199,7 @@ export default async function BuildingDashboardPage({ params }: { params: Promis
         customerName: building.property.customer.name,
         elevatorSurchargePerFloor: building.elevatorSurchargePerFloor,
         elevatorExemptGroundFloor: building.elevatorExemptGroundFloor,
+        heatingMeterUnit: building.heatingMeterUnit,
       }}
       millesimeUnits={unitsHere.map((u) => ({
         id: u.id, unitNumber: u.unitNumber, floor: u.floor, areaSqm: u.areaSqm,

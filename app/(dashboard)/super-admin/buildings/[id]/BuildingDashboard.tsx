@@ -25,12 +25,15 @@ import { type CategorySplit } from "@/components/buildings/ExpenseReviewForm";
 import { MillesimeGrid, type MillesimeUnit } from "./MillesimeGrid";
 import { DistributionTab } from "./DistributionTab";
 import { ExclusionMatrix } from "./ExclusionMatrix";
+import { HeatingReadingsPanel } from "./HeatingReadingsPanel";
+import { type HeatingReadingDTO } from "@/app/actions/heating-readings";
 
 type Building = {
   id: string; name: string; address: string; city: string; postalCode: string;
   floors: number | null; basements: number | null; hasElevator: boolean;
   propertyId: string; propertyName: string; customerName: string;
   elevatorSurchargePerFloor: number; elevatorExemptGroundFloor: boolean;
+  heatingMeterUnit: string | null;
 };
 type Kpis = {
   units: number; millesimes: number; files: number;
@@ -60,7 +63,7 @@ const TABS: { key: TabKey; label: string; icon: React.ElementType; badge?: (k: K
   { key: "assemblies", label: "Συνελεύσεις", icon: RiGroupLine },
 ];
 
-export function BuildingDashboard({ building, kpis, units, files, people, contacts, infraPoints, floorOptions, tasks, expenses, categorySplits, today, millesimeUnits, exclusionUnits, expenseCategories, categoryOverrides, unitExclusions }: { building: Building; kpis: Kpis; units: Unit[]; files: FileRow[]; people: Person[]; contacts: ContactRow[]; infraPoints: InfraRow[]; floorOptions: string[]; tasks: TaskRow[]; expenses: ExpenseRow[]; categorySplits: CategorySplit[]; today: string; millesimeUnits: MillesimeUnit[]; exclusionUnits: Array<{ id: string; unitNumber: string; unitType: string }>; expenseCategories: Array<{ id: string; name: string; defaultBasis: string }>; categoryOverrides: Array<{ categoryId: string; distributionBasis: string | null }>; unitExclusions: Array<{ unitId: string; categoryId: string }> }) {
+export function BuildingDashboard({ building, kpis, units, files, people, contacts, infraPoints, floorOptions, tasks, expenses, categorySplits, today, millesimeUnits, exclusionUnits, expenseCategories, categoryOverrides, unitExclusions, usesMeteredHeating, heatingPeriod, heatingPeriods, heatingReadingRows }: { building: Building; kpis: Kpis; units: Unit[]; files: FileRow[]; people: Person[]; contacts: ContactRow[]; infraPoints: InfraRow[]; floorOptions: string[]; tasks: TaskRow[]; expenses: ExpenseRow[]; categorySplits: CategorySplit[]; today: string; millesimeUnits: MillesimeUnit[]; exclusionUnits: Array<{ id: string; unitNumber: string; unitType: string }>; expenseCategories: Array<{ id: string; name: string; defaultBasis: string }>; categoryOverrides: Array<{ categoryId: string; distributionBasis: string | null }>; unitExclusions: Array<{ unitId: string; categoryId: string }>; usesMeteredHeating: boolean; heatingPeriod: string; heatingPeriods: string[]; heatingReadingRows: HeatingReadingDTO[] }) {
   const [tab, setTab] = useState<TabKey>("overview");
 
   const subParts = [
@@ -171,6 +174,15 @@ export function BuildingDashboard({ building, kpis, units, files, people, contac
             />
             <DistributionTab buildingId={building.id} categories={expenseCategories} overrides={categoryOverrides} />
             <ExclusionMatrix buildingId={building.id} units={exclusionUnits} categories={expenseCategories} exclusions={unitExclusions} />
+            {usesMeteredHeating && (
+              <HeatingReadingsPanel
+                buildingId={building.id}
+                period={heatingPeriod}
+                periods={heatingPeriods.length ? heatingPeriods : [heatingPeriod]}
+                rows={heatingReadingRows}
+                heatingMeterUnit={building.heatingMeterUnit ?? null}
+              />
+            )}
           </div>
         ) : tab === "koino" ? (
           <KoinochristaPanel buildingId={building.id} />
