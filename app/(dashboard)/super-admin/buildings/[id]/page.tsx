@@ -19,6 +19,7 @@ export default async function BuildingDashboardPage({ params }: { params: Promis
     select: {
       id: true, name: true, address: true, city: true, postalCode: true,
       floors: true, basements: true, hasElevator: true,
+      elevatorSurchargePerFloor: true, elevatorExemptGroundFloor: true,
       property: { select: { id: true, name: true, customer: { select: { name: true } } } },
       _count: {
         select: { units: true, files: true, infraPoints: true, contacts: true, recurringTasks: true },
@@ -43,8 +44,20 @@ export default async function BuildingDashboardPage({ params }: { params: Promis
   const unitsHere = await db.unit.findMany({
     where: { buildingId: id },
     orderBy: { unitNumber: "asc" },
-    select: { id: true, unitNumber: true, unitType: true, floor: true, areaSqm: true, millesimes: true, owner: occ, resident: occ },
+    select: {
+      id: true, unitNumber: true, unitType: true, floor: true, areaSqm: true, millesimes: true,
+      millesimesElevator: true, millesimesHeating: true,
+      millesimesSource: true, millesimesElevatorSource: true, millesimesHeatingSource: true,
+      owner: occ, resident: occ,
+    },
   });
+
+  // ── Millesimes & distribution config ────────────────────────────────────────
+  const [expenseCategories, categoryOverrides, unitExclusions] = await Promise.all([
+    db.expenseCategory.findMany({ where: { active: true }, orderBy: { sortOrder: "asc" }, select: { id: true, name: true, defaultBasis: true } }),
+    db.buildingCategoryOverride.findMany({ where: { buildingId: id }, select: { categoryId: true, distributionBasis: true } }),
+    db.unitCategoryExclusion.findMany({ where: { unit: { buildingId: id } }, select: { unitId: true, categoryId: true } }),
+  ]);
 
   // Occupancy date ranges (από/έως) keyed by unit|user|role
   const occRows = await db.unitOccupancy.findMany({
@@ -156,7 +169,18 @@ export default async function BuildingDashboardPage({ params }: { params: Promis
         propertyId: building.property.id,
         propertyName: building.property.name,
         customerName: building.property.customer.name,
+        elevatorSurchargePerFloor: building.elevatorSurchargePerFloor,
+        elevatorExemptGroundFloor: building.elevatorExemptGroundFloor,
       }}
+      millesimeUnits={unitsHere.map((u) => ({
+        id: u.id, unitNumber: u.unitNumber, floor: u.floor, areaSqm: u.areaSqm,
+        millesimes: u.millesimes, millesimesElevator: u.millesimesElevator, millesimesHeating: u.millesimesHeating,
+        millesimesSource: u.millesimesSource, millesimesElevatorSource: u.millesimesElevatorSource, millesimesHeatingSource: u.millesimesHeatingSource,
+      }))}
+      exclusionUnits={unitsHere.map((u) => ({ id: u.id, unitNumber: u.unitNumber, unitType: u.unitType }))}
+      expenseCategories={expenseCategories}
+      categoryOverrides={categoryOverrides}
+      unitExclusions={unitExclusions}
       kpis={{
         units: building._count.units,
         millesimes: Math.round((millesimesSum._sum.millesimes ?? 0) * 100) / 100,

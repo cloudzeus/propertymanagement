@@ -22,11 +22,15 @@ import { CalendarPanel, type TaskRow } from "./CalendarPanel";
 import { ExpensesPanel, type ExpenseRow } from "@/components/buildings/ExpensesPanel";
 import { KoinochristaPanel } from "@/components/buildings/KoinochristaPanel";
 import { type CategorySplit } from "@/components/buildings/ExpenseReviewForm";
+import { MillesimeGrid, type MillesimeUnit } from "./MillesimeGrid";
+import { DistributionTab } from "./DistributionTab";
+import { ExclusionMatrix } from "./ExclusionMatrix";
 
 type Building = {
   id: string; name: string; address: string; city: string; postalCode: string;
   floors: number | null; basements: number | null; hasElevator: boolean;
   propertyId: string; propertyName: string; customerName: string;
+  elevatorSurchargePerFloor: number; elevatorExemptGroundFloor: boolean;
 };
 type Kpis = {
   units: number; millesimes: number; files: number;
@@ -35,7 +39,7 @@ type Kpis = {
 
 type TabKey =
   | "overview" | "units" | "people" | "managers" | "files" | "calendar"
-  | "contacts" | "infra" | "expenses" | "splitsettings" | "koino" | "pay" | "maint" | "ann" | "assemblies";
+  | "contacts" | "infra" | "expenses" | "splitsettings" | "millesimes" | "koino" | "pay" | "maint" | "ann" | "assemblies";
 
 const TABS: { key: TabKey; label: string; icon: React.ElementType; badge?: (k: Kpis) => number | undefined }[] = [
   { key: "overview", label: "Επισκόπηση", icon: RiDashboardLine },
@@ -48,6 +52,7 @@ const TABS: { key: TabKey; label: string; icon: React.ElementType; badge?: (k: K
   { key: "infra", label: "Εγκαταστάσεις", icon: RiSettings3Line, badge: (k) => k.infraPoints || undefined },
   { key: "expenses", label: "Έξοδα", icon: RiMoneyEuroCircleLine },
   { key: "splitsettings", label: "Ρυθμίσεις κατανομής", icon: RiPieChartLine },
+  { key: "millesimes", label: "Χιλιοστά & Κατανομή", icon: RiScales3Line },
   { key: "koino", label: "Κοινόχρηστα", icon: RiWallet3Line },
   { key: "pay", label: "Πληρωμές", icon: RiBankCardLine },
   { key: "maint", label: "Συντήρηση", icon: RiToolsLine },
@@ -55,7 +60,7 @@ const TABS: { key: TabKey; label: string; icon: React.ElementType; badge?: (k: K
   { key: "assemblies", label: "Συνελεύσεις", icon: RiGroupLine },
 ];
 
-export function BuildingDashboard({ building, kpis, units, files, people, contacts, infraPoints, floorOptions, tasks, expenses, categorySplits, today }: { building: Building; kpis: Kpis; units: Unit[]; files: FileRow[]; people: Person[]; contacts: ContactRow[]; infraPoints: InfraRow[]; floorOptions: string[]; tasks: TaskRow[]; expenses: ExpenseRow[]; categorySplits: CategorySplit[]; today: string }) {
+export function BuildingDashboard({ building, kpis, units, files, people, contacts, infraPoints, floorOptions, tasks, expenses, categorySplits, today, millesimeUnits, exclusionUnits, expenseCategories, categoryOverrides, unitExclusions }: { building: Building; kpis: Kpis; units: Unit[]; files: FileRow[]; people: Person[]; contacts: ContactRow[]; infraPoints: InfraRow[]; floorOptions: string[]; tasks: TaskRow[]; expenses: ExpenseRow[]; categorySplits: CategorySplit[]; today: string; millesimeUnits: MillesimeUnit[]; exclusionUnits: Array<{ id: string; unitNumber: string; unitType: string }>; expenseCategories: Array<{ id: string; name: string; defaultBasis: string }>; categoryOverrides: Array<{ categoryId: string; distributionBasis: string | null }>; unitExclusions: Array<{ unitId: string; categoryId: string }> }) {
   const [tab, setTab] = useState<TabKey>("overview");
 
   const subParts = [
@@ -156,6 +161,17 @@ export function BuildingDashboard({ building, kpis, units, files, people, contac
           <ExpensesPanel buildingId={building.id} expenses={expenses} categories={categorySplits} />
         ) : tab === "splitsettings" ? (
           <CategorySplitSettings buildingId={building.id} rows={categorySplits} />
+        ) : tab === "millesimes" ? (
+          <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
+            <MillesimeGrid
+              buildingId={building.id}
+              units={millesimeUnits}
+              elevatorSurchargePerFloor={building.elevatorSurchargePerFloor}
+              elevatorExemptGroundFloor={building.elevatorExemptGroundFloor}
+            />
+            <DistributionTab buildingId={building.id} categories={expenseCategories} overrides={categoryOverrides} />
+            <ExclusionMatrix buildingId={building.id} units={exclusionUnits} categories={expenseCategories} exclusions={unitExclusions} />
+          </div>
         ) : tab === "koino" ? (
           <KoinochristaPanel buildingId={building.id} />
         ) : tab === "ann" ? (
