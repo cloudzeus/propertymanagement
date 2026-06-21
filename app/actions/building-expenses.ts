@@ -11,6 +11,7 @@ import type { DistributionBasis } from "@/lib/prisma/enums";
 import { extractDocument } from "@/lib/ocr/extract";
 import { normalizeExtraction } from "@/lib/ocr/normalize";
 import type { ExtractedDoc } from "@/lib/ocr/prompt";
+import { toConsumptionMap, type ReadingRow } from "@/lib/heating-readings";
 
 const MAX_BYTES = 15 * 1024 * 1024;
 const ALLOWED = ["image/jpeg", "image/png", "image/webp", "application/pdf"];
@@ -108,7 +109,7 @@ export async function extractExpenseDocument(buildingId: string, formData: FormD
 
 type LoadedUnit = BasisUnit & { ownerUserId: string | null; tenantUserId: string | null; floor: number | null };
 
-async function loadAllocContext(buildingId: string, categoryId: string | null) {
+async function loadAllocContext(buildingId: string, categoryId: string | null, month: string | null) {
   const [units, category, override, exclusions] = await Promise.all([
     db.unit.findMany({
       where: { buildingId },
@@ -135,7 +136,23 @@ async function loadAllocContext(buildingId: string, categoryId: string | null) {
   });
 
   const basis: DistributionBasis = override?.distributionBasis ?? category?.defaultBasis ?? "GENERAL_MILLESIMES";
-  return { loaded, basis };
+  let meterReadings: Map<string, number> | null = null;
+  let heatingMeterUnit: string | null = null;
+  if (basis === "METERED_70_30" && month) {
+    const [readings, building] = await Promise.all([
+      db.unitHeatingReading.findMany({ where: { buildingId, period: month }, select: { unitId: true, previousReading: true, currentReading: true } }),
+      db.building.findUnique({ where: { id: buildingId }, select: { heatingMeterUnit: true } }),
+    ]);
+    const rows: ReadingRow[] = readings.map((r) => ({
+      unitId: r.unitId,
+      previousReading: r.previousReading == null ? null : Number(r.previousReading),
+      currentReading: r.currentReading == null ? null : Number(r.currentReading),
+    }));
+    const map = toConsumptionMap(rows);
+    meterReadings = map.size > 0 ? map : null;
+    heatingMeterUnit = building?.heatingMeterUnit ?? null;
+  }
+  return { loaded, basis, meterReadings, heatingMeterUnit };
 }
 
 const BASIS_LABEL: Record<DistributionBasis, string> = {
@@ -146,28 +163,32 @@ const BASIS_LABEL: Record<DistributionBasis, string> = {
   METERED_70_30: "70% μέτρηση + 30% χιλιοστά",
 };
 
-function buildAllocUnits(loaded: LoadedUnit[], basis: DistributionBasis, meterReadings: Map<string, number> | null) {
+function buildAllocUnits(loaded: LoadedUnit[], basis: DistributionBasis, meterReadings: Map<string, number> | null, heatingMeterUnit: string | null = null) {
   const weights = resolveWeights(basis, loaded, meterReadings);
   const allocUnits = loaded.map((u) => ({
     unitId: u.unitId, weight: weights.get(u.unitId) ?? 0,
     ownerUserId: u.ownerUserId, tenantUserId: u.tenantUserId,
   }));
   const participants = loaded.filter((u) => !u.excluded).length;
-  // METERED_70_30 silently falls back to pure heating millesimes when no meter
-  // readings are available — reflect that in the printed note so it isn't misleading.
-  const meteredFellBack =
-    basis === "METERED_70_30" &&
-    loaded.filter((u) => !u.excluded).reduce((s, u) => s + (meterReadings?.get(u.unitId) ?? 0), 0) === 0;
+  const totalConsumption = meterReadings
+    ? loaded.filter((u) => !u.excluded).reduce((s, u) => s + (meterReadings.get(u.unitId) ?? 0), 0)
+    : 0;
+  const meteredFellBack = basis === "METERED_70_30" && totalConsumption === 0;
   const label = meteredFellBack ? "χιλιοστά θέρμανσης (ελλείψει μετρήσεων)" : BASIS_LABEL[basis];
-  const note = `Μέθοδος: ${label} · Συμμετέχουν ${participants}/${loaded.length} μονάδες`;
+  const unitLabel = heatingMeterUnit ? ` ${heatingMeterUnit}` : "";
+  const consumptionPart =
+    basis === "METERED_70_30" && !meteredFellBack
+      ? ` · Συνολική κατανάλωση ${totalConsumption}${unitLabel}`
+      : "";
+  const note = `Μέθοδος: ${label} · Συμμετέχουν ${participants}/${loaded.length} μονάδες${consumptionPart}`;
   return { allocUnits, note };
 }
 
-export async function previewExpenseAllocation(buildingId: string, args: { total: number; tenantPct: number; ownerPct: number; categoryId: string | null }) {
+export async function previewExpenseAllocation(buildingId: string, args: { total: number; tenantPct: number; ownerPct: number; categoryId: string | null; month: string | null }) {
   await requireBuildingAccess(buildingId);
   assertSplit(args.tenantPct, args.ownerPct);
-  const { loaded, basis } = await loadAllocContext(buildingId, args.categoryId);
-  const { allocUnits } = buildAllocUnits(loaded, basis, null);
+  const { loaded, basis, meterReadings, heatingMeterUnit } = await loadAllocContext(buildingId, args.categoryId, args.month);
+  const { allocUnits } = buildAllocUnits(loaded, basis, meterReadings, heatingMeterUnit);
   return computeAllocation({ total: args.total, tenantPct: args.tenantPct, ownerPct: args.ownerPct, units: allocUnits });
 }
 
@@ -190,8 +211,8 @@ export type PaymentMethod = "CARD" | "CASH" | "VIVA" | "BANK_TRANSFER" | "CHECK"
 export async function createBuildingExpense(buildingId: string, input: CreateExpenseInput) {
   await requireBuildingAccess(buildingId);
   assertSplit(input.tenantPct, input.ownerPct);
-  const { loaded, basis } = await loadAllocContext(buildingId, input.categoryId);
-  const { allocUnits, note } = buildAllocUnits(loaded, basis, null);
+  const { loaded, basis, meterReadings, heatingMeterUnit } = await loadAllocContext(buildingId, input.categoryId, input.month);
+  const { allocUnits, note } = buildAllocUnits(loaded, basis, meterReadings, heatingMeterUnit);
   const rows = computeAllocation({ total: input.totalAmount, tenantPct: input.tenantPct, ownerPct: input.ownerPct, units: allocUnits });
 
   const expense = await db.$transaction(async (tx) => {
@@ -257,8 +278,8 @@ export async function updateBuildingExpense(id: string, input: UpdateExpenseInpu
   if (current.status === "ISSUED") throw new Error("Το έξοδο έχει ήδη συμπεριληφθεί σε έκδοση κοινοχρήστων και δεν επεξεργάζεται.");
   assertSplit(input.tenantPct, input.ownerPct);
 
-  const { loaded, basis } = await loadAllocContext(current.buildingId, input.categoryId);
-  const { allocUnits, note } = buildAllocUnits(loaded, basis, null);
+  const { loaded, basis, meterReadings, heatingMeterUnit } = await loadAllocContext(current.buildingId, input.categoryId, input.month);
+  const { allocUnits, note } = buildAllocUnits(loaded, basis, meterReadings, heatingMeterUnit);
   const rows = computeAllocation({ total: input.totalAmount, tenantPct: input.tenantPct, ownerPct: input.ownerPct, units: allocUnits });
 
   await db.$transaction(async (tx) => {
