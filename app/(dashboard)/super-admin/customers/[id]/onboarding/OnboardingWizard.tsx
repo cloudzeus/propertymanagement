@@ -171,15 +171,15 @@ export function OnboardingWizard({ customerId, customerName, customers }: { cust
             </div>
           ) : (
             <div className="overflow-x-auto">
-              <table className="w-full border-separate border-spacing-y-1 text-sm">
+              <table className="border-separate border-spacing-x-2 border-spacing-y-1 text-sm">
                 <thead>
                   <tr className="text-left text-[11px] font-semibold uppercase tracking-wide text-[var(--muted-foreground)]">
-                    <th className="px-1 pb-1 font-semibold">Αρ.</th>
-                    <th className="px-1 pb-1 font-semibold">Όροφος</th>
-                    <th className="px-1 pb-1 font-semibold">τ.μ.</th>
-                    <th className="px-1 pb-1 font-semibold">Τύπος</th>
-                    <th className="px-1 pb-1 text-right font-semibold">Γεν.‰</th>
-                    <th className="px-1 pb-1 text-right font-semibold">Ανελ.‰</th>
+                    <th className="pb-1 font-semibold">Αρ.</th>
+                    <th className="pb-1 text-center font-semibold">Όροφος</th>
+                    <th className="pb-1 text-right font-semibold">τ.μ.</th>
+                    <th className="pb-1 font-semibold">Τύπος</th>
+                    <th className="pb-1 text-right font-semibold">Γεν.‰</th>
+                    <th className="pb-1 text-right font-semibold">Ανελ.‰</th>
                     <th className="w-8" />
                   </tr>
                 </thead>
@@ -188,17 +188,17 @@ export function OnboardingWizard({ customerId, customerName, customers }: { cust
                     const missingArea = !((u.areaSqm ?? 0) > 0);
                     return (
                       <tr key={i}>
-                        <td className="px-1"><input className={`${fieldSm} w-24`} value={u.unitNumber ?? ""} placeholder={String(i + 1)} onChange={(e) => setUnit(i, { unitNumber: e.target.value })} /></td>
-                        <td className="px-1"><input className={`${numField} w-16 text-center`} type="number" value={u.floor ?? ""} placeholder="—" onChange={(e) => setUnit(i, { floor: num(e.target.value) as number | null })} /></td>
-                        <td className="px-1"><input className={`${numField} w-20 text-right`} type="number" inputMode="decimal" value={u.areaSqm ?? ""} placeholder="—" onChange={(e) => setUnit(i, { areaSqm: num(e.target.value) })} /></td>
-                        <td className="px-1">
-                          <select className={`${fieldSm} w-36 pr-7`} value={u.unitType ?? "APARTMENT"} onChange={(e) => setUnit(i, { unitType: e.target.value as UnitTypeStr })}>
+                        <td><input className={`${fieldSm} w-28`} value={u.unitNumber ?? ""} placeholder={String(i + 1)} onChange={(e) => setUnit(i, { unitNumber: e.target.value })} /></td>
+                        <td><input className={`${numField} w-14 text-center`} type="number" value={u.floor ?? ""} placeholder="—" onChange={(e) => setUnit(i, { floor: num(e.target.value) as number | null })} /></td>
+                        <td><input className={`${numField} w-16 text-right`} type="number" inputMode="decimal" value={u.areaSqm ?? ""} placeholder="—" onChange={(e) => setUnit(i, { areaSqm: num(e.target.value) })} /></td>
+                        <td>
+                          <select className={`${fieldSm} w-40 pr-7`} value={u.unitType ?? "APARTMENT"} onChange={(e) => setUnit(i, { unitType: e.target.value as UnitTypeStr })}>
                             {(Object.keys(UNIT_TYPE_LABEL) as UnitTypeStr[]).map((t) => <option key={t} value={t}>{UNIT_TYPE_LABEL[t]}</option>)}
                           </select>
                         </td>
-                        <td className="px-1 text-right tabular-nums text-[var(--muted-foreground)]">{mil.g.get(String(i)) ?? "—"}</td>
-                        <td className="px-1 text-right tabular-nums text-[var(--muted-foreground)]">{mil.e ? (mil.e.get(String(i)) ?? (missingArea ? "—" : 0)) : "—"}</td>
-                        <td className="px-1 text-right">
+                        <td className="text-right tabular-nums text-[var(--muted-foreground)]">{mil.g.get(String(i)) ?? "—"}</td>
+                        <td className="text-right tabular-nums text-[var(--muted-foreground)]">{mil.e ? (mil.e.get(String(i)) ?? (missingArea ? "—" : 0)) : "—"}</td>
+                        <td className="text-right">
                           <button type="button" onClick={() => removeUnit(i)} aria-label="Διαγραφή" className="inline-flex h-7 w-7 items-center justify-center rounded text-[var(--muted-foreground)] transition-colors hover:bg-red-50 hover:text-red-600">
                             <RiDeleteBinLine />
                           </button>
@@ -207,9 +207,9 @@ export function OnboardingWizard({ customerId, customerName, customers }: { cust
                     );
                   })}
                   <tr className="text-[13px] font-semibold">
-                    <td className="px-1 pt-1" colSpan={4}>Σύνολο</td>
-                    <td className={`px-1 pt-1 text-right tabular-nums ${gSumOk ? "text-emerald-600" : "text-red-500"}`}>{Math.round(mil.gSum)}{gSumOk && <RiCheckLine className="ml-0.5 inline" />}</td>
-                    <td className={`px-1 pt-1 text-right tabular-nums ${!mil.e ? "text-[var(--muted-foreground)]" : eSumOk ? "text-emerald-600" : "text-red-500"}`}>{mil.e ? Math.round(mil.eSum) : "—"}</td>
+                    <td className="pt-1" colSpan={4}>Σύνολο</td>
+                    <td className={`pt-1 text-right tabular-nums ${gSumOk ? "text-emerald-600" : "text-red-500"}`}>{Math.round(mil.gSum)}{gSumOk && <RiCheckLine className="ml-0.5 inline" />}</td>
+                    <td className={`pt-1 text-right tabular-nums ${!mil.e ? "text-[var(--muted-foreground)]" : eSumOk ? "text-emerald-600" : "text-red-500"}`}>{mil.e ? Math.round(mil.eSum) : "—"}</td>
                     <td />
                   </tr>
                 </tbody>
