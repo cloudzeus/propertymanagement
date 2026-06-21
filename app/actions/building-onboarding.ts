@@ -3,18 +3,14 @@
 import { auth } from "@/auth";
 import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
-import { onboardingSchema } from "@/lib/ai/agents/building-onboarding";
-import { buildOnboardingPayload, type OnboardingInput } from "./building-onboarding-payload";
+import { buildingInfoSchema, setUnitsSchema } from "@/lib/ai/agents/building-onboarding";
+import { buildOnboardingPayload } from "./building-onboarding-payload";
+import { UnitType } from "@/lib/prisma/enums";
 
-// requireSuperAdmin / managingCompanyId are private (non-exported) in
-// app/actions/properties.ts and buildings.ts — replicate inline here.
 async function requireSuperAdmin() {
   const session = await auth();
   if (!session?.user) throw new Error("Unauthorized");
-  const user = await db.user.findUnique({
-    where: { id: session.user.id as string },
-    select: { role: true },
-  });
+  const user = await db.user.findUnique({ where: { id: session.user.id as string }, select: { role: true } });
   if (user?.role !== "SUPER_ADMIN") throw new Error("Forbidden");
 }
 
@@ -29,43 +25,49 @@ export async function createBuildingFromOnboarding(
   raw: unknown,
 ): Promise<{ buildingId: string } | { error: string }> {
   await requireSuperAdmin();
-  const parsed = onboardingSchema.safeParse(raw);
-  if (
-    !parsed.success ||
-    !parsed.data.address ||
-    !parsed.data.totalApartments ||
-    !parsed.data.heatingType ||
-    !parsed.data.managerName
-  ) {
-    return { error: "Συμπληρώστε όλα τα στοιχεία (διεύθυνση, διαμερίσματα, θέρμανση, διαχειριστή)." };
+  const data = (raw ?? {}) as { building?: unknown; units?: unknown };
+  const building = buildingInfoSchema.safeParse(data.building);
+  const unitsParsed = setUnitsSchema.safeParse({ units: Array.isArray(data.units) ? data.units : [] });
+  if (!building.success || !building.data.address || !building.data.managerName || !building.data.heatingType) {
+    return { error: "Συμπληρώστε διεύθυνση, διαχειριστή και τύπο θέρμανσης." };
   }
-  const input = parsed.data as OnboardingInput;
-  const payload = buildOnboardingPayload(input);
+  if (!unitsParsed.success || unitsParsed.data.units.length === 0) {
+    return { error: "Προσθέστε τουλάχιστον μία μονάδα." };
+  }
+  const payload = buildOnboardingPayload({ building: building.data, units: unitsParsed.data.units });
+  if (!payload.units.some((u) => u.areaSqm != null && u.areaSqm > 0)) {
+    return { error: "Συμπληρώστε τετραγωνικά σε τουλάχιστον μία μονάδα για να υπολογιστούν τα χιλιοστά." };
+  }
   const companyId = await managingCompanyId();
 
   const buildingId = await db.$transaction(async (tx) => {
     const property = await tx.property.create({
       data: { companyId, customerId, name: payload.building.address, address: payload.building.address },
     });
-    const building = await tx.building.create({
+    const b = await tx.building.create({
       data: {
-        companyId,
-        propertyId: property.id,
-        name: payload.building.name,
-        address: payload.building.address,
-        // Building requires non-null city/postalCode strings; country defaults.
-        city: "",
-        postalCode: "",
-        country: "Greece",
+        companyId, propertyId: property.id,
+        name: payload.building.address, address: payload.building.address,
+        city: "", postalCode: "", country: "Greece",
+        hasElevator: payload.building.hasElevator,
+        elevatorSurchargePerFloor: payload.building.elevatorSurchargePerFloor,
+        elevatorExemptGroundFloor: payload.building.elevatorExemptGroundFloor,
         unitsCount: payload.units.length,
-        technicalNotes: `Διαχειριστής: ${payload.managerName}`,
+        technicalNotes: `Διαχειριστής: ${payload.building.managerName}`,
       },
     });
-    if (payload.units.length) {
-      await tx.unit.createMany({
-        data: payload.units.map((u) => ({ buildingId: building.id, unitNumber: u.unitNumber })),
-      });
-    }
+    await tx.unit.createMany({
+      data: payload.units.map((u) => ({
+        buildingId: b.id,
+        unitNumber: u.unitNumber,
+        floor: u.floor ?? undefined,
+        areaSqm: u.areaSqm ?? undefined,
+        unitType: u.unitType as UnitType,
+        millesimes: u.millesimes ?? undefined,
+        millesimesElevator: u.millesimesElevator ?? undefined,
+        millesimesHeating: u.millesimesHeating ?? undefined,
+      })),
+    });
     if (payload.meteredHeating) {
       const heatingCat = await tx.expenseCategory.findFirst({
         where: { defaultBasis: { in: ["HEATING_MILLESIMES", "METERED_70_30"] } },
@@ -73,19 +75,13 @@ export async function createBuildingFromOnboarding(
       });
       if (heatingCat) {
         await tx.buildingCategoryOverride.upsert({
-          where: { buildingId_categoryId: { buildingId: building.id, categoryId: heatingCat.id } },
-          create: {
-            buildingId: building.id,
-            categoryId: heatingCat.id,
-            distributionBasis: "METERED_70_30",
-            tenantPct: heatingCat.defaultTenantPct,
-            ownerPct: heatingCat.defaultOwnerPct,
-          },
+          where: { buildingId_categoryId: { buildingId: b.id, categoryId: heatingCat.id } },
+          create: { buildingId: b.id, categoryId: heatingCat.id, distributionBasis: "METERED_70_30", tenantPct: heatingCat.defaultTenantPct, ownerPct: heatingCat.defaultOwnerPct },
           update: { distributionBasis: "METERED_70_30" },
         });
       }
     }
-    return building.id;
+    return b.id;
   });
 
   revalidatePath(`/super-admin/customers/${customerId}`);
