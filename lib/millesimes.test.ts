@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { computeMillesimes, distributeWeights, elevatorWeight, type WeightInput } from "./millesimes";
+import { computeMillesimes, distributeWeights, elevatorWeight } from "./millesimes";
 
 // Helper: sum of non-null millesimes, rounded to 2 decimals to kill fp noise.
 function sum(results: { millesimes: number | null }[]): number {
@@ -97,6 +97,3 @@ describe("elevatorWeight", () => {
     expect(elevatorWeight(80, 0, 0.1, false)).toBe(80);
   });
 });
-
-const _unusedWeightInput: WeightInput = { id: "x", weight: 1 };
-void _unusedWeightInput;
