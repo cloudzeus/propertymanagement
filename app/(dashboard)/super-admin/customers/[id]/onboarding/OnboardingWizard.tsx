@@ -116,7 +116,7 @@ export function OnboardingWizard({ customerId, customerName }: { customerId: str
                   </select>
                 </td>
                 <td style={{ color: (u.areaSqm ?? 0) > 0 ? undefined : "#c00" }}>{mil.g.get(String(i)) ?? "—"}</td>
-                <td>{mil.e ? (mil.e.get(String(i)) ?? "—") : "—"}</td>
+                <td>{mil.e ? (mil.e.get(String(i)) ?? ((u.areaSqm ?? 0) > 0 ? 0 : "—")) : "—"}</td>
                 <td><button type="button" onClick={() => removeUnit(i)}>✕</button></td>
               </tr>
             ))}
