@@ -27,6 +27,8 @@ import { DistributionTab } from "./DistributionTab";
 import { ExclusionMatrix } from "./ExclusionMatrix";
 import { HeatingReadingsPanel } from "./HeatingReadingsPanel";
 import { type HeatingReadingDTO } from "@/app/actions/heating-readings";
+import { AuditDrawer } from "./AuditDrawer";
+import type { AuditTab } from "@/lib/buildings/audit";
 
 type Building = {
   id: string; name: string; address: string; city: string; postalCode: string;
@@ -104,6 +106,10 @@ export function BuildingDashboard({ building, kpis, units, files, people, contac
             </div>
           </div>
           <div style={{ display: "flex", gap: 8 }}>
+            <AuditDrawer buildingId={building.id} onGoToTab={(t: AuditTab) => {
+              const map: Record<AuditTab, TabKey> = { units: "units", millesimes: "millesimes", distribution: "millesimes", exclusions: "millesimes", heating: "millesimes", info: "overview", customer: "overview" };
+              const target = map[t]; if (target) setTab(target);
+            }} />
             <Link href={`/super-admin/properties/${building.propertyId}`} style={btn}><RiEditLine /> Επεξεργασία</Link>
             <button style={{ ...btn, ...btnPrimary }}><RiAddLine /> Ενέργεια</button>
           </div>
