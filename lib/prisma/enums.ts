@@ -159,6 +159,25 @@ export const EmployeeStatus = {
 export type EmployeeStatus = (typeof EmployeeStatus)[keyof typeof EmployeeStatus]
 
 
+export const MillesimeSource = {
+  AUTO: 'AUTO',
+  MANUAL: 'MANUAL'
+} as const
+
+export type MillesimeSource = (typeof MillesimeSource)[keyof typeof MillesimeSource]
+
+
+export const DistributionBasis = {
+  GENERAL_MILLESIMES: 'GENERAL_MILLESIMES',
+  ELEVATOR_MILLESIMES: 'ELEVATOR_MILLESIMES',
+  HEATING_MILLESIMES: 'HEATING_MILLESIMES',
+  EQUAL_PER_UNIT: 'EQUAL_PER_UNIT',
+  METERED_70_30: 'METERED_70_30'
+} as const
+
+export type DistributionBasis = (typeof DistributionBasis)[keyof typeof DistributionBasis]
+
+
 export const OccupancyRole = {
   OWNER: 'OWNER',
   RESIDENT: 'RESIDENT'

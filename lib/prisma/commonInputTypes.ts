@@ -623,6 +623,13 @@ export type EnumExpenseUtilityTypeFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumExpenseUtilityTypeFilter<$PrismaModel> | $Enums.ExpenseUtilityType
 }
 
+export type EnumDistributionBasisFilter<$PrismaModel = never> = {
+  equals?: $Enums.DistributionBasis | Prisma.EnumDistributionBasisFieldRefInput<$PrismaModel>
+  in?: $Enums.DistributionBasis[] | Prisma.ListEnumDistributionBasisFieldRefInput<$PrismaModel>
+  notIn?: $Enums.DistributionBasis[] | Prisma.ListEnumDistributionBasisFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumDistributionBasisFilter<$PrismaModel> | $Enums.DistributionBasis
+}
+
 export type EnumExpenseUtilityTypeWithAggregatesFilter<$PrismaModel = never> = {
   equals?: $Enums.ExpenseUtilityType | Prisma.EnumExpenseUtilityTypeFieldRefInput<$PrismaModel>
   in?: $Enums.ExpenseUtilityType[] | Prisma.ListEnumExpenseUtilityTypeFieldRefInput<$PrismaModel>
@@ -631,6 +638,33 @@ export type EnumExpenseUtilityTypeWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumExpenseUtilityTypeFilter<$PrismaModel>
   _max?: Prisma.NestedEnumExpenseUtilityTypeFilter<$PrismaModel>
+}
+
+export type EnumDistributionBasisWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.DistributionBasis | Prisma.EnumDistributionBasisFieldRefInput<$PrismaModel>
+  in?: $Enums.DistributionBasis[] | Prisma.ListEnumDistributionBasisFieldRefInput<$PrismaModel>
+  notIn?: $Enums.DistributionBasis[] | Prisma.ListEnumDistributionBasisFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumDistributionBasisWithAggregatesFilter<$PrismaModel> | $Enums.DistributionBasis
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumDistributionBasisFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumDistributionBasisFilter<$PrismaModel>
+}
+
+export type EnumDistributionBasisNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.DistributionBasis | Prisma.EnumDistributionBasisFieldRefInput<$PrismaModel> | null
+  in?: $Enums.DistributionBasis[] | Prisma.ListEnumDistributionBasisFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.DistributionBasis[] | Prisma.ListEnumDistributionBasisFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumDistributionBasisNullableFilter<$PrismaModel> | $Enums.DistributionBasis | null
+}
+
+export type EnumDistributionBasisNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.DistributionBasis | Prisma.EnumDistributionBasisFieldRefInput<$PrismaModel> | null
+  in?: $Enums.DistributionBasis[] | Prisma.ListEnumDistributionBasisFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.DistributionBasis[] | Prisma.ListEnumDistributionBasisFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumDistributionBasisNullableWithAggregatesFilter<$PrismaModel> | $Enums.DistributionBasis | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumDistributionBasisNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumDistributionBasisNullableFilter<$PrismaModel>
 }
 
 export type EnumMeterTypeFilter<$PrismaModel = never> = {
@@ -674,6 +708,13 @@ export type EnumUnitTypeFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumUnitTypeFilter<$PrismaModel> | $Enums.UnitType
 }
 
+export type EnumMillesimeSourceFilter<$PrismaModel = never> = {
+  equals?: $Enums.MillesimeSource | Prisma.EnumMillesimeSourceFieldRefInput<$PrismaModel>
+  in?: $Enums.MillesimeSource[] | Prisma.ListEnumMillesimeSourceFieldRefInput<$PrismaModel>
+  notIn?: $Enums.MillesimeSource[] | Prisma.ListEnumMillesimeSourceFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumMillesimeSourceFilter<$PrismaModel> | $Enums.MillesimeSource
+}
+
 export type EnumUnitTypeWithAggregatesFilter<$PrismaModel = never> = {
   equals?: $Enums.UnitType | Prisma.EnumUnitTypeFieldRefInput<$PrismaModel>
   in?: $Enums.UnitType[] | Prisma.ListEnumUnitTypeFieldRefInput<$PrismaModel>
@@ -682,6 +723,16 @@ export type EnumUnitTypeWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumUnitTypeFilter<$PrismaModel>
   _max?: Prisma.NestedEnumUnitTypeFilter<$PrismaModel>
+}
+
+export type EnumMillesimeSourceWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.MillesimeSource | Prisma.EnumMillesimeSourceFieldRefInput<$PrismaModel>
+  in?: $Enums.MillesimeSource[] | Prisma.ListEnumMillesimeSourceFieldRefInput<$PrismaModel>
+  notIn?: $Enums.MillesimeSource[] | Prisma.ListEnumMillesimeSourceFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumMillesimeSourceWithAggregatesFilter<$PrismaModel> | $Enums.MillesimeSource
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumMillesimeSourceFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumMillesimeSourceFilter<$PrismaModel>
 }
 
 export type EnumServicePricingModelFilter<$PrismaModel = never> = {
@@ -1359,6 +1410,13 @@ export type NestedEnumExpenseUtilityTypeFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumExpenseUtilityTypeFilter<$PrismaModel> | $Enums.ExpenseUtilityType
 }
 
+export type NestedEnumDistributionBasisFilter<$PrismaModel = never> = {
+  equals?: $Enums.DistributionBasis | Prisma.EnumDistributionBasisFieldRefInput<$PrismaModel>
+  in?: $Enums.DistributionBasis[] | Prisma.ListEnumDistributionBasisFieldRefInput<$PrismaModel>
+  notIn?: $Enums.DistributionBasis[] | Prisma.ListEnumDistributionBasisFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumDistributionBasisFilter<$PrismaModel> | $Enums.DistributionBasis
+}
+
 export type NestedEnumExpenseUtilityTypeWithAggregatesFilter<$PrismaModel = never> = {
   equals?: $Enums.ExpenseUtilityType | Prisma.EnumExpenseUtilityTypeFieldRefInput<$PrismaModel>
   in?: $Enums.ExpenseUtilityType[] | Prisma.ListEnumExpenseUtilityTypeFieldRefInput<$PrismaModel>
@@ -1367,6 +1425,33 @@ export type NestedEnumExpenseUtilityTypeWithAggregatesFilter<$PrismaModel = neve
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumExpenseUtilityTypeFilter<$PrismaModel>
   _max?: Prisma.NestedEnumExpenseUtilityTypeFilter<$PrismaModel>
+}
+
+export type NestedEnumDistributionBasisWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.DistributionBasis | Prisma.EnumDistributionBasisFieldRefInput<$PrismaModel>
+  in?: $Enums.DistributionBasis[] | Prisma.ListEnumDistributionBasisFieldRefInput<$PrismaModel>
+  notIn?: $Enums.DistributionBasis[] | Prisma.ListEnumDistributionBasisFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumDistributionBasisWithAggregatesFilter<$PrismaModel> | $Enums.DistributionBasis
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumDistributionBasisFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumDistributionBasisFilter<$PrismaModel>
+}
+
+export type NestedEnumDistributionBasisNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.DistributionBasis | Prisma.EnumDistributionBasisFieldRefInput<$PrismaModel> | null
+  in?: $Enums.DistributionBasis[] | Prisma.ListEnumDistributionBasisFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.DistributionBasis[] | Prisma.ListEnumDistributionBasisFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumDistributionBasisNullableFilter<$PrismaModel> | $Enums.DistributionBasis | null
+}
+
+export type NestedEnumDistributionBasisNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.DistributionBasis | Prisma.EnumDistributionBasisFieldRefInput<$PrismaModel> | null
+  in?: $Enums.DistributionBasis[] | Prisma.ListEnumDistributionBasisFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.DistributionBasis[] | Prisma.ListEnumDistributionBasisFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumDistributionBasisNullableWithAggregatesFilter<$PrismaModel> | $Enums.DistributionBasis | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumDistributionBasisNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumDistributionBasisNullableFilter<$PrismaModel>
 }
 
 export type NestedEnumMeterTypeFilter<$PrismaModel = never> = {
@@ -1410,6 +1495,13 @@ export type NestedEnumUnitTypeFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumUnitTypeFilter<$PrismaModel> | $Enums.UnitType
 }
 
+export type NestedEnumMillesimeSourceFilter<$PrismaModel = never> = {
+  equals?: $Enums.MillesimeSource | Prisma.EnumMillesimeSourceFieldRefInput<$PrismaModel>
+  in?: $Enums.MillesimeSource[] | Prisma.ListEnumMillesimeSourceFieldRefInput<$PrismaModel>
+  notIn?: $Enums.MillesimeSource[] | Prisma.ListEnumMillesimeSourceFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumMillesimeSourceFilter<$PrismaModel> | $Enums.MillesimeSource
+}
+
 export type NestedEnumUnitTypeWithAggregatesFilter<$PrismaModel = never> = {
   equals?: $Enums.UnitType | Prisma.EnumUnitTypeFieldRefInput<$PrismaModel>
   in?: $Enums.UnitType[] | Prisma.ListEnumUnitTypeFieldRefInput<$PrismaModel>
@@ -1418,6 +1510,16 @@ export type NestedEnumUnitTypeWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumUnitTypeFilter<$PrismaModel>
   _max?: Prisma.NestedEnumUnitTypeFilter<$PrismaModel>
+}
+
+export type NestedEnumMillesimeSourceWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.MillesimeSource | Prisma.EnumMillesimeSourceFieldRefInput<$PrismaModel>
+  in?: $Enums.MillesimeSource[] | Prisma.ListEnumMillesimeSourceFieldRefInput<$PrismaModel>
+  notIn?: $Enums.MillesimeSource[] | Prisma.ListEnumMillesimeSourceFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumMillesimeSourceWithAggregatesFilter<$PrismaModel> | $Enums.MillesimeSource
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumMillesimeSourceFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumMillesimeSourceFilter<$PrismaModel>
 }
 
 export type NestedEnumServicePricingModelFilter<$PrismaModel = never> = {

@@ -30,6 +30,7 @@ export type BuildingAvgAggregateOutputType = {
   floors: number | null
   basements: number | null
   unitsCount: number | null
+  elevatorSurchargePerFloor: number | null
   lat: number | null
   lng: number | null
 }
@@ -38,6 +39,7 @@ export type BuildingSumAggregateOutputType = {
   floors: number | null
   basements: number | null
   unitsCount: number | null
+  elevatorSurchargePerFloor: number | null
   lat: number | null
   lng: number | null
 }
@@ -59,6 +61,8 @@ export type BuildingMinAggregateOutputType = {
   hasBoiler: boolean | null
   hasFireSafety: boolean | null
   technicalNotes: string | null
+  elevatorSurchargePerFloor: number | null
+  elevatorExemptGroundFloor: boolean | null
   lat: number | null
   lng: number | null
   dailyRoomName: string | null
@@ -83,6 +87,8 @@ export type BuildingMaxAggregateOutputType = {
   hasBoiler: boolean | null
   hasFireSafety: boolean | null
   technicalNotes: string | null
+  elevatorSurchargePerFloor: number | null
+  elevatorExemptGroundFloor: boolean | null
   lat: number | null
   lng: number | null
   dailyRoomName: string | null
@@ -107,6 +113,8 @@ export type BuildingCountAggregateOutputType = {
   hasBoiler: number
   hasFireSafety: number
   technicalNotes: number
+  elevatorSurchargePerFloor: number
+  elevatorExemptGroundFloor: number
   lat: number
   lng: number
   dailyRoomName: number
@@ -120,6 +128,7 @@ export type BuildingAvgAggregateInputType = {
   floors?: true
   basements?: true
   unitsCount?: true
+  elevatorSurchargePerFloor?: true
   lat?: true
   lng?: true
 }
@@ -128,6 +137,7 @@ export type BuildingSumAggregateInputType = {
   floors?: true
   basements?: true
   unitsCount?: true
+  elevatorSurchargePerFloor?: true
   lat?: true
   lng?: true
 }
@@ -149,6 +159,8 @@ export type BuildingMinAggregateInputType = {
   hasBoiler?: true
   hasFireSafety?: true
   technicalNotes?: true
+  elevatorSurchargePerFloor?: true
+  elevatorExemptGroundFloor?: true
   lat?: true
   lng?: true
   dailyRoomName?: true
@@ -173,6 +185,8 @@ export type BuildingMaxAggregateInputType = {
   hasBoiler?: true
   hasFireSafety?: true
   technicalNotes?: true
+  elevatorSurchargePerFloor?: true
+  elevatorExemptGroundFloor?: true
   lat?: true
   lng?: true
   dailyRoomName?: true
@@ -197,6 +211,8 @@ export type BuildingCountAggregateInputType = {
   hasBoiler?: true
   hasFireSafety?: true
   technicalNotes?: true
+  elevatorSurchargePerFloor?: true
+  elevatorExemptGroundFloor?: true
   lat?: true
   lng?: true
   dailyRoomName?: true
@@ -308,6 +324,8 @@ export type BuildingGroupByOutputType = {
   hasBoiler: boolean
   hasFireSafety: boolean
   technicalNotes: string | null
+  elevatorSurchargePerFloor: number
+  elevatorExemptGroundFloor: boolean
   lat: number | null
   lng: number | null
   dailyRoomName: string | null
@@ -355,6 +373,8 @@ export type BuildingWhereInput = {
   hasBoiler?: Prisma.BoolFilter<"Building"> | boolean
   hasFireSafety?: Prisma.BoolFilter<"Building"> | boolean
   technicalNotes?: Prisma.StringNullableFilter<"Building"> | string | null
+  elevatorSurchargePerFloor?: Prisma.FloatFilter<"Building"> | number
+  elevatorExemptGroundFloor?: Prisma.BoolFilter<"Building"> | boolean
   lat?: Prisma.FloatNullableFilter<"Building"> | number | null
   lng?: Prisma.FloatNullableFilter<"Building"> | number | null
   dailyRoomName?: Prisma.StringNullableFilter<"Building"> | string | null
@@ -396,6 +416,8 @@ export type BuildingOrderByWithRelationInput = {
   hasBoiler?: Prisma.SortOrder
   hasFireSafety?: Prisma.SortOrder
   technicalNotes?: Prisma.SortOrderInput | Prisma.SortOrder
+  elevatorSurchargePerFloor?: Prisma.SortOrder
+  elevatorExemptGroundFloor?: Prisma.SortOrder
   lat?: Prisma.SortOrderInput | Prisma.SortOrder
   lng?: Prisma.SortOrderInput | Prisma.SortOrder
   dailyRoomName?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -440,6 +462,8 @@ export type BuildingWhereUniqueInput = Prisma.AtLeast<{
   hasBoiler?: Prisma.BoolFilter<"Building"> | boolean
   hasFireSafety?: Prisma.BoolFilter<"Building"> | boolean
   technicalNotes?: Prisma.StringNullableFilter<"Building"> | string | null
+  elevatorSurchargePerFloor?: Prisma.FloatFilter<"Building"> | number
+  elevatorExemptGroundFloor?: Prisma.BoolFilter<"Building"> | boolean
   lat?: Prisma.FloatNullableFilter<"Building"> | number | null
   lng?: Prisma.FloatNullableFilter<"Building"> | number | null
   dailyRoomName?: Prisma.StringNullableFilter<"Building"> | string | null
@@ -481,6 +505,8 @@ export type BuildingOrderByWithAggregationInput = {
   hasBoiler?: Prisma.SortOrder
   hasFireSafety?: Prisma.SortOrder
   technicalNotes?: Prisma.SortOrderInput | Prisma.SortOrder
+  elevatorSurchargePerFloor?: Prisma.SortOrder
+  elevatorExemptGroundFloor?: Prisma.SortOrder
   lat?: Prisma.SortOrderInput | Prisma.SortOrder
   lng?: Prisma.SortOrderInput | Prisma.SortOrder
   dailyRoomName?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -513,6 +539,8 @@ export type BuildingScalarWhereWithAggregatesInput = {
   hasBoiler?: Prisma.BoolWithAggregatesFilter<"Building"> | boolean
   hasFireSafety?: Prisma.BoolWithAggregatesFilter<"Building"> | boolean
   technicalNotes?: Prisma.StringNullableWithAggregatesFilter<"Building"> | string | null
+  elevatorSurchargePerFloor?: Prisma.FloatWithAggregatesFilter<"Building"> | number
+  elevatorExemptGroundFloor?: Prisma.BoolWithAggregatesFilter<"Building"> | boolean
   lat?: Prisma.FloatNullableWithAggregatesFilter<"Building"> | number | null
   lng?: Prisma.FloatNullableWithAggregatesFilter<"Building"> | number | null
   dailyRoomName?: Prisma.StringNullableWithAggregatesFilter<"Building"> | string | null
@@ -535,6 +563,8 @@ export type BuildingCreateInput = {
   hasBoiler?: boolean
   hasFireSafety?: boolean
   technicalNotes?: string | null
+  elevatorSurchargePerFloor?: number
+  elevatorExemptGroundFloor?: boolean
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -576,6 +606,8 @@ export type BuildingUncheckedCreateInput = {
   hasBoiler?: boolean
   hasFireSafety?: boolean
   technicalNotes?: string | null
+  elevatorSurchargePerFloor?: number
+  elevatorExemptGroundFloor?: boolean
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -613,6 +645,8 @@ export type BuildingUpdateInput = {
   hasBoiler?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hasFireSafety?: Prisma.BoolFieldUpdateOperationsInput | boolean
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
+  elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -654,6 +688,8 @@ export type BuildingUncheckedUpdateInput = {
   hasBoiler?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hasFireSafety?: Prisma.BoolFieldUpdateOperationsInput | boolean
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
+  elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -693,6 +729,8 @@ export type BuildingCreateManyInput = {
   hasBoiler?: boolean
   hasFireSafety?: boolean
   technicalNotes?: string | null
+  elevatorSurchargePerFloor?: number
+  elevatorExemptGroundFloor?: boolean
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -715,6 +753,8 @@ export type BuildingUpdateManyMutationInput = {
   hasBoiler?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hasFireSafety?: Prisma.BoolFieldUpdateOperationsInput | boolean
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
+  elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -739,6 +779,8 @@ export type BuildingUncheckedUpdateManyInput = {
   hasBoiler?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hasFireSafety?: Prisma.BoolFieldUpdateOperationsInput | boolean
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
+  elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -778,6 +820,8 @@ export type BuildingCountOrderByAggregateInput = {
   hasBoiler?: Prisma.SortOrder
   hasFireSafety?: Prisma.SortOrder
   technicalNotes?: Prisma.SortOrder
+  elevatorSurchargePerFloor?: Prisma.SortOrder
+  elevatorExemptGroundFloor?: Prisma.SortOrder
   lat?: Prisma.SortOrder
   lng?: Prisma.SortOrder
   dailyRoomName?: Prisma.SortOrder
@@ -789,6 +833,7 @@ export type BuildingAvgOrderByAggregateInput = {
   floors?: Prisma.SortOrder
   basements?: Prisma.SortOrder
   unitsCount?: Prisma.SortOrder
+  elevatorSurchargePerFloor?: Prisma.SortOrder
   lat?: Prisma.SortOrder
   lng?: Prisma.SortOrder
 }
@@ -810,6 +855,8 @@ export type BuildingMaxOrderByAggregateInput = {
   hasBoiler?: Prisma.SortOrder
   hasFireSafety?: Prisma.SortOrder
   technicalNotes?: Prisma.SortOrder
+  elevatorSurchargePerFloor?: Prisma.SortOrder
+  elevatorExemptGroundFloor?: Prisma.SortOrder
   lat?: Prisma.SortOrder
   lng?: Prisma.SortOrder
   dailyRoomName?: Prisma.SortOrder
@@ -834,6 +881,8 @@ export type BuildingMinOrderByAggregateInput = {
   hasBoiler?: Prisma.SortOrder
   hasFireSafety?: Prisma.SortOrder
   technicalNotes?: Prisma.SortOrder
+  elevatorSurchargePerFloor?: Prisma.SortOrder
+  elevatorExemptGroundFloor?: Prisma.SortOrder
   lat?: Prisma.SortOrder
   lng?: Prisma.SortOrder
   dailyRoomName?: Prisma.SortOrder
@@ -845,6 +894,7 @@ export type BuildingSumOrderByAggregateInput = {
   floors?: Prisma.SortOrder
   basements?: Prisma.SortOrder
   unitsCount?: Prisma.SortOrder
+  elevatorSurchargePerFloor?: Prisma.SortOrder
   lat?: Prisma.SortOrder
   lng?: Prisma.SortOrder
 }
@@ -1169,6 +1219,8 @@ export type BuildingCreateWithoutUsersInput = {
   hasBoiler?: boolean
   hasFireSafety?: boolean
   technicalNotes?: string | null
+  elevatorSurchargePerFloor?: number
+  elevatorExemptGroundFloor?: boolean
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -1209,6 +1261,8 @@ export type BuildingUncheckedCreateWithoutUsersInput = {
   hasBoiler?: boolean
   hasFireSafety?: boolean
   technicalNotes?: string | null
+  elevatorSurchargePerFloor?: number
+  elevatorExemptGroundFloor?: boolean
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -1261,6 +1315,8 @@ export type BuildingUpdateWithoutUsersInput = {
   hasBoiler?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hasFireSafety?: Prisma.BoolFieldUpdateOperationsInput | boolean
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
+  elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1301,6 +1357,8 @@ export type BuildingUncheckedUpdateWithoutUsersInput = {
   hasBoiler?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hasFireSafety?: Prisma.BoolFieldUpdateOperationsInput | boolean
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
+  elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1337,6 +1395,8 @@ export type BuildingCreateWithoutCompanyInput = {
   hasBoiler?: boolean
   hasFireSafety?: boolean
   technicalNotes?: string | null
+  elevatorSurchargePerFloor?: number
+  elevatorExemptGroundFloor?: boolean
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -1376,6 +1436,8 @@ export type BuildingUncheckedCreateWithoutCompanyInput = {
   hasBoiler?: boolean
   hasFireSafety?: boolean
   technicalNotes?: string | null
+  elevatorSurchargePerFloor?: number
+  elevatorExemptGroundFloor?: boolean
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -1444,6 +1506,8 @@ export type BuildingScalarWhereInput = {
   hasBoiler?: Prisma.BoolFilter<"Building"> | boolean
   hasFireSafety?: Prisma.BoolFilter<"Building"> | boolean
   technicalNotes?: Prisma.StringNullableFilter<"Building"> | string | null
+  elevatorSurchargePerFloor?: Prisma.FloatFilter<"Building"> | number
+  elevatorExemptGroundFloor?: Prisma.BoolFilter<"Building"> | boolean
   lat?: Prisma.FloatNullableFilter<"Building"> | number | null
   lng?: Prisma.FloatNullableFilter<"Building"> | number | null
   dailyRoomName?: Prisma.StringNullableFilter<"Building"> | string | null
@@ -1466,6 +1530,8 @@ export type BuildingCreateWithoutAddonsInput = {
   hasBoiler?: boolean
   hasFireSafety?: boolean
   technicalNotes?: string | null
+  elevatorSurchargePerFloor?: number
+  elevatorExemptGroundFloor?: boolean
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -1506,6 +1572,8 @@ export type BuildingUncheckedCreateWithoutAddonsInput = {
   hasBoiler?: boolean
   hasFireSafety?: boolean
   technicalNotes?: string | null
+  elevatorSurchargePerFloor?: number
+  elevatorExemptGroundFloor?: boolean
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -1558,6 +1626,8 @@ export type BuildingUpdateWithoutAddonsInput = {
   hasBoiler?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hasFireSafety?: Prisma.BoolFieldUpdateOperationsInput | boolean
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
+  elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1598,6 +1668,8 @@ export type BuildingUncheckedUpdateWithoutAddonsInput = {
   hasBoiler?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hasFireSafety?: Prisma.BoolFieldUpdateOperationsInput | boolean
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
+  elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1634,6 +1706,8 @@ export type BuildingCreateWithoutPropertyInput = {
   hasBoiler?: boolean
   hasFireSafety?: boolean
   technicalNotes?: string | null
+  elevatorSurchargePerFloor?: number
+  elevatorExemptGroundFloor?: boolean
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -1673,6 +1747,8 @@ export type BuildingUncheckedCreateWithoutPropertyInput = {
   hasBoiler?: boolean
   hasFireSafety?: boolean
   technicalNotes?: string | null
+  elevatorSurchargePerFloor?: number
+  elevatorExemptGroundFloor?: boolean
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -1736,6 +1812,8 @@ export type BuildingCreateWithoutFilesInput = {
   hasBoiler?: boolean
   hasFireSafety?: boolean
   technicalNotes?: string | null
+  elevatorSurchargePerFloor?: number
+  elevatorExemptGroundFloor?: boolean
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -1776,6 +1854,8 @@ export type BuildingUncheckedCreateWithoutFilesInput = {
   hasBoiler?: boolean
   hasFireSafety?: boolean
   technicalNotes?: string | null
+  elevatorSurchargePerFloor?: number
+  elevatorExemptGroundFloor?: boolean
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -1828,6 +1908,8 @@ export type BuildingUpdateWithoutFilesInput = {
   hasBoiler?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hasFireSafety?: Prisma.BoolFieldUpdateOperationsInput | boolean
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
+  elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1868,6 +1950,8 @@ export type BuildingUncheckedUpdateWithoutFilesInput = {
   hasBoiler?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hasFireSafety?: Prisma.BoolFieldUpdateOperationsInput | boolean
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
+  elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1904,6 +1988,8 @@ export type BuildingCreateWithoutInfraPointsInput = {
   hasBoiler?: boolean
   hasFireSafety?: boolean
   technicalNotes?: string | null
+  elevatorSurchargePerFloor?: number
+  elevatorExemptGroundFloor?: boolean
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -1944,6 +2030,8 @@ export type BuildingUncheckedCreateWithoutInfraPointsInput = {
   hasBoiler?: boolean
   hasFireSafety?: boolean
   technicalNotes?: string | null
+  elevatorSurchargePerFloor?: number
+  elevatorExemptGroundFloor?: boolean
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -1996,6 +2084,8 @@ export type BuildingUpdateWithoutInfraPointsInput = {
   hasBoiler?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hasFireSafety?: Prisma.BoolFieldUpdateOperationsInput | boolean
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
+  elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2036,6 +2126,8 @@ export type BuildingUncheckedUpdateWithoutInfraPointsInput = {
   hasBoiler?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hasFireSafety?: Prisma.BoolFieldUpdateOperationsInput | boolean
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
+  elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2072,6 +2164,8 @@ export type BuildingCreateWithoutContactsInput = {
   hasBoiler?: boolean
   hasFireSafety?: boolean
   technicalNotes?: string | null
+  elevatorSurchargePerFloor?: number
+  elevatorExemptGroundFloor?: boolean
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -2112,6 +2206,8 @@ export type BuildingUncheckedCreateWithoutContactsInput = {
   hasBoiler?: boolean
   hasFireSafety?: boolean
   technicalNotes?: string | null
+  elevatorSurchargePerFloor?: number
+  elevatorExemptGroundFloor?: boolean
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -2164,6 +2260,8 @@ export type BuildingUpdateWithoutContactsInput = {
   hasBoiler?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hasFireSafety?: Prisma.BoolFieldUpdateOperationsInput | boolean
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
+  elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2204,6 +2302,8 @@ export type BuildingUncheckedUpdateWithoutContactsInput = {
   hasBoiler?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hasFireSafety?: Prisma.BoolFieldUpdateOperationsInput | boolean
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
+  elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2240,6 +2340,8 @@ export type BuildingCreateWithoutRecurringTasksInput = {
   hasBoiler?: boolean
   hasFireSafety?: boolean
   technicalNotes?: string | null
+  elevatorSurchargePerFloor?: number
+  elevatorExemptGroundFloor?: boolean
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -2280,6 +2382,8 @@ export type BuildingUncheckedCreateWithoutRecurringTasksInput = {
   hasBoiler?: boolean
   hasFireSafety?: boolean
   technicalNotes?: string | null
+  elevatorSurchargePerFloor?: number
+  elevatorExemptGroundFloor?: boolean
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -2332,6 +2436,8 @@ export type BuildingUpdateWithoutRecurringTasksInput = {
   hasBoiler?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hasFireSafety?: Prisma.BoolFieldUpdateOperationsInput | boolean
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
+  elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2372,6 +2478,8 @@ export type BuildingUncheckedUpdateWithoutRecurringTasksInput = {
   hasBoiler?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hasFireSafety?: Prisma.BoolFieldUpdateOperationsInput | boolean
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
+  elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2408,6 +2516,8 @@ export type BuildingCreateWithoutExpensesInput = {
   hasBoiler?: boolean
   hasFireSafety?: boolean
   technicalNotes?: string | null
+  elevatorSurchargePerFloor?: number
+  elevatorExemptGroundFloor?: boolean
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -2448,6 +2558,8 @@ export type BuildingUncheckedCreateWithoutExpensesInput = {
   hasBoiler?: boolean
   hasFireSafety?: boolean
   technicalNotes?: string | null
+  elevatorSurchargePerFloor?: number
+  elevatorExemptGroundFloor?: boolean
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -2500,6 +2612,8 @@ export type BuildingUpdateWithoutExpensesInput = {
   hasBoiler?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hasFireSafety?: Prisma.BoolFieldUpdateOperationsInput | boolean
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
+  elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2540,6 +2654,8 @@ export type BuildingUncheckedUpdateWithoutExpensesInput = {
   hasBoiler?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hasFireSafety?: Prisma.BoolFieldUpdateOperationsInput | boolean
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
+  elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2576,6 +2692,8 @@ export type BuildingCreateWithoutCategoryOverridesInput = {
   hasBoiler?: boolean
   hasFireSafety?: boolean
   technicalNotes?: string | null
+  elevatorSurchargePerFloor?: number
+  elevatorExemptGroundFloor?: boolean
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -2616,6 +2734,8 @@ export type BuildingUncheckedCreateWithoutCategoryOverridesInput = {
   hasBoiler?: boolean
   hasFireSafety?: boolean
   technicalNotes?: string | null
+  elevatorSurchargePerFloor?: number
+  elevatorExemptGroundFloor?: boolean
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -2668,6 +2788,8 @@ export type BuildingUpdateWithoutCategoryOverridesInput = {
   hasBoiler?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hasFireSafety?: Prisma.BoolFieldUpdateOperationsInput | boolean
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
+  elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2708,6 +2830,8 @@ export type BuildingUncheckedUpdateWithoutCategoryOverridesInput = {
   hasBoiler?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hasFireSafety?: Prisma.BoolFieldUpdateOperationsInput | boolean
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
+  elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2744,6 +2868,8 @@ export type BuildingCreateWithoutMeterReadingsInput = {
   hasBoiler?: boolean
   hasFireSafety?: boolean
   technicalNotes?: string | null
+  elevatorSurchargePerFloor?: number
+  elevatorExemptGroundFloor?: boolean
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -2784,6 +2910,8 @@ export type BuildingUncheckedCreateWithoutMeterReadingsInput = {
   hasBoiler?: boolean
   hasFireSafety?: boolean
   technicalNotes?: string | null
+  elevatorSurchargePerFloor?: number
+  elevatorExemptGroundFloor?: boolean
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -2836,6 +2964,8 @@ export type BuildingUpdateWithoutMeterReadingsInput = {
   hasBoiler?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hasFireSafety?: Prisma.BoolFieldUpdateOperationsInput | boolean
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
+  elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2876,6 +3006,8 @@ export type BuildingUncheckedUpdateWithoutMeterReadingsInput = {
   hasBoiler?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hasFireSafety?: Prisma.BoolFieldUpdateOperationsInput | boolean
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
+  elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2912,6 +3044,8 @@ export type BuildingCreateWithoutManagementAssignmentsInput = {
   hasBoiler?: boolean
   hasFireSafety?: boolean
   technicalNotes?: string | null
+  elevatorSurchargePerFloor?: number
+  elevatorExemptGroundFloor?: boolean
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -2952,6 +3086,8 @@ export type BuildingUncheckedCreateWithoutManagementAssignmentsInput = {
   hasBoiler?: boolean
   hasFireSafety?: boolean
   technicalNotes?: string | null
+  elevatorSurchargePerFloor?: number
+  elevatorExemptGroundFloor?: boolean
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -3004,6 +3140,8 @@ export type BuildingUpdateWithoutManagementAssignmentsInput = {
   hasBoiler?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hasFireSafety?: Prisma.BoolFieldUpdateOperationsInput | boolean
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
+  elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3044,6 +3182,8 @@ export type BuildingUncheckedUpdateWithoutManagementAssignmentsInput = {
   hasBoiler?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hasFireSafety?: Prisma.BoolFieldUpdateOperationsInput | boolean
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
+  elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3080,6 +3220,8 @@ export type BuildingCreateWithoutCommonAreasInput = {
   hasBoiler?: boolean
   hasFireSafety?: boolean
   technicalNotes?: string | null
+  elevatorSurchargePerFloor?: number
+  elevatorExemptGroundFloor?: boolean
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -3120,6 +3262,8 @@ export type BuildingUncheckedCreateWithoutCommonAreasInput = {
   hasBoiler?: boolean
   hasFireSafety?: boolean
   technicalNotes?: string | null
+  elevatorSurchargePerFloor?: number
+  elevatorExemptGroundFloor?: boolean
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -3172,6 +3316,8 @@ export type BuildingUpdateWithoutCommonAreasInput = {
   hasBoiler?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hasFireSafety?: Prisma.BoolFieldUpdateOperationsInput | boolean
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
+  elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3212,6 +3358,8 @@ export type BuildingUncheckedUpdateWithoutCommonAreasInput = {
   hasBoiler?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hasFireSafety?: Prisma.BoolFieldUpdateOperationsInput | boolean
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
+  elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3248,6 +3396,8 @@ export type BuildingCreateWithoutUnitsInput = {
   hasBoiler?: boolean
   hasFireSafety?: boolean
   technicalNotes?: string | null
+  elevatorSurchargePerFloor?: number
+  elevatorExemptGroundFloor?: boolean
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -3288,6 +3438,8 @@ export type BuildingUncheckedCreateWithoutUnitsInput = {
   hasBoiler?: boolean
   hasFireSafety?: boolean
   technicalNotes?: string | null
+  elevatorSurchargePerFloor?: number
+  elevatorExemptGroundFloor?: boolean
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -3340,6 +3492,8 @@ export type BuildingUpdateWithoutUnitsInput = {
   hasBoiler?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hasFireSafety?: Prisma.BoolFieldUpdateOperationsInput | boolean
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
+  elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3380,6 +3534,8 @@ export type BuildingUncheckedUpdateWithoutUnitsInput = {
   hasBoiler?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hasFireSafety?: Prisma.BoolFieldUpdateOperationsInput | boolean
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
+  elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3416,6 +3572,8 @@ export type BuildingCreateWithoutAnnouncementsInput = {
   hasBoiler?: boolean
   hasFireSafety?: boolean
   technicalNotes?: string | null
+  elevatorSurchargePerFloor?: number
+  elevatorExemptGroundFloor?: boolean
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -3456,6 +3614,8 @@ export type BuildingUncheckedCreateWithoutAnnouncementsInput = {
   hasBoiler?: boolean
   hasFireSafety?: boolean
   technicalNotes?: string | null
+  elevatorSurchargePerFloor?: number
+  elevatorExemptGroundFloor?: boolean
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -3508,6 +3668,8 @@ export type BuildingUpdateWithoutAnnouncementsInput = {
   hasBoiler?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hasFireSafety?: Prisma.BoolFieldUpdateOperationsInput | boolean
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
+  elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3548,6 +3710,8 @@ export type BuildingUncheckedUpdateWithoutAnnouncementsInput = {
   hasBoiler?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hasFireSafety?: Prisma.BoolFieldUpdateOperationsInput | boolean
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
+  elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3584,6 +3748,8 @@ export type BuildingCreateWithoutAssembliesInput = {
   hasBoiler?: boolean
   hasFireSafety?: boolean
   technicalNotes?: string | null
+  elevatorSurchargePerFloor?: number
+  elevatorExemptGroundFloor?: boolean
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -3624,6 +3790,8 @@ export type BuildingUncheckedCreateWithoutAssembliesInput = {
   hasBoiler?: boolean
   hasFireSafety?: boolean
   technicalNotes?: string | null
+  elevatorSurchargePerFloor?: number
+  elevatorExemptGroundFloor?: boolean
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -3676,6 +3844,8 @@ export type BuildingUpdateWithoutAssembliesInput = {
   hasBoiler?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hasFireSafety?: Prisma.BoolFieldUpdateOperationsInput | boolean
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
+  elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3716,6 +3886,8 @@ export type BuildingUncheckedUpdateWithoutAssembliesInput = {
   hasBoiler?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hasFireSafety?: Prisma.BoolFieldUpdateOperationsInput | boolean
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
+  elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3752,6 +3924,8 @@ export type BuildingCreateWithoutMaintenanceRequestsInput = {
   hasBoiler?: boolean
   hasFireSafety?: boolean
   technicalNotes?: string | null
+  elevatorSurchargePerFloor?: number
+  elevatorExemptGroundFloor?: boolean
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -3792,6 +3966,8 @@ export type BuildingUncheckedCreateWithoutMaintenanceRequestsInput = {
   hasBoiler?: boolean
   hasFireSafety?: boolean
   technicalNotes?: string | null
+  elevatorSurchargePerFloor?: number
+  elevatorExemptGroundFloor?: boolean
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -3844,6 +4020,8 @@ export type BuildingUpdateWithoutMaintenanceRequestsInput = {
   hasBoiler?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hasFireSafety?: Prisma.BoolFieldUpdateOperationsInput | boolean
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
+  elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3884,6 +4062,8 @@ export type BuildingUncheckedUpdateWithoutMaintenanceRequestsInput = {
   hasBoiler?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hasFireSafety?: Prisma.BoolFieldUpdateOperationsInput | boolean
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
+  elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3921,6 +4101,8 @@ export type BuildingCreateManyCompanyInput = {
   hasBoiler?: boolean
   hasFireSafety?: boolean
   technicalNotes?: string | null
+  elevatorSurchargePerFloor?: number
+  elevatorExemptGroundFloor?: boolean
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -3943,6 +4125,8 @@ export type BuildingUpdateWithoutCompanyInput = {
   hasBoiler?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hasFireSafety?: Prisma.BoolFieldUpdateOperationsInput | boolean
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
+  elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3982,6 +4166,8 @@ export type BuildingUncheckedUpdateWithoutCompanyInput = {
   hasBoiler?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hasFireSafety?: Prisma.BoolFieldUpdateOperationsInput | boolean
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
+  elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4020,6 +4206,8 @@ export type BuildingUncheckedUpdateManyWithoutCompanyInput = {
   hasBoiler?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hasFireSafety?: Prisma.BoolFieldUpdateOperationsInput | boolean
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
+  elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4043,6 +4231,8 @@ export type BuildingCreateManyPropertyInput = {
   hasBoiler?: boolean
   hasFireSafety?: boolean
   technicalNotes?: string | null
+  elevatorSurchargePerFloor?: number
+  elevatorExemptGroundFloor?: boolean
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
@@ -4065,6 +4255,8 @@ export type BuildingUpdateWithoutPropertyInput = {
   hasBoiler?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hasFireSafety?: Prisma.BoolFieldUpdateOperationsInput | boolean
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
+  elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4104,6 +4296,8 @@ export type BuildingUncheckedUpdateWithoutPropertyInput = {
   hasBoiler?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hasFireSafety?: Prisma.BoolFieldUpdateOperationsInput | boolean
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
+  elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4142,6 +4336,8 @@ export type BuildingUncheckedUpdateManyWithoutPropertyInput = {
   hasBoiler?: Prisma.BoolFieldUpdateOperationsInput | boolean
   hasFireSafety?: Prisma.BoolFieldUpdateOperationsInput | boolean
   technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
+  elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -4323,6 +4519,8 @@ export type BuildingSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   hasBoiler?: boolean
   hasFireSafety?: boolean
   technicalNotes?: boolean
+  elevatorSurchargePerFloor?: boolean
+  elevatorExemptGroundFloor?: boolean
   lat?: boolean
   lng?: boolean
   dailyRoomName?: boolean
@@ -4365,6 +4563,8 @@ export type BuildingSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   hasBoiler?: boolean
   hasFireSafety?: boolean
   technicalNotes?: boolean
+  elevatorSurchargePerFloor?: boolean
+  elevatorExemptGroundFloor?: boolean
   lat?: boolean
   lng?: boolean
   dailyRoomName?: boolean
@@ -4391,6 +4591,8 @@ export type BuildingSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   hasBoiler?: boolean
   hasFireSafety?: boolean
   technicalNotes?: boolean
+  elevatorSurchargePerFloor?: boolean
+  elevatorExemptGroundFloor?: boolean
   lat?: boolean
   lng?: boolean
   dailyRoomName?: boolean
@@ -4417,6 +4619,8 @@ export type BuildingSelectScalar = {
   hasBoiler?: boolean
   hasFireSafety?: boolean
   technicalNotes?: boolean
+  elevatorSurchargePerFloor?: boolean
+  elevatorExemptGroundFloor?: boolean
   lat?: boolean
   lng?: boolean
   dailyRoomName?: boolean
@@ -4424,7 +4628,7 @@ export type BuildingSelectScalar = {
   updatedAt?: boolean
 }
 
-export type BuildingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "companyId" | "propertyId" | "name" | "address" | "city" | "postalCode" | "country" | "imageUrl" | "floors" | "basements" | "unitsCount" | "hasElevator" | "hasBoiler" | "hasFireSafety" | "technicalNotes" | "lat" | "lng" | "dailyRoomName" | "createdAt" | "updatedAt", ExtArgs["result"]["building"]>
+export type BuildingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "companyId" | "propertyId" | "name" | "address" | "city" | "postalCode" | "country" | "imageUrl" | "floors" | "basements" | "unitsCount" | "hasElevator" | "hasBoiler" | "hasFireSafety" | "technicalNotes" | "elevatorSurchargePerFloor" | "elevatorExemptGroundFloor" | "lat" | "lng" | "dailyRoomName" | "createdAt" | "updatedAt", ExtArgs["result"]["building"]>
 export type BuildingInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
   property?: boolean | Prisma.PropertyDefaultArgs<ExtArgs>
@@ -4492,6 +4696,8 @@ export type $BuildingPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     hasBoiler: boolean
     hasFireSafety: boolean
     technicalNotes: string | null
+    elevatorSurchargePerFloor: number
+    elevatorExemptGroundFloor: boolean
     lat: number | null
     lng: number | null
     dailyRoomName: string | null
@@ -4953,6 +5159,8 @@ export interface BuildingFieldRefs {
   readonly hasBoiler: Prisma.FieldRef<"Building", 'Boolean'>
   readonly hasFireSafety: Prisma.FieldRef<"Building", 'Boolean'>
   readonly technicalNotes: Prisma.FieldRef<"Building", 'String'>
+  readonly elevatorSurchargePerFloor: Prisma.FieldRef<"Building", 'Float'>
+  readonly elevatorExemptGroundFloor: Prisma.FieldRef<"Building", 'Boolean'>
   readonly lat: Prisma.FieldRef<"Building", 'Float'>
   readonly lng: Prisma.FieldRef<"Building", 'Float'>
   readonly dailyRoomName: Prisma.FieldRef<"Building", 'String'>

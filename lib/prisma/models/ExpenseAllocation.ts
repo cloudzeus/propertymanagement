@@ -43,6 +43,7 @@ export type ExpenseAllocationMinAggregateOutputType = {
   expenseId: string | null
   unitId: string | null
   unitShare: runtime.Decimal | null
+  breakdownNote: string | null
   tenantUserId: string | null
   tenantAmount: runtime.Decimal | null
   tenantPaid: boolean | null
@@ -61,6 +62,7 @@ export type ExpenseAllocationMaxAggregateOutputType = {
   expenseId: string | null
   unitId: string | null
   unitShare: runtime.Decimal | null
+  breakdownNote: string | null
   tenantUserId: string | null
   tenantAmount: runtime.Decimal | null
   tenantPaid: boolean | null
@@ -79,6 +81,7 @@ export type ExpenseAllocationCountAggregateOutputType = {
   expenseId: number
   unitId: number
   unitShare: number
+  breakdownNote: number
   tenantUserId: number
   tenantAmount: number
   tenantPaid: number
@@ -111,6 +114,7 @@ export type ExpenseAllocationMinAggregateInputType = {
   expenseId?: true
   unitId?: true
   unitShare?: true
+  breakdownNote?: true
   tenantUserId?: true
   tenantAmount?: true
   tenantPaid?: true
@@ -129,6 +133,7 @@ export type ExpenseAllocationMaxAggregateInputType = {
   expenseId?: true
   unitId?: true
   unitShare?: true
+  breakdownNote?: true
   tenantUserId?: true
   tenantAmount?: true
   tenantPaid?: true
@@ -147,6 +152,7 @@ export type ExpenseAllocationCountAggregateInputType = {
   expenseId?: true
   unitId?: true
   unitShare?: true
+  breakdownNote?: true
   tenantUserId?: true
   tenantAmount?: true
   tenantPaid?: true
@@ -252,6 +258,7 @@ export type ExpenseAllocationGroupByOutputType = {
   expenseId: string
   unitId: string
   unitShare: runtime.Decimal
+  breakdownNote: string | null
   tenantUserId: string | null
   tenantAmount: runtime.Decimal
   tenantPaid: boolean
@@ -293,6 +300,7 @@ export type ExpenseAllocationWhereInput = {
   expenseId?: Prisma.StringFilter<"ExpenseAllocation"> | string
   unitId?: Prisma.StringFilter<"ExpenseAllocation"> | string
   unitShare?: Prisma.DecimalFilter<"ExpenseAllocation"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  breakdownNote?: Prisma.StringNullableFilter<"ExpenseAllocation"> | string | null
   tenantUserId?: Prisma.StringNullableFilter<"ExpenseAllocation"> | string | null
   tenantAmount?: Prisma.DecimalFilter<"ExpenseAllocation"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   tenantPaid?: Prisma.BoolFilter<"ExpenseAllocation"> | boolean
@@ -313,6 +321,7 @@ export type ExpenseAllocationOrderByWithRelationInput = {
   expenseId?: Prisma.SortOrder
   unitId?: Prisma.SortOrder
   unitShare?: Prisma.SortOrder
+  breakdownNote?: Prisma.SortOrderInput | Prisma.SortOrder
   tenantUserId?: Prisma.SortOrderInput | Prisma.SortOrder
   tenantAmount?: Prisma.SortOrder
   tenantPaid?: Prisma.SortOrder
@@ -336,6 +345,7 @@ export type ExpenseAllocationWhereUniqueInput = Prisma.AtLeast<{
   expenseId?: Prisma.StringFilter<"ExpenseAllocation"> | string
   unitId?: Prisma.StringFilter<"ExpenseAllocation"> | string
   unitShare?: Prisma.DecimalFilter<"ExpenseAllocation"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  breakdownNote?: Prisma.StringNullableFilter<"ExpenseAllocation"> | string | null
   tenantUserId?: Prisma.StringNullableFilter<"ExpenseAllocation"> | string | null
   tenantAmount?: Prisma.DecimalFilter<"ExpenseAllocation"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   tenantPaid?: Prisma.BoolFilter<"ExpenseAllocation"> | boolean
@@ -356,6 +366,7 @@ export type ExpenseAllocationOrderByWithAggregationInput = {
   expenseId?: Prisma.SortOrder
   unitId?: Prisma.SortOrder
   unitShare?: Prisma.SortOrder
+  breakdownNote?: Prisma.SortOrderInput | Prisma.SortOrder
   tenantUserId?: Prisma.SortOrderInput | Prisma.SortOrder
   tenantAmount?: Prisma.SortOrder
   tenantPaid?: Prisma.SortOrder
@@ -382,6 +393,7 @@ export type ExpenseAllocationScalarWhereWithAggregatesInput = {
   expenseId?: Prisma.StringWithAggregatesFilter<"ExpenseAllocation"> | string
   unitId?: Prisma.StringWithAggregatesFilter<"ExpenseAllocation"> | string
   unitShare?: Prisma.DecimalWithAggregatesFilter<"ExpenseAllocation"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  breakdownNote?: Prisma.StringNullableWithAggregatesFilter<"ExpenseAllocation"> | string | null
   tenantUserId?: Prisma.StringNullableWithAggregatesFilter<"ExpenseAllocation"> | string | null
   tenantAmount?: Prisma.DecimalWithAggregatesFilter<"ExpenseAllocation"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   tenantPaid?: Prisma.BoolWithAggregatesFilter<"ExpenseAllocation"> | boolean
@@ -398,6 +410,7 @@ export type ExpenseAllocationScalarWhereWithAggregatesInput = {
 export type ExpenseAllocationCreateInput = {
   id?: string
   unitShare: runtime.Decimal | runtime.DecimalJsLike | number | string
+  breakdownNote?: string | null
   tenantUserId?: string | null
   tenantAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   tenantPaid?: boolean
@@ -418,6 +431,7 @@ export type ExpenseAllocationUncheckedCreateInput = {
   expenseId: string
   unitId: string
   unitShare: runtime.Decimal | runtime.DecimalJsLike | number | string
+  breakdownNote?: string | null
   tenantUserId?: string | null
   tenantAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   tenantPaid?: boolean
@@ -434,6 +448,7 @@ export type ExpenseAllocationUncheckedCreateInput = {
 export type ExpenseAllocationUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   unitShare?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  breakdownNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenantUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenantAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   tenantPaid?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -454,6 +469,7 @@ export type ExpenseAllocationUncheckedUpdateInput = {
   expenseId?: Prisma.StringFieldUpdateOperationsInput | string
   unitId?: Prisma.StringFieldUpdateOperationsInput | string
   unitShare?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  breakdownNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenantUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenantAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   tenantPaid?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -472,6 +488,7 @@ export type ExpenseAllocationCreateManyInput = {
   expenseId: string
   unitId: string
   unitShare: runtime.Decimal | runtime.DecimalJsLike | number | string
+  breakdownNote?: string | null
   tenantUserId?: string | null
   tenantAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   tenantPaid?: boolean
@@ -488,6 +505,7 @@ export type ExpenseAllocationCreateManyInput = {
 export type ExpenseAllocationUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   unitShare?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  breakdownNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenantUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenantAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   tenantPaid?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -506,6 +524,7 @@ export type ExpenseAllocationUncheckedUpdateManyInput = {
   expenseId?: Prisma.StringFieldUpdateOperationsInput | string
   unitId?: Prisma.StringFieldUpdateOperationsInput | string
   unitShare?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  breakdownNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenantUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenantAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   tenantPaid?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -534,6 +553,7 @@ export type ExpenseAllocationCountOrderByAggregateInput = {
   expenseId?: Prisma.SortOrder
   unitId?: Prisma.SortOrder
   unitShare?: Prisma.SortOrder
+  breakdownNote?: Prisma.SortOrder
   tenantUserId?: Prisma.SortOrder
   tenantAmount?: Prisma.SortOrder
   tenantPaid?: Prisma.SortOrder
@@ -558,6 +578,7 @@ export type ExpenseAllocationMaxOrderByAggregateInput = {
   expenseId?: Prisma.SortOrder
   unitId?: Prisma.SortOrder
   unitShare?: Prisma.SortOrder
+  breakdownNote?: Prisma.SortOrder
   tenantUserId?: Prisma.SortOrder
   tenantAmount?: Prisma.SortOrder
   tenantPaid?: Prisma.SortOrder
@@ -576,6 +597,7 @@ export type ExpenseAllocationMinOrderByAggregateInput = {
   expenseId?: Prisma.SortOrder
   unitId?: Prisma.SortOrder
   unitShare?: Prisma.SortOrder
+  breakdownNote?: Prisma.SortOrder
   tenantUserId?: Prisma.SortOrder
   tenantAmount?: Prisma.SortOrder
   tenantPaid?: Prisma.SortOrder
@@ -682,6 +704,7 @@ export type ExpenseAllocationUncheckedUpdateManyWithoutUnitNestedInput = {
 export type ExpenseAllocationCreateWithoutExpenseInput = {
   id?: string
   unitShare: runtime.Decimal | runtime.DecimalJsLike | number | string
+  breakdownNote?: string | null
   tenantUserId?: string | null
   tenantAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   tenantPaid?: boolean
@@ -700,6 +723,7 @@ export type ExpenseAllocationUncheckedCreateWithoutExpenseInput = {
   id?: string
   unitId: string
   unitShare: runtime.Decimal | runtime.DecimalJsLike | number | string
+  breakdownNote?: string | null
   tenantUserId?: string | null
   tenantAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   tenantPaid?: boolean
@@ -747,6 +771,7 @@ export type ExpenseAllocationScalarWhereInput = {
   expenseId?: Prisma.StringFilter<"ExpenseAllocation"> | string
   unitId?: Prisma.StringFilter<"ExpenseAllocation"> | string
   unitShare?: Prisma.DecimalFilter<"ExpenseAllocation"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  breakdownNote?: Prisma.StringNullableFilter<"ExpenseAllocation"> | string | null
   tenantUserId?: Prisma.StringNullableFilter<"ExpenseAllocation"> | string | null
   tenantAmount?: Prisma.DecimalFilter<"ExpenseAllocation"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   tenantPaid?: Prisma.BoolFilter<"ExpenseAllocation"> | boolean
@@ -763,6 +788,7 @@ export type ExpenseAllocationScalarWhereInput = {
 export type ExpenseAllocationCreateWithoutUnitInput = {
   id?: string
   unitShare: runtime.Decimal | runtime.DecimalJsLike | number | string
+  breakdownNote?: string | null
   tenantUserId?: string | null
   tenantAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   tenantPaid?: boolean
@@ -781,6 +807,7 @@ export type ExpenseAllocationUncheckedCreateWithoutUnitInput = {
   id?: string
   expenseId: string
   unitShare: runtime.Decimal | runtime.DecimalJsLike | number | string
+  breakdownNote?: string | null
   tenantUserId?: string | null
   tenantAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   tenantPaid?: boolean
@@ -824,6 +851,7 @@ export type ExpenseAllocationCreateManyExpenseInput = {
   id?: string
   unitId: string
   unitShare: runtime.Decimal | runtime.DecimalJsLike | number | string
+  breakdownNote?: string | null
   tenantUserId?: string | null
   tenantAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   tenantPaid?: boolean
@@ -840,6 +868,7 @@ export type ExpenseAllocationCreateManyExpenseInput = {
 export type ExpenseAllocationUpdateWithoutExpenseInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   unitShare?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  breakdownNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenantUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenantAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   tenantPaid?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -858,6 +887,7 @@ export type ExpenseAllocationUncheckedUpdateWithoutExpenseInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   unitId?: Prisma.StringFieldUpdateOperationsInput | string
   unitShare?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  breakdownNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenantUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenantAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   tenantPaid?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -875,6 +905,7 @@ export type ExpenseAllocationUncheckedUpdateManyWithoutExpenseInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   unitId?: Prisma.StringFieldUpdateOperationsInput | string
   unitShare?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  breakdownNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenantUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenantAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   tenantPaid?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -892,6 +923,7 @@ export type ExpenseAllocationCreateManyUnitInput = {
   id?: string
   expenseId: string
   unitShare: runtime.Decimal | runtime.DecimalJsLike | number | string
+  breakdownNote?: string | null
   tenantUserId?: string | null
   tenantAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   tenantPaid?: boolean
@@ -908,6 +940,7 @@ export type ExpenseAllocationCreateManyUnitInput = {
 export type ExpenseAllocationUpdateWithoutUnitInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   unitShare?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  breakdownNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenantUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenantAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   tenantPaid?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -926,6 +959,7 @@ export type ExpenseAllocationUncheckedUpdateWithoutUnitInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   expenseId?: Prisma.StringFieldUpdateOperationsInput | string
   unitShare?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  breakdownNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenantUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenantAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   tenantPaid?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -943,6 +977,7 @@ export type ExpenseAllocationUncheckedUpdateManyWithoutUnitInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   expenseId?: Prisma.StringFieldUpdateOperationsInput | string
   unitShare?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  breakdownNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenantUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tenantAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   tenantPaid?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -963,6 +998,7 @@ export type ExpenseAllocationSelect<ExtArgs extends runtime.Types.Extensions.Int
   expenseId?: boolean
   unitId?: boolean
   unitShare?: boolean
+  breakdownNote?: boolean
   tenantUserId?: boolean
   tenantAmount?: boolean
   tenantPaid?: boolean
@@ -983,6 +1019,7 @@ export type ExpenseAllocationSelectCreateManyAndReturn<ExtArgs extends runtime.T
   expenseId?: boolean
   unitId?: boolean
   unitShare?: boolean
+  breakdownNote?: boolean
   tenantUserId?: boolean
   tenantAmount?: boolean
   tenantPaid?: boolean
@@ -1003,6 +1040,7 @@ export type ExpenseAllocationSelectUpdateManyAndReturn<ExtArgs extends runtime.T
   expenseId?: boolean
   unitId?: boolean
   unitShare?: boolean
+  breakdownNote?: boolean
   tenantUserId?: boolean
   tenantAmount?: boolean
   tenantPaid?: boolean
@@ -1023,6 +1061,7 @@ export type ExpenseAllocationSelectScalar = {
   expenseId?: boolean
   unitId?: boolean
   unitShare?: boolean
+  breakdownNote?: boolean
   tenantUserId?: boolean
   tenantAmount?: boolean
   tenantPaid?: boolean
@@ -1036,7 +1075,7 @@ export type ExpenseAllocationSelectScalar = {
   createdAt?: boolean
 }
 
-export type ExpenseAllocationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "expenseId" | "unitId" | "unitShare" | "tenantUserId" | "tenantAmount" | "tenantPaid" | "tenantPaidAt" | "tenantPaymentMethod" | "ownerUserId" | "ownerAmount" | "ownerPaid" | "ownerPaidAt" | "ownerPaymentMethod" | "createdAt", ExtArgs["result"]["expenseAllocation"]>
+export type ExpenseAllocationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "expenseId" | "unitId" | "unitShare" | "breakdownNote" | "tenantUserId" | "tenantAmount" | "tenantPaid" | "tenantPaidAt" | "tenantPaymentMethod" | "ownerUserId" | "ownerAmount" | "ownerPaid" | "ownerPaidAt" | "ownerPaymentMethod" | "createdAt", ExtArgs["result"]["expenseAllocation"]>
 export type ExpenseAllocationInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   expense?: boolean | Prisma.BuildingExpenseDefaultArgs<ExtArgs>
   unit?: boolean | Prisma.UnitDefaultArgs<ExtArgs>
@@ -1061,6 +1100,7 @@ export type $ExpenseAllocationPayload<ExtArgs extends runtime.Types.Extensions.I
     expenseId: string
     unitId: string
     unitShare: runtime.Decimal
+    breakdownNote: string | null
     tenantUserId: string | null
     tenantAmount: runtime.Decimal
     tenantPaid: boolean
@@ -1501,6 +1541,7 @@ export interface ExpenseAllocationFieldRefs {
   readonly expenseId: Prisma.FieldRef<"ExpenseAllocation", 'String'>
   readonly unitId: Prisma.FieldRef<"ExpenseAllocation", 'String'>
   readonly unitShare: Prisma.FieldRef<"ExpenseAllocation", 'Decimal'>
+  readonly breakdownNote: Prisma.FieldRef<"ExpenseAllocation", 'String'>
   readonly tenantUserId: Prisma.FieldRef<"ExpenseAllocation", 'String'>
   readonly tenantAmount: Prisma.FieldRef<"ExpenseAllocation", 'Decimal'>
   readonly tenantPaid: Prisma.FieldRef<"ExpenseAllocation", 'Boolean'>

@@ -5,6 +5,7 @@ import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import { canManageBuildingExpenses } from "@/lib/expenses/authz";
 import { resolveSplit } from "@/lib/expenses/allocation";
+import type { DistributionBasis } from "@/lib/prisma/enums";
 
 async function requireAdmin() {
   const session = await auth();
@@ -17,6 +18,7 @@ async function requireAdmin() {
 export type CategoryInput = {
   name: string; code: string; utilityType: "NONE" | "POWER" | "WATER" | "GAS";
   defaultTenantPct: number; defaultOwnerPct: number; sortOrder?: number; active?: boolean;
+  defaultBasis?: DistributionBasis;
 };
 
 function assertSplit(t: number, o: number) {

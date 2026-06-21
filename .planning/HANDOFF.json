@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "timestamp": "2026-06-19T19:40:08.951Z",
+  "timestamp": "2026-06-21T10:14:56.398Z",
   "source": "auto-postool",
   "partial": false,
   "phase": null,
@@ -22,17 +22,73 @@
     },
     {
       "status": "M",
-      "path": "app/actions/koinochrista.ts"
+      "path": "app/(dashboard)/super-admin/settings/expense-categories/expense-categories-client.tsx"
     },
     {
       "status": "M",
-      "path": "components/buildings/KoinochristaPanel.tsx"
+      "path": "app/actions/expense-categories.ts"
     },
     {
       "status": "M",
-      "path": "components/buildings/PersonStatementModal.tsx"
+      "path": "lib/prisma/browser.ts"
+    },
+    {
+      "status": "M",
+      "path": "lib/prisma/client.ts"
+    },
+    {
+      "status": "M",
+      "path": "lib/prisma/commonInputTypes.ts"
+    },
+    {
+      "status": "M",
+      "path": "lib/prisma/enums.ts"
+    },
+    {
+      "status": "M",
+      "path": "lib/prisma/internal/class.ts"
+    },
+    {
+      "status": "M",
+      "path": "lib/prisma/internal/prismaNamespace.ts"
+    },
+    {
+      "status": "M",
+      "path": "lib/prisma/internal/prismaNamespaceBrowser.ts"
+    },
+    {
+      "status": "M",
+      "path": "lib/prisma/models.ts"
+    },
+    {
+      "status": "M",
+      "path": "lib/prisma/models/Building.ts"
+    },
+    {
+      "status": "M",
+      "path": "lib/prisma/models/BuildingCategoryOverride.ts"
+    },
+    {
+      "status": "M",
+      "path": "lib/prisma/models/ExpenseAllocation.ts"
+    },
+    {
+      "status": "M",
+      "path": "lib/prisma/models/ExpenseCategory.ts"
+    },
+    {
+      "status": "M",
+      "path": "lib/prisma/models/Unit.ts"
+    },
+    {
+      "status": "M",
+      "path": "prisma/seed-expense-categories.ts"
+    },
+    {
+      "status": "??",
+      "path": "lib/prisma/models/UnitCategoryExclusion.ts"
     }
   ],
   "next_action": null,
-  "context_notes": "Recent commits:\n1c843fc fix(ui): use defined tokens (--card/--border) across expense+koinochrista components + readability pass\n82f28ac feat(koinochrista): surface unallocated (αδιάθετα) shares — charges on units with no assigned resident/owner\n5f0d7a7 fix(koinochrista): person actions menu was clipped by overflow-x container — render as fixed-positioned dropdown anchored to the button\n97dc8e1 design(koinochrista): world-class UI pass — Fluent 2 motion, avatars, status dots, progress, segmented tabs\n246db55 feat(koinochrista): per-person actions dropdown (Πληρωμή / Λεπτομέρειες / Υπενθύμιση) + statement modal"
+  "context_notes": "Recent commits:\ne5c1d79 fix(ui): invert excluded flag in exclusion matrix toggle\ne32f91c feat(ui): millesime grid, distribution tab, exclusion matrix\n24b278b feat(koinochrista): print per-expense distribution breakdown\n063fce8 feat(buildings): actions for millesime cells, category basis, exclusions\n4b963c4 feat(buildings): recalc 3 millesime sets, skip MANUAL cells"
 }

@@ -43,6 +43,7 @@ export type ExpenseCategoryMinAggregateOutputType = {
   name: string | null
   code: string | null
   utilityType: $Enums.ExpenseUtilityType | null
+  defaultBasis: $Enums.DistributionBasis | null
   defaultTenantPct: number | null
   defaultOwnerPct: number | null
   active: boolean | null
@@ -56,6 +57,7 @@ export type ExpenseCategoryMaxAggregateOutputType = {
   name: string | null
   code: string | null
   utilityType: $Enums.ExpenseUtilityType | null
+  defaultBasis: $Enums.DistributionBasis | null
   defaultTenantPct: number | null
   defaultOwnerPct: number | null
   active: boolean | null
@@ -69,6 +71,7 @@ export type ExpenseCategoryCountAggregateOutputType = {
   name: number
   code: number
   utilityType: number
+  defaultBasis: number
   defaultTenantPct: number
   defaultOwnerPct: number
   active: number
@@ -96,6 +99,7 @@ export type ExpenseCategoryMinAggregateInputType = {
   name?: true
   code?: true
   utilityType?: true
+  defaultBasis?: true
   defaultTenantPct?: true
   defaultOwnerPct?: true
   active?: true
@@ -109,6 +113,7 @@ export type ExpenseCategoryMaxAggregateInputType = {
   name?: true
   code?: true
   utilityType?: true
+  defaultBasis?: true
   defaultTenantPct?: true
   defaultOwnerPct?: true
   active?: true
@@ -122,6 +127,7 @@ export type ExpenseCategoryCountAggregateInputType = {
   name?: true
   code?: true
   utilityType?: true
+  defaultBasis?: true
   defaultTenantPct?: true
   defaultOwnerPct?: true
   active?: true
@@ -222,6 +228,7 @@ export type ExpenseCategoryGroupByOutputType = {
   name: string
   code: string
   utilityType: $Enums.ExpenseUtilityType
+  defaultBasis: $Enums.DistributionBasis
   defaultTenantPct: number
   defaultOwnerPct: number
   active: boolean
@@ -258,6 +265,7 @@ export type ExpenseCategoryWhereInput = {
   name?: Prisma.StringFilter<"ExpenseCategory"> | string
   code?: Prisma.StringFilter<"ExpenseCategory"> | string
   utilityType?: Prisma.EnumExpenseUtilityTypeFilter<"ExpenseCategory"> | $Enums.ExpenseUtilityType
+  defaultBasis?: Prisma.EnumDistributionBasisFilter<"ExpenseCategory"> | $Enums.DistributionBasis
   defaultTenantPct?: Prisma.IntFilter<"ExpenseCategory"> | number
   defaultOwnerPct?: Prisma.IntFilter<"ExpenseCategory"> | number
   active?: Prisma.BoolFilter<"ExpenseCategory"> | boolean
@@ -266,6 +274,7 @@ export type ExpenseCategoryWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"ExpenseCategory"> | Date | string
   expenses?: Prisma.BuildingExpenseListRelationFilter
   overrides?: Prisma.BuildingCategoryOverrideListRelationFilter
+  exclusions?: Prisma.UnitCategoryExclusionListRelationFilter
 }
 
 export type ExpenseCategoryOrderByWithRelationInput = {
@@ -273,6 +282,7 @@ export type ExpenseCategoryOrderByWithRelationInput = {
   name?: Prisma.SortOrder
   code?: Prisma.SortOrder
   utilityType?: Prisma.SortOrder
+  defaultBasis?: Prisma.SortOrder
   defaultTenantPct?: Prisma.SortOrder
   defaultOwnerPct?: Prisma.SortOrder
   active?: Prisma.SortOrder
@@ -281,6 +291,7 @@ export type ExpenseCategoryOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   expenses?: Prisma.BuildingExpenseOrderByRelationAggregateInput
   overrides?: Prisma.BuildingCategoryOverrideOrderByRelationAggregateInput
+  exclusions?: Prisma.UnitCategoryExclusionOrderByRelationAggregateInput
 }
 
 export type ExpenseCategoryWhereUniqueInput = Prisma.AtLeast<{
@@ -291,6 +302,7 @@ export type ExpenseCategoryWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.ExpenseCategoryWhereInput | Prisma.ExpenseCategoryWhereInput[]
   name?: Prisma.StringFilter<"ExpenseCategory"> | string
   utilityType?: Prisma.EnumExpenseUtilityTypeFilter<"ExpenseCategory"> | $Enums.ExpenseUtilityType
+  defaultBasis?: Prisma.EnumDistributionBasisFilter<"ExpenseCategory"> | $Enums.DistributionBasis
   defaultTenantPct?: Prisma.IntFilter<"ExpenseCategory"> | number
   defaultOwnerPct?: Prisma.IntFilter<"ExpenseCategory"> | number
   active?: Prisma.BoolFilter<"ExpenseCategory"> | boolean
@@ -299,6 +311,7 @@ export type ExpenseCategoryWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"ExpenseCategory"> | Date | string
   expenses?: Prisma.BuildingExpenseListRelationFilter
   overrides?: Prisma.BuildingCategoryOverrideListRelationFilter
+  exclusions?: Prisma.UnitCategoryExclusionListRelationFilter
 }, "id" | "code">
 
 export type ExpenseCategoryOrderByWithAggregationInput = {
@@ -306,6 +319,7 @@ export type ExpenseCategoryOrderByWithAggregationInput = {
   name?: Prisma.SortOrder
   code?: Prisma.SortOrder
   utilityType?: Prisma.SortOrder
+  defaultBasis?: Prisma.SortOrder
   defaultTenantPct?: Prisma.SortOrder
   defaultOwnerPct?: Prisma.SortOrder
   active?: Prisma.SortOrder
@@ -327,6 +341,7 @@ export type ExpenseCategoryScalarWhereWithAggregatesInput = {
   name?: Prisma.StringWithAggregatesFilter<"ExpenseCategory"> | string
   code?: Prisma.StringWithAggregatesFilter<"ExpenseCategory"> | string
   utilityType?: Prisma.EnumExpenseUtilityTypeWithAggregatesFilter<"ExpenseCategory"> | $Enums.ExpenseUtilityType
+  defaultBasis?: Prisma.EnumDistributionBasisWithAggregatesFilter<"ExpenseCategory"> | $Enums.DistributionBasis
   defaultTenantPct?: Prisma.IntWithAggregatesFilter<"ExpenseCategory"> | number
   defaultOwnerPct?: Prisma.IntWithAggregatesFilter<"ExpenseCategory"> | number
   active?: Prisma.BoolWithAggregatesFilter<"ExpenseCategory"> | boolean
@@ -340,6 +355,7 @@ export type ExpenseCategoryCreateInput = {
   name: string
   code: string
   utilityType?: $Enums.ExpenseUtilityType
+  defaultBasis?: $Enums.DistributionBasis
   defaultTenantPct?: number
   defaultOwnerPct?: number
   active?: boolean
@@ -348,6 +364,7 @@ export type ExpenseCategoryCreateInput = {
   updatedAt?: Date | string
   expenses?: Prisma.BuildingExpenseCreateNestedManyWithoutCategoryRefInput
   overrides?: Prisma.BuildingCategoryOverrideCreateNestedManyWithoutCategoryInput
+  exclusions?: Prisma.UnitCategoryExclusionCreateNestedManyWithoutCategoryInput
 }
 
 export type ExpenseCategoryUncheckedCreateInput = {
@@ -355,6 +372,7 @@ export type ExpenseCategoryUncheckedCreateInput = {
   name: string
   code: string
   utilityType?: $Enums.ExpenseUtilityType
+  defaultBasis?: $Enums.DistributionBasis
   defaultTenantPct?: number
   defaultOwnerPct?: number
   active?: boolean
@@ -363,6 +381,7 @@ export type ExpenseCategoryUncheckedCreateInput = {
   updatedAt?: Date | string
   expenses?: Prisma.BuildingExpenseUncheckedCreateNestedManyWithoutCategoryRefInput
   overrides?: Prisma.BuildingCategoryOverrideUncheckedCreateNestedManyWithoutCategoryInput
+  exclusions?: Prisma.UnitCategoryExclusionUncheckedCreateNestedManyWithoutCategoryInput
 }
 
 export type ExpenseCategoryUpdateInput = {
@@ -370,6 +389,7 @@ export type ExpenseCategoryUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   code?: Prisma.StringFieldUpdateOperationsInput | string
   utilityType?: Prisma.EnumExpenseUtilityTypeFieldUpdateOperationsInput | $Enums.ExpenseUtilityType
+  defaultBasis?: Prisma.EnumDistributionBasisFieldUpdateOperationsInput | $Enums.DistributionBasis
   defaultTenantPct?: Prisma.IntFieldUpdateOperationsInput | number
   defaultOwnerPct?: Prisma.IntFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -378,6 +398,7 @@ export type ExpenseCategoryUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expenses?: Prisma.BuildingExpenseUpdateManyWithoutCategoryRefNestedInput
   overrides?: Prisma.BuildingCategoryOverrideUpdateManyWithoutCategoryNestedInput
+  exclusions?: Prisma.UnitCategoryExclusionUpdateManyWithoutCategoryNestedInput
 }
 
 export type ExpenseCategoryUncheckedUpdateInput = {
@@ -385,6 +406,7 @@ export type ExpenseCategoryUncheckedUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   code?: Prisma.StringFieldUpdateOperationsInput | string
   utilityType?: Prisma.EnumExpenseUtilityTypeFieldUpdateOperationsInput | $Enums.ExpenseUtilityType
+  defaultBasis?: Prisma.EnumDistributionBasisFieldUpdateOperationsInput | $Enums.DistributionBasis
   defaultTenantPct?: Prisma.IntFieldUpdateOperationsInput | number
   defaultOwnerPct?: Prisma.IntFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -393,6 +415,7 @@ export type ExpenseCategoryUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expenses?: Prisma.BuildingExpenseUncheckedUpdateManyWithoutCategoryRefNestedInput
   overrides?: Prisma.BuildingCategoryOverrideUncheckedUpdateManyWithoutCategoryNestedInput
+  exclusions?: Prisma.UnitCategoryExclusionUncheckedUpdateManyWithoutCategoryNestedInput
 }
 
 export type ExpenseCategoryCreateManyInput = {
@@ -400,6 +423,7 @@ export type ExpenseCategoryCreateManyInput = {
   name: string
   code: string
   utilityType?: $Enums.ExpenseUtilityType
+  defaultBasis?: $Enums.DistributionBasis
   defaultTenantPct?: number
   defaultOwnerPct?: number
   active?: boolean
@@ -413,6 +437,7 @@ export type ExpenseCategoryUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   code?: Prisma.StringFieldUpdateOperationsInput | string
   utilityType?: Prisma.EnumExpenseUtilityTypeFieldUpdateOperationsInput | $Enums.ExpenseUtilityType
+  defaultBasis?: Prisma.EnumDistributionBasisFieldUpdateOperationsInput | $Enums.DistributionBasis
   defaultTenantPct?: Prisma.IntFieldUpdateOperationsInput | number
   defaultOwnerPct?: Prisma.IntFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -426,6 +451,7 @@ export type ExpenseCategoryUncheckedUpdateManyInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   code?: Prisma.StringFieldUpdateOperationsInput | string
   utilityType?: Prisma.EnumExpenseUtilityTypeFieldUpdateOperationsInput | $Enums.ExpenseUtilityType
+  defaultBasis?: Prisma.EnumDistributionBasisFieldUpdateOperationsInput | $Enums.DistributionBasis
   defaultTenantPct?: Prisma.IntFieldUpdateOperationsInput | number
   defaultOwnerPct?: Prisma.IntFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -444,6 +470,7 @@ export type ExpenseCategoryCountOrderByAggregateInput = {
   name?: Prisma.SortOrder
   code?: Prisma.SortOrder
   utilityType?: Prisma.SortOrder
+  defaultBasis?: Prisma.SortOrder
   defaultTenantPct?: Prisma.SortOrder
   defaultOwnerPct?: Prisma.SortOrder
   active?: Prisma.SortOrder
@@ -463,6 +490,7 @@ export type ExpenseCategoryMaxOrderByAggregateInput = {
   name?: Prisma.SortOrder
   code?: Prisma.SortOrder
   utilityType?: Prisma.SortOrder
+  defaultBasis?: Prisma.SortOrder
   defaultTenantPct?: Prisma.SortOrder
   defaultOwnerPct?: Prisma.SortOrder
   active?: Prisma.SortOrder
@@ -476,6 +504,7 @@ export type ExpenseCategoryMinOrderByAggregateInput = {
   name?: Prisma.SortOrder
   code?: Prisma.SortOrder
   utilityType?: Prisma.SortOrder
+  defaultBasis?: Prisma.SortOrder
   defaultTenantPct?: Prisma.SortOrder
   defaultOwnerPct?: Prisma.SortOrder
   active?: Prisma.SortOrder
@@ -515,6 +544,10 @@ export type EnumExpenseUtilityTypeFieldUpdateOperationsInput = {
   set?: $Enums.ExpenseUtilityType
 }
 
+export type EnumDistributionBasisFieldUpdateOperationsInput = {
+  set?: $Enums.DistributionBasis
+}
+
 export type ExpenseCategoryCreateNestedOneWithoutOverridesInput = {
   create?: Prisma.XOR<Prisma.ExpenseCategoryCreateWithoutOverridesInput, Prisma.ExpenseCategoryUncheckedCreateWithoutOverridesInput>
   connectOrCreate?: Prisma.ExpenseCategoryCreateOrConnectWithoutOverridesInput
@@ -529,11 +562,26 @@ export type ExpenseCategoryUpdateOneRequiredWithoutOverridesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ExpenseCategoryUpdateToOneWithWhereWithoutOverridesInput, Prisma.ExpenseCategoryUpdateWithoutOverridesInput>, Prisma.ExpenseCategoryUncheckedUpdateWithoutOverridesInput>
 }
 
+export type ExpenseCategoryCreateNestedOneWithoutExclusionsInput = {
+  create?: Prisma.XOR<Prisma.ExpenseCategoryCreateWithoutExclusionsInput, Prisma.ExpenseCategoryUncheckedCreateWithoutExclusionsInput>
+  connectOrCreate?: Prisma.ExpenseCategoryCreateOrConnectWithoutExclusionsInput
+  connect?: Prisma.ExpenseCategoryWhereUniqueInput
+}
+
+export type ExpenseCategoryUpdateOneRequiredWithoutExclusionsNestedInput = {
+  create?: Prisma.XOR<Prisma.ExpenseCategoryCreateWithoutExclusionsInput, Prisma.ExpenseCategoryUncheckedCreateWithoutExclusionsInput>
+  connectOrCreate?: Prisma.ExpenseCategoryCreateOrConnectWithoutExclusionsInput
+  upsert?: Prisma.ExpenseCategoryUpsertWithoutExclusionsInput
+  connect?: Prisma.ExpenseCategoryWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ExpenseCategoryUpdateToOneWithWhereWithoutExclusionsInput, Prisma.ExpenseCategoryUpdateWithoutExclusionsInput>, Prisma.ExpenseCategoryUncheckedUpdateWithoutExclusionsInput>
+}
+
 export type ExpenseCategoryCreateWithoutExpensesInput = {
   id?: string
   name: string
   code: string
   utilityType?: $Enums.ExpenseUtilityType
+  defaultBasis?: $Enums.DistributionBasis
   defaultTenantPct?: number
   defaultOwnerPct?: number
   active?: boolean
@@ -541,6 +589,7 @@ export type ExpenseCategoryCreateWithoutExpensesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   overrides?: Prisma.BuildingCategoryOverrideCreateNestedManyWithoutCategoryInput
+  exclusions?: Prisma.UnitCategoryExclusionCreateNestedManyWithoutCategoryInput
 }
 
 export type ExpenseCategoryUncheckedCreateWithoutExpensesInput = {
@@ -548,6 +597,7 @@ export type ExpenseCategoryUncheckedCreateWithoutExpensesInput = {
   name: string
   code: string
   utilityType?: $Enums.ExpenseUtilityType
+  defaultBasis?: $Enums.DistributionBasis
   defaultTenantPct?: number
   defaultOwnerPct?: number
   active?: boolean
@@ -555,6 +605,7 @@ export type ExpenseCategoryUncheckedCreateWithoutExpensesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   overrides?: Prisma.BuildingCategoryOverrideUncheckedCreateNestedManyWithoutCategoryInput
+  exclusions?: Prisma.UnitCategoryExclusionUncheckedCreateNestedManyWithoutCategoryInput
 }
 
 export type ExpenseCategoryCreateOrConnectWithoutExpensesInput = {
@@ -578,6 +629,7 @@ export type ExpenseCategoryUpdateWithoutExpensesInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   code?: Prisma.StringFieldUpdateOperationsInput | string
   utilityType?: Prisma.EnumExpenseUtilityTypeFieldUpdateOperationsInput | $Enums.ExpenseUtilityType
+  defaultBasis?: Prisma.EnumDistributionBasisFieldUpdateOperationsInput | $Enums.DistributionBasis
   defaultTenantPct?: Prisma.IntFieldUpdateOperationsInput | number
   defaultOwnerPct?: Prisma.IntFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -585,6 +637,7 @@ export type ExpenseCategoryUpdateWithoutExpensesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   overrides?: Prisma.BuildingCategoryOverrideUpdateManyWithoutCategoryNestedInput
+  exclusions?: Prisma.UnitCategoryExclusionUpdateManyWithoutCategoryNestedInput
 }
 
 export type ExpenseCategoryUncheckedUpdateWithoutExpensesInput = {
@@ -592,6 +645,7 @@ export type ExpenseCategoryUncheckedUpdateWithoutExpensesInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   code?: Prisma.StringFieldUpdateOperationsInput | string
   utilityType?: Prisma.EnumExpenseUtilityTypeFieldUpdateOperationsInput | $Enums.ExpenseUtilityType
+  defaultBasis?: Prisma.EnumDistributionBasisFieldUpdateOperationsInput | $Enums.DistributionBasis
   defaultTenantPct?: Prisma.IntFieldUpdateOperationsInput | number
   defaultOwnerPct?: Prisma.IntFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -599,6 +653,7 @@ export type ExpenseCategoryUncheckedUpdateWithoutExpensesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   overrides?: Prisma.BuildingCategoryOverrideUncheckedUpdateManyWithoutCategoryNestedInput
+  exclusions?: Prisma.UnitCategoryExclusionUncheckedUpdateManyWithoutCategoryNestedInput
 }
 
 export type ExpenseCategoryCreateWithoutOverridesInput = {
@@ -606,6 +661,7 @@ export type ExpenseCategoryCreateWithoutOverridesInput = {
   name: string
   code: string
   utilityType?: $Enums.ExpenseUtilityType
+  defaultBasis?: $Enums.DistributionBasis
   defaultTenantPct?: number
   defaultOwnerPct?: number
   active?: boolean
@@ -613,6 +669,7 @@ export type ExpenseCategoryCreateWithoutOverridesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   expenses?: Prisma.BuildingExpenseCreateNestedManyWithoutCategoryRefInput
+  exclusions?: Prisma.UnitCategoryExclusionCreateNestedManyWithoutCategoryInput
 }
 
 export type ExpenseCategoryUncheckedCreateWithoutOverridesInput = {
@@ -620,6 +677,7 @@ export type ExpenseCategoryUncheckedCreateWithoutOverridesInput = {
   name: string
   code: string
   utilityType?: $Enums.ExpenseUtilityType
+  defaultBasis?: $Enums.DistributionBasis
   defaultTenantPct?: number
   defaultOwnerPct?: number
   active?: boolean
@@ -627,6 +685,7 @@ export type ExpenseCategoryUncheckedCreateWithoutOverridesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   expenses?: Prisma.BuildingExpenseUncheckedCreateNestedManyWithoutCategoryRefInput
+  exclusions?: Prisma.UnitCategoryExclusionUncheckedCreateNestedManyWithoutCategoryInput
 }
 
 export type ExpenseCategoryCreateOrConnectWithoutOverridesInput = {
@@ -650,6 +709,7 @@ export type ExpenseCategoryUpdateWithoutOverridesInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   code?: Prisma.StringFieldUpdateOperationsInput | string
   utilityType?: Prisma.EnumExpenseUtilityTypeFieldUpdateOperationsInput | $Enums.ExpenseUtilityType
+  defaultBasis?: Prisma.EnumDistributionBasisFieldUpdateOperationsInput | $Enums.DistributionBasis
   defaultTenantPct?: Prisma.IntFieldUpdateOperationsInput | number
   defaultOwnerPct?: Prisma.IntFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -657,6 +717,7 @@ export type ExpenseCategoryUpdateWithoutOverridesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expenses?: Prisma.BuildingExpenseUpdateManyWithoutCategoryRefNestedInput
+  exclusions?: Prisma.UnitCategoryExclusionUpdateManyWithoutCategoryNestedInput
 }
 
 export type ExpenseCategoryUncheckedUpdateWithoutOverridesInput = {
@@ -664,6 +725,7 @@ export type ExpenseCategoryUncheckedUpdateWithoutOverridesInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   code?: Prisma.StringFieldUpdateOperationsInput | string
   utilityType?: Prisma.EnumExpenseUtilityTypeFieldUpdateOperationsInput | $Enums.ExpenseUtilityType
+  defaultBasis?: Prisma.EnumDistributionBasisFieldUpdateOperationsInput | $Enums.DistributionBasis
   defaultTenantPct?: Prisma.IntFieldUpdateOperationsInput | number
   defaultOwnerPct?: Prisma.IntFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -671,6 +733,87 @@ export type ExpenseCategoryUncheckedUpdateWithoutOverridesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expenses?: Prisma.BuildingExpenseUncheckedUpdateManyWithoutCategoryRefNestedInput
+  exclusions?: Prisma.UnitCategoryExclusionUncheckedUpdateManyWithoutCategoryNestedInput
+}
+
+export type ExpenseCategoryCreateWithoutExclusionsInput = {
+  id?: string
+  name: string
+  code: string
+  utilityType?: $Enums.ExpenseUtilityType
+  defaultBasis?: $Enums.DistributionBasis
+  defaultTenantPct?: number
+  defaultOwnerPct?: number
+  active?: boolean
+  sortOrder?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  expenses?: Prisma.BuildingExpenseCreateNestedManyWithoutCategoryRefInput
+  overrides?: Prisma.BuildingCategoryOverrideCreateNestedManyWithoutCategoryInput
+}
+
+export type ExpenseCategoryUncheckedCreateWithoutExclusionsInput = {
+  id?: string
+  name: string
+  code: string
+  utilityType?: $Enums.ExpenseUtilityType
+  defaultBasis?: $Enums.DistributionBasis
+  defaultTenantPct?: number
+  defaultOwnerPct?: number
+  active?: boolean
+  sortOrder?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  expenses?: Prisma.BuildingExpenseUncheckedCreateNestedManyWithoutCategoryRefInput
+  overrides?: Prisma.BuildingCategoryOverrideUncheckedCreateNestedManyWithoutCategoryInput
+}
+
+export type ExpenseCategoryCreateOrConnectWithoutExclusionsInput = {
+  where: Prisma.ExpenseCategoryWhereUniqueInput
+  create: Prisma.XOR<Prisma.ExpenseCategoryCreateWithoutExclusionsInput, Prisma.ExpenseCategoryUncheckedCreateWithoutExclusionsInput>
+}
+
+export type ExpenseCategoryUpsertWithoutExclusionsInput = {
+  update: Prisma.XOR<Prisma.ExpenseCategoryUpdateWithoutExclusionsInput, Prisma.ExpenseCategoryUncheckedUpdateWithoutExclusionsInput>
+  create: Prisma.XOR<Prisma.ExpenseCategoryCreateWithoutExclusionsInput, Prisma.ExpenseCategoryUncheckedCreateWithoutExclusionsInput>
+  where?: Prisma.ExpenseCategoryWhereInput
+}
+
+export type ExpenseCategoryUpdateToOneWithWhereWithoutExclusionsInput = {
+  where?: Prisma.ExpenseCategoryWhereInput
+  data: Prisma.XOR<Prisma.ExpenseCategoryUpdateWithoutExclusionsInput, Prisma.ExpenseCategoryUncheckedUpdateWithoutExclusionsInput>
+}
+
+export type ExpenseCategoryUpdateWithoutExclusionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  utilityType?: Prisma.EnumExpenseUtilityTypeFieldUpdateOperationsInput | $Enums.ExpenseUtilityType
+  defaultBasis?: Prisma.EnumDistributionBasisFieldUpdateOperationsInput | $Enums.DistributionBasis
+  defaultTenantPct?: Prisma.IntFieldUpdateOperationsInput | number
+  defaultOwnerPct?: Prisma.IntFieldUpdateOperationsInput | number
+  active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  expenses?: Prisma.BuildingExpenseUpdateManyWithoutCategoryRefNestedInput
+  overrides?: Prisma.BuildingCategoryOverrideUpdateManyWithoutCategoryNestedInput
+}
+
+export type ExpenseCategoryUncheckedUpdateWithoutExclusionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  code?: Prisma.StringFieldUpdateOperationsInput | string
+  utilityType?: Prisma.EnumExpenseUtilityTypeFieldUpdateOperationsInput | $Enums.ExpenseUtilityType
+  defaultBasis?: Prisma.EnumDistributionBasisFieldUpdateOperationsInput | $Enums.DistributionBasis
+  defaultTenantPct?: Prisma.IntFieldUpdateOperationsInput | number
+  defaultOwnerPct?: Prisma.IntFieldUpdateOperationsInput | number
+  active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  expenses?: Prisma.BuildingExpenseUncheckedUpdateManyWithoutCategoryRefNestedInput
+  overrides?: Prisma.BuildingCategoryOverrideUncheckedUpdateManyWithoutCategoryNestedInput
 }
 
 
@@ -681,11 +824,13 @@ export type ExpenseCategoryUncheckedUpdateWithoutOverridesInput = {
 export type ExpenseCategoryCountOutputType = {
   expenses: number
   overrides: number
+  exclusions: number
 }
 
 export type ExpenseCategoryCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   expenses?: boolean | ExpenseCategoryCountOutputTypeCountExpensesArgs
   overrides?: boolean | ExpenseCategoryCountOutputTypeCountOverridesArgs
+  exclusions?: boolean | ExpenseCategoryCountOutputTypeCountExclusionsArgs
 }
 
 /**
@@ -712,12 +857,20 @@ export type ExpenseCategoryCountOutputTypeCountOverridesArgs<ExtArgs extends run
   where?: Prisma.BuildingCategoryOverrideWhereInput
 }
 
+/**
+ * ExpenseCategoryCountOutputType without action
+ */
+export type ExpenseCategoryCountOutputTypeCountExclusionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.UnitCategoryExclusionWhereInput
+}
+
 
 export type ExpenseCategorySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
   code?: boolean
   utilityType?: boolean
+  defaultBasis?: boolean
   defaultTenantPct?: boolean
   defaultOwnerPct?: boolean
   active?: boolean
@@ -726,6 +879,7 @@ export type ExpenseCategorySelect<ExtArgs extends runtime.Types.Extensions.Inter
   updatedAt?: boolean
   expenses?: boolean | Prisma.ExpenseCategory$expensesArgs<ExtArgs>
   overrides?: boolean | Prisma.ExpenseCategory$overridesArgs<ExtArgs>
+  exclusions?: boolean | Prisma.ExpenseCategory$exclusionsArgs<ExtArgs>
   _count?: boolean | Prisma.ExpenseCategoryCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["expenseCategory"]>
 
@@ -734,6 +888,7 @@ export type ExpenseCategorySelectCreateManyAndReturn<ExtArgs extends runtime.Typ
   name?: boolean
   code?: boolean
   utilityType?: boolean
+  defaultBasis?: boolean
   defaultTenantPct?: boolean
   defaultOwnerPct?: boolean
   active?: boolean
@@ -747,6 +902,7 @@ export type ExpenseCategorySelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   name?: boolean
   code?: boolean
   utilityType?: boolean
+  defaultBasis?: boolean
   defaultTenantPct?: boolean
   defaultOwnerPct?: boolean
   active?: boolean
@@ -760,6 +916,7 @@ export type ExpenseCategorySelectScalar = {
   name?: boolean
   code?: boolean
   utilityType?: boolean
+  defaultBasis?: boolean
   defaultTenantPct?: boolean
   defaultOwnerPct?: boolean
   active?: boolean
@@ -768,10 +925,11 @@ export type ExpenseCategorySelectScalar = {
   updatedAt?: boolean
 }
 
-export type ExpenseCategoryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "code" | "utilityType" | "defaultTenantPct" | "defaultOwnerPct" | "active" | "sortOrder" | "createdAt" | "updatedAt", ExtArgs["result"]["expenseCategory"]>
+export type ExpenseCategoryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "code" | "utilityType" | "defaultBasis" | "defaultTenantPct" | "defaultOwnerPct" | "active" | "sortOrder" | "createdAt" | "updatedAt", ExtArgs["result"]["expenseCategory"]>
 export type ExpenseCategoryInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   expenses?: boolean | Prisma.ExpenseCategory$expensesArgs<ExtArgs>
   overrides?: boolean | Prisma.ExpenseCategory$overridesArgs<ExtArgs>
+  exclusions?: boolean | Prisma.ExpenseCategory$exclusionsArgs<ExtArgs>
   _count?: boolean | Prisma.ExpenseCategoryCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ExpenseCategoryIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -782,12 +940,14 @@ export type $ExpenseCategoryPayload<ExtArgs extends runtime.Types.Extensions.Int
   objects: {
     expenses: Prisma.$BuildingExpensePayload<ExtArgs>[]
     overrides: Prisma.$BuildingCategoryOverridePayload<ExtArgs>[]
+    exclusions: Prisma.$UnitCategoryExclusionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     name: string
     code: string
     utilityType: $Enums.ExpenseUtilityType
+    defaultBasis: $Enums.DistributionBasis
     defaultTenantPct: number
     defaultOwnerPct: number
     active: boolean
@@ -1190,6 +1350,7 @@ export interface Prisma__ExpenseCategoryClient<T, Null = never, ExtArgs extends 
   readonly [Symbol.toStringTag]: "PrismaPromise"
   expenses<T extends Prisma.ExpenseCategory$expensesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ExpenseCategory$expensesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BuildingExpensePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   overrides<T extends Prisma.ExpenseCategory$overridesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ExpenseCategory$overridesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BuildingCategoryOverridePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  exclusions<T extends Prisma.ExpenseCategory$exclusionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ExpenseCategory$exclusionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UnitCategoryExclusionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1223,6 +1384,7 @@ export interface ExpenseCategoryFieldRefs {
   readonly name: Prisma.FieldRef<"ExpenseCategory", 'String'>
   readonly code: Prisma.FieldRef<"ExpenseCategory", 'String'>
   readonly utilityType: Prisma.FieldRef<"ExpenseCategory", 'ExpenseUtilityType'>
+  readonly defaultBasis: Prisma.FieldRef<"ExpenseCategory", 'DistributionBasis'>
   readonly defaultTenantPct: Prisma.FieldRef<"ExpenseCategory", 'Int'>
   readonly defaultOwnerPct: Prisma.FieldRef<"ExpenseCategory", 'Int'>
   readonly active: Prisma.FieldRef<"ExpenseCategory", 'Boolean'>
@@ -1667,6 +1829,30 @@ export type ExpenseCategory$overridesArgs<ExtArgs extends runtime.Types.Extensio
   take?: number
   skip?: number
   distinct?: Prisma.BuildingCategoryOverrideScalarFieldEnum | Prisma.BuildingCategoryOverrideScalarFieldEnum[]
+}
+
+/**
+ * ExpenseCategory.exclusions
+ */
+export type ExpenseCategory$exclusionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the UnitCategoryExclusion
+   */
+  select?: Prisma.UnitCategoryExclusionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the UnitCategoryExclusion
+   */
+  omit?: Prisma.UnitCategoryExclusionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UnitCategoryExclusionInclude<ExtArgs> | null
+  where?: Prisma.UnitCategoryExclusionWhereInput
+  orderBy?: Prisma.UnitCategoryExclusionOrderByWithRelationInput | Prisma.UnitCategoryExclusionOrderByWithRelationInput[]
+  cursor?: Prisma.UnitCategoryExclusionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.UnitCategoryExclusionScalarFieldEnum | Prisma.UnitCategoryExclusionScalarFieldEnum[]
 }
 
 /**

@@ -17,6 +17,13 @@ import {
 
 type UtilityType = "NONE" | "POWER" | "WATER" | "GAS";
 
+type DistributionBasis =
+  | "GENERAL_MILLESIMES"
+  | "ELEVATOR_MILLESIMES"
+  | "HEATING_MILLESIMES"
+  | "EQUAL_PER_UNIT"
+  | "METERED_70_30";
+
 type Category = {
   id: string;
   name: string;
@@ -24,9 +31,18 @@ type Category = {
   utilityType: UtilityType;
   defaultTenantPct: number;
   defaultOwnerPct: number;
+  defaultBasis: DistributionBasis;
   active: boolean;
   sortOrder: number;
 };
+
+const BASIS_OPTIONS: { value: DistributionBasis; label: string }[] = [
+  { value: "GENERAL_MILLESIMES", label: "Γενικά χιλιοστά" },
+  { value: "ELEVATOR_MILLESIMES", label: "Χιλιοστά ανελκυστήρα" },
+  { value: "HEATING_MILLESIMES", label: "Χιλιοστά θέρμανσης" },
+  { value: "EQUAL_PER_UNIT", label: "Ισόποσα ανά μονάδα" },
+  { value: "METERED_70_30", label: "70/30 μετρητής" },
+];
 
 const UTILITY_OPTIONS: { value: UtilityType; label: string }[] = [
   { value: "NONE", label: "Καμία" },
@@ -46,6 +62,7 @@ type FormState = {
   name: string;
   code: string;
   utilityType: UtilityType;
+  defaultBasis: DistributionBasis;
   tenantPct: string;
   sortOrder: string;
   active: boolean;
@@ -55,6 +72,7 @@ const EMPTY_FORM: FormState = {
   name: "",
   code: "",
   utilityType: "NONE",
+  defaultBasis: "GENERAL_MILLESIMES",
   tenantPct: "100",
   sortOrder: "",
   active: true,
@@ -84,6 +102,7 @@ export function ExpenseCategoriesClient({ initial }: { initial: Category[] }) {
       name: c.name,
       code: c.code,
       utilityType: c.utilityType,
+      defaultBasis: c.defaultBasis,
       tenantPct: String(c.defaultTenantPct),
       sortOrder: c.sortOrder != null ? String(c.sortOrder) : "",
       active: c.active,
@@ -98,6 +117,7 @@ export function ExpenseCategoriesClient({ initial }: { initial: Category[] }) {
       name: form.name.trim(),
       code: form.code.trim().toUpperCase(),
       utilityType: form.utilityType,
+      defaultBasis: form.defaultBasis,
       defaultTenantPct: tenantPct,
       defaultOwnerPct: ownerPct,
       sortOrder: form.sortOrder.trim() === "" ? undefined : Number(form.sortOrder),
@@ -318,6 +338,13 @@ export function ExpenseCategoriesClient({ initial }: { initial: Category[] }) {
               value={form.utilityType}
               onChange={(v) => setForm((f) => ({ ...f, utilityType: v as UtilityType }))}
               options={UTILITY_OPTIONS}
+            />
+          </FormField>
+          <FormField label="Βάση επιμερισμού" hint="Προεπιλεγμένη μέθοδος κατανομής">
+            <FieldSelect
+              value={form.defaultBasis}
+              onChange={(v) => setForm((f) => ({ ...f, defaultBasis: v as DistributionBasis }))}
+              options={BASIS_OPTIONS}
             />
           </FormField>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>

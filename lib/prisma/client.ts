@@ -157,6 +157,11 @@ export type ExpenseCategory = Prisma.ExpenseCategoryModel
  */
 export type BuildingCategoryOverride = Prisma.BuildingCategoryOverrideModel
 /**
+ * Model UnitCategoryExclusion
+ * 
+ */
+export type UnitCategoryExclusion = Prisma.UnitCategoryExclusionModel
+/**
  * Model MeterReading
  * 
  */

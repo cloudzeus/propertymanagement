@@ -74,6 +74,7 @@ export const ModelName = {
   BuildingExpense: 'BuildingExpense',
   ExpenseCategory: 'ExpenseCategory',
   BuildingCategoryOverride: 'BuildingCategoryOverride',
+  UnitCategoryExclusion: 'UnitCategoryExclusion',
   MeterReading: 'MeterReading',
   ExpenseAllocation: 'ExpenseAllocation',
   UnitPayment: 'UnitPayment',
@@ -406,6 +407,8 @@ export const BuildingScalarFieldEnum = {
   hasBoiler: 'hasBoiler',
   hasFireSafety: 'hasFireSafety',
   technicalNotes: 'technicalNotes',
+  elevatorSurchargePerFloor: 'elevatorSurchargePerFloor',
+  elevatorExemptGroundFloor: 'elevatorExemptGroundFloor',
   lat: 'lat',
   lng: 'lng',
   dailyRoomName: 'dailyRoomName',
@@ -555,6 +558,7 @@ export const ExpenseCategoryScalarFieldEnum = {
   name: 'name',
   code: 'code',
   utilityType: 'utilityType',
+  defaultBasis: 'defaultBasis',
   defaultTenantPct: 'defaultTenantPct',
   defaultOwnerPct: 'defaultOwnerPct',
   active: 'active',
@@ -572,11 +576,22 @@ export const BuildingCategoryOverrideScalarFieldEnum = {
   categoryId: 'categoryId',
   tenantPct: 'tenantPct',
   ownerPct: 'ownerPct',
+  distributionBasis: 'distributionBasis',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type BuildingCategoryOverrideScalarFieldEnum = (typeof BuildingCategoryOverrideScalarFieldEnum)[keyof typeof BuildingCategoryOverrideScalarFieldEnum]
+
+
+export const UnitCategoryExclusionScalarFieldEnum = {
+  id: 'id',
+  unitId: 'unitId',
+  categoryId: 'categoryId',
+  createdAt: 'createdAt'
+} as const
+
+export type UnitCategoryExclusionScalarFieldEnum = (typeof UnitCategoryExclusionScalarFieldEnum)[keyof typeof UnitCategoryExclusionScalarFieldEnum]
 
 
 export const MeterReadingScalarFieldEnum = {
@@ -603,6 +618,7 @@ export const ExpenseAllocationScalarFieldEnum = {
   expenseId: 'expenseId',
   unitId: 'unitId',
   unitShare: 'unitShare',
+  breakdownNote: 'breakdownNote',
   tenantUserId: 'tenantUserId',
   tenantAmount: 'tenantAmount',
   tenantPaid: 'tenantPaid',
@@ -668,6 +684,11 @@ export const UnitScalarFieldEnum = {
   floor: 'floor',
   areaSqm: 'areaSqm',
   millesimes: 'millesimes',
+  millesimesElevator: 'millesimesElevator',
+  millesimesHeating: 'millesimesHeating',
+  millesimesSource: 'millesimesSource',
+  millesimesElevatorSource: 'millesimesElevatorSource',
+  millesimesHeatingSource: 'millesimesHeatingSource',
   ownerId: 'ownerId',
   residentId: 'residentId',
   createdAt: 'createdAt',

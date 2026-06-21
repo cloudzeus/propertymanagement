@@ -407,6 +407,7 @@ export const ModelName = {
   BuildingExpense: 'BuildingExpense',
   ExpenseCategory: 'ExpenseCategory',
   BuildingCategoryOverride: 'BuildingCategoryOverride',
+  UnitCategoryExclusion: 'UnitCategoryExclusion',
   MeterReading: 'MeterReading',
   ExpenseAllocation: 'ExpenseAllocation',
   UnitPayment: 'UnitPayment',
@@ -449,7 +450,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "account" | "session" | "verificationToken" | "company" | "department" | "jobPosition" | "employee" | "subscription" | "addonFeature" | "customer" | "property" | "building" | "unitOccupancy" | "buildingFile" | "infraPoint" | "infraAccess" | "infraMedia" | "contact" | "recurringTask" | "buildingExpense" | "expenseCategory" | "buildingCategoryOverride" | "meterReading" | "expenseAllocation" | "unitPayment" | "managementAssignment" | "commonArea" | "unit" | "service" | "propertyService" | "serviceInvoice" | "serviceInvoiceLine" | "userCompanyRole" | "menuConfig" | "announcement" | "announcement_User" | "assembly" | "assemblyParticipant" | "processedWebhook" | "aPIUsageLog" | "aPICostConfig" | "monthlyCostSummary" | "maintenanceRequest" | "cMSPage" | "fAQ" | "pricingTier" | "contactMessage" | "cookieConsent" | "appSettings"
+    modelProps: "user" | "account" | "session" | "verificationToken" | "company" | "department" | "jobPosition" | "employee" | "subscription" | "addonFeature" | "customer" | "property" | "building" | "unitOccupancy" | "buildingFile" | "infraPoint" | "infraAccess" | "infraMedia" | "contact" | "recurringTask" | "buildingExpense" | "expenseCategory" | "buildingCategoryOverride" | "unitCategoryExclusion" | "meterReading" | "expenseAllocation" | "unitPayment" | "managementAssignment" | "commonArea" | "unit" | "service" | "propertyService" | "serviceInvoice" | "serviceInvoiceLine" | "userCompanyRole" | "menuConfig" | "announcement" | "announcement_User" | "assembly" | "assemblyParticipant" | "processedWebhook" | "aPIUsageLog" | "aPICostConfig" | "monthlyCostSummary" | "maintenanceRequest" | "cMSPage" | "fAQ" | "pricingTier" | "contactMessage" | "cookieConsent" | "appSettings"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -2152,6 +2153,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.BuildingCategoryOverrideCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.BuildingCategoryOverrideCountAggregateOutputType> | number
+        }
+      }
+    }
+    UnitCategoryExclusion: {
+      payload: Prisma.$UnitCategoryExclusionPayload<ExtArgs>
+      fields: Prisma.UnitCategoryExclusionFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.UnitCategoryExclusionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UnitCategoryExclusionPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.UnitCategoryExclusionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UnitCategoryExclusionPayload>
+        }
+        findFirst: {
+          args: Prisma.UnitCategoryExclusionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UnitCategoryExclusionPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.UnitCategoryExclusionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UnitCategoryExclusionPayload>
+        }
+        findMany: {
+          args: Prisma.UnitCategoryExclusionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UnitCategoryExclusionPayload>[]
+        }
+        create: {
+          args: Prisma.UnitCategoryExclusionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UnitCategoryExclusionPayload>
+        }
+        createMany: {
+          args: Prisma.UnitCategoryExclusionCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.UnitCategoryExclusionCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UnitCategoryExclusionPayload>[]
+        }
+        delete: {
+          args: Prisma.UnitCategoryExclusionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UnitCategoryExclusionPayload>
+        }
+        update: {
+          args: Prisma.UnitCategoryExclusionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UnitCategoryExclusionPayload>
+        }
+        deleteMany: {
+          args: Prisma.UnitCategoryExclusionDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.UnitCategoryExclusionUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.UnitCategoryExclusionUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UnitCategoryExclusionPayload>[]
+        }
+        upsert: {
+          args: Prisma.UnitCategoryExclusionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UnitCategoryExclusionPayload>
+        }
+        aggregate: {
+          args: Prisma.UnitCategoryExclusionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateUnitCategoryExclusion>
+        }
+        groupBy: {
+          args: Prisma.UnitCategoryExclusionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UnitCategoryExclusionGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.UnitCategoryExclusionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UnitCategoryExclusionCountAggregateOutputType> | number
         }
       }
     }
@@ -4479,6 +4554,8 @@ export const BuildingScalarFieldEnum = {
   hasBoiler: 'hasBoiler',
   hasFireSafety: 'hasFireSafety',
   technicalNotes: 'technicalNotes',
+  elevatorSurchargePerFloor: 'elevatorSurchargePerFloor',
+  elevatorExemptGroundFloor: 'elevatorExemptGroundFloor',
   lat: 'lat',
   lng: 'lng',
   dailyRoomName: 'dailyRoomName',
@@ -4628,6 +4705,7 @@ export const ExpenseCategoryScalarFieldEnum = {
   name: 'name',
   code: 'code',
   utilityType: 'utilityType',
+  defaultBasis: 'defaultBasis',
   defaultTenantPct: 'defaultTenantPct',
   defaultOwnerPct: 'defaultOwnerPct',
   active: 'active',
@@ -4645,11 +4723,22 @@ export const BuildingCategoryOverrideScalarFieldEnum = {
   categoryId: 'categoryId',
   tenantPct: 'tenantPct',
   ownerPct: 'ownerPct',
+  distributionBasis: 'distributionBasis',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type BuildingCategoryOverrideScalarFieldEnum = (typeof BuildingCategoryOverrideScalarFieldEnum)[keyof typeof BuildingCategoryOverrideScalarFieldEnum]
+
+
+export const UnitCategoryExclusionScalarFieldEnum = {
+  id: 'id',
+  unitId: 'unitId',
+  categoryId: 'categoryId',
+  createdAt: 'createdAt'
+} as const
+
+export type UnitCategoryExclusionScalarFieldEnum = (typeof UnitCategoryExclusionScalarFieldEnum)[keyof typeof UnitCategoryExclusionScalarFieldEnum]
 
 
 export const MeterReadingScalarFieldEnum = {
@@ -4676,6 +4765,7 @@ export const ExpenseAllocationScalarFieldEnum = {
   expenseId: 'expenseId',
   unitId: 'unitId',
   unitShare: 'unitShare',
+  breakdownNote: 'breakdownNote',
   tenantUserId: 'tenantUserId',
   tenantAmount: 'tenantAmount',
   tenantPaid: 'tenantPaid',
@@ -4741,6 +4831,11 @@ export const UnitScalarFieldEnum = {
   floor: 'floor',
   areaSqm: 'areaSqm',
   millesimes: 'millesimes',
+  millesimesElevator: 'millesimesElevator',
+  millesimesHeating: 'millesimesHeating',
+  millesimesSource: 'millesimesSource',
+  millesimesElevatorSource: 'millesimesElevatorSource',
+  millesimesHeatingSource: 'millesimesHeatingSource',
   ownerId: 'ownerId',
   residentId: 'residentId',
   createdAt: 'createdAt',
@@ -5485,6 +5580,20 @@ export type ListEnumExpenseUtilityTypeFieldRefInput<$PrismaModel> = FieldRefInpu
 
 
 /**
+ * Reference to a field of type 'DistributionBasis'
+ */
+export type EnumDistributionBasisFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DistributionBasis'>
+    
+
+
+/**
+ * Reference to a field of type 'DistributionBasis[]'
+ */
+export type ListEnumDistributionBasisFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DistributionBasis[]'>
+    
+
+
+/**
  * Reference to a field of type 'MeterType'
  */
 export type EnumMeterTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MeterType'>
@@ -5523,6 +5632,20 @@ export type EnumUnitTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaM
  * Reference to a field of type 'UnitType[]'
  */
 export type ListEnumUnitTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'UnitType[]'>
+    
+
+
+/**
+ * Reference to a field of type 'MillesimeSource'
+ */
+export type EnumMillesimeSourceFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MillesimeSource'>
+    
+
+
+/**
+ * Reference to a field of type 'MillesimeSource[]'
+ */
+export type ListEnumMillesimeSourceFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MillesimeSource[]'>
     
 
 
@@ -5700,6 +5823,7 @@ export type GlobalOmitConfig = {
   buildingExpense?: Prisma.BuildingExpenseOmit
   expenseCategory?: Prisma.ExpenseCategoryOmit
   buildingCategoryOverride?: Prisma.BuildingCategoryOverrideOmit
+  unitCategoryExclusion?: Prisma.UnitCategoryExclusionOmit
   meterReading?: Prisma.MeterReadingOmit
   expenseAllocation?: Prisma.ExpenseAllocationOmit
   unitPayment?: Prisma.UnitPaymentOmit

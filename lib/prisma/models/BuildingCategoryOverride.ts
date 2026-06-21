@@ -42,6 +42,7 @@ export type BuildingCategoryOverrideMinAggregateOutputType = {
   categoryId: string | null
   tenantPct: number | null
   ownerPct: number | null
+  distributionBasis: $Enums.DistributionBasis | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -52,6 +53,7 @@ export type BuildingCategoryOverrideMaxAggregateOutputType = {
   categoryId: string | null
   tenantPct: number | null
   ownerPct: number | null
+  distributionBasis: $Enums.DistributionBasis | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -62,6 +64,7 @@ export type BuildingCategoryOverrideCountAggregateOutputType = {
   categoryId: number
   tenantPct: number
   ownerPct: number
+  distributionBasis: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -84,6 +87,7 @@ export type BuildingCategoryOverrideMinAggregateInputType = {
   categoryId?: true
   tenantPct?: true
   ownerPct?: true
+  distributionBasis?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -94,6 +98,7 @@ export type BuildingCategoryOverrideMaxAggregateInputType = {
   categoryId?: true
   tenantPct?: true
   ownerPct?: true
+  distributionBasis?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -104,6 +109,7 @@ export type BuildingCategoryOverrideCountAggregateInputType = {
   categoryId?: true
   tenantPct?: true
   ownerPct?: true
+  distributionBasis?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -201,6 +207,7 @@ export type BuildingCategoryOverrideGroupByOutputType = {
   categoryId: string
   tenantPct: number
   ownerPct: number
+  distributionBasis: $Enums.DistributionBasis | null
   createdAt: Date
   updatedAt: Date
   _count: BuildingCategoryOverrideCountAggregateOutputType | null
@@ -234,6 +241,7 @@ export type BuildingCategoryOverrideWhereInput = {
   categoryId?: Prisma.StringFilter<"BuildingCategoryOverride"> | string
   tenantPct?: Prisma.IntFilter<"BuildingCategoryOverride"> | number
   ownerPct?: Prisma.IntFilter<"BuildingCategoryOverride"> | number
+  distributionBasis?: Prisma.EnumDistributionBasisNullableFilter<"BuildingCategoryOverride"> | $Enums.DistributionBasis | null
   createdAt?: Prisma.DateTimeFilter<"BuildingCategoryOverride"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"BuildingCategoryOverride"> | Date | string
   building?: Prisma.XOR<Prisma.BuildingScalarRelationFilter, Prisma.BuildingWhereInput>
@@ -246,6 +254,7 @@ export type BuildingCategoryOverrideOrderByWithRelationInput = {
   categoryId?: Prisma.SortOrder
   tenantPct?: Prisma.SortOrder
   ownerPct?: Prisma.SortOrder
+  distributionBasis?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   building?: Prisma.BuildingOrderByWithRelationInput
@@ -262,6 +271,7 @@ export type BuildingCategoryOverrideWhereUniqueInput = Prisma.AtLeast<{
   categoryId?: Prisma.StringFilter<"BuildingCategoryOverride"> | string
   tenantPct?: Prisma.IntFilter<"BuildingCategoryOverride"> | number
   ownerPct?: Prisma.IntFilter<"BuildingCategoryOverride"> | number
+  distributionBasis?: Prisma.EnumDistributionBasisNullableFilter<"BuildingCategoryOverride"> | $Enums.DistributionBasis | null
   createdAt?: Prisma.DateTimeFilter<"BuildingCategoryOverride"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"BuildingCategoryOverride"> | Date | string
   building?: Prisma.XOR<Prisma.BuildingScalarRelationFilter, Prisma.BuildingWhereInput>
@@ -274,6 +284,7 @@ export type BuildingCategoryOverrideOrderByWithAggregationInput = {
   categoryId?: Prisma.SortOrder
   tenantPct?: Prisma.SortOrder
   ownerPct?: Prisma.SortOrder
+  distributionBasis?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.BuildingCategoryOverrideCountOrderByAggregateInput
@@ -292,6 +303,7 @@ export type BuildingCategoryOverrideScalarWhereWithAggregatesInput = {
   categoryId?: Prisma.StringWithAggregatesFilter<"BuildingCategoryOverride"> | string
   tenantPct?: Prisma.IntWithAggregatesFilter<"BuildingCategoryOverride"> | number
   ownerPct?: Prisma.IntWithAggregatesFilter<"BuildingCategoryOverride"> | number
+  distributionBasis?: Prisma.EnumDistributionBasisNullableWithAggregatesFilter<"BuildingCategoryOverride"> | $Enums.DistributionBasis | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"BuildingCategoryOverride"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"BuildingCategoryOverride"> | Date | string
 }
@@ -300,6 +312,7 @@ export type BuildingCategoryOverrideCreateInput = {
   id?: string
   tenantPct: number
   ownerPct: number
+  distributionBasis?: $Enums.DistributionBasis | null
   createdAt?: Date | string
   updatedAt?: Date | string
   building: Prisma.BuildingCreateNestedOneWithoutCategoryOverridesInput
@@ -312,6 +325,7 @@ export type BuildingCategoryOverrideUncheckedCreateInput = {
   categoryId: string
   tenantPct: number
   ownerPct: number
+  distributionBasis?: $Enums.DistributionBasis | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -320,6 +334,7 @@ export type BuildingCategoryOverrideUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantPct?: Prisma.IntFieldUpdateOperationsInput | number
   ownerPct?: Prisma.IntFieldUpdateOperationsInput | number
+  distributionBasis?: Prisma.NullableEnumDistributionBasisFieldUpdateOperationsInput | $Enums.DistributionBasis | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   building?: Prisma.BuildingUpdateOneRequiredWithoutCategoryOverridesNestedInput
@@ -332,6 +347,7 @@ export type BuildingCategoryOverrideUncheckedUpdateInput = {
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   tenantPct?: Prisma.IntFieldUpdateOperationsInput | number
   ownerPct?: Prisma.IntFieldUpdateOperationsInput | number
+  distributionBasis?: Prisma.NullableEnumDistributionBasisFieldUpdateOperationsInput | $Enums.DistributionBasis | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -342,6 +358,7 @@ export type BuildingCategoryOverrideCreateManyInput = {
   categoryId: string
   tenantPct: number
   ownerPct: number
+  distributionBasis?: $Enums.DistributionBasis | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -350,6 +367,7 @@ export type BuildingCategoryOverrideUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantPct?: Prisma.IntFieldUpdateOperationsInput | number
   ownerPct?: Prisma.IntFieldUpdateOperationsInput | number
+  distributionBasis?: Prisma.NullableEnumDistributionBasisFieldUpdateOperationsInput | $Enums.DistributionBasis | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -360,6 +378,7 @@ export type BuildingCategoryOverrideUncheckedUpdateManyInput = {
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   tenantPct?: Prisma.IntFieldUpdateOperationsInput | number
   ownerPct?: Prisma.IntFieldUpdateOperationsInput | number
+  distributionBasis?: Prisma.NullableEnumDistributionBasisFieldUpdateOperationsInput | $Enums.DistributionBasis | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -385,6 +404,7 @@ export type BuildingCategoryOverrideCountOrderByAggregateInput = {
   categoryId?: Prisma.SortOrder
   tenantPct?: Prisma.SortOrder
   ownerPct?: Prisma.SortOrder
+  distributionBasis?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -400,6 +420,7 @@ export type BuildingCategoryOverrideMaxOrderByAggregateInput = {
   categoryId?: Prisma.SortOrder
   tenantPct?: Prisma.SortOrder
   ownerPct?: Prisma.SortOrder
+  distributionBasis?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -410,6 +431,7 @@ export type BuildingCategoryOverrideMinOrderByAggregateInput = {
   categoryId?: Prisma.SortOrder
   tenantPct?: Prisma.SortOrder
   ownerPct?: Prisma.SortOrder
+  distributionBasis?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -503,10 +525,15 @@ export type BuildingCategoryOverrideUncheckedUpdateManyWithoutCategoryNestedInpu
   deleteMany?: Prisma.BuildingCategoryOverrideScalarWhereInput | Prisma.BuildingCategoryOverrideScalarWhereInput[]
 }
 
+export type NullableEnumDistributionBasisFieldUpdateOperationsInput = {
+  set?: $Enums.DistributionBasis | null
+}
+
 export type BuildingCategoryOverrideCreateWithoutBuildingInput = {
   id?: string
   tenantPct: number
   ownerPct: number
+  distributionBasis?: $Enums.DistributionBasis | null
   createdAt?: Date | string
   updatedAt?: Date | string
   category: Prisma.ExpenseCategoryCreateNestedOneWithoutOverridesInput
@@ -517,6 +544,7 @@ export type BuildingCategoryOverrideUncheckedCreateWithoutBuildingInput = {
   categoryId: string
   tenantPct: number
   ownerPct: number
+  distributionBasis?: $Enums.DistributionBasis | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -556,6 +584,7 @@ export type BuildingCategoryOverrideScalarWhereInput = {
   categoryId?: Prisma.StringFilter<"BuildingCategoryOverride"> | string
   tenantPct?: Prisma.IntFilter<"BuildingCategoryOverride"> | number
   ownerPct?: Prisma.IntFilter<"BuildingCategoryOverride"> | number
+  distributionBasis?: Prisma.EnumDistributionBasisNullableFilter<"BuildingCategoryOverride"> | $Enums.DistributionBasis | null
   createdAt?: Prisma.DateTimeFilter<"BuildingCategoryOverride"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"BuildingCategoryOverride"> | Date | string
 }
@@ -564,6 +593,7 @@ export type BuildingCategoryOverrideCreateWithoutCategoryInput = {
   id?: string
   tenantPct: number
   ownerPct: number
+  distributionBasis?: $Enums.DistributionBasis | null
   createdAt?: Date | string
   updatedAt?: Date | string
   building: Prisma.BuildingCreateNestedOneWithoutCategoryOverridesInput
@@ -574,6 +604,7 @@ export type BuildingCategoryOverrideUncheckedCreateWithoutCategoryInput = {
   buildingId: string
   tenantPct: number
   ownerPct: number
+  distributionBasis?: $Enums.DistributionBasis | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -609,6 +640,7 @@ export type BuildingCategoryOverrideCreateManyBuildingInput = {
   categoryId: string
   tenantPct: number
   ownerPct: number
+  distributionBasis?: $Enums.DistributionBasis | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -617,6 +649,7 @@ export type BuildingCategoryOverrideUpdateWithoutBuildingInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantPct?: Prisma.IntFieldUpdateOperationsInput | number
   ownerPct?: Prisma.IntFieldUpdateOperationsInput | number
+  distributionBasis?: Prisma.NullableEnumDistributionBasisFieldUpdateOperationsInput | $Enums.DistributionBasis | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   category?: Prisma.ExpenseCategoryUpdateOneRequiredWithoutOverridesNestedInput
@@ -627,6 +660,7 @@ export type BuildingCategoryOverrideUncheckedUpdateWithoutBuildingInput = {
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   tenantPct?: Prisma.IntFieldUpdateOperationsInput | number
   ownerPct?: Prisma.IntFieldUpdateOperationsInput | number
+  distributionBasis?: Prisma.NullableEnumDistributionBasisFieldUpdateOperationsInput | $Enums.DistributionBasis | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -636,6 +670,7 @@ export type BuildingCategoryOverrideUncheckedUpdateManyWithoutBuildingInput = {
   categoryId?: Prisma.StringFieldUpdateOperationsInput | string
   tenantPct?: Prisma.IntFieldUpdateOperationsInput | number
   ownerPct?: Prisma.IntFieldUpdateOperationsInput | number
+  distributionBasis?: Prisma.NullableEnumDistributionBasisFieldUpdateOperationsInput | $Enums.DistributionBasis | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -645,6 +680,7 @@ export type BuildingCategoryOverrideCreateManyCategoryInput = {
   buildingId: string
   tenantPct: number
   ownerPct: number
+  distributionBasis?: $Enums.DistributionBasis | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -653,6 +689,7 @@ export type BuildingCategoryOverrideUpdateWithoutCategoryInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   tenantPct?: Prisma.IntFieldUpdateOperationsInput | number
   ownerPct?: Prisma.IntFieldUpdateOperationsInput | number
+  distributionBasis?: Prisma.NullableEnumDistributionBasisFieldUpdateOperationsInput | $Enums.DistributionBasis | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   building?: Prisma.BuildingUpdateOneRequiredWithoutCategoryOverridesNestedInput
@@ -663,6 +700,7 @@ export type BuildingCategoryOverrideUncheckedUpdateWithoutCategoryInput = {
   buildingId?: Prisma.StringFieldUpdateOperationsInput | string
   tenantPct?: Prisma.IntFieldUpdateOperationsInput | number
   ownerPct?: Prisma.IntFieldUpdateOperationsInput | number
+  distributionBasis?: Prisma.NullableEnumDistributionBasisFieldUpdateOperationsInput | $Enums.DistributionBasis | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -672,6 +710,7 @@ export type BuildingCategoryOverrideUncheckedUpdateManyWithoutCategoryInput = {
   buildingId?: Prisma.StringFieldUpdateOperationsInput | string
   tenantPct?: Prisma.IntFieldUpdateOperationsInput | number
   ownerPct?: Prisma.IntFieldUpdateOperationsInput | number
+  distributionBasis?: Prisma.NullableEnumDistributionBasisFieldUpdateOperationsInput | $Enums.DistributionBasis | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -684,6 +723,7 @@ export type BuildingCategoryOverrideSelect<ExtArgs extends runtime.Types.Extensi
   categoryId?: boolean
   tenantPct?: boolean
   ownerPct?: boolean
+  distributionBasis?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
@@ -696,6 +736,7 @@ export type BuildingCategoryOverrideSelectCreateManyAndReturn<ExtArgs extends ru
   categoryId?: boolean
   tenantPct?: boolean
   ownerPct?: boolean
+  distributionBasis?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
@@ -708,6 +749,7 @@ export type BuildingCategoryOverrideSelectUpdateManyAndReturn<ExtArgs extends ru
   categoryId?: boolean
   tenantPct?: boolean
   ownerPct?: boolean
+  distributionBasis?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
@@ -720,11 +762,12 @@ export type BuildingCategoryOverrideSelectScalar = {
   categoryId?: boolean
   tenantPct?: boolean
   ownerPct?: boolean
+  distributionBasis?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type BuildingCategoryOverrideOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "buildingId" | "categoryId" | "tenantPct" | "ownerPct" | "createdAt" | "updatedAt", ExtArgs["result"]["buildingCategoryOverride"]>
+export type BuildingCategoryOverrideOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "buildingId" | "categoryId" | "tenantPct" | "ownerPct" | "distributionBasis" | "createdAt" | "updatedAt", ExtArgs["result"]["buildingCategoryOverride"]>
 export type BuildingCategoryOverrideInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
   category?: boolean | Prisma.ExpenseCategoryDefaultArgs<ExtArgs>
@@ -750,6 +793,7 @@ export type $BuildingCategoryOverridePayload<ExtArgs extends runtime.Types.Exten
     categoryId: string
     tenantPct: number
     ownerPct: number
+    distributionBasis: $Enums.DistributionBasis | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["buildingCategoryOverride"]>
@@ -1182,6 +1226,7 @@ export interface BuildingCategoryOverrideFieldRefs {
   readonly categoryId: Prisma.FieldRef<"BuildingCategoryOverride", 'String'>
   readonly tenantPct: Prisma.FieldRef<"BuildingCategoryOverride", 'Int'>
   readonly ownerPct: Prisma.FieldRef<"BuildingCategoryOverride", 'Int'>
+  readonly distributionBasis: Prisma.FieldRef<"BuildingCategoryOverride", 'DistributionBasis'>
   readonly createdAt: Prisma.FieldRef<"BuildingCategoryOverride", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"BuildingCategoryOverride", 'DateTime'>
 }
