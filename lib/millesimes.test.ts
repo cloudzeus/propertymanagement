@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { computeMillesimes } from "./millesimes";
+import { computeMillesimes, distributeWeights, elevatorWeight, type WeightInput } from "./millesimes";
 
 // Helper: sum of non-null millesimes, rounded to 2 decimals to kill fp noise.
 function sum(results: { millesimes: number | null }[]): number {
@@ -59,3 +59,44 @@ describe("computeMillesimes", () => {
     expect(res[0].millesimes).toBe(1000);
   });
 });
+
+describe("distributeWeights", () => {
+  it("distributes 1000 by weight, remainder on largest", () => {
+    const r = distributeWeights([
+      { id: "a", weight: 100 },
+      { id: "b", weight: 100 },
+      { id: "c", weight: 100 },
+    ]);
+    expect(r.find((x) => x.id === "a")!.value! + r.find((x) => x.id === "b")!.value! + r.find((x) => x.id === "c")!.value!).toBe(1000);
+  });
+
+  it("zero/negative weights become null and are excluded", () => {
+    const r = distributeWeights([
+      { id: "a", weight: 0 },
+      { id: "b", weight: 50 },
+      { id: "c", weight: 50 },
+    ]);
+    expect(r.find((x) => x.id === "a")!.value).toBeNull();
+    expect(r.find((x) => x.id === "b")!.value).toBe(500);
+  });
+
+  it("all-zero returns all null", () => {
+    const r = distributeWeights([{ id: "a", weight: 0 }]);
+    expect(r[0].value).toBeNull();
+  });
+});
+
+describe("elevatorWeight", () => {
+  it("ground floor excluded when exempt", () => {
+    expect(elevatorWeight(80, 0, 0.1, true)).toBe(0);
+  });
+  it("higher floors weigh more", () => {
+    expect(elevatorWeight(80, 2, 0.1, true)).toBeCloseTo(96); // 80 * (1 + 0.1*2)
+  });
+  it("ground floor counted when not exempt", () => {
+    expect(elevatorWeight(80, 0, 0.1, false)).toBe(80);
+  });
+});
+
+const _unusedWeightInput: WeightInput = { id: "x", weight: 1 };
+void _unusedWeightInput;
