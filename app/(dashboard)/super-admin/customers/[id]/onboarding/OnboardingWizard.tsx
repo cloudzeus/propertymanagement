@@ -43,7 +43,10 @@ export function OnboardingWizard({ customerId, customerName, customers }: { cust
 
   const hasArea = units.some((u) => (u.areaSqm ?? 0) > 0);
   const complete = !!(selectedCustomerId && info.address && info.managerName && info.heatingType && units.length && hasArea);
-  const method = info.heatingType === "AUTONOMOUS_METERS" ? "70/30 μετρητής" : "χιλιοστά θέρμανσης";
+  const method =
+    info.heatingType === "GAS" ? "ατομική — εκτός κοινοχρήστων"
+    : (info.heatingType === "AUTONOMOUS_METERS" || info.heatingType === "AUTONOMOUS_HOURS") ? "70/30 μετρητής"
+    : "χιλιοστά θέρμανσης";
   const showCustomerPicker = !customerId && !!customers?.length;
 
   function create() {

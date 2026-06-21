@@ -27,8 +27,14 @@ export function buildOnboardingPayload(input: OnboardingPayloadInput) {
     _key: String(i),
   }));
 
+  // Heating is a κοινόχρηστα expense only when there is a COMMON boiler. GAS means
+  // an individual per-unit boiler — each owner pays their own bill, so heating is
+  // excluded from κοινόχρηστα: no heating millesimes at all.
+  const heatingType = input.building.heatingType;
+  const heatingShared = heatingType != null && heatingType !== "GAS";
+
   const general = new Map(distributeWeights(norm.map((u) => ({ id: u._key, weight: u.areaSqm ?? 0 }))).map((r) => [r.id, r.value]));
-  const heating = general; // same basis (area)
+  const heating = heatingShared ? general : null; // area basis; null when individual (GAS)
   const elevator = hasElevator
     ? new Map(distributeWeights(norm.map((u) => ({ id: u._key, weight: elevatorWeight(u.areaSqm ?? 0, u.floor, surcharge, exemptGround) }))).map((r) => [r.id, r.value]))
     : null;
@@ -44,7 +50,7 @@ export function buildOnboardingPayload(input: OnboardingPayloadInput) {
     millesimesElevator: elevator
       ? (elevator.get(u._key) ?? (u.areaSqm != null ? 0 : null))
       : null,
-    millesimesHeating: heating.get(u._key) ?? null,
+    millesimesHeating: heating ? (heating.get(u._key) ?? null) : null,
   }));
 
   return {
@@ -56,6 +62,9 @@ export function buildOnboardingPayload(input: OnboardingPayloadInput) {
       elevatorExemptGroundFloor: exemptGround,
     },
     units,
-    meteredHeating: input.building.heatingType === "AUTONOMOUS_METERS",
+    // Common boiler with per-unit meters (hours or heat units) → 70/30 distribution.
+    meteredHeating: heatingType === "AUTONOMOUS_METERS" || heatingType === "AUTONOMOUS_HOURS",
+    // GAS = individual boilers → heating excluded from κοινόχρηστα entirely.
+    heatingShared,
   };
 }

@@ -38,8 +38,22 @@ describe("buildOnboardingPayload", () => {
     expect(p.units[0].millesimesElevator).toBeNull();
   });
 
-  it("flags metered heating only for AUTONOMOUS_METERS", () => {
+  it("flags metered heating for AUTONOMOUS_METERS and AUTONOMOUS_HOURS, not CENTRAL", () => {
     expect(buildOnboardingPayload({ building: { ...base.building, heatingType: "AUTONOMOUS_METERS" }, units: [{ floor: 1, areaSqm: 1 }] }).meteredHeating).toBe(true);
+    expect(buildOnboardingPayload({ building: { ...base.building, heatingType: "AUTONOMOUS_HOURS" }, units: [{ floor: 1, areaSqm: 1 }] }).meteredHeating).toBe(true);
     expect(buildOnboardingPayload({ ...base, units: [{ floor: 1, areaSqm: 1 }] }).meteredHeating).toBe(false);
+  });
+
+  it("GAS (individual boilers) → heating excluded: millesimesHeating null for all units, heatingShared false", () => {
+    const p = buildOnboardingPayload({ building: { ...base.building, heatingType: "GAS" }, units: [{ floor: 1, areaSqm: 80 }, { floor: 2, areaSqm: 120 }] });
+    expect(p.units.every((u) => u.millesimesHeating === null)).toBe(true);
+    expect(p.heatingShared).toBe(false);
+    expect(p.meteredHeating).toBe(false);
+  });
+
+  it("CENTRAL → heating shared with area-based millesimes summing to 1000", () => {
+    const p = buildOnboardingPayload({ ...base, units: [{ floor: 1, areaSqm: 100 }, { floor: 2, areaSqm: 100 }] });
+    expect(p.heatingShared).toBe(true);
+    expect(Math.round(p.units.reduce((s, u) => s + (u.millesimesHeating ?? 0), 0))).toBe(1000);
   });
 });
