@@ -24,6 +24,7 @@ import {
   RiArrowDownSLine,
   RiContactsLine, RiContactsFill, RiServiceLine, RiServiceFill,
   RiCommunityLine, RiCommunityFill,
+  RiRobot2Line,
 } from "react-icons/ri";
 
 type UserRole =
@@ -60,6 +61,7 @@ const NAV_BY_ROLE: Record<string, NavGroup[]> = {
     {
       id: "management", label: "Διαχείριση", icon: RiBuildingLine, color: "#8764B8",
       items: [
+        { label: "Νέα πολυκατοικία (AI)", href: "/super-admin/onboarding", icon: RiRobot2Line,        iconActive: RiRobot2Line,             color: "#CA5D00" },
         { label: "Πελάτες",      href: "/super-admin/customers",    icon: RiContactsLine,            iconActive: RiContactsFill,           color: "#038387" },
         { label: "Ιδιοκτησίες",  href: "/super-admin/properties",   icon: RiCommunityLine,           iconActive: RiCommunityFill,          color: "#8764B8" },
         { label: "Χρήστες",      href: "/super-admin/users",        icon: RiGroupLine,               iconActive: RiGroupFill,              color: "#0078D4" },

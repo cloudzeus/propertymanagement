@@ -11,8 +11,9 @@ type BuildingInfo = { address?: string; managerName?: string; heatingType?: Heat
 type UnitRow = { unitNumber?: string; floor?: number | null; areaSqm?: number | null; unitType?: UnitTypeStr };
 const HEATING_LABEL: Record<HeatingType, string> = { CENTRAL: "Κεντρική", AUTONOMOUS_HOURS: "Αυτονομία (ωρομετρητές)", AUTONOMOUS_METERS: "Αυτονομία (θερμιδομετρητές)", GAS: "Φυσικό αέριο" };
 
-export function OnboardingWizard({ customerId, customerName }: { customerId: string; customerName: string }) {
+export function OnboardingWizard({ customerId, customerName, customers }: { customerId?: string; customerName?: string; customers?: { id: string; name: string }[] }) {
   const router = useRouter();
+  const [selectedCustomerId, setSelectedCustomerId] = useState<string>(customerId ?? "");
   const [info, setInfo] = useState<BuildingInfo>({ hasElevator: false, elevatorSurchargePerFloor: 0.1, elevatorExemptGroundFloor: true });
   const [units, setUnits] = useState<UnitRow[]>([]);
   const [pending, startTransition] = useTransition();
@@ -41,13 +42,15 @@ export function OnboardingWizard({ customerId, customerName }: { customerId: str
   const removeUnit = (i: number) => setUnits((us) => us.filter((_, j) => j !== i));
 
   const hasArea = units.some((u) => (u.areaSqm ?? 0) > 0);
-  const complete = !!(info.address && info.managerName && info.heatingType && units.length && hasArea);
+  const complete = !!(selectedCustomerId && info.address && info.managerName && info.heatingType && units.length && hasArea);
   const method = info.heatingType === "AUTONOMOUS_METERS" ? "70/30 μετρητής" : "χιλιοστά θέρμανσης";
+  const showCustomerPicker = !customerId && !!customers?.length;
 
   function create() {
     setErr(null);
+    if (!selectedCustomerId) { setErr("Επιλέξτε πελάτη."); return; }
     startTransition(async () => {
-      const res = await createBuildingFromOnboarding(customerId, { building: info, units });
+      const res = await createBuildingFromOnboarding(selectedCustomerId, { building: info, units });
       if ("error" in res) { setErr(res.error); return; }
       router.push(`/super-admin/buildings/${res.buildingId}`);
     });
@@ -59,7 +62,9 @@ export function OnboardingWizard({ customerId, customerName }: { customerId: str
     <div style={{ display: "flex", gap: 16, height: "calc(100vh - 120px)" }}>
       {/* LEFT: chat (unchanged from prior version) */}
       <div style={{ flex: 1, display: "flex", flexDirection: "column", border: "1px solid var(--border)", borderRadius: 8 }}>
-        <div style={{ padding: 12, borderBottom: "1px solid var(--border)", fontWeight: 600 }}>AI Onboarding — {customerName}</div>
+        <div style={{ padding: 12, borderBottom: "1px solid var(--border)", fontWeight: 600 }}>
+          AI Onboarding{customerName ? ` — ${customerName}` : ""}
+        </div>
         <div style={{ flex: 1, overflowY: "auto", padding: 12, fontSize: 14, lineHeight: 1.6 }}>
           {messages.length === 0 && <div style={{ color: "var(--muted-foreground)" }}>Περιγράψτε το κτήριο και τις μονάδες (όροφοι, τ.μ.), τη θέρμανση και τον ανελκυστήρα.</div>}
           {messages.map((m) => (
@@ -78,6 +83,14 @@ export function OnboardingWizard({ customerId, customerName }: { customerId: str
       {/* RIGHT: building fields + units table */}
       <div style={{ flex: 1.3, border: "1px solid var(--border)", borderRadius: 8, padding: 16, overflowY: "auto" }}>
         <div style={{ fontWeight: 700, marginBottom: 10 }}>Στοιχεία κτηρίου <span style={{ fontSize: 11, color: "#16a34a" }}>● live</span></div>
+        {showCustomerPicker && (
+          <label style={{ display: "block", marginBottom: 6 }}>Πελάτης
+            <select value={selectedCustomerId} onChange={(e) => setSelectedCustomerId(e.target.value)}>
+              <option value="">— Επιλέξτε πελάτη —</option>
+              {customers!.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
+            </select>
+          </label>
+        )}
         <label style={{ display: "block", marginBottom: 6 }}>Διαχειριστής <input value={info.managerName ?? ""} onChange={(e) => setInfo((f) => ({ ...f, managerName: e.target.value }))} /></label>
         <label style={{ display: "block", marginBottom: 6 }}>Διεύθυνση <input value={info.address ?? ""} onChange={(e) => setInfo((f) => ({ ...f, address: e.target.value }))} /></label>
         <label style={{ display: "block", marginBottom: 6 }}>Θέρμανση
