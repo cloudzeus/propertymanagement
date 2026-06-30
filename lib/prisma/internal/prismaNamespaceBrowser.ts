@@ -108,7 +108,9 @@ export const ModelName = {
   PageSeo: 'PageSeo',
   UiMessage: 'UiMessage',
   MediaAsset: 'MediaAsset',
-  SiteSettings: 'SiteSettings'
+  SiteSettings: 'SiteSettings',
+  Author: 'Author',
+  Article: 'Article'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1187,6 +1189,38 @@ export const SiteSettingsScalarFieldEnum = {
 } as const
 
 export type SiteSettingsScalarFieldEnum = (typeof SiteSettingsScalarFieldEnum)[keyof typeof SiteSettingsScalarFieldEnum]
+
+
+export const AuthorScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  slug: 'slug',
+  avatarMediaId: 'avatarMediaId',
+  bio: 'bio',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AuthorScalarFieldEnum = (typeof AuthorScalarFieldEnum)[keyof typeof AuthorScalarFieldEnum]
+
+
+export const ArticleScalarFieldEnum = {
+  id: 'id',
+  slug: 'slug',
+  i18n: 'i18n',
+  authorId: 'authorId',
+  status: 'status',
+  publishedAt: 'publishedAt',
+  featuredMediaId: 'featuredMediaId',
+  featuredEmbedUrl: 'featuredEmbedUrl',
+  galleryMediaIds: 'galleryMediaIds',
+  tags: 'tags',
+  seo: 'seo',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ArticleScalarFieldEnum = (typeof ArticleScalarFieldEnum)[keyof typeof ArticleScalarFieldEnum]
 
 
 export const SortOrder = {

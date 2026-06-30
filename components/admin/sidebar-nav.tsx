@@ -33,6 +33,8 @@ import {
   RiQuestionLine, RiQuestionFill,
   RiImage2Line, RiImage2Fill,
   RiTranslate2,
+  RiArticleLine, RiArticleFill,
+  RiUserStarLine, RiUserStarFill,
 } from "react-icons/ri";
 
 type UserRole =
@@ -101,6 +103,8 @@ const NAV_BY_ROLE: Record<string, NavGroup[]> = {
         { label: "Σελίδες", href: "/super-admin/cms/pages", icon: RiPagesLine, iconActive: RiPagesFill, color: "#8764b8" },
         { label: "Τιμές", href: "/super-admin/cms/pricing", icon: RiPriceTag3Line, iconActive: RiPriceTag3Fill, color: "#8764b8" },
         { label: "FAQ", href: "/super-admin/cms/faq", icon: RiQuestionLine, iconActive: RiQuestionFill, color: "#8764b8" },
+        { label: "Άρθρα", href: "/super-admin/cms/articles", icon: RiArticleLine, iconActive: RiArticleFill, color: "#8764b8" },
+        { label: "Συγγραφείς", href: "/super-admin/cms/authors", icon: RiUserStarLine, iconActive: RiUserStarFill, color: "#8764b8" },
         { label: "Media", href: "/super-admin/cms/media", icon: RiImage2Line, iconActive: RiImage2Fill, color: "#8764b8" },
         { label: "Μεταφράσεις", href: "/super-admin/cms/translations", icon: RiTranslate2, iconActive: RiTranslate2, color: "#8764b8" },
       ],

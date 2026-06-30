@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { organizationSchema, webSiteSchema, faqPageSchema, breadcrumbSchema } from "./schema";
+import { articleSchema, personSchema } from "./schema";
 
 describe("schema builders", () => {
   it("organization", () => {
@@ -23,5 +24,18 @@ describe("schema builders", () => {
     const s = breadcrumbSchema([{ name: "Home", url: "https://x.gr" }]);
     expect(s["@type"]).toBe("BreadcrumbList");
     expect(s.itemListElement[0].position).toBe(1);
+  });
+});
+
+describe("article/person schema", () => {
+  it("article", () => {
+    const s: any = articleSchema({ headline: "T", url: "https://x.gr/blog/a", datePublished: "2026-01-01", authorName: "Jo", image: "https://x.gr/i.webp" });
+    expect(s["@type"]).toBe("Article");
+    expect(s.headline).toBe("T");
+    expect(s.author.name).toBe("Jo");
+    expect(s.image).toBe("https://x.gr/i.webp");
+  });
+  it("person", () => {
+    expect((personSchema({ name: "Jo" }) as any)["@type"]).toBe("Person");
   });
 });
