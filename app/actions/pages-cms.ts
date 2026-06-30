@@ -28,3 +28,46 @@ export async function updateCmsPage(slug: string, i18n: unknown, status: string)
   revalidatePath(`/${slug === "home" ? "" : slug}`);
   revalidatePath("/super-admin/cms/pages");
 }
+
+export async function updatePricingTier(id: string, data: Record<string, unknown>): Promise<void> {
+  await requireSuperAdmin();
+  await db.pricingTier.update({ where: { id }, data: data as any });
+  revalidatePath("/");
+  revalidatePath("/pricing");
+  revalidatePath("/super-admin/cms/pricing");
+}
+
+export async function createPricingTier(data: Record<string, unknown>): Promise<void> {
+  await requireSuperAdmin();
+  await db.pricingTier.create({ data: data as any });
+  revalidatePath("/pricing");
+  revalidatePath("/super-admin/cms/pricing");
+}
+
+export async function deletePricingTier(id: string): Promise<void> {
+  await requireSuperAdmin();
+  await db.pricingTier.delete({ where: { id } });
+  revalidatePath("/pricing");
+  revalidatePath("/super-admin/cms/pricing");
+}
+
+export async function updateFaq(id: string, data: Record<string, unknown>): Promise<void> {
+  await requireSuperAdmin();
+  await db.fAQ.update({ where: { id }, data: data as any });
+  revalidatePath("/faq");
+  revalidatePath("/super-admin/cms/faq");
+}
+
+export async function createFaq(data: Record<string, unknown>): Promise<void> {
+  await requireSuperAdmin();
+  await db.fAQ.create({ data: data as any });
+  revalidatePath("/faq");
+  revalidatePath("/super-admin/cms/faq");
+}
+
+export async function deleteFaq(id: string): Promise<void> {
+  await requireSuperAdmin();
+  await db.fAQ.delete({ where: { id } });
+  revalidatePath("/faq");
+  revalidatePath("/super-admin/cms/faq");
+}
