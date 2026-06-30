@@ -15,6 +15,13 @@ export async function updateSection(id: string, data: unknown): Promise<void> {
   revalidatePath("/super-admin/cms/landing");
 }
 
+export async function updatePageSeo(slug: string, seo: unknown): Promise<void> {
+  await requireSuperAdmin();
+  await db.pageSeo.upsert({ where: { slug }, update: { seo: seo as any }, create: { slug, seo: seo as any } });
+  revalidatePath("/");
+  revalidatePath("/super-admin/cms/landing");
+}
+
 export async function toggleSection(id: string): Promise<void> {
   await requireSuperAdmin();
   const row = await db.landingSection.findUnique({ where: { id } });
