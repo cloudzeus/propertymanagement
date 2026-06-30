@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { RiCheckLine } from "react-icons/ri";
 import { db } from "@/lib/db";
 import type { PricingData } from "@/lib/cms/landing-types";
 
@@ -77,7 +78,7 @@ export async function PricingSection({ data }: { data: PricingData }) {
                     <ul className="mt-8 space-y-3">
                       {tier.features.map((feature, index) => (
                         <li key={index} className="flex items-start gap-3 text-sm text-gray-700">
-                          <span style={{ color: "var(--color-success)" }} className="mt-0.5">✓</span>
+                          <RiCheckLine className="mt-0.5 shrink-0 w-4 h-4" style={{ color: "var(--color-success)" }} />
                           <span>{feature}</span>
                         </li>
                       ))}
