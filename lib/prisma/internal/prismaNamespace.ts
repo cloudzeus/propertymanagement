@@ -436,7 +436,8 @@ export const ModelName = {
   ContactMessage: 'ContactMessage',
   CookieConsent: 'CookieConsent',
   AppSettings: 'AppSettings',
-  ImpersonationEvent: 'ImpersonationEvent'
+  ImpersonationEvent: 'ImpersonationEvent',
+  LandingSection: 'LandingSection'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -452,7 +453,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "account" | "session" | "verificationToken" | "company" | "department" | "jobPosition" | "employee" | "subscription" | "addonFeature" | "customer" | "property" | "building" | "unitOccupancy" | "buildingFile" | "infraPoint" | "infraAccess" | "infraMedia" | "contact" | "recurringTask" | "buildingExpense" | "expenseCategory" | "buildingCategoryOverride" | "unitCategoryExclusion" | "unitHeatingReading" | "meterReading" | "expenseAllocation" | "unitPayment" | "managementAssignment" | "commonArea" | "unit" | "service" | "propertyService" | "serviceInvoice" | "serviceInvoiceLine" | "userCompanyRole" | "menuConfig" | "announcement" | "announcement_User" | "assembly" | "assemblyParticipant" | "processedWebhook" | "aPIUsageLog" | "aPICostConfig" | "monthlyCostSummary" | "maintenanceRequest" | "cMSPage" | "fAQ" | "pricingTier" | "contactMessage" | "cookieConsent" | "appSettings" | "impersonationEvent"
+    modelProps: "user" | "account" | "session" | "verificationToken" | "company" | "department" | "jobPosition" | "employee" | "subscription" | "addonFeature" | "customer" | "property" | "building" | "unitOccupancy" | "buildingFile" | "infraPoint" | "infraAccess" | "infraMedia" | "contact" | "recurringTask" | "buildingExpense" | "expenseCategory" | "buildingCategoryOverride" | "unitCategoryExclusion" | "unitHeatingReading" | "meterReading" | "expenseAllocation" | "unitPayment" | "managementAssignment" | "commonArea" | "unit" | "service" | "propertyService" | "serviceInvoice" | "serviceInvoiceLine" | "userCompanyRole" | "menuConfig" | "announcement" | "announcement_User" | "assembly" | "assemblyParticipant" | "processedWebhook" | "aPIUsageLog" | "aPICostConfig" | "monthlyCostSummary" | "maintenanceRequest" | "cMSPage" | "fAQ" | "pricingTier" | "contactMessage" | "cookieConsent" | "appSettings" | "impersonationEvent" | "landingSection"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -4378,6 +4379,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    LandingSection: {
+      payload: Prisma.$LandingSectionPayload<ExtArgs>
+      fields: Prisma.LandingSectionFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.LandingSectionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LandingSectionPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.LandingSectionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LandingSectionPayload>
+        }
+        findFirst: {
+          args: Prisma.LandingSectionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LandingSectionPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.LandingSectionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LandingSectionPayload>
+        }
+        findMany: {
+          args: Prisma.LandingSectionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LandingSectionPayload>[]
+        }
+        create: {
+          args: Prisma.LandingSectionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LandingSectionPayload>
+        }
+        createMany: {
+          args: Prisma.LandingSectionCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.LandingSectionCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LandingSectionPayload>[]
+        }
+        delete: {
+          args: Prisma.LandingSectionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LandingSectionPayload>
+        }
+        update: {
+          args: Prisma.LandingSectionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LandingSectionPayload>
+        }
+        deleteMany: {
+          args: Prisma.LandingSectionDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.LandingSectionUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.LandingSectionUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LandingSectionPayload>[]
+        }
+        upsert: {
+          args: Prisma.LandingSectionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LandingSectionPayload>
+        }
+        aggregate: {
+          args: Prisma.LandingSectionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateLandingSection>
+        }
+        groupBy: {
+          args: Prisma.LandingSectionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.LandingSectionGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.LandingSectionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.LandingSectionCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -5388,6 +5463,19 @@ export const ImpersonationEventScalarFieldEnum = {
 export type ImpersonationEventScalarFieldEnum = (typeof ImpersonationEventScalarFieldEnum)[keyof typeof ImpersonationEventScalarFieldEnum]
 
 
+export const LandingSectionScalarFieldEnum = {
+  id: 'id',
+  type: 'type',
+  enabled: 'enabled',
+  order: 'order',
+  data: 'data',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type LandingSectionScalarFieldEnum = (typeof LandingSectionScalarFieldEnum)[keyof typeof LandingSectionScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -6031,6 +6119,7 @@ export type GlobalOmitConfig = {
   cookieConsent?: Prisma.CookieConsentOmit
   appSettings?: Prisma.AppSettingsOmit
   impersonationEvent?: Prisma.ImpersonationEventOmit
+  landingSection?: Prisma.LandingSectionOmit
 }
 
 /* Types for Logging */
