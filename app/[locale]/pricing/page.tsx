@@ -1,127 +1,142 @@
-import { db } from '@/lib/db';
-import Link from 'next/link';
+import Link from "next/link";
+import { getLocale } from "next-intl/server";
+import { RiCheckLine } from "react-icons/ri";
+import type { Locale } from "@/i18n";
+import { getPricingTiers, localizedTier } from "@/lib/cms/pages";
+import { buildPageMetadata, SITE_BASE } from "@/lib/seo/page-metadata";
+import { productOfferSchema, breadcrumbSchema } from "@/lib/seo/schema";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { LandingHeader } from "@/components/landing/landing-header";
+import { LandingFooter } from "@/components/landing/landing-footer";
 
 // Reads pricing tiers from the DB, so it must not be statically prerendered at
 // build time (no database during the Docker build).
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
+
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
+  return buildPageMetadata("pricing", locale as Locale, "/pricing");
+}
 
 export default async function PricingPage() {
-  // Fetch published pricing tiers ordered by display order
-  const tiers = await db.pricingTier.findMany({
-    where: { published: true },
-    orderBy: { order: 'asc' },
-  });
+  const locale = (await getLocale()) as Locale;
+  const tiers = await getPricingTiers();
+
+  const heading = locale === "el" ? "Τιμές" : "Pricing";
+  const subtitle =
+    locale === "el"
+      ? "Διαφανής τιμολόγηση. Χωρίς κρυφές χρεώσεις, χωρίς δεσμεύσεις."
+      : "Transparent pricing. No hidden fees, no long-term contracts.";
 
   return (
-    <div>
-      {/* Header */}
-      <section className="bg-gray-50 py-16">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-5xl font-bold mb-4">Simple, Transparent Pricing</h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Pay only for what you use. No hidden fees, no long-term contracts. Cancel anytime.
-          </p>
-        </div>
-      </section>
-
-      {/* Pricing Cards */}
-      <section className="py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {tiers.length === 0 ? (
-            <div className="text-center py-12">
-              <p className="text-gray-600 text-lg">No pricing tiers available yet.</p>
+    <div className="min-h-screen bg-white">
+      <LandingHeader />
+      <main>
+        <section className="bg-white">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+            <div className="text-center mb-14">
+              <h1 className="text-3xl font-bold tracking-tight text-gray-900">{heading}</h1>
+              <p className="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">{subtitle}</p>
             </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {tiers.map((tier) => (
-                <div
-                  key={tier.id}
-                  className={`rounded-lg overflow-hidden transition transform hover:scale-105 ${
-                    tier.highlighted
-                      ? 'md:col-span-1 md:scale-105 border-2 border-blue-600 shadow-lg'
-                      : 'border border-gray-200'
-                  } bg-white`}
-                >
-                  {tier.highlighted && (
-                    <div className="bg-blue-600 text-white py-2 text-center text-sm font-semibold">
-                      MOST POPULAR
-                    </div>
-                  )}
 
-                  <div className="p-8">
-                    <h3 className="text-2xl font-bold text-gray-900 mb-2">{tier.name}</h3>
-                    {tier.description && (
-                      <p className="text-gray-600 text-sm mb-6">{tier.description}</p>
-                    )}
+            {tiers.length === 0 ? (
+              <p className="text-center text-gray-600">
+                {locale === "el" ? "Δεν υπάρχουν διαθέσιμα πακέτα ακόμη." : "No pricing tiers available yet."}
+              </p>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+                {tiers.map((tier) => {
+                  const lt = localizedTier(tier, locale);
+                  return (
+                    <div
+                      key={tier.id}
+                      className={`rounded-xl bg-white overflow-hidden ${
+                        tier.highlighted
+                          ? "border-2 shadow-lg md:scale-105"
+                          : "border border-gray-200 shadow-sm"
+                      }`}
+                      style={tier.highlighted ? { borderColor: "var(--color-primary)" } : undefined}
+                    >
+                      {tier.highlighted && (
+                        <div
+                          className="py-2 text-center text-xs font-semibold text-white tracking-wide"
+                          style={{ background: "var(--color-primary)" }}
+                        >
+                          {locale === "el" ? "ΔΗΜΟΦΙΛΕΣΤΕΡΟ" : "MOST POPULAR"}
+                        </div>
+                      )}
+                      <div className="p-8">
+                        <h3 className="text-xl font-bold text-gray-900">{lt.name}</h3>
+                        {lt.description && <p className="mt-2 text-sm text-gray-600">{lt.description}</p>}
 
-                    {tier.monthlyPrice !== null ? (
-                      <div className="mb-6">
-                        <p className="text-4xl font-bold text-gray-900">
-                          €{tier.monthlyPrice}
-                        </p>
-                        <p className="text-gray-600 text-sm">
-                          per unit per month (billed monthly)
-                        </p>
-                        {tier.annualPrice && (
-                          <p className="text-gray-600 text-sm mt-1">
-                            or €{Math.round(tier.annualPrice / 12)} per month billed annually
-                          </p>
+                        <div className="mt-6">
+                          {tier.monthlyPrice > 0 ? (
+                            <p className="text-4xl font-bold text-gray-900">
+                              €{tier.monthlyPrice}
+                              <span className="text-base font-normal text-gray-500"> /μήνα</span>
+                            </p>
+                          ) : (
+                            <p className="text-4xl font-bold text-gray-900">
+                              {locale === "el" ? "Κατόπιν επικοινωνίας" : "Contact us"}
+                            </p>
+                          )}
+                        </div>
+
+                        <Link
+                          href="/register"
+                          className={`mt-6 block w-full text-center py-3 rounded-lg text-sm font-semibold transition ${
+                            tier.highlighted ? "text-white hover:opacity-90" : "border hover:bg-gray-50"
+                          }`}
+                          style={
+                            tier.highlighted
+                              ? { background: "var(--color-primary)" }
+                              : { borderColor: "var(--color-primary)", color: "var(--color-primary)" }
+                          }
+                        >
+                          {locale === "el" ? "Ξεκινήστε" : "Get started"}
+                        </Link>
+
+                        {lt.features && lt.features.length > 0 && (
+                          <ul className="mt-8 space-y-3">
+                            {lt.features.map((feature: string, index: number) => (
+                              <li key={index} className="flex items-start gap-3 text-sm text-gray-700">
+                                <RiCheckLine
+                                  className="mt-0.5 shrink-0 w-4 h-4"
+                                  style={{ color: "var(--color-success)" }}
+                                />
+                                <span>{feature}</span>
+                              </li>
+                            ))}
+                          </ul>
                         )}
                       </div>
-                    ) : (
-                      <div className="mb-6">
-                        <p className="text-4xl font-bold text-gray-900">Custom</p>
-                        <p className="text-gray-600 text-sm">Contact our sales team for pricing</p>
-                      </div>
-                    )}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        </section>
 
-                    <Link
-                      href={tier.slug === 'enterprise' ? '/contact' : '/register'}
-                      className={`w-full block text-center py-3 rounded-lg font-semibold transition ${
-                        tier.highlighted
-                          ? 'bg-blue-600 text-white hover:bg-blue-700'
-                          : 'border border-blue-600 text-blue-600 hover:bg-blue-50'
-                      }`}
-                    >
-                      {tier.slug === 'enterprise' ? 'Contact Sales' : 'Start Free Trial'}
-                    </Link>
-
-                    {tier.features && tier.features.length > 0 && (
-                      <div className="mt-8">
-                        <h4 className="font-semibold text-gray-900 mb-4">What's included:</h4>
-                        <ul className="space-y-3">
-                          {tier.features.map((feature, index) => (
-                            <li key={index} className="flex items-center gap-3 text-sm text-gray-700">
-                              <span className="text-green-500">✓</span>
-                              {feature}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="bg-blue-600 text-white py-16">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl font-bold mb-4">Ready to get started?</h2>
-          <p className="text-xl text-blue-100 mb-8">
-            Choose a plan and start your 14-day free trial today. No credit card required.
-          </p>
-          <Link
-            href="/register"
-            className="inline-block px-8 py-3 bg-white text-blue-600 rounded-lg font-semibold hover:bg-gray-100"
-          >
-            Start Free Trial
-          </Link>
-        </div>
-      </section>
+        <JsonLd
+          data={[
+            ...tiers.map((t) => {
+              const lt = localizedTier(t, locale);
+              return productOfferSchema({
+                name: lt.name,
+                description: lt.description,
+                price: t.monthlyPrice,
+                url: `${SITE_BASE}/register`,
+              });
+            }),
+            breadcrumbSchema([
+              { name: "Home", url: SITE_BASE },
+              { name: "Pricing", url: `${SITE_BASE}/pricing` },
+            ]),
+          ]}
+        />
+      </main>
+      <LandingFooter />
     </div>
   );
 }
