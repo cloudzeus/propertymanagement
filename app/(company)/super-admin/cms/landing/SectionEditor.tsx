@@ -4,6 +4,15 @@ import { useState, useTransition } from "react";
 import { updateSection } from "@/app/actions/landing-cms";
 import { autoTranslate } from "@/app/actions/translate";
 import { ICON_NAMES } from "@/lib/cms/icon-registry";
+import {
+  CmsField,
+  CmsInput,
+  CmsTextarea,
+  LocaleTabs,
+  CmsButton,
+  SaveBar,
+} from "@/components/cms/ui";
+import { RiTranslate2 } from "react-icons/ri";
 
 // Translatable text field paths per section type.
 const TEXT_FIELDS: Record<string, string[]> = {
@@ -107,21 +116,15 @@ export function SectionEditor({ section }: Props) {
     let v: any = data[activeLocale];
     for (const p of parts) v = v?.[p];
     return (
-      <label className="block">
-        <span className="mb-1 block text-xs font-medium text-slate-600">{label}</span>
-        <input
-          className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
-          value={v ?? ""}
-          onChange={(e) => set(path, e.target.value)}
-        />
-      </label>
+      <CmsField label={label}>
+        <CmsInput value={v ?? ""} onChange={(e) => set(path, e.target.value)} />
+      </CmsField>
     );
   }
 
   const hasItems = ["LOGOS", "FEATURES", "TESTIMONIALS"].includes(section.type);
 
-  function onSubmit(e: React.FormEvent) {
-    e.preventDefault();
+  function save() {
     setError(null);
     setSaved(false);
 
@@ -147,41 +150,49 @@ export function SectionEditor({ section }: Props) {
   }
 
   return (
-    <form onSubmit={onSubmit} className="mt-4 space-y-3 border-t border-slate-200 pt-4">
-      <div className="flex items-center gap-2">
-        {(["el", "en"] as Locale[]).map((loc) => (
-          <button
-            key={loc}
-            type="button"
-            onClick={() => setActiveLocale(loc)}
-            className={`rounded-md px-3 py-1 text-sm font-medium ${
-              activeLocale === loc
-                ? "bg-blue-600 text-white"
-                : "border border-slate-300 text-slate-600 hover:bg-slate-50"
-            }`}
-          >
-            {loc === "el" ? "Ελληνικά" : "English"}
-          </button>
-        ))}
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        save();
+      }}
+      style={{
+        marginTop: 16,
+        paddingTop: 16,
+        borderTop: "1px solid var(--border)",
+        display: "flex",
+        flexDirection: "column",
+        gap: 16,
+      }}
+    >
+      <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+        <LocaleTabs value={activeLocale} onChange={setActiveLocale} />
         {(TEXT_FIELDS[section.type]?.length ?? 0) > 0 && (
-          <button
-            type="button"
-            onClick={translateEnFromEl}
-            disabled={translating}
-            className="ml-auto rounded border border-gray-300 px-2 py-1 text-xs text-gray-600 hover:bg-gray-50 disabled:opacity-50"
-          >
-            {translating ? "Μετάφραση…" : "Μετάφραση EL→EN (section)"}
-          </button>
+          <div style={{ marginLeft: "auto" }}>
+            <CmsButton
+              variant="secondary"
+              loading={translating}
+              onClick={translateEnFromEl}
+              icon={<RiTranslate2 size={15} />}
+            >
+              {translating ? "Μετάφραση…" : "Μετάφραση EL→EN (section)"}
+            </CmsButton>
+          </div>
         )}
       </div>
 
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+          gap: 12,
+        }}
+      >
         {section.type === "HERO" && (
           <>
             {field("Τίτλος", "title")}
             {field("Υπότιτλος", "subtitle")}
             {field("URL εικόνας", "imageUrl")}
-            <div className="hidden sm:block" />
+            <div />
             {field("Κύριο CTA — Κείμενο", "primaryCta.label")}
             {field("Κύριο CTA — Σύνδεσμος", "primaryCta.href")}
             {field("Δευτερεύον CTA — Κείμενο", "secondaryCta.label")}
@@ -213,27 +224,44 @@ export function SectionEditor({ section }: Props) {
       </div>
 
       {hasItems && (
-        <label className="block">
-          <span className="mb-1 block text-xs font-medium text-slate-600">
-            Στοιχεία (items) — JSON
-          </span>
-          <textarea
-            className="w-full rounded-md border border-slate-300 px-3 py-2 font-mono text-xs focus:border-blue-500 focus:outline-none"
+        <CmsField label="Στοιχεία (items) — JSON">
+          <CmsTextarea
+            mono
             rows={8}
+            style={{ fontSize: 12 }}
             value={itemsText[activeLocale]}
             onChange={(e) =>
               setItemsText((prev) => ({ ...prev, [activeLocale]: e.target.value }))
             }
           />
-        </label>
+        </CmsField>
       )}
 
       {section.type === "FEATURES" && (
-        <details className="text-xs text-slate-600">
-          <summary className="cursor-pointer font-medium">Διαθέσιμα εικονίδια (icon)</summary>
-          <ul className="mt-2 flex flex-wrap gap-2">
+        <details style={{ fontSize: 12, color: "var(--muted-foreground)" }}>
+          <summary style={{ cursor: "pointer", fontWeight: 600 }}>
+            Διαθέσιμα εικονίδια (icon)
+          </summary>
+          <ul
+            style={{
+              marginTop: 8,
+              display: "flex",
+              flexWrap: "wrap",
+              gap: 8,
+              listStyle: "none",
+              padding: 0,
+            }}
+          >
             {ICON_NAMES.map((n) => (
-              <li key={n} className="rounded bg-slate-100 px-2 py-1 font-mono">
+              <li
+                key={n}
+                style={{
+                  borderRadius: 4,
+                  background: "var(--muted)",
+                  padding: "4px 8px",
+                  fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
+                }}
+              >
                 {n}
               </li>
             ))}
@@ -241,17 +269,12 @@ export function SectionEditor({ section }: Props) {
         </details>
       )}
 
-      {error && <p className="text-sm text-red-600">{error}</p>}
+      {error && (
+        <p style={{ fontSize: 13, color: "var(--color-danger)", margin: 0 }}>{error}</p>
+      )}
 
-      <div className="flex items-center gap-3">
-        <button
-          type="submit"
-          disabled={pending}
-          className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50"
-        >
-          {pending ? "Αποθήκευση…" : "Αποθήκευση"}
-        </button>
-        {saved && <span className="text-sm font-medium text-green-600">Αποθηκεύτηκε</span>}
+      <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+        <SaveBar onSave={save} pending={pending} saved={saved} />
       </div>
     </form>
   );
