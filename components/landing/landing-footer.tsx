@@ -3,6 +3,7 @@ import { LanguageSwitcher } from "@/components/i18n/LanguageSwitcher";
 
 const LINKS = [
   { href: "/pricing", label: "Τιμολόγηση" },
+  { href: "/blog", label: "Blog" },
   { href: "/faq", label: "Συχνές ερωτήσεις" },
   { href: "/contact", label: "Επικοινωνία" },
   { href: "/privacy", label: "Απόρρητο" },
