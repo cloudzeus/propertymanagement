@@ -25,6 +25,7 @@ import {
   RiContactsLine, RiContactsFill, RiServiceLine, RiServiceFill,
   RiCommunityLine, RiCommunityFill,
   RiRobot2Line,
+  RiEyeLine, RiEyeFill,
 } from "react-icons/ri";
 
 type UserRole =
@@ -83,6 +84,12 @@ const NAV_BY_ROLE: Record<string, NavGroup[]> = {
         { label: "Brand",        href: "/super-admin/settings/brand",       icon: RiPaletteLine,             iconActive: RiPaletteFill,            color: "#8764B8" },
         { label: "Ενσωματώσεις", href: "/super-admin/integrations",         icon: RiLinksLine,                iconActive: RiLinksFill,               color: "#038387" },
         { label: "Ρυθμίσεις",   href: "/super-admin/settings",             icon: RiSettingsLine,            iconActive: RiSettingsFill,           color: "#5C5C5C" },
+      ],
+    },
+    {
+      id: "preview", label: "Προεπισκόπηση", icon: RiEyeLine, color: "#038387",
+      items: [
+        { label: "View as…",     href: "/super-admin/view-as",      icon: RiEyeLine,                 iconActive: RiEyeFill,                color: "#038387" },
       ],
     },
   ],
