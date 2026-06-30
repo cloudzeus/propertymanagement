@@ -1,8 +1,18 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { RiSettings3Line } from "react-icons/ri";
 import { updateSiteSettings } from "@/app/actions/site-settings";
 import type { ConsentConfig } from "@/lib/cms/site-settings-defaults";
+import {
+  CmsPage,
+  CmsCard,
+  CmsField,
+  CmsInput,
+  CmsTextarea,
+  LocaleTabs,
+  SaveBar,
+} from "@/components/cms/ui";
 
 type Initial = {
   siteName: string;
@@ -34,34 +44,11 @@ type Initial = {
 
 type ScalarKey = Exclude<keyof Initial, "consentEnabled" | "consentConfig">;
 
-const inputCls =
-  "w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 outline-none focus:border-slate-400 focus:ring-1 focus:ring-slate-300";
-
-function Card({ title, children }: { title: string; children: React.ReactNode }) {
-  return (
-    <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
-      <h2 className="mb-4 text-lg font-semibold text-slate-900">{title}</h2>
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">{children}</div>
-    </div>
-  );
-}
-
-function Field({
-  label,
-  full,
-  children,
-}: {
-  label: string;
-  full?: boolean;
-  children: React.ReactNode;
-}) {
-  return (
-    <label className={`flex flex-col gap-1 ${full ? "sm:col-span-2" : ""}`}>
-      <span className="text-sm font-medium text-slate-700">{label}</span>
-      {children}
-    </label>
-  );
-}
+const grid2: React.CSSProperties = {
+  display: "grid",
+  gridTemplateColumns: "1fr 1fr",
+  gap: 16,
+};
 
 export function SettingsForm({ initial }: { initial: Initial }) {
   const [f, setF] = useState<Record<ScalarKey, string>>(() => {
@@ -90,20 +77,13 @@ export function SettingsForm({ initial }: { initial: Initial }) {
     setConsent((p) => ({ ...p, [field]: { ...p[field], [locale]: value } }));
   };
 
-  const Text = (k: ScalarKey, label: string, full?: boolean) => (
-    <Field label={label} full={full}>
-      <input className={inputCls} value={f[k]} onChange={set(k)} />
-    </Field>
+  const Text = (k: ScalarKey, label: string) => (
+    <CmsField label={label}>
+      <CmsInput value={f[k]} onChange={set(k)} />
+    </CmsField>
   );
 
-  const Area = (k: ScalarKey, label: string) => (
-    <Field label={label} full>
-      <textarea className={`${inputCls} min-h-[100px] font-mono`} value={f[k]} onChange={set(k)} />
-    </Field>
-  );
-
-  function onSubmit(e: React.FormEvent) {
-    e.preventDefault();
+  function save() {
     setError(null);
     setSaved(false);
 
@@ -167,121 +147,152 @@ export function SettingsForm({ initial }: { initial: Initial }) {
   }
 
   return (
-    <form onSubmit={onSubmit} className="space-y-6">
-      <Card title="SEO">
-        {Text("siteName", "Όνομα ιστότοπου")}
-        {Text("defaultOgImage", "Προεπιλεγμένη εικόνα OG (URL)")}
-      </Card>
+    <CmsPage
+      icon={<RiSettings3Line />}
+      title="Ρυθμίσεις ιστότοπου"
+      subtitle="Social, analytics, consent, SEO & GEO"
+    >
+      <CmsCard title="SEO">
+        <div style={grid2}>
+          {Text("siteName", "Όνομα ιστότοπου")}
+          {Text("defaultOgImage", "Προεπιλεγμένη εικόνα OG (URL)")}
+        </div>
+      </CmsCard>
 
-      <Card title="Social">
-        {Text("facebookUrl", "Facebook URL")}
-        {Text("instagramUrl", "Instagram URL")}
-        {Text("linkedinUrl", "LinkedIn URL")}
-        {Text("xUrl", "X (Twitter) URL")}
-        {Text("youtubeUrl", "YouTube URL")}
-        {Text("tiktokUrl", "TikTok URL")}
-      </Card>
+      <CmsCard title="Social">
+        <div style={grid2}>
+          {Text("facebookUrl", "Facebook URL")}
+          {Text("instagramUrl", "Instagram URL")}
+          {Text("linkedinUrl", "LinkedIn URL")}
+          {Text("xUrl", "X (Twitter) URL")}
+          {Text("youtubeUrl", "YouTube URL")}
+          {Text("tiktokUrl", "TikTok URL")}
+        </div>
+      </CmsCard>
 
-      <Card title="Analytics / Tags">
-        {Text("googleAnalyticsId", "Google Analytics ID")}
-        {Text("googleTagManagerId", "Google Tag Manager ID")}
-        {Text("facebookPixelId", "Facebook Pixel ID")}
-        {Area("extraHeadHtml", "Extra HTML (head)")}
-        {Area("extraBodyHtml", "Extra HTML (body)")}
-      </Card>
+      <CmsCard title="Analytics & Tags">
+        <div style={grid2}>
+          {Text("googleAnalyticsId", "Google Analytics ID")}
+          {Text("googleTagManagerId", "Google Tag Manager ID")}
+          {Text("facebookPixelId", "Facebook Pixel ID")}
+        </div>
+        <div style={{ display: "flex", flexDirection: "column", gap: 16, marginTop: 16 }}>
+          <CmsField label="Extra HTML (head)">
+            <CmsTextarea
+              mono
+              style={{ minHeight: 100 }}
+              value={f.extraHeadHtml}
+              onChange={set("extraHeadHtml")}
+            />
+          </CmsField>
+          <CmsField label="Extra HTML (body)">
+            <CmsTextarea
+              mono
+              style={{ minHeight: 100 }}
+              value={f.extraBodyHtml}
+              onChange={set("extraBodyHtml")}
+            />
+          </CmsField>
+        </div>
+      </CmsCard>
 
-      <Card title="Επαλήθευση (Verification)">
-        {Text("googleSiteVerification", "Google site verification")}
-        {Text("bingSiteVerification", "Bing site verification")}
-      </Card>
+      <CmsCard title="Επαλήθευση">
+        <div style={grid2}>
+          {Text("googleSiteVerification", "Google site verification")}
+          {Text("bingSiteVerification", "Bing site verification")}
+        </div>
+      </CmsCard>
 
-      <Card title="GEO / Τοπική επιχείρηση">
-        {Text("telephone", "Τηλέφωνο")}
-        {Text("addrStreet", "Οδός")}
-        {Text("addrCity", "Πόλη")}
-        {Text("addrPostal", "Τ.Κ.")}
-        {Text("addrCountry", "Χώρα")}
-        {Text("geoLat", "Γεωγραφικό πλάτος (lat)")}
-        {Text("geoLng", "Γεωγραφικό μήκος (lng)")}
-        {Text("openingHours", "Ώρες λειτουργίας", true)}
-      </Card>
+      <CmsCard title="GEO / Τοπική επιχείρηση">
+        <div style={grid2}>
+          {Text("telephone", "Τηλέφωνο")}
+          {Text("addrStreet", "Οδός")}
+          {Text("addrCity", "Πόλη")}
+          {Text("addrPostal", "Τ.Κ.")}
+          {Text("addrCountry", "Χώρα")}
+          {Text("geoLat", "Γεωγραφικό πλάτος (lat)")}
+          {Text("geoLng", "Γεωγραφικό μήκος (lng)")}
+        </div>
+        <div style={{ marginTop: 16 }}>
+          <CmsField label="Ώρες λειτουργίας">
+            <CmsInput value={f.openingHours} onChange={set("openingHours")} />
+          </CmsField>
+        </div>
+      </CmsCard>
 
-      <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
-        <h2 className="mb-4 text-lg font-semibold text-slate-900">Consent</h2>
-
-        <label className="mb-4 flex items-center gap-2">
+      <CmsCard title="Consent (cookie banner)">
+        <label
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 8,
+            marginBottom: 18,
+            fontSize: 13,
+            fontWeight: 600,
+            color: "var(--foreground)",
+            cursor: "pointer",
+          }}
+        >
           <input
             type="checkbox"
             checked={consentEnabled}
             onChange={(e) => setConsentEnabled(e.target.checked)}
-            className="h-4 w-4 rounded border-slate-300"
+            style={{ width: 16, height: 16 }}
           />
-          <span className="text-sm font-medium text-slate-700">Ενεργοποίηση consent banner</span>
+          Ενεργοποίηση consent banner
         </label>
 
-        <div className="mb-4 flex gap-1">
-          {(["el", "en"] as const).map((l) => (
-            <button
-              key={l}
-              type="button"
-              onClick={() => setTab(l)}
-              className={`rounded-md px-3 py-1.5 text-sm font-medium ${
-                tab === l ? "bg-slate-900 text-white" : "bg-slate-100 text-slate-600"
-              }`}
-            >
-              {l.toUpperCase()}
-            </button>
-          ))}
+        <div style={{ marginBottom: 18 }}>
+          <LocaleTabs value={tab} onChange={setTab} />
         </div>
 
-        <div className="grid grid-cols-1 gap-4">
-          <Field label={`Τίτλος (${tab.toUpperCase()})`}>
-            <input
-              className={inputCls}
+        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+          <CmsField label={`Τίτλος (${tab.toUpperCase()})`}>
+            <CmsInput
               value={consent.title[tab]}
               onChange={(e) => setConsentText("title", tab, e.target.value)}
             />
-          </Field>
-          <Field label={`Κείμενο (${tab.toUpperCase()})`}>
-            <textarea
-              className={`${inputCls} min-h-[80px]`}
+          </CmsField>
+          <CmsField label={`Κείμενο (${tab.toUpperCase()})`}>
+            <CmsTextarea
+              style={{ minHeight: 80 }}
               value={consent.body[tab]}
               onChange={(e) => setConsentText("body", tab, e.target.value)}
             />
-          </Field>
-          <Field label="Σύνδεσμος πολιτικής (policyLink)">
-            <input
-              className={inputCls}
+          </CmsField>
+          <CmsField label="Σύνδεσμος πολιτικής (policyLink)">
+            <CmsInput
               value={consent.policyLink}
               onChange={(e) => setConsent((p) => ({ ...p, policyLink: e.target.value }))}
             />
-          </Field>
-          <Field label="Κατηγορίες (JSON array)">
-            <textarea
-              className={`${inputCls} min-h-[180px] font-mono`}
+          </CmsField>
+          <CmsField label="Κατηγορίες (JSON array)">
+            <CmsTextarea
+              mono
+              style={{ minHeight: 180 }}
               value={categoriesJson}
               onChange={(e) => setCategoriesJson(e.target.value)}
             />
-          </Field>
+          </CmsField>
         </div>
-      </div>
+      </CmsCard>
 
       {error && (
-        <div className="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+        <div
+          style={{
+            border: "1px solid var(--color-danger)",
+            background: "color-mix(in srgb, var(--color-danger) 8%, white)",
+            color: "var(--color-danger)",
+            borderRadius: "var(--radius)",
+            padding: "12px 16px",
+            fontSize: 13,
+          }}
+        >
           {error}
         </div>
       )}
 
-      <div className="flex items-center gap-4">
-        <button
-          type="submit"
-          disabled={pending}
-          className="rounded-md bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white hover:bg-slate-800 disabled:opacity-50"
-        >
-          {pending ? "Αποθήκευση…" : "Αποθήκευση"}
-        </button>
-        {saved && <span className="text-sm font-medium text-green-600">Αποθηκεύτηκε</span>}
-      </div>
-    </form>
+      <SaveBar onSave={save} pending={pending} saved={saved} />
+    </CmsPage>
   );
 }
