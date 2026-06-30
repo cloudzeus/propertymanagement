@@ -4,6 +4,8 @@ import { NextIntlClientProvider } from "next-intl";
 import { SessionProvider } from "@/components/providers/SessionProvider";
 import { CookieConsent } from "@/components/CookieConsent";
 import { getAppSettings, buildBrandCss } from "@/lib/app-settings";
+import { getSiteSettings } from "@/lib/cms/site-settings";
+import { SiteTags } from "@/components/site/SiteTags";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -25,6 +27,7 @@ export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   const settings = await getAppSettings();
+  const site = await getSiteSettings();
   // eslint-disable-next-line @typescript-eslint/no-require-imports
   const messages = require("../messages/el.json");
   const brandCss = buildBrandCss(settings);
@@ -37,14 +40,29 @@ export default async function RootLayout({
       <head>
         {/* Brand colors from DB — overrides globals.css defaults */}
         <style>{`:root{${brandCss}}`}</style>
+        {site.googleSiteVerification ? (
+          <meta name="google-site-verification" content={site.googleSiteVerification} />
+        ) : null}
+        {site.bingSiteVerification ? (
+          <meta name="msvalidate.01" content={site.bingSiteVerification} />
+        ) : null}
       </head>
       <body className="min-h-full flex flex-col">
+        <SiteTags
+          ga={site.googleAnalyticsId}
+          gtm={site.googleTagManagerId}
+          pixel={site.facebookPixelId}
+          extraHead={site.extraHeadHtml}
+        />
         <NextIntlClientProvider locale="el" messages={messages}>
           <SessionProvider>
             {children}
             <CookieConsent />
           </SessionProvider>
         </NextIntlClientProvider>
+        {site.extraBodyHtml ? (
+          <div dangerouslySetInnerHTML={{ __html: site.extraBodyHtml }} />
+        ) : null}
       </body>
     </html>
   );
