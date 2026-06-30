@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { DataTable, type ColDef, type RowAction } from "@/components/ui/data-table";
 import { Modal, FormField, FieldInput } from "@/components/ui/modal";
 import { CmsPage, LocaleTabs, CmsTextarea } from "@/components/cms/ui";
+import { AutoTranslateButton } from "@/components/i18n/AutoTranslateButton";
 import { createFaq, updateFaq, deleteFaq } from "@/app/actions/pages-cms";
 import { RiQuestionLine, RiCheckLine, RiLoaderLine, RiPencilLine, RiDeleteBinLine } from "react-icons/ri";
 
@@ -180,6 +181,11 @@ export function FaqClient({ initial }: { initial: Faq[] }) {
 
           <FormField label="Ερώτηση" required>
             <FieldInput value={i18n.question[locale]} onChange={(v) => setI18n((p) => ({ ...p, question: { ...p.question, [locale]: v } }))} placeholder="π.χ. Πώς λειτουργεί;" />
+            {locale === "en" && (
+              <div style={{ marginTop: 6 }}>
+                <AutoTranslateButton source={i18n.question.el} onResult={(t) => setI18n((p) => ({ ...p, question: { ...p.question, en: t } }))} />
+              </div>
+            )}
           </FormField>
           <FormField label="Απάντηση">
             <CmsTextarea
@@ -188,6 +194,11 @@ export function FaqClient({ initial }: { initial: Faq[] }) {
               rows={6}
               style={{ resize: "vertical", fontFamily: "inherit" }}
             />
+            {locale === "en" && (
+              <div style={{ marginTop: 6 }}>
+                <AutoTranslateButton source={i18n.answer.el} onResult={(t) => setI18n((p) => ({ ...p, answer: { ...p.answer, en: t } }))} />
+              </div>
+            )}
           </FormField>
 
           <div style={{ borderTop: "1px solid var(--border)", paddingTop: 14, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>

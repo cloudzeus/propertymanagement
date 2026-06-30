@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { DataTable, type ColDef, type RowAction } from "@/components/ui/data-table";
 import { Modal, FormField, FieldInput } from "@/components/ui/modal";
 import { CmsPage, LocaleTabs } from "@/components/cms/ui";
+import { AutoTranslateButton } from "@/components/i18n/AutoTranslateButton";
 import { createPricingTier, updatePricingTier, deletePricingTier } from "@/app/actions/pages-cms";
 import { RiPriceTag3Line, RiCheckLine, RiLoaderLine, RiPencilLine, RiDeleteBinLine } from "react-icons/ri";
 
@@ -211,6 +212,11 @@ export function PricingClient({ initial }: { initial: Tier[] }) {
 
           <FormField label="Όνομα" required>
             <FieldInput value={i18n.name[locale]} onChange={(v) => setI18n((p) => ({ ...p, name: { ...p.name, [locale]: v } }))} placeholder="π.χ. Basic" />
+            {locale === "en" && (
+              <div style={{ marginTop: 6 }}>
+                <AutoTranslateButton source={i18n.name.el} onResult={(t) => setI18n((p) => ({ ...p, name: { ...p.name, en: t } }))} />
+              </div>
+            )}
           </FormField>
           <FormField label="Περιγραφή">
             <textarea
@@ -219,6 +225,11 @@ export function PricingClient({ initial }: { initial: Tier[] }) {
               rows={2}
               style={{ width: "100%", padding: "8px 10px", border: "1px solid var(--border)", borderRadius: 6, fontSize: 13, color: "var(--foreground)", background: "var(--card)", outline: "none", boxSizing: "border-box", resize: "vertical", fontFamily: "inherit" }}
             />
+            {locale === "en" && (
+              <div style={{ marginTop: 6 }}>
+                <AutoTranslateButton source={i18n.description.el} onResult={(t) => setI18n((p) => ({ ...p, description: { ...p.description, en: t } }))} />
+              </div>
+            )}
           </FormField>
           <FormField label="Χαρακτηριστικά (ένα ανά γραμμή)">
             <textarea
@@ -227,6 +238,11 @@ export function PricingClient({ initial }: { initial: Tier[] }) {
               rows={5}
               style={{ width: "100%", padding: "8px 10px", border: "1px solid var(--border)", borderRadius: 6, fontSize: 13, color: "var(--foreground)", background: "var(--card)", outline: "none", boxSizing: "border-box", resize: "vertical", fontFamily: "inherit" }}
             />
+            {locale === "en" && (
+              <div style={{ marginTop: 6 }}>
+                <AutoTranslateButton source={featuresText.el} onResult={(t) => setFeaturesText((p) => ({ ...p, en: t }))} />
+              </div>
+            )}
           </FormField>
 
           <div style={{ borderTop: "1px solid var(--border)", paddingTop: 14, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
