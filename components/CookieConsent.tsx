@@ -28,6 +28,7 @@ function applyConsent(analytics: boolean, marketing: boolean) {
 
 export function CookieConsent({ config, enabled }: { config: ConsentConfig; enabled: boolean }) {
   const locale = useLocale() as Locale;
+  const tt = (el: string, en: string) => (locale === 'el' ? el : en);
   const [isVisible, setIsVisible] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
   const [preferences, setPreferences] = useState<CookiePreferences>({
@@ -115,7 +116,7 @@ export function CookieConsent({ config, enabled }: { config: ConsentConfig; enab
                   onClick={() => setShowDetails(true)}
                   className="mt-2 text-sm text-blue-600 hover:text-blue-700 font-medium"
                 >
-                  Learn more
+                  {tt('Μάθετε περισσότερα', 'Learn more')}
                 </button>
               </div>
 
@@ -124,13 +125,13 @@ export function CookieConsent({ config, enabled }: { config: ConsentConfig; enab
                   onClick={handleRejectAll}
                   className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
                 >
-                  Reject All
+                  {tt('Απόρριψη όλων', 'Reject All')}
                 </button>
                 <button
                   onClick={handleAcceptAll}
                   className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700"
                 >
-                  Accept All
+                  {tt('Αποδοχή όλων', 'Accept All')}
                 </button>
               </div>
             </div>
@@ -179,19 +180,19 @@ export function CookieConsent({ config, enabled }: { config: ConsentConfig; enab
                   onClick={handleRejectAll}
                   className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
                 >
-                  Reject All
+                  {tt('Απόρριψη όλων', 'Reject All')}
                 </button>
                 <button
                   onClick={() => setShowDetails(false)}
                   className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
                 >
-                  Back
+                  {tt('Πίσω', 'Back')}
                 </button>
                 <button
                   onClick={handleSavePreferences}
                   className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700"
                 >
-                  Save Preferences
+                  {tt('Αποθήκευση προτιμήσεων', 'Save Preferences')}
                 </button>
               </div>
 

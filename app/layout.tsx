@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
+import { getLocale } from "next-intl/server";
 import { SessionProvider } from "@/components/providers/SessionProvider";
 import { CookieConsent } from "@/components/CookieConsent";
 import { getAppSettings, buildBrandCss } from "@/lib/app-settings";
@@ -31,10 +32,16 @@ export default async function RootLayout({
   // eslint-disable-next-line @typescript-eslint/no-require-imports
   const messages = require("../messages/el.json");
   const brandCss = buildBrandCss(settings);
+  let locale = "el";
+  try {
+    locale = await getLocale();
+  } catch {
+    locale = "el";
+  }
 
   return (
     <html
-      lang="el"
+      lang={locale}
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <head>
