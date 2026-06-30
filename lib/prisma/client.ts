@@ -316,3 +316,8 @@ export type LandingSection = Prisma.LandingSectionModel
  * 
  */
 export type PageSeo = Prisma.PageSeoModel
+/**
+ * Model SiteSettings
+ * 
+ */
+export type SiteSettings = Prisma.SiteSettingsModel
