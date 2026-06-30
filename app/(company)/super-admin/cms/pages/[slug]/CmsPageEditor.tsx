@@ -1,10 +1,21 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { RiFileEditLine, RiTranslate2 } from "react-icons/ri";
 import { updateCmsPage } from "@/app/actions/pages-cms";
 import { updatePageSeo } from "@/app/actions/landing-cms";
 import { autoTranslate } from "@/app/actions/translate";
 import type { SeoMeta } from "@/lib/seo/types";
+import {
+  CmsPage,
+  CmsCard,
+  CmsField,
+  CmsInput,
+  CmsTextarea,
+  LocaleTabs,
+  CmsButton,
+  SaveBar,
+} from "@/components/cms/ui";
 
 type Locale = "el" | "en";
 type I18n = { title: Record<Locale, string>; body: Record<Locale, string> };
@@ -22,6 +33,18 @@ function clone<T>(v: T): T {
 }
 
 const STATUSES = ["DRAFT", "PUBLISHED", "ARCHIVED"];
+
+const selectStyle: React.CSSProperties = {
+  width: "100%",
+  padding: "8px 12px",
+  border: "1px solid var(--border)",
+  borderRadius: 6,
+  fontSize: 13,
+  color: "var(--foreground)",
+  background: "var(--bg-canvas)",
+  outline: "none",
+  boxSizing: "border-box",
+};
 
 export function CmsPageEditor({ slug, initialI18n, initialStatus, initialSeo }: Props) {
   const [i18n, setI18n] = useState<I18n>(() => clone(initialI18n));
@@ -68,8 +91,7 @@ export function CmsPageEditor({ slug, initialI18n, initialStatus, initialSeo }: 
 
   const curSeo = seo[activeLocale];
 
-  function onSubmit(e: React.FormEvent) {
-    e.preventDefault();
+  function save() {
     setSaved(false);
     startTransition(async () => {
       await updateCmsPage(slug, i18n, status);
@@ -79,122 +101,92 @@ export function CmsPageEditor({ slug, initialI18n, initialStatus, initialSeo }: 
   }
 
   return (
-    <form onSubmit={onSubmit} className="space-y-6">
-      <div className="flex flex-wrap items-center gap-3">
-        <div className="flex gap-2">
-          {(["el", "en"] as Locale[]).map((loc) => (
-            <button
-              key={loc}
-              type="button"
-              onClick={() => setActiveLocale(loc)}
-              className={`rounded-md px-3 py-1 text-sm font-medium ${
-                activeLocale === loc
-                  ? "bg-blue-600 text-white"
-                  : "border border-slate-300 text-slate-600 hover:bg-slate-50"
-              }`}
-            >
-              {loc === "el" ? "Ελληνικά" : "English"}
-            </button>
-          ))}
-          <button
-            type="button"
-            onClick={translateEnFromEl}
-            disabled={translating}
-            className="rounded border border-gray-300 px-2 py-1 text-xs text-gray-600 hover:bg-gray-50 disabled:opacity-50"
-          >
-            {translating ? "Μετάφραση…" : "Μετάφραση EN από EL (τίτλος + κείμενο)"}
-          </button>
-        </div>
-        <label className="ml-auto flex items-center gap-2">
-          <span className="text-xs font-medium text-slate-600">Κατάσταση</span>
-          <select
-            className="rounded-md border border-slate-300 px-3 py-1.5 text-sm focus:border-blue-500 focus:outline-none"
-            value={status}
-            onChange={(e) => setStatus(e.target.value)}
-          >
-            {STATUSES.map((s) => (
-              <option key={s} value={s}>
-                {s}
-              </option>
-            ))}
-          </select>
-        </label>
-      </div>
-
-      <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm space-y-3">
-        <h2 className="text-lg font-semibold text-slate-900">Περιεχόμενο</h2>
-        <label className="block">
-          <span className="mb-1 block text-xs font-medium text-slate-600">Τίτλος</span>
-          <input
-            className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
-            value={i18n.title[activeLocale] ?? ""}
-            onChange={(e) => setField("title", e.target.value)}
-          />
-        </label>
-        <label className="block">
-          <span className="mb-1 block text-xs font-medium text-slate-600">
-            Κείμενο (Markdown)
-          </span>
-          <textarea
-            className="w-full rounded-md border border-slate-300 px-3 py-2 font-mono text-sm focus:border-blue-500 focus:outline-none"
-            rows={18}
-            value={i18n.body[activeLocale] ?? ""}
-            onChange={(e) => setField("body", e.target.value)}
-          />
-        </label>
-      </div>
-
-      <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm space-y-3">
-        <h2 className="text-lg font-semibold text-slate-900">SEO</h2>
-        <label className="block">
-          <span className="mb-1 block text-xs font-medium text-slate-600">Τίτλος (title)</span>
-          <input
-            className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
-            value={curSeo.title ?? ""}
-            onChange={(e) => setSeoField("title", e.target.value)}
-          />
-        </label>
-        <label className="block">
-          <span className="mb-1 block text-xs font-medium text-slate-600">
-            Περιγραφή (description)
-          </span>
-          <textarea
-            className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
-            rows={3}
-            value={curSeo.description ?? ""}
-            onChange={(e) => setSeoField("description", e.target.value)}
-          />
-        </label>
-        <label className="block">
-          <span className="mb-1 block text-xs font-medium text-slate-600">
-            Λέξεις-κλειδιά (keywords)
-          </span>
-          <input
-            className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
-            value={curSeo.keywords ?? ""}
-            onChange={(e) => setSeoField("keywords", e.target.value)}
-          />
-        </label>
-        <label className="block">
-          <span className="mb-1 block text-xs font-medium text-slate-600">OG Image (URL)</span>
-          <input
-            className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
-            value={curSeo.ogImage ?? ""}
-            onChange={(e) => setSeoField("ogImage", e.target.value)}
-          />
-        </label>
-      </div>
-
-      <div className="flex items-center gap-3">
-        <button
-          type="submit"
-          disabled={pending}
-          className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50"
+    <CmsPage
+      icon={<RiFileEditLine />}
+      title={`Επεξεργασία: ${slug}`}
+      subtitle="Περιεχόμενο & SEO (el/en)"
+    >
+      <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 12 }}>
+        <LocaleTabs value={activeLocale} onChange={setActiveLocale} />
+        <CmsButton
+          variant="secondary"
+          loading={translating}
+          onClick={translateEnFromEl}
+          icon={<RiTranslate2 size={15} />}
         >
-          {pending ? "Αποθήκευση…" : "Αποθήκευση"}
-        </button>
-        {saved && <span className="text-sm font-medium text-green-600">Αποθηκεύτηκε</span>}
+          {translating ? "Μετάφραση…" : "Μετάφραση EN από EL"}
+        </CmsButton>
+        <div style={{ marginLeft: "auto", minWidth: 200 }}>
+          <CmsField label="Κατάσταση">
+            <select
+              style={selectStyle}
+              value={status}
+              onChange={(e) => setStatus(e.target.value)}
+              onFocus={(e) => (e.currentTarget.style.borderColor = "var(--color-primary)")}
+              onBlur={(e) => (e.currentTarget.style.borderColor = "var(--border)")}
+            >
+              {STATUSES.map((s) => (
+                <option key={s} value={s}>
+                  {s}
+                </option>
+              ))}
+            </select>
+          </CmsField>
+        </div>
       </div>
-    </form>
+
+      <CmsCard title="Περιεχόμενο">
+        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+          <CmsField label="Τίτλος">
+            <CmsInput
+              value={i18n.title[activeLocale] ?? ""}
+              onChange={(e) => setField("title", e.target.value)}
+            />
+          </CmsField>
+          <CmsField label="Κείμενο (Markdown)">
+            <CmsTextarea
+              mono
+              rows={18}
+              value={i18n.body[activeLocale] ?? ""}
+              onChange={(e) => setField("body", e.target.value)}
+            />
+          </CmsField>
+        </div>
+      </CmsCard>
+
+      <CmsCard title="SEO">
+        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+          <CmsField label="Τίτλος (title)">
+            <CmsInput
+              value={curSeo.title ?? ""}
+              onChange={(e) => setSeoField("title", e.target.value)}
+            />
+          </CmsField>
+          <CmsField label="Περιγραφή (description)">
+            <CmsTextarea
+              rows={3}
+              value={curSeo.description ?? ""}
+              onChange={(e) => setSeoField("description", e.target.value)}
+            />
+          </CmsField>
+          <CmsField label="Λέξεις-κλειδιά (keywords)">
+            <CmsInput
+              value={curSeo.keywords ?? ""}
+              onChange={(e) => setSeoField("keywords", e.target.value)}
+            />
+          </CmsField>
+          <CmsField label="OG Image (URL)">
+            <CmsInput
+              value={curSeo.ogImage ?? ""}
+              onChange={(e) => setSeoField("ogImage", e.target.value)}
+            />
+          </CmsField>
+        </div>
+      </CmsCard>
+
+      <div>
+        <SaveBar onSave={save} pending={pending} saved={saved} />
+      </div>
+    </CmsPage>
   );
 }

@@ -25,15 +25,11 @@ export default async function CmsPageEditPage({
   };
 
   return (
-    <div className="p-6 sm:p-8">
-      <h1 className="mb-1 text-2xl font-semibold text-slate-900">CMS — Σελίδα</h1>
-      <p className="mb-6 font-mono text-sm text-slate-500">/{slug}</p>
-      <CmsPageEditor
-        slug={slug}
-        initialI18n={initialI18n}
-        initialStatus={initialStatus}
-        initialSeo={initialSeo}
-      />
-    </div>
+    <CmsPageEditor
+      slug={slug}
+      initialI18n={initialI18n}
+      initialStatus={initialStatus}
+      initialSeo={initialSeo}
+    />
   );
 }
