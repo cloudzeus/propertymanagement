@@ -103,7 +103,8 @@ export const ModelName = {
   ContactMessage: 'ContactMessage',
   CookieConsent: 'CookieConsent',
   AppSettings: 'AppSettings',
-  ImpersonationEvent: 'ImpersonationEvent'
+  ImpersonationEvent: 'ImpersonationEvent',
+  LandingSection: 'LandingSection'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1091,6 +1092,19 @@ export const ImpersonationEventScalarFieldEnum = {
 } as const
 
 export type ImpersonationEventScalarFieldEnum = (typeof ImpersonationEventScalarFieldEnum)[keyof typeof ImpersonationEventScalarFieldEnum]
+
+
+export const LandingSectionScalarFieldEnum = {
+  id: 'id',
+  type: 'type',
+  enabled: 'enabled',
+  order: 'order',
+  data: 'data',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type LandingSectionScalarFieldEnum = (typeof LandingSectionScalarFieldEnum)[keyof typeof LandingSectionScalarFieldEnum]
 
 
 export const SortOrder = {

@@ -282,3 +282,8 @@ export type AppSettings = Prisma.AppSettingsModel
  * 
  */
 export type ImpersonationEvent = Prisma.ImpersonationEventModel
+/**
+ * Model LandingSection
+ * 
+ */
+export type LandingSection = Prisma.LandingSectionModel

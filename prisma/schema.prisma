@@ -1585,3 +1585,15 @@ model ImpersonationEvent {
   @@index([actorId])
   @@index([targetUserId])
 }
+
+model LandingSection {
+  id        String   @id @default(cuid())
+  type      String   @unique
+  enabled   Boolean  @default(true)
+  order     Int      @default(0)
+  data      Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([enabled, order])
+}
