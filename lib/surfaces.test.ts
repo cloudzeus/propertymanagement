@@ -20,7 +20,7 @@ describe("homePathForRole", () => {
     expect(homePathForRole("SUPER_ADMIN")).toBe("/super-admin");
     expect(homePathForRole("ADMIN")).toBe("/admin");
     expect(homePathForRole("MANAGER")).toBe("/manager");
-    expect(homePathForRole("PROPERTY_ADMIN")).toBe("/manager");
+    expect(homePathForRole("PROPERTY_ADMIN")).toBe("/portal");
     expect(homePathForRole("EMPLOYEE")).toBe("/staff");
     expect(homePathForRole("COLLABORATOR")).toBe("/marketplace");
     expect(homePathForRole("PROPERTY_OWNER")).toBe("/owner");

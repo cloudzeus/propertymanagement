@@ -62,7 +62,7 @@ export default auth((req: NextRequest & { auth: any }) => {
   if (pathWithoutLocale.startsWith("/admin") && !can("SUPER_ADMIN", "ADMIN")) {
     return NextResponse.redirect(new URL("/unauthorized", req.nextUrl.origin));
   }
-  if (pathWithoutLocale.startsWith("/manager") && !can("SUPER_ADMIN", "ADMIN", "MANAGER", "PROPERTY_ADMIN")) {
+  if (pathWithoutLocale.startsWith("/manager") && !can("SUPER_ADMIN", "ADMIN", "MANAGER")) {
     return NextResponse.redirect(new URL("/unauthorized", req.nextUrl.origin));
   }
   if (pathWithoutLocale.startsWith("/staff") && !can("SUPER_ADMIN", "ADMIN", "MANAGER", "EMPLOYEE")) {
@@ -74,7 +74,7 @@ export default auth((req: NextRequest & { auth: any }) => {
   if (pathWithoutLocale.startsWith("/owner") && !can("SUPER_ADMIN", "ADMIN", "PROPERTY_OWNER")) {
     return NextResponse.redirect(new URL("/unauthorized", req.nextUrl.origin));
   }
-  if (pathWithoutLocale.startsWith("/portal") && !can("SUPER_ADMIN", "ADMIN", "PROPERTY_RESIDENT", "PROPERTY_VIEWER")) {
+  if (pathWithoutLocale.startsWith("/portal") && !can("SUPER_ADMIN", "ADMIN", "PROPERTY_ADMIN", "PROPERTY_RESIDENT", "PROPERTY_VIEWER")) {
     return NextResponse.redirect(new URL("/unauthorized", req.nextUrl.origin));
   }
 

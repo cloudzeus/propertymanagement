@@ -18,7 +18,7 @@ const HOME_BY_ROLE: Record<UserRole, string> = {
   SUPER_ADMIN: "/super-admin",
   ADMIN: "/admin",
   MANAGER: "/manager",
-  PROPERTY_ADMIN: "/manager",
+  PROPERTY_ADMIN: "/portal",
   EMPLOYEE: "/staff",
   COLLABORATOR: "/marketplace",
   PROPERTY_OWNER: "/owner",
