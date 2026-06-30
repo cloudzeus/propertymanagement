@@ -26,7 +26,20 @@ export function AutoTranslateButton({
           setLoading(false);
         }
       }}
-      className="text-xs px-2 py-1 rounded border border-gray-300 text-gray-600 hover:bg-gray-50 disabled:opacity-50"
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        gap: 6,
+        padding: "6px 12px",
+        borderRadius: 6,
+        fontSize: 12,
+        fontWeight: 600,
+        border: "1px solid var(--border)",
+        background: "transparent",
+        color: "var(--muted-foreground)",
+        cursor: loading || !source?.trim() ? "not-allowed" : "pointer",
+        opacity: loading || !source?.trim() ? 0.5 : 1,
+      }}
     >
       {loading ? "Μετάφραση…" : `Μετάφραση ${from.toUpperCase()}→${to.toUpperCase()}`}
     </button>

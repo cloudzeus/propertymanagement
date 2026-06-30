@@ -37,8 +37,7 @@ export default async function SiteSettingsPage() {
   };
 
   return (
-    <div className="p-6 sm:p-8">
-      <h1 className="mb-6 text-2xl font-semibold text-slate-900">Ρυθμίσεις ιστότοπου</h1>
+    <div style={{ padding: 32 }}>
       <SettingsForm initial={initial} />
     </div>
   );

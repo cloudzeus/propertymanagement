@@ -1,7 +1,9 @@
 "use client";
 
 import { useMemo, useState, useTransition } from "react";
+import { RiTranslate2 } from "react-icons/ri";
 import { AutoTranslateButton } from "@/components/i18n/AutoTranslateButton";
+import { CmsPage, CmsCard, CmsInput, CmsButton, SaveBar } from "@/components/cms/ui";
 import { autoTranslate, updateUiMessages } from "@/app/actions/translate";
 
 type Row = { key: string; el: string; en: string };
@@ -78,101 +80,100 @@ export function TranslationsEditor({ rows }: { rows: Row[] }) {
   }, 0);
 
   return (
-    <div style={{ padding: 24, fontFamily: "var(--font-sans)" }}>
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, marginBottom: 16, flexWrap: "wrap" }}>
-        <div>
-          <h1 style={{ fontSize: 20, fontWeight: 700, margin: 0, color: "#201F1E" }}>Μεταφράσεις UI</h1>
-          <p style={{ fontSize: 13, color: "#707070", margin: "4px 0 0" }}>
-            {rows.length} κλειδιά · {changedCount} τροποποιημένα
-          </p>
-        </div>
-        <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-          <button
-            type="button"
-            onClick={bulkTranslateEmptyEn}
-            disabled={bulk.running}
-            style={btnSecondary}
-          >
-            {bulk.running ? `Μετάφραση ${bulk.done}/${bulk.total}…` : "Auto-translate κενά EN"}
-          </button>
-          <button type="button" onClick={save} disabled={isPending} style={btnPrimary}>
-            {isPending ? "Αποθήκευση…" : saved ? "Αποθηκεύτηκε ✓" : "Αποθήκευση"}
-          </button>
-        </div>
-      </div>
+    <CmsPage
+      icon={<RiTranslate2 />}
+      title="Μεταφράσεις"
+      subtitle="Επεξεργασία κειμένων διεπαφής (el/en)"
+    >
+      <CmsCard
+        title={`${rows.length} κλειδιά · ${changedCount} τροποποιημένα`}
+        actions={
+          <>
+            <CmsButton variant="secondary" onClick={bulkTranslateEmptyEn} disabled={bulk.running}>
+              {bulk.running ? `Μετάφραση ${bulk.done}/${bulk.total}…` : "Auto-translate κενά EN"}
+            </CmsButton>
+            <SaveBar onSave={save} pending={isPending} saved={saved} />
+          </>
+        }
+      >
+        <CmsInput
+          type="text"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Αναζήτηση κλειδιού…"
+          style={{ maxWidth: 360, marginBottom: 12 }}
+        />
 
-      <input
-        type="text"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        placeholder="Αναζήτηση κλειδιού…"
-        style={{
-          width: "100%", maxWidth: 360, padding: "8px 12px", marginBottom: 12,
-          border: "1px solid var(--border)", borderRadius: 6, fontSize: 13,
-        }}
-      />
-
-      <div style={{ maxHeight: "calc(100vh - 220px)", overflowY: "auto", border: "1px solid var(--border)", borderRadius: 8 }}>
-        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
-          <thead style={{ position: "sticky", top: 0, background: "#FAFAFA", zIndex: 1 }}>
-            <tr>
-              <th style={th}>Κλειδί</th>
-              <th style={th}>EL</th>
-              <th style={th}>EN</th>
-              <th style={{ ...th, width: 1 }}></th>
-            </tr>
-          </thead>
-          <tbody>
-            {filtered.map((r) => {
-              const cur = state[r.key];
-              return (
-                <tr key={r.key} style={{ borderTop: "1px solid var(--border)" }}>
-                  <td style={{ ...td, fontFamily: "var(--font-mono, monospace)", fontSize: 11, color: "#5C5C5C", whiteSpace: "nowrap" }}>
-                    {r.key}
-                  </td>
-                  <td style={td}>
-                    <input
-                      type="text"
-                      value={cur.el}
-                      onChange={(e) => setField(r.key, "el", e.target.value)}
-                      style={cellInput}
-                    />
-                  </td>
-                  <td style={td}>
-                    <input
-                      type="text"
-                      value={cur.en}
-                      onChange={(e) => setField(r.key, "en", e.target.value)}
-                      style={cellInput}
-                    />
-                  </td>
-                  <td style={td}>
-                    <AutoTranslateButton source={cur.el} onResult={(t) => setField(r.key, "en", t)} />
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
-    </div>
+        <div
+          style={{
+            maxHeight: "calc(100vh - 320px)",
+            overflowY: "auto",
+            border: "1px solid var(--border)",
+            borderRadius: 8,
+          }}
+        >
+          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
+            <thead style={{ position: "sticky", top: 0, background: "var(--muted)", zIndex: 1 }}>
+              <tr>
+                <th style={th}>Κλειδί</th>
+                <th style={th}>EL</th>
+                <th style={th}>EN</th>
+                <th style={{ ...th, width: 1 }}></th>
+              </tr>
+            </thead>
+            <tbody>
+              {filtered.map((r) => {
+                const cur = state[r.key];
+                return (
+                  <tr key={r.key} style={{ borderTop: "1px solid var(--border)" }}>
+                    <td
+                      style={{
+                        ...td,
+                        fontFamily: "var(--font-mono, monospace)",
+                        fontSize: 11,
+                        color: "var(--muted-foreground)",
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      {r.key}
+                    </td>
+                    <td style={td}>
+                      <CmsInput
+                        type="text"
+                        value={cur.el}
+                        onChange={(e) => setField(r.key, "el", e.target.value)}
+                        style={{ padding: "6px 8px", borderRadius: 4 }}
+                      />
+                    </td>
+                    <td style={td}>
+                      <CmsInput
+                        type="text"
+                        value={cur.en}
+                        onChange={(e) => setField(r.key, "en", e.target.value)}
+                        style={{ padding: "6px 8px", borderRadius: 4 }}
+                      />
+                    </td>
+                    <td style={td}>
+                      <AutoTranslateButton source={cur.el} onResult={(t) => setField(r.key, "en", t)} />
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </CmsCard>
+    </CmsPage>
   );
 }
 
 const th: React.CSSProperties = {
-  textAlign: "left", padding: "8px 10px", fontSize: 11, fontWeight: 700,
-  textTransform: "uppercase", letterSpacing: "0.05em", color: "#707070",
+  textAlign: "left",
+  padding: "8px 10px",
+  fontSize: 11,
+  fontWeight: 700,
+  textTransform: "uppercase",
+  letterSpacing: "0.05em",
+  color: "var(--muted-foreground)",
 };
 const td: React.CSSProperties = { padding: "4px 10px", verticalAlign: "middle" };
-const cellInput: React.CSSProperties = {
-  width: "100%", padding: "6px 8px", border: "1px solid var(--border)",
-  borderRadius: 4, fontSize: 13, background: "#fff",
-};
-const btnPrimary: React.CSSProperties = {
-  padding: "8px 16px", borderRadius: 6, border: "none", background: "var(--primary, #0078D4)",
-  color: "#fff", fontSize: 13, fontWeight: 600, cursor: "pointer",
-};
-const btnSecondary: React.CSSProperties = {
-  padding: "8px 16px", borderRadius: 6, border: "1px solid var(--border)",
-  background: "#fff", color: "#292929", fontSize: 13, fontWeight: 500, cursor: "pointer",
-};
