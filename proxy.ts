@@ -4,6 +4,10 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { locales } from "./i18n";
 import { deniedRedirectPath } from "./lib/surfaces";
+import createIntlMiddleware from "next-intl/middleware";
+import { routing } from "./i18n/routing";
+
+const intlMiddleware = createIntlMiddleware(routing);
 
 const { auth } = NextAuth(authConfig);
 
@@ -16,11 +20,8 @@ export default auth((req: NextRequest & { auth: any }) => {
     return acc.replace(new RegExp(`^/${locale}(/|$)`), "/");
   }, pathname) || "/";
 
-  const publicPaths = [
-    "/login",
-    "/register",
-    "/forgot-password",
-    "/reset-password",
+  // Localized public CONTENT (lives under app/[locale]/) — handled by next-intl.
+  const localizedContentPaths = [
     "/",
     "/contact",
     "/pricing",
@@ -28,13 +29,23 @@ export default auth((req: NextRequest & { auth: any }) => {
     "/privacy",
     "/terms",
     "/cookie-policy",
+  ];
+  // Public but NOT localized (auth pages under app/(auth)/, plus the auth API).
+  // These must bypass next-intl, otherwise its locale detection 302-redirects
+  // e.g. /login → /en/login (no such route → 404) for English-locale visitors.
+  const authPublicPaths = [
+    "/login",
+    "/register",
+    "/forgot-password",
+    "/reset-password",
     "/api/auth",
   ];
 
-  const isPublic = publicPaths.some(
-    (p) => pathWithoutLocale === p || pathWithoutLocale.startsWith(p + "/")
-  );
-  if (isPublic) return NextResponse.next();
+  const matches = (p: string) =>
+    pathWithoutLocale === p || pathWithoutLocale.startsWith(p + "/");
+
+  if (localizedContentPaths.some(matches)) return intlMiddleware(req);
+  if (authPublicPaths.some(matches)) return NextResponse.next();
 
   if (!isLoggedIn) {
     const loginUrl = new URL("/login", req.nextUrl.origin);

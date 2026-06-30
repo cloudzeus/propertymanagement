@@ -437,7 +437,8 @@ export const ModelName = {
   CookieConsent: 'CookieConsent',
   AppSettings: 'AppSettings',
   ImpersonationEvent: 'ImpersonationEvent',
-  LandingSection: 'LandingSection'
+  LandingSection: 'LandingSection',
+  PageSeo: 'PageSeo'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -453,7 +454,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "account" | "session" | "verificationToken" | "company" | "department" | "jobPosition" | "employee" | "subscription" | "addonFeature" | "customer" | "property" | "building" | "unitOccupancy" | "buildingFile" | "infraPoint" | "infraAccess" | "infraMedia" | "contact" | "recurringTask" | "buildingExpense" | "expenseCategory" | "buildingCategoryOverride" | "unitCategoryExclusion" | "unitHeatingReading" | "meterReading" | "expenseAllocation" | "unitPayment" | "managementAssignment" | "commonArea" | "unit" | "service" | "propertyService" | "serviceInvoice" | "serviceInvoiceLine" | "userCompanyRole" | "menuConfig" | "announcement" | "announcement_User" | "assembly" | "assemblyParticipant" | "processedWebhook" | "aPIUsageLog" | "aPICostConfig" | "monthlyCostSummary" | "maintenanceRequest" | "cMSPage" | "fAQ" | "pricingTier" | "contactMessage" | "cookieConsent" | "appSettings" | "impersonationEvent" | "landingSection"
+    modelProps: "user" | "account" | "session" | "verificationToken" | "company" | "department" | "jobPosition" | "employee" | "subscription" | "addonFeature" | "customer" | "property" | "building" | "unitOccupancy" | "buildingFile" | "infraPoint" | "infraAccess" | "infraMedia" | "contact" | "recurringTask" | "buildingExpense" | "expenseCategory" | "buildingCategoryOverride" | "unitCategoryExclusion" | "unitHeatingReading" | "meterReading" | "expenseAllocation" | "unitPayment" | "managementAssignment" | "commonArea" | "unit" | "service" | "propertyService" | "serviceInvoice" | "serviceInvoiceLine" | "userCompanyRole" | "menuConfig" | "announcement" | "announcement_User" | "assembly" | "assemblyParticipant" | "processedWebhook" | "aPIUsageLog" | "aPICostConfig" | "monthlyCostSummary" | "maintenanceRequest" | "cMSPage" | "fAQ" | "pricingTier" | "contactMessage" | "cookieConsent" | "appSettings" | "impersonationEvent" | "landingSection" | "pageSeo"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -4453,6 +4454,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    PageSeo: {
+      payload: Prisma.$PageSeoPayload<ExtArgs>
+      fields: Prisma.PageSeoFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PageSeoFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PageSeoPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PageSeoFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PageSeoPayload>
+        }
+        findFirst: {
+          args: Prisma.PageSeoFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PageSeoPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PageSeoFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PageSeoPayload>
+        }
+        findMany: {
+          args: Prisma.PageSeoFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PageSeoPayload>[]
+        }
+        create: {
+          args: Prisma.PageSeoCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PageSeoPayload>
+        }
+        createMany: {
+          args: Prisma.PageSeoCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.PageSeoCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PageSeoPayload>[]
+        }
+        delete: {
+          args: Prisma.PageSeoDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PageSeoPayload>
+        }
+        update: {
+          args: Prisma.PageSeoUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PageSeoPayload>
+        }
+        deleteMany: {
+          args: Prisma.PageSeoDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PageSeoUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.PageSeoUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PageSeoPayload>[]
+        }
+        upsert: {
+          args: Prisma.PageSeoUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PageSeoPayload>
+        }
+        aggregate: {
+          args: Prisma.PageSeoAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePageSeo>
+        }
+        groupBy: {
+          args: Prisma.PageSeoGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PageSeoGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PageSeoCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PageSeoCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -5476,6 +5551,17 @@ export const LandingSectionScalarFieldEnum = {
 export type LandingSectionScalarFieldEnum = (typeof LandingSectionScalarFieldEnum)[keyof typeof LandingSectionScalarFieldEnum]
 
 
+export const PageSeoScalarFieldEnum = {
+  id: 'id',
+  slug: 'slug',
+  seo: 'seo',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PageSeoScalarFieldEnum = (typeof PageSeoScalarFieldEnum)[keyof typeof PageSeoScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -6120,6 +6206,7 @@ export type GlobalOmitConfig = {
   appSettings?: Prisma.AppSettingsOmit
   impersonationEvent?: Prisma.ImpersonationEventOmit
   landingSection?: Prisma.LandingSectionOmit
+  pageSeo?: Prisma.PageSeoOmit
 }
 
 /* Types for Logging */

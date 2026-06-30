@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { LanguageSwitcher } from "@/components/i18n/LanguageSwitcher";
 
 const LINKS = [
   { href: "/pricing", label: "Τιμολόγηση" },
@@ -24,9 +25,12 @@ export function LandingFooter() {
             </Link>
           ))}
         </nav>
-        <p className="mt-8 text-center text-sm text-gray-500">
-          © {new Date().getFullYear()} Property Management. Με επιφύλαξη παντός δικαιώματος.
-        </p>
+        <div className="mt-8 flex items-center justify-center gap-4">
+          <LanguageSwitcher />
+          <p className="text-sm text-gray-500">
+            © {new Date().getFullYear()} Property Management. Με επιφύλαξη παντός δικαιώματος.
+          </p>
+        </div>
       </div>
     </footer>
   );

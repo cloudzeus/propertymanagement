@@ -90,7 +90,7 @@ const NAV_BY_ROLE: Record<string, NavGroup[]> = {
     {
       id: "cms", label: "CMS", icon: RiLayoutLine, color: "#8764b8",
       items: [
-        { label: "Landing", href: "/super-admin/cms/landing", icon: RiLayoutLine, iconActive: RiLayoutFill, color: "#8764b8" },
+        { label: "Αρχική", href: "/super-admin/cms/landing", icon: RiLayoutLine, iconActive: RiLayoutFill, color: "#8764b8" },
       ],
     },
     {

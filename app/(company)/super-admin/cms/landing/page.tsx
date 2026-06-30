@@ -1,13 +1,28 @@
 import { getAllLandingSections } from "@/lib/cms/landing";
+import { getPageSeo } from "@/lib/cms/page-seo";
 import { toggleSection, reorderSection } from "@/app/actions/landing-cms";
 import { SectionEditor } from "./SectionEditor";
+import { SeoEditor } from "./SeoEditor";
+import type { SeoMeta } from "@/lib/seo/types";
+
+const EMPTY_SEO: SeoMeta = { title: "", description: "" };
 
 export default async function LandingCmsPage() {
   const sections = await getAllLandingSections();
+  const homeSeo = await getPageSeo("home");
+  const seoInitial = {
+    el: { ...EMPTY_SEO, ...(homeSeo?.el ?? {}) },
+    en: { ...EMPTY_SEO, ...(homeSeo?.en ?? {}) },
+  };
 
   return (
     <div className="p-6 sm:p-8">
       <h1 className="mb-6 text-2xl font-semibold text-slate-900">CMS — Landing</h1>
+
+      <div className="mb-6 rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+        <h2 className="mb-4 text-lg font-semibold text-slate-900">SEO — Αρχική</h2>
+        <SeoEditor slug="home" initial={seoInitial} />
+      </div>
 
       <div className="space-y-4">
         {sections.map((s) => (

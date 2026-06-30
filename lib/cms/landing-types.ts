@@ -1,3 +1,7 @@
+import type { Translatable } from "@/lib/i18n/translatable";
+// Stored shape per section: the whole SectionData duplicated per locale.
+export type LocalizedSectionData = Translatable<any>;
+
 export const LANDING_SECTION_TYPES = ["HERO", "LOGOS", "FEATURES", "PRICING", "TESTIMONIALS", "CTA"] as const;
 export type SectionType = (typeof LANDING_SECTION_TYPES)[number];
 

@@ -287,3 +287,8 @@ export type ImpersonationEvent = Prisma.ImpersonationEventModel
  * 
  */
 export type LandingSection = Prisma.LandingSectionModel
+/**
+ * Model PageSeo
+ * 
+ */
+export type PageSeo = Prisma.PageSeoModel
