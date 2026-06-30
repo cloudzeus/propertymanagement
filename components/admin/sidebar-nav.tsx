@@ -28,6 +28,9 @@ import {
   RiRobot2Line,
   RiEyeLine, RiEyeFill,
   RiLayoutLine, RiLayoutFill,
+  RiPagesLine, RiPagesFill,
+  RiPriceTag3Line, RiPriceTag3Fill,
+  RiQuestionLine, RiQuestionFill,
 } from "react-icons/ri";
 
 type UserRole =
@@ -93,6 +96,9 @@ const NAV_BY_ROLE: Record<string, NavGroup[]> = {
       items: [
         { label: "Αρχική", href: "/super-admin/cms/landing", icon: RiLayoutLine, iconActive: RiLayoutFill, color: "#8764b8" },
         { label: "Ρυθμίσεις", href: "/super-admin/cms/settings", icon: RiSettings3Line, iconActive: RiSettings3Fill, color: "#8764b8" },
+        { label: "Σελίδες", href: "/super-admin/cms/pages", icon: RiPagesLine, iconActive: RiPagesFill, color: "#8764b8" },
+        { label: "Τιμές", href: "/super-admin/cms/pricing", icon: RiPriceTag3Line, iconActive: RiPriceTag3Fill, color: "#8764b8" },
+        { label: "FAQ", href: "/super-admin/cms/faq", icon: RiQuestionLine, iconActive: RiQuestionFill, color: "#8764b8" },
       ],
     },
     {
