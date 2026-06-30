@@ -1,4 +1,5 @@
 import { db } from "@/lib/db";
+import { Prisma } from "@/lib/prisma/client";
 
 // ── 1. PageSeo copy (slug → {el, en}) ──────────────────────────────────────
 const PAGE_SEO: Record<string, { el: { title: string; description: string }; en: { title: string; description: string } }> = {
@@ -196,7 +197,7 @@ async function main() {
   console.log(`CMSPage: upserted ${Object.keys(CMS_PAGES).length} rows (create-only on conflict).`);
 
   // 3. Backfill PricingTier.i18n where null
-  const tiers = await db.pricingTier.findMany({ where: { i18n: { equals: null } } });
+  const tiers = await db.pricingTier.findMany({ where: { i18n: { equals: Prisma.DbNull } } });
   let tiersBackfilled = 0;
   for (const t of tiers) {
     await db.pricingTier.update({
@@ -230,7 +231,7 @@ async function main() {
     }
     console.log(`FAQ: inserted ${SAMPLE_FAQS.length} sample rows.`);
   } else {
-    const faqs = await db.fAQ.findMany({ where: { i18n: { equals: null } } });
+    const faqs = await db.fAQ.findMany({ where: { i18n: { equals: Prisma.DbNull } } });
     for (const f of faqs) {
       await db.fAQ.update({
         where: { id: f.id },
