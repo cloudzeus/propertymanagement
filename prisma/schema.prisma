@@ -1665,3 +1665,33 @@ model SiteSettings {
   updatedAt              DateTime @updatedAt
   updatedById            String?
 }
+
+model Author {
+  id            String   @id @default(cuid())
+  name          String
+  slug          String   @unique
+  avatarMediaId String?
+  bio           Json?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  articles      Article[]
+}
+
+model Article {
+  id               String   @id @default(cuid())
+  slug             String   @unique
+  i18n             Json
+  authorId         String?
+  author           Author?  @relation(fields: [authorId], references: [id], onDelete: SetNull)
+  status           String   @default("DRAFT")
+  publishedAt      DateTime?
+  featuredMediaId  String?
+  featuredEmbedUrl String?
+  galleryMediaIds  Json?
+  tags             String[]
+  seo              Json?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@index([status, publishedAt])
+}

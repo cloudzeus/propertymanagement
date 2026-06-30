@@ -331,3 +331,13 @@ export type MediaAsset = Prisma.MediaAssetModel
  * 
  */
 export type SiteSettings = Prisma.SiteSettingsModel
+/**
+ * Model Author
+ * 
+ */
+export type Author = Prisma.AuthorModel
+/**
+ * Model Article
+ * 
+ */
+export type Article = Prisma.ArticleModel
