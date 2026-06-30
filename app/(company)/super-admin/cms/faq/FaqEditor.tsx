@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { updateFaq, deleteFaq } from "@/app/actions/pages-cms";
+import { AutoTranslateButton } from "@/components/i18n/AutoTranslateButton";
 
 type Faq = {
   id: string;
@@ -109,20 +110,36 @@ export function FaqEditor({ faq }: { faq: Faq }) {
       <div className="space-y-3">
         <label className="block">
           <span className={labelCls}>Ερώτηση</span>
-          <input
-            className={inputCls}
-            value={question[locale]}
-            onChange={(e) => setQuestion({ ...question, [locale]: e.target.value })}
-          />
+          <div className="flex items-start gap-2">
+            <input
+              className={inputCls}
+              value={question[locale]}
+              onChange={(e) => setQuestion({ ...question, [locale]: e.target.value })}
+            />
+            {locale === "en" && (
+              <AutoTranslateButton
+                source={question.el}
+                onResult={(t) => setQuestion((p) => ({ ...p, en: t }))}
+              />
+            )}
+          </div>
         </label>
         <label className="block">
           <span className={labelCls}>Απάντηση</span>
-          <textarea
-            className={inputCls}
-            rows={4}
-            value={answer[locale]}
-            onChange={(e) => setAnswer({ ...answer, [locale]: e.target.value })}
-          />
+          <div className="flex items-start gap-2">
+            <textarea
+              className={inputCls}
+              rows={4}
+              value={answer[locale]}
+              onChange={(e) => setAnswer({ ...answer, [locale]: e.target.value })}
+            />
+            {locale === "en" && (
+              <AutoTranslateButton
+                source={answer.el}
+                onResult={(t) => setAnswer((p) => ({ ...p, en: t }))}
+              />
+            )}
+          </div>
         </label>
       </div>
 

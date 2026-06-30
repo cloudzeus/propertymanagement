@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { updatePricingTier, deletePricingTier } from "@/app/actions/pages-cms";
+import { autoTranslate } from "@/app/actions/translate";
 
 type Tier = {
   id: string;
@@ -60,7 +61,24 @@ export function PricingTierEditor({ tier }: { tier: Tier }) {
 
   const [locale, setLocale] = useState<Locale>("el");
   const [saved, setSaved] = useState(false);
+  const [translating, setTranslating] = useState(false);
   const [pending, startTransition] = useTransition();
+
+  async function translateEnFromEl() {
+    setTranslating(true);
+    try {
+      const [n, d, f] = await Promise.all([
+        name.el.trim() ? autoTranslate(name.el, "el", "en") : Promise.resolve(""),
+        description.el.trim() ? autoTranslate(description.el, "el", "en") : Promise.resolve(""),
+        featuresText.el.trim() ? autoTranslate(featuresText.el, "el", "en") : Promise.resolve(""),
+      ]);
+      setName((p) => ({ ...p, en: n }));
+      setDescription((p) => ({ ...p, en: d }));
+      setFeaturesText((p) => ({ ...p, en: f }));
+    } finally {
+      setTranslating(false);
+    }
+  }
 
   function splitFeatures(s: string): string[] {
     return s
@@ -121,7 +139,7 @@ export function PricingTierEditor({ tier }: { tier: Tier }) {
         </span>
       </div>
 
-      <div className="mb-4 flex gap-2">
+      <div className="mb-4 flex items-center gap-2">
         {(["el", "en"] as Locale[]).map((loc) => (
           <button
             key={loc}
@@ -136,6 +154,14 @@ export function PricingTierEditor({ tier }: { tier: Tier }) {
             {loc === "el" ? "Ελληνικά" : "English"}
           </button>
         ))}
+        <button
+          type="button"
+          onClick={translateEnFromEl}
+          disabled={translating}
+          className="ml-auto rounded border border-gray-300 px-2 py-1 text-xs text-gray-600 hover:bg-gray-50 disabled:opacity-50"
+        >
+          {translating ? "Μετάφραση…" : "Μετάφραση EN από EL"}
+        </button>
       </div>
 
       <div className="space-y-3">

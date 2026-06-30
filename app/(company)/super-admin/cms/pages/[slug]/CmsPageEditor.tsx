@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react";
 import { updateCmsPage } from "@/app/actions/pages-cms";
 import { updatePageSeo } from "@/app/actions/landing-cms";
+import { autoTranslate } from "@/app/actions/translate";
 import type { SeoMeta } from "@/lib/seo/types";
 
 type Locale = "el" | "en";
@@ -28,7 +29,26 @@ export function CmsPageEditor({ slug, initialI18n, initialStatus, initialSeo }: 
   const [status, setStatus] = useState(initialStatus);
   const [activeLocale, setActiveLocale] = useState<Locale>("el");
   const [saved, setSaved] = useState(false);
+  const [translating, setTranslating] = useState(false);
   const [pending, startTransition] = useTransition();
+
+  async function translateEnFromEl() {
+    setTranslating(true);
+    try {
+      const [t, b] = await Promise.all([
+        i18n.title.el.trim() ? autoTranslate(i18n.title.el, "el", "en") : Promise.resolve(""),
+        i18n.body.el.trim() ? autoTranslate(i18n.body.el, "el", "en") : Promise.resolve(""),
+      ]);
+      setI18n((prev) => {
+        const next = clone(prev);
+        next.title.en = t;
+        next.body.en = b;
+        return next;
+      });
+    } finally {
+      setTranslating(false);
+    }
+  }
 
   function setField(group: "title" | "body", value: string) {
     setI18n((prev) => {
@@ -76,6 +96,14 @@ export function CmsPageEditor({ slug, initialI18n, initialStatus, initialSeo }: 
               {loc === "el" ? "Ελληνικά" : "English"}
             </button>
           ))}
+          <button
+            type="button"
+            onClick={translateEnFromEl}
+            disabled={translating}
+            className="rounded border border-gray-300 px-2 py-1 text-xs text-gray-600 hover:bg-gray-50 disabled:opacity-50"
+          >
+            {translating ? "Μετάφραση…" : "Μετάφραση EN από EL (τίτλος + κείμενο)"}
+          </button>
         </div>
         <label className="ml-auto flex items-center gap-2">
           <span className="text-xs font-medium text-slate-600">Κατάσταση</span>
