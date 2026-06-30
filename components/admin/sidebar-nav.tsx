@@ -10,6 +10,7 @@ import {
   RiGroupLine, RiGroupFill,
   RiShieldUserLine, RiShieldUserFill,
   RiSettingsLine, RiSettingsFill,
+  RiSettings3Line, RiSettings3Fill,
   RiBarChartLine, RiBarChart2Fill,
   RiMoneyDollarCircleLine, RiMoneyDollarCircleFill,
   RiToolsLine, RiToolsFill,
@@ -91,6 +92,7 @@ const NAV_BY_ROLE: Record<string, NavGroup[]> = {
       id: "cms", label: "CMS", icon: RiLayoutLine, color: "#8764b8",
       items: [
         { label: "Αρχική", href: "/super-admin/cms/landing", icon: RiLayoutLine, iconActive: RiLayoutFill, color: "#8764b8" },
+        { label: "Ρυθμίσεις", href: "/super-admin/cms/settings", icon: RiSettings3Line, iconActive: RiSettings3Fill, color: "#8764b8" },
       ],
     },
     {
