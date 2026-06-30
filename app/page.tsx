@@ -1,57 +1,12 @@
 'use client';
 
-import { useEffect } from 'react';
 import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { homePathForRole } from '@/lib/surfaces';
 
 export default function Home() {
-  const { data: session, status } = useSession();
-  const router = useRouter();
+  const { data: session } = useSession();
 
-  useEffect(() => {
-    if (status === 'authenticated' && session) {
-      // Redirect to appropriate dashboard based on role
-      const role = (session.user as any)?.role;
-      const redirectMap: Record<string, string> = {
-        SUPER_ADMIN:       '/super-admin',
-        ADMIN:             '/admin',
-        MANAGER:           '/manager',
-        PROPERTY_ADMIN:    '/manager',
-        EMPLOYEE:          '/staff',
-        COLLABORATOR:      '/staff',
-        PROPERTY_OWNER:    '/owner',
-        PROPERTY_RESIDENT: '/portal',
-        PROPERTY_VIEWER:   '/portal',
-      };
-
-      const destination = redirectMap[role] || '/';
-      router.push(destination);
-    }
-  }, [session, status, router]);
-
-  // If authenticated, show loading while redirecting
-  if (status === 'authenticated') {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100">
-        <div className="animate-pulse">
-          <div className="h-12 w-12 bg-slate-300 rounded-lg"></div>
-        </div>
-      </div>
-    );
-  }
-
-  if (status === 'loading') {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100">
-        <div className="animate-pulse">
-          <div className="h-12 w-12 bg-slate-300 rounded-lg"></div>
-        </div>
-      </div>
-    );
-  }
-
-  // Show public home page for unauthenticated users
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
@@ -77,18 +32,29 @@ export default function Home() {
           </div>
 
           <div className="flex gap-3">
-            <Link
-              href="/login"
-              className="px-4 py-2 text-blue-600 border border-blue-600 rounded-md hover:bg-blue-50 font-medium"
-            >
-              Login
-            </Link>
-            <Link
-              href="/register"
-              className="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 font-medium"
-            >
-              Sign Up
-            </Link>
+            {session?.user ? (
+              <Link
+                href={homePathForRole((session.user as any).role)}
+                className="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 font-medium"
+              >
+                Μετάβαση στον χώρο μου
+              </Link>
+            ) : (
+              <>
+                <Link
+                  href="/login"
+                  className="px-4 py-2 text-blue-600 border border-blue-600 rounded-md hover:bg-blue-50 font-medium"
+                >
+                  Login
+                </Link>
+                <Link
+                  href="/register"
+                  className="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 font-medium"
+                >
+                  Sign Up
+                </Link>
+              </>
+            )}
           </div>
         </nav>
       </header>
