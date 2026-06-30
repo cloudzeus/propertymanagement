@@ -104,7 +104,8 @@ export const ModelName = {
   CookieConsent: 'CookieConsent',
   AppSettings: 'AppSettings',
   ImpersonationEvent: 'ImpersonationEvent',
-  LandingSection: 'LandingSection'
+  LandingSection: 'LandingSection',
+  PageSeo: 'PageSeo'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1105,6 +1106,17 @@ export const LandingSectionScalarFieldEnum = {
 } as const
 
 export type LandingSectionScalarFieldEnum = (typeof LandingSectionScalarFieldEnum)[keyof typeof LandingSectionScalarFieldEnum]
+
+
+export const PageSeoScalarFieldEnum = {
+  id: 'id',
+  slug: 'slug',
+  seo: 'seo',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PageSeoScalarFieldEnum = (typeof PageSeoScalarFieldEnum)[keyof typeof PageSeoScalarFieldEnum]
 
 
 export const SortOrder = {

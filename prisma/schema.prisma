@@ -1597,3 +1597,11 @@ model LandingSection {
 
   @@index([enabled, order])
 }
+
+model PageSeo {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  seo       Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
