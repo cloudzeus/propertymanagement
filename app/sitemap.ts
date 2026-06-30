@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 import { locales, defaultLocale } from "@/i18n";
 
 const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://property.dgsmart.gr";
-const PATHS = ["/", "/pricing", "/faq", "/contact", "/privacy", "/terms", "/cookie-policy"];
+const PATHS = ["/", "/pricing", "/services", "/faq", "/contact", "/privacy", "/terms", "/cookie-policy"];
 
 function loc(locale: string, path: string) {
   if (locale === defaultLocale) return `${BASE}${path === "/" ? "" : path}`;
