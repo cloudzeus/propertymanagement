@@ -107,6 +107,7 @@ export const ModelName = {
   LandingSection: 'LandingSection',
   PageSeo: 'PageSeo',
   UiMessage: 'UiMessage',
+  MediaAsset: 'MediaAsset',
   SiteSettings: 'SiteSettings'
 } as const
 
@@ -1133,6 +1134,25 @@ export const UiMessageScalarFieldEnum = {
 } as const
 
 export type UiMessageScalarFieldEnum = (typeof UiMessageScalarFieldEnum)[keyof typeof UiMessageScalarFieldEnum]
+
+
+export const MediaAssetScalarFieldEnum = {
+  id: 'id',
+  type: 'type',
+  url: 'url',
+  cdnPath: 'cdnPath',
+  mime: 'mime',
+  width: 'width',
+  height: 'height',
+  sizeBytes: 'sizeBytes',
+  alt: 'alt',
+  title: 'title',
+  originalName: 'originalName',
+  createdById: 'createdById',
+  createdAt: 'createdAt'
+} as const
+
+export type MediaAssetScalarFieldEnum = (typeof MediaAssetScalarFieldEnum)[keyof typeof MediaAssetScalarFieldEnum]
 
 
 export const SiteSettingsScalarFieldEnum = {

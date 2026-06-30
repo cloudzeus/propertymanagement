@@ -298,6 +298,11 @@ export type PageSeo = Prisma.PageSeoModel
  */
 export type UiMessage = Prisma.UiMessageModel
 /**
+ * Model MediaAsset
+ * 
+ */
+export type MediaAsset = Prisma.MediaAssetModel
+/**
  * Model SiteSettings
  * 
  */
