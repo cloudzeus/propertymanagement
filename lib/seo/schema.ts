@@ -30,3 +30,12 @@ export function localBusinessSchema(o: { name: string; url: string; telephone?: 
     ...(o.geo ? { geo: { "@type": "GeoCoordinates", latitude: o.geo.lat, longitude: o.geo.lng } } : {}),
     ...(o.sameAs?.length ? { sameAs: o.sameAs } : {}) };
 }
+export function personSchema(o: { name: string; url?: string; image?: string }) {
+  return { "@context": "https://schema.org", "@type": "Person", name: o.name, ...(o.url ? { url: o.url } : {}), ...(o.image ? { image: o.image } : {}) };
+}
+export function articleSchema(o: { headline: string; url: string; description?: string; image?: string; datePublished?: string; dateModified?: string; authorName?: string }) {
+  return { "@context": "https://schema.org", "@type": "Article", headline: o.headline, mainEntityOfPage: o.url,
+    ...(o.description ? { description: o.description } : {}), ...(o.image ? { image: o.image } : {}),
+    ...(o.datePublished ? { datePublished: o.datePublished } : {}), ...(o.dateModified ? { dateModified: o.dateModified } : {}),
+    ...(o.authorName ? { author: { "@type": "Person", name: o.authorName } } : {}) };
+}
