@@ -1609,6 +1609,14 @@ model PageSeo {
   updatedAt DateTime @updatedAt
 }
 
+model UiMessage {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  el        String   @db.Text
+  en        String   @db.Text
+  updatedAt DateTime @updatedAt
+}
+
 model SiteSettings {
   id                     String   @id @default("singleton")
   siteName               String   @default("PropertyPro")

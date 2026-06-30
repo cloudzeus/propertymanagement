@@ -106,6 +106,7 @@ export const ModelName = {
   ImpersonationEvent: 'ImpersonationEvent',
   LandingSection: 'LandingSection',
   PageSeo: 'PageSeo',
+  UiMessage: 'UiMessage',
   SiteSettings: 'SiteSettings'
 } as const
 
@@ -1121,6 +1122,17 @@ export const PageSeoScalarFieldEnum = {
 } as const
 
 export type PageSeoScalarFieldEnum = (typeof PageSeoScalarFieldEnum)[keyof typeof PageSeoScalarFieldEnum]
+
+
+export const UiMessageScalarFieldEnum = {
+  id: 'id',
+  key: 'key',
+  el: 'el',
+  en: 'en',
+  updatedAt: 'updatedAt'
+} as const
+
+export type UiMessageScalarFieldEnum = (typeof UiMessageScalarFieldEnum)[keyof typeof UiMessageScalarFieldEnum]
 
 
 export const SiteSettingsScalarFieldEnum = {
