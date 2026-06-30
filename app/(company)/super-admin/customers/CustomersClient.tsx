@@ -6,7 +6,7 @@ import Link from "next/link";
 import { DataTable, type ColDef, type RowAction } from "@/components/ui/data-table";
 import { Modal, FormField, FieldInput, FieldSelect } from "@/components/ui/modal";
 import { createCustomer, updateCustomer, deleteCustomer } from "@/app/actions/customers";
-import { AddPropertyModal } from "@/app/(dashboard)/super-admin/properties/AddPropertyModal";
+import { AddPropertyModal } from "@/app/(company)/super-admin/properties/AddPropertyModal";
 import { CustomerTree, type TProperty } from "./CustomerTree";
 import { RiCheckLine, RiLoaderLine, RiPencilLine, RiDeleteBinLine, RiSearchLine, RiMapPin2Line, RiEyeLine, RiAddLine, RiRobot2Line } from "react-icons/ri";
 
