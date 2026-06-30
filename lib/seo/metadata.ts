@@ -7,8 +7,9 @@ function localizedPath(locale: Locale, path: string): string {
   return path === "/" ? `/${locale}` : `/${locale}${path}`;
 }
 
-export function buildMetadata(input: { seo: SeoMeta; locale: Locale; path: string; baseUrl: string }): Metadata {
+export function buildMetadata(input: { seo: SeoMeta; locale: Locale; path: string; baseUrl: string; defaultOgImage?: string }): Metadata {
   const { seo, locale, path, baseUrl } = input;
+  const ogImage = seo.ogImage || input.defaultOgImage;
   const canonical = `${baseUrl}${localizedPath(locale, path)}`;
   const languages: Record<string, string> = {};
   for (const l of locales) languages[l] = `${baseUrl}${localizedPath(l, path)}`;
@@ -21,9 +22,9 @@ export function buildMetadata(input: { seo: SeoMeta; locale: Locale; path: strin
     alternates: { canonical, languages },
     openGraph: {
       title: seo.title, description: seo.description, url: canonical, siteName: "PropertyPro",
-      locale, type: "website", ...(seo.ogImage ? { images: [{ url: seo.ogImage }] } : {}),
+      locale, type: "website", ...(ogImage ? { images: [{ url: ogImage }] } : {}),
     },
-    twitter: { card: "summary_large_image", title: seo.title, description: seo.description, ...(seo.ogImage ? { images: [seo.ogImage] } : {}) },
+    twitter: { card: "summary_large_image", title: seo.title, description: seo.description, ...(ogImage ? { images: [ogImage] } : {}) },
     ...(seo.robots ? { robots: seo.robots } : {}),
   };
 }
