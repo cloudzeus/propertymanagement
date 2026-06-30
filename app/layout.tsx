@@ -57,7 +57,7 @@ export default async function RootLayout({
         <NextIntlClientProvider locale="el" messages={messages}>
           <SessionProvider>
             {children}
-            <CookieConsent />
+            <CookieConsent config={site.consentConfig} enabled={site.consentEnabled} />
           </SessionProvider>
         </NextIntlClientProvider>
         {site.extraBodyHtml ? (
