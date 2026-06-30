@@ -6,11 +6,11 @@ const settings: any = { siteName: "Acme", social: { facebook: "https://fb.com/a"
 describe("buildSiteSchemas", () => {
   const s = buildSiteSchemas(settings, "https://x.gr", "Acme logo url");
   it("emits Organization with sameAs from non-null social", () => {
-    const org = s.find((x: any) => x["@type"] === "Organization");
+    const org = s.find((x: any) => x["@type"] === "Organization") as any;
     expect(org.sameAs).toEqual(["https://fb.com/a"]);
   });
   it("emits LocalBusiness when geo+address present", () => {
-    const lb = s.find((x: any) => x["@type"] === "LocalBusiness");
+    const lb = s.find((x: any) => x["@type"] === "LocalBusiness") as any;
     expect(lb.geo.latitude).toBe(1);
     expect(lb.address.addressLocality).toBe("Athens");
   });
