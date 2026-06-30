@@ -3,6 +3,7 @@
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { homePathForRole } from '@/lib/surfaces';
+import { LanguageSwitcher } from '@/components/i18n/LanguageSwitcher';
 
 const NAV_LINKS = [
   { href: '/', label: 'Home' },
@@ -33,7 +34,8 @@ export function LandingHeader() {
           ))}
         </div>
 
-        <div className="flex gap-3">
+        <div className="flex items-center gap-4">
+          <LanguageSwitcher />
           {session?.user ? (
             <Link
               href={homePathForRole((session.user as any).role)}
