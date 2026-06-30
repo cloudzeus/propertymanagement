@@ -4,6 +4,10 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { locales } from "./i18n";
 import { deniedRedirectPath } from "./lib/surfaces";
+import createIntlMiddleware from "next-intl/middleware";
+import { routing } from "./i18n/routing";
+
+const intlMiddleware = createIntlMiddleware(routing);
 
 const { auth } = NextAuth(authConfig);
 
@@ -34,7 +38,7 @@ export default auth((req: NextRequest & { auth: any }) => {
   const isPublic = publicPaths.some(
     (p) => pathWithoutLocale === p || pathWithoutLocale.startsWith(p + "/")
   );
-  if (isPublic) return NextResponse.next();
+  if (isPublic) return intlMiddleware(req);
 
   if (!isLoggedIn) {
     const loginUrl = new URL("/login", req.nextUrl.origin);
