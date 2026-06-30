@@ -3,6 +3,7 @@ import { authConfig } from "./auth.config";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { locales } from "./i18n";
+import { deniedRedirectPath } from "./lib/surfaces";
 
 const { auth } = NextAuth(authConfig);
 
@@ -55,27 +56,33 @@ export default auth((req: NextRequest & { auth: any }) => {
     }
   }
   const can = (...allowed: string[]) => allowed.includes(effectiveRole);
+  // When impersonating, never strand on the dead-end /unauthorized (no exit there);
+  // redirect to the impersonated role's home, where the Exit banner renders.
+  const deny = () =>
+    NextResponse.redirect(
+      new URL(deniedRedirectPath(role, effectiveRole, pathWithoutLocale), req.nextUrl.origin),
+    );
 
   if (pathWithoutLocale.startsWith("/super-admin") && !can("SUPER_ADMIN")) {
-    return NextResponse.redirect(new URL("/unauthorized", req.nextUrl.origin));
+    return deny();
   }
   if (pathWithoutLocale.startsWith("/admin") && !can("SUPER_ADMIN", "ADMIN")) {
-    return NextResponse.redirect(new URL("/unauthorized", req.nextUrl.origin));
+    return deny();
   }
   if (pathWithoutLocale.startsWith("/manager") && !can("SUPER_ADMIN", "ADMIN", "MANAGER")) {
-    return NextResponse.redirect(new URL("/unauthorized", req.nextUrl.origin));
+    return deny();
   }
   if (pathWithoutLocale.startsWith("/staff") && !can("SUPER_ADMIN", "ADMIN", "MANAGER", "EMPLOYEE")) {
-    return NextResponse.redirect(new URL("/unauthorized", req.nextUrl.origin));
+    return deny();
   }
   if (pathWithoutLocale.startsWith("/marketplace") && !can("SUPER_ADMIN", "COLLABORATOR")) {
-    return NextResponse.redirect(new URL("/unauthorized", req.nextUrl.origin));
+    return deny();
   }
   if (pathWithoutLocale.startsWith("/owner") && !can("SUPER_ADMIN", "ADMIN", "PROPERTY_OWNER")) {
-    return NextResponse.redirect(new URL("/unauthorized", req.nextUrl.origin));
+    return deny();
   }
   if (pathWithoutLocale.startsWith("/portal") && !can("SUPER_ADMIN", "ADMIN", "PROPERTY_ADMIN", "PROPERTY_RESIDENT", "PROPERTY_VIEWER")) {
-    return NextResponse.redirect(new URL("/unauthorized", req.nextUrl.origin));
+    return deny();
   }
 
   return NextResponse.next();

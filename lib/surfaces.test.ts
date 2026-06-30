@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { surfaceForRole, homePathForRole, SURFACE_ROLES } from "./surfaces";
+import { surfaceForRole, homePathForRole, SURFACE_ROLES, deniedRedirectPath } from "./surfaces";
 
 describe("surfaceForRole", () => {
   it("maps company roles", () => {
@@ -33,5 +33,19 @@ describe("SURFACE_ROLES", () => {
   it("lists company roles", () => {
     expect(SURFACE_ROLES.company).toContain("SUPER_ADMIN");
     expect(SURFACE_ROLES.marketplace).toEqual(["COLLABORATOR"]);
+  });
+});
+
+describe("deniedRedirectPath", () => {
+  it("sends a normal (non-impersonating) blocked user to /unauthorized", () => {
+    // real === effective → not impersonating
+    expect(deniedRedirectPath("PROPERTY_OWNER", "PROPERTY_OWNER", "/admin")).toBe("/unauthorized");
+  });
+  it("sends an impersonating super-admin to the impersonated role's home (escape hatch)", () => {
+    // super-admin impersonating PROPERTY_ADMIN, blocked on /super-admin → go to /portal where the Exit banner lives
+    expect(deniedRedirectPath("SUPER_ADMIN", "PROPERTY_ADMIN", "/super-admin")).toBe("/portal");
+  });
+  it("falls back to /unauthorized if the impersonated home is the path already being blocked (no loop)", () => {
+    expect(deniedRedirectPath("SUPER_ADMIN", "PROPERTY_ADMIN", "/portal")).toBe("/unauthorized");
   });
 });
