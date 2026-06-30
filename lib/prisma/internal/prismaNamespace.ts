@@ -440,6 +440,7 @@ export const ModelName = {
   LandingSection: 'LandingSection',
   PageSeo: 'PageSeo',
   UiMessage: 'UiMessage',
+  MediaAsset: 'MediaAsset',
   SiteSettings: 'SiteSettings'
 } as const
 
@@ -456,7 +457,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "account" | "session" | "verificationToken" | "company" | "department" | "jobPosition" | "employee" | "subscription" | "addonFeature" | "customer" | "property" | "building" | "unitOccupancy" | "buildingFile" | "infraPoint" | "infraAccess" | "infraMedia" | "contact" | "recurringTask" | "buildingExpense" | "expenseCategory" | "buildingCategoryOverride" | "unitCategoryExclusion" | "unitHeatingReading" | "meterReading" | "expenseAllocation" | "unitPayment" | "managementAssignment" | "commonArea" | "unit" | "service" | "propertyService" | "serviceInvoice" | "serviceInvoiceLine" | "userCompanyRole" | "menuConfig" | "announcement" | "announcement_User" | "assembly" | "assemblyParticipant" | "processedWebhook" | "aPIUsageLog" | "aPICostConfig" | "monthlyCostSummary" | "maintenanceRequest" | "cMSPage" | "fAQ" | "pricingTier" | "contactMessage" | "cookieConsent" | "appSettings" | "impersonationEvent" | "landingSection" | "pageSeo" | "uiMessage" | "siteSettings"
+    modelProps: "user" | "account" | "session" | "verificationToken" | "company" | "department" | "jobPosition" | "employee" | "subscription" | "addonFeature" | "customer" | "property" | "building" | "unitOccupancy" | "buildingFile" | "infraPoint" | "infraAccess" | "infraMedia" | "contact" | "recurringTask" | "buildingExpense" | "expenseCategory" | "buildingCategoryOverride" | "unitCategoryExclusion" | "unitHeatingReading" | "meterReading" | "expenseAllocation" | "unitPayment" | "managementAssignment" | "commonArea" | "unit" | "service" | "propertyService" | "serviceInvoice" | "serviceInvoiceLine" | "userCompanyRole" | "menuConfig" | "announcement" | "announcement_User" | "assembly" | "assemblyParticipant" | "processedWebhook" | "aPIUsageLog" | "aPICostConfig" | "monthlyCostSummary" | "maintenanceRequest" | "cMSPage" | "fAQ" | "pricingTier" | "contactMessage" | "cookieConsent" | "appSettings" | "impersonationEvent" | "landingSection" | "pageSeo" | "uiMessage" | "mediaAsset" | "siteSettings"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -4604,6 +4605,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    MediaAsset: {
+      payload: Prisma.$MediaAssetPayload<ExtArgs>
+      fields: Prisma.MediaAssetFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.MediaAssetFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MediaAssetPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.MediaAssetFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MediaAssetPayload>
+        }
+        findFirst: {
+          args: Prisma.MediaAssetFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MediaAssetPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.MediaAssetFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MediaAssetPayload>
+        }
+        findMany: {
+          args: Prisma.MediaAssetFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MediaAssetPayload>[]
+        }
+        create: {
+          args: Prisma.MediaAssetCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MediaAssetPayload>
+        }
+        createMany: {
+          args: Prisma.MediaAssetCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.MediaAssetCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MediaAssetPayload>[]
+        }
+        delete: {
+          args: Prisma.MediaAssetDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MediaAssetPayload>
+        }
+        update: {
+          args: Prisma.MediaAssetUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MediaAssetPayload>
+        }
+        deleteMany: {
+          args: Prisma.MediaAssetDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.MediaAssetUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.MediaAssetUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MediaAssetPayload>[]
+        }
+        upsert: {
+          args: Prisma.MediaAssetUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MediaAssetPayload>
+        }
+        aggregate: {
+          args: Prisma.MediaAssetAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateMediaAsset>
+        }
+        groupBy: {
+          args: Prisma.MediaAssetGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MediaAssetGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.MediaAssetCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MediaAssetCountAggregateOutputType> | number
+        }
+      }
+    }
     SiteSettings: {
       payload: Prisma.$SiteSettingsPayload<ExtArgs>
       fields: Prisma.SiteSettingsFieldRefs
@@ -5726,6 +5801,25 @@ export const UiMessageScalarFieldEnum = {
 export type UiMessageScalarFieldEnum = (typeof UiMessageScalarFieldEnum)[keyof typeof UiMessageScalarFieldEnum]
 
 
+export const MediaAssetScalarFieldEnum = {
+  id: 'id',
+  type: 'type',
+  url: 'url',
+  cdnPath: 'cdnPath',
+  mime: 'mime',
+  width: 'width',
+  height: 'height',
+  sizeBytes: 'sizeBytes',
+  alt: 'alt',
+  title: 'title',
+  originalName: 'originalName',
+  createdById: 'createdById',
+  createdAt: 'createdAt'
+} as const
+
+export type MediaAssetScalarFieldEnum = (typeof MediaAssetScalarFieldEnum)[keyof typeof MediaAssetScalarFieldEnum]
+
+
 export const SiteSettingsScalarFieldEnum = {
   id: 'id',
   siteName: 'siteName',
@@ -6406,6 +6500,7 @@ export type GlobalOmitConfig = {
   landingSection?: Prisma.LandingSectionOmit
   pageSeo?: Prisma.PageSeoOmit
   uiMessage?: Prisma.UiMessageOmit
+  mediaAsset?: Prisma.MediaAssetOmit
   siteSettings?: Prisma.SiteSettingsOmit
 }
 

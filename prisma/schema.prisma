@@ -1617,6 +1617,24 @@ model UiMessage {
   updatedAt DateTime @updatedAt
 }
 
+model MediaAsset {
+  id           String   @id @default(cuid())
+  type         String
+  url          String
+  cdnPath      String
+  mime         String
+  width        Int?
+  height       Int?
+  sizeBytes    Int?
+  alt          String?
+  title        String?
+  originalName String?
+  createdById  String?
+  createdAt    DateTime @default(now())
+  @@index([type])
+  @@index([createdAt])
+}
+
 model SiteSettings {
   id                     String   @id @default("singleton")
   siteName               String   @default("PropertyPro")
