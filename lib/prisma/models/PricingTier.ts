@@ -77,6 +77,7 @@ export type PricingTierCountAggregateOutputType = {
   highlighted: number
   order: number
   published: number
+  i18n: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -134,6 +135,7 @@ export type PricingTierCountAggregateInputType = {
   highlighted?: true
   order?: true
   published?: true
+  i18n?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -236,6 +238,7 @@ export type PricingTierGroupByOutputType = {
   highlighted: boolean
   order: number
   published: boolean
+  i18n: runtime.JsonValue | null
   createdAt: Date
   updatedAt: Date
   _count: PricingTierCountAggregateOutputType | null
@@ -274,6 +277,7 @@ export type PricingTierWhereInput = {
   highlighted?: Prisma.BoolFilter<"PricingTier"> | boolean
   order?: Prisma.IntFilter<"PricingTier"> | number
   published?: Prisma.BoolFilter<"PricingTier"> | boolean
+  i18n?: Prisma.JsonNullableFilter<"PricingTier">
   createdAt?: Prisma.DateTimeFilter<"PricingTier"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"PricingTier"> | Date | string
 }
@@ -289,6 +293,7 @@ export type PricingTierOrderByWithRelationInput = {
   highlighted?: Prisma.SortOrder
   order?: Prisma.SortOrder
   published?: Prisma.SortOrder
+  i18n?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -307,6 +312,7 @@ export type PricingTierWhereUniqueInput = Prisma.AtLeast<{
   highlighted?: Prisma.BoolFilter<"PricingTier"> | boolean
   order?: Prisma.IntFilter<"PricingTier"> | number
   published?: Prisma.BoolFilter<"PricingTier"> | boolean
+  i18n?: Prisma.JsonNullableFilter<"PricingTier">
   createdAt?: Prisma.DateTimeFilter<"PricingTier"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"PricingTier"> | Date | string
 }, "id" | "slug">
@@ -322,6 +328,7 @@ export type PricingTierOrderByWithAggregationInput = {
   highlighted?: Prisma.SortOrder
   order?: Prisma.SortOrder
   published?: Prisma.SortOrder
+  i18n?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.PricingTierCountOrderByAggregateInput
@@ -345,6 +352,7 @@ export type PricingTierScalarWhereWithAggregatesInput = {
   highlighted?: Prisma.BoolWithAggregatesFilter<"PricingTier"> | boolean
   order?: Prisma.IntWithAggregatesFilter<"PricingTier"> | number
   published?: Prisma.BoolWithAggregatesFilter<"PricingTier"> | boolean
+  i18n?: Prisma.JsonNullableWithAggregatesFilter<"PricingTier">
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"PricingTier"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"PricingTier"> | Date | string
 }
@@ -360,6 +368,7 @@ export type PricingTierCreateInput = {
   highlighted?: boolean
   order?: number
   published?: boolean
+  i18n?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -375,6 +384,7 @@ export type PricingTierUncheckedCreateInput = {
   highlighted?: boolean
   order?: number
   published?: boolean
+  i18n?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -390,6 +400,7 @@ export type PricingTierUpdateInput = {
   highlighted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   order?: Prisma.IntFieldUpdateOperationsInput | number
   published?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  i18n?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -405,6 +416,7 @@ export type PricingTierUncheckedUpdateInput = {
   highlighted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   order?: Prisma.IntFieldUpdateOperationsInput | number
   published?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  i18n?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -420,6 +432,7 @@ export type PricingTierCreateManyInput = {
   highlighted?: boolean
   order?: number
   published?: boolean
+  i18n?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -435,6 +448,7 @@ export type PricingTierUpdateManyMutationInput = {
   highlighted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   order?: Prisma.IntFieldUpdateOperationsInput | number
   published?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  i18n?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -450,6 +464,7 @@ export type PricingTierUncheckedUpdateManyInput = {
   highlighted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   order?: Prisma.IntFieldUpdateOperationsInput | number
   published?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  i18n?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -473,6 +488,7 @@ export type PricingTierCountOrderByAggregateInput = {
   highlighted?: Prisma.SortOrder
   order?: Prisma.SortOrder
   published?: Prisma.SortOrder
+  i18n?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -539,6 +555,7 @@ export type PricingTierSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   highlighted?: boolean
   order?: boolean
   published?: boolean
+  i18n?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["pricingTier"]>
@@ -554,6 +571,7 @@ export type PricingTierSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   highlighted?: boolean
   order?: boolean
   published?: boolean
+  i18n?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["pricingTier"]>
@@ -569,6 +587,7 @@ export type PricingTierSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   highlighted?: boolean
   order?: boolean
   published?: boolean
+  i18n?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["pricingTier"]>
@@ -584,11 +603,12 @@ export type PricingTierSelectScalar = {
   highlighted?: boolean
   order?: boolean
   published?: boolean
+  i18n?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type PricingTierOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "slug" | "description" | "monthlyPrice" | "annualPrice" | "features" | "highlighted" | "order" | "published" | "createdAt" | "updatedAt", ExtArgs["result"]["pricingTier"]>
+export type PricingTierOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "slug" | "description" | "monthlyPrice" | "annualPrice" | "features" | "highlighted" | "order" | "published" | "i18n" | "createdAt" | "updatedAt", ExtArgs["result"]["pricingTier"]>
 
 export type $PricingTierPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "PricingTier"
@@ -604,6 +624,7 @@ export type $PricingTierPayload<ExtArgs extends runtime.Types.Extensions.Interna
     highlighted: boolean
     order: number
     published: boolean
+    i18n: runtime.JsonValue | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["pricingTier"]>
@@ -1039,6 +1060,7 @@ export interface PricingTierFieldRefs {
   readonly highlighted: Prisma.FieldRef<"PricingTier", 'Boolean'>
   readonly order: Prisma.FieldRef<"PricingTier", 'Int'>
   readonly published: Prisma.FieldRef<"PricingTier", 'Boolean'>
+  readonly i18n: Prisma.FieldRef<"PricingTier", 'Json'>
   readonly createdAt: Prisma.FieldRef<"PricingTier", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"PricingTier", 'DateTime'>
 }

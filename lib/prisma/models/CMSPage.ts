@@ -59,6 +59,7 @@ export type CMSPageCountAggregateOutputType = {
   metaKeywords: number
   publishedAt: number
   status: number
+  i18n: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -100,6 +101,7 @@ export type CMSPageCountAggregateInputType = {
   metaKeywords?: true
   publishedAt?: true
   status?: true
+  i18n?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -186,6 +188,7 @@ export type CMSPageGroupByOutputType = {
   metaKeywords: string | null
   publishedAt: Date | null
   status: string
+  i18n: runtime.JsonValue | null
   createdAt: Date
   updatedAt: Date
   _count: CMSPageCountAggregateOutputType | null
@@ -220,6 +223,7 @@ export type CMSPageWhereInput = {
   metaKeywords?: Prisma.StringNullableFilter<"CMSPage"> | string | null
   publishedAt?: Prisma.DateTimeNullableFilter<"CMSPage"> | Date | string | null
   status?: Prisma.StringFilter<"CMSPage"> | string
+  i18n?: Prisma.JsonNullableFilter<"CMSPage">
   createdAt?: Prisma.DateTimeFilter<"CMSPage"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"CMSPage"> | Date | string
 }
@@ -233,6 +237,7 @@ export type CMSPageOrderByWithRelationInput = {
   metaKeywords?: Prisma.SortOrderInput | Prisma.SortOrder
   publishedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
+  i18n?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -249,6 +254,7 @@ export type CMSPageWhereUniqueInput = Prisma.AtLeast<{
   metaKeywords?: Prisma.StringNullableFilter<"CMSPage"> | string | null
   publishedAt?: Prisma.DateTimeNullableFilter<"CMSPage"> | Date | string | null
   status?: Prisma.StringFilter<"CMSPage"> | string
+  i18n?: Prisma.JsonNullableFilter<"CMSPage">
   createdAt?: Prisma.DateTimeFilter<"CMSPage"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"CMSPage"> | Date | string
 }, "id" | "slug">
@@ -262,6 +268,7 @@ export type CMSPageOrderByWithAggregationInput = {
   metaKeywords?: Prisma.SortOrderInput | Prisma.SortOrder
   publishedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
+  i18n?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.CMSPageCountOrderByAggregateInput
@@ -281,6 +288,7 @@ export type CMSPageScalarWhereWithAggregatesInput = {
   metaKeywords?: Prisma.StringNullableWithAggregatesFilter<"CMSPage"> | string | null
   publishedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"CMSPage"> | Date | string | null
   status?: Prisma.StringWithAggregatesFilter<"CMSPage"> | string
+  i18n?: Prisma.JsonNullableWithAggregatesFilter<"CMSPage">
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"CMSPage"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"CMSPage"> | Date | string
 }
@@ -294,6 +302,7 @@ export type CMSPageCreateInput = {
   metaKeywords?: string | null
   publishedAt?: Date | string | null
   status?: string
+  i18n?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -307,6 +316,7 @@ export type CMSPageUncheckedCreateInput = {
   metaKeywords?: string | null
   publishedAt?: Date | string | null
   status?: string
+  i18n?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -320,6 +330,7 @@ export type CMSPageUpdateInput = {
   metaKeywords?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  i18n?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -333,6 +344,7 @@ export type CMSPageUncheckedUpdateInput = {
   metaKeywords?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  i18n?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -346,6 +358,7 @@ export type CMSPageCreateManyInput = {
   metaKeywords?: string | null
   publishedAt?: Date | string | null
   status?: string
+  i18n?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -359,6 +372,7 @@ export type CMSPageUpdateManyMutationInput = {
   metaKeywords?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  i18n?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -372,6 +386,7 @@ export type CMSPageUncheckedUpdateManyInput = {
   metaKeywords?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   status?: Prisma.StringFieldUpdateOperationsInput | string
+  i18n?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -385,6 +400,7 @@ export type CMSPageCountOrderByAggregateInput = {
   metaKeywords?: Prisma.SortOrder
   publishedAt?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  i18n?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -426,6 +442,7 @@ export type CMSPageSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   metaKeywords?: boolean
   publishedAt?: boolean
   status?: boolean
+  i18n?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["cMSPage"]>
@@ -439,6 +456,7 @@ export type CMSPageSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   metaKeywords?: boolean
   publishedAt?: boolean
   status?: boolean
+  i18n?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["cMSPage"]>
@@ -452,6 +470,7 @@ export type CMSPageSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   metaKeywords?: boolean
   publishedAt?: boolean
   status?: boolean
+  i18n?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["cMSPage"]>
@@ -465,11 +484,12 @@ export type CMSPageSelectScalar = {
   metaKeywords?: boolean
   publishedAt?: boolean
   status?: boolean
+  i18n?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type CMSPageOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "slug" | "title" | "content" | "metaDescription" | "metaKeywords" | "publishedAt" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["cMSPage"]>
+export type CMSPageOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "slug" | "title" | "content" | "metaDescription" | "metaKeywords" | "publishedAt" | "status" | "i18n" | "createdAt" | "updatedAt", ExtArgs["result"]["cMSPage"]>
 
 export type $CMSPagePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "CMSPage"
@@ -483,6 +503,7 @@ export type $CMSPagePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     metaKeywords: string | null
     publishedAt: Date | null
     status: string
+    i18n: runtime.JsonValue | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["cMSPage"]>
@@ -916,6 +937,7 @@ export interface CMSPageFieldRefs {
   readonly metaKeywords: Prisma.FieldRef<"CMSPage", 'String'>
   readonly publishedAt: Prisma.FieldRef<"CMSPage", 'DateTime'>
   readonly status: Prisma.FieldRef<"CMSPage", 'String'>
+  readonly i18n: Prisma.FieldRef<"CMSPage", 'Json'>
   readonly createdAt: Prisma.FieldRef<"CMSPage", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"CMSPage", 'DateTime'>
 }

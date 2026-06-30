@@ -63,6 +63,7 @@ export type FAQCountAggregateOutputType = {
   category: number
   order: number
   published: number
+  i18n: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -106,6 +107,7 @@ export type FAQCountAggregateInputType = {
   category?: true
   order?: true
   published?: true
+  i18n?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -204,6 +206,7 @@ export type FAQGroupByOutputType = {
   category: string
   order: number
   published: boolean
+  i18n: runtime.JsonValue | null
   createdAt: Date
   updatedAt: Date
   _count: FAQCountAggregateOutputType | null
@@ -238,6 +241,7 @@ export type FAQWhereInput = {
   category?: Prisma.StringFilter<"FAQ"> | string
   order?: Prisma.IntFilter<"FAQ"> | number
   published?: Prisma.BoolFilter<"FAQ"> | boolean
+  i18n?: Prisma.JsonNullableFilter<"FAQ">
   createdAt?: Prisma.DateTimeFilter<"FAQ"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"FAQ"> | Date | string
 }
@@ -249,6 +253,7 @@ export type FAQOrderByWithRelationInput = {
   category?: Prisma.SortOrder
   order?: Prisma.SortOrder
   published?: Prisma.SortOrder
+  i18n?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -263,6 +268,7 @@ export type FAQWhereUniqueInput = Prisma.AtLeast<{
   category?: Prisma.StringFilter<"FAQ"> | string
   order?: Prisma.IntFilter<"FAQ"> | number
   published?: Prisma.BoolFilter<"FAQ"> | boolean
+  i18n?: Prisma.JsonNullableFilter<"FAQ">
   createdAt?: Prisma.DateTimeFilter<"FAQ"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"FAQ"> | Date | string
 }, "id">
@@ -274,6 +280,7 @@ export type FAQOrderByWithAggregationInput = {
   category?: Prisma.SortOrder
   order?: Prisma.SortOrder
   published?: Prisma.SortOrder
+  i18n?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.FAQCountOrderByAggregateInput
@@ -293,6 +300,7 @@ export type FAQScalarWhereWithAggregatesInput = {
   category?: Prisma.StringWithAggregatesFilter<"FAQ"> | string
   order?: Prisma.IntWithAggregatesFilter<"FAQ"> | number
   published?: Prisma.BoolWithAggregatesFilter<"FAQ"> | boolean
+  i18n?: Prisma.JsonNullableWithAggregatesFilter<"FAQ">
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"FAQ"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"FAQ"> | Date | string
 }
@@ -304,6 +312,7 @@ export type FAQCreateInput = {
   category?: string
   order?: number
   published?: boolean
+  i18n?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -315,6 +324,7 @@ export type FAQUncheckedCreateInput = {
   category?: string
   order?: number
   published?: boolean
+  i18n?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -326,6 +336,7 @@ export type FAQUpdateInput = {
   category?: Prisma.StringFieldUpdateOperationsInput | string
   order?: Prisma.IntFieldUpdateOperationsInput | number
   published?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  i18n?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -337,6 +348,7 @@ export type FAQUncheckedUpdateInput = {
   category?: Prisma.StringFieldUpdateOperationsInput | string
   order?: Prisma.IntFieldUpdateOperationsInput | number
   published?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  i18n?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -348,6 +360,7 @@ export type FAQCreateManyInput = {
   category?: string
   order?: number
   published?: boolean
+  i18n?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -359,6 +372,7 @@ export type FAQUpdateManyMutationInput = {
   category?: Prisma.StringFieldUpdateOperationsInput | string
   order?: Prisma.IntFieldUpdateOperationsInput | number
   published?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  i18n?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -370,6 +384,7 @@ export type FAQUncheckedUpdateManyInput = {
   category?: Prisma.StringFieldUpdateOperationsInput | string
   order?: Prisma.IntFieldUpdateOperationsInput | number
   published?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  i18n?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -381,6 +396,7 @@ export type FAQCountOrderByAggregateInput = {
   category?: Prisma.SortOrder
   order?: Prisma.SortOrder
   published?: Prisma.SortOrder
+  i18n?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -424,6 +440,7 @@ export type FAQSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = ru
   category?: boolean
   order?: boolean
   published?: boolean
+  i18n?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["fAQ"]>
@@ -435,6 +452,7 @@ export type FAQSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extension
   category?: boolean
   order?: boolean
   published?: boolean
+  i18n?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["fAQ"]>
@@ -446,6 +464,7 @@ export type FAQSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extension
   category?: boolean
   order?: boolean
   published?: boolean
+  i18n?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["fAQ"]>
@@ -457,11 +476,12 @@ export type FAQSelectScalar = {
   category?: boolean
   order?: boolean
   published?: boolean
+  i18n?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type FAQOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "question" | "answer" | "category" | "order" | "published" | "createdAt" | "updatedAt", ExtArgs["result"]["fAQ"]>
+export type FAQOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "question" | "answer" | "category" | "order" | "published" | "i18n" | "createdAt" | "updatedAt", ExtArgs["result"]["fAQ"]>
 
 export type $FAQPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "FAQ"
@@ -473,6 +493,7 @@ export type $FAQPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
     category: string
     order: number
     published: boolean
+    i18n: runtime.JsonValue | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["fAQ"]>
@@ -904,6 +925,7 @@ export interface FAQFieldRefs {
   readonly category: Prisma.FieldRef<"FAQ", 'String'>
   readonly order: Prisma.FieldRef<"FAQ", 'Int'>
   readonly published: Prisma.FieldRef<"FAQ", 'Boolean'>
+  readonly i18n: Prisma.FieldRef<"FAQ", 'Json'>
   readonly createdAt: Prisma.FieldRef<"FAQ", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"FAQ", 'DateTime'>
 }

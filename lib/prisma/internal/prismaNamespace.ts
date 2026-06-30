@@ -5499,6 +5499,7 @@ export const CMSPageScalarFieldEnum = {
   metaKeywords: 'metaKeywords',
   publishedAt: 'publishedAt',
   status: 'status',
+  i18n: 'i18n',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -5513,6 +5514,7 @@ export const FAQScalarFieldEnum = {
   category: 'category',
   order: 'order',
   published: 'published',
+  i18n: 'i18n',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -5531,6 +5533,7 @@ export const PricingTierScalarFieldEnum = {
   highlighted: 'highlighted',
   order: 'order',
   published: 'published',
+  i18n: 'i18n',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
