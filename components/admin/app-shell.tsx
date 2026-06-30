@@ -1,10 +1,11 @@
-import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { getAppSettings } from "@/lib/app-settings";
 import { signOutAction } from "@/app/actions/sign-out";
 import { SidebarNav } from "./sidebar-nav";
 import { GlobalExpenseButton } from "@/components/buildings/GlobalExpenseButton";
 import { listManageableBuildings } from "@/app/actions/building-expenses";
+import { getEffectiveSession } from "@/lib/auth-effective";
+import { ImpersonationBanner } from "./impersonation-banner";
 
 const EXPENSE_ROLES = ["SUPER_ADMIN", "ADMIN", "MANAGER", "PROPERTY_ADMIN"];
 
@@ -19,11 +20,11 @@ type Props = {
 };
 
 export async function AppShell({ children, allowedRoles }: Props) {
-  const session = await auth();
+  const eff = await getEffectiveSession();
 
-  if (!session?.user) redirect("/login");
+  if (!eff) redirect("/login");
 
-  const role = session.user.role as UserRole;
+  const role = eff.user.role;
 
   if (allowedRoles && !allowedRoles.includes(role)) {
     redirect("/unauthorized");
@@ -42,17 +43,20 @@ export async function AppShell({ children, allowedRoles }: Props) {
     }}>
       <SidebarNav
         role={role}
-        userName={session.user.name ?? ""}
-        userEmail={session.user.email ?? ""}
+        userName={eff.user.name ?? ""}
+        userEmail={eff.user.email ?? ""}
         logoUrl={settings.logoFullLight ?? settings.logoUrl}
         logoSquareUrl={settings.logoSquareLight ?? settings.logoSquareUrl}
         companyName={settings.companyName}
         onSignOut={signOutAction}
       />
 
-      <main style={{ flex: 1, overflowY: "auto", padding: 28, minWidth: 0 }}>
-        {children}
-      </main>
+      <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0, overflow: "hidden" }}>
+        {eff.impersonatorId && <ImpersonationBanner label={`${eff.user.name ?? eff.user.email} · ${role}`} />}
+        <main style={{ flex: 1, overflowY: "auto", padding: 28, minWidth: 0 }}>
+          {children}
+        </main>
+      </div>
 
       {expenseBuildings.length > 0 && <GlobalExpenseButton buildings={expenseBuildings} />}
     </div>
