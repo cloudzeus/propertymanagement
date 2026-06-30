@@ -1573,3 +1573,15 @@ model AppSettings {
   updatedAt       DateTime @updatedAt
   updatedById     String?
 }
+
+model ImpersonationEvent {
+  id            String   @id @default(cuid())
+  actorId       String   // real SUPER_ADMIN user id
+  targetUserId  String
+  targetRole    UserRole
+  action        String   // "START" | "STOP"
+  createdAt     DateTime @default(now())
+
+  @@index([actorId])
+  @@index([targetUserId])
+}

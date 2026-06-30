@@ -102,7 +102,8 @@ export const ModelName = {
   PricingTier: 'PricingTier',
   ContactMessage: 'ContactMessage',
   CookieConsent: 'CookieConsent',
-  AppSettings: 'AppSettings'
+  AppSettings: 'AppSettings',
+  ImpersonationEvent: 'ImpersonationEvent'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1078,6 +1079,18 @@ export const AppSettingsScalarFieldEnum = {
 } as const
 
 export type AppSettingsScalarFieldEnum = (typeof AppSettingsScalarFieldEnum)[keyof typeof AppSettingsScalarFieldEnum]
+
+
+export const ImpersonationEventScalarFieldEnum = {
+  id: 'id',
+  actorId: 'actorId',
+  targetUserId: 'targetUserId',
+  targetRole: 'targetRole',
+  action: 'action',
+  createdAt: 'createdAt'
+} as const
+
+export type ImpersonationEventScalarFieldEnum = (typeof ImpersonationEventScalarFieldEnum)[keyof typeof ImpersonationEventScalarFieldEnum]
 
 
 export const SortOrder = {
