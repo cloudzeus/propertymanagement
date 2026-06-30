@@ -42,7 +42,19 @@ export default auth((req: NextRequest & { auth: any }) => {
   }
 
   const role: string = req.auth?.user?.role ?? "";
-  const can = (...allowed: string[]) => allowed.includes(role);
+  let effectiveRole = role;
+  if (role === "SUPER_ADMIN") {
+    const raw = req.cookies.get("impersonation")?.value;
+    if (raw) {
+      try {
+        const imp = JSON.parse(raw);
+        if (imp?.actorId === req.auth?.user?.id && typeof imp?.targetRole === "string") {
+          effectiveRole = imp.targetRole;
+        }
+      } catch { /* ignore malformed cookie */ }
+    }
+  }
+  const can = (...allowed: string[]) => allowed.includes(effectiveRole);
 
   if (pathWithoutLocale.startsWith("/super-admin") && !can("SUPER_ADMIN")) {
     return NextResponse.redirect(new URL("/unauthorized", req.nextUrl.origin));
@@ -53,7 +65,10 @@ export default auth((req: NextRequest & { auth: any }) => {
   if (pathWithoutLocale.startsWith("/manager") && !can("SUPER_ADMIN", "ADMIN", "MANAGER", "PROPERTY_ADMIN")) {
     return NextResponse.redirect(new URL("/unauthorized", req.nextUrl.origin));
   }
-  if (pathWithoutLocale.startsWith("/staff") && !can("SUPER_ADMIN", "ADMIN", "MANAGER", "EMPLOYEE", "COLLABORATOR")) {
+  if (pathWithoutLocale.startsWith("/staff") && !can("SUPER_ADMIN", "ADMIN", "MANAGER", "EMPLOYEE")) {
+    return NextResponse.redirect(new URL("/unauthorized", req.nextUrl.origin));
+  }
+  if (pathWithoutLocale.startsWith("/marketplace") && !can("SUPER_ADMIN", "COLLABORATOR")) {
     return NextResponse.redirect(new URL("/unauthorized", req.nextUrl.origin));
   }
   if (pathWithoutLocale.startsWith("/owner") && !can("SUPER_ADMIN", "ADMIN", "PROPERTY_OWNER")) {
