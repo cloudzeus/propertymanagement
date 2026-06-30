@@ -49,13 +49,13 @@ export async function PricingSection({ data }: { data: PricingData }) {
                   )}
 
                   <div className="mt-6">
-                    {tier.monthlyPrice !== null ? (
+                    {tier.monthlyPrice > 0 ? (
                       <p className="text-4xl font-bold text-gray-900">
                         €{tier.monthlyPrice}
                         <span className="text-base font-normal text-gray-500"> /μήνα</span>
                       </p>
                     ) : (
-                      <p className="text-4xl font-bold text-gray-900">Custom</p>
+                      <p className="text-4xl font-bold text-gray-900">Κατόπιν επικοινωνίας</p>
                     )}
                   </div>
 

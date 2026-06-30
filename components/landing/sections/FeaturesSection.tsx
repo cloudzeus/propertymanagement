@@ -11,7 +11,7 @@ export function FeaturesSection({ data }: { data: FeaturesData }) {
           </h2>
         )}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {data.items.map((item, i) => {
+          {(data.items ?? []).map((item, i) => {
             const Icon = resolveIcon(item.icon);
             return (
               <div
