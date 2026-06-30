@@ -301,3 +301,8 @@ export type CookieConsent = Prisma.CookieConsentModel
  * 
  */
 export type AppSettings = Prisma.AppSettingsModel
+/**
+ * Model ImpersonationEvent
+ * 
+ */
+export type ImpersonationEvent = Prisma.ImpersonationEventModel

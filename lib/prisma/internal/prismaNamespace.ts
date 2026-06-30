@@ -435,7 +435,8 @@ export const ModelName = {
   PricingTier: 'PricingTier',
   ContactMessage: 'ContactMessage',
   CookieConsent: 'CookieConsent',
-  AppSettings: 'AppSettings'
+  AppSettings: 'AppSettings',
+  ImpersonationEvent: 'ImpersonationEvent'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -451,7 +452,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "account" | "session" | "verificationToken" | "company" | "department" | "jobPosition" | "employee" | "subscription" | "addonFeature" | "customer" | "property" | "building" | "unitOccupancy" | "buildingFile" | "infraPoint" | "infraAccess" | "infraMedia" | "contact" | "recurringTask" | "buildingExpense" | "expenseCategory" | "buildingCategoryOverride" | "unitCategoryExclusion" | "unitHeatingReading" | "meterReading" | "expenseAllocation" | "unitPayment" | "managementAssignment" | "commonArea" | "unit" | "service" | "propertyService" | "serviceInvoice" | "serviceInvoiceLine" | "userCompanyRole" | "menuConfig" | "announcement" | "announcement_User" | "assembly" | "assemblyParticipant" | "processedWebhook" | "aPIUsageLog" | "aPICostConfig" | "monthlyCostSummary" | "maintenanceRequest" | "cMSPage" | "fAQ" | "pricingTier" | "contactMessage" | "cookieConsent" | "appSettings"
+    modelProps: "user" | "account" | "session" | "verificationToken" | "company" | "department" | "jobPosition" | "employee" | "subscription" | "addonFeature" | "customer" | "property" | "building" | "unitOccupancy" | "buildingFile" | "infraPoint" | "infraAccess" | "infraMedia" | "contact" | "recurringTask" | "buildingExpense" | "expenseCategory" | "buildingCategoryOverride" | "unitCategoryExclusion" | "unitHeatingReading" | "meterReading" | "expenseAllocation" | "unitPayment" | "managementAssignment" | "commonArea" | "unit" | "service" | "propertyService" | "serviceInvoice" | "serviceInvoiceLine" | "userCompanyRole" | "menuConfig" | "announcement" | "announcement_User" | "assembly" | "assemblyParticipant" | "processedWebhook" | "aPIUsageLog" | "aPICostConfig" | "monthlyCostSummary" | "maintenanceRequest" | "cMSPage" | "fAQ" | "pricingTier" | "contactMessage" | "cookieConsent" | "appSettings" | "impersonationEvent"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -4303,6 +4304,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    ImpersonationEvent: {
+      payload: Prisma.$ImpersonationEventPayload<ExtArgs>
+      fields: Prisma.ImpersonationEventFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ImpersonationEventFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImpersonationEventPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ImpersonationEventFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImpersonationEventPayload>
+        }
+        findFirst: {
+          args: Prisma.ImpersonationEventFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImpersonationEventPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ImpersonationEventFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImpersonationEventPayload>
+        }
+        findMany: {
+          args: Prisma.ImpersonationEventFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImpersonationEventPayload>[]
+        }
+        create: {
+          args: Prisma.ImpersonationEventCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImpersonationEventPayload>
+        }
+        createMany: {
+          args: Prisma.ImpersonationEventCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ImpersonationEventCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImpersonationEventPayload>[]
+        }
+        delete: {
+          args: Prisma.ImpersonationEventDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImpersonationEventPayload>
+        }
+        update: {
+          args: Prisma.ImpersonationEventUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImpersonationEventPayload>
+        }
+        deleteMany: {
+          args: Prisma.ImpersonationEventDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ImpersonationEventUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ImpersonationEventUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImpersonationEventPayload>[]
+        }
+        upsert: {
+          args: Prisma.ImpersonationEventUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ImpersonationEventPayload>
+        }
+        aggregate: {
+          args: Prisma.ImpersonationEventAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateImpersonationEvent>
+        }
+        groupBy: {
+          args: Prisma.ImpersonationEventGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ImpersonationEventGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ImpersonationEventCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ImpersonationEventCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -5301,6 +5376,18 @@ export const AppSettingsScalarFieldEnum = {
 export type AppSettingsScalarFieldEnum = (typeof AppSettingsScalarFieldEnum)[keyof typeof AppSettingsScalarFieldEnum]
 
 
+export const ImpersonationEventScalarFieldEnum = {
+  id: 'id',
+  actorId: 'actorId',
+  targetUserId: 'targetUserId',
+  targetRole: 'targetRole',
+  action: 'action',
+  createdAt: 'createdAt'
+} as const
+
+export type ImpersonationEventScalarFieldEnum = (typeof ImpersonationEventScalarFieldEnum)[keyof typeof ImpersonationEventScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -5943,6 +6030,7 @@ export type GlobalOmitConfig = {
   contactMessage?: Prisma.ContactMessageOmit
   cookieConsent?: Prisma.CookieConsentOmit
   appSettings?: Prisma.AppSettingsOmit
+  impersonationEvent?: Prisma.ImpersonationEventOmit
 }
 
 /* Types for Logging */
