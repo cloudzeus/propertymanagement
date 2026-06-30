@@ -293,6 +293,11 @@ export type LandingSection = Prisma.LandingSectionModel
  */
 export type PageSeo = Prisma.PageSeoModel
 /**
+ * Model UiMessage
+ * 
+ */
+export type UiMessage = Prisma.UiMessageModel
+/**
  * Model SiteSettings
  * 
  */

@@ -2,7 +2,34 @@
 
 import { useState, useTransition } from "react";
 import { updateSection } from "@/app/actions/landing-cms";
+import { autoTranslate } from "@/app/actions/translate";
 import { ICON_NAMES } from "@/lib/cms/icon-registry";
+
+// Translatable text field paths per section type.
+const TEXT_FIELDS: Record<string, string[]> = {
+  HERO: ["title", "subtitle", "primaryCta.label", "secondaryCta.label"],
+  LOGOS: ["heading"],
+  FEATURES: ["heading"],
+  PRICING: ["heading", "subtitle"],
+  TESTIMONIALS: ["heading"],
+  CTA: ["heading", "body", "cta.label"],
+};
+
+function getPath(obj: any, path: string): any {
+  let v = obj;
+  for (const p of path.split(".")) v = v?.[p];
+  return v;
+}
+
+function setPath(obj: any, path: string, value: any) {
+  const parts = path.split(".");
+  let o = obj;
+  for (let i = 0; i < parts.length - 1; i++) {
+    o[parts[i]] = o[parts[i]] ?? {};
+    o = o[parts[i]];
+  }
+  o[parts[parts.length - 1]] = value;
+}
 
 type Props = { section: { id: string; type: string; data: any } };
 
@@ -34,7 +61,32 @@ export function SectionEditor({ section }: Props) {
   }));
   const [error, setError] = useState<string | null>(null);
   const [saved, setSaved] = useState(false);
+  const [translating, setTranslating] = useState(false);
   const [pending, startTransition] = useTransition();
+
+  async function translateEnFromEl() {
+    const paths = TEXT_FIELDS[section.type] ?? [];
+    setTranslating(true);
+    try {
+      const results = await Promise.all(
+        paths.map((p) => {
+          const src = getPath(data.el, p);
+          return typeof src === "string" && src.trim()
+            ? autoTranslate(src, "el", "en")
+            : Promise.resolve<string | null>(null);
+        }),
+      );
+      setData((prev) => {
+        const next = clone(prev);
+        paths.forEach((p, i) => {
+          if (results[i] != null) setPath(next.en, p, results[i]);
+        });
+        return next;
+      });
+    } finally {
+      setTranslating(false);
+    }
+  }
 
   function set(path: string, value: string) {
     setData((prev) => {
@@ -96,7 +148,7 @@ export function SectionEditor({ section }: Props) {
 
   return (
     <form onSubmit={onSubmit} className="mt-4 space-y-3 border-t border-slate-200 pt-4">
-      <div className="flex gap-2">
+      <div className="flex items-center gap-2">
         {(["el", "en"] as Locale[]).map((loc) => (
           <button
             key={loc}
@@ -111,6 +163,16 @@ export function SectionEditor({ section }: Props) {
             {loc === "el" ? "Ελληνικά" : "English"}
           </button>
         ))}
+        {(TEXT_FIELDS[section.type]?.length ?? 0) > 0 && (
+          <button
+            type="button"
+            onClick={translateEnFromEl}
+            disabled={translating}
+            className="ml-auto rounded border border-gray-300 px-2 py-1 text-xs text-gray-600 hover:bg-gray-50 disabled:opacity-50"
+          >
+            {translating ? "Μετάφραση…" : "Μετάφραση EL→EN (section)"}
+          </button>
+        )}
       </div>
 
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">

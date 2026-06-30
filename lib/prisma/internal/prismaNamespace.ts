@@ -439,6 +439,7 @@ export const ModelName = {
   ImpersonationEvent: 'ImpersonationEvent',
   LandingSection: 'LandingSection',
   PageSeo: 'PageSeo',
+  UiMessage: 'UiMessage',
   SiteSettings: 'SiteSettings'
 } as const
 
@@ -455,7 +456,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "account" | "session" | "verificationToken" | "company" | "department" | "jobPosition" | "employee" | "subscription" | "addonFeature" | "customer" | "property" | "building" | "unitOccupancy" | "buildingFile" | "infraPoint" | "infraAccess" | "infraMedia" | "contact" | "recurringTask" | "buildingExpense" | "expenseCategory" | "buildingCategoryOverride" | "unitCategoryExclusion" | "unitHeatingReading" | "meterReading" | "expenseAllocation" | "unitPayment" | "managementAssignment" | "commonArea" | "unit" | "service" | "propertyService" | "serviceInvoice" | "serviceInvoiceLine" | "userCompanyRole" | "menuConfig" | "announcement" | "announcement_User" | "assembly" | "assemblyParticipant" | "processedWebhook" | "aPIUsageLog" | "aPICostConfig" | "monthlyCostSummary" | "maintenanceRequest" | "cMSPage" | "fAQ" | "pricingTier" | "contactMessage" | "cookieConsent" | "appSettings" | "impersonationEvent" | "landingSection" | "pageSeo" | "siteSettings"
+    modelProps: "user" | "account" | "session" | "verificationToken" | "company" | "department" | "jobPosition" | "employee" | "subscription" | "addonFeature" | "customer" | "property" | "building" | "unitOccupancy" | "buildingFile" | "infraPoint" | "infraAccess" | "infraMedia" | "contact" | "recurringTask" | "buildingExpense" | "expenseCategory" | "buildingCategoryOverride" | "unitCategoryExclusion" | "unitHeatingReading" | "meterReading" | "expenseAllocation" | "unitPayment" | "managementAssignment" | "commonArea" | "unit" | "service" | "propertyService" | "serviceInvoice" | "serviceInvoiceLine" | "userCompanyRole" | "menuConfig" | "announcement" | "announcement_User" | "assembly" | "assemblyParticipant" | "processedWebhook" | "aPIUsageLog" | "aPICostConfig" | "monthlyCostSummary" | "maintenanceRequest" | "cMSPage" | "fAQ" | "pricingTier" | "contactMessage" | "cookieConsent" | "appSettings" | "impersonationEvent" | "landingSection" | "pageSeo" | "uiMessage" | "siteSettings"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -4529,6 +4530,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    UiMessage: {
+      payload: Prisma.$UiMessagePayload<ExtArgs>
+      fields: Prisma.UiMessageFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.UiMessageFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UiMessagePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.UiMessageFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UiMessagePayload>
+        }
+        findFirst: {
+          args: Prisma.UiMessageFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UiMessagePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.UiMessageFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UiMessagePayload>
+        }
+        findMany: {
+          args: Prisma.UiMessageFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UiMessagePayload>[]
+        }
+        create: {
+          args: Prisma.UiMessageCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UiMessagePayload>
+        }
+        createMany: {
+          args: Prisma.UiMessageCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.UiMessageCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UiMessagePayload>[]
+        }
+        delete: {
+          args: Prisma.UiMessageDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UiMessagePayload>
+        }
+        update: {
+          args: Prisma.UiMessageUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UiMessagePayload>
+        }
+        deleteMany: {
+          args: Prisma.UiMessageDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.UiMessageUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.UiMessageUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UiMessagePayload>[]
+        }
+        upsert: {
+          args: Prisma.UiMessageUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$UiMessagePayload>
+        }
+        aggregate: {
+          args: Prisma.UiMessageAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateUiMessage>
+        }
+        groupBy: {
+          args: Prisma.UiMessageGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UiMessageGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.UiMessageCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.UiMessageCountAggregateOutputType> | number
+        }
+      }
+    }
     SiteSettings: {
       payload: Prisma.$SiteSettingsPayload<ExtArgs>
       fields: Prisma.SiteSettingsFieldRefs
@@ -5640,6 +5715,17 @@ export const PageSeoScalarFieldEnum = {
 export type PageSeoScalarFieldEnum = (typeof PageSeoScalarFieldEnum)[keyof typeof PageSeoScalarFieldEnum]
 
 
+export const UiMessageScalarFieldEnum = {
+  id: 'id',
+  key: 'key',
+  el: 'el',
+  en: 'en',
+  updatedAt: 'updatedAt'
+} as const
+
+export type UiMessageScalarFieldEnum = (typeof UiMessageScalarFieldEnum)[keyof typeof UiMessageScalarFieldEnum]
+
+
 export const SiteSettingsScalarFieldEnum = {
   id: 'id',
   siteName: 'siteName',
@@ -6319,6 +6405,7 @@ export type GlobalOmitConfig = {
   impersonationEvent?: Prisma.ImpersonationEventOmit
   landingSection?: Prisma.LandingSectionOmit
   pageSeo?: Prisma.PageSeoOmit
+  uiMessage?: Prisma.UiMessageOmit
   siteSettings?: Prisma.SiteSettingsOmit
 }
 
