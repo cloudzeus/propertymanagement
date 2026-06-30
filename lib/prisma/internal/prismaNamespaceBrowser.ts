@@ -105,7 +105,8 @@ export const ModelName = {
   AppSettings: 'AppSettings',
   ImpersonationEvent: 'ImpersonationEvent',
   LandingSection: 'LandingSection',
-  PageSeo: 'PageSeo'
+  PageSeo: 'PageSeo',
+  SiteSettings: 'SiteSettings'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1117,6 +1118,40 @@ export const PageSeoScalarFieldEnum = {
 } as const
 
 export type PageSeoScalarFieldEnum = (typeof PageSeoScalarFieldEnum)[keyof typeof PageSeoScalarFieldEnum]
+
+
+export const SiteSettingsScalarFieldEnum = {
+  id: 'id',
+  siteName: 'siteName',
+  defaultOgImage: 'defaultOgImage',
+  facebookUrl: 'facebookUrl',
+  instagramUrl: 'instagramUrl',
+  linkedinUrl: 'linkedinUrl',
+  xUrl: 'xUrl',
+  youtubeUrl: 'youtubeUrl',
+  tiktokUrl: 'tiktokUrl',
+  googleAnalyticsId: 'googleAnalyticsId',
+  googleTagManagerId: 'googleTagManagerId',
+  facebookPixelId: 'facebookPixelId',
+  extraHeadHtml: 'extraHeadHtml',
+  extraBodyHtml: 'extraBodyHtml',
+  googleSiteVerification: 'googleSiteVerification',
+  bingSiteVerification: 'bingSiteVerification',
+  geoLat: 'geoLat',
+  geoLng: 'geoLng',
+  addrStreet: 'addrStreet',
+  addrCity: 'addrCity',
+  addrPostal: 'addrPostal',
+  addrCountry: 'addrCountry',
+  telephone: 'telephone',
+  openingHours: 'openingHours',
+  consentEnabled: 'consentEnabled',
+  consentConfig: 'consentConfig',
+  updatedAt: 'updatedAt',
+  updatedById: 'updatedById'
+} as const
+
+export type SiteSettingsScalarFieldEnum = (typeof SiteSettingsScalarFieldEnum)[keyof typeof SiteSettingsScalarFieldEnum]
 
 
 export const SortOrder = {

@@ -1605,3 +1605,34 @@ model PageSeo {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+model SiteSettings {
+  id                     String   @id @default("singleton")
+  siteName               String   @default("PropertyPro")
+  defaultOgImage         String?
+  facebookUrl            String?
+  instagramUrl           String?
+  linkedinUrl            String?
+  xUrl                   String?
+  youtubeUrl             String?
+  tiktokUrl              String?
+  googleAnalyticsId      String?
+  googleTagManagerId     String?
+  facebookPixelId        String?
+  extraHeadHtml          String?  @db.Text
+  extraBodyHtml          String?  @db.Text
+  googleSiteVerification String?
+  bingSiteVerification   String?
+  geoLat                 Float?
+  geoLng                 Float?
+  addrStreet             String?
+  addrCity               String?
+  addrPostal             String?
+  addrCountry            String?
+  telephone              String?
+  openingHours           String?
+  consentEnabled         Boolean  @default(true)
+  consentConfig          Json?
+  updatedAt              DateTime @updatedAt
+  updatedById            String?
+}
