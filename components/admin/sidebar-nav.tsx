@@ -431,7 +431,7 @@ export function SidebarNav({ role, userName, userEmail, logoUrl, logoSquareUrl, 
                   border: "none", background: "transparent",
                   cursor: "pointer", borderRadius: 6, marginBottom: 2,
                 }}
-                onMouseEnter={(e) => (e.currentTarget.style.background = "#F3F2F1")}
+                onMouseEnter={(e) => (e.currentTarget.style.background = "var(--paper)")}
                 onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
               >
                 <span style={{
@@ -482,7 +482,7 @@ export function SidebarNav({ role, userName, userEmail, logoUrl, logoSquareUrl, 
                         whiteSpace: "nowrap", overflow: "hidden",
                         borderLeft: active ? `2px solid ${item.color}` : "2px solid transparent",
                       }}
-                      onMouseEnter={(e) => { if (!active) (e.currentTarget as HTMLAnchorElement).style.background = "#F3F2F1"; }}
+                      onMouseEnter={(e) => { if (!active) (e.currentTarget as HTMLAnchorElement).style.background = "var(--paper)"; }}
                       onMouseLeave={(e) => { if (!active) (e.currentTarget as HTMLAnchorElement).style.background = "transparent"; }}
                     >
                       <Icon size={16} style={{ flexShrink: 0, color: item.color }} />
@@ -503,11 +503,11 @@ export function SidebarNav({ role, userName, userEmail, logoUrl, logoSquareUrl, 
         display: "flex", alignItems: "center", gap: 10,
         flexShrink: 0,
         justifyContent: collapsed ? "center" : "flex-start",
-        background: "#FAFAFA",
+        background: "var(--paper)",
       }}>
         <div style={{
           width: 32, height: 32, borderRadius: 8,
-          background: "#DEECF9", border: "1px solid #A3CEEE",
+          background: "var(--card)", border: "1px solid var(--border)",
           color: "#005A9E",
           display: "flex", alignItems: "center", justifyContent: "center",
           fontSize: 13, fontWeight: 700, flexShrink: 0,
@@ -518,19 +518,19 @@ export function SidebarNav({ role, userName, userEmail, logoUrl, logoSquareUrl, 
         {!collapsed && (
           <>
             <div style={{ flex: 1, minWidth: 0 }}>
-              <p style={{ fontSize: 13, fontWeight: 600, color: "#201F1E", margin: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+              <p style={{ fontSize: 13, fontWeight: 600, color: "var(--foreground)", margin: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                 {userName || userEmail}
               </p>
-              <p style={{ fontSize: 10, color: "#707070", margin: 0, textTransform: "uppercase", letterSpacing: "0.05em", whiteSpace: "nowrap" }}>
+              <p style={{ fontSize: 10, color: "var(--muted-foreground)", margin: 0, textTransform: "uppercase", letterSpacing: "0.05em", whiteSpace: "nowrap" }}>
                 {roleLabel}
               </p>
             </div>
             <button
               onClick={onSignOut}
               title="Έξοδος"
-              style={{ ...iconBtnStyle, color: "#8A8A8A" }}
-              onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.color = "#A4262C"; (e.currentTarget as HTMLButtonElement).style.background = "#FEE7E6"; }}
-              onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.color = "#8A8A8A"; (e.currentTarget as HTMLButtonElement).style.background = "#F3F2F1"; }}
+              style={{ ...iconBtnStyle, color: "var(--muted-foreground)" }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.color = "var(--destructive)"; (e.currentTarget as HTMLButtonElement).style.background = "color-mix(in oklab, var(--destructive) 10%, var(--card))"; }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.color = "var(--muted-foreground)"; (e.currentTarget as HTMLButtonElement).style.background = "var(--paper)"; }}
             >
               <RiLogoutBoxRLine size={16} />
             </button>
@@ -544,7 +544,7 @@ export function SidebarNav({ role, userName, userEmail, logoUrl, logoSquareUrl, 
 const iconBtnStyle: React.CSSProperties = {
   display: "flex", alignItems: "center", justifyContent: "center",
   width: 30, height: 30, borderRadius: 6,
-  border: "none", background: "#F3F2F1", color: "#5C5C5C",
+  border: "none", background: "var(--paper)", color: "var(--muted-foreground)",
   cursor: "pointer", transition: "background 120ms, color 120ms",
   flexShrink: 0,
 };
