@@ -280,7 +280,7 @@ export function DataTable<T extends { id: string }>({
     <div style={{ display: "flex", flexDirection: "column" }}>
       <div style={{
         background: "var(--card)",
-        borderRadius: 8,
+        borderRadius: "var(--radius)",
         border: "1px solid var(--border)",
         overflow: "hidden",
         boxShadow: "0 1px 2px rgba(0,0,0,0.05), 0 2px 8px rgba(0,0,0,0.06)",
@@ -306,7 +306,7 @@ export function DataTable<T extends { id: string }>({
               style={{
                 width: "100%", height: 30, paddingLeft: 28,
                 paddingRight: searchInput ? 28 : 10,
-                border: "1px solid var(--border)", borderRadius: 4, fontSize: 12,
+                border: "1px solid var(--border)", borderRadius: "var(--radius-sm)", fontSize: 12,
                 outline: "none", fontFamily: "inherit", color: "var(--foreground)",
                 background: "var(--muted)", boxSizing: "border-box",
               }}
@@ -332,7 +332,7 @@ export function DataTable<T extends { id: string }>({
             <button
               onClick={() => setShowColMenu((v) => !v)}
               style={{
-                height: 30, padding: "0 10px", borderRadius: 4,
+                height: 30, padding: "0 10px", borderRadius: "var(--radius-sm)",
                 border: "1px solid var(--border)",
                 background: showColMenu ? "var(--muted)" : "var(--card)",
                 fontSize: 11, cursor: "pointer", fontFamily: "inherit",
@@ -346,7 +346,7 @@ export function DataTable<T extends { id: string }>({
               <div style={{
                 position: "absolute", right: 0, top: "calc(100% + 6px)", zIndex: 50,
                 background: "var(--card)", border: "1px solid var(--border)",
-                borderRadius: 6, boxShadow: "0 4px 12px rgba(0,0,0,0.12)",
+                borderRadius: "var(--radius-sm)", boxShadow: "var(--shadow-card)",
                 padding: "4px 0", minWidth: 190,
               }}>
                 {columns.map((c) => (
