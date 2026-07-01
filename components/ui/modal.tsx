@@ -35,7 +35,7 @@ export function Modal({ open, onClose, title, children, width = 520, footer }: P
       onClick={(e) => { if (e.target === backdropRef.current) onClose(); }}
       style={{
         position: "fixed", inset: 0, zIndex: 1000,
-        background: "rgba(0,0,0,0.45)",
+        background: "rgba(27,28,26,.42)",
         display: "flex", alignItems: "center", justifyContent: "center",
         padding: 24,
       }}
@@ -44,8 +44,8 @@ export function Modal({ open, onClose, title, children, width = 520, footer }: P
         width: "100%", maxWidth: width,
         background: "var(--card)",
         border: "1px solid var(--border)",
-        borderRadius: 10,
-        boxShadow: "0 20px 60px rgba(0,0,0,0.2)",
+        borderRadius: "var(--radius-lg)",
+        boxShadow: "var(--shadow-card)",
         display: "flex", flexDirection: "column",
         maxHeight: "calc(100vh - 48px)",
         overflow: "hidden",
@@ -64,8 +64,8 @@ export function Modal({ open, onClose, title, children, width = 520, footer }: P
             onClick={onClose}
             style={{
               display: "flex", alignItems: "center", justifyContent: "center",
-              width: 28, height: 28, borderRadius: 6,
-              border: "1px solid var(--border)", background: "var(--bg-canvas)",
+              width: 28, height: 28, borderRadius: "var(--radius-sm)",
+              border: "1px solid var(--border)", background: "var(--paper)",
               cursor: "pointer", color: "var(--muted-foreground)",
             }}
           >
@@ -108,7 +108,7 @@ export function FormField({
     <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
       <label style={{ fontSize: 12, fontWeight: 600, color: "var(--foreground)" }}>
         {label}
-        {required && <span style={{ color: "#dc2626", marginLeft: 3 }}>*</span>}
+        {required && <span style={{ color: "var(--destructive)", marginLeft: 3 }}>*</span>}
       </label>
       {children}
       {hint && <p style={{ fontSize: 11, color: "var(--muted-foreground)", margin: 0 }}>{hint}</p>}
@@ -137,9 +137,9 @@ export function FieldInput({
       disabled={disabled}
       style={{
         width: "100%", height: 36, padding: "0 10px",
-        border: "1px solid var(--border)", borderRadius: 6,
+        border: "1px solid var(--border)", borderRadius: "var(--radius-sm)",
         fontSize: 13, color: "var(--foreground)",
-        background: disabled ? "var(--bg-canvas)" : "var(--card)",
+        background: disabled ? "var(--paper)" : "var(--card)",
         outline: "none", boxSizing: "border-box",
       }}
     />
@@ -163,9 +163,9 @@ export function FieldSelect({
       disabled={disabled}
       style={{
         width: "100%", height: 36, padding: "0 10px",
-        border: "1px solid var(--border)", borderRadius: 6,
+        border: "1px solid var(--border)", borderRadius: "var(--radius-sm)",
         fontSize: 13, color: "var(--foreground)",
-        background: disabled ? "var(--bg-canvas)" : "var(--card)",
+        background: disabled ? "var(--paper)" : "var(--card)",
         outline: "none", boxSizing: "border-box",
       }}
     >
@@ -194,7 +194,7 @@ export function FieldTextarea({
       rows={rows}
       style={{
         width: "100%", padding: "8px 10px",
-        border: "1px solid var(--border)", borderRadius: 6,
+        border: "1px solid var(--border)", borderRadius: "var(--radius-sm)",
         fontSize: 13, color: "var(--foreground)",
         background: "var(--card)", outline: "none",
         boxSizing: "border-box", resize: "vertical",
