@@ -214,3 +214,9 @@ export async function classifyUrgency(
 }
 
 export { deepseekRequest, geminiRequest };
+
+export async function deepseekComplete(prompt: string): Promise<string> {
+  const res = await deepseekRequest(prompt);
+  if (!res.success || !res.content) throw new Error(res.error || "DeepSeek request failed");
+  return res.content;
+}
