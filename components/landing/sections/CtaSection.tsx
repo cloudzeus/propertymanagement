@@ -1,10 +1,11 @@
 import Link from "next/link";
 import type { CtaData } from "@/lib/cms/landing-types";
+import { Reveal } from "@/components/landing/Reveal";
 
 export function CtaSection({ data }: { data: CtaData }) {
   return (
     <section>
-      <div className="mx-auto max-w-[1200px] px-5 sm:px-7 py-[84px]">
+      <Reveal className="mx-auto max-w-[1200px] px-5 sm:px-7 py-[84px]">
         <div
           className="relative overflow-hidden rounded-[var(--radius-xl)] border bg-[var(--card)] px-8 py-16 text-center shadow-[var(--shadow-card)]"
           style={{ borderColor: "rgba(27,28,26,.12)" }}
@@ -37,7 +38,7 @@ export function CtaSection({ data }: { data: CtaData }) {
             )}
           </div>
         </div>
-      </div>
+      </Reveal>
     </section>
   );
 }

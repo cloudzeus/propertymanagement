@@ -1,5 +1,6 @@
 import type { FeaturesData } from "@/lib/cms/landing-types";
 import { resolveIcon } from "@/lib/cms/icon-registry";
+import { Reveal } from "@/components/landing/Reveal";
 
 export function FeaturesSection({ data }: { data: FeaturesData }) {
   const items = data.items ?? [];
@@ -7,11 +8,13 @@ export function FeaturesSection({ data }: { data: FeaturesData }) {
     <section>
       <div className="mx-auto max-w-[1200px] px-5 sm:px-7 py-[84px]">
         {data.heading && (
-          <h2 className="mb-3 text-center text-[32px] font-extrabold tracking-[-0.02em] text-[var(--foreground)] md:text-[46px]">
-            {data.heading}
-          </h2>
+          <Reveal>
+            <h2 className="mb-3 text-center text-[32px] font-extrabold tracking-[-0.02em] text-[var(--foreground)] md:text-[46px]">
+              {data.heading}
+            </h2>
+          </Reveal>
         )}
-        <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
+        <Reveal stagger className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
           {items.map((item, i) => {
             const Icon = resolveIcon(item.icon);
             // First tile spans two columns for a bento feel.
@@ -40,7 +43,7 @@ export function FeaturesSection({ data }: { data: FeaturesData }) {
               </div>
             );
           })}
-        </div>
+        </Reveal>
       </div>
     </section>
   );

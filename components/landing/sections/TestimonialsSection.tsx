@@ -1,4 +1,5 @@
 import type { TestimonialsData } from "@/lib/cms/landing-types";
+import { Reveal } from "@/components/landing/Reveal";
 
 export function TestimonialsSection({ data }: { data: TestimonialsData }) {
   if (!data.items || data.items.length === 0) return null;
@@ -7,11 +8,13 @@ export function TestimonialsSection({ data }: { data: TestimonialsData }) {
     <section style={{ background: "var(--section-alt)" }}>
       <div className="mx-auto max-w-[1200px] px-5 sm:px-7 py-[84px]">
         {data.heading && (
-          <h2 className="mb-10 text-center text-[32px] font-extrabold tracking-[-0.02em] text-[var(--foreground)] md:text-[46px]">
-            {data.heading}
-          </h2>
+          <Reveal>
+            <h2 className="mb-10 text-center text-[32px] font-extrabold tracking-[-0.02em] text-[var(--foreground)] md:text-[46px]">
+              {data.heading}
+            </h2>
+          </Reveal>
         )}
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+        <Reveal stagger className="grid grid-cols-1 gap-4 md:grid-cols-3">
           {data.items.map((item, i) => (
             <figure
               key={i}
@@ -48,7 +51,7 @@ export function TestimonialsSection({ data }: { data: TestimonialsData }) {
               </figcaption>
             </figure>
           ))}
-        </div>
+        </Reveal>
       </div>
     </section>
   );
