@@ -1,9 +1,39 @@
 import Link from "next/link";
+import { getLocale } from "next-intl/server";
 import type { HeroData } from "@/lib/cms/landing-types";
 
 const BARS = ["46%", "62%", "54%", "72%", "64%", "84%", "70%", "92%", "80%"];
 
-export function HeroSection({ data }: { data: HeroData }) {
+const T = {
+  el: {
+    eyebrow: "Διαχείριση κτηρίων & κοινοχρήστων",
+    trust: "Εμπιστοσύνη από διαχειριστές σε 200+ κτήρια",
+    occ: "πληρότητα",
+    toastT: "Πληρωμή ελήφθη",
+    toastS: "Διαμ. 4Β · €84,50",
+    live: "Ζωντανό χαρτοφυλάκιο",
+    month: "Ιούνιος 2026",
+    k1: "Εισπράχθηκαν",
+    k2: "Ανοιχτά αιτήματα",
+    chart: "Εισπράξεις vs. προϋπολογισμός",
+  },
+  en: {
+    eyebrow: "Property & common-area management",
+    trust: "Trusted by managers across 200+ buildings",
+    occ: "occupied",
+    toastT: "Payment received",
+    toastS: "Apt 4B · €84.50",
+    live: "Live portfolio",
+    month: "June 2026",
+    k1: "Collected",
+    k2: "Open tickets",
+    chart: "Collections vs. budget",
+  },
+};
+
+export async function HeroSection({ data }: { data: HeroData }) {
+  const raw = await getLocale();
+  const t = T[raw === "en" ? "en" : "el"];
   return (
     <section className="relative overflow-hidden pt-[78px] pb-24">
       {/* Glow blob */}
@@ -41,7 +71,7 @@ export function HeroSection({ data }: { data: HeroData }) {
                 className="h-[7px] w-[7px] rounded-full bg-[var(--accent)]"
                 style={{ boxShadow: "0 0 10px rgba(242,162,60,.55)" }}
               />
-              Διαχείριση κτηρίων & κοινοχρήστων
+              {t.eyebrow}
             </span>
 
             <h1 className="mt-6 text-[42px] font-extrabold leading-[1.0] tracking-[-0.025em] text-[var(--foreground)] md:text-[74px]">
@@ -92,7 +122,7 @@ export function HeroSection({ data }: { data: HeroData }) {
                 ))}
               </div>
               <span className="text-[13.5px] text-[var(--muted-foreground)]">
-                Εμπιστοσύνη από διαχειριστές σε 200+ κτήρια
+                {t.trust}
               </span>
             </div>
           </div>
@@ -144,7 +174,7 @@ export function HeroSection({ data }: { data: HeroData }) {
                 </div>
                 <div className="text-right">
                   <div className="text-base font-extrabold text-[var(--foreground)]">96%</div>
-                  <div className="text-[10.5px] text-[var(--muted-foreground)]">πληρότητα</div>
+                  <div className="text-[10.5px] text-[var(--muted-foreground)]">{t.occ}</div>
                 </div>
               </div>
             </div>
@@ -158,8 +188,8 @@ export function HeroSection({ data }: { data: HeroData }) {
                 €
               </span>
               <div>
-                <div className="text-xs font-bold text-[var(--foreground)]">Πληρωμή ελήφθη</div>
-                <div className="text-[10.5px] text-[var(--muted-foreground)]">Διαμ. 4Β · €84,50</div>
+                <div className="text-xs font-bold text-[var(--foreground)]">{t.toastT}</div>
+                <div className="text-[10.5px] text-[var(--muted-foreground)]">{t.toastS}</div>
               </div>
             </div>
 
@@ -174,21 +204,21 @@ export function HeroSection({ data }: { data: HeroData }) {
                     className="h-1.5 w-1.5 rounded-full bg-[var(--accent)]"
                     style={{ boxShadow: "0 0 8px rgba(242,162,60,.6)" }}
                   />
-                  Ζωντανό χαρτοφυλάκιο
+                  {t.live}
                 </span>
-                <span className="text-[10.5px] text-[var(--muted-foreground)]">Ιούνιος 2026</span>
+                <span className="text-[10.5px] text-[var(--muted-foreground)]">{t.month}</span>
               </div>
               <div className="my-3 grid grid-cols-2 gap-2.5">
                 <div className="rounded-[11px] border bg-[var(--paper)] px-3 py-2.5" style={{ borderColor: "rgba(27,28,26,.12)" }}>
-                  <div className="text-[10px] text-[var(--muted-foreground)]">Εισπράχθηκαν</div>
+                  <div className="text-[10px] text-[var(--muted-foreground)]">{t.k1}</div>
                   <div className="mt-0.5 text-[21px] font-extrabold text-[var(--foreground)]">€184k</div>
                 </div>
                 <div className="rounded-[11px] border bg-[var(--paper)] px-3 py-2.5" style={{ borderColor: "rgba(27,28,26,.12)" }}>
-                  <div className="text-[10px] text-[var(--muted-foreground)]">Ανοιχτά αιτήματα</div>
+                  <div className="text-[10px] text-[var(--muted-foreground)]">{t.k2}</div>
                   <div className="mt-0.5 text-[21px] font-extrabold text-[var(--foreground)]">12</div>
                 </div>
               </div>
-              <div className="text-[10.5px] text-[var(--muted-foreground)]">Εισπράξεις vs. προϋπολογισμός</div>
+              <div className="text-[10.5px] text-[var(--muted-foreground)]">{t.chart}</div>
               <div className="mt-2 flex h-[60px] items-end gap-1.5">
                 {BARS.map((h, i) => (
                   <i

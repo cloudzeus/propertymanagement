@@ -1,19 +1,27 @@
 'use client';
 
 import { useSession } from 'next-auth/react';
+import { useLocale } from 'next-intl';
 import Link from 'next/link';
 import { homePathForRole } from '@/lib/surfaces';
 import { LanguageSwitcher } from '@/components/i18n/LanguageSwitcher';
 
 const NAV_LINKS = [
-  { href: '/pricing', label: 'Τιμές' },
-  { href: '/services', label: 'Υπηρεσίες' },
-  { href: '/faq', label: 'FAQ' },
-  { href: '/contact', label: 'Επικοινωνία' },
+  { href: '/pricing', el: 'Τιμές', en: 'Pricing' },
+  { href: '/services', el: 'Υπηρεσίες', en: 'Solutions' },
+  { href: '/faq', el: 'FAQ', en: 'FAQ' },
+  { href: '/contact', el: 'Επικοινωνία', en: 'Contact' },
 ];
+
+const T = {
+  el: { login: 'Σύνδεση', demo: 'Κλείσε demo', mine: 'Ο χώρος μου' },
+  en: { login: 'Log in', demo: 'Book a demo', mine: 'My workspace' },
+};
 
 export function LandingHeader() {
   const { data: session } = useSession();
+  const locale = useLocale() === 'en' ? 'en' : 'el';
+  const t = T[locale];
 
   return (
     <header
@@ -46,7 +54,7 @@ export function LandingHeader() {
               href={link.href}
               className="text-[14.5px] text-[var(--muted-foreground)] transition-colors hover:text-[var(--foreground)]"
             >
-              {link.label}
+              {link[locale]}
             </Link>
           ))}
         </div>
@@ -59,7 +67,7 @@ export function LandingHeader() {
               href={homePathForRole((session.user as any).role)}
               className="inline-flex h-9 items-center rounded-[var(--radius-sm)] bg-[var(--primary)] px-4 text-sm font-semibold text-[var(--primary-foreground)] shadow-[var(--shadow-btn)] transition hover:-translate-y-px hover:brightness-[1.12]"
             >
-              Ο χώρος μου
+              {t.mine}
             </Link>
           ) : (
             <>
@@ -67,13 +75,13 @@ export function LandingHeader() {
                 href="/login"
                 className="hidden text-[14.5px] font-medium text-[var(--muted-foreground)] transition-colors hover:text-[var(--foreground)] sm:inline"
               >
-                Σύνδεση
+                {t.login}
               </Link>
               <Link
                 href="/register"
                 className="inline-flex h-9 items-center rounded-[var(--radius-sm)] bg-[var(--primary)] px-4 text-sm font-semibold text-[var(--primary-foreground)] shadow-[var(--shadow-btn)] transition hover:-translate-y-px hover:brightness-[1.12]"
               >
-                Κλείσε demo
+                {t.demo}
               </Link>
             </>
           )}

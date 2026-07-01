@@ -1,33 +1,45 @@
 import Link from "next/link";
+import { getLocale } from "next-intl/server";
 import { LanguageSwitcher } from "@/components/i18n/LanguageSwitcher";
 
-const COLUMNS: { title: string; links: { href: string; label: string }[] }[] = [
+const COLUMNS: {
+  title: { el: string; en: string };
+  links: { href: string; el: string; en: string }[];
+}[] = [
   {
-    title: "Προϊόν",
+    title: { el: "Προϊόν", en: "Product" },
     links: [
-      { href: "/pricing", label: "Τιμολόγηση" },
-      { href: "/services", label: "Υπηρεσίες" },
-      { href: "/faq", label: "Συχνές ερωτήσεις" },
+      { href: "/pricing", el: "Τιμολόγηση", en: "Pricing" },
+      { href: "/services", el: "Υπηρεσίες", en: "Solutions" },
+      { href: "/faq", el: "Συχνές ερωτήσεις", en: "FAQ" },
     ],
   },
   {
-    title: "Εταιρία",
+    title: { el: "Εταιρία", en: "Company" },
     links: [
-      { href: "/blog", label: "Blog" },
-      { href: "/contact", label: "Επικοινωνία" },
+      { href: "/blog", el: "Blog", en: "Blog" },
+      { href: "/contact", el: "Επικοινωνία", en: "Contact" },
     ],
   },
   {
-    title: "Νομικά",
+    title: { el: "Νομικά", en: "Legal" },
     links: [
-      { href: "/privacy", label: "Απόρρητο" },
-      { href: "/terms", label: "Όροι χρήσης" },
-      { href: "/cookie-policy", label: "Πολιτική cookies" },
+      { href: "/privacy", el: "Απόρρητο", en: "Privacy" },
+      { href: "/terms", el: "Όροι χρήσης", en: "Terms" },
+      { href: "/cookie-policy", el: "Πολιτική cookies", en: "Cookie policy" },
     ],
   },
 ];
 
-export function LandingFooter() {
+const TAGLINE = {
+  el: "Κάθε κτήριο, υπό έλεγχο. Διαχείριση πολυκατοικιών, κοινοχρήστων και εργασιών σε μία πλατφόρμα.",
+  en: "Every building, under control. Manage shared expenses, tasks and communication in one platform.",
+};
+
+export async function LandingFooter() {
+  const raw = await getLocale();
+  const locale = raw === "en" ? "en" : "el";
+
   return (
     <footer className="border-t" style={{ borderColor: "rgba(27,28,26,.07)" }}>
       <div className="mx-auto max-w-[1200px] px-5 sm:px-7 pt-14 pb-10">
@@ -45,16 +57,16 @@ export function LandingFooter() {
               </span>
             </div>
             <p className="mt-4 text-sm text-[var(--muted-foreground)] leading-relaxed">
-              Κάθε κτήριο, υπό έλεγχο. Διαχείριση πολυκατοικιών, κοινοχρήστων και εργασιών σε μία πλατφόρμα.
+              {TAGLINE[locale]}
             </p>
           </div>
 
           {/* Link columns */}
           <div className="grid grid-cols-2 gap-10 sm:grid-cols-3">
             {COLUMNS.map((col) => (
-              <div key={col.title}>
+              <div key={col.title.en}>
                 <div className="mb-3 text-[13px] font-bold uppercase tracking-[0.14em] text-[var(--muted-foreground)]">
-                  {col.title}
+                  {col.title[locale]}
                 </div>
                 <ul className="space-y-2.5">
                   {col.links.map((link) => (
@@ -63,7 +75,7 @@ export function LandingFooter() {
                         href={link.href}
                         className="text-sm text-[var(--muted-foreground)] transition-colors hover:text-[var(--foreground)]"
                       >
-                        {link.label}
+                        {link[locale]}
                       </Link>
                     </li>
                   ))}
