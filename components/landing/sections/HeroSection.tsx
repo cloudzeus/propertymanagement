@@ -71,7 +71,7 @@ export async function HeroSection({ data }: { data: HeroData }) {
                 className="h-[7px] w-[7px] rounded-full bg-[var(--accent)]"
                 style={{ boxShadow: "0 0 10px rgba(242,162,60,.55)" }}
               />
-              {t.eyebrow}
+              {data.eyebrow || t.eyebrow}
             </span>
 
             <h1 className="mt-6 text-[42px] font-extrabold leading-[1.0] tracking-[-0.025em] text-[var(--foreground)] md:text-[74px]">
@@ -169,11 +169,11 @@ export async function HeroSection({ data }: { data: HeroData }) {
                 style={{ borderColor: "rgba(27,28,26,.12)" }}
               >
                 <div>
-                  <div className="text-sm font-bold text-[var(--foreground)]">Astra Residences</div>
-                  <div className="text-[11.5px] text-[var(--muted-foreground)]">Λ. Κηφισίας 124</div>
+                  <div className="text-sm font-bold text-[var(--foreground)]">{data.propertyName || "Astra Residences"}</div>
+                  <div className="text-[11.5px] text-[var(--muted-foreground)]">{data.propertyAddress || "Λ. Κηφισίας 124"}</div>
                 </div>
                 <div className="text-right">
-                  <div className="text-base font-extrabold text-[var(--foreground)]">96%</div>
+                  <div className="text-base font-extrabold text-[var(--foreground)]">{data.occupancy || "96%"}</div>
                   <div className="text-[10.5px] text-[var(--muted-foreground)]">{t.occ}</div>
                 </div>
               </div>

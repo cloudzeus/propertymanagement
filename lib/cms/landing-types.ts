@@ -10,7 +10,10 @@ export function isSectionType(v: string): v is SectionType {
 }
 
 export interface Cta { label: string; href: string }
-export interface HeroData { title: string; subtitle: string; primaryCta: Cta; secondaryCta: Cta; imageUrl: string }
+export interface HeroData {
+  title: string; subtitle: string; primaryCta: Cta; secondaryCta: Cta; imageUrl: string;
+  eyebrow?: string; propertyName?: string; propertyAddress?: string; occupancy?: string;
+}
 export interface LogosData { heading: string; items: { label: string; imageUrl?: string }[] }
 export interface FeatureItem { icon: string; title: string; body: string; imageUrl?: string }
 export interface FeaturesData { heading: string; items: FeatureItem[] }
