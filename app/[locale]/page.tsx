@@ -28,7 +28,7 @@ export default async function Home() {
   let sections: Awaited<ReturnType<typeof getLandingSections>> = [];
   try { sections = await getLandingSections(); } catch { sections = []; }
   return (
-    <div className="min-h-screen bg-white">
+    <div className="orithon-marketing min-h-screen text-[var(--foreground)]">
       <JsonLd data={schemas} />
       <LandingHeader />
       <main>{sections.map((s) => renderSection(s.type, pickLocale(s.data as any, locale), s.id))}</main>

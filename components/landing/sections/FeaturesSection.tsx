@@ -2,30 +2,41 @@ import type { FeaturesData } from "@/lib/cms/landing-types";
 import { resolveIcon } from "@/lib/cms/icon-registry";
 
 export function FeaturesSection({ data }: { data: FeaturesData }) {
+  const items = data.items ?? [];
   return (
-    <section className="bg-gray-50">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+    <section>
+      <div className="mx-auto max-w-[1200px] px-5 sm:px-7 py-[84px]">
         {data.heading && (
-          <h2 className="text-3xl font-bold tracking-tight text-gray-900 text-center mb-14">
+          <h2 className="mb-3 text-center text-[32px] font-extrabold tracking-[-0.02em] text-[var(--foreground)] md:text-[46px]">
             {data.heading}
           </h2>
         )}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {(data.items ?? []).map((item, i) => {
+        <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
+          {items.map((item, i) => {
             const Icon = resolveIcon(item.icon);
+            // First tile spans two columns for a bento feel.
+            const wide = i === 0;
             return (
               <div
                 key={i}
-                className="rounded-xl border border-gray-200 bg-white p-7 shadow-sm transition hover:shadow-md"
+                className={`rounded-[var(--radius-lg)] border bg-[var(--card)] p-[26px] shadow-[var(--shadow-card)] ${
+                  wide ? "sm:col-span-2" : ""
+                }`}
+                style={{ borderColor: "rgba(27,28,26,.12)" }}
               >
-                <div
-                  className="inline-flex items-center justify-center w-12 h-12 rounded-lg"
-                  style={{ background: "color-mix(in srgb, var(--color-primary) 12%, white)" }}
-                >
-                  <Icon className="w-7 h-7" style={{ color: "var(--color-primary)" }} />
+                <div className="flex h-[42px] w-[42px] items-center justify-center rounded-full bg-[var(--primary)]">
+                  <Icon className="h-[19px] w-[19px]" style={{ color: "#fff" }} />
                 </div>
-                <h3 className="mt-5 text-lg font-semibold text-gray-900">{item.title}</h3>
-                <p className="mt-2 text-sm text-gray-600 leading-relaxed">{item.body}</p>
+                <h3
+                  className={`mt-5 font-bold text-[var(--foreground)] ${
+                    wide ? "text-[24px]" : "text-[18.5px]"
+                  }`}
+                >
+                  {item.title}
+                </h3>
+                <p className="mt-2 text-[14.5px] leading-relaxed text-[var(--muted-foreground)]">
+                  {item.body}
+                </p>
               </div>
             );
           })}

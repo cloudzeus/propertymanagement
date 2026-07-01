@@ -3,26 +3,39 @@ import type { CtaData } from "@/lib/cms/landing-types";
 
 export function CtaSection({ data }: { data: CtaData }) {
   return (
-    <section className="bg-white">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+    <section>
+      <div className="mx-auto max-w-[1200px] px-5 sm:px-7 py-[84px]">
         <div
-          className="rounded-2xl px-8 py-16 text-center"
-          style={{ background: "var(--color-primary)" }}
+          className="relative overflow-hidden rounded-[var(--radius-xl)] border bg-[var(--card)] px-8 py-16 text-center shadow-[var(--shadow-card)]"
+          style={{ borderColor: "rgba(27,28,26,.12)" }}
         >
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-white">
-            {data.heading}
-          </h2>
-          {data.body && (
-            <p className="mt-4 text-lg text-white/90 max-w-2xl mx-auto">{data.body}</p>
-          )}
-          {data.cta?.label && (
-            <Link
-              href={data.cta.href}
-              className="mt-8 inline-flex items-center justify-center rounded-lg bg-white px-7 py-3 text-sm font-semibold text-gray-900 shadow-sm transition hover:bg-gray-100"
-            >
-              {data.cta.label}
-            </Link>
-          )}
+          {/* Soft brand glow */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0 -z-0"
+            style={{
+              background:
+                "radial-gradient(80% 120% at 50% 0%, rgba(242,162,60,.14), transparent 60%)",
+            }}
+          />
+          <div className="relative">
+            <h2 className="text-[32px] font-extrabold tracking-[-0.02em] text-[var(--foreground)] md:text-[54px]">
+              {data.heading}
+            </h2>
+            {data.body && (
+              <p className="mx-auto mt-4 max-w-2xl text-[19px] leading-relaxed text-[var(--muted-foreground)]">
+                {data.body}
+              </p>
+            )}
+            {data.cta?.label && (
+              <Link
+                href={data.cta.href}
+                className="mt-8 inline-flex items-center justify-center rounded-[var(--radius-sm)] bg-[var(--primary)] px-7 py-3 text-sm font-semibold text-[var(--primary-foreground)] shadow-[var(--shadow-btn)] transition hover:-translate-y-px hover:brightness-[1.12]"
+              >
+                {data.cta.label}
+              </Link>
+            )}
+          </div>
         </div>
       </div>
     </section>
