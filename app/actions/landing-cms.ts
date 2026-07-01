@@ -2,6 +2,7 @@
 import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
 import { db } from "@/lib/db";
+import { applyReorder } from "@/lib/cms/reorder";
 
 async function requireSuperAdmin() {
   const session = await auth();
@@ -41,6 +42,17 @@ export async function reorderSection(id: string, dir: "up" | "down"): Promise<vo
     db.landingSection.update({ where: { id: all[i].id }, data: { order: all[j].order } }),
     db.landingSection.update({ where: { id: all[j].id }, data: { order: all[i].order } }),
   ]);
+  revalidatePath("/");
+  revalidatePath("/super-admin/cms/landing");
+}
+
+export async function reorderSections(orderedIds: string[]): Promise<void> {
+  await requireSuperAdmin();
+  const rows = await db.landingSection.findMany({ orderBy: { order: "asc" } });
+  const updates = applyReorder(orderedIds, rows);
+  await db.$transaction(
+    updates.map((u) => db.landingSection.update({ where: { id: u.id }, data: { order: u.order } })),
+  );
   revalidatePath("/");
   revalidatePath("/super-admin/cms/landing");
 }
