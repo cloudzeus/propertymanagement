@@ -2,7 +2,7 @@ import type { Translatable } from "@/lib/i18n/translatable";
 // Stored shape per section: the whole SectionData duplicated per locale.
 export type LocalizedSectionData = Translatable<any>;
 
-export const LANDING_SECTION_TYPES = ["HERO", "LOGOS", "FEATURES", "PRICING", "TESTIMONIALS", "CTA"] as const;
+export const LANDING_SECTION_TYPES = ["HERO", "LOGOS", "FEATURES", "PRICING", "TESTIMONIALS", "CTA", "NEWS"] as const;
 export type SectionType = (typeof LANDING_SECTION_TYPES)[number];
 
 export function isSectionType(v: string): v is SectionType {
@@ -18,8 +18,9 @@ export interface PricingData { heading: string; subtitle: string }
 export interface TestimonialItem { quote: string; author: string; role?: string; avatarUrl?: string }
 export interface TestimonialsData { heading: string; items: TestimonialItem[] }
 export interface CtaData { heading: string; body?: string; cta: Cta }
+export interface NewsData { heading: string; intro?: string; count: number }
 
-export type SectionData = HeroData | LogosData | FeaturesData | PricingData | TestimonialsData | CtaData;
+export type SectionData = HeroData | LogosData | FeaturesData | PricingData | TestimonialsData | CtaData | NewsData;
 
 export function defaultSectionData(type: SectionType): any {
   switch (type) {
@@ -29,5 +30,6 @@ export function defaultSectionData(type: SectionType): any {
     case "PRICING": return { heading: "", subtitle: "" };
     case "TESTIMONIALS": return { heading: "", items: [] };
     case "CTA": return { heading: "", body: "", cta: { label: "Δοκιμή", href: "/register" } };
+    case "NEWS": return { heading: "", intro: "", count: 3 };
   }
 }
