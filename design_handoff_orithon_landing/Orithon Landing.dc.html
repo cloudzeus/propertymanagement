@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-rev" content="warm-1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Commissioner:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="image-slot.js"></script>
+<style>
+@font-face{font-family:'ACaslon';src:url('uploads/ACaslonPro-Semibold.otf') format('opentype');font-weight:600;font-style:normal;font-display:swap}
+:root{
+  --bg:#F4F2EA; --bg2:#EFEDE3; --txt:#1b1c1a; --mut:rgba(27,28,26,.62); --mut2:rgba(27,28,26,.42);
+  --line:rgba(27,28,26,.12); --line2:rgba(27,28,26,.07);
+  --card:#ffffff; --ink-chip:#15161a;
+  --accent:#F2A23C; --accent-2:#5BB6D6;
+  --paper:#FBFAF5; --ink:#1b1c1a; --ink-mut:#5b5c58; --paper-line:rgba(27,28,26,.10);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+html,body{overflow-x:clip}
+html{height:auto !important}
+body{margin:0;background:radial-gradient(120% 95% at 0% 0%, #F1EED6 0%, transparent 46%),radial-gradient(120% 95% at 100% 0%, #E7F0E0 0%, transparent 48%),var(--bg);background-attachment:fixed;color:var(--txt);font-family:'Commissioner',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+img{display:block}
+.wrap{max-width:1200px;margin:0 auto;padding:0 28px}
+.sec{padding:108px 0}
+.metal-text{color:var(--txt)}
+.accent-text{color:var(--accent)}
+.glass{background:var(--card);border:1px solid var(--line);box-shadow:0 1px 2px rgba(27,28,26,.04), 0 22px 48px -32px rgba(27,28,26,.28)}
+.grain{position:absolute;inset:0;pointer-events:none;opacity:.03;mix-blend-mode:multiply;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:9px;font-weight:600;font-size:15px;border-radius:12px;padding:14px 22px;cursor:pointer;transition:transform .18s cubic-bezier(.2,.7,.3,1),box-shadow .18s,background .18s,filter .18s;white-space:nowrap}
+.btn-sm{padding:10px 17px;font-size:14px;border-radius:10px}
+.btn-primary{background:var(--ink-chip);color:#fff;font-weight:700;box-shadow:0 14px 30px -16px rgba(21,22,26,.55)}
+.btn-primary:hover{transform:translateY(-2px);filter:brightness(1.18)}
+.btn-ghost{background:#fff;color:var(--txt);border:1px solid var(--line);box-shadow:0 1px 2px rgba(27,28,26,.04)}
+.btn-ghost:hover{background:#fff;transform:translateY(-2px);box-shadow:0 12px 26px -16px rgba(27,28,26,.3)}
+.btn-dark{background:#0c0c0e;color:#fff;border:1px solid rgba(255,255,255,.1)}
+.btn-dark:hover{transform:translateY(-2px);box-shadow:0 14px 30px -16px rgba(0,0,0,.5)}
+.eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:13px;font-weight:600;letter-spacing:.01em;color:var(--txt);background:#fff;border:1px solid var(--line);padding:7px 15px 7px 10px;border-radius:999px;box-shadow:0 1px 2px rgba(27,28,26,.04)}
+.eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px rgba(242,162,60,.55)}
+.h1{font-size:74px;line-height:1.0;letter-spacing:-.025em;font-weight:800;margin:24px 0 0}
+.h2{font-size:46px;line-height:1.05;letter-spacing:-.02em;font-weight:800;margin:0}
+.kicker{font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--mut2)}
+.lead{font-size:19px;line-height:1.62;color:var(--mut);max-width:520px;margin:24px 0 0;font-weight:400}
+/* nav */
+.nav{position:sticky;top:0;z-index:60;background:rgba(244,242,234,.72);backdrop-filter:blur(20px) saturate(140%);-webkit-backdrop-filter:blur(20px) saturate(140%);border-bottom:1px solid var(--line2)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;height:70px}
+.brand{display:flex;align-items:center;gap:11px}
+.brand-mark{width:27px;height:27px}
+.brand-word{font-family:'ACaslon',serif;font-weight:600;font-size:21px;letter-spacing:.16em;padding-left:.06em}
+.nav-links{display:flex;gap:32px;font-size:14.5px;color:var(--mut)}
+.nav-links a{transition:color .15s}.nav-links a:hover{color:var(--txt)}
+.nav-actions{display:flex;align-items:center;gap:16px}
+.lang{display:flex;align-items:center;border:1px solid var(--line);border-radius:999px;padding:2px;font-size:12px}
+.langseg{cursor:pointer;transition:all .15s}
+.nav-login{font-size:14.5px;color:var(--mut)}.nav-login:hover{color:var(--txt)}
+/* hero */
+.hero{position:relative;padding:78px 0 96px;overflow:hidden}
+.hero-glow{position:absolute;top:-260px;left:50%;transform:translateX(-50%);width:1100px;height:780px;background:radial-gradient(closest-side, rgba(242,162,60,.16), rgba(91,182,214,.07) 55%, transparent 75%);pointer-events:none;filter:blur(8px)}
+.hero-grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(27,28,26,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(27,28,26,.045) 1px,transparent 1px);background-size:54px 54px;mask-image:radial-gradient(ellipse 80% 60% at 50% 30%,#000,transparent 75%);-webkit-mask-image:radial-gradient(ellipse 80% 60% at 50% 30%,#000,transparent 75%);pointer-events:none}
+.hero-in{position:relative;display:grid;grid-template-columns:1.05fr .95fr;gap:50px;align-items:center}
+.hero-trust{display:flex;align-items:center;gap:14px;margin-top:38px}
+.avatars{display:flex}
+.avatars span{width:34px;height:34px;border-radius:50%;border:2px solid #fff;margin-left:-10px;background:linear-gradient(135deg,#c9c4b6,#9aa39a)}
+.avatars span:first-child{margin-left:0}
+.hero-trust-txt{font-size:13.5px;color:var(--mut)}
+/* hero visual */
+.hero-visual{position:relative;height:480px}
+.metal-ring{position:absolute;width:430px;height:430px;border-radius:50%;top:50%;left:54%;transform:translate(-50%,-50%);background:conic-gradient(from 200deg,var(--accent),var(--accent-2),var(--accent),var(--accent-2),var(--accent));opacity:.32;filter:blur(2px);-webkit-mask:radial-gradient(circle, transparent 56%, #000 57%, #000 60%, transparent 61%);mask:radial-gradient(circle, transparent 56%, #000 57%, #000 60%, transparent 61%);animation:spin 44s linear infinite}
+.hero-photo{position:absolute;top:8px;right:0;width:340px;height:420px;border-radius:22px;overflow:hidden;border:1px solid var(--line);box-shadow:0 44px 80px -40px rgba(27,28,26,.4)}
+.hero-photo image-slot{width:100%;height:100%}
+.photo-scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,22,30,.04) 0%,rgba(15,22,30,.06) 50%,rgba(15,22,30,.42) 100%)}
+.photo-info{position:absolute;left:14px;right:14px;bottom:14px;border-radius:14px;padding:13px 15px;display:flex;align-items:center;justify-content:space-between}
+.dash-float{position:absolute;left:-8px;bottom:18px;width:310px;border-radius:18px;padding:16px;z-index:3}
+.toast{position:absolute;left:6px;top:6px;border-radius:14px;padding:11px 14px;display:flex;align-items:center;gap:11px;z-index:4}
+.floaty{animation:floaty 7s ease-in-out infinite}
+.floaty2{animation:floaty 6s ease-in-out infinite .8s}
+.kpi{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:12px 0}
+.kpi .t{border:1px solid var(--line);border-radius:11px;padding:10px 11px;background:#FBFAF5}
+.kpi .l{font-size:10px;color:var(--mut2)}
+.kpi .v{font-size:21px;font-weight:800;margin-top:3px}
+.bars{display:flex;align-items:flex-end;gap:6px;height:60px;margin-top:8px}
+.bars i{flex:1;border-radius:3px 3px 0 0;background:rgba(27,28,26,.12)}
+.bars i.on{background:var(--accent)}
+/* marquee */
+.marquee-sec{padding:30px 0;border-top:1px solid var(--line2);border-bottom:1px solid var(--line2)}
+.marquee{overflow:hidden;mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
+.marquee-track{display:flex;gap:64px;width:max-content;animation:marquee 30s linear infinite;align-items:center}
+.marquee-track span{font-family:'ACaslon',serif;font-size:23px;font-weight:600;color:var(--mut2);white-space:nowrap}
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.stat{border-radius:16px;padding:26px 24px}
+.stat .v{font-size:42px;font-weight:800;letter-spacing:-.02em}
+.stat .l{font-size:14px;color:var(--mut);margin-top:6px}
+/* section heads */
+.sec-head{max-width:620px;margin-bottom:48px}
+.sec-head .h2{margin-top:14px}
+.sec-head p{font-size:17px;color:var(--mut);line-height:1.6;margin:16px 0 0}
+/* bento */
+.bento{display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:minmax(180px,auto);gap:16px}
+.tile{border-radius:18px;padding:26px;display:flex;flex-direction:column;position:relative;overflow:hidden}
+.tile-big{grid-column:1/3}
+.tile-img{grid-column:3;grid-row:1/3;padding:0;border:1px solid var(--line);min-height:376px}
+.tile-img image-slot{width:100%;height:100%}
+.tile-img .ov{position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,22,30,.02),rgba(15,22,30,.5))}
+.tile-img .lbl{position:absolute;left:16px;right:16px;bottom:16px;border-radius:13px;padding:12px 14px}
+.ic{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--ink-chip);border:1px solid var(--ink-chip);margin-bottom:auto}
+.ic svg{width:19px;height:19px;stroke:#fff}
+.tile .ft{font-size:18.5px;font-weight:700;letter-spacing:-.01em;margin:18px 0 8px}
+.tile .fd{font-size:14.5px;color:var(--mut);line-height:1.6}
+.tile-big .ft{font-size:24px}
+.minibars{display:flex;align-items:flex-end;gap:7px;height:54px;margin-top:18px}
+.minibars i{flex:1;border-radius:3px 3px 0 0;background:rgba(27,28,26,.10)}
+.minibars i.on{background:var(--accent)}
+/* roles */
+.roles-wrap{display:grid;grid-template-columns:320px 1fr;gap:24px;align-items:start}
+.role-tabs{display:flex;flex-direction:column;gap:9px}
+.role-panel{border-radius:20px;padding:34px;min-height:260px}
+.role-pts{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-top:24px}
+.role-pt{display:flex;gap:11px;align-items:flex-start;background:#FBFAF5;border:1px solid var(--line2);border-radius:12px;padding:15px 16px;font-size:14.5px;color:var(--txt);line-height:1.5}
+.role-pt b{color:var(--accent);font-size:13px}
+/* how */
+.how-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;position:relative}
+.step{border-radius:18px;padding:28px}
+.step .n{font-size:40px;font-weight:800;letter-spacing:-.02em;line-height:1}
+.step .st{font-size:19px;font-weight:700;margin:16px 0 8px}
+.step .sd{font-size:14.5px;color:var(--mut);line-height:1.6}
+/* showcase */
+.split{display:grid;grid-template-columns:1.05fr .95fr;gap:54px;align-items:center}
+.showcase-media{position:relative;height:440px}
+.showcase-media .photo{position:absolute;inset:0;border-radius:22px;overflow:hidden;border:1px solid var(--line);box-shadow:0 44px 90px -44px rgba(27,28,26,.4)}
+.showcase-media image-slot{width:100%;height:100%}
+.showcase-media .ovr{position:absolute;inset:0;background:linear-gradient(120deg,rgba(15,22,30,.18),rgba(15,22,30,.02))}
+.float-stat{position:absolute;border-radius:16px;padding:16px 18px;width:200px}
+.float-stat .v{font-size:30px;font-weight:800}
+.float-stat .l{font-size:12.5px;color:var(--mut)}
+.fs-1{left:-22px;top:40px}
+.fs-2{right:-18px;bottom:48px}
+.showcase-copy .chk{display:flex;gap:13px;align-items:flex-start;padding:13px 0;border-top:1px solid var(--line2)}
+.showcase-copy .chk .b{width:22px;height:22px;border-radius:7px;background:var(--accent);flex:none;margin-top:2px}
+.showcase-copy .chk .tt{font-size:15.5px}.showcase-copy .chk .tt span{display:block;color:var(--mut);font-size:13.5px;margin-top:3px}
+/* quote */
+.quote-card{border-radius:24px;padding:54px 56px;position:relative;text-align:center}
+.quote-mark{font-family:'ACaslon',serif;font-size:90px;line-height:.5;height:42px}
+.quote{font-size:28px;line-height:1.42;font-weight:500;letter-spacing:-.01em;max-width:760px;margin:22px auto 0}
+.quote-by{display:flex;align-items:center;justify-content:center;gap:13px;margin-top:30px}
+.quote-by .av{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,#c9c4b6,#9aa39a)}
+.quote-by .nm{font-weight:700;font-size:15px;text-align:left}
+.quote-by .rl{font-size:13px;color:var(--mut);text-align:left}
+/* final cta */
+.final-cta{position:relative;padding:128px 0;overflow:hidden;text-align:center}
+.cta-bg{position:absolute;inset:0}
+.cta-bg image-slot{width:100%;height:100%}
+.cta-scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(244,242,234,.84),rgba(244,242,234,.93))}
+.cta-in{position:relative}
+.cta-in .h2{font-size:54px;max-width:680px;margin:0 auto}
+.cta-in p{font-size:18px;color:var(--mut);max-width:480px;margin:20px auto 32px}
+.cta-row{display:flex;gap:13px;align-items:center}
+.cta-in .cta-row{justify-content:center}
+/* footer */
+.foot{border-top:1px solid var(--line2);padding:56px 0 40px;position:relative}
+.foot-grid{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap}
+.foot-tag{max-width:300px;font-size:14px;color:var(--mut);line-height:1.6;margin:16px 0 0}
+.foot-cols{display:flex;gap:60px;flex-wrap:wrap}
+.foot-col h4{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--txt);font-weight:700;margin:0 0 16px}
+.foot-col a{display:block;font-size:14px;color:var(--mut);padding:6px 0}
+.foot-col a:hover{color:var(--txt)}
+.foot-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:46px;padding-top:24px;border-top:1px solid var(--line2);font-size:13px;color:var(--mut2);flex-wrap:wrap;gap:12px}
+.metal-divider{height:1px;background:var(--metal);opacity:.4}
+/* light section variant */
+.light{background:#EFEDE2;color:var(--ink)}
+.light .kicker{color:#8a8a7e}
+.light .sec-head p{color:var(--ink-mut)}
+.light .glass{background:#fff;border:1px solid var(--paper-line);box-shadow:0 24px 50px -34px rgba(27,28,26,.3)}
+.light .step{background:#fff;border:1px solid var(--paper-line);box-shadow:0 20px 44px -34px rgba(27,28,26,.28)}
+.light .step .sd{color:var(--ink-mut)}
+.light .metal-text{color:var(--accent)}
+.light .how-line{background:var(--paper-line)}
+/* animations */
+@keyframes spin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-13px)}}
+@keyframes marquee{to{transform:translateX(-50%)}}
+@keyframes pop{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+@keyframes revealUp{from{opacity:0;transform:translateY(42px)}to{opacity:1;transform:none}}
+.pop{opacity:1}
+.reveal{animation:revealUp linear both;animation-timeline:view();animation-range:entry 2% cover 26%}
+@supports not (animation-timeline:view()){.reveal{animation:none;opacity:1}}
+@media (max-width:980px){
+  .h1{font-size:54px}.h2{font-size:36px}.cta-in .h2{font-size:40px}.quote{font-size:23px}
+  .hero-in{grid-template-columns:1fr;gap:30px}.hero-visual{height:440px;margin-top:10px}
+  .split{grid-template-columns:1fr;gap:30px}.showcase-media{height:380px}
+  .roles-wrap{grid-template-columns:1fr}.role-tabs{flex-direction:row;flex-wrap:wrap}
+  .bento{grid-template-columns:1fr 1fr}.tile-big{grid-column:1/3}.tile-img{grid-column:1/3;grid-row:auto;min-height:240px}
+  .stats{grid-template-columns:1fr 1fr}.how-steps{grid-template-columns:1fr}
+  .nav-links{display:none}.sec{padding:78px 0}
+}
+@media (max-width:560px){.h1{font-size:42px}.bento{grid-template-columns:1fr}.tile-big,.tile-img{grid-column:auto}.stats{grid-template-columns:1fr 1fr}.role-pts{grid-template-columns:1fr}.wrap{padding:0 20px}}
+</style>
+</helmet>
+
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="#top"><img class="brand-mark" src="assets/orithon-symbol-black.png" alt="Orithon"><span class="brand-word">ORITHON</span></a>
+    <nav class="nav-links">
+      <a href="#features">{{ t.navFeatures }}</a>
+      <a href="#roles">{{ t.navSolutions }}</a>
+      <a href="#how">{{ t.navPricing }}</a>
+    </nav>
+    <div class="nav-actions">
+      <div class="lang">
+        <span class="langseg" onClick="{{ setEN }}" style="{{ enStyle }}">EN</span>
+        <span class="langseg" onClick="{{ setGR }}" style="{{ grStyle }}">ΕΛ</span>
+      </div>
+      <a class="nav-login" href="#cta">{{ t.navLogin }}</a>
+      <a class="btn btn-primary btn-sm" href="#cta">{{ t.navDemo }}</a>
+    </div>
+  </div>
+</header>
+
+<section id="top" class="hero" data-screen-label="Hero">
+  <div class="hero-glow"></div>
+  <div class="hero-grid-bg"></div>
+  <div class="grain"></div>
+  <div class="wrap hero-in">
+    <div class="hero-copy">
+      <span class="eyebrow pop" style="animation-delay:.05s"><span class="dot"></span>{{ t.heroEyebrow }}</span>
+      <h1 class="h1"><span class="pop" style="animation-delay:.12s">{{ t.nHeadA }}</span><br><span class="accent-text pop" style="animation-delay:.2s">{{ t.nHeadEm }}</span></h1>
+      <p class="lead pop" style="animation-delay:.3s">{{ t.nHeadSub }}</p>
+      <div class="cta-row pop" style="animation-delay:.38s;margin-top:34px">
+        <a class="btn btn-primary" href="#cta">{{ t.heroCta1 }}</a>
+        <a class="btn btn-ghost" href="#how">▷ {{ t.heroCta2 }}</a>
+      </div>
+      <div class="hero-trust pop" style="animation-delay:.46s">
+        <div class="avatars"><span></span><span></span><span></span><span></span></div>
+        <span class="hero-trust-txt">{{ t.trust }}</span>
+      </div>
+    </div>
+    <div class="hero-visual pop" style="animation-delay:.32s">
+      <div class="metal-ring"></div>
+      <div class="hero-photo">
+        <image-slot id="hero-bldg" shape="rect" placeholder="{{ t.nImg }}"></image-slot>
+        <div class="photo-scrim"></div>
+        <div class="glass photo-info">
+          <div><div style="font-size:14px;font-weight:700">Astra Residences</div><div style="font-size:11.5px;color:var(--mut)">Kifisias Ave 124</div></div>
+          <div style="text-align:right"><div style="font-size:16px;font-weight:800" class="metal-text">96%</div><div style="font-size:10.5px;color:var(--mut)">{{ t.occ }}</div></div>
+        </div>
+      </div>
+      <div class="glass toast floaty2">
+        <span style="width:26px;height:26px;border-radius:8px;background:var(--accent);display:flex;align-items:center;justify-content:center;color:#1b1c1a;font-weight:800;font-size:13px">€</span>
+        <div><div style="font-size:12px;font-weight:700">{{ t.toastT }}</div><div style="font-size:10.5px;color:var(--mut)">{{ t.toastS }}</div></div>
+      </div>
+      <div class="glass dash-float floaty">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <span style="display:inline-flex;align-items:center;gap:7px;font-size:11px;color:var(--mut)"><span style="width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px rgba(242,162,60,.6)"></span>{{ t.nLiveBadge }}</span>
+          <span style="font-size:10.5px;color:var(--mut2)">{{ t.dashMonth }}</span>
+        </div>
+        <div class="kpi">
+          <div class="t"><div class="l">{{ t.k1 }}</div><div class="v">€184k</div></div>
+          <div class="t"><div class="l">{{ t.k2 }}</div><div class="v">12</div></div>
+        </div>
+        <div style="font-size:10.5px;color:var(--mut2)">{{ t.dashChart }}</div>
+        <div class="bars">
+          <sc-for list="{{ dashBars }}" as="b" hint-placeholder-count="9"><i class="{{ b.cls }}" style="height:{{ b.h }}"></i></sc-for>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="marquee-sec">
+  <div class="wrap" style="text-align:center;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--mut2);margin-bottom:22px">{{ t.trust }}</div>
+  <div class="marquee"><div class="marquee-track">
+    <sc-for list="{{ marquee }}" as="m" hint-placeholder-count="10"><span>{{ m }}</span></sc-for>
+  </div></div>
+</section>
+
+<section class="sec" style="padding:84px 0">
+  <div class="wrap">
+    <div class="stats reveal">
+      <sc-for list="{{ nStats }}" as="s" hint-placeholder-count="4">
+        <div class="stat glass"><div class="v metal-text">{{ s.v }}</div><div class="l">{{ s.l }}</div></div>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<section id="features" class="sec" data-screen-label="Features">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="kicker">{{ t.featKicker }}</span>
+      <h2 class="h2">{{ t.featTitle }}</h2>
+      <p>{{ t.featSub }}</p>
+    </div>
+    <div class="bento">
+      <div class="tile tile-big glass gcard reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#cfcfcf" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.4"/></svg></div>
+        <div class="ft">{{ f0.title }}</div>
+        <div class="fd">{{ f0.desc }}</div>
+        <div class="minibars">
+          <sc-for list="{{ dashBars }}" as="b" hint-placeholder-count="9"><i class="{{ b.cls }}" style="height:{{ b.h }}"></i></sc-for>
+        </div>
+      </div>
+      <div class="tile-img tile glass gcard reveal">
+        <image-slot id="bento-bldg" shape="rect" placeholder="{{ t.nImg }}"></image-slot>
+        <div class="ov"></div>
+        <div class="glass lbl"><div style="font-size:13.5px;font-weight:700">{{ t.imgTile }}</div><div style="font-size:11.5px;color:var(--mut);margin-top:2px">{{ t.imgTileSub }}</div></div>
+      </div>
+      <div class="tile glass gcard reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#cfcfcf" stroke-width="1.6"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 12h8M8 16h5"/></svg></div>
+        <div class="ft">{{ f1.title }}</div><div class="fd">{{ f1.desc }}</div>
+      </div>
+      <div class="tile glass gcard reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#cfcfcf" stroke-width="1.6"><path d="M12 3l9 16H3z"/></svg></div>
+        <div class="ft">{{ f2.title }}</div><div class="fd">{{ f2.desc }}</div>
+      </div>
+      <div class="tile glass gcard reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#cfcfcf" stroke-width="1.6"><path d="M21 12a9 9 0 1 1-3.2-6.9"/><path d="M21 5v4h-4"/></svg></div>
+        <div class="ft">{{ f3.title }}</div><div class="fd">{{ f3.desc }}</div>
+      </div>
+      <div class="tile glass gcard reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#cfcfcf" stroke-width="1.6"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M4 9h16"/></svg></div>
+        <div class="ft">{{ f4.title }}</div><div class="fd">{{ f4.desc }}</div>
+      </div>
+      <div class="tile glass gcard reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#cfcfcf" stroke-width="1.6"><path d="M5 19V9M12 19V5M19 19v-7"/></svg></div>
+        <div class="ft">{{ f5.title }}</div><div class="fd">{{ f5.desc }}</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="roles" class="sec" data-screen-label="Roles" style="padding-top:24px">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="kicker">{{ t.roleKicker }}</span><h2 class="h2">{{ t.roleTitle }}</h2><p>{{ t.roleSub }}</p></div>
+    <div class="roles-wrap reveal">
+      <div class="role-tabs">
+        <sc-for list="{{ roleTabbed }}" as="r" hint-placeholder-count="3">
+          <div onClick="{{ r.onSelect }}" style="{{ r.tabStyle }}">
+            <span style="{{ r.badgeStyle }}">{{ r.i }}</span>
+            <span><span style="display:block;font-size:15px;font-weight:700">{{ r.name }}</span><span style="font-size:12.5px;color:var(--mut)">{{ r.tag }}</span></span>
+          </div>
+        </sc-for>
+      </div>
+      <div class="role-panel glass">
+        <div style="display:flex;align-items:center;gap:14px">
+          <span style="width:46px;height:46px;border-radius:12px;background:var(--ink-chip);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px">{{ activeRole.i }}</span>
+          <div><div style="font-size:24px;font-weight:800;letter-spacing:-.01em">{{ activeRole.name }}</div><div style="font-size:13.5px;color:var(--mut)">{{ activeRole.tag }}</div></div>
+        </div>
+        <div class="role-pts">
+          <sc-for list="{{ activeRole.points }}" as="p" hint-placeholder-count="3">
+            <div class="role-pt"><b>›</b>{{ p }}</div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="how" class="sec light" data-screen-label="How it works">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="kicker">{{ t.howKicker }}</span><h2 class="h2">{{ t.howTitle }}</h2><p>{{ t.howSub }}</p></div>
+    <div class="how-steps reveal">
+      <div class="how-line" style="position:absolute;top:48px;left:8%;right:8%;height:1px"></div>
+      <sc-for list="{{ steps }}" as="s" hint-placeholder-count="3">
+        <div class="step"><div class="n metal-text">{{ s.n }}</div><div class="st">{{ s.t }}</div><div class="sd">{{ s.d }}</div></div>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<section class="sec" data-screen-label="Showcase">
+  <div class="wrap split">
+    <div class="showcase-media reveal">
+      <div class="photo"><image-slot id="showcase-bldg" shape="rect" placeholder="{{ t.nImg }}"></image-slot><div class="ovr"></div></div>
+      <div class="glass float-stat fs-1"><div class="v metal-text">€184k</div><div class="l">{{ t.fsColl }}</div></div>
+      <div class="glass float-stat fs-2"><div class="v">12</div><div class="l">{{ t.fsTickets }}</div></div>
+    </div>
+    <div class="showcase-copy reveal">
+      <span class="kicker">{{ t.scKicker }}</span>
+      <h2 class="h2" style="margin:14px 0 10px">{{ t.scTitle }}</h2>
+      <p style="font-size:17px;color:var(--mut);line-height:1.6;margin:0 0 14px">{{ t.scSub }}</p>
+      <sc-for list="{{ scPoints }}" as="p" hint-placeholder-count="3">
+        <div class="chk"><div class="b"></div><div class="tt">{{ p.t }}<span>{{ p.d }}</span></div></div>
+      </sc-for>
+      <a class="btn btn-ghost" href="#cta" style="margin-top:24px">{{ t.heroCta1 }}</a>
+    </div>
+  </div>
+</section>
+
+<section class="sec" style="padding-top:0">
+  <div class="wrap">
+    <div class="glass quote-card reveal">
+      <div class="quote-mark accent-text">“</div>
+      <p class="quote">{{ t.tQuote }}</p>
+      <div class="quote-by"><span class="av"></span><div><div class="nm">{{ t.tAuthor }}</div><div class="rl">{{ t.tRole }}</div></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="cta" class="final-cta" data-screen-label="CTA">
+  <div class="cta-bg"><image-slot id="cta-bldg" shape="rect" placeholder="{{ t.nImg }}"></image-slot><div class="cta-scrim"></div></div>
+  <div class="grain"></div>
+  <div class="wrap cta-in reveal">
+    <h2 class="h2">{{ t.nBig }}</h2>
+    <p>{{ t.ctaSub }}</p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="#">{{ t.heroCta1 }}</a>
+      <a class="btn btn-ghost" href="#">{{ t.ctaContact }}</a>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a class="brand" href="#top"><img class="brand-mark" src="assets/orithon-symbol-black.png" alt="Orithon"><span class="brand-word">ORITHON</span></a>
+        <p class="foot-tag">{{ t.footTag }}</p>
+      </div>
+      <div class="foot-cols">
+        <sc-for list="{{ footCols }}" as="c" hint-placeholder-count="3">
+          <div class="foot-col"><h4>{{ c.h }}</h4><sc-for list="{{ c.links }}" as="l" hint-placeholder-count="4"><a href="#">{{ l }}</a></sc-for></div>
+        </sc-for>
+      </div>
+    </div>
+    <div class="foot-bottom"><span>© 2026 Orithon. {{ t.rights }}</span><span>Athens · Greece</span></div>
+  </div>
+</footer>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { lang: 'en', roleTab: 0 };
+  setLang(l){ this.setState({ lang: l }); }
+  setRole(i){ this.setState({ roleTab: i }); }
+
+  renderVals(){
+    const lang = this.state.lang;
+    const en = {
+      navFeatures:'Features', navSolutions:'Solutions', navPricing:'How it works', navLogin:'Log in', navDemo:'Book a demo',
+      heroEyebrow:'Property & common-area management',
+      nHeadA:'Every building,', nHeadEm:'under control.',
+      nHeadSub:'Shared expenses, payments, maintenance and resident communication — one calm, modern workspace that keeps your whole portfolio moving.',
+      heroCta1:'Book a demo', heroCta2:'Watch overview',
+      trust:'Trusted by managers across 200+ buildings', occ:'occupied',
+      toastT:'Payment received', toastS:'Apt 4B · €84.50',
+      nLiveBadge:'Live portfolio', dashMonth:'June 2026', dashChart:'Collections vs. budget',
+      k1:'Collected', k2:'Open tickets',
+      featKicker:'One platform', featTitle:'Everything a building needs, in one place.',
+      featSub:'From the first issued charge to the last closed ticket — Orithon keeps the whole operation in sync.',
+      imgTile:'Your buildings, beautifully organised', imgTileSub:'Every unit, owner and meter in one record',
+      roleKicker:'For every role', roleTitle:'Built for everyone in the building.', roleSub:'One source of truth, three tailored experiences.',
+      howKicker:'How it works', howTitle:'Live in three steps.', howSub:'No migrations, no spreadsheets, no IT project.',
+      scKicker:'Glass-clear operations', scTitle:'See every building at a glance.', scSub:'Real-time financials and operations layered over the buildings you manage.',
+      fsColl:'Collected this month', fsTickets:'Open tickets',
+      tQuote:'Orithon replaced four tools and a lot of phone calls. Collections are up, complaints are down, and owners finally trust the numbers.',
+      tAuthor:'Eleni Markou', tRole:'Property manager · 38 buildings',
+      nBig:'Stop chasing buildings. Start running them.', ctaSub:'See Orithon on your own portfolio in a 20-minute walkthrough.',
+      ctaContact:'Talk to sales',
+      footTag:'Modern management for shared expenses, tasks and communication across residential and commercial buildings.',
+      rights:'All rights reserved.'
+    };
+    const gr = {
+      navFeatures:'Λειτουργίες', navSolutions:'Λύσεις', navPricing:'Πώς δουλεύει', navLogin:'Σύνδεση', navDemo:'Κλείσε demo',
+      heroEyebrow:'Διαχείριση κτηρίων & κοινοχρήστων',
+      nHeadA:'Κάθε κτήριο,', nHeadEm:'υπό έλεγχο.',
+      nHeadSub:'Κοινόχρηστα, πληρωμές, συντήρηση και επικοινωνία ενοίκων — ένας καθαρός, σύγχρονος χώρος εργασίας που κρατά όλο το χαρτοφυλάκιο σε κίνηση.',
+      heroCta1:'Κλείσε demo', heroCta2:'Δες το overview',
+      trust:'Εμπιστοσύνη από διαχειριστές σε 200+ κτήρια', occ:'πληρότητα',
+      toastT:'Πληρωμή ελήφθη', toastS:'Διαμ. 4Β · €84,50',
+      nLiveBadge:'Ζωντανό χαρτοφυλάκιο', dashMonth:'Ιούνιος 2026', dashChart:'Εισπράξεις vs. προϋπολογισμός',
+      k1:'Εισπράχθηκαν', k2:'Ανοιχτά αιτήματα',
+      featKicker:'Μία πλατφόρμα', featTitle:'Ό,τι χρειάζεται ένα κτήριο, σε ένα σημείο.',
+      featSub:'Από την πρώτη έκδοση κοινοχρήστων μέχρι το τελευταίο κλεισμένο αίτημα — το Orithon κρατά όλη τη λειτουργία συγχρονισμένη.',
+      imgTile:'Τα κτήριά σου, οργανωμένα τέλεια', imgTileSub:'Κάθε διαμέρισμα, ιδιοκτήτης και μετρητής σε μία καρτέλα',
+      roleKicker:'Για κάθε ρόλο', roleTitle:'Φτιαγμένο για όλους στο κτήριο.', roleSub:'Μία πηγή αλήθειας, τρεις εμπειρίες στα μέτρα του καθενός.',
+      howKicker:'Πώς δουλεύει', howTitle:'Ξεκίνα σε τρία βήματα.', howSub:'Χωρίς migrations, χωρίς excel, χωρίς IT project.',
+      scKicker:'Διαφανής λειτουργία', scTitle:'Δες κάθε κτήριο με μια ματιά.', scSub:'Οικονομικά και λειτουργία σε πραγματικό χρόνο, πάνω από τα κτήρια που διαχειρίζεσαι.',
+      fsColl:'Εισπράξεις μήνα', fsTickets:'Ανοιχτά αιτήματα',
+      tQuote:'Το Orithon αντικατέστησε τέσσερα εργαλεία και άπειρα τηλεφωνήματα. Οι εισπράξεις ανέβηκαν, τα παράπονα έπεσαν, και οι ιδιοκτήτες εμπιστεύονται επιτέλους τα νούμερα.',
+      tAuthor:'Ελένη Μάρκου', tRole:'Διαχειρίστρια · 38 κτήρια',
+      nBig:'Σταμάτα να κυνηγάς τα κτήρια. Άρχισε να τα διαχειρίζεσαι.', ctaSub:'Δες το Orithon στο δικό σου χαρτοφυλάκιο σε μια παρουσίαση 20 λεπτών.',
+      ctaContact:'Μίλα με πωλήσεις',
+      footTag:'Σύγχρονη διαχείριση κοινοχρήστων, εργασιών και επικοινωνίας για κτήρια κατοικιών και επαγγελματικούς χώρους.',
+      rights:'Με επιφύλαξη παντός δικαιώματος.'
+    };
+    const t = lang === 'en' ? en : gr;
+
+    const featEN = [
+      {title:'Shared expenses & billing', desc:'Build, split and issue common-area charges automatically — by share, area or custom rules.'},
+      {title:'Online payments', desc:'Residents pay dues by card or bank in a tap. Reconciliation happens on its own.'},
+      {title:'Tasks & repairs', desc:'Track issues from report to resolution and keep an auditable history.'},
+      {title:'Resident communication', desc:'Announcements, polls and messages — without the group chats.'},
+      {title:'Documents & archive', desc:'Contracts, invoices and minutes, organised per building.'},
+      {title:'Reporting & dashboards', desc:'Live financials and KPIs across your whole portfolio.'}
+    ];
+    const featGR = [
+      {title:'Κοινόχρηστα & εκδόσεις', desc:'Δημιουργία, επιμερισμός και έκδοση κοινοχρήστων αυτόματα — με χιλιοστά, εμβαδόν ή δικούς σου κανόνες.'},
+      {title:'Πληρωμές online', desc:'Οι ένοικοι πληρώνουν με κάρτα ή τράπεζα σε ένα tap. Η συμφωνία γίνεται μόνη της.'},
+      {title:'Εργασίες & βλάβες', desc:'Παρακολούθηση από την αναφορά ως την επίλυση, με πλήρες ιστορικό.'},
+      {title:'Επικοινωνία ενοίκων', desc:'Ανακοινώσεις, ψηφοφορίες και μηνύματα — χωρίς τα ομαδικά chat.'},
+      {title:'Έγγραφα & αρχείο', desc:'Συμβόλαια, τιμολόγια και πρακτικά, οργανωμένα ανά κτήριο.'},
+      {title:'Reporting & dashboards', desc:'Ζωντανά οικονομικά και KPIs σε όλο το χαρτοφυλάκιο.'}
+    ];
+    const feats = lang==='en'?featEN:featGR;
+
+    const roleEN = [
+      {i:'M', name:'Managers', tag:'Property & facility companies', points:['Issue charges & track collections','Coordinate crews and vendors','Portfolio-wide reporting','Owner & board transparency']},
+      {i:'R', name:'Residents', tag:'Owners & tenants', points:['Pay dues and view balances','Report issues in seconds','Read announcements & vote','Access building documents']},
+      {i:'T', name:'Technicians', tag:'Maintenance crews', points:['Receive assigned work orders','Update status from the field','Log parts, time and photos','Close tickets with proof']}
+    ];
+    const roleGR = [
+      {i:'Δ', name:'Διαχειριστές', tag:'Εταιρείες διαχείρισης & facility', points:['Έκδοση κοινοχρήστων & εισπράξεις','Συντονισμός συνεργείων & προμηθευτών','Reports σε όλο το χαρτοφυλάκιο','Διαφάνεια προς ιδιοκτήτες']},
+      {i:'Ε', name:'Ένοικοι', tag:'Ιδιοκτήτες & μισθωτές', points:['Πληρωμή & προβολή υπολοίπων','Αναφορά βλάβης σε δευτερόλεπτα','Ανακοινώσεις & ψηφοφορίες','Πρόσβαση σε έγγραφα κτηρίου']},
+      {i:'Τ', name:'Τεχνικοί', tag:'Συνεργεία συντήρησης', points:['Λήψη εντολών εργασίας','Ενημέρωση κατάστασης από το πεδίο','Καταγραφή υλικών, χρόνου & φωτό','Κλείσιμο αιτημάτων με απόδειξη']}
+    ];
+    const roleBase = lang==='en'?roleEN:roleGR;
+    const roleTab = this.state.roleTab;
+    const tActive = 'cursor:pointer;padding:15px 18px;border-radius:14px;background:#fff;border:1px solid rgba(27,28,26,.14);box-shadow:0 10px 24px -18px rgba(27,28,26,.35);display:flex;align-items:center;gap:13px;transition:all .18s';
+    const tIdle = 'cursor:pointer;padding:15px 18px;border-radius:14px;background:transparent;border:1px solid transparent;display:flex;align-items:center;gap:13px;transition:all .18s';
+    const bActive = 'width:32px;height:32px;border-radius:50%;background:var(--ink-chip);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;flex:none';
+    const bIdle = 'width:32px;height:32px;border-radius:50%;background:rgba(27,28,26,.06);color:var(--mut);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;flex:none';
+    const roleTabbed = roleBase.map((r,i)=>({ ...r, onSelect:()=>this.setRole(i), tabStyle:i===roleTab?tActive:tIdle, badgeStyle:i===roleTab?bActive:bIdle }));
+    const activeRole = roleTabbed[roleTab];
+
+    const nStats = lang==='en'
+      ? [{v:'200+',l:'buildings managed'},{v:'98%',l:'on-time payments'},{v:'4h',l:'avg. resolution time'},{v:'€12M',l:'collected per year'}]
+      : [{v:'200+',l:'κτήρια'},{v:'98%',l:'έγκαιρες πληρωμές'},{v:'4ώρ',l:'μέσος χρόνος επίλυσης'},{v:'€12εκ',l:'εισπράξεις / έτος'}];
+
+    const steps = lang==='en'
+      ? [{n:'01',t:'Add your buildings',d:'Import units, owners and meters in minutes — or let us migrate them for you.'},{n:'02',t:'Issue & collect',d:'Auto-split common charges and get paid online. Reconciliation is automatic.'},{n:'03',t:'Run operations',d:'Track tickets, vendors, documents and reports from one calm dashboard.'}]
+      : [{n:'01',t:'Πρόσθεσε τα κτήρια',d:'Εισαγωγή διαμερισμάτων, ιδιοκτητών και μετρητών σε λεπτά — ή τα μεταφέρουμε εμείς.'},{n:'02',t:'Έκδοσε & εισέπραξε',d:'Αυτόματος επιμερισμός κοινοχρήστων και online πληρωμές. Η συμφωνία γίνεται αυτόματα.'},{n:'03',t:'Λειτούργησε',d:'Διαχειρίσου αιτήματα, συνεργεία, έγγραφα και reports από ένα ήρεμο dashboard.'}];
+
+    const scPoints = lang==='en'
+      ? [{t:'Portfolio dashboard',d:'Collections, balances and tickets across all buildings.'},{t:'Per-building drill-down',d:'Open any building for units, charges and history.'},{t:'Exportable reports',d:'Owner-ready financials in one click.'}]
+      : [{t:'Dashboard χαρτοφυλακίου',d:'Εισπράξεις, υπόλοιπα και αιτήματα για όλα τα κτήρια.'},{t:'Ανάλυση ανά κτήριο',d:'Άνοιξε οποιοδήποτε κτήριο για διαμερίσματα, χρεώσεις, ιστορικό.'},{t:'Έτοιμα reports',d:'Οικονομικά για ιδιοκτήτες με ένα κλικ.'}];
+
+    const trustNames = ['Meridian','Halcyon','Astor','Lumen','Veridia','Solace','Atrium','Northwind'];
+    const marquee = trustNames.concat(trustNames);
+
+    const footEN = [
+      {h:'Product', links:['Features','Solutions','Pricing','Security']},
+      {h:'Company', links:['About','Customers','Careers','Contact']},
+      {h:'Resources', links:['Help center','API','Status','Privacy']}
+    ];
+    const footGR = [
+      {h:'Προϊόν', links:['Λειτουργίες','Λύσεις','Τιμές','Ασφάλεια']},
+      {h:'Εταιρεία', links:['Σχετικά','Πελάτες','Καριέρα','Επικοινωνία']},
+      {h:'Πόροι', links:['Βοήθεια','API','Status','Απόρρητο']}
+    ];
+
+    const barH = ['46%','62%','54%','72%','64%','84%','70%','92%','80%'];
+    const dashBars = barH.map((h,i)=>({h, cls:i>=7?'on':''}));
+
+    const segActive = 'padding:6px 12px;border-radius:999px;background:var(--ink-chip);color:#fff;font-weight:700';
+    const segIdle = 'padding:6px 12px;border-radius:999px;background:transparent;color:rgba(27,28,26,.5);font-weight:600';
+
+    return {
+      t, lang,
+      setEN:()=>this.setLang('en'), setGR:()=>this.setLang('gr'),
+      enStyle: lang==='en'?segActive:segIdle, grStyle: lang==='gr'?segActive:segIdle,
+      f0:feats[0], f1:feats[1], f2:feats[2], f3:feats[3], f4:feats[4], f5:feats[5],
+      roleTabbed, activeRole, nStats, steps, scPoints, marquee,
+      footCols: lang==='en'?footEN:footGR,
+      dashBars
+    };
+  }
+}
+</script>
+</body>
+</html>

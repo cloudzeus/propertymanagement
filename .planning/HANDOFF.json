@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "timestamp": "2026-06-30T06:23:48.954Z",
+  "timestamp": "2026-07-01T06:02:04.836Z",
   "source": "auto-postool",
   "partial": false,
   "phase": null,
@@ -19,8 +19,12 @@
     {
       "status": "M",
       "path": ".planning/HANDOFF.json"
+    },
+    {
+      "status": "??",
+      "path": "design_handoff_orithon_landing/"
     }
   ],
   "next_action": null,
-  "context_notes": "Recent commits:\n4995bfb feat(i18n): next-intl v4 routing + navigation + requestLocale config\nba2e92c feat(seo): PageSeo model + getPageSeo + home seed\n5abbb32 feat(seo): JsonLd component\n9b6b749 feat(seo): buildMetadata with hreflang/canonical/OG/Twitter\n42a1ac0 feat(seo): SeoMeta type + JSON-LD schema builders"
+  "context_notes": "Recent commits:\necd828f feat(design): Orithon primitives preview route (S0)\n964b54c chore(design): DataTable radius polish for Orithon (S0)\n411c27b feat(design): retheme sidebar shell neutrals to Orithon tokens (S0)\n6e0dcae feat(design): retheme Input + add Textarea (S0)\n55963d4 feat(design): retheme Modal + form helpers (S0)"
 }

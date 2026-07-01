@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist_Mono, Commissioner, Cormorant_Garamond } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale } from "next-intl/server";
 import { SessionProvider } from "@/components/providers/SessionProvider";
@@ -9,9 +9,18 @@ import { getSiteSettings } from "@/lib/cms/site-settings";
 import { SiteTags } from "@/components/site/SiteTags";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+const commissioner = Commissioner({
+  variable: "--font-commissioner",
+  subsets: ["latin", "latin-ext", "greek"],
+  weight: ["400", "500", "600", "700", "800", "900"],
+  display: "swap",
+});
+
+const cormorant = Cormorant_Garamond({
+  variable: "--font-cormorant",
+  subsets: ["latin", "latin-ext"],
+  weight: ["500", "600", "700"],
+  display: "swap",
 });
 
 const geistMono = Geist_Mono({
@@ -42,7 +51,7 @@ export default async function RootLayout({
   return (
     <html
       lang={locale}
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${commissioner.variable} ${cormorant.variable} ${geistMono.variable} h-full antialiased`}
     >
       <head>
         {/* Brand colors from DB — overrides globals.css defaults */}
