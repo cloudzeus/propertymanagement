@@ -11,7 +11,8 @@ import {
   CmsButton,
   SaveBar,
 } from "@/components/cms/ui";
-import { RiTranslate2 } from "react-icons/ri";
+import { RiTranslate2, RiSparkling2Line } from "react-icons/ri";
+import { generateSeo } from "@/app/actions/ai-cms";
 import type { SeoMeta } from "@/lib/seo/types";
 
 type Locale = "el" | "en";
@@ -27,6 +28,28 @@ export function SeoEditor({ slug, initial }: Props) {
   const [saved, setSaved] = useState(false);
   const [translating, setTranslating] = useState(false);
   const [pending, startTransition] = useTransition();
+  const [brief, setBrief] = useState("");
+  const [aiError, setAiError] = useState<string | null>(null);
+  const [aiBusy, setAiBusy] = useState(false);
+
+  async function runAiSeo() {
+    setAiError(null);
+    setAiBusy(true);
+    try {
+      const gen = await generateSeo(slug, brief, activeLocale);
+      setData((prev) => {
+        const next = clone(prev);
+        (next[activeLocale] as any).title = gen.title;
+        (next[activeLocale] as any).description = gen.description;
+        (next[activeLocale] as any).keywords = gen.keywords;
+        return next;
+      });
+    } catch (e) {
+      setAiError(e instanceof Error ? e.message : "Αποτυχία δημιουργίας");
+    } finally {
+      setAiBusy(false);
+    }
+  }
 
   async function translateEnFromEl() {
     setTranslating(true);
@@ -91,9 +114,25 @@ export function SeoEditor({ slug, initial }: Props) {
         </div>
       </div>
 
+      <div style={{ border: "1px solid var(--border)", borderRadius: "var(--radius)", background: "var(--paper)", padding: 14, display: "flex", flexDirection: "column", gap: 10 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8, fontWeight: 700, color: "var(--foreground)" }}><RiSparkling2Line /> Δημιουργία SEO με AI</div>
+        <CmsField label="Οδηγία (προαιρετικό)">
+          <CmsInput value={brief} onChange={(e) => setBrief(e.target.value)} placeholder="π.χ. έμφαση σε κοινόχρηστα & Αθήνα" />
+        </CmsField>
+        {aiError && <p style={{ color: "var(--destructive)", fontSize: 13, margin: 0 }}>{aiError}</p>}
+        <div>
+          <CmsButton variant="secondary" loading={aiBusy} disabled={aiBusy} onClick={runAiSeo} icon={<RiSparkling2Line size={15} />}>
+            {aiBusy ? "Δημιουργία…" : "Δημιουργία SEO"}
+          </CmsButton>
+        </div>
+      </div>
+
       <CmsField label="Τίτλος (title)">
         <CmsInput value={cur.title ?? ""} onChange={(e) => set("title", e.target.value)} />
       </CmsField>
+      <div style={{ fontSize: 11, marginTop: -8, color: (cur.title ?? "").length > 60 ? "var(--color-warning)" : "var(--muted-foreground)" }}>
+        {(cur.title ?? "").length}/60
+      </div>
 
       <CmsField label="Περιγραφή (description)">
         <CmsTextarea
@@ -102,6 +141,9 @@ export function SeoEditor({ slug, initial }: Props) {
           onChange={(e) => set("description", e.target.value)}
         />
       </CmsField>
+      <div style={{ fontSize: 11, marginTop: -8, color: (cur.description ?? "").length > 155 ? "var(--color-warning)" : "var(--muted-foreground)" }}>
+        {(cur.description ?? "").length}/155
+      </div>
 
       <CmsField label="Λέξεις-κλειδιά (keywords)">
         <CmsInput
