@@ -1,103 +1,68 @@
 "use client";
 
-import { SortableList } from "./SortableList";
-import { CmsButton } from "./ui";
+import { ReactNode } from "react";
+import { SortableList } from "@/components/cms/SortableList";
+import { CmsButton } from "@/components/cms/ui";
 import { RiAddLine, RiDeleteBinLine } from "react-icons/ri";
 
-export interface ItemField {
-  key: string;
-  label: string;
-  type?: "text" | "textarea" | "url";
-  placeholder?: string;
-}
+export type Item = { id: string } & Record<string, unknown>;
 
-interface ItemsEditorProps<T extends { id: string }> {
+type Props<T extends Item> = {
   items: T[];
   onChange: (items: T[]) => void;
-  fields: ItemField[];
-  createItem: () => T;
-  maxItems?: number;
-}
+  newItem: () => T;
+  addLabel: string;
+  renderFields: (item: T, patch: (p: Partial<T>) => void) => ReactNode;
+};
 
-export function ItemsEditor<T extends { id: string }>({
-  items,
-  onChange,
-  fields,
-  createItem,
-  maxItems,
-}: ItemsEditorProps<T>) {
-  function handleReorder(ids: string[]) {
-    const map = new Map(items.map((i) => [i.id, i]));
-    onChange(ids.map((id) => map.get(id)!).filter(Boolean));
+export function ItemsEditor<T extends Item>({ items, onChange, newItem, addLabel, renderFields }: Props<T>) {
+  function patch(id: string, p: Partial<T>) {
+    onChange(items.map((it) => (it.id === id ? { ...it, ...p } : it)));
   }
-
-  function handleChange(id: string, key: string, value: string) {
-    onChange(items.map((item) => (item.id === id ? { ...item, [key]: value } : item)));
+  function remove(id: string) {
+    onChange(items.filter((it) => it.id !== id));
   }
-
-  function handleAdd() {
-    if (maxItems && items.length >= maxItems) return;
-    onChange([...items, createItem()]);
-  }
-
-  function handleRemove(id: string) {
-    onChange(items.filter((i) => i.id !== id));
+  function reorder(ids: string[]) {
+    const byId = new Map(items.map((it) => [it.id, it]));
+    onChange(ids.map((id) => byId.get(id)).filter(Boolean) as T[]);
   }
 
   return (
-    <div className="flex flex-col gap-4">
+    <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
       <SortableList
         items={items}
-        onReorder={handleReorder}
+        onReorder={reorder}
         renderItem={(item) => (
-          <div className="flex flex-col gap-2 rounded-md border border-gray-200 bg-white p-3">
-            {fields.map((field) => (
-              <div key={field.key}>
-                <label className="mb-1 block text-xs font-medium text-gray-600">
-                  {field.label}
-                </label>
-                {field.type === "textarea" ? (
-                  <textarea
-                    className="w-full rounded border border-gray-200 px-2 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
-                    rows={3}
-                    placeholder={field.placeholder}
-                    value={(item as Record<string, string>)[field.key] ?? ""}
-                    onChange={(e) => handleChange(item.id, field.key, e.target.value)}
-                  />
-                ) : (
-                  <input
-                    type={field.type ?? "text"}
-                    className="w-full rounded border border-gray-200 px-2 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
-                    placeholder={field.placeholder}
-                    value={(item as Record<string, string>)[field.key] ?? ""}
-                    onChange={(e) => handleChange(item.id, field.key, e.target.value)}
-                  />
-                )}
-              </div>
-            ))}
-            <div className="flex justify-end">
-              <CmsButton
-                variant="danger"
+          <div
+            style={{
+              border: "1px solid var(--border)",
+              borderRadius: "var(--radius)",
+              background: "var(--card)",
+              padding: 14,
+              display: "flex",
+              flexDirection: "column",
+              gap: 10,
+            }}
+          >
+            <div style={{ display: "flex", justifyContent: "flex-end" }}>
+              <button
                 type="button"
-                onClick={() => handleRemove(item.id)}
-                icon={<RiDeleteBinLine className="h-3.5 w-3.5" />}
+                onClick={() => remove(item.id)}
+                aria-label="Remove"
+                style={{ background: "transparent", border: "none", cursor: "pointer", color: "var(--destructive)" }}
               >
-                Αφαίρεση
-              </CmsButton>
+                <RiDeleteBinLine size={16} />
+              </button>
             </div>
+            {renderFields(item, (p) => patch(item.id, p))}
           </div>
         )}
       />
-      {(!maxItems || items.length < maxItems) && (
-        <CmsButton
-          variant="secondary"
-          type="button"
-          onClick={handleAdd}
-          icon={<RiAddLine className="h-4 w-4" />}
-        >
-          Προσθήκη
+      <div>
+        <CmsButton variant="secondary" onClick={() => onChange([...items, newItem()])} icon={<RiAddLine size={16} />}>
+          {addLabel}
         </CmsButton>
-      )}
+      </div>
     </div>
   );
 }
