@@ -33,6 +33,7 @@ import {
   RiQuestionLine, RiQuestionFill,
   RiImage2Line, RiImage2Fill,
   RiTranslate2,
+  RiSearchEyeLine,
   RiArticleLine, RiArticleFill,
   RiUserStarLine, RiUserStarFill,
 } from "react-icons/ri";
@@ -99,6 +100,7 @@ const NAV_BY_ROLE: Record<string, NavGroup[]> = {
       id: "cms", label: "CMS", icon: RiLayoutLine, color: "#8764b8",
       items: [
         { label: "Αρχική", href: "/super-admin/cms/landing", icon: RiLayoutLine, iconActive: RiLayoutFill, color: "#8764b8" },
+        { label: "SEO", href: "/super-admin/cms/seo", icon: RiSearchEyeLine, iconActive: RiSearchEyeLine, color: "#8764b8" },
         { label: "Ρυθμίσεις", href: "/super-admin/cms/settings", icon: RiSettings3Line, iconActive: RiSettings3Fill, color: "#8764b8" },
         { label: "Σελίδες", href: "/super-admin/cms/pages", icon: RiPagesLine, iconActive: RiPagesFill, color: "#8764b8" },
         { label: "Τιμές", href: "/super-admin/cms/pricing", icon: RiPriceTag3Line, iconActive: RiPriceTag3Fill, color: "#8764b8" },
