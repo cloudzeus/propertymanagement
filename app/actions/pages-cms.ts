@@ -2,10 +2,34 @@
 import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
 import { db } from "@/lib/db";
+import { applyReorder } from "@/lib/cms/reorder";
 
 async function requireSuperAdmin() {
   const s = await auth();
   if ((s?.user as any)?.role !== "SUPER_ADMIN") throw new Error("Forbidden");
+}
+
+export async function reorderTiers(orderedIds: string[]): Promise<void> {
+  await requireSuperAdmin();
+  const rows = await db.pricingTier.findMany({ orderBy: { order: "asc" } });
+  const updates = applyReorder(orderedIds, rows);
+  await db.$transaction(
+    updates.map((u) => db.pricingTier.update({ where: { id: u.id }, data: { order: u.order } })),
+  );
+  revalidatePath("/");
+  revalidatePath("/pricing");
+  revalidatePath("/super-admin/cms/pricing");
+}
+
+export async function reorderFaqs(orderedIds: string[]): Promise<void> {
+  await requireSuperAdmin();
+  const rows = await db.fAQ.findMany({ orderBy: { order: "asc" } });
+  const updates = applyReorder(orderedIds, rows);
+  await db.$transaction(
+    updates.map((u) => db.fAQ.update({ where: { id: u.id }, data: { order: u.order } })),
+  );
+  revalidatePath("/faq");
+  revalidatePath("/super-admin/cms/faq");
 }
 
 export async function updateCmsPage(slug: string, i18n: unknown, status: string): Promise<void> {
