@@ -7,6 +7,7 @@ import { ICON_NAMES } from "@/lib/cms/icon-registry";
 import { buildFeaturePrompt, normalizeFeatureItems, type FeatureItem } from "@/lib/ai/features";
 import { buildSeoPrompt, normalizeSeo, type GeneratedSeo } from "@/lib/ai/seo";
 import { getPageContext } from "@/lib/cms/seo-context";
+import { buildTopicsPrompt, normalizeTopics, buildDraftPrompt, normalizeDraft, type Topic } from "@/lib/ai/articles";
 import type { Locale } from "@/i18n";
 
 async function requireSuperAdmin() {
@@ -47,4 +48,28 @@ export async function generateSeo(slug: string, brief: string, locale: Locale): 
   const context = await getPageContext(slug, locale);
   const text = await deepseekComplete(buildSeoPrompt(context, brief, locale, siteName));
   return normalizeSeo(text);
+}
+
+export async function suggestArticleTopics(theme: string, count: number): Promise<Topic[]> {
+  await requireSuperAdmin();
+  const n = Math.min(Math.max(Math.round(count) || 5, 1), 8);
+  const rows = await db.article.findMany({ select: { i18n: true }, take: 40, orderBy: { updatedAt: "desc" } });
+  const titles = rows
+    .map((r) => {
+      const i = (r.i18n ?? {}) as any;
+      return String(i?.title?.el ?? i?.title?.en ?? "").trim();
+    })
+    .filter(Boolean);
+  const text = await deepseekComplete(buildTopicsPrompt(theme, titles, n));
+  return normalizeTopics(text).slice(0, n);
+}
+
+export async function generateArticleDraft(
+  title: string,
+  angle: string,
+  locale: Locale,
+): Promise<{ excerpt: string; body: string }> {
+  await requireSuperAdmin();
+  const text = await deepseekComplete(buildDraftPrompt(title, angle, locale));
+  return normalizeDraft(text);
 }

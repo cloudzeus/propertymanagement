@@ -1,9 +1,10 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { RiArticleLine, RiTranslate2 } from "react-icons/ri";
+import { RiArticleLine, RiTranslate2, RiSparkling2Line } from "react-icons/ri";
 import { updateArticle } from "@/app/actions/blog";
 import { autoTranslate } from "@/app/actions/translate";
+import { generateArticleDraft } from "@/app/actions/ai-cms";
 import type { SeoMeta } from "@/lib/seo/types";
 import {
   CmsPage,
@@ -95,6 +96,22 @@ export function ArticleEditor({ article, authors }: { article: Article; authors:
   const [saved, setSaved] = useState(false);
   const [translating, setTranslating] = useState(false);
   const [pending, startTransition] = useTransition();
+  const [genBusy, setGenBusy] = useState(false);
+  const [genError, setGenError] = useState<string | null>(null);
+
+  async function generateDraft() {
+    const title = (i18n.title[locale] || i18n.title.el || "").trim();
+    if (!title) { setGenError("Χρειάζεται τίτλος πρώτα"); return; }
+    if ((i18n.body[locale] ?? "").trim() && !confirm("Αντικατάσταση υπάρχοντος κειμένου;")) return;
+    setGenError(null); setGenBusy(true);
+    try {
+      const d = await generateArticleDraft(title, i18n.excerpt[locale] ?? "", locale);
+      setContent("excerpt", d.excerpt || i18n.excerpt[locale] || "");
+      setContent("body", d.body);
+    } catch (e) {
+      setGenError(e instanceof Error ? e.message : "Αποτυχία δημιουργίας");
+    } finally { setGenBusy(false); }
+  }
 
   async function translateEnFromEl() {
     setTranslating(true);
@@ -160,6 +177,15 @@ export function ArticleEditor({ article, authors }: { article: Article; authors:
         actions={
           <>
             <LocaleTabs value={locale} onChange={setLocale} />
+            <CmsButton
+              variant="secondary"
+              loading={genBusy}
+              disabled={genBusy}
+              onClick={generateDraft}
+              icon={<RiSparkling2Line size={15} />}
+            >
+              {genBusy ? "Δημιουργία…" : "Δημιουργία πλήρους άρθρου (AI)"}
+            </CmsButton>
             {locale === "en" && (
               <CmsButton
                 variant="secondary"
@@ -170,6 +196,7 @@ export function ArticleEditor({ article, authors }: { article: Article; authors:
                 {translating ? "Μετάφραση…" : "Μετάφραση EN από EL"}
               </CmsButton>
             )}
+            {genError && <span style={{ color: "var(--destructive)", fontSize: 12 }}>{genError}</span>}
           </>
         }
       >
