@@ -6,7 +6,8 @@ import { DataTable, type ColDef, type RowAction } from "@/components/ui/data-tab
 import { Modal, FormField, FieldInput } from "@/components/ui/modal";
 import { CmsPage, LocaleTabs, CmsTextarea } from "@/components/cms/ui";
 import { AutoTranslateButton } from "@/components/i18n/AutoTranslateButton";
-import { createFaq, updateFaq, deleteFaq } from "@/app/actions/pages-cms";
+import { createFaq, updateFaq, deleteFaq, reorderFaqs } from "@/app/actions/pages-cms";
+import { ReorderPanel } from "@/components/cms/ReorderPanel";
 import { RiQuestionLine, RiCheckLine, RiLoaderLine, RiPencilLine, RiDeleteBinLine } from "react-icons/ri";
 
 type Faq = {
@@ -145,6 +146,11 @@ export function FaqClient({ initial }: { initial: Faq[] }) {
 
   return (
     <CmsPage icon={<RiQuestionLine />} title="FAQ" subtitle="Διαχείριση συχνών ερωτήσεων">
+      <ReorderPanel
+        title="Σειρά εμφάνισης — σύρετε"
+        items={initial.map((f) => ({ id: f.id, label: f.i18n?.question?.el ?? f.question }))}
+        onReorder={reorderFaqs}
+      />
       <DataTable
         data={initial}
         columns={columns}

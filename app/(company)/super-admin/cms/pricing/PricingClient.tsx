@@ -6,7 +6,8 @@ import { DataTable, type ColDef, type RowAction } from "@/components/ui/data-tab
 import { Modal, FormField, FieldInput } from "@/components/ui/modal";
 import { CmsPage, LocaleTabs } from "@/components/cms/ui";
 import { AutoTranslateButton } from "@/components/i18n/AutoTranslateButton";
-import { createPricingTier, updatePricingTier, deletePricingTier } from "@/app/actions/pages-cms";
+import { createPricingTier, updatePricingTier, deletePricingTier, reorderTiers } from "@/app/actions/pages-cms";
+import { ReorderPanel } from "@/components/cms/ReorderPanel";
 import { RiPriceTag3Line, RiCheckLine, RiLoaderLine, RiPencilLine, RiDeleteBinLine } from "react-icons/ri";
 
 type Tier = {
@@ -176,6 +177,11 @@ export function PricingClient({ initial }: { initial: Tier[] }) {
 
   return (
     <CmsPage icon={<RiPriceTag3Line />} title="Τιμές" subtitle="Διαχείριση πακέτων τιμολόγησης">
+      <ReorderPanel
+        title="Σειρά εμφάνισης — σύρετε"
+        items={initial.map((t) => ({ id: t.id, label: t.i18n?.name?.el ?? t.name }))}
+        onReorder={reorderTiers}
+      />
       <DataTable
         data={initial}
         columns={columns}
