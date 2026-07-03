@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "timestamp": "2026-07-03T10:42:44.142Z",
+  "timestamp": "2026-07-03T10:43:52.871Z",
   "source": "auto-postool",
   "partial": false,
   "phase": null,
@@ -18,93 +18,9 @@
   "uncommitted_files": [
     {
       "status": "M",
-      "path": ".planning/HANDOFF.json"
-    },
-    {
-      "status": "M",
-      "path": "app/(company)/super-admin/buildings/[id]/UnitsPanel.tsx"
-    },
-    {
-      "status": "M",
-      "path": "app/(company)/super-admin/buildings/[id]/page.tsx"
-    },
-    {
-      "status": "M",
-      "path": "app/actions/building-onboarding.ts"
-    },
-    {
-      "status": "M",
-      "path": "app/actions/buildings.ts"
-    },
-    {
-      "status": "M",
-      "path": "app/actions/employees.ts"
-    },
-    {
-      "status": "M",
-      "path": "app/actions/managers.ts"
-    },
-    {
-      "status": "M",
-      "path": "app/actions/properties.ts"
-    },
-    {
-      "status": "M",
-      "path": "app/actions/unit-occupants.ts"
-    },
-    {
-      "status": "M",
-      "path": "auth.config.ts"
-    },
-    {
-      "status": "M",
-      "path": "auth.ts"
-    },
-    {
-      "status": "M",
-      "path": "components/ui/user-combo.tsx"
-    },
-    {
-      "status": "M",
-      "path": "lib/auth-effective.ts"
-    },
-    {
-      "status": "M",
-      "path": "lib/prisma/internal/class.ts"
-    },
-    {
-      "status": "M",
-      "path": "lib/prisma/internal/prismaNamespace.ts"
-    },
-    {
-      "status": "M",
-      "path": "lib/prisma/internal/prismaNamespaceBrowser.ts"
-    },
-    {
-      "status": "M",
-      "path": "lib/prisma/models/Building.ts"
-    },
-    {
-      "status": "M",
-      "path": "lib/prisma/models/Customer.ts"
-    },
-    {
-      "status": "M",
-      "path": "lib/prisma/models/Unit.ts"
-    },
-    {
-      "status": "M",
-      "path": "prisma/schema.prisma"
-    },
-    {
-      "status": "??",
-      "path": "lib/scope.ts"
-    },
-    {
-      "status": "??",
-      "path": "prisma/migrations/20260703140000_denormalize_customer_to_building_unit/"
+      "path": "lib/dashboard/queries.ts"
     }
   ],
   "next_action": null,
-  "context_notes": "Recent commits:\n0c703ea feat(occupants): company owner/resident with contact person (TRDR-compatible)\n1c0a4c5 feat(dashboard): meaningful role labels + colored badges in recent users\nd337dc9 feat(managers): managed-property flag + widen manager/occupant flows\nee504dc feat(impersonation): role-colored view-as banner + role label chip\n0749d35 redesign(dashboard): inspiration-matched clean look"
+  "context_notes": "Recent commits:\ncc28ae8 feat(isolation): per-customer data isolation foundation + occupant/manager guards\n0c703ea feat(occupants): company owner/resident with contact person (TRDR-compatible)\n1c0a4c5 feat(dashboard): meaningful role labels + colored badges in recent users\nd337dc9 feat(managers): managed-property flag + widen manager/occupant flows\nee504dc feat(impersonation): role-colored view-as banner + role label chip"
 }

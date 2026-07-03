@@ -32,6 +32,9 @@ export async function getOwnerDashboard(userId: string) {
 
 export async function getResidentDashboard(userId: string, companyId?: string) {
   const months = lastNMonths(anchorMonth(), 6);
+  // Data isolation: a resident only sees announcements for their own building(s).
+  const residentUnits = await db.unit.findMany({ where: { residentId: userId }, select: { buildingId: true } });
+  const buildingIds = [...new Set(residentUnits.map((u) => u.buildingId))];
   const [unit, allocations, tickets, announcements] = await Promise.all([
     db.unit.findFirst({ where: { residentId: userId }, include: { building: true } }),
     db.expenseAllocation.findMany({
@@ -44,7 +47,7 @@ export async function getResidentDashboard(userId: string, companyId?: string) {
       orderBy: { createdAt: "desc" }, take: 6,
     }),
     db.announcement.findMany({
-      where: { building: companyId ? { companyId } : {}, status: "ACTIVE" },
+      where: { buildingId: { in: buildingIds }, status: "ACTIVE" },
       orderBy: { createdAt: "desc" }, take: 5,
     }),
   ]);
