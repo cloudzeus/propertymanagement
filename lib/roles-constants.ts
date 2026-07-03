@@ -30,3 +30,27 @@ export const ROLE_GROUP: Record<string, "company" | "customer" | "collaborator">
 
 /** Roles eligible to be linked as company employees (the Employees combo). */
 export const EMPLOYEE_ROLES = ["ADMIN", "MANAGER", "EMPLOYEE"] as const;
+
+// ── Display helpers (labels + badge colors) ────────────────────────────────
+/** Canonical human-readable Greek label per role. */
+export const ROLE_LABELS: Record<string, string> = {
+  SUPER_ADMIN: "Υπερ-διαχειριστής",
+  ADMIN: "Διαχειριστής",
+  MANAGER: "Υπεύθυνος",
+  EMPLOYEE: "Υπάλληλος",
+  PROPERTY_ADMIN: "Διαχ. Ακινήτου",
+  PROPERTY_OWNER: "Ιδιοκτήτης",
+  PROPERTY_RESIDENT: "Ένοικος",
+  PROPERTY_VIEWER: "Θεατής",
+  COLLABORATOR: "Συνεργάτης",
+};
+
+/** Badge color per role (Fluent palette). */
+export const ROLE_COLORS: Record<string, string> = {
+  SUPER_ADMIN: "#A4262C", ADMIN: "#0078D4", MANAGER: "#8764B8", EMPLOYEE: "#CA5D00",
+  PROPERTY_ADMIN: "#038387", PROPERTY_OWNER: "#8764B8", PROPERTY_RESIDENT: "#0078D4",
+  PROPERTY_VIEWER: "#707070", COLLABORATOR: "#107C10",
+};
+
+export const roleLabel = (role: string) => ROLE_LABELS[role] ?? role;
+export const roleColor = (role: string) => ROLE_COLORS[role] ?? "#707070";

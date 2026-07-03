@@ -1,5 +1,6 @@
 import { db } from "@/lib/db";
 import Link from "next/link";
+import { roleLabel, roleColor } from "@/lib/roles-constants";
 import {
   RiBuildingLine,
   RiGroupLine,
@@ -209,8 +210,17 @@ export default async function SuperAdminDashboard() {
                     <div style={{ fontSize: 14, fontWeight: 500, color: "var(--foreground)" }}>{u.name}</div>
                     <div style={{ fontSize: 12, color: "var(--muted-foreground)" }}>{u.email}</div>
                   </div>
-                  <span style={{ fontSize: 12, fontWeight: 600, color: "var(--color-primary)" }}>
-                    {(u as any).role}
+                  <span style={{
+                    flexShrink: 0,
+                    fontSize: 11,
+                    fontWeight: 700,
+                    padding: "3px 10px",
+                    borderRadius: 9999,
+                    background: `${roleColor((u as any).role)}18`,
+                    color: roleColor((u as any).role),
+                    whiteSpace: "nowrap",
+                  }}>
+                    {roleLabel((u as any).role)}
                   </span>
                 </div>
               ))}

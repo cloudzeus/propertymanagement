@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "timestamp": "2026-07-03T09:40:39.769Z",
+  "timestamp": "2026-07-03T09:50:54.089Z",
   "source": "auto-postool",
   "partial": false,
   "phase": null,
@@ -22,57 +22,9 @@
     },
     {
       "status": "M",
-      "path": "app/(company)/super-admin/buildings/[id]/ManagersPanel.tsx"
-    },
-    {
-      "status": "M",
-      "path": "app/(company)/super-admin/properties/AddPropertyModal.tsx"
-    },
-    {
-      "status": "M",
-      "path": "app/(company)/super-admin/properties/PropertiesClient.tsx"
-    },
-    {
-      "status": "M",
-      "path": "app/(company)/super-admin/properties/page.tsx"
-    },
-    {
-      "status": "M",
-      "path": "app/actions/managers.ts"
-    },
-    {
-      "status": "M",
-      "path": "app/actions/properties.ts"
-    },
-    {
-      "status": "M",
-      "path": "app/actions/unit-occupants.ts"
-    },
-    {
-      "status": "M",
-      "path": "lib/prisma/internal/class.ts"
-    },
-    {
-      "status": "M",
-      "path": "lib/prisma/internal/prismaNamespace.ts"
-    },
-    {
-      "status": "M",
-      "path": "lib/prisma/internal/prismaNamespaceBrowser.ts"
-    },
-    {
-      "status": "M",
-      "path": "lib/prisma/models/Property.ts"
-    },
-    {
-      "status": "M",
-      "path": "prisma/schema.prisma"
-    },
-    {
-      "status": "??",
-      "path": "prisma/migrations/20260703120000_add_property_managed/"
+      "path": "lib/roles-constants.ts"
     }
   ],
   "next_action": null,
-  "context_notes": "Recent commits:\nee504dc feat(impersonation): role-colored view-as banner + role label chip\n0749d35 redesign(dashboard): inspiration-matched clean look\n9ff50da Merge feat/orithon-persona-dashboards: Orithon persona dashboards (owner/resident/building manager)\n8d79f9e fix(dashboard): drop dead-end /manager links from building view; UTC month anchor\nf7493b2 feat(dashboard): responsive grids for persona dashboards"
+  "context_notes": "Recent commits:\nd337dc9 feat(managers): managed-property flag + widen manager/occupant flows\nee504dc feat(impersonation): role-colored view-as banner + role label chip\n0749d35 redesign(dashboard): inspiration-matched clean look\n9ff50da Merge feat/orithon-persona-dashboards: Orithon persona dashboards (owner/resident/building manager)\n8d79f9e fix(dashboard): drop dead-end /manager links from building view; UTC month anchor"
 }
