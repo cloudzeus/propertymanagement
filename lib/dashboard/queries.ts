@@ -2,8 +2,9 @@ import { db } from "@/lib/db";
 import { lastNMonths, monthlyTrend, occupancy, collectionRate } from "./aggregations";
 
 function anchorMonth(): string {
+  // UTC to stay consistent with lastNMonths() which builds the series in UTC.
   const d = new Date();
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+  return `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, "0")}`;
 }
 const OPEN = ["OPEN", "IN_PROGRESS"];
 

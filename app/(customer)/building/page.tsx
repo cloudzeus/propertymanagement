@@ -27,7 +27,7 @@ export default async function BuildingManagerDashboard() {
         <StatTile label="Οφειλέτες" value={debtors.length} sub={formatEuro(debtorAmount)} icon={RiUserUnfollowLine}
           tone="var(--color-warning)" />
         <StatTile label="Ανοιχτά αιτήματα" value={tickets.length} sub="Συντηρήσεις" icon={RiToolsLine}
-          tone="var(--color-danger)" href="/manager/maintenance" />
+          tone="var(--color-danger)" />
         <StatTile label="Έξοδα μήνα" value={formatEuro(expensesTotal)} sub={`${expenses.length} καταχωρήσεις`}
           icon={RiWallet3Line} tone="var(--color-accent)" />
       </div>
@@ -56,10 +56,10 @@ export default async function BuildingManagerDashboard() {
       </div>
 
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }} className="dash-cols">
-        <SectionCard title="Ανοιχτά αιτήματα συντήρησης" viewAllHref="/manager/maintenance">
+        <SectionCard title="Ανοιχτά αιτήματα συντήρησης">
           <TicketList tickets={tickets.map((t) => ({ id: t.id, title: t.title, status: t.status, priority: t.priority, createdAt: t.createdAt }))} />
         </SectionCard>
-        <SectionCard title="Έξοδα μήνα" viewAllHref="/manager/properties">
+        <SectionCard title="Έξοδα μήνα">
           {expenses.length === 0 ? (
             <EmptyState icon={RiWallet3Line} label="Δεν υπάρχουν έξοδα" />
           ) : (
