@@ -20,7 +20,7 @@ describe("homePathForRole", () => {
     expect(homePathForRole("SUPER_ADMIN")).toBe("/super-admin");
     expect(homePathForRole("ADMIN")).toBe("/admin");
     expect(homePathForRole("MANAGER")).toBe("/manager");
-    expect(homePathForRole("PROPERTY_ADMIN")).toBe("/portal");
+    expect(homePathForRole("PROPERTY_ADMIN")).toBe("/building");
     expect(homePathForRole("EMPLOYEE")).toBe("/staff");
     expect(homePathForRole("COLLABORATOR")).toBe("/marketplace");
     expect(homePathForRole("PROPERTY_OWNER")).toBe("/owner");
@@ -42,10 +42,10 @@ describe("deniedRedirectPath", () => {
     expect(deniedRedirectPath("PROPERTY_OWNER", "PROPERTY_OWNER", "/admin")).toBe("/unauthorized");
   });
   it("sends an impersonating super-admin to the impersonated role's home (escape hatch)", () => {
-    // super-admin impersonating PROPERTY_ADMIN, blocked on /super-admin → go to /portal where the Exit banner lives
-    expect(deniedRedirectPath("SUPER_ADMIN", "PROPERTY_ADMIN", "/super-admin")).toBe("/portal");
+    // super-admin impersonating PROPERTY_ADMIN, blocked on /super-admin → go to /building where the Exit banner lives
+    expect(deniedRedirectPath("SUPER_ADMIN", "PROPERTY_ADMIN", "/super-admin")).toBe("/building");
   });
   it("falls back to /unauthorized if the impersonated home is the path already being blocked (no loop)", () => {
-    expect(deniedRedirectPath("SUPER_ADMIN", "PROPERTY_ADMIN", "/portal")).toBe("/unauthorized");
+    expect(deniedRedirectPath("SUPER_ADMIN", "PROPERTY_ADMIN", "/building")).toBe("/unauthorized");
   });
 });

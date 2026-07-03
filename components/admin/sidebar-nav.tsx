@@ -185,7 +185,7 @@ const NAV_BY_ROLE: Record<string, NavGroup[]> = {
     {
       id: "core", label: "Κεντρικό", icon: RiDashboardLine, color: "#0078D4",
       items: [
-        { label: "Dashboard",    href: "/manager",                  icon: RiDashboardLine,           iconActive: RiDashboardFill,          color: "#0078D4" },
+        { label: "Dashboard",    href: "/building",                 icon: RiDashboardLine,           iconActive: RiDashboardFill,          color: "#0078D4" },
       ],
     },
     {
