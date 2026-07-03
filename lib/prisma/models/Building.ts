@@ -48,6 +48,7 @@ export type BuildingMinAggregateOutputType = {
   id: string | null
   companyId: string | null
   propertyId: string | null
+  customerId: string | null
   name: string | null
   address: string | null
   city: string | null
@@ -75,6 +76,7 @@ export type BuildingMaxAggregateOutputType = {
   id: string | null
   companyId: string | null
   propertyId: string | null
+  customerId: string | null
   name: string | null
   address: string | null
   city: string | null
@@ -102,6 +104,7 @@ export type BuildingCountAggregateOutputType = {
   id: number
   companyId: number
   propertyId: number
+  customerId: number
   name: number
   address: number
   city: number
@@ -149,6 +152,7 @@ export type BuildingMinAggregateInputType = {
   id?: true
   companyId?: true
   propertyId?: true
+  customerId?: true
   name?: true
   address?: true
   city?: true
@@ -176,6 +180,7 @@ export type BuildingMaxAggregateInputType = {
   id?: true
   companyId?: true
   propertyId?: true
+  customerId?: true
   name?: true
   address?: true
   city?: true
@@ -203,6 +208,7 @@ export type BuildingCountAggregateInputType = {
   id?: true
   companyId?: true
   propertyId?: true
+  customerId?: true
   name?: true
   address?: true
   city?: true
@@ -317,6 +323,7 @@ export type BuildingGroupByOutputType = {
   id: string
   companyId: string
   propertyId: string
+  customerId: string
   name: string
   address: string
   city: string
@@ -367,6 +374,7 @@ export type BuildingWhereInput = {
   id?: Prisma.StringFilter<"Building"> | string
   companyId?: Prisma.StringFilter<"Building"> | string
   propertyId?: Prisma.StringFilter<"Building"> | string
+  customerId?: Prisma.StringFilter<"Building"> | string
   name?: Prisma.StringFilter<"Building"> | string
   address?: Prisma.StringFilter<"Building"> | string
   city?: Prisma.StringFilter<"Building"> | string
@@ -390,6 +398,7 @@ export type BuildingWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"Building"> | Date | string
   company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
   property?: Prisma.XOR<Prisma.PropertyScalarRelationFilter, Prisma.PropertyWhereInput>
+  customer?: Prisma.XOR<Prisma.CustomerScalarRelationFilter, Prisma.CustomerWhereInput>
   users?: Prisma.UserListRelationFilter
   units?: Prisma.UnitListRelationFilter
   commonAreas?: Prisma.CommonAreaListRelationFilter
@@ -412,6 +421,7 @@ export type BuildingOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   companyId?: Prisma.SortOrder
   propertyId?: Prisma.SortOrder
+  customerId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   address?: Prisma.SortOrder
   city?: Prisma.SortOrder
@@ -435,6 +445,7 @@ export type BuildingOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   company?: Prisma.CompanyOrderByWithRelationInput
   property?: Prisma.PropertyOrderByWithRelationInput
+  customer?: Prisma.CustomerOrderByWithRelationInput
   users?: Prisma.UserOrderByRelationAggregateInput
   units?: Prisma.UnitOrderByRelationAggregateInput
   commonAreas?: Prisma.CommonAreaOrderByRelationAggregateInput
@@ -460,6 +471,7 @@ export type BuildingWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.BuildingWhereInput | Prisma.BuildingWhereInput[]
   companyId?: Prisma.StringFilter<"Building"> | string
   propertyId?: Prisma.StringFilter<"Building"> | string
+  customerId?: Prisma.StringFilter<"Building"> | string
   name?: Prisma.StringFilter<"Building"> | string
   address?: Prisma.StringFilter<"Building"> | string
   city?: Prisma.StringFilter<"Building"> | string
@@ -483,6 +495,7 @@ export type BuildingWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"Building"> | Date | string
   company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
   property?: Prisma.XOR<Prisma.PropertyScalarRelationFilter, Prisma.PropertyWhereInput>
+  customer?: Prisma.XOR<Prisma.CustomerScalarRelationFilter, Prisma.CustomerWhereInput>
   users?: Prisma.UserListRelationFilter
   units?: Prisma.UnitListRelationFilter
   commonAreas?: Prisma.CommonAreaListRelationFilter
@@ -505,6 +518,7 @@ export type BuildingOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   companyId?: Prisma.SortOrder
   propertyId?: Prisma.SortOrder
+  customerId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   address?: Prisma.SortOrder
   city?: Prisma.SortOrder
@@ -540,6 +554,7 @@ export type BuildingScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"Building"> | string
   companyId?: Prisma.StringWithAggregatesFilter<"Building"> | string
   propertyId?: Prisma.StringWithAggregatesFilter<"Building"> | string
+  customerId?: Prisma.StringWithAggregatesFilter<"Building"> | string
   name?: Prisma.StringWithAggregatesFilter<"Building"> | string
   address?: Prisma.StringWithAggregatesFilter<"Building"> | string
   city?: Prisma.StringWithAggregatesFilter<"Building"> | string
@@ -588,6 +603,7 @@ export type BuildingCreateInput = {
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
   property: Prisma.PropertyCreateNestedOneWithoutBuildingsInput
+  customer: Prisma.CustomerCreateNestedOneWithoutBuildingsInput
   users?: Prisma.UserCreateNestedManyWithoutBuildingInput
   units?: Prisma.UnitCreateNestedManyWithoutBuildingInput
   commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
@@ -610,6 +626,7 @@ export type BuildingUncheckedCreateInput = {
   id?: string
   companyId: string
   propertyId: string
+  customerId: string
   name: string
   address: string
   city: string
@@ -674,6 +691,7 @@ export type BuildingUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
   property?: Prisma.PropertyUpdateOneRequiredWithoutBuildingsNestedInput
+  customer?: Prisma.CustomerUpdateOneRequiredWithoutBuildingsNestedInput
   users?: Prisma.UserUpdateManyWithoutBuildingNestedInput
   units?: Prisma.UnitUpdateManyWithoutBuildingNestedInput
   commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
@@ -696,6 +714,7 @@ export type BuildingUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   companyId?: Prisma.StringFieldUpdateOperationsInput | string
   propertyId?: Prisma.StringFieldUpdateOperationsInput | string
+  customerId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
@@ -739,6 +758,7 @@ export type BuildingCreateManyInput = {
   id?: string
   companyId: string
   propertyId: string
+  customerId: string
   name: string
   address: string
   city: string
@@ -791,6 +811,7 @@ export type BuildingUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   companyId?: Prisma.StringFieldUpdateOperationsInput | string
   propertyId?: Prisma.StringFieldUpdateOperationsInput | string
+  customerId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
@@ -833,6 +854,7 @@ export type BuildingCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   companyId?: Prisma.SortOrder
   propertyId?: Prisma.SortOrder
+  customerId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   address?: Prisma.SortOrder
   city?: Prisma.SortOrder
@@ -869,6 +891,7 @@ export type BuildingMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   companyId?: Prisma.SortOrder
   propertyId?: Prisma.SortOrder
+  customerId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   address?: Prisma.SortOrder
   city?: Prisma.SortOrder
@@ -896,6 +919,7 @@ export type BuildingMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   companyId?: Prisma.SortOrder
   propertyId?: Prisma.SortOrder
+  customerId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   address?: Prisma.SortOrder
   city?: Prisma.SortOrder
@@ -1005,6 +1029,48 @@ export type BuildingUpdateOneWithoutAddonsNestedInput = {
   delete?: Prisma.BuildingWhereInput | boolean
   connect?: Prisma.BuildingWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.BuildingUpdateToOneWithWhereWithoutAddonsInput, Prisma.BuildingUpdateWithoutAddonsInput>, Prisma.BuildingUncheckedUpdateWithoutAddonsInput>
+}
+
+export type BuildingCreateNestedManyWithoutCustomerInput = {
+  create?: Prisma.XOR<Prisma.BuildingCreateWithoutCustomerInput, Prisma.BuildingUncheckedCreateWithoutCustomerInput> | Prisma.BuildingCreateWithoutCustomerInput[] | Prisma.BuildingUncheckedCreateWithoutCustomerInput[]
+  connectOrCreate?: Prisma.BuildingCreateOrConnectWithoutCustomerInput | Prisma.BuildingCreateOrConnectWithoutCustomerInput[]
+  createMany?: Prisma.BuildingCreateManyCustomerInputEnvelope
+  connect?: Prisma.BuildingWhereUniqueInput | Prisma.BuildingWhereUniqueInput[]
+}
+
+export type BuildingUncheckedCreateNestedManyWithoutCustomerInput = {
+  create?: Prisma.XOR<Prisma.BuildingCreateWithoutCustomerInput, Prisma.BuildingUncheckedCreateWithoutCustomerInput> | Prisma.BuildingCreateWithoutCustomerInput[] | Prisma.BuildingUncheckedCreateWithoutCustomerInput[]
+  connectOrCreate?: Prisma.BuildingCreateOrConnectWithoutCustomerInput | Prisma.BuildingCreateOrConnectWithoutCustomerInput[]
+  createMany?: Prisma.BuildingCreateManyCustomerInputEnvelope
+  connect?: Prisma.BuildingWhereUniqueInput | Prisma.BuildingWhereUniqueInput[]
+}
+
+export type BuildingUpdateManyWithoutCustomerNestedInput = {
+  create?: Prisma.XOR<Prisma.BuildingCreateWithoutCustomerInput, Prisma.BuildingUncheckedCreateWithoutCustomerInput> | Prisma.BuildingCreateWithoutCustomerInput[] | Prisma.BuildingUncheckedCreateWithoutCustomerInput[]
+  connectOrCreate?: Prisma.BuildingCreateOrConnectWithoutCustomerInput | Prisma.BuildingCreateOrConnectWithoutCustomerInput[]
+  upsert?: Prisma.BuildingUpsertWithWhereUniqueWithoutCustomerInput | Prisma.BuildingUpsertWithWhereUniqueWithoutCustomerInput[]
+  createMany?: Prisma.BuildingCreateManyCustomerInputEnvelope
+  set?: Prisma.BuildingWhereUniqueInput | Prisma.BuildingWhereUniqueInput[]
+  disconnect?: Prisma.BuildingWhereUniqueInput | Prisma.BuildingWhereUniqueInput[]
+  delete?: Prisma.BuildingWhereUniqueInput | Prisma.BuildingWhereUniqueInput[]
+  connect?: Prisma.BuildingWhereUniqueInput | Prisma.BuildingWhereUniqueInput[]
+  update?: Prisma.BuildingUpdateWithWhereUniqueWithoutCustomerInput | Prisma.BuildingUpdateWithWhereUniqueWithoutCustomerInput[]
+  updateMany?: Prisma.BuildingUpdateManyWithWhereWithoutCustomerInput | Prisma.BuildingUpdateManyWithWhereWithoutCustomerInput[]
+  deleteMany?: Prisma.BuildingScalarWhereInput | Prisma.BuildingScalarWhereInput[]
+}
+
+export type BuildingUncheckedUpdateManyWithoutCustomerNestedInput = {
+  create?: Prisma.XOR<Prisma.BuildingCreateWithoutCustomerInput, Prisma.BuildingUncheckedCreateWithoutCustomerInput> | Prisma.BuildingCreateWithoutCustomerInput[] | Prisma.BuildingUncheckedCreateWithoutCustomerInput[]
+  connectOrCreate?: Prisma.BuildingCreateOrConnectWithoutCustomerInput | Prisma.BuildingCreateOrConnectWithoutCustomerInput[]
+  upsert?: Prisma.BuildingUpsertWithWhereUniqueWithoutCustomerInput | Prisma.BuildingUpsertWithWhereUniqueWithoutCustomerInput[]
+  createMany?: Prisma.BuildingCreateManyCustomerInputEnvelope
+  set?: Prisma.BuildingWhereUniqueInput | Prisma.BuildingWhereUniqueInput[]
+  disconnect?: Prisma.BuildingWhereUniqueInput | Prisma.BuildingWhereUniqueInput[]
+  delete?: Prisma.BuildingWhereUniqueInput | Prisma.BuildingWhereUniqueInput[]
+  connect?: Prisma.BuildingWhereUniqueInput | Prisma.BuildingWhereUniqueInput[]
+  update?: Prisma.BuildingUpdateWithWhereUniqueWithoutCustomerInput | Prisma.BuildingUpdateWithWhereUniqueWithoutCustomerInput[]
+  updateMany?: Prisma.BuildingUpdateManyWithWhereWithoutCustomerInput | Prisma.BuildingUpdateManyWithWhereWithoutCustomerInput[]
+  deleteMany?: Prisma.BuildingScalarWhereInput | Prisma.BuildingScalarWhereInput[]
 }
 
 export type BuildingCreateNestedManyWithoutPropertyInput = {
@@ -1272,6 +1338,7 @@ export type BuildingCreateWithoutUsersInput = {
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
   property: Prisma.PropertyCreateNestedOneWithoutBuildingsInput
+  customer: Prisma.CustomerCreateNestedOneWithoutBuildingsInput
   units?: Prisma.UnitCreateNestedManyWithoutBuildingInput
   commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureCreateNestedManyWithoutBuildingInput
@@ -1293,6 +1360,7 @@ export type BuildingUncheckedCreateWithoutUsersInput = {
   id?: string
   companyId: string
   propertyId: string
+  customerId: string
   name: string
   address: string
   city: string
@@ -1372,6 +1440,7 @@ export type BuildingUpdateWithoutUsersInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
   property?: Prisma.PropertyUpdateOneRequiredWithoutBuildingsNestedInput
+  customer?: Prisma.CustomerUpdateOneRequiredWithoutBuildingsNestedInput
   units?: Prisma.UnitUpdateManyWithoutBuildingNestedInput
   commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUpdateManyWithoutBuildingNestedInput
@@ -1393,6 +1462,7 @@ export type BuildingUncheckedUpdateWithoutUsersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   companyId?: Prisma.StringFieldUpdateOperationsInput | string
   propertyId?: Prisma.StringFieldUpdateOperationsInput | string
+  customerId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1455,6 +1525,7 @@ export type BuildingCreateWithoutCompanyInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   property: Prisma.PropertyCreateNestedOneWithoutBuildingsInput
+  customer: Prisma.CustomerCreateNestedOneWithoutBuildingsInput
   users?: Prisma.UserCreateNestedManyWithoutBuildingInput
   units?: Prisma.UnitCreateNestedManyWithoutBuildingInput
   commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
@@ -1476,6 +1547,7 @@ export type BuildingCreateWithoutCompanyInput = {
 export type BuildingUncheckedCreateWithoutCompanyInput = {
   id?: string
   propertyId: string
+  customerId: string
   name: string
   address: string
   city: string
@@ -1548,6 +1620,7 @@ export type BuildingScalarWhereInput = {
   id?: Prisma.StringFilter<"Building"> | string
   companyId?: Prisma.StringFilter<"Building"> | string
   propertyId?: Prisma.StringFilter<"Building"> | string
+  customerId?: Prisma.StringFilter<"Building"> | string
   name?: Prisma.StringFilter<"Building"> | string
   address?: Prisma.StringFilter<"Building"> | string
   city?: Prisma.StringFilter<"Building"> | string
@@ -1596,6 +1669,7 @@ export type BuildingCreateWithoutAddonsInput = {
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
   property: Prisma.PropertyCreateNestedOneWithoutBuildingsInput
+  customer: Prisma.CustomerCreateNestedOneWithoutBuildingsInput
   users?: Prisma.UserCreateNestedManyWithoutBuildingInput
   units?: Prisma.UnitCreateNestedManyWithoutBuildingInput
   commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
@@ -1617,6 +1691,7 @@ export type BuildingUncheckedCreateWithoutAddonsInput = {
   id?: string
   companyId: string
   propertyId: string
+  customerId: string
   name: string
   address: string
   city: string
@@ -1696,6 +1771,7 @@ export type BuildingUpdateWithoutAddonsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
   property?: Prisma.PropertyUpdateOneRequiredWithoutBuildingsNestedInput
+  customer?: Prisma.CustomerUpdateOneRequiredWithoutBuildingsNestedInput
   users?: Prisma.UserUpdateManyWithoutBuildingNestedInput
   units?: Prisma.UnitUpdateManyWithoutBuildingNestedInput
   commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
@@ -1717,6 +1793,7 @@ export type BuildingUncheckedUpdateWithoutAddonsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   companyId?: Prisma.StringFieldUpdateOperationsInput | string
   propertyId?: Prisma.StringFieldUpdateOperationsInput | string
+  customerId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1755,6 +1832,118 @@ export type BuildingUncheckedUpdateWithoutAddonsInput = {
   heatingReadings?: Prisma.UnitHeatingReadingUncheckedUpdateManyWithoutBuildingNestedInput
 }
 
+export type BuildingCreateWithoutCustomerInput = {
+  id?: string
+  name: string
+  address: string
+  city: string
+  postalCode: string
+  country?: string
+  imageUrl?: string | null
+  floors?: number | null
+  basements?: number | null
+  unitsCount?: number
+  hasElevator?: boolean
+  hasBoiler?: boolean
+  hasFireSafety?: boolean
+  technicalNotes?: string | null
+  elevatorSurchargePerFloor?: number
+  elevatorExemptGroundFloor?: boolean
+  heatingMeterUnit?: string | null
+  lat?: number | null
+  lng?: number | null
+  dailyRoomName?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
+  property: Prisma.PropertyCreateNestedOneWithoutBuildingsInput
+  users?: Prisma.UserCreateNestedManyWithoutBuildingInput
+  units?: Prisma.UnitCreateNestedManyWithoutBuildingInput
+  commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
+  addons?: Prisma.AddonFeatureCreateNestedManyWithoutBuildingInput
+  announcements?: Prisma.AnnouncementCreateNestedManyWithoutBuildingInput
+  assemblies?: Prisma.AssemblyCreateNestedManyWithoutBuildingInput
+  maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutBuildingInput
+  managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutBuildingInput
+  files?: Prisma.BuildingFileCreateNestedManyWithoutBuildingInput
+  infraPoints?: Prisma.InfraPointCreateNestedManyWithoutBuildingInput
+  contacts?: Prisma.ContactCreateNestedManyWithoutBuildingInput
+  recurringTasks?: Prisma.RecurringTaskCreateNestedManyWithoutBuildingInput
+  expenses?: Prisma.BuildingExpenseCreateNestedManyWithoutBuildingInput
+  categoryOverrides?: Prisma.BuildingCategoryOverrideCreateNestedManyWithoutBuildingInput
+  meterReadings?: Prisma.MeterReadingCreateNestedManyWithoutBuildingInput
+  heatingReadings?: Prisma.UnitHeatingReadingCreateNestedManyWithoutBuildingInput
+}
+
+export type BuildingUncheckedCreateWithoutCustomerInput = {
+  id?: string
+  companyId: string
+  propertyId: string
+  name: string
+  address: string
+  city: string
+  postalCode: string
+  country?: string
+  imageUrl?: string | null
+  floors?: number | null
+  basements?: number | null
+  unitsCount?: number
+  hasElevator?: boolean
+  hasBoiler?: boolean
+  hasFireSafety?: boolean
+  technicalNotes?: string | null
+  elevatorSurchargePerFloor?: number
+  elevatorExemptGroundFloor?: boolean
+  heatingMeterUnit?: string | null
+  lat?: number | null
+  lng?: number | null
+  dailyRoomName?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
+  units?: Prisma.UnitUncheckedCreateNestedManyWithoutBuildingInput
+  commonAreas?: Prisma.CommonAreaUncheckedCreateNestedManyWithoutBuildingInput
+  addons?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutBuildingInput
+  announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutBuildingInput
+  assemblies?: Prisma.AssemblyUncheckedCreateNestedManyWithoutBuildingInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutBuildingInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutBuildingInput
+  files?: Prisma.BuildingFileUncheckedCreateNestedManyWithoutBuildingInput
+  infraPoints?: Prisma.InfraPointUncheckedCreateNestedManyWithoutBuildingInput
+  contacts?: Prisma.ContactUncheckedCreateNestedManyWithoutBuildingInput
+  recurringTasks?: Prisma.RecurringTaskUncheckedCreateNestedManyWithoutBuildingInput
+  expenses?: Prisma.BuildingExpenseUncheckedCreateNestedManyWithoutBuildingInput
+  categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedCreateNestedManyWithoutBuildingInput
+  meterReadings?: Prisma.MeterReadingUncheckedCreateNestedManyWithoutBuildingInput
+  heatingReadings?: Prisma.UnitHeatingReadingUncheckedCreateNestedManyWithoutBuildingInput
+}
+
+export type BuildingCreateOrConnectWithoutCustomerInput = {
+  where: Prisma.BuildingWhereUniqueInput
+  create: Prisma.XOR<Prisma.BuildingCreateWithoutCustomerInput, Prisma.BuildingUncheckedCreateWithoutCustomerInput>
+}
+
+export type BuildingCreateManyCustomerInputEnvelope = {
+  data: Prisma.BuildingCreateManyCustomerInput | Prisma.BuildingCreateManyCustomerInput[]
+  skipDuplicates?: boolean
+}
+
+export type BuildingUpsertWithWhereUniqueWithoutCustomerInput = {
+  where: Prisma.BuildingWhereUniqueInput
+  update: Prisma.XOR<Prisma.BuildingUpdateWithoutCustomerInput, Prisma.BuildingUncheckedUpdateWithoutCustomerInput>
+  create: Prisma.XOR<Prisma.BuildingCreateWithoutCustomerInput, Prisma.BuildingUncheckedCreateWithoutCustomerInput>
+}
+
+export type BuildingUpdateWithWhereUniqueWithoutCustomerInput = {
+  where: Prisma.BuildingWhereUniqueInput
+  data: Prisma.XOR<Prisma.BuildingUpdateWithoutCustomerInput, Prisma.BuildingUncheckedUpdateWithoutCustomerInput>
+}
+
+export type BuildingUpdateManyWithWhereWithoutCustomerInput = {
+  where: Prisma.BuildingScalarWhereInput
+  data: Prisma.XOR<Prisma.BuildingUpdateManyMutationInput, Prisma.BuildingUncheckedUpdateManyWithoutCustomerInput>
+}
+
 export type BuildingCreateWithoutPropertyInput = {
   id?: string
   name: string
@@ -1779,6 +1968,7 @@ export type BuildingCreateWithoutPropertyInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
+  customer: Prisma.CustomerCreateNestedOneWithoutBuildingsInput
   users?: Prisma.UserCreateNestedManyWithoutBuildingInput
   units?: Prisma.UnitCreateNestedManyWithoutBuildingInput
   commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
@@ -1800,6 +1990,7 @@ export type BuildingCreateWithoutPropertyInput = {
 export type BuildingUncheckedCreateWithoutPropertyInput = {
   id?: string
   companyId: string
+  customerId: string
   name: string
   address: string
   city: string
@@ -1890,6 +2081,7 @@ export type BuildingCreateWithoutFilesInput = {
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
   property: Prisma.PropertyCreateNestedOneWithoutBuildingsInput
+  customer: Prisma.CustomerCreateNestedOneWithoutBuildingsInput
   users?: Prisma.UserCreateNestedManyWithoutBuildingInput
   units?: Prisma.UnitCreateNestedManyWithoutBuildingInput
   commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
@@ -1911,6 +2103,7 @@ export type BuildingUncheckedCreateWithoutFilesInput = {
   id?: string
   companyId: string
   propertyId: string
+  customerId: string
   name: string
   address: string
   city: string
@@ -1990,6 +2183,7 @@ export type BuildingUpdateWithoutFilesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
   property?: Prisma.PropertyUpdateOneRequiredWithoutBuildingsNestedInput
+  customer?: Prisma.CustomerUpdateOneRequiredWithoutBuildingsNestedInput
   users?: Prisma.UserUpdateManyWithoutBuildingNestedInput
   units?: Prisma.UnitUpdateManyWithoutBuildingNestedInput
   commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
@@ -2011,6 +2205,7 @@ export type BuildingUncheckedUpdateWithoutFilesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   companyId?: Prisma.StringFieldUpdateOperationsInput | string
   propertyId?: Prisma.StringFieldUpdateOperationsInput | string
+  customerId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2074,6 +2269,7 @@ export type BuildingCreateWithoutInfraPointsInput = {
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
   property: Prisma.PropertyCreateNestedOneWithoutBuildingsInput
+  customer: Prisma.CustomerCreateNestedOneWithoutBuildingsInput
   users?: Prisma.UserCreateNestedManyWithoutBuildingInput
   units?: Prisma.UnitCreateNestedManyWithoutBuildingInput
   commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
@@ -2095,6 +2291,7 @@ export type BuildingUncheckedCreateWithoutInfraPointsInput = {
   id?: string
   companyId: string
   propertyId: string
+  customerId: string
   name: string
   address: string
   city: string
@@ -2174,6 +2371,7 @@ export type BuildingUpdateWithoutInfraPointsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
   property?: Prisma.PropertyUpdateOneRequiredWithoutBuildingsNestedInput
+  customer?: Prisma.CustomerUpdateOneRequiredWithoutBuildingsNestedInput
   users?: Prisma.UserUpdateManyWithoutBuildingNestedInput
   units?: Prisma.UnitUpdateManyWithoutBuildingNestedInput
   commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
@@ -2195,6 +2393,7 @@ export type BuildingUncheckedUpdateWithoutInfraPointsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   companyId?: Prisma.StringFieldUpdateOperationsInput | string
   propertyId?: Prisma.StringFieldUpdateOperationsInput | string
+  customerId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2258,6 +2457,7 @@ export type BuildingCreateWithoutContactsInput = {
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
   property: Prisma.PropertyCreateNestedOneWithoutBuildingsInput
+  customer: Prisma.CustomerCreateNestedOneWithoutBuildingsInput
   users?: Prisma.UserCreateNestedManyWithoutBuildingInput
   units?: Prisma.UnitCreateNestedManyWithoutBuildingInput
   commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
@@ -2279,6 +2479,7 @@ export type BuildingUncheckedCreateWithoutContactsInput = {
   id?: string
   companyId: string
   propertyId: string
+  customerId: string
   name: string
   address: string
   city: string
@@ -2358,6 +2559,7 @@ export type BuildingUpdateWithoutContactsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
   property?: Prisma.PropertyUpdateOneRequiredWithoutBuildingsNestedInput
+  customer?: Prisma.CustomerUpdateOneRequiredWithoutBuildingsNestedInput
   users?: Prisma.UserUpdateManyWithoutBuildingNestedInput
   units?: Prisma.UnitUpdateManyWithoutBuildingNestedInput
   commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
@@ -2379,6 +2581,7 @@ export type BuildingUncheckedUpdateWithoutContactsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   companyId?: Prisma.StringFieldUpdateOperationsInput | string
   propertyId?: Prisma.StringFieldUpdateOperationsInput | string
+  customerId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2442,6 +2645,7 @@ export type BuildingCreateWithoutRecurringTasksInput = {
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
   property: Prisma.PropertyCreateNestedOneWithoutBuildingsInput
+  customer: Prisma.CustomerCreateNestedOneWithoutBuildingsInput
   users?: Prisma.UserCreateNestedManyWithoutBuildingInput
   units?: Prisma.UnitCreateNestedManyWithoutBuildingInput
   commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
@@ -2463,6 +2667,7 @@ export type BuildingUncheckedCreateWithoutRecurringTasksInput = {
   id?: string
   companyId: string
   propertyId: string
+  customerId: string
   name: string
   address: string
   city: string
@@ -2542,6 +2747,7 @@ export type BuildingUpdateWithoutRecurringTasksInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
   property?: Prisma.PropertyUpdateOneRequiredWithoutBuildingsNestedInput
+  customer?: Prisma.CustomerUpdateOneRequiredWithoutBuildingsNestedInput
   users?: Prisma.UserUpdateManyWithoutBuildingNestedInput
   units?: Prisma.UnitUpdateManyWithoutBuildingNestedInput
   commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
@@ -2563,6 +2769,7 @@ export type BuildingUncheckedUpdateWithoutRecurringTasksInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   companyId?: Prisma.StringFieldUpdateOperationsInput | string
   propertyId?: Prisma.StringFieldUpdateOperationsInput | string
+  customerId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2626,6 +2833,7 @@ export type BuildingCreateWithoutExpensesInput = {
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
   property: Prisma.PropertyCreateNestedOneWithoutBuildingsInput
+  customer: Prisma.CustomerCreateNestedOneWithoutBuildingsInput
   users?: Prisma.UserCreateNestedManyWithoutBuildingInput
   units?: Prisma.UnitCreateNestedManyWithoutBuildingInput
   commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
@@ -2647,6 +2855,7 @@ export type BuildingUncheckedCreateWithoutExpensesInput = {
   id?: string
   companyId: string
   propertyId: string
+  customerId: string
   name: string
   address: string
   city: string
@@ -2726,6 +2935,7 @@ export type BuildingUpdateWithoutExpensesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
   property?: Prisma.PropertyUpdateOneRequiredWithoutBuildingsNestedInput
+  customer?: Prisma.CustomerUpdateOneRequiredWithoutBuildingsNestedInput
   users?: Prisma.UserUpdateManyWithoutBuildingNestedInput
   units?: Prisma.UnitUpdateManyWithoutBuildingNestedInput
   commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
@@ -2747,6 +2957,7 @@ export type BuildingUncheckedUpdateWithoutExpensesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   companyId?: Prisma.StringFieldUpdateOperationsInput | string
   propertyId?: Prisma.StringFieldUpdateOperationsInput | string
+  customerId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2810,6 +3021,7 @@ export type BuildingCreateWithoutCategoryOverridesInput = {
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
   property: Prisma.PropertyCreateNestedOneWithoutBuildingsInput
+  customer: Prisma.CustomerCreateNestedOneWithoutBuildingsInput
   users?: Prisma.UserCreateNestedManyWithoutBuildingInput
   units?: Prisma.UnitCreateNestedManyWithoutBuildingInput
   commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
@@ -2831,6 +3043,7 @@ export type BuildingUncheckedCreateWithoutCategoryOverridesInput = {
   id?: string
   companyId: string
   propertyId: string
+  customerId: string
   name: string
   address: string
   city: string
@@ -2910,6 +3123,7 @@ export type BuildingUpdateWithoutCategoryOverridesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
   property?: Prisma.PropertyUpdateOneRequiredWithoutBuildingsNestedInput
+  customer?: Prisma.CustomerUpdateOneRequiredWithoutBuildingsNestedInput
   users?: Prisma.UserUpdateManyWithoutBuildingNestedInput
   units?: Prisma.UnitUpdateManyWithoutBuildingNestedInput
   commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
@@ -2931,6 +3145,7 @@ export type BuildingUncheckedUpdateWithoutCategoryOverridesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   companyId?: Prisma.StringFieldUpdateOperationsInput | string
   propertyId?: Prisma.StringFieldUpdateOperationsInput | string
+  customerId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2994,6 +3209,7 @@ export type BuildingCreateWithoutHeatingReadingsInput = {
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
   property: Prisma.PropertyCreateNestedOneWithoutBuildingsInput
+  customer: Prisma.CustomerCreateNestedOneWithoutBuildingsInput
   users?: Prisma.UserCreateNestedManyWithoutBuildingInput
   units?: Prisma.UnitCreateNestedManyWithoutBuildingInput
   commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
@@ -3015,6 +3231,7 @@ export type BuildingUncheckedCreateWithoutHeatingReadingsInput = {
   id?: string
   companyId: string
   propertyId: string
+  customerId: string
   name: string
   address: string
   city: string
@@ -3094,6 +3311,7 @@ export type BuildingUpdateWithoutHeatingReadingsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
   property?: Prisma.PropertyUpdateOneRequiredWithoutBuildingsNestedInput
+  customer?: Prisma.CustomerUpdateOneRequiredWithoutBuildingsNestedInput
   users?: Prisma.UserUpdateManyWithoutBuildingNestedInput
   units?: Prisma.UnitUpdateManyWithoutBuildingNestedInput
   commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
@@ -3115,6 +3333,7 @@ export type BuildingUncheckedUpdateWithoutHeatingReadingsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   companyId?: Prisma.StringFieldUpdateOperationsInput | string
   propertyId?: Prisma.StringFieldUpdateOperationsInput | string
+  customerId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
@@ -3178,6 +3397,7 @@ export type BuildingCreateWithoutMeterReadingsInput = {
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
   property: Prisma.PropertyCreateNestedOneWithoutBuildingsInput
+  customer: Prisma.CustomerCreateNestedOneWithoutBuildingsInput
   users?: Prisma.UserCreateNestedManyWithoutBuildingInput
   units?: Prisma.UnitCreateNestedManyWithoutBuildingInput
   commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
@@ -3199,6 +3419,7 @@ export type BuildingUncheckedCreateWithoutMeterReadingsInput = {
   id?: string
   companyId: string
   propertyId: string
+  customerId: string
   name: string
   address: string
   city: string
@@ -3278,6 +3499,7 @@ export type BuildingUpdateWithoutMeterReadingsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
   property?: Prisma.PropertyUpdateOneRequiredWithoutBuildingsNestedInput
+  customer?: Prisma.CustomerUpdateOneRequiredWithoutBuildingsNestedInput
   users?: Prisma.UserUpdateManyWithoutBuildingNestedInput
   units?: Prisma.UnitUpdateManyWithoutBuildingNestedInput
   commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
@@ -3299,6 +3521,7 @@ export type BuildingUncheckedUpdateWithoutMeterReadingsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   companyId?: Prisma.StringFieldUpdateOperationsInput | string
   propertyId?: Prisma.StringFieldUpdateOperationsInput | string
+  customerId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
@@ -3362,6 +3585,7 @@ export type BuildingCreateWithoutManagementAssignmentsInput = {
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
   property: Prisma.PropertyCreateNestedOneWithoutBuildingsInput
+  customer: Prisma.CustomerCreateNestedOneWithoutBuildingsInput
   users?: Prisma.UserCreateNestedManyWithoutBuildingInput
   units?: Prisma.UnitCreateNestedManyWithoutBuildingInput
   commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
@@ -3383,6 +3607,7 @@ export type BuildingUncheckedCreateWithoutManagementAssignmentsInput = {
   id?: string
   companyId: string
   propertyId: string
+  customerId: string
   name: string
   address: string
   city: string
@@ -3462,6 +3687,7 @@ export type BuildingUpdateWithoutManagementAssignmentsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
   property?: Prisma.PropertyUpdateOneRequiredWithoutBuildingsNestedInput
+  customer?: Prisma.CustomerUpdateOneRequiredWithoutBuildingsNestedInput
   users?: Prisma.UserUpdateManyWithoutBuildingNestedInput
   units?: Prisma.UnitUpdateManyWithoutBuildingNestedInput
   commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
@@ -3483,6 +3709,7 @@ export type BuildingUncheckedUpdateWithoutManagementAssignmentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   companyId?: Prisma.StringFieldUpdateOperationsInput | string
   propertyId?: Prisma.StringFieldUpdateOperationsInput | string
+  customerId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
@@ -3546,6 +3773,7 @@ export type BuildingCreateWithoutCommonAreasInput = {
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
   property: Prisma.PropertyCreateNestedOneWithoutBuildingsInput
+  customer: Prisma.CustomerCreateNestedOneWithoutBuildingsInput
   users?: Prisma.UserCreateNestedManyWithoutBuildingInput
   units?: Prisma.UnitCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureCreateNestedManyWithoutBuildingInput
@@ -3567,6 +3795,7 @@ export type BuildingUncheckedCreateWithoutCommonAreasInput = {
   id?: string
   companyId: string
   propertyId: string
+  customerId: string
   name: string
   address: string
   city: string
@@ -3646,6 +3875,7 @@ export type BuildingUpdateWithoutCommonAreasInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
   property?: Prisma.PropertyUpdateOneRequiredWithoutBuildingsNestedInput
+  customer?: Prisma.CustomerUpdateOneRequiredWithoutBuildingsNestedInput
   users?: Prisma.UserUpdateManyWithoutBuildingNestedInput
   units?: Prisma.UnitUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUpdateManyWithoutBuildingNestedInput
@@ -3667,6 +3897,7 @@ export type BuildingUncheckedUpdateWithoutCommonAreasInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   companyId?: Prisma.StringFieldUpdateOperationsInput | string
   propertyId?: Prisma.StringFieldUpdateOperationsInput | string
+  customerId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
@@ -3730,6 +3961,7 @@ export type BuildingCreateWithoutUnitsInput = {
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
   property: Prisma.PropertyCreateNestedOneWithoutBuildingsInput
+  customer: Prisma.CustomerCreateNestedOneWithoutBuildingsInput
   users?: Prisma.UserCreateNestedManyWithoutBuildingInput
   commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureCreateNestedManyWithoutBuildingInput
@@ -3751,6 +3983,7 @@ export type BuildingUncheckedCreateWithoutUnitsInput = {
   id?: string
   companyId: string
   propertyId: string
+  customerId: string
   name: string
   address: string
   city: string
@@ -3830,6 +4063,7 @@ export type BuildingUpdateWithoutUnitsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
   property?: Prisma.PropertyUpdateOneRequiredWithoutBuildingsNestedInput
+  customer?: Prisma.CustomerUpdateOneRequiredWithoutBuildingsNestedInput
   users?: Prisma.UserUpdateManyWithoutBuildingNestedInput
   commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUpdateManyWithoutBuildingNestedInput
@@ -3851,6 +4085,7 @@ export type BuildingUncheckedUpdateWithoutUnitsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   companyId?: Prisma.StringFieldUpdateOperationsInput | string
   propertyId?: Prisma.StringFieldUpdateOperationsInput | string
+  customerId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
@@ -3914,6 +4149,7 @@ export type BuildingCreateWithoutAnnouncementsInput = {
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
   property: Prisma.PropertyCreateNestedOneWithoutBuildingsInput
+  customer: Prisma.CustomerCreateNestedOneWithoutBuildingsInput
   users?: Prisma.UserCreateNestedManyWithoutBuildingInput
   units?: Prisma.UnitCreateNestedManyWithoutBuildingInput
   commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
@@ -3935,6 +4171,7 @@ export type BuildingUncheckedCreateWithoutAnnouncementsInput = {
   id?: string
   companyId: string
   propertyId: string
+  customerId: string
   name: string
   address: string
   city: string
@@ -4014,6 +4251,7 @@ export type BuildingUpdateWithoutAnnouncementsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
   property?: Prisma.PropertyUpdateOneRequiredWithoutBuildingsNestedInput
+  customer?: Prisma.CustomerUpdateOneRequiredWithoutBuildingsNestedInput
   users?: Prisma.UserUpdateManyWithoutBuildingNestedInput
   units?: Prisma.UnitUpdateManyWithoutBuildingNestedInput
   commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
@@ -4035,6 +4273,7 @@ export type BuildingUncheckedUpdateWithoutAnnouncementsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   companyId?: Prisma.StringFieldUpdateOperationsInput | string
   propertyId?: Prisma.StringFieldUpdateOperationsInput | string
+  customerId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
@@ -4098,6 +4337,7 @@ export type BuildingCreateWithoutAssembliesInput = {
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
   property: Prisma.PropertyCreateNestedOneWithoutBuildingsInput
+  customer: Prisma.CustomerCreateNestedOneWithoutBuildingsInput
   users?: Prisma.UserCreateNestedManyWithoutBuildingInput
   units?: Prisma.UnitCreateNestedManyWithoutBuildingInput
   commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
@@ -4119,6 +4359,7 @@ export type BuildingUncheckedCreateWithoutAssembliesInput = {
   id?: string
   companyId: string
   propertyId: string
+  customerId: string
   name: string
   address: string
   city: string
@@ -4198,6 +4439,7 @@ export type BuildingUpdateWithoutAssembliesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
   property?: Prisma.PropertyUpdateOneRequiredWithoutBuildingsNestedInput
+  customer?: Prisma.CustomerUpdateOneRequiredWithoutBuildingsNestedInput
   users?: Prisma.UserUpdateManyWithoutBuildingNestedInput
   units?: Prisma.UnitUpdateManyWithoutBuildingNestedInput
   commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
@@ -4219,6 +4461,7 @@ export type BuildingUncheckedUpdateWithoutAssembliesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   companyId?: Prisma.StringFieldUpdateOperationsInput | string
   propertyId?: Prisma.StringFieldUpdateOperationsInput | string
+  customerId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
@@ -4282,6 +4525,7 @@ export type BuildingCreateWithoutMaintenanceRequestsInput = {
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
   property: Prisma.PropertyCreateNestedOneWithoutBuildingsInput
+  customer: Prisma.CustomerCreateNestedOneWithoutBuildingsInput
   users?: Prisma.UserCreateNestedManyWithoutBuildingInput
   units?: Prisma.UnitCreateNestedManyWithoutBuildingInput
   commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
@@ -4303,6 +4547,7 @@ export type BuildingUncheckedCreateWithoutMaintenanceRequestsInput = {
   id?: string
   companyId: string
   propertyId: string
+  customerId: string
   name: string
   address: string
   city: string
@@ -4382,6 +4627,7 @@ export type BuildingUpdateWithoutMaintenanceRequestsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
   property?: Prisma.PropertyUpdateOneRequiredWithoutBuildingsNestedInput
+  customer?: Prisma.CustomerUpdateOneRequiredWithoutBuildingsNestedInput
   users?: Prisma.UserUpdateManyWithoutBuildingNestedInput
   units?: Prisma.UnitUpdateManyWithoutBuildingNestedInput
   commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
@@ -4403,6 +4649,7 @@ export type BuildingUncheckedUpdateWithoutMaintenanceRequestsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   companyId?: Prisma.StringFieldUpdateOperationsInput | string
   propertyId?: Prisma.StringFieldUpdateOperationsInput | string
+  customerId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
@@ -4444,6 +4691,7 @@ export type BuildingUncheckedUpdateWithoutMaintenanceRequestsInput = {
 export type BuildingCreateManyCompanyInput = {
   id?: string
   propertyId: string
+  customerId: string
   name: string
   address: string
   city: string
@@ -4491,6 +4739,7 @@ export type BuildingUpdateWithoutCompanyInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   property?: Prisma.PropertyUpdateOneRequiredWithoutBuildingsNestedInput
+  customer?: Prisma.CustomerUpdateOneRequiredWithoutBuildingsNestedInput
   users?: Prisma.UserUpdateManyWithoutBuildingNestedInput
   units?: Prisma.UnitUpdateManyWithoutBuildingNestedInput
   commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
@@ -4512,6 +4761,7 @@ export type BuildingUpdateWithoutCompanyInput = {
 export type BuildingUncheckedUpdateWithoutCompanyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   propertyId?: Prisma.StringFieldUpdateOperationsInput | string
+  customerId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
@@ -4554,6 +4804,147 @@ export type BuildingUncheckedUpdateWithoutCompanyInput = {
 export type BuildingUncheckedUpdateManyWithoutCompanyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   propertyId?: Prisma.StringFieldUpdateOperationsInput | string
+  customerId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.StringFieldUpdateOperationsInput | string
+  postalCode?: Prisma.StringFieldUpdateOperationsInput | string
+  country?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  floors?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  basements?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  unitsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  hasElevator?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasBoiler?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasFireSafety?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
+  elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type BuildingCreateManyCustomerInput = {
+  id?: string
+  companyId: string
+  propertyId: string
+  name: string
+  address: string
+  city: string
+  postalCode: string
+  country?: string
+  imageUrl?: string | null
+  floors?: number | null
+  basements?: number | null
+  unitsCount?: number
+  hasElevator?: boolean
+  hasBoiler?: boolean
+  hasFireSafety?: boolean
+  technicalNotes?: string | null
+  elevatorSurchargePerFloor?: number
+  elevatorExemptGroundFloor?: boolean
+  heatingMeterUnit?: string | null
+  lat?: number | null
+  lng?: number | null
+  dailyRoomName?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type BuildingUpdateWithoutCustomerInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.StringFieldUpdateOperationsInput | string
+  postalCode?: Prisma.StringFieldUpdateOperationsInput | string
+  country?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  floors?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  basements?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  unitsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  hasElevator?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasBoiler?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasFireSafety?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
+  elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
+  property?: Prisma.PropertyUpdateOneRequiredWithoutBuildingsNestedInput
+  users?: Prisma.UserUpdateManyWithoutBuildingNestedInput
+  units?: Prisma.UnitUpdateManyWithoutBuildingNestedInput
+  commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
+  addons?: Prisma.AddonFeatureUpdateManyWithoutBuildingNestedInput
+  announcements?: Prisma.AnnouncementUpdateManyWithoutBuildingNestedInput
+  assemblies?: Prisma.AssemblyUpdateManyWithoutBuildingNestedInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutBuildingNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutBuildingNestedInput
+  files?: Prisma.BuildingFileUpdateManyWithoutBuildingNestedInput
+  infraPoints?: Prisma.InfraPointUpdateManyWithoutBuildingNestedInput
+  contacts?: Prisma.ContactUpdateManyWithoutBuildingNestedInput
+  recurringTasks?: Prisma.RecurringTaskUpdateManyWithoutBuildingNestedInput
+  expenses?: Prisma.BuildingExpenseUpdateManyWithoutBuildingNestedInput
+  categoryOverrides?: Prisma.BuildingCategoryOverrideUpdateManyWithoutBuildingNestedInput
+  meterReadings?: Prisma.MeterReadingUpdateManyWithoutBuildingNestedInput
+  heatingReadings?: Prisma.UnitHeatingReadingUpdateManyWithoutBuildingNestedInput
+}
+
+export type BuildingUncheckedUpdateWithoutCustomerInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  companyId?: Prisma.StringFieldUpdateOperationsInput | string
+  propertyId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.StringFieldUpdateOperationsInput | string
+  postalCode?: Prisma.StringFieldUpdateOperationsInput | string
+  country?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  floors?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  basements?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  unitsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  hasElevator?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasBoiler?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasFireSafety?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
+  elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
+  units?: Prisma.UnitUncheckedUpdateManyWithoutBuildingNestedInput
+  commonAreas?: Prisma.CommonAreaUncheckedUpdateManyWithoutBuildingNestedInput
+  addons?: Prisma.AddonFeatureUncheckedUpdateManyWithoutBuildingNestedInput
+  announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutBuildingNestedInput
+  assemblies?: Prisma.AssemblyUncheckedUpdateManyWithoutBuildingNestedInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutBuildingNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutBuildingNestedInput
+  files?: Prisma.BuildingFileUncheckedUpdateManyWithoutBuildingNestedInput
+  infraPoints?: Prisma.InfraPointUncheckedUpdateManyWithoutBuildingNestedInput
+  contacts?: Prisma.ContactUncheckedUpdateManyWithoutBuildingNestedInput
+  recurringTasks?: Prisma.RecurringTaskUncheckedUpdateManyWithoutBuildingNestedInput
+  expenses?: Prisma.BuildingExpenseUncheckedUpdateManyWithoutBuildingNestedInput
+  categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedUpdateManyWithoutBuildingNestedInput
+  meterReadings?: Prisma.MeterReadingUncheckedUpdateManyWithoutBuildingNestedInput
+  heatingReadings?: Prisma.UnitHeatingReadingUncheckedUpdateManyWithoutBuildingNestedInput
+}
+
+export type BuildingUncheckedUpdateManyWithoutCustomerInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  companyId?: Prisma.StringFieldUpdateOperationsInput | string
+  propertyId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
@@ -4580,6 +4971,7 @@ export type BuildingUncheckedUpdateManyWithoutCompanyInput = {
 export type BuildingCreateManyPropertyInput = {
   id?: string
   companyId: string
+  customerId: string
   name: string
   address: string
   city: string
@@ -4627,6 +5019,7 @@ export type BuildingUpdateWithoutPropertyInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
+  customer?: Prisma.CustomerUpdateOneRequiredWithoutBuildingsNestedInput
   users?: Prisma.UserUpdateManyWithoutBuildingNestedInput
   units?: Prisma.UnitUpdateManyWithoutBuildingNestedInput
   commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
@@ -4648,6 +5041,7 @@ export type BuildingUpdateWithoutPropertyInput = {
 export type BuildingUncheckedUpdateWithoutPropertyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   companyId?: Prisma.StringFieldUpdateOperationsInput | string
+  customerId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
@@ -4690,6 +5084,7 @@ export type BuildingUncheckedUpdateWithoutPropertyInput = {
 export type BuildingUncheckedUpdateManyWithoutPropertyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   companyId?: Prisma.StringFieldUpdateOperationsInput | string
+  customerId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
@@ -4883,6 +5278,7 @@ export type BuildingSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   id?: boolean
   companyId?: boolean
   propertyId?: boolean
+  customerId?: boolean
   name?: boolean
   address?: boolean
   city?: boolean
@@ -4906,6 +5302,7 @@ export type BuildingSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   updatedAt?: boolean
   company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
   property?: boolean | Prisma.PropertyDefaultArgs<ExtArgs>
+  customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
   users?: boolean | Prisma.Building$usersArgs<ExtArgs>
   units?: boolean | Prisma.Building$unitsArgs<ExtArgs>
   commonAreas?: boolean | Prisma.Building$commonAreasArgs<ExtArgs>
@@ -4929,6 +5326,7 @@ export type BuildingSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   id?: boolean
   companyId?: boolean
   propertyId?: boolean
+  customerId?: boolean
   name?: boolean
   address?: boolean
   city?: boolean
@@ -4952,12 +5350,14 @@ export type BuildingSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   updatedAt?: boolean
   company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
   property?: boolean | Prisma.PropertyDefaultArgs<ExtArgs>
+  customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["building"]>
 
 export type BuildingSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   companyId?: boolean
   propertyId?: boolean
+  customerId?: boolean
   name?: boolean
   address?: boolean
   city?: boolean
@@ -4981,12 +5381,14 @@ export type BuildingSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   updatedAt?: boolean
   company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
   property?: boolean | Prisma.PropertyDefaultArgs<ExtArgs>
+  customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["building"]>
 
 export type BuildingSelectScalar = {
   id?: boolean
   companyId?: boolean
   propertyId?: boolean
+  customerId?: boolean
   name?: boolean
   address?: boolean
   city?: boolean
@@ -5010,10 +5412,11 @@ export type BuildingSelectScalar = {
   updatedAt?: boolean
 }
 
-export type BuildingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "companyId" | "propertyId" | "name" | "address" | "city" | "postalCode" | "country" | "imageUrl" | "floors" | "basements" | "unitsCount" | "hasElevator" | "hasBoiler" | "hasFireSafety" | "technicalNotes" | "elevatorSurchargePerFloor" | "elevatorExemptGroundFloor" | "heatingMeterUnit" | "lat" | "lng" | "dailyRoomName" | "createdAt" | "updatedAt", ExtArgs["result"]["building"]>
+export type BuildingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "companyId" | "propertyId" | "customerId" | "name" | "address" | "city" | "postalCode" | "country" | "imageUrl" | "floors" | "basements" | "unitsCount" | "hasElevator" | "hasBoiler" | "hasFireSafety" | "technicalNotes" | "elevatorSurchargePerFloor" | "elevatorExemptGroundFloor" | "heatingMeterUnit" | "lat" | "lng" | "dailyRoomName" | "createdAt" | "updatedAt", ExtArgs["result"]["building"]>
 export type BuildingInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
   property?: boolean | Prisma.PropertyDefaultArgs<ExtArgs>
+  customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
   users?: boolean | Prisma.Building$usersArgs<ExtArgs>
   units?: boolean | Prisma.Building$unitsArgs<ExtArgs>
   commonAreas?: boolean | Prisma.Building$commonAreasArgs<ExtArgs>
@@ -5035,10 +5438,12 @@ export type BuildingInclude<ExtArgs extends runtime.Types.Extensions.InternalArg
 export type BuildingIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
   property?: boolean | Prisma.PropertyDefaultArgs<ExtArgs>
+  customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
 }
 export type BuildingIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
   property?: boolean | Prisma.PropertyDefaultArgs<ExtArgs>
+  customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
 }
 
 export type $BuildingPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -5046,6 +5451,7 @@ export type $BuildingPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
   objects: {
     company: Prisma.$CompanyPayload<ExtArgs>
     property: Prisma.$PropertyPayload<ExtArgs>
+    customer: Prisma.$CustomerPayload<ExtArgs>
     users: Prisma.$UserPayload<ExtArgs>[]
     units: Prisma.$UnitPayload<ExtArgs>[]
     commonAreas: Prisma.$CommonAreaPayload<ExtArgs>[]
@@ -5067,6 +5473,7 @@ export type $BuildingPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     id: string
     companyId: string
     propertyId: string
+    customerId: string
     name: string
     address: string
     city: string
@@ -5484,6 +5891,7 @@ export interface Prisma__BuildingClient<T, Null = never, ExtArgs extends runtime
   readonly [Symbol.toStringTag]: "PrismaPromise"
   company<T extends Prisma.CompanyDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CompanyDefaultArgs<ExtArgs>>): Prisma.Prisma__CompanyClient<runtime.Types.Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   property<T extends Prisma.PropertyDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PropertyDefaultArgs<ExtArgs>>): Prisma.Prisma__PropertyClient<runtime.Types.Result.GetResult<Prisma.$PropertyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  customer<T extends Prisma.CustomerDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CustomerDefaultArgs<ExtArgs>>): Prisma.Prisma__CustomerClient<runtime.Types.Result.GetResult<Prisma.$CustomerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   users<T extends Prisma.Building$usersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Building$usersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   units<T extends Prisma.Building$unitsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Building$unitsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UnitPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   commonAreas<T extends Prisma.Building$commonAreasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Building$commonAreasArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CommonAreaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -5532,6 +5940,7 @@ export interface BuildingFieldRefs {
   readonly id: Prisma.FieldRef<"Building", 'String'>
   readonly companyId: Prisma.FieldRef<"Building", 'String'>
   readonly propertyId: Prisma.FieldRef<"Building", 'String'>
+  readonly customerId: Prisma.FieldRef<"Building", 'String'>
   readonly name: Prisma.FieldRef<"Building", 'String'>
   readonly address: Prisma.FieldRef<"Building", 'String'>
   readonly city: Prisma.FieldRef<"Building", 'String'>

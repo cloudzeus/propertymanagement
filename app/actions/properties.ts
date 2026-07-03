@@ -77,6 +77,7 @@ export async function createProperty(data: PropertyInput) {
   const building = await db.building.create({
     data: {
       companyId,
+      customerId: property.customerId,
       propertyId: property.id,
       name: data.buildingName?.trim() || property.name,
       address: sameAddress ? (property.address ?? "") : "",
@@ -124,6 +125,12 @@ export async function updateProperty(id: string, data: Partial<PropertyInput>) {
       _count: { select: { buildings: true, services: true } },
     },
   });
+  // Keep denormalized customerId on child buildings/units in sync when the
+  // property is reassigned to another customer (data isolation invariant).
+  if (data.customerId) {
+    await db.building.updateMany({ where: { propertyId: id }, data: { customerId: data.customerId } });
+    await db.unit.updateMany({ where: { building: { propertyId: id } }, data: { customerId: data.customerId } });
+  }
   const unitCount = await db.unit.count({ where: { building: { propertyId: id } } });
   revalidatePath("/super-admin/properties");
   return {

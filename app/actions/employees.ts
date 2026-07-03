@@ -3,6 +3,7 @@
 import { auth } from "@/auth";
 import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
+import { getScope } from "@/lib/scope";
 
 async function requireSuperAdmin() {
   const session = await auth();
@@ -86,14 +87,19 @@ export async function deleteEmployee(id: string) {
 
 export type UserOption = { id: string; name: string | null; email: string; role: string };
 
-/** Search application users for the employee combo box.
- *  Optionally restrict to specific roles (defaults to all). */
-export async function searchUsers(query: string, roles?: readonly string[]): Promise<UserOption[]> {
-  await requireSuperAdmin();
+/** Search application users for a combo box.
+ *  Optionally restrict to specific roles and/or a single customer.
+ *  Data isolation: a non-staff caller is always confined to their own customer,
+ *  and staff callers may pass `customerId` to scope the picker to one customer. */
+export async function searchUsers(query: string, roles?: readonly string[], customerId?: string): Promise<UserOption[]> {
+  const scope = await getScope();
   const q = query.trim();
+  // Non-staff → forced to own customer. Staff → optional explicit customer filter.
+  const scopeCustomerId = scope.seesAllCustomers ? customerId : (scope.customerId ?? "__no_customer__");
   const users = await db.user.findMany({
     where: {
       ...(roles && roles.length ? { role: { in: roles as any } } : {}),
+      ...(scopeCustomerId ? { customerId: scopeCustomerId } : {}),
       ...(q
         ? {
             OR: [

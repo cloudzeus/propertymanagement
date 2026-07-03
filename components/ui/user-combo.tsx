@@ -11,9 +11,11 @@ type Props = {
   placeholder?: string;
   /** Restrict the search to specific roles (e.g. employees combo). */
   roles?: readonly string[];
+  /** Restrict candidates to a single customer (data isolation). */
+  customerId?: string;
 };
 
-export function UserCombo({ selected, onSelect, placeholder = "Αναζήτηση χρήστη…", roles }: Props) {
+export function UserCombo({ selected, onSelect, placeholder = "Αναζήτηση χρήστη…", roles, customerId }: Props) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<UserOption[]>([]);
@@ -26,13 +28,13 @@ export function UserCombo({ selected, onSelect, placeholder = "Αναζήτησ�
     setLoading(true);
     const handle = setTimeout(async () => {
       try {
-        setResults(await searchUsers(query, roles));
+        setResults(await searchUsers(query, roles, customerId));
       } finally {
         setLoading(false);
       }
     }, 250);
     return () => clearTimeout(handle);
-  }, [query, open]);
+  }, [query, open, customerId]);
 
   // Close on outside click
   useEffect(() => {

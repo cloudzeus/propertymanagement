@@ -4,6 +4,7 @@ import { auth } from "@/auth";
 import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import bcrypt from "bcryptjs";
+import { getScope, assertCustomer } from "@/lib/scope";
 
 async function requireStaff() {
   const session = await auth();
@@ -11,6 +12,25 @@ async function requireStaff() {
   const user = await db.user.findUnique({ where: { id: session.user.id as string }, select: { role: true } });
   if (!["SUPER_ADMIN", "ADMIN", "MANAGER", "EMPLOYEE", "PROPERTY_ADMIN"].includes(user?.role ?? "")) throw new Error("Forbidden");
   return user!.role as string;
+}
+
+/**
+ * Authorize the caller to act on a unit and return its context.
+ * Company staff may act across customers; a customer-side manager (PROPERTY_ADMIN)
+ * must belong to the unit's customer AND have a ManagementAssignment covering its
+ * building or property. (Data isolation — see lib/scope.ts.)
+ */
+async function authorizeUnit(unitId: string): Promise<Ctx> {
+  const ctx = await unitContext(unitId);
+  const scope = await getScope();
+  if (scope.seesAllCustomers) return ctx;
+  assertCustomer(scope, ctx.customerId);
+  const manages = await db.managementAssignment.findFirst({
+    where: { userId: scope.userId, OR: [{ buildingId: ctx.buildingId }, { propertyId: ctx.propertyId }] },
+    select: { id: true },
+  });
+  if (!manages) throw new Error("Forbidden: not a manager of this unit");
+  return ctx;
 }
 
 type Ctx = { buildingId: string; propertyId: string; companyId: string; customerId: string };
@@ -63,7 +83,7 @@ export async function createOccupant(
   const exists = await db.user.findUnique({ where: { email } });
   if (exists) return { error: "Υπάρχει ήδη χρήστης με αυτό το email" };
 
-  const ctx = await unitContext(unitId);
+  const ctx = await authorizeUnit(unitId);
   const user = await db.user.create({
     data: {
       email,
@@ -102,10 +122,12 @@ export async function assignOccupant(
   startDate?: string,
 ) {
   await requireStaff();
-  const user = await db.user.findUnique({ where: { id: userId }, select: { id: true, name: true, email: true } });
+  const ctx = await authorizeUnit(unitId);
+  const user = await db.user.findUnique({ where: { id: userId }, select: { id: true, name: true, email: true, customerId: true } });
   if (!user) return { error: "Ο χρήστης δεν βρέθηκε" };
+  // Data isolation: only a user of the unit's own customer may be linked as occupant.
+  if (user.customerId !== ctx.customerId) return { error: "Ο χρήστης ανήκει σε άλλον πελάτη και δεν μπορεί να συνδεθεί" };
 
-  const ctx = await unitContext(unitId);
   const start = startDate ? new Date(startDate) : new Date();
   await closeOpenOccupancy(unitId, role, start);
   await db.unit.update({ where: { id: unitId }, data: role === "OWNER" ? { ownerId: user.id } : { residentId: user.id } });
@@ -118,7 +140,7 @@ export async function assignOccupant(
 /** End the current owner/resident occupancy (έως) and clear the unit pointer. */
 export async function clearOccupant(unitId: string, role: "OWNER" | "RESIDENT") {
   await requireStaff();
-  const ctx = await unitContext(unitId);
+  const ctx = await authorizeUnit(unitId);
   await closeOpenOccupancy(unitId, role, new Date());
   await db.unit.update({
     where: { id: unitId },
@@ -135,6 +157,7 @@ export async function setOccupancyDates(args: {
   startDate: string; endDate?: string | null;
 }) {
   await requireStaff();
+  await authorizeUnit(args.unitId);
   const start = args.startDate ? new Date(args.startDate) : new Date();
   const end = args.endDate ? new Date(args.endDate) : null;
   if (end && end < start) return { error: "Η ημ/νία λήξης δεν μπορεί να είναι πριν την έναρξη" };
@@ -158,6 +181,11 @@ export async function setOccupancyDates(args: {
 /** Update a user's contact fields (name / phone / mobile). */
 export async function updateUserContact(userId: string, data: { name?: string; phone?: string; mobile?: string }) {
   await requireStaff();
+  const scope = await getScope();
+  if (!scope.seesAllCustomers) {
+    const target = await db.user.findUnique({ where: { id: userId }, select: { customerId: true } });
+    assertCustomer(scope, target?.customerId);
+  }
   await db.user.update({
     where: { id: userId },
     data: {

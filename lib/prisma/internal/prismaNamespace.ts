@@ -5224,6 +5224,7 @@ export const BuildingScalarFieldEnum = {
   id: 'id',
   companyId: 'companyId',
   propertyId: 'propertyId',
+  customerId: 'customerId',
   name: 'name',
   address: 'address',
   city: 'city',
@@ -5525,6 +5526,7 @@ export type CommonAreaScalarFieldEnum = (typeof CommonAreaScalarFieldEnum)[keyof
 export const UnitScalarFieldEnum = {
   id: 'id',
   buildingId: 'buildingId',
+  customerId: 'customerId',
   unitNumber: 'unitNumber',
   unitType: 'unitType',
   floor: 'floor',

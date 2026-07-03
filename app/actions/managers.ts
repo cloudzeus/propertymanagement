@@ -4,6 +4,7 @@ import { auth } from "@/auth";
 import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import bcrypt from "bcryptjs";
+import { getScope, assertCustomer } from "@/lib/scope";
 
 async function requireStaff() {
   const session = await auth();
@@ -11,6 +12,19 @@ async function requireStaff() {
   const user = await db.user.findUnique({ where: { id: session.user.id as string }, select: { role: true } });
   if (!["SUPER_ADMIN", "ADMIN", "MANAGER", "PROPERTY_ADMIN"].includes(user?.role ?? "")) throw new Error("Forbidden");
   return user!.role as string;
+}
+
+/** Authorize the caller for a manager scope: staff → any; else same customer + manages it. */
+async function authorizeScope(scope: ManagerScope) {
+  const resolved = await resolveScope(scope);
+  const s = await getScope();
+  if (s.seesAllCustomers) return resolved;
+  assertCustomer(s, resolved.customerId);
+  const conds: any[] = [{ propertyId: resolved.propertyId }];
+  if ("buildingId" in scope) conds.push({ buildingId: scope.buildingId });
+  const manages = await db.managementAssignment.findFirst({ where: { userId: s.userId, OR: conds }, select: { id: true } });
+  if (!manages) throw new Error("Forbidden: not a manager of this scope");
+  return resolved;
 }
 
 export type ManagerScope = { propertyId: string } | { buildingId: string };
@@ -32,7 +46,7 @@ async function resolveScope(scope: ManagerScope): Promise<{ propertyId: string; 
 /** Whether the scope's property is company-managed (affects the manager candidate pool). */
 export async function getManagerScopeInfo(scope: ManagerScope): Promise<{ managed: boolean }> {
   await requireStaff();
-  const { managed } = await resolveScope(scope);
+  const { managed } = await authorizeScope(scope);
   return { managed };
 }
 
@@ -48,6 +62,7 @@ async function occupantIdsForScope(scope: ManagerScope): Promise<Set<string>> {
 /** Current managers assigned to a scope. */
 export async function listManagers(scope: ManagerScope): Promise<ManagerRow[]> {
   await requireStaff();
+  await authorizeScope(scope);
   const rows = await db.managementAssignment.findMany({
     where: "buildingId" in scope ? { buildingId: scope.buildingId } : { propertyId: scope.propertyId },
     select: { id: true, user: { select: { id: true, name: true, email: true, role: true } } },
@@ -59,7 +74,7 @@ export async function listManagers(scope: ManagerScope): Promise<ManagerRow[]> {
 /** Candidate users for a scope: its owners/residents + company staff (ADMIN/MANAGER/EMPLOYEE). */
 export async function searchManagerCandidates(scope: ManagerScope, query: string): Promise<ManagerCandidate[]> {
   await requireStaff();
-  const { companyId, customerId, managed } = await resolveScope(scope);
+  const { companyId, customerId, managed } = await authorizeScope(scope);
   const occupantIds = await occupantIdsForScope(scope);
   const q = query.trim();
   const text = q
@@ -87,7 +102,7 @@ export async function searchManagerCandidates(scope: ManagerScope, query: string
 /** Assign a candidate as manager (PROPERTY_ADMIN) of the scope. */
 export async function addManager(scope: ManagerScope, userId: string) {
   await requireStaff();
-  const { propertyId } = await resolveScope(scope);
+  const { propertyId } = await authorizeScope(scope);
 
   // Only allow candidates from the scope's pool (managed → staff; self-managed → occupant/customer).
   const candidates = await searchManagerCandidates(scope, "");
@@ -130,7 +145,7 @@ export async function createAndAddManager(
   data: { name: string; email: string; password: string; phone?: string; mobile?: string },
 ) {
   await requireStaff();
-  const { propertyId, companyId, customerId, managed } = await resolveScope(scope);
+  const { propertyId, companyId, customerId, managed } = await authorizeScope(scope);
 
   // On a company-managed property the manager must be an existing company employee.
   if (managed) return { error: "Η ιδιοκτησία διαχειρίζεται από την εταιρεία — επιλέξτε υπάρχοντα υπάλληλο ως διαχειριστή" };
@@ -173,8 +188,11 @@ export async function removeManager(assignmentId: string) {
   await requireStaff();
   const a = await db.managementAssignment.findUnique({
     where: { id: assignmentId },
-    select: { propertyId: true, building: { select: { propertyId: true } } },
+    select: { propertyId: true, buildingId: true, building: { select: { propertyId: true } } },
   });
+  if (!a) return { ok: true };
+  // Authorize against the assignment's scope before deleting.
+  await authorizeScope(a.buildingId ? { buildingId: a.buildingId } : { propertyId: a.propertyId! });
   await db.managementAssignment.delete({ where: { id: assignmentId } });
   const propertyId = a?.propertyId ?? a?.building?.propertyId;
   if (propertyId) revalidatePath(`/super-admin/properties/${propertyId}`);

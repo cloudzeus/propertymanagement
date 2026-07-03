@@ -45,6 +45,7 @@ export type UnitSumAggregateOutputType = {
 export type UnitMinAggregateOutputType = {
   id: string | null
   buildingId: string | null
+  customerId: string | null
   unitNumber: string | null
   unitType: $Enums.UnitType | null
   floor: number | null
@@ -64,6 +65,7 @@ export type UnitMinAggregateOutputType = {
 export type UnitMaxAggregateOutputType = {
   id: string | null
   buildingId: string | null
+  customerId: string | null
   unitNumber: string | null
   unitType: $Enums.UnitType | null
   floor: number | null
@@ -83,6 +85,7 @@ export type UnitMaxAggregateOutputType = {
 export type UnitCountAggregateOutputType = {
   id: number
   buildingId: number
+  customerId: number
   unitNumber: number
   unitType: number
   floor: number
@@ -120,6 +123,7 @@ export type UnitSumAggregateInputType = {
 export type UnitMinAggregateInputType = {
   id?: true
   buildingId?: true
+  customerId?: true
   unitNumber?: true
   unitType?: true
   floor?: true
@@ -139,6 +143,7 @@ export type UnitMinAggregateInputType = {
 export type UnitMaxAggregateInputType = {
   id?: true
   buildingId?: true
+  customerId?: true
   unitNumber?: true
   unitType?: true
   floor?: true
@@ -158,6 +163,7 @@ export type UnitMaxAggregateInputType = {
 export type UnitCountAggregateInputType = {
   id?: true
   buildingId?: true
+  customerId?: true
   unitNumber?: true
   unitType?: true
   floor?: true
@@ -264,6 +270,7 @@ export type UnitGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
 export type UnitGroupByOutputType = {
   id: string
   buildingId: string
+  customerId: string
   unitNumber: string
   unitType: $Enums.UnitType
   floor: number | null
@@ -306,6 +313,7 @@ export type UnitWhereInput = {
   NOT?: Prisma.UnitWhereInput | Prisma.UnitWhereInput[]
   id?: Prisma.StringFilter<"Unit"> | string
   buildingId?: Prisma.StringFilter<"Unit"> | string
+  customerId?: Prisma.StringFilter<"Unit"> | string
   unitNumber?: Prisma.StringFilter<"Unit"> | string
   unitType?: Prisma.EnumUnitTypeFilter<"Unit"> | $Enums.UnitType
   floor?: Prisma.IntNullableFilter<"Unit"> | number | null
@@ -321,6 +329,7 @@ export type UnitWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Unit"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Unit"> | Date | string
   building?: Prisma.XOR<Prisma.BuildingScalarRelationFilter, Prisma.BuildingWhereInput>
+  customer?: Prisma.XOR<Prisma.CustomerScalarRelationFilter, Prisma.CustomerWhereInput>
   categoryExclusions?: Prisma.UnitCategoryExclusionListRelationFilter
   heatingReadings?: Prisma.UnitHeatingReadingListRelationFilter
   owner?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
@@ -334,6 +343,7 @@ export type UnitWhereInput = {
 export type UnitOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   buildingId?: Prisma.SortOrder
+  customerId?: Prisma.SortOrder
   unitNumber?: Prisma.SortOrder
   unitType?: Prisma.SortOrder
   floor?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -349,6 +359,7 @@ export type UnitOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   building?: Prisma.BuildingOrderByWithRelationInput
+  customer?: Prisma.CustomerOrderByWithRelationInput
   categoryExclusions?: Prisma.UnitCategoryExclusionOrderByRelationAggregateInput
   heatingReadings?: Prisma.UnitHeatingReadingOrderByRelationAggregateInput
   owner?: Prisma.UserOrderByWithRelationInput
@@ -366,6 +377,7 @@ export type UnitWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.UnitWhereInput[]
   NOT?: Prisma.UnitWhereInput | Prisma.UnitWhereInput[]
   buildingId?: Prisma.StringFilter<"Unit"> | string
+  customerId?: Prisma.StringFilter<"Unit"> | string
   unitNumber?: Prisma.StringFilter<"Unit"> | string
   unitType?: Prisma.EnumUnitTypeFilter<"Unit"> | $Enums.UnitType
   floor?: Prisma.IntNullableFilter<"Unit"> | number | null
@@ -381,6 +393,7 @@ export type UnitWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"Unit"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Unit"> | Date | string
   building?: Prisma.XOR<Prisma.BuildingScalarRelationFilter, Prisma.BuildingWhereInput>
+  customer?: Prisma.XOR<Prisma.CustomerScalarRelationFilter, Prisma.CustomerWhereInput>
   categoryExclusions?: Prisma.UnitCategoryExclusionListRelationFilter
   heatingReadings?: Prisma.UnitHeatingReadingListRelationFilter
   owner?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
@@ -394,6 +407,7 @@ export type UnitWhereUniqueInput = Prisma.AtLeast<{
 export type UnitOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   buildingId?: Prisma.SortOrder
+  customerId?: Prisma.SortOrder
   unitNumber?: Prisma.SortOrder
   unitType?: Prisma.SortOrder
   floor?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -421,6 +435,7 @@ export type UnitScalarWhereWithAggregatesInput = {
   NOT?: Prisma.UnitScalarWhereWithAggregatesInput | Prisma.UnitScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Unit"> | string
   buildingId?: Prisma.StringWithAggregatesFilter<"Unit"> | string
+  customerId?: Prisma.StringWithAggregatesFilter<"Unit"> | string
   unitNumber?: Prisma.StringWithAggregatesFilter<"Unit"> | string
   unitType?: Prisma.EnumUnitTypeWithAggregatesFilter<"Unit"> | $Enums.UnitType
   floor?: Prisma.IntNullableWithAggregatesFilter<"Unit"> | number | null
@@ -452,6 +467,7 @@ export type UnitCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   building: Prisma.BuildingCreateNestedOneWithoutUnitsInput
+  customer: Prisma.CustomerCreateNestedOneWithoutUnitsInput
   categoryExclusions?: Prisma.UnitCategoryExclusionCreateNestedManyWithoutUnitInput
   heatingReadings?: Prisma.UnitHeatingReadingCreateNestedManyWithoutUnitInput
   owner?: Prisma.UserCreateNestedOneWithoutOwnedUnitsInput
@@ -465,6 +481,7 @@ export type UnitCreateInput = {
 export type UnitUncheckedCreateInput = {
   id?: string
   buildingId: string
+  customerId: string
   unitNumber: string
   unitType?: $Enums.UnitType
   floor?: number | null
@@ -502,6 +519,7 @@ export type UnitUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   building?: Prisma.BuildingUpdateOneRequiredWithoutUnitsNestedInput
+  customer?: Prisma.CustomerUpdateOneRequiredWithoutUnitsNestedInput
   categoryExclusions?: Prisma.UnitCategoryExclusionUpdateManyWithoutUnitNestedInput
   heatingReadings?: Prisma.UnitHeatingReadingUpdateManyWithoutUnitNestedInput
   owner?: Prisma.UserUpdateOneWithoutOwnedUnitsNestedInput
@@ -515,6 +533,7 @@ export type UnitUpdateInput = {
 export type UnitUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   buildingId?: Prisma.StringFieldUpdateOperationsInput | string
+  customerId?: Prisma.StringFieldUpdateOperationsInput | string
   unitNumber?: Prisma.StringFieldUpdateOperationsInput | string
   unitType?: Prisma.EnumUnitTypeFieldUpdateOperationsInput | $Enums.UnitType
   floor?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -540,6 +559,7 @@ export type UnitUncheckedUpdateInput = {
 export type UnitCreateManyInput = {
   id?: string
   buildingId: string
+  customerId: string
   unitNumber: string
   unitType?: $Enums.UnitType
   floor?: number | null
@@ -575,6 +595,7 @@ export type UnitUpdateManyMutationInput = {
 export type UnitUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   buildingId?: Prisma.StringFieldUpdateOperationsInput | string
+  customerId?: Prisma.StringFieldUpdateOperationsInput | string
   unitNumber?: Prisma.StringFieldUpdateOperationsInput | string
   unitType?: Prisma.EnumUnitTypeFieldUpdateOperationsInput | $Enums.UnitType
   floor?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -614,6 +635,7 @@ export type UnitBuildingIdUnitNumberCompoundUniqueInput = {
 export type UnitCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   buildingId?: Prisma.SortOrder
+  customerId?: Prisma.SortOrder
   unitNumber?: Prisma.SortOrder
   unitType?: Prisma.SortOrder
   floor?: Prisma.SortOrder
@@ -641,6 +663,7 @@ export type UnitAvgOrderByAggregateInput = {
 export type UnitMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   buildingId?: Prisma.SortOrder
+  customerId?: Prisma.SortOrder
   unitNumber?: Prisma.SortOrder
   unitType?: Prisma.SortOrder
   floor?: Prisma.SortOrder
@@ -660,6 +683,7 @@ export type UnitMaxOrderByAggregateInput = {
 export type UnitMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   buildingId?: Prisma.SortOrder
+  customerId?: Prisma.SortOrder
   unitNumber?: Prisma.SortOrder
   unitType?: Prisma.SortOrder
   floor?: Prisma.SortOrder
@@ -770,6 +794,48 @@ export type UnitUncheckedUpdateManyWithoutResidentNestedInput = {
   connect?: Prisma.UnitWhereUniqueInput | Prisma.UnitWhereUniqueInput[]
   update?: Prisma.UnitUpdateWithWhereUniqueWithoutResidentInput | Prisma.UnitUpdateWithWhereUniqueWithoutResidentInput[]
   updateMany?: Prisma.UnitUpdateManyWithWhereWithoutResidentInput | Prisma.UnitUpdateManyWithWhereWithoutResidentInput[]
+  deleteMany?: Prisma.UnitScalarWhereInput | Prisma.UnitScalarWhereInput[]
+}
+
+export type UnitCreateNestedManyWithoutCustomerInput = {
+  create?: Prisma.XOR<Prisma.UnitCreateWithoutCustomerInput, Prisma.UnitUncheckedCreateWithoutCustomerInput> | Prisma.UnitCreateWithoutCustomerInput[] | Prisma.UnitUncheckedCreateWithoutCustomerInput[]
+  connectOrCreate?: Prisma.UnitCreateOrConnectWithoutCustomerInput | Prisma.UnitCreateOrConnectWithoutCustomerInput[]
+  createMany?: Prisma.UnitCreateManyCustomerInputEnvelope
+  connect?: Prisma.UnitWhereUniqueInput | Prisma.UnitWhereUniqueInput[]
+}
+
+export type UnitUncheckedCreateNestedManyWithoutCustomerInput = {
+  create?: Prisma.XOR<Prisma.UnitCreateWithoutCustomerInput, Prisma.UnitUncheckedCreateWithoutCustomerInput> | Prisma.UnitCreateWithoutCustomerInput[] | Prisma.UnitUncheckedCreateWithoutCustomerInput[]
+  connectOrCreate?: Prisma.UnitCreateOrConnectWithoutCustomerInput | Prisma.UnitCreateOrConnectWithoutCustomerInput[]
+  createMany?: Prisma.UnitCreateManyCustomerInputEnvelope
+  connect?: Prisma.UnitWhereUniqueInput | Prisma.UnitWhereUniqueInput[]
+}
+
+export type UnitUpdateManyWithoutCustomerNestedInput = {
+  create?: Prisma.XOR<Prisma.UnitCreateWithoutCustomerInput, Prisma.UnitUncheckedCreateWithoutCustomerInput> | Prisma.UnitCreateWithoutCustomerInput[] | Prisma.UnitUncheckedCreateWithoutCustomerInput[]
+  connectOrCreate?: Prisma.UnitCreateOrConnectWithoutCustomerInput | Prisma.UnitCreateOrConnectWithoutCustomerInput[]
+  upsert?: Prisma.UnitUpsertWithWhereUniqueWithoutCustomerInput | Prisma.UnitUpsertWithWhereUniqueWithoutCustomerInput[]
+  createMany?: Prisma.UnitCreateManyCustomerInputEnvelope
+  set?: Prisma.UnitWhereUniqueInput | Prisma.UnitWhereUniqueInput[]
+  disconnect?: Prisma.UnitWhereUniqueInput | Prisma.UnitWhereUniqueInput[]
+  delete?: Prisma.UnitWhereUniqueInput | Prisma.UnitWhereUniqueInput[]
+  connect?: Prisma.UnitWhereUniqueInput | Prisma.UnitWhereUniqueInput[]
+  update?: Prisma.UnitUpdateWithWhereUniqueWithoutCustomerInput | Prisma.UnitUpdateWithWhereUniqueWithoutCustomerInput[]
+  updateMany?: Prisma.UnitUpdateManyWithWhereWithoutCustomerInput | Prisma.UnitUpdateManyWithWhereWithoutCustomerInput[]
+  deleteMany?: Prisma.UnitScalarWhereInput | Prisma.UnitScalarWhereInput[]
+}
+
+export type UnitUncheckedUpdateManyWithoutCustomerNestedInput = {
+  create?: Prisma.XOR<Prisma.UnitCreateWithoutCustomerInput, Prisma.UnitUncheckedCreateWithoutCustomerInput> | Prisma.UnitCreateWithoutCustomerInput[] | Prisma.UnitUncheckedCreateWithoutCustomerInput[]
+  connectOrCreate?: Prisma.UnitCreateOrConnectWithoutCustomerInput | Prisma.UnitCreateOrConnectWithoutCustomerInput[]
+  upsert?: Prisma.UnitUpsertWithWhereUniqueWithoutCustomerInput | Prisma.UnitUpsertWithWhereUniqueWithoutCustomerInput[]
+  createMany?: Prisma.UnitCreateManyCustomerInputEnvelope
+  set?: Prisma.UnitWhereUniqueInput | Prisma.UnitWhereUniqueInput[]
+  disconnect?: Prisma.UnitWhereUniqueInput | Prisma.UnitWhereUniqueInput[]
+  delete?: Prisma.UnitWhereUniqueInput | Prisma.UnitWhereUniqueInput[]
+  connect?: Prisma.UnitWhereUniqueInput | Prisma.UnitWhereUniqueInput[]
+  update?: Prisma.UnitUpdateWithWhereUniqueWithoutCustomerInput | Prisma.UnitUpdateWithWhereUniqueWithoutCustomerInput[]
+  updateMany?: Prisma.UnitUpdateManyWithWhereWithoutCustomerInput | Prisma.UnitUpdateManyWithWhereWithoutCustomerInput[]
   deleteMany?: Prisma.UnitScalarWhereInput | Prisma.UnitScalarWhereInput[]
 }
 
@@ -924,6 +990,7 @@ export type UnitCreateWithoutOwnerInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   building: Prisma.BuildingCreateNestedOneWithoutUnitsInput
+  customer: Prisma.CustomerCreateNestedOneWithoutUnitsInput
   categoryExclusions?: Prisma.UnitCategoryExclusionCreateNestedManyWithoutUnitInput
   heatingReadings?: Prisma.UnitHeatingReadingCreateNestedManyWithoutUnitInput
   resident?: Prisma.UserCreateNestedOneWithoutResidentUnitsInput
@@ -936,6 +1003,7 @@ export type UnitCreateWithoutOwnerInput = {
 export type UnitUncheckedCreateWithoutOwnerInput = {
   id?: string
   buildingId: string
+  customerId: string
   unitNumber: string
   unitType?: $Enums.UnitType
   floor?: number | null
@@ -982,6 +1050,7 @@ export type UnitCreateWithoutResidentInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   building: Prisma.BuildingCreateNestedOneWithoutUnitsInput
+  customer: Prisma.CustomerCreateNestedOneWithoutUnitsInput
   categoryExclusions?: Prisma.UnitCategoryExclusionCreateNestedManyWithoutUnitInput
   heatingReadings?: Prisma.UnitHeatingReadingCreateNestedManyWithoutUnitInput
   owner?: Prisma.UserCreateNestedOneWithoutOwnedUnitsInput
@@ -994,6 +1063,7 @@ export type UnitCreateWithoutResidentInput = {
 export type UnitUncheckedCreateWithoutResidentInput = {
   id?: string
   buildingId: string
+  customerId: string
   unitNumber: string
   unitType?: $Enums.UnitType
   floor?: number | null
@@ -1047,6 +1117,7 @@ export type UnitScalarWhereInput = {
   NOT?: Prisma.UnitScalarWhereInput | Prisma.UnitScalarWhereInput[]
   id?: Prisma.StringFilter<"Unit"> | string
   buildingId?: Prisma.StringFilter<"Unit"> | string
+  customerId?: Prisma.StringFilter<"Unit"> | string
   unitNumber?: Prisma.StringFilter<"Unit"> | string
   unitType?: Prisma.EnumUnitTypeFilter<"Unit"> | $Enums.UnitType
   floor?: Prisma.IntNullableFilter<"Unit"> | number | null
@@ -1079,6 +1150,82 @@ export type UnitUpdateManyWithWhereWithoutResidentInput = {
   data: Prisma.XOR<Prisma.UnitUpdateManyMutationInput, Prisma.UnitUncheckedUpdateManyWithoutResidentInput>
 }
 
+export type UnitCreateWithoutCustomerInput = {
+  id?: string
+  unitNumber: string
+  unitType?: $Enums.UnitType
+  floor?: number | null
+  areaSqm?: number | null
+  millesimes?: number | null
+  millesimesElevator?: number | null
+  millesimesHeating?: number | null
+  millesimesSource?: $Enums.MillesimeSource
+  millesimesElevatorSource?: $Enums.MillesimeSource
+  millesimesHeatingSource?: $Enums.MillesimeSource
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  building: Prisma.BuildingCreateNestedOneWithoutUnitsInput
+  categoryExclusions?: Prisma.UnitCategoryExclusionCreateNestedManyWithoutUnitInput
+  heatingReadings?: Prisma.UnitHeatingReadingCreateNestedManyWithoutUnitInput
+  owner?: Prisma.UserCreateNestedOneWithoutOwnedUnitsInput
+  resident?: Prisma.UserCreateNestedOneWithoutResidentUnitsInput
+  maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutUnitInput
+  payments?: Prisma.UnitPaymentCreateNestedManyWithoutUnitInput
+  occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUnitInput
+  expenseAllocations?: Prisma.ExpenseAllocationCreateNestedManyWithoutUnitInput
+}
+
+export type UnitUncheckedCreateWithoutCustomerInput = {
+  id?: string
+  buildingId: string
+  unitNumber: string
+  unitType?: $Enums.UnitType
+  floor?: number | null
+  areaSqm?: number | null
+  millesimes?: number | null
+  millesimesElevator?: number | null
+  millesimesHeating?: number | null
+  millesimesSource?: $Enums.MillesimeSource
+  millesimesElevatorSource?: $Enums.MillesimeSource
+  millesimesHeatingSource?: $Enums.MillesimeSource
+  ownerId?: string | null
+  residentId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  categoryExclusions?: Prisma.UnitCategoryExclusionUncheckedCreateNestedManyWithoutUnitInput
+  heatingReadings?: Prisma.UnitHeatingReadingUncheckedCreateNestedManyWithoutUnitInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutUnitInput
+  payments?: Prisma.UnitPaymentUncheckedCreateNestedManyWithoutUnitInput
+  occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUnitInput
+  expenseAllocations?: Prisma.ExpenseAllocationUncheckedCreateNestedManyWithoutUnitInput
+}
+
+export type UnitCreateOrConnectWithoutCustomerInput = {
+  where: Prisma.UnitWhereUniqueInput
+  create: Prisma.XOR<Prisma.UnitCreateWithoutCustomerInput, Prisma.UnitUncheckedCreateWithoutCustomerInput>
+}
+
+export type UnitCreateManyCustomerInputEnvelope = {
+  data: Prisma.UnitCreateManyCustomerInput | Prisma.UnitCreateManyCustomerInput[]
+  skipDuplicates?: boolean
+}
+
+export type UnitUpsertWithWhereUniqueWithoutCustomerInput = {
+  where: Prisma.UnitWhereUniqueInput
+  update: Prisma.XOR<Prisma.UnitUpdateWithoutCustomerInput, Prisma.UnitUncheckedUpdateWithoutCustomerInput>
+  create: Prisma.XOR<Prisma.UnitCreateWithoutCustomerInput, Prisma.UnitUncheckedCreateWithoutCustomerInput>
+}
+
+export type UnitUpdateWithWhereUniqueWithoutCustomerInput = {
+  where: Prisma.UnitWhereUniqueInput
+  data: Prisma.XOR<Prisma.UnitUpdateWithoutCustomerInput, Prisma.UnitUncheckedUpdateWithoutCustomerInput>
+}
+
+export type UnitUpdateManyWithWhereWithoutCustomerInput = {
+  where: Prisma.UnitScalarWhereInput
+  data: Prisma.XOR<Prisma.UnitUpdateManyMutationInput, Prisma.UnitUncheckedUpdateManyWithoutCustomerInput>
+}
+
 export type UnitCreateWithoutBuildingInput = {
   id?: string
   unitNumber: string
@@ -1093,6 +1240,7 @@ export type UnitCreateWithoutBuildingInput = {
   millesimesHeatingSource?: $Enums.MillesimeSource
   createdAt?: Date | string
   updatedAt?: Date | string
+  customer: Prisma.CustomerCreateNestedOneWithoutUnitsInput
   categoryExclusions?: Prisma.UnitCategoryExclusionCreateNestedManyWithoutUnitInput
   heatingReadings?: Prisma.UnitHeatingReadingCreateNestedManyWithoutUnitInput
   owner?: Prisma.UserCreateNestedOneWithoutOwnedUnitsInput
@@ -1105,6 +1253,7 @@ export type UnitCreateWithoutBuildingInput = {
 
 export type UnitUncheckedCreateWithoutBuildingInput = {
   id?: string
+  customerId: string
   unitNumber: string
   unitType?: $Enums.UnitType
   floor?: number | null
@@ -1168,6 +1317,7 @@ export type UnitCreateWithoutOccupanciesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   building: Prisma.BuildingCreateNestedOneWithoutUnitsInput
+  customer: Prisma.CustomerCreateNestedOneWithoutUnitsInput
   categoryExclusions?: Prisma.UnitCategoryExclusionCreateNestedManyWithoutUnitInput
   heatingReadings?: Prisma.UnitHeatingReadingCreateNestedManyWithoutUnitInput
   owner?: Prisma.UserCreateNestedOneWithoutOwnedUnitsInput
@@ -1180,6 +1330,7 @@ export type UnitCreateWithoutOccupanciesInput = {
 export type UnitUncheckedCreateWithoutOccupanciesInput = {
   id?: string
   buildingId: string
+  customerId: string
   unitNumber: string
   unitType?: $Enums.UnitType
   floor?: number | null
@@ -1232,6 +1383,7 @@ export type UnitUpdateWithoutOccupanciesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   building?: Prisma.BuildingUpdateOneRequiredWithoutUnitsNestedInput
+  customer?: Prisma.CustomerUpdateOneRequiredWithoutUnitsNestedInput
   categoryExclusions?: Prisma.UnitCategoryExclusionUpdateManyWithoutUnitNestedInput
   heatingReadings?: Prisma.UnitHeatingReadingUpdateManyWithoutUnitNestedInput
   owner?: Prisma.UserUpdateOneWithoutOwnedUnitsNestedInput
@@ -1244,6 +1396,7 @@ export type UnitUpdateWithoutOccupanciesInput = {
 export type UnitUncheckedUpdateWithoutOccupanciesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   buildingId?: Prisma.StringFieldUpdateOperationsInput | string
+  customerId?: Prisma.StringFieldUpdateOperationsInput | string
   unitNumber?: Prisma.StringFieldUpdateOperationsInput | string
   unitType?: Prisma.EnumUnitTypeFieldUpdateOperationsInput | $Enums.UnitType
   floor?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -1280,6 +1433,7 @@ export type UnitCreateWithoutCategoryExclusionsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   building: Prisma.BuildingCreateNestedOneWithoutUnitsInput
+  customer: Prisma.CustomerCreateNestedOneWithoutUnitsInput
   heatingReadings?: Prisma.UnitHeatingReadingCreateNestedManyWithoutUnitInput
   owner?: Prisma.UserCreateNestedOneWithoutOwnedUnitsInput
   resident?: Prisma.UserCreateNestedOneWithoutResidentUnitsInput
@@ -1292,6 +1446,7 @@ export type UnitCreateWithoutCategoryExclusionsInput = {
 export type UnitUncheckedCreateWithoutCategoryExclusionsInput = {
   id?: string
   buildingId: string
+  customerId: string
   unitNumber: string
   unitType?: $Enums.UnitType
   floor?: number | null
@@ -1344,6 +1499,7 @@ export type UnitUpdateWithoutCategoryExclusionsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   building?: Prisma.BuildingUpdateOneRequiredWithoutUnitsNestedInput
+  customer?: Prisma.CustomerUpdateOneRequiredWithoutUnitsNestedInput
   heatingReadings?: Prisma.UnitHeatingReadingUpdateManyWithoutUnitNestedInput
   owner?: Prisma.UserUpdateOneWithoutOwnedUnitsNestedInput
   resident?: Prisma.UserUpdateOneWithoutResidentUnitsNestedInput
@@ -1356,6 +1512,7 @@ export type UnitUpdateWithoutCategoryExclusionsInput = {
 export type UnitUncheckedUpdateWithoutCategoryExclusionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   buildingId?: Prisma.StringFieldUpdateOperationsInput | string
+  customerId?: Prisma.StringFieldUpdateOperationsInput | string
   unitNumber?: Prisma.StringFieldUpdateOperationsInput | string
   unitType?: Prisma.EnumUnitTypeFieldUpdateOperationsInput | $Enums.UnitType
   floor?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -1392,6 +1549,7 @@ export type UnitCreateWithoutHeatingReadingsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   building: Prisma.BuildingCreateNestedOneWithoutUnitsInput
+  customer: Prisma.CustomerCreateNestedOneWithoutUnitsInput
   categoryExclusions?: Prisma.UnitCategoryExclusionCreateNestedManyWithoutUnitInput
   owner?: Prisma.UserCreateNestedOneWithoutOwnedUnitsInput
   resident?: Prisma.UserCreateNestedOneWithoutResidentUnitsInput
@@ -1404,6 +1562,7 @@ export type UnitCreateWithoutHeatingReadingsInput = {
 export type UnitUncheckedCreateWithoutHeatingReadingsInput = {
   id?: string
   buildingId: string
+  customerId: string
   unitNumber: string
   unitType?: $Enums.UnitType
   floor?: number | null
@@ -1456,6 +1615,7 @@ export type UnitUpdateWithoutHeatingReadingsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   building?: Prisma.BuildingUpdateOneRequiredWithoutUnitsNestedInput
+  customer?: Prisma.CustomerUpdateOneRequiredWithoutUnitsNestedInput
   categoryExclusions?: Prisma.UnitCategoryExclusionUpdateManyWithoutUnitNestedInput
   owner?: Prisma.UserUpdateOneWithoutOwnedUnitsNestedInput
   resident?: Prisma.UserUpdateOneWithoutResidentUnitsNestedInput
@@ -1468,6 +1628,7 @@ export type UnitUpdateWithoutHeatingReadingsInput = {
 export type UnitUncheckedUpdateWithoutHeatingReadingsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   buildingId?: Prisma.StringFieldUpdateOperationsInput | string
+  customerId?: Prisma.StringFieldUpdateOperationsInput | string
   unitNumber?: Prisma.StringFieldUpdateOperationsInput | string
   unitType?: Prisma.EnumUnitTypeFieldUpdateOperationsInput | $Enums.UnitType
   floor?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -1504,6 +1665,7 @@ export type UnitCreateWithoutExpenseAllocationsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   building: Prisma.BuildingCreateNestedOneWithoutUnitsInput
+  customer: Prisma.CustomerCreateNestedOneWithoutUnitsInput
   categoryExclusions?: Prisma.UnitCategoryExclusionCreateNestedManyWithoutUnitInput
   heatingReadings?: Prisma.UnitHeatingReadingCreateNestedManyWithoutUnitInput
   owner?: Prisma.UserCreateNestedOneWithoutOwnedUnitsInput
@@ -1516,6 +1678,7 @@ export type UnitCreateWithoutExpenseAllocationsInput = {
 export type UnitUncheckedCreateWithoutExpenseAllocationsInput = {
   id?: string
   buildingId: string
+  customerId: string
   unitNumber: string
   unitType?: $Enums.UnitType
   floor?: number | null
@@ -1568,6 +1731,7 @@ export type UnitUpdateWithoutExpenseAllocationsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   building?: Prisma.BuildingUpdateOneRequiredWithoutUnitsNestedInput
+  customer?: Prisma.CustomerUpdateOneRequiredWithoutUnitsNestedInput
   categoryExclusions?: Prisma.UnitCategoryExclusionUpdateManyWithoutUnitNestedInput
   heatingReadings?: Prisma.UnitHeatingReadingUpdateManyWithoutUnitNestedInput
   owner?: Prisma.UserUpdateOneWithoutOwnedUnitsNestedInput
@@ -1580,6 +1744,7 @@ export type UnitUpdateWithoutExpenseAllocationsInput = {
 export type UnitUncheckedUpdateWithoutExpenseAllocationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   buildingId?: Prisma.StringFieldUpdateOperationsInput | string
+  customerId?: Prisma.StringFieldUpdateOperationsInput | string
   unitNumber?: Prisma.StringFieldUpdateOperationsInput | string
   unitType?: Prisma.EnumUnitTypeFieldUpdateOperationsInput | $Enums.UnitType
   floor?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -1616,6 +1781,7 @@ export type UnitCreateWithoutPaymentsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   building: Prisma.BuildingCreateNestedOneWithoutUnitsInput
+  customer: Prisma.CustomerCreateNestedOneWithoutUnitsInput
   categoryExclusions?: Prisma.UnitCategoryExclusionCreateNestedManyWithoutUnitInput
   heatingReadings?: Prisma.UnitHeatingReadingCreateNestedManyWithoutUnitInput
   owner?: Prisma.UserCreateNestedOneWithoutOwnedUnitsInput
@@ -1628,6 +1794,7 @@ export type UnitCreateWithoutPaymentsInput = {
 export type UnitUncheckedCreateWithoutPaymentsInput = {
   id?: string
   buildingId: string
+  customerId: string
   unitNumber: string
   unitType?: $Enums.UnitType
   floor?: number | null
@@ -1680,6 +1847,7 @@ export type UnitUpdateWithoutPaymentsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   building?: Prisma.BuildingUpdateOneRequiredWithoutUnitsNestedInput
+  customer?: Prisma.CustomerUpdateOneRequiredWithoutUnitsNestedInput
   categoryExclusions?: Prisma.UnitCategoryExclusionUpdateManyWithoutUnitNestedInput
   heatingReadings?: Prisma.UnitHeatingReadingUpdateManyWithoutUnitNestedInput
   owner?: Prisma.UserUpdateOneWithoutOwnedUnitsNestedInput
@@ -1692,6 +1860,7 @@ export type UnitUpdateWithoutPaymentsInput = {
 export type UnitUncheckedUpdateWithoutPaymentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   buildingId?: Prisma.StringFieldUpdateOperationsInput | string
+  customerId?: Prisma.StringFieldUpdateOperationsInput | string
   unitNumber?: Prisma.StringFieldUpdateOperationsInput | string
   unitType?: Prisma.EnumUnitTypeFieldUpdateOperationsInput | $Enums.UnitType
   floor?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -1728,6 +1897,7 @@ export type UnitCreateWithoutMaintenanceRequestsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   building: Prisma.BuildingCreateNestedOneWithoutUnitsInput
+  customer: Prisma.CustomerCreateNestedOneWithoutUnitsInput
   categoryExclusions?: Prisma.UnitCategoryExclusionCreateNestedManyWithoutUnitInput
   heatingReadings?: Prisma.UnitHeatingReadingCreateNestedManyWithoutUnitInput
   owner?: Prisma.UserCreateNestedOneWithoutOwnedUnitsInput
@@ -1740,6 +1910,7 @@ export type UnitCreateWithoutMaintenanceRequestsInput = {
 export type UnitUncheckedCreateWithoutMaintenanceRequestsInput = {
   id?: string
   buildingId: string
+  customerId: string
   unitNumber: string
   unitType?: $Enums.UnitType
   floor?: number | null
@@ -1792,6 +1963,7 @@ export type UnitUpdateWithoutMaintenanceRequestsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   building?: Prisma.BuildingUpdateOneRequiredWithoutUnitsNestedInput
+  customer?: Prisma.CustomerUpdateOneRequiredWithoutUnitsNestedInput
   categoryExclusions?: Prisma.UnitCategoryExclusionUpdateManyWithoutUnitNestedInput
   heatingReadings?: Prisma.UnitHeatingReadingUpdateManyWithoutUnitNestedInput
   owner?: Prisma.UserUpdateOneWithoutOwnedUnitsNestedInput
@@ -1804,6 +1976,7 @@ export type UnitUpdateWithoutMaintenanceRequestsInput = {
 export type UnitUncheckedUpdateWithoutMaintenanceRequestsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   buildingId?: Prisma.StringFieldUpdateOperationsInput | string
+  customerId?: Prisma.StringFieldUpdateOperationsInput | string
   unitNumber?: Prisma.StringFieldUpdateOperationsInput | string
   unitType?: Prisma.EnumUnitTypeFieldUpdateOperationsInput | $Enums.UnitType
   floor?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -1828,6 +2001,7 @@ export type UnitUncheckedUpdateWithoutMaintenanceRequestsInput = {
 export type UnitCreateManyOwnerInput = {
   id?: string
   buildingId: string
+  customerId: string
   unitNumber: string
   unitType?: $Enums.UnitType
   floor?: number | null
@@ -1846,6 +2020,7 @@ export type UnitCreateManyOwnerInput = {
 export type UnitCreateManyResidentInput = {
   id?: string
   buildingId: string
+  customerId: string
   unitNumber: string
   unitType?: $Enums.UnitType
   floor?: number | null
@@ -1876,6 +2051,7 @@ export type UnitUpdateWithoutOwnerInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   building?: Prisma.BuildingUpdateOneRequiredWithoutUnitsNestedInput
+  customer?: Prisma.CustomerUpdateOneRequiredWithoutUnitsNestedInput
   categoryExclusions?: Prisma.UnitCategoryExclusionUpdateManyWithoutUnitNestedInput
   heatingReadings?: Prisma.UnitHeatingReadingUpdateManyWithoutUnitNestedInput
   resident?: Prisma.UserUpdateOneWithoutResidentUnitsNestedInput
@@ -1888,6 +2064,7 @@ export type UnitUpdateWithoutOwnerInput = {
 export type UnitUncheckedUpdateWithoutOwnerInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   buildingId?: Prisma.StringFieldUpdateOperationsInput | string
+  customerId?: Prisma.StringFieldUpdateOperationsInput | string
   unitNumber?: Prisma.StringFieldUpdateOperationsInput | string
   unitType?: Prisma.EnumUnitTypeFieldUpdateOperationsInput | $Enums.UnitType
   floor?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -1912,6 +2089,7 @@ export type UnitUncheckedUpdateWithoutOwnerInput = {
 export type UnitUncheckedUpdateManyWithoutOwnerInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   buildingId?: Prisma.StringFieldUpdateOperationsInput | string
+  customerId?: Prisma.StringFieldUpdateOperationsInput | string
   unitNumber?: Prisma.StringFieldUpdateOperationsInput | string
   unitType?: Prisma.EnumUnitTypeFieldUpdateOperationsInput | $Enums.UnitType
   floor?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -1942,6 +2120,7 @@ export type UnitUpdateWithoutResidentInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   building?: Prisma.BuildingUpdateOneRequiredWithoutUnitsNestedInput
+  customer?: Prisma.CustomerUpdateOneRequiredWithoutUnitsNestedInput
   categoryExclusions?: Prisma.UnitCategoryExclusionUpdateManyWithoutUnitNestedInput
   heatingReadings?: Prisma.UnitHeatingReadingUpdateManyWithoutUnitNestedInput
   owner?: Prisma.UserUpdateOneWithoutOwnedUnitsNestedInput
@@ -1954,6 +2133,7 @@ export type UnitUpdateWithoutResidentInput = {
 export type UnitUncheckedUpdateWithoutResidentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   buildingId?: Prisma.StringFieldUpdateOperationsInput | string
+  customerId?: Prisma.StringFieldUpdateOperationsInput | string
   unitNumber?: Prisma.StringFieldUpdateOperationsInput | string
   unitType?: Prisma.EnumUnitTypeFieldUpdateOperationsInput | $Enums.UnitType
   floor?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -1978,6 +2158,7 @@ export type UnitUncheckedUpdateWithoutResidentInput = {
 export type UnitUncheckedUpdateManyWithoutResidentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   buildingId?: Prisma.StringFieldUpdateOperationsInput | string
+  customerId?: Prisma.StringFieldUpdateOperationsInput | string
   unitNumber?: Prisma.StringFieldUpdateOperationsInput | string
   unitType?: Prisma.EnumUnitTypeFieldUpdateOperationsInput | $Enums.UnitType
   floor?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -1993,8 +2174,97 @@ export type UnitUncheckedUpdateManyWithoutResidentInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
+export type UnitCreateManyCustomerInput = {
+  id?: string
+  buildingId: string
+  unitNumber: string
+  unitType?: $Enums.UnitType
+  floor?: number | null
+  areaSqm?: number | null
+  millesimes?: number | null
+  millesimesElevator?: number | null
+  millesimesHeating?: number | null
+  millesimesSource?: $Enums.MillesimeSource
+  millesimesElevatorSource?: $Enums.MillesimeSource
+  millesimesHeatingSource?: $Enums.MillesimeSource
+  ownerId?: string | null
+  residentId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type UnitUpdateWithoutCustomerInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  unitNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  unitType?: Prisma.EnumUnitTypeFieldUpdateOperationsInput | $Enums.UnitType
+  floor?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  areaSqm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  millesimes?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  millesimesElevator?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  millesimesHeating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  millesimesSource?: Prisma.EnumMillesimeSourceFieldUpdateOperationsInput | $Enums.MillesimeSource
+  millesimesElevatorSource?: Prisma.EnumMillesimeSourceFieldUpdateOperationsInput | $Enums.MillesimeSource
+  millesimesHeatingSource?: Prisma.EnumMillesimeSourceFieldUpdateOperationsInput | $Enums.MillesimeSource
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  building?: Prisma.BuildingUpdateOneRequiredWithoutUnitsNestedInput
+  categoryExclusions?: Prisma.UnitCategoryExclusionUpdateManyWithoutUnitNestedInput
+  heatingReadings?: Prisma.UnitHeatingReadingUpdateManyWithoutUnitNestedInput
+  owner?: Prisma.UserUpdateOneWithoutOwnedUnitsNestedInput
+  resident?: Prisma.UserUpdateOneWithoutResidentUnitsNestedInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutUnitNestedInput
+  payments?: Prisma.UnitPaymentUpdateManyWithoutUnitNestedInput
+  occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUnitNestedInput
+  expenseAllocations?: Prisma.ExpenseAllocationUpdateManyWithoutUnitNestedInput
+}
+
+export type UnitUncheckedUpdateWithoutCustomerInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  buildingId?: Prisma.StringFieldUpdateOperationsInput | string
+  unitNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  unitType?: Prisma.EnumUnitTypeFieldUpdateOperationsInput | $Enums.UnitType
+  floor?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  areaSqm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  millesimes?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  millesimesElevator?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  millesimesHeating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  millesimesSource?: Prisma.EnumMillesimeSourceFieldUpdateOperationsInput | $Enums.MillesimeSource
+  millesimesElevatorSource?: Prisma.EnumMillesimeSourceFieldUpdateOperationsInput | $Enums.MillesimeSource
+  millesimesHeatingSource?: Prisma.EnumMillesimeSourceFieldUpdateOperationsInput | $Enums.MillesimeSource
+  ownerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  residentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  categoryExclusions?: Prisma.UnitCategoryExclusionUncheckedUpdateManyWithoutUnitNestedInput
+  heatingReadings?: Prisma.UnitHeatingReadingUncheckedUpdateManyWithoutUnitNestedInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutUnitNestedInput
+  payments?: Prisma.UnitPaymentUncheckedUpdateManyWithoutUnitNestedInput
+  occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUnitNestedInput
+  expenseAllocations?: Prisma.ExpenseAllocationUncheckedUpdateManyWithoutUnitNestedInput
+}
+
+export type UnitUncheckedUpdateManyWithoutCustomerInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  buildingId?: Prisma.StringFieldUpdateOperationsInput | string
+  unitNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  unitType?: Prisma.EnumUnitTypeFieldUpdateOperationsInput | $Enums.UnitType
+  floor?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  areaSqm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  millesimes?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  millesimesElevator?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  millesimesHeating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  millesimesSource?: Prisma.EnumMillesimeSourceFieldUpdateOperationsInput | $Enums.MillesimeSource
+  millesimesElevatorSource?: Prisma.EnumMillesimeSourceFieldUpdateOperationsInput | $Enums.MillesimeSource
+  millesimesHeatingSource?: Prisma.EnumMillesimeSourceFieldUpdateOperationsInput | $Enums.MillesimeSource
+  ownerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  residentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
 export type UnitCreateManyBuildingInput = {
   id?: string
+  customerId: string
   unitNumber: string
   unitType?: $Enums.UnitType
   floor?: number | null
@@ -2025,6 +2295,7 @@ export type UnitUpdateWithoutBuildingInput = {
   millesimesHeatingSource?: Prisma.EnumMillesimeSourceFieldUpdateOperationsInput | $Enums.MillesimeSource
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  customer?: Prisma.CustomerUpdateOneRequiredWithoutUnitsNestedInput
   categoryExclusions?: Prisma.UnitCategoryExclusionUpdateManyWithoutUnitNestedInput
   heatingReadings?: Prisma.UnitHeatingReadingUpdateManyWithoutUnitNestedInput
   owner?: Prisma.UserUpdateOneWithoutOwnedUnitsNestedInput
@@ -2037,6 +2308,7 @@ export type UnitUpdateWithoutBuildingInput = {
 
 export type UnitUncheckedUpdateWithoutBuildingInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  customerId?: Prisma.StringFieldUpdateOperationsInput | string
   unitNumber?: Prisma.StringFieldUpdateOperationsInput | string
   unitType?: Prisma.EnumUnitTypeFieldUpdateOperationsInput | $Enums.UnitType
   floor?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -2061,6 +2333,7 @@ export type UnitUncheckedUpdateWithoutBuildingInput = {
 
 export type UnitUncheckedUpdateManyWithoutBuildingInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  customerId?: Prisma.StringFieldUpdateOperationsInput | string
   unitNumber?: Prisma.StringFieldUpdateOperationsInput | string
   unitType?: Prisma.EnumUnitTypeFieldUpdateOperationsInput | $Enums.UnitType
   floor?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -2156,6 +2429,7 @@ export type UnitCountOutputTypeCountExpenseAllocationsArgs<ExtArgs extends runti
 export type UnitSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   buildingId?: boolean
+  customerId?: boolean
   unitNumber?: boolean
   unitType?: boolean
   floor?: boolean
@@ -2171,6 +2445,7 @@ export type UnitSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   createdAt?: boolean
   updatedAt?: boolean
   building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
+  customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
   categoryExclusions?: boolean | Prisma.Unit$categoryExclusionsArgs<ExtArgs>
   heatingReadings?: boolean | Prisma.Unit$heatingReadingsArgs<ExtArgs>
   owner?: boolean | Prisma.Unit$ownerArgs<ExtArgs>
@@ -2185,6 +2460,7 @@ export type UnitSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
 export type UnitSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   buildingId?: boolean
+  customerId?: boolean
   unitNumber?: boolean
   unitType?: boolean
   floor?: boolean
@@ -2200,6 +2476,7 @@ export type UnitSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   createdAt?: boolean
   updatedAt?: boolean
   building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
+  customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
   owner?: boolean | Prisma.Unit$ownerArgs<ExtArgs>
   resident?: boolean | Prisma.Unit$residentArgs<ExtArgs>
 }, ExtArgs["result"]["unit"]>
@@ -2207,6 +2484,7 @@ export type UnitSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
 export type UnitSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   buildingId?: boolean
+  customerId?: boolean
   unitNumber?: boolean
   unitType?: boolean
   floor?: boolean
@@ -2222,6 +2500,7 @@ export type UnitSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   createdAt?: boolean
   updatedAt?: boolean
   building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
+  customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
   owner?: boolean | Prisma.Unit$ownerArgs<ExtArgs>
   resident?: boolean | Prisma.Unit$residentArgs<ExtArgs>
 }, ExtArgs["result"]["unit"]>
@@ -2229,6 +2508,7 @@ export type UnitSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
 export type UnitSelectScalar = {
   id?: boolean
   buildingId?: boolean
+  customerId?: boolean
   unitNumber?: boolean
   unitType?: boolean
   floor?: boolean
@@ -2245,9 +2525,10 @@ export type UnitSelectScalar = {
   updatedAt?: boolean
 }
 
-export type UnitOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "buildingId" | "unitNumber" | "unitType" | "floor" | "areaSqm" | "millesimes" | "millesimesElevator" | "millesimesHeating" | "millesimesSource" | "millesimesElevatorSource" | "millesimesHeatingSource" | "ownerId" | "residentId" | "createdAt" | "updatedAt", ExtArgs["result"]["unit"]>
+export type UnitOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "buildingId" | "customerId" | "unitNumber" | "unitType" | "floor" | "areaSqm" | "millesimes" | "millesimesElevator" | "millesimesHeating" | "millesimesSource" | "millesimesElevatorSource" | "millesimesHeatingSource" | "ownerId" | "residentId" | "createdAt" | "updatedAt", ExtArgs["result"]["unit"]>
 export type UnitInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
+  customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
   categoryExclusions?: boolean | Prisma.Unit$categoryExclusionsArgs<ExtArgs>
   heatingReadings?: boolean | Prisma.Unit$heatingReadingsArgs<ExtArgs>
   owner?: boolean | Prisma.Unit$ownerArgs<ExtArgs>
@@ -2260,11 +2541,13 @@ export type UnitInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
 }
 export type UnitIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
+  customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
   owner?: boolean | Prisma.Unit$ownerArgs<ExtArgs>
   resident?: boolean | Prisma.Unit$residentArgs<ExtArgs>
 }
 export type UnitIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
+  customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
   owner?: boolean | Prisma.Unit$ownerArgs<ExtArgs>
   resident?: boolean | Prisma.Unit$residentArgs<ExtArgs>
 }
@@ -2273,6 +2556,7 @@ export type $UnitPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   name: "Unit"
   objects: {
     building: Prisma.$BuildingPayload<ExtArgs>
+    customer: Prisma.$CustomerPayload<ExtArgs>
     categoryExclusions: Prisma.$UnitCategoryExclusionPayload<ExtArgs>[]
     heatingReadings: Prisma.$UnitHeatingReadingPayload<ExtArgs>[]
     owner: Prisma.$UserPayload<ExtArgs> | null
@@ -2285,6 +2569,7 @@ export type $UnitPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     buildingId: string
+    customerId: string
     unitNumber: string
     unitType: $Enums.UnitType
     floor: number | null
@@ -2694,6 +2979,7 @@ readonly fields: UnitFieldRefs;
 export interface Prisma__UnitClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   building<T extends Prisma.BuildingDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.BuildingDefaultArgs<ExtArgs>>): Prisma.Prisma__BuildingClient<runtime.Types.Result.GetResult<Prisma.$BuildingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  customer<T extends Prisma.CustomerDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CustomerDefaultArgs<ExtArgs>>): Prisma.Prisma__CustomerClient<runtime.Types.Result.GetResult<Prisma.$CustomerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   categoryExclusions<T extends Prisma.Unit$categoryExclusionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Unit$categoryExclusionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UnitCategoryExclusionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   heatingReadings<T extends Prisma.Unit$heatingReadingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Unit$heatingReadingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UnitHeatingReadingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   owner<T extends Prisma.Unit$ownerArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Unit$ownerArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
@@ -2733,6 +3019,7 @@ export interface Prisma__UnitClient<T, Null = never, ExtArgs extends runtime.Typ
 export interface UnitFieldRefs {
   readonly id: Prisma.FieldRef<"Unit", 'String'>
   readonly buildingId: Prisma.FieldRef<"Unit", 'String'>
+  readonly customerId: Prisma.FieldRef<"Unit", 'String'>
   readonly unitNumber: Prisma.FieldRef<"Unit", 'String'>
   readonly unitType: Prisma.FieldRef<"Unit", 'UnitType'>
   readonly floor: Prisma.FieldRef<"Unit", 'Int'>

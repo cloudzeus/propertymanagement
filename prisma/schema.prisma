@@ -543,6 +543,8 @@ model Customer {
   // Relations
   users                 User[]   @relation("customerUsers")
   properties            Property[]
+  buildings             Building[] @relation("customerBuildings")
+  units                 Unit[]     @relation("customerUnits")
   invoices              ServiceInvoice[]
 
   createdAt             DateTime @default(now())
@@ -624,6 +626,10 @@ model Building {
   propertyId            String
   property              Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
 
+  // Denormalized owning customer (= property.customerId) for per-customer data isolation.
+  customerId            String
+  customer              Customer @relation("customerBuildings", fields: [customerId], references: [id], onDelete: Cascade)
+
   // Basic info
   name                  String
   address               String
@@ -676,6 +682,7 @@ model Building {
 
   @@index([companyId])
   @@index([propertyId])
+  @@index([customerId])
   @@index([name])
 }
 
@@ -1049,6 +1056,10 @@ model Unit {
   buildingId            String
   building              Building @relation(fields: [buildingId], references: [id], onDelete: Cascade)
 
+  // Denormalized owning customer (= building.property.customerId) for data isolation.
+  customerId            String
+  customer              Customer @relation("customerUnits", fields: [customerId], references: [id], onDelete: Cascade)
+
   // Basic info
   unitNumber            String
   unitType              UnitType @default(APARTMENT)
@@ -1081,6 +1092,7 @@ model Unit {
 
   @@unique([buildingId, unitNumber])
   @@index([buildingId])
+  @@index([customerId])
   @@index([ownerId])
   @@index([residentId])
 }

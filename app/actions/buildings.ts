@@ -13,10 +13,10 @@ async function requireSuperAdmin() {
   if (user?.role !== "SUPER_ADMIN") throw new Error("Forbidden");
 }
 
-async function companyOfProperty(propertyId: string): Promise<string> {
-  const p = await db.property.findUnique({ where: { id: propertyId }, select: { companyId: true } });
+async function scopeOfProperty(propertyId: string): Promise<{ companyId: string; customerId: string }> {
+  const p = await db.property.findUnique({ where: { id: propertyId }, select: { companyId: true, customerId: true } });
   if (!p) throw new Error("Property not found");
-  return p.companyId;
+  return { companyId: p.companyId, customerId: p.customerId };
 }
 
 const s = (v?: string | null) => (v?.trim() || null);
@@ -59,9 +59,11 @@ function buildingData(d: Partial<BuildingInput>) {
 export async function createBuilding(propertyId: string, data: BuildingInput) {
   await requireSuperAdmin();
   if (!data.name.trim()) return { error: "Το όνομα κτηρίου είναι υποχρεωτικό" };
+  const { companyId, customerId } = await scopeOfProperty(propertyId);
   const building = await db.building.create({
     data: {
-      companyId: await companyOfProperty(propertyId),
+      companyId,
+      customerId,
       propertyId,
       name: data.name.trim(),
       address: data.address.trim(),
@@ -134,8 +136,10 @@ async function propertyOfBuilding(buildingId: string): Promise<string> {
 export async function createUnit(buildingId: string, data: UnitInput) {
   await requireSuperAdmin();
   if (!data.unitNumber.trim()) return { error: "Ο αριθμός μονάδας είναι υποχρεωτικός" };
+  const b = await db.building.findUnique({ where: { id: buildingId }, select: { customerId: true } });
+  if (!b) return { error: "Το κτήριο δεν βρέθηκε" };
   try {
-    const unit = await db.unit.create({ data: { buildingId, ...unitData(data) } as any });
+    const unit = await db.unit.create({ data: { buildingId, customerId: b.customerId, ...unitData(data) } as any });
     await db.building.update({ where: { id: buildingId }, data: { unitsCount: { increment: 1 } } });
     revalidatePath(`/super-admin/properties/${await propertyOfBuilding(buildingId)}`);
     return { unit };

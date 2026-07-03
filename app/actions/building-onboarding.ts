@@ -50,7 +50,7 @@ export async function createBuildingFromOnboarding(
     });
     const b = await tx.building.create({
       data: {
-        companyId, propertyId: property.id,
+        companyId, customerId, propertyId: property.id,
         name: payload.building.address, address: payload.building.address,
         city: payload.building.city || "", postalCode: payload.building.postalCode || "", country: "Greece",
         lat: payload.building.lat ?? null, lng: payload.building.lng ?? null,
@@ -64,6 +64,7 @@ export async function createBuildingFromOnboarding(
     await tx.unit.createMany({
       data: payload.units.map((u) => ({
         buildingId: b.id,
+        customerId,
         unitNumber: u.unitNumber,
         floor: u.floor ?? undefined,
         areaSqm: u.areaSqm ?? undefined,

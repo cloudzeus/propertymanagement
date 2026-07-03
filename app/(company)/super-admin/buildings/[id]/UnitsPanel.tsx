@@ -17,7 +17,7 @@ import {
 export type TOccupant = { id: string; name: string | null; email: string };
 export type Unit = {
   id: string; unitNumber: string; unitType: string; floor: number | null;
-  areaSqm: number | null; millesimes: number | null;
+  areaSqm: number | null; millesimes: number | null; customerId: string;
   owner: TOccupant | null; resident: TOccupant | null;
 };
 
@@ -106,8 +106,8 @@ function OccupantsModal({ unit, onClose, onDone }: { unit: Unit; onClose: () => 
     <Modal open onClose={onClose} title={`Ιδιοκτήτης / Ένοικος — Μονάδα ${unit.unitNumber}`} width={520}
       footer={<button onClick={onClose} style={btnCancel}>Κλείσιμο</button>}>
       <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
-        <Slot unitId={unit.id} role="OWNER" label="Ιδιοκτήτης" current={unit.owner} onDone={onDone} />
-        <Slot unitId={unit.id} role="RESIDENT" label="Ένοικος" current={unit.resident} onDone={onDone} />
+        <Slot unitId={unit.id} customerId={unit.customerId} role="OWNER" label="Ιδιοκτήτης" current={unit.owner} onDone={onDone} />
+        <Slot unitId={unit.id} customerId={unit.customerId} role="RESIDENT" label="Ένοικος" current={unit.resident} onDone={onDone} />
       </div>
       <style>{`@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}`}</style>
     </Modal>
@@ -116,7 +116,7 @@ function OccupantsModal({ unit, onClose, onDone }: { unit: Unit; onClose: () => 
 
 const emptyForm = { name: "", email: "", password: "", phone: "", mobile: "", startDate: "", afm: "", doy: "", contactName: "", contactEmail: "", contactPhone: "" };
 
-function Slot({ unitId, role, label, current, onDone }: { unitId: string; role: "OWNER" | "RESIDENT"; label: string; current: TOccupant | null; onDone: () => void }) {
+function Slot({ unitId, customerId, role, label, current, onDone }: { unitId: string; customerId: string; role: "OWNER" | "RESIDENT"; label: string; current: TOccupant | null; onDone: () => void }) {
   const [occupant, setOccupant] = useState<TOccupant | null>(current);
   const [adding, setAdding] = useState(false);
   const [isCompany, setIsCompany] = useState(false);
@@ -213,6 +213,7 @@ function Slot({ unitId, role, label, current, onDone }: { unitId: string; role: 
             onSelect={(u) => { if (u) pickExisting(u.id); }}
             placeholder="Αναζήτηση με email ή όνομα…"
             roles={CUSTOMER_ROLES}
+            customerId={customerId}
           />
           <button onClick={() => setAdding(true)} style={btnSmall}><RiAddLine /> Δημιουργία νέου</button>
         </div>

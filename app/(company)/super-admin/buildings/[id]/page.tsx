@@ -48,7 +48,7 @@ export default async function BuildingDashboardPage({ params, searchParams }: { 
     where: { buildingId: id },
     orderBy: { unitNumber: "asc" },
     select: {
-      id: true, unitNumber: true, unitType: true, floor: true, areaSqm: true, millesimes: true,
+      id: true, unitNumber: true, unitType: true, floor: true, areaSqm: true, millesimes: true, customerId: true,
       millesimesElevator: true, millesimesHeating: true,
       millesimesSource: true, millesimesElevatorSource: true, millesimesHeatingSource: true,
       owner: occ, resident: occ,
@@ -217,7 +217,7 @@ export default async function BuildingDashboardPage({ params, searchParams }: { 
       }}
       units={unitsHere.map((u) => ({
         id: u.id, unitNumber: u.unitNumber, unitType: u.unitType, floor: u.floor,
-        areaSqm: u.areaSqm, millesimes: u.millesimes,
+        areaSqm: u.areaSqm, millesimes: u.millesimes, customerId: u.customerId,
         owner: u.owner ? { id: u.owner.id, name: u.owner.name, email: u.owner.email } : null,
         resident: u.resident ? { id: u.resident.id, name: u.resident.name, email: u.resident.email } : null,
       }))}
