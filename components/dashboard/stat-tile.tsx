@@ -2,33 +2,35 @@ import type { ReactNode } from "react";
 import Link from "next/link";
 import type { IconType } from "react-icons";
 
+/**
+ * Inspiration-matched stat card: small muted label top-left, big LIGHT-weight
+ * number, black circular icon badge top-right. Monochrome by design — colour is
+ * reserved for status text and the amber Gauge accent elsewhere.
+ */
 export function StatTile({
-  label, value, sub, icon: Icon, href, tone = "var(--color-accent)", trend, children,
+  label, value, sub, icon: Icon, href, valueColor = "var(--foreground)", children,
 }: {
   label: string; value: ReactNode; sub?: string; icon: IconType; href?: string;
-  tone?: string; trend?: { dir: "up" | "down"; pct: number }; children?: ReactNode;
+  valueColor?: string; children?: ReactNode;
 }) {
   const inner = (
     <div style={{
-      position: "relative", background: "var(--card)", border: "1px solid var(--border)",
-      borderRadius: "var(--radius-lg)", boxShadow: "var(--shadow-card)", padding: "20px 22px",
-      display: "flex", flexDirection: "column", gap: 8, overflow: "hidden", height: "100%",
+      background: "var(--card)", border: "1px solid var(--border)",
+      borderRadius: 18, boxShadow: "var(--shadow-card)", padding: "22px 24px",
+      display: "flex", flexDirection: "column", gap: 16, height: "100%", minHeight: 132,
     }}>
-      <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 3, background: tone }} />
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+      <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12 }}>
         <span style={{ fontSize: 13, color: "var(--muted-foreground)", fontWeight: 500 }}>{label}</span>
-        <Icon style={{ fontSize: 20, color: tone }} />
+        <span style={{
+          width: 34, height: 34, borderRadius: 999, background: "var(--color-primary)",
+          display: "inline-flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
+        }}>
+          <Icon style={{ fontSize: 16, color: "#fff" }} />
+        </span>
       </div>
-      <span style={{ fontSize: 30, fontWeight: 700, color: "var(--foreground)", lineHeight: 1,
-        fontFamily: "var(--font-display)" }}>{value}</span>
-      <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-        {sub && <span style={{ fontSize: 12, color: "var(--muted-foreground)" }}>{sub}</span>}
-        {trend && (
-          <span style={{ fontSize: 11, fontWeight: 600,
-            color: trend.dir === "up" ? "var(--color-success)" : "var(--color-danger)" }}>
-            {trend.dir === "up" ? "▲" : "▼"} {trend.pct}%
-          </span>
-        )}
+      <div style={{ marginTop: "auto" }}>
+        <div style={{ fontSize: 36, fontWeight: 300, color: valueColor, lineHeight: 1.05, letterSpacing: "-0.02em" }}>{value}</div>
+        {sub && <div style={{ fontSize: 12, color: "var(--muted-foreground)", marginTop: 8 }}>{sub}</div>}
       </div>
       {children}
     </div>

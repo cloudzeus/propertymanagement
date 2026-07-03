@@ -2,7 +2,7 @@ import { auth } from "@/auth";
 import { getBuildingManagerDashboard } from "@/lib/dashboard/queries";
 import { formatEuro } from "@/lib/dashboard/aggregations";
 import {
-  Hero, StatTile, SectionCard, ProgressMeter, MoneyRow, MiniBars, Donut, TicketList, EmptyState,
+  Hero, StatTile, SectionCard, Gauge, MoneyRow, MiniBars, TicketList, EmptyState,
 } from "@/components/dashboard";
 import { RiMoneyEuroCircleLine, RiUserUnfollowLine, RiToolsLine, RiWallet3Line } from "react-icons/ri";
 
@@ -16,20 +16,17 @@ export default async function BuildingManagerDashboard() {
   const buildingName = buildings.map((b) => b.name).join(", ") || "Οι πολυκατοικίες μου";
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+    <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 20 }}>
       <Hero title={buildingName} subtitle={`Εισπράξεις μήνα: ${formatEuro(collection.collected)} / ${formatEuro(collection.total)} · ${collection.pct}%`} />
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16 }} className="dash-grid">
         <StatTile label="Εισπράξεις μήνα" value={`${collection.pct}%`} sub={formatEuro(collection.collected)}
-          icon={RiMoneyEuroCircleLine} tone="var(--color-success)">
-          <div style={{ marginTop: 8 }}><ProgressMeter pct={collection.pct} /></div>
-        </StatTile>
+          icon={RiMoneyEuroCircleLine} />
         <StatTile label="Οφειλέτες" value={debtors.length} sub={formatEuro(debtorAmount)} icon={RiUserUnfollowLine}
-          tone="var(--color-warning)" />
-        <StatTile label="Ανοιχτά αιτήματα" value={tickets.length} sub="Συντηρήσεις" icon={RiToolsLine}
-          tone="var(--color-danger)" />
+          valueColor={debtors.length > 0 ? "var(--color-warning)" : "var(--foreground)"} />
+        <StatTile label="Ανοιχτά αιτήματα" value={tickets.length} sub="Συντηρήσεις" icon={RiToolsLine} />
         <StatTile label="Έξοδα μήνα" value={formatEuro(expensesTotal)} sub={`${expenses.length} καταχωρήσεις`}
-          icon={RiWallet3Line} tone="var(--color-accent)" />
+          icon={RiWallet3Line} />
       </div>
 
       <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: 16 }} className="dash-cols">
@@ -49,7 +46,7 @@ export default async function BuildingManagerDashboard() {
 
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <SectionCard title="Εισπράξεις">
-            <Donut value={Math.round(collection.collected)} total={Math.round(collection.total)} label="εισπραγμένα" tone="var(--color-success)" />
+            <Gauge value={collection.collected} max={collection.total} big={`${collection.pct}%`} unit="εισπράχθηκαν" />
           </SectionCard>
           <SectionCard title="Εισπράξεις ανά μήνα"><MiniBars data={trend} /></SectionCard>
         </div>

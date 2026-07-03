@@ -14,8 +14,7 @@ export function MoneyRow({
         {subtitle && <div style={{ fontSize: 12, color: "var(--muted-foreground)" }}>{subtitle}</div>}
       </div>
       <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-        <span style={{ fontSize: 14, fontWeight: 600, color: "var(--foreground)",
-          fontFamily: "var(--font-display)" }}>{formatEuro(amount)}</span>
+        <span style={{ fontSize: 14, fontWeight: 600, color: "var(--foreground)" }}>{formatEuro(amount)}</span>
         <StatusChip tone={paid ? "success" : "warning"}>{paid ? "Πληρωμένο" : "Οφειλή"}</StatusChip>
       </div>
     </div>

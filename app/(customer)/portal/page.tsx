@@ -15,7 +15,7 @@ export default async function PortalDashboard() {
   const currentDue = allocations.find((a) => !a.tenantPaid);
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+    <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 20 }}>
       <Hero
         title={`Καλώς ήρθατε, ${firstName}`}
         subtitle={unit ? `${unit.building?.name} · ${unit.unitNumber}` : "Πύλη ενοικιαστή"}
@@ -24,13 +24,13 @@ export default async function PortalDashboard() {
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16 }} className="dash-grid">
         <StatTile label="Υπόλοιπο κοινοχρήστων" value={formatEuro(balance)} sub={balance > 0 ? "Προς πληρωμή" : "Ενημερωμένο"}
-          icon={RiMoneyEuroCircleLine} tone={balance > 0 ? "var(--color-warning)" : "var(--color-success)"} />
+          icon={RiMoneyEuroCircleLine} valueColor={balance > 0 ? "var(--color-warning)" : "var(--foreground)"} />
         <StatTile label="Τρέχουσα δόση" value={currentDue ? formatEuro(Number(currentDue.tenantAmount)) : "—"}
           sub={currentDue ? currentDue.expense.month : "Καμία εκκρεμότητα"} icon={RiCalendarLine} />
         <StatTile label="Αιτήματά μου" value={tickets.length} sub="Ανοιχτά" icon={RiToolsLine}
-          tone="var(--color-danger)" href="/portal/requests" />
+          href="/portal/requests" />
         <StatTile label="Ανακοινώσεις" value={announcements.length} sub="Ενεργές" icon={RiNotification2Line}
-          tone="var(--color-accent)" href="/portal/announcements" />
+          href="/portal/announcements" />
       </div>
 
       <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: 16 }} className="dash-cols">
@@ -56,7 +56,7 @@ export default async function PortalDashboard() {
               <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                 {announcements.map((ann) => (
                   <div key={ann.id} style={{ padding: "12px 14px", background: "var(--bg-canvas)", borderRadius: 8,
-                    borderLeft: "3px solid var(--color-accent)" }}>
+                    borderLeft: "3px solid var(--color-primary)" }}>
                     <div style={{ fontSize: 14, fontWeight: 500, color: "var(--foreground)" }}>{ann.title}</div>
                   </div>
                 ))}

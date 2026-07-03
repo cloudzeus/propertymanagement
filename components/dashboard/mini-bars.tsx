@@ -13,8 +13,8 @@ export function MiniBars({ data, height = 72 }: { data: TrendPoint[]; height?: n
         const mLabel = MONTH_ABBR[Number(d.month.split("-")[1]) - 1];
         return (
           <g key={d.month}>
-            <rect x={x} y={height - h} width={barW} height={Math.max(2, h)} rx={5}
-              fill="var(--color-accent)" opacity={i === data.length - 1 ? 1 : 0.4} />
+            <rect x={x} y={height - h} width={barW} height={Math.max(2, h)} rx={6}
+              fill="var(--color-primary)" opacity={i === data.length - 1 ? 1 : 0.22} />
             <text x={x + barW / 2} y={height + 14} textAnchor="middle" fontSize="10"
               fill="var(--muted-foreground)">{mLabel}</text>
           </g>

@@ -2,7 +2,7 @@ import { auth } from "@/auth";
 import { getOwnerDashboard } from "@/lib/dashboard/queries";
 import { formatEuro } from "@/lib/dashboard/aggregations";
 import {
-  Hero, StatTile, SectionCard, Donut, MiniBars, TicketList, StatusChip, EmptyState,
+  Hero, StatTile, SectionCard, Gauge, MiniBars, TicketList, StatusChip, EmptyState,
 } from "@/components/dashboard";
 import { RiHome3Line, RiMoneyEuroCircleLine, RiPieChartLine, RiToolsLine } from "react-icons/ri";
 
@@ -13,7 +13,7 @@ export default async function OwnerDashboard() {
   const firstName = session?.user?.name?.split(" ")[0] ?? "";
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+    <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 20 }}>
       <Hero
         title={`Καλησπέρα, ${firstName}`}
         subtitle={`${occ.total} ${occ.total === 1 ? "ακίνητο" : "ακίνητα"} · ${occ.rate}% πληρότητα`}
@@ -22,11 +22,10 @@ export default async function OwnerDashboard() {
       <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16 }} className="dash-grid">
         <StatTile label="Ιδιοκτησίες" value={occ.total} sub="Μονάδες μου" icon={RiHome3Line} href="/owner/units" />
         <StatTile label="Ενοικιασμένες" value={occ.occupied} sub={`${occ.vacant} κενές`} icon={RiPieChartLine}
-          tone="var(--color-success)" href="/owner/units" />
-        <StatTile label="Οφειλές μου" value={formatEuro(owed)} sub="Κοινόχρηστα ιδιοκτήτη" icon={RiMoneyEuroCircleLine}
-          tone={owed > 0 ? "var(--color-warning)" : "var(--color-success)"} />
+          href="/owner/units" />
+        <StatTile label="Οφειλές μου" value={formatEuro(owed)} sub="Κοινόχρηστα ιδιοκτήτη" icon={RiMoneyEuroCircleLine} />
         <StatTile label="Ανοιχτά αιτήματα" value={tickets.length} sub="Στα ακίνητά μου" icon={RiToolsLine}
-          tone="var(--color-danger)" href="/owner/maintenance" />
+          href="/owner/maintenance" />
       </div>
 
       <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: 16 }} className="dash-cols">
@@ -53,7 +52,7 @@ export default async function OwnerDashboard() {
 
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <SectionCard title="Πληρότητα">
-            <Donut value={occ.occupied} total={occ.total} label="ενοικιασμένες μονάδες" tone="var(--color-success)" />
+            <Gauge value={occ.occupied} max={occ.total} big={`${occ.rate}%`} unit="ενοικιασμένες" />
           </SectionCard>
           <SectionCard title="Χρεώσεις ανά μήνα">
             <MiniBars data={trend} />
