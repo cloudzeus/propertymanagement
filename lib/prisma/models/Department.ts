@@ -488,10 +488,6 @@ export type DepartmentUncheckedUpdateManyWithoutCompanyNestedInput = {
   deleteMany?: Prisma.DepartmentScalarWhereInput | Prisma.DepartmentScalarWhereInput[]
 }
 
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
-}
-
 export type DepartmentCreateNestedOneWithoutPositionsInput = {
   create?: Prisma.XOR<Prisma.DepartmentCreateWithoutPositionsInput, Prisma.DepartmentUncheckedCreateWithoutPositionsInput>
   connectOrCreate?: Prisma.DepartmentCreateOrConnectWithoutPositionsInput

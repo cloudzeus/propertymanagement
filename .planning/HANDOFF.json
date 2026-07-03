@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "timestamp": "2026-07-03T09:50:54.089Z",
+  "timestamp": "2026-07-03T10:05:19.914Z",
   "source": "auto-postool",
   "partial": false,
   "phase": null,
@@ -22,9 +22,49 @@
     },
     {
       "status": "M",
-      "path": "lib/roles-constants.ts"
+      "path": "app/(company)/super-admin/buildings/[id]/UnitsPanel.tsx"
+    },
+    {
+      "status": "M",
+      "path": "app/actions/unit-occupants.ts"
+    },
+    {
+      "status": "M",
+      "path": "lib/prisma/commonInputTypes.ts"
+    },
+    {
+      "status": "M",
+      "path": "lib/prisma/internal/class.ts"
+    },
+    {
+      "status": "M",
+      "path": "lib/prisma/internal/prismaNamespace.ts"
+    },
+    {
+      "status": "M",
+      "path": "lib/prisma/internal/prismaNamespaceBrowser.ts"
+    },
+    {
+      "status": "M",
+      "path": "lib/prisma/models/Account.ts"
+    },
+    {
+      "status": "M",
+      "path": "lib/prisma/models/Department.ts"
+    },
+    {
+      "status": "M",
+      "path": "lib/prisma/models/User.ts"
+    },
+    {
+      "status": "M",
+      "path": "prisma/schema.prisma"
+    },
+    {
+      "status": "??",
+      "path": "prisma/migrations/20260703130000_add_company_occupant/"
     }
   ],
   "next_action": null,
-  "context_notes": "Recent commits:\nd337dc9 feat(managers): managed-property flag + widen manager/occupant flows\nee504dc feat(impersonation): role-colored view-as banner + role label chip\n0749d35 redesign(dashboard): inspiration-matched clean look\n9ff50da Merge feat/orithon-persona-dashboards: Orithon persona dashboards (owner/resident/building manager)\n8d79f9e fix(dashboard): drop dead-end /manager links from building view; UTC month anchor"
+  "context_notes": "Recent commits:\n1c0a4c5 feat(dashboard): meaningful role labels + colored badges in recent users\nd337dc9 feat(managers): managed-property flag + widen manager/occupant flows\nee504dc feat(impersonation): role-colored view-as banner + role label chip\n0749d35 redesign(dashboard): inspiration-matched clean look\n9ff50da Merge feat/orithon-persona-dashboards: Orithon persona dashboards (owner/resident/building manager)"
 }

@@ -11,7 +11,7 @@ import { UserCombo } from "@/components/ui/user-combo";
 import { CUSTOMER_ROLES } from "@/lib/roles-constants";
 import {
   RiHome4Line, RiStore2Line, RiCarLine, RiBox3Line, RiAddLine, RiPencilLine,
-  RiDeleteBinLine, RiCheckLine, RiLoaderLine, RiCalculatorLine, RiUserStarLine, RiUserLine, RiCloseLine,
+  RiDeleteBinLine, RiCheckLine, RiLoaderLine, RiCalculatorLine, RiUserStarLine, RiUserLine, RiCloseLine, RiSearchLine,
 } from "react-icons/ri";
 
 export type TOccupant = { id: string; name: string | null; email: string };
@@ -114,16 +114,33 @@ function OccupantsModal({ unit, onClose, onDone }: { unit: Unit; onClose: () => 
   );
 }
 
+const emptyForm = { name: "", email: "", password: "", phone: "", mobile: "", startDate: "", afm: "", doy: "", contactName: "", contactEmail: "", contactPhone: "" };
+
 function Slot({ unitId, role, label, current, onDone }: { unitId: string; role: "OWNER" | "RESIDENT"; label: string; current: TOccupant | null; onDone: () => void }) {
   const [occupant, setOccupant] = useState<TOccupant | null>(current);
   const [adding, setAdding] = useState(false);
-  const [form, setForm] = useState({ name: "", email: "", password: "", phone: "", mobile: "", startDate: "" });
+  const [isCompany, setIsCompany] = useState(false);
+  const [form, setForm] = useState({ ...emptyForm });
   const [error, setError] = useState<string | null>(null);
+  const [aadeLoading, setAadeLoading] = useState(false);
   const [isPending, startTransition] = useTransition();
   const f = (k: keyof typeof form) => (v: string) => setForm((p) => ({ ...p, [k]: v }));
+
+  async function aadeLookup() {
+    const afm = form.afm.replace(/\D/g, "");
+    if (afm.length !== 9) { setError("Συμπληρώστε έγκυρο ΑΦΜ (9 ψηφία)"); return; }
+    setAadeLoading(true); setError(null);
+    try {
+      const res = await fetch("/api/aade", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ afm }) });
+      const data: { data?: Record<string, string>; error?: string } = await res.json();
+      if (!res.ok || !data.data) { setError(data.error ?? "Δεν βρέθηκαν στοιχεία ΑΑΔΕ"); return; }
+      setForm((p) => ({ ...p, name: data.data!.name || p.name, doy: data.data!.taxOffice || p.doy }));
+    } catch { setError("Σφάλμα αναζήτησης ΑΑΔΕ"); } finally { setAadeLoading(false); }
+  }
+
   function create() {
     setError(null);
-    startTransition(async () => { const res = await createOccupant(unitId, role, form); if ("error" in res && res.error) { setError(res.error); return; } setOccupant(res.occupant ?? null); setAdding(false); setForm({ name: "", email: "", password: "", phone: "", mobile: "", startDate: "" }); onDone(); });
+    startTransition(async () => { const res = await createOccupant(unitId, role, { ...form, isCompany }); if ("error" in res && res.error) { setError(res.error); return; } setOccupant(res.occupant ?? null); setAdding(false); setIsCompany(false); setForm({ ...emptyForm }); onDone(); });
   }
   function pickExisting(userId: string) {
     setError(null);
@@ -146,18 +163,43 @@ function Slot({ unitId, role, label, current, onDone }: { unitId: string; role: 
       ) : adding ? (
         <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
           {error && <div style={errBox}>{error}</div>}
+          <FormField label="Τύπος">
+            <FieldSelect value={isCompany ? "COMPANY" : "INDIVIDUAL"} onChange={(v) => setIsCompany(v === "COMPANY")}
+              options={[{ value: "INDIVIDUAL", label: "Ιδιώτης" }, { value: "COMPANY", label: "Εταιρεία" }]} />
+          </FormField>
+
+          {isCompany ? (
+            <>
+              <FormField label="Επωνυμία" required><FieldInput value={form.name} onChange={f("name")} placeholder="π.χ. Εταιρεία ΕΠΕ" /></FormField>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr auto 1fr", gap: 10, alignItems: "end" }}>
+                <FormField label="ΑΦΜ"><FieldInput value={form.afm} onChange={f("afm")} placeholder="123456789" /></FormField>
+                <button type="button" onClick={aadeLookup} disabled={aadeLoading} title="Άντληση στοιχείων από ΑΑΔΕ" style={{ ...btnSmall, height: 34 }}>
+                  {aadeLoading ? <RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> : <RiSearchLine />} ΑΑΔΕ
+                </button>
+                <FormField label="ΔΟΥ"><FieldInput value={form.doy} onChange={f("doy")} /></FormField>
+              </div>
+              <div style={{ fontSize: 11, fontWeight: 700, color: "var(--muted-foreground)", textTransform: "uppercase", letterSpacing: "0.05em", marginTop: 4 }}>Πρόσωπο επικοινωνίας</div>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+                <FormField label="Ονοματεπώνυμο"><FieldInput value={form.contactName} onChange={f("contactName")} /></FormField>
+                <FormField label="Email επικοινωνίας"><FieldInput type="email" value={form.contactEmail} onChange={f("contactEmail")} /></FormField>
+              </div>
+              <FormField label="Τηλέφωνο επικοινωνίας"><FieldInput value={form.contactPhone} onChange={f("contactPhone")} /></FormField>
+            </>
+          ) : (
+            <>
+              <FormField label="Ονοματεπώνυμο" required><FieldInput value={form.name} onChange={f("name")} /></FormField>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+                <FormField label="Τηλέφωνο"><FieldInput value={form.phone} onChange={f("phone")} /></FormField>
+                <FormField label="Κινητό"><FieldInput value={form.mobile} onChange={f("mobile")} /></FormField>
+              </div>
+            </>
+          )}
+
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
-            <FormField label="Ονοματεπώνυμο" required><FieldInput value={form.name} onChange={f("name")} /></FormField>
-            <FormField label="Email" required><FieldInput type="email" value={form.email} onChange={f("email")} /></FormField>
-          </div>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
-            <FormField label="Τηλέφωνο"><FieldInput value={form.phone} onChange={f("phone")} /></FormField>
-            <FormField label="Κινητό"><FieldInput value={form.mobile} onChange={f("mobile")} /></FormField>
-          </div>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+            <FormField label={isCompany ? "Email σύνδεσης" : "Email"} required><FieldInput type="email" value={form.email} onChange={f("email")} /></FormField>
             <FormField label="Κωδικός εισόδου" required><FieldInput type="password" value={form.password} onChange={f("password")} placeholder="Τουλάχιστον 6 χαρακτήρες" /></FormField>
-            <FormField label={role === "OWNER" ? "Ιδιοκτήτης από" : "Ένοικος από"}><FieldInput type="date" value={form.startDate} onChange={f("startDate")} /></FormField>
           </div>
+          <FormField label={role === "OWNER" ? "Ιδιοκτήτης από" : "Ένοικος από"}><FieldInput type="date" value={form.startDate} onChange={f("startDate")} /></FormField>
           <div style={{ display: "flex", gap: 8, justifyContent: "flex-end" }}>
             <button onClick={() => setAdding(false)} style={btnCancel}>Άκυρο</button>
             <button onClick={create} disabled={isPending} style={btnSave}>{isPending ? <RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> : <RiCheckLine />} Δημιουργία</button>

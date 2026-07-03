@@ -119,6 +119,16 @@ model User {
   role                UserRole
   status              UserStatus @default(ACTIVE)
 
+  // Company occupant (owner/resident that is a legal entity, not an individual).
+  // Fields kept TRDR-compatible for future SoftOne sync (see Customer).
+  isCompany           Boolean  @default(false)
+  afm                 String?  // ΑΦΜ — TRDR.AFM
+  doy                 String?  // ΔΟΥ — TRDR.IRSDATA
+  contactName         String?  // Πρόσωπο επικοινωνίας
+  contactEmail        String?  // Email επικοινωνίας (distinct from login email)
+  contactPhone        String?  // Τηλέφωνο επικοινωνίας
+  softoneTrdr         Int?     // TRDR link for future ERP sync
+
   // Company association (null for SUPER_ADMIN)
   companyId           String?
   company             Company? @relation("users", fields: [companyId], references: [id], onDelete: SetNull)

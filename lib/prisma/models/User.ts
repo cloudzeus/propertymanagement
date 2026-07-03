@@ -20,8 +20,18 @@ export type UserModel = runtime.Types.Result.DefaultSelection<Prisma.$UserPayloa
 
 export type AggregateUser = {
   _count: UserCountAggregateOutputType | null
+  _avg: UserAvgAggregateOutputType | null
+  _sum: UserSumAggregateOutputType | null
   _min: UserMinAggregateOutputType | null
   _max: UserMaxAggregateOutputType | null
+}
+
+export type UserAvgAggregateOutputType = {
+  softoneTrdr: number | null
+}
+
+export type UserSumAggregateOutputType = {
+  softoneTrdr: number | null
 }
 
 export type UserMinAggregateOutputType = {
@@ -33,6 +43,13 @@ export type UserMinAggregateOutputType = {
   passwordHash: string | null
   role: $Enums.UserRole | null
   status: $Enums.UserStatus | null
+  isCompany: boolean | null
+  afm: string | null
+  doy: string | null
+  contactName: string | null
+  contactEmail: string | null
+  contactPhone: string | null
+  softoneTrdr: number | null
   companyId: string | null
   customerId: string | null
   buildingId: string | null
@@ -50,6 +67,13 @@ export type UserMaxAggregateOutputType = {
   passwordHash: string | null
   role: $Enums.UserRole | null
   status: $Enums.UserStatus | null
+  isCompany: boolean | null
+  afm: string | null
+  doy: string | null
+  contactName: string | null
+  contactEmail: string | null
+  contactPhone: string | null
+  softoneTrdr: number | null
   companyId: string | null
   customerId: string | null
   buildingId: string | null
@@ -67,6 +91,13 @@ export type UserCountAggregateOutputType = {
   passwordHash: number
   role: number
   status: number
+  isCompany: number
+  afm: number
+  doy: number
+  contactName: number
+  contactEmail: number
+  contactPhone: number
+  softoneTrdr: number
   companyId: number
   customerId: number
   buildingId: number
@@ -77,6 +108,14 @@ export type UserCountAggregateOutputType = {
 }
 
 
+export type UserAvgAggregateInputType = {
+  softoneTrdr?: true
+}
+
+export type UserSumAggregateInputType = {
+  softoneTrdr?: true
+}
+
 export type UserMinAggregateInputType = {
   id?: true
   email?: true
@@ -86,6 +125,13 @@ export type UserMinAggregateInputType = {
   passwordHash?: true
   role?: true
   status?: true
+  isCompany?: true
+  afm?: true
+  doy?: true
+  contactName?: true
+  contactEmail?: true
+  contactPhone?: true
+  softoneTrdr?: true
   companyId?: true
   customerId?: true
   buildingId?: true
@@ -103,6 +149,13 @@ export type UserMaxAggregateInputType = {
   passwordHash?: true
   role?: true
   status?: true
+  isCompany?: true
+  afm?: true
+  doy?: true
+  contactName?: true
+  contactEmail?: true
+  contactPhone?: true
+  softoneTrdr?: true
   companyId?: true
   customerId?: true
   buildingId?: true
@@ -120,6 +173,13 @@ export type UserCountAggregateInputType = {
   passwordHash?: true
   role?: true
   status?: true
+  isCompany?: true
+  afm?: true
+  doy?: true
+  contactName?: true
+  contactEmail?: true
+  contactPhone?: true
+  softoneTrdr?: true
   companyId?: true
   customerId?: true
   buildingId?: true
@@ -167,6 +227,18 @@ export type UserAggregateArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: UserAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: UserSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: UserMinAggregateInputType
@@ -197,6 +269,8 @@ export type UserGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
   take?: number
   skip?: number
   _count?: UserCountAggregateInputType | true
+  _avg?: UserAvgAggregateInputType
+  _sum?: UserSumAggregateInputType
   _min?: UserMinAggregateInputType
   _max?: UserMaxAggregateInputType
 }
@@ -210,6 +284,13 @@ export type UserGroupByOutputType = {
   passwordHash: string | null
   role: $Enums.UserRole
   status: $Enums.UserStatus
+  isCompany: boolean
+  afm: string | null
+  doy: string | null
+  contactName: string | null
+  contactEmail: string | null
+  contactPhone: string | null
+  softoneTrdr: number | null
   companyId: string | null
   customerId: string | null
   buildingId: string | null
@@ -217,6 +298,8 @@ export type UserGroupByOutputType = {
   updatedAt: Date
   lastLoginAt: Date | null
   _count: UserCountAggregateOutputType | null
+  _avg: UserAvgAggregateOutputType | null
+  _sum: UserSumAggregateOutputType | null
   _min: UserMinAggregateOutputType | null
   _max: UserMaxAggregateOutputType | null
 }
@@ -248,6 +331,13 @@ export type UserWhereInput = {
   passwordHash?: Prisma.StringNullableFilter<"User"> | string | null
   role?: Prisma.EnumUserRoleFilter<"User"> | $Enums.UserRole
   status?: Prisma.EnumUserStatusFilter<"User"> | $Enums.UserStatus
+  isCompany?: Prisma.BoolFilter<"User"> | boolean
+  afm?: Prisma.StringNullableFilter<"User"> | string | null
+  doy?: Prisma.StringNullableFilter<"User"> | string | null
+  contactName?: Prisma.StringNullableFilter<"User"> | string | null
+  contactEmail?: Prisma.StringNullableFilter<"User"> | string | null
+  contactPhone?: Prisma.StringNullableFilter<"User"> | string | null
+  softoneTrdr?: Prisma.IntNullableFilter<"User"> | number | null
   companyId?: Prisma.StringNullableFilter<"User"> | string | null
   customerId?: Prisma.StringNullableFilter<"User"> | string | null
   buildingId?: Prisma.StringNullableFilter<"User"> | string | null
@@ -285,6 +375,13 @@ export type UserOrderByWithRelationInput = {
   passwordHash?: Prisma.SortOrderInput | Prisma.SortOrder
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  isCompany?: Prisma.SortOrder
+  afm?: Prisma.SortOrderInput | Prisma.SortOrder
+  doy?: Prisma.SortOrderInput | Prisma.SortOrder
+  contactName?: Prisma.SortOrderInput | Prisma.SortOrder
+  contactEmail?: Prisma.SortOrderInput | Prisma.SortOrder
+  contactPhone?: Prisma.SortOrderInput | Prisma.SortOrder
+  softoneTrdr?: Prisma.SortOrderInput | Prisma.SortOrder
   companyId?: Prisma.SortOrderInput | Prisma.SortOrder
   customerId?: Prisma.SortOrderInput | Prisma.SortOrder
   buildingId?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -325,6 +422,13 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   passwordHash?: Prisma.StringNullableFilter<"User"> | string | null
   role?: Prisma.EnumUserRoleFilter<"User"> | $Enums.UserRole
   status?: Prisma.EnumUserStatusFilter<"User"> | $Enums.UserStatus
+  isCompany?: Prisma.BoolFilter<"User"> | boolean
+  afm?: Prisma.StringNullableFilter<"User"> | string | null
+  doy?: Prisma.StringNullableFilter<"User"> | string | null
+  contactName?: Prisma.StringNullableFilter<"User"> | string | null
+  contactEmail?: Prisma.StringNullableFilter<"User"> | string | null
+  contactPhone?: Prisma.StringNullableFilter<"User"> | string | null
+  softoneTrdr?: Prisma.IntNullableFilter<"User"> | number | null
   companyId?: Prisma.StringNullableFilter<"User"> | string | null
   customerId?: Prisma.StringNullableFilter<"User"> | string | null
   buildingId?: Prisma.StringNullableFilter<"User"> | string | null
@@ -362,6 +466,13 @@ export type UserOrderByWithAggregationInput = {
   passwordHash?: Prisma.SortOrderInput | Prisma.SortOrder
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  isCompany?: Prisma.SortOrder
+  afm?: Prisma.SortOrderInput | Prisma.SortOrder
+  doy?: Prisma.SortOrderInput | Prisma.SortOrder
+  contactName?: Prisma.SortOrderInput | Prisma.SortOrder
+  contactEmail?: Prisma.SortOrderInput | Prisma.SortOrder
+  contactPhone?: Prisma.SortOrderInput | Prisma.SortOrder
+  softoneTrdr?: Prisma.SortOrderInput | Prisma.SortOrder
   companyId?: Prisma.SortOrderInput | Prisma.SortOrder
   customerId?: Prisma.SortOrderInput | Prisma.SortOrder
   buildingId?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -369,8 +480,10 @@ export type UserOrderByWithAggregationInput = {
   updatedAt?: Prisma.SortOrder
   lastLoginAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
+  _avg?: Prisma.UserAvgOrderByAggregateInput
   _max?: Prisma.UserMaxOrderByAggregateInput
   _min?: Prisma.UserMinOrderByAggregateInput
+  _sum?: Prisma.UserSumOrderByAggregateInput
 }
 
 export type UserScalarWhereWithAggregatesInput = {
@@ -385,6 +498,13 @@ export type UserScalarWhereWithAggregatesInput = {
   passwordHash?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   role?: Prisma.EnumUserRoleWithAggregatesFilter<"User"> | $Enums.UserRole
   status?: Prisma.EnumUserStatusWithAggregatesFilter<"User"> | $Enums.UserStatus
+  isCompany?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
+  afm?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  doy?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  contactName?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  contactEmail?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  contactPhone?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  softoneTrdr?: Prisma.IntNullableWithAggregatesFilter<"User"> | number | null
   companyId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   customerId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   buildingId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
@@ -402,6 +522,13 @@ export type UserCreateInput = {
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
+  isCompany?: boolean
+  afm?: string | null
+  doy?: string | null
+  contactName?: string | null
+  contactEmail?: string | null
+  contactPhone?: string | null
+  softoneTrdr?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -436,6 +563,13 @@ export type UserUncheckedCreateInput = {
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
+  isCompany?: boolean
+  afm?: string | null
+  doy?: string | null
+  contactName?: string | null
+  contactEmail?: string | null
+  contactPhone?: string | null
+  softoneTrdr?: number | null
   companyId?: string | null
   customerId?: string | null
   buildingId?: string | null
@@ -470,6 +604,13 @@ export type UserUpdateInput = {
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isCompany?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  doy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -504,6 +645,13 @@ export type UserUncheckedUpdateInput = {
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isCompany?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  doy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -538,6 +686,13 @@ export type UserCreateManyInput = {
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
+  isCompany?: boolean
+  afm?: string | null
+  doy?: string | null
+  contactName?: string | null
+  contactEmail?: string | null
+  contactPhone?: string | null
+  softoneTrdr?: number | null
   companyId?: string | null
   customerId?: string | null
   buildingId?: string | null
@@ -555,6 +710,13 @@ export type UserUpdateManyMutationInput = {
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isCompany?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  doy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -569,6 +731,13 @@ export type UserUncheckedUpdateManyInput = {
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isCompany?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  doy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -586,12 +755,23 @@ export type UserCountOrderByAggregateInput = {
   passwordHash?: Prisma.SortOrder
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  isCompany?: Prisma.SortOrder
+  afm?: Prisma.SortOrder
+  doy?: Prisma.SortOrder
+  contactName?: Prisma.SortOrder
+  contactEmail?: Prisma.SortOrder
+  contactPhone?: Prisma.SortOrder
+  softoneTrdr?: Prisma.SortOrder
   companyId?: Prisma.SortOrder
   customerId?: Prisma.SortOrder
   buildingId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   lastLoginAt?: Prisma.SortOrder
+}
+
+export type UserAvgOrderByAggregateInput = {
+  softoneTrdr?: Prisma.SortOrder
 }
 
 export type UserMaxOrderByAggregateInput = {
@@ -603,6 +783,13 @@ export type UserMaxOrderByAggregateInput = {
   passwordHash?: Prisma.SortOrder
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  isCompany?: Prisma.SortOrder
+  afm?: Prisma.SortOrder
+  doy?: Prisma.SortOrder
+  contactName?: Prisma.SortOrder
+  contactEmail?: Prisma.SortOrder
+  contactPhone?: Prisma.SortOrder
+  softoneTrdr?: Prisma.SortOrder
   companyId?: Prisma.SortOrder
   customerId?: Prisma.SortOrder
   buildingId?: Prisma.SortOrder
@@ -620,12 +807,23 @@ export type UserMinOrderByAggregateInput = {
   passwordHash?: Prisma.SortOrder
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  isCompany?: Prisma.SortOrder
+  afm?: Prisma.SortOrder
+  doy?: Prisma.SortOrder
+  contactName?: Prisma.SortOrder
+  contactEmail?: Prisma.SortOrder
+  contactPhone?: Prisma.SortOrder
+  softoneTrdr?: Prisma.SortOrder
   companyId?: Prisma.SortOrder
   customerId?: Prisma.SortOrder
   buildingId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   lastLoginAt?: Prisma.SortOrder
+}
+
+export type UserSumOrderByAggregateInput = {
+  softoneTrdr?: Prisma.SortOrder
 }
 
 export type UserScalarRelationFilter = {
@@ -662,6 +860,18 @@ export type EnumUserRoleFieldUpdateOperationsInput = {
 
 export type EnumUserStatusFieldUpdateOperationsInput = {
   set?: $Enums.UserStatus
+}
+
+export type BoolFieldUpdateOperationsInput = {
+  set?: boolean
+}
+
+export type NullableIntFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
 }
 
 export type DateTimeFieldUpdateOperationsInput = {
@@ -1065,6 +1275,13 @@ export type UserCreateWithoutAccountsInput = {
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
+  isCompany?: boolean
+  afm?: string | null
+  doy?: string | null
+  contactName?: string | null
+  contactEmail?: string | null
+  contactPhone?: string | null
+  softoneTrdr?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -1098,6 +1315,13 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
+  isCompany?: boolean
+  afm?: string | null
+  doy?: string | null
+  contactName?: string | null
+  contactEmail?: string | null
+  contactPhone?: string | null
+  softoneTrdr?: number | null
   companyId?: string | null
   customerId?: string | null
   buildingId?: string | null
@@ -1147,6 +1371,13 @@ export type UserUpdateWithoutAccountsInput = {
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isCompany?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  doy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1180,6 +1411,13 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isCompany?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  doy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1213,6 +1451,13 @@ export type UserCreateWithoutSessionsInput = {
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
+  isCompany?: boolean
+  afm?: string | null
+  doy?: string | null
+  contactName?: string | null
+  contactEmail?: string | null
+  contactPhone?: string | null
+  softoneTrdr?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -1246,6 +1491,13 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
+  isCompany?: boolean
+  afm?: string | null
+  doy?: string | null
+  contactName?: string | null
+  contactEmail?: string | null
+  contactPhone?: string | null
+  softoneTrdr?: number | null
   companyId?: string | null
   customerId?: string | null
   buildingId?: string | null
@@ -1295,6 +1547,13 @@ export type UserUpdateWithoutSessionsInput = {
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isCompany?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  doy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1328,6 +1587,13 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isCompany?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  doy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1361,6 +1627,13 @@ export type UserCreateWithoutCreatedCompaniesInput = {
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
+  isCompany?: boolean
+  afm?: string | null
+  doy?: string | null
+  contactName?: string | null
+  contactEmail?: string | null
+  contactPhone?: string | null
+  softoneTrdr?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -1394,6 +1667,13 @@ export type UserUncheckedCreateWithoutCreatedCompaniesInput = {
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
+  isCompany?: boolean
+  afm?: string | null
+  doy?: string | null
+  contactName?: string | null
+  contactEmail?: string | null
+  contactPhone?: string | null
+  softoneTrdr?: number | null
   companyId?: string | null
   customerId?: string | null
   buildingId?: string | null
@@ -1432,6 +1712,13 @@ export type UserCreateWithoutCompanyInput = {
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
+  isCompany?: boolean
+  afm?: string | null
+  doy?: string | null
+  contactName?: string | null
+  contactEmail?: string | null
+  contactPhone?: string | null
+  softoneTrdr?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -1465,6 +1752,13 @@ export type UserUncheckedCreateWithoutCompanyInput = {
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
+  isCompany?: boolean
+  afm?: string | null
+  doy?: string | null
+  contactName?: string | null
+  contactEmail?: string | null
+  contactPhone?: string | null
+  softoneTrdr?: number | null
   customerId?: string | null
   buildingId?: string | null
   createdAt?: Date | string
@@ -1519,6 +1813,13 @@ export type UserUpdateWithoutCreatedCompaniesInput = {
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isCompany?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  doy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1552,6 +1853,13 @@ export type UserUncheckedUpdateWithoutCreatedCompaniesInput = {
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isCompany?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  doy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1604,6 +1912,13 @@ export type UserScalarWhereInput = {
   passwordHash?: Prisma.StringNullableFilter<"User"> | string | null
   role?: Prisma.EnumUserRoleFilter<"User"> | $Enums.UserRole
   status?: Prisma.EnumUserStatusFilter<"User"> | $Enums.UserStatus
+  isCompany?: Prisma.BoolFilter<"User"> | boolean
+  afm?: Prisma.StringNullableFilter<"User"> | string | null
+  doy?: Prisma.StringNullableFilter<"User"> | string | null
+  contactName?: Prisma.StringNullableFilter<"User"> | string | null
+  contactEmail?: Prisma.StringNullableFilter<"User"> | string | null
+  contactPhone?: Prisma.StringNullableFilter<"User"> | string | null
+  softoneTrdr?: Prisma.IntNullableFilter<"User"> | number | null
   companyId?: Prisma.StringNullableFilter<"User"> | string | null
   customerId?: Prisma.StringNullableFilter<"User"> | string | null
   buildingId?: Prisma.StringNullableFilter<"User"> | string | null
@@ -1621,6 +1936,13 @@ export type UserCreateWithoutEmployeeLinksInput = {
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
+  isCompany?: boolean
+  afm?: string | null
+  doy?: string | null
+  contactName?: string | null
+  contactEmail?: string | null
+  contactPhone?: string | null
+  softoneTrdr?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -1654,6 +1976,13 @@ export type UserUncheckedCreateWithoutEmployeeLinksInput = {
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
+  isCompany?: boolean
+  afm?: string | null
+  doy?: string | null
+  contactName?: string | null
+  contactEmail?: string | null
+  contactPhone?: string | null
+  softoneTrdr?: number | null
   companyId?: string | null
   customerId?: string | null
   buildingId?: string | null
@@ -1703,6 +2032,13 @@ export type UserUpdateWithoutEmployeeLinksInput = {
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isCompany?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  doy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1736,6 +2072,13 @@ export type UserUncheckedUpdateWithoutEmployeeLinksInput = {
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isCompany?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  doy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1769,6 +2112,13 @@ export type UserCreateWithoutCustomerInput = {
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
+  isCompany?: boolean
+  afm?: string | null
+  doy?: string | null
+  contactName?: string | null
+  contactEmail?: string | null
+  contactPhone?: string | null
+  softoneTrdr?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -1802,6 +2152,13 @@ export type UserUncheckedCreateWithoutCustomerInput = {
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
+  isCompany?: boolean
+  afm?: string | null
+  doy?: string | null
+  contactName?: string | null
+  contactEmail?: string | null
+  contactPhone?: string | null
+  softoneTrdr?: number | null
   companyId?: string | null
   buildingId?: string | null
   createdAt?: Date | string
@@ -1861,6 +2218,13 @@ export type UserCreateWithoutBuildingInput = {
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
+  isCompany?: boolean
+  afm?: string | null
+  doy?: string | null
+  contactName?: string | null
+  contactEmail?: string | null
+  contactPhone?: string | null
+  softoneTrdr?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -1894,6 +2258,13 @@ export type UserUncheckedCreateWithoutBuildingInput = {
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
+  isCompany?: boolean
+  afm?: string | null
+  doy?: string | null
+  contactName?: string | null
+  contactEmail?: string | null
+  contactPhone?: string | null
+  softoneTrdr?: number | null
   companyId?: string | null
   customerId?: string | null
   createdAt?: Date | string
@@ -1953,6 +2324,13 @@ export type UserCreateWithoutOccupanciesInput = {
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
+  isCompany?: boolean
+  afm?: string | null
+  doy?: string | null
+  contactName?: string | null
+  contactEmail?: string | null
+  contactPhone?: string | null
+  softoneTrdr?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -1986,6 +2364,13 @@ export type UserUncheckedCreateWithoutOccupanciesInput = {
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
+  isCompany?: boolean
+  afm?: string | null
+  doy?: string | null
+  contactName?: string | null
+  contactEmail?: string | null
+  contactPhone?: string | null
+  softoneTrdr?: number | null
   companyId?: string | null
   customerId?: string | null
   buildingId?: string | null
@@ -2035,6 +2420,13 @@ export type UserUpdateWithoutOccupanciesInput = {
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isCompany?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  doy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2068,6 +2460,13 @@ export type UserUncheckedUpdateWithoutOccupanciesInput = {
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isCompany?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  doy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2101,6 +2500,13 @@ export type UserCreateWithoutInfraKeyOfInput = {
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
+  isCompany?: boolean
+  afm?: string | null
+  doy?: string | null
+  contactName?: string | null
+  contactEmail?: string | null
+  contactPhone?: string | null
+  softoneTrdr?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -2134,6 +2540,13 @@ export type UserUncheckedCreateWithoutInfraKeyOfInput = {
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
+  isCompany?: boolean
+  afm?: string | null
+  doy?: string | null
+  contactName?: string | null
+  contactEmail?: string | null
+  contactPhone?: string | null
+  softoneTrdr?: number | null
   companyId?: string | null
   customerId?: string | null
   buildingId?: string | null
@@ -2183,6 +2596,13 @@ export type UserUpdateWithoutInfraKeyOfInput = {
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isCompany?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  doy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2216,6 +2636,13 @@ export type UserUncheckedUpdateWithoutInfraKeyOfInput = {
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isCompany?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  doy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2249,6 +2676,13 @@ export type UserCreateWithoutInfraAccessInput = {
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
+  isCompany?: boolean
+  afm?: string | null
+  doy?: string | null
+  contactName?: string | null
+  contactEmail?: string | null
+  contactPhone?: string | null
+  softoneTrdr?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -2282,6 +2716,13 @@ export type UserUncheckedCreateWithoutInfraAccessInput = {
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
+  isCompany?: boolean
+  afm?: string | null
+  doy?: string | null
+  contactName?: string | null
+  contactEmail?: string | null
+  contactPhone?: string | null
+  softoneTrdr?: number | null
   companyId?: string | null
   customerId?: string | null
   buildingId?: string | null
@@ -2331,6 +2772,13 @@ export type UserUpdateWithoutInfraAccessInput = {
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isCompany?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  doy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2364,6 +2812,13 @@ export type UserUncheckedUpdateWithoutInfraAccessInput = {
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isCompany?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  doy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2397,6 +2852,13 @@ export type UserCreateWithoutManagementAssignmentsInput = {
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
+  isCompany?: boolean
+  afm?: string | null
+  doy?: string | null
+  contactName?: string | null
+  contactEmail?: string | null
+  contactPhone?: string | null
+  softoneTrdr?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -2430,6 +2892,13 @@ export type UserUncheckedCreateWithoutManagementAssignmentsInput = {
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
+  isCompany?: boolean
+  afm?: string | null
+  doy?: string | null
+  contactName?: string | null
+  contactEmail?: string | null
+  contactPhone?: string | null
+  softoneTrdr?: number | null
   companyId?: string | null
   customerId?: string | null
   buildingId?: string | null
@@ -2479,6 +2948,13 @@ export type UserUpdateWithoutManagementAssignmentsInput = {
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isCompany?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  doy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2512,6 +2988,13 @@ export type UserUncheckedUpdateWithoutManagementAssignmentsInput = {
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isCompany?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  doy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2545,6 +3028,13 @@ export type UserCreateWithoutOwnedUnitsInput = {
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
+  isCompany?: boolean
+  afm?: string | null
+  doy?: string | null
+  contactName?: string | null
+  contactEmail?: string | null
+  contactPhone?: string | null
+  softoneTrdr?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -2578,6 +3068,13 @@ export type UserUncheckedCreateWithoutOwnedUnitsInput = {
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
+  isCompany?: boolean
+  afm?: string | null
+  doy?: string | null
+  contactName?: string | null
+  contactEmail?: string | null
+  contactPhone?: string | null
+  softoneTrdr?: number | null
   companyId?: string | null
   customerId?: string | null
   buildingId?: string | null
@@ -2616,6 +3113,13 @@ export type UserCreateWithoutResidentUnitsInput = {
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
+  isCompany?: boolean
+  afm?: string | null
+  doy?: string | null
+  contactName?: string | null
+  contactEmail?: string | null
+  contactPhone?: string | null
+  softoneTrdr?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -2649,6 +3153,13 @@ export type UserUncheckedCreateWithoutResidentUnitsInput = {
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
+  isCompany?: boolean
+  afm?: string | null
+  doy?: string | null
+  contactName?: string | null
+  contactEmail?: string | null
+  contactPhone?: string | null
+  softoneTrdr?: number | null
   companyId?: string | null
   customerId?: string | null
   buildingId?: string | null
@@ -2698,6 +3209,13 @@ export type UserUpdateWithoutOwnedUnitsInput = {
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isCompany?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  doy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2731,6 +3249,13 @@ export type UserUncheckedUpdateWithoutOwnedUnitsInput = {
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isCompany?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  doy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2775,6 +3300,13 @@ export type UserUpdateWithoutResidentUnitsInput = {
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isCompany?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  doy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2808,6 +3340,13 @@ export type UserUncheckedUpdateWithoutResidentUnitsInput = {
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isCompany?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  doy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2841,6 +3380,13 @@ export type UserCreateWithoutCompanyRolesInput = {
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
+  isCompany?: boolean
+  afm?: string | null
+  doy?: string | null
+  contactName?: string | null
+  contactEmail?: string | null
+  contactPhone?: string | null
+  softoneTrdr?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -2874,6 +3420,13 @@ export type UserUncheckedCreateWithoutCompanyRolesInput = {
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
+  isCompany?: boolean
+  afm?: string | null
+  doy?: string | null
+  contactName?: string | null
+  contactEmail?: string | null
+  contactPhone?: string | null
+  softoneTrdr?: number | null
   companyId?: string | null
   customerId?: string | null
   buildingId?: string | null
@@ -2923,6 +3476,13 @@ export type UserUpdateWithoutCompanyRolesInput = {
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isCompany?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  doy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2956,6 +3516,13 @@ export type UserUncheckedUpdateWithoutCompanyRolesInput = {
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isCompany?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  doy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2989,6 +3556,13 @@ export type UserCreateWithoutCreatedMenuConfigsInput = {
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
+  isCompany?: boolean
+  afm?: string | null
+  doy?: string | null
+  contactName?: string | null
+  contactEmail?: string | null
+  contactPhone?: string | null
+  softoneTrdr?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -3022,6 +3596,13 @@ export type UserUncheckedCreateWithoutCreatedMenuConfigsInput = {
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
+  isCompany?: boolean
+  afm?: string | null
+  doy?: string | null
+  contactName?: string | null
+  contactEmail?: string | null
+  contactPhone?: string | null
+  softoneTrdr?: number | null
   companyId?: string | null
   customerId?: string | null
   buildingId?: string | null
@@ -3071,6 +3652,13 @@ export type UserUpdateWithoutCreatedMenuConfigsInput = {
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isCompany?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  doy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3104,6 +3692,13 @@ export type UserUncheckedUpdateWithoutCreatedMenuConfigsInput = {
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isCompany?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  doy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3137,6 +3732,13 @@ export type UserCreateWithoutCreatedAnnouncementsInput = {
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
+  isCompany?: boolean
+  afm?: string | null
+  doy?: string | null
+  contactName?: string | null
+  contactEmail?: string | null
+  contactPhone?: string | null
+  softoneTrdr?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -3170,6 +3772,13 @@ export type UserUncheckedCreateWithoutCreatedAnnouncementsInput = {
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
+  isCompany?: boolean
+  afm?: string | null
+  doy?: string | null
+  contactName?: string | null
+  contactEmail?: string | null
+  contactPhone?: string | null
+  softoneTrdr?: number | null
   companyId?: string | null
   customerId?: string | null
   buildingId?: string | null
@@ -3219,6 +3828,13 @@ export type UserUpdateWithoutCreatedAnnouncementsInput = {
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isCompany?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  doy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3252,6 +3868,13 @@ export type UserUncheckedUpdateWithoutCreatedAnnouncementsInput = {
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isCompany?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  doy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3285,6 +3908,13 @@ export type UserCreateWithoutAnnouncementAcksInput = {
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
+  isCompany?: boolean
+  afm?: string | null
+  doy?: string | null
+  contactName?: string | null
+  contactEmail?: string | null
+  contactPhone?: string | null
+  softoneTrdr?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -3318,6 +3948,13 @@ export type UserUncheckedCreateWithoutAnnouncementAcksInput = {
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
+  isCompany?: boolean
+  afm?: string | null
+  doy?: string | null
+  contactName?: string | null
+  contactEmail?: string | null
+  contactPhone?: string | null
+  softoneTrdr?: number | null
   companyId?: string | null
   customerId?: string | null
   buildingId?: string | null
@@ -3367,6 +4004,13 @@ export type UserUpdateWithoutAnnouncementAcksInput = {
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isCompany?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  doy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3400,6 +4044,13 @@ export type UserUncheckedUpdateWithoutAnnouncementAcksInput = {
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isCompany?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  doy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3433,6 +4084,13 @@ export type UserCreateWithoutApiUsageLogsInput = {
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
+  isCompany?: boolean
+  afm?: string | null
+  doy?: string | null
+  contactName?: string | null
+  contactEmail?: string | null
+  contactPhone?: string | null
+  softoneTrdr?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -3466,6 +4124,13 @@ export type UserUncheckedCreateWithoutApiUsageLogsInput = {
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
+  isCompany?: boolean
+  afm?: string | null
+  doy?: string | null
+  contactName?: string | null
+  contactEmail?: string | null
+  contactPhone?: string | null
+  softoneTrdr?: number | null
   companyId?: string | null
   customerId?: string | null
   buildingId?: string | null
@@ -3515,6 +4180,13 @@ export type UserUpdateWithoutApiUsageLogsInput = {
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isCompany?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  doy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3548,6 +4220,13 @@ export type UserUncheckedUpdateWithoutApiUsageLogsInput = {
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isCompany?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  doy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3581,6 +4260,13 @@ export type UserCreateWithoutReportedMaintenanceInput = {
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
+  isCompany?: boolean
+  afm?: string | null
+  doy?: string | null
+  contactName?: string | null
+  contactEmail?: string | null
+  contactPhone?: string | null
+  softoneTrdr?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -3614,6 +4300,13 @@ export type UserUncheckedCreateWithoutReportedMaintenanceInput = {
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
+  isCompany?: boolean
+  afm?: string | null
+  doy?: string | null
+  contactName?: string | null
+  contactEmail?: string | null
+  contactPhone?: string | null
+  softoneTrdr?: number | null
   companyId?: string | null
   customerId?: string | null
   buildingId?: string | null
@@ -3652,6 +4345,13 @@ export type UserCreateWithoutAssignedMaintenanceInput = {
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
+  isCompany?: boolean
+  afm?: string | null
+  doy?: string | null
+  contactName?: string | null
+  contactEmail?: string | null
+  contactPhone?: string | null
+  softoneTrdr?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -3685,6 +4385,13 @@ export type UserUncheckedCreateWithoutAssignedMaintenanceInput = {
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
+  isCompany?: boolean
+  afm?: string | null
+  doy?: string | null
+  contactName?: string | null
+  contactEmail?: string | null
+  contactPhone?: string | null
+  softoneTrdr?: number | null
   companyId?: string | null
   customerId?: string | null
   buildingId?: string | null
@@ -3734,6 +4441,13 @@ export type UserUpdateWithoutReportedMaintenanceInput = {
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isCompany?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  doy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3767,6 +4481,13 @@ export type UserUncheckedUpdateWithoutReportedMaintenanceInput = {
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isCompany?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  doy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3811,6 +4532,13 @@ export type UserUpdateWithoutAssignedMaintenanceInput = {
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isCompany?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  doy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3844,6 +4572,13 @@ export type UserUncheckedUpdateWithoutAssignedMaintenanceInput = {
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isCompany?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  doy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3877,6 +4612,13 @@ export type UserCreateManyCompanyInput = {
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
+  isCompany?: boolean
+  afm?: string | null
+  doy?: string | null
+  contactName?: string | null
+  contactEmail?: string | null
+  contactPhone?: string | null
+  softoneTrdr?: number | null
   customerId?: string | null
   buildingId?: string | null
   createdAt?: Date | string
@@ -3893,6 +4635,13 @@ export type UserUpdateWithoutCompanyInput = {
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isCompany?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  doy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3926,6 +4675,13 @@ export type UserUncheckedUpdateWithoutCompanyInput = {
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isCompany?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  doy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3959,6 +4715,13 @@ export type UserUncheckedUpdateManyWithoutCompanyInput = {
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isCompany?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  doy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3975,6 +4738,13 @@ export type UserCreateManyCustomerInput = {
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
+  isCompany?: boolean
+  afm?: string | null
+  doy?: string | null
+  contactName?: string | null
+  contactEmail?: string | null
+  contactPhone?: string | null
+  softoneTrdr?: number | null
   companyId?: string | null
   buildingId?: string | null
   createdAt?: Date | string
@@ -3991,6 +4761,13 @@ export type UserUpdateWithoutCustomerInput = {
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isCompany?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  doy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4024,6 +4801,13 @@ export type UserUncheckedUpdateWithoutCustomerInput = {
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isCompany?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  doy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4057,6 +4841,13 @@ export type UserUncheckedUpdateManyWithoutCustomerInput = {
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isCompany?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  doy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4073,6 +4864,13 @@ export type UserCreateManyBuildingInput = {
   passwordHash?: string | null
   role: $Enums.UserRole
   status?: $Enums.UserStatus
+  isCompany?: boolean
+  afm?: string | null
+  doy?: string | null
+  contactName?: string | null
+  contactEmail?: string | null
+  contactPhone?: string | null
+  softoneTrdr?: number | null
   companyId?: string | null
   customerId?: string | null
   createdAt?: Date | string
@@ -4089,6 +4887,13 @@ export type UserUpdateWithoutBuildingInput = {
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isCompany?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  doy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4122,6 +4927,13 @@ export type UserUncheckedUpdateWithoutBuildingInput = {
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isCompany?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  doy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4155,6 +4967,13 @@ export type UserUncheckedUpdateManyWithoutBuildingInput = {
   passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isCompany?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  doy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4346,6 +5165,13 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   passwordHash?: boolean
   role?: boolean
   status?: boolean
+  isCompany?: boolean
+  afm?: boolean
+  doy?: boolean
+  contactName?: boolean
+  contactEmail?: boolean
+  contactPhone?: boolean
+  softoneTrdr?: boolean
   companyId?: boolean
   customerId?: boolean
   buildingId?: boolean
@@ -4384,6 +5210,13 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   passwordHash?: boolean
   role?: boolean
   status?: boolean
+  isCompany?: boolean
+  afm?: boolean
+  doy?: boolean
+  contactName?: boolean
+  contactEmail?: boolean
+  contactPhone?: boolean
+  softoneTrdr?: boolean
   companyId?: boolean
   customerId?: boolean
   buildingId?: boolean
@@ -4404,6 +5237,13 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   passwordHash?: boolean
   role?: boolean
   status?: boolean
+  isCompany?: boolean
+  afm?: boolean
+  doy?: boolean
+  contactName?: boolean
+  contactEmail?: boolean
+  contactPhone?: boolean
+  softoneTrdr?: boolean
   companyId?: boolean
   customerId?: boolean
   buildingId?: boolean
@@ -4424,6 +5264,13 @@ export type UserSelectScalar = {
   passwordHash?: boolean
   role?: boolean
   status?: boolean
+  isCompany?: boolean
+  afm?: boolean
+  doy?: boolean
+  contactName?: boolean
+  contactEmail?: boolean
+  contactPhone?: boolean
+  softoneTrdr?: boolean
   companyId?: boolean
   customerId?: boolean
   buildingId?: boolean
@@ -4432,7 +5279,7 @@ export type UserSelectScalar = {
   lastLoginAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "name" | "phone" | "mobile" | "passwordHash" | "role" | "status" | "companyId" | "customerId" | "buildingId" | "createdAt" | "updatedAt" | "lastLoginAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "name" | "phone" | "mobile" | "passwordHash" | "role" | "status" | "isCompany" | "afm" | "doy" | "contactName" | "contactEmail" | "contactPhone" | "softoneTrdr" | "companyId" | "customerId" | "buildingId" | "createdAt" | "updatedAt" | "lastLoginAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   company?: boolean | Prisma.User$companyArgs<ExtArgs>
   customer?: boolean | Prisma.User$customerArgs<ExtArgs>
@@ -4500,6 +5347,13 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     passwordHash: string | null
     role: $Enums.UserRole
     status: $Enums.UserStatus
+    isCompany: boolean
+    afm: string | null
+    doy: string | null
+    contactName: string | null
+    contactEmail: string | null
+    contactPhone: string | null
+    softoneTrdr: number | null
     companyId: string | null
     customerId: string | null
     buildingId: string | null
@@ -4957,6 +5811,13 @@ export interface UserFieldRefs {
   readonly passwordHash: Prisma.FieldRef<"User", 'String'>
   readonly role: Prisma.FieldRef<"User", 'UserRole'>
   readonly status: Prisma.FieldRef<"User", 'UserStatus'>
+  readonly isCompany: Prisma.FieldRef<"User", 'Boolean'>
+  readonly afm: Prisma.FieldRef<"User", 'String'>
+  readonly doy: Prisma.FieldRef<"User", 'String'>
+  readonly contactName: Prisma.FieldRef<"User", 'String'>
+  readonly contactEmail: Prisma.FieldRef<"User", 'String'>
+  readonly contactPhone: Prisma.FieldRef<"User", 'String'>
+  readonly softoneTrdr: Prisma.FieldRef<"User", 'Int'>
   readonly companyId: Prisma.FieldRef<"User", 'String'>
   readonly customerId: Prisma.FieldRef<"User", 'String'>
   readonly buildingId: Prisma.FieldRef<"User", 'String'>

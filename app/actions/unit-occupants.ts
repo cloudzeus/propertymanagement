@@ -47,11 +47,17 @@ export type Occupant = { id: string; name: string | null; email: string };
 export async function createOccupant(
   unitId: string,
   role: "OWNER" | "RESIDENT",
-  data: { name: string; email: string; password: string; phone?: string; mobile?: string; startDate?: string },
+  data: {
+    name: string; email: string; password: string; phone?: string; mobile?: string; startDate?: string;
+    // Company occupant (legal entity) — TRDR-compatible fields.
+    isCompany?: boolean; afm?: string; doy?: string;
+    contactName?: string; contactEmail?: string; contactPhone?: string;
+  },
 ) {
   await requireStaff();
   const email = data.email.trim().toLowerCase();
-  if (!data.name.trim()) return { error: "Το όνομα είναι υποχρεωτικό" };
+  const s = (v?: string) => (v?.trim() || null);
+  if (!data.name.trim()) return { error: data.isCompany ? "Η επωνυμία είναι υποχρεωτική" : "Το όνομα είναι υποχρεωτικό" };
   if (!email) return { error: "Το email είναι υποχρεωτικό" };
   if (data.password.length < 6) return { error: "Ο κωδικός πρέπει να έχει τουλάχιστον 6 χαρακτήρες" };
   const exists = await db.user.findUnique({ where: { email } });
@@ -62,13 +68,19 @@ export async function createOccupant(
     data: {
       email,
       name: data.name.trim(),
-      phone: data.phone?.trim() || null,
-      mobile: data.mobile?.trim() || null,
+      phone: s(data.phone),
+      mobile: s(data.mobile),
       role: (role === "OWNER" ? "PROPERTY_OWNER" : "PROPERTY_RESIDENT") as any,
       status: "ACTIVE" as any,
       companyId: ctx.companyId,
       customerId: ctx.customerId,
       passwordHash: await bcrypt.hash(data.password, 10),
+      isCompany: !!data.isCompany,
+      afm: data.isCompany ? s(data.afm) : null,
+      doy: data.isCompany ? s(data.doy) : null,
+      contactName: data.isCompany ? s(data.contactName) : null,
+      contactEmail: data.isCompany ? s(data.contactEmail) : null,
+      contactPhone: data.isCompany ? s(data.contactPhone) : null,
     },
     select: { id: true, name: true, email: true },
   });
