@@ -12,6 +12,7 @@ type Property = {
   id: string;
   name: string;
   notes: string | null;
+  managed: boolean;
   customerId: string;
   customerName: string;
   address: string | null;
@@ -32,7 +33,7 @@ type CustomerOption = { id: string; name: string };
 
 function initForm() {
   return {
-    customerId: "", name: "", notes: "",
+    customerId: "", name: "", notes: "", managed: "true",
     address: "", city: "", postalCode: "", country: "Ελλάδα",
     vivaEnabled: "false", vivaMerchantId: "", vivaSourceCode: "",
   };
@@ -61,7 +62,7 @@ export function PropertiesClient({ initial, customers }: { initial: Property[]; 
   function openEdit(p: Property) {
     setEditing(p);
     setForm({
-      customerId: p.customerId, name: p.name, notes: p.notes ?? "",
+      customerId: p.customerId, name: p.name, notes: p.notes ?? "", managed: String(p.managed),
       address: p.address ?? "", city: p.city ?? "", postalCode: p.postalCode ?? "", country: p.country ?? "Ελλάδα",
       vivaEnabled: String(p.vivaEnabled), vivaMerchantId: p.vivaMerchantId ?? "", vivaSourceCode: p.vivaSourceCode ?? "",
     });
@@ -88,7 +89,7 @@ export function PropertiesClient({ initial, customers }: { initial: Property[]; 
     if (!form.name.trim()) { setError("Το όνομα είναι υποχρεωτικό"); return; }
     startTransition(async () => {
       const payload = {
-        customerId: form.customerId, name: form.name, notes: form.notes || null,
+        customerId: form.customerId, name: form.name, notes: form.notes || null, managed: form.managed === "true",
         address: form.address || null, city: form.city || null, postalCode: form.postalCode || null, country: form.country || null,
         lat, lng,
         vivaEnabled: form.vivaEnabled === "true", vivaMerchantId: form.vivaMerchantId || null, vivaSourceCode: form.vivaSourceCode || null,
@@ -228,6 +229,15 @@ export function PropertiesClient({ initial, customers }: { initial: Property[]; 
               </p>
             </div>
           )}
+          <FormField label="Διαχείριση">
+            <FieldSelect value={form.managed} onChange={f("managed")} options={[{ value: "true", label: "Διαχειρίζεται από την εταιρεία" }, { value: "false", label: "Αυτοδιαχείριστη" }]} />
+          </FormField>
+          <p style={{ fontSize: 11, color: "var(--muted-foreground)", margin: "-8px 0 0" }}>
+            {form.managed === "true"
+              ? "Ο διαχειριστής θα πρέπει να είναι υπάλληλος της εταιρείας."
+              : "Ως διαχειριστής μπορεί να οριστεί ιδιοκτήτης/ένοικος ή ο πελάτης."}
+          </p>
+
           <FormField label="Σημειώσεις"><FieldTextarea value={form.notes} onChange={f("notes")} rows={2} /></FormField>
 
           <div style={{ borderTop: "1px solid var(--border)", paddingTop: 12 }}>

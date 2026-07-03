@@ -558,6 +558,11 @@ model Property {
   name                  String
   notes                 String?
 
+  // Whether the managing company runs this property. When true, the property's
+  // manager (διαχειριστής) must be a company employee; when false (self-managed),
+  // owners/residents/the customer may be assigned as manager.
+  managed               Boolean  @default(true)
+
   // Address & geodata
   address               String?
   city                  String?

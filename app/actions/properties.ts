@@ -25,6 +25,7 @@ export type PropertyInput = {
   customerId: string;
   name: string;
   notes?: string | null;
+  managed?: boolean;
   address?: string | null;
   city?: string | null;
   postalCode?: string | null;
@@ -42,6 +43,7 @@ export type PropertyInput = {
 function extraData(d: Partial<PropertyInput>) {
   const s = (v?: string | null) => (v?.trim() || null);
   return {
+    ...(d.managed !== undefined ? { managed: d.managed } : {}),
     ...(d.address !== undefined ? { address: s(d.address) } : {}),
     ...(d.city !== undefined ? { city: s(d.city) } : {}),
     ...(d.postalCode !== undefined ? { postalCode: s(d.postalCode) } : {}),
@@ -97,7 +99,7 @@ export async function createProperty(data: PropertyInput) {
   revalidatePath("/super-admin/properties");
   return {
     property: {
-      id: property.id, name: property.name, notes: property.notes,
+      id: property.id, name: property.name, notes: property.notes, managed: property.managed,
       customerId: property.customerId, customerName: property.customer.name,
       address: property.address, city: property.city, postalCode: property.postalCode, country: property.country,
       lat: property.lat, lng: property.lng,
@@ -126,7 +128,7 @@ export async function updateProperty(id: string, data: Partial<PropertyInput>) {
   revalidatePath("/super-admin/properties");
   return {
     property: {
-      id: property.id, name: property.name, notes: property.notes,
+      id: property.id, name: property.name, notes: property.notes, managed: property.managed,
       customerId: property.customerId, customerName: property.customer.name,
       address: property.address, city: property.city, postalCode: property.postalCode, country: property.country,
       lat: property.lat, lng: property.lng,

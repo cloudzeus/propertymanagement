@@ -42,6 +42,7 @@ export type PropertyMinAggregateOutputType = {
   customerId: string | null
   name: string | null
   notes: string | null
+  managed: boolean | null
   address: string | null
   city: string | null
   postalCode: string | null
@@ -62,6 +63,7 @@ export type PropertyMaxAggregateOutputType = {
   customerId: string | null
   name: string | null
   notes: string | null
+  managed: boolean | null
   address: string | null
   city: string | null
   postalCode: string | null
@@ -82,6 +84,7 @@ export type PropertyCountAggregateOutputType = {
   customerId: number
   name: number
   notes: number
+  managed: number
   address: number
   city: number
   postalCode: number
@@ -114,6 +117,7 @@ export type PropertyMinAggregateInputType = {
   customerId?: true
   name?: true
   notes?: true
+  managed?: true
   address?: true
   city?: true
   postalCode?: true
@@ -134,6 +138,7 @@ export type PropertyMaxAggregateInputType = {
   customerId?: true
   name?: true
   notes?: true
+  managed?: true
   address?: true
   city?: true
   postalCode?: true
@@ -154,6 +159,7 @@ export type PropertyCountAggregateInputType = {
   customerId?: true
   name?: true
   notes?: true
+  managed?: true
   address?: true
   city?: true
   postalCode?: true
@@ -261,6 +267,7 @@ export type PropertyGroupByOutputType = {
   customerId: string
   name: string
   notes: string | null
+  managed: boolean
   address: string | null
   city: string | null
   postalCode: string | null
@@ -304,6 +311,7 @@ export type PropertyWhereInput = {
   customerId?: Prisma.StringFilter<"Property"> | string
   name?: Prisma.StringFilter<"Property"> | string
   notes?: Prisma.StringNullableFilter<"Property"> | string | null
+  managed?: Prisma.BoolFilter<"Property"> | boolean
   address?: Prisma.StringNullableFilter<"Property"> | string | null
   city?: Prisma.StringNullableFilter<"Property"> | string | null
   postalCode?: Prisma.StringNullableFilter<"Property"> | string | null
@@ -329,6 +337,7 @@ export type PropertyOrderByWithRelationInput = {
   customerId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
+  managed?: Prisma.SortOrder
   address?: Prisma.SortOrderInput | Prisma.SortOrder
   city?: Prisma.SortOrderInput | Prisma.SortOrder
   postalCode?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -357,6 +366,7 @@ export type PropertyWhereUniqueInput = Prisma.AtLeast<{
   customerId?: Prisma.StringFilter<"Property"> | string
   name?: Prisma.StringFilter<"Property"> | string
   notes?: Prisma.StringNullableFilter<"Property"> | string | null
+  managed?: Prisma.BoolFilter<"Property"> | boolean
   address?: Prisma.StringNullableFilter<"Property"> | string | null
   city?: Prisma.StringNullableFilter<"Property"> | string | null
   postalCode?: Prisma.StringNullableFilter<"Property"> | string | null
@@ -382,6 +392,7 @@ export type PropertyOrderByWithAggregationInput = {
   customerId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
+  managed?: Prisma.SortOrder
   address?: Prisma.SortOrderInput | Prisma.SortOrder
   city?: Prisma.SortOrderInput | Prisma.SortOrder
   postalCode?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -410,6 +421,7 @@ export type PropertyScalarWhereWithAggregatesInput = {
   customerId?: Prisma.StringWithAggregatesFilter<"Property"> | string
   name?: Prisma.StringWithAggregatesFilter<"Property"> | string
   notes?: Prisma.StringNullableWithAggregatesFilter<"Property"> | string | null
+  managed?: Prisma.BoolWithAggregatesFilter<"Property"> | boolean
   address?: Prisma.StringNullableWithAggregatesFilter<"Property"> | string | null
   city?: Prisma.StringNullableWithAggregatesFilter<"Property"> | string | null
   postalCode?: Prisma.StringNullableWithAggregatesFilter<"Property"> | string | null
@@ -428,6 +440,7 @@ export type PropertyCreateInput = {
   id?: string
   name: string
   notes?: string | null
+  managed?: boolean
   address?: string | null
   city?: string | null
   postalCode?: string | null
@@ -453,6 +466,7 @@ export type PropertyUncheckedCreateInput = {
   customerId: string
   name: string
   notes?: string | null
+  managed?: boolean
   address?: string | null
   city?: string | null
   postalCode?: string | null
@@ -474,6 +488,7 @@ export type PropertyUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -499,6 +514,7 @@ export type PropertyUncheckedUpdateInput = {
   customerId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -522,6 +538,7 @@ export type PropertyCreateManyInput = {
   customerId: string
   name: string
   notes?: string | null
+  managed?: boolean
   address?: string | null
   city?: string | null
   postalCode?: string | null
@@ -540,6 +557,7 @@ export type PropertyUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -560,6 +578,7 @@ export type PropertyUncheckedUpdateManyInput = {
   customerId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -590,6 +609,7 @@ export type PropertyCountOrderByAggregateInput = {
   customerId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   notes?: Prisma.SortOrder
+  managed?: Prisma.SortOrder
   address?: Prisma.SortOrder
   city?: Prisma.SortOrder
   postalCode?: Prisma.SortOrder
@@ -615,6 +635,7 @@ export type PropertyMaxOrderByAggregateInput = {
   customerId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   notes?: Prisma.SortOrder
+  managed?: Prisma.SortOrder
   address?: Prisma.SortOrder
   city?: Prisma.SortOrder
   postalCode?: Prisma.SortOrder
@@ -635,6 +656,7 @@ export type PropertyMinOrderByAggregateInput = {
   customerId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   notes?: Prisma.SortOrder
+  managed?: Prisma.SortOrder
   address?: Prisma.SortOrder
   city?: Prisma.SortOrder
   postalCode?: Prisma.SortOrder
@@ -796,6 +818,7 @@ export type PropertyCreateWithoutCompanyInput = {
   id?: string
   name: string
   notes?: string | null
+  managed?: boolean
   address?: string | null
   city?: string | null
   postalCode?: string | null
@@ -819,6 +842,7 @@ export type PropertyUncheckedCreateWithoutCompanyInput = {
   customerId: string
   name: string
   notes?: string | null
+  managed?: boolean
   address?: string | null
   city?: string | null
   postalCode?: string | null
@@ -871,6 +895,7 @@ export type PropertyScalarWhereInput = {
   customerId?: Prisma.StringFilter<"Property"> | string
   name?: Prisma.StringFilter<"Property"> | string
   notes?: Prisma.StringNullableFilter<"Property"> | string | null
+  managed?: Prisma.BoolFilter<"Property"> | boolean
   address?: Prisma.StringNullableFilter<"Property"> | string | null
   city?: Prisma.StringNullableFilter<"Property"> | string | null
   postalCode?: Prisma.StringNullableFilter<"Property"> | string | null
@@ -889,6 +914,7 @@ export type PropertyCreateWithoutCustomerInput = {
   id?: string
   name: string
   notes?: string | null
+  managed?: boolean
   address?: string | null
   city?: string | null
   postalCode?: string | null
@@ -912,6 +938,7 @@ export type PropertyUncheckedCreateWithoutCustomerInput = {
   companyId: string
   name: string
   notes?: string | null
+  managed?: boolean
   address?: string | null
   city?: string | null
   postalCode?: string | null
@@ -959,6 +986,7 @@ export type PropertyCreateWithoutBuildingsInput = {
   id?: string
   name: string
   notes?: string | null
+  managed?: boolean
   address?: string | null
   city?: string | null
   postalCode?: string | null
@@ -983,6 +1011,7 @@ export type PropertyUncheckedCreateWithoutBuildingsInput = {
   customerId: string
   name: string
   notes?: string | null
+  managed?: boolean
   address?: string | null
   city?: string | null
   postalCode?: string | null
@@ -1019,6 +1048,7 @@ export type PropertyUpdateWithoutBuildingsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1043,6 +1073,7 @@ export type PropertyUncheckedUpdateWithoutBuildingsInput = {
   customerId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1063,6 +1094,7 @@ export type PropertyCreateWithoutManagementAssignmentsInput = {
   id?: string
   name: string
   notes?: string | null
+  managed?: boolean
   address?: string | null
   city?: string | null
   postalCode?: string | null
@@ -1087,6 +1119,7 @@ export type PropertyUncheckedCreateWithoutManagementAssignmentsInput = {
   customerId: string
   name: string
   notes?: string | null
+  managed?: boolean
   address?: string | null
   city?: string | null
   postalCode?: string | null
@@ -1123,6 +1156,7 @@ export type PropertyUpdateWithoutManagementAssignmentsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1147,6 +1181,7 @@ export type PropertyUncheckedUpdateWithoutManagementAssignmentsInput = {
   customerId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1167,6 +1202,7 @@ export type PropertyCreateWithoutServicesInput = {
   id?: string
   name: string
   notes?: string | null
+  managed?: boolean
   address?: string | null
   city?: string | null
   postalCode?: string | null
@@ -1191,6 +1227,7 @@ export type PropertyUncheckedCreateWithoutServicesInput = {
   customerId: string
   name: string
   notes?: string | null
+  managed?: boolean
   address?: string | null
   city?: string | null
   postalCode?: string | null
@@ -1227,6 +1264,7 @@ export type PropertyUpdateWithoutServicesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1251,6 +1289,7 @@ export type PropertyUncheckedUpdateWithoutServicesInput = {
   customerId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1272,6 +1311,7 @@ export type PropertyCreateManyCompanyInput = {
   customerId: string
   name: string
   notes?: string | null
+  managed?: boolean
   address?: string | null
   city?: string | null
   postalCode?: string | null
@@ -1290,6 +1330,7 @@ export type PropertyUpdateWithoutCompanyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1313,6 +1354,7 @@ export type PropertyUncheckedUpdateWithoutCompanyInput = {
   customerId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1335,6 +1377,7 @@ export type PropertyUncheckedUpdateManyWithoutCompanyInput = {
   customerId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1354,6 +1397,7 @@ export type PropertyCreateManyCustomerInput = {
   companyId: string
   name: string
   notes?: string | null
+  managed?: boolean
   address?: string | null
   city?: string | null
   postalCode?: string | null
@@ -1372,6 +1416,7 @@ export type PropertyUpdateWithoutCustomerInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1395,6 +1440,7 @@ export type PropertyUncheckedUpdateWithoutCustomerInput = {
   companyId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1417,6 +1463,7 @@ export type PropertyUncheckedUpdateManyWithoutCustomerInput = {
   companyId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1486,6 +1533,7 @@ export type PropertySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   customerId?: boolean
   name?: boolean
   notes?: boolean
+  managed?: boolean
   address?: boolean
   city?: boolean
   postalCode?: boolean
@@ -1512,6 +1560,7 @@ export type PropertySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   customerId?: boolean
   name?: boolean
   notes?: boolean
+  managed?: boolean
   address?: boolean
   city?: boolean
   postalCode?: boolean
@@ -1534,6 +1583,7 @@ export type PropertySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   customerId?: boolean
   name?: boolean
   notes?: boolean
+  managed?: boolean
   address?: boolean
   city?: boolean
   postalCode?: boolean
@@ -1556,6 +1606,7 @@ export type PropertySelectScalar = {
   customerId?: boolean
   name?: boolean
   notes?: boolean
+  managed?: boolean
   address?: boolean
   city?: boolean
   postalCode?: boolean
@@ -1570,7 +1621,7 @@ export type PropertySelectScalar = {
   updatedAt?: boolean
 }
 
-export type PropertyOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "companyId" | "customerId" | "name" | "notes" | "address" | "city" | "postalCode" | "country" | "lat" | "lng" | "vivaEnabled" | "vivaMerchantId" | "vivaApiKeyEnc" | "vivaSourceCode" | "createdAt" | "updatedAt", ExtArgs["result"]["property"]>
+export type PropertyOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "companyId" | "customerId" | "name" | "notes" | "managed" | "address" | "city" | "postalCode" | "country" | "lat" | "lng" | "vivaEnabled" | "vivaMerchantId" | "vivaApiKeyEnc" | "vivaSourceCode" | "createdAt" | "updatedAt", ExtArgs["result"]["property"]>
 export type PropertyInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
@@ -1603,6 +1654,7 @@ export type $PropertyPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     customerId: string
     name: string
     notes: string | null
+    managed: boolean
     address: string | null
     city: string | null
     postalCode: string | null
@@ -2048,6 +2100,7 @@ export interface PropertyFieldRefs {
   readonly customerId: Prisma.FieldRef<"Property", 'String'>
   readonly name: Prisma.FieldRef<"Property", 'String'>
   readonly notes: Prisma.FieldRef<"Property", 'String'>
+  readonly managed: Prisma.FieldRef<"Property", 'Boolean'>
   readonly address: Prisma.FieldRef<"Property", 'String'>
   readonly city: Prisma.FieldRef<"Property", 'String'>
   readonly postalCode: Prisma.FieldRef<"Property", 'String'>

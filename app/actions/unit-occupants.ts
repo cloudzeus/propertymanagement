@@ -9,7 +9,7 @@ async function requireStaff() {
   const session = await auth();
   if (!session?.user) throw new Error("Unauthorized");
   const user = await db.user.findUnique({ where: { id: session.user.id as string }, select: { role: true } });
-  if (!["SUPER_ADMIN", "ADMIN", "MANAGER", "PROPERTY_ADMIN"].includes(user?.role ?? "")) throw new Error("Forbidden");
+  if (!["SUPER_ADMIN", "ADMIN", "MANAGER", "EMPLOYEE", "PROPERTY_ADMIN"].includes(user?.role ?? "")) throw new Error("Forbidden");
   return user!.role as string;
 }
 

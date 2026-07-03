@@ -19,6 +19,7 @@ export function AddPropertyModal({ customerId, customerName, onClose, onCreated 
 }) {
   const [form, setForm] = useState({ name: "", address: "", city: "", postalCode: "", country: "Ελλάδα", notes: "" });
   const [sameAddress, setSameAddress] = useState(true);
+  const [managed, setManaged] = useState(true);
   const [lat, setLat] = useState<number | null>(null);
   const [lng, setLng] = useState<number | null>(null);
   const [geoLoading, setGeoLoading] = useState(false);
@@ -59,7 +60,7 @@ export function AddPropertyModal({ customerId, customerName, onClose, onCreated 
       const res = await createProperty({
         customerId, name: form.name, notes: form.notes || null,
         address: form.address || null, city: form.city || null, postalCode: form.postalCode || null, country: form.country || null,
-        lat, lng, sameAddressBuilding: sameAddress,
+        lat, lng, sameAddressBuilding: sameAddress, managed,
       });
       if ("error" in res && res.error) { setError(res.error); return; }
       const p = (res as any).property;
@@ -112,6 +113,15 @@ export function AddPropertyModal({ customerId, customerName, onClose, onCreated 
         </label>
         <p style={{ fontSize: 11, color: "var(--muted-foreground)", margin: "-6px 0 0" }}>
           Κάθε ιδιοκτησία ξεκινά με ένα κτήριο. {sameAddress ? "Θα πάρει τη διεύθυνση της ιδιοκτησίας." : "Θα ορίσετε τη διεύθυνσή του στη διαχείριση."}
+        </p>
+        <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: "var(--foreground)", cursor: "pointer" }}>
+          <input type="checkbox" checked={managed} onChange={(e) => setManaged(e.target.checked)} style={{ width: 15, height: 15, accentColor: "var(--color-primary)" }} />
+          Διαχειρίζεται από την εταιρεία
+        </label>
+        <p style={{ fontSize: 11, color: "var(--muted-foreground)", margin: "-6px 0 0" }}>
+          {managed
+            ? "Ο διαχειριστής θα πρέπει να είναι υπάλληλος της εταιρείας."
+            : "Αυτοδιαχείριστη — ως διαχειριστής μπορεί να οριστεί ιδιοκτήτης/ένοικος ή ο πελάτης."}
         </p>
         <FormField label="Σημειώσεις"><FieldTextarea value={form.notes} onChange={f("notes")} rows={2} /></FormField>
       </div>

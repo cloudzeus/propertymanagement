@@ -4,10 +4,16 @@ import { useState, useEffect, useCallback, useTransition } from "react";
 import { DataTable, type ColDef, type RowAction } from "@/components/ui/data-table";
 import { Modal } from "@/components/ui/modal";
 import {
-  listManagers, searchManagerCandidates, addManager, removeManager,
+  listManagers, searchManagerCandidates, addManager, createAndAddManager, removeManager, getManagerScopeInfo,
   type ManagerRow, type ManagerCandidate,
 } from "@/app/actions/managers";
-import { RiUserStarLine, RiAddLine, RiDeleteBinLine } from "react-icons/ri";
+import { RiUserStarLine, RiAddLine, RiDeleteBinLine, RiUserAddLine, RiArrowLeftLine } from "react-icons/ri";
+
+const ORIGIN_BADGE: Record<ManagerCandidate["origin"], { label: string; color: string }> = {
+  staff: { label: "Εταιρεία", color: "#0078D4" },
+  occupant: { label: "Ένοικος/Ιδιοκτήτης", color: "#16a34a" },
+  customer: { label: "Πελάτης", color: "#9333ea" },
+};
 
 const ROLE_LABEL: Record<string, string> = {
   SUPER_ADMIN: "Super Admin", ADMIN: "Admin", MANAGER: "Manager", EMPLOYEE: "Υπάλληλος",
@@ -19,12 +25,14 @@ export function ManagersPanel({ buildingId }: { buildingId: string }) {
   const [managers, setManagers] = useState<ManagerRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [adding, setAdding] = useState(false);
+  const [managed, setManaged] = useState(true);
   const [, startTransition] = useTransition();
 
   const reload = useCallback(() => {
     return listManagers({ buildingId }).then(setManagers).finally(() => setLoading(false));
   }, [buildingId]);
   useEffect(() => { reload(); }, [reload]);
+  useEffect(() => { getManagerScopeInfo({ buildingId }).then((i) => setManaged(i.managed)).catch(() => {}); }, [buildingId]);
 
   function remove(assignmentId: string, name: string) {
     if (!confirm(`Αφαίρεση διαχειριστή «${name}»;`)) return;
@@ -77,6 +85,7 @@ export function ManagersPanel({ buildingId }: { buildingId: string }) {
       {adding && (
         <AddManagerModal
           scope={scope}
+          managed={managed}
           assignedIds={new Set(managers.map((m) => m.id))}
           onClose={() => setAdding(false)}
           onDone={() => { setAdding(false); reload(); }}
@@ -86,20 +95,27 @@ export function ManagersPanel({ buildingId }: { buildingId: string }) {
   );
 }
 
-function AddManagerModal({ scope, assignedIds, onClose, onDone }: { scope: { buildingId: string }; assignedIds: Set<string>; onClose: () => void; onDone: () => void }) {
+function AddManagerModal({ scope, managed, assignedIds, onClose, onDone }: { scope: { buildingId: string }; managed: boolean; assignedIds: Set<string>; onClose: () => void; onDone: () => void }) {
+  const [mode, setMode] = useState<"pick" | "create">("pick");
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<ManagerCandidate[]>([]);
   const [searching, setSearching] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
 
+  // New-person form fields
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   useEffect(() => {
+    if (mode !== "pick") return;
     setSearching(true);
     const h = setTimeout(async () => {
       try { setResults(await searchManagerCandidates(scope, query)); } finally { setSearching(false); }
     }, 250);
     return () => clearTimeout(h);
-  }, [query]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [query, mode]); // eslint-disable-line react-hooks/exhaustive-deps
 
   function add(userId: string) {
     setError(null);
@@ -110,44 +126,94 @@ function AddManagerModal({ scope, assignedIds, onClose, onDone }: { scope: { bui
     });
   }
 
+  function create() {
+    setError(null);
+    startTransition(async () => {
+      const r = await createAndAddManager(scope, { name, email, password });
+      if (r && "error" in r && r.error) { setError(r.error); return; }
+      onDone();
+    });
+  }
+
   const visible = results.filter((r) => !assignedIds.has(r.id));
 
   return (
-    <Modal open onClose={onClose} title="Προσθήκη διαχειριστή" width={520}
+    <Modal open onClose={onClose} title={mode === "create" ? "Νέος διαχειριστής" : "Προσθήκη διαχειριστή"} width={640}
       footer={<button onClick={onClose} style={btnCancel}>Κλείσιμο</button>}>
       {error && <div style={errBox}>{error}</div>}
-      <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-        <input
-          type="text"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Αναζήτηση: ιδιοκτήτες/ένοικοι ή προσωπικό εταιρείας…"
-          autoComplete="off"
-          autoFocus
-          style={{ height: 38, padding: "0 12px", borderRadius: 6, border: "1px solid var(--border)", fontSize: 13, color: "var(--foreground)", background: "var(--card)", outline: "none", boxSizing: "border-box", width: "100%" }}
-        />
-        <div style={{ border: "1px solid var(--border)", borderRadius: 6, maxHeight: 320, overflowY: "auto" }}>
-          {searching && visible.length === 0 && <div style={{ padding: "12px 14px", fontSize: 12, color: "var(--muted-foreground)" }}>Φόρτωση…</div>}
-          {!searching && visible.length === 0 && <div style={{ padding: "12px 14px", fontSize: 12, color: "var(--muted-foreground)" }}>Κανένας διαθέσιμος υποψήφιος</div>}
-          {visible.map((c) => (
-            <button key={c.id} type="button" onClick={() => add(c.id)} disabled={isPending}
-              style={{ display: "flex", alignItems: "center", gap: 8, width: "100%", padding: "9px 12px", border: "none", background: "transparent", cursor: "pointer", textAlign: "left", borderBottom: "1px solid var(--border)" }}
-              onMouseEnter={(e) => (e.currentTarget.style.background = "var(--bg-canvas)")}
-              onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}>
-              <span style={{ flex: 1, minWidth: 0 }}>
-                <span style={{ display: "block", fontSize: 13, fontWeight: 600, color: "var(--foreground)" }}>{c.name || c.email}</span>
-                <span style={{ display: "block", fontSize: 11, color: "var(--muted-foreground)" }}>{c.email}</span>
-              </span>
-              <span style={{ flexShrink: 0, fontSize: 10, fontWeight: 700, padding: "2px 6px", borderRadius: 4, background: c.origin === "staff" ? "#0078D418" : "#16a34a18", color: c.origin === "staff" ? "#0078D4" : "#16a34a" }}>
-                {c.origin === "staff" ? "Εταιρεία" : "Ένοικος/Ιδιοκτήτης"}
-              </span>
-            </button>
-          ))}
+
+      {mode === "pick" ? (
+        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+          <div style={{ display: "flex", gap: 8 }}>
+            <input
+              type="text"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder={managed ? "Αναζήτηση υπαλλήλου εταιρείας…" : "Αναζήτηση: ιδιοκτήτες/ένοικοι ή πελάτης…"}
+              autoComplete="off"
+              autoFocus
+              style={{ flex: 1, height: 38, padding: "0 12px", borderRadius: 6, border: "1px solid var(--border)", fontSize: 13, color: "var(--foreground)", background: "var(--card)", outline: "none", boxSizing: "border-box" }}
+            />
+            {!managed && (
+              <button type="button" onClick={() => { setError(null); setMode("create"); }} style={{ ...btn, ...btnPrimary, flexShrink: 0 }}>
+                <RiUserAddLine /> Νέο άτομο
+              </button>
+            )}
+          </div>
+          <div style={{ border: "1px solid var(--border)", borderRadius: 6, maxHeight: 460, overflowY: "auto" }}>
+            {searching && visible.length === 0 && <div style={{ padding: "12px 14px", fontSize: 12, color: "var(--muted-foreground)" }}>Φόρτωση…</div>}
+            {!searching && visible.length === 0 && (
+              <div style={{ padding: "16px 14px", fontSize: 12, color: "var(--muted-foreground)", textAlign: "center" }}>
+                Κανένας διαθέσιμος υποψήφιος.<br />
+                {managed
+                  ? "Η ιδιοκτησία διαχειρίζεται από την εταιρεία — ο διαχειριστής πρέπει να είναι υπάλληλος."
+                  : "Πατήστε «Νέο άτομο» για να δημιουργήσετε νέο διαχειριστή."}
+              </div>
+            )}
+            {visible.map((c) => {
+              const b = ORIGIN_BADGE[c.origin];
+              return (
+                <button key={c.id} type="button" onClick={() => add(c.id)} disabled={isPending}
+                  style={{ display: "flex", alignItems: "center", gap: 8, width: "100%", padding: "9px 12px", border: "none", background: "transparent", cursor: "pointer", textAlign: "left", borderBottom: "1px solid var(--border)" }}
+                  onMouseEnter={(e) => (e.currentTarget.style.background = "var(--bg-canvas)")}
+                  onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}>
+                  <span style={{ flex: 1, minWidth: 0 }}>
+                    <span style={{ display: "block", fontSize: 13, fontWeight: 600, color: "var(--foreground)" }}>{c.name || c.email}</span>
+                    <span style={{ display: "block", fontSize: 11, color: "var(--muted-foreground)" }}>{c.email}</span>
+                  </span>
+                  <span style={{ flexShrink: 0, fontSize: 10, fontWeight: 700, padding: "2px 6px", borderRadius: 4, background: `${b.color}18`, color: b.color }}>
+                    {b.label}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
         </div>
-      </div>
+      ) : (
+        <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+          <button type="button" onClick={() => { setError(null); setMode("pick"); }} style={{ ...btn, alignSelf: "flex-start" }}>
+            <RiArrowLeftLine /> Επιλογή από λίστα
+          </button>
+          <label style={fieldLabel}>Ονοματεπώνυμο
+            <input type="text" value={name} onChange={(e) => setName(e.target.value)} autoFocus autoComplete="off" style={field} />
+          </label>
+          <label style={fieldLabel}>Email
+            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="off" style={field} />
+          </label>
+          <label style={fieldLabel}>Κωδικός (≥ 6 χαρακτήρες)
+            <input type="text" value={password} onChange={(e) => setPassword(e.target.value)} autoComplete="off" style={field} />
+          </label>
+          <button type="button" onClick={create} disabled={isPending} style={{ ...btn, ...btnPrimary, height: 40, justifyContent: "center", opacity: isPending ? 0.6 : 1 }}>
+            <RiUserAddLine /> {isPending ? "Δημιουργία…" : "Δημιουργία & προσθήκη"}
+          </button>
+        </div>
+      )}
     </Modal>
   );
 }
+
+const fieldLabel: React.CSSProperties = { display: "flex", flexDirection: "column", gap: 4, fontSize: 12, fontWeight: 600, color: "var(--muted-foreground)" };
+const field: React.CSSProperties = { height: 38, padding: "0 12px", borderRadius: 6, border: "1px solid var(--border)", fontSize: 13, color: "var(--foreground)", background: "var(--card)", outline: "none", boxSizing: "border-box", width: "100%", fontWeight: 400 };
 
 const btn: React.CSSProperties = {
   display: "inline-flex", alignItems: "center", gap: 6, border: "1px solid var(--border)",

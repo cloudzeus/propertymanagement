@@ -382,6 +382,7 @@ export const PropertyScalarFieldEnum = {
   customerId: 'customerId',
   name: 'name',
   notes: 'notes',
+  managed: 'managed',
   address: 'address',
   city: 'city',
   postalCode: 'postalCode',

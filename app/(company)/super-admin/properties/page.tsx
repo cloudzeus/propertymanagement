@@ -38,7 +38,7 @@ export default async function PropertiesPage() {
   return (
     <PropertiesClient
       initial={properties.map((p) => ({
-        id: p.id, name: p.name, notes: p.notes, customerId: p.customerId, customerName: p.customer.name,
+        id: p.id, name: p.name, notes: p.notes, managed: p.managed, customerId: p.customerId, customerName: p.customer.name,
         address: p.address, city: p.city, postalCode: p.postalCode, country: p.country, lat: p.lat, lng: p.lng,
         vivaEnabled: p.vivaEnabled, vivaMerchantId: p.vivaMerchantId, vivaSourceCode: p.vivaSourceCode,
         buildingCount: p._count.buildings,
