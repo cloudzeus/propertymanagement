@@ -52,7 +52,7 @@ export async function AppShell({ children, allowedRoles }: Props) {
       />
 
       <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0, overflow: "hidden" }}>
-        {eff.impersonatorId && <ImpersonationBanner label={`${eff.user.name ?? eff.user.email} · ${role}`} />}
+        {eff.impersonatorId && <ImpersonationBanner name={eff.user.name ?? eff.user.email ?? ""} role={role} />}
         <main style={{ flex: 1, overflowY: "auto", padding: 28, minWidth: 0 }}>
           {children}
         </main>
