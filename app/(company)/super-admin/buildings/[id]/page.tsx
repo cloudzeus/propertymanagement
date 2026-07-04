@@ -200,12 +200,44 @@ export default async function BuildingDashboardPage({ params, searchParams }: { 
     photoUrl: r.expense?.receiptFile?.url ?? null,
   }));
 
+  // ── Overview widgets: paid/unpaid, open maintenance, upcoming tasks ──────────
+  const allocs = await db.expenseAllocation.findMany({
+    where: { unit: { buildingId: building.id } },
+    select: { tenantAmount: true, tenantPaid: true, ownerAmount: true, ownerPaid: true },
+  });
+  let paidSum = 0, unpaidSum = 0;
+  for (const a of allocs) {
+    const t = Number(a.tenantAmount), o = Number(a.ownerAmount);
+    paidSum += (a.tenantPaid ? t : 0) + (a.ownerPaid ? o : 0);
+    unpaidSum += (a.tenantPaid ? 0 : t) + (a.ownerPaid ? 0 : o);
+  }
+  const [openRequests, openCount, upcomingTasksRaw] = await Promise.all([
+    db.maintenanceRequest.findMany({
+      where: { buildingId: building.id, status: { in: ["OPEN", "IN_PROGRESS"] } },
+      orderBy: { createdAt: "desc" }, take: 5,
+      select: { id: true, title: true, status: true, priority: true, createdAt: true },
+    }),
+    db.maintenanceRequest.count({ where: { buildingId: building.id, status: { in: ["OPEN", "IN_PROGRESS"] } } }),
+    db.recurringTask.findMany({
+      where: { buildingId: building.id, active: true }, orderBy: { nextDueDate: "asc" }, take: 5,
+      select: { id: true, title: true, nextDueDate: true },
+    }),
+  ]);
+  const overview = {
+    paid: Math.round(paidSum * 100) / 100,
+    unpaid: Math.round(unpaidSum * 100) / 100,
+    openCount,
+    openRequests: openRequests.map((r) => ({ id: r.id, title: r.title, status: r.status, priority: r.priority, createdAt: r.createdAt.toISOString() })),
+    upcomingTasks: upcomingTasksRaw.map((t) => ({ id: t.id, title: t.title, nextDueDate: t.nextDueDate ? t.nextDueDate.toISOString() : null })),
+  };
+
   return (
     <BuildingDashboard
       usesMeteredHeating={usesMeteredHeating}
       heatingPeriod={heatingPeriod}
       heatingReadingRows={heatingReadingRows}
       meterReadingRows={meterReadingRows}
+      overview={overview}
       building={{
         id: building.id,
         name: building.name,

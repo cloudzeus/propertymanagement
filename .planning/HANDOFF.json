@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "timestamp": "2026-07-04T07:06:59.236Z",
+  "timestamp": "2026-07-04T07:11:25.343Z",
   "source": "auto-postool",
   "partial": false,
   "phase": null,
@@ -27,12 +27,8 @@
     {
       "status": "M",
       "path": "app/(company)/super-admin/buildings/[id]/page.tsx"
-    },
-    {
-      "status": "??",
-      "path": "app/(company)/super-admin/buildings/[id]/MeterReadingsPanel.tsx"
     }
   ],
   "next_action": null,
-  "context_notes": "Recent commits:\na9c9e29 feat(dashboard-map): building-coord fallback + list properties missing a location\n261bc41 feat(dashboard): Map tab with all properties for company-side roles\n00151c1 refactor(properties): show managers inline in building stats, not a separate line\nea643fc feat(properties): show assigned managers in the buildings tree\n0063c38 feat(managers): owners/residents assignable even on company-managed properties"
+  "context_notes": "Recent commits:\n88bcc8f feat(buildings): meter readings list tab (ΔΕΗ/water/gas from OCR)\na9c9e29 feat(dashboard-map): building-coord fallback + list properties missing a location\n261bc41 feat(dashboard): Map tab with all properties for company-side roles\n00151c1 refactor(properties): show managers inline in building stats, not a separate line\nea643fc feat(properties): show assigned managers in the buildings tree"
 }

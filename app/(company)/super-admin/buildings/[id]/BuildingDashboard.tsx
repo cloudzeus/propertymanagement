@@ -42,6 +42,11 @@ type Kpis = {
   units: number; millesimes: number; files: number;
   infraPoints: number; contacts: number; recurringTasks: number;
 };
+type OverviewData = {
+  paid: number; unpaid: number; openCount: number;
+  openRequests: { id: string; title: string; status: string; priority: string; createdAt: string }[];
+  upcomingTasks: { id: string; title: string; nextDueDate: string | null }[];
+};
 
 type TabKey =
   | "overview" | "units" | "people" | "managers" | "files" | "calendar"
@@ -67,7 +72,7 @@ const TABS: { key: TabKey; label: string; icon: React.ElementType; badge?: (k: K
   { key: "assemblies", label: "Συνελεύσεις", icon: RiGroupLine },
 ];
 
-export function BuildingDashboard({ building, kpis, units, files, people, contacts, infraPoints, floorOptions, tasks, expenses, categorySplits, today, millesimeUnits, exclusionUnits, expenseCategories, categoryOverrides, unitExclusions, usesMeteredHeating, heatingPeriod, heatingReadingRows, meterReadingRows }: { building: Building; kpis: Kpis; units: Unit[]; files: FileRow[]; people: Person[]; contacts: ContactRow[]; infraPoints: InfraRow[]; floorOptions: string[]; tasks: TaskRow[]; expenses: ExpenseRow[]; categorySplits: CategorySplit[]; today: string; millesimeUnits: MillesimeUnit[]; exclusionUnits: Array<{ id: string; unitNumber: string; unitType: string }>; expenseCategories: Array<{ id: string; name: string; defaultBasis: string }>; categoryOverrides: Array<{ categoryId: string; distributionBasis: string | null }>; unitExclusions: Array<{ unitId: string; categoryId: string }>; usesMeteredHeating: boolean; heatingPeriod: string; heatingReadingRows: HeatingReadingDTO[]; meterReadingRows: MeterReadingDTO[] }) {
+export function BuildingDashboard({ building, kpis, units, files, people, contacts, infraPoints, floorOptions, tasks, expenses, categorySplits, today, millesimeUnits, exclusionUnits, expenseCategories, categoryOverrides, unitExclusions, usesMeteredHeating, heatingPeriod, heatingReadingRows, meterReadingRows, overview }: { building: Building; kpis: Kpis; units: Unit[]; files: FileRow[]; people: Person[]; contacts: ContactRow[]; infraPoints: InfraRow[]; floorOptions: string[]; tasks: TaskRow[]; expenses: ExpenseRow[]; categorySplits: CategorySplit[]; today: string; millesimeUnits: MillesimeUnit[]; exclusionUnits: Array<{ id: string; unitNumber: string; unitType: string }>; expenseCategories: Array<{ id: string; name: string; defaultBasis: string }>; categoryOverrides: Array<{ categoryId: string; distributionBasis: string | null }>; unitExclusions: Array<{ unitId: string; categoryId: string }>; usesMeteredHeating: boolean; heatingPeriod: string; heatingReadingRows: HeatingReadingDTO[]; meterReadingRows: MeterReadingDTO[]; overview: OverviewData }) {
   const [tab, setTab] = useState<TabKey>("overview");
 
   const subParts = [
@@ -153,7 +158,7 @@ export function BuildingDashboard({ building, kpis, units, files, people, contac
       {/* panels */}
       <div>
         {tab === "overview" ? (
-          <Overview building={building} />
+          <Overview building={building} data={overview} setTab={setTab} />
         ) : tab === "units" ? (
           <UnitsPanel buildingId={building.id} units={units} />
         ) : tab === "managers" ? (
@@ -218,27 +223,105 @@ function Kpi({ icon: Icon, label, value }: { icon: React.ElementType; label: str
   );
 }
 
-function Overview({ building }: { building: Building }) {
+const PRIORITY: Record<string, { label: string; color: string }> = {
+  URGENT: { label: "Επείγον", color: "#c50f1f" }, HIGH: { label: "Υψηλή", color: "#CA5D00" },
+  NORMAL: { label: "Κανονική", color: "#0078D4" }, LOW: { label: "Χαμηλή", color: "#707070" },
+};
+const REQ_STATUS: Record<string, string> = { OPEN: "Ανοιχτό", IN_PROGRESS: "Σε εξέλιξη" };
+
+function eur(n: number): string {
+  return n.toLocaleString("el-GR", { style: "currency", currency: "EUR", maximumFractionDigits: 0 });
+}
+function fmtDay(iso: string | null): string {
+  if (!iso) return "—";
+  return new Date(iso).toLocaleDateString("el-GR", { day: "2-digit", month: "short" });
+}
+
+function Overview({ building, data, setTab }: { building: Building; data: OverviewData; setTab: (t: TabKey) => void }) {
+  const total = data.paid + data.unpaid;
+  const pct = total > 0 ? Math.round((data.paid / total) * 100) : 0;
+
   return (
-    <div style={{ display: "grid", gridTemplateColumns: "1.3fr 1fr", gap: 14 }}>
-      <Card title="Σύνοψη κτηρίου">
-        <p style={{ margin: 0, fontSize: 13, color: "var(--muted-foreground)" }}>
-          Πελάτης: <b style={{ color: "var(--foreground)" }}>{building.customerName}</b> · Ιδιοκτησία:{" "}
-          <Link href={`/super-admin/properties/${building.propertyId}`} style={{ color: "var(--color-primary)" }}>{building.propertyName}</Link>
-        </p>
-        <p style={{ margin: "8px 0 0", fontSize: 13, color: "var(--muted-foreground)" }}>
-          Χρησιμοποίησε τις καρτέλες παραπάνω για Αρχεία, Ημερολόγιο, Επαφές, Εγκαταστάσεις,
-          Κοινόχρηστα και Πληρωμές. (Τα modules ενεργοποιούνται σταδιακά.)
-        </p>
+    <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+      {/* Paid / Unpaid */}
+      <Card title="Εξοφλημένα / Ανεξόφλητα (κοινόχρηστα)">
+        {total === 0 ? (
+          <p style={{ margin: 0, fontSize: 13, color: "var(--muted-foreground)" }}>Δεν υπάρχουν κατανομές κοινοχρήστων ακόμη.</p>
+        ) : (
+          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            <div style={{ display: "flex", gap: 24, flexWrap: "wrap" }}>
+              <Stat label="Εξοφλημένα" value={eur(data.paid)} color="#107C10" />
+              <Stat label="Ανεξόφλητα" value={eur(data.unpaid)} color="#c50f1f" />
+              <Stat label="Ποσοστό είσπραξης" value={`${pct}%`} color="#0078D4" />
+            </div>
+            <div style={{ height: 14, borderRadius: 9999, overflow: "hidden", display: "flex", background: "#c50f1f22" }}>
+              <div style={{ width: `${pct}%`, background: "#107C10" }} />
+              <div style={{ flex: 1, background: "#c50f1f" }} />
+            </div>
+            <div>
+              <button onClick={() => setTab("pay")} style={{ ...btn, ...btnPrimary }}><RiBankCardLine /> Πληρωμές</button>
+            </div>
+          </div>
+        )}
       </Card>
-      <Card title="Γρήγορες ενέργειες">
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
-          <button style={btn}><RiAddLine /> Αρχείο</button>
-          <button style={btn}><RiAddLine /> Επαφή</button>
-          <button style={btn}><RiAddLine /> Εργασία</button>
-          <button style={btn}><RiAddLine /> Σημείο</button>
-        </div>
-      </Card>
+
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
+        {/* Open maintenance requests */}
+        <Card title={`Ανοιχτά αιτήματα συντήρησης${data.openCount ? ` (${data.openCount})` : ""}`}>
+          {data.openRequests.length === 0 ? (
+            <p style={{ margin: 0, fontSize: 13, color: "var(--muted-foreground)" }}>Δεν υπάρχουν ανοιχτά αιτήματα. 👍</p>
+          ) : (
+            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+              {data.openRequests.map((r) => {
+                const p = PRIORITY[r.priority] ?? PRIORITY.NORMAL;
+                return (
+                  <div key={r.id} style={{ display: "flex", alignItems: "center", gap: 10, padding: "8px 10px", border: "1px solid var(--border)", borderRadius: 8 }}>
+                    <RiToolsLine style={{ color: p.color, flexShrink: 0 }} />
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ fontSize: 13, fontWeight: 600, color: "var(--foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{r.title}</div>
+                      <div style={{ fontSize: 11, color: "var(--muted-foreground)" }}>{REQ_STATUS[r.status] ?? r.status} · {fmtDay(r.createdAt)}</div>
+                    </div>
+                    <span style={{ flexShrink: 0, fontSize: 10, fontWeight: 700, padding: "2px 8px", borderRadius: 9999, background: `${p.color}18`, color: p.color }}>{p.label}</span>
+                  </div>
+                );
+              })}
+              <button onClick={() => setTab("maint")} style={btn}><RiToolsLine /> Όλα τα αιτήματα</button>
+            </div>
+          )}
+        </Card>
+
+        {/* Upcoming maintenance (recurring tasks) */}
+        <Card title="Επερχόμενες συντηρήσεις">
+          {data.upcomingTasks.length === 0 ? (
+            <p style={{ margin: 0, fontSize: 13, color: "var(--muted-foreground)" }}>Δεν υπάρχουν προγραμματισμένες εργασίες.</p>
+          ) : (
+            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+              {data.upcomingTasks.map((t) => (
+                <div key={t.id} style={{ display: "flex", alignItems: "center", gap: 10, padding: "8px 10px", border: "1px solid var(--border)", borderRadius: 8 }}>
+                  <RiCalendarTodoLine style={{ color: "var(--color-primary)", flexShrink: 0 }} />
+                  <div style={{ flex: 1, minWidth: 0, fontSize: 13, fontWeight: 600, color: "var(--foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{t.title}</div>
+                  <span style={{ flexShrink: 0, fontSize: 12, fontWeight: 700, color: "var(--muted-foreground)" }}>{fmtDay(t.nextDueDate)}</span>
+                </div>
+              ))}
+              <button onClick={() => setTab("calendar")} style={btn}><RiCalendarTodoLine /> Ημερολόγιο</button>
+            </div>
+          )}
+        </Card>
+      </div>
+
+      <p style={{ margin: 0, fontSize: 12, color: "var(--muted-foreground)" }}>
+        Πελάτης: <b style={{ color: "var(--foreground)" }}>{building.customerName}</b> · Ιδιοκτησία:{" "}
+        <Link href={`/super-admin/properties/${building.propertyId}`} style={{ color: "var(--color-primary)" }}>{building.propertyName}</Link>
+      </p>
+    </div>
+  );
+}
+
+function Stat({ label, value, color }: { label: string; value: string; color: string }) {
+  return (
+    <div>
+      <div style={{ fontSize: 11, color: "var(--muted-foreground)", fontWeight: 600 }}>{label}</div>
+      <div style={{ fontSize: 22, fontWeight: 800, color }}>{value}</div>
     </div>
   );
 }
