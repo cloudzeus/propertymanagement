@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "timestamp": "2026-07-04T05:16:29.887Z",
+  "timestamp": "2026-07-04T05:18:41.251Z",
   "source": "auto-postool",
   "partial": false,
   "phase": null,
@@ -15,16 +15,7 @@
   "blockers": [],
   "human_actions_pending": [],
   "decisions": [],
-  "uncommitted_files": [
-    {
-      "status": "M",
-      "path": ".planning/HANDOFF.json"
-    },
-    {
-      "status": "M",
-      "path": "app/(company)/super-admin/customers/CustomerTree.tsx"
-    }
-  ],
+  "uncommitted_files": [],
   "next_action": null,
-  "context_notes": "Recent commits:\n0063c38 feat(managers): owners/residents assignable even on company-managed properties\na6bca0c feat(integrations): real status + working Test/Configure on integrations page\n8d4ec25 fix(isolation): resident sees announcements only for their own building(s)\ncc28ae8 feat(isolation): per-customer data isolation foundation + occupant/manager guards\n0c703ea feat(occupants): company owner/resident with contact person (TRDR-compatible)"
+  "context_notes": "Recent commits:\nea643fc feat(properties): show assigned managers in the buildings tree\n0063c38 feat(managers): owners/residents assignable even on company-managed properties\na6bca0c feat(integrations): real status + working Test/Configure on integrations page\n8d4ec25 fix(isolation): resident sees announcements only for their own building(s)\ncc28ae8 feat(isolation): per-customer data isolation foundation + occupant/manager guards"
 }

@@ -96,21 +96,9 @@ export function BuildingsTree({ propertyId, buildings, depthBase = 0, showAddBui
   return (
     <div>
       {showAddBuilding && (
-        <div style={{ paddingLeft: 10 + depthBase * 22, marginBottom: 6, display: "flex", flexDirection: "column", gap: 6 }}>
-          <div style={{ display: "flex", gap: 6 }}>
-            <button onClick={() => setModal({ kind: "building", propertyId, editing: null })} style={smallBtn}><RiAddLine /> Νέο Κτήριο</button>
-            <button onClick={() => setModal({ kind: "managers", scope: { propertyId }, title: "Διαχειριστές ιδιοκτησίας" })} style={smallBtn}><RiUserStarLine /> Διαχειριστές ιδιοκτησίας</button>
-          </div>
-          <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap", fontSize: 12, color: "var(--muted-foreground)" }}>
-            <span style={{ display: "inline-flex", alignItems: "center", gap: 4, fontWeight: 600 }}><RiUserStarLine style={{ color: "var(--color-primary)" }} /> Διαχειριστές:</span>
-            {managers.length === 0
-              ? <span style={{ fontStyle: "italic" }}>δεν έχουν οριστεί</span>
-              : managers.map((m) => (
-                  <span key={m.assignmentId} style={{ display: "inline-flex", alignItems: "center", gap: 4, padding: "2px 8px", borderRadius: 9999, background: "var(--bg-canvas)", border: "1px solid var(--border)", color: "var(--foreground)", fontWeight: 600 }}>
-                    {m.name || m.email}
-                  </span>
-                ))}
-          </div>
+        <div style={{ paddingLeft: 10 + depthBase * 22, marginBottom: 6, display: "flex", gap: 6 }}>
+          <button onClick={() => setModal({ kind: "building", propertyId, editing: null })} style={smallBtn}><RiAddLine /> Νέο Κτήριο</button>
+          <button onClick={() => setModal({ kind: "managers", scope: { propertyId }, title: "Διαχειριστές ιδιοκτησίας" })} style={smallBtn}><RiUserStarLine /> Διαχειριστές ιδιοκτησίας</button>
         </div>
       )}
       {buildings.length === 0 && !showAddBuilding && (
@@ -120,12 +108,14 @@ export function BuildingsTree({ propertyId, buildings, depthBase = 0, showAddBui
         const bOpen = open.has(b.id);
         const floors = groupByFloor(b);
         const bSqm = b.units.reduce((s, u) => s + (u.areaSqm ?? 0), 0);
+        const mgrNames = managers.map((m) => m.name || m.email).join(", ");
         const bStats = [
           b.floors ? `${b.floors} όροφοι` : null,
           b.basements ? `${b.basements} υπόγεια` : null,
           `${b.commonAreas.length} κοιν. χώροι`,
           `${b.units.length} μονάδες`,
           bSqm > 0 ? `${bSqm} τ.μ.` : null,
+          mgrNames ? `Διαχ.: ${mgrNames}` : null,
         ].filter(Boolean).join(" · ");
         return (
           <div key={b.id}>
