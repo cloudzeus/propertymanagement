@@ -526,7 +526,7 @@ function ManagersModal({ scope, title, onClose }: { scope: ManagerScope; title: 
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onFocus={() => setOpen(true)}
-            placeholder="Αναζήτηση: ιδιοκτήτες/ένοικοι ή προσωπικό εταιρείας…"
+            placeholder="Αναζήτηση: ιδιοκτήτες/ένοικοι, πελάτης ή προσωπικό…"
             autoComplete="off"
             style={{ height: 36, padding: "0 10px", borderRadius: 6, border: "1px solid var(--border)", fontSize: 13, color: "var(--foreground)", background: "var(--card)", outline: "none", boxSizing: "border-box", width: "100%" }}
           />
@@ -543,9 +543,14 @@ function ManagersModal({ scope, title, onClose }: { scope: ManagerScope; title: 
                     <span style={{ display: "block", fontSize: 13, fontWeight: 600, color: "var(--foreground)" }}>{c.name || c.email}</span>
                     <span style={{ display: "block", fontSize: 11, color: "var(--muted-foreground)" }}>{c.email}</span>
                   </span>
-                  <span style={{ flexShrink: 0, fontSize: 10, fontWeight: 700, padding: "2px 6px", borderRadius: 4, background: c.origin === "staff" ? "#0078D418" : "#16a34a18", color: c.origin === "staff" ? "#0078D4" : "#16a34a" }}>
-                    {c.origin === "staff" ? "Εταιρεία" : "Ένοικος/Ιδιοκτήτης"}
-                  </span>
+                  {(() => {
+                    const badge = c.origin === "staff" ? { label: "Εταιρεία", color: "#0078D4" } : c.origin === "customer" ? { label: "Πελάτης", color: "#9333ea" } : { label: "Ένοικος/Ιδιοκτήτης", color: "#16a34a" };
+                    return (
+                      <span style={{ flexShrink: 0, fontSize: 10, fontWeight: 700, padding: "2px 6px", borderRadius: 4, background: `${badge.color}18`, color: badge.color }}>
+                        {badge.label}
+                      </span>
+                    );
+                  })()}
                 </button>
               ))}
             </div>

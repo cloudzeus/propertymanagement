@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "timestamp": "2026-07-04T04:38:14.761Z",
+  "timestamp": "2026-07-04T04:59:14.481Z",
   "source": "auto-postool",
   "partial": false,
   "phase": null,
@@ -22,25 +22,17 @@
     },
     {
       "status": "M",
-      "path": "app/(company)/super-admin/integrations/page.tsx"
+      "path": "app/(company)/super-admin/buildings/[id]/ManagersPanel.tsx"
     },
     {
       "status": "M",
-      "path": "lib/bunnycdn.ts"
+      "path": "app/(company)/super-admin/customers/CustomerTree.tsx"
     },
     {
-      "status": "??",
-      "path": "app/(company)/super-admin/integrations/IntegrationsClient.tsx"
-    },
-    {
-      "status": "??",
-      "path": "app/api/super-admin/integrations/"
-    },
-    {
-      "status": "??",
-      "path": "lib/integrations.ts"
+      "status": "M",
+      "path": "app/actions/managers.ts"
     }
   ],
   "next_action": null,
-  "context_notes": "Recent commits:\n8d4ec25 fix(isolation): resident sees announcements only for their own building(s)\ncc28ae8 feat(isolation): per-customer data isolation foundation + occupant/manager guards\n0c703ea feat(occupants): company owner/resident with contact person (TRDR-compatible)\n1c0a4c5 feat(dashboard): meaningful role labels + colored badges in recent users\nd337dc9 feat(managers): managed-property flag + widen manager/occupant flows"
+  "context_notes": "Recent commits:\na6bca0c feat(integrations): real status + working Test/Configure on integrations page\n8d4ec25 fix(isolation): resident sees announcements only for their own building(s)\ncc28ae8 feat(isolation): per-customer data isolation foundation + occupant/manager guards\n0c703ea feat(occupants): company owner/resident with contact person (TRDR-compatible)\n1c0a4c5 feat(dashboard): meaningful role labels + colored badges in recent users"
 }

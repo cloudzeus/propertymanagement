@@ -81,10 +81,10 @@ export async function searchManagerCandidates(scope: ManagerScope, query: string
     ? { OR: [{ name: { contains: q, mode: "insensitive" as const } }, { email: { contains: q, mode: "insensitive" as const } }] }
     : {};
 
-  // Managed property → manager must be company staff. Self-managed → owners/residents or the customer.
-  const pool = managed
-    ? [{ companyId, role: { in: ["ADMIN", "MANAGER", "EMPLOYEE"] as any } }]
-    : [{ id: { in: [...occupantIds] } }, { customerId }];
+  // Owners/residents + the customer are always eligible. A company-managed property
+  // ALSO offers company staff (ADMIN/MANAGER/EMPLOYEE) as candidates.
+  const pool: any[] = [{ id: { in: [...occupantIds] } }, { customerId }];
+  if (managed) pool.push({ companyId, role: { in: ["ADMIN", "MANAGER", "EMPLOYEE"] as any } });
 
   const users = await db.user.findMany({
     where: { AND: [text, { OR: pool }] },
@@ -95,7 +95,7 @@ export async function searchManagerCandidates(scope: ManagerScope, query: string
 
   return users.map(({ customerId: uCustomerId, ...u }) => ({
     ...u,
-    origin: occupantIds.has(u.id) ? "occupant" : uCustomerId === customerId && !managed ? "customer" : "staff",
+    origin: occupantIds.has(u.id) ? "occupant" : uCustomerId === customerId ? "customer" : "staff",
   }));
 }
 
@@ -104,19 +104,16 @@ export async function addManager(scope: ManagerScope, userId: string) {
   await requireStaff();
   const { propertyId } = await authorizeScope(scope);
 
-  // Only allow candidates from the scope's pool (managed → staff; self-managed → occupant/customer).
+  // Eligible: an owner/resident of the scope, the customer's own user, or — for a
+  // company-managed property — a company staff member.
   const candidates = await searchManagerCandidates(scope, "");
   if (!candidates.some((c) => c.id === userId)) {
-    // Fall back to a direct membership check (covers names that wouldn't match an empty query take-limit).
+    // Fall back to a direct membership check (covers names beyond the empty-query take-limit).
     const { companyId, customerId, managed } = await resolveScope(scope);
-    let eligible: { id: string } | null = null;
-    if (managed) {
-      eligible = await db.user.findFirst({ where: { id: userId, companyId, role: { in: ["ADMIN", "MANAGER", "EMPLOYEE"] as any } }, select: { id: true } });
-    } else {
-      const occupantIds = await occupantIdsForScope(scope);
-      if (occupantIds.has(userId)) eligible = { id: userId };
-      else eligible = await db.user.findFirst({ where: { id: userId, customerId }, select: { id: true } });
-    }
+    const occupantIds = await occupantIdsForScope(scope);
+    let eligible: { id: string } | null = occupantIds.has(userId) ? { id: userId } : null;
+    if (!eligible) eligible = await db.user.findFirst({ where: { id: userId, customerId }, select: { id: true } });
+    if (!eligible && managed) eligible = await db.user.findFirst({ where: { id: userId, companyId, role: { in: ["ADMIN", "MANAGER", "EMPLOYEE"] as any } }, select: { id: true } });
     if (!eligible) return { error: "Ο χρήστης δεν είναι επιλέξιμος για διαχειριστής αυτού του χώρου" };
   }
 
@@ -145,10 +142,7 @@ export async function createAndAddManager(
   data: { name: string; email: string; password: string; phone?: string; mobile?: string },
 ) {
   await requireStaff();
-  const { propertyId, companyId, customerId, managed } = await authorizeScope(scope);
-
-  // On a company-managed property the manager must be an existing company employee.
-  if (managed) return { error: "Η ιδιοκτησία διαχειρίζεται από την εταιρεία — επιλέξτε υπάρχοντα υπάλληλο ως διαχειριστή" };
+  const { propertyId, companyId, customerId } = await authorizeScope(scope);
 
   const email = data.email.trim().toLowerCase();
   if (!data.name.trim()) return { error: "Το όνομα είναι υποχρεωτικό" };

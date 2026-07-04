@@ -149,25 +149,21 @@ function AddManagerModal({ scope, managed, assignedIds, onClose, onDone }: { sco
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder={managed ? "Αναζήτηση υπαλλήλου εταιρείας…" : "Αναζήτηση: ιδιοκτήτες/ένοικοι ή πελάτης…"}
+              placeholder={managed ? "Αναζήτηση: ιδιοκτήτες/ένοικοι, πελάτης ή προσωπικό…" : "Αναζήτηση: ιδιοκτήτες/ένοικοι ή πελάτης…"}
               autoComplete="off"
               autoFocus
               style={{ flex: 1, height: 38, padding: "0 12px", borderRadius: 6, border: "1px solid var(--border)", fontSize: 13, color: "var(--foreground)", background: "var(--card)", outline: "none", boxSizing: "border-box" }}
             />
-            {!managed && (
-              <button type="button" onClick={() => { setError(null); setMode("create"); }} style={{ ...btn, ...btnPrimary, flexShrink: 0 }}>
-                <RiUserAddLine /> Νέο άτομο
-              </button>
-            )}
+            <button type="button" onClick={() => { setError(null); setMode("create"); }} style={{ ...btn, ...btnPrimary, flexShrink: 0 }}>
+              <RiUserAddLine /> Νέο άτομο
+            </button>
           </div>
           <div style={{ border: "1px solid var(--border)", borderRadius: 6, maxHeight: 460, overflowY: "auto" }}>
             {searching && visible.length === 0 && <div style={{ padding: "12px 14px", fontSize: 12, color: "var(--muted-foreground)" }}>Φόρτωση…</div>}
             {!searching && visible.length === 0 && (
               <div style={{ padding: "16px 14px", fontSize: 12, color: "var(--muted-foreground)", textAlign: "center" }}>
                 Κανένας διαθέσιμος υποψήφιος.<br />
-                {managed
-                  ? "Η ιδιοκτησία διαχειρίζεται από την εταιρεία — ο διαχειριστής πρέπει να είναι υπάλληλος."
-                  : "Πατήστε «Νέο άτομο» για να δημιουργήσετε νέο διαχειριστή."}
+                Πατήστε «Νέο άτομο» για να δημιουργήσετε νέο διαχειριστή.
               </div>
             )}
             {visible.map((c) => {
