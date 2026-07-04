@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "timestamp": "2026-07-03T10:43:52.871Z",
+  "timestamp": "2026-07-04T04:38:14.761Z",
   "source": "auto-postool",
   "partial": false,
   "phase": null,
@@ -18,9 +18,29 @@
   "uncommitted_files": [
     {
       "status": "M",
-      "path": "lib/dashboard/queries.ts"
+      "path": ".planning/HANDOFF.json"
+    },
+    {
+      "status": "M",
+      "path": "app/(company)/super-admin/integrations/page.tsx"
+    },
+    {
+      "status": "M",
+      "path": "lib/bunnycdn.ts"
+    },
+    {
+      "status": "??",
+      "path": "app/(company)/super-admin/integrations/IntegrationsClient.tsx"
+    },
+    {
+      "status": "??",
+      "path": "app/api/super-admin/integrations/"
+    },
+    {
+      "status": "??",
+      "path": "lib/integrations.ts"
     }
   ],
   "next_action": null,
-  "context_notes": "Recent commits:\ncc28ae8 feat(isolation): per-customer data isolation foundation + occupant/manager guards\n0c703ea feat(occupants): company owner/resident with contact person (TRDR-compatible)\n1c0a4c5 feat(dashboard): meaningful role labels + colored badges in recent users\nd337dc9 feat(managers): managed-property flag + widen manager/occupant flows\nee504dc feat(impersonation): role-colored view-as banner + role label chip"
+  "context_notes": "Recent commits:\n8d4ec25 fix(isolation): resident sees announcements only for their own building(s)\ncc28ae8 feat(isolation): per-customer data isolation foundation + occupant/manager guards\n0c703ea feat(occupants): company owner/resident with contact person (TRDR-compatible)\n1c0a4c5 feat(dashboard): meaningful role labels + colored badges in recent users\nd337dc9 feat(managers): managed-property flag + widen manager/occupant flows"
 }

@@ -1,6 +1,6 @@
 import { env } from "./env";
 import { logAPIUsage } from "./api-costs";
-import { S3Client, PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
+import { S3Client, PutObjectCommand, DeleteObjectCommand, ListObjectsV2Command } from "@aws-sdk/client-s3";
 
 interface UploadOptions {
   path: string; // e.g., "properties/123/logo.jpg"
@@ -130,6 +130,19 @@ export async function ensureFolder(folderPath: string): Promise<UploadResponse> 
     buffer: Buffer.from(""),
     contentType: "text/plain",
   });
+}
+
+/** Lightweight credential/connectivity check — lists at most 1 object (no write). */
+export async function testConnection(): Promise<{ ok: boolean; message: string }> {
+  if (!env.BUNNY_S3_ENDPOINT || !env.BUNNY_S3_ACCESS || !env.BUNNY_S3_SECRET || !env.BUNNY_STORAGE_ZONE) {
+    return { ok: false, message: "Λείπουν ρυθμίσεις BunnyCDN (S3 endpoint/κλειδιά/zone)" };
+  }
+  try {
+    await s3().send(new ListObjectsV2Command({ Bucket: env.BUNNY_STORAGE_ZONE, MaxKeys: 1 }));
+    return { ok: true, message: `Σύνδεση OK · zone ${env.BUNNY_STORAGE_ZONE}` };
+  } catch (error) {
+    return { ok: false, message: error instanceof Error ? error.message : "Αποτυχία σύνδεσης" };
+  }
 }
 
 export { uploadFile, deleteFile, generateSignedUrl };
