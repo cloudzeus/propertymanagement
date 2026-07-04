@@ -93,9 +93,9 @@ export default async function SuperAdminDashboard() {
     },
   ];
 
-  const markers = await getPropertiesForMap();
+  const { markers, missing } = await getPropertiesForMap();
   return (
-    <DashboardTabs map={<PropertiesMap markers={markers} />}>
+    <DashboardTabs map={<PropertiesMap markers={markers} missing={missing} />}>
     <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
       {/* Stat cards */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16 }}>

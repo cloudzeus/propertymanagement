@@ -19,7 +19,7 @@ export type PropertyMarker = {
  * Multi-marker map of all properties (MapLibre GL + MapTiler tiles).
  * Fits the view to all markers; each marker has a name/customer popup.
  */
-export function PropertiesMap({ markers, height = 560 }: { markers: PropertyMarker[]; height?: number | string }) {
+export function PropertiesMap({ markers, missing = [], height = 560 }: { markers: PropertyMarker[]; missing?: string[]; height?: number | string }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<Map | null>(null);
 
@@ -64,10 +64,18 @@ export function PropertiesMap({ markers, height = 560 }: { markers: PropertyMark
   }, [markers]);
 
   return (
-    <div
-      ref={containerRef}
-      style={{ height, width: "100%", borderRadius: 8, overflow: "hidden", border: "1px solid var(--border)" }}
-    />
+    <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+      <div
+        ref={containerRef}
+        style={{ height, width: "100%", borderRadius: 8, overflow: "hidden", border: "1px solid var(--border)" }}
+      />
+      {missing.length > 0 && (
+        <div style={{ fontSize: 12, color: "var(--muted-foreground)", padding: "8px 10px", borderRadius: 6, background: "#CA5D0014", border: "1px solid #CA5D0033" }}>
+          <strong style={{ color: "#CA5D00" }}>{missing.length}</strong> {missing.length === 1 ? "ιδιοκτησία χωρίς" : "ιδιοκτησίες χωρίς"} θέση στον χάρτη: {missing.join(", ")}.
+          {" "}Ορίστε συντεταγμένες από την επεξεργασία της ιδιοκτησίας (κουμπί εύρεσης στίγματος).
+        </div>
+      )}
+    </div>
   );
 }
 

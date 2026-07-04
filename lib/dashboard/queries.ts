@@ -2,14 +2,30 @@ import { db } from "@/lib/db";
 import { lastNMonths, monthlyTrend, occupancy, collectionRate } from "./aggregations";
 import type { PropertyMarker } from "@/components/maps/PropertiesMap";
 
-/** All properties that have coordinates, for the dashboard map tab. */
-export async function getPropertiesForMap(): Promise<PropertyMarker[]> {
+/** Properties for the dashboard map tab: markers (with building-coord fallback)
+ *  plus the names of properties that still have no location. */
+export async function getPropertiesForMap(): Promise<{ markers: PropertyMarker[]; missing: string[] }> {
   const rows = await db.property.findMany({
-    where: { lat: { not: null }, lng: { not: null } },
-    select: { id: true, name: true, lat: true, lng: true, city: true, customer: { select: { name: true } } },
+    select: {
+      id: true, name: true, lat: true, lng: true, city: true,
+      customer: { select: { name: true } },
+      buildings: { select: { lat: true, lng: true }, where: { lat: { not: null }, lng: { not: null } }, take: 1 },
+    },
     orderBy: { name: "asc" },
   });
-  return rows.map((r) => ({ id: r.id, name: r.name, lat: r.lat!, lng: r.lng!, city: r.city, customerName: r.customer.name }));
+  const markers: PropertyMarker[] = [];
+  const missing: string[] = [];
+  for (const r of rows) {
+    // Fall back to a geocoded building when the property itself has no coordinates.
+    const lat = r.lat ?? r.buildings[0]?.lat ?? null;
+    const lng = r.lng ?? r.buildings[0]?.lng ?? null;
+    if (lat != null && lng != null) {
+      markers.push({ id: r.id, name: r.name, lat, lng, city: r.city, customerName: r.customer.name });
+    } else {
+      missing.push(r.name);
+    }
+  }
+  return { markers, missing };
 }
 
 function anchorMonth(): string {
