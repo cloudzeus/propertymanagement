@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "timestamp": "2026-07-04T04:59:14.481Z",
+  "timestamp": "2026-07-04T05:16:29.887Z",
   "source": "auto-postool",
   "partial": false,
   "phase": null,
@@ -22,17 +22,9 @@
     },
     {
       "status": "M",
-      "path": "app/(company)/super-admin/buildings/[id]/ManagersPanel.tsx"
-    },
-    {
-      "status": "M",
       "path": "app/(company)/super-admin/customers/CustomerTree.tsx"
-    },
-    {
-      "status": "M",
-      "path": "app/actions/managers.ts"
     }
   ],
   "next_action": null,
-  "context_notes": "Recent commits:\na6bca0c feat(integrations): real status + working Test/Configure on integrations page\n8d4ec25 fix(isolation): resident sees announcements only for their own building(s)\ncc28ae8 feat(isolation): per-customer data isolation foundation + occupant/manager guards\n0c703ea feat(occupants): company owner/resident with contact person (TRDR-compatible)\n1c0a4c5 feat(dashboard): meaningful role labels + colored badges in recent users"
+  "context_notes": "Recent commits:\n0063c38 feat(managers): owners/residents assignable even on company-managed properties\na6bca0c feat(integrations): real status + working Test/Configure on integrations page\n8d4ec25 fix(isolation): resident sees announcements only for their own building(s)\ncc28ae8 feat(isolation): per-customer data isolation foundation + occupant/manager guards\n0c703ea feat(occupants): company owner/resident with contact person (TRDR-compatible)"
 }

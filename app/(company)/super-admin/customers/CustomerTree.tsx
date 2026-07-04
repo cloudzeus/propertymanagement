@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect, useTransition } from "react";
+import { useState, useRef, useEffect, useCallback, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { Modal, FormField, FieldInput, FieldSelect, FieldTextarea } from "@/components/ui/modal";
 import {
@@ -84,18 +84,33 @@ export function BuildingsTree({ propertyId, buildings, depthBase = 0, showAddBui
   const router = useRouter();
   const [open, setOpen] = useState<Set<string>>(new Set());
   const [modal, setModal] = useState<Modal_>(null);
+  const [managers, setManagers] = useState<ManagerRow[]>([]);
   const [, startTransition] = useTransition();
   const toggle = (id: string) => setOpen((p) => { const n = new Set(p); n.has(id) ? n.delete(id) : n.add(id); return n; });
   function act(fn: () => Promise<unknown>) { startTransition(async () => { await fn(); router.refresh(); }); }
+  const reloadManagers = useCallback(() => { listManagers({ propertyId }).then(setManagers).catch(() => {}); }, [propertyId]);
+  useEffect(() => { reloadManagers(); }, [reloadManagers]);
   const close = () => setModal(null);
-  const done = () => { setModal(null); router.refresh(); };
+  const done = () => { setModal(null); router.refresh(); reloadManagers(); };
 
   return (
     <div>
       {showAddBuilding && (
-        <div style={{ paddingLeft: 10 + depthBase * 22, marginBottom: 6, display: "flex", gap: 6 }}>
-          <button onClick={() => setModal({ kind: "building", propertyId, editing: null })} style={smallBtn}><RiAddLine /> Νέο Κτήριο</button>
-          <button onClick={() => setModal({ kind: "managers", scope: { propertyId }, title: "Διαχειριστές ιδιοκτησίας" })} style={smallBtn}><RiUserStarLine /> Διαχειριστές ιδιοκτησίας</button>
+        <div style={{ paddingLeft: 10 + depthBase * 22, marginBottom: 6, display: "flex", flexDirection: "column", gap: 6 }}>
+          <div style={{ display: "flex", gap: 6 }}>
+            <button onClick={() => setModal({ kind: "building", propertyId, editing: null })} style={smallBtn}><RiAddLine /> Νέο Κτήριο</button>
+            <button onClick={() => setModal({ kind: "managers", scope: { propertyId }, title: "Διαχειριστές ιδιοκτησίας" })} style={smallBtn}><RiUserStarLine /> Διαχειριστές ιδιοκτησίας</button>
+          </div>
+          <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap", fontSize: 12, color: "var(--muted-foreground)" }}>
+            <span style={{ display: "inline-flex", alignItems: "center", gap: 4, fontWeight: 600 }}><RiUserStarLine style={{ color: "var(--color-primary)" }} /> Διαχειριστές:</span>
+            {managers.length === 0
+              ? <span style={{ fontStyle: "italic" }}>δεν έχουν οριστεί</span>
+              : managers.map((m) => (
+                  <span key={m.assignmentId} style={{ display: "inline-flex", alignItems: "center", gap: 4, padding: "2px 8px", borderRadius: 9999, background: "var(--bg-canvas)", border: "1px solid var(--border)", color: "var(--foreground)", fontWeight: 600 }}>
+                    {m.name || m.email}
+                  </span>
+                ))}
+          </div>
         </div>
       )}
       {buildings.length === 0 && !showAddBuilding && (
@@ -171,7 +186,7 @@ export function BuildingsTree({ propertyId, buildings, depthBase = 0, showAddBui
       {modal?.kind === "commonArea" && <CommonAreaModal buildingId={modal.buildingId} defaultFloor={modal.defaultFloor} onClose={close} onDone={done} />}
       {modal?.kind === "occupants" && <OccupantsModal unit={modal.unit} onClose={close} onDone={() => router.refresh()} />}
       {modal?.kind === "millesimes" && <MillesimesModal building={modal.building} onClose={close} onDone={done} />}
-      {modal?.kind === "managers" && <ManagersModal scope={modal.scope} title={modal.title} onClose={close} />}
+      {modal?.kind === "managers" && <ManagersModal scope={modal.scope} title={modal.title} onClose={() => { close(); reloadManagers(); }} />}
     </div>
   );
 }
