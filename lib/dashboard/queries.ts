@@ -1,5 +1,16 @@
 import { db } from "@/lib/db";
 import { lastNMonths, monthlyTrend, occupancy, collectionRate } from "./aggregations";
+import type { PropertyMarker } from "@/components/maps/PropertiesMap";
+
+/** All properties that have coordinates, for the dashboard map tab. */
+export async function getPropertiesForMap(): Promise<PropertyMarker[]> {
+  const rows = await db.property.findMany({
+    where: { lat: { not: null }, lng: { not: null } },
+    select: { id: true, name: true, lat: true, lng: true, city: true, customer: { select: { name: true } } },
+    orderBy: { name: "asc" },
+  });
+  return rows.map((r) => ({ id: r.id, name: r.name, lat: r.lat!, lng: r.lng!, city: r.city, customerName: r.customer.name }));
+}
 
 function anchorMonth(): string {
   // UTC to stay consistent with lastNMonths() which builds the series in UTC.

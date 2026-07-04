@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "timestamp": "2026-07-04T05:18:41.251Z",
+  "timestamp": "2026-07-04T05:40:54.659Z",
   "source": "auto-postool",
   "partial": false,
   "phase": null,
@@ -15,7 +15,40 @@
   "blockers": [],
   "human_actions_pending": [],
   "decisions": [],
-  "uncommitted_files": [],
+  "uncommitted_files": [
+    {
+      "status": "M",
+      "path": ".planning/HANDOFF.json"
+    },
+    {
+      "status": "M",
+      "path": "app/(company)/admin/page.tsx"
+    },
+    {
+      "status": "M",
+      "path": "app/(company)/manager/page.tsx"
+    },
+    {
+      "status": "M",
+      "path": "app/(company)/staff/page.tsx"
+    },
+    {
+      "status": "M",
+      "path": "app/(company)/super-admin/page.tsx"
+    },
+    {
+      "status": "M",
+      "path": "lib/dashboard/queries.ts"
+    },
+    {
+      "status": "??",
+      "path": "components/dashboard/DashboardTabs.tsx"
+    },
+    {
+      "status": "??",
+      "path": "components/maps/PropertiesMap.tsx"
+    }
+  ],
   "next_action": null,
-  "context_notes": "Recent commits:\nea643fc feat(properties): show assigned managers in the buildings tree\n0063c38 feat(managers): owners/residents assignable even on company-managed properties\na6bca0c feat(integrations): real status + working Test/Configure on integrations page\n8d4ec25 fix(isolation): resident sees announcements only for their own building(s)\ncc28ae8 feat(isolation): per-customer data isolation foundation + occupant/manager guards"
+  "context_notes": "Recent commits:\n00151c1 refactor(properties): show managers inline in building stats, not a separate line\nea643fc feat(properties): show assigned managers in the buildings tree\n0063c38 feat(managers): owners/residents assignable even on company-managed properties\na6bca0c feat(integrations): real status + working Test/Configure on integrations page\n8d4ec25 fix(isolation): resident sees announcements only for their own building(s)"
 }

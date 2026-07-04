@@ -1,6 +1,9 @@
 import { db } from "@/lib/db";
 import Link from "next/link";
 import { roleLabel, roleColor } from "@/lib/roles-constants";
+import { getPropertiesForMap } from "@/lib/dashboard/queries";
+import { PropertiesMap } from "@/components/maps/PropertiesMap";
+import { DashboardTabs } from "@/components/dashboard/DashboardTabs";
 import {
   RiBuildingLine,
   RiGroupLine,
@@ -90,7 +93,9 @@ export default async function SuperAdminDashboard() {
     },
   ];
 
+  const markers = await getPropertiesForMap();
   return (
+    <DashboardTabs map={<PropertiesMap markers={markers} />}>
     <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
       {/* Stat cards */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16 }}>
@@ -251,5 +256,6 @@ export default async function SuperAdminDashboard() {
         </div>
       </div>
     </div>
+    </DashboardTabs>
   );
 }

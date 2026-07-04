@@ -1,6 +1,9 @@
 import { db } from "@/lib/db";
 import { auth } from "@/auth";
 import Link from "next/link";
+import { getPropertiesForMap } from "@/lib/dashboard/queries";
+import { PropertiesMap } from "@/components/maps/PropertiesMap";
+import { DashboardTabs } from "@/components/dashboard/DashboardTabs";
 import {
   RiBuildingLine,
   RiHome3Line,
@@ -47,7 +50,9 @@ export default async function ManagerDashboard() {
     getRecentMaintenance(companyId),
   ]);
 
+  const markers = await getPropertiesForMap();
   return (
+    <DashboardTabs map={<PropertiesMap markers={markers} />}>
     <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
       <div>
         <h1 style={{ fontSize: 22, fontWeight: 700, color: "var(--foreground)", margin: 0 }}>Διαχείριση Ακινήτων</h1>
@@ -157,5 +162,6 @@ export default async function ManagerDashboard() {
         </div>
       </div>
     </div>
+    </DashboardTabs>
   );
 }
