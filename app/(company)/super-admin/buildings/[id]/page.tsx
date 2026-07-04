@@ -177,11 +177,35 @@ export default async function BuildingDashboardPage({ params, searchParams }: { 
 
   const heatingReadingRows = usesMeteredHeating ? await listHeatingReadings(building.id, heatingPeriod) : [];
 
+  const meterReadingRows = (await db.meterReading.findMany({
+    where: { buildingId: building.id },
+    orderBy: [{ periodTo: "desc" }, { createdAt: "desc" }],
+    select: {
+      id: true, meterType: true, meterNumber: true, periodFrom: true, periodTo: true,
+      previousReading: true, currentReading: true, consumption: true, unit: true, createdAt: true,
+      expense: { select: { description: true, receiptFile: { select: { url: true } } } },
+    },
+  })).map((r) => ({
+    id: r.id,
+    meterType: r.meterType as "POWER" | "WATER" | "GAS",
+    meterNumber: r.meterNumber,
+    periodFrom: r.periodFrom?.toISOString() ?? null,
+    periodTo: r.periodTo?.toISOString() ?? null,
+    previousReading: r.previousReading != null ? Number(r.previousReading) : null,
+    currentReading: r.currentReading != null ? Number(r.currentReading) : null,
+    consumption: r.consumption != null ? Number(r.consumption) : null,
+    unit: r.unit,
+    createdAt: r.createdAt.toISOString(),
+    source: r.expense?.description ?? null,
+    photoUrl: r.expense?.receiptFile?.url ?? null,
+  }));
+
   return (
     <BuildingDashboard
       usesMeteredHeating={usesMeteredHeating}
       heatingPeriod={heatingPeriod}
       heatingReadingRows={heatingReadingRows}
+      meterReadingRows={meterReadingRows}
       building={{
         id: building.id,
         name: building.name,

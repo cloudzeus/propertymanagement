@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "timestamp": "2026-07-04T05:48:44.666Z",
+  "timestamp": "2026-07-04T07:06:59.236Z",
   "source": "auto-postool",
   "partial": false,
   "phase": null,
@@ -22,29 +22,17 @@
     },
     {
       "status": "M",
-      "path": "app/(company)/admin/page.tsx"
+      "path": "app/(company)/super-admin/buildings/[id]/BuildingDashboard.tsx"
     },
     {
       "status": "M",
-      "path": "app/(company)/manager/page.tsx"
+      "path": "app/(company)/super-admin/buildings/[id]/page.tsx"
     },
     {
-      "status": "M",
-      "path": "app/(company)/staff/page.tsx"
-    },
-    {
-      "status": "M",
-      "path": "app/(company)/super-admin/page.tsx"
-    },
-    {
-      "status": "M",
-      "path": "components/maps/PropertiesMap.tsx"
-    },
-    {
-      "status": "M",
-      "path": "lib/dashboard/queries.ts"
+      "status": "??",
+      "path": "app/(company)/super-admin/buildings/[id]/MeterReadingsPanel.tsx"
     }
   ],
   "next_action": null,
-  "context_notes": "Recent commits:\n261bc41 feat(dashboard): Map tab with all properties for company-side roles\n00151c1 refactor(properties): show managers inline in building stats, not a separate line\nea643fc feat(properties): show assigned managers in the buildings tree\n0063c38 feat(managers): owners/residents assignable even on company-managed properties\na6bca0c feat(integrations): real status + working Test/Configure on integrations page"
+  "context_notes": "Recent commits:\na9c9e29 feat(dashboard-map): building-coord fallback + list properties missing a location\n261bc41 feat(dashboard): Map tab with all properties for company-side roles\n00151c1 refactor(properties): show managers inline in building stats, not a separate line\nea643fc feat(properties): show assigned managers in the buildings tree\n0063c38 feat(managers): owners/residents assignable even on company-managed properties"
 }
