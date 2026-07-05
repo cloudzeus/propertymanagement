@@ -7,8 +7,25 @@ import { revalidatePath } from "next/cache";
 async function requireStaff() {
   const session = await auth();
   if (!session?.user) throw new Error("Unauthorized");
-  const u = await db.user.findUnique({ where: { id: session.user.id as string }, select: { role: true } });
-  if (!["SUPER_ADMIN", "ADMIN", "MANAGER", "PROPERTY_ADMIN"].includes(u?.role ?? "")) throw new Error("Forbidden");
+  const u = await db.user.findUnique({ where: { id: session.user.id as string }, select: { id: true, role: true } });
+  if (!["SUPER_ADMIN", "ADMIN", "MANAGER", "EMPLOYEE", "PROPERTY_ADMIN"].includes(u?.role ?? "")) throw new Error("Forbidden");
+  return u!;
+}
+
+/** Building-scoped ownership guard: company staff pass; PROPERTY_ADMIN only for their assigned buildings. */
+export async function assertBuildingAccess(userId: string, role: string, buildingId: string) {
+  if (["SUPER_ADMIN", "ADMIN", "MANAGER", "EMPLOYEE"].includes(role)) return;
+  const b = await db.building.findFirst({
+    where: {
+      id: buildingId,
+      OR: [
+        { managementAssignments: { some: { userId } } },
+        { property: { managementAssignments: { some: { userId } } } },
+      ],
+    },
+    select: { id: true },
+  });
+  if (!b) throw new Error("Forbidden");
 }
 
 const FREQS = ["WEEKLY", "MONTHLY", "QUARTERLY", "SEMIANNUAL", "ANNUAL", "CUSTOM"] as const;
@@ -32,7 +49,8 @@ function advance(date: Date, freq: TaskFrequency): Date {
 }
 
 export async function createRecurringTask(buildingId: string, data: TaskInput) {
-  await requireStaff();
+  const user = await requireStaff();
+  await assertBuildingAccess(user.id, user.role, buildingId);
   if (!data.title?.trim()) return { error: "Ο τίτλος είναι υποχρεωτικός" };
   const freq = FREQS.includes(data.frequency) ? data.frequency : "MONTHLY";
   const row = await db.recurringTask.create({
@@ -50,7 +68,10 @@ export async function createRecurringTask(buildingId: string, data: TaskInput) {
 }
 
 export async function updateRecurringTask(id: string, data: Partial<TaskInput>) {
-  await requireStaff();
+  const user = await requireStaff();
+  const existing = await db.recurringTask.findUnique({ where: { id }, select: { buildingId: true } });
+  if (!existing) return { error: "Δεν βρέθηκε" };
+  await assertBuildingAccess(user.id, user.role, existing.buildingId);
   const row = await db.recurringTask.update({
     where: { id },
     data: {
@@ -72,9 +93,10 @@ export async function updateRecurringTask(id: string, data: Partial<TaskInput>) 
 
 /** Mark as done: stamp lastDoneDate and advance nextDueDate by one interval. */
 export async function markTaskDone(id: string) {
-  await requireStaff();
+  const user = await requireStaff();
   const t = await db.recurringTask.findUnique({ where: { id }, select: { buildingId: true, frequency: true, nextDueDate: true } });
   if (!t) return { error: "Δεν βρέθηκε" };
+  await assertBuildingAccess(user.id, user.role, t.buildingId);
   const base = t.nextDueDate ?? new Date();
   const next = t.frequency === "CUSTOM" ? t.nextDueDate : advance(base, t.frequency as TaskFrequency);
   await db.recurringTask.update({ where: { id }, data: { lastDoneDate: new Date(), nextDueDate: next, reminderSentAt: null } });
@@ -83,8 +105,10 @@ export async function markTaskDone(id: string) {
 }
 
 export async function deleteRecurringTask(id: string) {
-  await requireStaff();
+  const user = await requireStaff();
   const t = await db.recurringTask.findUnique({ where: { id }, select: { buildingId: true } });
+  if (!t) return { error: "Δεν βρέθηκε" };
+  await assertBuildingAccess(user.id, user.role, t.buildingId);
   await db.recurringTask.delete({ where: { id } });
   if (t) revalidatePath(`/super-admin/buildings/${t.buildingId}`);
   return { ok: true };

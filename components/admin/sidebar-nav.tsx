@@ -198,7 +198,7 @@ const NAV_BY_ROLE: Record<string, NavGroup[]> = {
     {
       id: "operations", label: "Εργασίες", icon: RiToolsLine, color: "#CA5D00",
       items: [
-        { label: "Συντηρήσεις",  href: "/manager/maintenance",     icon: RiToolsLine,               iconActive: RiToolsFill,              color: "#CA5D00" },
+        { label: "Συντηρήσεις",  href: "/portal/maintenance",      icon: RiToolsLine,               iconActive: RiToolsFill,              color: "#CA5D00" },
         { label: "Ανακοινώσεις", href: "/manager/announcements",   icon: RiNotification2Line,       iconActive: RiNotification2Fill,      color: "#0078D4" },
       ],
     },

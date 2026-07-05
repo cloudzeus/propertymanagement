@@ -4,6 +4,7 @@ import { auth } from "@/auth";
 import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import { uploadBuildingFile } from "./building-files";
+import { assertBuildingAccess } from "./recurring-tasks";
 
 const FREQ_ADVANCE: Record<string, (d: Date) => Date> = {
   WEEKLY: (d) => { const x = new Date(d); x.setDate(x.getDate() + 7); return x; },
@@ -34,6 +35,7 @@ export async function completeMaintenance(
     select: { id: true, buildingId: true, frequency: true, nextDueDate: true },
   });
   if (!task) return { error: "Δεν βρέθηκε" };
+  await assertBuildingAccess(user.id, user.role, task.buildingId);
 
   let documentFileId: string | undefined;
   const file = formData?.get("file");
@@ -71,7 +73,8 @@ export async function completeMaintenance(
 }
 
 export async function listMaintenanceHistory(buildingId: string) {
-  await requireStaff();
+  const user = await requireStaff();
+  await assertBuildingAccess(user.id, user.role, buildingId);
   const rows = await db.maintenanceLog.findMany({
     where: { buildingId },
     orderBy: { performedAt: "desc" },
