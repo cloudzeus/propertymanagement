@@ -7,7 +7,7 @@ import {
   RiDashboardLine, RiHome4Line, RiGroupLine, RiUserStarLine, RiFolderLine,
   RiCalendarTodoLine, RiContactsBook3Line, RiSettings3Line, RiWallet3Line,
   RiBankCardLine, RiToolsLine, RiMegaphoneLine, RiScales3Line, RiMoneyEuroCircleLine,
-  RiPieChartLine, RiSpeedUpLine,
+  RiPieChartLine, RiSpeedUpLine, RiAlarmWarningLine,
 } from "react-icons/ri";
 import { CategorySplitSettings } from "@/components/buildings/CategorySplitSettings";
 import { FilesPanel, type FileRow } from "./FilesPanel";
@@ -68,7 +68,7 @@ const TABS: { key: TabKey; label: string; icon: React.ElementType; badge?: (k: K
   { key: "millesimes", label: "Χιλιοστά & Κατανομή", icon: RiScales3Line },
   { key: "koino", label: "Κοινόχρηστα", icon: RiWallet3Line },
   { key: "pay", label: "Πληρωμές", icon: RiBankCardLine },
-  { key: "maint", label: "Συντήρηση", icon: RiToolsLine },
+  { key: "maint", label: "Αιτήματα βλαβών", icon: RiAlarmWarningLine },
   { key: "maintenance", label: "Συντηρήσεις", icon: RiToolsLine, badge: (k) => k.recurringTasks || undefined },
   { key: "ann", label: "Ανακοινώσεις", icon: RiMegaphoneLine },
   { key: "assemblies", label: "Συνελεύσεις", icon: RiGroupLine },
