@@ -193,6 +193,7 @@ export const BuildingFileCategory = {
   CERTIFICATES: 'CERTIFICATES',
   RECEIPT: 'RECEIPT',
   PAYMENT: 'PAYMENT',
+  MAINTENANCE: 'MAINTENANCE',
   OTHER: 'OTHER'
 } as const
 
@@ -232,6 +233,20 @@ export const TaskFrequency = {
 } as const
 
 export type TaskFrequency = (typeof TaskFrequency)[keyof typeof TaskFrequency]
+
+
+export const MaintenanceKind = {
+  GENERAL: 'GENERAL',
+  ELEVATOR: 'ELEVATOR',
+  BOILER: 'BOILER',
+  FIRE_SAFETY: 'FIRE_SAFETY',
+  HVAC: 'HVAC',
+  ELECTRICAL: 'ELECTRICAL',
+  PLUMBING: 'PLUMBING',
+  OTHER: 'OTHER'
+} as const
+
+export type MaintenanceKind = (typeof MaintenanceKind)[keyof typeof MaintenanceKind]
 
 
 export const PaymentStatus = {

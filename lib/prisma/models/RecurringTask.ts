@@ -20,8 +20,18 @@ export type RecurringTaskModel = runtime.Types.Result.DefaultSelection<Prisma.$R
 
 export type AggregateRecurringTask = {
   _count: RecurringTaskCountAggregateOutputType | null
+  _avg: RecurringTaskAvgAggregateOutputType | null
+  _sum: RecurringTaskSumAggregateOutputType | null
   _min: RecurringTaskMinAggregateOutputType | null
   _max: RecurringTaskMaxAggregateOutputType | null
+}
+
+export type RecurringTaskAvgAggregateOutputType = {
+  reminderDaysBefore: number | null
+}
+
+export type RecurringTaskSumAggregateOutputType = {
+  reminderDaysBefore: number | null
 }
 
 export type RecurringTaskMinAggregateOutputType = {
@@ -34,6 +44,10 @@ export type RecurringTaskMinAggregateOutputType = {
   vendor: string | null
   notes: string | null
   active: boolean | null
+  kind: $Enums.MaintenanceKind | null
+  inServicePackage: boolean | null
+  reminderDaysBefore: number | null
+  reminderSentAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -48,6 +62,10 @@ export type RecurringTaskMaxAggregateOutputType = {
   vendor: string | null
   notes: string | null
   active: boolean | null
+  kind: $Enums.MaintenanceKind | null
+  inServicePackage: boolean | null
+  reminderDaysBefore: number | null
+  reminderSentAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -62,11 +80,23 @@ export type RecurringTaskCountAggregateOutputType = {
   vendor: number
   notes: number
   active: number
+  kind: number
+  inServicePackage: number
+  reminderDaysBefore: number
+  reminderSentAt: number
   createdAt: number
   updatedAt: number
   _all: number
 }
 
+
+export type RecurringTaskAvgAggregateInputType = {
+  reminderDaysBefore?: true
+}
+
+export type RecurringTaskSumAggregateInputType = {
+  reminderDaysBefore?: true
+}
 
 export type RecurringTaskMinAggregateInputType = {
   id?: true
@@ -78,6 +108,10 @@ export type RecurringTaskMinAggregateInputType = {
   vendor?: true
   notes?: true
   active?: true
+  kind?: true
+  inServicePackage?: true
+  reminderDaysBefore?: true
+  reminderSentAt?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -92,6 +126,10 @@ export type RecurringTaskMaxAggregateInputType = {
   vendor?: true
   notes?: true
   active?: true
+  kind?: true
+  inServicePackage?: true
+  reminderDaysBefore?: true
+  reminderSentAt?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -106,6 +144,10 @@ export type RecurringTaskCountAggregateInputType = {
   vendor?: true
   notes?: true
   active?: true
+  kind?: true
+  inServicePackage?: true
+  reminderDaysBefore?: true
+  reminderSentAt?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -149,6 +191,18 @@ export type RecurringTaskAggregateArgs<ExtArgs extends runtime.Types.Extensions.
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: RecurringTaskAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: RecurringTaskSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: RecurringTaskMinAggregateInputType
@@ -179,6 +233,8 @@ export type RecurringTaskGroupByArgs<ExtArgs extends runtime.Types.Extensions.In
   take?: number
   skip?: number
   _count?: RecurringTaskCountAggregateInputType | true
+  _avg?: RecurringTaskAvgAggregateInputType
+  _sum?: RecurringTaskSumAggregateInputType
   _min?: RecurringTaskMinAggregateInputType
   _max?: RecurringTaskMaxAggregateInputType
 }
@@ -193,9 +249,15 @@ export type RecurringTaskGroupByOutputType = {
   vendor: string | null
   notes: string | null
   active: boolean
+  kind: $Enums.MaintenanceKind
+  inServicePackage: boolean
+  reminderDaysBefore: number
+  reminderSentAt: Date | null
   createdAt: Date
   updatedAt: Date
   _count: RecurringTaskCountAggregateOutputType | null
+  _avg: RecurringTaskAvgAggregateOutputType | null
+  _sum: RecurringTaskSumAggregateOutputType | null
   _min: RecurringTaskMinAggregateOutputType | null
   _max: RecurringTaskMaxAggregateOutputType | null
 }
@@ -228,9 +290,14 @@ export type RecurringTaskWhereInput = {
   vendor?: Prisma.StringNullableFilter<"RecurringTask"> | string | null
   notes?: Prisma.StringNullableFilter<"RecurringTask"> | string | null
   active?: Prisma.BoolFilter<"RecurringTask"> | boolean
+  kind?: Prisma.EnumMaintenanceKindFilter<"RecurringTask"> | $Enums.MaintenanceKind
+  inServicePackage?: Prisma.BoolFilter<"RecurringTask"> | boolean
+  reminderDaysBefore?: Prisma.IntFilter<"RecurringTask"> | number
+  reminderSentAt?: Prisma.DateTimeNullableFilter<"RecurringTask"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"RecurringTask"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"RecurringTask"> | Date | string
   building?: Prisma.XOR<Prisma.BuildingScalarRelationFilter, Prisma.BuildingWhereInput>
+  logs?: Prisma.MaintenanceLogListRelationFilter
 }
 
 export type RecurringTaskOrderByWithRelationInput = {
@@ -243,9 +310,14 @@ export type RecurringTaskOrderByWithRelationInput = {
   vendor?: Prisma.SortOrderInput | Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   active?: Prisma.SortOrder
+  kind?: Prisma.SortOrder
+  inServicePackage?: Prisma.SortOrder
+  reminderDaysBefore?: Prisma.SortOrder
+  reminderSentAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   building?: Prisma.BuildingOrderByWithRelationInput
+  logs?: Prisma.MaintenanceLogOrderByRelationAggregateInput
 }
 
 export type RecurringTaskWhereUniqueInput = Prisma.AtLeast<{
@@ -261,9 +333,14 @@ export type RecurringTaskWhereUniqueInput = Prisma.AtLeast<{
   vendor?: Prisma.StringNullableFilter<"RecurringTask"> | string | null
   notes?: Prisma.StringNullableFilter<"RecurringTask"> | string | null
   active?: Prisma.BoolFilter<"RecurringTask"> | boolean
+  kind?: Prisma.EnumMaintenanceKindFilter<"RecurringTask"> | $Enums.MaintenanceKind
+  inServicePackage?: Prisma.BoolFilter<"RecurringTask"> | boolean
+  reminderDaysBefore?: Prisma.IntFilter<"RecurringTask"> | number
+  reminderSentAt?: Prisma.DateTimeNullableFilter<"RecurringTask"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"RecurringTask"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"RecurringTask"> | Date | string
   building?: Prisma.XOR<Prisma.BuildingScalarRelationFilter, Prisma.BuildingWhereInput>
+  logs?: Prisma.MaintenanceLogListRelationFilter
 }, "id">
 
 export type RecurringTaskOrderByWithAggregationInput = {
@@ -276,11 +353,17 @@ export type RecurringTaskOrderByWithAggregationInput = {
   vendor?: Prisma.SortOrderInput | Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   active?: Prisma.SortOrder
+  kind?: Prisma.SortOrder
+  inServicePackage?: Prisma.SortOrder
+  reminderDaysBefore?: Prisma.SortOrder
+  reminderSentAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.RecurringTaskCountOrderByAggregateInput
+  _avg?: Prisma.RecurringTaskAvgOrderByAggregateInput
   _max?: Prisma.RecurringTaskMaxOrderByAggregateInput
   _min?: Prisma.RecurringTaskMinOrderByAggregateInput
+  _sum?: Prisma.RecurringTaskSumOrderByAggregateInput
 }
 
 export type RecurringTaskScalarWhereWithAggregatesInput = {
@@ -296,6 +379,10 @@ export type RecurringTaskScalarWhereWithAggregatesInput = {
   vendor?: Prisma.StringNullableWithAggregatesFilter<"RecurringTask"> | string | null
   notes?: Prisma.StringNullableWithAggregatesFilter<"RecurringTask"> | string | null
   active?: Prisma.BoolWithAggregatesFilter<"RecurringTask"> | boolean
+  kind?: Prisma.EnumMaintenanceKindWithAggregatesFilter<"RecurringTask"> | $Enums.MaintenanceKind
+  inServicePackage?: Prisma.BoolWithAggregatesFilter<"RecurringTask"> | boolean
+  reminderDaysBefore?: Prisma.IntWithAggregatesFilter<"RecurringTask"> | number
+  reminderSentAt?: Prisma.DateTimeNullableWithAggregatesFilter<"RecurringTask"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"RecurringTask"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"RecurringTask"> | Date | string
 }
@@ -309,9 +396,14 @@ export type RecurringTaskCreateInput = {
   vendor?: string | null
   notes?: string | null
   active?: boolean
+  kind?: $Enums.MaintenanceKind
+  inServicePackage?: boolean
+  reminderDaysBefore?: number
+  reminderSentAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   building: Prisma.BuildingCreateNestedOneWithoutRecurringTasksInput
+  logs?: Prisma.MaintenanceLogCreateNestedManyWithoutRecurringTaskInput
 }
 
 export type RecurringTaskUncheckedCreateInput = {
@@ -324,8 +416,13 @@ export type RecurringTaskUncheckedCreateInput = {
   vendor?: string | null
   notes?: string | null
   active?: boolean
+  kind?: $Enums.MaintenanceKind
+  inServicePackage?: boolean
+  reminderDaysBefore?: number
+  reminderSentAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  logs?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutRecurringTaskInput
 }
 
 export type RecurringTaskUpdateInput = {
@@ -337,9 +434,14 @@ export type RecurringTaskUpdateInput = {
   vendor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  kind?: Prisma.EnumMaintenanceKindFieldUpdateOperationsInput | $Enums.MaintenanceKind
+  inServicePackage?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  reminderDaysBefore?: Prisma.IntFieldUpdateOperationsInput | number
+  reminderSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   building?: Prisma.BuildingUpdateOneRequiredWithoutRecurringTasksNestedInput
+  logs?: Prisma.MaintenanceLogUpdateManyWithoutRecurringTaskNestedInput
 }
 
 export type RecurringTaskUncheckedUpdateInput = {
@@ -352,8 +454,13 @@ export type RecurringTaskUncheckedUpdateInput = {
   vendor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  kind?: Prisma.EnumMaintenanceKindFieldUpdateOperationsInput | $Enums.MaintenanceKind
+  inServicePackage?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  reminderDaysBefore?: Prisma.IntFieldUpdateOperationsInput | number
+  reminderSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  logs?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutRecurringTaskNestedInput
 }
 
 export type RecurringTaskCreateManyInput = {
@@ -366,6 +473,10 @@ export type RecurringTaskCreateManyInput = {
   vendor?: string | null
   notes?: string | null
   active?: boolean
+  kind?: $Enums.MaintenanceKind
+  inServicePackage?: boolean
+  reminderDaysBefore?: number
+  reminderSentAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -379,6 +490,10 @@ export type RecurringTaskUpdateManyMutationInput = {
   vendor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  kind?: Prisma.EnumMaintenanceKindFieldUpdateOperationsInput | $Enums.MaintenanceKind
+  inServicePackage?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  reminderDaysBefore?: Prisma.IntFieldUpdateOperationsInput | number
+  reminderSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -393,6 +508,10 @@ export type RecurringTaskUncheckedUpdateManyInput = {
   vendor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  kind?: Prisma.EnumMaintenanceKindFieldUpdateOperationsInput | $Enums.MaintenanceKind
+  inServicePackage?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  reminderDaysBefore?: Prisma.IntFieldUpdateOperationsInput | number
+  reminderSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -417,8 +536,16 @@ export type RecurringTaskCountOrderByAggregateInput = {
   vendor?: Prisma.SortOrder
   notes?: Prisma.SortOrder
   active?: Prisma.SortOrder
+  kind?: Prisma.SortOrder
+  inServicePackage?: Prisma.SortOrder
+  reminderDaysBefore?: Prisma.SortOrder
+  reminderSentAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type RecurringTaskAvgOrderByAggregateInput = {
+  reminderDaysBefore?: Prisma.SortOrder
 }
 
 export type RecurringTaskMaxOrderByAggregateInput = {
@@ -431,6 +558,10 @@ export type RecurringTaskMaxOrderByAggregateInput = {
   vendor?: Prisma.SortOrder
   notes?: Prisma.SortOrder
   active?: Prisma.SortOrder
+  kind?: Prisma.SortOrder
+  inServicePackage?: Prisma.SortOrder
+  reminderDaysBefore?: Prisma.SortOrder
+  reminderSentAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -445,8 +576,21 @@ export type RecurringTaskMinOrderByAggregateInput = {
   vendor?: Prisma.SortOrder
   notes?: Prisma.SortOrder
   active?: Prisma.SortOrder
+  kind?: Prisma.SortOrder
+  inServicePackage?: Prisma.SortOrder
+  reminderDaysBefore?: Prisma.SortOrder
+  reminderSentAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type RecurringTaskSumOrderByAggregateInput = {
+  reminderDaysBefore?: Prisma.SortOrder
+}
+
+export type RecurringTaskScalarRelationFilter = {
+  is?: Prisma.RecurringTaskWhereInput
+  isNot?: Prisma.RecurringTaskWhereInput
 }
 
 export type RecurringTaskCreateNestedManyWithoutBuildingInput = {
@@ -495,6 +639,24 @@ export type EnumTaskFrequencyFieldUpdateOperationsInput = {
   set?: $Enums.TaskFrequency
 }
 
+export type EnumMaintenanceKindFieldUpdateOperationsInput = {
+  set?: $Enums.MaintenanceKind
+}
+
+export type RecurringTaskCreateNestedOneWithoutLogsInput = {
+  create?: Prisma.XOR<Prisma.RecurringTaskCreateWithoutLogsInput, Prisma.RecurringTaskUncheckedCreateWithoutLogsInput>
+  connectOrCreate?: Prisma.RecurringTaskCreateOrConnectWithoutLogsInput
+  connect?: Prisma.RecurringTaskWhereUniqueInput
+}
+
+export type RecurringTaskUpdateOneRequiredWithoutLogsNestedInput = {
+  create?: Prisma.XOR<Prisma.RecurringTaskCreateWithoutLogsInput, Prisma.RecurringTaskUncheckedCreateWithoutLogsInput>
+  connectOrCreate?: Prisma.RecurringTaskCreateOrConnectWithoutLogsInput
+  upsert?: Prisma.RecurringTaskUpsertWithoutLogsInput
+  connect?: Prisma.RecurringTaskWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.RecurringTaskUpdateToOneWithWhereWithoutLogsInput, Prisma.RecurringTaskUpdateWithoutLogsInput>, Prisma.RecurringTaskUncheckedUpdateWithoutLogsInput>
+}
+
 export type RecurringTaskCreateWithoutBuildingInput = {
   id?: string
   title: string
@@ -504,8 +666,13 @@ export type RecurringTaskCreateWithoutBuildingInput = {
   vendor?: string | null
   notes?: string | null
   active?: boolean
+  kind?: $Enums.MaintenanceKind
+  inServicePackage?: boolean
+  reminderDaysBefore?: number
+  reminderSentAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  logs?: Prisma.MaintenanceLogCreateNestedManyWithoutRecurringTaskInput
 }
 
 export type RecurringTaskUncheckedCreateWithoutBuildingInput = {
@@ -517,8 +684,13 @@ export type RecurringTaskUncheckedCreateWithoutBuildingInput = {
   vendor?: string | null
   notes?: string | null
   active?: boolean
+  kind?: $Enums.MaintenanceKind
+  inServicePackage?: boolean
+  reminderDaysBefore?: number
+  reminderSentAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  logs?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutRecurringTaskInput
 }
 
 export type RecurringTaskCreateOrConnectWithoutBuildingInput = {
@@ -560,8 +732,100 @@ export type RecurringTaskScalarWhereInput = {
   vendor?: Prisma.StringNullableFilter<"RecurringTask"> | string | null
   notes?: Prisma.StringNullableFilter<"RecurringTask"> | string | null
   active?: Prisma.BoolFilter<"RecurringTask"> | boolean
+  kind?: Prisma.EnumMaintenanceKindFilter<"RecurringTask"> | $Enums.MaintenanceKind
+  inServicePackage?: Prisma.BoolFilter<"RecurringTask"> | boolean
+  reminderDaysBefore?: Prisma.IntFilter<"RecurringTask"> | number
+  reminderSentAt?: Prisma.DateTimeNullableFilter<"RecurringTask"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"RecurringTask"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"RecurringTask"> | Date | string
+}
+
+export type RecurringTaskCreateWithoutLogsInput = {
+  id?: string
+  title: string
+  frequency?: $Enums.TaskFrequency
+  nextDueDate?: Date | string | null
+  lastDoneDate?: Date | string | null
+  vendor?: string | null
+  notes?: string | null
+  active?: boolean
+  kind?: $Enums.MaintenanceKind
+  inServicePackage?: boolean
+  reminderDaysBefore?: number
+  reminderSentAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  building: Prisma.BuildingCreateNestedOneWithoutRecurringTasksInput
+}
+
+export type RecurringTaskUncheckedCreateWithoutLogsInput = {
+  id?: string
+  buildingId: string
+  title: string
+  frequency?: $Enums.TaskFrequency
+  nextDueDate?: Date | string | null
+  lastDoneDate?: Date | string | null
+  vendor?: string | null
+  notes?: string | null
+  active?: boolean
+  kind?: $Enums.MaintenanceKind
+  inServicePackage?: boolean
+  reminderDaysBefore?: number
+  reminderSentAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type RecurringTaskCreateOrConnectWithoutLogsInput = {
+  where: Prisma.RecurringTaskWhereUniqueInput
+  create: Prisma.XOR<Prisma.RecurringTaskCreateWithoutLogsInput, Prisma.RecurringTaskUncheckedCreateWithoutLogsInput>
+}
+
+export type RecurringTaskUpsertWithoutLogsInput = {
+  update: Prisma.XOR<Prisma.RecurringTaskUpdateWithoutLogsInput, Prisma.RecurringTaskUncheckedUpdateWithoutLogsInput>
+  create: Prisma.XOR<Prisma.RecurringTaskCreateWithoutLogsInput, Prisma.RecurringTaskUncheckedCreateWithoutLogsInput>
+  where?: Prisma.RecurringTaskWhereInput
+}
+
+export type RecurringTaskUpdateToOneWithWhereWithoutLogsInput = {
+  where?: Prisma.RecurringTaskWhereInput
+  data: Prisma.XOR<Prisma.RecurringTaskUpdateWithoutLogsInput, Prisma.RecurringTaskUncheckedUpdateWithoutLogsInput>
+}
+
+export type RecurringTaskUpdateWithoutLogsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  frequency?: Prisma.EnumTaskFrequencyFieldUpdateOperationsInput | $Enums.TaskFrequency
+  nextDueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastDoneDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  vendor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  kind?: Prisma.EnumMaintenanceKindFieldUpdateOperationsInput | $Enums.MaintenanceKind
+  inServicePackage?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  reminderDaysBefore?: Prisma.IntFieldUpdateOperationsInput | number
+  reminderSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  building?: Prisma.BuildingUpdateOneRequiredWithoutRecurringTasksNestedInput
+}
+
+export type RecurringTaskUncheckedUpdateWithoutLogsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  buildingId?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  frequency?: Prisma.EnumTaskFrequencyFieldUpdateOperationsInput | $Enums.TaskFrequency
+  nextDueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  lastDoneDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  vendor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  kind?: Prisma.EnumMaintenanceKindFieldUpdateOperationsInput | $Enums.MaintenanceKind
+  inServicePackage?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  reminderDaysBefore?: Prisma.IntFieldUpdateOperationsInput | number
+  reminderSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type RecurringTaskCreateManyBuildingInput = {
@@ -573,6 +837,10 @@ export type RecurringTaskCreateManyBuildingInput = {
   vendor?: string | null
   notes?: string | null
   active?: boolean
+  kind?: $Enums.MaintenanceKind
+  inServicePackage?: boolean
+  reminderDaysBefore?: number
+  reminderSentAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -586,8 +854,13 @@ export type RecurringTaskUpdateWithoutBuildingInput = {
   vendor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  kind?: Prisma.EnumMaintenanceKindFieldUpdateOperationsInput | $Enums.MaintenanceKind
+  inServicePackage?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  reminderDaysBefore?: Prisma.IntFieldUpdateOperationsInput | number
+  reminderSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  logs?: Prisma.MaintenanceLogUpdateManyWithoutRecurringTaskNestedInput
 }
 
 export type RecurringTaskUncheckedUpdateWithoutBuildingInput = {
@@ -599,8 +872,13 @@ export type RecurringTaskUncheckedUpdateWithoutBuildingInput = {
   vendor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  kind?: Prisma.EnumMaintenanceKindFieldUpdateOperationsInput | $Enums.MaintenanceKind
+  inServicePackage?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  reminderDaysBefore?: Prisma.IntFieldUpdateOperationsInput | number
+  reminderSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  logs?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutRecurringTaskNestedInput
 }
 
 export type RecurringTaskUncheckedUpdateManyWithoutBuildingInput = {
@@ -612,10 +890,43 @@ export type RecurringTaskUncheckedUpdateManyWithoutBuildingInput = {
   vendor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  kind?: Prisma.EnumMaintenanceKindFieldUpdateOperationsInput | $Enums.MaintenanceKind
+  inServicePackage?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  reminderDaysBefore?: Prisma.IntFieldUpdateOperationsInput | number
+  reminderSentAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
+
+/**
+ * Count Type RecurringTaskCountOutputType
+ */
+
+export type RecurringTaskCountOutputType = {
+  logs: number
+}
+
+export type RecurringTaskCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  logs?: boolean | RecurringTaskCountOutputTypeCountLogsArgs
+}
+
+/**
+ * RecurringTaskCountOutputType without action
+ */
+export type RecurringTaskCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the RecurringTaskCountOutputType
+   */
+  select?: Prisma.RecurringTaskCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * RecurringTaskCountOutputType without action
+ */
+export type RecurringTaskCountOutputTypeCountLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.MaintenanceLogWhereInput
+}
 
 
 export type RecurringTaskSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -628,9 +939,15 @@ export type RecurringTaskSelect<ExtArgs extends runtime.Types.Extensions.Interna
   vendor?: boolean
   notes?: boolean
   active?: boolean
+  kind?: boolean
+  inServicePackage?: boolean
+  reminderDaysBefore?: boolean
+  reminderSentAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
+  logs?: boolean | Prisma.RecurringTask$logsArgs<ExtArgs>
+  _count?: boolean | Prisma.RecurringTaskCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["recurringTask"]>
 
 export type RecurringTaskSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -643,6 +960,10 @@ export type RecurringTaskSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   vendor?: boolean
   notes?: boolean
   active?: boolean
+  kind?: boolean
+  inServicePackage?: boolean
+  reminderDaysBefore?: boolean
+  reminderSentAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
@@ -658,6 +979,10 @@ export type RecurringTaskSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   vendor?: boolean
   notes?: boolean
   active?: boolean
+  kind?: boolean
+  inServicePackage?: boolean
+  reminderDaysBefore?: boolean
+  reminderSentAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
@@ -673,13 +998,19 @@ export type RecurringTaskSelectScalar = {
   vendor?: boolean
   notes?: boolean
   active?: boolean
+  kind?: boolean
+  inServicePackage?: boolean
+  reminderDaysBefore?: boolean
+  reminderSentAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type RecurringTaskOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "buildingId" | "title" | "frequency" | "nextDueDate" | "lastDoneDate" | "vendor" | "notes" | "active" | "createdAt" | "updatedAt", ExtArgs["result"]["recurringTask"]>
+export type RecurringTaskOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "buildingId" | "title" | "frequency" | "nextDueDate" | "lastDoneDate" | "vendor" | "notes" | "active" | "kind" | "inServicePackage" | "reminderDaysBefore" | "reminderSentAt" | "createdAt" | "updatedAt", ExtArgs["result"]["recurringTask"]>
 export type RecurringTaskInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
+  logs?: boolean | Prisma.RecurringTask$logsArgs<ExtArgs>
+  _count?: boolean | Prisma.RecurringTaskCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type RecurringTaskIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
@@ -692,6 +1023,7 @@ export type $RecurringTaskPayload<ExtArgs extends runtime.Types.Extensions.Inter
   name: "RecurringTask"
   objects: {
     building: Prisma.$BuildingPayload<ExtArgs>
+    logs: Prisma.$MaintenanceLogPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -703,6 +1035,10 @@ export type $RecurringTaskPayload<ExtArgs extends runtime.Types.Extensions.Inter
     vendor: string | null
     notes: string | null
     active: boolean
+    kind: $Enums.MaintenanceKind
+    inServicePackage: boolean
+    reminderDaysBefore: number
+    reminderSentAt: Date | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["recurringTask"]>
@@ -1100,6 +1436,7 @@ readonly fields: RecurringTaskFieldRefs;
 export interface Prisma__RecurringTaskClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   building<T extends Prisma.BuildingDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.BuildingDefaultArgs<ExtArgs>>): Prisma.Prisma__BuildingClient<runtime.Types.Result.GetResult<Prisma.$BuildingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  logs<T extends Prisma.RecurringTask$logsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.RecurringTask$logsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MaintenanceLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1138,6 +1475,10 @@ export interface RecurringTaskFieldRefs {
   readonly vendor: Prisma.FieldRef<"RecurringTask", 'String'>
   readonly notes: Prisma.FieldRef<"RecurringTask", 'String'>
   readonly active: Prisma.FieldRef<"RecurringTask", 'Boolean'>
+  readonly kind: Prisma.FieldRef<"RecurringTask", 'MaintenanceKind'>
+  readonly inServicePackage: Prisma.FieldRef<"RecurringTask", 'Boolean'>
+  readonly reminderDaysBefore: Prisma.FieldRef<"RecurringTask", 'Int'>
+  readonly reminderSentAt: Prisma.FieldRef<"RecurringTask", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"RecurringTask", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"RecurringTask", 'DateTime'>
 }
@@ -1538,6 +1879,30 @@ export type RecurringTaskDeleteManyArgs<ExtArgs extends runtime.Types.Extensions
    * Limit how many RecurringTasks to delete.
    */
   limit?: number
+}
+
+/**
+ * RecurringTask.logs
+ */
+export type RecurringTask$logsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the MaintenanceLog
+   */
+  select?: Prisma.MaintenanceLogSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the MaintenanceLog
+   */
+  omit?: Prisma.MaintenanceLogOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MaintenanceLogInclude<ExtArgs> | null
+  where?: Prisma.MaintenanceLogWhereInput
+  orderBy?: Prisma.MaintenanceLogOrderByWithRelationInput | Prisma.MaintenanceLogOrderByWithRelationInput[]
+  cursor?: Prisma.MaintenanceLogWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.MaintenanceLogScalarFieldEnum | Prisma.MaintenanceLogScalarFieldEnum[]
 }
 
 /**

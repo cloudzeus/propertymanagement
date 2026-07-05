@@ -4,19 +4,26 @@ import { useMemo, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { Modal, FormField, FieldInput, FieldSelect, FieldTextarea } from "@/components/ui/modal";
 import {
-  createRecurringTask, updateRecurringTask, deleteRecurringTask, markTaskDone, type TaskFrequency,
+  createRecurringTask, updateRecurringTask, deleteRecurringTask, type TaskFrequency, type TaskInput,
 } from "@/app/actions/recurring-tasks";
+import { completeMaintenance } from "@/app/actions/maintenance-logs";
 import {
   RiAddLine, RiArrowLeftSLine, RiArrowRightSLine, RiCheckLine, RiLoaderLine,
   RiDeleteBinLine, RiCheckboxCircleLine,
 } from "react-icons/ri";
 
-export type TaskRow = { id: string; title: string; frequency: TaskFrequency; nextDueDate: string | null; vendor: string | null; notes: string | null; active: boolean };
+export type TaskRow = { id: string; title: string; frequency: TaskFrequency; nextDueDate: string | null; vendor: string | null; notes: string | null; active: boolean; kind: string; inServicePackage: boolean; reminderDaysBefore: number };
 
 const FREQ_OPTS: { value: TaskFrequency; label: string }[] = [
   { value: "WEEKLY", label: "Εβδομαδιαία" }, { value: "MONTHLY", label: "Μηνιαία" },
   { value: "QUARTERLY", label: "Τριμηνιαία" }, { value: "SEMIANNUAL", label: "Εξαμηνιαία" },
   { value: "ANNUAL", label: "Ετήσια" }, { value: "CUSTOM", label: "Μία φορά" },
+];
+const KIND_OPTS = [
+  { value: "GENERAL", label: "Γενική" }, { value: "ELEVATOR", label: "Ανελκυστήρας" },
+  { value: "BOILER", label: "Λέβητας/Καυστήρας" }, { value: "FIRE_SAFETY", label: "Πυρασφάλεια" },
+  { value: "HVAC", label: "Κλιματισμός" }, { value: "ELECTRICAL", label: "Ηλεκτρολογικά" },
+  { value: "PLUMBING", label: "Υδραυλικά" }, { value: "OTHER", label: "Άλλο" },
 ];
 const FREQ_LABEL = Object.fromEntries(FREQ_OPTS.map((f) => [f.value, f.label]));
 const FREQ_COLOR: Record<string, [string, string]> = {
@@ -65,6 +72,7 @@ export function CalendarPanel({ buildingId, tasks, today }: { buildingId: string
   const [view, setView] = useState<View>("month");
   const [cursor, setCursor] = useState<Date>(now);
   const [edit, setEdit] = useState<TaskRow | null | "new">(null);
+  const [completing, setCompleting] = useState<TaskRow | null>(null);
 
   const move = (dir: number) => {
     if (view === "month") { const d = new Date(cursor); d.setMonth(d.getMonth() + dir); setCursor(d); }
@@ -103,7 +111,10 @@ export function CalendarPanel({ buildingId, tasks, today }: { buildingId: string
       {view === "day" && <DayView cursor={cursor} now={now} tasks={tasks} onEvent={setEdit} />}
 
       {edit !== null && (
-        <TaskModal buildingId={buildingId} editing={edit === "new" ? null : edit} onClose={() => setEdit(null)} onDone={() => { setEdit(null); router.refresh(); }} />
+        <TaskModal buildingId={buildingId} editing={edit === "new" ? null : edit} onClose={() => setEdit(null)} onComplete={(t) => { setEdit(null); setCompleting(t); }} onDone={() => { setEdit(null); router.refresh(); }} />
+      )}
+      {completing && (
+        <CompleteModal task={completing} onClose={() => setCompleting(null)} onDone={() => { setCompleting(null); router.refresh(); }} />
       )}
     </div>
   );
@@ -204,28 +215,31 @@ function DayView({ cursor, now, tasks, onEvent }: { cursor: Date; now: Date; tas
   );
 }
 
-function TaskModal({ buildingId, editing, onClose, onDone }: { buildingId: string; editing: TaskRow | null; onClose: () => void; onDone: () => void }) {
+function TaskModal({ buildingId, editing, onClose, onComplete, onDone }: { buildingId: string; editing: TaskRow | null; onClose: () => void; onComplete: (t: TaskRow) => void; onDone: () => void }) {
   const toInput = (iso: string | null) => (iso ? new Date(iso).toISOString().slice(0, 10) : "");
   const [form, setForm] = useState({ title: editing?.title ?? "", frequency: (editing?.frequency ?? "MONTHLY") as TaskFrequency, nextDueDate: toInput(editing?.nextDueDate ?? null), vendor: editing?.vendor ?? "", notes: editing?.notes ?? "" });
+  const [kind, setKind] = useState(editing?.kind ?? "GENERAL");
+  const [inServicePackage, setInServicePackage] = useState(editing?.inServicePackage ?? false);
+  const [reminderDaysBefore, setReminderDaysBefore] = useState(editing?.reminderDaysBefore ?? 7);
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
   const f = (k: keyof typeof form) => (v: string) => setForm((p) => ({ ...p, [k]: v }));
   function save() {
     setError(null);
+    const payload = { ...form, kind: kind as TaskInput["kind"], inServicePackage, reminderDaysBefore };
     startTransition(async () => {
-      const res = editing ? await updateRecurringTask(editing.id, form) : await createRecurringTask(buildingId, form);
+      const res = editing ? await updateRecurringTask(editing.id, payload) : await createRecurringTask(buildingId, payload);
       if (res && "error" in res && res.error) { setError(res.error); return; }
       onDone();
     });
   }
-  function done() { if (!editing) return; startTransition(async () => { await markTaskDone(editing.id); onDone(); }); }
   function del() { if (!editing || !confirm("Διαγραφή εργασίας;")) return; startTransition(async () => { await deleteRecurringTask(editing.id); onDone(); }); }
 
   return (
     <Modal open onClose={onClose} title={editing ? "Επεξεργασία εργασίας" : "Νέα επαναλαμβανόμενη εργασία"} width={500}
       footer={<>
         {editing && <button onClick={del} disabled={isPending} style={{ ...cancelBtn, color: "#c50f1f", marginRight: "auto" }}><RiDeleteBinLine /> Διαγραφή</button>}
-        {editing && <button onClick={done} disabled={isPending} style={cancelBtn}><RiCheckboxCircleLine /> Ολοκληρώθηκε</button>}
+        {editing && <button onClick={() => onComplete(editing)} disabled={isPending} style={cancelBtn}><RiCheckboxCircleLine /> Ολοκλήρωση</button>}
         <button onClick={onClose} style={cancelBtn}>Ακύρωση</button>
         <button onClick={save} disabled={isPending} style={saveBtn}>{isPending ? <RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> : <RiCheckLine />} Αποθήκευση</button>
       </>}>
@@ -236,8 +250,47 @@ function TaskModal({ buildingId, editing, onClose, onDone }: { buildingId: strin
           <FormField label="Συχνότητα"><FieldSelect value={form.frequency} onChange={(v) => f("frequency")(v)} options={FREQ_OPTS} /></FormField>
           <FormField label="Επόμενη ημ/νία"><FieldInput type="date" value={form.nextDueDate} onChange={f("nextDueDate")} /></FormField>
         </div>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+          <FormField label="Τύπος συντήρησης"><FieldSelect value={kind} onChange={(v) => setKind(v)} options={KIND_OPTS} /></FormField>
+          <FormField label="Υπενθύμιση (ημέρες πριν)"><FieldInput type="number" value={String(reminderDaysBefore)} onChange={(v) => setReminderDaysBefore(Number(v) || 0)} /></FormField>
+        </div>
+        <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: "var(--foreground)", cursor: "pointer" }}>
+          <input type="checkbox" checked={inServicePackage} onChange={(e) => setInServicePackage(e.target.checked)} />
+          Εντός πακέτου υπηρεσιών
+        </label>
         <FormField label="Ανάδοχος / συνεργείο"><FieldInput value={form.vendor} onChange={f("vendor")} placeholder="π.χ. KLEEMANN" /></FormField>
         <FormField label="Σημειώσεις"><FieldTextarea value={form.notes} onChange={f("notes")} rows={2} /></FormField>
+      </div>
+      <style>{`@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}`}</style>
+    </Modal>
+  );
+}
+
+function CompleteModal({ task, onClose, onDone }: { task: TaskRow; onClose: () => void; onDone: () => void }) {
+  const [pending, start] = useTransition();
+  const [performedAt, setPerformedAt] = useState(new Date().toISOString().slice(0, 10));
+  const [cost, setCost] = useState("");
+  const [notes, setNotes] = useState("");
+  const [file, setFile] = useState<File | null>(null);
+  function submit() {
+    start(async () => {
+      const fd = new FormData();
+      if (file) fd.set("file", file);
+      await completeMaintenance(task.id, { performedAt, cost, notes }, fd);
+      onDone();
+    });
+  }
+  return (
+    <Modal open onClose={onClose} title="Ολοκλήρωση συντήρησης" width={500}
+      footer={<>
+        <button onClick={onClose} style={cancelBtn}>Ακύρωση</button>
+        <button onClick={submit} disabled={pending} style={saveBtn}>{pending ? <RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> : <RiCheckLine />} Καταχώριση</button>
+      </>}>
+      <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+        <FormField label="Ημερομηνία"><FieldInput type="date" value={performedAt} onChange={setPerformedAt} /></FormField>
+        <FormField label="Κόστος (€)"><FieldInput type="number" value={cost} onChange={setCost} /></FormField>
+        <FormField label="Σημειώσεις"><FieldTextarea value={notes} onChange={setNotes} rows={2} /></FormField>
+        <FormField label="Πιστοποιητικό (προαιρετικό)"><input type="file" onChange={(e) => setFile(e.target.files?.[0] ?? null)} /></FormField>
       </div>
       <style>{`@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}`}</style>
     </Modal>

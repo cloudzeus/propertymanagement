@@ -169,6 +169,7 @@ model User {
 
   // Maintenance requests assigned to this user
   assignedMaintenance MaintenanceRequest[] @relation("maintenanceAssignedTo")
+  performedMaintenance MaintenanceLog[] @relation("maintenancePerformedBy")
 
   // API usage logs triggered by this user
   apiUsageLogs        APIUsageLog[]
@@ -672,6 +673,7 @@ model Building {
   infraPoints           InfraPoint[]
   contacts              Contact[]
   recurringTasks        RecurringTask[]
+  maintenanceLogs       MaintenanceLog[]
   expenses              BuildingExpense[]
   categoryOverrides     BuildingCategoryOverride[]
   meterReadings         MeterReading[]
@@ -718,6 +720,7 @@ enum BuildingFileCategory {
   CERTIFICATES
   RECEIPT
   PAYMENT
+  MAINTENANCE
   OTHER
 }
 
@@ -735,6 +738,7 @@ model BuildingFile {
   createdAt   DateTime @default(now())
   expenseLinks BuildingExpense[] @relation("expenseReceipt")
   paymentLinks BuildingExpense[] @relation("expensePayment")
+  maintenanceLogs MaintenanceLog[] @relation("maintenanceDocument")
   @@index([buildingId])
   @@index([buildingId, category])
 }
@@ -828,6 +832,17 @@ enum TaskFrequency {
   CUSTOM
 }
 
+enum MaintenanceKind {
+  GENERAL
+  ELEVATOR
+  BOILER
+  FIRE_SAFETY
+  HVAC
+  ELECTRICAL
+  PLUMBING
+  OTHER
+}
+
 model RecurringTask {
   id          String   @id @default(cuid())
   buildingId  String
@@ -839,8 +854,32 @@ model RecurringTask {
   vendor      String?
   notes       String?
   active      Boolean  @default(true)
+  kind               MaintenanceKind @default(GENERAL)
+  inServicePackage   Boolean  @default(false)
+  reminderDaysBefore Int      @default(7)
+  reminderSentAt     DateTime?
+  logs               MaintenanceLog[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  @@index([buildingId])
+}
+
+model MaintenanceLog {
+  id               String        @id @default(cuid())
+  recurringTaskId  String
+  recurringTask    RecurringTask @relation(fields: [recurringTaskId], references: [id], onDelete: Cascade)
+  buildingId       String
+  building         Building      @relation(fields: [buildingId], references: [id], onDelete: Cascade)
+  performedAt      DateTime
+  performedById    String?
+  performedBy      User?         @relation("maintenancePerformedBy", fields: [performedById], references: [id], onDelete: SetNull)
+  cost             Decimal?      @db.Decimal(10, 2)
+  notes            String?
+  documentFileId   String?
+  documentFile     BuildingFile? @relation("maintenanceDocument", fields: [documentFileId], references: [id], onDelete: SetNull)
+  createdAt        DateTime      @default(now())
+
+  @@index([recurringTaskId])
   @@index([buildingId])
 }
 

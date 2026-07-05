@@ -5,6 +5,7 @@ import { BuildingDashboard } from "./BuildingDashboard";
 import { listBuildingExpenses } from "@/app/actions/building-expenses";
 import { getBuildingCategorySplits } from "@/app/actions/expense-categories";
 import { listHeatingReadings } from "@/app/actions/heating-readings";
+import { listMaintenanceHistory } from "@/app/actions/maintenance-logs";
 
 export const metadata = { title: "Κτήριο — Super Admin" };
 
@@ -124,7 +125,7 @@ export default async function BuildingDashboardPage({ params, searchParams }: { 
         media: { orderBy: { createdAt: "asc" }, select: { id: true, url: true, type: true } },
       },
     }),
-    db.recurringTask.findMany({ where: { buildingId: id }, orderBy: { nextDueDate: "asc" }, select: { id: true, title: true, frequency: true, nextDueDate: true, vendor: true, notes: true, active: true } }),
+    db.recurringTask.findMany({ where: { buildingId: id }, orderBy: { nextDueDate: "asc" }, select: { id: true, title: true, frequency: true, nextDueDate: true, vendor: true, notes: true, active: true, kind: true, inServicePackage: true, reminderDaysBefore: true } }),
   ]);
   const tasks = taskRows.map((t) => ({ ...t, nextDueDate: t.nextDueDate ? t.nextDueDate.toISOString() : null }));
 
@@ -231,8 +232,11 @@ export default async function BuildingDashboardPage({ params, searchParams }: { 
     upcomingTasks: upcomingTasksRaw.map((t) => ({ id: t.id, title: t.title, nextDueDate: t.nextDueDate ? t.nextDueDate.toISOString() : null })),
   };
 
+  const maintenanceHistory = await listMaintenanceHistory(building.id);
+
   return (
     <BuildingDashboard
+      maintenanceHistory={maintenanceHistory}
       usesMeteredHeating={usesMeteredHeating}
       heatingPeriod={heatingPeriod}
       heatingReadingRows={heatingReadingRows}

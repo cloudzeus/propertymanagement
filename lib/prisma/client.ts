@@ -142,6 +142,11 @@ export type Contact = Prisma.ContactModel
  */
 export type RecurringTask = Prisma.RecurringTaskModel
 /**
+ * Model MaintenanceLog
+ * 
+ */
+export type MaintenanceLog = Prisma.MaintenanceLogModel
+/**
  * Model BuildingExpense
  * 
  */

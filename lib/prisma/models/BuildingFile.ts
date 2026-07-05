@@ -259,6 +259,7 @@ export type BuildingFileWhereInput = {
   building?: Prisma.XOR<Prisma.BuildingScalarRelationFilter, Prisma.BuildingWhereInput>
   expenseLinks?: Prisma.BuildingExpenseListRelationFilter
   paymentLinks?: Prisma.BuildingExpenseListRelationFilter
+  maintenanceLogs?: Prisma.MaintenanceLogListRelationFilter
 }
 
 export type BuildingFileOrderByWithRelationInput = {
@@ -275,6 +276,7 @@ export type BuildingFileOrderByWithRelationInput = {
   building?: Prisma.BuildingOrderByWithRelationInput
   expenseLinks?: Prisma.BuildingExpenseOrderByRelationAggregateInput
   paymentLinks?: Prisma.BuildingExpenseOrderByRelationAggregateInput
+  maintenanceLogs?: Prisma.MaintenanceLogOrderByRelationAggregateInput
 }
 
 export type BuildingFileWhereUniqueInput = Prisma.AtLeast<{
@@ -294,6 +296,7 @@ export type BuildingFileWhereUniqueInput = Prisma.AtLeast<{
   building?: Prisma.XOR<Prisma.BuildingScalarRelationFilter, Prisma.BuildingWhereInput>
   expenseLinks?: Prisma.BuildingExpenseListRelationFilter
   paymentLinks?: Prisma.BuildingExpenseListRelationFilter
+  maintenanceLogs?: Prisma.MaintenanceLogListRelationFilter
 }, "id">
 
 export type BuildingFileOrderByWithAggregationInput = {
@@ -343,6 +346,7 @@ export type BuildingFileCreateInput = {
   building: Prisma.BuildingCreateNestedOneWithoutFilesInput
   expenseLinks?: Prisma.BuildingExpenseCreateNestedManyWithoutReceiptFileInput
   paymentLinks?: Prisma.BuildingExpenseCreateNestedManyWithoutPaymentFileInput
+  maintenanceLogs?: Prisma.MaintenanceLogCreateNestedManyWithoutDocumentFileInput
 }
 
 export type BuildingFileUncheckedCreateInput = {
@@ -358,6 +362,7 @@ export type BuildingFileUncheckedCreateInput = {
   createdAt?: Date | string
   expenseLinks?: Prisma.BuildingExpenseUncheckedCreateNestedManyWithoutReceiptFileInput
   paymentLinks?: Prisma.BuildingExpenseUncheckedCreateNestedManyWithoutPaymentFileInput
+  maintenanceLogs?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutDocumentFileInput
 }
 
 export type BuildingFileUpdateInput = {
@@ -373,6 +378,7 @@ export type BuildingFileUpdateInput = {
   building?: Prisma.BuildingUpdateOneRequiredWithoutFilesNestedInput
   expenseLinks?: Prisma.BuildingExpenseUpdateManyWithoutReceiptFileNestedInput
   paymentLinks?: Prisma.BuildingExpenseUpdateManyWithoutPaymentFileNestedInput
+  maintenanceLogs?: Prisma.MaintenanceLogUpdateManyWithoutDocumentFileNestedInput
 }
 
 export type BuildingFileUncheckedUpdateInput = {
@@ -388,6 +394,7 @@ export type BuildingFileUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expenseLinks?: Prisma.BuildingExpenseUncheckedUpdateManyWithoutReceiptFileNestedInput
   paymentLinks?: Prisma.BuildingExpenseUncheckedUpdateManyWithoutPaymentFileNestedInput
+  maintenanceLogs?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutDocumentFileNestedInput
 }
 
 export type BuildingFileCreateManyInput = {
@@ -536,6 +543,22 @@ export type EnumBuildingFileCategoryFieldUpdateOperationsInput = {
   set?: $Enums.BuildingFileCategory
 }
 
+export type BuildingFileCreateNestedOneWithoutMaintenanceLogsInput = {
+  create?: Prisma.XOR<Prisma.BuildingFileCreateWithoutMaintenanceLogsInput, Prisma.BuildingFileUncheckedCreateWithoutMaintenanceLogsInput>
+  connectOrCreate?: Prisma.BuildingFileCreateOrConnectWithoutMaintenanceLogsInput
+  connect?: Prisma.BuildingFileWhereUniqueInput
+}
+
+export type BuildingFileUpdateOneWithoutMaintenanceLogsNestedInput = {
+  create?: Prisma.XOR<Prisma.BuildingFileCreateWithoutMaintenanceLogsInput, Prisma.BuildingFileUncheckedCreateWithoutMaintenanceLogsInput>
+  connectOrCreate?: Prisma.BuildingFileCreateOrConnectWithoutMaintenanceLogsInput
+  upsert?: Prisma.BuildingFileUpsertWithoutMaintenanceLogsInput
+  disconnect?: Prisma.BuildingFileWhereInput | boolean
+  delete?: Prisma.BuildingFileWhereInput | boolean
+  connect?: Prisma.BuildingFileWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.BuildingFileUpdateToOneWithWhereWithoutMaintenanceLogsInput, Prisma.BuildingFileUpdateWithoutMaintenanceLogsInput>, Prisma.BuildingFileUncheckedUpdateWithoutMaintenanceLogsInput>
+}
+
 export type BuildingFileCreateNestedOneWithoutExpenseLinksInput = {
   create?: Prisma.XOR<Prisma.BuildingFileCreateWithoutExpenseLinksInput, Prisma.BuildingFileUncheckedCreateWithoutExpenseLinksInput>
   connectOrCreate?: Prisma.BuildingFileCreateOrConnectWithoutExpenseLinksInput
@@ -580,6 +603,7 @@ export type BuildingFileCreateWithoutBuildingInput = {
   createdAt?: Date | string
   expenseLinks?: Prisma.BuildingExpenseCreateNestedManyWithoutReceiptFileInput
   paymentLinks?: Prisma.BuildingExpenseCreateNestedManyWithoutPaymentFileInput
+  maintenanceLogs?: Prisma.MaintenanceLogCreateNestedManyWithoutDocumentFileInput
 }
 
 export type BuildingFileUncheckedCreateWithoutBuildingInput = {
@@ -594,6 +618,7 @@ export type BuildingFileUncheckedCreateWithoutBuildingInput = {
   createdAt?: Date | string
   expenseLinks?: Prisma.BuildingExpenseUncheckedCreateNestedManyWithoutReceiptFileInput
   paymentLinks?: Prisma.BuildingExpenseUncheckedCreateNestedManyWithoutPaymentFileInput
+  maintenanceLogs?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutDocumentFileInput
 }
 
 export type BuildingFileCreateOrConnectWithoutBuildingInput = {
@@ -638,6 +663,82 @@ export type BuildingFileScalarWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"BuildingFile"> | Date | string
 }
 
+export type BuildingFileCreateWithoutMaintenanceLogsInput = {
+  id?: string
+  category?: $Enums.BuildingFileCategory
+  name: string
+  cdnPath: string
+  url: string
+  mimeType?: string | null
+  sizeBytes?: number | null
+  uploadedById?: string | null
+  createdAt?: Date | string
+  building: Prisma.BuildingCreateNestedOneWithoutFilesInput
+  expenseLinks?: Prisma.BuildingExpenseCreateNestedManyWithoutReceiptFileInput
+  paymentLinks?: Prisma.BuildingExpenseCreateNestedManyWithoutPaymentFileInput
+}
+
+export type BuildingFileUncheckedCreateWithoutMaintenanceLogsInput = {
+  id?: string
+  buildingId: string
+  category?: $Enums.BuildingFileCategory
+  name: string
+  cdnPath: string
+  url: string
+  mimeType?: string | null
+  sizeBytes?: number | null
+  uploadedById?: string | null
+  createdAt?: Date | string
+  expenseLinks?: Prisma.BuildingExpenseUncheckedCreateNestedManyWithoutReceiptFileInput
+  paymentLinks?: Prisma.BuildingExpenseUncheckedCreateNestedManyWithoutPaymentFileInput
+}
+
+export type BuildingFileCreateOrConnectWithoutMaintenanceLogsInput = {
+  where: Prisma.BuildingFileWhereUniqueInput
+  create: Prisma.XOR<Prisma.BuildingFileCreateWithoutMaintenanceLogsInput, Prisma.BuildingFileUncheckedCreateWithoutMaintenanceLogsInput>
+}
+
+export type BuildingFileUpsertWithoutMaintenanceLogsInput = {
+  update: Prisma.XOR<Prisma.BuildingFileUpdateWithoutMaintenanceLogsInput, Prisma.BuildingFileUncheckedUpdateWithoutMaintenanceLogsInput>
+  create: Prisma.XOR<Prisma.BuildingFileCreateWithoutMaintenanceLogsInput, Prisma.BuildingFileUncheckedCreateWithoutMaintenanceLogsInput>
+  where?: Prisma.BuildingFileWhereInput
+}
+
+export type BuildingFileUpdateToOneWithWhereWithoutMaintenanceLogsInput = {
+  where?: Prisma.BuildingFileWhereInput
+  data: Prisma.XOR<Prisma.BuildingFileUpdateWithoutMaintenanceLogsInput, Prisma.BuildingFileUncheckedUpdateWithoutMaintenanceLogsInput>
+}
+
+export type BuildingFileUpdateWithoutMaintenanceLogsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  category?: Prisma.EnumBuildingFileCategoryFieldUpdateOperationsInput | $Enums.BuildingFileCategory
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  cdnPath?: Prisma.StringFieldUpdateOperationsInput | string
+  url?: Prisma.StringFieldUpdateOperationsInput | string
+  mimeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sizeBytes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  uploadedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  building?: Prisma.BuildingUpdateOneRequiredWithoutFilesNestedInput
+  expenseLinks?: Prisma.BuildingExpenseUpdateManyWithoutReceiptFileNestedInput
+  paymentLinks?: Prisma.BuildingExpenseUpdateManyWithoutPaymentFileNestedInput
+}
+
+export type BuildingFileUncheckedUpdateWithoutMaintenanceLogsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  buildingId?: Prisma.StringFieldUpdateOperationsInput | string
+  category?: Prisma.EnumBuildingFileCategoryFieldUpdateOperationsInput | $Enums.BuildingFileCategory
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  cdnPath?: Prisma.StringFieldUpdateOperationsInput | string
+  url?: Prisma.StringFieldUpdateOperationsInput | string
+  mimeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sizeBytes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  uploadedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  expenseLinks?: Prisma.BuildingExpenseUncheckedUpdateManyWithoutReceiptFileNestedInput
+  paymentLinks?: Prisma.BuildingExpenseUncheckedUpdateManyWithoutPaymentFileNestedInput
+}
+
 export type BuildingFileCreateWithoutExpenseLinksInput = {
   id?: string
   category?: $Enums.BuildingFileCategory
@@ -650,6 +751,7 @@ export type BuildingFileCreateWithoutExpenseLinksInput = {
   createdAt?: Date | string
   building: Prisma.BuildingCreateNestedOneWithoutFilesInput
   paymentLinks?: Prisma.BuildingExpenseCreateNestedManyWithoutPaymentFileInput
+  maintenanceLogs?: Prisma.MaintenanceLogCreateNestedManyWithoutDocumentFileInput
 }
 
 export type BuildingFileUncheckedCreateWithoutExpenseLinksInput = {
@@ -664,6 +766,7 @@ export type BuildingFileUncheckedCreateWithoutExpenseLinksInput = {
   uploadedById?: string | null
   createdAt?: Date | string
   paymentLinks?: Prisma.BuildingExpenseUncheckedCreateNestedManyWithoutPaymentFileInput
+  maintenanceLogs?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutDocumentFileInput
 }
 
 export type BuildingFileCreateOrConnectWithoutExpenseLinksInput = {
@@ -683,6 +786,7 @@ export type BuildingFileCreateWithoutPaymentLinksInput = {
   createdAt?: Date | string
   building: Prisma.BuildingCreateNestedOneWithoutFilesInput
   expenseLinks?: Prisma.BuildingExpenseCreateNestedManyWithoutReceiptFileInput
+  maintenanceLogs?: Prisma.MaintenanceLogCreateNestedManyWithoutDocumentFileInput
 }
 
 export type BuildingFileUncheckedCreateWithoutPaymentLinksInput = {
@@ -697,6 +801,7 @@ export type BuildingFileUncheckedCreateWithoutPaymentLinksInput = {
   uploadedById?: string | null
   createdAt?: Date | string
   expenseLinks?: Prisma.BuildingExpenseUncheckedCreateNestedManyWithoutReceiptFileInput
+  maintenanceLogs?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutDocumentFileInput
 }
 
 export type BuildingFileCreateOrConnectWithoutPaymentLinksInput = {
@@ -727,6 +832,7 @@ export type BuildingFileUpdateWithoutExpenseLinksInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   building?: Prisma.BuildingUpdateOneRequiredWithoutFilesNestedInput
   paymentLinks?: Prisma.BuildingExpenseUpdateManyWithoutPaymentFileNestedInput
+  maintenanceLogs?: Prisma.MaintenanceLogUpdateManyWithoutDocumentFileNestedInput
 }
 
 export type BuildingFileUncheckedUpdateWithoutExpenseLinksInput = {
@@ -741,6 +847,7 @@ export type BuildingFileUncheckedUpdateWithoutExpenseLinksInput = {
   uploadedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   paymentLinks?: Prisma.BuildingExpenseUncheckedUpdateManyWithoutPaymentFileNestedInput
+  maintenanceLogs?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutDocumentFileNestedInput
 }
 
 export type BuildingFileUpsertWithoutPaymentLinksInput = {
@@ -766,6 +873,7 @@ export type BuildingFileUpdateWithoutPaymentLinksInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   building?: Prisma.BuildingUpdateOneRequiredWithoutFilesNestedInput
   expenseLinks?: Prisma.BuildingExpenseUpdateManyWithoutReceiptFileNestedInput
+  maintenanceLogs?: Prisma.MaintenanceLogUpdateManyWithoutDocumentFileNestedInput
 }
 
 export type BuildingFileUncheckedUpdateWithoutPaymentLinksInput = {
@@ -780,6 +888,7 @@ export type BuildingFileUncheckedUpdateWithoutPaymentLinksInput = {
   uploadedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expenseLinks?: Prisma.BuildingExpenseUncheckedUpdateManyWithoutReceiptFileNestedInput
+  maintenanceLogs?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutDocumentFileNestedInput
 }
 
 export type BuildingFileCreateManyBuildingInput = {
@@ -806,6 +915,7 @@ export type BuildingFileUpdateWithoutBuildingInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expenseLinks?: Prisma.BuildingExpenseUpdateManyWithoutReceiptFileNestedInput
   paymentLinks?: Prisma.BuildingExpenseUpdateManyWithoutPaymentFileNestedInput
+  maintenanceLogs?: Prisma.MaintenanceLogUpdateManyWithoutDocumentFileNestedInput
 }
 
 export type BuildingFileUncheckedUpdateWithoutBuildingInput = {
@@ -820,6 +930,7 @@ export type BuildingFileUncheckedUpdateWithoutBuildingInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expenseLinks?: Prisma.BuildingExpenseUncheckedUpdateManyWithoutReceiptFileNestedInput
   paymentLinks?: Prisma.BuildingExpenseUncheckedUpdateManyWithoutPaymentFileNestedInput
+  maintenanceLogs?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutDocumentFileNestedInput
 }
 
 export type BuildingFileUncheckedUpdateManyWithoutBuildingInput = {
@@ -842,11 +953,13 @@ export type BuildingFileUncheckedUpdateManyWithoutBuildingInput = {
 export type BuildingFileCountOutputType = {
   expenseLinks: number
   paymentLinks: number
+  maintenanceLogs: number
 }
 
 export type BuildingFileCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   expenseLinks?: boolean | BuildingFileCountOutputTypeCountExpenseLinksArgs
   paymentLinks?: boolean | BuildingFileCountOutputTypeCountPaymentLinksArgs
+  maintenanceLogs?: boolean | BuildingFileCountOutputTypeCountMaintenanceLogsArgs
 }
 
 /**
@@ -873,6 +986,13 @@ export type BuildingFileCountOutputTypeCountPaymentLinksArgs<ExtArgs extends run
   where?: Prisma.BuildingExpenseWhereInput
 }
 
+/**
+ * BuildingFileCountOutputType without action
+ */
+export type BuildingFileCountOutputTypeCountMaintenanceLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.MaintenanceLogWhereInput
+}
+
 
 export type BuildingFileSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -888,6 +1008,7 @@ export type BuildingFileSelect<ExtArgs extends runtime.Types.Extensions.Internal
   building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
   expenseLinks?: boolean | Prisma.BuildingFile$expenseLinksArgs<ExtArgs>
   paymentLinks?: boolean | Prisma.BuildingFile$paymentLinksArgs<ExtArgs>
+  maintenanceLogs?: boolean | Prisma.BuildingFile$maintenanceLogsArgs<ExtArgs>
   _count?: boolean | Prisma.BuildingFileCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["buildingFile"]>
 
@@ -937,6 +1058,7 @@ export type BuildingFileInclude<ExtArgs extends runtime.Types.Extensions.Interna
   building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
   expenseLinks?: boolean | Prisma.BuildingFile$expenseLinksArgs<ExtArgs>
   paymentLinks?: boolean | Prisma.BuildingFile$paymentLinksArgs<ExtArgs>
+  maintenanceLogs?: boolean | Prisma.BuildingFile$maintenanceLogsArgs<ExtArgs>
   _count?: boolean | Prisma.BuildingFileCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type BuildingFileIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -952,6 +1074,7 @@ export type $BuildingFilePayload<ExtArgs extends runtime.Types.Extensions.Intern
     building: Prisma.$BuildingPayload<ExtArgs>
     expenseLinks: Prisma.$BuildingExpensePayload<ExtArgs>[]
     paymentLinks: Prisma.$BuildingExpensePayload<ExtArgs>[]
+    maintenanceLogs: Prisma.$MaintenanceLogPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1361,6 +1484,7 @@ export interface Prisma__BuildingFileClient<T, Null = never, ExtArgs extends run
   building<T extends Prisma.BuildingDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.BuildingDefaultArgs<ExtArgs>>): Prisma.Prisma__BuildingClient<runtime.Types.Result.GetResult<Prisma.$BuildingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   expenseLinks<T extends Prisma.BuildingFile$expenseLinksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.BuildingFile$expenseLinksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BuildingExpensePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   paymentLinks<T extends Prisma.BuildingFile$paymentLinksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.BuildingFile$paymentLinksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BuildingExpensePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  maintenanceLogs<T extends Prisma.BuildingFile$maintenanceLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.BuildingFile$maintenanceLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MaintenanceLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1846,6 +1970,30 @@ export type BuildingFile$paymentLinksArgs<ExtArgs extends runtime.Types.Extensio
   take?: number
   skip?: number
   distinct?: Prisma.BuildingExpenseScalarFieldEnum | Prisma.BuildingExpenseScalarFieldEnum[]
+}
+
+/**
+ * BuildingFile.maintenanceLogs
+ */
+export type BuildingFile$maintenanceLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the MaintenanceLog
+   */
+  select?: Prisma.MaintenanceLogSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the MaintenanceLog
+   */
+  omit?: Prisma.MaintenanceLogOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MaintenanceLogInclude<ExtArgs> | null
+  where?: Prisma.MaintenanceLogWhereInput
+  orderBy?: Prisma.MaintenanceLogOrderByWithRelationInput | Prisma.MaintenanceLogOrderByWithRelationInput[]
+  cursor?: Prisma.MaintenanceLogWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.MaintenanceLogScalarFieldEnum | Prisma.MaintenanceLogScalarFieldEnum[]
 }
 
 /**

@@ -7,7 +7,7 @@ import {
   RiDashboardLine, RiHome4Line, RiGroupLine, RiUserStarLine, RiFolderLine,
   RiCalendarTodoLine, RiContactsBook3Line, RiSettings3Line, RiWallet3Line,
   RiBankCardLine, RiToolsLine, RiMegaphoneLine, RiScales3Line, RiMoneyEuroCircleLine,
-  RiPieChartLine, RiSpeedUpLine,
+  RiPieChartLine, RiSpeedUpLine, RiAlarmWarningLine,
 } from "react-icons/ri";
 import { CategorySplitSettings } from "@/components/buildings/CategorySplitSettings";
 import { FilesPanel, type FileRow } from "./FilesPanel";
@@ -28,6 +28,7 @@ import { ExclusionMatrix } from "./ExclusionMatrix";
 import { HeatingReadingsPanel } from "./HeatingReadingsPanel";
 import { type HeatingReadingDTO } from "@/app/actions/heating-readings";
 import { MeterReadingsPanel, type MeterReadingDTO } from "./MeterReadingsPanel";
+import { MaintenanceTab, type MaintenanceHistoryRow } from "./MaintenanceTab";
 import { AuditDrawer } from "./AuditDrawer";
 import type { AuditTab } from "@/lib/buildings/audit";
 
@@ -50,7 +51,7 @@ type OverviewData = {
 
 type TabKey =
   | "overview" | "units" | "people" | "managers" | "files" | "calendar"
-  | "contacts" | "infra" | "expenses" | "readings" | "splitsettings" | "millesimes" | "koino" | "pay" | "maint" | "ann" | "assemblies";
+  | "contacts" | "infra" | "expenses" | "readings" | "splitsettings" | "millesimes" | "koino" | "pay" | "maint" | "maintenance" | "ann" | "assemblies";
 
 const TABS: { key: TabKey; label: string; icon: React.ElementType; badge?: (k: Kpis) => number | undefined }[] = [
   { key: "overview", label: "Επισκόπηση", icon: RiDashboardLine },
@@ -67,12 +68,13 @@ const TABS: { key: TabKey; label: string; icon: React.ElementType; badge?: (k: K
   { key: "millesimes", label: "Χιλιοστά & Κατανομή", icon: RiScales3Line },
   { key: "koino", label: "Κοινόχρηστα", icon: RiWallet3Line },
   { key: "pay", label: "Πληρωμές", icon: RiBankCardLine },
-  { key: "maint", label: "Συντήρηση", icon: RiToolsLine },
+  { key: "maint", label: "Αιτήματα βλαβών", icon: RiAlarmWarningLine },
+  { key: "maintenance", label: "Συντηρήσεις", icon: RiToolsLine, badge: (k) => k.recurringTasks || undefined },
   { key: "ann", label: "Ανακοινώσεις", icon: RiMegaphoneLine },
   { key: "assemblies", label: "Συνελεύσεις", icon: RiGroupLine },
 ];
 
-export function BuildingDashboard({ building, kpis, units, files, people, contacts, infraPoints, floorOptions, tasks, expenses, categorySplits, today, millesimeUnits, exclusionUnits, expenseCategories, categoryOverrides, unitExclusions, usesMeteredHeating, heatingPeriod, heatingReadingRows, meterReadingRows, overview }: { building: Building; kpis: Kpis; units: Unit[]; files: FileRow[]; people: Person[]; contacts: ContactRow[]; infraPoints: InfraRow[]; floorOptions: string[]; tasks: TaskRow[]; expenses: ExpenseRow[]; categorySplits: CategorySplit[]; today: string; millesimeUnits: MillesimeUnit[]; exclusionUnits: Array<{ id: string; unitNumber: string; unitType: string }>; expenseCategories: Array<{ id: string; name: string; defaultBasis: string }>; categoryOverrides: Array<{ categoryId: string; distributionBasis: string | null }>; unitExclusions: Array<{ unitId: string; categoryId: string }>; usesMeteredHeating: boolean; heatingPeriod: string; heatingReadingRows: HeatingReadingDTO[]; meterReadingRows: MeterReadingDTO[]; overview: OverviewData }) {
+export function BuildingDashboard({ building, kpis, units, files, people, contacts, infraPoints, floorOptions, tasks, expenses, categorySplits, today, millesimeUnits, exclusionUnits, expenseCategories, categoryOverrides, unitExclusions, usesMeteredHeating, heatingPeriod, heatingReadingRows, meterReadingRows, overview, maintenanceHistory }: { building: Building; kpis: Kpis; units: Unit[]; files: FileRow[]; people: Person[]; contacts: ContactRow[]; infraPoints: InfraRow[]; floorOptions: string[]; tasks: TaskRow[]; expenses: ExpenseRow[]; categorySplits: CategorySplit[]; today: string; millesimeUnits: MillesimeUnit[]; exclusionUnits: Array<{ id: string; unitNumber: string; unitType: string }>; expenseCategories: Array<{ id: string; name: string; defaultBasis: string }>; categoryOverrides: Array<{ categoryId: string; distributionBasis: string | null }>; unitExclusions: Array<{ unitId: string; categoryId: string }>; usesMeteredHeating: boolean; heatingPeriod: string; heatingReadingRows: HeatingReadingDTO[]; meterReadingRows: MeterReadingDTO[]; overview: OverviewData; maintenanceHistory: MaintenanceHistoryRow[] }) {
   const [tab, setTab] = useState<TabKey>("overview");
 
   const subParts = [
@@ -198,6 +200,8 @@ export function BuildingDashboard({ building, kpis, units, files, people, contac
               />
             )}
           </div>
+        ) : tab === "maintenance" ? (
+          <MaintenanceTab rows={maintenanceHistory} />
         ) : tab === "koino" ? (
           <KoinochristaPanel buildingId={building.id} />
         ) : tab === "ann" ? (

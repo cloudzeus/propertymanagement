@@ -360,6 +360,7 @@ export type UserWhereInput = {
   employeeLinks?: Prisma.EmployeeListRelationFilter
   reportedMaintenance?: Prisma.MaintenanceRequestListRelationFilter
   assignedMaintenance?: Prisma.MaintenanceRequestListRelationFilter
+  performedMaintenance?: Prisma.MaintenanceLogListRelationFilter
   apiUsageLogs?: Prisma.APIUsageLogListRelationFilter
   managementAssignments?: Prisma.ManagementAssignmentListRelationFilter
   accounts?: Prisma.AccountListRelationFilter
@@ -404,6 +405,7 @@ export type UserOrderByWithRelationInput = {
   employeeLinks?: Prisma.EmployeeOrderByRelationAggregateInput
   reportedMaintenance?: Prisma.MaintenanceRequestOrderByRelationAggregateInput
   assignedMaintenance?: Prisma.MaintenanceRequestOrderByRelationAggregateInput
+  performedMaintenance?: Prisma.MaintenanceLogOrderByRelationAggregateInput
   apiUsageLogs?: Prisma.APIUsageLogOrderByRelationAggregateInput
   managementAssignments?: Prisma.ManagementAssignmentOrderByRelationAggregateInput
   accounts?: Prisma.AccountOrderByRelationAggregateInput
@@ -451,6 +453,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   employeeLinks?: Prisma.EmployeeListRelationFilter
   reportedMaintenance?: Prisma.MaintenanceRequestListRelationFilter
   assignedMaintenance?: Prisma.MaintenanceRequestListRelationFilter
+  performedMaintenance?: Prisma.MaintenanceLogListRelationFilter
   apiUsageLogs?: Prisma.APIUsageLogListRelationFilter
   managementAssignments?: Prisma.ManagementAssignmentListRelationFilter
   accounts?: Prisma.AccountListRelationFilter
@@ -548,6 +551,7 @@ export type UserCreateInput = {
   employeeLinks?: Prisma.EmployeeCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutAssignedToInput
+  performedMaintenance?: Prisma.MaintenanceLogCreateNestedManyWithoutPerformedByInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -589,6 +593,7 @@ export type UserUncheckedCreateInput = {
   employeeLinks?: Prisma.EmployeeUncheckedCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutAssignedToInput
+  performedMaintenance?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutPerformedByInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -630,6 +635,7 @@ export type UserUpdateInput = {
   employeeLinks?: Prisma.EmployeeUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutAssignedToNestedInput
+  performedMaintenance?: Prisma.MaintenanceLogUpdateManyWithoutPerformedByNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -671,6 +677,7 @@ export type UserUncheckedUpdateInput = {
   employeeLinks?: Prisma.EmployeeUncheckedUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutAssignedToNestedInput
+  performedMaintenance?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutPerformedByNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -1112,6 +1119,22 @@ export type UserUpdateOneRequiredWithoutInfraAccessNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutInfraAccessInput, Prisma.UserUpdateWithoutInfraAccessInput>, Prisma.UserUncheckedUpdateWithoutInfraAccessInput>
 }
 
+export type UserCreateNestedOneWithoutPerformedMaintenanceInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutPerformedMaintenanceInput, Prisma.UserUncheckedCreateWithoutPerformedMaintenanceInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPerformedMaintenanceInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneWithoutPerformedMaintenanceNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutPerformedMaintenanceInput, Prisma.UserUncheckedCreateWithoutPerformedMaintenanceInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutPerformedMaintenanceInput
+  upsert?: Prisma.UserUpsertWithoutPerformedMaintenanceInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutPerformedMaintenanceInput, Prisma.UserUpdateWithoutPerformedMaintenanceInput>, Prisma.UserUncheckedUpdateWithoutPerformedMaintenanceInput>
+}
+
 export type UserCreateNestedOneWithoutManagementAssignmentsInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutManagementAssignmentsInput, Prisma.UserUncheckedCreateWithoutManagementAssignmentsInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutManagementAssignmentsInput
@@ -1301,6 +1324,7 @@ export type UserCreateWithoutAccountsInput = {
   employeeLinks?: Prisma.EmployeeCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutAssignedToInput
+  performedMaintenance?: Prisma.MaintenanceLogCreateNestedManyWithoutPerformedByInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
@@ -1341,6 +1365,7 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   employeeLinks?: Prisma.EmployeeUncheckedCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutAssignedToInput
+  performedMaintenance?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutPerformedByInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
@@ -1397,6 +1422,7 @@ export type UserUpdateWithoutAccountsInput = {
   employeeLinks?: Prisma.EmployeeUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutAssignedToNestedInput
+  performedMaintenance?: Prisma.MaintenanceLogUpdateManyWithoutPerformedByNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
@@ -1437,6 +1463,7 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   employeeLinks?: Prisma.EmployeeUncheckedUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutAssignedToNestedInput
+  performedMaintenance?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutPerformedByNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
@@ -1477,6 +1504,7 @@ export type UserCreateWithoutSessionsInput = {
   employeeLinks?: Prisma.EmployeeCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutAssignedToInput
+  performedMaintenance?: Prisma.MaintenanceLogCreateNestedManyWithoutPerformedByInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -1517,6 +1545,7 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   employeeLinks?: Prisma.EmployeeUncheckedCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutAssignedToInput
+  performedMaintenance?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutPerformedByInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -1573,6 +1602,7 @@ export type UserUpdateWithoutSessionsInput = {
   employeeLinks?: Prisma.EmployeeUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutAssignedToNestedInput
+  performedMaintenance?: Prisma.MaintenanceLogUpdateManyWithoutPerformedByNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -1613,6 +1643,7 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   employeeLinks?: Prisma.EmployeeUncheckedUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutAssignedToNestedInput
+  performedMaintenance?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutPerformedByNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -1652,6 +1683,7 @@ export type UserCreateWithoutCreatedCompaniesInput = {
   employeeLinks?: Prisma.EmployeeCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutAssignedToInput
+  performedMaintenance?: Prisma.MaintenanceLogCreateNestedManyWithoutPerformedByInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -1692,6 +1724,7 @@ export type UserUncheckedCreateWithoutCreatedCompaniesInput = {
   employeeLinks?: Prisma.EmployeeUncheckedCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutAssignedToInput
+  performedMaintenance?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutPerformedByInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -1737,6 +1770,7 @@ export type UserCreateWithoutCompanyInput = {
   employeeLinks?: Prisma.EmployeeCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutAssignedToInput
+  performedMaintenance?: Prisma.MaintenanceLogCreateNestedManyWithoutPerformedByInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -1777,6 +1811,7 @@ export type UserUncheckedCreateWithoutCompanyInput = {
   employeeLinks?: Prisma.EmployeeUncheckedCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutAssignedToInput
+  performedMaintenance?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutPerformedByInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -1838,6 +1873,7 @@ export type UserUpdateWithoutCreatedCompaniesInput = {
   employeeLinks?: Prisma.EmployeeUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutAssignedToNestedInput
+  performedMaintenance?: Prisma.MaintenanceLogUpdateManyWithoutPerformedByNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -1878,6 +1914,7 @@ export type UserUncheckedUpdateWithoutCreatedCompaniesInput = {
   employeeLinks?: Prisma.EmployeeUncheckedUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutAssignedToNestedInput
+  performedMaintenance?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutPerformedByNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -1961,6 +1998,7 @@ export type UserCreateWithoutEmployeeLinksInput = {
   announcementAcks?: Prisma.Announcement_UserCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutAssignedToInput
+  performedMaintenance?: Prisma.MaintenanceLogCreateNestedManyWithoutPerformedByInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -2001,6 +2039,7 @@ export type UserUncheckedCreateWithoutEmployeeLinksInput = {
   announcementAcks?: Prisma.Announcement_UserUncheckedCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutAssignedToInput
+  performedMaintenance?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutPerformedByInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -2057,6 +2096,7 @@ export type UserUpdateWithoutEmployeeLinksInput = {
   announcementAcks?: Prisma.Announcement_UserUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutAssignedToNestedInput
+  performedMaintenance?: Prisma.MaintenanceLogUpdateManyWithoutPerformedByNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -2097,6 +2137,7 @@ export type UserUncheckedUpdateWithoutEmployeeLinksInput = {
   announcementAcks?: Prisma.Announcement_UserUncheckedUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutAssignedToNestedInput
+  performedMaintenance?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutPerformedByNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -2137,6 +2178,7 @@ export type UserCreateWithoutCustomerInput = {
   employeeLinks?: Prisma.EmployeeCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutAssignedToInput
+  performedMaintenance?: Prisma.MaintenanceLogCreateNestedManyWithoutPerformedByInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -2177,6 +2219,7 @@ export type UserUncheckedCreateWithoutCustomerInput = {
   employeeLinks?: Prisma.EmployeeUncheckedCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutAssignedToInput
+  performedMaintenance?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutPerformedByInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -2243,6 +2286,7 @@ export type UserCreateWithoutBuildingInput = {
   employeeLinks?: Prisma.EmployeeCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutAssignedToInput
+  performedMaintenance?: Prisma.MaintenanceLogCreateNestedManyWithoutPerformedByInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -2283,6 +2327,7 @@ export type UserUncheckedCreateWithoutBuildingInput = {
   employeeLinks?: Prisma.EmployeeUncheckedCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutAssignedToInput
+  performedMaintenance?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutPerformedByInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -2349,6 +2394,7 @@ export type UserCreateWithoutOccupanciesInput = {
   employeeLinks?: Prisma.EmployeeCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutAssignedToInput
+  performedMaintenance?: Prisma.MaintenanceLogCreateNestedManyWithoutPerformedByInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -2389,6 +2435,7 @@ export type UserUncheckedCreateWithoutOccupanciesInput = {
   employeeLinks?: Prisma.EmployeeUncheckedCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutAssignedToInput
+  performedMaintenance?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutPerformedByInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -2445,6 +2492,7 @@ export type UserUpdateWithoutOccupanciesInput = {
   employeeLinks?: Prisma.EmployeeUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutAssignedToNestedInput
+  performedMaintenance?: Prisma.MaintenanceLogUpdateManyWithoutPerformedByNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -2485,6 +2533,7 @@ export type UserUncheckedUpdateWithoutOccupanciesInput = {
   employeeLinks?: Prisma.EmployeeUncheckedUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutAssignedToNestedInput
+  performedMaintenance?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutPerformedByNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -2525,6 +2574,7 @@ export type UserCreateWithoutInfraKeyOfInput = {
   employeeLinks?: Prisma.EmployeeCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutAssignedToInput
+  performedMaintenance?: Prisma.MaintenanceLogCreateNestedManyWithoutPerformedByInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -2565,6 +2615,7 @@ export type UserUncheckedCreateWithoutInfraKeyOfInput = {
   employeeLinks?: Prisma.EmployeeUncheckedCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutAssignedToInput
+  performedMaintenance?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutPerformedByInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -2621,6 +2672,7 @@ export type UserUpdateWithoutInfraKeyOfInput = {
   employeeLinks?: Prisma.EmployeeUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutAssignedToNestedInput
+  performedMaintenance?: Prisma.MaintenanceLogUpdateManyWithoutPerformedByNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -2661,6 +2713,7 @@ export type UserUncheckedUpdateWithoutInfraKeyOfInput = {
   employeeLinks?: Prisma.EmployeeUncheckedUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutAssignedToNestedInput
+  performedMaintenance?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutPerformedByNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -2701,6 +2754,7 @@ export type UserCreateWithoutInfraAccessInput = {
   employeeLinks?: Prisma.EmployeeCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutAssignedToInput
+  performedMaintenance?: Prisma.MaintenanceLogCreateNestedManyWithoutPerformedByInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -2741,6 +2795,7 @@ export type UserUncheckedCreateWithoutInfraAccessInput = {
   employeeLinks?: Prisma.EmployeeUncheckedCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutAssignedToInput
+  performedMaintenance?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutPerformedByInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -2797,6 +2852,7 @@ export type UserUpdateWithoutInfraAccessInput = {
   employeeLinks?: Prisma.EmployeeUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutAssignedToNestedInput
+  performedMaintenance?: Prisma.MaintenanceLogUpdateManyWithoutPerformedByNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -2829,6 +2885,187 @@ export type UserUncheckedUpdateWithoutInfraAccessInput = {
   residentUnits?: Prisma.UnitUncheckedUpdateManyWithoutResidentNestedInput
   occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
   infraKeyOf?: Prisma.InfraPointUncheckedUpdateManyWithoutKeyHolderUserNestedInput
+  companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
+  createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
+  createdMenuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCreatedByNestedInput
+  createdAnnouncements?: Prisma.AnnouncementUncheckedUpdateManyWithoutCreatedByNestedInput
+  announcementAcks?: Prisma.Announcement_UserUncheckedUpdateManyWithoutUserNestedInput
+  employeeLinks?: Prisma.EmployeeUncheckedUpdateManyWithoutUserNestedInput
+  reportedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutReportedByNestedInput
+  assignedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutAssignedToNestedInput
+  performedMaintenance?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutPerformedByNestedInput
+  apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutUserNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutPerformedMaintenanceInput = {
+  id?: string
+  email: string
+  name?: string | null
+  phone?: string | null
+  mobile?: string | null
+  passwordHash?: string | null
+  role: $Enums.UserRole
+  status?: $Enums.UserStatus
+  isCompany?: boolean
+  afm?: string | null
+  doy?: string | null
+  contactName?: string | null
+  contactEmail?: string | null
+  contactPhone?: string | null
+  softoneTrdr?: number | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lastLoginAt?: Date | string | null
+  company?: Prisma.CompanyCreateNestedOneWithoutUsersInput
+  customer?: Prisma.CustomerCreateNestedOneWithoutUsersInput
+  building?: Prisma.BuildingCreateNestedOneWithoutUsersInput
+  ownedUnits?: Prisma.UnitCreateNestedManyWithoutOwnerInput
+  residentUnits?: Prisma.UnitCreateNestedManyWithoutResidentInput
+  occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
+  infraKeyOf?: Prisma.InfraPointCreateNestedManyWithoutKeyHolderUserInput
+  infraAccess?: Prisma.InfraAccessCreateNestedManyWithoutUserInput
+  companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
+  createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
+  createdMenuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCreatedByInput
+  createdAnnouncements?: Prisma.AnnouncementCreateNestedManyWithoutCreatedByInput
+  announcementAcks?: Prisma.Announcement_UserCreateNestedManyWithoutUserInput
+  employeeLinks?: Prisma.EmployeeCreateNestedManyWithoutUserInput
+  reportedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutReportedByInput
+  assignedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutAssignedToInput
+  apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
+  managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutPerformedMaintenanceInput = {
+  id?: string
+  email: string
+  name?: string | null
+  phone?: string | null
+  mobile?: string | null
+  passwordHash?: string | null
+  role: $Enums.UserRole
+  status?: $Enums.UserStatus
+  isCompany?: boolean
+  afm?: string | null
+  doy?: string | null
+  contactName?: string | null
+  contactEmail?: string | null
+  contactPhone?: string | null
+  softoneTrdr?: number | null
+  companyId?: string | null
+  customerId?: string | null
+  buildingId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lastLoginAt?: Date | string | null
+  ownedUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutOwnerInput
+  residentUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutResidentInput
+  occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
+  infraKeyOf?: Prisma.InfraPointUncheckedCreateNestedManyWithoutKeyHolderUserInput
+  infraAccess?: Prisma.InfraAccessUncheckedCreateNestedManyWithoutUserInput
+  companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
+  createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
+  createdMenuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCreatedByInput
+  createdAnnouncements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutCreatedByInput
+  announcementAcks?: Prisma.Announcement_UserUncheckedCreateNestedManyWithoutUserInput
+  employeeLinks?: Prisma.EmployeeUncheckedCreateNestedManyWithoutUserInput
+  reportedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutReportedByInput
+  assignedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutAssignedToInput
+  apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutUserInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutPerformedMaintenanceInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutPerformedMaintenanceInput, Prisma.UserUncheckedCreateWithoutPerformedMaintenanceInput>
+}
+
+export type UserUpsertWithoutPerformedMaintenanceInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutPerformedMaintenanceInput, Prisma.UserUncheckedUpdateWithoutPerformedMaintenanceInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutPerformedMaintenanceInput, Prisma.UserUncheckedCreateWithoutPerformedMaintenanceInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutPerformedMaintenanceInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutPerformedMaintenanceInput, Prisma.UserUncheckedUpdateWithoutPerformedMaintenanceInput>
+}
+
+export type UserUpdateWithoutPerformedMaintenanceInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isCompany?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  doy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  company?: Prisma.CompanyUpdateOneWithoutUsersNestedInput
+  customer?: Prisma.CustomerUpdateOneWithoutUsersNestedInput
+  building?: Prisma.BuildingUpdateOneWithoutUsersNestedInput
+  ownedUnits?: Prisma.UnitUpdateManyWithoutOwnerNestedInput
+  residentUnits?: Prisma.UnitUpdateManyWithoutResidentNestedInput
+  occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
+  infraKeyOf?: Prisma.InfraPointUpdateManyWithoutKeyHolderUserNestedInput
+  infraAccess?: Prisma.InfraAccessUpdateManyWithoutUserNestedInput
+  companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
+  createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
+  createdMenuConfigs?: Prisma.MenuConfigUpdateManyWithoutCreatedByNestedInput
+  createdAnnouncements?: Prisma.AnnouncementUpdateManyWithoutCreatedByNestedInput
+  announcementAcks?: Prisma.Announcement_UserUpdateManyWithoutUserNestedInput
+  employeeLinks?: Prisma.EmployeeUpdateManyWithoutUserNestedInput
+  reportedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutReportedByNestedInput
+  assignedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutAssignedToNestedInput
+  apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutPerformedMaintenanceInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isCompany?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  doy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  ownedUnits?: Prisma.UnitUncheckedUpdateManyWithoutOwnerNestedInput
+  residentUnits?: Prisma.UnitUncheckedUpdateManyWithoutResidentNestedInput
+  occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
+  infraKeyOf?: Prisma.InfraPointUncheckedUpdateManyWithoutKeyHolderUserNestedInput
+  infraAccess?: Prisma.InfraAccessUncheckedUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
   createdMenuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -2878,6 +3115,7 @@ export type UserCreateWithoutManagementAssignmentsInput = {
   employeeLinks?: Prisma.EmployeeCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutAssignedToInput
+  performedMaintenance?: Prisma.MaintenanceLogCreateNestedManyWithoutPerformedByInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
@@ -2918,6 +3156,7 @@ export type UserUncheckedCreateWithoutManagementAssignmentsInput = {
   employeeLinks?: Prisma.EmployeeUncheckedCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutAssignedToInput
+  performedMaintenance?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutPerformedByInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
@@ -2974,6 +3213,7 @@ export type UserUpdateWithoutManagementAssignmentsInput = {
   employeeLinks?: Prisma.EmployeeUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutAssignedToNestedInput
+  performedMaintenance?: Prisma.MaintenanceLogUpdateManyWithoutPerformedByNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
@@ -3014,6 +3254,7 @@ export type UserUncheckedUpdateWithoutManagementAssignmentsInput = {
   employeeLinks?: Prisma.EmployeeUncheckedUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutAssignedToNestedInput
+  performedMaintenance?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutPerformedByNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
@@ -3053,6 +3294,7 @@ export type UserCreateWithoutOwnedUnitsInput = {
   employeeLinks?: Prisma.EmployeeCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutAssignedToInput
+  performedMaintenance?: Prisma.MaintenanceLogCreateNestedManyWithoutPerformedByInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -3093,6 +3335,7 @@ export type UserUncheckedCreateWithoutOwnedUnitsInput = {
   employeeLinks?: Prisma.EmployeeUncheckedCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutAssignedToInput
+  performedMaintenance?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutPerformedByInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -3138,6 +3381,7 @@ export type UserCreateWithoutResidentUnitsInput = {
   employeeLinks?: Prisma.EmployeeCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutAssignedToInput
+  performedMaintenance?: Prisma.MaintenanceLogCreateNestedManyWithoutPerformedByInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -3178,6 +3422,7 @@ export type UserUncheckedCreateWithoutResidentUnitsInput = {
   employeeLinks?: Prisma.EmployeeUncheckedCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutAssignedToInput
+  performedMaintenance?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutPerformedByInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -3234,6 +3479,7 @@ export type UserUpdateWithoutOwnedUnitsInput = {
   employeeLinks?: Prisma.EmployeeUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutAssignedToNestedInput
+  performedMaintenance?: Prisma.MaintenanceLogUpdateManyWithoutPerformedByNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -3274,6 +3520,7 @@ export type UserUncheckedUpdateWithoutOwnedUnitsInput = {
   employeeLinks?: Prisma.EmployeeUncheckedUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutAssignedToNestedInput
+  performedMaintenance?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutPerformedByNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -3325,6 +3572,7 @@ export type UserUpdateWithoutResidentUnitsInput = {
   employeeLinks?: Prisma.EmployeeUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutAssignedToNestedInput
+  performedMaintenance?: Prisma.MaintenanceLogUpdateManyWithoutPerformedByNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -3365,6 +3613,7 @@ export type UserUncheckedUpdateWithoutResidentUnitsInput = {
   employeeLinks?: Prisma.EmployeeUncheckedUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutAssignedToNestedInput
+  performedMaintenance?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutPerformedByNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -3405,6 +3654,7 @@ export type UserCreateWithoutCompanyRolesInput = {
   employeeLinks?: Prisma.EmployeeCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutAssignedToInput
+  performedMaintenance?: Prisma.MaintenanceLogCreateNestedManyWithoutPerformedByInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -3445,6 +3695,7 @@ export type UserUncheckedCreateWithoutCompanyRolesInput = {
   employeeLinks?: Prisma.EmployeeUncheckedCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutAssignedToInput
+  performedMaintenance?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutPerformedByInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -3501,6 +3752,7 @@ export type UserUpdateWithoutCompanyRolesInput = {
   employeeLinks?: Prisma.EmployeeUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutAssignedToNestedInput
+  performedMaintenance?: Prisma.MaintenanceLogUpdateManyWithoutPerformedByNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -3541,6 +3793,7 @@ export type UserUncheckedUpdateWithoutCompanyRolesInput = {
   employeeLinks?: Prisma.EmployeeUncheckedUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutAssignedToNestedInput
+  performedMaintenance?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutPerformedByNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -3581,6 +3834,7 @@ export type UserCreateWithoutCreatedMenuConfigsInput = {
   employeeLinks?: Prisma.EmployeeCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutAssignedToInput
+  performedMaintenance?: Prisma.MaintenanceLogCreateNestedManyWithoutPerformedByInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -3621,6 +3875,7 @@ export type UserUncheckedCreateWithoutCreatedMenuConfigsInput = {
   employeeLinks?: Prisma.EmployeeUncheckedCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutAssignedToInput
+  performedMaintenance?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutPerformedByInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -3677,6 +3932,7 @@ export type UserUpdateWithoutCreatedMenuConfigsInput = {
   employeeLinks?: Prisma.EmployeeUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutAssignedToNestedInput
+  performedMaintenance?: Prisma.MaintenanceLogUpdateManyWithoutPerformedByNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -3717,6 +3973,7 @@ export type UserUncheckedUpdateWithoutCreatedMenuConfigsInput = {
   employeeLinks?: Prisma.EmployeeUncheckedUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutAssignedToNestedInput
+  performedMaintenance?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutPerformedByNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -3757,6 +4014,7 @@ export type UserCreateWithoutCreatedAnnouncementsInput = {
   employeeLinks?: Prisma.EmployeeCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutAssignedToInput
+  performedMaintenance?: Prisma.MaintenanceLogCreateNestedManyWithoutPerformedByInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -3797,6 +4055,7 @@ export type UserUncheckedCreateWithoutCreatedAnnouncementsInput = {
   employeeLinks?: Prisma.EmployeeUncheckedCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutAssignedToInput
+  performedMaintenance?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutPerformedByInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -3853,6 +4112,7 @@ export type UserUpdateWithoutCreatedAnnouncementsInput = {
   employeeLinks?: Prisma.EmployeeUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutAssignedToNestedInput
+  performedMaintenance?: Prisma.MaintenanceLogUpdateManyWithoutPerformedByNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -3893,6 +4153,7 @@ export type UserUncheckedUpdateWithoutCreatedAnnouncementsInput = {
   employeeLinks?: Prisma.EmployeeUncheckedUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutAssignedToNestedInput
+  performedMaintenance?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutPerformedByNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -3933,6 +4194,7 @@ export type UserCreateWithoutAnnouncementAcksInput = {
   employeeLinks?: Prisma.EmployeeCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutAssignedToInput
+  performedMaintenance?: Prisma.MaintenanceLogCreateNestedManyWithoutPerformedByInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -3973,6 +4235,7 @@ export type UserUncheckedCreateWithoutAnnouncementAcksInput = {
   employeeLinks?: Prisma.EmployeeUncheckedCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutAssignedToInput
+  performedMaintenance?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutPerformedByInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -4029,6 +4292,7 @@ export type UserUpdateWithoutAnnouncementAcksInput = {
   employeeLinks?: Prisma.EmployeeUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutAssignedToNestedInput
+  performedMaintenance?: Prisma.MaintenanceLogUpdateManyWithoutPerformedByNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -4069,6 +4333,7 @@ export type UserUncheckedUpdateWithoutAnnouncementAcksInput = {
   employeeLinks?: Prisma.EmployeeUncheckedUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutAssignedToNestedInput
+  performedMaintenance?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutPerformedByNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -4110,6 +4375,7 @@ export type UserCreateWithoutApiUsageLogsInput = {
   employeeLinks?: Prisma.EmployeeCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutAssignedToInput
+  performedMaintenance?: Prisma.MaintenanceLogCreateNestedManyWithoutPerformedByInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
@@ -4150,6 +4416,7 @@ export type UserUncheckedCreateWithoutApiUsageLogsInput = {
   employeeLinks?: Prisma.EmployeeUncheckedCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutReportedByInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutAssignedToInput
+  performedMaintenance?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutPerformedByInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
@@ -4206,6 +4473,7 @@ export type UserUpdateWithoutApiUsageLogsInput = {
   employeeLinks?: Prisma.EmployeeUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutAssignedToNestedInput
+  performedMaintenance?: Prisma.MaintenanceLogUpdateManyWithoutPerformedByNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
@@ -4246,6 +4514,7 @@ export type UserUncheckedUpdateWithoutApiUsageLogsInput = {
   employeeLinks?: Prisma.EmployeeUncheckedUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutAssignedToNestedInput
+  performedMaintenance?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutPerformedByNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
@@ -4285,6 +4554,7 @@ export type UserCreateWithoutReportedMaintenanceInput = {
   announcementAcks?: Prisma.Announcement_UserCreateNestedManyWithoutUserInput
   employeeLinks?: Prisma.EmployeeCreateNestedManyWithoutUserInput
   assignedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutAssignedToInput
+  performedMaintenance?: Prisma.MaintenanceLogCreateNestedManyWithoutPerformedByInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -4325,6 +4595,7 @@ export type UserUncheckedCreateWithoutReportedMaintenanceInput = {
   announcementAcks?: Prisma.Announcement_UserUncheckedCreateNestedManyWithoutUserInput
   employeeLinks?: Prisma.EmployeeUncheckedCreateNestedManyWithoutUserInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutAssignedToInput
+  performedMaintenance?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutPerformedByInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -4370,6 +4641,7 @@ export type UserCreateWithoutAssignedMaintenanceInput = {
   announcementAcks?: Prisma.Announcement_UserCreateNestedManyWithoutUserInput
   employeeLinks?: Prisma.EmployeeCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutReportedByInput
+  performedMaintenance?: Prisma.MaintenanceLogCreateNestedManyWithoutPerformedByInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -4410,6 +4682,7 @@ export type UserUncheckedCreateWithoutAssignedMaintenanceInput = {
   announcementAcks?: Prisma.Announcement_UserUncheckedCreateNestedManyWithoutUserInput
   employeeLinks?: Prisma.EmployeeUncheckedCreateNestedManyWithoutUserInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutReportedByInput
+  performedMaintenance?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutPerformedByInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -4466,6 +4739,7 @@ export type UserUpdateWithoutReportedMaintenanceInput = {
   announcementAcks?: Prisma.Announcement_UserUpdateManyWithoutUserNestedInput
   employeeLinks?: Prisma.EmployeeUpdateManyWithoutUserNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutAssignedToNestedInput
+  performedMaintenance?: Prisma.MaintenanceLogUpdateManyWithoutPerformedByNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -4506,6 +4780,7 @@ export type UserUncheckedUpdateWithoutReportedMaintenanceInput = {
   announcementAcks?: Prisma.Announcement_UserUncheckedUpdateManyWithoutUserNestedInput
   employeeLinks?: Prisma.EmployeeUncheckedUpdateManyWithoutUserNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutAssignedToNestedInput
+  performedMaintenance?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutPerformedByNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -4557,6 +4832,7 @@ export type UserUpdateWithoutAssignedMaintenanceInput = {
   announcementAcks?: Prisma.Announcement_UserUpdateManyWithoutUserNestedInput
   employeeLinks?: Prisma.EmployeeUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutReportedByNestedInput
+  performedMaintenance?: Prisma.MaintenanceLogUpdateManyWithoutPerformedByNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -4597,6 +4873,7 @@ export type UserUncheckedUpdateWithoutAssignedMaintenanceInput = {
   announcementAcks?: Prisma.Announcement_UserUncheckedUpdateManyWithoutUserNestedInput
   employeeLinks?: Prisma.EmployeeUncheckedUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutReportedByNestedInput
+  performedMaintenance?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutPerformedByNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -4660,6 +4937,7 @@ export type UserUpdateWithoutCompanyInput = {
   employeeLinks?: Prisma.EmployeeUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutAssignedToNestedInput
+  performedMaintenance?: Prisma.MaintenanceLogUpdateManyWithoutPerformedByNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -4700,6 +4978,7 @@ export type UserUncheckedUpdateWithoutCompanyInput = {
   employeeLinks?: Prisma.EmployeeUncheckedUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutAssignedToNestedInput
+  performedMaintenance?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutPerformedByNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -4786,6 +5065,7 @@ export type UserUpdateWithoutCustomerInput = {
   employeeLinks?: Prisma.EmployeeUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutAssignedToNestedInput
+  performedMaintenance?: Prisma.MaintenanceLogUpdateManyWithoutPerformedByNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -4826,6 +5106,7 @@ export type UserUncheckedUpdateWithoutCustomerInput = {
   employeeLinks?: Prisma.EmployeeUncheckedUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutAssignedToNestedInput
+  performedMaintenance?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutPerformedByNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -4912,6 +5193,7 @@ export type UserUpdateWithoutBuildingInput = {
   employeeLinks?: Prisma.EmployeeUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutAssignedToNestedInput
+  performedMaintenance?: Prisma.MaintenanceLogUpdateManyWithoutPerformedByNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -4952,6 +5234,7 @@ export type UserUncheckedUpdateWithoutBuildingInput = {
   employeeLinks?: Prisma.EmployeeUncheckedUpdateManyWithoutUserNestedInput
   reportedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutReportedByNestedInput
   assignedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutAssignedToNestedInput
+  performedMaintenance?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutPerformedByNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -5000,6 +5283,7 @@ export type UserCountOutputType = {
   employeeLinks: number
   reportedMaintenance: number
   assignedMaintenance: number
+  performedMaintenance: number
   apiUsageLogs: number
   managementAssignments: number
   accounts: number
@@ -5020,6 +5304,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   employeeLinks?: boolean | UserCountOutputTypeCountEmployeeLinksArgs
   reportedMaintenance?: boolean | UserCountOutputTypeCountReportedMaintenanceArgs
   assignedMaintenance?: boolean | UserCountOutputTypeCountAssignedMaintenanceArgs
+  performedMaintenance?: boolean | UserCountOutputTypeCountPerformedMaintenanceArgs
   apiUsageLogs?: boolean | UserCountOutputTypeCountApiUsageLogsArgs
   managementAssignments?: boolean | UserCountOutputTypeCountManagementAssignmentsArgs
   accounts?: boolean | UserCountOutputTypeCountAccountsArgs
@@ -5130,6 +5415,13 @@ export type UserCountOutputTypeCountAssignedMaintenanceArgs<ExtArgs extends runt
 /**
  * UserCountOutputType without action
  */
+export type UserCountOutputTypeCountPerformedMaintenanceArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.MaintenanceLogWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
 export type UserCountOutputTypeCountApiUsageLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.APIUsageLogWhereInput
 }
@@ -5194,6 +5486,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   employeeLinks?: boolean | Prisma.User$employeeLinksArgs<ExtArgs>
   reportedMaintenance?: boolean | Prisma.User$reportedMaintenanceArgs<ExtArgs>
   assignedMaintenance?: boolean | Prisma.User$assignedMaintenanceArgs<ExtArgs>
+  performedMaintenance?: boolean | Prisma.User$performedMaintenanceArgs<ExtArgs>
   apiUsageLogs?: boolean | Prisma.User$apiUsageLogsArgs<ExtArgs>
   managementAssignments?: boolean | Prisma.User$managementAssignmentsArgs<ExtArgs>
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
@@ -5297,6 +5590,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   employeeLinks?: boolean | Prisma.User$employeeLinksArgs<ExtArgs>
   reportedMaintenance?: boolean | Prisma.User$reportedMaintenanceArgs<ExtArgs>
   assignedMaintenance?: boolean | Prisma.User$assignedMaintenanceArgs<ExtArgs>
+  performedMaintenance?: boolean | Prisma.User$performedMaintenanceArgs<ExtArgs>
   apiUsageLogs?: boolean | Prisma.User$apiUsageLogsArgs<ExtArgs>
   managementAssignments?: boolean | Prisma.User$managementAssignmentsArgs<ExtArgs>
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
@@ -5333,6 +5627,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     employeeLinks: Prisma.$EmployeePayload<ExtArgs>[]
     reportedMaintenance: Prisma.$MaintenanceRequestPayload<ExtArgs>[]
     assignedMaintenance: Prisma.$MaintenanceRequestPayload<ExtArgs>[]
+    performedMaintenance: Prisma.$MaintenanceLogPayload<ExtArgs>[]
     apiUsageLogs: Prisma.$APIUsageLogPayload<ExtArgs>[]
     managementAssignments: Prisma.$ManagementAssignmentPayload<ExtArgs>[]
     accounts: Prisma.$AccountPayload<ExtArgs>[]
@@ -5770,6 +6065,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   employeeLinks<T extends Prisma.User$employeeLinksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$employeeLinksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EmployeePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   reportedMaintenance<T extends Prisma.User$reportedMaintenanceArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$reportedMaintenanceArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MaintenanceRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   assignedMaintenance<T extends Prisma.User$assignedMaintenanceArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$assignedMaintenanceArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MaintenanceRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  performedMaintenance<T extends Prisma.User$performedMaintenanceArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$performedMaintenanceArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MaintenanceLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   apiUsageLogs<T extends Prisma.User$apiUsageLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$apiUsageLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$APIUsageLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   managementAssignments<T extends Prisma.User$managementAssignmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$managementAssignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ManagementAssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   accounts<T extends Prisma.User$accountsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -6591,6 +6887,30 @@ export type User$assignedMaintenanceArgs<ExtArgs extends runtime.Types.Extension
   take?: number
   skip?: number
   distinct?: Prisma.MaintenanceRequestScalarFieldEnum | Prisma.MaintenanceRequestScalarFieldEnum[]
+}
+
+/**
+ * User.performedMaintenance
+ */
+export type User$performedMaintenanceArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the MaintenanceLog
+   */
+  select?: Prisma.MaintenanceLogSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the MaintenanceLog
+   */
+  omit?: Prisma.MaintenanceLogOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MaintenanceLogInclude<ExtArgs> | null
+  where?: Prisma.MaintenanceLogWhereInput
+  orderBy?: Prisma.MaintenanceLogOrderByWithRelationInput | Prisma.MaintenanceLogOrderByWithRelationInput[]
+  cursor?: Prisma.MaintenanceLogWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.MaintenanceLogScalarFieldEnum | Prisma.MaintenanceLogScalarFieldEnum[]
 }
 
 /**
