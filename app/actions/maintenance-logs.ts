@@ -40,7 +40,7 @@ export async function completeMaintenance(
   if (file && file instanceof File && file.size > 0) {
     const fd = new FormData();
     fd.set("buildingId", task.buildingId);
-    fd.set("category", "CERTIFICATES");
+    fd.set("category", "MAINTENANCE");
     fd.set("file", file);
     const up = await uploadBuildingFile(fd);
     if ("error" in up && up.error) return { error: up.error };

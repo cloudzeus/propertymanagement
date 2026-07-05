@@ -13,7 +13,7 @@ async function requireStaff() {
   return user!;
 }
 
-const CATEGORIES = ["PLANS", "PHOTOS", "DOCUMENTS", "CERTIFICATES", "OTHER"] as const;
+const CATEGORIES = ["PLANS", "PHOTOS", "DOCUMENTS", "CERTIFICATES", "MAINTENANCE", "OTHER"] as const;
 type Category = (typeof CATEGORIES)[number];
 
 function sanitize(name: string) {
