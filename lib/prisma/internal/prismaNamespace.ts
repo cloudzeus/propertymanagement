@@ -404,6 +404,7 @@ export const ModelName = {
   InfraMedia: 'InfraMedia',
   Contact: 'Contact',
   RecurringTask: 'RecurringTask',
+  MaintenanceLog: 'MaintenanceLog',
   BuildingExpense: 'BuildingExpense',
   ExpenseCategory: 'ExpenseCategory',
   BuildingCategoryOverride: 'BuildingCategoryOverride',
@@ -459,7 +460,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "account" | "session" | "verificationToken" | "company" | "department" | "jobPosition" | "employee" | "subscription" | "addonFeature" | "customer" | "property" | "building" | "unitOccupancy" | "buildingFile" | "infraPoint" | "infraAccess" | "infraMedia" | "contact" | "recurringTask" | "buildingExpense" | "expenseCategory" | "buildingCategoryOverride" | "unitCategoryExclusion" | "unitHeatingReading" | "meterReading" | "expenseAllocation" | "unitPayment" | "managementAssignment" | "commonArea" | "unit" | "service" | "propertyService" | "serviceInvoice" | "serviceInvoiceLine" | "userCompanyRole" | "menuConfig" | "announcement" | "announcement_User" | "assembly" | "assemblyParticipant" | "processedWebhook" | "aPIUsageLog" | "aPICostConfig" | "monthlyCostSummary" | "maintenanceRequest" | "cMSPage" | "fAQ" | "pricingTier" | "contactMessage" | "cookieConsent" | "appSettings" | "impersonationEvent" | "landingSection" | "pageSeo" | "uiMessage" | "mediaAsset" | "siteSettings" | "author" | "article"
+    modelProps: "user" | "account" | "session" | "verificationToken" | "company" | "department" | "jobPosition" | "employee" | "subscription" | "addonFeature" | "customer" | "property" | "building" | "unitOccupancy" | "buildingFile" | "infraPoint" | "infraAccess" | "infraMedia" | "contact" | "recurringTask" | "maintenanceLog" | "buildingExpense" | "expenseCategory" | "buildingCategoryOverride" | "unitCategoryExclusion" | "unitHeatingReading" | "meterReading" | "expenseAllocation" | "unitPayment" | "managementAssignment" | "commonArea" | "unit" | "service" | "propertyService" | "serviceInvoice" | "serviceInvoiceLine" | "userCompanyRole" | "menuConfig" | "announcement" | "announcement_User" | "assembly" | "assemblyParticipant" | "processedWebhook" | "aPIUsageLog" | "aPICostConfig" | "monthlyCostSummary" | "maintenanceRequest" | "cMSPage" | "fAQ" | "pricingTier" | "contactMessage" | "cookieConsent" | "appSettings" | "impersonationEvent" | "landingSection" | "pageSeo" | "uiMessage" | "mediaAsset" | "siteSettings" | "author" | "article"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1940,6 +1941,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.RecurringTaskCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.RecurringTaskCountAggregateOutputType> | number
+        }
+      }
+    }
+    MaintenanceLog: {
+      payload: Prisma.$MaintenanceLogPayload<ExtArgs>
+      fields: Prisma.MaintenanceLogFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.MaintenanceLogFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MaintenanceLogPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.MaintenanceLogFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MaintenanceLogPayload>
+        }
+        findFirst: {
+          args: Prisma.MaintenanceLogFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MaintenanceLogPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.MaintenanceLogFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MaintenanceLogPayload>
+        }
+        findMany: {
+          args: Prisma.MaintenanceLogFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MaintenanceLogPayload>[]
+        }
+        create: {
+          args: Prisma.MaintenanceLogCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MaintenanceLogPayload>
+        }
+        createMany: {
+          args: Prisma.MaintenanceLogCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.MaintenanceLogCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MaintenanceLogPayload>[]
+        }
+        delete: {
+          args: Prisma.MaintenanceLogDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MaintenanceLogPayload>
+        }
+        update: {
+          args: Prisma.MaintenanceLogUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MaintenanceLogPayload>
+        }
+        deleteMany: {
+          args: Prisma.MaintenanceLogDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.MaintenanceLogUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.MaintenanceLogUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MaintenanceLogPayload>[]
+        }
+        upsert: {
+          args: Prisma.MaintenanceLogUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MaintenanceLogPayload>
+        }
+        aggregate: {
+          args: Prisma.MaintenanceLogAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateMaintenanceLog>
+        }
+        groupBy: {
+          args: Prisma.MaintenanceLogGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MaintenanceLogGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.MaintenanceLogCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MaintenanceLogCountAggregateOutputType> | number
         }
       }
     }
@@ -5347,11 +5422,30 @@ export const RecurringTaskScalarFieldEnum = {
   vendor: 'vendor',
   notes: 'notes',
   active: 'active',
+  kind: 'kind',
+  inServicePackage: 'inServicePackage',
+  reminderDaysBefore: 'reminderDaysBefore',
+  reminderSentAt: 'reminderSentAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type RecurringTaskScalarFieldEnum = (typeof RecurringTaskScalarFieldEnum)[keyof typeof RecurringTaskScalarFieldEnum]
+
+
+export const MaintenanceLogScalarFieldEnum = {
+  id: 'id',
+  recurringTaskId: 'recurringTaskId',
+  buildingId: 'buildingId',
+  performedAt: 'performedAt',
+  performedById: 'performedById',
+  cost: 'cost',
+  notes: 'notes',
+  documentFileId: 'documentFileId',
+  createdAt: 'createdAt'
+} as const
+
+export type MaintenanceLogScalarFieldEnum = (typeof MaintenanceLogScalarFieldEnum)[keyof typeof MaintenanceLogScalarFieldEnum]
 
 
 export const BuildingExpenseScalarFieldEnum = {
@@ -6346,6 +6440,20 @@ export type ListEnumTaskFrequencyFieldRefInput<$PrismaModel> = FieldRefInputType
 
 
 /**
+ * Reference to a field of type 'MaintenanceKind'
+ */
+export type EnumMaintenanceKindFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MaintenanceKind'>
+    
+
+
+/**
+ * Reference to a field of type 'MaintenanceKind[]'
+ */
+export type ListEnumMaintenanceKindFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MaintenanceKind[]'>
+    
+
+
+/**
  * Reference to a field of type 'Decimal'
  */
 export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal'>
@@ -6656,6 +6764,7 @@ export type GlobalOmitConfig = {
   infraMedia?: Prisma.InfraMediaOmit
   contact?: Prisma.ContactOmit
   recurringTask?: Prisma.RecurringTaskOmit
+  maintenanceLog?: Prisma.MaintenanceLogOmit
   buildingExpense?: Prisma.BuildingExpenseOmit
   expenseCategory?: Prisma.ExpenseCategoryOmit
   buildingCategoryOverride?: Prisma.BuildingCategoryOverrideOmit

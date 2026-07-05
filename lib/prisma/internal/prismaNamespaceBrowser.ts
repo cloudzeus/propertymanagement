@@ -71,6 +71,7 @@ export const ModelName = {
   InfraMedia: 'InfraMedia',
   Contact: 'Contact',
   RecurringTask: 'RecurringTask',
+  MaintenanceLog: 'MaintenanceLog',
   BuildingExpense: 'BuildingExpense',
   ExpenseCategory: 'ExpenseCategory',
   BuildingCategoryOverride: 'BuildingCategoryOverride',
@@ -534,11 +535,30 @@ export const RecurringTaskScalarFieldEnum = {
   vendor: 'vendor',
   notes: 'notes',
   active: 'active',
+  kind: 'kind',
+  inServicePackage: 'inServicePackage',
+  reminderDaysBefore: 'reminderDaysBefore',
+  reminderSentAt: 'reminderSentAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type RecurringTaskScalarFieldEnum = (typeof RecurringTaskScalarFieldEnum)[keyof typeof RecurringTaskScalarFieldEnum]
+
+
+export const MaintenanceLogScalarFieldEnum = {
+  id: 'id',
+  recurringTaskId: 'recurringTaskId',
+  buildingId: 'buildingId',
+  performedAt: 'performedAt',
+  performedById: 'performedById',
+  cost: 'cost',
+  notes: 'notes',
+  documentFileId: 'documentFileId',
+  createdAt: 'createdAt'
+} as const
+
+export type MaintenanceLogScalarFieldEnum = (typeof MaintenanceLogScalarFieldEnum)[keyof typeof MaintenanceLogScalarFieldEnum]
 
 
 export const BuildingExpenseScalarFieldEnum = {
