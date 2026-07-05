@@ -76,6 +76,7 @@ export async function createAssembly(input: { buildingId: string; title: string;
       `<p>Καλείστε σε Γενική Συνέλευση στις <strong>${new Date(input.scheduledAt).toLocaleString("el-GR")}</strong>.</p>
        <p>Πατήστε το κουμπί για να συμμετάσχετε.</p>`,
       link,
+      undefined,
       { buildingId: building.id, customerId: building.property?.customerId, assemblyId: assembly.id, companyId: building.companyId ?? undefined },
     );
   }
@@ -126,7 +127,7 @@ export async function createTestAssembly(input: {
     input.hostEmail, null, building.name,
     `[TEST] Διαχείριση Γενικής Συνέλευσης: ${input.title}`,
     `<p>Δοκιμαστική συνέλευση στις <strong>${whenLabel}</strong>.</p><p>Είστε ο <strong>διαχειριστής</strong>. Συνδεθείτε και ανοίξτε τη σελίδα για να ξεκινήσετε.</p>`,
-    hostLink, ctx,
+    hostLink, undefined, ctx,
   );
 
   // Guest — joins via raw Daily prebuilt UI with a non-owner meeting token.
@@ -141,7 +142,7 @@ export async function createTestAssembly(input: {
     input.guestEmail, null, building.name,
     `[TEST] Πρόσκληση σε Γενική Συνέλευση: ${input.title}`,
     `<p>Καλείστε σε δοκιμαστική Γενική Συνέλευση στις <strong>${whenLabel}</strong>.</p><p>Πατήστε για να συμμετάσχετε.</p>`,
-    guestLink, ctx,
+    guestLink, undefined, ctx,
   );
 
   revalidatePath(`/super-admin/buildings/${building.id}`);
@@ -246,6 +247,7 @@ export async function approveAndSendMinutes(assemblyId: string, finalHtml: strin
       `Πρακτικά Γενικής Συνέλευσης — ${a.title}`,
       finalHtml,
       link,
+      undefined,
       { buildingId: a.buildingId, customerId: a.building.property?.customerId, assemblyId: a.id, companyId: a.building.companyId ?? undefined },
     );
   }
