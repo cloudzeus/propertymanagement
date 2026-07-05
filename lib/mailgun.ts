@@ -6,6 +6,7 @@ interface EmailOptions {
   subject: string;
   html: string;
   text?: string;
+  from?: string;      // full "Name <email>" override
   replyTo?: string;
   tags?: string[];
 }
@@ -22,7 +23,7 @@ async function sendEmail(
 ): Promise<EmailResponse> {
   try {
     const form = new FormData();
-    form.append("from", env.MAILGUN_FROM_EMAIL);
+    form.append("from", options.from ?? env.MAILGUN_FROM_EMAIL);
     form.append("to", Array.isArray(options.to) ? options.to.join(",") : options.to);
     form.append("subject", options.subject);
     form.append("html", options.html);
@@ -210,20 +211,34 @@ export async function sendNotificationEmail(
   });
 }
 
+/** Build a Mailgun `from` that keeps the verified domain but shows a brand name. */
+export function brandedFrom(senderName?: string | null): string {
+  if (!senderName) return env.MAILGUN_FROM_EMAIL;
+  // MAILGUN_FROM_EMAIL may be "Something <no-reply@domain>" or a bare address.
+  const match = env.MAILGUN_FROM_EMAIL.match(/<([^>]+)>/);
+  const address = match ? match[1] : env.MAILGUN_FROM_EMAIL;
+  return `${senderName} <${address}>`;
+}
+
 export async function sendAnnouncementEmail(
   email: string,
   recipientName: string | null,
-  buildingName: string,
-  title: string,
-  htmlBody: string,
+  headingLabel: string,      // e.g. building/property name for the eyebrow line
+  subject: string,           // already merge-substituted
+  htmlBody: string,          // already merge-substituted
   ackUrl: string,
+  opts?: { senderName?: string | null; replyTo?: string | null; preview?: string | null },
   ctx?: { buildingId?: string; customerId?: string; assemblyId?: string; companyId?: string; userId?: string }
 ): Promise<EmailResponse> {
   const greeting = recipientName ? `Αγαπητέ/ή ${recipientName},` : "Αγαπητέ/ή ένοικε,";
+  const preheader = opts?.preview
+    ? `<div style="display:none;max-height:0;overflow:hidden;opacity:0;">${opts.preview}</div>`
+    : "";
   const html = `
+    ${preheader}
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #1a1a1a;">
-      <p style="font-size: 13px; color: #666; margin: 0 0 4px;">Ανακοίνωση — ${buildingName}</p>
-      <h2 style="margin: 0 0 16px;">${title}</h2>
+      <p style="font-size: 13px; color: #666; margin: 0 0 4px;">Ανακοίνωση — ${headingLabel}</p>
+      <h2 style="margin: 0 0 16px;">${subject}</h2>
       <p style="margin: 0 0 12px;">${greeting}</p>
       <div style="border: 1px solid #e5e5e5; border-radius: 8px; padding: 16px; background: #fafafa; font-size: 14px; line-height: 1.6;">
         ${htmlBody}
@@ -234,8 +249,16 @@ export async function sendAnnouncementEmail(
       <p style="font-size: 12px; color: #999; text-align: center; margin: 0;">Πατώντας το κουμπί επιβεβαιώνετε ότι λάβατε γνώση αυτής της ανακοίνωσης.</p>
     </div>
   `;
-  const text = `Ανακοίνωση — ${buildingName}\n\n${title}\n\n${greeting}\n\nΓια να δηλώσετε ότι λάβατε γνώση, επισκεφθείτε:\n${ackUrl}`;
-  return sendEmail({ to: email, subject: `Ανακοίνωση: ${title}`, html, text, tags: ["announcement"] }, ctx);
+  const text = `Ανακοίνωση — ${headingLabel}\n\n${subject}\n\n${greeting}\n\nΓια να δηλώσετε ότι λάβατε γνώση, επισκεφθείτε:\n${ackUrl}`;
+  return sendEmail({
+    to: email,
+    subject,
+    html,
+    text,
+    from: brandedFrom(opts?.senderName),
+    replyTo: opts?.replyTo ?? undefined,
+    tags: ["announcement"],
+  }, ctx);
 }
 
 export async function sendPasswordResetOTP(
