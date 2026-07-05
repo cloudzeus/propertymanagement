@@ -124,7 +124,7 @@ export default async function BuildingDashboardPage({ params, searchParams }: { 
         media: { orderBy: { createdAt: "asc" }, select: { id: true, url: true, type: true } },
       },
     }),
-    db.recurringTask.findMany({ where: { buildingId: id }, orderBy: { nextDueDate: "asc" }, select: { id: true, title: true, frequency: true, nextDueDate: true, vendor: true, notes: true, active: true } }),
+    db.recurringTask.findMany({ where: { buildingId: id }, orderBy: { nextDueDate: "asc" }, select: { id: true, title: true, frequency: true, nextDueDate: true, vendor: true, notes: true, active: true, kind: true, inServicePackage: true, reminderDaysBefore: true } }),
   ]);
   const tasks = taskRows.map((t) => ({ ...t, nextDueDate: t.nextDueDate ? t.nextDueDate.toISOString() : null }));
 
