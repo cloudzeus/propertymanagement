@@ -215,7 +215,7 @@ function DayView({ cursor, now, tasks, onEvent }: { cursor: Date; now: Date; tas
   );
 }
 
-function TaskModal({ buildingId, editing, onClose, onComplete, onDone }: { buildingId: string; editing: TaskRow | null; onClose: () => void; onComplete: (t: TaskRow) => void; onDone: () => void }) {
+export function TaskModal({ buildingId, editing, onClose, onComplete, onDone }: { buildingId: string; editing: TaskRow | null; onClose: () => void; onComplete: (t: TaskRow) => void; onDone: () => void }) {
   const toInput = (iso: string | null) => (iso ? new Date(iso).toISOString().slice(0, 10) : "");
   const [form, setForm] = useState({ title: editing?.title ?? "", frequency: (editing?.frequency ?? "MONTHLY") as TaskFrequency, nextDueDate: toInput(editing?.nextDueDate ?? null), vendor: editing?.vendor ?? "", notes: editing?.notes ?? "" });
   const [kind, setKind] = useState(editing?.kind ?? "GENERAL");

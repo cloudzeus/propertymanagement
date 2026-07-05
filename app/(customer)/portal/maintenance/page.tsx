@@ -66,7 +66,7 @@ export default async function PortalMaintenance() {
         <div key={s.id} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <h2 style={{ fontSize: 18, fontWeight: 600, color: "var(--foreground)" }}>{s.name}</h2>
           <CalendarPanel buildingId={s.id} tasks={s.tasks} today={today} />
-          <MaintenanceTab rows={s.history} />
+          <MaintenanceTab rows={s.history} buildingId={s.id} />
         </div>
       ))}
     </div>

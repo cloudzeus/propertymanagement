@@ -1,8 +1,11 @@
 "use client";
 
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { DataTable, type ColDef } from "@/components/ui/data-table";
-import { RiFileDownloadLine } from "react-icons/ri";
+import { RiFileDownloadLine, RiAddLine } from "react-icons/ri";
 import type { listMaintenanceHistory } from "@/app/actions/maintenance-logs";
+import { TaskModal } from "./CalendarPanel";
 
 export type MaintenanceHistoryRow = Awaited<ReturnType<typeof listMaintenanceHistory>>[number];
 
@@ -17,7 +20,9 @@ const KIND_LABEL: Record<string, string> = {
   OTHER: "Άλλο",
 };
 
-export function MaintenanceTab({ rows }: { rows: MaintenanceHistoryRow[] }) {
+export function MaintenanceTab({ rows, buildingId }: { rows: MaintenanceHistoryRow[]; buildingId: string }) {
+  const router = useRouter();
+  const [adding, setAdding] = useState(false);
   const columns: ColDef<MaintenanceHistoryRow>[] = [
     {
       id: "performedAt", header: "Ημερομηνία", sortKey: "performedAt", width: 130,
@@ -55,17 +60,36 @@ export function MaintenanceTab({ rows }: { rows: MaintenanceHistoryRow[] }) {
   ];
 
   return (
-    <DataTable
-      data={rows}
-      columns={columns}
-      totalRows={rows.length}
-      page={1}
-      pageSize={25}
-      clientSide
-      sortBy="performedAt"
-      sortDir="desc"
-      storageKey="building-maintenance"
-      searchPlaceholder="Αναζήτηση συντήρησης…"
-    />
+    <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+      <div style={{ display: "flex", justifyContent: "flex-end" }}>
+        <button
+          onClick={() => setAdding(true)}
+          style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "8px 14px", borderRadius: 8, border: "none", background: "var(--color-primary)", color: "#fff", fontSize: 13, fontWeight: 600, cursor: "pointer" }}
+        >
+          <RiAddLine /> Προσθήκη συντήρησης
+        </button>
+      </div>
+      <DataTable
+        data={rows}
+        columns={columns}
+        totalRows={rows.length}
+        page={1}
+        pageSize={25}
+        clientSide
+        sortBy="performedAt"
+        sortDir="desc"
+        storageKey="building-maintenance"
+        searchPlaceholder="Αναζήτηση συντήρησης…"
+      />
+      {adding && (
+        <TaskModal
+          buildingId={buildingId}
+          editing={null}
+          onClose={() => setAdding(false)}
+          onComplete={() => setAdding(false)}
+          onDone={() => { setAdding(false); router.refresh(); }}
+        />
+      )}
+    </div>
   );
 }

@@ -201,7 +201,7 @@ export function BuildingDashboard({ building, kpis, units, files, people, contac
             )}
           </div>
         ) : tab === "maintenance" ? (
-          <MaintenanceTab rows={maintenanceHistory} />
+          <MaintenanceTab rows={maintenanceHistory} buildingId={building.id} />
         ) : tab === "koino" ? (
           <KoinochristaPanel buildingId={building.id} />
         ) : tab === "ann" ? (
