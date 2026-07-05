@@ -266,7 +266,7 @@ export function TaskModal({ buildingId, editing, onClose, onComplete, onDone }: 
   );
 }
 
-function CompleteModal({ task, onClose, onDone }: { task: TaskRow; onClose: () => void; onDone: () => void }) {
+export function CompleteModal({ task, onClose, onDone }: { task: TaskRow; onClose: () => void; onDone: () => void }) {
   const [pending, start] = useTransition();
   const [performedAt, setPerformedAt] = useState(new Date().toISOString().slice(0, 10));
   const [cost, setCost] = useState("");
