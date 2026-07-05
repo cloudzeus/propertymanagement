@@ -1,20 +1,24 @@
 "use server";
 
-import { auth } from "@/auth";
 import { db } from "@/lib/db";
 import { env } from "@/lib/env";
 import { revalidatePath } from "next/cache";
 import { sendAnnouncementEmail } from "@/lib/mailgun";
+import { getScope, assertCustomer, type Scope } from "@/lib/scope";
+import { resolveRecipients, type Person } from "@/lib/announcements/recipients";
+import { applyMergeFields } from "@/lib/announcements/merge";
+import { resolveAnnouncementCustomer } from "@/lib/announcements/targets";
 
-async function requireStaff(): Promise<string> {
-  const session = await auth();
-  if (!session?.user) throw new Error("Unauthorized");
-  const u = await db.user.findUnique({ where: { id: session.user.id as string }, select: { id: true, role: true } });
-  if (!["SUPER_ADMIN", "ADMIN", "MANAGER", "PROPERTY_ADMIN"].includes(u?.role ?? "")) throw new Error("Forbidden");
-  return u!.id;
+const ORIGINATOR_ROLES = ["SUPER_ADMIN", "ADMIN", "MANAGER", "EMPLOYEE", "PROPERTY_ADMIN"];
+async function requireOriginator(): Promise<Scope> {
+  const scope = await getScope();
+  if (!ORIGINATOR_ROLES.includes(scope.role)) throw new Error("Forbidden");
+  return scope;
 }
 
 export type Audience = "ALL" | "OWNERS" | "RESIDENTS" | "CUSTOM";
+
+export type TargetInput = { scopeType: "PROPERTY" | "BUILDING" | "UNIT" | "USER"; scopeId: string };
 
 export type AnnouncementInput = {
   title: string;
@@ -22,6 +26,18 @@ export type AnnouncementInput = {
   publishedAt?: string | null;
   audience: Audience;
   recipientUserIds?: string[]; // for CUSTOM
+  addToCalendar?: boolean;
+};
+
+export type MultiAnnouncementInput = {
+  title: string;
+  content: string;
+  emailSubject?: string;
+  emailPreview?: string;
+  publishedAt?: string | null;
+  audience: Audience;
+  targets: TargetInput[];
+  recipientUserIds?: string[];
   addToCalendar?: boolean;
 };
 
@@ -39,27 +55,52 @@ export type AnnouncementRow = {
   total: number; acknowledged: number;
 };
 
-/** Current owners/residents of a building, with their role. */
-async function buildingPeople(buildingId: string): Promise<{ id: string; name: string | null; email: string; role: "OWNER" | "RESIDENT" }[]> {
+async function resolveBuildingIds(scope: Scope, targets: TargetInput[]): Promise<{ buildingIds: string[]; customerIds: string[]; userIds: string[] }> {
+  const buildingIds = new Set<string>();
+  const customerIds = new Set<string>();
+  const userIds = new Set<string>();
+  for (const t of targets) {
+    if (t.scopeType === "PROPERTY") {
+      const bs = await db.building.findMany({ where: { propertyId: t.scopeId }, select: { id: true, customerId: true } });
+      for (const b of bs) { buildingIds.add(b.id); customerIds.add(b.customerId); }
+    } else if (t.scopeType === "BUILDING") {
+      const b = await db.building.findUnique({ where: { id: t.scopeId }, select: { id: true, customerId: true } });
+      if (b) { buildingIds.add(b.id); customerIds.add(b.customerId); }
+    } else if (t.scopeType === "UNIT") {
+      const u = await db.unit.findUnique({ where: { id: t.scopeId }, select: { buildingId: true, customerId: true } });
+      if (u) { buildingIds.add(u.buildingId); customerIds.add(u.customerId); }
+    } else if (t.scopeType === "USER") {
+      const u = await db.user.findUnique({ where: { id: t.scopeId }, select: { id: true, customerId: true } });
+      if (u?.customerId) { userIds.add(u.id); customerIds.add(u.customerId); }
+    }
+  }
+  return { buildingIds: [...buildingIds], customerIds: [...customerIds], userIds: [...userIds] };
+}
+
+async function peopleForBuildings(buildingIds: string[]): Promise<Person[]> {
+  if (buildingIds.length === 0) return [];
   const units = await db.unit.findMany({
-    where: { buildingId },
+    where: { buildingId: { in: buildingIds } },
     select: {
+      buildingId: true, unitNumber: true,
       owner: { select: { id: true, name: true, email: true } },
       resident: { select: { id: true, name: true, email: true } },
     },
   });
-  const map = new Map<string, { id: string; name: string | null; email: string; role: "OWNER" | "RESIDENT" }>();
+  const out: Person[] = [];
   for (const u of units) {
-    if (u.owner) map.set(`${u.owner.id}:OWNER`, { ...u.owner, role: "OWNER" });
-    if (u.resident) map.set(`${u.resident.id}:RESIDENT`, { ...u.resident, role: "RESIDENT" });
+    if (u.owner) out.push({ ...u.owner, role: "OWNER", buildingId: u.buildingId, unit: u.unitNumber });
+    if (u.resident) out.push({ ...u.resident, role: "RESIDENT", buildingId: u.buildingId, unit: u.unitNumber });
   }
-  return [...map.values()];
+  return out;
 }
 
 /** People available to target for an announcement (deduped, both roles flagged). */
 export async function listAnnouncementTargets(buildingId: string): Promise<{ id: string; name: string | null; email: string; roles: ("OWNER" | "RESIDENT")[] }[]> {
-  await requireStaff();
-  const people = await buildingPeople(buildingId);
+  const scope = await requireOriginator();
+  const building = await db.building.findUnique({ where: { id: buildingId }, select: { customerId: true } });
+  assertCustomer(scope, building?.customerId);
+  const people = await peopleForBuildings([buildingId]);
   const map = new Map<string, { id: string; name: string | null; email: string; roles: ("OWNER" | "RESIDENT")[] }>();
   for (const p of people) {
     const ex = map.get(p.id);
@@ -69,28 +110,13 @@ export async function listAnnouncementTargets(buildingId: string): Promise<{ id:
   return [...map.values()].sort((a, b) => (a.name ?? a.email).localeCompare(b.name ?? b.email, "el"));
 }
 
-function resolveRecipients(
-  people: { id: string; name: string | null; email: string; role: "OWNER" | "RESIDENT" }[],
-  audience: Audience,
-  customIds?: string[]
-): { id: string; name: string | null; email: string }[] {
-  let pool = people;
-  if (audience === "OWNERS") pool = people.filter((p) => p.role === "OWNER");
-  else if (audience === "RESIDENTS") pool = people.filter((p) => p.role === "RESIDENT");
-  else if (audience === "CUSTOM") {
-    const set = new Set(customIds ?? []);
-    pool = people.filter((p) => set.has(p.id));
-  }
-  // Dedup by user id.
-  const map = new Map<string, { id: string; name: string | null; email: string }>();
-  for (const p of pool) if (!map.has(p.id)) map.set(p.id, { id: p.id, name: p.name, email: p.email });
-  return [...map.values()];
-}
-
-export async function listAnnouncements(buildingId: string): Promise<AnnouncementRow[]> {
-  await requireStaff();
+export async function listAnnouncements(buildingId?: string): Promise<AnnouncementRow[]> {
+  const scope = await requireOriginator();
   const rows = await db.announcement.findMany({
-    where: { buildingId },
+    where: {
+      ...(buildingId ? { buildingId } : {}),
+      ...(scope.seesAllCustomers ? {} : { customerId: scope.customerId ?? "__no_customer__" }),
+    },
     orderBy: [{ publishedAt: "desc" }, { createdAt: "desc" }],
     select: {
       id: true, title: true, content: true, audience: true, status: true,
@@ -106,9 +132,11 @@ export async function listAnnouncements(buildingId: string): Promise<Announcemen
     },
   });
   // role lookup for recipient labelling
-  const people = await buildingPeople(buildingId);
   const roleOf = new Map<string, "OWNER" | "RESIDENT">();
-  for (const p of people) if (!roleOf.has(p.id)) roleOf.set(p.id, p.role);
+  if (buildingId) {
+    const people = await peopleForBuildings([buildingId]);
+    for (const p of people) if (!roleOf.has(p.id)) roleOf.set(p.id, p.role);
+  }
 
   return rows.map((a) => ({
     id: a.id, title: a.title, content: a.content, audience: a.audience as Audience,
@@ -128,28 +156,48 @@ export async function listAnnouncements(buildingId: string): Promise<Announcemen
   }));
 }
 
-export async function createAnnouncement(buildingId: string, data: AnnouncementInput) {
-  const userId = await requireStaff();
+export async function createAnnouncement(data: MultiAnnouncementInput) {
+  const scope = await requireOriginator();
   if (!data.title.trim()) return { error: "Το θέμα είναι υποχρεωτικό" };
   if (!data.content || data.content.replace(/<[^>]*>/g, "").trim() === "") return { error: "Το κείμενο είναι υποχρεωτικό" };
+  if (!data.targets?.length) return { error: "Επιλέξτε τουλάχιστον έναν παραλήπτη" };
 
-  const building = await db.building.findUnique({ where: { id: buildingId }, select: { name: true } });
-  if (!building) return { error: "Το κτήριο δεν βρέθηκε" };
+  const { buildingIds, customerIds, userIds } = await resolveBuildingIds(scope, data.targets);
 
-  const people = await buildingPeople(buildingId);
+  const resolved = resolveAnnouncementCustomer(
+    { seesAllCustomers: scope.seesAllCustomers, customerId: scope.customerId },
+    customerIds,
+  );
+  if (!resolved.ok) {
+    return { error: resolved.reason === "cross-customer" ? "Δεν επιτρέπεται αποστολή σε άλλον πελάτη" : "Δεν βρέθηκαν έγκυροι παραλήπτες" };
+  }
+
+  const people = await peopleForBuildings(buildingIds);
+  if (userIds.length) {
+    const directUsers = await db.user.findMany({ where: { id: { in: userIds } }, select: { id: true, name: true, email: true } });
+    for (const u of directUsers) people.push({ ...u, role: "RESIDENT", buildingId: "", unit: null });
+  }
   const recipients = resolveRecipients(people, data.audience, data.recipientUserIds);
   if (recipients.length === 0) return { error: "Δεν βρέθηκαν παραλήπτες για την επιλεγμένη ομάδα" };
 
-  const publishedAt = data.publishedAt ? new Date(data.publishedAt) : new Date();
+  let senderName: string | null = null, senderReplyTo: string | null = null;
+  if (resolved.customerId) {
+    const c = await db.customer.findUnique({ where: { id: resolved.customerId }, select: { name: true, email: true } });
+    senderName = c?.name ?? null; senderReplyTo = c?.email ?? null;
+  }
 
-  // Optional calendar entry.
+  const firstBuilding = buildingIds.length === 1
+    ? await db.building.findUnique({ where: { id: buildingIds[0] }, select: { name: true } })
+    : null;
+
+  const publishedAt = data.publishedAt ? new Date(data.publishedAt) : new Date();
+  const subjectTemplate = (data.emailSubject?.trim() || data.title.trim());
+
+  // Optional calendar entry (single-building only).
   let recurringTaskId: string | null = null;
-  if (data.addToCalendar) {
+  if (data.addToCalendar && buildingIds.length === 1) {
     const task = await db.recurringTask.create({
-      data: {
-        buildingId, title: `Ανακοίνωση: ${data.title.trim()}`, frequency: "CUSTOM" as any,
-        nextDueDate: publishedAt, notes: "Αυτόματη εγγραφή από ανακοίνωση", active: true,
-      },
+      data: { buildingId: buildingIds[0], title: `Ανακοίνωση: ${data.title.trim()}`, frequency: "CUSTOM" as any, nextDueDate: publishedAt, notes: "Αυτόματη εγγραφή από ανακοίνωση", active: true },
       select: { id: true },
     });
     recurringTaskId = task.id;
@@ -157,34 +205,51 @@ export async function createAnnouncement(buildingId: string, data: AnnouncementI
 
   const announcement = await db.announcement.create({
     data: {
-      buildingId, title: data.title.trim(), content: data.content,
-      audience: data.audience, publishedAt, recurringTaskId, createdById: userId,
-      recipients: {
-        create: recipients.map((r) => ({ userId: r.id, sentAt: new Date() })),
-      },
+      buildingId: buildingIds.length === 1 ? buildingIds[0] : null,
+      customerId: resolved.customerId,
+      origin: scope.seesAllCustomers ? "STAFF" : "MANAGER",
+      title: data.title.trim(),
+      content: data.content,
+      emailSubject: data.emailSubject?.trim() || null,
+      emailPreview: data.emailPreview?.trim() || null,
+      senderName, senderReplyTo, recurringTaskId,
+      audience: data.audience, publishedAt, createdById: scope.userId,
+      targets: { create: data.targets.map((t) => ({ scopeType: t.scopeType, scopeId: t.scopeId })) },
+      recipients: { create: recipients.map((r) => ({ userId: r.id, sentAt: new Date() })) },
     },
     select: { id: true, recipients: { select: { token: true, userId: true } } },
   });
 
-  // Send acknowledgment emails (best-effort; failures don't block creation).
+  const recipMeta = new Map(recipients.map((r) => [r.id, r]));
   const tokenByUser = new Map(announcement.recipients.map((r) => [r.userId, r.token]));
+  const headingLabel = firstBuilding?.name ?? senderName ?? "Διαχείριση";
   await Promise.allSettled(
     recipients.map((r) => {
       const token = tokenByUser.get(r.id);
       if (!token) return Promise.resolve();
+      const meta = recipMeta.get(r.id);
+      const mergeCtx = { name: r.name, unit: meta?.unit ?? null, building: firstBuilding?.name ?? null, property: null };
       const ackUrl = `${env.NEXT_PUBLIC_APP_URL}/announcements/${token}`;
-      return sendAnnouncementEmail(r.email, r.name, building.name, data.title.trim(), data.content, ackUrl);
+      return sendAnnouncementEmail(
+        r.email, r.name, headingLabel,
+        applyMergeFields(subjectTemplate, mergeCtx),
+        applyMergeFields(data.content, mergeCtx),
+        ackUrl,
+        { senderName, replyTo: senderReplyTo, preview: data.emailPreview ?? null },
+        { customerId: resolved.customerId ?? undefined, userId: scope.userId },
+      );
     })
   );
 
-  revalidatePath(`/super-admin/buildings/${buildingId}`);
+  revalidatePath(`/announcements`);
   return { ok: true, id: announcement.id, sent: recipients.length };
 }
 
 export async function deleteAnnouncement(id: string) {
-  await requireStaff();
-  const a = await db.announcement.findUnique({ where: { id }, select: { buildingId: true, recurringTaskId: true } });
+  const scope = await requireOriginator();
+  const a = await db.announcement.findUnique({ where: { id }, select: { buildingId: true, customerId: true, recurringTaskId: true } });
   if (!a) return { error: "Η ανακοίνωση δεν βρέθηκε" };
+  assertCustomer(scope, a.customerId);
   await db.announcement.delete({ where: { id } });
   if (a.recurringTaskId) {
     await db.recurringTask.delete({ where: { id: a.recurringTaskId } }).catch(() => {});
