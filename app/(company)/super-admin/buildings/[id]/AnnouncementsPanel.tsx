@@ -169,10 +169,11 @@ function CreateModal({ buildingId, onClose, onDone }: { buildingId: string; onCl
     if (content.replace(/<[^>]*>/g, "").trim() === "") { setError("Το κείμενο είναι υποχρεωτικό"); return; }
     if (audience === "CUSTOM" && selected.size === 0) { setError("Επιλέξτε τουλάχιστον έναν παραλήπτη"); return; }
     startTransition(async () => {
-      const res = await createAnnouncement(buildingId, {
+      const res = await createAnnouncement({
         title, content, publishedAt, audience,
         recipientUserIds: audience === "CUSTOM" ? [...selected] : undefined,
         addToCalendar,
+        targets: [{ scopeType: "BUILDING", scopeId: buildingId }],
       });
       if (res && "error" in res && res.error) { setError(res.error); return; }
       setSent(res.sent ?? 0);

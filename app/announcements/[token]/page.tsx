@@ -51,7 +51,7 @@ export default async function AcknowledgePage({ params }: { params: Promise<{ to
 
   return (
     <Shell>
-      <p style={{ fontSize: 12, color: "#999", margin: 0 }}>Ανακοίνωση — {rec.announcement.building.name}</p>
+      <p style={{ fontSize: 12, color: "#999", margin: 0 }}>Ανακοίνωση — {rec.announcement.building?.name ?? "—"}</p>
       <h1 style={{ fontSize: 22, fontWeight: 800, margin: "6px 0 16px", color: "#1a1a1a" }}>{rec.announcement.title}</h1>
       <div style={{ textAlign: "left", border: "1px solid #e5e5e5", borderRadius: 8, padding: 16, background: "#fafafa", fontSize: 14, lineHeight: 1.6, color: "#1a1a1a" }}
         dangerouslySetInnerHTML={{ __html: rec.announcement.content }} />

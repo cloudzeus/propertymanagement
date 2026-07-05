@@ -547,6 +547,7 @@ model Customer {
   buildings             Building[] @relation("customerBuildings")
   units                 Unit[]     @relation("customerUnits")
   invoices              ServiceInvoice[]
+  announcements         Announcement[] @relation("customerAnnouncements")
 
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt
@@ -1271,8 +1272,11 @@ model MenuConfig {
 model Announcement {
   id                    String   @id @default(cuid())
 
-  buildingId            String
-  building              Building @relation(fields: [buildingId], references: [id], onDelete: Cascade)
+  buildingId            String?
+  building              Building? @relation(fields: [buildingId], references: [id], onDelete: Cascade)
+
+  customerId            String?
+  customer              Customer? @relation("customerAnnouncements", fields: [customerId], references: [id], onDelete: Cascade)
 
   title                 String
   content               String   @db.Text   // rich text (HTML)
@@ -1280,6 +1284,12 @@ model Announcement {
 
   status                String   @default("ACTIVE") // ACTIVE, DRAFT, ARCHIVED
   audience              String   @default("ALL") // ALL, OWNERS, RESIDENTS, CUSTOM
+  origin                String   @default("STAFF")
+
+  emailSubject          String?
+  emailPreview          String?
+  senderName            String?
+  senderReplyTo         String?
 
   publishedAt           DateTime?
   expiresAt             DateTime?
@@ -1290,12 +1300,25 @@ model Announcement {
   createdBy             User?    @relation("announcementCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
 
   recipients            Announcement_User[]
+  targets               AnnouncementTarget[]
 
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt
 
   @@index([buildingId])
+  @@index([customerId])
   @@index([status])
+}
+
+model AnnouncementTarget {
+  id             String       @id @default(cuid())
+  announcementId String
+  announcement   Announcement @relation(fields: [announcementId], references: [id], onDelete: Cascade)
+  scopeType      String       // PROPERTY | BUILDING | UNIT | USER
+  scopeId        String
+
+  @@index([announcementId])
+  @@index([scopeType, scopeId])
 }
 
 model Announcement_User {
