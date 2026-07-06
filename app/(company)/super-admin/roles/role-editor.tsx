@@ -49,6 +49,56 @@ const ACTION_LABELS: Record<string, string> = {
 
 const ACTION_ORDER = ["view", "create", "edit", "delete"];
 
+// Toggle switch used in the permission matrix (replaces the checkbox).
+function Toggle({
+  checked,
+  disabled,
+  onToggle,
+  label,
+}: {
+  checked: boolean;
+  disabled?: boolean;
+  onToggle: () => void;
+  label: string;
+}) {
+  return (
+    <button
+      type="button"
+      role="switch"
+      aria-checked={checked}
+      aria-label={label}
+      disabled={disabled}
+      onClick={onToggle}
+      style={{
+        width: 34,
+        height: 20,
+        borderRadius: 999,
+        border: "none",
+        padding: 2,
+        display: "inline-flex",
+        alignItems: "center",
+        justifyContent: checked ? "flex-end" : "flex-start",
+        background: checked ? "#0078D4" : "var(--border)",
+        cursor: disabled ? "not-allowed" : "pointer",
+        opacity: disabled ? 0.6 : 1,
+        transition: "background 120ms ease",
+        verticalAlign: "middle",
+      }}
+    >
+      <span
+        style={{
+          width: 16,
+          height: 16,
+          borderRadius: "50%",
+          background: "#fff",
+          boxShadow: "0 1px 2px rgba(0,0,0,0.25)",
+          transition: "all 120ms ease",
+        }}
+      />
+    </button>
+  );
+}
+
 const SURFACE_LABELS: Record<string, string> = {
   company: "Εταιρεία",
   customer: "Πελάτης",
@@ -341,15 +391,12 @@ export function RoleEditor({ roles, modules }: Props) {
                           return (
                             <td key={a} style={{ padding: "10px 12px", textAlign: "center" }}>
                               {supported ? (
-                                <label style={{ display: "inline-flex", cursor: isSuperAdmin ? "not-allowed" : "pointer" }}>
-                                  <input
-                                    type="checkbox"
-                                    checked={isChecked}
-                                    disabled={isSuperAdmin}
-                                    onChange={() => toggle(m.key, a)}
-                                    style={{ width: 16, height: 16, accentColor: "#0078D4", cursor: isSuperAdmin ? "not-allowed" : "pointer" }}
-                                  />
-                                </label>
+                                <Toggle
+                                  checked={isChecked}
+                                  disabled={isSuperAdmin}
+                                  onToggle={() => toggle(m.key, a)}
+                                  label={`${m.label} — ${ACTION_LABELS[a]}`}
+                                />
                               ) : (
                                 <span style={{ color: "var(--border)" }}>—</span>
                               )}
