@@ -227,15 +227,15 @@ export type ServiceInvoiceLine = Prisma.ServiceInvoiceLineModel
  */
 export type UserCompanyRole = Prisma.UserCompanyRoleModel
 /**
- * Model MenuConfig
- * 
- */
-export type MenuConfig = Prisma.MenuConfigModel
-/**
  * Model Announcement
  * 
  */
 export type Announcement = Prisma.AnnouncementModel
+/**
+ * Model AnnouncementTarget
+ * 
+ */
+export type AnnouncementTarget = Prisma.AnnouncementTargetModel
 /**
  * Model Announcement_User
  * 
@@ -346,3 +346,13 @@ export type Author = Prisma.AuthorModel
  * 
  */
 export type Article = Prisma.ArticleModel
+/**
+ * Model Role
+ * 
+ */
+export type Role = Prisma.RoleModel
+/**
+ * Model RolePermission
+ * 
+ */
+export type RolePermission = Prisma.RolePermissionModel

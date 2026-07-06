@@ -88,8 +88,8 @@ export const ModelName = {
   ServiceInvoice: 'ServiceInvoice',
   ServiceInvoiceLine: 'ServiceInvoiceLine',
   UserCompanyRole: 'UserCompanyRole',
-  MenuConfig: 'MenuConfig',
   Announcement: 'Announcement',
+  AnnouncementTarget: 'AnnouncementTarget',
   Announcement_User: 'Announcement_User',
   Assembly: 'Assembly',
   AssemblyParticipant: 'AssemblyParticipant',
@@ -111,7 +111,9 @@ export const ModelName = {
   MediaAsset: 'MediaAsset',
   SiteSettings: 'SiteSettings',
   Author: 'Author',
-  Article: 'Article'
+  Article: 'Article',
+  Role: 'Role',
+  RolePermission: 'RolePermission'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -139,6 +141,7 @@ export const UserScalarFieldEnum = {
   passwordHash: 'passwordHash',
   role: 'role',
   status: 'status',
+  roleId: 'roleId',
   isCompany: 'isCompany',
   afm: 'afm',
   doy: 'doy',
@@ -828,28 +831,20 @@ export const UserCompanyRoleScalarFieldEnum = {
 export type UserCompanyRoleScalarFieldEnum = (typeof UserCompanyRoleScalarFieldEnum)[keyof typeof UserCompanyRoleScalarFieldEnum]
 
 
-export const MenuConfigScalarFieldEnum = {
-  id: 'id',
-  companyId: 'companyId',
-  role: 'role',
-  menuItems: 'menuItems',
-  isDefault: 'isDefault',
-  createdById: 'createdById',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type MenuConfigScalarFieldEnum = (typeof MenuConfigScalarFieldEnum)[keyof typeof MenuConfigScalarFieldEnum]
-
-
 export const AnnouncementScalarFieldEnum = {
   id: 'id',
   buildingId: 'buildingId',
+  customerId: 'customerId',
   title: 'title',
   content: 'content',
   imageUrl: 'imageUrl',
   status: 'status',
   audience: 'audience',
+  origin: 'origin',
+  emailSubject: 'emailSubject',
+  emailPreview: 'emailPreview',
+  senderName: 'senderName',
+  senderReplyTo: 'senderReplyTo',
   publishedAt: 'publishedAt',
   expiresAt: 'expiresAt',
   recurringTaskId: 'recurringTaskId',
@@ -859,6 +854,16 @@ export const AnnouncementScalarFieldEnum = {
 } as const
 
 export type AnnouncementScalarFieldEnum = (typeof AnnouncementScalarFieldEnum)[keyof typeof AnnouncementScalarFieldEnum]
+
+
+export const AnnouncementTargetScalarFieldEnum = {
+  id: 'id',
+  announcementId: 'announcementId',
+  scopeType: 'scopeType',
+  scopeId: 'scopeId'
+} as const
+
+export type AnnouncementTargetScalarFieldEnum = (typeof AnnouncementTargetScalarFieldEnum)[keyof typeof AnnouncementTargetScalarFieldEnum]
 
 
 export const Announcement_UserScalarFieldEnum = {
@@ -1251,6 +1256,31 @@ export const ArticleScalarFieldEnum = {
 } as const
 
 export type ArticleScalarFieldEnum = (typeof ArticleScalarFieldEnum)[keyof typeof ArticleScalarFieldEnum]
+
+
+export const RoleScalarFieldEnum = {
+  id: 'id',
+  key: 'key',
+  label: 'label',
+  baseRole: 'baseRole',
+  surface: 'surface',
+  isSystem: 'isSystem',
+  createdById: 'createdById',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type RoleScalarFieldEnum = (typeof RoleScalarFieldEnum)[keyof typeof RoleScalarFieldEnum]
+
+
+export const RolePermissionScalarFieldEnum = {
+  id: 'id',
+  roleId: 'roleId',
+  moduleKey: 'moduleKey',
+  action: 'action'
+} as const
+
+export type RolePermissionScalarFieldEnum = (typeof RolePermissionScalarFieldEnum)[keyof typeof RolePermissionScalarFieldEnum]
 
 
 export const SortOrder = {

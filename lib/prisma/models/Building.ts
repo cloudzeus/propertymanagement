@@ -1298,10 +1298,12 @@ export type BuildingCreateNestedOneWithoutAnnouncementsInput = {
   connect?: Prisma.BuildingWhereUniqueInput
 }
 
-export type BuildingUpdateOneRequiredWithoutAnnouncementsNestedInput = {
+export type BuildingUpdateOneWithoutAnnouncementsNestedInput = {
   create?: Prisma.XOR<Prisma.BuildingCreateWithoutAnnouncementsInput, Prisma.BuildingUncheckedCreateWithoutAnnouncementsInput>
   connectOrCreate?: Prisma.BuildingCreateOrConnectWithoutAnnouncementsInput
   upsert?: Prisma.BuildingUpsertWithoutAnnouncementsInput
+  disconnect?: Prisma.BuildingWhereInput | boolean
+  delete?: Prisma.BuildingWhereInput | boolean
   connect?: Prisma.BuildingWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.BuildingUpdateToOneWithWhereWithoutAnnouncementsInput, Prisma.BuildingUpdateWithoutAnnouncementsInput>, Prisma.BuildingUncheckedUpdateWithoutAnnouncementsInput>
 }

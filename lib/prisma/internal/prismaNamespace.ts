@@ -421,8 +421,8 @@ export const ModelName = {
   ServiceInvoice: 'ServiceInvoice',
   ServiceInvoiceLine: 'ServiceInvoiceLine',
   UserCompanyRole: 'UserCompanyRole',
-  MenuConfig: 'MenuConfig',
   Announcement: 'Announcement',
+  AnnouncementTarget: 'AnnouncementTarget',
   Announcement_User: 'Announcement_User',
   Assembly: 'Assembly',
   AssemblyParticipant: 'AssemblyParticipant',
@@ -444,7 +444,9 @@ export const ModelName = {
   MediaAsset: 'MediaAsset',
   SiteSettings: 'SiteSettings',
   Author: 'Author',
-  Article: 'Article'
+  Article: 'Article',
+  Role: 'Role',
+  RolePermission: 'RolePermission'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -460,7 +462,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "account" | "session" | "verificationToken" | "company" | "department" | "jobPosition" | "employee" | "subscription" | "addonFeature" | "customer" | "property" | "building" | "unitOccupancy" | "buildingFile" | "infraPoint" | "infraAccess" | "infraMedia" | "contact" | "recurringTask" | "maintenanceLog" | "buildingExpense" | "expenseCategory" | "buildingCategoryOverride" | "unitCategoryExclusion" | "unitHeatingReading" | "meterReading" | "expenseAllocation" | "unitPayment" | "managementAssignment" | "commonArea" | "unit" | "service" | "propertyService" | "serviceInvoice" | "serviceInvoiceLine" | "userCompanyRole" | "menuConfig" | "announcement" | "announcement_User" | "assembly" | "assemblyParticipant" | "processedWebhook" | "aPIUsageLog" | "aPICostConfig" | "monthlyCostSummary" | "maintenanceRequest" | "cMSPage" | "fAQ" | "pricingTier" | "contactMessage" | "cookieConsent" | "appSettings" | "impersonationEvent" | "landingSection" | "pageSeo" | "uiMessage" | "mediaAsset" | "siteSettings" | "author" | "article"
+    modelProps: "user" | "account" | "session" | "verificationToken" | "company" | "department" | "jobPosition" | "employee" | "subscription" | "addonFeature" | "customer" | "property" | "building" | "unitOccupancy" | "buildingFile" | "infraPoint" | "infraAccess" | "infraMedia" | "contact" | "recurringTask" | "maintenanceLog" | "buildingExpense" | "expenseCategory" | "buildingCategoryOverride" | "unitCategoryExclusion" | "unitHeatingReading" | "meterReading" | "expenseAllocation" | "unitPayment" | "managementAssignment" | "commonArea" | "unit" | "service" | "propertyService" | "serviceInvoice" | "serviceInvoiceLine" | "userCompanyRole" | "announcement" | "announcementTarget" | "announcement_User" | "assembly" | "assemblyParticipant" | "processedWebhook" | "aPIUsageLog" | "aPICostConfig" | "monthlyCostSummary" | "maintenanceRequest" | "cMSPage" | "fAQ" | "pricingTier" | "contactMessage" | "cookieConsent" | "appSettings" | "impersonationEvent" | "landingSection" | "pageSeo" | "uiMessage" | "mediaAsset" | "siteSettings" | "author" | "article" | "role" | "rolePermission"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -3202,80 +3204,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    MenuConfig: {
-      payload: Prisma.$MenuConfigPayload<ExtArgs>
-      fields: Prisma.MenuConfigFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.MenuConfigFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuConfigPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.MenuConfigFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuConfigPayload>
-        }
-        findFirst: {
-          args: Prisma.MenuConfigFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuConfigPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.MenuConfigFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuConfigPayload>
-        }
-        findMany: {
-          args: Prisma.MenuConfigFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuConfigPayload>[]
-        }
-        create: {
-          args: Prisma.MenuConfigCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuConfigPayload>
-        }
-        createMany: {
-          args: Prisma.MenuConfigCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        createManyAndReturn: {
-          args: Prisma.MenuConfigCreateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuConfigPayload>[]
-        }
-        delete: {
-          args: Prisma.MenuConfigDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuConfigPayload>
-        }
-        update: {
-          args: Prisma.MenuConfigUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuConfigPayload>
-        }
-        deleteMany: {
-          args: Prisma.MenuConfigDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.MenuConfigUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateManyAndReturn: {
-          args: Prisma.MenuConfigUpdateManyAndReturnArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuConfigPayload>[]
-        }
-        upsert: {
-          args: Prisma.MenuConfigUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$MenuConfigPayload>
-        }
-        aggregate: {
-          args: Prisma.MenuConfigAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateMenuConfig>
-        }
-        groupBy: {
-          args: Prisma.MenuConfigGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.MenuConfigGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.MenuConfigCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.MenuConfigCountAggregateOutputType> | number
-        }
-      }
-    }
     Announcement: {
       payload: Prisma.$AnnouncementPayload<ExtArgs>
       fields: Prisma.AnnouncementFieldRefs
@@ -3347,6 +3275,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.AnnouncementCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.AnnouncementCountAggregateOutputType> | number
+        }
+      }
+    }
+    AnnouncementTarget: {
+      payload: Prisma.$AnnouncementTargetPayload<ExtArgs>
+      fields: Prisma.AnnouncementTargetFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.AnnouncementTargetFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnnouncementTargetPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.AnnouncementTargetFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnnouncementTargetPayload>
+        }
+        findFirst: {
+          args: Prisma.AnnouncementTargetFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnnouncementTargetPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.AnnouncementTargetFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnnouncementTargetPayload>
+        }
+        findMany: {
+          args: Prisma.AnnouncementTargetFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnnouncementTargetPayload>[]
+        }
+        create: {
+          args: Prisma.AnnouncementTargetCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnnouncementTargetPayload>
+        }
+        createMany: {
+          args: Prisma.AnnouncementTargetCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.AnnouncementTargetCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnnouncementTargetPayload>[]
+        }
+        delete: {
+          args: Prisma.AnnouncementTargetDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnnouncementTargetPayload>
+        }
+        update: {
+          args: Prisma.AnnouncementTargetUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnnouncementTargetPayload>
+        }
+        deleteMany: {
+          args: Prisma.AnnouncementTargetDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.AnnouncementTargetUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.AnnouncementTargetUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnnouncementTargetPayload>[]
+        }
+        upsert: {
+          args: Prisma.AnnouncementTargetUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnnouncementTargetPayload>
+        }
+        aggregate: {
+          args: Prisma.AnnouncementTargetAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAnnouncementTarget>
+        }
+        groupBy: {
+          args: Prisma.AnnouncementTargetGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AnnouncementTargetGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.AnnouncementTargetCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AnnouncementTargetCountAggregateOutputType> | number
         }
       }
     }
@@ -4978,6 +4980,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Role: {
+      payload: Prisma.$RolePayload<ExtArgs>
+      fields: Prisma.RoleFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.RoleFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RolePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.RoleFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RolePayload>
+        }
+        findFirst: {
+          args: Prisma.RoleFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RolePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.RoleFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RolePayload>
+        }
+        findMany: {
+          args: Prisma.RoleFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RolePayload>[]
+        }
+        create: {
+          args: Prisma.RoleCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RolePayload>
+        }
+        createMany: {
+          args: Prisma.RoleCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.RoleCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RolePayload>[]
+        }
+        delete: {
+          args: Prisma.RoleDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RolePayload>
+        }
+        update: {
+          args: Prisma.RoleUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RolePayload>
+        }
+        deleteMany: {
+          args: Prisma.RoleDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.RoleUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.RoleUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RolePayload>[]
+        }
+        upsert: {
+          args: Prisma.RoleUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RolePayload>
+        }
+        aggregate: {
+          args: Prisma.RoleAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateRole>
+        }
+        groupBy: {
+          args: Prisma.RoleGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RoleGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.RoleCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RoleCountAggregateOutputType> | number
+        }
+      }
+    }
+    RolePermission: {
+      payload: Prisma.$RolePermissionPayload<ExtArgs>
+      fields: Prisma.RolePermissionFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.RolePermissionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RolePermissionPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.RolePermissionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RolePermissionPayload>
+        }
+        findFirst: {
+          args: Prisma.RolePermissionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RolePermissionPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.RolePermissionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RolePermissionPayload>
+        }
+        findMany: {
+          args: Prisma.RolePermissionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RolePermissionPayload>[]
+        }
+        create: {
+          args: Prisma.RolePermissionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RolePermissionPayload>
+        }
+        createMany: {
+          args: Prisma.RolePermissionCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.RolePermissionCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RolePermissionPayload>[]
+        }
+        delete: {
+          args: Prisma.RolePermissionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RolePermissionPayload>
+        }
+        update: {
+          args: Prisma.RolePermissionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RolePermissionPayload>
+        }
+        deleteMany: {
+          args: Prisma.RolePermissionDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.RolePermissionUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.RolePermissionUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RolePermissionPayload>[]
+        }
+        upsert: {
+          args: Prisma.RolePermissionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RolePermissionPayload>
+        }
+        aggregate: {
+          args: Prisma.RolePermissionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateRolePermission>
+        }
+        groupBy: {
+          args: Prisma.RolePermissionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RolePermissionGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.RolePermissionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RolePermissionCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -5026,6 +5176,7 @@ export const UserScalarFieldEnum = {
   passwordHash: 'passwordHash',
   role: 'role',
   status: 'status',
+  roleId: 'roleId',
   isCompany: 'isCompany',
   afm: 'afm',
   doy: 'doy',
@@ -5715,28 +5866,20 @@ export const UserCompanyRoleScalarFieldEnum = {
 export type UserCompanyRoleScalarFieldEnum = (typeof UserCompanyRoleScalarFieldEnum)[keyof typeof UserCompanyRoleScalarFieldEnum]
 
 
-export const MenuConfigScalarFieldEnum = {
-  id: 'id',
-  companyId: 'companyId',
-  role: 'role',
-  menuItems: 'menuItems',
-  isDefault: 'isDefault',
-  createdById: 'createdById',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type MenuConfigScalarFieldEnum = (typeof MenuConfigScalarFieldEnum)[keyof typeof MenuConfigScalarFieldEnum]
-
-
 export const AnnouncementScalarFieldEnum = {
   id: 'id',
   buildingId: 'buildingId',
+  customerId: 'customerId',
   title: 'title',
   content: 'content',
   imageUrl: 'imageUrl',
   status: 'status',
   audience: 'audience',
+  origin: 'origin',
+  emailSubject: 'emailSubject',
+  emailPreview: 'emailPreview',
+  senderName: 'senderName',
+  senderReplyTo: 'senderReplyTo',
   publishedAt: 'publishedAt',
   expiresAt: 'expiresAt',
   recurringTaskId: 'recurringTaskId',
@@ -5746,6 +5889,16 @@ export const AnnouncementScalarFieldEnum = {
 } as const
 
 export type AnnouncementScalarFieldEnum = (typeof AnnouncementScalarFieldEnum)[keyof typeof AnnouncementScalarFieldEnum]
+
+
+export const AnnouncementTargetScalarFieldEnum = {
+  id: 'id',
+  announcementId: 'announcementId',
+  scopeType: 'scopeType',
+  scopeId: 'scopeId'
+} as const
+
+export type AnnouncementTargetScalarFieldEnum = (typeof AnnouncementTargetScalarFieldEnum)[keyof typeof AnnouncementTargetScalarFieldEnum]
 
 
 export const Announcement_UserScalarFieldEnum = {
@@ -6138,6 +6291,31 @@ export const ArticleScalarFieldEnum = {
 } as const
 
 export type ArticleScalarFieldEnum = (typeof ArticleScalarFieldEnum)[keyof typeof ArticleScalarFieldEnum]
+
+
+export const RoleScalarFieldEnum = {
+  id: 'id',
+  key: 'key',
+  label: 'label',
+  baseRole: 'baseRole',
+  surface: 'surface',
+  isSystem: 'isSystem',
+  createdById: 'createdById',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type RoleScalarFieldEnum = (typeof RoleScalarFieldEnum)[keyof typeof RoleScalarFieldEnum]
+
+
+export const RolePermissionScalarFieldEnum = {
+  id: 'id',
+  roleId: 'roleId',
+  moduleKey: 'moduleKey',
+  action: 'action'
+} as const
+
+export type RolePermissionScalarFieldEnum = (typeof RolePermissionScalarFieldEnum)[keyof typeof RolePermissionScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -6781,8 +6959,8 @@ export type GlobalOmitConfig = {
   serviceInvoice?: Prisma.ServiceInvoiceOmit
   serviceInvoiceLine?: Prisma.ServiceInvoiceLineOmit
   userCompanyRole?: Prisma.UserCompanyRoleOmit
-  menuConfig?: Prisma.MenuConfigOmit
   announcement?: Prisma.AnnouncementOmit
+  announcementTarget?: Prisma.AnnouncementTargetOmit
   announcement_User?: Prisma.Announcement_UserOmit
   assembly?: Prisma.AssemblyOmit
   assemblyParticipant?: Prisma.AssemblyParticipantOmit
@@ -6805,6 +6983,8 @@ export type GlobalOmitConfig = {
   siteSettings?: Prisma.SiteSettingsOmit
   author?: Prisma.AuthorOmit
   article?: Prisma.ArticleOmit
+  role?: Prisma.RoleOmit
+  rolePermission?: Prisma.RolePermissionOmit
 }
 
 /* Types for Logging */

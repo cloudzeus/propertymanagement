@@ -119,6 +119,10 @@ model User {
   role                UserRole
   status              UserStatus @default(ACTIVE)
 
+  roleId              String?
+  assignedRole        Role?    @relation("userRole", fields: [roleId], references: [id], onDelete: SetNull)
+  createdRoles        Role[]   @relation("roleCreatedBy")
+
   // Company occupant (owner/resident that is a legal entity, not an individual).
   // Fields kept TRDR-compatible for future SoftOne sync (see Customer).
   isCompany           Boolean  @default(false)
@@ -153,9 +157,6 @@ model User {
 
   // Companies created by this user (for SUPER_ADMIN)
   createdCompanies    Company[] @relation("createdCompanies")
-
-  // Menu configs created by this user
-  createdMenuConfigs  MenuConfig[] @relation("menuConfigCreatedBy")
 
   // Announcements created by this user
   createdAnnouncements Announcement[] @relation("announcementCreatedBy")
@@ -331,7 +332,6 @@ model Company {
   services              Service[]
   subscription          Subscription?
   addonFeatures         AddonFeature[]
-  menuConfigs           MenuConfig[]
   userRoles             UserCompanyRole[]
   apiUsageLogs          APIUsageLog[]
   costSummaries         MonthlyCostSummary[]
@@ -1247,27 +1247,6 @@ model UserCompanyRole {
   @@index([companyId])
 }
 
-// Menu Configuration - SUPER_ADMIN configures menus per role
-model MenuConfig {
-  id                    String   @id @default(cuid())
-
-  companyId             String?
-  company               Company? @relation(fields: [companyId], references: [id], onDelete: SetNull)
-
-  role                  UserRole
-  menuItems             Json     // Array of menu item objects
-  isDefault             Boolean  @default(true)
-
-  createdById           String?
-  createdBy             User?    @relation("menuConfigCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
-
-  createdAt             DateTime @default(now())
-  updatedAt             DateTime @updatedAt
-
-  @@unique([companyId, role])
-  @@index([role])
-}
-
 // Announcements - digital signage content
 model Announcement {
   id                    String   @id @default(cuid())
@@ -1783,4 +1762,33 @@ model Article {
   updatedAt        DateTime @updatedAt
 
   @@index([status, publishedAt])
+}
+
+model Role {
+  id          String   @id @default(cuid())
+  key         String   @unique
+  label       String
+  baseRole    UserRole
+  surface     String
+  isSystem    Boolean  @default(false)
+  createdById String?
+  createdBy   User?    @relation("roleCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
+  permissions RolePermission[]
+  users       User[]   @relation("userRole")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([baseRole])
+  @@index([surface])
+}
+
+model RolePermission {
+  id        String @id @default(cuid())
+  roleId    String
+  role      Role   @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  moduleKey String
+  action    String
+
+  @@unique([roleId, moduleKey, action])
+  @@index([roleId])
 }

@@ -394,6 +394,7 @@ export type CustomerWhereInput = {
   buildings?: Prisma.BuildingListRelationFilter
   units?: Prisma.UnitListRelationFilter
   invoices?: Prisma.ServiceInvoiceListRelationFilter
+  announcements?: Prisma.AnnouncementListRelationFilter
 }
 
 export type CustomerOrderByWithRelationInput = {
@@ -428,6 +429,7 @@ export type CustomerOrderByWithRelationInput = {
   buildings?: Prisma.BuildingOrderByRelationAggregateInput
   units?: Prisma.UnitOrderByRelationAggregateInput
   invoices?: Prisma.ServiceInvoiceOrderByRelationAggregateInput
+  announcements?: Prisma.AnnouncementOrderByRelationAggregateInput
 }
 
 export type CustomerWhereUniqueInput = Prisma.AtLeast<{
@@ -466,6 +468,7 @@ export type CustomerWhereUniqueInput = Prisma.AtLeast<{
   buildings?: Prisma.BuildingListRelationFilter
   units?: Prisma.UnitListRelationFilter
   invoices?: Prisma.ServiceInvoiceListRelationFilter
+  announcements?: Prisma.AnnouncementListRelationFilter
 }, "id" | "companyId_softoneTrdr">
 
 export type CustomerOrderByWithAggregationInput = {
@@ -563,6 +566,7 @@ export type CustomerCreateInput = {
   buildings?: Prisma.BuildingCreateNestedManyWithoutCustomerInput
   units?: Prisma.UnitCreateNestedManyWithoutCustomerInput
   invoices?: Prisma.ServiceInvoiceCreateNestedManyWithoutCustomerInput
+  announcements?: Prisma.AnnouncementCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerUncheckedCreateInput = {
@@ -596,6 +600,7 @@ export type CustomerUncheckedCreateInput = {
   buildings?: Prisma.BuildingUncheckedCreateNestedManyWithoutCustomerInput
   units?: Prisma.UnitUncheckedCreateNestedManyWithoutCustomerInput
   invoices?: Prisma.ServiceInvoiceUncheckedCreateNestedManyWithoutCustomerInput
+  announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerUpdateInput = {
@@ -629,6 +634,7 @@ export type CustomerUpdateInput = {
   buildings?: Prisma.BuildingUpdateManyWithoutCustomerNestedInput
   units?: Prisma.UnitUpdateManyWithoutCustomerNestedInput
   invoices?: Prisma.ServiceInvoiceUpdateManyWithoutCustomerNestedInput
+  announcements?: Prisma.AnnouncementUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerUncheckedUpdateInput = {
@@ -662,6 +668,7 @@ export type CustomerUncheckedUpdateInput = {
   buildings?: Prisma.BuildingUncheckedUpdateManyWithoutCustomerNestedInput
   units?: Prisma.UnitUncheckedUpdateManyWithoutCustomerNestedInput
   invoices?: Prisma.ServiceInvoiceUncheckedUpdateManyWithoutCustomerNestedInput
+  announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerCreateManyInput = {
@@ -988,6 +995,22 @@ export type CustomerUpdateOneRequiredWithoutInvoicesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.CustomerUpdateToOneWithWhereWithoutInvoicesInput, Prisma.CustomerUpdateWithoutInvoicesInput>, Prisma.CustomerUncheckedUpdateWithoutInvoicesInput>
 }
 
+export type CustomerCreateNestedOneWithoutAnnouncementsInput = {
+  create?: Prisma.XOR<Prisma.CustomerCreateWithoutAnnouncementsInput, Prisma.CustomerUncheckedCreateWithoutAnnouncementsInput>
+  connectOrCreate?: Prisma.CustomerCreateOrConnectWithoutAnnouncementsInput
+  connect?: Prisma.CustomerWhereUniqueInput
+}
+
+export type CustomerUpdateOneWithoutAnnouncementsNestedInput = {
+  create?: Prisma.XOR<Prisma.CustomerCreateWithoutAnnouncementsInput, Prisma.CustomerUncheckedCreateWithoutAnnouncementsInput>
+  connectOrCreate?: Prisma.CustomerCreateOrConnectWithoutAnnouncementsInput
+  upsert?: Prisma.CustomerUpsertWithoutAnnouncementsInput
+  disconnect?: Prisma.CustomerWhereInput | boolean
+  delete?: Prisma.CustomerWhereInput | boolean
+  connect?: Prisma.CustomerWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CustomerUpdateToOneWithWhereWithoutAnnouncementsInput, Prisma.CustomerUpdateWithoutAnnouncementsInput>, Prisma.CustomerUncheckedUpdateWithoutAnnouncementsInput>
+}
+
 export type CustomerCreateWithoutUsersInput = {
   id?: string
   type?: $Enums.CustomerType
@@ -1018,6 +1041,7 @@ export type CustomerCreateWithoutUsersInput = {
   buildings?: Prisma.BuildingCreateNestedManyWithoutCustomerInput
   units?: Prisma.UnitCreateNestedManyWithoutCustomerInput
   invoices?: Prisma.ServiceInvoiceCreateNestedManyWithoutCustomerInput
+  announcements?: Prisma.AnnouncementCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerUncheckedCreateWithoutUsersInput = {
@@ -1050,6 +1074,7 @@ export type CustomerUncheckedCreateWithoutUsersInput = {
   buildings?: Prisma.BuildingUncheckedCreateNestedManyWithoutCustomerInput
   units?: Prisma.UnitUncheckedCreateNestedManyWithoutCustomerInput
   invoices?: Prisma.ServiceInvoiceUncheckedCreateNestedManyWithoutCustomerInput
+  announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerCreateOrConnectWithoutUsersInput = {
@@ -1098,6 +1123,7 @@ export type CustomerUpdateWithoutUsersInput = {
   buildings?: Prisma.BuildingUpdateManyWithoutCustomerNestedInput
   units?: Prisma.UnitUpdateManyWithoutCustomerNestedInput
   invoices?: Prisma.ServiceInvoiceUpdateManyWithoutCustomerNestedInput
+  announcements?: Prisma.AnnouncementUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerUncheckedUpdateWithoutUsersInput = {
@@ -1130,6 +1156,7 @@ export type CustomerUncheckedUpdateWithoutUsersInput = {
   buildings?: Prisma.BuildingUncheckedUpdateManyWithoutCustomerNestedInput
   units?: Prisma.UnitUncheckedUpdateManyWithoutCustomerNestedInput
   invoices?: Prisma.ServiceInvoiceUncheckedUpdateManyWithoutCustomerNestedInput
+  announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerCreateWithoutCompanyInput = {
@@ -1162,6 +1189,7 @@ export type CustomerCreateWithoutCompanyInput = {
   buildings?: Prisma.BuildingCreateNestedManyWithoutCustomerInput
   units?: Prisma.UnitCreateNestedManyWithoutCustomerInput
   invoices?: Prisma.ServiceInvoiceCreateNestedManyWithoutCustomerInput
+  announcements?: Prisma.AnnouncementCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerUncheckedCreateWithoutCompanyInput = {
@@ -1194,6 +1222,7 @@ export type CustomerUncheckedCreateWithoutCompanyInput = {
   buildings?: Prisma.BuildingUncheckedCreateNestedManyWithoutCustomerInput
   units?: Prisma.UnitUncheckedCreateNestedManyWithoutCustomerInput
   invoices?: Prisma.ServiceInvoiceUncheckedCreateNestedManyWithoutCustomerInput
+  announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerCreateOrConnectWithoutCompanyInput = {
@@ -1283,6 +1312,7 @@ export type CustomerCreateWithoutPropertiesInput = {
   buildings?: Prisma.BuildingCreateNestedManyWithoutCustomerInput
   units?: Prisma.UnitCreateNestedManyWithoutCustomerInput
   invoices?: Prisma.ServiceInvoiceCreateNestedManyWithoutCustomerInput
+  announcements?: Prisma.AnnouncementCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerUncheckedCreateWithoutPropertiesInput = {
@@ -1315,6 +1345,7 @@ export type CustomerUncheckedCreateWithoutPropertiesInput = {
   buildings?: Prisma.BuildingUncheckedCreateNestedManyWithoutCustomerInput
   units?: Prisma.UnitUncheckedCreateNestedManyWithoutCustomerInput
   invoices?: Prisma.ServiceInvoiceUncheckedCreateNestedManyWithoutCustomerInput
+  announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerCreateOrConnectWithoutPropertiesInput = {
@@ -1363,6 +1394,7 @@ export type CustomerUpdateWithoutPropertiesInput = {
   buildings?: Prisma.BuildingUpdateManyWithoutCustomerNestedInput
   units?: Prisma.UnitUpdateManyWithoutCustomerNestedInput
   invoices?: Prisma.ServiceInvoiceUpdateManyWithoutCustomerNestedInput
+  announcements?: Prisma.AnnouncementUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerUncheckedUpdateWithoutPropertiesInput = {
@@ -1395,6 +1427,7 @@ export type CustomerUncheckedUpdateWithoutPropertiesInput = {
   buildings?: Prisma.BuildingUncheckedUpdateManyWithoutCustomerNestedInput
   units?: Prisma.UnitUncheckedUpdateManyWithoutCustomerNestedInput
   invoices?: Prisma.ServiceInvoiceUncheckedUpdateManyWithoutCustomerNestedInput
+  announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerCreateWithoutBuildingsInput = {
@@ -1427,6 +1460,7 @@ export type CustomerCreateWithoutBuildingsInput = {
   properties?: Prisma.PropertyCreateNestedManyWithoutCustomerInput
   units?: Prisma.UnitCreateNestedManyWithoutCustomerInput
   invoices?: Prisma.ServiceInvoiceCreateNestedManyWithoutCustomerInput
+  announcements?: Prisma.AnnouncementCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerUncheckedCreateWithoutBuildingsInput = {
@@ -1459,6 +1493,7 @@ export type CustomerUncheckedCreateWithoutBuildingsInput = {
   properties?: Prisma.PropertyUncheckedCreateNestedManyWithoutCustomerInput
   units?: Prisma.UnitUncheckedCreateNestedManyWithoutCustomerInput
   invoices?: Prisma.ServiceInvoiceUncheckedCreateNestedManyWithoutCustomerInput
+  announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerCreateOrConnectWithoutBuildingsInput = {
@@ -1507,6 +1542,7 @@ export type CustomerUpdateWithoutBuildingsInput = {
   properties?: Prisma.PropertyUpdateManyWithoutCustomerNestedInput
   units?: Prisma.UnitUpdateManyWithoutCustomerNestedInput
   invoices?: Prisma.ServiceInvoiceUpdateManyWithoutCustomerNestedInput
+  announcements?: Prisma.AnnouncementUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerUncheckedUpdateWithoutBuildingsInput = {
@@ -1539,6 +1575,7 @@ export type CustomerUncheckedUpdateWithoutBuildingsInput = {
   properties?: Prisma.PropertyUncheckedUpdateManyWithoutCustomerNestedInput
   units?: Prisma.UnitUncheckedUpdateManyWithoutCustomerNestedInput
   invoices?: Prisma.ServiceInvoiceUncheckedUpdateManyWithoutCustomerNestedInput
+  announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerCreateWithoutUnitsInput = {
@@ -1571,6 +1608,7 @@ export type CustomerCreateWithoutUnitsInput = {
   properties?: Prisma.PropertyCreateNestedManyWithoutCustomerInput
   buildings?: Prisma.BuildingCreateNestedManyWithoutCustomerInput
   invoices?: Prisma.ServiceInvoiceCreateNestedManyWithoutCustomerInput
+  announcements?: Prisma.AnnouncementCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerUncheckedCreateWithoutUnitsInput = {
@@ -1603,6 +1641,7 @@ export type CustomerUncheckedCreateWithoutUnitsInput = {
   properties?: Prisma.PropertyUncheckedCreateNestedManyWithoutCustomerInput
   buildings?: Prisma.BuildingUncheckedCreateNestedManyWithoutCustomerInput
   invoices?: Prisma.ServiceInvoiceUncheckedCreateNestedManyWithoutCustomerInput
+  announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerCreateOrConnectWithoutUnitsInput = {
@@ -1651,6 +1690,7 @@ export type CustomerUpdateWithoutUnitsInput = {
   properties?: Prisma.PropertyUpdateManyWithoutCustomerNestedInput
   buildings?: Prisma.BuildingUpdateManyWithoutCustomerNestedInput
   invoices?: Prisma.ServiceInvoiceUpdateManyWithoutCustomerNestedInput
+  announcements?: Prisma.AnnouncementUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerUncheckedUpdateWithoutUnitsInput = {
@@ -1683,6 +1723,7 @@ export type CustomerUncheckedUpdateWithoutUnitsInput = {
   properties?: Prisma.PropertyUncheckedUpdateManyWithoutCustomerNestedInput
   buildings?: Prisma.BuildingUncheckedUpdateManyWithoutCustomerNestedInput
   invoices?: Prisma.ServiceInvoiceUncheckedUpdateManyWithoutCustomerNestedInput
+  announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerCreateWithoutInvoicesInput = {
@@ -1715,6 +1756,7 @@ export type CustomerCreateWithoutInvoicesInput = {
   properties?: Prisma.PropertyCreateNestedManyWithoutCustomerInput
   buildings?: Prisma.BuildingCreateNestedManyWithoutCustomerInput
   units?: Prisma.UnitCreateNestedManyWithoutCustomerInput
+  announcements?: Prisma.AnnouncementCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerUncheckedCreateWithoutInvoicesInput = {
@@ -1747,6 +1789,7 @@ export type CustomerUncheckedCreateWithoutInvoicesInput = {
   properties?: Prisma.PropertyUncheckedCreateNestedManyWithoutCustomerInput
   buildings?: Prisma.BuildingUncheckedCreateNestedManyWithoutCustomerInput
   units?: Prisma.UnitUncheckedCreateNestedManyWithoutCustomerInput
+  announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerCreateOrConnectWithoutInvoicesInput = {
@@ -1795,6 +1838,7 @@ export type CustomerUpdateWithoutInvoicesInput = {
   properties?: Prisma.PropertyUpdateManyWithoutCustomerNestedInput
   buildings?: Prisma.BuildingUpdateManyWithoutCustomerNestedInput
   units?: Prisma.UnitUpdateManyWithoutCustomerNestedInput
+  announcements?: Prisma.AnnouncementUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerUncheckedUpdateWithoutInvoicesInput = {
@@ -1827,6 +1871,155 @@ export type CustomerUncheckedUpdateWithoutInvoicesInput = {
   properties?: Prisma.PropertyUncheckedUpdateManyWithoutCustomerNestedInput
   buildings?: Prisma.BuildingUncheckedUpdateManyWithoutCustomerNestedInput
   units?: Prisma.UnitUncheckedUpdateManyWithoutCustomerNestedInput
+  announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutCustomerNestedInput
+}
+
+export type CustomerCreateWithoutAnnouncementsInput = {
+  id?: string
+  type?: $Enums.CustomerType
+  sodType?: number
+  softoneTrdr?: number | null
+  code?: string | null
+  name: string
+  afm?: string | null
+  doy?: string | null
+  email?: string | null
+  phone?: string | null
+  phone2?: string | null
+  fax?: string | null
+  webpage?: string | null
+  address?: string | null
+  city?: string | null
+  district?: string | null
+  postalCode?: string | null
+  country?: string | null
+  isActive?: boolean
+  remarks?: string | null
+  lat?: number | null
+  lng?: number | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  company: Prisma.CompanyCreateNestedOneWithoutCustomersInput
+  users?: Prisma.UserCreateNestedManyWithoutCustomerInput
+  properties?: Prisma.PropertyCreateNestedManyWithoutCustomerInput
+  buildings?: Prisma.BuildingCreateNestedManyWithoutCustomerInput
+  units?: Prisma.UnitCreateNestedManyWithoutCustomerInput
+  invoices?: Prisma.ServiceInvoiceCreateNestedManyWithoutCustomerInput
+}
+
+export type CustomerUncheckedCreateWithoutAnnouncementsInput = {
+  id?: string
+  companyId: string
+  type?: $Enums.CustomerType
+  sodType?: number
+  softoneTrdr?: number | null
+  code?: string | null
+  name: string
+  afm?: string | null
+  doy?: string | null
+  email?: string | null
+  phone?: string | null
+  phone2?: string | null
+  fax?: string | null
+  webpage?: string | null
+  address?: string | null
+  city?: string | null
+  district?: string | null
+  postalCode?: string | null
+  country?: string | null
+  isActive?: boolean
+  remarks?: string | null
+  lat?: number | null
+  lng?: number | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutCustomerInput
+  properties?: Prisma.PropertyUncheckedCreateNestedManyWithoutCustomerInput
+  buildings?: Prisma.BuildingUncheckedCreateNestedManyWithoutCustomerInput
+  units?: Prisma.UnitUncheckedCreateNestedManyWithoutCustomerInput
+  invoices?: Prisma.ServiceInvoiceUncheckedCreateNestedManyWithoutCustomerInput
+}
+
+export type CustomerCreateOrConnectWithoutAnnouncementsInput = {
+  where: Prisma.CustomerWhereUniqueInput
+  create: Prisma.XOR<Prisma.CustomerCreateWithoutAnnouncementsInput, Prisma.CustomerUncheckedCreateWithoutAnnouncementsInput>
+}
+
+export type CustomerUpsertWithoutAnnouncementsInput = {
+  update: Prisma.XOR<Prisma.CustomerUpdateWithoutAnnouncementsInput, Prisma.CustomerUncheckedUpdateWithoutAnnouncementsInput>
+  create: Prisma.XOR<Prisma.CustomerCreateWithoutAnnouncementsInput, Prisma.CustomerUncheckedCreateWithoutAnnouncementsInput>
+  where?: Prisma.CustomerWhereInput
+}
+
+export type CustomerUpdateToOneWithWhereWithoutAnnouncementsInput = {
+  where?: Prisma.CustomerWhereInput
+  data: Prisma.XOR<Prisma.CustomerUpdateWithoutAnnouncementsInput, Prisma.CustomerUncheckedUpdateWithoutAnnouncementsInput>
+}
+
+export type CustomerUpdateWithoutAnnouncementsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumCustomerTypeFieldUpdateOperationsInput | $Enums.CustomerType
+  sodType?: Prisma.IntFieldUpdateOperationsInput | number
+  softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  doy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fax?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  webpage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  district?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  company?: Prisma.CompanyUpdateOneRequiredWithoutCustomersNestedInput
+  users?: Prisma.UserUpdateManyWithoutCustomerNestedInput
+  properties?: Prisma.PropertyUpdateManyWithoutCustomerNestedInput
+  buildings?: Prisma.BuildingUpdateManyWithoutCustomerNestedInput
+  units?: Prisma.UnitUpdateManyWithoutCustomerNestedInput
+  invoices?: Prisma.ServiceInvoiceUpdateManyWithoutCustomerNestedInput
+}
+
+export type CustomerUncheckedUpdateWithoutAnnouncementsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  companyId?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumCustomerTypeFieldUpdateOperationsInput | $Enums.CustomerType
+  sodType?: Prisma.IntFieldUpdateOperationsInput | number
+  softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  doy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fax?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  webpage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  district?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUncheckedUpdateManyWithoutCustomerNestedInput
+  properties?: Prisma.PropertyUncheckedUpdateManyWithoutCustomerNestedInput
+  buildings?: Prisma.BuildingUncheckedUpdateManyWithoutCustomerNestedInput
+  units?: Prisma.UnitUncheckedUpdateManyWithoutCustomerNestedInput
+  invoices?: Prisma.ServiceInvoiceUncheckedUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerCreateManyCompanyInput = {
@@ -1886,6 +2079,7 @@ export type CustomerUpdateWithoutCompanyInput = {
   buildings?: Prisma.BuildingUpdateManyWithoutCustomerNestedInput
   units?: Prisma.UnitUpdateManyWithoutCustomerNestedInput
   invoices?: Prisma.ServiceInvoiceUpdateManyWithoutCustomerNestedInput
+  announcements?: Prisma.AnnouncementUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerUncheckedUpdateWithoutCompanyInput = {
@@ -1918,6 +2112,7 @@ export type CustomerUncheckedUpdateWithoutCompanyInput = {
   buildings?: Prisma.BuildingUncheckedUpdateManyWithoutCustomerNestedInput
   units?: Prisma.UnitUncheckedUpdateManyWithoutCustomerNestedInput
   invoices?: Prisma.ServiceInvoiceUncheckedUpdateManyWithoutCustomerNestedInput
+  announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerUncheckedUpdateManyWithoutCompanyInput = {
@@ -1958,6 +2153,7 @@ export type CustomerCountOutputType = {
   buildings: number
   units: number
   invoices: number
+  announcements: number
 }
 
 export type CustomerCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1966,6 +2162,7 @@ export type CustomerCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensio
   buildings?: boolean | CustomerCountOutputTypeCountBuildingsArgs
   units?: boolean | CustomerCountOutputTypeCountUnitsArgs
   invoices?: boolean | CustomerCountOutputTypeCountInvoicesArgs
+  announcements?: boolean | CustomerCountOutputTypeCountAnnouncementsArgs
 }
 
 /**
@@ -2013,6 +2210,13 @@ export type CustomerCountOutputTypeCountInvoicesArgs<ExtArgs extends runtime.Typ
   where?: Prisma.ServiceInvoiceWhereInput
 }
 
+/**
+ * CustomerCountOutputType without action
+ */
+export type CustomerCountOutputTypeCountAnnouncementsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AnnouncementWhereInput
+}
+
 
 export type CustomerSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -2046,6 +2250,7 @@ export type CustomerSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   buildings?: boolean | Prisma.Customer$buildingsArgs<ExtArgs>
   units?: boolean | Prisma.Customer$unitsArgs<ExtArgs>
   invoices?: boolean | Prisma.Customer$invoicesArgs<ExtArgs>
+  announcements?: boolean | Prisma.Customer$announcementsArgs<ExtArgs>
   _count?: boolean | Prisma.CustomerCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["customer"]>
 
@@ -2143,6 +2348,7 @@ export type CustomerInclude<ExtArgs extends runtime.Types.Extensions.InternalArg
   buildings?: boolean | Prisma.Customer$buildingsArgs<ExtArgs>
   units?: boolean | Prisma.Customer$unitsArgs<ExtArgs>
   invoices?: boolean | Prisma.Customer$invoicesArgs<ExtArgs>
+  announcements?: boolean | Prisma.Customer$announcementsArgs<ExtArgs>
   _count?: boolean | Prisma.CustomerCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type CustomerIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2161,6 +2367,7 @@ export type $CustomerPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     buildings: Prisma.$BuildingPayload<ExtArgs>[]
     units: Prisma.$UnitPayload<ExtArgs>[]
     invoices: Prisma.$ServiceInvoicePayload<ExtArgs>[]
+    announcements: Prisma.$AnnouncementPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2588,6 +2795,7 @@ export interface Prisma__CustomerClient<T, Null = never, ExtArgs extends runtime
   buildings<T extends Prisma.Customer$buildingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Customer$buildingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BuildingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   units<T extends Prisma.Customer$unitsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Customer$unitsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UnitPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   invoices<T extends Prisma.Customer$invoicesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Customer$invoicesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ServiceInvoicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  announcements<T extends Prisma.Customer$announcementsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Customer$announcementsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AnnouncementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3160,6 +3368,30 @@ export type Customer$invoicesArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   distinct?: Prisma.ServiceInvoiceScalarFieldEnum | Prisma.ServiceInvoiceScalarFieldEnum[]
+}
+
+/**
+ * Customer.announcements
+ */
+export type Customer$announcementsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Announcement
+   */
+  select?: Prisma.AnnouncementSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Announcement
+   */
+  omit?: Prisma.AnnouncementOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AnnouncementInclude<ExtArgs> | null
+  where?: Prisma.AnnouncementWhereInput
+  orderBy?: Prisma.AnnouncementOrderByWithRelationInput | Prisma.AnnouncementOrderByWithRelationInput[]
+  cursor?: Prisma.AnnouncementWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AnnouncementScalarFieldEnum | Prisma.AnnouncementScalarFieldEnum[]
 }
 
 /**

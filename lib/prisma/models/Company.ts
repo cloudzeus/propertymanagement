@@ -644,7 +644,6 @@ export type CompanyWhereInput = {
   services?: Prisma.ServiceListRelationFilter
   subscription?: Prisma.XOR<Prisma.SubscriptionNullableScalarRelationFilter, Prisma.SubscriptionWhereInput> | null
   addonFeatures?: Prisma.AddonFeatureListRelationFilter
-  menuConfigs?: Prisma.MenuConfigListRelationFilter
   userRoles?: Prisma.UserCompanyRoleListRelationFilter
   apiUsageLogs?: Prisma.APIUsageLogListRelationFilter
   costSummaries?: Prisma.MonthlyCostSummaryListRelationFilter
@@ -716,7 +715,6 @@ export type CompanyOrderByWithRelationInput = {
   services?: Prisma.ServiceOrderByRelationAggregateInput
   subscription?: Prisma.SubscriptionOrderByWithRelationInput
   addonFeatures?: Prisma.AddonFeatureOrderByRelationAggregateInput
-  menuConfigs?: Prisma.MenuConfigOrderByRelationAggregateInput
   userRoles?: Prisma.UserCompanyRoleOrderByRelationAggregateInput
   apiUsageLogs?: Prisma.APIUsageLogOrderByRelationAggregateInput
   costSummaries?: Prisma.MonthlyCostSummaryOrderByRelationAggregateInput
@@ -791,7 +789,6 @@ export type CompanyWhereUniqueInput = Prisma.AtLeast<{
   services?: Prisma.ServiceListRelationFilter
   subscription?: Prisma.XOR<Prisma.SubscriptionNullableScalarRelationFilter, Prisma.SubscriptionWhereInput> | null
   addonFeatures?: Prisma.AddonFeatureListRelationFilter
-  menuConfigs?: Prisma.MenuConfigListRelationFilter
   userRoles?: Prisma.UserCompanyRoleListRelationFilter
   apiUsageLogs?: Prisma.APIUsageLogListRelationFilter
   costSummaries?: Prisma.MonthlyCostSummaryListRelationFilter
@@ -984,7 +981,6 @@ export type CompanyCreateInput = {
   services?: Prisma.ServiceCreateNestedManyWithoutCompanyInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutCompanyInput
   addonFeatures?: Prisma.AddonFeatureCreateNestedManyWithoutCompanyInput
-  menuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCompanyInput
   userRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutCompanyInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutCompanyInput
   costSummaries?: Prisma.MonthlyCostSummaryCreateNestedManyWithoutCompanyInput
@@ -1055,7 +1051,6 @@ export type CompanyUncheckedCreateInput = {
   services?: Prisma.ServiceUncheckedCreateNestedManyWithoutCompanyInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
   addonFeatures?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutCompanyInput
-  menuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCompanyInput
   userRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutCompanyInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutCompanyInput
   costSummaries?: Prisma.MonthlyCostSummaryUncheckedCreateNestedManyWithoutCompanyInput
@@ -1126,7 +1121,6 @@ export type CompanyUpdateInput = {
   services?: Prisma.ServiceUpdateManyWithoutCompanyNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutCompanyNestedInput
   addonFeatures?: Prisma.AddonFeatureUpdateManyWithoutCompanyNestedInput
-  menuConfigs?: Prisma.MenuConfigUpdateManyWithoutCompanyNestedInput
   userRoles?: Prisma.UserCompanyRoleUpdateManyWithoutCompanyNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutCompanyNestedInput
   costSummaries?: Prisma.MonthlyCostSummaryUpdateManyWithoutCompanyNestedInput
@@ -1197,7 +1191,6 @@ export type CompanyUncheckedUpdateInput = {
   services?: Prisma.ServiceUncheckedUpdateManyWithoutCompanyNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
   addonFeatures?: Prisma.AddonFeatureUncheckedUpdateManyWithoutCompanyNestedInput
-  menuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCompanyNestedInput
   userRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutCompanyNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
   costSummaries?: Prisma.MonthlyCostSummaryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -1811,22 +1804,6 @@ export type CompanyUpdateOneRequiredWithoutUserRolesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.CompanyUpdateToOneWithWhereWithoutUserRolesInput, Prisma.CompanyUpdateWithoutUserRolesInput>, Prisma.CompanyUncheckedUpdateWithoutUserRolesInput>
 }
 
-export type CompanyCreateNestedOneWithoutMenuConfigsInput = {
-  create?: Prisma.XOR<Prisma.CompanyCreateWithoutMenuConfigsInput, Prisma.CompanyUncheckedCreateWithoutMenuConfigsInput>
-  connectOrCreate?: Prisma.CompanyCreateOrConnectWithoutMenuConfigsInput
-  connect?: Prisma.CompanyWhereUniqueInput
-}
-
-export type CompanyUpdateOneWithoutMenuConfigsNestedInput = {
-  create?: Prisma.XOR<Prisma.CompanyCreateWithoutMenuConfigsInput, Prisma.CompanyUncheckedCreateWithoutMenuConfigsInput>
-  connectOrCreate?: Prisma.CompanyCreateOrConnectWithoutMenuConfigsInput
-  upsert?: Prisma.CompanyUpsertWithoutMenuConfigsInput
-  disconnect?: Prisma.CompanyWhereInput | boolean
-  delete?: Prisma.CompanyWhereInput | boolean
-  connect?: Prisma.CompanyWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.CompanyUpdateToOneWithWhereWithoutMenuConfigsInput, Prisma.CompanyUpdateWithoutMenuConfigsInput>, Prisma.CompanyUncheckedUpdateWithoutMenuConfigsInput>
-}
-
 export type CompanyCreateNestedOneWithoutApiUsageLogsInput = {
   create?: Prisma.XOR<Prisma.CompanyCreateWithoutApiUsageLogsInput, Prisma.CompanyUncheckedCreateWithoutApiUsageLogsInput>
   connectOrCreate?: Prisma.CompanyCreateOrConnectWithoutApiUsageLogsInput
@@ -1920,7 +1897,6 @@ export type CompanyCreateWithoutUsersInput = {
   services?: Prisma.ServiceCreateNestedManyWithoutCompanyInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutCompanyInput
   addonFeatures?: Prisma.AddonFeatureCreateNestedManyWithoutCompanyInput
-  menuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCompanyInput
   userRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutCompanyInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutCompanyInput
   costSummaries?: Prisma.MonthlyCostSummaryCreateNestedManyWithoutCompanyInput
@@ -1990,7 +1966,6 @@ export type CompanyUncheckedCreateWithoutUsersInput = {
   services?: Prisma.ServiceUncheckedCreateNestedManyWithoutCompanyInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
   addonFeatures?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutCompanyInput
-  menuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCompanyInput
   userRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutCompanyInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutCompanyInput
   costSummaries?: Prisma.MonthlyCostSummaryUncheckedCreateNestedManyWithoutCompanyInput
@@ -2065,7 +2040,6 @@ export type CompanyCreateWithoutCreatedByInput = {
   services?: Prisma.ServiceCreateNestedManyWithoutCompanyInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutCompanyInput
   addonFeatures?: Prisma.AddonFeatureCreateNestedManyWithoutCompanyInput
-  menuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCompanyInput
   userRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutCompanyInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutCompanyInput
   costSummaries?: Prisma.MonthlyCostSummaryCreateNestedManyWithoutCompanyInput
@@ -2135,7 +2109,6 @@ export type CompanyUncheckedCreateWithoutCreatedByInput = {
   services?: Prisma.ServiceUncheckedCreateNestedManyWithoutCompanyInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
   addonFeatures?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutCompanyInput
-  menuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCompanyInput
   userRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutCompanyInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutCompanyInput
   costSummaries?: Prisma.MonthlyCostSummaryUncheckedCreateNestedManyWithoutCompanyInput
@@ -2226,7 +2199,6 @@ export type CompanyUpdateWithoutUsersInput = {
   services?: Prisma.ServiceUpdateManyWithoutCompanyNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutCompanyNestedInput
   addonFeatures?: Prisma.AddonFeatureUpdateManyWithoutCompanyNestedInput
-  menuConfigs?: Prisma.MenuConfigUpdateManyWithoutCompanyNestedInput
   userRoles?: Prisma.UserCompanyRoleUpdateManyWithoutCompanyNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutCompanyNestedInput
   costSummaries?: Prisma.MonthlyCostSummaryUpdateManyWithoutCompanyNestedInput
@@ -2296,7 +2268,6 @@ export type CompanyUncheckedUpdateWithoutUsersInput = {
   services?: Prisma.ServiceUncheckedUpdateManyWithoutCompanyNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
   addonFeatures?: Prisma.AddonFeatureUncheckedUpdateManyWithoutCompanyNestedInput
-  menuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCompanyNestedInput
   userRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutCompanyNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
   costSummaries?: Prisma.MonthlyCostSummaryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -2443,7 +2414,6 @@ export type CompanyCreateWithoutDepartmentsInput = {
   services?: Prisma.ServiceCreateNestedManyWithoutCompanyInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutCompanyInput
   addonFeatures?: Prisma.AddonFeatureCreateNestedManyWithoutCompanyInput
-  menuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCompanyInput
   userRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutCompanyInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutCompanyInput
   costSummaries?: Prisma.MonthlyCostSummaryCreateNestedManyWithoutCompanyInput
@@ -2513,7 +2483,6 @@ export type CompanyUncheckedCreateWithoutDepartmentsInput = {
   services?: Prisma.ServiceUncheckedCreateNestedManyWithoutCompanyInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
   addonFeatures?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutCompanyInput
-  menuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCompanyInput
   userRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutCompanyInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutCompanyInput
   costSummaries?: Prisma.MonthlyCostSummaryUncheckedCreateNestedManyWithoutCompanyInput
@@ -2599,7 +2568,6 @@ export type CompanyUpdateWithoutDepartmentsInput = {
   services?: Prisma.ServiceUpdateManyWithoutCompanyNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutCompanyNestedInput
   addonFeatures?: Prisma.AddonFeatureUpdateManyWithoutCompanyNestedInput
-  menuConfigs?: Prisma.MenuConfigUpdateManyWithoutCompanyNestedInput
   userRoles?: Prisma.UserCompanyRoleUpdateManyWithoutCompanyNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutCompanyNestedInput
   costSummaries?: Prisma.MonthlyCostSummaryUpdateManyWithoutCompanyNestedInput
@@ -2669,7 +2637,6 @@ export type CompanyUncheckedUpdateWithoutDepartmentsInput = {
   services?: Prisma.ServiceUncheckedUpdateManyWithoutCompanyNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
   addonFeatures?: Prisma.AddonFeatureUncheckedUpdateManyWithoutCompanyNestedInput
-  menuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCompanyNestedInput
   userRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutCompanyNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
   costSummaries?: Prisma.MonthlyCostSummaryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -2739,7 +2706,6 @@ export type CompanyCreateWithoutJobPositionsInput = {
   services?: Prisma.ServiceCreateNestedManyWithoutCompanyInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutCompanyInput
   addonFeatures?: Prisma.AddonFeatureCreateNestedManyWithoutCompanyInput
-  menuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCompanyInput
   userRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutCompanyInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutCompanyInput
   costSummaries?: Prisma.MonthlyCostSummaryCreateNestedManyWithoutCompanyInput
@@ -2809,7 +2775,6 @@ export type CompanyUncheckedCreateWithoutJobPositionsInput = {
   services?: Prisma.ServiceUncheckedCreateNestedManyWithoutCompanyInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
   addonFeatures?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutCompanyInput
-  menuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCompanyInput
   userRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutCompanyInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutCompanyInput
   costSummaries?: Prisma.MonthlyCostSummaryUncheckedCreateNestedManyWithoutCompanyInput
@@ -2895,7 +2860,6 @@ export type CompanyUpdateWithoutJobPositionsInput = {
   services?: Prisma.ServiceUpdateManyWithoutCompanyNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutCompanyNestedInput
   addonFeatures?: Prisma.AddonFeatureUpdateManyWithoutCompanyNestedInput
-  menuConfigs?: Prisma.MenuConfigUpdateManyWithoutCompanyNestedInput
   userRoles?: Prisma.UserCompanyRoleUpdateManyWithoutCompanyNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutCompanyNestedInput
   costSummaries?: Prisma.MonthlyCostSummaryUpdateManyWithoutCompanyNestedInput
@@ -2965,7 +2929,6 @@ export type CompanyUncheckedUpdateWithoutJobPositionsInput = {
   services?: Prisma.ServiceUncheckedUpdateManyWithoutCompanyNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
   addonFeatures?: Prisma.AddonFeatureUncheckedUpdateManyWithoutCompanyNestedInput
-  menuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCompanyNestedInput
   userRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutCompanyNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
   costSummaries?: Prisma.MonthlyCostSummaryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -3035,7 +2998,6 @@ export type CompanyCreateWithoutEmployeesInput = {
   services?: Prisma.ServiceCreateNestedManyWithoutCompanyInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutCompanyInput
   addonFeatures?: Prisma.AddonFeatureCreateNestedManyWithoutCompanyInput
-  menuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCompanyInput
   userRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutCompanyInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutCompanyInput
   costSummaries?: Prisma.MonthlyCostSummaryCreateNestedManyWithoutCompanyInput
@@ -3105,7 +3067,6 @@ export type CompanyUncheckedCreateWithoutEmployeesInput = {
   services?: Prisma.ServiceUncheckedCreateNestedManyWithoutCompanyInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
   addonFeatures?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutCompanyInput
-  menuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCompanyInput
   userRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutCompanyInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutCompanyInput
   costSummaries?: Prisma.MonthlyCostSummaryUncheckedCreateNestedManyWithoutCompanyInput
@@ -3191,7 +3152,6 @@ export type CompanyUpdateWithoutEmployeesInput = {
   services?: Prisma.ServiceUpdateManyWithoutCompanyNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutCompanyNestedInput
   addonFeatures?: Prisma.AddonFeatureUpdateManyWithoutCompanyNestedInput
-  menuConfigs?: Prisma.MenuConfigUpdateManyWithoutCompanyNestedInput
   userRoles?: Prisma.UserCompanyRoleUpdateManyWithoutCompanyNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutCompanyNestedInput
   costSummaries?: Prisma.MonthlyCostSummaryUpdateManyWithoutCompanyNestedInput
@@ -3261,7 +3221,6 @@ export type CompanyUncheckedUpdateWithoutEmployeesInput = {
   services?: Prisma.ServiceUncheckedUpdateManyWithoutCompanyNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
   addonFeatures?: Prisma.AddonFeatureUncheckedUpdateManyWithoutCompanyNestedInput
-  menuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCompanyNestedInput
   userRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutCompanyNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
   costSummaries?: Prisma.MonthlyCostSummaryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -3330,7 +3289,6 @@ export type CompanyCreateWithoutSubscriptionInput = {
   buildings?: Prisma.BuildingCreateNestedManyWithoutCompanyInput
   services?: Prisma.ServiceCreateNestedManyWithoutCompanyInput
   addonFeatures?: Prisma.AddonFeatureCreateNestedManyWithoutCompanyInput
-  menuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCompanyInput
   userRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutCompanyInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutCompanyInput
   costSummaries?: Prisma.MonthlyCostSummaryCreateNestedManyWithoutCompanyInput
@@ -3400,7 +3358,6 @@ export type CompanyUncheckedCreateWithoutSubscriptionInput = {
   buildings?: Prisma.BuildingUncheckedCreateNestedManyWithoutCompanyInput
   services?: Prisma.ServiceUncheckedCreateNestedManyWithoutCompanyInput
   addonFeatures?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutCompanyInput
-  menuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCompanyInput
   userRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutCompanyInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutCompanyInput
   costSummaries?: Prisma.MonthlyCostSummaryUncheckedCreateNestedManyWithoutCompanyInput
@@ -3486,7 +3443,6 @@ export type CompanyUpdateWithoutSubscriptionInput = {
   buildings?: Prisma.BuildingUpdateManyWithoutCompanyNestedInput
   services?: Prisma.ServiceUpdateManyWithoutCompanyNestedInput
   addonFeatures?: Prisma.AddonFeatureUpdateManyWithoutCompanyNestedInput
-  menuConfigs?: Prisma.MenuConfigUpdateManyWithoutCompanyNestedInput
   userRoles?: Prisma.UserCompanyRoleUpdateManyWithoutCompanyNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutCompanyNestedInput
   costSummaries?: Prisma.MonthlyCostSummaryUpdateManyWithoutCompanyNestedInput
@@ -3556,7 +3512,6 @@ export type CompanyUncheckedUpdateWithoutSubscriptionInput = {
   buildings?: Prisma.BuildingUncheckedUpdateManyWithoutCompanyNestedInput
   services?: Prisma.ServiceUncheckedUpdateManyWithoutCompanyNestedInput
   addonFeatures?: Prisma.AddonFeatureUncheckedUpdateManyWithoutCompanyNestedInput
-  menuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCompanyNestedInput
   userRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutCompanyNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
   costSummaries?: Prisma.MonthlyCostSummaryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -3626,7 +3581,6 @@ export type CompanyCreateWithoutAddonFeaturesInput = {
   buildings?: Prisma.BuildingCreateNestedManyWithoutCompanyInput
   services?: Prisma.ServiceCreateNestedManyWithoutCompanyInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutCompanyInput
-  menuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCompanyInput
   userRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutCompanyInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutCompanyInput
   costSummaries?: Prisma.MonthlyCostSummaryCreateNestedManyWithoutCompanyInput
@@ -3696,7 +3650,6 @@ export type CompanyUncheckedCreateWithoutAddonFeaturesInput = {
   buildings?: Prisma.BuildingUncheckedCreateNestedManyWithoutCompanyInput
   services?: Prisma.ServiceUncheckedCreateNestedManyWithoutCompanyInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
-  menuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCompanyInput
   userRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutCompanyInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutCompanyInput
   costSummaries?: Prisma.MonthlyCostSummaryUncheckedCreateNestedManyWithoutCompanyInput
@@ -3782,7 +3735,6 @@ export type CompanyUpdateWithoutAddonFeaturesInput = {
   buildings?: Prisma.BuildingUpdateManyWithoutCompanyNestedInput
   services?: Prisma.ServiceUpdateManyWithoutCompanyNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutCompanyNestedInput
-  menuConfigs?: Prisma.MenuConfigUpdateManyWithoutCompanyNestedInput
   userRoles?: Prisma.UserCompanyRoleUpdateManyWithoutCompanyNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutCompanyNestedInput
   costSummaries?: Prisma.MonthlyCostSummaryUpdateManyWithoutCompanyNestedInput
@@ -3852,7 +3804,6 @@ export type CompanyUncheckedUpdateWithoutAddonFeaturesInput = {
   buildings?: Prisma.BuildingUncheckedUpdateManyWithoutCompanyNestedInput
   services?: Prisma.ServiceUncheckedUpdateManyWithoutCompanyNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
-  menuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCompanyNestedInput
   userRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutCompanyNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
   costSummaries?: Prisma.MonthlyCostSummaryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -3922,7 +3873,6 @@ export type CompanyCreateWithoutCustomersInput = {
   services?: Prisma.ServiceCreateNestedManyWithoutCompanyInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutCompanyInput
   addonFeatures?: Prisma.AddonFeatureCreateNestedManyWithoutCompanyInput
-  menuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCompanyInput
   userRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutCompanyInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutCompanyInput
   costSummaries?: Prisma.MonthlyCostSummaryCreateNestedManyWithoutCompanyInput
@@ -3992,7 +3942,6 @@ export type CompanyUncheckedCreateWithoutCustomersInput = {
   services?: Prisma.ServiceUncheckedCreateNestedManyWithoutCompanyInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
   addonFeatures?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutCompanyInput
-  menuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCompanyInput
   userRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutCompanyInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutCompanyInput
   costSummaries?: Prisma.MonthlyCostSummaryUncheckedCreateNestedManyWithoutCompanyInput
@@ -4078,7 +4027,6 @@ export type CompanyUpdateWithoutCustomersInput = {
   services?: Prisma.ServiceUpdateManyWithoutCompanyNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutCompanyNestedInput
   addonFeatures?: Prisma.AddonFeatureUpdateManyWithoutCompanyNestedInput
-  menuConfigs?: Prisma.MenuConfigUpdateManyWithoutCompanyNestedInput
   userRoles?: Prisma.UserCompanyRoleUpdateManyWithoutCompanyNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutCompanyNestedInput
   costSummaries?: Prisma.MonthlyCostSummaryUpdateManyWithoutCompanyNestedInput
@@ -4148,7 +4096,6 @@ export type CompanyUncheckedUpdateWithoutCustomersInput = {
   services?: Prisma.ServiceUncheckedUpdateManyWithoutCompanyNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
   addonFeatures?: Prisma.AddonFeatureUncheckedUpdateManyWithoutCompanyNestedInput
-  menuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCompanyNestedInput
   userRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutCompanyNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
   costSummaries?: Prisma.MonthlyCostSummaryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -4218,7 +4165,6 @@ export type CompanyCreateWithoutPropertiesInput = {
   services?: Prisma.ServiceCreateNestedManyWithoutCompanyInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutCompanyInput
   addonFeatures?: Prisma.AddonFeatureCreateNestedManyWithoutCompanyInput
-  menuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCompanyInput
   userRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutCompanyInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutCompanyInput
   costSummaries?: Prisma.MonthlyCostSummaryCreateNestedManyWithoutCompanyInput
@@ -4288,7 +4234,6 @@ export type CompanyUncheckedCreateWithoutPropertiesInput = {
   services?: Prisma.ServiceUncheckedCreateNestedManyWithoutCompanyInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
   addonFeatures?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutCompanyInput
-  menuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCompanyInput
   userRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutCompanyInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutCompanyInput
   costSummaries?: Prisma.MonthlyCostSummaryUncheckedCreateNestedManyWithoutCompanyInput
@@ -4374,7 +4319,6 @@ export type CompanyUpdateWithoutPropertiesInput = {
   services?: Prisma.ServiceUpdateManyWithoutCompanyNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutCompanyNestedInput
   addonFeatures?: Prisma.AddonFeatureUpdateManyWithoutCompanyNestedInput
-  menuConfigs?: Prisma.MenuConfigUpdateManyWithoutCompanyNestedInput
   userRoles?: Prisma.UserCompanyRoleUpdateManyWithoutCompanyNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutCompanyNestedInput
   costSummaries?: Prisma.MonthlyCostSummaryUpdateManyWithoutCompanyNestedInput
@@ -4444,7 +4388,6 @@ export type CompanyUncheckedUpdateWithoutPropertiesInput = {
   services?: Prisma.ServiceUncheckedUpdateManyWithoutCompanyNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
   addonFeatures?: Prisma.AddonFeatureUncheckedUpdateManyWithoutCompanyNestedInput
-  menuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCompanyNestedInput
   userRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutCompanyNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
   costSummaries?: Prisma.MonthlyCostSummaryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -4514,7 +4457,6 @@ export type CompanyCreateWithoutBuildingsInput = {
   services?: Prisma.ServiceCreateNestedManyWithoutCompanyInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutCompanyInput
   addonFeatures?: Prisma.AddonFeatureCreateNestedManyWithoutCompanyInput
-  menuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCompanyInput
   userRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutCompanyInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutCompanyInput
   costSummaries?: Prisma.MonthlyCostSummaryCreateNestedManyWithoutCompanyInput
@@ -4584,7 +4526,6 @@ export type CompanyUncheckedCreateWithoutBuildingsInput = {
   services?: Prisma.ServiceUncheckedCreateNestedManyWithoutCompanyInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
   addonFeatures?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutCompanyInput
-  menuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCompanyInput
   userRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutCompanyInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutCompanyInput
   costSummaries?: Prisma.MonthlyCostSummaryUncheckedCreateNestedManyWithoutCompanyInput
@@ -4670,7 +4611,6 @@ export type CompanyUpdateWithoutBuildingsInput = {
   services?: Prisma.ServiceUpdateManyWithoutCompanyNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutCompanyNestedInput
   addonFeatures?: Prisma.AddonFeatureUpdateManyWithoutCompanyNestedInput
-  menuConfigs?: Prisma.MenuConfigUpdateManyWithoutCompanyNestedInput
   userRoles?: Prisma.UserCompanyRoleUpdateManyWithoutCompanyNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutCompanyNestedInput
   costSummaries?: Prisma.MonthlyCostSummaryUpdateManyWithoutCompanyNestedInput
@@ -4740,7 +4680,6 @@ export type CompanyUncheckedUpdateWithoutBuildingsInput = {
   services?: Prisma.ServiceUncheckedUpdateManyWithoutCompanyNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
   addonFeatures?: Prisma.AddonFeatureUncheckedUpdateManyWithoutCompanyNestedInput
-  menuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCompanyNestedInput
   userRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutCompanyNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
   costSummaries?: Prisma.MonthlyCostSummaryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -4810,7 +4749,6 @@ export type CompanyCreateWithoutServicesInput = {
   buildings?: Prisma.BuildingCreateNestedManyWithoutCompanyInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutCompanyInput
   addonFeatures?: Prisma.AddonFeatureCreateNestedManyWithoutCompanyInput
-  menuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCompanyInput
   userRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutCompanyInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutCompanyInput
   costSummaries?: Prisma.MonthlyCostSummaryCreateNestedManyWithoutCompanyInput
@@ -4880,7 +4818,6 @@ export type CompanyUncheckedCreateWithoutServicesInput = {
   buildings?: Prisma.BuildingUncheckedCreateNestedManyWithoutCompanyInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
   addonFeatures?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutCompanyInput
-  menuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCompanyInput
   userRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutCompanyInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutCompanyInput
   costSummaries?: Prisma.MonthlyCostSummaryUncheckedCreateNestedManyWithoutCompanyInput
@@ -4966,7 +4903,6 @@ export type CompanyUpdateWithoutServicesInput = {
   buildings?: Prisma.BuildingUpdateManyWithoutCompanyNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutCompanyNestedInput
   addonFeatures?: Prisma.AddonFeatureUpdateManyWithoutCompanyNestedInput
-  menuConfigs?: Prisma.MenuConfigUpdateManyWithoutCompanyNestedInput
   userRoles?: Prisma.UserCompanyRoleUpdateManyWithoutCompanyNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutCompanyNestedInput
   costSummaries?: Prisma.MonthlyCostSummaryUpdateManyWithoutCompanyNestedInput
@@ -5036,7 +4972,6 @@ export type CompanyUncheckedUpdateWithoutServicesInput = {
   buildings?: Prisma.BuildingUncheckedUpdateManyWithoutCompanyNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
   addonFeatures?: Prisma.AddonFeatureUncheckedUpdateManyWithoutCompanyNestedInput
-  menuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCompanyNestedInput
   userRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutCompanyNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
   costSummaries?: Prisma.MonthlyCostSummaryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -5107,7 +5042,6 @@ export type CompanyCreateWithoutUserRolesInput = {
   services?: Prisma.ServiceCreateNestedManyWithoutCompanyInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutCompanyInput
   addonFeatures?: Prisma.AddonFeatureCreateNestedManyWithoutCompanyInput
-  menuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCompanyInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutCompanyInput
   costSummaries?: Prisma.MonthlyCostSummaryCreateNestedManyWithoutCompanyInput
   departments?: Prisma.DepartmentCreateNestedManyWithoutCompanyInput
@@ -5177,7 +5111,6 @@ export type CompanyUncheckedCreateWithoutUserRolesInput = {
   services?: Prisma.ServiceUncheckedCreateNestedManyWithoutCompanyInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
   addonFeatures?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutCompanyInput
-  menuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCompanyInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutCompanyInput
   costSummaries?: Prisma.MonthlyCostSummaryUncheckedCreateNestedManyWithoutCompanyInput
   departments?: Prisma.DepartmentUncheckedCreateNestedManyWithoutCompanyInput
@@ -5263,7 +5196,6 @@ export type CompanyUpdateWithoutUserRolesInput = {
   services?: Prisma.ServiceUpdateManyWithoutCompanyNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutCompanyNestedInput
   addonFeatures?: Prisma.AddonFeatureUpdateManyWithoutCompanyNestedInput
-  menuConfigs?: Prisma.MenuConfigUpdateManyWithoutCompanyNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutCompanyNestedInput
   costSummaries?: Prisma.MonthlyCostSummaryUpdateManyWithoutCompanyNestedInput
   departments?: Prisma.DepartmentUpdateManyWithoutCompanyNestedInput
@@ -5333,303 +5265,6 @@ export type CompanyUncheckedUpdateWithoutUserRolesInput = {
   services?: Prisma.ServiceUncheckedUpdateManyWithoutCompanyNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
   addonFeatures?: Prisma.AddonFeatureUncheckedUpdateManyWithoutCompanyNestedInput
-  menuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCompanyNestedInput
-  apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
-  costSummaries?: Prisma.MonthlyCostSummaryUncheckedUpdateManyWithoutCompanyNestedInput
-  departments?: Prisma.DepartmentUncheckedUpdateManyWithoutCompanyNestedInput
-  jobPositions?: Prisma.JobPositionUncheckedUpdateManyWithoutCompanyNestedInput
-  employees?: Prisma.EmployeeUncheckedUpdateManyWithoutCompanyNestedInput
-}
-
-export type CompanyCreateWithoutMenuConfigsInput = {
-  id?: string
-  name: string
-  slug: string
-  logoUrl?: string | null
-  subscriptionTier?: $Enums.SubscriptionTier
-  maxProperties?: number
-  maxUsers?: number
-  maxStorage?: number
-  status?: $Enums.CompanyStatus
-  trialEndsAt?: Date | string | null
-  afm?: string | null
-  taxOffice?: string | null
-  legalName?: string | null
-  legalForm?: string | null
-  activity?: string | null
-  title?: string | null
-  address?: string | null
-  district?: string | null
-  city?: string | null
-  postalCode?: string | null
-  country?: string | null
-  lat?: number | null
-  lng?: number | null
-  phone1?: string | null
-  phone2?: string | null
-  phone3?: string | null
-  fax?: string | null
-  email?: string | null
-  website?: string | null
-  glnCode?: string | null
-  registryNumber?: string | null
-  vatStatus?: string | null
-  distStats?: string | null
-  gemhNumber?: string | null
-  ikaNumber?: string | null
-  ikaRegistry?: string | null
-  folderNumber?: string | null
-  kadCode?: string | null
-  foundedAt?: Date | string | null
-  dissolutionDate?: Date | string | null
-  iban?: string | null
-  bank?: string | null
-  initialCapital?: number | null
-  paidCapital?: number | null
-  legalRep?: string | null
-  legalRepId?: string | null
-  tpte?: string | null
-  tpteteka?: string | null
-  employmentOrg?: string | null
-  remarks?: string | null
-  softoneCompanyCode?: number | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  createdBy?: Prisma.UserCreateNestedOneWithoutCreatedCompaniesInput
-  users?: Prisma.UserCreateNestedManyWithoutCompanyInput
-  customers?: Prisma.CustomerCreateNestedManyWithoutCompanyInput
-  properties?: Prisma.PropertyCreateNestedManyWithoutCompanyInput
-  buildings?: Prisma.BuildingCreateNestedManyWithoutCompanyInput
-  services?: Prisma.ServiceCreateNestedManyWithoutCompanyInput
-  subscription?: Prisma.SubscriptionCreateNestedOneWithoutCompanyInput
-  addonFeatures?: Prisma.AddonFeatureCreateNestedManyWithoutCompanyInput
-  userRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutCompanyInput
-  apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutCompanyInput
-  costSummaries?: Prisma.MonthlyCostSummaryCreateNestedManyWithoutCompanyInput
-  departments?: Prisma.DepartmentCreateNestedManyWithoutCompanyInput
-  jobPositions?: Prisma.JobPositionCreateNestedManyWithoutCompanyInput
-  employees?: Prisma.EmployeeCreateNestedManyWithoutCompanyInput
-}
-
-export type CompanyUncheckedCreateWithoutMenuConfigsInput = {
-  id?: string
-  name: string
-  slug: string
-  logoUrl?: string | null
-  subscriptionTier?: $Enums.SubscriptionTier
-  maxProperties?: number
-  maxUsers?: number
-  maxStorage?: number
-  status?: $Enums.CompanyStatus
-  trialEndsAt?: Date | string | null
-  afm?: string | null
-  taxOffice?: string | null
-  legalName?: string | null
-  legalForm?: string | null
-  activity?: string | null
-  title?: string | null
-  address?: string | null
-  district?: string | null
-  city?: string | null
-  postalCode?: string | null
-  country?: string | null
-  lat?: number | null
-  lng?: number | null
-  phone1?: string | null
-  phone2?: string | null
-  phone3?: string | null
-  fax?: string | null
-  email?: string | null
-  website?: string | null
-  glnCode?: string | null
-  registryNumber?: string | null
-  vatStatus?: string | null
-  distStats?: string | null
-  gemhNumber?: string | null
-  ikaNumber?: string | null
-  ikaRegistry?: string | null
-  folderNumber?: string | null
-  kadCode?: string | null
-  foundedAt?: Date | string | null
-  dissolutionDate?: Date | string | null
-  iban?: string | null
-  bank?: string | null
-  initialCapital?: number | null
-  paidCapital?: number | null
-  legalRep?: string | null
-  legalRepId?: string | null
-  tpte?: string | null
-  tpteteka?: string | null
-  employmentOrg?: string | null
-  remarks?: string | null
-  softoneCompanyCode?: number | null
-  createdById?: string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  users?: Prisma.UserUncheckedCreateNestedManyWithoutCompanyInput
-  customers?: Prisma.CustomerUncheckedCreateNestedManyWithoutCompanyInput
-  properties?: Prisma.PropertyUncheckedCreateNestedManyWithoutCompanyInput
-  buildings?: Prisma.BuildingUncheckedCreateNestedManyWithoutCompanyInput
-  services?: Prisma.ServiceUncheckedCreateNestedManyWithoutCompanyInput
-  subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
-  addonFeatures?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutCompanyInput
-  userRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutCompanyInput
-  apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutCompanyInput
-  costSummaries?: Prisma.MonthlyCostSummaryUncheckedCreateNestedManyWithoutCompanyInput
-  departments?: Prisma.DepartmentUncheckedCreateNestedManyWithoutCompanyInput
-  jobPositions?: Prisma.JobPositionUncheckedCreateNestedManyWithoutCompanyInput
-  employees?: Prisma.EmployeeUncheckedCreateNestedManyWithoutCompanyInput
-}
-
-export type CompanyCreateOrConnectWithoutMenuConfigsInput = {
-  where: Prisma.CompanyWhereUniqueInput
-  create: Prisma.XOR<Prisma.CompanyCreateWithoutMenuConfigsInput, Prisma.CompanyUncheckedCreateWithoutMenuConfigsInput>
-}
-
-export type CompanyUpsertWithoutMenuConfigsInput = {
-  update: Prisma.XOR<Prisma.CompanyUpdateWithoutMenuConfigsInput, Prisma.CompanyUncheckedUpdateWithoutMenuConfigsInput>
-  create: Prisma.XOR<Prisma.CompanyCreateWithoutMenuConfigsInput, Prisma.CompanyUncheckedCreateWithoutMenuConfigsInput>
-  where?: Prisma.CompanyWhereInput
-}
-
-export type CompanyUpdateToOneWithWhereWithoutMenuConfigsInput = {
-  where?: Prisma.CompanyWhereInput
-  data: Prisma.XOR<Prisma.CompanyUpdateWithoutMenuConfigsInput, Prisma.CompanyUncheckedUpdateWithoutMenuConfigsInput>
-}
-
-export type CompanyUpdateWithoutMenuConfigsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  slug?: Prisma.StringFieldUpdateOperationsInput | string
-  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  subscriptionTier?: Prisma.EnumSubscriptionTierFieldUpdateOperationsInput | $Enums.SubscriptionTier
-  maxProperties?: Prisma.IntFieldUpdateOperationsInput | number
-  maxUsers?: Prisma.IntFieldUpdateOperationsInput | number
-  maxStorage?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
-  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  taxOffice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  legalForm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  district?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  phone1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  phone2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  phone3?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  fax?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  glnCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  registryNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  vatStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  distStats?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  gemhNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  ikaNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  ikaRegistry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  folderNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  kadCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  foundedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  dissolutionDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  iban?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bank?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  initialCapital?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  paidCapital?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  legalRep?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  legalRepId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tpte?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tpteteka?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  employmentOrg?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  softoneCompanyCode?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  createdBy?: Prisma.UserUpdateOneWithoutCreatedCompaniesNestedInput
-  users?: Prisma.UserUpdateManyWithoutCompanyNestedInput
-  customers?: Prisma.CustomerUpdateManyWithoutCompanyNestedInput
-  properties?: Prisma.PropertyUpdateManyWithoutCompanyNestedInput
-  buildings?: Prisma.BuildingUpdateManyWithoutCompanyNestedInput
-  services?: Prisma.ServiceUpdateManyWithoutCompanyNestedInput
-  subscription?: Prisma.SubscriptionUpdateOneWithoutCompanyNestedInput
-  addonFeatures?: Prisma.AddonFeatureUpdateManyWithoutCompanyNestedInput
-  userRoles?: Prisma.UserCompanyRoleUpdateManyWithoutCompanyNestedInput
-  apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutCompanyNestedInput
-  costSummaries?: Prisma.MonthlyCostSummaryUpdateManyWithoutCompanyNestedInput
-  departments?: Prisma.DepartmentUpdateManyWithoutCompanyNestedInput
-  jobPositions?: Prisma.JobPositionUpdateManyWithoutCompanyNestedInput
-  employees?: Prisma.EmployeeUpdateManyWithoutCompanyNestedInput
-}
-
-export type CompanyUncheckedUpdateWithoutMenuConfigsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  slug?: Prisma.StringFieldUpdateOperationsInput | string
-  logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  subscriptionTier?: Prisma.EnumSubscriptionTierFieldUpdateOperationsInput | $Enums.SubscriptionTier
-  maxProperties?: Prisma.IntFieldUpdateOperationsInput | number
-  maxUsers?: Prisma.IntFieldUpdateOperationsInput | number
-  maxStorage?: Prisma.IntFieldUpdateOperationsInput | number
-  status?: Prisma.EnumCompanyStatusFieldUpdateOperationsInput | $Enums.CompanyStatus
-  trialEndsAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  taxOffice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  legalForm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  activity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  district?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  phone1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  phone2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  phone3?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  fax?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  glnCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  registryNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  vatStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  distStats?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  gemhNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  ikaNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  ikaRegistry?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  folderNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  kadCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  foundedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  dissolutionDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  iban?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  bank?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  initialCapital?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  paidCapital?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  legalRep?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  legalRepId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tpte?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tpteteka?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  employmentOrg?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  softoneCompanyCode?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  users?: Prisma.UserUncheckedUpdateManyWithoutCompanyNestedInput
-  customers?: Prisma.CustomerUncheckedUpdateManyWithoutCompanyNestedInput
-  properties?: Prisma.PropertyUncheckedUpdateManyWithoutCompanyNestedInput
-  buildings?: Prisma.BuildingUncheckedUpdateManyWithoutCompanyNestedInput
-  services?: Prisma.ServiceUncheckedUpdateManyWithoutCompanyNestedInput
-  subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
-  addonFeatures?: Prisma.AddonFeatureUncheckedUpdateManyWithoutCompanyNestedInput
-  userRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutCompanyNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
   costSummaries?: Prisma.MonthlyCostSummaryUncheckedUpdateManyWithoutCompanyNestedInput
   departments?: Prisma.DepartmentUncheckedUpdateManyWithoutCompanyNestedInput
@@ -5699,7 +5334,6 @@ export type CompanyCreateWithoutApiUsageLogsInput = {
   services?: Prisma.ServiceCreateNestedManyWithoutCompanyInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutCompanyInput
   addonFeatures?: Prisma.AddonFeatureCreateNestedManyWithoutCompanyInput
-  menuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCompanyInput
   userRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutCompanyInput
   costSummaries?: Prisma.MonthlyCostSummaryCreateNestedManyWithoutCompanyInput
   departments?: Prisma.DepartmentCreateNestedManyWithoutCompanyInput
@@ -5769,7 +5403,6 @@ export type CompanyUncheckedCreateWithoutApiUsageLogsInput = {
   services?: Prisma.ServiceUncheckedCreateNestedManyWithoutCompanyInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
   addonFeatures?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutCompanyInput
-  menuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCompanyInput
   userRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutCompanyInput
   costSummaries?: Prisma.MonthlyCostSummaryUncheckedCreateNestedManyWithoutCompanyInput
   departments?: Prisma.DepartmentUncheckedCreateNestedManyWithoutCompanyInput
@@ -5855,7 +5488,6 @@ export type CompanyUpdateWithoutApiUsageLogsInput = {
   services?: Prisma.ServiceUpdateManyWithoutCompanyNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutCompanyNestedInput
   addonFeatures?: Prisma.AddonFeatureUpdateManyWithoutCompanyNestedInput
-  menuConfigs?: Prisma.MenuConfigUpdateManyWithoutCompanyNestedInput
   userRoles?: Prisma.UserCompanyRoleUpdateManyWithoutCompanyNestedInput
   costSummaries?: Prisma.MonthlyCostSummaryUpdateManyWithoutCompanyNestedInput
   departments?: Prisma.DepartmentUpdateManyWithoutCompanyNestedInput
@@ -5925,7 +5557,6 @@ export type CompanyUncheckedUpdateWithoutApiUsageLogsInput = {
   services?: Prisma.ServiceUncheckedUpdateManyWithoutCompanyNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
   addonFeatures?: Prisma.AddonFeatureUncheckedUpdateManyWithoutCompanyNestedInput
-  menuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCompanyNestedInput
   userRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutCompanyNestedInput
   costSummaries?: Prisma.MonthlyCostSummaryUncheckedUpdateManyWithoutCompanyNestedInput
   departments?: Prisma.DepartmentUncheckedUpdateManyWithoutCompanyNestedInput
@@ -5995,7 +5626,6 @@ export type CompanyCreateWithoutCostSummariesInput = {
   services?: Prisma.ServiceCreateNestedManyWithoutCompanyInput
   subscription?: Prisma.SubscriptionCreateNestedOneWithoutCompanyInput
   addonFeatures?: Prisma.AddonFeatureCreateNestedManyWithoutCompanyInput
-  menuConfigs?: Prisma.MenuConfigCreateNestedManyWithoutCompanyInput
   userRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutCompanyInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutCompanyInput
   departments?: Prisma.DepartmentCreateNestedManyWithoutCompanyInput
@@ -6065,7 +5695,6 @@ export type CompanyUncheckedCreateWithoutCostSummariesInput = {
   services?: Prisma.ServiceUncheckedCreateNestedManyWithoutCompanyInput
   subscription?: Prisma.SubscriptionUncheckedCreateNestedOneWithoutCompanyInput
   addonFeatures?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutCompanyInput
-  menuConfigs?: Prisma.MenuConfigUncheckedCreateNestedManyWithoutCompanyInput
   userRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutCompanyInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutCompanyInput
   departments?: Prisma.DepartmentUncheckedCreateNestedManyWithoutCompanyInput
@@ -6151,7 +5780,6 @@ export type CompanyUpdateWithoutCostSummariesInput = {
   services?: Prisma.ServiceUpdateManyWithoutCompanyNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutCompanyNestedInput
   addonFeatures?: Prisma.AddonFeatureUpdateManyWithoutCompanyNestedInput
-  menuConfigs?: Prisma.MenuConfigUpdateManyWithoutCompanyNestedInput
   userRoles?: Prisma.UserCompanyRoleUpdateManyWithoutCompanyNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutCompanyNestedInput
   departments?: Prisma.DepartmentUpdateManyWithoutCompanyNestedInput
@@ -6221,7 +5849,6 @@ export type CompanyUncheckedUpdateWithoutCostSummariesInput = {
   services?: Prisma.ServiceUncheckedUpdateManyWithoutCompanyNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
   addonFeatures?: Prisma.AddonFeatureUncheckedUpdateManyWithoutCompanyNestedInput
-  menuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCompanyNestedInput
   userRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutCompanyNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
   departments?: Prisma.DepartmentUncheckedUpdateManyWithoutCompanyNestedInput
@@ -6346,7 +5973,6 @@ export type CompanyUpdateWithoutCreatedByInput = {
   services?: Prisma.ServiceUpdateManyWithoutCompanyNestedInput
   subscription?: Prisma.SubscriptionUpdateOneWithoutCompanyNestedInput
   addonFeatures?: Prisma.AddonFeatureUpdateManyWithoutCompanyNestedInput
-  menuConfigs?: Prisma.MenuConfigUpdateManyWithoutCompanyNestedInput
   userRoles?: Prisma.UserCompanyRoleUpdateManyWithoutCompanyNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutCompanyNestedInput
   costSummaries?: Prisma.MonthlyCostSummaryUpdateManyWithoutCompanyNestedInput
@@ -6416,7 +6042,6 @@ export type CompanyUncheckedUpdateWithoutCreatedByInput = {
   services?: Prisma.ServiceUncheckedUpdateManyWithoutCompanyNestedInput
   subscription?: Prisma.SubscriptionUncheckedUpdateOneWithoutCompanyNestedInput
   addonFeatures?: Prisma.AddonFeatureUncheckedUpdateManyWithoutCompanyNestedInput
-  menuConfigs?: Prisma.MenuConfigUncheckedUpdateManyWithoutCompanyNestedInput
   userRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutCompanyNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutCompanyNestedInput
   costSummaries?: Prisma.MonthlyCostSummaryUncheckedUpdateManyWithoutCompanyNestedInput
@@ -6493,7 +6118,6 @@ export type CompanyCountOutputType = {
   buildings: number
   services: number
   addonFeatures: number
-  menuConfigs: number
   userRoles: number
   apiUsageLogs: number
   costSummaries: number
@@ -6509,7 +6133,6 @@ export type CompanyCountOutputTypeSelect<ExtArgs extends runtime.Types.Extension
   buildings?: boolean | CompanyCountOutputTypeCountBuildingsArgs
   services?: boolean | CompanyCountOutputTypeCountServicesArgs
   addonFeatures?: boolean | CompanyCountOutputTypeCountAddonFeaturesArgs
-  menuConfigs?: boolean | CompanyCountOutputTypeCountMenuConfigsArgs
   userRoles?: boolean | CompanyCountOutputTypeCountUserRolesArgs
   apiUsageLogs?: boolean | CompanyCountOutputTypeCountApiUsageLogsArgs
   costSummaries?: boolean | CompanyCountOutputTypeCountCostSummariesArgs
@@ -6568,13 +6191,6 @@ export type CompanyCountOutputTypeCountServicesArgs<ExtArgs extends runtime.Type
  */
 export type CompanyCountOutputTypeCountAddonFeaturesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.AddonFeatureWhereInput
-}
-
-/**
- * CompanyCountOutputType without action
- */
-export type CompanyCountOutputTypeCountMenuConfigsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.MenuConfigWhereInput
 }
 
 /**
@@ -6683,7 +6299,6 @@ export type CompanySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   services?: boolean | Prisma.Company$servicesArgs<ExtArgs>
   subscription?: boolean | Prisma.Company$subscriptionArgs<ExtArgs>
   addonFeatures?: boolean | Prisma.Company$addonFeaturesArgs<ExtArgs>
-  menuConfigs?: boolean | Prisma.Company$menuConfigsArgs<ExtArgs>
   userRoles?: boolean | Prisma.Company$userRolesArgs<ExtArgs>
   apiUsageLogs?: boolean | Prisma.Company$apiUsageLogsArgs<ExtArgs>
   costSummaries?: boolean | Prisma.Company$costSummariesArgs<ExtArgs>
@@ -6876,7 +6491,6 @@ export type CompanyInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs
   services?: boolean | Prisma.Company$servicesArgs<ExtArgs>
   subscription?: boolean | Prisma.Company$subscriptionArgs<ExtArgs>
   addonFeatures?: boolean | Prisma.Company$addonFeaturesArgs<ExtArgs>
-  menuConfigs?: boolean | Prisma.Company$menuConfigsArgs<ExtArgs>
   userRoles?: boolean | Prisma.Company$userRolesArgs<ExtArgs>
   apiUsageLogs?: boolean | Prisma.Company$apiUsageLogsArgs<ExtArgs>
   costSummaries?: boolean | Prisma.Company$costSummariesArgs<ExtArgs>
@@ -6903,7 +6517,6 @@ export type $CompanyPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     services: Prisma.$ServicePayload<ExtArgs>[]
     subscription: Prisma.$SubscriptionPayload<ExtArgs> | null
     addonFeatures: Prisma.$AddonFeaturePayload<ExtArgs>[]
-    menuConfigs: Prisma.$MenuConfigPayload<ExtArgs>[]
     userRoles: Prisma.$UserCompanyRolePayload<ExtArgs>[]
     apiUsageLogs: Prisma.$APIUsageLogPayload<ExtArgs>[]
     costSummaries: Prisma.$MonthlyCostSummaryPayload<ExtArgs>[]
@@ -7368,7 +6981,6 @@ export interface Prisma__CompanyClient<T, Null = never, ExtArgs extends runtime.
   services<T extends Prisma.Company$servicesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Company$servicesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   subscription<T extends Prisma.Company$subscriptionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Company$subscriptionArgs<ExtArgs>>): Prisma.Prisma__SubscriptionClient<runtime.Types.Result.GetResult<Prisma.$SubscriptionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   addonFeatures<T extends Prisma.Company$addonFeaturesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Company$addonFeaturesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AddonFeaturePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  menuConfigs<T extends Prisma.Company$menuConfigsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Company$menuConfigsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MenuConfigPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   userRoles<T extends Prisma.Company$userRolesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Company$userRolesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserCompanyRolePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   apiUsageLogs<T extends Prisma.Company$apiUsageLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Company$apiUsageLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$APIUsageLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   costSummaries<T extends Prisma.Company$costSummariesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Company$costSummariesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MonthlyCostSummaryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -8038,30 +7650,6 @@ export type Company$addonFeaturesArgs<ExtArgs extends runtime.Types.Extensions.I
   take?: number
   skip?: number
   distinct?: Prisma.AddonFeatureScalarFieldEnum | Prisma.AddonFeatureScalarFieldEnum[]
-}
-
-/**
- * Company.menuConfigs
- */
-export type Company$menuConfigsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the MenuConfig
-   */
-  select?: Prisma.MenuConfigSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the MenuConfig
-   */
-  omit?: Prisma.MenuConfigOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.MenuConfigInclude<ExtArgs> | null
-  where?: Prisma.MenuConfigWhereInput
-  orderBy?: Prisma.MenuConfigOrderByWithRelationInput | Prisma.MenuConfigOrderByWithRelationInput[]
-  cursor?: Prisma.MenuConfigWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.MenuConfigScalarFieldEnum | Prisma.MenuConfigScalarFieldEnum[]
 }
 
 /**
