@@ -13,6 +13,7 @@ export const authConfig = {
     jwt({ token, user }) {
       if (user) {
         token.role = (user as any).role;
+        token.roleId = (user as any).roleId;
         token.companyId = (user as any).companyId;
         token.customerId = (user as any).customerId;
         token.id = user.id;
@@ -22,6 +23,7 @@ export const authConfig = {
     session({ session, token }) {
       if (session.user) {
         (session.user as any).role = token.role;
+        (session.user as any).roleId = token.roleId;
         (session.user as any).companyId = token.companyId;
         (session.user as any).customerId = token.customerId;
         (session.user as any).id = token.sub;
