@@ -30,10 +30,18 @@ type UserInput = {
   name?: string | null;
   email: string;
   role: string;
+  roleId?: string | null;
   status?: string;
   companyId?: string | null;
   password?: string | null;
 };
+
+/** If a DB roleId is supplied, resolve it and return its baseRole enum; otherwise null. */
+async function resolveRoleRow(roleId: string | null | undefined) {
+  if (!roleId) return null;
+  const roleRow = await db.role.findUnique({ where: { id: roleId }, select: { baseRole: true } });
+  return roleRow;
+}
 
 export async function createUser(data: UserInput) {
   await requireSuperAdmin();
@@ -45,13 +53,17 @@ export async function createUser(data: UserInput) {
   const existing = await db.user.findUnique({ where: { email } });
   if (existing) return { error: "Υπάρχει ήδη χρήστης με αυτό το email" };
 
+  const roleRow = await resolveRoleRow(data.roleId);
+  const effectiveRole = roleRow ? roleRow.baseRole : data.role;
+
   const user = await db.user.create({
     data: {
       email,
       name: data.name?.trim() || null,
-      role: data.role as any,
+      role: effectiveRole as any,
+      ...(roleRow ? { roleId: data.roleId } : {}),
       status: (data.status ?? "ACTIVE") as any,
-      companyId: await resolveCompanyId(data.role, data.companyId),
+      companyId: await resolveCompanyId(effectiveRole, data.companyId),
       passwordHash: await bcrypt.hash(data.password, 10),
     },
     include: { company: { select: { name: true } } },
@@ -70,9 +82,21 @@ export async function updateUser(id: string, data: Partial<UserInput>) {
   if (data.companyId !== undefined) patch.companyId = data.companyId || null;
   if (data.password) patch.passwordHash = await bcrypt.hash(data.password, 10);
 
+  let effectiveRole = data.role;
+  if (data.roleId !== undefined) {
+    const roleRow = await resolveRoleRow(data.roleId);
+    if (roleRow) {
+      patch.roleId = data.roleId;
+      patch.role = roleRow.baseRole;
+      effectiveRole = roleRow.baseRole;
+    } else {
+      patch.roleId = null;
+    }
+  }
+
   // Staff roles must belong to the managing company if left empty.
-  if (data.role !== undefined && (EMPLOYEE_ROLES as readonly string[]).includes(data.role) && !patch.companyId) {
-    patch.companyId = await resolveCompanyId(data.role, null);
+  if (effectiveRole !== undefined && (EMPLOYEE_ROLES as readonly string[]).includes(effectiveRole) && !patch.companyId) {
+    patch.companyId = await resolveCompanyId(effectiveRole, null);
   }
 
   const user = await db.user.update({

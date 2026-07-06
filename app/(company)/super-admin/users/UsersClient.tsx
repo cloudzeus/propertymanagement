@@ -4,7 +4,7 @@ import { useState, useTransition } from "react";
 import { DataTable, type ColDef, type RowAction } from "@/components/ui/data-table";
 import { Modal, FormField, FieldInput, FieldSelect } from "@/components/ui/modal";
 import { createUser, updateUser, deleteUser } from "@/app/actions/users";
-import { USER_ROLES, USER_STATUSES, EMPLOYEE_ROLES } from "@/lib/roles-constants";
+import { USER_STATUSES, EMPLOYEE_ROLES } from "@/lib/roles-constants";
 import { RiCheckLine, RiLoaderLine, RiPencilLine, RiDeleteBinLine } from "react-icons/ri";
 
 export const ROLE_LABEL: Record<string, string> = {
@@ -30,11 +30,13 @@ const STATUS_LABEL: Record<string, string> = {
 };
 
 type Company = { id: string; name: string };
+type RoleRow = { id: string; key: string; label: string; baseRole: string; surface: string; isSystem: boolean };
 type User = {
   id: string;
   name: string | null;
   email: string;
   role: string;
+  roleId: string | null;
   status: string;
   companyId: string | null;
   company: { name: string } | null;
@@ -42,14 +44,15 @@ type User = {
 };
 
 function initForm() {
-  return { name: "", email: "", role: "EMPLOYEE", status: "ACTIVE", companyId: "", password: "" };
+  return { name: "", email: "", role: "EMPLOYEE", roleId: "", status: "ACTIVE", companyId: "", password: "" };
 }
 
 export function UsersClient({
-  initial, companies, managingCompanyId,
+  initial, companies, roles, managingCompanyId,
 }: {
   initial: User[];
   companies: Company[];
+  roles: RoleRow[];
   managingCompanyId: string;
 }) {
   const [data, setData] = useState<User[]>(initial);
@@ -62,12 +65,15 @@ export function UsersClient({
   const f = (key: keyof ReturnType<typeof initForm>) => (v: string) => setForm((p) => ({ ...p, [key]: v }));
 
   // Staff roles (admin/manager/employee) default to the managing company.
-  function setRole(role: string) {
+  function setRoleId(roleId: string) {
     setForm((p) => {
-      const isStaff = (EMPLOYEE_ROLES as readonly string[]).includes(role);
+      const roleRow = roles.find((r) => r.id === roleId);
+      const baseRole = roleRow?.baseRole ?? p.role;
+      const isStaff = (EMPLOYEE_ROLES as readonly string[]).includes(baseRole);
       return {
         ...p,
-        role,
+        roleId,
+        role: baseRole,
         companyId: isStaff && managingCompanyId ? managingCompanyId : p.companyId,
       };
     });
@@ -82,8 +88,9 @@ export function UsersClient({
 
   function openEdit(u: User) {
     setEditing(u);
+    const fallbackRoleId = u.roleId || roles.find((r) => r.isSystem && r.key === u.role)?.id || "";
     setForm({
-      name: u.name ?? "", email: u.email, role: u.role, status: u.status,
+      name: u.name ?? "", email: u.email, role: u.role, roleId: fallbackRoleId, status: u.status,
       companyId: u.companyId ?? "", password: "",
     });
     setError(null);
@@ -98,6 +105,7 @@ export function UsersClient({
         name: form.name || null,
         email: form.email,
         role: form.role,
+        roleId: form.roleId || null,
         status: form.status,
         companyId: form.companyId || null,
         password: form.password || null,
@@ -119,7 +127,7 @@ export function UsersClient({
     });
   }
 
-  const roleOptions = USER_ROLES.map((r) => ({ value: r, label: ROLE_LABEL[r] ?? r }));
+  const roleIdOptions = roles.map((r) => ({ value: r.id, label: r.isSystem ? `${r.label} (system)` : r.label }));
   const statusOptions = USER_STATUSES.map((s) => ({ value: s, label: STATUS_LABEL[s] ?? s }));
   const companyOptions = companies.map((c) => ({ value: c.id, label: c.name }));
 
@@ -225,7 +233,7 @@ export function UsersClient({
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
             <FormField label="Ρόλος" required>
-              <FieldSelect value={form.role} onChange={setRole} options={roleOptions} />
+              <FieldSelect value={form.roleId} onChange={setRoleId} options={roleIdOptions} />
             </FormField>
             <FormField label="Κατάσταση">
               <FieldSelect value={form.status} onChange={f("status")} options={statusOptions} />
