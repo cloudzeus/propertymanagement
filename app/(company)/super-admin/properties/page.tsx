@@ -1,11 +1,13 @@
 import { auth } from "@/auth";
 import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
+import { requirePermission } from "@/lib/rbac/permissions";
 import { PropertiesClient } from "./PropertiesClient";
 
 export const metadata = { title: "Ιδιοκτησίες — Super Admin" };
 
 export default async function PropertiesPage() {
+  await requirePermission("properties", "view");
   const session = await auth();
   if (!session?.user) redirect("/login");
   const me = await db.user.findUnique({ where: { id: session.user.id as string }, select: { role: true } });

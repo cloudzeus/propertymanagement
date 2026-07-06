@@ -1,9 +1,11 @@
 import { db } from "@/lib/db";
+import { requirePermission } from "@/lib/rbac/permissions";
 import { UsersClient } from "./UsersClient";
 
 export const metadata = { title: "Χρήστες — Super Admin" };
 
 export default async function UsersPage() {
+  await requirePermission("users", "view");
   const [users, companies, roles] = await Promise.all([
     db.user.findMany({
       orderBy: { createdAt: "desc" },

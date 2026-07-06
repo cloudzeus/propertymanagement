@@ -1,11 +1,13 @@
 import { auth } from "@/auth";
 import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
+import { requirePermission } from "@/lib/rbac/permissions";
 import { CustomersClient } from "./CustomersClient";
 
 export const metadata = { title: "Πελάτες — Super Admin" };
 
 export default async function CustomersPage() {
+  await requirePermission("customers", "view");
   const session = await auth();
   if (!session?.user) redirect("/login");
   const me = await db.user.findUnique({ where: { id: session.user.id as string }, select: { role: true } });

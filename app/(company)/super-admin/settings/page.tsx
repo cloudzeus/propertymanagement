@@ -1,4 +1,7 @@
-export default function SettingsPage() {
+import { requirePermission } from "@/lib/rbac/permissions";
+
+export default async function SettingsPage() {
+  await requirePermission("settings", "view");
   return (
     <div className="space-y-6 max-w-4xl">
       <div>

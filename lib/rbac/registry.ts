@@ -88,3 +88,9 @@ export const DEFAULT_PERMISSIONS: RoleDefaults = {
     ...view("mkt-dashboard"), ...crud("mkt-tasks", "mkt-maintenance"),
   ],
 };
+
+// ── RBAC route-guard coverage (as of dynamic-rbac rollout) ──
+// GUARDED (view): customers, users, roles (edit), billing, services, settings, integrations, properties
+// TODO wire requirePermission on: reports, onboarding, units, residents, calendar, maintenance,
+//   announcements, api-costs, view-as, settings-company, settings-brand, all cms-*, and all
+//   customer-* / mkt-* surface routes. Menu already hides them; server guards pending.
