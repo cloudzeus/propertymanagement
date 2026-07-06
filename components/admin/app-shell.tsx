@@ -6,6 +6,7 @@ import { GlobalExpenseButton } from "@/components/buildings/GlobalExpenseButton"
 import { listManageableBuildings } from "@/app/actions/building-expenses";
 import { getEffectiveSession } from "@/lib/auth-effective";
 import { ImpersonationBanner } from "./impersonation-banner";
+import { getEffectivePermissions, buildMenu } from "@/lib/rbac/permissions";
 
 const EXPENSE_ROLES = ["SUPER_ADMIN", "ADMIN", "MANAGER", "PROPERTY_ADMIN"];
 
@@ -33,6 +34,9 @@ export async function AppShell({ children, allowedRoles }: Props) {
   const settings = await getAppSettings();
   const expenseBuildings = EXPENSE_ROLES.includes(role) ? await listManageableBuildings() : [];
 
+  const resolved = await getEffectivePermissions();
+  const menu = resolved ? buildMenu(resolved.surface, resolved.perms) : [];
+
   return (
     <div style={{
       display: "flex",
@@ -43,6 +47,7 @@ export async function AppShell({ children, allowedRoles }: Props) {
     }}>
       <SidebarNav
         role={role}
+        menu={menu}
         userName={eff.user.name ?? ""}
         userEmail={eff.user.email ?? ""}
         logoUrl={settings.logoFullLight ?? settings.logoUrl}

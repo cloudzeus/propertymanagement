@@ -37,6 +37,7 @@ import {
   RiArticleLine, RiArticleFill,
   RiUserStarLine, RiUserStarFill,
 } from "react-icons/ri";
+import type { MenuGroup } from "@/lib/rbac/permissions";
 
 type UserRole =
   | "SUPER_ADMIN" | "ADMIN" | "MANAGER" | "EMPLOYEE"
@@ -59,229 +60,84 @@ type NavGroup = {
   items: NavItem[];
 };
 
-// ─── Nav configs per role ─────────────────────────────────────────────────────
-const NAV_BY_ROLE: Record<string, NavGroup[]> = {
-  SUPER_ADMIN: [
-    {
-      id: "core", label: "Κεντρικό", icon: RiDashboardLine, color: "#0078D4",
-      items: [
-        { label: "Dashboard",    href: "/super-admin",              icon: RiDashboardLine,           iconActive: RiDashboardFill,          color: "#0078D4" },
-        { label: "Αναφορές",     href: "/super-admin/reports",      icon: RiBarChartLine,            iconActive: RiBarChart2Fill,          color: "#107C10" },
-      ],
-    },
-    {
-      id: "management", label: "Διαχείριση", icon: RiBuildingLine, color: "#8764B8",
-      items: [
-        { label: "Νέα πολυκατοικία (AI)", href: "/super-admin/onboarding", icon: RiRobot2Line,        iconActive: RiRobot2Line,             color: "#CA5D00" },
-        { label: "Πελάτες",      href: "/super-admin/customers",    icon: RiContactsLine,            iconActive: RiContactsFill,           color: "#038387" },
-        { label: "Ιδιοκτησίες",  href: "/super-admin/properties",   icon: RiCommunityLine,           iconActive: RiCommunityFill,          color: "#8764B8" },
-        { label: "Χρήστες",      href: "/super-admin/users",        icon: RiGroupLine,               iconActive: RiGroupFill,              color: "#0078D4" },
-        { label: "Ρόλοι",        href: "/super-admin/roles",        icon: RiShieldUserLine,          iconActive: RiShieldUserFill,         color: "#E31E2A" },
-      ],
-    },
-    {
-      id: "financials", label: "Οικονομικά", icon: RiMoneyDollarCircleLine, color: "#107C10",
-      items: [
-        { label: "Υπηρεσίες",    href: "/super-admin/services",     icon: RiServiceLine,             iconActive: RiServiceFill,            color: "#CA5D00" },
-        { label: "Κόστη API",    href: "/super-admin/settings/costs",      icon: RiMoneyDollarCircleLine,   iconActive: RiMoneyDollarCircleFill,  color: "#107C10" },
-        { label: "Τιμολόγηση",   href: "/super-admin/billing",              icon: RiFileListLine,            iconActive: RiFileListFill,           color: "#CA5D00" },
-      ],
-    },
-    {
-      id: "settings", label: "Ρυθμίσεις", icon: RiSettingsLine, color: "#5C5C5C",
-      items: [
-        { label: "Εταιρία",      href: "/super-admin/settings/company",     icon: RiBuildingLine,            iconActive: RiBuildingFill,           color: "#8764B8" },
-        { label: "Brand",        href: "/super-admin/settings/brand",       icon: RiPaletteLine,             iconActive: RiPaletteFill,            color: "#8764B8" },
-        { label: "Ενσωματώσεις", href: "/super-admin/integrations",         icon: RiLinksLine,                iconActive: RiLinksFill,               color: "#038387" },
-        { label: "Ρυθμίσεις",   href: "/super-admin/settings",             icon: RiSettingsLine,            iconActive: RiSettingsFill,           color: "#5C5C5C" },
-      ],
-    },
-    {
-      id: "cms", label: "CMS", icon: RiLayoutLine, color: "#8764b8",
-      items: [
-        { label: "Αρχική", href: "/super-admin/cms/landing", icon: RiLayoutLine, iconActive: RiLayoutFill, color: "#8764b8" },
-        { label: "SEO", href: "/super-admin/cms/seo", icon: RiSearchEyeLine, iconActive: RiSearchEyeLine, color: "#8764b8" },
-        { label: "Ρυθμίσεις", href: "/super-admin/cms/settings", icon: RiSettings3Line, iconActive: RiSettings3Fill, color: "#8764b8" },
-        { label: "Σελίδες", href: "/super-admin/cms/pages", icon: RiPagesLine, iconActive: RiPagesFill, color: "#8764b8" },
-        { label: "Τιμές", href: "/super-admin/cms/pricing", icon: RiPriceTag3Line, iconActive: RiPriceTag3Fill, color: "#8764b8" },
-        { label: "FAQ", href: "/super-admin/cms/faq", icon: RiQuestionLine, iconActive: RiQuestionFill, color: "#8764b8" },
-        { label: "Άρθρα", href: "/super-admin/cms/articles", icon: RiArticleLine, iconActive: RiArticleFill, color: "#8764b8" },
-        { label: "Συγγραφείς", href: "/super-admin/cms/authors", icon: RiUserStarLine, iconActive: RiUserStarFill, color: "#8764b8" },
-        { label: "Media", href: "/super-admin/cms/media", icon: RiImage2Line, iconActive: RiImage2Fill, color: "#8764b8" },
-        { label: "Μεταφράσεις", href: "/super-admin/cms/translations", icon: RiTranslate2, iconActive: RiTranslate2, color: "#8764b8" },
-      ],
-    },
-    {
-      id: "preview", label: "Προεπισκόπηση", icon: RiEyeLine, color: "#038387",
-      items: [
-        { label: "View as…",     href: "/super-admin/view-as",      icon: RiEyeLine,                 iconActive: RiEyeFill,                color: "#038387" },
-      ],
-    },
-  ],
-
-  ADMIN: [
-    {
-      id: "core", label: "Κεντρικό", icon: RiDashboardLine, color: "#0078D4",
-      items: [
-        { label: "Dashboard",    href: "/admin",                    icon: RiDashboardLine,           iconActive: RiDashboardFill,          color: "#0078D4" },
-        { label: "Αναφορές",     href: "/admin/reports",            icon: RiBarChartLine,            iconActive: RiBarChart2Fill,          color: "#107C10" },
-      ],
-    },
-    {
-      id: "properties", label: "Ακίνητα", icon: RiBuildingLine, color: "#8764B8",
-      items: [
-        { label: "Ακίνητα",      href: "/admin/properties",         icon: RiBuildingLine,            iconActive: RiBuildingFill,           color: "#8764B8" },
-        { label: "Μονάδες",      href: "/admin/units",              icon: RiHome3Line,               iconActive: RiHome3Fill,              color: "#038387" },
-      ],
-    },
-    {
-      id: "people", label: "Άνθρωποι", icon: RiGroupLine, color: "#0078D4",
-      items: [
-        { label: "Χρήστες",      href: "/admin/users",              icon: RiGroupLine,               iconActive: RiGroupFill,              color: "#0078D4" },
-        { label: "Ενοικιαστές",  href: "/admin/residents",          icon: RiUserLine,                iconActive: RiUserFill,               color: "#8764B8" },
-      ],
-    },
-    {
-      id: "operations", label: "Λειτουργίες", icon: RiToolsLine, color: "#CA5D00",
-      items: [
-        { label: "Συντηρήσεις",  href: "/admin/maintenance",        icon: RiToolsLine,               iconActive: RiToolsFill,              color: "#CA5D00" },
-        { label: "Ανακοινώσεις", href: "/admin/announcements",      icon: RiNotification2Line,       iconActive: RiNotification2Fill,      color: "#0078D4" },
-        { label: "Ημερολόγιο",   href: "/admin/calendar",           icon: RiCalendarLine,            iconActive: RiCalendarFill,           color: "#107C10" },
-      ],
-    },
-    {
-      id: "settings", label: "Ρυθμίσεις", icon: RiSettingsLine, color: "#5C5C5C",
-      items: [
-        { label: "Κόστη",       href: "/admin/costs",              icon: RiMoneyDollarCircleLine,   iconActive: RiMoneyDollarCircleFill,  color: "#107C10" },
-        { label: "Ρυθμίσεις",   href: "/admin/settings",           icon: RiSettingsLine,            iconActive: RiSettingsFill,           color: "#5C5C5C" },
-      ],
-    },
-  ],
-
-  MANAGER: [
-    {
-      id: "core", label: "Κεντρικό", icon: RiDashboardLine, color: "#0078D4",
-      items: [
-        { label: "Dashboard",    href: "/manager",                  icon: RiDashboardLine,           iconActive: RiDashboardFill,          color: "#0078D4" },
-      ],
-    },
-    {
-      id: "properties", label: "Ακίνητα", icon: RiBuildingLine, color: "#8764B8",
-      items: [
-        { label: "Ακίνητά μου",  href: "/manager/properties",      icon: RiBuildingLine,            iconActive: RiBuildingFill,           color: "#8764B8" },
-        { label: "Μονάδες",      href: "/manager/units",            icon: RiHome3Line,               iconActive: RiHome3Fill,              color: "#038387" },
-      ],
-    },
-    {
-      id: "operations", label: "Εργασίες", icon: RiToolsLine, color: "#CA5D00",
-      items: [
-        { label: "Συντηρήσεις",  href: "/manager/maintenance",     icon: RiToolsLine,               iconActive: RiToolsFill,              color: "#CA5D00" },
-        { label: "Ανακοινώσεις", href: "/manager/announcements",   icon: RiNotification2Line,       iconActive: RiNotification2Fill,      color: "#0078D4" },
-      ],
-    },
-  ],
-
-  PROPERTY_ADMIN: [
-    {
-      id: "core", label: "Κεντρικό", icon: RiDashboardLine, color: "#0078D4",
-      items: [
-        { label: "Dashboard",    href: "/building",                 icon: RiDashboardLine,           iconActive: RiDashboardFill,          color: "#0078D4" },
-      ],
-    },
-    {
-      id: "properties", label: "Ακίνητα", icon: RiBuildingLine, color: "#8764B8",
-      items: [
-        { label: "Ακίνητά μου",  href: "/manager/properties",      icon: RiBuildingLine,            iconActive: RiBuildingFill,           color: "#8764B8" },
-        { label: "Μονάδες",      href: "/manager/units",            icon: RiHome3Line,               iconActive: RiHome3Fill,              color: "#038387" },
-      ],
-    },
-    {
-      id: "operations", label: "Εργασίες", icon: RiToolsLine, color: "#CA5D00",
-      items: [
-        { label: "Συντηρήσεις",  href: "/portal/maintenance",      icon: RiToolsLine,               iconActive: RiToolsFill,              color: "#CA5D00" },
-        { label: "Ανακοινώσεις", href: "/manager/announcements",   icon: RiNotification2Line,       iconActive: RiNotification2Fill,      color: "#0078D4" },
-      ],
-    },
-  ],
-
-  EMPLOYEE: [
-    {
-      id: "core", label: "Κεντρικό", icon: RiDashboardLine, color: "#0078D4",
-      items: [
-        { label: "Dashboard",    href: "/staff",                    icon: RiDashboardLine,           iconActive: RiDashboardFill,          color: "#0078D4" },
-      ],
-    },
-    {
-      id: "tasks", label: "Εργασίες", icon: RiToolsLine, color: "#CA5D00",
-      items: [
-        { label: "Assigned",     href: "/staff/tasks",              icon: RiFileListLine,            iconActive: RiFileListFill,           color: "#CA5D00" },
-        { label: "Συντηρήσεις",  href: "/staff/maintenance",        icon: RiToolsLine,               iconActive: RiToolsFill,              color: "#8764B8" },
-      ],
-    },
-  ],
-
-  COLLABORATOR: [
-    {
-      id: "core", label: "Κεντρικό", icon: RiDashboardLine, color: "#0078D4",
-      items: [
-        { label: "Dashboard",    href: "/staff",                    icon: RiDashboardLine,           iconActive: RiDashboardFill,          color: "#0078D4" },
-      ],
-    },
-    {
-      id: "tasks", label: "Εργασίες", icon: RiToolsLine, color: "#CA5D00",
-      items: [
-        { label: "Assigned",     href: "/staff/tasks",              icon: RiFileListLine,            iconActive: RiFileListFill,           color: "#CA5D00" },
-        { label: "Συντηρήσεις",  href: "/staff/maintenance",        icon: RiToolsLine,               iconActive: RiToolsFill,              color: "#8764B8" },
-      ],
-    },
-  ],
-
-  PROPERTY_OWNER: [
-    {
-      id: "core", label: "Κεντρικό", icon: RiDashboardLine, color: "#0078D4",
-      items: [
-        { label: "Dashboard",    href: "/owner",                    icon: RiDashboardLine,           iconActive: RiDashboardFill,          color: "#0078D4" },
-      ],
-    },
-    {
-      id: "assets", label: "Ακίνητά μου", icon: RiHome3Line, color: "#8764B8",
-      items: [
-        { label: "Μονάδες",      href: "/owner/units",              icon: RiHome3Line,               iconActive: RiHome3Fill,              color: "#8764B8" },
-        { label: "Έσοδα",        href: "/owner/income",             icon: RiMoneyDollarCircleLine,   iconActive: RiMoneyDollarCircleFill,  color: "#107C10" },
-      ],
-    },
-  ],
-
-  PROPERTY_RESIDENT: [
-    {
-      id: "core", label: "Κεντρικό", icon: RiDashboardLine, color: "#0078D4",
-      items: [
-        { label: "Dashboard",    href: "/portal",                   icon: RiDashboardLine,           iconActive: RiDashboardFill,          color: "#0078D4" },
-      ],
-    },
-    {
-      id: "services", label: "Υπηρεσίες", icon: RiToolsLine, color: "#CA5D00",
-      items: [
-        { label: "Αιτήσεις",     href: "/portal/requests",          icon: RiToolsLine,               iconActive: RiToolsFill,              color: "#CA5D00" },
-        { label: "Ανακοινώσεις", href: "/portal/announcements",     icon: RiNotification2Line,       iconActive: RiNotification2Fill,      color: "#0078D4" },
-      ],
-    },
-  ],
-
-  PROPERTY_VIEWER: [
-    {
-      id: "core", label: "Κεντρικό", icon: RiDashboardLine, color: "#0078D4",
-      items: [
-        { label: "Dashboard",    href: "/portal",                   icon: RiDashboardLine,           iconActive: RiDashboardFill,          color: "#0078D4" },
-        { label: "Ανακοινώσεις", href: "/portal/announcements",     icon: RiNotification2Line,       iconActive: RiNotification2Fill,      color: "#0078D4" },
-      ],
-    },
-  ],
+// ─── Icon lookup (registry icon-name string → component) ─────────────────────
+const ICONS: Record<string, { line: React.ElementType; fill: React.ElementType }> = {
+  RiDashboardLine:          { line: RiDashboardLine,          fill: RiDashboardFill },
+  RiBarChartLine:           { line: RiBarChartLine,           fill: RiBarChart2Fill },
+  RiRobot2Line:             { line: RiRobot2Line,             fill: RiRobot2Line },
+  RiContactsLine:           { line: RiContactsLine,           fill: RiContactsFill },
+  RiCommunityLine:          { line: RiCommunityLine,          fill: RiCommunityFill },
+  RiHome3Line:              { line: RiHome3Line,              fill: RiHome3Fill },
+  RiGroupLine:              { line: RiGroupLine,              fill: RiGroupFill },
+  RiUserLine:               { line: RiUserLine,               fill: RiUserFill },
+  RiShieldUserLine:         { line: RiShieldUserLine,         fill: RiShieldUserFill },
+  RiServiceLine:            { line: RiServiceLine,            fill: RiServiceFill },
+  RiMoneyDollarCircleLine:  { line: RiMoneyDollarCircleLine,  fill: RiMoneyDollarCircleFill },
+  RiFileListLine:           { line: RiFileListLine,           fill: RiFileListFill },
+  RiToolsLine:              { line: RiToolsLine,              fill: RiToolsFill },
+  RiNotification2Line:      { line: RiNotification2Line,      fill: RiNotification2Fill },
+  RiCalendarLine:           { line: RiCalendarLine,           fill: RiCalendarFill },
+  RiLinksLine:              { line: RiLinksLine,              fill: RiLinksFill },
+  RiBuildingLine:           { line: RiBuildingLine,           fill: RiBuildingFill },
+  RiPaletteLine:            { line: RiPaletteLine,            fill: RiPaletteFill },
+  RiSettingsLine:           { line: RiSettingsLine,           fill: RiSettingsFill },
+  RiLayoutLine:             { line: RiLayoutLine,             fill: RiLayoutFill },
+  RiSearchEyeLine:          { line: RiSearchEyeLine,          fill: RiSearchEyeLine },
+  RiSettings3Line:          { line: RiSettings3Line,          fill: RiSettings3Fill },
+  RiPagesLine:              { line: RiPagesLine,              fill: RiPagesFill },
+  RiPriceTag3Line:          { line: RiPriceTag3Line,          fill: RiPriceTag3Fill },
+  RiQuestionLine:           { line: RiQuestionLine,           fill: RiQuestionFill },
+  RiArticleLine:            { line: RiArticleLine,            fill: RiArticleFill },
+  RiUserStarLine:           { line: RiUserStarLine,           fill: RiUserStarFill },
+  RiImage2Line:             { line: RiImage2Line,             fill: RiImage2Fill },
+  RiTranslate2:             { line: RiTranslate2,             fill: RiTranslate2 },
+  RiEyeLine:                { line: RiEyeLine,                fill: RiEyeFill },
 };
+const FALLBACK_ICON = { line: RiFileListLine, fill: RiFileListFill };
+
+// ─── Group metadata (label, color, icon) keyed by group id ────────────────────
+const GROUP_META: Record<string, { label: string; color: string; icon: React.ElementType }> = {
+  core:        { label: "Κεντρικό",        color: "#0078D4", icon: RiDashboardLine },
+  management:  { label: "Διαχείριση",      color: "#8764B8", icon: RiBuildingLine },
+  financials:  { label: "Οικονομικά",      color: "#107C10", icon: RiMoneyDollarCircleLine },
+  settings:    { label: "Ρυθμίσεις",       color: "#5C5C5C", icon: RiSettingsLine },
+  cms:         { label: "CMS",             color: "#8764b8", icon: RiLayoutLine },
+  preview:     { label: "Προεπισκόπηση",   color: "#038387", icon: RiEyeLine },
+  properties:  { label: "Ακίνητα",         color: "#8764B8", icon: RiBuildingLine },
+  assets:      { label: "Ακίνητά μου",     color: "#8764B8", icon: RiHome3Line },
+  services:    { label: "Υπηρεσίες",       color: "#CA5D00", icon: RiToolsLine },
+  operations:  { label: "Εργασίες",        color: "#CA5D00", icon: RiToolsLine },
+  tasks:       { label: "Εργασίες",        color: "#CA5D00", icon: RiToolsLine },
+};
+const FALLBACK_GROUP_META = { color: "#5C5C5C", icon: RiFileListLine };
+
+function menuToNavGroups(menu: MenuGroup[]): NavGroup[] {
+  return menu.map((g) => {
+    const meta = GROUP_META[g.id];
+    const color = meta?.color ?? FALLBACK_GROUP_META.color;
+    return {
+      id: g.id,
+      label: meta?.label ?? g.id,
+      icon: meta?.icon ?? FALLBACK_GROUP_META.icon,
+      color,
+      items: g.items.map((item) => {
+        const icons = ICONS[item.icon] ?? FALLBACK_ICON;
+        return {
+          label: item.label,
+          href: item.href,
+          icon: icons.line,
+          iconActive: icons.fill,
+          color,
+        };
+      }),
+    };
+  });
+}
 
 // ─── Component ────────────────────────────────────────────────────────────────
 type Props = {
   role: UserRole;
+  menu: MenuGroup[];
   userName: string;
   userEmail: string;
   logoUrl?: string | null;
@@ -293,9 +149,9 @@ type Props = {
 const STORAGE_COLLAPSED = "dg-sidebar-collapsed";
 const STORAGE_GROUPS    = "dg-sidebar-groups";
 
-export function SidebarNav({ role, userName, userEmail, logoUrl, logoSquareUrl, companyName, onSignOut }: Props) {
+export function SidebarNav({ role, menu, userName, userEmail, logoUrl, logoSquareUrl, companyName, onSignOut }: Props) {
   const pathname   = usePathname();
-  const navGroups  = NAV_BY_ROLE[role] ?? NAV_BY_ROLE["PROPERTY_RESIDENT"];
+  const navGroups  = menuToNavGroups(menu);
 
   const [collapsed,   setCollapsed]   = useState(false);
   const [openGroups,  setOpenGroups]  = useState<Record<string, boolean>>(
