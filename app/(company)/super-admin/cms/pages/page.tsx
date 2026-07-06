@@ -10,6 +10,7 @@ import {
   RiCupLine,
 } from "react-icons/ri";
 import { CmsPage } from "@/components/cms/ui";
+import { requirePermission } from "@/lib/rbac/permissions";
 
 const EDITORS: { label: string; href: string; desc: string; icon: React.ReactNode }[] = [
   { label: "Τιμές", href: "/super-admin/cms/pricing", desc: "Πακέτα & τιμολόγηση", icon: <RiPriceTag3Line size={20} /> },
@@ -21,7 +22,8 @@ const EDITORS: { label: string; href: string; desc: string; icon: React.ReactNod
   { label: "Πολιτική cookies", href: "/super-admin/cms/pages/cookie-policy", desc: "Cookie policy", icon: <RiCupLine size={20} /> },
 ];
 
-export default function CmsPagesHub() {
+export default async function CmsPagesHub() {
+  await requirePermission("cms-pages", "view");
   return (
     <CmsPage
       icon={<RiPagesLine />}

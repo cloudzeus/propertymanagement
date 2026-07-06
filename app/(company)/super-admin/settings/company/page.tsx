@@ -1,3 +1,4 @@
+import { requirePermission } from "@/lib/rbac/permissions";
 import { auth } from "@/auth";
 import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
@@ -7,6 +8,7 @@ import { CompanyDetailClient } from "../../companies/[id]/CompanyDetailClient";
 export const metadata = { title: "Εταιρία — Super Admin" };
 
 export default async function CompanySettingsPage() {
+  await requirePermission("settings-company", "view");
   const session = await auth();
   if (!session?.user) redirect("/login");
 

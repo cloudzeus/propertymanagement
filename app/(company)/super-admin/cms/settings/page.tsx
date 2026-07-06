@@ -1,3 +1,4 @@
+import { requirePermission } from "@/lib/rbac/permissions";
 import { db } from "@/lib/db";
 import { DEFAULT_CONSENT_CONFIG, type ConsentConfig } from "@/lib/cms/site-settings-defaults";
 import { SettingsForm } from "./SettingsForm";
@@ -6,6 +7,7 @@ const s = (v: string | null | undefined) => v ?? "";
 const n = (v: number | null | undefined) => (v === null || v === undefined ? "" : String(v));
 
 export default async function SiteSettingsPage() {
+  await requirePermission("cms-settings", "view");
   const row = await db.siteSettings.findUnique({ where: { id: "singleton" } });
 
   const initial = {

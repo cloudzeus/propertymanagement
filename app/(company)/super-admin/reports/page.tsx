@@ -1,4 +1,5 @@
 import { db } from "@/lib/db";
+import { requirePermission } from "@/lib/rbac/permissions";
 import {
   RiBuildingLine,
   RiGroupLine,
@@ -51,6 +52,7 @@ const STATUS_COLOR: Record<string, string> = {
 };
 
 export default async function ReportsPage() {
+  await requirePermission("reports", "view");
   const data = await getReportData();
 
   const topStats = [

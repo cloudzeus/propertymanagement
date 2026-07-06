@@ -1,3 +1,4 @@
+import { requirePermission } from "@/lib/rbac/permissions";
 import { getAppSettings, upsertAppSettings } from "@/lib/app-settings";
 import { auth } from "@/auth";
 import { revalidatePath } from "next/cache";
@@ -34,6 +35,7 @@ async function saveBrandSettings(formData: FormData) {
 }
 
 export default async function BrandSettingsPage() {
+  await requirePermission("settings-brand", "view");
   const settings = await getAppSettings();
 
   return (

@@ -1,3 +1,4 @@
+import { requirePermission } from "@/lib/rbac/permissions";
 import { getAllLandingSections } from "@/lib/cms/landing";
 import { getPageSeo } from "@/lib/cms/page-seo";
 import { SeoEditor } from "./SeoEditor";
@@ -9,6 +10,7 @@ import type { SeoMeta } from "@/lib/seo/types";
 const EMPTY_SEO: SeoMeta = { title: "", description: "" };
 
 export default async function LandingCmsPage() {
+  await requirePermission("cms-landing", "view");
   const sections = await getAllLandingSections();
   const homeSeo = await getPageSeo("home");
   const seoInitial = {

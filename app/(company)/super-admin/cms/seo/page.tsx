@@ -1,3 +1,4 @@
+import { requirePermission } from "@/lib/rbac/permissions";
 import { getPageSeo } from "@/lib/cms/page-seo";
 import { getSiteSettings } from "@/lib/cms/site-settings";
 import { SeoEditor } from "../landing/SeoEditor";
@@ -10,6 +11,7 @@ import type { SeoMeta } from "@/lib/seo/types";
 const EMPTY: SeoMeta = { title: "", description: "" };
 
 export default async function SeoAdminPage() {
+  await requirePermission("cms-seo", "view");
   const settings = await getSiteSettings();
   const geoFields = [
     { label: "Συντεταγμένες", ok: settings.geo != null },

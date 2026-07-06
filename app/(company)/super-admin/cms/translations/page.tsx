@@ -1,3 +1,4 @@
+import { requirePermission } from "@/lib/rbac/permissions";
 import { db } from "@/lib/db";
 import el from "@/messages/el.json";
 import en from "@/messages/en.json";
@@ -13,6 +14,7 @@ function flatten(obj: any, prefix = "", out: Record<string, string> = {}): Recor
 }
 
 export default async function TranslationsCmsPage() {
+  await requirePermission("cms-translations", "view");
   const elFlat = flatten(el);
   const enFlat = flatten(en);
 

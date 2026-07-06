@@ -1,9 +1,11 @@
+import { requirePermission } from "@/lib/rbac/permissions";
 import { db } from "@/lib/db";
 import { startImpersonation } from "@/app/actions/impersonation";
 
 export const metadata = { title: "View as — PropertyPro" };
 
 export default async function ViewAsPage() {
+  await requirePermission("view-as", "view");
   const users = await db.user.findMany({
     where: { role: { not: "SUPER_ADMIN" } },
     select: { id: true, name: true, email: true, role: true },

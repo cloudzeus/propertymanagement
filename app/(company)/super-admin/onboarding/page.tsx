@@ -1,3 +1,4 @@
+import { requirePermission } from "@/lib/rbac/permissions";
 import { auth } from "@/auth";
 import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
@@ -7,6 +8,7 @@ export const metadata = { title: "AI Onboarding — Super Admin" };
 
 // Global AI onboarding: pick any customer, then describe the building to the AI.
 export default async function GlobalOnboardingPage() {
+  await requirePermission("onboarding", "view");
   const session = await auth();
   if (!session?.user) redirect("/login");
   const me = await db.user.findUnique({ where: { id: session.user.id as string }, select: { role: true } });

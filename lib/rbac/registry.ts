@@ -90,7 +90,10 @@ export const DEFAULT_PERMISSIONS: RoleDefaults = {
 };
 
 // ── RBAC route-guard coverage (as of dynamic-rbac rollout) ──
-// GUARDED (view): customers, users, roles (edit), billing, services, settings, integrations, properties
-// TODO wire requirePermission on: reports, onboarding, units, residents, calendar, maintenance,
-//   announcements, api-costs, view-as, settings-company, settings-brand, all cms-*, and all
-//   customer-* / mkt-* surface routes. Menu already hides them; server guards pending.
+// GUARDED (view): customers, users, roles (edit), billing, services, settings, integrations,
+//   properties, reports, onboarding, view-as, settings-company, settings-brand, api-costs
+//   (via settings/costs/layout.tsx), and all cms-* (landing, seo, settings, pages, pricing,
+//   faq, articles, authors, media, translations).
+// NOT YET GUARDED: units/residents/calendar/maintenance/announcements (no dedicated page.tsx
+//   under (company) — menu hrefs point at /admin/* routes that don't exist as pages yet), and
+//   all customer-* / mkt-* surface routes (those surfaces still gate by role enum at the layout).
