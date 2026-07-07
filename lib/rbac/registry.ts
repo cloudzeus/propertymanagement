@@ -16,7 +16,7 @@ export const RBAC_MODULES: readonly RbacModule[] = [
   { key: "residents", label: "Ενοικιαστές", surface: "company", menu: { href: "/admin/residents", icon: "RiUserLine", group: "management" }, actions: [...CRUD] },
   { key: "roles", label: "Ρόλοι", surface: "company", menu: { href: "/super-admin/roles", icon: "RiShieldUserLine", group: "management" }, actions: [...CRUD] },
   { key: "services", label: "Υπηρεσίες", surface: "company", menu: { href: "/super-admin/services", icon: "RiServiceLine", group: "financials" }, actions: [...CRUD] },
-  { key: "api-costs", label: "Κόστη API", surface: "company", menu: { href: "/super-admin/settings/costs", icon: "RiMoneyDollarCircleLine", group: "financials" }, actions: [...VIEW] },
+  { key: "api-costs", label: "AI Κόστη / Tokens", surface: "company", menu: { href: "/super-admin/settings/costs", icon: "RiMoneyDollarCircleLine", group: "financials" }, actions: [...VIEW] },
   { key: "billing", label: "Τιμολόγηση", surface: "company", menu: { href: "/super-admin/billing", icon: "RiFileListLine", group: "financials" }, actions: [...CRUD] },
   { key: "maintenance", label: "Συντηρήσεις", surface: "company", menu: { href: "/admin/maintenance", icon: "RiToolsLine", group: "operations" }, actions: [...CRUD] },
   { key: "announcements", label: "Ανακοινώσεις", surface: "company", menu: { href: "/admin/announcements", icon: "RiNotification2Line", group: "operations" }, actions: [...CRUD] },
