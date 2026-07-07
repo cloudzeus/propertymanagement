@@ -1,7 +1,7 @@
 import { db } from "@/lib/db";
 import { getConfig } from "@/lib/api-costs";
 import { computeRealCost, computeCharges } from "./pricing";
-import { applyLedgerEntry } from "./ledger";
+import { applyLedgerEntry, getWalletBalance, type TxClient } from "./ledger";
 import { resolveCustomerId } from "./resolve-customer";
 
 /** Single-tenant company wallet key. */
@@ -29,11 +29,6 @@ export interface MeteredUsageResult {
   logId?: string;
 }
 
-async function balanceOf(ownerType: "COMPANY" | "CUSTOMER", ownerId: string): Promise<number> {
-  const w = await db.wallet.findUnique({ where: { ownerType_ownerId: { ownerType, ownerId } } });
-  return w ? Number(w.balanceEur) : 0;
-}
-
 /**
  * Meter one consumption event. Call the PROVIDER FIRST for success, then call this with real units;
  * or call in "preflight" style before the provider by passing estimated units and checking `blocked`.
@@ -59,9 +54,10 @@ export async function recordMeteredUsage(input: MeteredUsageInput): Promise<Mete
   }
 
   // Pre-flight balance checks.
+  // NOTE: pre-flight + debit are not atomic under concurrency (lost-update risk). Acceptable at single-tenant scale; harden with a guarded conditional UPDATE (balanceEur >= amount) before high-throughput use.
   const [companyBal, customerBal] = await Promise.all([
-    balanceOf("COMPANY", COMPANY_WALLET_ID),
-    balanceOf("CUSTOMER", customerId),
+    getWalletBalance("COMPANY", COMPANY_WALLET_ID),
+    getWalletBalance("CUSTOMER", customerId),
   ]);
   if (customerBal < customerChargeEur) {
     return { blocked: true, reason: "customer_insufficient", billedCostEur, customerChargeEur };
@@ -71,13 +67,13 @@ export async function recordMeteredUsage(input: MeteredUsageInput): Promise<Mete
   }
 
   // Atomic dual-debit + usage log.
-  const result = await db.$transaction(async (tx) => {
-    const companyTxn = await applyLedgerEntry(tx as any, {
+  const result = await db.$transaction(async (tx: TxClient) => {
+    const companyTxn = await applyLedgerEntry(tx, {
       ownerType: "COMPANY", ownerId: COMPANY_WALLET_ID, type: "DEBIT",
       amountEur: -billedCostEur, description: `${config.displayName ?? input.apiName} usage`,
       refType: "api_usage", refId: input.apiName,
     });
-    const customerTxn = await applyLedgerEntry(tx as any, {
+    const customerTxn = await applyLedgerEntry(tx, {
       ownerType: "CUSTOMER", ownerId: customerId, type: "DEBIT",
       amountEur: -customerChargeEur, description: `${config.displayName ?? input.apiName} usage`,
       refType: "api_usage", refId: input.apiName,

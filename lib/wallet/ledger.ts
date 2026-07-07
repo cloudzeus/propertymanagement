@@ -1,7 +1,7 @@
 import { db } from "@/lib/db";
 import type { WalletOwnerType, WalletTxnType } from "@/lib/prisma/enums";
 
-type TxClient = Parameters<Parameters<typeof db.$transaction>[0]>[0];
+export type TxClient = Parameters<Parameters<typeof db.$transaction>[0]>[0];
 
 export interface LedgerEntryInput {
   ownerType: WalletOwnerType;
