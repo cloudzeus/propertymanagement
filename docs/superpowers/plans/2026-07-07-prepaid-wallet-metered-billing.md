@@ -687,7 +687,7 @@ vi.mock("@/lib/db", () => ({
   },
 }));
 vi.mock("./ledger", () => ({
-  creditWallet: vi.fn(async (i: any) => { calls.push(i); return { balanceAfter: i.amountEur }; }),
+  creditWallet: vi.fn(async (i: any) => { calls.push(i); return { balanceAfter: 0 }; }),
   applyLedgerEntry: vi.fn(),
   getWalletBalance: vi.fn(async () => 3),
 }));
@@ -697,17 +697,23 @@ import { getWalletBalance } from "./ledger";
 beforeEach(() => { calls.length = 0; vi.clearAllMocks(); (getWalletBalance as any).mockResolvedValue(3); });
 
 describe("runMonthlyAllowance", () => {
-  it("resets non-rollover wallets to exactly the allowance", async () => {
+  it("zeroes then re-grants the allowance for non-rollover wallets (two entries)", async () => {
+    // Simple monthly-reset customers: unused balance is discarded, wallet starts fresh at the allowance.
     await runMonthlyAllowance();
-    const c1 = calls.find((c) => c.ownerId === "c1");
-    expect(c1.type).toBe("RESET");
-    expect(c1.amountEur).toBeCloseTo(10 - 3, 9); // brings 3 → 10
+    const c1 = calls.filter((c) => c.ownerId === "c1");
+    // First: RESET that zeroes the current balance (−3).
+    expect(c1[0].type).toBe("RESET");
+    expect(c1[0].amountEur).toBeCloseTo(-3, 9);
+    // Then: ALLOWANCE that grants the new monthly amount (+10). Net balance = 10.
+    expect(c1[1].type).toBe("ALLOWANCE");
+    expect(c1[1].amountEur).toBeCloseTo(10, 9);
   });
-  it("adds allowance on top for rollover wallets", async () => {
+  it("adds allowance on top for rollover wallets (single entry)", async () => {
     await runMonthlyAllowance();
-    const c2 = calls.find((c) => c.ownerId === "c2");
-    expect(c2.type).toBe("ALLOWANCE");
-    expect(c2.amountEur).toBeCloseTo(5, 9);
+    const c2 = calls.filter((c) => c.ownerId === "c2");
+    expect(c2).toHaveLength(1);
+    expect(c2[0].type).toBe("ALLOWANCE");
+    expect(c2[0].amountEur).toBeCloseTo(5, 9);
   });
 });
 ```
@@ -723,7 +729,12 @@ Expected: FAIL.
 import { db } from "@/lib/db";
 import { creditWallet, getWalletBalance } from "./ledger";
 
-/** Credit each active customer plan's monthly allowance. Non-rollover wallets are reset to exactly the allowance. */
+/**
+ * Credit each active customer plan's monthly allowance.
+ * Non-rollover (simple) customers: the wallet is ZEROED (unused balance discarded) and then
+ * re-granted the monthly allowance, so it always starts the month at exactly the allowance.
+ * Rollover customers: the allowance is added on top of the remaining balance.
+ */
 export async function runMonthlyAllowance(): Promise<{ processed: number }> {
   const plans = await db.customerMeteredPlan.findMany({ where: { active: true } });
   let processed = 0;
@@ -737,11 +748,18 @@ export async function runMonthlyAllowance(): Promise<{ processed: number }> {
         refType: "package",
       });
     } else {
+      // Zero out whatever is left (unused units expire), then grant the fresh allowance.
       const current = await getWalletBalance("CUSTOMER", plan.customerId);
-      const delta = allowance - current; // reset to exactly the allowance
+      if (current !== 0) {
+        await creditWallet({
+          ownerType: "CUSTOMER", ownerId: plan.customerId, type: "RESET",
+          amountEur: -current, description: "Monthly reset (unused units expired)",
+          refType: "package",
+        });
+      }
       await creditWallet({
-        ownerType: "CUSTOMER", ownerId: plan.customerId, type: "RESET",
-        amountEur: delta, description: "Monthly allowance (reset)",
+        ownerType: "CUSTOMER", ownerId: plan.customerId, type: "ALLOWANCE",
+        amountEur: allowance, description: "Monthly allowance",
         refType: "package",
       });
     }
