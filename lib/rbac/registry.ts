@@ -18,6 +18,10 @@ export const RBAC_MODULES: readonly RbacModule[] = [
   { key: "services", label: "Υπηρεσίες", surface: "company", menu: { href: "/super-admin/services", icon: "RiServiceLine", group: "financials" }, actions: [...CRUD] },
   { key: "api-costs", label: "AI Κόστη / Tokens", surface: "company", menu: { href: "/super-admin/settings/costs", icon: "RiMoneyDollarCircleLine", group: "financials" }, actions: [...VIEW] },
   { key: "billing", label: "Τιμολόγηση", surface: "company", menu: { href: "/super-admin/billing", icon: "RiFileListLine", group: "financials" }, actions: [...CRUD] },
+  { key: "ai-tools", label: "AI Tools & APIs", surface: "company", menu: { href: "/super-admin/ai-tools", icon: "RiRobot2Line", group: "financials" }, actions: [...CRUD] },
+  { key: "company-wallet", label: "Company Wallet", surface: "company", menu: { href: "/super-admin/billing/company-wallet", icon: "RiWallet3Line", group: "financials" }, actions: [...CRUD] },
+  { key: "metered-plans", label: "Πακέτα Χρεώσεων", surface: "company", menu: { href: "/admin/metered-plans", icon: "RiPriceTag3Line", group: "financials" }, actions: [...CRUD] },
+  { key: "customer-wallets", label: "Πορτοφόλια Πελατών", surface: "company", menu: { href: "/admin/customer-wallets", icon: "RiMoneyEuroCircleLine", group: "financials" }, actions: [...CRUD] },
   { key: "maintenance", label: "Συντηρήσεις", surface: "company", menu: { href: "/admin/maintenance", icon: "RiToolsLine", group: "operations" }, actions: [...CRUD] },
   { key: "announcements", label: "Ανακοινώσεις", surface: "company", menu: { href: "/admin/announcements", icon: "RiNotification2Line", group: "operations" }, actions: [...CRUD] },
   { key: "calendar", label: "Ημερολόγιο", surface: "company", menu: { href: "/admin/calendar", icon: "RiCalendarLine", group: "operations" }, actions: [...CRUD] },
@@ -44,6 +48,7 @@ export const RBAC_MODULES: readonly RbacModule[] = [
   { key: "customer-requests", label: "Αιτήσεις", surface: "customer", menu: { href: "/portal/requests", icon: "RiToolsLine", group: "services" }, actions: [...CRUD] },
   { key: "customer-maintenance", label: "Συντηρήσεις", surface: "customer", menu: { href: "/portal/maintenance", icon: "RiToolsLine", group: "operations" }, actions: [...CRUD] },
   { key: "customer-announcements", label: "Ανακοινώσεις", surface: "customer", menu: { href: "/portal/announcements", icon: "RiNotification2Line", group: "operations" }, actions: [...VIEW] },
+  { key: "customer-wallet", label: "Πορτοφόλι", surface: "customer", menu: { href: "/portal/wallet", icon: "RiWallet3Line", group: "services" }, actions: [...VIEW] },
   // ── Marketplace surface ──
   { key: "mkt-dashboard", label: "Dashboard", surface: "marketplace", menu: { href: "/staff", icon: "RiDashboardLine", group: "core" }, actions: [...VIEW] },
   { key: "mkt-tasks", label: "Assigned", surface: "marketplace", menu: { href: "/staff/tasks", icon: "RiFileListLine", group: "tasks" }, actions: [...CRUD] },
@@ -61,6 +66,7 @@ export const DEFAULT_PERMISSIONS: RoleDefaults = {
   ADMIN: [
     ...view("dashboard", "reports"),
     ...crud("properties", "units", "users", "residents", "maintenance", "announcements", "calendar"),
+    ...crud("metered-plans", "customer-wallets"),
     ...view("api-costs"), ...crud("settings"),
   ],
   MANAGER: [
@@ -73,13 +79,14 @@ export const DEFAULT_PERMISSIONS: RoleDefaults = {
   PROPERTY_ADMIN: [
     ...view("customer-dashboard"),
     ...crud("customer-properties", "customer-units", "customer-maintenance"),
-    ...view("customer-announcements"),
+    ...view("customer-announcements", "customer-wallet"),
   ],
   PROPERTY_OWNER: [
     ...view("customer-dashboard", "customer-income"), ...crud("customer-units"),
+    ...view("customer-wallet"),
   ],
   PROPERTY_RESIDENT: [
-    ...view("customer-dashboard"), ...crud("customer-requests"), ...view("customer-announcements"),
+    ...view("customer-dashboard"), ...crud("customer-requests"), ...view("customer-announcements", "customer-wallet"),
   ],
   PROPERTY_VIEWER: [
     ...view("customer-dashboard", "customer-announcements"),
