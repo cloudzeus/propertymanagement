@@ -687,7 +687,7 @@ vi.mock("@/lib/db", () => ({
   },
 }));
 vi.mock("./ledger", () => ({
-  creditWallet: vi.fn(async (i: any) => { calls.push(i); return { balanceAfter: i.amountEur }; }),
+  creditWallet: vi.fn(async (i: any) => { calls.push(i); return { balanceAfter: 0 }; }),
   applyLedgerEntry: vi.fn(),
   getWalletBalance: vi.fn(async () => 3),
 }));
@@ -697,17 +697,23 @@ import { getWalletBalance } from "./ledger";
 beforeEach(() => { calls.length = 0; vi.clearAllMocks(); (getWalletBalance as any).mockResolvedValue(3); });
 
 describe("runMonthlyAllowance", () => {
-  it("resets non-rollover wallets to exactly the allowance", async () => {
+  it("zeroes then re-grants the allowance for non-rollover wallets (two entries)", async () => {
+    // Simple monthly-reset customers: unused balance is discarded, wallet starts fresh at the allowance.
     await runMonthlyAllowance();
-    const c1 = calls.find((c) => c.ownerId === "c1");
-    expect(c1.type).toBe("RESET");
-    expect(c1.amountEur).toBeCloseTo(10 - 3, 9); // brings 3 → 10
+    const c1 = calls.filter((c) => c.ownerId === "c1");
+    // First: RESET that zeroes the current balance (−3).
+    expect(c1[0].type).toBe("RESET");
+    expect(c1[0].amountEur).toBeCloseTo(-3, 9);
+    // Then: ALLOWANCE that grants the new monthly amount (+10). Net balance = 10.
+    expect(c1[1].type).toBe("ALLOWANCE");
+    expect(c1[1].amountEur).toBeCloseTo(10, 9);
   });
-  it("adds allowance on top for rollover wallets", async () => {
+  it("adds allowance on top for rollover wallets (single entry)", async () => {
     await runMonthlyAllowance();
-    const c2 = calls.find((c) => c.ownerId === "c2");
-    expect(c2.type).toBe("ALLOWANCE");
-    expect(c2.amountEur).toBeCloseTo(5, 9);
+    const c2 = calls.filter((c) => c.ownerId === "c2");
+    expect(c2).toHaveLength(1);
+    expect(c2[0].type).toBe("ALLOWANCE");
+    expect(c2[0].amountEur).toBeCloseTo(5, 9);
   });
 });
 ```
@@ -723,7 +729,12 @@ Expected: FAIL.
 import { db } from "@/lib/db";
 import { creditWallet, getWalletBalance } from "./ledger";
 
-/** Credit each active customer plan's monthly allowance. Non-rollover wallets are reset to exactly the allowance. */
+/**
+ * Credit each active customer plan's monthly allowance.
+ * Non-rollover (simple) customers: the wallet is ZEROED (unused balance discarded) and then
+ * re-granted the monthly allowance, so it always starts the month at exactly the allowance.
+ * Rollover customers: the allowance is added on top of the remaining balance.
+ */
 export async function runMonthlyAllowance(): Promise<{ processed: number }> {
   const plans = await db.customerMeteredPlan.findMany({ where: { active: true } });
   let processed = 0;
@@ -737,11 +748,18 @@ export async function runMonthlyAllowance(): Promise<{ processed: number }> {
         refType: "package",
       });
     } else {
+      // Zero out whatever is left (unused units expire), then grant the fresh allowance.
       const current = await getWalletBalance("CUSTOMER", plan.customerId);
-      const delta = allowance - current; // reset to exactly the allowance
+      if (current !== 0) {
+        await creditWallet({
+          ownerType: "CUSTOMER", ownerId: plan.customerId, type: "RESET",
+          amountEur: -current, description: "Monthly reset (unused units expired)",
+          refType: "package",
+        });
+      }
       await creditWallet({
-        ownerType: "CUSTOMER", ownerId: plan.customerId, type: "RESET",
-        amountEur: delta, description: "Monthly allowance (reset)",
+        ownerType: "CUSTOMER", ownerId: plan.customerId, type: "ALLOWANCE",
+        amountEur: allowance, description: "Monthly allowance",
         refType: "package",
       });
     }
@@ -1648,3 +1666,35 @@ git commit -m "feat(wallet): customer portal wallet page with Viva top-up"
 - Admin metered plans + customer wallets → Tasks 11, 12, 13.
 - Customer portal wallet + Viva top-up → Tasks 14, 15, 16.
 - Video as metered apiName → Task 1 (`category=video`), consumed via Task 5 (unchanged code path).
+
+## Known follow-up (discovered during Task 7)
+
+The AI core (`lib/ai.ts` deepseekRequest/geminiRequest, and streaming `runAgentStream`) is a
+generic wrapper carrying **no customer context** and not surfacing per-call token usage on the
+streaming path. So live AI consumption is **not yet debited** to wallets — `recordMeteredUsage`
+is complete and tested but has no seam to call it from. The depletion **gate** is wired at
+`app/api/ai/agent/route.ts` but dormant until a caller passes buildingId/customerId. To activate:
+1. Thread buildingId/customerId through `useAiChat` → `/api/ai/agent` body.
+2. Have `runAgentStream` surface token usage per turn and call `recordMeteredUsage(...)` with that
+   context (best-effort, try/catch) after each successful completion.
+Separate follow-up phase, not part of the current 16 tasks.
+
+## New env vars (set in Coolify — repo keeps .env* untracked)
+
+Wallet cron + Viva top-up (Task 6, 15):
+- `CRON_SECRET` — shared secret for POST /api/cron/monthly-allowance (x-cron-secret header).
+- `VIVA_ENV` — "sandbox" | "production".
+- `VIVA_CLIENT_ID`, `VIVA_CLIENT_SECRET` — Viva Smart Checkout v2 OAuth2 credentials.
+- `VIVA_SOURCE_CODE` — Viva payment source code.
+- `VIVA_MERCHANT_ID`, `VIVA_API_KEY` — used for the webhook verification-key handshake.
+- `VIVA_WEBHOOK_KEY` — optional fallback webhook verification key.
+
+The Viva HTTP layer (lib/viva.ts + /api/wallet/topup/*) is coded to Viva's documented Smart
+Checkout v2 API but is UNVERIFIED against a live/sandbox account, and the webhook POST currently
+trusts its body — harden authenticity + verify in sandbox before enabling in production.
+
+### Viva must-harden-before-prod (from Task 15 review)
+- Webhook authenticity: POST body is trusted — verify signature/token or re-fetch the transaction from Viva.
+- Idempotency race: add a UNIQUE index on WalletTransaction(refType, refId) and catch the conflict (current findFirst→credit is check-then-act, can double-credit on concurrent retries).
+- Amount trust: credit the confirmed Viva EventData.Amount (cents→EUR), not the requested merchantTrns amount, to survive partial/adjusted settlements.
+- Tighten missing-StatusId / missing-TransactionId leniency once the live event shape is confirmed in sandbox.

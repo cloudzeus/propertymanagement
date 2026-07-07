@@ -32,6 +32,8 @@ export type APIUsageLogAvgAggregateOutputType = {
   bytesProcessed: number | null
   costPerUnit: number | null
   totalCost: number | null
+  billedCostEur: number | null
+  customerChargeEur: number | null
 }
 
 export type APIUsageLogSumAggregateOutputType = {
@@ -40,6 +42,8 @@ export type APIUsageLogSumAggregateOutputType = {
   bytesProcessed: number | null
   costPerUnit: number | null
   totalCost: number | null
+  billedCostEur: number | null
+  customerChargeEur: number | null
 }
 
 export type APIUsageLogMinAggregateOutputType = {
@@ -53,6 +57,10 @@ export type APIUsageLogMinAggregateOutputType = {
   costPerUnit: number | null
   totalCost: number | null
   currency: string | null
+  billedCostEur: number | null
+  customerChargeEur: number | null
+  walletTxnCompanyId: string | null
+  walletTxnCustomerId: string | null
   companyId: string | null
   userId: string | null
   buildingId: string | null
@@ -75,6 +83,10 @@ export type APIUsageLogMaxAggregateOutputType = {
   costPerUnit: number | null
   totalCost: number | null
   currency: string | null
+  billedCostEur: number | null
+  customerChargeEur: number | null
+  walletTxnCompanyId: string | null
+  walletTxnCustomerId: string | null
   companyId: string | null
   userId: string | null
   buildingId: string | null
@@ -97,6 +109,10 @@ export type APIUsageLogCountAggregateOutputType = {
   costPerUnit: number
   totalCost: number
   currency: number
+  billedCostEur: number
+  customerChargeEur: number
+  walletTxnCompanyId: number
+  walletTxnCustomerId: number
   companyId: number
   userId: number
   buildingId: number
@@ -116,6 +132,8 @@ export type APIUsageLogAvgAggregateInputType = {
   bytesProcessed?: true
   costPerUnit?: true
   totalCost?: true
+  billedCostEur?: true
+  customerChargeEur?: true
 }
 
 export type APIUsageLogSumAggregateInputType = {
@@ -124,6 +142,8 @@ export type APIUsageLogSumAggregateInputType = {
   bytesProcessed?: true
   costPerUnit?: true
   totalCost?: true
+  billedCostEur?: true
+  customerChargeEur?: true
 }
 
 export type APIUsageLogMinAggregateInputType = {
@@ -137,6 +157,10 @@ export type APIUsageLogMinAggregateInputType = {
   costPerUnit?: true
   totalCost?: true
   currency?: true
+  billedCostEur?: true
+  customerChargeEur?: true
+  walletTxnCompanyId?: true
+  walletTxnCustomerId?: true
   companyId?: true
   userId?: true
   buildingId?: true
@@ -159,6 +183,10 @@ export type APIUsageLogMaxAggregateInputType = {
   costPerUnit?: true
   totalCost?: true
   currency?: true
+  billedCostEur?: true
+  customerChargeEur?: true
+  walletTxnCompanyId?: true
+  walletTxnCustomerId?: true
   companyId?: true
   userId?: true
   buildingId?: true
@@ -181,6 +209,10 @@ export type APIUsageLogCountAggregateInputType = {
   costPerUnit?: true
   totalCost?: true
   currency?: true
+  billedCostEur?: true
+  customerChargeEur?: true
+  walletTxnCompanyId?: true
+  walletTxnCustomerId?: true
   companyId?: true
   userId?: true
   buildingId?: true
@@ -290,6 +322,10 @@ export type APIUsageLogGroupByOutputType = {
   costPerUnit: number
   totalCost: number
   currency: string
+  billedCostEur: number | null
+  customerChargeEur: number | null
+  walletTxnCompanyId: string | null
+  walletTxnCustomerId: string | null
   companyId: string | null
   userId: string | null
   buildingId: string | null
@@ -335,6 +371,10 @@ export type APIUsageLogWhereInput = {
   costPerUnit?: Prisma.FloatFilter<"APIUsageLog"> | number
   totalCost?: Prisma.FloatFilter<"APIUsageLog"> | number
   currency?: Prisma.StringFilter<"APIUsageLog"> | string
+  billedCostEur?: Prisma.FloatNullableFilter<"APIUsageLog"> | number | null
+  customerChargeEur?: Prisma.FloatNullableFilter<"APIUsageLog"> | number | null
+  walletTxnCompanyId?: Prisma.StringNullableFilter<"APIUsageLog"> | string | null
+  walletTxnCustomerId?: Prisma.StringNullableFilter<"APIUsageLog"> | string | null
   companyId?: Prisma.StringNullableFilter<"APIUsageLog"> | string | null
   userId?: Prisma.StringNullableFilter<"APIUsageLog"> | string | null
   buildingId?: Prisma.StringNullableFilter<"APIUsageLog"> | string | null
@@ -359,6 +399,10 @@ export type APIUsageLogOrderByWithRelationInput = {
   costPerUnit?: Prisma.SortOrder
   totalCost?: Prisma.SortOrder
   currency?: Prisma.SortOrder
+  billedCostEur?: Prisma.SortOrderInput | Prisma.SortOrder
+  customerChargeEur?: Prisma.SortOrderInput | Prisma.SortOrder
+  walletTxnCompanyId?: Prisma.SortOrderInput | Prisma.SortOrder
+  walletTxnCustomerId?: Prisma.SortOrderInput | Prisma.SortOrder
   companyId?: Prisma.SortOrderInput | Prisma.SortOrder
   userId?: Prisma.SortOrderInput | Prisma.SortOrder
   buildingId?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -386,6 +430,10 @@ export type APIUsageLogWhereUniqueInput = Prisma.AtLeast<{
   costPerUnit?: Prisma.FloatFilter<"APIUsageLog"> | number
   totalCost?: Prisma.FloatFilter<"APIUsageLog"> | number
   currency?: Prisma.StringFilter<"APIUsageLog"> | string
+  billedCostEur?: Prisma.FloatNullableFilter<"APIUsageLog"> | number | null
+  customerChargeEur?: Prisma.FloatNullableFilter<"APIUsageLog"> | number | null
+  walletTxnCompanyId?: Prisma.StringNullableFilter<"APIUsageLog"> | string | null
+  walletTxnCustomerId?: Prisma.StringNullableFilter<"APIUsageLog"> | string | null
   companyId?: Prisma.StringNullableFilter<"APIUsageLog"> | string | null
   userId?: Prisma.StringNullableFilter<"APIUsageLog"> | string | null
   buildingId?: Prisma.StringNullableFilter<"APIUsageLog"> | string | null
@@ -410,6 +458,10 @@ export type APIUsageLogOrderByWithAggregationInput = {
   costPerUnit?: Prisma.SortOrder
   totalCost?: Prisma.SortOrder
   currency?: Prisma.SortOrder
+  billedCostEur?: Prisma.SortOrderInput | Prisma.SortOrder
+  customerChargeEur?: Prisma.SortOrderInput | Prisma.SortOrder
+  walletTxnCompanyId?: Prisma.SortOrderInput | Prisma.SortOrder
+  walletTxnCustomerId?: Prisma.SortOrderInput | Prisma.SortOrder
   companyId?: Prisma.SortOrderInput | Prisma.SortOrder
   userId?: Prisma.SortOrderInput | Prisma.SortOrder
   buildingId?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -440,6 +492,10 @@ export type APIUsageLogScalarWhereWithAggregatesInput = {
   costPerUnit?: Prisma.FloatWithAggregatesFilter<"APIUsageLog"> | number
   totalCost?: Prisma.FloatWithAggregatesFilter<"APIUsageLog"> | number
   currency?: Prisma.StringWithAggregatesFilter<"APIUsageLog"> | string
+  billedCostEur?: Prisma.FloatNullableWithAggregatesFilter<"APIUsageLog"> | number | null
+  customerChargeEur?: Prisma.FloatNullableWithAggregatesFilter<"APIUsageLog"> | number | null
+  walletTxnCompanyId?: Prisma.StringNullableWithAggregatesFilter<"APIUsageLog"> | string | null
+  walletTxnCustomerId?: Prisma.StringNullableWithAggregatesFilter<"APIUsageLog"> | string | null
   companyId?: Prisma.StringNullableWithAggregatesFilter<"APIUsageLog"> | string | null
   userId?: Prisma.StringNullableWithAggregatesFilter<"APIUsageLog"> | string | null
   buildingId?: Prisma.StringNullableWithAggregatesFilter<"APIUsageLog"> | string | null
@@ -462,6 +518,10 @@ export type APIUsageLogCreateInput = {
   costPerUnit: number
   totalCost: number
   currency?: string
+  billedCostEur?: number | null
+  customerChargeEur?: number | null
+  walletTxnCompanyId?: string | null
+  walletTxnCustomerId?: string | null
   buildingId?: string | null
   customerId?: string | null
   assemblyId?: string | null
@@ -484,6 +544,10 @@ export type APIUsageLogUncheckedCreateInput = {
   costPerUnit: number
   totalCost: number
   currency?: string
+  billedCostEur?: number | null
+  customerChargeEur?: number | null
+  walletTxnCompanyId?: string | null
+  walletTxnCustomerId?: string | null
   companyId?: string | null
   userId?: string | null
   buildingId?: string | null
@@ -506,6 +570,10 @@ export type APIUsageLogUpdateInput = {
   costPerUnit?: Prisma.FloatFieldUpdateOperationsInput | number
   totalCost?: Prisma.FloatFieldUpdateOperationsInput | number
   currency?: Prisma.StringFieldUpdateOperationsInput | string
+  billedCostEur?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  customerChargeEur?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  walletTxnCompanyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  walletTxnCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   assemblyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -528,6 +596,10 @@ export type APIUsageLogUncheckedUpdateInput = {
   costPerUnit?: Prisma.FloatFieldUpdateOperationsInput | number
   totalCost?: Prisma.FloatFieldUpdateOperationsInput | number
   currency?: Prisma.StringFieldUpdateOperationsInput | string
+  billedCostEur?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  customerChargeEur?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  walletTxnCompanyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  walletTxnCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -550,6 +622,10 @@ export type APIUsageLogCreateManyInput = {
   costPerUnit: number
   totalCost: number
   currency?: string
+  billedCostEur?: number | null
+  customerChargeEur?: number | null
+  walletTxnCompanyId?: string | null
+  walletTxnCustomerId?: string | null
   companyId?: string | null
   userId?: string | null
   buildingId?: string | null
@@ -572,6 +648,10 @@ export type APIUsageLogUpdateManyMutationInput = {
   costPerUnit?: Prisma.FloatFieldUpdateOperationsInput | number
   totalCost?: Prisma.FloatFieldUpdateOperationsInput | number
   currency?: Prisma.StringFieldUpdateOperationsInput | string
+  billedCostEur?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  customerChargeEur?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  walletTxnCompanyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  walletTxnCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   assemblyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -592,6 +672,10 @@ export type APIUsageLogUncheckedUpdateManyInput = {
   costPerUnit?: Prisma.FloatFieldUpdateOperationsInput | number
   totalCost?: Prisma.FloatFieldUpdateOperationsInput | number
   currency?: Prisma.StringFieldUpdateOperationsInput | string
+  billedCostEur?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  customerChargeEur?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  walletTxnCompanyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  walletTxnCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -624,6 +708,10 @@ export type APIUsageLogCountOrderByAggregateInput = {
   costPerUnit?: Prisma.SortOrder
   totalCost?: Prisma.SortOrder
   currency?: Prisma.SortOrder
+  billedCostEur?: Prisma.SortOrder
+  customerChargeEur?: Prisma.SortOrder
+  walletTxnCompanyId?: Prisma.SortOrder
+  walletTxnCustomerId?: Prisma.SortOrder
   companyId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   buildingId?: Prisma.SortOrder
@@ -641,6 +729,8 @@ export type APIUsageLogAvgOrderByAggregateInput = {
   bytesProcessed?: Prisma.SortOrder
   costPerUnit?: Prisma.SortOrder
   totalCost?: Prisma.SortOrder
+  billedCostEur?: Prisma.SortOrder
+  customerChargeEur?: Prisma.SortOrder
 }
 
 export type APIUsageLogMaxOrderByAggregateInput = {
@@ -654,6 +744,10 @@ export type APIUsageLogMaxOrderByAggregateInput = {
   costPerUnit?: Prisma.SortOrder
   totalCost?: Prisma.SortOrder
   currency?: Prisma.SortOrder
+  billedCostEur?: Prisma.SortOrder
+  customerChargeEur?: Prisma.SortOrder
+  walletTxnCompanyId?: Prisma.SortOrder
+  walletTxnCustomerId?: Prisma.SortOrder
   companyId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   buildingId?: Prisma.SortOrder
@@ -676,6 +770,10 @@ export type APIUsageLogMinOrderByAggregateInput = {
   costPerUnit?: Prisma.SortOrder
   totalCost?: Prisma.SortOrder
   currency?: Prisma.SortOrder
+  billedCostEur?: Prisma.SortOrder
+  customerChargeEur?: Prisma.SortOrder
+  walletTxnCompanyId?: Prisma.SortOrder
+  walletTxnCustomerId?: Prisma.SortOrder
   companyId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   buildingId?: Prisma.SortOrder
@@ -693,6 +791,8 @@ export type APIUsageLogSumOrderByAggregateInput = {
   bytesProcessed?: Prisma.SortOrder
   costPerUnit?: Prisma.SortOrder
   totalCost?: Prisma.SortOrder
+  billedCostEur?: Prisma.SortOrder
+  customerChargeEur?: Prisma.SortOrder
 }
 
 export type APIUsageLogCreateNestedManyWithoutUserInput = {
@@ -790,6 +890,10 @@ export type APIUsageLogCreateWithoutUserInput = {
   costPerUnit: number
   totalCost: number
   currency?: string
+  billedCostEur?: number | null
+  customerChargeEur?: number | null
+  walletTxnCompanyId?: string | null
+  walletTxnCustomerId?: string | null
   buildingId?: string | null
   customerId?: string | null
   assemblyId?: string | null
@@ -811,6 +915,10 @@ export type APIUsageLogUncheckedCreateWithoutUserInput = {
   costPerUnit: number
   totalCost: number
   currency?: string
+  billedCostEur?: number | null
+  customerChargeEur?: number | null
+  walletTxnCompanyId?: string | null
+  walletTxnCustomerId?: string | null
   companyId?: string | null
   buildingId?: string | null
   customerId?: string | null
@@ -861,6 +969,10 @@ export type APIUsageLogScalarWhereInput = {
   costPerUnit?: Prisma.FloatFilter<"APIUsageLog"> | number
   totalCost?: Prisma.FloatFilter<"APIUsageLog"> | number
   currency?: Prisma.StringFilter<"APIUsageLog"> | string
+  billedCostEur?: Prisma.FloatNullableFilter<"APIUsageLog"> | number | null
+  customerChargeEur?: Prisma.FloatNullableFilter<"APIUsageLog"> | number | null
+  walletTxnCompanyId?: Prisma.StringNullableFilter<"APIUsageLog"> | string | null
+  walletTxnCustomerId?: Prisma.StringNullableFilter<"APIUsageLog"> | string | null
   companyId?: Prisma.StringNullableFilter<"APIUsageLog"> | string | null
   userId?: Prisma.StringNullableFilter<"APIUsageLog"> | string | null
   buildingId?: Prisma.StringNullableFilter<"APIUsageLog"> | string | null
@@ -883,6 +995,10 @@ export type APIUsageLogCreateWithoutCompanyInput = {
   costPerUnit: number
   totalCost: number
   currency?: string
+  billedCostEur?: number | null
+  customerChargeEur?: number | null
+  walletTxnCompanyId?: string | null
+  walletTxnCustomerId?: string | null
   buildingId?: string | null
   customerId?: string | null
   assemblyId?: string | null
@@ -904,6 +1020,10 @@ export type APIUsageLogUncheckedCreateWithoutCompanyInput = {
   costPerUnit: number
   totalCost: number
   currency?: string
+  billedCostEur?: number | null
+  customerChargeEur?: number | null
+  walletTxnCompanyId?: string | null
+  walletTxnCustomerId?: string | null
   userId?: string | null
   buildingId?: string | null
   customerId?: string | null
@@ -951,6 +1071,10 @@ export type APIUsageLogCreateManyUserInput = {
   costPerUnit: number
   totalCost: number
   currency?: string
+  billedCostEur?: number | null
+  customerChargeEur?: number | null
+  walletTxnCompanyId?: string | null
+  walletTxnCustomerId?: string | null
   companyId?: string | null
   buildingId?: string | null
   customerId?: string | null
@@ -972,6 +1096,10 @@ export type APIUsageLogUpdateWithoutUserInput = {
   costPerUnit?: Prisma.FloatFieldUpdateOperationsInput | number
   totalCost?: Prisma.FloatFieldUpdateOperationsInput | number
   currency?: Prisma.StringFieldUpdateOperationsInput | string
+  billedCostEur?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  customerChargeEur?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  walletTxnCompanyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  walletTxnCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   assemblyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -993,6 +1121,10 @@ export type APIUsageLogUncheckedUpdateWithoutUserInput = {
   costPerUnit?: Prisma.FloatFieldUpdateOperationsInput | number
   totalCost?: Prisma.FloatFieldUpdateOperationsInput | number
   currency?: Prisma.StringFieldUpdateOperationsInput | string
+  billedCostEur?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  customerChargeEur?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  walletTxnCompanyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  walletTxnCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1014,6 +1146,10 @@ export type APIUsageLogUncheckedUpdateManyWithoutUserInput = {
   costPerUnit?: Prisma.FloatFieldUpdateOperationsInput | number
   totalCost?: Prisma.FloatFieldUpdateOperationsInput | number
   currency?: Prisma.StringFieldUpdateOperationsInput | string
+  billedCostEur?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  customerChargeEur?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  walletTxnCompanyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  walletTxnCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1035,6 +1171,10 @@ export type APIUsageLogCreateManyCompanyInput = {
   costPerUnit: number
   totalCost: number
   currency?: string
+  billedCostEur?: number | null
+  customerChargeEur?: number | null
+  walletTxnCompanyId?: string | null
+  walletTxnCustomerId?: string | null
   userId?: string | null
   buildingId?: string | null
   customerId?: string | null
@@ -1056,6 +1196,10 @@ export type APIUsageLogUpdateWithoutCompanyInput = {
   costPerUnit?: Prisma.FloatFieldUpdateOperationsInput | number
   totalCost?: Prisma.FloatFieldUpdateOperationsInput | number
   currency?: Prisma.StringFieldUpdateOperationsInput | string
+  billedCostEur?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  customerChargeEur?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  walletTxnCompanyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  walletTxnCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   assemblyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1077,6 +1221,10 @@ export type APIUsageLogUncheckedUpdateWithoutCompanyInput = {
   costPerUnit?: Prisma.FloatFieldUpdateOperationsInput | number
   totalCost?: Prisma.FloatFieldUpdateOperationsInput | number
   currency?: Prisma.StringFieldUpdateOperationsInput | string
+  billedCostEur?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  customerChargeEur?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  walletTxnCompanyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  walletTxnCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1098,6 +1246,10 @@ export type APIUsageLogUncheckedUpdateManyWithoutCompanyInput = {
   costPerUnit?: Prisma.FloatFieldUpdateOperationsInput | number
   totalCost?: Prisma.FloatFieldUpdateOperationsInput | number
   currency?: Prisma.StringFieldUpdateOperationsInput | string
+  billedCostEur?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  customerChargeEur?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  walletTxnCompanyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  walletTxnCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1121,6 +1273,10 @@ export type APIUsageLogSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   costPerUnit?: boolean
   totalCost?: boolean
   currency?: boolean
+  billedCostEur?: boolean
+  customerChargeEur?: boolean
+  walletTxnCompanyId?: boolean
+  walletTxnCustomerId?: boolean
   companyId?: boolean
   userId?: boolean
   buildingId?: boolean
@@ -1145,6 +1301,10 @@ export type APIUsageLogSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   costPerUnit?: boolean
   totalCost?: boolean
   currency?: boolean
+  billedCostEur?: boolean
+  customerChargeEur?: boolean
+  walletTxnCompanyId?: boolean
+  walletTxnCustomerId?: boolean
   companyId?: boolean
   userId?: boolean
   buildingId?: boolean
@@ -1169,6 +1329,10 @@ export type APIUsageLogSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   costPerUnit?: boolean
   totalCost?: boolean
   currency?: boolean
+  billedCostEur?: boolean
+  customerChargeEur?: boolean
+  walletTxnCompanyId?: boolean
+  walletTxnCustomerId?: boolean
   companyId?: boolean
   userId?: boolean
   buildingId?: boolean
@@ -1193,6 +1357,10 @@ export type APIUsageLogSelectScalar = {
   costPerUnit?: boolean
   totalCost?: boolean
   currency?: boolean
+  billedCostEur?: boolean
+  customerChargeEur?: boolean
+  walletTxnCompanyId?: boolean
+  walletTxnCustomerId?: boolean
   companyId?: boolean
   userId?: boolean
   buildingId?: boolean
@@ -1204,7 +1372,7 @@ export type APIUsageLogSelectScalar = {
   updatedAt?: boolean
 }
 
-export type APIUsageLogOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "apiName" | "endpoint" | "model" | "requestCount" | "tokensUsed" | "bytesProcessed" | "costPerUnit" | "totalCost" | "currency" | "companyId" | "userId" | "buildingId" | "customerId" | "assemblyId" | "status" | "errorMessage" | "createdAt" | "updatedAt", ExtArgs["result"]["aPIUsageLog"]>
+export type APIUsageLogOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "apiName" | "endpoint" | "model" | "requestCount" | "tokensUsed" | "bytesProcessed" | "costPerUnit" | "totalCost" | "currency" | "billedCostEur" | "customerChargeEur" | "walletTxnCompanyId" | "walletTxnCustomerId" | "companyId" | "userId" | "buildingId" | "customerId" | "assemblyId" | "status" | "errorMessage" | "createdAt" | "updatedAt", ExtArgs["result"]["aPIUsageLog"]>
 export type APIUsageLogInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   company?: boolean | Prisma.APIUsageLog$companyArgs<ExtArgs>
   user?: boolean | Prisma.APIUsageLog$userArgs<ExtArgs>
@@ -1235,6 +1403,10 @@ export type $APIUsageLogPayload<ExtArgs extends runtime.Types.Extensions.Interna
     costPerUnit: number
     totalCost: number
     currency: string
+    billedCostEur: number | null
+    customerChargeEur: number | null
+    walletTxnCompanyId: string | null
+    walletTxnCustomerId: string | null
     companyId: string | null
     userId: string | null
     buildingId: string | null
@@ -1679,6 +1851,10 @@ export interface APIUsageLogFieldRefs {
   readonly costPerUnit: Prisma.FieldRef<"APIUsageLog", 'Float'>
   readonly totalCost: Prisma.FieldRef<"APIUsageLog", 'Float'>
   readonly currency: Prisma.FieldRef<"APIUsageLog", 'String'>
+  readonly billedCostEur: Prisma.FieldRef<"APIUsageLog", 'Float'>
+  readonly customerChargeEur: Prisma.FieldRef<"APIUsageLog", 'Float'>
+  readonly walletTxnCompanyId: Prisma.FieldRef<"APIUsageLog", 'String'>
+  readonly walletTxnCustomerId: Prisma.FieldRef<"APIUsageLog", 'String'>
   readonly companyId: Prisma.FieldRef<"APIUsageLog", 'String'>
   readonly userId: Prisma.FieldRef<"APIUsageLog", 'String'>
   readonly buildingId: Prisma.FieldRef<"APIUsageLog", 'String'>

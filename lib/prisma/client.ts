@@ -267,6 +267,21 @@ export type APIUsageLog = Prisma.APIUsageLogModel
  */
 export type APICostConfig = Prisma.APICostConfigModel
 /**
+ * Model Wallet
+ * 
+ */
+export type Wallet = Prisma.WalletModel
+/**
+ * Model WalletTransaction
+ * 
+ */
+export type WalletTransaction = Prisma.WalletTransactionModel
+/**
+ * Model CustomerMeteredPlan
+ * 
+ */
+export type CustomerMeteredPlan = Prisma.CustomerMeteredPlanModel
+/**
  * Model MonthlyCostSummary
  * 
  */

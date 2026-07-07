@@ -96,6 +96,9 @@ export const ModelName = {
   ProcessedWebhook: 'ProcessedWebhook',
   APIUsageLog: 'APIUsageLog',
   APICostConfig: 'APICostConfig',
+  Wallet: 'Wallet',
+  WalletTransaction: 'WalletTransaction',
+  CustomerMeteredPlan: 'CustomerMeteredPlan',
   MonthlyCostSummary: 'MonthlyCostSummary',
   MaintenanceRequest: 'MaintenanceRequest',
   CMSPage: 'CMSPage',
@@ -940,6 +943,10 @@ export const APIUsageLogScalarFieldEnum = {
   costPerUnit: 'costPerUnit',
   totalCost: 'totalCost',
   currency: 'currency',
+  billedCostEur: 'billedCostEur',
+  customerChargeEur: 'customerChargeEur',
+  walletTxnCompanyId: 'walletTxnCompanyId',
+  walletTxnCustomerId: 'walletTxnCustomerId',
   companyId: 'companyId',
   userId: 'userId',
   buildingId: 'buildingId',
@@ -967,11 +974,57 @@ export const APICostConfigScalarFieldEnum = {
   enabled: 'enabled',
   notes: 'notes',
   documentationUrl: 'documentationUrl',
+  category: 'category',
+  unitLabel: 'unitLabel',
   updatedAt: 'updatedAt',
   updatedBy: 'updatedBy'
 } as const
 
 export type APICostConfigScalarFieldEnum = (typeof APICostConfigScalarFieldEnum)[keyof typeof APICostConfigScalarFieldEnum]
+
+
+export const WalletScalarFieldEnum = {
+  id: 'id',
+  ownerType: 'ownerType',
+  ownerId: 'ownerId',
+  balanceEur: 'balanceEur',
+  lowBalanceEur: 'lowBalanceEur',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type WalletScalarFieldEnum = (typeof WalletScalarFieldEnum)[keyof typeof WalletScalarFieldEnum]
+
+
+export const WalletTransactionScalarFieldEnum = {
+  id: 'id',
+  walletId: 'walletId',
+  type: 'type',
+  amountEur: 'amountEur',
+  balanceAfter: 'balanceAfter',
+  description: 'description',
+  refType: 'refType',
+  refId: 'refId',
+  createdById: 'createdById',
+  createdAt: 'createdAt'
+} as const
+
+export type WalletTransactionScalarFieldEnum = (typeof WalletTransactionScalarFieldEnum)[keyof typeof WalletTransactionScalarFieldEnum]
+
+
+export const CustomerMeteredPlanScalarFieldEnum = {
+  id: 'id',
+  customerId: 'customerId',
+  monthlyAllowanceEur: 'monthlyAllowanceEur',
+  rollover: 'rollover',
+  adminMarkupPercent: 'adminMarkupPercent',
+  active: 'active',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CustomerMeteredPlanScalarFieldEnum = (typeof CustomerMeteredPlanScalarFieldEnum)[keyof typeof CustomerMeteredPlanScalarFieldEnum]
 
 
 export const MonthlyCostSummaryScalarFieldEnum = {

@@ -429,6 +429,9 @@ export const ModelName = {
   ProcessedWebhook: 'ProcessedWebhook',
   APIUsageLog: 'APIUsageLog',
   APICostConfig: 'APICostConfig',
+  Wallet: 'Wallet',
+  WalletTransaction: 'WalletTransaction',
+  CustomerMeteredPlan: 'CustomerMeteredPlan',
   MonthlyCostSummary: 'MonthlyCostSummary',
   MaintenanceRequest: 'MaintenanceRequest',
   CMSPage: 'CMSPage',
@@ -462,7 +465,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "account" | "session" | "verificationToken" | "company" | "department" | "jobPosition" | "employee" | "subscription" | "addonFeature" | "customer" | "property" | "building" | "unitOccupancy" | "buildingFile" | "infraPoint" | "infraAccess" | "infraMedia" | "contact" | "recurringTask" | "maintenanceLog" | "buildingExpense" | "expenseCategory" | "buildingCategoryOverride" | "unitCategoryExclusion" | "unitHeatingReading" | "meterReading" | "expenseAllocation" | "unitPayment" | "managementAssignment" | "commonArea" | "unit" | "service" | "propertyService" | "serviceInvoice" | "serviceInvoiceLine" | "userCompanyRole" | "announcement" | "announcementTarget" | "announcement_User" | "assembly" | "assemblyParticipant" | "processedWebhook" | "aPIUsageLog" | "aPICostConfig" | "monthlyCostSummary" | "maintenanceRequest" | "cMSPage" | "fAQ" | "pricingTier" | "contactMessage" | "cookieConsent" | "appSettings" | "impersonationEvent" | "landingSection" | "pageSeo" | "uiMessage" | "mediaAsset" | "siteSettings" | "author" | "article" | "role" | "rolePermission"
+    modelProps: "user" | "account" | "session" | "verificationToken" | "company" | "department" | "jobPosition" | "employee" | "subscription" | "addonFeature" | "customer" | "property" | "building" | "unitOccupancy" | "buildingFile" | "infraPoint" | "infraAccess" | "infraMedia" | "contact" | "recurringTask" | "maintenanceLog" | "buildingExpense" | "expenseCategory" | "buildingCategoryOverride" | "unitCategoryExclusion" | "unitHeatingReading" | "meterReading" | "expenseAllocation" | "unitPayment" | "managementAssignment" | "commonArea" | "unit" | "service" | "propertyService" | "serviceInvoice" | "serviceInvoiceLine" | "userCompanyRole" | "announcement" | "announcementTarget" | "announcement_User" | "assembly" | "assemblyParticipant" | "processedWebhook" | "aPIUsageLog" | "aPICostConfig" | "wallet" | "walletTransaction" | "customerMeteredPlan" | "monthlyCostSummary" | "maintenanceRequest" | "cMSPage" | "fAQ" | "pricingTier" | "contactMessage" | "cookieConsent" | "appSettings" | "impersonationEvent" | "landingSection" | "pageSeo" | "uiMessage" | "mediaAsset" | "siteSettings" | "author" | "article" | "role" | "rolePermission"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -3796,6 +3799,228 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Wallet: {
+      payload: Prisma.$WalletPayload<ExtArgs>
+      fields: Prisma.WalletFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.WalletFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.WalletFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletPayload>
+        }
+        findFirst: {
+          args: Prisma.WalletFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.WalletFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletPayload>
+        }
+        findMany: {
+          args: Prisma.WalletFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletPayload>[]
+        }
+        create: {
+          args: Prisma.WalletCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletPayload>
+        }
+        createMany: {
+          args: Prisma.WalletCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.WalletCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletPayload>[]
+        }
+        delete: {
+          args: Prisma.WalletDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletPayload>
+        }
+        update: {
+          args: Prisma.WalletUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletPayload>
+        }
+        deleteMany: {
+          args: Prisma.WalletDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.WalletUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.WalletUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletPayload>[]
+        }
+        upsert: {
+          args: Prisma.WalletUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletPayload>
+        }
+        aggregate: {
+          args: Prisma.WalletAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateWallet>
+        }
+        groupBy: {
+          args: Prisma.WalletGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.WalletGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.WalletCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.WalletCountAggregateOutputType> | number
+        }
+      }
+    }
+    WalletTransaction: {
+      payload: Prisma.$WalletTransactionPayload<ExtArgs>
+      fields: Prisma.WalletTransactionFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.WalletTransactionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletTransactionPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.WalletTransactionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletTransactionPayload>
+        }
+        findFirst: {
+          args: Prisma.WalletTransactionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletTransactionPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.WalletTransactionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletTransactionPayload>
+        }
+        findMany: {
+          args: Prisma.WalletTransactionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletTransactionPayload>[]
+        }
+        create: {
+          args: Prisma.WalletTransactionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletTransactionPayload>
+        }
+        createMany: {
+          args: Prisma.WalletTransactionCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.WalletTransactionCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletTransactionPayload>[]
+        }
+        delete: {
+          args: Prisma.WalletTransactionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletTransactionPayload>
+        }
+        update: {
+          args: Prisma.WalletTransactionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletTransactionPayload>
+        }
+        deleteMany: {
+          args: Prisma.WalletTransactionDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.WalletTransactionUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.WalletTransactionUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletTransactionPayload>[]
+        }
+        upsert: {
+          args: Prisma.WalletTransactionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WalletTransactionPayload>
+        }
+        aggregate: {
+          args: Prisma.WalletTransactionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateWalletTransaction>
+        }
+        groupBy: {
+          args: Prisma.WalletTransactionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.WalletTransactionGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.WalletTransactionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.WalletTransactionCountAggregateOutputType> | number
+        }
+      }
+    }
+    CustomerMeteredPlan: {
+      payload: Prisma.$CustomerMeteredPlanPayload<ExtArgs>
+      fields: Prisma.CustomerMeteredPlanFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.CustomerMeteredPlanFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CustomerMeteredPlanPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.CustomerMeteredPlanFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CustomerMeteredPlanPayload>
+        }
+        findFirst: {
+          args: Prisma.CustomerMeteredPlanFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CustomerMeteredPlanPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.CustomerMeteredPlanFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CustomerMeteredPlanPayload>
+        }
+        findMany: {
+          args: Prisma.CustomerMeteredPlanFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CustomerMeteredPlanPayload>[]
+        }
+        create: {
+          args: Prisma.CustomerMeteredPlanCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CustomerMeteredPlanPayload>
+        }
+        createMany: {
+          args: Prisma.CustomerMeteredPlanCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.CustomerMeteredPlanCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CustomerMeteredPlanPayload>[]
+        }
+        delete: {
+          args: Prisma.CustomerMeteredPlanDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CustomerMeteredPlanPayload>
+        }
+        update: {
+          args: Prisma.CustomerMeteredPlanUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CustomerMeteredPlanPayload>
+        }
+        deleteMany: {
+          args: Prisma.CustomerMeteredPlanDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.CustomerMeteredPlanUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.CustomerMeteredPlanUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CustomerMeteredPlanPayload>[]
+        }
+        upsert: {
+          args: Prisma.CustomerMeteredPlanUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CustomerMeteredPlanPayload>
+        }
+        aggregate: {
+          args: Prisma.CustomerMeteredPlanAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateCustomerMeteredPlan>
+        }
+        groupBy: {
+          args: Prisma.CustomerMeteredPlanGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CustomerMeteredPlanGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.CustomerMeteredPlanCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CustomerMeteredPlanCountAggregateOutputType> | number
+        }
+      }
+    }
     MonthlyCostSummary: {
       payload: Prisma.$MonthlyCostSummaryPayload<ExtArgs>
       fields: Prisma.MonthlyCostSummaryFieldRefs
@@ -5975,6 +6200,10 @@ export const APIUsageLogScalarFieldEnum = {
   costPerUnit: 'costPerUnit',
   totalCost: 'totalCost',
   currency: 'currency',
+  billedCostEur: 'billedCostEur',
+  customerChargeEur: 'customerChargeEur',
+  walletTxnCompanyId: 'walletTxnCompanyId',
+  walletTxnCustomerId: 'walletTxnCustomerId',
   companyId: 'companyId',
   userId: 'userId',
   buildingId: 'buildingId',
@@ -6002,11 +6231,57 @@ export const APICostConfigScalarFieldEnum = {
   enabled: 'enabled',
   notes: 'notes',
   documentationUrl: 'documentationUrl',
+  category: 'category',
+  unitLabel: 'unitLabel',
   updatedAt: 'updatedAt',
   updatedBy: 'updatedBy'
 } as const
 
 export type APICostConfigScalarFieldEnum = (typeof APICostConfigScalarFieldEnum)[keyof typeof APICostConfigScalarFieldEnum]
+
+
+export const WalletScalarFieldEnum = {
+  id: 'id',
+  ownerType: 'ownerType',
+  ownerId: 'ownerId',
+  balanceEur: 'balanceEur',
+  lowBalanceEur: 'lowBalanceEur',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type WalletScalarFieldEnum = (typeof WalletScalarFieldEnum)[keyof typeof WalletScalarFieldEnum]
+
+
+export const WalletTransactionScalarFieldEnum = {
+  id: 'id',
+  walletId: 'walletId',
+  type: 'type',
+  amountEur: 'amountEur',
+  balanceAfter: 'balanceAfter',
+  description: 'description',
+  refType: 'refType',
+  refId: 'refId',
+  createdById: 'createdById',
+  createdAt: 'createdAt'
+} as const
+
+export type WalletTransactionScalarFieldEnum = (typeof WalletTransactionScalarFieldEnum)[keyof typeof WalletTransactionScalarFieldEnum]
+
+
+export const CustomerMeteredPlanScalarFieldEnum = {
+  id: 'id',
+  customerId: 'customerId',
+  monthlyAllowanceEur: 'monthlyAllowanceEur',
+  rollover: 'rollover',
+  adminMarkupPercent: 'adminMarkupPercent',
+  active: 'active',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CustomerMeteredPlanScalarFieldEnum = (typeof CustomerMeteredPlanScalarFieldEnum)[keyof typeof CustomerMeteredPlanScalarFieldEnum]
 
 
 export const MonthlyCostSummaryScalarFieldEnum = {
@@ -6812,6 +7087,48 @@ export type EnumAssemblyStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$P
 export type ListEnumAssemblyStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AssemblyStatus[]'>
     
 
+
+/**
+ * Reference to a field of type 'WalletOwnerType'
+ */
+export type EnumWalletOwnerTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'WalletOwnerType'>
+    
+
+
+/**
+ * Reference to a field of type 'WalletOwnerType[]'
+ */
+export type ListEnumWalletOwnerTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'WalletOwnerType[]'>
+    
+
+
+/**
+ * Reference to a field of type 'WalletStatus'
+ */
+export type EnumWalletStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'WalletStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'WalletStatus[]'
+ */
+export type ListEnumWalletStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'WalletStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'WalletTxnType'
+ */
+export type EnumWalletTxnTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'WalletTxnType'>
+    
+
+
+/**
+ * Reference to a field of type 'WalletTxnType[]'
+ */
+export type ListEnumWalletTxnTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'WalletTxnType[]'>
+    
+
 /**
  * Batch Payload for updateMany & deleteMany & createMany
  */
@@ -6967,6 +7284,9 @@ export type GlobalOmitConfig = {
   processedWebhook?: Prisma.ProcessedWebhookOmit
   aPIUsageLog?: Prisma.APIUsageLogOmit
   aPICostConfig?: Prisma.APICostConfigOmit
+  wallet?: Prisma.WalletOmit
+  walletTransaction?: Prisma.WalletTransactionOmit
+  customerMeteredPlan?: Prisma.CustomerMeteredPlanOmit
   monthlyCostSummary?: Prisma.MonthlyCostSummaryOmit
   maintenanceRequest?: Prisma.MaintenanceRequestOmit
   cMSPage?: Prisma.CMSPageOmit
