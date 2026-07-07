@@ -1666,3 +1666,15 @@ git commit -m "feat(wallet): customer portal wallet page with Viva top-up"
 - Admin metered plans + customer wallets → Tasks 11, 12, 13.
 - Customer portal wallet + Viva top-up → Tasks 14, 15, 16.
 - Video as metered apiName → Task 1 (`category=video`), consumed via Task 5 (unchanged code path).
+
+## Known follow-up (discovered during Task 7)
+
+The AI core (`lib/ai.ts` deepseekRequest/geminiRequest, and streaming `runAgentStream`) is a
+generic wrapper carrying **no customer context** and not surfacing per-call token usage on the
+streaming path. So live AI consumption is **not yet debited** to wallets — `recordMeteredUsage`
+is complete and tested but has no seam to call it from. The depletion **gate** is wired at
+`app/api/ai/agent/route.ts` but dormant until a caller passes buildingId/customerId. To activate:
+1. Thread buildingId/customerId through `useAiChat` → `/api/ai/agent` body.
+2. Have `runAgentStream` surface token usage per turn and call `recordMeteredUsage(...)` with that
+   context (best-effort, try/catch) after each successful completion.
+Separate follow-up phase, not part of the current 16 tasks.
