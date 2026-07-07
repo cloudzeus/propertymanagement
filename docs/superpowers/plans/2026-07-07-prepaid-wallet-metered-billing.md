@@ -1678,3 +1678,23 @@ is complete and tested but has no seam to call it from. The depletion **gate** i
 2. Have `runAgentStream` surface token usage per turn and call `recordMeteredUsage(...)` with that
    context (best-effort, try/catch) after each successful completion.
 Separate follow-up phase, not part of the current 16 tasks.
+
+## New env vars (set in Coolify — repo keeps .env* untracked)
+
+Wallet cron + Viva top-up (Task 6, 15):
+- `CRON_SECRET` — shared secret for POST /api/cron/monthly-allowance (x-cron-secret header).
+- `VIVA_ENV` — "sandbox" | "production".
+- `VIVA_CLIENT_ID`, `VIVA_CLIENT_SECRET` — Viva Smart Checkout v2 OAuth2 credentials.
+- `VIVA_SOURCE_CODE` — Viva payment source code.
+- `VIVA_MERCHANT_ID`, `VIVA_API_KEY` — used for the webhook verification-key handshake.
+- `VIVA_WEBHOOK_KEY` — optional fallback webhook verification key.
+
+The Viva HTTP layer (lib/viva.ts + /api/wallet/topup/*) is coded to Viva's documented Smart
+Checkout v2 API but is UNVERIFIED against a live/sandbox account, and the webhook POST currently
+trusts its body — harden authenticity + verify in sandbox before enabling in production.
+
+### Viva must-harden-before-prod (from Task 15 review)
+- Webhook authenticity: POST body is trusted — verify signature/token or re-fetch the transaction from Viva.
+- Idempotency race: add a UNIQUE index on WalletTransaction(refType, refId) and catch the conflict (current findFirst→credit is check-then-act, can double-credit on concurrent retries).
+- Amount trust: credit the confirmed Viva EventData.Amount (cents→EUR), not the requested merchantTrns amount, to survive partial/adjusted settlements.
+- Tighten missing-StatusId / missing-TransactionId leniency once the live event shape is confirmed in sandbox.
