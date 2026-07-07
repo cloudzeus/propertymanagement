@@ -55,6 +55,8 @@ export type APICostConfigMinAggregateOutputType = {
   enabled: boolean | null
   notes: string | null
   documentationUrl: string | null
+  category: string | null
+  unitLabel: string | null
   updatedAt: Date | null
   updatedBy: string | null
 }
@@ -72,6 +74,8 @@ export type APICostConfigMaxAggregateOutputType = {
   enabled: boolean | null
   notes: string | null
   documentationUrl: string | null
+  category: string | null
+  unitLabel: string | null
   updatedAt: Date | null
   updatedBy: string | null
 }
@@ -89,6 +93,8 @@ export type APICostConfigCountAggregateOutputType = {
   enabled: number
   notes: number
   documentationUrl: number
+  category: number
+  unitLabel: number
   updatedAt: number
   updatedBy: number
   _all: number
@@ -124,6 +130,8 @@ export type APICostConfigMinAggregateInputType = {
   enabled?: true
   notes?: true
   documentationUrl?: true
+  category?: true
+  unitLabel?: true
   updatedAt?: true
   updatedBy?: true
 }
@@ -141,6 +149,8 @@ export type APICostConfigMaxAggregateInputType = {
   enabled?: true
   notes?: true
   documentationUrl?: true
+  category?: true
+  unitLabel?: true
   updatedAt?: true
   updatedBy?: true
 }
@@ -158,6 +168,8 @@ export type APICostConfigCountAggregateInputType = {
   enabled?: true
   notes?: true
   documentationUrl?: true
+  category?: true
+  unitLabel?: true
   updatedAt?: true
   updatedBy?: true
   _all?: true
@@ -262,6 +274,8 @@ export type APICostConfigGroupByOutputType = {
   enabled: boolean
   notes: string | null
   documentationUrl: string | null
+  category: string
+  unitLabel: string
   updatedAt: Date
   updatedBy: string | null
   _count: APICostConfigCountAggregateOutputType | null
@@ -302,6 +316,8 @@ export type APICostConfigWhereInput = {
   enabled?: Prisma.BoolFilter<"APICostConfig"> | boolean
   notes?: Prisma.StringNullableFilter<"APICostConfig"> | string | null
   documentationUrl?: Prisma.StringNullableFilter<"APICostConfig"> | string | null
+  category?: Prisma.StringFilter<"APICostConfig"> | string
+  unitLabel?: Prisma.StringFilter<"APICostConfig"> | string
   updatedAt?: Prisma.DateTimeFilter<"APICostConfig"> | Date | string
   updatedBy?: Prisma.StringNullableFilter<"APICostConfig"> | string | null
 }
@@ -319,6 +335,8 @@ export type APICostConfigOrderByWithRelationInput = {
   enabled?: Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   documentationUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  category?: Prisma.SortOrder
+  unitLabel?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   updatedBy?: Prisma.SortOrderInput | Prisma.SortOrder
 }
@@ -339,6 +357,8 @@ export type APICostConfigWhereUniqueInput = Prisma.AtLeast<{
   enabled?: Prisma.BoolFilter<"APICostConfig"> | boolean
   notes?: Prisma.StringNullableFilter<"APICostConfig"> | string | null
   documentationUrl?: Prisma.StringNullableFilter<"APICostConfig"> | string | null
+  category?: Prisma.StringFilter<"APICostConfig"> | string
+  unitLabel?: Prisma.StringFilter<"APICostConfig"> | string
   updatedAt?: Prisma.DateTimeFilter<"APICostConfig"> | Date | string
   updatedBy?: Prisma.StringNullableFilter<"APICostConfig"> | string | null
 }, "id" | "apiName">
@@ -356,6 +376,8 @@ export type APICostConfigOrderByWithAggregationInput = {
   enabled?: Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   documentationUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  category?: Prisma.SortOrder
+  unitLabel?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   updatedBy?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.APICostConfigCountOrderByAggregateInput
@@ -381,6 +403,8 @@ export type APICostConfigScalarWhereWithAggregatesInput = {
   enabled?: Prisma.BoolWithAggregatesFilter<"APICostConfig"> | boolean
   notes?: Prisma.StringNullableWithAggregatesFilter<"APICostConfig"> | string | null
   documentationUrl?: Prisma.StringNullableWithAggregatesFilter<"APICostConfig"> | string | null
+  category?: Prisma.StringWithAggregatesFilter<"APICostConfig"> | string
+  unitLabel?: Prisma.StringWithAggregatesFilter<"APICostConfig"> | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"APICostConfig"> | Date | string
   updatedBy?: Prisma.StringNullableWithAggregatesFilter<"APICostConfig"> | string | null
 }
@@ -398,6 +422,8 @@ export type APICostConfigCreateInput = {
   enabled?: boolean
   notes?: string | null
   documentationUrl?: string | null
+  category?: string
+  unitLabel?: string
   updatedAt?: Date | string
   updatedBy?: string | null
 }
@@ -415,6 +441,8 @@ export type APICostConfigUncheckedCreateInput = {
   enabled?: boolean
   notes?: string | null
   documentationUrl?: string | null
+  category?: string
+  unitLabel?: string
   updatedAt?: Date | string
   updatedBy?: string | null
 }
@@ -432,6 +460,8 @@ export type APICostConfigUpdateInput = {
   enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   documentationUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.StringFieldUpdateOperationsInput | string
+  unitLabel?: Prisma.StringFieldUpdateOperationsInput | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -449,6 +479,8 @@ export type APICostConfigUncheckedUpdateInput = {
   enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   documentationUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.StringFieldUpdateOperationsInput | string
+  unitLabel?: Prisma.StringFieldUpdateOperationsInput | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -466,6 +498,8 @@ export type APICostConfigCreateManyInput = {
   enabled?: boolean
   notes?: string | null
   documentationUrl?: string | null
+  category?: string
+  unitLabel?: string
   updatedAt?: Date | string
   updatedBy?: string | null
 }
@@ -483,6 +517,8 @@ export type APICostConfigUpdateManyMutationInput = {
   enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   documentationUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.StringFieldUpdateOperationsInput | string
+  unitLabel?: Prisma.StringFieldUpdateOperationsInput | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -500,6 +536,8 @@ export type APICostConfigUncheckedUpdateManyInput = {
   enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   documentationUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.StringFieldUpdateOperationsInput | string
+  unitLabel?: Prisma.StringFieldUpdateOperationsInput | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedBy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -517,6 +555,8 @@ export type APICostConfigCountOrderByAggregateInput = {
   enabled?: Prisma.SortOrder
   notes?: Prisma.SortOrder
   documentationUrl?: Prisma.SortOrder
+  category?: Prisma.SortOrder
+  unitLabel?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   updatedBy?: Prisma.SortOrder
 }
@@ -542,6 +582,8 @@ export type APICostConfigMaxOrderByAggregateInput = {
   enabled?: Prisma.SortOrder
   notes?: Prisma.SortOrder
   documentationUrl?: Prisma.SortOrder
+  category?: Prisma.SortOrder
+  unitLabel?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   updatedBy?: Prisma.SortOrder
 }
@@ -559,6 +601,8 @@ export type APICostConfigMinOrderByAggregateInput = {
   enabled?: Prisma.SortOrder
   notes?: Prisma.SortOrder
   documentationUrl?: Prisma.SortOrder
+  category?: Prisma.SortOrder
+  unitLabel?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   updatedBy?: Prisma.SortOrder
 }
@@ -586,6 +630,8 @@ export type APICostConfigSelect<ExtArgs extends runtime.Types.Extensions.Interna
   enabled?: boolean
   notes?: boolean
   documentationUrl?: boolean
+  category?: boolean
+  unitLabel?: boolean
   updatedAt?: boolean
   updatedBy?: boolean
 }, ExtArgs["result"]["aPICostConfig"]>
@@ -603,6 +649,8 @@ export type APICostConfigSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   enabled?: boolean
   notes?: boolean
   documentationUrl?: boolean
+  category?: boolean
+  unitLabel?: boolean
   updatedAt?: boolean
   updatedBy?: boolean
 }, ExtArgs["result"]["aPICostConfig"]>
@@ -620,6 +668,8 @@ export type APICostConfigSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   enabled?: boolean
   notes?: boolean
   documentationUrl?: boolean
+  category?: boolean
+  unitLabel?: boolean
   updatedAt?: boolean
   updatedBy?: boolean
 }, ExtArgs["result"]["aPICostConfig"]>
@@ -637,11 +687,13 @@ export type APICostConfigSelectScalar = {
   enabled?: boolean
   notes?: boolean
   documentationUrl?: boolean
+  category?: boolean
+  unitLabel?: boolean
   updatedAt?: boolean
   updatedBy?: boolean
 }
 
-export type APICostConfigOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "apiName" | "displayName" | "costModel" | "basePrice" | "freeQuota" | "quotaResetDay" | "markupPercent" | "monthlyBudgetLimit" | "enabled" | "notes" | "documentationUrl" | "updatedAt" | "updatedBy", ExtArgs["result"]["aPICostConfig"]>
+export type APICostConfigOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "apiName" | "displayName" | "costModel" | "basePrice" | "freeQuota" | "quotaResetDay" | "markupPercent" | "monthlyBudgetLimit" | "enabled" | "notes" | "documentationUrl" | "category" | "unitLabel" | "updatedAt" | "updatedBy", ExtArgs["result"]["aPICostConfig"]>
 
 export type $APICostConfigPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "APICostConfig"
@@ -659,6 +711,8 @@ export type $APICostConfigPayload<ExtArgs extends runtime.Types.Extensions.Inter
     enabled: boolean
     notes: string | null
     documentationUrl: string | null
+    category: string
+    unitLabel: string
     updatedAt: Date
     updatedBy: string | null
   }, ExtArgs["result"]["aPICostConfig"]>
@@ -1096,6 +1150,8 @@ export interface APICostConfigFieldRefs {
   readonly enabled: Prisma.FieldRef<"APICostConfig", 'Boolean'>
   readonly notes: Prisma.FieldRef<"APICostConfig", 'String'>
   readonly documentationUrl: Prisma.FieldRef<"APICostConfig", 'String'>
+  readonly category: Prisma.FieldRef<"APICostConfig", 'String'>
+  readonly unitLabel: Prisma.FieldRef<"APICostConfig", 'String'>
   readonly updatedAt: Prisma.FieldRef<"APICostConfig", 'DateTime'>
   readonly updatedBy: Prisma.FieldRef<"APICostConfig", 'String'>
 }

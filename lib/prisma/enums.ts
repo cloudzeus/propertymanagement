@@ -270,3 +270,30 @@ export const AssemblyStatus = {
 } as const
 
 export type AssemblyStatus = (typeof AssemblyStatus)[keyof typeof AssemblyStatus]
+
+
+export const WalletOwnerType = {
+  COMPANY: 'COMPANY',
+  CUSTOMER: 'CUSTOMER'
+} as const
+
+export type WalletOwnerType = (typeof WalletOwnerType)[keyof typeof WalletOwnerType]
+
+
+export const WalletStatus = {
+  ACTIVE: 'ACTIVE',
+  SUSPENDED: 'SUSPENDED'
+} as const
+
+export type WalletStatus = (typeof WalletStatus)[keyof typeof WalletStatus]
+
+
+export const WalletTxnType = {
+  ALLOWANCE: 'ALLOWANCE',
+  TOPUP: 'TOPUP',
+  DEBIT: 'DEBIT',
+  ADJUSTMENT: 'ADJUSTMENT',
+  RESET: 'RESET'
+} as const
+
+export type WalletTxnType = (typeof WalletTxnType)[keyof typeof WalletTxnType]
