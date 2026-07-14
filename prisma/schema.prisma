@@ -171,6 +171,11 @@ model User {
   // Maintenance requests assigned to this user
   assignedMaintenance MaintenanceRequest[] @relation("maintenanceAssignedTo")
   performedMaintenance MaintenanceLog[] @relation("maintenancePerformedBy")
+  maintenanceStatusEvents MaintenanceStatusEvent[] @relation("maintenanceStatusBy")
+  maintenanceComments     MaintenanceComment[]     @relation("maintenanceComments")
+  maintenanceSlots        MaintenanceSlot[]        @relation("maintenanceSlots")
+  maintenanceAppointments MaintenanceAppointment[] @relation("maintenanceAppointments")
+  notifications           Notification[]           @relation("userNotifications")
 
   // API usage logs triggered by this user
   apiUsageLogs        APIUsageLog[]
@@ -597,6 +602,7 @@ model Property {
   buildings             Building[]
   services              PropertyService[]
   managementAssignments ManagementAssignment[]
+  maintenanceCoverageRules MaintenanceCoverageRule[]
 
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt
@@ -1559,9 +1565,23 @@ model MaintenanceRequest {
   title                 String
   description           String   @db.Text
 
-  category              String   // 'plumbing', 'electrical', 'general', etc.
+  category              String   // legacy free-text ('plumbing', 'electrical', ...); new rows also set categoryId
+  categoryId            String?
+  categoryRef           MaintenanceCategory? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
   priority              String   @default("NORMAL") // LOW, NORMAL, HIGH, URGENT
-  status                String   @default("OPEN") // OPEN, IN_PROGRESS, COMPLETED, CANCELLED
+  status                String   @default("OPEN") // OPEN, ACKNOWLEDGED, SCHEDULED, IN_PROGRESS, ON_HOLD, COMPLETED, CANCELLED
+
+  // Who is responsible for resolution: COMPANY (managed contract covers it) or PROPERTY_ADMIN
+  handledBy             String   @default("PROPERTY_ADMIN")
+
+  // SLA tracking
+  slaDueAt              DateTime?
+  firstResponseAt       DateTime?
+
+  // Restricted-access equipment flow (appointment booking)
+  restrictedAccess      Boolean  @default(false)
+  managerPresence       Boolean  @default(false) // ο διαχειριστής πρέπει να είναι παρών
+  estimatedMinutes      Int?     // εκτίμηση διάρκειας αποκατάστασης από την εταιρία
 
   reportedById          String?
   reportedBy            User?    @relation("maintenanceReportedBy", fields: [reportedById], references: [id], onDelete: SetNull)
@@ -1578,10 +1598,149 @@ model MaintenanceRequest {
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt
 
+  attachments           MaintenanceAttachment[]
+  statusEvents          MaintenanceStatusEvent[]
+  comments              MaintenanceComment[]
+  slots                 MaintenanceSlot[]
+  appointments          MaintenanceAppointment[]
+  notifications         Notification[]
+
   @@index([buildingId])
   @@index([unitId])
   @@index([status])
   @@index([priority])
+  @@index([categoryId])
+  @@index([handledBy])
+  @@index([slaDueAt])
+}
+
+// Κατηγορίες βλαβών (διαχειρίσιμες από την εταιρία)
+model MaintenanceCategory {
+  id                 String  @id @default(cuid())
+  name               String
+  icon               String?  // react-icons/ri name
+  active             Boolean @default(true)
+  sortOrder          Int     @default(0)
+  slaHours           Int?    // προεπιλεγμένο SLA επίλυσης σε ώρες
+  companyResponsible Boolean @default(false) // default: καλύπτεται από managed συμβόλαιο
+
+  requests      MaintenanceRequest[]
+  coverageRules MaintenanceCoverageRule[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Τι καλύπτει το managed συμβόλαιο — global default (propertyId null) ή ανά ακίνητο.
+// Κάλυψη κατά κατηγορία ή/και ποσοτικά (quantityLimit ανά periodMonths).
+model MaintenanceCoverageRule {
+  id           String  @id @default(cuid())
+  propertyId   String?
+  property     Property? @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  categoryId   String?
+  category     MaintenanceCategory? @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  elementLabel String?  // ελεύθερη περιγραφή στοιχείου, π.χ. "Κοινόχρηστα φώτα"
+  covered      Boolean @default(true)
+  quantityLimit Int?   // μέγιστες επιλύσεις στην περίοδο (null = απεριόριστες)
+  periodMonths  Int?   // περίοδος μέτρησης του ορίου (null = 12)
+  notes        String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([propertyId])
+  @@index([categoryId])
+}
+
+model MaintenanceAttachment {
+  id          String @id @default(cuid())
+  requestId   String
+  request     MaintenanceRequest @relation(fields: [requestId], references: [id], onDelete: Cascade)
+  url         String  // BunnyCDN URL
+  cdnPath     String?
+  kind        String  @default("IMAGE") // IMAGE, VIDEO
+  contentType String?
+  sizeBytes   Int?
+  createdAt   DateTime @default(now())
+
+  @@index([requestId])
+}
+
+model MaintenanceStatusEvent {
+  id         String @id @default(cuid())
+  requestId  String
+  request    MaintenanceRequest @relation(fields: [requestId], references: [id], onDelete: Cascade)
+  fromStatus String?
+  toStatus   String
+  note       String? @db.Text
+  byUserId   String?
+  byUser     User?   @relation("maintenanceStatusBy", fields: [byUserId], references: [id], onDelete: SetNull)
+  createdAt  DateTime @default(now())
+
+  @@index([requestId])
+}
+
+// Επικοινωνία δύο μεριών πάνω στη βλάβη
+model MaintenanceComment {
+  id        String @id @default(cuid())
+  requestId String
+  request   MaintenanceRequest @relation(fields: [requestId], references: [id], onDelete: Cascade)
+  authorId  String?
+  author    User?  @relation("maintenanceComments", fields: [authorId], references: [id], onDelete: SetNull)
+  body      String @db.Text
+  internal  Boolean @default(false) // ορατό μόνο σε προσωπικό εταιρίας
+  createdAt DateTime @default(now())
+
+  @@index([requestId])
+}
+
+// Διαθέσιμα slots 30' που δηλώνει κάθε πλευρά για κλείσιμο ραντεβού
+model MaintenanceSlot {
+  id          String @id @default(cuid())
+  requestId   String
+  request     MaintenanceRequest @relation(fields: [requestId], references: [id], onDelete: Cascade)
+  side        String  // COMPANY, MANAGER
+  startAt     DateTime // πάντα σε όρια 30 λεπτών
+  status      String  @default("OPEN") // OPEN, SELECTED, CANCELLED
+  offeredById String?
+  offeredBy   User?   @relation("maintenanceSlots", fields: [offeredById], references: [id], onDelete: SetNull)
+  createdAt   DateTime @default(now())
+
+  @@unique([requestId, side, startAt])
+  @@index([requestId])
+}
+
+model MaintenanceAppointment {
+  id              String @id @default(cuid())
+  requestId       String
+  request         MaintenanceRequest @relation(fields: [requestId], references: [id], onDelete: Cascade)
+  startAt         DateTime
+  endAt           DateTime
+  status          String  @default("CONFIRMED") // CONFIRMED, CANCELLED, DONE
+  managerPresence Boolean @default(false)
+  bookedById      String?
+  bookedBy        User?   @relation("maintenanceAppointments", fields: [bookedById], references: [id], onDelete: SetNull)
+  createdAt       DateTime @default(now())
+
+  @@index([requestId])
+}
+
+// Γενικές in-app ειδοποιήσεις (καμπανάκι + dashboard)
+model Notification {
+  id        String @id @default(cuid())
+  userId    String
+  user      User   @relation("userNotifications", fields: [userId], references: [id], onDelete: Cascade)
+  type      String @default("GENERAL") // MAINTENANCE_STATUS, MAINTENANCE_COMMENT, MAINTENANCE_ASSIGNED, MAINTENANCE_APPOINTMENT, GENERAL
+  title     String
+  body      String? @db.Text
+  href      String?
+  requestId String?
+  requestRef MaintenanceRequest? @relation(fields: [requestId], references: [id], onDelete: Cascade)
+  readAt    DateTime?
+  createdAt DateTime @default(now())
+
+  @@index([userId, readAt])
+  @@index([userId, createdAt])
 }
 
 // CMS Content Models for public website

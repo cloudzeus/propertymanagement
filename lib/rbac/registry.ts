@@ -101,6 +101,8 @@ export const DEFAULT_PERMISSIONS: RoleDefaults = {
 //   properties, reports, onboarding, view-as, settings-company, settings-brand, api-costs
 //   (via settings/costs/layout.tsx), and all cms-* (landing, seo, settings, pages, pricing,
 //   faq, articles, authors, media, translations).
-// NOT YET GUARDED: units/residents/calendar/maintenance/announcements (no dedicated page.tsx
+//   Also GUARDED: maintenance (/admin/maintenance + /[id] + /settings) and
+//   customer-requests (/portal/requests) via requirePermission.
+// NOT YET GUARDED: units/residents/calendar/announcements (no dedicated page.tsx
 //   under (company) — menu hrefs point at /admin/* routes that don't exist as pages yet), and
 //   all customer-* / mkt-* surface routes (those surfaces still gate by role enum at the layout).

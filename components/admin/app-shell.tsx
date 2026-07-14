@@ -6,6 +6,7 @@ import { GlobalExpenseButton } from "@/components/buildings/GlobalExpenseButton"
 import { listManageableBuildings } from "@/app/actions/building-expenses";
 import { getEffectiveSession } from "@/lib/auth-effective";
 import { ImpersonationBanner } from "./impersonation-banner";
+import { NotificationsBell } from "@/components/maintenance/notifications-bell";
 import { getEffectivePermissions, buildMenu } from "@/lib/rbac/permissions";
 
 const EXPENSE_ROLES = ["SUPER_ADMIN", "ADMIN", "MANAGER", "PROPERTY_ADMIN"];
@@ -56,8 +57,11 @@ export async function AppShell({ children, allowedRoles }: Props) {
         onSignOut={signOutAction}
       />
 
-      <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0, overflow: "hidden" }}>
+      <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0, overflow: "hidden", position: "relative" }}>
         {eff.impersonatorId && <ImpersonationBanner name={eff.user.name ?? eff.user.email ?? ""} role={role} />}
+        <div style={{ position: "absolute", top: 16, right: 24, zIndex: 400 }}>
+          <NotificationsBell />
+        </div>
         <main style={{ flex: 1, overflowY: "auto", padding: 28, minWidth: 0 }}>
           {children}
         </main>
