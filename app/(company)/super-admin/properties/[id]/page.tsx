@@ -39,7 +39,7 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
   return (
     <PropertyDetailClient
       property={{
-        id: property.id, name: property.name, customerName: property.customer.name,
+        id: property.id, name: property.name, customerName: property.customer.name, managed: property.managed,
         address: property.address, city: property.city, postalCode: property.postalCode, country: property.country, lat: property.lat, lng: property.lng,
       }}
       buildings={property.buildings.map((b) => ({

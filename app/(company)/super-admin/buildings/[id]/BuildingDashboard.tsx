@@ -10,6 +10,7 @@ import {
   RiPieChartLine, RiSpeedUpLine, RiAlarmWarningLine,
 } from "react-icons/ri";
 import { CategorySplitSettings } from "@/components/buildings/CategorySplitSettings";
+import { ManagedBadge } from "@/components/ui/managed-badge";
 import { FilesPanel, type FileRow } from "./FilesPanel";
 import { PeoplePanel, type Person } from "./PeoplePanel";
 import { UnitsPanel, type Unit } from "./UnitsPanel";
@@ -35,7 +36,7 @@ import type { AuditTab } from "@/lib/buildings/audit";
 type Building = {
   id: string; name: string; address: string; city: string; postalCode: string;
   floors: number | null; basements: number | null; hasElevator: boolean;
-  propertyId: string; propertyName: string; customerName: string;
+  propertyId: string; propertyName: string; propertyManaged: boolean; customerName: string;
   elevatorSurchargePerFloor: number; elevatorExemptGroundFloor: boolean;
   heatingMeterUnit: string | null;
 };
@@ -103,7 +104,10 @@ export function BuildingDashboard({ building, kpis, units, files, people, contac
               <RiBuildingLine style={{ fontSize: 28 }} />
             </div>
             <div>
-              <div style={{ fontSize: 26, fontWeight: 800, lineHeight: 1.15, color: "var(--foreground)" }}>{building.name}</div>
+              <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+                <div style={{ fontSize: 26, fontWeight: 800, lineHeight: 1.15, color: "var(--foreground)" }}>{building.name}</div>
+                <ManagedBadge managed={building.propertyManaged} />
+              </div>
               <div style={{ fontSize: 13, color: "var(--muted-foreground)", display: "flex", alignItems: "center", gap: 10, marginTop: 3, flexWrap: "wrap" }}>
                 <span style={{ display: "inline-flex", alignItems: "center", gap: 4 }}><RiMapPinLine /> {building.postalCode || "—"}</span>
                 {subParts.map((p, i) => (

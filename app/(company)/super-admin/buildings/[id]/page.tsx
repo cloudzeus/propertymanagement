@@ -24,7 +24,7 @@ export default async function BuildingDashboardPage({ params, searchParams }: { 
       floors: true, basements: true, hasElevator: true,
       elevatorSurchargePerFloor: true, elevatorExemptGroundFloor: true,
       heatingMeterUnit: true,
-      property: { select: { id: true, name: true, customer: { select: { name: true } } } },
+      property: { select: { id: true, name: true, managed: true, customer: { select: { name: true } } } },
       _count: {
         select: { units: true, files: true, infraPoints: true, contacts: true, recurringTasks: true },
       },
@@ -253,6 +253,7 @@ export default async function BuildingDashboardPage({ params, searchParams }: { 
         hasElevator: building.hasElevator,
         propertyId: building.property.id,
         propertyName: building.property.name,
+        propertyManaged: building.property.managed,
         customerName: building.property.customer.name,
         elevatorSurchargePerFloor: building.elevatorSurchargePerFloor,
         elevatorExemptGroundFloor: building.elevatorExemptGroundFloor,

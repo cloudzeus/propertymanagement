@@ -7,6 +7,7 @@ import { Modal, FormField, FieldInput, FieldSelect, FieldTextarea } from "@/comp
 import { createProperty, updateProperty, deleteProperty } from "@/app/actions/properties";
 import { BuildingsTree, type TBuilding } from "../customers/CustomerTree";
 import { RiCheckLine, RiLoaderLine, RiPencilLine, RiDeleteBinLine, RiSettings3Line, RiMapPin2Line } from "react-icons/ri";
+import { ManagedBadge } from "@/components/ui/managed-badge";
 
 type Property = {
   id: string;
@@ -117,6 +118,11 @@ export function PropertiesClient({ initial, customers }: { initial: Property[]; 
       id: "name", header: "Ιδιοκτησία", sortKey: "name", width: 220,
       accessor: (p) => p.name,
       cell: (p) => <span style={{ fontSize: 13, fontWeight: 600, color: "var(--foreground)" }}>{p.name}</span>,
+    },
+    {
+      id: "managed", header: "Διαχείριση", sortKey: "managed", width: 130,
+      accessor: (p) => (p.managed ? "Managed" : "Αυτοδιαχείριση"),
+      cell: (p) => <ManagedBadge managed={p.managed} size="sm" />,
     },
     {
       id: "customer", header: "Πελάτης", sortKey: "customerName", width: 200,

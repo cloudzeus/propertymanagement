@@ -5,6 +5,7 @@ import Link from "next/link";
 import { BuildingsTree, type TBuilding, type TPropertyAddress } from "../../customers/CustomerTree";
 import { setPropertyService, addPrepaidMinutes } from "@/app/actions/property-package";
 import { RiArrowLeftLine, RiAddLine } from "react-icons/ri";
+import { ManagedBadge } from "@/components/ui/managed-badge";
 
 const PRICING_LABEL: Record<string, string> = {
   PER_UNIT: "ανά μονάδα", PER_BUILDING: "ανά κτήριο", PER_COMMON_AREA: "ανά κοιν. χώρο",
@@ -17,7 +18,7 @@ type PS = { serviceId: string; active: boolean; prepaidPersonMinutes: number };
 export function PropertyDetailClient({
   property, buildings, catalog, propertyServices: initialPS,
 }: {
-  property: { id: string; name: string; customerName: string } & TPropertyAddress;
+  property: { id: string; name: string; customerName: string; managed: boolean } & TPropertyAddress;
   buildings: TBuilding[];
   catalog: CatalogService[];
   propertyServices: PS[];
@@ -38,7 +39,10 @@ export function PropertyDetailClient({
       </Link>
 
       <div>
-        <h1 style={{ fontSize: 22, fontWeight: 700, color: "var(--foreground)", margin: 0 }}>{property.name}</h1>
+        <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+          <h1 style={{ fontSize: 22, fontWeight: 700, color: "var(--foreground)", margin: 0 }}>{property.name}</h1>
+          <ManagedBadge managed={property.managed} />
+        </div>
         <p style={{ fontSize: 13, color: "var(--muted-foreground)", marginTop: 4 }}>
           Πελάτης: {property.customerName} · {counts.buildings} κτήρια · {counts.units} μονάδες · {counts.commonAreas} κοιν. χώροι
         </p>
