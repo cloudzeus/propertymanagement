@@ -5,10 +5,10 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { DataTable, type ColDef, type RowAction } from "@/components/ui/data-table";
 import { Modal, FormField, FieldInput, FieldSelect } from "@/components/ui/modal";
-import { createCustomer, updateCustomer, deleteCustomer } from "@/app/actions/customers";
+import { createCustomer, updateCustomer, deleteCustomer, assignAccountManager } from "@/app/actions/customers";
 import { AddPropertyModal } from "@/app/(company)/super-admin/properties/AddPropertyModal";
 import { CustomerTree, type TProperty } from "./CustomerTree";
-import { RiCheckLine, RiLoaderLine, RiPencilLine, RiDeleteBinLine, RiSearchLine, RiMapPin2Line, RiEyeLine, RiAddLine, RiRobot2Line } from "react-icons/ri";
+import { RiCheckLine, RiLoaderLine, RiPencilLine, RiDeleteBinLine, RiSearchLine, RiMapPin2Line, RiEyeLine, RiAddLine, RiRobot2Line, RiUserStarLine } from "react-icons/ri";
 
 type Customer = {
   id: string;
@@ -30,9 +30,13 @@ type Customer = {
   remarks: string | null;
   lat: number | null;
   lng: number | null;
+  accountManagerId?: string | null;
+  accountManagerName?: string | null;
   propertyCount: number;
   properties: TProperty[];
 };
+
+type ManagerOption = { id: string; name: string };
 
 const TYPE_LABEL: Record<string, string> = { INDIVIDUAL: "Ιδιώτης", COMPANY: "Εταιρεία" };
 
@@ -44,7 +48,7 @@ function initForm() {
   };
 }
 
-export function CustomersClient({ initial }: { initial: Customer[] }) {
+export function CustomersClient({ initial, managers = [] }: { initial: Customer[]; managers?: ManagerOption[] }) {
   const router = useRouter();
   const [data, setData] = useState<Customer[]>(initial);
   // Keep in sync with fresh server data after router.refresh() (tree mutations).
@@ -59,6 +63,8 @@ export function CustomersClient({ initial }: { initial: Customer[] }) {
   const [aadeLoading, setAadeLoading] = useState(false);
   const [geoLoading, setGeoLoading] = useState(false);
   const [addPropFor, setAddPropFor] = useState<Customer | null>(null);
+  const [managerFor, setManagerFor] = useState<Customer | null>(null);
+  const [managerSel, setManagerSel] = useState("");
   const [isPending, startTransition] = useTransition();
 
   const f = (k: keyof ReturnType<typeof initForm>) => (v: string) => setForm((p) => ({ ...p, [k]: v }));
@@ -190,6 +196,17 @@ export function CustomersClient({ initial }: { initial: Customer[] }) {
       cell: (c) => <span style={{ fontSize: 12, color: "var(--muted-foreground)", fontFamily: "monospace" }}>{c.code ?? "—"}</span>,
     },
     {
+      id: "manager", header: "Manager", sortKey: "accountManagerName", width: 160,
+      accessor: (c) => c.accountManagerName ?? "",
+      cell: (c) => c.accountManagerName ? (
+        <span style={{ display: "inline-flex", alignItems: "center", gap: 5, fontSize: 12.5, fontWeight: 600, color: "var(--foreground)" }}>
+          <RiUserStarLine style={{ color: "var(--color-primary)" }} /> {c.accountManagerName}
+        </span>
+      ) : (
+        <span style={{ fontSize: 12, color: "var(--muted-foreground)" }}>—</span>
+      ),
+    },
+    {
       id: "properties", header: "Ιδιοκτησίες", sortKey: "propertyCount", width: 110,
       accessor: (c) => c.propertyCount,
       cell: (c) => <span style={{ fontSize: 13, fontWeight: 600, color: "var(--foreground)" }}>{c.propertyCount}</span>,
@@ -200,6 +217,7 @@ export function CustomersClient({ initial }: { initial: Customer[] }) {
     { label: "Προβολή", icon: <RiEyeLine />, onClick: (c) => router.push(`/super-admin/customers/${c.id}`) },
     { label: "Προσθήκη Ιδιοκτησίας", icon: <RiAddLine />, onClick: (c) => setAddPropFor(c) },
     { label: "Νέα πολυκατοικία με AI", icon: <RiRobot2Line />, onClick: (c) => router.push(`/super-admin/customers/${c.id}/onboarding`) },
+    { label: "Ανάθεση σε manager", icon: <RiUserStarLine />, onClick: (c) => { setManagerSel(c.accountManagerId ?? ""); setManagerFor(c); } },
     { label: "Επεξεργασία", icon: <RiPencilLine />, onClick: openEdit },
     { label: "Διαγραφή", icon: <RiDeleteBinLine />, danger: true, onClick: handleDelete },
   ];
@@ -347,6 +365,46 @@ export function CustomersClient({ initial }: { initial: Customer[] }) {
           onClose={() => setAddPropFor(null)}
           onCreated={() => router.refresh()}
         />
+      )}
+
+      {managerFor && (
+        <Modal open onClose={() => setManagerFor(null)} title={`Υπεύθυνος manager — ${managerFor.name}`} width={440}
+          footer={
+            <>
+              <button onClick={() => setManagerFor(null)} style={{ height: 34, padding: "0 12px", border: "1px solid var(--border)", background: "var(--paper)", borderRadius: "var(--radius-sm)", fontSize: 13, cursor: "pointer", color: "var(--foreground)" }}>
+                Άκυρο
+              </button>
+              <button
+                disabled={isPending}
+                onClick={() => startTransition(async () => {
+                  const res = await assignAccountManager(managerFor.id, managerSel || null);
+                  if ("error" in res && res.error) { alert(res.error); return; }
+                  setData((prev) => prev.map((x) => x.id === managerFor.id
+                    ? { ...x, accountManagerId: managerSel || null, accountManagerName: managers.find((m) => m.id === managerSel)?.name ?? null }
+                    : x));
+                  setManagerFor(null);
+                  router.refresh();
+                })}
+                style={{ height: 34, padding: "0 14px", border: "none", background: "var(--primary)", color: "var(--primary-foreground)", borderRadius: "var(--radius-sm)", fontSize: 13, fontWeight: 600, cursor: "pointer" }}
+              >
+                {isPending ? "Αποθήκευση…" : "Αποθήκευση"}
+              </button>
+            </>
+          }
+        >
+          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            <p style={{ fontSize: 12.5, color: "var(--muted-foreground)", margin: 0 }}>
+              Ο manager γίνεται υπεύθυνος για τον πελάτη και τα ακίνητά του (ειδοποιήσεις & βλάβες).
+            </p>
+            <FormField label="Manager">
+              <FieldSelect value={managerSel} onChange={setManagerSel} placeholder="— Χωρίς ανάθεση —"
+                options={managers.map((m) => ({ value: m.id, label: m.name }))} />
+            </FormField>
+            {managers.length === 0 && (
+              <p style={{ fontSize: 12, color: "var(--destructive)", margin: 0 }}>Δεν υπάρχουν ενεργοί χρήστες με ρόλο MANAGER.</p>
+            )}
+          </div>
+        </Modal>
       )}
     </div>
   );

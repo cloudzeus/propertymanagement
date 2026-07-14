@@ -11,7 +11,16 @@ export default async function MaintenancePage() {
   const eff = await getEffectiveSession();
   const role = eff!.user.role as string;
 
+  // MANAGER με ανατεθειμένους πελάτες βλέπει μόνο τις βλάβες των δικών του πελατών.
+  const userId = eff!.user.id as string;
+  let customerScope: string[] | null = null;
+  if (role === "MANAGER") {
+    const mine = await db.customer.findMany({ where: { accountManagerId: userId }, select: { id: true } });
+    if (mine.length > 0) customerScope = mine.map((c) => c.id);
+  }
+
   const requests = await db.maintenanceRequest.findMany({
+    where: customerScope ? { building: { customerId: { in: customerScope } } } : undefined,
     orderBy: { createdAt: "desc" },
     take: 500,
     include: {

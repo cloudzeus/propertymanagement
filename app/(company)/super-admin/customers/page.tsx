@@ -17,6 +17,7 @@ export default async function CustomersPage() {
     orderBy: { name: "asc" },
     include: {
       _count: { select: { properties: true } },
+      accountManager: { select: { id: true, name: true, email: true } },
       properties: {
         orderBy: { name: "asc" },
         include: {
@@ -45,6 +46,8 @@ export default async function CustomersPage() {
         phone: c.phone, phone2: c.phone2, fax: c.fax, webpage: c.webpage,
         address: c.address, city: c.city, district: c.district, postalCode: c.postalCode, country: c.country, remarks: c.remarks,
         lat: c.lat, lng: c.lng,
+        accountManagerId: c.accountManager?.id ?? null,
+        accountManagerName: c.accountManager?.name ?? c.accountManager?.email ?? null,
         propertyCount: c._count.properties,
         properties: c.properties.map((p) => ({
           id: p.id, name: p.name,
@@ -64,6 +67,11 @@ export default async function CustomersPage() {
           })),
         })),
       }))}
+      managers={(await db.user.findMany({
+        where: { role: "MANAGER", status: "ACTIVE" },
+        orderBy: { name: "asc" },
+        select: { id: true, name: true, email: true },
+      })).map((m) => ({ id: m.id, name: m.name ?? m.email }))}
     />
   );
 }

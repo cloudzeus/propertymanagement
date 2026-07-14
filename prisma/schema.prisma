@@ -176,6 +176,7 @@ model User {
   maintenanceSlots        MaintenanceSlot[]        @relation("maintenanceSlots")
   maintenanceAppointments MaintenanceAppointment[] @relation("maintenanceAppointments")
   notifications           Notification[]           @relation("userNotifications")
+  accountCustomers        Customer[]               @relation("customerAccountManager")
 
   // API usage logs triggered by this user
   apiUsageLogs        APIUsageLog[]
@@ -545,6 +546,10 @@ model Customer {
   // Geodata (geocoded from the address)
   lat                   Float?
   lng                   Float?
+
+  // Υπεύθυνος manager (στέλεχος εταιρίας) για τον πελάτη και τα ακίνητά του.
+  accountManagerId      String?
+  accountManager        User?    @relation("customerAccountManager", fields: [accountManagerId], references: [id], onDelete: SetNull)
 
   // Relations
   users                 User[]   @relation("customerUsers")

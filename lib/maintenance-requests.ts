@@ -100,7 +100,7 @@ export async function getStakeholders(requestId: string): Promise<Recipient[]> {
         select: {
           id: true,
           propertyId: true,
-          property: { select: { companyId: true } },
+          property: { select: { companyId: true, customer: { select: { accountManagerId: true } } } },
           managementAssignments: { select: { userId: true } },
         },
       },
@@ -112,6 +112,8 @@ export async function getStakeholders(requestId: string): Promise<Recipient[]> {
   if (req.reportedById) ids.add(req.reportedById);
   if (req.assignedToId) ids.add(req.assignedToId);
   req.building.managementAssignments.forEach((a) => ids.add(a.userId));
+  // Υπεύθυνος manager του πελάτη — ενημερώνεται πάντα για τα ακίνητα των πελατών του.
+  if (req.building.property?.customer?.accountManagerId) ids.add(req.building.property.customer.accountManagerId);
   const propAssignments = await db.managementAssignment.findMany({
     where: { propertyId: req.building.propertyId },
     select: { userId: true },

@@ -136,3 +136,23 @@ export async function deleteCustomer(id: string) {
   revalidatePath("/super-admin/customers");
   return { success: true };
 }
+
+/** Ανάθεση πελάτη σε υπεύθυνο manager — μόνο SUPER_ADMIN/ADMIN. */
+export async function assignAccountManager(customerId: string, managerId: string | null) {
+  const session = await auth();
+  if (!session?.user) throw new Error("Unauthorized");
+  const me = await db.user.findUnique({ where: { id: session.user.id as string }, select: { role: true } });
+  if (!["SUPER_ADMIN", "ADMIN"].includes(me?.role ?? "")) return { error: "Δεν επιτρέπεται" };
+
+  if (managerId) {
+    const mgr = await db.user.findFirst({
+      where: { id: managerId, role: "MANAGER", status: "ACTIVE" },
+      select: { id: true },
+    });
+    if (!mgr) return { error: "Μη έγκυρος manager" };
+  }
+
+  await db.customer.update({ where: { id: customerId }, data: { accountManagerId: managerId } });
+  revalidatePath("/super-admin/customers");
+  return { ok: true };
+}
