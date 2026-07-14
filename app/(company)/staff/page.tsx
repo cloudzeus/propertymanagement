@@ -4,6 +4,7 @@ import Link from "next/link";
 import { getPropertiesForMap } from "@/lib/dashboard/queries";
 import { PropertiesMap } from "@/components/maps/PropertiesMap";
 import { DashboardTabs } from "@/components/dashboard/DashboardTabs";
+import { MaintenanceKanbanSection } from "@/components/maintenance/kanban-section";
 import {
   RiToolsLine,
   RiFileListLine,
@@ -130,6 +131,9 @@ export default async function StaffDashboard() {
         )}
       </div>
     </div>
+      <div style={{ marginTop: 24 }}>
+        <MaintenanceKanbanSection />
+      </div>
     </DashboardTabs>
   );
 }

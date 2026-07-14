@@ -4,6 +4,7 @@ import { roleLabel, roleColor } from "@/lib/roles-constants";
 import { getPropertiesForMap } from "@/lib/dashboard/queries";
 import { PropertiesMap } from "@/components/maps/PropertiesMap";
 import { DashboardTabs } from "@/components/dashboard/DashboardTabs";
+import { MaintenanceKanbanSection } from "@/components/maintenance/kanban-section";
 import {
   RiBuildingLine,
   RiGroupLine,
@@ -256,6 +257,9 @@ export default async function SuperAdminDashboard() {
         </div>
       </div>
     </div>
+      <div style={{ marginTop: 24 }}>
+        <MaintenanceKanbanSection />
+      </div>
     </DashboardTabs>
   );
 }
