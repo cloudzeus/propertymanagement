@@ -83,6 +83,7 @@ export const DEFAULT_PERMISSIONS: RoleDefaults = {
   ],
   PROPERTY_OWNER: [
     ...view("customer-dashboard", "customer-income"), ...crud("customer-units"),
+    ...crud("customer-requests"),
     ...view("customer-wallet"),
   ],
   PROPERTY_RESIDENT: [
