@@ -8,7 +8,7 @@ export type BuildingAccess = {
   can: BuildingCaps;
 };
 
-const STAFF_ROLES = ["SUPER_ADMIN", "ADMIN", "MANAGER"] as const;
+const STAFF_ROLES = ["SUPER_ADMIN", "ADMIN", "MANAGER", "EMPLOYEE"] as const;
 
 /** Resolve what `userId` may do on `buildingId`. Null → no access (render 404). */
 export async function getBuildingAccess(userId: string, buildingId: string): Promise<BuildingAccess | null> {
