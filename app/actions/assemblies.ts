@@ -8,6 +8,7 @@ import { ensureRoom, createMeetingToken } from "@/lib/daily";
 import { runAssemblyMinutes } from "@/lib/assemblies/run-minutes";
 import { sendAnnouncementEmail } from "@/lib/mailgun";
 import { requireBuildingCap, requireBuildingView } from "@/lib/building-access";
+import { publishBuildingEvent } from "@/lib/realtime/bus";
 
 async function requireSuperAdmin(): Promise<string> {
   const session = await auth();
@@ -76,6 +77,7 @@ export async function createAssembly(input: { buildingId: string; title: string;
 
   revalidatePath(`/super-admin/buildings/${building.id}`);
   revalidatePath(`/building/${building.id}`);
+  publishBuildingEvent(building.id, "assembly");
   return { id: assembly.id };
 }
 
@@ -202,6 +204,7 @@ export async function endAssembly(assemblyId: string, transcript: string) {
   }
   revalidatePath(`/super-admin/buildings/${a.buildingId}/assemblies/${assemblyId}`);
   revalidatePath(`/building/${a.buildingId}/assemblies/${assemblyId}`);
+  publishBuildingEvent(a.buildingId, "assembly");
   return { ok: true };
 }
 
@@ -251,6 +254,7 @@ export async function approveAndSendMinutes(assemblyId: string, finalHtml: strin
 
   revalidatePath(`/super-admin/buildings/${a.buildingId}/assemblies/${assemblyId}`);
   revalidatePath(`/building/${a.buildingId}/assemblies/${assemblyId}`);
+  publishBuildingEvent(a.buildingId, "assembly");
   return { sent: owners.length };
 }
 

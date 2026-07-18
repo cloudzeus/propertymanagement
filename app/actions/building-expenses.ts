@@ -5,6 +5,7 @@ import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import { uploadFile, buildingFolder } from "@/lib/bunnycdn";
 import { requireBuildingCap, requireBuildingView } from "@/lib/building-access";
+import { publishBuildingEvent } from "@/lib/realtime/bus";
 import { computeAllocation } from "@/lib/expenses/allocation";
 import { resolveWeights, type BasisUnit } from "@/lib/expenses/basis";
 import type { DistributionBasis } from "@/lib/prisma/enums";
@@ -294,6 +295,7 @@ export async function createBuildingExpense(buildingId: string, input: CreateExp
 
   revalidatePath(`/super-admin/buildings/${buildingId}`);
   revalidatePath(`/building/${buildingId}`);
+  publishBuildingEvent(buildingId, "expense");
   // Return only a plain id — Prisma rows carry Decimal fields that cannot be
   // serialized back to the calling client component.
   return { id: expense.id };
@@ -365,6 +367,7 @@ export async function updateBuildingExpense(id: string, input: UpdateExpenseInpu
 
   revalidatePath(`/super-admin/buildings/${current.buildingId}`);
   revalidatePath(`/building/${current.buildingId}`);
+  publishBuildingEvent(current.buildingId, "expense");
   return { id };
 }
 
@@ -380,6 +383,7 @@ export async function includeExpensesInIssuance(buildingId: string, ids: string[
   });
   revalidatePath(`/super-admin/buildings/${buildingId}`);
   revalidatePath(`/building/${buildingId}`);
+  publishBuildingEvent(buildingId, "koinochrista");
   return { count: res.count };
 }
 
@@ -410,6 +414,7 @@ export async function uploadExpensePayment(expenseId: string, formData: FormData
   });
   revalidatePath(`/super-admin/buildings/${exp.buildingId}`);
   revalidatePath(`/building/${exp.buildingId}`);
+  publishBuildingEvent(exp.buildingId, "expense");
   return { url: up.url };
 }
 
@@ -467,4 +472,5 @@ export async function deleteBuildingExpense(id: string) {
   await db.buildingExpense.delete({ where: { id } });
   revalidatePath(`/super-admin/buildings/${exp.buildingId}`);
   revalidatePath(`/building/${exp.buildingId}`);
+  publishBuildingEvent(exp.buildingId, "expense");
 }

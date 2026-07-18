@@ -9,6 +9,7 @@ import { resolveRecipients, type Person } from "@/lib/announcements/recipients";
 import { applyMergeFields } from "@/lib/announcements/merge";
 import { resolveAnnouncementCustomer } from "@/lib/announcements/targets";
 import { requireBuildingCap, requireBuildingView } from "@/lib/building-access";
+import { publishBuildingEvent } from "@/lib/realtime/bus";
 
 const ORIGINATOR_ROLES = ["SUPER_ADMIN", "ADMIN", "MANAGER", "EMPLOYEE", "PROPERTY_ADMIN"];
 async function requireOriginator(): Promise<Scope> {
@@ -250,6 +251,7 @@ export async function createAnnouncement(data: MultiAnnouncementInput) {
   );
 
   revalidatePath(`/announcements`);
+  for (const bId of buildingIds) publishBuildingEvent(bId, "announcement");
   return { ok: true, id: announcement.id, sent: recipients.length };
 }
 
@@ -266,6 +268,7 @@ export async function deleteAnnouncement(id: string) {
   if (a.buildingId) {
     revalidatePath(`/super-admin/buildings/${a.buildingId}`);
     revalidatePath(`/building/${a.buildingId}`);
+    publishBuildingEvent(a.buildingId, "announcement");
   }
   revalidatePath(`/announcements`);
   return { ok: true };

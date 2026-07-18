@@ -11,6 +11,7 @@ import {
   resolveResponsibility, computeSlaDueAt, notifyStakeholders, canAccessRequest,
 } from "@/lib/maintenance-requests";
 import { requireBuildingCap } from "@/lib/building-access";
+import { publishBuildingEvent } from "@/lib/realtime/bus";
 
 const STAFF_ROLES = ["SUPER_ADMIN", "ADMIN", "MANAGER", "EMPLOYEE"];
 
@@ -34,7 +35,10 @@ function revalidateAll(requestId?: string, buildingId?: string | null) {
     revalidatePath(`/portal/maintenance/${requestId}`);
   }
   // Manager building-dashboard twin (fault-requests tab lives at /building/[id]).
-  if (buildingId) revalidatePath(`/building/${buildingId}`);
+  if (buildingId) {
+    revalidatePath(`/building/${buildingId}`);
+    publishBuildingEvent(buildingId, "maintenance");
+  }
 }
 
 /** Μπορεί ο χρήστης να ΔΗΛΩΣΕΙ βλάβη στο κτήριο; (ένοικος/ιδιοκτήτης/διαχειριστής/staff) */

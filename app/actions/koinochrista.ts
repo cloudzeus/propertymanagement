@@ -7,6 +7,7 @@ import { sendEmailWithAttachments, type EmailAttachment } from "@/lib/mailgun";
 import type { PaymentMethod } from "@/app/actions/building-expenses";
 import { requireBuildingCap, requireBuildingView } from "@/lib/building-access";
 import type { BuildingCaps } from "@/lib/building-caps";
+import { publishBuildingEvent } from "@/lib/realtime/bus";
 
 async function requireAccess(buildingId: string, cap: keyof BuildingCaps = "manageKoinochrista"): Promise<string> {
   const { userId } = await requireBuildingCap(buildingId, cap);
@@ -54,6 +55,7 @@ export async function setAllocationPaid(allocationId: string, party: "owner" | "
   await db.expenseAllocation.update({ where: { id: allocationId }, data });
   revalidatePath(`/super-admin/buildings/${a.expense.buildingId}`);
   revalidatePath(`/building/${a.expense.buildingId}`);
+  publishBuildingEvent(a.expense.buildingId, "payment");
   return { ok: true };
 }
 
@@ -242,6 +244,7 @@ export async function setAllocationsPaid(buildingId: string, items: { allocation
   }
   revalidatePath(`/super-admin/buildings/${buildingId}`);
   revalidatePath(`/building/${buildingId}`);
+  publishBuildingEvent(buildingId, "payment");
   return { count };
 }
 

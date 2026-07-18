@@ -3,6 +3,7 @@
 import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import { requireBuildingCap } from "@/lib/building-access";
+import { publishBuildingEvent } from "@/lib/realtime/bus";
 
 export type ContactInput = { name: string; category?: string | null; phone?: string | null; email?: string | null; notes?: string | null };
 const clean = (v?: string | null) => (v?.trim() ? v.trim() : null);
@@ -15,6 +16,7 @@ export async function createContact(buildingId: string, data: ContactInput) {
   });
   revalidatePath(`/super-admin/buildings/${buildingId}`);
   revalidatePath(`/building/${buildingId}`);
+  publishBuildingEvent(buildingId, "contact");
   return { contact: row };
 }
 
@@ -35,6 +37,7 @@ export async function updateContact(id: string, data: Partial<ContactInput>) {
   });
   revalidatePath(`/super-admin/buildings/${c.buildingId}`);
   revalidatePath(`/building/${c.buildingId}`);
+  publishBuildingEvent(c.buildingId, "contact");
   return { ok: true };
 }
 
@@ -45,5 +48,6 @@ export async function deleteContact(id: string) {
   await db.contact.delete({ where: { id } });
   revalidatePath(`/super-admin/buildings/${c.buildingId}`);
   revalidatePath(`/building/${c.buildingId}`);
+  publishBuildingEvent(c.buildingId, "contact");
   return { ok: true };
 }

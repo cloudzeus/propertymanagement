@@ -4,6 +4,7 @@ import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import { uploadFile, deleteFile, buildingFolder } from "@/lib/bunnycdn";
 import { requireBuildingCap } from "@/lib/building-access";
+import { publishBuildingEvent } from "@/lib/realtime/bus";
 
 const CATEGORIES = ["PLANS", "PHOTOS", "DOCUMENTS", "CERTIFICATES", "MAINTENANCE", "OTHER"] as const;
 type Category = (typeof CATEGORIES)[number];
@@ -39,6 +40,7 @@ export async function uploadBuildingFile(formData: FormData) {
 
   revalidatePath(`/super-admin/buildings/${buildingId}`);
   revalidatePath(`/building/${buildingId}`);
+  publishBuildingEvent(buildingId, "file");
   return { file: { id: row.id, name: row.name, url: row.url, category: row.category, mimeType: row.mimeType, sizeBytes: row.sizeBytes, createdAt: row.createdAt } };
 }
 
@@ -51,5 +53,6 @@ export async function deleteBuildingFile(fileId: string) {
   await db.buildingFile.delete({ where: { id: fileId } });
   revalidatePath(`/super-admin/buildings/${f.buildingId}`);
   revalidatePath(`/building/${f.buildingId}`);
+  publishBuildingEvent(f.buildingId, "file");
   return { ok: true };
 }

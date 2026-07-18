@@ -3,6 +3,7 @@
 import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import { requireBuildingCap } from "@/lib/building-access";
+import { publishBuildingEvent } from "@/lib/realtime/bus";
 
 const FREQS = ["WEEKLY", "MONTHLY", "QUARTERLY", "SEMIANNUAL", "ANNUAL", "CUSTOM"] as const;
 export type TaskFrequency = (typeof FREQS)[number];
@@ -40,6 +41,7 @@ export async function createRecurringTask(buildingId: string, data: TaskInput) {
   });
   revalidatePath(`/super-admin/buildings/${buildingId}`);
   revalidatePath(`/building/${buildingId}`);
+  publishBuildingEvent(buildingId, "calendar");
   return { task: row.id };
 }
 
@@ -64,6 +66,7 @@ export async function updateRecurringTask(id: string, data: Partial<TaskInput>) 
   });
   revalidatePath(`/super-admin/buildings/${row.buildingId}`);
   revalidatePath(`/building/${row.buildingId}`);
+  publishBuildingEvent(row.buildingId, "calendar");
   return { ok: true };
 }
 
@@ -77,6 +80,7 @@ export async function markTaskDone(id: string) {
   await db.recurringTask.update({ where: { id }, data: { lastDoneDate: new Date(), nextDueDate: next, reminderSentAt: null } });
   revalidatePath(`/super-admin/buildings/${t.buildingId}`);
   revalidatePath(`/building/${t.buildingId}`);
+  publishBuildingEvent(t.buildingId, "calendar");
   return { ok: true };
 }
 
@@ -88,6 +92,7 @@ export async function deleteRecurringTask(id: string) {
   if (t) {
     revalidatePath(`/super-admin/buildings/${t.buildingId}`);
     revalidatePath(`/building/${t.buildingId}`);
+    publishBuildingEvent(t.buildingId, "calendar");
   }
   return { ok: true };
 }

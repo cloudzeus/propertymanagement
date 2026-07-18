@@ -6,6 +6,7 @@ import { revalidatePath } from "next/cache";
 import bcrypt from "bcryptjs";
 import { getScope, assertCustomer } from "@/lib/scope";
 import { requireBuildingCap } from "@/lib/building-access";
+import { publishBuildingEvent } from "@/lib/realtime/bus";
 import { roleAfterGaining } from "@/lib/customer-role-hierarchy";
 import type { UserRole } from "@/lib/prisma/enums";
 
@@ -45,6 +46,7 @@ function revalidate(ctx: Ctx) {
   revalidatePath(`/super-admin/properties/${ctx.propertyId}`);
   revalidatePath(`/super-admin/buildings/${ctx.buildingId}`);
   revalidatePath(`/building/${ctx.buildingId}`);
+  publishBuildingEvent(ctx.buildingId, "unit");
 }
 
 /** Close the currently-open occupancy (endDate = null) for a unit+role. */

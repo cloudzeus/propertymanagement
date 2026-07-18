@@ -6,6 +6,7 @@ import { revalidatePath } from "next/cache";
 import { distributeWeights, elevatorWeight, type WeightInput } from "@/lib/millesimes";
 import { ensureFolder, buildingFolder } from "@/lib/bunnycdn";
 import { requireBuildingCap } from "@/lib/building-access";
+import { publishBuildingEvent } from "@/lib/realtime/bus";
 
 async function requireSuperAdmin() {
   const session = await auth();
@@ -143,6 +144,7 @@ export async function createUnit(buildingId: string, data: UnitInput) {
     const unit = await db.unit.create({ data: { buildingId, customerId: b.customerId, ...unitData(data) } as any });
     await db.building.update({ where: { id: buildingId }, data: { unitsCount: { increment: 1 } } });
     revalidatePath(`/super-admin/properties/${await propertyOfBuilding(buildingId)}`);
+    publishBuildingEvent(buildingId, "unit");
     return { unit };
   } catch {
     return { error: "Υπάρχει ήδη μονάδα με αυτόν τον αριθμό στο κτήριο" };
@@ -155,6 +157,7 @@ export async function updateUnit(id: string, data: Partial<UnitInput>) {
   await requireBuildingCap(existing.buildingId, "editUnits");
   const unit = await db.unit.update({ where: { id }, data: unitData(data) });
   revalidatePath(`/super-admin/properties/${await propertyOfBuilding(unit.buildingId)}`);
+  publishBuildingEvent(unit.buildingId, "unit");
   return { unit };
 }
 
@@ -165,6 +168,7 @@ export async function deleteUnit(id: string) {
   if (u) {
     await db.building.update({ where: { id: u.buildingId }, data: { unitsCount: { decrement: 1 } } });
     revalidatePath(`/super-admin/properties/${await propertyOfBuilding(u.buildingId)}`);
+    publishBuildingEvent(u.buildingId, "unit");
   }
   return { success: true };
 }
@@ -249,5 +253,6 @@ export async function recalculateMillesimes(buildingId: string) {
   revalidatePath(`/super-admin/properties/${building.property.id}`);
   revalidatePath(`/super-admin/buildings/${buildingId}`);
   revalidatePath(`/building/${buildingId}`);
+  publishBuildingEvent(buildingId, "unit");
   return { updated };
 }
