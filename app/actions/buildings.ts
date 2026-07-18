@@ -5,6 +5,7 @@ import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import { distributeWeights, elevatorWeight, type WeightInput } from "@/lib/millesimes";
 import { ensureFolder, buildingFolder } from "@/lib/bunnycdn";
+import { requireBuildingCap } from "@/lib/building-access";
 
 async function requireSuperAdmin() {
   const session = await auth();
@@ -134,7 +135,7 @@ async function propertyOfBuilding(buildingId: string): Promise<string> {
 }
 
 export async function createUnit(buildingId: string, data: UnitInput) {
-  await requireSuperAdmin();
+  await requireBuildingCap(buildingId, "editUnits");
   if (!data.unitNumber.trim()) return { error: "Ο αριθμός μονάδας είναι υποχρεωτικός" };
   const b = await db.building.findUnique({ where: { id: buildingId }, select: { customerId: true } });
   if (!b) return { error: "Το κτήριο δεν βρέθηκε" };
@@ -149,15 +150,17 @@ export async function createUnit(buildingId: string, data: UnitInput) {
 }
 
 export async function updateUnit(id: string, data: Partial<UnitInput>) {
-  await requireSuperAdmin();
+  const existing = await db.unit.findUnique({ where: { id }, select: { buildingId: true } });
+  if (!existing) return { error: "Η μονάδα δεν βρέθηκε" };
+  await requireBuildingCap(existing.buildingId, "editUnits");
   const unit = await db.unit.update({ where: { id }, data: unitData(data) });
   revalidatePath(`/super-admin/properties/${await propertyOfBuilding(unit.buildingId)}`);
   return { unit };
 }
 
 export async function deleteUnit(id: string) {
-  await requireSuperAdmin();
   const u = await db.unit.findUnique({ where: { id }, select: { buildingId: true } });
+  if (u) await requireBuildingCap(u.buildingId, "editUnits");
   await db.unit.delete({ where: { id } });
   if (u) {
     await db.building.update({ where: { id: u.buildingId }, data: { unitsCount: { decrement: 1 } } });
@@ -186,7 +189,7 @@ export async function deleteCommonArea(id: string) {
 /** Auto-distribute the 3 χιλιοστά sets across a building's units. Each set is
  *  recomputed from its AUTO cells; MANUAL-locked cells keep their stored value. */
 export async function recalculateMillesimes(buildingId: string) {
-  await requireSuperAdmin();
+  await requireBuildingCap(buildingId, "editMillesimes");
   const building = await db.building.findUnique({
     where: { id: buildingId },
     select: {
@@ -245,5 +248,6 @@ export async function recalculateMillesimes(buildingId: string) {
   const updated = updates.length;
   revalidatePath(`/super-admin/properties/${building.property.id}`);
   revalidatePath(`/super-admin/buildings/${buildingId}`);
+  revalidatePath(`/building/${buildingId}`);
   return { updated };
 }

@@ -7,14 +7,7 @@ import { revalidatePath } from "next/cache";
 import { ensureRoom, createMeetingToken } from "@/lib/daily";
 import { generateMinutesHtml } from "@/lib/assemblies/minutes";
 import { sendAnnouncementEmail } from "@/lib/mailgun";
-
-async function requireStaff(): Promise<string> {
-  const session = await auth();
-  if (!session?.user) throw new Error("Unauthorized");
-  const u = await db.user.findUnique({ where: { id: session.user.id as string }, select: { id: true, role: true } });
-  if (!["SUPER_ADMIN", "ADMIN", "MANAGER", "PROPERTY_ADMIN"].includes(u?.role ?? "")) throw new Error("Forbidden");
-  return u!.id;
-}
+import { requireBuildingCap } from "@/lib/building-access";
 
 async function requireSuperAdmin(): Promise<string> {
   const session = await auth();
@@ -41,7 +34,7 @@ async function buildingOwners(buildingId: string) {
 }
 
 export async function createAssembly(input: { buildingId: string; title: string; scheduledAt: string }) {
-  const userId = await requireStaff();
+  const { userId } = await requireBuildingCap(input.buildingId, "manageAssemblies");
   const building = await db.building.findUnique({ where: { id: input.buildingId }, select: { id: true, name: true, dailyRoomName: true, companyId: true, property: { select: { customerId: true } } } });
   if (!building) throw new Error("Building not found");
 
@@ -82,6 +75,7 @@ export async function createAssembly(input: { buildingId: string; title: string;
   }
 
   revalidatePath(`/super-admin/buildings/${building.id}`);
+  revalidatePath(`/building/${building.id}`);
   return { id: assembly.id };
 }
 
@@ -146,6 +140,7 @@ export async function createTestAssembly(input: {
   );
 
   revalidatePath(`/super-admin/buildings/${building.id}`);
+  revalidatePath(`/building/${building.id}`);
   return { id: assembly.id };
 }
 
@@ -187,9 +182,9 @@ export async function getAssemblyToken(assemblyId: string) {
 
 /** End the assembly: persist transcript as source of truth, then auto-draft minutes. */
 export async function endAssembly(assemblyId: string, transcript: string) {
-  await requireStaff();
   const a = await db.assembly.findUnique({ where: { id: assemblyId }, select: { id: true, buildingId: true } });
   if (!a) throw new Error("Assembly not found");
+  await requireBuildingCap(a.buildingId, "manageAssemblies");
   await db.assembly.update({
     where: { id: assemblyId },
     data: { transcriptRaw: transcript?.trim() ? transcript : null, status: transcript?.trim() ? "TRANSCRIBING" : "ENDED" },
@@ -198,6 +193,7 @@ export async function endAssembly(assemblyId: string, transcript: string) {
     try { await runMinutes(assemblyId); } catch (e) { console.error("endAssembly runMinutes failed", e); }
   }
   revalidatePath(`/super-admin/buildings/${a.buildingId}/assemblies/${assemblyId}`);
+  revalidatePath(`/building/${a.buildingId}/assemblies/${assemblyId}`);
   return { ok: true };
 }
 
@@ -218,22 +214,25 @@ export async function runMinutes(assemblyId: string) {
 
   await db.assembly.update({ where: { id: assemblyId }, data: { minutesDraft: result.html, status: "DRAFT_READY" } });
   revalidatePath(`/super-admin/buildings/${a.buildingId}/assemblies/${assemblyId}`);
+  revalidatePath(`/building/${a.buildingId}/assemblies/${assemblyId}`);
   return { html: result.html };
 }
 
 /** Staff-facing wrapper: auth-gate then run. */
 export async function generateMinutes(assemblyId: string) {
-  await requireStaff();
+  const a = await db.assembly.findUnique({ where: { id: assemblyId }, select: { buildingId: true } });
+  if (!a) throw new Error("Assembly not found");
+  await requireBuildingCap(a.buildingId, "manageAssemblies");
   return runMinutes(assemblyId);
 }
 
 export async function approveAndSendMinutes(assemblyId: string, finalHtml: string) {
-  await requireStaff();
   const a = await db.assembly.findUnique({
     where: { id: assemblyId },
     select: { id: true, title: true, buildingId: true, building: { select: { name: true, companyId: true, property: { select: { customerId: true } } } }, participants: { select: { id: true, userId: true } } },
   });
   if (!a) throw new Error("Assembly not found");
+  await requireBuildingCap(a.buildingId, "manageAssemblies");
 
   await db.assembly.update({ where: { id: assemblyId }, data: { minutesFinal: finalHtml, status: "SENT", approvedAt: new Date(), sentAt: new Date() } });
 
@@ -264,6 +263,7 @@ export async function approveAndSendMinutes(assemblyId: string, finalHtml: strin
   await db.assemblyParticipant.updateMany({ where: { assemblyId }, data: { momSentAt: new Date() } });
 
   revalidatePath(`/super-admin/buildings/${a.buildingId}/assemblies/${assemblyId}`);
+  revalidatePath(`/building/${a.buildingId}/assemblies/${assemblyId}`);
   return { sent: owners.length };
 }
 
@@ -277,7 +277,7 @@ export type AssemblyRow = {
 };
 
 export async function listAssemblies(buildingId: string): Promise<AssemblyRow[]> {
-  await requireStaff();
+  await requireBuildingCap(buildingId, "manageAssemblies");
   const rows = await db.assembly.findMany({
     where: { buildingId },
     orderBy: { scheduledAt: "desc" },
@@ -301,7 +301,9 @@ export async function listAssemblies(buildingId: string): Promise<AssemblyRow[]>
 
 /** Cost breakdown for one assembly (groups APIUsageLog by apiName). */
 export async function getAssemblyCost(assemblyId: string) {
-  await requireStaff();
+  const assembly = await db.assembly.findUnique({ where: { id: assemblyId }, select: { buildingId: true } });
+  if (!assembly) throw new Error("Assembly not found");
+  await requireBuildingCap(assembly.buildingId, "manageAssemblies");
   const rows = await db.aPIUsageLog.groupBy({
     by: ["apiName"],
     where: { assemblyId },

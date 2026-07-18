@@ -5,6 +5,7 @@ import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import bcrypt from "bcryptjs";
 import { getScope, assertCustomer } from "@/lib/scope";
+import { requireBuildingCap } from "@/lib/building-access";
 
 async function requireStaff() {
   const session = await auth();
@@ -16,20 +17,15 @@ async function requireStaff() {
 
 /**
  * Authorize the caller to act on a unit and return its context.
- * Company staff may act across customers; a customer-side manager (PROPERTY_ADMIN)
- * must belong to the unit's customer AND have a ManagementAssignment covering its
- * building or property. (Data isolation — see lib/scope.ts.)
+ * Routed through the building-capability guard: company staff pass; a
+ * customer-side manager (PROPERTY_ADMIN) must hold `editUnits` on the unit's
+ * building via a ManagementAssignment. (Data isolation — see lib/scope.ts.)
  */
 async function authorizeUnit(unitId: string): Promise<Ctx> {
   const ctx = await unitContext(unitId);
   const scope = await getScope();
-  if (scope.seesAllCustomers) return ctx;
-  assertCustomer(scope, ctx.customerId);
-  const manages = await db.managementAssignment.findFirst({
-    where: { userId: scope.userId, OR: [{ buildingId: ctx.buildingId }, { propertyId: ctx.propertyId }] },
-    select: { id: true },
-  });
-  if (!manages) throw new Error("Forbidden: not a manager of this unit");
+  if (!scope.seesAllCustomers) assertCustomer(scope, ctx.customerId);
+  await requireBuildingCap(ctx.buildingId, "editUnits");
   return ctx;
 }
 
@@ -46,6 +42,7 @@ async function unitContext(unitId: string): Promise<Ctx> {
 function revalidate(ctx: Ctx) {
   revalidatePath(`/super-admin/properties/${ctx.propertyId}`);
   revalidatePath(`/super-admin/buildings/${ctx.buildingId}`);
+  revalidatePath(`/building/${ctx.buildingId}`);
 }
 
 /** Close the currently-open occupancy (endDate = null) for a unit+role. */

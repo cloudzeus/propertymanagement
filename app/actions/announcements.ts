@@ -8,6 +8,7 @@ import { getScope, assertCustomer, type Scope } from "@/lib/scope";
 import { resolveRecipients, type Person } from "@/lib/announcements/recipients";
 import { applyMergeFields } from "@/lib/announcements/merge";
 import { resolveAnnouncementCustomer } from "@/lib/announcements/targets";
+import { requireBuildingCap } from "@/lib/building-access";
 
 const ORIGINATOR_ROLES = ["SUPER_ADMIN", "ADMIN", "MANAGER", "EMPLOYEE", "PROPERTY_ADMIN"];
 async function requireOriginator(): Promise<Scope> {
@@ -97,9 +98,7 @@ async function peopleForBuildings(buildingIds: string[]): Promise<Person[]> {
 
 /** People available to target for an announcement (deduped, both roles flagged). */
 export async function listAnnouncementTargets(buildingId: string): Promise<{ id: string; name: string | null; email: string; roles: ("OWNER" | "RESIDENT")[] }[]> {
-  const scope = await requireOriginator();
-  const building = await db.building.findUnique({ where: { id: buildingId }, select: { customerId: true } });
-  assertCustomer(scope, building?.customerId);
+  await requireBuildingCap(buildingId, "manageAnnouncements");
   const people = await peopleForBuildings([buildingId]);
   const map = new Map<string, { id: string; name: string | null; email: string; roles: ("OWNER" | "RESIDENT")[] }>();
   for (const p of people) {
@@ -112,6 +111,8 @@ export async function listAnnouncementTargets(buildingId: string): Promise<{ id:
 
 export async function listAnnouncements(buildingId?: string): Promise<AnnouncementRow[]> {
   const scope = await requireOriginator();
+  // Building-scoped listing must be building-authorized (not just same-customer).
+  if (buildingId) await requireBuildingCap(buildingId, "manageAnnouncements");
   const rows = await db.announcement.findMany({
     where: {
       ...(buildingId ? { buildingId } : {}),
@@ -163,6 +164,13 @@ export async function createAnnouncement(data: MultiAnnouncementInput) {
   if (!data.targets?.length) return { error: "Επιλέξτε τουλάχιστον έναν παραλήπτη" };
 
   const { buildingIds, customerIds, userIds } = await resolveBuildingIds(scope, data.targets);
+
+  // Building-scoped authorization: the caller must hold the announcements
+  // capability on EVERY targeted building (staff always do; a PROPERTY_ADMIN
+  // only on buildings covered by a ManagementAssignment).
+  for (const bId of buildingIds) {
+    await requireBuildingCap(bId, "manageAnnouncements");
+  }
 
   const resolved = resolveAnnouncementCustomer(
     { seesAllCustomers: scope.seesAllCustomers, customerId: scope.customerId },
@@ -249,11 +257,13 @@ export async function deleteAnnouncement(id: string) {
   const scope = await requireOriginator();
   const a = await db.announcement.findUnique({ where: { id }, select: { buildingId: true, customerId: true, recurringTaskId: true } });
   if (!a) return { error: "Η ανακοίνωση δεν βρέθηκε" };
-  assertCustomer(scope, a.customerId);
+  if (a.buildingId) await requireBuildingCap(a.buildingId, "manageAnnouncements");
+  else assertCustomer(scope, a.customerId);
   await db.announcement.delete({ where: { id } });
   if (a.recurringTaskId) {
     await db.recurringTask.delete({ where: { id: a.recurringTaskId } }).catch(() => {});
   }
   revalidatePath(`/super-admin/buildings/${a.buildingId}`);
+  revalidatePath(`/building/${a.buildingId}`);
   return { ok: true };
 }

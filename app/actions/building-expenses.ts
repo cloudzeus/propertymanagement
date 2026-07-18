@@ -4,7 +4,7 @@ import { auth } from "@/auth";
 import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import { uploadFile, buildingFolder } from "@/lib/bunnycdn";
-import { canManageBuildingExpenses } from "@/lib/expenses/authz";
+import { requireBuildingCap } from "@/lib/building-access";
 import { computeAllocation } from "@/lib/expenses/allocation";
 import { resolveWeights, type BasisUnit } from "@/lib/expenses/basis";
 import type { DistributionBasis } from "@/lib/prisma/enums";
@@ -27,11 +27,8 @@ const EMPTY_EXTRACTED = (): ExtractedDoc => ({
 });
 
 async function requireBuildingAccess(buildingId: string): Promise<string> {
-  const session = await auth();
-  if (!session?.user) throw new Error("Unauthorized");
-  const uid = session.user.id as string;
-  if (!(await canManageBuildingExpenses(uid, buildingId))) throw new Error("Forbidden");
-  return uid;
+  const { userId } = await requireBuildingCap(buildingId, "manageExpenses");
+  return userId;
 }
 
 export type ManageableBuilding = { id: string; name: string; city: string | null; propertyName: string | null };
@@ -291,6 +288,7 @@ export async function createBuildingExpense(buildingId: string, input: CreateExp
   });
 
   revalidatePath(`/super-admin/buildings/${buildingId}`);
+  revalidatePath(`/building/${buildingId}`);
   // Return only a plain id — Prisma rows carry Decimal fields that cannot be
   // serialized back to the calling client component.
   return { id: expense.id };
@@ -361,6 +359,7 @@ export async function updateBuildingExpense(id: string, input: UpdateExpenseInpu
   });
 
   revalidatePath(`/super-admin/buildings/${current.buildingId}`);
+  revalidatePath(`/building/${current.buildingId}`);
   return { id };
 }
 
@@ -375,6 +374,7 @@ export async function includeExpensesInIssuance(buildingId: string, ids: string[
     data: { status: "ISSUED", issuedMonth: month },
   });
   revalidatePath(`/super-admin/buildings/${buildingId}`);
+  revalidatePath(`/building/${buildingId}`);
   return { count: res.count };
 }
 
@@ -404,6 +404,7 @@ export async function uploadExpensePayment(expenseId: string, formData: FormData
     data: { paymentFileId: bf.id, paid: true, paidAt: exp.paidAt ?? new Date() },
   });
   revalidatePath(`/super-admin/buildings/${exp.buildingId}`);
+  revalidatePath(`/building/${exp.buildingId}`);
   return { url: up.url };
 }
 
@@ -460,4 +461,5 @@ export async function deleteBuildingExpense(id: string) {
   if (exp.status === "ISSUED") throw new Error("Το έξοδο έχει συμπεριληφθεί σε έκδοση κοινοχρήστων και δεν διαγράφεται.");
   await db.buildingExpense.delete({ where: { id } });
   revalidatePath(`/super-admin/buildings/${exp.buildingId}`);
+  revalidatePath(`/building/${exp.buildingId}`);
 }

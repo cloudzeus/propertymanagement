@@ -1,16 +1,9 @@
 "use server";
 
-import { auth } from "@/auth";
 import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import { uploadFile, deleteFile, buildingFolder } from "@/lib/bunnycdn";
-
-async function requireStaff() {
-  const session = await auth();
-  if (!session?.user) throw new Error("Unauthorized");
-  const u = await db.user.findUnique({ where: { id: session.user.id as string }, select: { role: true } });
-  if (!["SUPER_ADMIN", "ADMIN", "MANAGER", "PROPERTY_ADMIN"].includes(u?.role ?? "")) throw new Error("Forbidden");
-}
+import { requireBuildingCap } from "@/lib/building-access";
 
 const TYPES = ["ELECTRICITY", "OTE", "ROOF", "ANTENNA", "BOILER", "PUMP", "FIRE", "WATER", "OTHER"] as const;
 export type InfraType = (typeof TYPES)[number];
@@ -25,7 +18,7 @@ export type InfraPerson = { id: string; name: string | null; email: string; role
 /** Candidate people for key-holder / access: building owners/residents + assigned
  *  managers + company staff (ADMIN/MANAGER/EMPLOYEE). */
 export async function searchInfraPeople(buildingId: string, query: string): Promise<InfraPerson[]> {
-  await requireStaff();
+  await requireBuildingCap(buildingId, "manageInfra");
   const b = await db.building.findUnique({ where: { id: buildingId }, select: { companyId: true, propertyId: true } });
   if (!b) return [];
 
@@ -56,7 +49,7 @@ export async function searchInfraPeople(buildingId: string, query: string): Prom
 }
 
 export async function createInfraPoint(buildingId: string, data: InfraInput) {
-  await requireStaff();
+  await requireBuildingCap(buildingId, "manageInfra");
   if (!data.name?.trim()) return { error: "Το όνομα είναι υποχρεωτικό" };
   const type = TYPES.includes(data.type) ? data.type : "OTHER";
   const row = await db.infraPoint.create({
@@ -69,11 +62,14 @@ export async function createInfraPoint(buildingId: string, data: InfraInput) {
     },
   });
   revalidatePath(`/super-admin/buildings/${buildingId}`);
+  revalidatePath(`/building/${buildingId}`);
   return { infra: row.id };
 }
 
 export async function updateInfraPoint(id: string, data: Partial<InfraInput>) {
-  await requireStaff();
+  const existing = await db.infraPoint.findUnique({ where: { id }, select: { buildingId: true } });
+  if (!existing) return { error: "Δεν βρέθηκε" };
+  await requireBuildingCap(existing.buildingId, "manageInfra");
   const row = await db.infraPoint.update({
     where: { id },
     data: {
@@ -96,25 +92,29 @@ export async function updateInfraPoint(id: string, data: Partial<InfraInput>) {
   }
 
   revalidatePath(`/super-admin/buildings/${row.buildingId}`);
+  revalidatePath(`/building/${row.buildingId}`);
   return { ok: true };
 }
 
 export async function deleteInfraPoint(id: string) {
-  await requireStaff();
   const row = await db.infraPoint.findUnique({ where: { id }, select: { buildingId: true } });
+  if (row) await requireBuildingCap(row.buildingId, "manageInfra");
   await db.infraPoint.delete({ where: { id } });
-  if (row) revalidatePath(`/super-admin/buildings/${row.buildingId}`);
+  if (row) {
+    revalidatePath(`/super-admin/buildings/${row.buildingId}`);
+    revalidatePath(`/building/${row.buildingId}`);
+  }
   return { ok: true };
 }
 
 /** Upload one media (image or video) for an infra point. FormData: infraPointId, file. */
 export async function uploadInfraMedia(formData: FormData) {
-  await requireStaff();
   const infraPointId = String(formData.get("infraPointId") || "");
   const file = formData.get("file") as File | null;
   if (!infraPointId || !file) return { error: "Λείπει αρχείο" };
   const point = await db.infraPoint.findUnique({ where: { id: infraPointId }, select: { buildingId: true, building: { select: { propertyId: true } } } });
   if (!point) return { error: "Το σημείο δεν βρέθηκε" };
+  await requireBuildingCap(point.buildingId, "manageInfra");
   const buffer = Buffer.from(await file.arrayBuffer());
   const safe = file.name.replace(/[^\w.\-]+/g, "_").slice(0, 100);
   const path = `${buildingFolder(point.building.propertyId, point.buildingId)}/infra/${infraPointId}/${Date.now()}-${safe}`;
@@ -123,15 +123,17 @@ export async function uploadInfraMedia(formData: FormData) {
   const type = (file.type || "").startsWith("video/") ? "VIDEO" : "IMAGE";
   const row = await db.infraMedia.create({ data: { infraPointId, url: res.url, cdnPath: path, type: type as any, name: file.name } });
   revalidatePath(`/super-admin/buildings/${point.buildingId}`);
+  revalidatePath(`/building/${point.buildingId}`);
   return { media: { id: row.id, url: row.url, type: row.type as "IMAGE" | "VIDEO" } };
 }
 
 export async function deleteInfraMedia(mediaId: string) {
-  await requireStaff();
   const m = await db.infraMedia.findUnique({ where: { id: mediaId }, select: { cdnPath: true, infraPoint: { select: { buildingId: true } } } });
   if (!m) return { error: "Δεν βρέθηκε" };
+  await requireBuildingCap(m.infraPoint.buildingId, "manageInfra");
   await deleteFile(m.cdnPath);
   await db.infraMedia.delete({ where: { id: mediaId } });
   revalidatePath(`/super-admin/buildings/${m.infraPoint.buildingId}`);
+  revalidatePath(`/building/${m.infraPoint.buildingId}`);
   return { ok: true };
 }

@@ -10,6 +10,7 @@ import {
 import {
   resolveResponsibility, computeSlaDueAt, notifyStakeholders, canAccessRequest,
 } from "@/lib/maintenance-requests";
+import { requireBuildingCap } from "@/lib/building-access";
 
 const STAFF_ROLES = ["SUPER_ADMIN", "ADMIN", "MANAGER", "EMPLOYEE"];
 
@@ -37,11 +38,16 @@ function revalidateAll(requestId?: string) {
 /** Μπορεί ο χρήστης να ΔΗΛΩΣΕΙ βλάβη στο κτήριο; (ένοικος/ιδιοκτήτης/διαχειριστής/staff) */
 async function canReportInBuilding(userId: string, role: string, buildingId: string): Promise<boolean> {
   if (isStaff(role)) return true;
-  const assignment = await db.managementAssignment.findFirst({
-    where: { userId, OR: [{ buildingId }, { property: { buildings: { some: { id: buildingId } } } }] },
-    select: { id: true },
-  });
-  if (assignment) return true;
+  // Managers go through the building-capability guard (createRequests);
+  // a PROPERTY_ADMIN without an assignment may still report as unit occupant below.
+  if (role === "PROPERTY_ADMIN") {
+    try {
+      await requireBuildingCap(buildingId, "createRequests");
+      return true;
+    } catch {
+      /* fall through to the occupant check */
+    }
+  }
   const unit = await db.unit.findFirst({
     where: {
       buildingId,

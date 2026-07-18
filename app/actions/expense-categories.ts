@@ -3,7 +3,7 @@
 import { auth } from "@/auth";
 import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
-import { canManageBuildingExpenses } from "@/lib/expenses/authz";
+import { requireBuildingCap } from "@/lib/building-access";
 import { resolveSplit } from "@/lib/expenses/allocation";
 import type { DistributionBasis } from "@/lib/prisma/enums";
 
@@ -58,8 +58,7 @@ export async function deleteExpenseCategory(id: string) {
 }
 
 export async function getBuildingCategorySplits(buildingId: string) {
-  const session = await auth();
-  if (!session?.user || !(await canManageBuildingExpenses(session.user.id as string, buildingId))) throw new Error("Forbidden");
+  await requireBuildingCap(buildingId, "manageExpenses");
   const [cats, overrides] = await Promise.all([
     db.expenseCategory.findMany({ where: { active: true }, orderBy: { sortOrder: "asc" } }),
     db.buildingCategoryOverride.findMany({ where: { buildingId } }),
@@ -73,8 +72,7 @@ export async function getBuildingCategorySplits(buildingId: string) {
 }
 
 export async function upsertBuildingCategoryOverride(buildingId: string, categoryId: string, tenantPct: number, ownerPct: number) {
-  const session = await auth();
-  if (!session?.user || !(await canManageBuildingExpenses(session.user.id as string, buildingId))) throw new Error("Forbidden");
+  await requireBuildingCap(buildingId, "editDistribution");
   assertSplit(tenantPct, ownerPct);
   await db.buildingCategoryOverride.upsert({
     where: { buildingId_categoryId: { buildingId, categoryId } },
@@ -82,11 +80,12 @@ export async function upsertBuildingCategoryOverride(buildingId: string, categor
     create: { buildingId, categoryId, tenantPct, ownerPct },
   });
   revalidatePath(`/super-admin/buildings/${buildingId}`);
+  revalidatePath(`/building/${buildingId}`);
 }
 
 export async function clearBuildingCategoryOverride(buildingId: string, categoryId: string) {
-  const session = await auth();
-  if (!session?.user || !(await canManageBuildingExpenses(session.user.id as string, buildingId))) throw new Error("Forbidden");
+  await requireBuildingCap(buildingId, "editDistribution");
   await db.buildingCategoryOverride.deleteMany({ where: { buildingId, categoryId } });
   revalidatePath(`/super-admin/buildings/${buildingId}`);
+  revalidatePath(`/building/${buildingId}`);
 }

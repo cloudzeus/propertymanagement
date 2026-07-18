@@ -1,10 +1,9 @@
 "use server";
 
-import { auth } from "@/auth";
 import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import { uploadBuildingFile } from "./building-files";
-import { assertBuildingAccess } from "./recurring-tasks";
+import { requireBuildingCap } from "@/lib/building-access";
 
 const FREQ_ADVANCE: Record<string, (d: Date) => Date> = {
   WEEKLY: (d) => { const x = new Date(d); x.setDate(x.getDate() + 7); return x; },
@@ -15,27 +14,18 @@ const FREQ_ADVANCE: Record<string, (d: Date) => Date> = {
   CUSTOM: (d) => d,
 };
 
-async function requireStaff() {
-  const session = await auth();
-  if (!session?.user) throw new Error("Unauthorized");
-  const u = await db.user.findUnique({ where: { id: session.user.id as string }, select: { id: true, role: true } });
-  if (!["SUPER_ADMIN", "ADMIN", "MANAGER", "EMPLOYEE", "PROPERTY_ADMIN"].includes(u?.role ?? "")) throw new Error("Forbidden");
-  return u!;
-}
-
 /** Complete a maintenance task: optional certificate upload → MaintenanceLog → advance nextDueDate. */
 export async function completeMaintenance(
   taskId: string,
   data: { performedAt: string; cost?: string | null; notes?: string | null },
   formData?: FormData,
 ) {
-  const user = await requireStaff();
   const task = await db.recurringTask.findUnique({
     where: { id: taskId },
     select: { id: true, buildingId: true, frequency: true, nextDueDate: true },
   });
   if (!task) return { error: "Δεν βρέθηκε" };
-  await assertBuildingAccess(user.id, user.role, task.buildingId);
+  const { userId } = await requireBuildingCap(task.buildingId, "manageMaintenance");
 
   let documentFileId: string | undefined;
   const file = formData?.get("file");
@@ -54,7 +44,7 @@ export async function completeMaintenance(
       recurringTaskId: task.id,
       buildingId: task.buildingId,
       performedAt: new Date(data.performedAt),
-      performedById: user.id,
+      performedById: userId,
       cost: data.cost?.trim() ? data.cost.trim() : null,
       notes: data.notes?.trim() ? data.notes.trim() : null,
       documentFileId,
@@ -69,12 +59,12 @@ export async function completeMaintenance(
   });
 
   revalidatePath(`/super-admin/buildings/${task.buildingId}`);
+  revalidatePath(`/building/${task.buildingId}`);
   return { ok: true };
 }
 
 export async function listMaintenanceHistory(buildingId: string) {
-  const user = await requireStaff();
-  await assertBuildingAccess(user.id, user.role, buildingId);
+  await requireBuildingCap(buildingId, "manageMaintenance");
   const rows = await db.maintenanceLog.findMany({
     where: { buildingId },
     orderBy: { performedAt: "desc" },

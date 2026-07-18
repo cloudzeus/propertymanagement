@@ -1,15 +1,8 @@
 "use server";
 
-import { auth } from "@/auth";
 import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
-
-async function requireSuperAdmin() {
-  const session = await auth();
-  if (!session?.user) throw new Error("Unauthorized");
-  const user = await db.user.findUnique({ where: { id: session.user.id as string }, select: { role: true } });
-  if (user?.role !== "SUPER_ADMIN") throw new Error("Forbidden");
-}
+import { requireBuildingCap } from "@/lib/building-access";
 
 async function assertUnitInBuilding(unitId: string, buildingId: string) {
   const unit = await db.unit.findFirst({ where: { id: unitId, buildingId }, select: { id: true } });
@@ -33,7 +26,7 @@ export type HeatingReadingDTO = {
  *  period's readings. previousReading auto-fills from the prior month's
  *  currentReading when the stored value is null. */
 export async function listHeatingReadings(buildingId: string, period: string): Promise<HeatingReadingDTO[]> {
-  await requireSuperAdmin();
+  await requireBuildingCap(buildingId, "editMillesimes");
   const heatingCatIds = (await db.expenseCategory.findMany({
     where: {
       OR: [
@@ -78,7 +71,7 @@ function consumptionOf(previous: number | null, current: number | null): number 
 /** Upsert one unit's reading for a period. previousReading resolved from the
  *  prior month's currentReading; consumption derived. */
 export async function saveHeatingReading(buildingId: string, unitId: string, period: string, currentReading: number | null) {
-  await requireSuperAdmin();
+  await requireBuildingCap(buildingId, "editMillesimes");
   await assertUnitInBuilding(unitId, buildingId);
   const prevRow = await db.unitHeatingReading.findUnique({ where: { unitId_period: { unitId, period: prevPeriod(period) } }, select: { currentReading: true } });
   const previous = prevRow?.currentReading == null ? null : Number(prevRow.currentReading);
@@ -89,12 +82,13 @@ export async function saveHeatingReading(buildingId: string, unitId: string, per
     update: { previousReading: previous, currentReading, consumption },
   });
   revalidatePath(`/super-admin/buildings/${buildingId}`);
+  revalidatePath(`/building/${buildingId}`);
   return { ok: true };
 }
 
 /** Save many readings for a period in one transaction. */
 export async function bulkSaveHeatingReadings(buildingId: string, period: string, items: { unitId: string; currentReading: number | null }[]) {
-  await requireSuperAdmin();
+  await requireBuildingCap(buildingId, "editMillesimes");
   // Verify every unit belongs to this building before stamping rows with buildingId.
   const ids = items.map((i) => i.unitId);
   const valid = new Set((await db.unit.findMany({ where: { id: { in: ids }, buildingId }, select: { id: true } })).map((u) => u.id));
@@ -111,13 +105,15 @@ export async function bulkSaveHeatingReadings(buildingId: string, period: string
     });
   }));
   revalidatePath(`/super-admin/buildings/${buildingId}`);
+  revalidatePath(`/building/${buildingId}`);
   return { count: items.length };
 }
 
 /** Set the building's heating meter unit label (e.g. "μονάδες"). */
 export async function saveHeatingMeterUnit(buildingId: string, label: string | null) {
-  await requireSuperAdmin();
+  await requireBuildingCap(buildingId, "editMillesimes");
   await db.building.update({ where: { id: buildingId }, data: { heatingMeterUnit: label } });
   revalidatePath(`/super-admin/buildings/${buildingId}`);
+  revalidatePath(`/building/${buildingId}`);
   return { ok: true };
 }

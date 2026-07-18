@@ -5,6 +5,7 @@ import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import bcrypt from "bcryptjs";
 import { getScope, assertCustomer } from "@/lib/scope";
+import { requireBuildingCap } from "@/lib/building-access";
 
 async function requireStaff() {
   const session = await auth();
@@ -14,8 +15,11 @@ async function requireStaff() {
   return user!.role as string;
 }
 
-/** Authorize the caller for a manager scope: staff → any; else same customer + manages it. */
+/** Authorize the caller for a manager scope: staff → any; else same customer + manages it.
+ *  Building scopes additionally go through the capability guard (`manageManagers`,
+ *  which only company staff ever hold — PROPERTY_ADMIN is always denied). */
 async function authorizeScope(scope: ManagerScope) {
+  if ("buildingId" in scope) await requireBuildingCap(scope.buildingId, "manageManagers");
   const resolved = await resolveScope(scope);
   const s = await getScope();
   if (s.seesAllCustomers) return resolved;

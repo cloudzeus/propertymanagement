@@ -1,19 +1,16 @@
 "use server";
 
-import { auth } from "@/auth";
 import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
-import { canManageBuildingExpenses } from "@/lib/expenses/authz";
 import { buildKoinochristaDoc, type KoinoLine } from "@/lib/koinochrista-doc";
 import { sendEmailWithAttachments, type EmailAttachment } from "@/lib/mailgun";
 import type { PaymentMethod } from "@/app/actions/building-expenses";
+import { requireBuildingCap } from "@/lib/building-access";
+import type { BuildingCaps } from "@/lib/building-caps";
 
-async function requireAccess(buildingId: string): Promise<string> {
-  const session = await auth();
-  if (!session?.user) throw new Error("Unauthorized");
-  const uid = session.user.id as string;
-  if (!(await canManageBuildingExpenses(uid, buildingId))) throw new Error("Forbidden");
-  return uid;
+async function requireAccess(buildingId: string, cap: keyof BuildingCaps = "manageKoinochrista"): Promise<string> {
+  const { userId } = await requireBuildingCap(buildingId, cap);
+  return userId;
 }
 
 const num = (v: unknown) => (v == null ? 0 : Number(v));
@@ -50,12 +47,13 @@ export async function listExpenseAllocations(expenseId: string): Promise<AllocLi
 export async function setAllocationPaid(allocationId: string, party: "owner" | "tenant", paid: boolean, method: PaymentMethod | null) {
   const a = await db.expenseAllocation.findUnique({ where: { id: allocationId }, select: { expense: { select: { buildingId: true } } } });
   if (!a) throw new Error("Δεν βρέθηκε η γραμμή κατανομής.");
-  await requireAccess(a.expense.buildingId);
+  await requireAccess(a.expense.buildingId, "managePayments");
   const data = party === "owner"
     ? { ownerPaid: paid, ownerPaidAt: paid ? new Date() : null, ownerPaymentMethod: paid ? method : null }
     : { tenantPaid: paid, tenantPaidAt: paid ? new Date() : null, tenantPaymentMethod: paid ? method : null };
   await db.expenseAllocation.update({ where: { id: allocationId }, data });
   revalidatePath(`/super-admin/buildings/${a.expense.buildingId}`);
+  revalidatePath(`/building/${a.expense.buildingId}`);
   return { ok: true };
 }
 
@@ -218,8 +216,12 @@ export async function getPersonStatement(buildingId: string, userId: string, mon
 
 /** Mark several allocation portions paid/unpaid in one go (used by the person modal). */
 export async function setAllocationsPaid(buildingId: string, items: { allocationId: string; party: "owner" | "tenant" }[], paid: boolean, method: PaymentMethod | null) {
-  await requireAccess(buildingId);
+  await requireAccess(buildingId, "managePayments");
   if (!items.length) return { count: 0 };
+  // Data isolation: every allocation must belong to THIS building.
+  const allocIds = [...new Set(items.map((i) => i.allocationId))];
+  const owned = await db.expenseAllocation.count({ where: { id: { in: allocIds }, expense: { buildingId } } });
+  if (owned !== allocIds.length) throw new Error("Μία ή περισσότερες γραμμές δεν ανήκουν σε αυτό το κτήριο.");
   const when = paid ? new Date() : null;
   let count = 0;
   for (const it of items) {
@@ -230,6 +232,7 @@ export async function setAllocationsPaid(buildingId: string, items: { allocation
     count++;
   }
   revalidatePath(`/super-admin/buildings/${buildingId}`);
+  revalidatePath(`/building/${buildingId}`);
   return { count };
 }
 

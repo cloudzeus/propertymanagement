@@ -1,16 +1,9 @@
 "use server";
 
-import { auth } from "@/auth";
 import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import { uploadFile, deleteFile, buildingFolder } from "@/lib/bunnycdn";
-
-async function requireStaff() {
-  const session = await auth();
-  if (!session?.user) throw new Error("Unauthorized");
-  const u = await db.user.findUnique({ where: { id: session.user.id as string }, select: { role: true } });
-  if (!["SUPER_ADMIN", "ADMIN", "MANAGER"].includes(u?.role ?? "")) throw new Error("Forbidden");
-}
+import { requireBuildingCap } from "@/lib/building-access";
 
 async function assertManagedBuilding(buildingId: string) {
   const b = await db.building.findUnique({ where: { id: buildingId }, select: { property: { select: { managed: true } } } });
@@ -31,7 +24,7 @@ function validate(data: ManagedItemInput) {
 }
 
 export async function createManagedItem(buildingId: string, data: ManagedItemInput) {
-  await requireStaff();
+  await requireBuildingCap(buildingId, "manageManagedItems");
   const guard = await assertManagedBuilding(buildingId);
   if (guard) return guard;
   const err = validate(data);
@@ -49,11 +42,14 @@ export async function createManagedItem(buildingId: string, data: ManagedItemInp
     },
   });
   revalidatePath(`/super-admin/buildings/${buildingId}`);
+  revalidatePath(`/building/${buildingId}`);
   return { itemId: row.id };
 }
 
 export async function updateManagedItem(id: string, data: ManagedItemInput) {
-  await requireStaff();
+  const existing = await db.managedItem.findUnique({ where: { id }, select: { buildingId: true } });
+  if (!existing) return { error: "Δεν βρέθηκε" };
+  await requireBuildingCap(existing.buildingId, "manageManagedItems");
   const err = validate(data);
   if (err) return { error: err };
   const row = await db.managedItem.update({
@@ -68,21 +64,24 @@ export async function updateManagedItem(id: string, data: ManagedItemInput) {
     select: { buildingId: true },
   });
   revalidatePath(`/super-admin/buildings/${row.buildingId}`);
+  revalidatePath(`/building/${row.buildingId}`);
   return { ok: true, itemId: id };
 }
 
 export async function deleteManagedItem(id: string) {
-  await requireStaff();
   const row = await db.managedItem.findUnique({ where: { id }, select: { buildingId: true, photoCdnPath: true } });
+  if (row) await requireBuildingCap(row.buildingId, "manageManagedItems");
   if (row?.photoCdnPath) await deleteFile(row.photoCdnPath).catch(() => {});
   await db.managedItem.delete({ where: { id } });
-  if (row) revalidatePath(`/super-admin/buildings/${row.buildingId}`);
+  if (row) {
+    revalidatePath(`/super-admin/buildings/${row.buildingId}`);
+    revalidatePath(`/building/${row.buildingId}`);
+  }
   return { ok: true };
 }
 
 /** Upload/replace the optional photo of a managed item. FormData: itemId, file. */
 export async function uploadManagedItemPhoto(formData: FormData) {
-  await requireStaff();
   const itemId = String(formData.get("itemId") || "");
   const file = formData.get("file") as File | null;
   if (!itemId || !file) return { error: "Λείπει αρχείο" };
@@ -92,6 +91,7 @@ export async function uploadManagedItemPhoto(formData: FormData) {
     select: { buildingId: true, photoCdnPath: true, building: { select: { propertyId: true } } },
   });
   if (!item) return { error: "Το στοιχείο δεν βρέθηκε" };
+  await requireBuildingCap(item.buildingId, "manageManagedItems");
   const buffer = Buffer.from(await file.arrayBuffer());
   const safe = file.name.replace(/[^\w.\-]+/g, "_").slice(0, 100);
   const path = `${buildingFolder(item.building.propertyId, item.buildingId)}/managed-items/${itemId}/${Date.now()}-${safe}`;
@@ -100,15 +100,17 @@ export async function uploadManagedItemPhoto(formData: FormData) {
   if (item.photoCdnPath) await deleteFile(item.photoCdnPath).catch(() => {});
   await db.managedItem.update({ where: { id: itemId }, data: { photoUrl: res.url, photoCdnPath: path } });
   revalidatePath(`/super-admin/buildings/${item.buildingId}`);
+  revalidatePath(`/building/${item.buildingId}`);
   return { url: res.url };
 }
 
 export async function deleteManagedItemPhoto(itemId: string) {
-  await requireStaff();
   const item = await db.managedItem.findUnique({ where: { id: itemId }, select: { buildingId: true, photoCdnPath: true } });
   if (!item) return { error: "Δεν βρέθηκε" };
+  await requireBuildingCap(item.buildingId, "manageManagedItems");
   if (item.photoCdnPath) await deleteFile(item.photoCdnPath).catch(() => {});
   await db.managedItem.update({ where: { id: itemId }, data: { photoUrl: null, photoCdnPath: null } });
   revalidatePath(`/super-admin/buildings/${item.buildingId}`);
+  revalidatePath(`/building/${item.buildingId}`);
   return { ok: true };
 }

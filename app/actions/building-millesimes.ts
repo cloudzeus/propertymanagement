@@ -1,16 +1,9 @@
 "use server";
 
-import { auth } from "@/auth";
 import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import { MillesimeSource, type DistributionBasis } from "@/lib/prisma/enums";
-
-async function requireSuperAdmin() {
-  const session = await auth();
-  if (!session?.user) throw new Error("Unauthorized");
-  const user = await db.user.findUnique({ where: { id: session.user.id as string }, select: { role: true } });
-  if (user?.role !== "SUPER_ADMIN") throw new Error("Forbidden");
-}
+import { requireBuildingCap } from "@/lib/building-access";
 
 /** Guard that a unit actually belongs to the given building before mutating it,
  *  so a mismatched client-supplied id can't write across buildings. */
@@ -30,7 +23,7 @@ export async function saveMillesimeCell(
   value: number | null,
   reset = false,
 ) {
-  await requireSuperAdmin();
+  await requireBuildingCap(buildingId, "editMillesimes");
   await assertUnitInBuilding(unitId, buildingId);
   const field = set === "elevator" ? "millesimesElevator" : set === "heating" ? "millesimesHeating" : "millesimes";
   const sourceField = set === "elevator" ? "millesimesElevatorSource" : set === "heating" ? "millesimesHeatingSource" : "millesimesSource";
@@ -39,13 +32,14 @@ export async function saveMillesimeCell(
     : { [field]: value, [sourceField]: MillesimeSource.MANUAL };
   await db.unit.update({ where: { id: unitId }, data });
   revalidatePath(`/super-admin/buildings/${buildingId}`);
+  revalidatePath(`/building/${buildingId}`);
   return { ok: true };
 }
 
 /** Set or clear the building's distribution-method override for a category.
  *  basis=null removes the override (falls back to the category default). */
 export async function setCategoryBasis(buildingId: string, categoryId: string, basis: DistributionBasis | null) {
-  await requireSuperAdmin();
+  await requireBuildingCap(buildingId, "editDistribution");
   if (basis === null) {
     await db.buildingCategoryOverride.deleteMany({ where: { buildingId, categoryId } });
   } else {
@@ -58,13 +52,14 @@ export async function setCategoryBasis(buildingId: string, categoryId: string, b
     }
   }
   revalidatePath(`/super-admin/buildings/${buildingId}`);
+  revalidatePath(`/building/${buildingId}`);
   return { ok: true };
 }
 
 /** Toggle a unit×category exclusion. excluded=true → row exists (unit does NOT
  *  pay); false → row removed (unit pays, the default). */
 export async function setUnitCategoryExclusion(buildingId: string, unitId: string, categoryId: string, excluded: boolean) {
-  await requireSuperAdmin();
+  await requireBuildingCap(buildingId, "editDistribution");
   await assertUnitInBuilding(unitId, buildingId);
   if (excluded) {
     await db.unitCategoryExclusion.upsert({
@@ -76,13 +71,15 @@ export async function setUnitCategoryExclusion(buildingId: string, unitId: strin
     await db.unitCategoryExclusion.deleteMany({ where: { unitId, categoryId } });
   }
   revalidatePath(`/super-admin/buildings/${buildingId}`);
+  revalidatePath(`/building/${buildingId}`);
   return { ok: true };
 }
 
 /** Save building-level elevator parameters. */
 export async function saveElevatorParams(buildingId: string, surchargePerFloor: number, exemptGroundFloor: boolean) {
-  await requireSuperAdmin();
+  await requireBuildingCap(buildingId, "editMillesimes");
   await db.building.update({ where: { id: buildingId }, data: { elevatorSurchargePerFloor: surchargePerFloor, elevatorExemptGroundFloor: exemptGroundFloor } });
   revalidatePath(`/super-admin/buildings/${buildingId}`);
+  revalidatePath(`/building/${buildingId}`);
   return { ok: true };
 }

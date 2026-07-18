@@ -1,31 +1,27 @@
 "use server";
 
-import { auth } from "@/auth";
 import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
-
-async function requireStaff() {
-  const session = await auth();
-  if (!session?.user) throw new Error("Unauthorized");
-  const u = await db.user.findUnique({ where: { id: session.user.id as string }, select: { role: true } });
-  if (!["SUPER_ADMIN", "ADMIN", "MANAGER", "PROPERTY_ADMIN"].includes(u?.role ?? "")) throw new Error("Forbidden");
-}
+import { requireBuildingCap } from "@/lib/building-access";
 
 export type ContactInput = { name: string; category?: string | null; phone?: string | null; email?: string | null; notes?: string | null };
 const clean = (v?: string | null) => (v?.trim() ? v.trim() : null);
 
 export async function createContact(buildingId: string, data: ContactInput) {
-  await requireStaff();
+  await requireBuildingCap(buildingId, "manageContacts");
   if (!data.name?.trim()) return { error: "Το όνομα είναι υποχρεωτικό" };
   const row = await db.contact.create({
     data: { buildingId, name: data.name.trim(), category: clean(data.category), phone: clean(data.phone), email: clean(data.email), notes: clean(data.notes) },
   });
   revalidatePath(`/super-admin/buildings/${buildingId}`);
+  revalidatePath(`/building/${buildingId}`);
   return { contact: row };
 }
 
 export async function updateContact(id: string, data: Partial<ContactInput>) {
-  await requireStaff();
+  const existing = await db.contact.findUnique({ where: { id }, select: { buildingId: true } });
+  if (!existing) return { error: "Δεν βρέθηκε" };
+  await requireBuildingCap(existing.buildingId, "manageContacts");
   const c = await db.contact.update({
     where: { id },
     data: {
@@ -38,13 +34,16 @@ export async function updateContact(id: string, data: Partial<ContactInput>) {
     select: { buildingId: true },
   });
   revalidatePath(`/super-admin/buildings/${c.buildingId}`);
+  revalidatePath(`/building/${c.buildingId}`);
   return { ok: true };
 }
 
 export async function deleteContact(id: string) {
-  await requireStaff();
   const c = await db.contact.findUnique({ where: { id }, select: { buildingId: true } });
+  if (!c) return { ok: true };
+  await requireBuildingCap(c.buildingId, "manageContacts");
   await db.contact.delete({ where: { id } });
-  if (c) revalidatePath(`/super-admin/buildings/${c.buildingId}`);
+  revalidatePath(`/super-admin/buildings/${c.buildingId}`);
+  revalidatePath(`/building/${c.buildingId}`);
   return { ok: true };
 }

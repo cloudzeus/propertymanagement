@@ -1,18 +1,11 @@
 "use server";
 
-import { auth } from "@/auth";
 import { db } from "@/lib/db";
 import { auditBuilding, type AuditInput, type Finding } from "@/lib/buildings/audit";
-
-async function requireSuperAdmin() {
-  const session = await auth();
-  if (!session?.user) throw new Error("Unauthorized");
-  const user = await db.user.findUnique({ where: { id: session.user.id as string }, select: { role: true } });
-  if (user?.role !== "SUPER_ADMIN") throw new Error("Forbidden");
-}
+import { requireBuildingCap } from "@/lib/building-access";
 
 export async function auditBuildingEntries(buildingId: string): Promise<Finding[]> {
-  await requireSuperAdmin();
+  await requireBuildingCap(buildingId, "viewAudit");
   const building = await db.building.findUnique({
     where: { id: buildingId },
     select: {
