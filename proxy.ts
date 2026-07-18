@@ -4,10 +4,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { locales } from "./i18n";
 import { deniedRedirectPath } from "./lib/surfaces";
-import createIntlMiddleware from "next-intl/middleware";
-import { routing } from "./i18n/routing";
 
-const intlMiddleware = createIntlMiddleware(routing);
 
 const { auth } = NextAuth(authConfig);
 
@@ -67,11 +64,54 @@ export default auth((req: NextRequest & { auth: any }) => {
   const matches = (p: string) =>
     pathWithoutLocale === p || pathWithoutLocale.startsWith(p + "/");
 
-  if (localizedContentPaths.some(matches)) return clearStale(intlMiddleware(req));
+  // Locale routing for public content, done by hand instead of next-intl's middleware.
+  // Why: next-intl builds ABSOLUTE URLs from req.nextUrl, whose origin NextAuth's auth()
+  // wrapper normalizes to AUTH_URL — behind the reverse proxy that origin doesn't match the
+  // one Next serves on, and its rewrite/redirect pair degrades into a `/ ↔ /el` loop.
+  // Contract (same as localePrefix "as-needed"): public URLs never carry the default-locale
+  // prefix; unprefixed paths are rewritten internally to /el; /en stays as-is. The
+  // x-locale-rewrite marker stops the strip-redirect when the middleware re-runs on the
+  // internally rewritten request.
+  if (localizedContentPaths.some(matches)) {
+    // Redirects go to the PUBLIC origin (what the browser sees); rewrites go to the server's
+    // OWN origin — Next only applies a middleware rewrite in-process when its origin matches
+    // the one it is actually listening on (localhost:$PORT), any public-host origin degrades
+    // into an external redirect.
+    const host = req.headers.get("host") ?? req.nextUrl.host;
+    const proto = req.headers.get("x-forwarded-proto") ?? req.nextUrl.protocol.replace(":", "");
+    const publicUrl = (path: string) => new URL(path + req.nextUrl.search, `${proto}://${host}`);
+    const internalUrl = (path: string) =>
+      new URL(path + req.nextUrl.search, `http://localhost:${process.env.PORT || "3000"}`);
+
+    const defaultPrefixed = pathname === "/el" || pathname.startsWith("/el/");
+    if (defaultPrefixed && !req.headers.get("x-locale-rewrite")) {
+      return clearStale(NextResponse.redirect(publicUrl(pathname.slice(3) || "/"), 308));
+    }
+    // next-intl's requestLocale is fed by this header (its middleware would normally set it).
+    const withLocale = (locale: string, extra?: Record<string, string>) => {
+      const headers = new Headers(req.headers);
+      headers.set("X-NEXT-INTL-LOCALE", locale);
+      for (const [k, v] of Object.entries(extra ?? {})) headers.set(k, v);
+      return headers;
+    };
+    const prefixLocale = locales.find((l) => pathname === `/${l}` || pathname.startsWith(`/${l}/`));
+    if (!prefixLocale) {
+      return clearStale(
+        NextResponse.rewrite(internalUrl(pathname === "/" ? "/el" : `/el${pathname}`), {
+          request: { headers: withLocale("el", { "x-locale-rewrite": "1" }) },
+        }),
+      );
+    }
+    return clearStale(NextResponse.next({ request: { headers: withLocale(prefixLocale) } }));
+  }
   if (authPublicPaths.some(matches)) return clearStale(NextResponse.next());
 
   if (!isLoggedIn) {
-    const loginUrl = new URL("/login", req.nextUrl.origin);
+    // Public origin from the actual request headers — req.nextUrl.origin is normalized
+    // to AUTH_URL by the auth() wrapper and may not match the host being browsed.
+    const host = req.headers.get("host") ?? req.nextUrl.host;
+    const proto = req.headers.get("x-forwarded-proto") ?? req.nextUrl.protocol.replace(":", "");
+    const loginUrl = new URL("/login", `${proto}://${host}`);
     loginUrl.searchParams.set("callbackUrl", pathname);
     return clearStale(NextResponse.redirect(loginUrl));
   }
