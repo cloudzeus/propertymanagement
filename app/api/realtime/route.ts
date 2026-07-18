@@ -40,6 +40,7 @@ export async function GET(req: NextRequest) {
   if (!allowed) return new Response("Forbidden", { status: 403 });
 
   const encoder = new TextEncoder();
+  let cleanup: (() => void) | null = null;
   const stream = new ReadableStream({
     start(controller) {
       const send = (text: string) => {
@@ -53,8 +54,13 @@ export async function GET(req: NextRequest) {
         off();
         try { controller.close(); } catch {}
       };
+      cleanup = close;
+      // The client may drop while the auth queries above were awaited — an
+      // already-aborted signal never fires "abort", so check before registering.
+      if (req.signal.aborted) { close(); return; }
       req.signal.addEventListener("abort", close);
     },
+    cancel() { cleanup?.(); },
   });
   return new Response(stream, {
     headers: {
