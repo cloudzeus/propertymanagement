@@ -127,7 +127,8 @@ export const ModelName = {
   Article: 'Article',
   Role: 'Role',
   RolePermission: 'RolePermission',
-  DemoRequest: 'DemoRequest'
+  DemoRequest: 'DemoRequest',
+  SupportTicket: 'SupportTicket'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1511,6 +1512,18 @@ export const DemoRequestScalarFieldEnum = {
 } as const
 
 export type DemoRequestScalarFieldEnum = (typeof DemoRequestScalarFieldEnum)[keyof typeof DemoRequestScalarFieldEnum]
+
+
+export const SupportTicketScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  publicToken: 'publicToken',
+  subject: 'subject',
+  createdById: 'createdById',
+  createdAt: 'createdAt'
+} as const
+
+export type SupportTicketScalarFieldEnum = (typeof SupportTicketScalarFieldEnum)[keyof typeof SupportTicketScalarFieldEnum]
 
 
 export const SortOrder = {

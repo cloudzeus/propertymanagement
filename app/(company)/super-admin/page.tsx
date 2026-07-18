@@ -5,6 +5,7 @@ import { getPropertiesForMap } from "@/lib/dashboard/queries";
 import { PropertiesMap } from "@/components/maps/PropertiesMap";
 import { DashboardTabs } from "@/components/dashboard/DashboardTabs";
 import { MaintenanceKanbanSection } from "@/components/maintenance/kanban-section";
+import { SupportTicketSection } from "@/components/support/support-ticket-section";
 import {
   RiBuildingLine,
   RiGroupLine,
@@ -259,6 +260,9 @@ export default async function SuperAdminDashboard() {
     </div>
       <div style={{ marginTop: 24 }}>
         <MaintenanceKanbanSection />
+      </div>
+      <div style={{ marginTop: 24 }}>
+        <SupportTicketSection />
       </div>
     </DashboardTabs>
   );

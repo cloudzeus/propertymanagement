@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState, useTransition } from "react";
+import { createPortal } from "react-dom";
 import { useLocale } from "next-intl";
 import { getDemoSlots, bookDemo } from "@/app/actions/demo-booking";
 import { RiCloseLine, RiCalendarCheckLine, RiLoaderLine, RiCheckboxCircleLine } from "react-icons/ri";
@@ -46,6 +47,10 @@ const inputStyle: React.CSSProperties = {
   border: "1px solid rgba(27,28,26,.16)", background: "#fff", color: "#1b1c1a", outline: "none",
 };
 
+const sectionLabel: React.CSSProperties = {
+  fontSize: 12, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".1em", color: "rgba(27,28,26,.45)",
+};
+
 export function DemoBookingModal({ open, onClose }: { open: boolean; onClose: () => void }) {
   const locale = useLocale() === "en" ? "en" : "el";
   const t = T[locale];
@@ -89,32 +94,38 @@ export function DemoBookingModal({ open, onClose }: { open: boolean; onClose: ()
     });
   }
 
-  if (!open) return null;
+  if (!open || typeof document === "undefined") return null;
 
-  return (
+  return createPortal(
     <div
       role="dialog"
       aria-modal="true"
+      aria-label={t.title}
       onClick={onClose}
-      style={{ position: "fixed", inset: 0, zIndex: 100, background: "rgba(27,28,26,.45)", backdropFilter: "blur(4px)", display: "flex", alignItems: "center", justifyContent: "center", padding: 16 }}
+      style={{ position: "fixed", inset: 0, zIndex: 1000, background: "rgba(27,28,26,.5)", backdropFilter: "blur(5px)", WebkitBackdropFilter: "blur(5px)", display: "flex", alignItems: "center", justifyContent: "center", padding: "max(16px, env(safe-area-inset-top)) 16px", overscrollBehavior: "contain" }}
     >
+      <style>{`
+        .demo-input:focus { border-color: #15161a !important; box-shadow: 0 0 0 3px rgba(21,22,26,.12); }
+        .demo-input::placeholder { color: rgba(27,28,26,.42); }
+        @keyframes demoModalIn { from { opacity: 0; transform: translateY(14px) scale(.985); } to { opacity: 1; transform: none; } }
+      `}</style>
       <div
         onClick={(e) => e.stopPropagation()}
-        style={{ width: "100%", maxWidth: 560, maxHeight: "92vh", overflowY: "auto", background: "#F4F2EA", borderRadius: 22, border: "1px solid rgba(27,28,26,.12)", boxShadow: "0 44px 90px -30px rgba(27,28,26,.5)", padding: "28px 26px" }}
+        style={{ width: "100%", maxWidth: 580, maxHeight: "min(760px, calc(100dvh - 32px))", display: "flex", flexDirection: "column", background: "#F4F2EA", borderRadius: 22, border: "1px solid rgba(27,28,26,.12)", boxShadow: "0 44px 90px -30px rgba(27,28,26,.5)", overflow: "hidden", animation: "demoModalIn .22s ease-out" }}
       >
-        {/* Header */}
-        <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12 }}>
+        {/* Header — fixed */}
+        <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12, padding: "24px 26px 16px", borderBottom: "1px solid rgba(27,28,26,.08)", flex: "none" }}>
           <div>
-            <div style={{ fontSize: 22, fontWeight: 800, letterSpacing: "-.02em", color: "#1b1c1a" }}>{t.title}</div>
-            <div style={{ fontSize: 14, color: "rgba(27,28,26,.62)", marginTop: 5, lineHeight: 1.5 }}>{t.sub}</div>
+            <div style={{ fontSize: 21, fontWeight: 800, letterSpacing: "-.02em", color: "#1b1c1a" }}>{t.title}</div>
+            <div style={{ fontSize: 13.5, color: "rgba(27,28,26,.62)", marginTop: 4, lineHeight: 1.5 }}>{t.sub}</div>
           </div>
-          <button type="button" onClick={onClose} aria-label={t.close} style={{ border: "1px solid rgba(27,28,26,.14)", background: "#fff", borderRadius: 10, padding: 7, cursor: "pointer", color: "#1b1c1a", lineHeight: 0 }}>
+          <button type="button" onClick={onClose} aria-label={t.close} style={{ border: "1px solid rgba(27,28,26,.14)", background: "#fff", borderRadius: 10, padding: 7, cursor: "pointer", color: "#1b1c1a", lineHeight: 0, flex: "none" }}>
             <RiCloseLine size={18} />
           </button>
         </div>
 
         {done ? (
-          <div style={{ textAlign: "center", padding: "42px 8px 30px" }}>
+          <div style={{ textAlign: "center", padding: "42px 26px 34px", overflowY: "auto" }}>
             <RiCheckboxCircleLine size={54} style={{ color: "#2E7D5B" }} />
             <div style={{ fontSize: 20, fontWeight: 800, marginTop: 12, color: "#1b1c1a" }}>{t.successTitle}</div>
             <div style={{ fontSize: 15, fontWeight: 700, marginTop: 8, color: "#1b1c1a" }}>{done}</div>
@@ -125,8 +136,10 @@ export function DemoBookingModal({ open, onClose }: { open: boolean; onClose: ()
           </div>
         ) : (
           <>
+          {/* Scrollable body */}
+          <div style={{ overflowY: "auto", padding: "18px 26px 20px", flex: "1 1 auto", minHeight: 0 }}>
             {/* Day picker */}
-            <div style={{ fontSize: 12.5, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".1em", color: "rgba(27,28,26,.45)", margin: "22px 0 9px" }}>{t.day}</div>
+            <div style={{ ...sectionLabel, margin: "0 0 9px" }}>{t.day}</div>
             {!days ? (
               <div style={{ fontSize: 13.5, color: "rgba(27,28,26,.55)", display: "flex", alignItems: "center", gap: 8 }}><RiLoaderLine className="animate-spin" /> {t.loading}</div>
             ) : days.length === 0 ? (
@@ -152,7 +165,7 @@ export function DemoBookingModal({ open, onClose }: { open: boolean; onClose: ()
             {/* Time picker */}
             {day && (
               <>
-                <div style={{ fontSize: 12.5, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".1em", color: "rgba(27,28,26,.45)", margin: "18px 0 9px" }}>{t.time}</div>
+                <div style={{ ...sectionLabel, margin: "18px 0 9px" }}>{t.time}</div>
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(74px,1fr))", gap: 8 }}>
                   {day.slots.map((s) => {
                     const on = slotIso === s.iso;
@@ -170,31 +183,35 @@ export function DemoBookingModal({ open, onClose }: { open: boolean; onClose: ()
             )}
 
             {/* Details */}
-            <div style={{ fontSize: 12.5, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".1em", color: "rgba(27,28,26,.45)", margin: "20px 0 9px" }}>{t.details}</div>
+            <div style={{ ...sectionLabel, margin: "20px 0 9px" }}>{t.details}</div>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
-              <input style={inputStyle} placeholder={t.name} value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
-              <input style={inputStyle} placeholder={t.email} type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
-              <input style={inputStyle} placeholder={t.phone} value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} />
-              <input style={inputStyle} placeholder={t.company} value={form.company} onChange={(e) => setForm({ ...form, company: e.target.value })} />
+              <input className="demo-input" style={inputStyle} placeholder={t.name} autoComplete="name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
+              <input className="demo-input" style={inputStyle} placeholder={t.email} type="email" autoComplete="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
+              <input className="demo-input" style={inputStyle} placeholder={t.phone} autoComplete="tel" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} />
+              <input className="demo-input" style={inputStyle} placeholder={t.company} autoComplete="organization" value={form.company} onChange={(e) => setForm({ ...form, company: e.target.value })} />
             </div>
-            <textarea style={{ ...inputStyle, marginTop: 10, minHeight: 74, resize: "vertical" }} placeholder={t.message} value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} />
+            <textarea className="demo-input" style={{ ...inputStyle, marginTop: 10, minHeight: 70, resize: "vertical" }} placeholder={t.message} value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} />
             {/* Honeypot — invisible to humans */}
             <input style={{ position: "absolute", left: -9999, opacity: 0, height: 0 }} tabIndex={-1} autoComplete="off" value={form.website} onChange={(e) => setForm({ ...form, website: e.target.value })} placeholder="website" />
+          </div>
 
-            {error && <div style={{ marginTop: 12, fontSize: 13.5, color: "#C0392B" }}>{error}</div>}
-
+          {/* Footer — fixed */}
+          <div style={{ flex: "none", padding: "14px 26px calc(18px + env(safe-area-inset-bottom))", borderTop: "1px solid rgba(27,28,26,.08)", background: "rgba(255,255,255,.55)" }}>
+            {error && <div style={{ marginBottom: 10, fontSize: 13.5, color: "#C0392B" }}>{error}</div>}
             <button type="button" disabled={!canSubmit} onClick={submit}
-              style={{ marginTop: 18, width: "100%", padding: "14px 0", borderRadius: 12, border: "none", cursor: canSubmit ? "pointer" : "default",
+              style={{ width: "100%", padding: "14px 0", borderRadius: 12, border: "none", cursor: canSubmit ? "pointer" : "not-allowed",
                 background: canSubmit ? "#15161a" : "rgba(27,28,26,.25)", color: "#fff", fontWeight: 700, fontSize: 15,
-                display: "flex", alignItems: "center", justifyContent: "center", gap: 9,
+                display: "flex", alignItems: "center", justifyContent: "center", gap: 9, transition: "background .15s ease",
                 boxShadow: canSubmit ? "0 14px 30px -16px rgba(21,22,26,.55)" : "none" }}>
               {pending ? <RiLoaderLine className="animate-spin" size={17} /> : <RiCalendarCheckLine size={17} />}
               {pending ? t.submitting : t.submit}
             </button>
+          </div>
           </>
         )}
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
 

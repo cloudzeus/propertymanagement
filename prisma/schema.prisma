@@ -150,6 +150,7 @@ model User {
   residentUnits       Unit[] @relation("resident")
   occupancies         UnitOccupancy[] @relation("userOccupancies")
   infraKeyOf          InfraPoint[] @relation("infraKeyHolder")
+  supportTickets      SupportTicket[] @relation("supportTickets")
   infraAccess         InfraAccess[] @relation("infraAccess")
 
   // Relationships for multi-role users
@@ -2086,4 +2087,18 @@ model DemoRequest {
 
   @@index([scheduledAt])
   @@index([status, scheduledAt])
+}
+
+// DGsmart fluent-pm support tickets opened from the staff dashboards.
+// Local record only — status lives in fluent-pm and is fetched via the public token.
+model SupportTicket {
+  id          String   @id @default(cuid())
+  code        String   @unique // e.g. TKT-2026-0042
+  publicToken String            // status API token + /t/{token} page
+  subject     String
+  createdById String?
+  createdBy   User?    @relation("supportTickets", fields: [createdById], references: [id], onDelete: SetNull)
+  createdAt   DateTime @default(now())
+
+  @@index([createdAt])
 }

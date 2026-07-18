@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "timestamp": "2026-07-18T07:48:46.819Z",
+  "timestamp": "2026-07-18T13:58:37.284Z",
   "source": "auto-postool",
   "partial": false,
   "phase": null,
@@ -22,115 +22,23 @@
     },
     {
       "status": "M",
-      "path": "app/(company)/super-admin/buildings/[id]/BuildingDashboard.tsx"
+      "path": "app/(company)/admin/page.tsx"
     },
     {
       "status": "M",
-      "path": "app/(company)/super-admin/buildings/[id]/page.tsx"
+      "path": "app/(company)/manager/page.tsx"
     },
     {
       "status": "M",
-      "path": "app/(company)/super-admin/cms/landing/LandingIndexClient.tsx"
+      "path": "app/(company)/staff/page.tsx"
     },
     {
       "status": "M",
-      "path": "app/(company)/super-admin/cms/landing/[type]/SectionForm.tsx"
+      "path": "app/(company)/super-admin/page.tsx"
     },
     {
       "status": "M",
-      "path": "app/(company)/super-admin/cms/landing/[type]/forms/CtaForm.tsx"
-    },
-    {
-      "status": "M",
-      "path": "app/(company)/super-admin/cms/landing/[type]/forms/FeaturesForm.tsx"
-    },
-    {
-      "status": "M",
-      "path": "app/(company)/super-admin/cms/landing/[type]/forms/HeroForm.tsx"
-    },
-    {
-      "status": "M",
-      "path": "app/(company)/super-admin/cms/landing/[type]/forms/LogosForm.tsx"
-    },
-    {
-      "status": "M",
-      "path": "app/(company)/super-admin/cms/landing/[type]/forms/TestimonialsForm.tsx"
-    },
-    {
-      "status": "M",
-      "path": "app/(company)/super-admin/cms/landing/[type]/forms/formShared.tsx"
-    },
-    {
-      "status": "M",
-      "path": "app/(company)/super-admin/cms/landing/[type]/page.tsx"
-    },
-    {
-      "status": "M",
-      "path": "app/(company)/super-admin/cms/landing/page.tsx"
-    },
-    {
-      "status": "M",
-      "path": "app/(company)/super-admin/customers/[id]/page.tsx"
-    },
-    {
-      "status": "M",
-      "path": "app/[locale]/page.tsx"
-    },
-    {
-      "status": "M",
-      "path": "app/actions/building-expenses.ts"
-    },
-    {
-      "status": "M",
-      "path": "app/actions/landing-cms.ts"
-    },
-    {
-      "status": "M",
-      "path": "components/admin/sidebar-nav.tsx"
-    },
-    {
-      "status": "M",
-      "path": "components/landing/landing-footer.tsx"
-    },
-    {
-      "status": "M",
-      "path": "components/landing/landing-header.tsx"
-    },
-    {
-      "status": "M",
-      "path": "components/landing/section-registry.tsx"
-    },
-    {
-      "status": "M",
-      "path": "components/landing/sections/CtaSection.tsx"
-    },
-    {
-      "status": "M",
-      "path": "components/landing/sections/FeaturesSection.tsx"
-    },
-    {
-      "status": "M",
-      "path": "components/landing/sections/HeroSection.tsx"
-    },
-    {
-      "status": "M",
-      "path": "components/landing/sections/TestimonialsSection.tsx"
-    },
-    {
-      "status": "M",
-      "path": "lib/cms/icon-registry.ts"
-    },
-    {
-      "status": "M",
-      "path": "lib/cms/landing-types.ts"
-    },
-    {
-      "status": "M",
-      "path": "lib/cms/landing.ts"
-    },
-    {
-      "status": "M",
-      "path": "lib/cms/media.ts"
+      "path": "components/landing/DemoBookingModal.tsx"
     },
     {
       "status": "M",
@@ -158,189 +66,33 @@
     },
     {
       "status": "M",
-      "path": "lib/prisma/models/Building.ts"
-    },
-    {
-      "status": "M",
-      "path": "lib/prisma/models/Customer.ts"
-    },
-    {
-      "status": "M",
-      "path": "lib/prisma/models/MaintenanceRequest.ts"
-    },
-    {
-      "status": "M",
-      "path": "lib/prisma/models/Property.ts"
-    },
-    {
-      "status": "M",
       "path": "lib/prisma/models/User.ts"
-    },
-    {
-      "status": "M",
-      "path": "lib/rbac/registry.ts"
-    },
-    {
-      "status": "M",
-      "path": "next.config.ts"
     },
     {
       "status": "M",
       "path": "prisma/schema.prisma"
     },
     {
-      "status": "M",
-      "path": "prisma/seed-landing.ts"
-    },
-    {
-      "status": "M",
-      "path": "proxy.ts"
+      "status": "??",
+      "path": "app/(company)/staff/support/"
     },
     {
       "status": "??",
-      "path": "app/(company)/admin/residents/"
+      "path": "app/api/support/"
     },
     {
       "status": "??",
-      "path": "app/(company)/staff/calendar/"
+      "path": "components/support/"
     },
     {
       "status": "??",
-      "path": "app/(company)/super-admin/buildings/[id]/ManagedItemsPanel.tsx"
+      "path": "lib/prisma/models/SupportTicket.ts"
     },
     {
       "status": "??",
-      "path": "app/(company)/super-admin/cms/landing/[type]/forms/FooterForm.tsx"
-    },
-    {
-      "status": "??",
-      "path": "app/(company)/super-admin/cms/landing/[type]/forms/HowForm.tsx"
-    },
-    {
-      "status": "??",
-      "path": "app/(company)/super-admin/cms/landing/[type]/forms/NavForm.tsx"
-    },
-    {
-      "status": "??",
-      "path": "app/(company)/super-admin/cms/landing/[type]/forms/RolesForm.tsx"
-    },
-    {
-      "status": "??",
-      "path": "app/(company)/super-admin/cms/landing/[type]/forms/ShowcaseForm.tsx"
-    },
-    {
-      "status": "??",
-      "path": "app/(company)/super-admin/cms/landing/[type]/forms/StatsForm.tsx"
-    },
-    {
-      "status": "??",
-      "path": "app/(company)/super-admin/managed-items/"
-    },
-    {
-      "status": "??",
-      "path": "app/actions/demo-booking.ts"
-    },
-    {
-      "status": "??",
-      "path": "app/actions/managed-item-types.ts"
-    },
-    {
-      "status": "??",
-      "path": "app/actions/managed-items.ts"
-    },
-    {
-      "status": "??",
-      "path": "components/landing/DemoBookingModal.tsx"
-    },
-    {
-      "status": "??",
-      "path": "components/landing/landing-header-client.tsx"
-    },
-    {
-      "status": "??",
-      "path": "components/landing/sections/HowSection.tsx"
-    },
-    {
-      "status": "??",
-      "path": "components/landing/sections/RolesSection.tsx"
-    },
-    {
-      "status": "??",
-      "path": "components/landing/sections/ShowcaseSection.tsx"
-    },
-    {
-      "status": "??",
-      "path": "components/landing/sections/StatsSection.tsx"
-    },
-    {
-      "status": "??",
-      "path": "lib/cms/landing-meta.ts"
-    },
-    {
-      "status": "??",
-      "path": "lib/cms/media-sync.ts"
-    },
-    {
-      "status": "??",
-      "path": "lib/demo-booking.ts"
-    },
-    {
-      "status": "??",
-      "path": "lib/prisma/models/DemoRequest.ts"
-    },
-    {
-      "status": "??",
-      "path": "lib/prisma/models/MaintenanceAppointment.ts"
-    },
-    {
-      "status": "??",
-      "path": "lib/prisma/models/MaintenanceAttachment.ts"
-    },
-    {
-      "status": "??",
-      "path": "lib/prisma/models/MaintenanceCategory.ts"
-    },
-    {
-      "status": "??",
-      "path": "lib/prisma/models/MaintenanceComment.ts"
-    },
-    {
-      "status": "??",
-      "path": "lib/prisma/models/MaintenanceCoverageRule.ts"
-    },
-    {
-      "status": "??",
-      "path": "lib/prisma/models/MaintenanceSlot.ts"
-    },
-    {
-      "status": "??",
-      "path": "lib/prisma/models/MaintenanceStatusEvent.ts"
-    },
-    {
-      "status": "??",
-      "path": "lib/prisma/models/ManagedItem.ts"
-    },
-    {
-      "status": "??",
-      "path": "lib/prisma/models/ManagedItemType.ts"
-    },
-    {
-      "status": "??",
-      "path": "lib/prisma/models/Notification.ts"
-    },
-    {
-      "status": "??",
-      "path": "prisma/migrations/20260714093800_managed_items/"
-    },
-    {
-      "status": "??",
-      "path": "prisma/migrations/20260714100500_managed_item_catalog/"
-    },
-    {
-      "status": "??",
-      "path": "prisma/migrations/20260718073000_demo_requests/"
+      "path": "prisma/migrations/20260718090000_support_tickets/"
     }
   ],
   "next_action": null,
-  "context_notes": "Recent commits:\n49a4b9d feat(dashboard): maintenance kanban board on all staff dashboards\n6ae3b97 feat(customers): assign customer to responsible account manager\n74c4285 feat(ui): visible Managed / Αυτοδιαχείριση badge on building & property views\n473b1ed fix(rbac): PROPERTY_OWNER gets customer-requests (fault reporting) by default\n87cb98d feat(maintenance): full fault-request mechanism (βλάβες)"
+  "context_notes": "Recent commits:\nd87ece4 fix(rbac): role-aware Dashboard menu href on the customer surface\n6e0cb8a fix(portal): owner-aware back-link on request detail\neee87c5 fix(view-as): signage impersonation escape + wallet effective session\n0c1a809 feat(roles): hierarchy-aware surface access + customer menu reconciliation\n36841ce feat(roles): customer role hierarchy — assignments only ever raise the role"
 }

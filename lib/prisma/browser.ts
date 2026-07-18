@@ -402,3 +402,8 @@ export type RolePermission = Prisma.RolePermissionModel
  * 
  */
 export type DemoRequest = Prisma.DemoRequestModel
+/**
+ * Model SupportTicket
+ * 
+ */
+export type SupportTicket = Prisma.SupportTicketModel
