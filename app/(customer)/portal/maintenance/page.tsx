@@ -1,134 +1,123 @@
-import { auth } from "@/auth";
+import { redirect } from "next/navigation";
+import { getEffectiveSession } from "@/lib/auth-effective";
 import { db } from "@/lib/db";
-import { listMaintenanceHistory } from "@/app/actions/maintenance-logs";
-import { CalendarPanel } from "@/components/building/CalendarPanel";
-import { MaintenanceTab } from "@/components/building/MaintenanceTab";
-import { EmptyState } from "@/components/dashboard";
-import { RiToolsLine } from "react-icons/ri";
-import Link from "next/link";
-import { NewRequestButton } from "@/components/maintenance/new-request-form";
-import { STATUS_LABELS, STATUS_COLORS, HANDLER_LABELS, type FaultStatus } from "@/lib/maintenance-shared";
-import { NO_CAPS, type BuildingCaps } from "@/lib/building-caps";
+import { SectionCard, EmptyState } from "@/components/dashboard";
+import { RiToolsLine, RiCalendarCheckLine, RiFileTextLine } from "react-icons/ri";
 
-// Preserve pre-caps behavior: portal (PROPERTY_ADMIN) always had calendar/maintenance task UI here.
-const PORTAL_CAPS: BuildingCaps = { ...NO_CAPS, manageCalendar: true, manageMaintenance: true, createRequests: true };
+export const metadata = { title: "Συντηρήσεις" };
 
-export default async function PortalMaintenance() {
-  const session = await auth();
-  const userId = (session?.user as any)?.id ?? "";
+const FREQ_LABEL: Record<string, string> = {
+  WEEKLY: "Εβδομαδιαία",
+  MONTHLY: "Μηνιαία",
+  QUARTERLY: "Τριμηνιαία",
+  SEMIANNUAL: "Εξαμηνιαία",
+  ANNUAL: "Ετήσια",
+  CUSTOM: "Μία φορά",
+};
 
-  const assignments = await db.managementAssignment.findMany({
-    where: { userId, role: "PROPERTY_ADMIN" },
-    select: { buildingId: true, propertyId: true },
-  });
+const fmtDate = (d: Date) => d.toLocaleDateString("el-GR", { day: "2-digit", month: "long", year: "numeric" });
 
-  const directIds = assignments.map((a) => a.buildingId).filter((x): x is string => !!x);
-  const propertyIds = assignments.map((a) => a.propertyId).filter((x): x is string => !!x);
-  const propertyBuildings = propertyIds.length
-    ? await db.building.findMany({ where: { propertyId: { in: propertyIds } }, select: { id: true } })
-    : [];
-  const buildingIds = Array.from(new Set([...directIds, ...propertyBuildings.map((b) => b.id)]));
+/** Read-only resident view: upcoming recurring maintenance + completed history. No mutation UI. */
+export default async function PortalMaintenancePage() {
+  const eff = await getEffectiveSession();
+  if (!eff?.user?.id) redirect("/login");
+  const userId = eff.user.id;
 
-  if (buildingIds.length === 0) {
-    return (
-      <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-        <h1 style={{ fontSize: 22, fontWeight: 700, color: "var(--foreground)" }}>Συντηρήσεις</h1>
-        <EmptyState icon={RiToolsLine} label="Δεν διαχειρίζεστε κτήρια." />
-      </div>
-    );
-  }
-
-  const buildings = await db.building.findMany({
-    where: { id: { in: buildingIds } },
-    orderBy: { name: "asc" },
-    select: {
-      id: true,
-      name: true,
-      recurringTasks: {
-        orderBy: { nextDueDate: "asc" },
-        select: {
-          id: true, title: true, frequency: true, nextDueDate: true, vendor: true,
-          notes: true, active: true, kind: true, inServicePackage: true, reminderDaysBefore: true,
-        },
-      },
+  const units = await db.unit.findMany({
+    where: {
+      OR: [
+        { residentId: userId },
+        { occupancies: { some: { userId, endDate: null } } },
+      ],
     },
+    select: { buildingId: true },
   });
+  const buildingIds = [...new Set(units.map((u) => u.buildingId))];
+  const multiBuilding = buildingIds.length > 1;
 
-  const today = new Date().toISOString();
-
-  const sections = await Promise.all(
-    buildings.map(async (b) => ({
-      id: b.id,
-      name: b.name,
-      tasks: b.recurringTasks.map((t) => ({ ...t, nextDueDate: t.nextDueDate ? t.nextDueDate.toISOString() : null })),
-      history: await listMaintenanceHistory(b.id),
-    })),
-  );
-
-  // Βλάβες των κτηρίων που διαχειρίζεται + δεδομένα για τη φόρμα δήλωσης
-  const [faults, categories, formBuildings] = await Promise.all([
-    db.maintenanceRequest.findMany({
-      where: { buildingId: { in: buildingIds } },
-      orderBy: { createdAt: "desc" },
-      take: 100,
-      include: { building: { select: { name: true } }, categoryRef: { select: { name: true } } },
+  const [tasks, history] = await Promise.all([
+    db.recurringTask.findMany({
+      where: { buildingId: { in: buildingIds }, active: true },
+      orderBy: { nextDueDate: "asc" },
+      select: {
+        id: true, title: true, frequency: true, nextDueDate: true, vendor: true,
+        building: { select: { name: true } },
+      },
     }),
-    db.maintenanceCategory.findMany({ where: { active: true }, orderBy: { sortOrder: "asc" }, select: { id: true, name: true } }),
-    db.building.findMany({
-      where: { id: { in: buildingIds } },
-      orderBy: { name: "asc" },
-      select: { id: true, name: true, units: { orderBy: { unitNumber: "asc" }, select: { id: true, unitNumber: true } } },
+    db.maintenanceLog.findMany({
+      where: { buildingId: { in: buildingIds } },
+      orderBy: { performedAt: "desc" },
+      take: 50,
+      select: {
+        id: true, performedAt: true, notes: true,
+        recurringTask: { select: { title: true } },
+        building: { select: { name: true } },
+        documentFile: { select: { url: true, name: true } },
+      },
     }),
   ]);
 
   return (
-    <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 28 }}>
-      <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-        <h1 style={{ fontSize: 22, fontWeight: 700, color: "var(--foreground)", margin: 0, flex: 1 }}>Συντηρήσεις</h1>
-        <NewRequestButton
-          buildings={formBuildings.map((b) => ({ id: b.id, name: b.name, units: b.units.map((u) => ({ id: u.id, label: `Μονάδα ${u.unitNumber}` })) }))}
-          categories={categories}
-          detailBase="/portal/maintenance"
-        />
-      </div>
+    <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 18, maxWidth: 900 }}>
+      <h1 style={{ fontSize: 22, fontWeight: 700, color: "var(--foreground)", margin: 0 }}>Συντηρήσεις</h1>
 
-      <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-        <h2 style={{ fontSize: 18, fontWeight: 600, color: "var(--foreground)", margin: 0 }}>Βλάβες</h2>
-        {faults.length === 0 ? (
-          <EmptyState icon={RiToolsLine} label="Δεν υπάρχουν δηλωμένες βλάβες." />
+      <SectionCard title="Επερχόμενες συντηρήσεις">
+        {tasks.length === 0 ? (
+          <EmptyState icon={RiToolsLine} label="Δεν υπάρχουν προγραμματισμένες συντηρήσεις." />
         ) : (
-          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-            {faults.map((r) => {
-              const color = STATUS_COLORS[r.status as FaultStatus] ?? "#6b7280";
-              return (
-                <Link key={r.id} href={`/portal/maintenance/${r.id}`} style={{
-                  display: "flex", alignItems: "center", gap: 12, padding: "10px 14px", textDecoration: "none",
-                  background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius-lg)",
-                }}>
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontSize: 14, fontWeight: 600, color: "var(--foreground)" }}>{r.title}</div>
-                    <div style={{ fontSize: 12, color: "var(--muted-foreground)" }}>
-                      {r.building.name} · {r.categoryRef?.name ?? r.category} · {r.createdAt.toLocaleString("el-GR", { dateStyle: "short", timeStyle: "short" })}
-                      {" · Υπεύθυνος: "}{HANDLER_LABELS[r.handledBy] ?? r.handledBy}
-                    </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+            {tasks.map((t) => (
+              <div key={t.id} style={{
+                display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12,
+                padding: "10px 14px", background: "var(--bg-canvas)", borderRadius: 8, flexWrap: "wrap",
+              }}>
+                <div style={{ minWidth: 0 }}>
+                  <div style={{ fontSize: 14, fontWeight: 500, color: "var(--foreground)" }}>{t.title}</div>
+                  <div style={{ fontSize: 12, color: "var(--muted-foreground)" }}>
+                    {FREQ_LABEL[t.frequency] ?? t.frequency}
+                    {multiBuilding ? ` · ${t.building.name}` : ""}
+                    {t.vendor ? ` · ${t.vendor}` : ""}
                   </div>
-                  <span style={{ padding: "3px 10px", borderRadius: 999, fontSize: 12, fontWeight: 600, color, background: `${color}18`, border: `1px solid ${color}40`, whiteSpace: "nowrap" }}>
-                    {STATUS_LABELS[r.status as FaultStatus] ?? r.status}
-                  </span>
-                </Link>
-              );
-            })}
+                </div>
+                <span style={{ fontSize: 13, fontWeight: 600, color: "var(--foreground)", whiteSpace: "nowrap" }}>
+                  {t.nextDueDate ? fmtDate(t.nextDueDate) : "—"}
+                </span>
+              </div>
+            ))}
           </div>
         )}
-      </div>
+      </SectionCard>
 
-      {sections.map((s) => (
-        <div key={s.id} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-          <h2 style={{ fontSize: 18, fontWeight: 600, color: "var(--foreground)" }}>{s.name}</h2>
-          <CalendarPanel buildingId={s.id} tasks={s.tasks} today={today} can={PORTAL_CAPS} />
-          <MaintenanceTab rows={s.history} tasks={s.tasks} buildingId={s.id} can={PORTAL_CAPS} />
-        </div>
-      ))}
+      <SectionCard title="Ιστορικό συντηρήσεων">
+        {history.length === 0 ? (
+          <EmptyState icon={RiCalendarCheckLine} label="Δεν υπάρχει ιστορικό συντηρήσεων." />
+        ) : (
+          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+            {history.map((h) => (
+              <div key={h.id} style={{
+                display: "flex", alignItems: "center", gap: 10,
+                padding: "10px 14px", background: "var(--bg-canvas)", borderRadius: 8,
+              }}>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontSize: 14, fontWeight: 500, color: "var(--foreground)" }}>{h.recurringTask?.title ?? "—"}</div>
+                  <div style={{ fontSize: 12, color: "var(--muted-foreground)" }}>
+                    {fmtDate(h.performedAt)}{multiBuilding ? ` · ${h.building.name}` : ""}{h.notes ? ` · ${h.notes}` : ""}
+                  </div>
+                </div>
+                {h.documentFile && (
+                  <a href={h.documentFile.url} target="_blank" rel="noreferrer" title="Πιστοποιητικό" style={{
+                    display: "inline-flex", alignItems: "center", justifyContent: "center", width: 34, height: 34,
+                    borderRadius: 8, border: "1px solid var(--border)", background: "var(--card)",
+                    color: "var(--foreground)", flexShrink: 0,
+                  }}>
+                    <RiFileTextLine />
+                  </a>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+      </SectionCard>
     </div>
   );
 }

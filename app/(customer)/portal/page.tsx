@@ -1,4 +1,5 @@
-import { auth } from "@/auth";
+import { redirect } from "next/navigation";
+import { getEffectiveSession } from "@/lib/auth-effective";
 import { getResidentDashboard } from "@/lib/dashboard/queries";
 import { formatEuro } from "@/lib/dashboard/aggregations";
 import {
@@ -7,11 +8,12 @@ import {
 import { RiMoneyEuroCircleLine, RiCalendarLine, RiToolsLine, RiNotification2Line } from "react-icons/ri";
 
 export default async function PortalDashboard() {
-  const session = await auth();
-  const userId = (session?.user as any)?.id ?? "";
-  const companyId = (session?.user as any)?.companyId;
+  const eff = await getEffectiveSession();
+  if (!eff?.user?.id) redirect("/login");
+  const userId = eff.user.id;
+  const companyId = eff.user.companyId ?? undefined;
   const { unit, allocations, balance, trend, tickets, announcements } = await getResidentDashboard(userId, companyId);
-  const firstName = session?.user?.name?.split(" ")[0] ?? "";
+  const firstName = eff.user.name?.split(" ")[0] ?? "";
   const currentDue = allocations.find((a) => !a.tenantPaid);
 
   return (
