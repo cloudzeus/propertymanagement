@@ -3,7 +3,7 @@
 import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import { uploadBuildingFile } from "./building-files";
-import { requireBuildingCap } from "@/lib/building-access";
+import { requireBuildingCap, requireBuildingView } from "@/lib/building-access";
 
 const FREQ_ADVANCE: Record<string, (d: Date) => Date> = {
   WEEKLY: (d) => { const x = new Date(d); x.setDate(x.getDate() + 7); return x; },
@@ -64,7 +64,7 @@ export async function completeMaintenance(
 }
 
 export async function listMaintenanceHistory(buildingId: string) {
-  await requireBuildingCap(buildingId, "manageMaintenance");
+  await requireBuildingView(buildingId);
   const rows = await db.maintenanceLog.findMany({
     where: { buildingId },
     orderBy: { performedAt: "desc" },

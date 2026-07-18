@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 import { buildKoinochristaDoc, type KoinoLine } from "@/lib/koinochrista-doc";
 import { sendEmailWithAttachments, type EmailAttachment } from "@/lib/mailgun";
 import type { PaymentMethod } from "@/app/actions/building-expenses";
-import { requireBuildingCap } from "@/lib/building-access";
+import { requireBuildingCap, requireBuildingView } from "@/lib/building-access";
 import type { BuildingCaps } from "@/lib/building-caps";
 
 async function requireAccess(buildingId: string, cap: keyof BuildingCaps = "manageKoinochrista"): Promise<string> {
@@ -27,7 +27,7 @@ export type AllocLineDTO = {
 export async function listExpenseAllocations(expenseId: string): Promise<AllocLineDTO[]> {
   const exp = await db.buildingExpense.findUnique({ where: { id: expenseId }, select: { buildingId: true } });
   if (!exp) return [];
-  await requireAccess(exp.buildingId);
+  await requireBuildingView(exp.buildingId);
   const allocs = await db.expenseAllocation.findMany({
     where: { expenseId },
     include: { unit: { select: { unitNumber: true } } },
@@ -108,7 +108,7 @@ async function aggregateByPerson(buildingId: string, month: string) {
 export type KoinoPersonDTO = { userId: string; name: string; email: string | null; units: string[]; total: number; paid: number; due: number; lineCount: number };
 
 export async function getKoinochristaByPerson(buildingId: string, month: string): Promise<KoinoPersonDTO[]> {
-  await requireAccess(buildingId);
+  await requireBuildingView(buildingId);
   const { agg } = await aggregateByPerson(buildingId, month);
   return [...agg.values()]
     .map((p) => ({ userId: p.userId, name: p.name, email: p.email, units: [...p.units].sort(), total: p.total, paid: p.paid, due: p.total - p.paid, lineCount: p.lines.length }))
@@ -117,7 +117,7 @@ export async function getKoinochristaByPerson(buildingId: string, month: string)
 
 /** List the YYYY-MM months that have expenses for this building (newest first). */
 export async function listExpenseMonths(buildingId: string): Promise<string[]> {
-  await requireAccess(buildingId);
+  await requireBuildingView(buildingId);
   const rows = await db.buildingExpense.findMany({ where: { buildingId }, select: { month: true }, distinct: ["month"], orderBy: { month: "desc" } });
   return rows.map((r) => r.month);
 }
@@ -128,7 +128,7 @@ export type IssuanceDTO = { month: string; total: number; paid: number; due: num
  *  `unallocated` = charge shares whose owner/tenant slot has no assigned person
  *  (e.g. a unit with no current resident) — money that lands on nobody. */
 export async function listIssuances(buildingId: string): Promise<IssuanceDTO[]> {
-  await requireAccess(buildingId);
+  await requireBuildingView(buildingId);
   const expenses = await db.buildingExpense.findMany({
     where: { buildingId },
     select: {
@@ -157,7 +157,7 @@ export type MonthExpenseDTO = { id: string; documentDate: string | null; supplie
 
 /** Lightweight list of a month's expenses for the issuance "Έξοδα" tab. */
 export async function listMonthExpenses(buildingId: string, month: string): Promise<MonthExpenseDTO[]> {
-  await requireAccess(buildingId);
+  await requireBuildingView(buildingId);
   const rows = await db.buildingExpense.findMany({
     where: { buildingId, month },
     orderBy: [{ documentDate: "desc" }, { createdAt: "desc" }],
@@ -186,7 +186,7 @@ export type PersonStatement = {
 /** Full ledger for one person. Pass `month` to scope to a single issuance, or
  *  omit it to get the person's entire history across all months. */
 export async function getPersonStatement(buildingId: string, userId: string, month?: string): Promise<PersonStatement> {
-  await requireAccess(buildingId);
+  await requireBuildingView(buildingId);
   const [user, expenses] = await Promise.all([
     db.user.findUnique({ where: { id: userId }, select: { name: true, email: true } }),
     db.buildingExpense.findMany({

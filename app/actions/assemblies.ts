@@ -7,7 +7,7 @@ import { revalidatePath } from "next/cache";
 import { ensureRoom, createMeetingToken } from "@/lib/daily";
 import { generateMinutesHtml } from "@/lib/assemblies/minutes";
 import { sendAnnouncementEmail } from "@/lib/mailgun";
-import { requireBuildingCap } from "@/lib/building-access";
+import { requireBuildingCap, requireBuildingView } from "@/lib/building-access";
 
 async function requireSuperAdmin(): Promise<string> {
   const session = await auth();
@@ -277,7 +277,7 @@ export type AssemblyRow = {
 };
 
 export async function listAssemblies(buildingId: string): Promise<AssemblyRow[]> {
-  await requireBuildingCap(buildingId, "manageAssemblies");
+  await requireBuildingView(buildingId);
   const rows = await db.assembly.findMany({
     where: { buildingId },
     orderBy: { scheduledAt: "desc" },
@@ -303,7 +303,7 @@ export async function listAssemblies(buildingId: string): Promise<AssemblyRow[]>
 export async function getAssemblyCost(assemblyId: string) {
   const assembly = await db.assembly.findUnique({ where: { id: assemblyId }, select: { buildingId: true } });
   if (!assembly) throw new Error("Assembly not found");
-  await requireBuildingCap(assembly.buildingId, "manageAssemblies");
+  await requireBuildingView(assembly.buildingId);
   const rows = await db.aPIUsageLog.groupBy({
     by: ["apiName"],
     where: { assemblyId },

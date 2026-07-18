@@ -8,7 +8,7 @@ import { getScope, assertCustomer, type Scope } from "@/lib/scope";
 import { resolveRecipients, type Person } from "@/lib/announcements/recipients";
 import { applyMergeFields } from "@/lib/announcements/merge";
 import { resolveAnnouncementCustomer } from "@/lib/announcements/targets";
-import { requireBuildingCap } from "@/lib/building-access";
+import { requireBuildingCap, requireBuildingView } from "@/lib/building-access";
 
 const ORIGINATOR_ROLES = ["SUPER_ADMIN", "ADMIN", "MANAGER", "EMPLOYEE", "PROPERTY_ADMIN"];
 async function requireOriginator(): Promise<Scope> {
@@ -98,7 +98,7 @@ async function peopleForBuildings(buildingIds: string[]): Promise<Person[]> {
 
 /** People available to target for an announcement (deduped, both roles flagged). */
 export async function listAnnouncementTargets(buildingId: string): Promise<{ id: string; name: string | null; email: string; roles: ("OWNER" | "RESIDENT")[] }[]> {
-  await requireBuildingCap(buildingId, "manageAnnouncements");
+  await requireBuildingView(buildingId);
   const people = await peopleForBuildings([buildingId]);
   const map = new Map<string, { id: string; name: string | null; email: string; roles: ("OWNER" | "RESIDENT")[] }>();
   for (const p of people) {
@@ -112,7 +112,7 @@ export async function listAnnouncementTargets(buildingId: string): Promise<{ id:
 export async function listAnnouncements(buildingId?: string): Promise<AnnouncementRow[]> {
   const scope = await requireOriginator();
   // Building-scoped listing must be building-authorized (not just same-customer).
-  if (buildingId) await requireBuildingCap(buildingId, "manageAnnouncements");
+  if (buildingId) await requireBuildingView(buildingId);
   const rows = await db.announcement.findMany({
     where: {
       ...(buildingId ? { buildingId } : {}),

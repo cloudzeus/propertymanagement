@@ -44,6 +44,15 @@ export async function requireBuildingCap(buildingId: string, cap: keyof Building
   return { userId: session.user.id as string, access };
 }
 
+/** Guard for read paths: any viewer allowed on the building (staff or assigned manager). */
+export async function requireBuildingView(buildingId: string): Promise<{ userId: string; access: BuildingAccess }> {
+  const session = await auth();
+  if (!session?.user?.id) throw new Error("Unauthorized");
+  const access = await getBuildingAccess(session.user.id as string, buildingId);
+  if (!access) throw new Error("Forbidden");
+  return { userId: session.user.id as string, access };
+}
+
 /** All building IDs a PROPERTY_ADMIN reaches via ManagementAssignment (direct or property-wide). */
 export async function managerBuildingIds(userId: string): Promise<string[]> {
   const assignments = await db.managementAssignment.findMany({

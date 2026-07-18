@@ -2,7 +2,7 @@
 
 import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
-import { requireBuildingCap } from "@/lib/building-access";
+import { requireBuildingCap, requireBuildingView } from "@/lib/building-access";
 
 async function assertUnitInBuilding(unitId: string, buildingId: string) {
   const unit = await db.unit.findFirst({ where: { id: unitId, buildingId }, select: { id: true } });
@@ -26,7 +26,7 @@ export type HeatingReadingDTO = {
  *  period's readings. previousReading auto-fills from the prior month's
  *  currentReading when the stored value is null. */
 export async function listHeatingReadings(buildingId: string, period: string): Promise<HeatingReadingDTO[]> {
-  await requireBuildingCap(buildingId, "editMillesimes");
+  await requireBuildingView(buildingId);
   const heatingCatIds = (await db.expenseCategory.findMany({
     where: {
       OR: [

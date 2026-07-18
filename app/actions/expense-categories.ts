@@ -3,7 +3,7 @@
 import { auth } from "@/auth";
 import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
-import { requireBuildingCap } from "@/lib/building-access";
+import { requireBuildingCap, requireBuildingView } from "@/lib/building-access";
 import { resolveSplit } from "@/lib/expenses/allocation";
 import type { DistributionBasis } from "@/lib/prisma/enums";
 
@@ -58,7 +58,7 @@ export async function deleteExpenseCategory(id: string) {
 }
 
 export async function getBuildingCategorySplits(buildingId: string) {
-  await requireBuildingCap(buildingId, "manageExpenses");
+  await requireBuildingView(buildingId);
   const [cats, overrides] = await Promise.all([
     db.expenseCategory.findMany({ where: { active: true }, orderBy: { sortOrder: "asc" } }),
     db.buildingCategoryOverride.findMany({ where: { buildingId } }),
