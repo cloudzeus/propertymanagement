@@ -3,6 +3,7 @@ import { revalidatePath } from "next/cache";
 import { auth } from "@/auth";
 import { db } from "@/lib/db";
 import { applyReorder } from "@/lib/cms/reorder";
+import { syncMediaAcrossLocales } from "@/lib/cms/media-sync";
 
 async function requireSuperAdmin() {
   const session = await auth();
@@ -11,7 +12,8 @@ async function requireSuperAdmin() {
 
 export async function updateSection(id: string, data: unknown): Promise<void> {
   await requireSuperAdmin();
-  await db.landingSection.update({ where: { id }, data: { data: data as any } });
+  const synced = syncMediaAcrossLocales(data as any);
+  await db.landingSection.update({ where: { id }, data: { data: synced as any } });
   revalidatePath("/");
   revalidatePath("/super-admin/cms/landing");
 }

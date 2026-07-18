@@ -197,6 +197,16 @@ export type ManagementAssignment = Prisma.ManagementAssignmentModel
  */
 export type CommonArea = Prisma.CommonAreaModel
 /**
+ * Model ManagedItemType
+ * 
+ */
+export type ManagedItemType = Prisma.ManagedItemTypeModel
+/**
+ * Model ManagedItem
+ * 
+ */
+export type ManagedItem = Prisma.ManagedItemModel
+/**
  * Model Unit
  * 
  */
@@ -292,6 +302,46 @@ export type MonthlyCostSummary = Prisma.MonthlyCostSummaryModel
  */
 export type MaintenanceRequest = Prisma.MaintenanceRequestModel
 /**
+ * Model MaintenanceCategory
+ * 
+ */
+export type MaintenanceCategory = Prisma.MaintenanceCategoryModel
+/**
+ * Model MaintenanceCoverageRule
+ * 
+ */
+export type MaintenanceCoverageRule = Prisma.MaintenanceCoverageRuleModel
+/**
+ * Model MaintenanceAttachment
+ * 
+ */
+export type MaintenanceAttachment = Prisma.MaintenanceAttachmentModel
+/**
+ * Model MaintenanceStatusEvent
+ * 
+ */
+export type MaintenanceStatusEvent = Prisma.MaintenanceStatusEventModel
+/**
+ * Model MaintenanceComment
+ * 
+ */
+export type MaintenanceComment = Prisma.MaintenanceCommentModel
+/**
+ * Model MaintenanceSlot
+ * 
+ */
+export type MaintenanceSlot = Prisma.MaintenanceSlotModel
+/**
+ * Model MaintenanceAppointment
+ * 
+ */
+export type MaintenanceAppointment = Prisma.MaintenanceAppointmentModel
+/**
+ * Model Notification
+ * 
+ */
+export type Notification = Prisma.NotificationModel
+/**
  * Model CMSPage
  * 
  */
@@ -371,3 +421,8 @@ export type Role = Prisma.RoleModel
  * 
  */
 export type RolePermission = Prisma.RolePermissionModel
+/**
+ * Model DemoRequest
+ * 
+ */
+export type DemoRequest = Prisma.DemoRequestModel

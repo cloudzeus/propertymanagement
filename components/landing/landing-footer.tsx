@@ -1,6 +1,10 @@
 import Link from "next/link";
 import { getLocale } from "next-intl/server";
 import { LanguageSwitcher } from "@/components/i18n/LanguageSwitcher";
+import { getChromeSection } from "@/lib/cms/landing";
+import { pickLocale } from "@/lib/i18n/translatable";
+import type { Locale } from "@/i18n";
+import type { FooterData } from "@/lib/cms/landing-types";
 
 const COLUMNS: {
   title: { el: string; en: string };
@@ -39,6 +43,14 @@ const TAGLINE = {
 export async function LandingFooter() {
   const raw = await getLocale();
   const locale = raw === "en" ? "en" : "el";
+  const cms = await getChromeSection("FOOTER");
+  const data = cms ? (pickLocale(cms as any, locale as Locale) as FooterData) : null;
+
+  const columns = data?.columns?.length
+    ? data.columns.map((c) => ({ title: c.heading, links: c.links.map((l) => ({ href: l.href, label: l.label })) }))
+    : COLUMNS.map((c) => ({ title: c.title[locale], links: c.links.map((l) => ({ href: l.href, label: l[locale] })) }));
+  const tagline = data?.tagline || TAGLINE[locale];
+  const copyright = data?.copyright || `© ${new Date().getFullYear()} Orithon · Athens · Greece`;
 
   return (
     <footer className="border-t" style={{ borderColor: "rgba(27,28,26,.07)" }}>
@@ -57,25 +69,25 @@ export async function LandingFooter() {
               </span>
             </div>
             <p className="mt-4 text-sm text-[var(--muted-foreground)] leading-relaxed">
-              {TAGLINE[locale]}
+              {tagline}
             </p>
           </div>
 
           {/* Link columns */}
           <div className="grid grid-cols-2 gap-10 sm:grid-cols-3">
-            {COLUMNS.map((col) => (
-              <div key={col.title.en}>
+            {columns.map((col) => (
+              <div key={col.title}>
                 <div className="mb-3 text-[13px] font-bold uppercase tracking-[0.14em] text-[var(--muted-foreground)]">
-                  {col.title[locale]}
+                  {col.title}
                 </div>
                 <ul className="space-y-2.5">
                   {col.links.map((link) => (
-                    <li key={link.href}>
+                    <li key={link.href + link.label}>
                       <Link
                         href={link.href}
                         className="text-sm text-[var(--muted-foreground)] transition-colors hover:text-[var(--foreground)]"
                       >
-                        {link[locale]}
+                        {link.label}
                       </Link>
                     </li>
                   ))}
@@ -90,9 +102,7 @@ export async function LandingFooter() {
           className="mt-12 flex flex-col items-center justify-between gap-4 border-t pt-6 sm:flex-row"
           style={{ borderColor: "rgba(27,28,26,.07)" }}
         >
-          <p className="text-[13px] text-[var(--muted-foreground)]">
-            © {new Date().getFullYear()} Orithon · Athens · Greece
-          </p>
+          <p className="text-[13px] text-[var(--muted-foreground)]">{copyright}</p>
           <LanguageSwitcher />
         </div>
       </div>

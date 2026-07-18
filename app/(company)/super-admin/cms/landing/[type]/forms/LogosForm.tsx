@@ -21,7 +21,7 @@ export function LogosForm({ section }: { section: { id: string; type: string; da
         renderFields={(item, patch) => (
           <>
             <CmsField label="Όνομα"><CmsInput value={item.label} onChange={(e) => patch({ label: e.target.value })} /></CmsField>
-            <CmsField label="Λογότυπο (προαιρετικό)"><MediaPicker value={item.imageUrl ?? ""} onChange={(v) => patch({ imageUrl: typeof v === "string" ? v : v[0] ?? "" })} accept="image" /></CmsField>
+            <CmsField label="Λογότυπο (προαιρετικό — κοινό για όλες τις γλώσσες)"><MediaPicker value={item.imageUrl ?? ""} onChange={(v) => f.patchMedia(`items.${items.findIndex((x) => x.id === item.id)}.imageUrl`, typeof v === "string" ? v : v[0] ?? "")} accept="image" /></CmsField>
           </>
         )}
       />

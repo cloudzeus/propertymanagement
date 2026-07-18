@@ -23,7 +23,7 @@ export function TestimonialsForm({ section }: { section: { id: string; type: str
             <CmsField label="Απόσπασμα"><CmsTextarea value={item.quote} onChange={(e) => patch({ quote: e.target.value })} /></CmsField>
             <CmsField label="Όνομα"><CmsInput value={item.author} onChange={(e) => patch({ author: e.target.value })} /></CmsField>
             <CmsField label="Ρόλος"><CmsInput value={item.role ?? ""} onChange={(e) => patch({ role: e.target.value })} /></CmsField>
-            <CmsField label="Avatar"><MediaPicker value={item.avatarUrl ?? ""} onChange={(v) => patch({ avatarUrl: typeof v === "string" ? v : v[0] ?? "" })} accept="image" /></CmsField>
+            <CmsField label="Avatar (κοινό για όλες τις γλώσσες)"><MediaPicker value={item.avatarUrl ?? ""} onChange={(v) => f.patchMedia(`items.${items.findIndex((x) => x.id === item.id)}.avatarUrl`, typeof v === "string" ? v : v[0] ?? "")} accept="image" /></CmsField>
           </>
         )}
       />

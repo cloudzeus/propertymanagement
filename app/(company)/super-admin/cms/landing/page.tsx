@@ -1,5 +1,5 @@
 import { requirePermission } from "@/lib/rbac/permissions";
-import { getAllLandingSections } from "@/lib/cms/landing";
+import { getAllLandingSections, ensureLandingSections } from "@/lib/cms/landing";
 import { getPageSeo } from "@/lib/cms/page-seo";
 import { SeoEditor } from "./SeoEditor";
 import { LandingIndexClient } from "./LandingIndexClient";
@@ -11,6 +11,7 @@ const EMPTY_SEO: SeoMeta = { title: "", description: "" };
 
 export default async function LandingCmsPage() {
   await requirePermission("cms-landing", "view");
+  await ensureLandingSections();
   const sections = await getAllLandingSections();
   const homeSeo = await getPageSeo("home");
   const seoInitial = {
@@ -28,9 +29,12 @@ export default async function LandingCmsPage() {
         <SeoEditor slug="home" initial={seoInitial} />
       </CmsCard>
 
-      <CmsCard title="Ενότητες — σύρετε για αλλαγή σειράς">
+      <CmsCard title="Ενότητες — σύρετε για αλλαγή σειράς, πατήστε για επεξεργασία">
         <LandingIndexClient
-          initial={sections.map((s) => ({ id: s.id, type: s.type, enabled: s.enabled, order: s.order }))}
+          initial={sections.map((s) => ({
+            id: s.id, type: s.type, enabled: s.enabled, order: s.order,
+            data: JSON.parse(JSON.stringify(s.data)),
+          }))}
         />
       </CmsCard>
     </CmsPage>

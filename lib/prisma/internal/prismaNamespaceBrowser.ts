@@ -82,6 +82,8 @@ export const ModelName = {
   UnitPayment: 'UnitPayment',
   ManagementAssignment: 'ManagementAssignment',
   CommonArea: 'CommonArea',
+  ManagedItemType: 'ManagedItemType',
+  ManagedItem: 'ManagedItem',
   Unit: 'Unit',
   Service: 'Service',
   PropertyService: 'PropertyService',
@@ -101,6 +103,14 @@ export const ModelName = {
   CustomerMeteredPlan: 'CustomerMeteredPlan',
   MonthlyCostSummary: 'MonthlyCostSummary',
   MaintenanceRequest: 'MaintenanceRequest',
+  MaintenanceCategory: 'MaintenanceCategory',
+  MaintenanceCoverageRule: 'MaintenanceCoverageRule',
+  MaintenanceAttachment: 'MaintenanceAttachment',
+  MaintenanceStatusEvent: 'MaintenanceStatusEvent',
+  MaintenanceComment: 'MaintenanceComment',
+  MaintenanceSlot: 'MaintenanceSlot',
+  MaintenanceAppointment: 'MaintenanceAppointment',
+  Notification: 'Notification',
   CMSPage: 'CMSPage',
   FAQ: 'FAQ',
   PricingTier: 'PricingTier',
@@ -116,7 +126,8 @@ export const ModelName = {
   Author: 'Author',
   Article: 'Article',
   Role: 'Role',
-  RolePermission: 'RolePermission'
+  RolePermission: 'RolePermission',
+  DemoRequest: 'DemoRequest'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -383,6 +394,7 @@ export const CustomerScalarFieldEnum = {
   remarks: 'remarks',
   lat: 'lat',
   lng: 'lng',
+  accountManagerId: 'accountManagerId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -736,6 +748,35 @@ export const CommonAreaScalarFieldEnum = {
 export type CommonAreaScalarFieldEnum = (typeof CommonAreaScalarFieldEnum)[keyof typeof CommonAreaScalarFieldEnum]
 
 
+export const ManagedItemTypeScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  notes: 'notes',
+  active: 'active',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ManagedItemTypeScalarFieldEnum = (typeof ManagedItemTypeScalarFieldEnum)[keyof typeof ManagedItemTypeScalarFieldEnum]
+
+
+export const ManagedItemScalarFieldEnum = {
+  id: 'id',
+  buildingId: 'buildingId',
+  itemTypeId: 'itemTypeId',
+  location: 'location',
+  floorLabel: 'floorLabel',
+  quantity: 'quantity',
+  photoUrl: 'photoUrl',
+  photoCdnPath: 'photoCdnPath',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ManagedItemScalarFieldEnum = (typeof ManagedItemScalarFieldEnum)[keyof typeof ManagedItemScalarFieldEnum]
+
+
 export const UnitScalarFieldEnum = {
   id: 'id',
   buildingId: 'buildingId',
@@ -1050,8 +1091,15 @@ export const MaintenanceRequestScalarFieldEnum = {
   title: 'title',
   description: 'description',
   category: 'category',
+  categoryId: 'categoryId',
   priority: 'priority',
   status: 'status',
+  handledBy: 'handledBy',
+  slaDueAt: 'slaDueAt',
+  firstResponseAt: 'firstResponseAt',
+  restrictedAccess: 'restrictedAccess',
+  managerPresence: 'managerPresence',
+  estimatedMinutes: 'estimatedMinutes',
   reportedById: 'reportedById',
   assignedToId: 'assignedToId',
   attachmentUrl: 'attachmentUrl',
@@ -1063,6 +1111,118 @@ export const MaintenanceRequestScalarFieldEnum = {
 } as const
 
 export type MaintenanceRequestScalarFieldEnum = (typeof MaintenanceRequestScalarFieldEnum)[keyof typeof MaintenanceRequestScalarFieldEnum]
+
+
+export const MaintenanceCategoryScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  icon: 'icon',
+  active: 'active',
+  sortOrder: 'sortOrder',
+  slaHours: 'slaHours',
+  companyResponsible: 'companyResponsible',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type MaintenanceCategoryScalarFieldEnum = (typeof MaintenanceCategoryScalarFieldEnum)[keyof typeof MaintenanceCategoryScalarFieldEnum]
+
+
+export const MaintenanceCoverageRuleScalarFieldEnum = {
+  id: 'id',
+  propertyId: 'propertyId',
+  categoryId: 'categoryId',
+  elementLabel: 'elementLabel',
+  covered: 'covered',
+  quantityLimit: 'quantityLimit',
+  periodMonths: 'periodMonths',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type MaintenanceCoverageRuleScalarFieldEnum = (typeof MaintenanceCoverageRuleScalarFieldEnum)[keyof typeof MaintenanceCoverageRuleScalarFieldEnum]
+
+
+export const MaintenanceAttachmentScalarFieldEnum = {
+  id: 'id',
+  requestId: 'requestId',
+  url: 'url',
+  cdnPath: 'cdnPath',
+  kind: 'kind',
+  contentType: 'contentType',
+  sizeBytes: 'sizeBytes',
+  createdAt: 'createdAt'
+} as const
+
+export type MaintenanceAttachmentScalarFieldEnum = (typeof MaintenanceAttachmentScalarFieldEnum)[keyof typeof MaintenanceAttachmentScalarFieldEnum]
+
+
+export const MaintenanceStatusEventScalarFieldEnum = {
+  id: 'id',
+  requestId: 'requestId',
+  fromStatus: 'fromStatus',
+  toStatus: 'toStatus',
+  note: 'note',
+  byUserId: 'byUserId',
+  createdAt: 'createdAt'
+} as const
+
+export type MaintenanceStatusEventScalarFieldEnum = (typeof MaintenanceStatusEventScalarFieldEnum)[keyof typeof MaintenanceStatusEventScalarFieldEnum]
+
+
+export const MaintenanceCommentScalarFieldEnum = {
+  id: 'id',
+  requestId: 'requestId',
+  authorId: 'authorId',
+  body: 'body',
+  internal: 'internal',
+  createdAt: 'createdAt'
+} as const
+
+export type MaintenanceCommentScalarFieldEnum = (typeof MaintenanceCommentScalarFieldEnum)[keyof typeof MaintenanceCommentScalarFieldEnum]
+
+
+export const MaintenanceSlotScalarFieldEnum = {
+  id: 'id',
+  requestId: 'requestId',
+  side: 'side',
+  startAt: 'startAt',
+  status: 'status',
+  offeredById: 'offeredById',
+  createdAt: 'createdAt'
+} as const
+
+export type MaintenanceSlotScalarFieldEnum = (typeof MaintenanceSlotScalarFieldEnum)[keyof typeof MaintenanceSlotScalarFieldEnum]
+
+
+export const MaintenanceAppointmentScalarFieldEnum = {
+  id: 'id',
+  requestId: 'requestId',
+  startAt: 'startAt',
+  endAt: 'endAt',
+  status: 'status',
+  managerPresence: 'managerPresence',
+  bookedById: 'bookedById',
+  createdAt: 'createdAt'
+} as const
+
+export type MaintenanceAppointmentScalarFieldEnum = (typeof MaintenanceAppointmentScalarFieldEnum)[keyof typeof MaintenanceAppointmentScalarFieldEnum]
+
+
+export const NotificationScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  type: 'type',
+  title: 'title',
+  body: 'body',
+  href: 'href',
+  requestId: 'requestId',
+  readAt: 'readAt',
+  createdAt: 'createdAt'
+} as const
+
+export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
 
 
 export const CMSPageScalarFieldEnum = {
@@ -1334,6 +1494,23 @@ export const RolePermissionScalarFieldEnum = {
 } as const
 
 export type RolePermissionScalarFieldEnum = (typeof RolePermissionScalarFieldEnum)[keyof typeof RolePermissionScalarFieldEnum]
+
+
+export const DemoRequestScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  email: 'email',
+  phone: 'phone',
+  company: 'company',
+  message: 'message',
+  scheduledAt: 'scheduledAt',
+  durationMin: 'durationMin',
+  status: 'status',
+  locale: 'locale',
+  createdAt: 'createdAt'
+} as const
+
+export type DemoRequestScalarFieldEnum = (typeof DemoRequestScalarFieldEnum)[keyof typeof DemoRequestScalarFieldEnum]
 
 
 export const SortOrder = {

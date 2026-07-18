@@ -1,6 +1,10 @@
 import { HeroSection } from "./sections/HeroSection";
 import { LogosSection } from "./sections/LogosSection";
+import { StatsSection } from "./sections/StatsSection";
 import { FeaturesSection } from "./sections/FeaturesSection";
+import { RolesSection } from "./sections/RolesSection";
+import { HowSection } from "./sections/HowSection";
+import { ShowcaseSection } from "./sections/ShowcaseSection";
 import { PricingSection } from "./sections/PricingSection";
 import { TestimonialsSection } from "./sections/TestimonialsSection";
 import { CtaSection } from "./sections/CtaSection";
@@ -10,11 +14,16 @@ export function renderSection(type: string, data: any, key: string) {
   switch (type) {
     case "HERO": return <HeroSection key={key} data={data} />;
     case "LOGOS": return <LogosSection key={key} data={data} />;
+    case "STATS": return <StatsSection key={key} data={data} />;
     case "FEATURES": return <FeaturesSection key={key} data={data} />;
+    case "ROLES": return <RolesSection key={key} data={data} />;
+    case "HOW": return <HowSection key={key} data={data} />;
+    case "SHOWCASE": return <ShowcaseSection key={key} data={data} />;
     case "PRICING": return <PricingSection key={key} data={data} />;
     case "TESTIMONIALS": return <TestimonialsSection key={key} data={data} />;
     case "CTA": return <CtaSection key={key} data={data} />;
     case "NEWS": return <NewsSection key={key} data={data} />;
+    // NAV / FOOTER are page chrome — rendered by LandingHeader / LandingFooter.
     default: return null;
   }
 }

@@ -11,9 +11,32 @@ const intlMiddleware = createIntlMiddleware(routing);
 
 const { auth } = NextAuth(authConfig);
 
+// Session cookie prefixes: Auth.js v5 + legacy v4 names, http/https variants,
+// matched as prefixes to also catch chunked cookies (…session-token.0, .1, …).
+const SESSION_COOKIE_PREFIXES = [
+  "authjs.session-token",
+  "__Secure-authjs.session-token",
+  "next-auth.session-token",
+  "__Secure-next-auth.session-token",
+];
+
 export default auth((req: NextRequest & { auth: any }) => {
   const isLoggedIn = !!req.auth;
   const pathname = req.nextUrl.pathname;
+
+  // A session cookie that fails to decrypt (e.g. AUTH_SECRET changed) leaves
+  // req.auth null but keeps being resent, spamming JWTSessionError on every
+  // request. Delete it so the browser recovers without manual cookie clearing.
+  const staleCookies = isLoggedIn
+    ? []
+    : req.cookies
+        .getAll()
+        .map((c) => c.name)
+        .filter((name) => SESSION_COOKIE_PREFIXES.some((p) => name.startsWith(p)));
+  const clearStale = <T extends NextResponse>(res: T): T => {
+    for (const name of staleCookies) res.cookies.delete(name);
+    return res;
+  };
 
   // Strip any locale prefix from path for role checks
   const pathWithoutLocale = locales.reduce((acc: string, locale: string) => {
@@ -44,13 +67,13 @@ export default auth((req: NextRequest & { auth: any }) => {
   const matches = (p: string) =>
     pathWithoutLocale === p || pathWithoutLocale.startsWith(p + "/");
 
-  if (localizedContentPaths.some(matches)) return intlMiddleware(req);
-  if (authPublicPaths.some(matches)) return NextResponse.next();
+  if (localizedContentPaths.some(matches)) return clearStale(intlMiddleware(req));
+  if (authPublicPaths.some(matches)) return clearStale(NextResponse.next());
 
   if (!isLoggedIn) {
     const loginUrl = new URL("/login", req.nextUrl.origin);
     loginUrl.searchParams.set("callbackUrl", pathname);
-    return NextResponse.redirect(loginUrl);
+    return clearStale(NextResponse.redirect(loginUrl));
   }
 
   const role: string = req.auth?.user?.role ?? "";
@@ -100,5 +123,5 @@ export default auth((req: NextRequest & { auth: any }) => {
 });
 
 export const config = {
-  matcher: ["/((?!api/auth|_next/static|_next/image|favicon.ico).*)"],
+  matcher: ["/((?!api/auth|_next/static|_next/image|favicon.ico|.*\\..*).*)"],
 };

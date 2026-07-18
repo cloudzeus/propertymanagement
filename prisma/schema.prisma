@@ -676,6 +676,7 @@ model Building {
   users                 User[]
   units                 Unit[]
   commonAreas           CommonArea[]
+  managedItems          ManagedItem[]
   addons                AddonFeature[]
   announcements         Announcement[]
   dailyRoomName         String?
@@ -1099,6 +1100,48 @@ model CommonArea {
   updatedAt             DateTime @updatedAt
 
   @@index([buildingId])
+}
+
+// Catalog of managed-item types (Στοιχεία Διαχείρισης) — company-wide master list
+// maintained at /super-admin/managed-items, e.g. "Αλλαγή λαμπτήρων". Buildings pick
+// from this catalog via ManagedItem.
+model ManagedItemType {
+  id                    String   @id @default(cuid())
+
+  name                  String   @unique // π.χ. "Αλλαγή λαμπτήρων"
+  notes                 String?
+  active                Boolean  @default(true) // ανενεργοί τύποι δεν προτείνονται σε νέες αναθέσεις
+
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  items                 ManagedItem[]
+}
+
+// Managed items (διαχειριζόμενα στοιχεία κτηρίου) — assignment of a catalog type to a
+// managed building with location, quantity and optional photo. Only meaningful when
+// building.property.managed = true.
+model ManagedItem {
+  id                    String   @id @default(cuid())
+
+  buildingId            String
+  building              Building @relation(fields: [buildingId], references: [id], onDelete: Cascade)
+
+  itemTypeId            String
+  itemType              ManagedItemType @relation(fields: [itemTypeId], references: [id], onDelete: Restrict)
+
+  location              String   // τοποθεσία, π.χ. "Κοινόχρηστοι χώροι", "Κλιμακοστάσιο Α"
+  floorLabel            String?  // προαιρετικός όροφος, π.χ. "Ισόγειο"
+  quantity              Int      @default(1) // πλήθος, π.χ. αριθμός φωτιστικών
+  photoUrl              String?  // προαιρετική φωτογραφία (BunnyCDN URL)
+  photoCdnPath          String?
+  notes                 String?
+
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  @@index([buildingId])
+  @@index([itemTypeId])
 }
 
 // Units - apartments, shops, parking spaces
@@ -2025,4 +2068,22 @@ model RolePermission {
 
   @@unique([roleId, moduleKey, action])
   @@index([roleId])
+}
+
+// Public "Book a demo" requests from the landing page.
+model DemoRequest {
+  id          String   @id @default(cuid())
+  name        String
+  email       String
+  phone       String?
+  company     String?
+  message     String?  @db.Text
+  scheduledAt DateTime
+  durationMin Int      @default(30)
+  status      String   @default("PENDING") // PENDING | CONFIRMED | CANCELLED | COMPLETED
+  locale      String   @default("el")
+  createdAt   DateTime @default(now())
+
+  @@index([scheduledAt])
+  @@index([status, scheduledAt])
 }

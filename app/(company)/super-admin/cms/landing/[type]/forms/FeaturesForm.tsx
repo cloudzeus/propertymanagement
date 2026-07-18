@@ -35,8 +35,12 @@ export function FeaturesForm({ section }: { section: { id: string; type: string;
 
   return (
     <FormChrome locale={f.locale} setLocale={f.setLocale} save={f.save} saved={f.saved} pending={f.pending}>
+      <CmsField label="Kicker (μικρός υπέρτιτλος)"><CmsInput value={c.kicker ?? ""} onChange={(e) => f.patch({ kicker: e.target.value })} /></CmsField>
       <CmsField label="Επικεφαλίδα"><CmsInput value={c.heading ?? ""} onChange={(e) => f.patch({ heading: e.target.value })} /></CmsField>
-      <CmsField label="Κεντρική εικόνα"><MediaPicker value={c.imageUrl ?? ""} onChange={(v) => f.patch({ imageUrl: typeof v === "string" ? v : v[0] ?? "" })} accept="image" /></CmsField>
+      <CmsField label="Υπότιτλος"><CmsTextarea value={c.subtitle ?? ""} onChange={(e) => f.patch({ subtitle: e.target.value })} /></CmsField>
+      <CmsField label="Photo tile — εικόνα (κοινή για όλες τις γλώσσες)"><MediaPicker value={c.imageTile?.imageUrl ?? ""} onChange={(v) => f.patchMedia("imageTile.imageUrl", typeof v === "string" ? v : v[0] ?? "")} accept="image" /></CmsField>
+      <CmsField label="Photo tile — τίτλος"><CmsInput value={c.imageTile?.title ?? ""} onChange={(e) => f.patch({ imageTile: { ...(c.imageTile ?? {}), title: e.target.value } })} /></CmsField>
+      <CmsField label="Photo tile — υπότιτλος"><CmsInput value={c.imageTile?.subtitle ?? ""} onChange={(e) => f.patch({ imageTile: { ...(c.imageTile ?? {}), subtitle: e.target.value } })} /></CmsField>
 
       <div style={{ border: "1px solid var(--border)", borderRadius: "var(--radius)", background: "var(--paper)", padding: 14, display: "flex", flexDirection: "column", gap: 10 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 8, fontWeight: 700, color: "var(--foreground)" }}><RiSparkling2Line /> Δημιουργία με AI</div>
@@ -56,7 +60,7 @@ export function FeaturesForm({ section }: { section: { id: string; type: string;
             <IconPicker value={item.icon} onChange={(icon) => patch({ icon })} />
             <CmsField label="Τίτλος"><CmsInput value={item.title} onChange={(e) => patch({ title: e.target.value })} /></CmsField>
             <CmsField label="Περιγραφή"><CmsTextarea value={item.body} onChange={(e) => patch({ body: e.target.value })} /></CmsField>
-            <CmsField label="Εικόνα (προαιρετικό)"><MediaPicker value={item.imageUrl ?? ""} onChange={(v) => patch({ imageUrl: typeof v === "string" ? v : v[0] ?? "" })} accept="image" /></CmsField>
+            <CmsField label="Εικόνα (προαιρετικό — κοινή για όλες τις γλώσσες)"><MediaPicker value={item.imageUrl ?? ""} onChange={(v) => f.patchMedia(`items.${items.findIndex((x) => x.id === item.id)}.imageUrl`, typeof v === "string" ? v : v[0] ?? "")} accept="image" /></CmsField>
           </>
         )}
       />

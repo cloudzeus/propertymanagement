@@ -12,7 +12,9 @@ export function CtaForm({ section }: { section: { id: string; type: string; data
       <CmsField label="Κείμενο"><CmsTextarea value={c.body ?? ""} onChange={(e) => f.patch({ body: e.target.value })} /></CmsField>
       <CmsField label="CTA — κείμενο"><CmsInput value={c.cta?.label ?? ""} onChange={(e) => f.patch({ cta: { ...(c.cta ?? {}), label: e.target.value } })} /></CmsField>
       <CmsField label="CTA — σύνδεσμος"><CmsInput value={c.cta?.href ?? ""} onChange={(e) => f.patch({ cta: { ...(c.cta ?? {}), href: e.target.value } })} /></CmsField>
-      <CmsField label="Εικόνα φόντου"><MediaPicker value={c.imageUrl ?? ""} onChange={(v) => f.patch({ imageUrl: typeof v === "string" ? v : v[0] ?? "" })} accept="image" /></CmsField>
+      <CmsField label="Δεύτερο CTA — κείμενο"><CmsInput value={c.secondaryCta?.label ?? ""} onChange={(e) => f.patch({ secondaryCta: { ...(c.secondaryCta ?? {}), label: e.target.value } })} /></CmsField>
+      <CmsField label="Δεύτερο CTA — σύνδεσμος"><CmsInput value={c.secondaryCta?.href ?? ""} onChange={(e) => f.patch({ secondaryCta: { ...(c.secondaryCta ?? {}), href: e.target.value } })} /></CmsField>
+      <CmsField label="Εικόνα φόντου (κοινή για όλες τις γλώσσες)"><MediaPicker value={c.imageUrl ?? ""} onChange={(v) => f.patchMedia("imageUrl", typeof v === "string" ? v : v[0] ?? "")} accept="image" /></CmsField>
     </FormChrome>
   );
 }

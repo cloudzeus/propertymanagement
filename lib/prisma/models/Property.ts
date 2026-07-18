@@ -329,6 +329,7 @@ export type PropertyWhereInput = {
   buildings?: Prisma.BuildingListRelationFilter
   services?: Prisma.PropertyServiceListRelationFilter
   managementAssignments?: Prisma.ManagementAssignmentListRelationFilter
+  maintenanceCoverageRules?: Prisma.MaintenanceCoverageRuleListRelationFilter
 }
 
 export type PropertyOrderByWithRelationInput = {
@@ -355,6 +356,7 @@ export type PropertyOrderByWithRelationInput = {
   buildings?: Prisma.BuildingOrderByRelationAggregateInput
   services?: Prisma.PropertyServiceOrderByRelationAggregateInput
   managementAssignments?: Prisma.ManagementAssignmentOrderByRelationAggregateInput
+  maintenanceCoverageRules?: Prisma.MaintenanceCoverageRuleOrderByRelationAggregateInput
 }
 
 export type PropertyWhereUniqueInput = Prisma.AtLeast<{
@@ -384,6 +386,7 @@ export type PropertyWhereUniqueInput = Prisma.AtLeast<{
   buildings?: Prisma.BuildingListRelationFilter
   services?: Prisma.PropertyServiceListRelationFilter
   managementAssignments?: Prisma.ManagementAssignmentListRelationFilter
+  maintenanceCoverageRules?: Prisma.MaintenanceCoverageRuleListRelationFilter
 }, "id">
 
 export type PropertyOrderByWithAggregationInput = {
@@ -458,6 +461,7 @@ export type PropertyCreateInput = {
   buildings?: Prisma.BuildingCreateNestedManyWithoutPropertyInput
   services?: Prisma.PropertyServiceCreateNestedManyWithoutPropertyInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutPropertyInput
+  maintenanceCoverageRules?: Prisma.MaintenanceCoverageRuleCreateNestedManyWithoutPropertyInput
 }
 
 export type PropertyUncheckedCreateInput = {
@@ -482,6 +486,7 @@ export type PropertyUncheckedCreateInput = {
   buildings?: Prisma.BuildingUncheckedCreateNestedManyWithoutPropertyInput
   services?: Prisma.PropertyServiceUncheckedCreateNestedManyWithoutPropertyInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutPropertyInput
+  maintenanceCoverageRules?: Prisma.MaintenanceCoverageRuleUncheckedCreateNestedManyWithoutPropertyInput
 }
 
 export type PropertyUpdateInput = {
@@ -506,6 +511,7 @@ export type PropertyUpdateInput = {
   buildings?: Prisma.BuildingUpdateManyWithoutPropertyNestedInput
   services?: Prisma.PropertyServiceUpdateManyWithoutPropertyNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutPropertyNestedInput
+  maintenanceCoverageRules?: Prisma.MaintenanceCoverageRuleUpdateManyWithoutPropertyNestedInput
 }
 
 export type PropertyUncheckedUpdateInput = {
@@ -530,6 +536,7 @@ export type PropertyUncheckedUpdateInput = {
   buildings?: Prisma.BuildingUncheckedUpdateManyWithoutPropertyNestedInput
   services?: Prisma.PropertyServiceUncheckedUpdateManyWithoutPropertyNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutPropertyNestedInput
+  maintenanceCoverageRules?: Prisma.MaintenanceCoverageRuleUncheckedUpdateManyWithoutPropertyNestedInput
 }
 
 export type PropertyCreateManyInput = {
@@ -814,6 +821,22 @@ export type PropertyUpdateOneRequiredWithoutServicesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.PropertyUpdateToOneWithWhereWithoutServicesInput, Prisma.PropertyUpdateWithoutServicesInput>, Prisma.PropertyUncheckedUpdateWithoutServicesInput>
 }
 
+export type PropertyCreateNestedOneWithoutMaintenanceCoverageRulesInput = {
+  create?: Prisma.XOR<Prisma.PropertyCreateWithoutMaintenanceCoverageRulesInput, Prisma.PropertyUncheckedCreateWithoutMaintenanceCoverageRulesInput>
+  connectOrCreate?: Prisma.PropertyCreateOrConnectWithoutMaintenanceCoverageRulesInput
+  connect?: Prisma.PropertyWhereUniqueInput
+}
+
+export type PropertyUpdateOneWithoutMaintenanceCoverageRulesNestedInput = {
+  create?: Prisma.XOR<Prisma.PropertyCreateWithoutMaintenanceCoverageRulesInput, Prisma.PropertyUncheckedCreateWithoutMaintenanceCoverageRulesInput>
+  connectOrCreate?: Prisma.PropertyCreateOrConnectWithoutMaintenanceCoverageRulesInput
+  upsert?: Prisma.PropertyUpsertWithoutMaintenanceCoverageRulesInput
+  disconnect?: Prisma.PropertyWhereInput | boolean
+  delete?: Prisma.PropertyWhereInput | boolean
+  connect?: Prisma.PropertyWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.PropertyUpdateToOneWithWhereWithoutMaintenanceCoverageRulesInput, Prisma.PropertyUpdateWithoutMaintenanceCoverageRulesInput>, Prisma.PropertyUncheckedUpdateWithoutMaintenanceCoverageRulesInput>
+}
+
 export type PropertyCreateWithoutCompanyInput = {
   id?: string
   name: string
@@ -835,6 +858,7 @@ export type PropertyCreateWithoutCompanyInput = {
   buildings?: Prisma.BuildingCreateNestedManyWithoutPropertyInput
   services?: Prisma.PropertyServiceCreateNestedManyWithoutPropertyInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutPropertyInput
+  maintenanceCoverageRules?: Prisma.MaintenanceCoverageRuleCreateNestedManyWithoutPropertyInput
 }
 
 export type PropertyUncheckedCreateWithoutCompanyInput = {
@@ -858,6 +882,7 @@ export type PropertyUncheckedCreateWithoutCompanyInput = {
   buildings?: Prisma.BuildingUncheckedCreateNestedManyWithoutPropertyInput
   services?: Prisma.PropertyServiceUncheckedCreateNestedManyWithoutPropertyInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutPropertyInput
+  maintenanceCoverageRules?: Prisma.MaintenanceCoverageRuleUncheckedCreateNestedManyWithoutPropertyInput
 }
 
 export type PropertyCreateOrConnectWithoutCompanyInput = {
@@ -931,6 +956,7 @@ export type PropertyCreateWithoutCustomerInput = {
   buildings?: Prisma.BuildingCreateNestedManyWithoutPropertyInput
   services?: Prisma.PropertyServiceCreateNestedManyWithoutPropertyInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutPropertyInput
+  maintenanceCoverageRules?: Prisma.MaintenanceCoverageRuleCreateNestedManyWithoutPropertyInput
 }
 
 export type PropertyUncheckedCreateWithoutCustomerInput = {
@@ -954,6 +980,7 @@ export type PropertyUncheckedCreateWithoutCustomerInput = {
   buildings?: Prisma.BuildingUncheckedCreateNestedManyWithoutPropertyInput
   services?: Prisma.PropertyServiceUncheckedCreateNestedManyWithoutPropertyInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutPropertyInput
+  maintenanceCoverageRules?: Prisma.MaintenanceCoverageRuleUncheckedCreateNestedManyWithoutPropertyInput
 }
 
 export type PropertyCreateOrConnectWithoutCustomerInput = {
@@ -1003,6 +1030,7 @@ export type PropertyCreateWithoutBuildingsInput = {
   customer: Prisma.CustomerCreateNestedOneWithoutPropertiesInput
   services?: Prisma.PropertyServiceCreateNestedManyWithoutPropertyInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutPropertyInput
+  maintenanceCoverageRules?: Prisma.MaintenanceCoverageRuleCreateNestedManyWithoutPropertyInput
 }
 
 export type PropertyUncheckedCreateWithoutBuildingsInput = {
@@ -1026,6 +1054,7 @@ export type PropertyUncheckedCreateWithoutBuildingsInput = {
   updatedAt?: Date | string
   services?: Prisma.PropertyServiceUncheckedCreateNestedManyWithoutPropertyInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutPropertyInput
+  maintenanceCoverageRules?: Prisma.MaintenanceCoverageRuleUncheckedCreateNestedManyWithoutPropertyInput
 }
 
 export type PropertyCreateOrConnectWithoutBuildingsInput = {
@@ -1065,6 +1094,7 @@ export type PropertyUpdateWithoutBuildingsInput = {
   customer?: Prisma.CustomerUpdateOneRequiredWithoutPropertiesNestedInput
   services?: Prisma.PropertyServiceUpdateManyWithoutPropertyNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutPropertyNestedInput
+  maintenanceCoverageRules?: Prisma.MaintenanceCoverageRuleUpdateManyWithoutPropertyNestedInput
 }
 
 export type PropertyUncheckedUpdateWithoutBuildingsInput = {
@@ -1088,6 +1118,7 @@ export type PropertyUncheckedUpdateWithoutBuildingsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   services?: Prisma.PropertyServiceUncheckedUpdateManyWithoutPropertyNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutPropertyNestedInput
+  maintenanceCoverageRules?: Prisma.MaintenanceCoverageRuleUncheckedUpdateManyWithoutPropertyNestedInput
 }
 
 export type PropertyCreateWithoutManagementAssignmentsInput = {
@@ -1111,6 +1142,7 @@ export type PropertyCreateWithoutManagementAssignmentsInput = {
   customer: Prisma.CustomerCreateNestedOneWithoutPropertiesInput
   buildings?: Prisma.BuildingCreateNestedManyWithoutPropertyInput
   services?: Prisma.PropertyServiceCreateNestedManyWithoutPropertyInput
+  maintenanceCoverageRules?: Prisma.MaintenanceCoverageRuleCreateNestedManyWithoutPropertyInput
 }
 
 export type PropertyUncheckedCreateWithoutManagementAssignmentsInput = {
@@ -1134,6 +1166,7 @@ export type PropertyUncheckedCreateWithoutManagementAssignmentsInput = {
   updatedAt?: Date | string
   buildings?: Prisma.BuildingUncheckedCreateNestedManyWithoutPropertyInput
   services?: Prisma.PropertyServiceUncheckedCreateNestedManyWithoutPropertyInput
+  maintenanceCoverageRules?: Prisma.MaintenanceCoverageRuleUncheckedCreateNestedManyWithoutPropertyInput
 }
 
 export type PropertyCreateOrConnectWithoutManagementAssignmentsInput = {
@@ -1173,6 +1206,7 @@ export type PropertyUpdateWithoutManagementAssignmentsInput = {
   customer?: Prisma.CustomerUpdateOneRequiredWithoutPropertiesNestedInput
   buildings?: Prisma.BuildingUpdateManyWithoutPropertyNestedInput
   services?: Prisma.PropertyServiceUpdateManyWithoutPropertyNestedInput
+  maintenanceCoverageRules?: Prisma.MaintenanceCoverageRuleUpdateManyWithoutPropertyNestedInput
 }
 
 export type PropertyUncheckedUpdateWithoutManagementAssignmentsInput = {
@@ -1196,6 +1230,7 @@ export type PropertyUncheckedUpdateWithoutManagementAssignmentsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   buildings?: Prisma.BuildingUncheckedUpdateManyWithoutPropertyNestedInput
   services?: Prisma.PropertyServiceUncheckedUpdateManyWithoutPropertyNestedInput
+  maintenanceCoverageRules?: Prisma.MaintenanceCoverageRuleUncheckedUpdateManyWithoutPropertyNestedInput
 }
 
 export type PropertyCreateWithoutServicesInput = {
@@ -1219,6 +1254,7 @@ export type PropertyCreateWithoutServicesInput = {
   customer: Prisma.CustomerCreateNestedOneWithoutPropertiesInput
   buildings?: Prisma.BuildingCreateNestedManyWithoutPropertyInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutPropertyInput
+  maintenanceCoverageRules?: Prisma.MaintenanceCoverageRuleCreateNestedManyWithoutPropertyInput
 }
 
 export type PropertyUncheckedCreateWithoutServicesInput = {
@@ -1242,6 +1278,7 @@ export type PropertyUncheckedCreateWithoutServicesInput = {
   updatedAt?: Date | string
   buildings?: Prisma.BuildingUncheckedCreateNestedManyWithoutPropertyInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutPropertyInput
+  maintenanceCoverageRules?: Prisma.MaintenanceCoverageRuleUncheckedCreateNestedManyWithoutPropertyInput
 }
 
 export type PropertyCreateOrConnectWithoutServicesInput = {
@@ -1281,6 +1318,7 @@ export type PropertyUpdateWithoutServicesInput = {
   customer?: Prisma.CustomerUpdateOneRequiredWithoutPropertiesNestedInput
   buildings?: Prisma.BuildingUpdateManyWithoutPropertyNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutPropertyNestedInput
+  maintenanceCoverageRules?: Prisma.MaintenanceCoverageRuleUpdateManyWithoutPropertyNestedInput
 }
 
 export type PropertyUncheckedUpdateWithoutServicesInput = {
@@ -1303,6 +1341,119 @@ export type PropertyUncheckedUpdateWithoutServicesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   buildings?: Prisma.BuildingUncheckedUpdateManyWithoutPropertyNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutPropertyNestedInput
+  maintenanceCoverageRules?: Prisma.MaintenanceCoverageRuleUncheckedUpdateManyWithoutPropertyNestedInput
+}
+
+export type PropertyCreateWithoutMaintenanceCoverageRulesInput = {
+  id?: string
+  name: string
+  notes?: string | null
+  managed?: boolean
+  address?: string | null
+  city?: string | null
+  postalCode?: string | null
+  country?: string | null
+  lat?: number | null
+  lng?: number | null
+  vivaEnabled?: boolean
+  vivaMerchantId?: string | null
+  vivaApiKeyEnc?: string | null
+  vivaSourceCode?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  company: Prisma.CompanyCreateNestedOneWithoutPropertiesInput
+  customer: Prisma.CustomerCreateNestedOneWithoutPropertiesInput
+  buildings?: Prisma.BuildingCreateNestedManyWithoutPropertyInput
+  services?: Prisma.PropertyServiceCreateNestedManyWithoutPropertyInput
+  managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutPropertyInput
+}
+
+export type PropertyUncheckedCreateWithoutMaintenanceCoverageRulesInput = {
+  id?: string
+  companyId: string
+  customerId: string
+  name: string
+  notes?: string | null
+  managed?: boolean
+  address?: string | null
+  city?: string | null
+  postalCode?: string | null
+  country?: string | null
+  lat?: number | null
+  lng?: number | null
+  vivaEnabled?: boolean
+  vivaMerchantId?: string | null
+  vivaApiKeyEnc?: string | null
+  vivaSourceCode?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  buildings?: Prisma.BuildingUncheckedCreateNestedManyWithoutPropertyInput
+  services?: Prisma.PropertyServiceUncheckedCreateNestedManyWithoutPropertyInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutPropertyInput
+}
+
+export type PropertyCreateOrConnectWithoutMaintenanceCoverageRulesInput = {
+  where: Prisma.PropertyWhereUniqueInput
+  create: Prisma.XOR<Prisma.PropertyCreateWithoutMaintenanceCoverageRulesInput, Prisma.PropertyUncheckedCreateWithoutMaintenanceCoverageRulesInput>
+}
+
+export type PropertyUpsertWithoutMaintenanceCoverageRulesInput = {
+  update: Prisma.XOR<Prisma.PropertyUpdateWithoutMaintenanceCoverageRulesInput, Prisma.PropertyUncheckedUpdateWithoutMaintenanceCoverageRulesInput>
+  create: Prisma.XOR<Prisma.PropertyCreateWithoutMaintenanceCoverageRulesInput, Prisma.PropertyUncheckedCreateWithoutMaintenanceCoverageRulesInput>
+  where?: Prisma.PropertyWhereInput
+}
+
+export type PropertyUpdateToOneWithWhereWithoutMaintenanceCoverageRulesInput = {
+  where?: Prisma.PropertyWhereInput
+  data: Prisma.XOR<Prisma.PropertyUpdateWithoutMaintenanceCoverageRulesInput, Prisma.PropertyUncheckedUpdateWithoutMaintenanceCoverageRulesInput>
+}
+
+export type PropertyUpdateWithoutMaintenanceCoverageRulesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  vivaEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  vivaMerchantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vivaApiKeyEnc?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vivaSourceCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  company?: Prisma.CompanyUpdateOneRequiredWithoutPropertiesNestedInput
+  customer?: Prisma.CustomerUpdateOneRequiredWithoutPropertiesNestedInput
+  buildings?: Prisma.BuildingUpdateManyWithoutPropertyNestedInput
+  services?: Prisma.PropertyServiceUpdateManyWithoutPropertyNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutPropertyNestedInput
+}
+
+export type PropertyUncheckedUpdateWithoutMaintenanceCoverageRulesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  companyId?: Prisma.StringFieldUpdateOperationsInput | string
+  customerId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  managed?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  vivaEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  vivaMerchantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vivaApiKeyEnc?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vivaSourceCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  buildings?: Prisma.BuildingUncheckedUpdateManyWithoutPropertyNestedInput
+  services?: Prisma.PropertyServiceUncheckedUpdateManyWithoutPropertyNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutPropertyNestedInput
 }
 
@@ -1347,6 +1498,7 @@ export type PropertyUpdateWithoutCompanyInput = {
   buildings?: Prisma.BuildingUpdateManyWithoutPropertyNestedInput
   services?: Prisma.PropertyServiceUpdateManyWithoutPropertyNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutPropertyNestedInput
+  maintenanceCoverageRules?: Prisma.MaintenanceCoverageRuleUpdateManyWithoutPropertyNestedInput
 }
 
 export type PropertyUncheckedUpdateWithoutCompanyInput = {
@@ -1370,6 +1522,7 @@ export type PropertyUncheckedUpdateWithoutCompanyInput = {
   buildings?: Prisma.BuildingUncheckedUpdateManyWithoutPropertyNestedInput
   services?: Prisma.PropertyServiceUncheckedUpdateManyWithoutPropertyNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutPropertyNestedInput
+  maintenanceCoverageRules?: Prisma.MaintenanceCoverageRuleUncheckedUpdateManyWithoutPropertyNestedInput
 }
 
 export type PropertyUncheckedUpdateManyWithoutCompanyInput = {
@@ -1433,6 +1586,7 @@ export type PropertyUpdateWithoutCustomerInput = {
   buildings?: Prisma.BuildingUpdateManyWithoutPropertyNestedInput
   services?: Prisma.PropertyServiceUpdateManyWithoutPropertyNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutPropertyNestedInput
+  maintenanceCoverageRules?: Prisma.MaintenanceCoverageRuleUpdateManyWithoutPropertyNestedInput
 }
 
 export type PropertyUncheckedUpdateWithoutCustomerInput = {
@@ -1456,6 +1610,7 @@ export type PropertyUncheckedUpdateWithoutCustomerInput = {
   buildings?: Prisma.BuildingUncheckedUpdateManyWithoutPropertyNestedInput
   services?: Prisma.PropertyServiceUncheckedUpdateManyWithoutPropertyNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutPropertyNestedInput
+  maintenanceCoverageRules?: Prisma.MaintenanceCoverageRuleUncheckedUpdateManyWithoutPropertyNestedInput
 }
 
 export type PropertyUncheckedUpdateManyWithoutCustomerInput = {
@@ -1487,12 +1642,14 @@ export type PropertyCountOutputType = {
   buildings: number
   services: number
   managementAssignments: number
+  maintenanceCoverageRules: number
 }
 
 export type PropertyCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   buildings?: boolean | PropertyCountOutputTypeCountBuildingsArgs
   services?: boolean | PropertyCountOutputTypeCountServicesArgs
   managementAssignments?: boolean | PropertyCountOutputTypeCountManagementAssignmentsArgs
+  maintenanceCoverageRules?: boolean | PropertyCountOutputTypeCountMaintenanceCoverageRulesArgs
 }
 
 /**
@@ -1526,6 +1683,13 @@ export type PropertyCountOutputTypeCountManagementAssignmentsArgs<ExtArgs extend
   where?: Prisma.ManagementAssignmentWhereInput
 }
 
+/**
+ * PropertyCountOutputType without action
+ */
+export type PropertyCountOutputTypeCountMaintenanceCoverageRulesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.MaintenanceCoverageRuleWhereInput
+}
+
 
 export type PropertySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1551,6 +1715,7 @@ export type PropertySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   buildings?: boolean | Prisma.Property$buildingsArgs<ExtArgs>
   services?: boolean | Prisma.Property$servicesArgs<ExtArgs>
   managementAssignments?: boolean | Prisma.Property$managementAssignmentsArgs<ExtArgs>
+  maintenanceCoverageRules?: boolean | Prisma.Property$maintenanceCoverageRulesArgs<ExtArgs>
   _count?: boolean | Prisma.PropertyCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["property"]>
 
@@ -1628,6 +1793,7 @@ export type PropertyInclude<ExtArgs extends runtime.Types.Extensions.InternalArg
   buildings?: boolean | Prisma.Property$buildingsArgs<ExtArgs>
   services?: boolean | Prisma.Property$servicesArgs<ExtArgs>
   managementAssignments?: boolean | Prisma.Property$managementAssignmentsArgs<ExtArgs>
+  maintenanceCoverageRules?: boolean | Prisma.Property$maintenanceCoverageRulesArgs<ExtArgs>
   _count?: boolean | Prisma.PropertyCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type PropertyIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1647,6 +1813,7 @@ export type $PropertyPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     buildings: Prisma.$BuildingPayload<ExtArgs>[]
     services: Prisma.$PropertyServicePayload<ExtArgs>[]
     managementAssignments: Prisma.$ManagementAssignmentPayload<ExtArgs>[]
+    maintenanceCoverageRules: Prisma.$MaintenanceCoverageRulePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -2066,6 +2233,7 @@ export interface Prisma__PropertyClient<T, Null = never, ExtArgs extends runtime
   buildings<T extends Prisma.Property$buildingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Property$buildingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BuildingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   services<T extends Prisma.Property$servicesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Property$servicesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PropertyServicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   managementAssignments<T extends Prisma.Property$managementAssignmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Property$managementAssignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ManagementAssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  maintenanceCoverageRules<T extends Prisma.Property$maintenanceCoverageRulesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Property$maintenanceCoverageRulesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MaintenanceCoverageRulePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2583,6 +2751,30 @@ export type Property$managementAssignmentsArgs<ExtArgs extends runtime.Types.Ext
   take?: number
   skip?: number
   distinct?: Prisma.ManagementAssignmentScalarFieldEnum | Prisma.ManagementAssignmentScalarFieldEnum[]
+}
+
+/**
+ * Property.maintenanceCoverageRules
+ */
+export type Property$maintenanceCoverageRulesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the MaintenanceCoverageRule
+   */
+  select?: Prisma.MaintenanceCoverageRuleSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the MaintenanceCoverageRule
+   */
+  omit?: Prisma.MaintenanceCoverageRuleOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MaintenanceCoverageRuleInclude<ExtArgs> | null
+  where?: Prisma.MaintenanceCoverageRuleWhereInput
+  orderBy?: Prisma.MaintenanceCoverageRuleOrderByWithRelationInput | Prisma.MaintenanceCoverageRuleOrderByWithRelationInput[]
+  cursor?: Prisma.MaintenanceCoverageRuleWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.MaintenanceCoverageRuleScalarFieldEnum | Prisma.MaintenanceCoverageRuleScalarFieldEnum[]
 }
 
 /**

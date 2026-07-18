@@ -402,6 +402,7 @@ export type BuildingWhereInput = {
   users?: Prisma.UserListRelationFilter
   units?: Prisma.UnitListRelationFilter
   commonAreas?: Prisma.CommonAreaListRelationFilter
+  managedItems?: Prisma.ManagedItemListRelationFilter
   addons?: Prisma.AddonFeatureListRelationFilter
   announcements?: Prisma.AnnouncementListRelationFilter
   assemblies?: Prisma.AssemblyListRelationFilter
@@ -450,6 +451,7 @@ export type BuildingOrderByWithRelationInput = {
   users?: Prisma.UserOrderByRelationAggregateInput
   units?: Prisma.UnitOrderByRelationAggregateInput
   commonAreas?: Prisma.CommonAreaOrderByRelationAggregateInput
+  managedItems?: Prisma.ManagedItemOrderByRelationAggregateInput
   addons?: Prisma.AddonFeatureOrderByRelationAggregateInput
   announcements?: Prisma.AnnouncementOrderByRelationAggregateInput
   assemblies?: Prisma.AssemblyOrderByRelationAggregateInput
@@ -501,6 +503,7 @@ export type BuildingWhereUniqueInput = Prisma.AtLeast<{
   users?: Prisma.UserListRelationFilter
   units?: Prisma.UnitListRelationFilter
   commonAreas?: Prisma.CommonAreaListRelationFilter
+  managedItems?: Prisma.ManagedItemListRelationFilter
   addons?: Prisma.AddonFeatureListRelationFilter
   announcements?: Prisma.AnnouncementListRelationFilter
   assemblies?: Prisma.AssemblyListRelationFilter
@@ -610,6 +613,7 @@ export type BuildingCreateInput = {
   users?: Prisma.UserCreateNestedManyWithoutBuildingInput
   units?: Prisma.UnitCreateNestedManyWithoutBuildingInput
   commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
+  managedItems?: Prisma.ManagedItemCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutBuildingInput
   assemblies?: Prisma.AssemblyCreateNestedManyWithoutBuildingInput
@@ -655,6 +659,7 @@ export type BuildingUncheckedCreateInput = {
   users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
   units?: Prisma.UnitUncheckedCreateNestedManyWithoutBuildingInput
   commonAreas?: Prisma.CommonAreaUncheckedCreateNestedManyWithoutBuildingInput
+  managedItems?: Prisma.ManagedItemUncheckedCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutBuildingInput
   assemblies?: Prisma.AssemblyUncheckedCreateNestedManyWithoutBuildingInput
@@ -700,6 +705,7 @@ export type BuildingUpdateInput = {
   users?: Prisma.UserUpdateManyWithoutBuildingNestedInput
   units?: Prisma.UnitUpdateManyWithoutBuildingNestedInput
   commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
+  managedItems?: Prisma.ManagedItemUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUpdateManyWithoutBuildingNestedInput
   assemblies?: Prisma.AssemblyUpdateManyWithoutBuildingNestedInput
@@ -745,6 +751,7 @@ export type BuildingUncheckedUpdateInput = {
   users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
   units?: Prisma.UnitUncheckedUpdateManyWithoutBuildingNestedInput
   commonAreas?: Prisma.CommonAreaUncheckedUpdateManyWithoutBuildingNestedInput
+  managedItems?: Prisma.ManagedItemUncheckedUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUncheckedUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutBuildingNestedInput
   assemblies?: Prisma.AssemblyUncheckedUpdateManyWithoutBuildingNestedInput
@@ -1278,6 +1285,20 @@ export type BuildingUpdateOneRequiredWithoutCommonAreasNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.BuildingUpdateToOneWithWhereWithoutCommonAreasInput, Prisma.BuildingUpdateWithoutCommonAreasInput>, Prisma.BuildingUncheckedUpdateWithoutCommonAreasInput>
 }
 
+export type BuildingCreateNestedOneWithoutManagedItemsInput = {
+  create?: Prisma.XOR<Prisma.BuildingCreateWithoutManagedItemsInput, Prisma.BuildingUncheckedCreateWithoutManagedItemsInput>
+  connectOrCreate?: Prisma.BuildingCreateOrConnectWithoutManagedItemsInput
+  connect?: Prisma.BuildingWhereUniqueInput
+}
+
+export type BuildingUpdateOneRequiredWithoutManagedItemsNestedInput = {
+  create?: Prisma.XOR<Prisma.BuildingCreateWithoutManagedItemsInput, Prisma.BuildingUncheckedCreateWithoutManagedItemsInput>
+  connectOrCreate?: Prisma.BuildingCreateOrConnectWithoutManagedItemsInput
+  upsert?: Prisma.BuildingUpsertWithoutManagedItemsInput
+  connect?: Prisma.BuildingWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.BuildingUpdateToOneWithWhereWithoutManagedItemsInput, Prisma.BuildingUpdateWithoutManagedItemsInput>, Prisma.BuildingUncheckedUpdateWithoutManagedItemsInput>
+}
+
 export type BuildingCreateNestedOneWithoutUnitsInput = {
   create?: Prisma.XOR<Prisma.BuildingCreateWithoutUnitsInput, Prisma.BuildingUncheckedCreateWithoutUnitsInput>
   connectOrCreate?: Prisma.BuildingCreateOrConnectWithoutUnitsInput
@@ -1364,6 +1385,7 @@ export type BuildingCreateWithoutUsersInput = {
   customer: Prisma.CustomerCreateNestedOneWithoutBuildingsInput
   units?: Prisma.UnitCreateNestedManyWithoutBuildingInput
   commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
+  managedItems?: Prisma.ManagedItemCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutBuildingInput
   assemblies?: Prisma.AssemblyCreateNestedManyWithoutBuildingInput
@@ -1408,6 +1430,7 @@ export type BuildingUncheckedCreateWithoutUsersInput = {
   updatedAt?: Date | string
   units?: Prisma.UnitUncheckedCreateNestedManyWithoutBuildingInput
   commonAreas?: Prisma.CommonAreaUncheckedCreateNestedManyWithoutBuildingInput
+  managedItems?: Prisma.ManagedItemUncheckedCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutBuildingInput
   assemblies?: Prisma.AssemblyUncheckedCreateNestedManyWithoutBuildingInput
@@ -1468,6 +1491,7 @@ export type BuildingUpdateWithoutUsersInput = {
   customer?: Prisma.CustomerUpdateOneRequiredWithoutBuildingsNestedInput
   units?: Prisma.UnitUpdateManyWithoutBuildingNestedInput
   commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
+  managedItems?: Prisma.ManagedItemUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUpdateManyWithoutBuildingNestedInput
   assemblies?: Prisma.AssemblyUpdateManyWithoutBuildingNestedInput
@@ -1512,6 +1536,7 @@ export type BuildingUncheckedUpdateWithoutUsersInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   units?: Prisma.UnitUncheckedUpdateManyWithoutBuildingNestedInput
   commonAreas?: Prisma.CommonAreaUncheckedUpdateManyWithoutBuildingNestedInput
+  managedItems?: Prisma.ManagedItemUncheckedUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUncheckedUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutBuildingNestedInput
   assemblies?: Prisma.AssemblyUncheckedUpdateManyWithoutBuildingNestedInput
@@ -1556,6 +1581,7 @@ export type BuildingCreateWithoutCompanyInput = {
   users?: Prisma.UserCreateNestedManyWithoutBuildingInput
   units?: Prisma.UnitCreateNestedManyWithoutBuildingInput
   commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
+  managedItems?: Prisma.ManagedItemCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutBuildingInput
   assemblies?: Prisma.AssemblyCreateNestedManyWithoutBuildingInput
@@ -1600,6 +1626,7 @@ export type BuildingUncheckedCreateWithoutCompanyInput = {
   users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
   units?: Prisma.UnitUncheckedCreateNestedManyWithoutBuildingInput
   commonAreas?: Prisma.CommonAreaUncheckedCreateNestedManyWithoutBuildingInput
+  managedItems?: Prisma.ManagedItemUncheckedCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutBuildingInput
   assemblies?: Prisma.AssemblyUncheckedCreateNestedManyWithoutBuildingInput
@@ -1702,6 +1729,7 @@ export type BuildingCreateWithoutAddonsInput = {
   users?: Prisma.UserCreateNestedManyWithoutBuildingInput
   units?: Prisma.UnitCreateNestedManyWithoutBuildingInput
   commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
+  managedItems?: Prisma.ManagedItemCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutBuildingInput
   assemblies?: Prisma.AssemblyCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutBuildingInput
@@ -1746,6 +1774,7 @@ export type BuildingUncheckedCreateWithoutAddonsInput = {
   users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
   units?: Prisma.UnitUncheckedCreateNestedManyWithoutBuildingInput
   commonAreas?: Prisma.CommonAreaUncheckedCreateNestedManyWithoutBuildingInput
+  managedItems?: Prisma.ManagedItemUncheckedCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutBuildingInput
   assemblies?: Prisma.AssemblyUncheckedCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutBuildingInput
@@ -1806,6 +1835,7 @@ export type BuildingUpdateWithoutAddonsInput = {
   users?: Prisma.UserUpdateManyWithoutBuildingNestedInput
   units?: Prisma.UnitUpdateManyWithoutBuildingNestedInput
   commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
+  managedItems?: Prisma.ManagedItemUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUpdateManyWithoutBuildingNestedInput
   assemblies?: Prisma.AssemblyUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutBuildingNestedInput
@@ -1850,6 +1880,7 @@ export type BuildingUncheckedUpdateWithoutAddonsInput = {
   users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
   units?: Prisma.UnitUncheckedUpdateManyWithoutBuildingNestedInput
   commonAreas?: Prisma.CommonAreaUncheckedUpdateManyWithoutBuildingNestedInput
+  managedItems?: Prisma.ManagedItemUncheckedUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutBuildingNestedInput
   assemblies?: Prisma.AssemblyUncheckedUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutBuildingNestedInput
@@ -1893,6 +1924,7 @@ export type BuildingCreateWithoutCustomerInput = {
   users?: Prisma.UserCreateNestedManyWithoutBuildingInput
   units?: Prisma.UnitCreateNestedManyWithoutBuildingInput
   commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
+  managedItems?: Prisma.ManagedItemCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutBuildingInput
   assemblies?: Prisma.AssemblyCreateNestedManyWithoutBuildingInput
@@ -1937,6 +1969,7 @@ export type BuildingUncheckedCreateWithoutCustomerInput = {
   users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
   units?: Prisma.UnitUncheckedCreateNestedManyWithoutBuildingInput
   commonAreas?: Prisma.CommonAreaUncheckedCreateNestedManyWithoutBuildingInput
+  managedItems?: Prisma.ManagedItemUncheckedCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutBuildingInput
   assemblies?: Prisma.AssemblyUncheckedCreateNestedManyWithoutBuildingInput
@@ -2007,6 +2040,7 @@ export type BuildingCreateWithoutPropertyInput = {
   users?: Prisma.UserCreateNestedManyWithoutBuildingInput
   units?: Prisma.UnitCreateNestedManyWithoutBuildingInput
   commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
+  managedItems?: Prisma.ManagedItemCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutBuildingInput
   assemblies?: Prisma.AssemblyCreateNestedManyWithoutBuildingInput
@@ -2051,6 +2085,7 @@ export type BuildingUncheckedCreateWithoutPropertyInput = {
   users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
   units?: Prisma.UnitUncheckedCreateNestedManyWithoutBuildingInput
   commonAreas?: Prisma.CommonAreaUncheckedCreateNestedManyWithoutBuildingInput
+  managedItems?: Prisma.ManagedItemUncheckedCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutBuildingInput
   assemblies?: Prisma.AssemblyUncheckedCreateNestedManyWithoutBuildingInput
@@ -2122,6 +2157,7 @@ export type BuildingCreateWithoutFilesInput = {
   users?: Prisma.UserCreateNestedManyWithoutBuildingInput
   units?: Prisma.UnitCreateNestedManyWithoutBuildingInput
   commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
+  managedItems?: Prisma.ManagedItemCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutBuildingInput
   assemblies?: Prisma.AssemblyCreateNestedManyWithoutBuildingInput
@@ -2166,6 +2202,7 @@ export type BuildingUncheckedCreateWithoutFilesInput = {
   users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
   units?: Prisma.UnitUncheckedCreateNestedManyWithoutBuildingInput
   commonAreas?: Prisma.CommonAreaUncheckedCreateNestedManyWithoutBuildingInput
+  managedItems?: Prisma.ManagedItemUncheckedCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutBuildingInput
   assemblies?: Prisma.AssemblyUncheckedCreateNestedManyWithoutBuildingInput
@@ -2226,6 +2263,7 @@ export type BuildingUpdateWithoutFilesInput = {
   users?: Prisma.UserUpdateManyWithoutBuildingNestedInput
   units?: Prisma.UnitUpdateManyWithoutBuildingNestedInput
   commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
+  managedItems?: Prisma.ManagedItemUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUpdateManyWithoutBuildingNestedInput
   assemblies?: Prisma.AssemblyUpdateManyWithoutBuildingNestedInput
@@ -2270,6 +2308,7 @@ export type BuildingUncheckedUpdateWithoutFilesInput = {
   users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
   units?: Prisma.UnitUncheckedUpdateManyWithoutBuildingNestedInput
   commonAreas?: Prisma.CommonAreaUncheckedUpdateManyWithoutBuildingNestedInput
+  managedItems?: Prisma.ManagedItemUncheckedUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUncheckedUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutBuildingNestedInput
   assemblies?: Prisma.AssemblyUncheckedUpdateManyWithoutBuildingNestedInput
@@ -2314,6 +2353,7 @@ export type BuildingCreateWithoutInfraPointsInput = {
   users?: Prisma.UserCreateNestedManyWithoutBuildingInput
   units?: Prisma.UnitCreateNestedManyWithoutBuildingInput
   commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
+  managedItems?: Prisma.ManagedItemCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutBuildingInput
   assemblies?: Prisma.AssemblyCreateNestedManyWithoutBuildingInput
@@ -2358,6 +2398,7 @@ export type BuildingUncheckedCreateWithoutInfraPointsInput = {
   users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
   units?: Prisma.UnitUncheckedCreateNestedManyWithoutBuildingInput
   commonAreas?: Prisma.CommonAreaUncheckedCreateNestedManyWithoutBuildingInput
+  managedItems?: Prisma.ManagedItemUncheckedCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutBuildingInput
   assemblies?: Prisma.AssemblyUncheckedCreateNestedManyWithoutBuildingInput
@@ -2418,6 +2459,7 @@ export type BuildingUpdateWithoutInfraPointsInput = {
   users?: Prisma.UserUpdateManyWithoutBuildingNestedInput
   units?: Prisma.UnitUpdateManyWithoutBuildingNestedInput
   commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
+  managedItems?: Prisma.ManagedItemUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUpdateManyWithoutBuildingNestedInput
   assemblies?: Prisma.AssemblyUpdateManyWithoutBuildingNestedInput
@@ -2462,6 +2504,7 @@ export type BuildingUncheckedUpdateWithoutInfraPointsInput = {
   users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
   units?: Prisma.UnitUncheckedUpdateManyWithoutBuildingNestedInput
   commonAreas?: Prisma.CommonAreaUncheckedUpdateManyWithoutBuildingNestedInput
+  managedItems?: Prisma.ManagedItemUncheckedUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUncheckedUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutBuildingNestedInput
   assemblies?: Prisma.AssemblyUncheckedUpdateManyWithoutBuildingNestedInput
@@ -2506,6 +2549,7 @@ export type BuildingCreateWithoutContactsInput = {
   users?: Prisma.UserCreateNestedManyWithoutBuildingInput
   units?: Prisma.UnitCreateNestedManyWithoutBuildingInput
   commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
+  managedItems?: Prisma.ManagedItemCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutBuildingInput
   assemblies?: Prisma.AssemblyCreateNestedManyWithoutBuildingInput
@@ -2550,6 +2594,7 @@ export type BuildingUncheckedCreateWithoutContactsInput = {
   users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
   units?: Prisma.UnitUncheckedCreateNestedManyWithoutBuildingInput
   commonAreas?: Prisma.CommonAreaUncheckedCreateNestedManyWithoutBuildingInput
+  managedItems?: Prisma.ManagedItemUncheckedCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutBuildingInput
   assemblies?: Prisma.AssemblyUncheckedCreateNestedManyWithoutBuildingInput
@@ -2610,6 +2655,7 @@ export type BuildingUpdateWithoutContactsInput = {
   users?: Prisma.UserUpdateManyWithoutBuildingNestedInput
   units?: Prisma.UnitUpdateManyWithoutBuildingNestedInput
   commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
+  managedItems?: Prisma.ManagedItemUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUpdateManyWithoutBuildingNestedInput
   assemblies?: Prisma.AssemblyUpdateManyWithoutBuildingNestedInput
@@ -2654,6 +2700,7 @@ export type BuildingUncheckedUpdateWithoutContactsInput = {
   users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
   units?: Prisma.UnitUncheckedUpdateManyWithoutBuildingNestedInput
   commonAreas?: Prisma.CommonAreaUncheckedUpdateManyWithoutBuildingNestedInput
+  managedItems?: Prisma.ManagedItemUncheckedUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUncheckedUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutBuildingNestedInput
   assemblies?: Prisma.AssemblyUncheckedUpdateManyWithoutBuildingNestedInput
@@ -2698,6 +2745,7 @@ export type BuildingCreateWithoutRecurringTasksInput = {
   users?: Prisma.UserCreateNestedManyWithoutBuildingInput
   units?: Prisma.UnitCreateNestedManyWithoutBuildingInput
   commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
+  managedItems?: Prisma.ManagedItemCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutBuildingInput
   assemblies?: Prisma.AssemblyCreateNestedManyWithoutBuildingInput
@@ -2742,6 +2790,7 @@ export type BuildingUncheckedCreateWithoutRecurringTasksInput = {
   users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
   units?: Prisma.UnitUncheckedCreateNestedManyWithoutBuildingInput
   commonAreas?: Prisma.CommonAreaUncheckedCreateNestedManyWithoutBuildingInput
+  managedItems?: Prisma.ManagedItemUncheckedCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutBuildingInput
   assemblies?: Prisma.AssemblyUncheckedCreateNestedManyWithoutBuildingInput
@@ -2802,6 +2851,7 @@ export type BuildingUpdateWithoutRecurringTasksInput = {
   users?: Prisma.UserUpdateManyWithoutBuildingNestedInput
   units?: Prisma.UnitUpdateManyWithoutBuildingNestedInput
   commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
+  managedItems?: Prisma.ManagedItemUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUpdateManyWithoutBuildingNestedInput
   assemblies?: Prisma.AssemblyUpdateManyWithoutBuildingNestedInput
@@ -2846,6 +2896,7 @@ export type BuildingUncheckedUpdateWithoutRecurringTasksInput = {
   users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
   units?: Prisma.UnitUncheckedUpdateManyWithoutBuildingNestedInput
   commonAreas?: Prisma.CommonAreaUncheckedUpdateManyWithoutBuildingNestedInput
+  managedItems?: Prisma.ManagedItemUncheckedUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUncheckedUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutBuildingNestedInput
   assemblies?: Prisma.AssemblyUncheckedUpdateManyWithoutBuildingNestedInput
@@ -2890,6 +2941,7 @@ export type BuildingCreateWithoutMaintenanceLogsInput = {
   users?: Prisma.UserCreateNestedManyWithoutBuildingInput
   units?: Prisma.UnitCreateNestedManyWithoutBuildingInput
   commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
+  managedItems?: Prisma.ManagedItemCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutBuildingInput
   assemblies?: Prisma.AssemblyCreateNestedManyWithoutBuildingInput
@@ -2934,6 +2986,7 @@ export type BuildingUncheckedCreateWithoutMaintenanceLogsInput = {
   users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
   units?: Prisma.UnitUncheckedCreateNestedManyWithoutBuildingInput
   commonAreas?: Prisma.CommonAreaUncheckedCreateNestedManyWithoutBuildingInput
+  managedItems?: Prisma.ManagedItemUncheckedCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutBuildingInput
   assemblies?: Prisma.AssemblyUncheckedCreateNestedManyWithoutBuildingInput
@@ -2994,6 +3047,7 @@ export type BuildingUpdateWithoutMaintenanceLogsInput = {
   users?: Prisma.UserUpdateManyWithoutBuildingNestedInput
   units?: Prisma.UnitUpdateManyWithoutBuildingNestedInput
   commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
+  managedItems?: Prisma.ManagedItemUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUpdateManyWithoutBuildingNestedInput
   assemblies?: Prisma.AssemblyUpdateManyWithoutBuildingNestedInput
@@ -3038,6 +3092,7 @@ export type BuildingUncheckedUpdateWithoutMaintenanceLogsInput = {
   users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
   units?: Prisma.UnitUncheckedUpdateManyWithoutBuildingNestedInput
   commonAreas?: Prisma.CommonAreaUncheckedUpdateManyWithoutBuildingNestedInput
+  managedItems?: Prisma.ManagedItemUncheckedUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUncheckedUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutBuildingNestedInput
   assemblies?: Prisma.AssemblyUncheckedUpdateManyWithoutBuildingNestedInput
@@ -3082,6 +3137,7 @@ export type BuildingCreateWithoutExpensesInput = {
   users?: Prisma.UserCreateNestedManyWithoutBuildingInput
   units?: Prisma.UnitCreateNestedManyWithoutBuildingInput
   commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
+  managedItems?: Prisma.ManagedItemCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutBuildingInput
   assemblies?: Prisma.AssemblyCreateNestedManyWithoutBuildingInput
@@ -3126,6 +3182,7 @@ export type BuildingUncheckedCreateWithoutExpensesInput = {
   users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
   units?: Prisma.UnitUncheckedCreateNestedManyWithoutBuildingInput
   commonAreas?: Prisma.CommonAreaUncheckedCreateNestedManyWithoutBuildingInput
+  managedItems?: Prisma.ManagedItemUncheckedCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutBuildingInput
   assemblies?: Prisma.AssemblyUncheckedCreateNestedManyWithoutBuildingInput
@@ -3186,6 +3243,7 @@ export type BuildingUpdateWithoutExpensesInput = {
   users?: Prisma.UserUpdateManyWithoutBuildingNestedInput
   units?: Prisma.UnitUpdateManyWithoutBuildingNestedInput
   commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
+  managedItems?: Prisma.ManagedItemUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUpdateManyWithoutBuildingNestedInput
   assemblies?: Prisma.AssemblyUpdateManyWithoutBuildingNestedInput
@@ -3230,6 +3288,7 @@ export type BuildingUncheckedUpdateWithoutExpensesInput = {
   users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
   units?: Prisma.UnitUncheckedUpdateManyWithoutBuildingNestedInput
   commonAreas?: Prisma.CommonAreaUncheckedUpdateManyWithoutBuildingNestedInput
+  managedItems?: Prisma.ManagedItemUncheckedUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUncheckedUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutBuildingNestedInput
   assemblies?: Prisma.AssemblyUncheckedUpdateManyWithoutBuildingNestedInput
@@ -3274,6 +3333,7 @@ export type BuildingCreateWithoutCategoryOverridesInput = {
   users?: Prisma.UserCreateNestedManyWithoutBuildingInput
   units?: Prisma.UnitCreateNestedManyWithoutBuildingInput
   commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
+  managedItems?: Prisma.ManagedItemCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutBuildingInput
   assemblies?: Prisma.AssemblyCreateNestedManyWithoutBuildingInput
@@ -3318,6 +3378,7 @@ export type BuildingUncheckedCreateWithoutCategoryOverridesInput = {
   users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
   units?: Prisma.UnitUncheckedCreateNestedManyWithoutBuildingInput
   commonAreas?: Prisma.CommonAreaUncheckedCreateNestedManyWithoutBuildingInput
+  managedItems?: Prisma.ManagedItemUncheckedCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutBuildingInput
   assemblies?: Prisma.AssemblyUncheckedCreateNestedManyWithoutBuildingInput
@@ -3378,6 +3439,7 @@ export type BuildingUpdateWithoutCategoryOverridesInput = {
   users?: Prisma.UserUpdateManyWithoutBuildingNestedInput
   units?: Prisma.UnitUpdateManyWithoutBuildingNestedInput
   commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
+  managedItems?: Prisma.ManagedItemUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUpdateManyWithoutBuildingNestedInput
   assemblies?: Prisma.AssemblyUpdateManyWithoutBuildingNestedInput
@@ -3422,6 +3484,7 @@ export type BuildingUncheckedUpdateWithoutCategoryOverridesInput = {
   users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
   units?: Prisma.UnitUncheckedUpdateManyWithoutBuildingNestedInput
   commonAreas?: Prisma.CommonAreaUncheckedUpdateManyWithoutBuildingNestedInput
+  managedItems?: Prisma.ManagedItemUncheckedUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUncheckedUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutBuildingNestedInput
   assemblies?: Prisma.AssemblyUncheckedUpdateManyWithoutBuildingNestedInput
@@ -3466,6 +3529,7 @@ export type BuildingCreateWithoutHeatingReadingsInput = {
   users?: Prisma.UserCreateNestedManyWithoutBuildingInput
   units?: Prisma.UnitCreateNestedManyWithoutBuildingInput
   commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
+  managedItems?: Prisma.ManagedItemCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutBuildingInput
   assemblies?: Prisma.AssemblyCreateNestedManyWithoutBuildingInput
@@ -3510,6 +3574,7 @@ export type BuildingUncheckedCreateWithoutHeatingReadingsInput = {
   users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
   units?: Prisma.UnitUncheckedCreateNestedManyWithoutBuildingInput
   commonAreas?: Prisma.CommonAreaUncheckedCreateNestedManyWithoutBuildingInput
+  managedItems?: Prisma.ManagedItemUncheckedCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutBuildingInput
   assemblies?: Prisma.AssemblyUncheckedCreateNestedManyWithoutBuildingInput
@@ -3570,6 +3635,7 @@ export type BuildingUpdateWithoutHeatingReadingsInput = {
   users?: Prisma.UserUpdateManyWithoutBuildingNestedInput
   units?: Prisma.UnitUpdateManyWithoutBuildingNestedInput
   commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
+  managedItems?: Prisma.ManagedItemUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUpdateManyWithoutBuildingNestedInput
   assemblies?: Prisma.AssemblyUpdateManyWithoutBuildingNestedInput
@@ -3614,6 +3680,7 @@ export type BuildingUncheckedUpdateWithoutHeatingReadingsInput = {
   users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
   units?: Prisma.UnitUncheckedUpdateManyWithoutBuildingNestedInput
   commonAreas?: Prisma.CommonAreaUncheckedUpdateManyWithoutBuildingNestedInput
+  managedItems?: Prisma.ManagedItemUncheckedUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUncheckedUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutBuildingNestedInput
   assemblies?: Prisma.AssemblyUncheckedUpdateManyWithoutBuildingNestedInput
@@ -3658,6 +3725,7 @@ export type BuildingCreateWithoutMeterReadingsInput = {
   users?: Prisma.UserCreateNestedManyWithoutBuildingInput
   units?: Prisma.UnitCreateNestedManyWithoutBuildingInput
   commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
+  managedItems?: Prisma.ManagedItemCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutBuildingInput
   assemblies?: Prisma.AssemblyCreateNestedManyWithoutBuildingInput
@@ -3702,6 +3770,7 @@ export type BuildingUncheckedCreateWithoutMeterReadingsInput = {
   users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
   units?: Prisma.UnitUncheckedCreateNestedManyWithoutBuildingInput
   commonAreas?: Prisma.CommonAreaUncheckedCreateNestedManyWithoutBuildingInput
+  managedItems?: Prisma.ManagedItemUncheckedCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutBuildingInput
   assemblies?: Prisma.AssemblyUncheckedCreateNestedManyWithoutBuildingInput
@@ -3762,6 +3831,7 @@ export type BuildingUpdateWithoutMeterReadingsInput = {
   users?: Prisma.UserUpdateManyWithoutBuildingNestedInput
   units?: Prisma.UnitUpdateManyWithoutBuildingNestedInput
   commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
+  managedItems?: Prisma.ManagedItemUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUpdateManyWithoutBuildingNestedInput
   assemblies?: Prisma.AssemblyUpdateManyWithoutBuildingNestedInput
@@ -3806,6 +3876,7 @@ export type BuildingUncheckedUpdateWithoutMeterReadingsInput = {
   users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
   units?: Prisma.UnitUncheckedUpdateManyWithoutBuildingNestedInput
   commonAreas?: Prisma.CommonAreaUncheckedUpdateManyWithoutBuildingNestedInput
+  managedItems?: Prisma.ManagedItemUncheckedUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUncheckedUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutBuildingNestedInput
   assemblies?: Prisma.AssemblyUncheckedUpdateManyWithoutBuildingNestedInput
@@ -3850,6 +3921,7 @@ export type BuildingCreateWithoutManagementAssignmentsInput = {
   users?: Prisma.UserCreateNestedManyWithoutBuildingInput
   units?: Prisma.UnitCreateNestedManyWithoutBuildingInput
   commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
+  managedItems?: Prisma.ManagedItemCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutBuildingInput
   assemblies?: Prisma.AssemblyCreateNestedManyWithoutBuildingInput
@@ -3894,6 +3966,7 @@ export type BuildingUncheckedCreateWithoutManagementAssignmentsInput = {
   users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
   units?: Prisma.UnitUncheckedCreateNestedManyWithoutBuildingInput
   commonAreas?: Prisma.CommonAreaUncheckedCreateNestedManyWithoutBuildingInput
+  managedItems?: Prisma.ManagedItemUncheckedCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutBuildingInput
   assemblies?: Prisma.AssemblyUncheckedCreateNestedManyWithoutBuildingInput
@@ -3954,6 +4027,7 @@ export type BuildingUpdateWithoutManagementAssignmentsInput = {
   users?: Prisma.UserUpdateManyWithoutBuildingNestedInput
   units?: Prisma.UnitUpdateManyWithoutBuildingNestedInput
   commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
+  managedItems?: Prisma.ManagedItemUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUpdateManyWithoutBuildingNestedInput
   assemblies?: Prisma.AssemblyUpdateManyWithoutBuildingNestedInput
@@ -3998,6 +4072,7 @@ export type BuildingUncheckedUpdateWithoutManagementAssignmentsInput = {
   users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
   units?: Prisma.UnitUncheckedUpdateManyWithoutBuildingNestedInput
   commonAreas?: Prisma.CommonAreaUncheckedUpdateManyWithoutBuildingNestedInput
+  managedItems?: Prisma.ManagedItemUncheckedUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUncheckedUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutBuildingNestedInput
   assemblies?: Prisma.AssemblyUncheckedUpdateManyWithoutBuildingNestedInput
@@ -4041,6 +4116,7 @@ export type BuildingCreateWithoutCommonAreasInput = {
   customer: Prisma.CustomerCreateNestedOneWithoutBuildingsInput
   users?: Prisma.UserCreateNestedManyWithoutBuildingInput
   units?: Prisma.UnitCreateNestedManyWithoutBuildingInput
+  managedItems?: Prisma.ManagedItemCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutBuildingInput
   assemblies?: Prisma.AssemblyCreateNestedManyWithoutBuildingInput
@@ -4085,6 +4161,7 @@ export type BuildingUncheckedCreateWithoutCommonAreasInput = {
   updatedAt?: Date | string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
   units?: Prisma.UnitUncheckedCreateNestedManyWithoutBuildingInput
+  managedItems?: Prisma.ManagedItemUncheckedCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutBuildingInput
   assemblies?: Prisma.AssemblyUncheckedCreateNestedManyWithoutBuildingInput
@@ -4145,6 +4222,7 @@ export type BuildingUpdateWithoutCommonAreasInput = {
   customer?: Prisma.CustomerUpdateOneRequiredWithoutBuildingsNestedInput
   users?: Prisma.UserUpdateManyWithoutBuildingNestedInput
   units?: Prisma.UnitUpdateManyWithoutBuildingNestedInput
+  managedItems?: Prisma.ManagedItemUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUpdateManyWithoutBuildingNestedInput
   assemblies?: Prisma.AssemblyUpdateManyWithoutBuildingNestedInput
@@ -4189,6 +4267,203 @@ export type BuildingUncheckedUpdateWithoutCommonAreasInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
   units?: Prisma.UnitUncheckedUpdateManyWithoutBuildingNestedInput
+  managedItems?: Prisma.ManagedItemUncheckedUpdateManyWithoutBuildingNestedInput
+  addons?: Prisma.AddonFeatureUncheckedUpdateManyWithoutBuildingNestedInput
+  announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutBuildingNestedInput
+  assemblies?: Prisma.AssemblyUncheckedUpdateManyWithoutBuildingNestedInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutBuildingNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutBuildingNestedInput
+  files?: Prisma.BuildingFileUncheckedUpdateManyWithoutBuildingNestedInput
+  infraPoints?: Prisma.InfraPointUncheckedUpdateManyWithoutBuildingNestedInput
+  contacts?: Prisma.ContactUncheckedUpdateManyWithoutBuildingNestedInput
+  recurringTasks?: Prisma.RecurringTaskUncheckedUpdateManyWithoutBuildingNestedInput
+  maintenanceLogs?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutBuildingNestedInput
+  expenses?: Prisma.BuildingExpenseUncheckedUpdateManyWithoutBuildingNestedInput
+  categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedUpdateManyWithoutBuildingNestedInput
+  meterReadings?: Prisma.MeterReadingUncheckedUpdateManyWithoutBuildingNestedInput
+  heatingReadings?: Prisma.UnitHeatingReadingUncheckedUpdateManyWithoutBuildingNestedInput
+}
+
+export type BuildingCreateWithoutManagedItemsInput = {
+  id?: string
+  name: string
+  address: string
+  city: string
+  postalCode: string
+  country?: string
+  imageUrl?: string | null
+  floors?: number | null
+  basements?: number | null
+  unitsCount?: number
+  hasElevator?: boolean
+  hasBoiler?: boolean
+  hasFireSafety?: boolean
+  technicalNotes?: string | null
+  elevatorSurchargePerFloor?: number
+  elevatorExemptGroundFloor?: boolean
+  heatingMeterUnit?: string | null
+  lat?: number | null
+  lng?: number | null
+  dailyRoomName?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
+  property: Prisma.PropertyCreateNestedOneWithoutBuildingsInput
+  customer: Prisma.CustomerCreateNestedOneWithoutBuildingsInput
+  users?: Prisma.UserCreateNestedManyWithoutBuildingInput
+  units?: Prisma.UnitCreateNestedManyWithoutBuildingInput
+  commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
+  addons?: Prisma.AddonFeatureCreateNestedManyWithoutBuildingInput
+  announcements?: Prisma.AnnouncementCreateNestedManyWithoutBuildingInput
+  assemblies?: Prisma.AssemblyCreateNestedManyWithoutBuildingInput
+  maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutBuildingInput
+  managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutBuildingInput
+  files?: Prisma.BuildingFileCreateNestedManyWithoutBuildingInput
+  infraPoints?: Prisma.InfraPointCreateNestedManyWithoutBuildingInput
+  contacts?: Prisma.ContactCreateNestedManyWithoutBuildingInput
+  recurringTasks?: Prisma.RecurringTaskCreateNestedManyWithoutBuildingInput
+  maintenanceLogs?: Prisma.MaintenanceLogCreateNestedManyWithoutBuildingInput
+  expenses?: Prisma.BuildingExpenseCreateNestedManyWithoutBuildingInput
+  categoryOverrides?: Prisma.BuildingCategoryOverrideCreateNestedManyWithoutBuildingInput
+  meterReadings?: Prisma.MeterReadingCreateNestedManyWithoutBuildingInput
+  heatingReadings?: Prisma.UnitHeatingReadingCreateNestedManyWithoutBuildingInput
+}
+
+export type BuildingUncheckedCreateWithoutManagedItemsInput = {
+  id?: string
+  companyId: string
+  propertyId: string
+  customerId: string
+  name: string
+  address: string
+  city: string
+  postalCode: string
+  country?: string
+  imageUrl?: string | null
+  floors?: number | null
+  basements?: number | null
+  unitsCount?: number
+  hasElevator?: boolean
+  hasBoiler?: boolean
+  hasFireSafety?: boolean
+  technicalNotes?: string | null
+  elevatorSurchargePerFloor?: number
+  elevatorExemptGroundFloor?: boolean
+  heatingMeterUnit?: string | null
+  lat?: number | null
+  lng?: number | null
+  dailyRoomName?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
+  units?: Prisma.UnitUncheckedCreateNestedManyWithoutBuildingInput
+  commonAreas?: Prisma.CommonAreaUncheckedCreateNestedManyWithoutBuildingInput
+  addons?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutBuildingInput
+  announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutBuildingInput
+  assemblies?: Prisma.AssemblyUncheckedCreateNestedManyWithoutBuildingInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutBuildingInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutBuildingInput
+  files?: Prisma.BuildingFileUncheckedCreateNestedManyWithoutBuildingInput
+  infraPoints?: Prisma.InfraPointUncheckedCreateNestedManyWithoutBuildingInput
+  contacts?: Prisma.ContactUncheckedCreateNestedManyWithoutBuildingInput
+  recurringTasks?: Prisma.RecurringTaskUncheckedCreateNestedManyWithoutBuildingInput
+  maintenanceLogs?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutBuildingInput
+  expenses?: Prisma.BuildingExpenseUncheckedCreateNestedManyWithoutBuildingInput
+  categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedCreateNestedManyWithoutBuildingInput
+  meterReadings?: Prisma.MeterReadingUncheckedCreateNestedManyWithoutBuildingInput
+  heatingReadings?: Prisma.UnitHeatingReadingUncheckedCreateNestedManyWithoutBuildingInput
+}
+
+export type BuildingCreateOrConnectWithoutManagedItemsInput = {
+  where: Prisma.BuildingWhereUniqueInput
+  create: Prisma.XOR<Prisma.BuildingCreateWithoutManagedItemsInput, Prisma.BuildingUncheckedCreateWithoutManagedItemsInput>
+}
+
+export type BuildingUpsertWithoutManagedItemsInput = {
+  update: Prisma.XOR<Prisma.BuildingUpdateWithoutManagedItemsInput, Prisma.BuildingUncheckedUpdateWithoutManagedItemsInput>
+  create: Prisma.XOR<Prisma.BuildingCreateWithoutManagedItemsInput, Prisma.BuildingUncheckedCreateWithoutManagedItemsInput>
+  where?: Prisma.BuildingWhereInput
+}
+
+export type BuildingUpdateToOneWithWhereWithoutManagedItemsInput = {
+  where?: Prisma.BuildingWhereInput
+  data: Prisma.XOR<Prisma.BuildingUpdateWithoutManagedItemsInput, Prisma.BuildingUncheckedUpdateWithoutManagedItemsInput>
+}
+
+export type BuildingUpdateWithoutManagedItemsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.StringFieldUpdateOperationsInput | string
+  postalCode?: Prisma.StringFieldUpdateOperationsInput | string
+  country?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  floors?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  basements?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  unitsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  hasElevator?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasBoiler?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasFireSafety?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
+  elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
+  property?: Prisma.PropertyUpdateOneRequiredWithoutBuildingsNestedInput
+  customer?: Prisma.CustomerUpdateOneRequiredWithoutBuildingsNestedInput
+  users?: Prisma.UserUpdateManyWithoutBuildingNestedInput
+  units?: Prisma.UnitUpdateManyWithoutBuildingNestedInput
+  commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
+  addons?: Prisma.AddonFeatureUpdateManyWithoutBuildingNestedInput
+  announcements?: Prisma.AnnouncementUpdateManyWithoutBuildingNestedInput
+  assemblies?: Prisma.AssemblyUpdateManyWithoutBuildingNestedInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutBuildingNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutBuildingNestedInput
+  files?: Prisma.BuildingFileUpdateManyWithoutBuildingNestedInput
+  infraPoints?: Prisma.InfraPointUpdateManyWithoutBuildingNestedInput
+  contacts?: Prisma.ContactUpdateManyWithoutBuildingNestedInput
+  recurringTasks?: Prisma.RecurringTaskUpdateManyWithoutBuildingNestedInput
+  maintenanceLogs?: Prisma.MaintenanceLogUpdateManyWithoutBuildingNestedInput
+  expenses?: Prisma.BuildingExpenseUpdateManyWithoutBuildingNestedInput
+  categoryOverrides?: Prisma.BuildingCategoryOverrideUpdateManyWithoutBuildingNestedInput
+  meterReadings?: Prisma.MeterReadingUpdateManyWithoutBuildingNestedInput
+  heatingReadings?: Prisma.UnitHeatingReadingUpdateManyWithoutBuildingNestedInput
+}
+
+export type BuildingUncheckedUpdateWithoutManagedItemsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  companyId?: Prisma.StringFieldUpdateOperationsInput | string
+  propertyId?: Prisma.StringFieldUpdateOperationsInput | string
+  customerId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.StringFieldUpdateOperationsInput | string
+  postalCode?: Prisma.StringFieldUpdateOperationsInput | string
+  country?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  floors?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  basements?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  unitsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  hasElevator?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasBoiler?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasFireSafety?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
+  elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
+  units?: Prisma.UnitUncheckedUpdateManyWithoutBuildingNestedInput
+  commonAreas?: Prisma.CommonAreaUncheckedUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUncheckedUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutBuildingNestedInput
   assemblies?: Prisma.AssemblyUncheckedUpdateManyWithoutBuildingNestedInput
@@ -4233,6 +4508,7 @@ export type BuildingCreateWithoutUnitsInput = {
   customer: Prisma.CustomerCreateNestedOneWithoutBuildingsInput
   users?: Prisma.UserCreateNestedManyWithoutBuildingInput
   commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
+  managedItems?: Prisma.ManagedItemCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutBuildingInput
   assemblies?: Prisma.AssemblyCreateNestedManyWithoutBuildingInput
@@ -4277,6 +4553,7 @@ export type BuildingUncheckedCreateWithoutUnitsInput = {
   updatedAt?: Date | string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
   commonAreas?: Prisma.CommonAreaUncheckedCreateNestedManyWithoutBuildingInput
+  managedItems?: Prisma.ManagedItemUncheckedCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutBuildingInput
   assemblies?: Prisma.AssemblyUncheckedCreateNestedManyWithoutBuildingInput
@@ -4337,6 +4614,7 @@ export type BuildingUpdateWithoutUnitsInput = {
   customer?: Prisma.CustomerUpdateOneRequiredWithoutBuildingsNestedInput
   users?: Prisma.UserUpdateManyWithoutBuildingNestedInput
   commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
+  managedItems?: Prisma.ManagedItemUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUpdateManyWithoutBuildingNestedInput
   assemblies?: Prisma.AssemblyUpdateManyWithoutBuildingNestedInput
@@ -4381,6 +4659,7 @@ export type BuildingUncheckedUpdateWithoutUnitsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
   commonAreas?: Prisma.CommonAreaUncheckedUpdateManyWithoutBuildingNestedInput
+  managedItems?: Prisma.ManagedItemUncheckedUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUncheckedUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutBuildingNestedInput
   assemblies?: Prisma.AssemblyUncheckedUpdateManyWithoutBuildingNestedInput
@@ -4426,6 +4705,7 @@ export type BuildingCreateWithoutAnnouncementsInput = {
   users?: Prisma.UserCreateNestedManyWithoutBuildingInput
   units?: Prisma.UnitCreateNestedManyWithoutBuildingInput
   commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
+  managedItems?: Prisma.ManagedItemCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureCreateNestedManyWithoutBuildingInput
   assemblies?: Prisma.AssemblyCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutBuildingInput
@@ -4470,6 +4750,7 @@ export type BuildingUncheckedCreateWithoutAnnouncementsInput = {
   users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
   units?: Prisma.UnitUncheckedCreateNestedManyWithoutBuildingInput
   commonAreas?: Prisma.CommonAreaUncheckedCreateNestedManyWithoutBuildingInput
+  managedItems?: Prisma.ManagedItemUncheckedCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutBuildingInput
   assemblies?: Prisma.AssemblyUncheckedCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutBuildingInput
@@ -4530,6 +4811,7 @@ export type BuildingUpdateWithoutAnnouncementsInput = {
   users?: Prisma.UserUpdateManyWithoutBuildingNestedInput
   units?: Prisma.UnitUpdateManyWithoutBuildingNestedInput
   commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
+  managedItems?: Prisma.ManagedItemUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUpdateManyWithoutBuildingNestedInput
   assemblies?: Prisma.AssemblyUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutBuildingNestedInput
@@ -4574,6 +4856,7 @@ export type BuildingUncheckedUpdateWithoutAnnouncementsInput = {
   users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
   units?: Prisma.UnitUncheckedUpdateManyWithoutBuildingNestedInput
   commonAreas?: Prisma.CommonAreaUncheckedUpdateManyWithoutBuildingNestedInput
+  managedItems?: Prisma.ManagedItemUncheckedUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUncheckedUpdateManyWithoutBuildingNestedInput
   assemblies?: Prisma.AssemblyUncheckedUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutBuildingNestedInput
@@ -4618,6 +4901,7 @@ export type BuildingCreateWithoutAssembliesInput = {
   users?: Prisma.UserCreateNestedManyWithoutBuildingInput
   units?: Prisma.UnitCreateNestedManyWithoutBuildingInput
   commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
+  managedItems?: Prisma.ManagedItemCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutBuildingInput
@@ -4662,6 +4946,7 @@ export type BuildingUncheckedCreateWithoutAssembliesInput = {
   users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
   units?: Prisma.UnitUncheckedCreateNestedManyWithoutBuildingInput
   commonAreas?: Prisma.CommonAreaUncheckedCreateNestedManyWithoutBuildingInput
+  managedItems?: Prisma.ManagedItemUncheckedCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutBuildingInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutBuildingInput
@@ -4722,6 +5007,7 @@ export type BuildingUpdateWithoutAssembliesInput = {
   users?: Prisma.UserUpdateManyWithoutBuildingNestedInput
   units?: Prisma.UnitUpdateManyWithoutBuildingNestedInput
   commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
+  managedItems?: Prisma.ManagedItemUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutBuildingNestedInput
@@ -4766,6 +5052,7 @@ export type BuildingUncheckedUpdateWithoutAssembliesInput = {
   users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
   units?: Prisma.UnitUncheckedUpdateManyWithoutBuildingNestedInput
   commonAreas?: Prisma.CommonAreaUncheckedUpdateManyWithoutBuildingNestedInput
+  managedItems?: Prisma.ManagedItemUncheckedUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUncheckedUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutBuildingNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutBuildingNestedInput
@@ -4810,6 +5097,7 @@ export type BuildingCreateWithoutMaintenanceRequestsInput = {
   users?: Prisma.UserCreateNestedManyWithoutBuildingInput
   units?: Prisma.UnitCreateNestedManyWithoutBuildingInput
   commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
+  managedItems?: Prisma.ManagedItemCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutBuildingInput
   assemblies?: Prisma.AssemblyCreateNestedManyWithoutBuildingInput
@@ -4854,6 +5142,7 @@ export type BuildingUncheckedCreateWithoutMaintenanceRequestsInput = {
   users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
   units?: Prisma.UnitUncheckedCreateNestedManyWithoutBuildingInput
   commonAreas?: Prisma.CommonAreaUncheckedCreateNestedManyWithoutBuildingInput
+  managedItems?: Prisma.ManagedItemUncheckedCreateNestedManyWithoutBuildingInput
   addons?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutBuildingInput
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutBuildingInput
   assemblies?: Prisma.AssemblyUncheckedCreateNestedManyWithoutBuildingInput
@@ -4914,6 +5203,7 @@ export type BuildingUpdateWithoutMaintenanceRequestsInput = {
   users?: Prisma.UserUpdateManyWithoutBuildingNestedInput
   units?: Prisma.UnitUpdateManyWithoutBuildingNestedInput
   commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
+  managedItems?: Prisma.ManagedItemUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUpdateManyWithoutBuildingNestedInput
   assemblies?: Prisma.AssemblyUpdateManyWithoutBuildingNestedInput
@@ -4958,6 +5248,7 @@ export type BuildingUncheckedUpdateWithoutMaintenanceRequestsInput = {
   users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
   units?: Prisma.UnitUncheckedUpdateManyWithoutBuildingNestedInput
   commonAreas?: Prisma.CommonAreaUncheckedUpdateManyWithoutBuildingNestedInput
+  managedItems?: Prisma.ManagedItemUncheckedUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUncheckedUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutBuildingNestedInput
   assemblies?: Prisma.AssemblyUncheckedUpdateManyWithoutBuildingNestedInput
@@ -5028,6 +5319,7 @@ export type BuildingUpdateWithoutCompanyInput = {
   users?: Prisma.UserUpdateManyWithoutBuildingNestedInput
   units?: Prisma.UnitUpdateManyWithoutBuildingNestedInput
   commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
+  managedItems?: Prisma.ManagedItemUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUpdateManyWithoutBuildingNestedInput
   assemblies?: Prisma.AssemblyUpdateManyWithoutBuildingNestedInput
@@ -5072,6 +5364,7 @@ export type BuildingUncheckedUpdateWithoutCompanyInput = {
   users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
   units?: Prisma.UnitUncheckedUpdateManyWithoutBuildingNestedInput
   commonAreas?: Prisma.CommonAreaUncheckedUpdateManyWithoutBuildingNestedInput
+  managedItems?: Prisma.ManagedItemUncheckedUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUncheckedUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutBuildingNestedInput
   assemblies?: Prisma.AssemblyUncheckedUpdateManyWithoutBuildingNestedInput
@@ -5170,6 +5463,7 @@ export type BuildingUpdateWithoutCustomerInput = {
   users?: Prisma.UserUpdateManyWithoutBuildingNestedInput
   units?: Prisma.UnitUpdateManyWithoutBuildingNestedInput
   commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
+  managedItems?: Prisma.ManagedItemUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUpdateManyWithoutBuildingNestedInput
   assemblies?: Prisma.AssemblyUpdateManyWithoutBuildingNestedInput
@@ -5214,6 +5508,7 @@ export type BuildingUncheckedUpdateWithoutCustomerInput = {
   users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
   units?: Prisma.UnitUncheckedUpdateManyWithoutBuildingNestedInput
   commonAreas?: Prisma.CommonAreaUncheckedUpdateManyWithoutBuildingNestedInput
+  managedItems?: Prisma.ManagedItemUncheckedUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUncheckedUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutBuildingNestedInput
   assemblies?: Prisma.AssemblyUncheckedUpdateManyWithoutBuildingNestedInput
@@ -5312,6 +5607,7 @@ export type BuildingUpdateWithoutPropertyInput = {
   users?: Prisma.UserUpdateManyWithoutBuildingNestedInput
   units?: Prisma.UnitUpdateManyWithoutBuildingNestedInput
   commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
+  managedItems?: Prisma.ManagedItemUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUpdateManyWithoutBuildingNestedInput
   assemblies?: Prisma.AssemblyUpdateManyWithoutBuildingNestedInput
@@ -5356,6 +5652,7 @@ export type BuildingUncheckedUpdateWithoutPropertyInput = {
   users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
   units?: Prisma.UnitUncheckedUpdateManyWithoutBuildingNestedInput
   commonAreas?: Prisma.CommonAreaUncheckedUpdateManyWithoutBuildingNestedInput
+  managedItems?: Prisma.ManagedItemUncheckedUpdateManyWithoutBuildingNestedInput
   addons?: Prisma.AddonFeatureUncheckedUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutBuildingNestedInput
   assemblies?: Prisma.AssemblyUncheckedUpdateManyWithoutBuildingNestedInput
@@ -5408,6 +5705,7 @@ export type BuildingCountOutputType = {
   users: number
   units: number
   commonAreas: number
+  managedItems: number
   addons: number
   announcements: number
   assemblies: number
@@ -5428,6 +5726,7 @@ export type BuildingCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensio
   users?: boolean | BuildingCountOutputTypeCountUsersArgs
   units?: boolean | BuildingCountOutputTypeCountUnitsArgs
   commonAreas?: boolean | BuildingCountOutputTypeCountCommonAreasArgs
+  managedItems?: boolean | BuildingCountOutputTypeCountManagedItemsArgs
   addons?: boolean | BuildingCountOutputTypeCountAddonsArgs
   announcements?: boolean | BuildingCountOutputTypeCountAnnouncementsArgs
   assemblies?: boolean | BuildingCountOutputTypeCountAssembliesArgs
@@ -5473,6 +5772,13 @@ export type BuildingCountOutputTypeCountUnitsArgs<ExtArgs extends runtime.Types.
  */
 export type BuildingCountOutputTypeCountCommonAreasArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.CommonAreaWhereInput
+}
+
+/**
+ * BuildingCountOutputType without action
+ */
+export type BuildingCountOutputTypeCountManagedItemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ManagedItemWhereInput
 }
 
 /**
@@ -5606,6 +5912,7 @@ export type BuildingSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   users?: boolean | Prisma.Building$usersArgs<ExtArgs>
   units?: boolean | Prisma.Building$unitsArgs<ExtArgs>
   commonAreas?: boolean | Prisma.Building$commonAreasArgs<ExtArgs>
+  managedItems?: boolean | Prisma.Building$managedItemsArgs<ExtArgs>
   addons?: boolean | Prisma.Building$addonsArgs<ExtArgs>
   announcements?: boolean | Prisma.Building$announcementsArgs<ExtArgs>
   assemblies?: boolean | Prisma.Building$assembliesArgs<ExtArgs>
@@ -5721,6 +6028,7 @@ export type BuildingInclude<ExtArgs extends runtime.Types.Extensions.InternalArg
   users?: boolean | Prisma.Building$usersArgs<ExtArgs>
   units?: boolean | Prisma.Building$unitsArgs<ExtArgs>
   commonAreas?: boolean | Prisma.Building$commonAreasArgs<ExtArgs>
+  managedItems?: boolean | Prisma.Building$managedItemsArgs<ExtArgs>
   addons?: boolean | Prisma.Building$addonsArgs<ExtArgs>
   announcements?: boolean | Prisma.Building$announcementsArgs<ExtArgs>
   assemblies?: boolean | Prisma.Building$assembliesArgs<ExtArgs>
@@ -5757,6 +6065,7 @@ export type $BuildingPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     users: Prisma.$UserPayload<ExtArgs>[]
     units: Prisma.$UnitPayload<ExtArgs>[]
     commonAreas: Prisma.$CommonAreaPayload<ExtArgs>[]
+    managedItems: Prisma.$ManagedItemPayload<ExtArgs>[]
     addons: Prisma.$AddonFeaturePayload<ExtArgs>[]
     announcements: Prisma.$AnnouncementPayload<ExtArgs>[]
     assemblies: Prisma.$AssemblyPayload<ExtArgs>[]
@@ -6198,6 +6507,7 @@ export interface Prisma__BuildingClient<T, Null = never, ExtArgs extends runtime
   users<T extends Prisma.Building$usersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Building$usersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   units<T extends Prisma.Building$unitsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Building$unitsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UnitPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   commonAreas<T extends Prisma.Building$commonAreasArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Building$commonAreasArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CommonAreaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  managedItems<T extends Prisma.Building$managedItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Building$managedItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ManagedItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   addons<T extends Prisma.Building$addonsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Building$addonsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AddonFeaturePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   announcements<T extends Prisma.Building$announcementsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Building$announcementsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AnnouncementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   assemblies<T extends Prisma.Building$assembliesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Building$assembliesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AssemblyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -6736,6 +7046,30 @@ export type Building$commonAreasArgs<ExtArgs extends runtime.Types.Extensions.In
   take?: number
   skip?: number
   distinct?: Prisma.CommonAreaScalarFieldEnum | Prisma.CommonAreaScalarFieldEnum[]
+}
+
+/**
+ * Building.managedItems
+ */
+export type Building$managedItemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ManagedItem
+   */
+  select?: Prisma.ManagedItemSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ManagedItem
+   */
+  omit?: Prisma.ManagedItemOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ManagedItemInclude<ExtArgs> | null
+  where?: Prisma.ManagedItemWhereInput
+  orderBy?: Prisma.ManagedItemOrderByWithRelationInput | Prisma.ManagedItemOrderByWithRelationInput[]
+  cursor?: Prisma.ManagedItemWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ManagedItemScalarFieldEnum | Prisma.ManagedItemScalarFieldEnum[]
 }
 
 /**

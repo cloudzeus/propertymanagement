@@ -9,6 +9,31 @@ export function clone<T>(v: T): T {
   return JSON.parse(JSON.stringify(v ?? {}));
 }
 
+/** Immutable deep set; walks objects and arrays ("items.2.imageUrl"). Missing objects are created,
+ *  missing array indices are skipped (nothing to attach the value to in that locale). */
+export function setDeep<T>(obj: T, path: string, value: unknown): T {
+  const keys = path.split(".");
+  function walk(node: any, i: number): any {
+    const k = keys[i];
+    if (i === keys.length - 1) {
+      if (Array.isArray(node)) {
+        const idx = Number(k);
+        if (!Number.isInteger(idx) || idx < 0 || idx >= node.length) return node;
+        const next = [...node]; next[idx] = value; return next;
+      }
+      return { ...(node ?? {}), [k]: value };
+    }
+    if (Array.isArray(node)) {
+      const idx = Number(k);
+      if (!Number.isInteger(idx) || idx < 0 || idx >= node.length) return node;
+      const next = [...node]; next[idx] = walk(next[idx], i + 1); return next;
+    }
+    const cur = node && typeof node === "object" ? node : {};
+    return { ...cur, [k]: walk(cur[k], i + 1) };
+  }
+  return walk(obj ?? {}, 0);
+}
+
 export function toBilingual(raw: unknown): { el: any; en: any } {
   if (raw && typeof raw === "object" && ("el" in (raw as object) || "en" in (raw as object))) {
     const r = raw as { el?: unknown; en?: unknown };
@@ -28,6 +53,12 @@ export function useSectionForm(section: { id: string; data: unknown }) {
     setData((d) => ({ ...d, [locale]: { ...d[locale], ...p } }));
     setSaved(false);
   }
+  /** Media (images/videos) are language-independent — write the value into EVERY locale.
+   *  `path` is a deep path ("imageUrl", "imageTile.imageUrl", "items.2.avatarUrl" — array indices allowed). */
+  function patchMedia(path: string, value: string) {
+    setData((d) => ({ el: setDeep(d.el, path, value), en: setDeep(d.en, path, value) }));
+    setSaved(false);
+  }
   function setItems(key: string, items: unknown[]) {
     setData((d) => ({ ...d, [locale]: { ...d[locale], [key]: items } }));
     setSaved(false);
@@ -38,7 +69,22 @@ export function useSectionForm(section: { id: string; data: unknown }) {
       setSaved(true);
     });
   }
-  return { data, cur: data[locale] ?? {}, locale, setLocale, patch, setItems, save, saved, pending };
+  return { data, cur: data[locale] ?? {}, locale, setLocale, patch, patchMedia, setItems, save, saved, pending };
+}
+
+/** Titled group of fields — gives long forms visible structure. `cols={2}` lays short inputs side by side. */
+export function FormGroup({ title, hint, cols = 1, children }: {
+  title: string; hint?: string; cols?: 1 | 2; children: React.ReactNode;
+}) {
+  return (
+    <div style={{ border: "1px solid var(--border)", borderRadius: "var(--radius)", background: "var(--card)", padding: 16 }}>
+      <div style={{ fontWeight: 700, fontSize: 13.5, color: "var(--foreground)" }}>{title}</div>
+      {hint && <div style={{ fontSize: 12.5, color: "var(--muted-foreground)", marginTop: 2 }}>{hint}</div>}
+      <div style={{ display: "grid", gridTemplateColumns: cols === 2 ? "1fr 1fr" : "1fr", gap: 14, marginTop: 14 }}>
+        {children}
+      </div>
+    </div>
+  );
 }
 
 export function FormChrome({

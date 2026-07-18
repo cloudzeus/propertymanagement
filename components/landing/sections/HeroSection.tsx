@@ -122,7 +122,7 @@ export async function HeroSection({ data }: { data: HeroData }) {
                 ))}
               </div>
               <span className="text-[13.5px] text-[var(--muted-foreground)]">
-                {t.trust}
+                {data.trustText || t.trust}
               </span>
             </div>
           </div>
@@ -150,7 +150,17 @@ export async function HeroSection({ data }: { data: HeroData }) {
               className="absolute right-0 top-2 h-[420px] w-[340px] overflow-hidden rounded-[22px] border"
               style={{ borderColor: "rgba(27,28,26,.12)", boxShadow: "0 44px 80px -40px rgba(27,28,26,.4)" }}
             >
-              {data.imageUrl ? (
+              {data.videoUrl ? (
+                <video
+                  src={data.videoUrl}
+                  poster={data.imageUrl || undefined}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  className="h-full w-full object-cover"
+                />
+              ) : data.imageUrl ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img src={data.imageUrl} alt={data.title} className="h-full w-full object-cover" />
               ) : (
@@ -174,7 +184,7 @@ export async function HeroSection({ data }: { data: HeroData }) {
                 </div>
                 <div className="text-right">
                   <div className="text-base font-extrabold text-[var(--foreground)]">{data.occupancy || "96%"}</div>
-                  <div className="text-[10.5px] text-[var(--muted-foreground)]">{t.occ}</div>
+                  <div className="text-[10.5px] text-[var(--muted-foreground)]">{data.occLabel || t.occ}</div>
                 </div>
               </div>
             </div>
@@ -188,8 +198,8 @@ export async function HeroSection({ data }: { data: HeroData }) {
                 €
               </span>
               <div>
-                <div className="text-xs font-bold text-[var(--foreground)]">{t.toastT}</div>
-                <div className="text-[10.5px] text-[var(--muted-foreground)]">{t.toastS}</div>
+                <div className="text-xs font-bold text-[var(--foreground)]">{data.toastTitle || t.toastT}</div>
+                <div className="text-[10.5px] text-[var(--muted-foreground)]">{data.toastSub || t.toastS}</div>
               </div>
             </div>
 
@@ -204,21 +214,21 @@ export async function HeroSection({ data }: { data: HeroData }) {
                     className="h-1.5 w-1.5 rounded-full bg-[var(--accent)]"
                     style={{ boxShadow: "0 0 8px rgba(242,162,60,.6)" }}
                   />
-                  {t.live}
+                  {data.liveBadge || t.live}
                 </span>
-                <span className="text-[10.5px] text-[var(--muted-foreground)]">{t.month}</span>
+                <span className="text-[10.5px] text-[var(--muted-foreground)]">{data.monthLabel || t.month}</span>
               </div>
               <div className="my-3 grid grid-cols-2 gap-2.5">
                 <div className="rounded-[11px] border bg-[var(--paper)] px-3 py-2.5" style={{ borderColor: "rgba(27,28,26,.12)" }}>
-                  <div className="text-[10px] text-[var(--muted-foreground)]">{t.k1}</div>
-                  <div className="mt-0.5 text-[21px] font-extrabold text-[var(--foreground)]">€184k</div>
+                  <div className="text-[10px] text-[var(--muted-foreground)]">{data.kpi1Label || t.k1}</div>
+                  <div className="mt-0.5 text-[21px] font-extrabold text-[var(--foreground)]">{data.kpi1Value || "€184k"}</div>
                 </div>
                 <div className="rounded-[11px] border bg-[var(--paper)] px-3 py-2.5" style={{ borderColor: "rgba(27,28,26,.12)" }}>
-                  <div className="text-[10px] text-[var(--muted-foreground)]">{t.k2}</div>
-                  <div className="mt-0.5 text-[21px] font-extrabold text-[var(--foreground)]">12</div>
+                  <div className="text-[10px] text-[var(--muted-foreground)]">{data.kpi2Label || t.k2}</div>
+                  <div className="mt-0.5 text-[21px] font-extrabold text-[var(--foreground)]">{data.kpi2Value || "12"}</div>
                 </div>
               </div>
-              <div className="text-[10.5px] text-[var(--muted-foreground)]">{t.chart}</div>
+              <div className="text-[10.5px] text-[var(--muted-foreground)]">{data.chartLabel || t.chart}</div>
               <div className="mt-2 flex h-[60px] items-end gap-1.5">
                 {BARS.map((h, i) => (
                   <i

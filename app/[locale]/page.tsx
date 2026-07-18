@@ -10,6 +10,7 @@ import { buildSiteSchemas } from "@/lib/seo/site-schema";
 import { getPageSeo } from "@/lib/cms/page-seo";
 import { buildMetadata } from "@/lib/seo/metadata";
 import { getSiteSettings } from "@/lib/cms/site-settings";
+import { resolveMediaDeep } from "@/lib/cms/media";
 import { getAppSettings } from "@/lib/app-settings";
 
 const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://property.dgsmart.gr";
@@ -27,11 +28,13 @@ export default async function Home() {
   const schemas = buildSiteSchemas(site, BASE, app.logoFullLight ?? app.logoUrl ?? undefined);
   let sections: Awaited<ReturnType<typeof getLandingSections>> = [];
   try { sections = await getLandingSections(); } catch { sections = []; }
+  // MediaPicker stores MediaAsset ids in *Url fields — swap them for CDN URLs before rendering.
+  const datas = await resolveMediaDeep(sections.map((s) => pickLocale(s.data as any, locale)));
   return (
     <div className="orithon-marketing min-h-screen text-[var(--foreground)]">
       <JsonLd data={schemas} />
       <LandingHeader />
-      <main>{sections.map((s) => renderSection(s.type, pickLocale(s.data as any, locale), s.id))}</main>
+      <main>{sections.map((s, i) => renderSection(s.type, datas[i], s.id))}</main>
       <LandingFooter />
     </div>
   );

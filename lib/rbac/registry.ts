@@ -14,6 +14,7 @@ export const RBAC_MODULES: readonly RbacModule[] = [
   { key: "units", label: "Μονάδες", surface: "company", menu: { href: "/super-admin/units", icon: "RiHome3Line", group: "management" }, actions: [...CRUD] },
   { key: "users", label: "Χρήστες", surface: "company", menu: { href: "/super-admin/users", icon: "RiGroupLine", group: "management" }, actions: [...CRUD] },
   { key: "residents", label: "Ενοικιαστές", surface: "company", menu: { href: "/admin/residents", icon: "RiUserLine", group: "management" }, actions: [...CRUD] },
+  { key: "managed-items", label: "Στοιχεία Διαχείρισης", surface: "company", menu: { href: "/super-admin/managed-items", icon: "RiListCheck2", group: "management" }, actions: [...CRUD] },
   { key: "roles", label: "Ρόλοι", surface: "company", menu: { href: "/super-admin/roles", icon: "RiShieldUserLine", group: "management" }, actions: [...CRUD] },
   { key: "services", label: "Υπηρεσίες", surface: "company", menu: { href: "/super-admin/services", icon: "RiServiceLine", group: "financials" }, actions: [...CRUD] },
   { key: "api-costs", label: "AI Κόστη / Tokens", surface: "company", menu: { href: "/super-admin/settings/costs", icon: "RiMoneyDollarCircleLine", group: "financials" }, actions: [...VIEW] },
@@ -24,7 +25,7 @@ export const RBAC_MODULES: readonly RbacModule[] = [
   { key: "customer-wallets", label: "Πορτοφόλια Πελατών", surface: "company", menu: { href: "/admin/customer-wallets", icon: "RiMoneyEuroCircleLine", group: "financials" }, actions: [...CRUD] },
   { key: "maintenance", label: "Συντηρήσεις", surface: "company", menu: { href: "/admin/maintenance", icon: "RiToolsLine", group: "operations" }, actions: [...CRUD] },
   { key: "announcements", label: "Ανακοινώσεις", surface: "company", menu: { href: "/admin/announcements", icon: "RiNotification2Line", group: "operations" }, actions: [...CRUD] },
-  { key: "calendar", label: "Ημερολόγιο", surface: "company", menu: { href: "/admin/calendar", icon: "RiCalendarLine", group: "operations" }, actions: [...CRUD] },
+  { key: "calendar", label: "Ημερολόγιο", surface: "company", menu: { href: "/staff/calendar", icon: "RiCalendarLine", group: "operations" }, actions: [...CRUD] },
   { key: "integrations", label: "Ενσωματώσεις", surface: "company", menu: { href: "/super-admin/integrations", icon: "RiLinksLine", group: "settings" }, actions: [...CRUD] },
   { key: "settings-company", label: "Εταιρία", surface: "company", menu: { href: "/super-admin/settings/company", icon: "RiBuildingLine", group: "settings" }, actions: [...CRUD] },
   { key: "settings-brand", label: "Brand", surface: "company", menu: { href: "/super-admin/settings/brand", icon: "RiPaletteLine", group: "settings" }, actions: [...CRUD] },
@@ -53,6 +54,7 @@ export const RBAC_MODULES: readonly RbacModule[] = [
   { key: "mkt-dashboard", label: "Dashboard", surface: "marketplace", menu: { href: "/staff", icon: "RiDashboardLine", group: "core" }, actions: [...VIEW] },
   { key: "mkt-tasks", label: "Assigned", surface: "marketplace", menu: { href: "/staff/tasks", icon: "RiFileListLine", group: "tasks" }, actions: [...CRUD] },
   { key: "mkt-maintenance", label: "Συντηρήσεις", surface: "marketplace", menu: { href: "/staff/maintenance", icon: "RiToolsLine", group: "tasks" }, actions: [...CRUD] },
+  { key: "mkt-calendar", label: "Ημερολόγιο", surface: "marketplace", menu: { href: "/staff/calendar", icon: "RiCalendarLine", group: "tasks" }, actions: [...VIEW] },
 ] as const;
 
 const all = (): string[] => RBAC_MODULES.flatMap((m) => m.actions.map((a) => permKey(m.key, a)));
@@ -65,16 +67,16 @@ export const DEFAULT_PERMISSIONS: RoleDefaults = {
   SUPER_ADMIN: all(),
   ADMIN: [
     ...view("dashboard", "reports"),
-    ...crud("properties", "units", "users", "residents", "maintenance", "announcements", "calendar"),
+    ...crud("properties", "units", "users", "residents", "maintenance", "announcements", "calendar", "managed-items"),
     ...crud("metered-plans", "customer-wallets"),
     ...view("api-costs"), ...crud("settings"),
   ],
   MANAGER: [
-    ...view("dashboard"),
-    ...crud("properties", "units", "maintenance", "announcements"),
+    ...view("dashboard", "calendar"),
+    ...crud("properties", "units", "maintenance", "announcements", "managed-items"),
   ],
   EMPLOYEE: [
-    ...view("mkt-dashboard"), ...crud("mkt-tasks", "mkt-maintenance"),
+    ...view("mkt-dashboard", "mkt-calendar"), ...crud("mkt-tasks", "mkt-maintenance"),
   ],
   PROPERTY_ADMIN: [
     ...view("customer-dashboard"),
