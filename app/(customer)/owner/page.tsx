@@ -1,4 +1,5 @@
-import { auth } from "@/auth";
+import { redirect } from "next/navigation";
+import { getEffectiveSession } from "@/lib/auth-effective";
 import { getOwnerDashboard } from "@/lib/dashboard/queries";
 import { formatEuro } from "@/lib/dashboard/aggregations";
 import {
@@ -7,10 +8,11 @@ import {
 import { RiHome3Line, RiMoneyEuroCircleLine, RiPieChartLine, RiToolsLine } from "react-icons/ri";
 
 export default async function OwnerDashboard() {
-  const session = await auth();
-  const userId = (session?.user as any)?.id ?? "";
+  const eff = await getEffectiveSession();
+  if (!eff?.user?.id) redirect("/login");
+  const userId = eff.user.id;
   const { units, occ, owed, trend, tickets } = await getOwnerDashboard(userId);
-  const firstName = session?.user?.name?.split(" ")[0] ?? "";
+  const firstName = eff.user.name?.split(" ")[0] ?? "";
 
   return (
     <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 20 }}>
@@ -23,9 +25,10 @@ export default async function OwnerDashboard() {
         <StatTile label="Ιδιοκτησίες" value={occ.total} sub="Μονάδες μου" icon={RiHome3Line} href="/owner/units" />
         <StatTile label="Ενοικιασμένες" value={occ.occupied} sub={`${occ.vacant} κενές`} icon={RiPieChartLine}
           href="/owner/units" />
-        <StatTile label="Οφειλές μου" value={formatEuro(owed)} sub="Κοινόχρηστα ιδιοκτήτη" icon={RiMoneyEuroCircleLine} />
+        <StatTile label="Οφειλές μου" value={formatEuro(owed)} sub="Κοινόχρηστα ιδιοκτήτη" icon={RiMoneyEuroCircleLine}
+          href="/owner/payments" />
         <StatTile label="Ανοιχτά αιτήματα" value={tickets.length} sub="Στα ακίνητά μου" icon={RiToolsLine}
-          href="/owner/maintenance" />
+          href="/owner/requests" />
       </div>
 
       <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: 16 }} className="dash-cols">
@@ -60,7 +63,7 @@ export default async function OwnerDashboard() {
         </div>
       </div>
 
-      <SectionCard title="Ανοιχτά αιτήματα συντήρησης" viewAllHref="/owner/maintenance">
+      <SectionCard title="Ανοιχτά αιτήματα συντήρησης" viewAllHref="/owner/requests">
         <TicketList tickets={tickets.map((t) => ({ id: t.id, title: t.title, status: t.status, priority: t.priority, createdAt: t.createdAt }))} />
       </SectionCard>
     </div>
