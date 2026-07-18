@@ -42,14 +42,24 @@ export const RBAC_MODULES: readonly RbacModule[] = [
   { key: "cms-translations", label: "CMS: Μεταφράσεις", surface: "company", menu: { href: "/super-admin/cms/translations", icon: "RiTranslate2", group: "cms" }, actions: [...CRUD] },
   { key: "view-as", label: "View as…", surface: "company", menu: { href: "/super-admin/view-as", icon: "RiEyeLine", group: "preview" }, actions: [...VIEW] },
   // ── Customer surface ──
+  // The customer surface serves 4 roles (PROPERTY_ADMIN/OWNER/RESIDENT/VIEWER) whose
+  // pages live under different prefixes (/building, /owner, /portal). A module's menu
+  // href is single-valued, so role-specific destinations get role-specific modules
+  // (owner-*, portal-*) instead of one shared module pointing at the wrong surface.
   { key: "customer-dashboard", label: "Dashboard", surface: "customer", menu: { href: "/building", icon: "RiDashboardLine", group: "core" }, actions: [...VIEW] },
-  { key: "customer-properties", label: "Ακίνητά μου", surface: "customer", menu: { href: "/manager/properties", icon: "RiBuildingLine", group: "properties" }, actions: [...CRUD] },
-  { key: "customer-units", label: "Μονάδες", surface: "customer", menu: { href: "/manager/units", icon: "RiHome3Line", group: "properties" }, actions: [...CRUD] },
-  { key: "customer-income", label: "Έσοδα", surface: "customer", menu: { href: "/owner/income", icon: "RiMoneyDollarCircleLine", group: "assets" }, actions: [...VIEW] },
+  { key: "customer-properties", label: "Ακίνητά μου", surface: "customer", menu: { href: "/building?s=building", icon: "RiBuildingLine", group: "properties" }, actions: [...CRUD] },
+  { key: "customer-units", label: "Μονάδες", surface: "customer", menu: { href: "/owner/units", icon: "RiHome3Line", group: "properties" }, actions: [...CRUD] },
+  { key: "customer-income", label: "Πληρωμές", surface: "customer", menu: { href: "/owner/payments", icon: "RiMoneyDollarCircleLine", group: "assets" }, actions: [...VIEW] },
   { key: "customer-requests", label: "Αιτήσεις", surface: "customer", menu: { href: "/portal/requests", icon: "RiToolsLine", group: "services" }, actions: [...CRUD] },
-  { key: "customer-maintenance", label: "Συντηρήσεις", surface: "customer", menu: { href: "/portal/maintenance", icon: "RiToolsLine", group: "operations" }, actions: [...CRUD] },
+  { key: "customer-maintenance", label: "Συντηρήσεις", surface: "customer", menu: { href: "/building?s=maintenance", icon: "RiToolsLine", group: "operations" }, actions: [...CRUD] },
+  { key: "customer-communication", label: "Ανακοινώσεις", surface: "customer", menu: { href: "/building?s=communication", icon: "RiNotification2Line", group: "operations" }, actions: [...CRUD] },
   { key: "customer-announcements", label: "Ανακοινώσεις", surface: "customer", menu: { href: "/portal/announcements", icon: "RiNotification2Line", group: "operations" }, actions: [...VIEW] },
   { key: "customer-wallet", label: "Πορτοφόλι", surface: "customer", menu: { href: "/portal/wallet", icon: "RiWallet3Line", group: "services" }, actions: [...VIEW] },
+  { key: "owner-requests", label: "Αιτήματα", surface: "customer", menu: { href: "/owner/requests", icon: "RiToolsLine", group: "services" }, actions: [...CRUD] },
+  { key: "owner-announcements", label: "Ανακοινώσεις", surface: "customer", menu: { href: "/owner/announcements", icon: "RiNotification2Line", group: "operations" }, actions: [...VIEW] },
+  { key: "portal-payments", label: "Πληρωμές", surface: "customer", menu: { href: "/portal/payments", icon: "RiMoneyDollarCircleLine", group: "services" }, actions: [...VIEW] },
+  { key: "portal-files", label: "Αρχεία", surface: "customer", menu: { href: "/portal/files", icon: "RiFileListLine", group: "services" }, actions: [...VIEW] },
+  { key: "portal-maintenance", label: "Συντηρήσεις", surface: "customer", menu: { href: "/portal/maintenance", icon: "RiToolsLine", group: "operations" }, actions: [...VIEW] },
   // ── Marketplace surface ──
   { key: "mkt-dashboard", label: "Dashboard", surface: "marketplace", menu: { href: "/staff", icon: "RiDashboardLine", group: "core" }, actions: [...VIEW] },
   { key: "mkt-tasks", label: "Assigned", surface: "marketplace", menu: { href: "/staff/tasks", icon: "RiFileListLine", group: "tasks" }, actions: [...CRUD] },
@@ -80,16 +90,17 @@ export const DEFAULT_PERMISSIONS: RoleDefaults = {
   ],
   PROPERTY_ADMIN: [
     ...view("customer-dashboard"),
-    ...crud("customer-properties", "customer-units", "customer-maintenance"),
-    ...view("customer-announcements", "customer-wallet"),
+    ...crud("customer-properties", "customer-units", "customer-maintenance", "customer-communication"),
+    ...view("customer-wallet"),
   ],
   PROPERTY_OWNER: [
     ...view("customer-dashboard", "customer-income"), ...crud("customer-units"),
-    ...crud("customer-requests"),
-    ...view("customer-wallet"),
+    ...crud("owner-requests"),
+    ...view("owner-announcements", "customer-wallet"),
   ],
   PROPERTY_RESIDENT: [
-    ...view("customer-dashboard"), ...crud("customer-requests"), ...view("customer-announcements", "customer-wallet"),
+    ...view("customer-dashboard"), ...crud("customer-requests"),
+    ...view("customer-announcements", "customer-wallet", "portal-payments", "portal-files", "portal-maintenance"),
   ],
   PROPERTY_VIEWER: [
     ...view("customer-dashboard", "customer-announcements"),
@@ -109,3 +120,13 @@ export const DEFAULT_PERMISSIONS: RoleDefaults = {
 // NOT YET GUARDED: units/residents/calendar/announcements (no dedicated page.tsx
 //   under (company) — menu hrefs point at /admin/* routes that don't exist as pages yet), and
 //   all customer-* / mkt-* surface routes (those surfaces still gate by role enum at the layout).
+//
+// ── Customer-menu module split (role hierarchy rollout) ──
+// customer-maintenance/-communication link the PROPERTY_ADMIN building shell
+//   (/building?s=…); owner-* link /owner/*; portal-* link /portal/*.
+// Seeding: prisma/seed-rbac.ts backfillNewModules() inserts the NEW modules'
+//   default rows for already-seeded roles on deploy (per-role, per-module, only when
+//   the role has zero rows for that module — idempotent). Defaults REMOVED here
+//   (customer-announcements from PROPERTY_ADMIN, customer-requests from PROPERTY_OWNER)
+//   are NOT deleted from existing DBs — deployed roles keep those extra menu items
+//   (both destinations remain accessible to them) until revoked in /super-admin/roles.

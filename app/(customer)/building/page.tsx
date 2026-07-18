@@ -17,7 +17,12 @@ function currentMonth(): string {
   return `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, "0")}`;
 }
 
-export default async function ManagerBuildingsPage() {
+export default async function ManagerBuildingsPage({
+  searchParams,
+}: {
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
+}) {
+  const sp = (await searchParams) ?? {};
   // Effective session so super-admin View-as PROPERTY_ADMIN exercises this surface.
   const session = await getEffectiveSession();
   if (!session?.user?.id) redirect("/login");
@@ -41,7 +46,13 @@ export default async function ManagerBuildingsPage() {
     );
   }
 
-  if (ids.length === 1) redirect(`/building/${ids[0]}`);
+  if (ids.length === 1) {
+    // Forward shell deep-link params (menu items link e.g. /building?s=maintenance).
+    const qs = new URLSearchParams();
+    if (typeof sp.s === "string") qs.set("s", sp.s);
+    if (typeof sp.t === "string") qs.set("t", sp.t);
+    redirect(`/building/${ids[0]}${qs.size ? `?${qs}` : ""}`);
+  }
 
   const month = currentMonth();
   const [buildings, allocations, openGroups] = await Promise.all([

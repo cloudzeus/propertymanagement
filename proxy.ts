@@ -152,10 +152,12 @@ export default auth((req: NextRequest & { auth: any }) => {
   if (pathWithoutLocale.startsWith("/marketplace") && !can("SUPER_ADMIN", "COLLABORATOR")) {
     return deny();
   }
-  if (pathWithoutLocale.startsWith("/owner") && !can("SUPER_ADMIN", "ADMIN", "PROPERTY_OWNER")) {
+  // Customer-role hierarchy: higher customer roles may access lower-role surfaces
+  // (PROPERTY_ADMIN → /owner + /portal, PROPERTY_OWNER → /portal). Never the reverse.
+  if (pathWithoutLocale.startsWith("/owner") && !can("SUPER_ADMIN", "ADMIN", "PROPERTY_ADMIN", "PROPERTY_OWNER")) {
     return deny();
   }
-  if (pathWithoutLocale.startsWith("/portal") && !can("SUPER_ADMIN", "ADMIN", "PROPERTY_ADMIN", "PROPERTY_RESIDENT")) {
+  if (pathWithoutLocale.startsWith("/portal") && !can("SUPER_ADMIN", "ADMIN", "PROPERTY_ADMIN", "PROPERTY_OWNER", "PROPERTY_RESIDENT")) {
     return deny();
   }
 
