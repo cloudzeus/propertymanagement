@@ -18,9 +18,11 @@ export default async function PortalRequestDetailPage({ params }: { params: Prom
   const detail = await loadFaultDetail(id);
   if (!detail) notFound();
 
+  const backHref = role === "PROPERTY_OWNER" ? "/owner/requests" : "/portal/requests";
+
   return (
     <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 14, maxWidth: 920 }}>
-      <Link href="/portal/requests" style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 13, color: "var(--muted-foreground)", textDecoration: "none" }}>
+      <Link href={backHref} style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 13, color: "var(--muted-foreground)", textDecoration: "none" }}>
         <RiArrowLeftLine /> Πίσω στα αιτήματα
       </Link>
       <RequestDetail
