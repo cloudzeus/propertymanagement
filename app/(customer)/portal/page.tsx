@@ -5,6 +5,7 @@ import { formatEuro } from "@/lib/dashboard/aggregations";
 import {
   Hero, StatTile, SectionCard, MoneyRow, MiniBars, TicketList, EmptyState, PayNowButton,
 } from "@/components/dashboard";
+import { AutoRefresh } from "@/components/realtime/AutoRefresh";
 import { RiMoneyEuroCircleLine, RiCalendarLine, RiToolsLine, RiNotification2Line } from "react-icons/ri";
 
 export default async function PortalDashboard() {
@@ -18,6 +19,7 @@ export default async function PortalDashboard() {
 
   return (
     <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+      {unit ? <AutoRefresh buildingId={unit.buildingId} /> : null}
       <Hero
         title={`Καλώς ήρθατε, ${firstName}`}
         subtitle={unit ? `${unit.building?.name} · ${unit.unitNumber}` : "Πύλη ενοικιαστή"}

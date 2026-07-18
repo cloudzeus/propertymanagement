@@ -11,6 +11,7 @@ import type { BuildingDashboardData } from "@/lib/building/dashboard-data";
 import type { BuildingCaps } from "@/lib/building-caps";
 import type { AuditTab } from "@/lib/buildings/audit";
 import { ManagedBadge } from "@/components/ui/managed-badge";
+import { AutoRefresh } from "@/components/realtime/AutoRefresh";
 import { AuditDrawer } from "@/components/building/AuditDrawer";
 import { CategorySplitSettings } from "@/components/buildings/CategorySplitSettings";
 import { FilesPanel } from "@/components/building/FilesPanel";
@@ -90,6 +91,7 @@ export function BuildingManagerShell(props: Props) {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
+      <AutoRefresh buildingId={building.id} />
       {/* hero */}
       <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 12, padding: "18px 20px", boxShadow: "0 1px 2px rgba(0,0,0,0.06)" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { SignageData } from "@/lib/signage/data";
+import { AutoRefresh } from "@/components/realtime/AutoRefresh";
 
 // Orithon token values on dark ink (#15161a): cream #F6F4EC text, amber #F2A23C accent.
 const CREAM = "#F6F4EC";
@@ -53,9 +54,9 @@ export function SignageBoard({
     return () => clearInterval(t);
   }, [annCount]);
 
-  // 60s data refresh
+  // 5-min polling fallback — realtime SSE (AutoRefresh) is the primary refresh path.
   useEffect(() => {
-    const t = setInterval(() => router.refresh(), 60000);
+    const t = setInterval(() => router.refresh(), 300000);
     return () => clearInterval(t);
   }, [router]);
 
@@ -74,6 +75,7 @@ export function SignageBoard({
         overflow: "hidden",
       }}
     >
+      <AutoRefresh buildingId={data.building.id} />
       {/* ── Header: building · weather + clock ─────────────────────────── */}
       <header style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 32 }}>
         <div>

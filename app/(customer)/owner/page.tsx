@@ -1,10 +1,12 @@
 import { redirect } from "next/navigation";
 import { getEffectiveSession } from "@/lib/auth-effective";
 import { getOwnerDashboard } from "@/lib/dashboard/queries";
+import { getOwnerBuildingIds } from "@/lib/dashboard/owner-queries";
 import { formatEuro } from "@/lib/dashboard/aggregations";
 import {
   Hero, StatTile, SectionCard, Gauge, MiniBars, TicketList, StatusChip, EmptyState,
 } from "@/components/dashboard";
+import { AutoRefresh } from "@/components/realtime/AutoRefresh";
 import { RiHome3Line, RiMoneyEuroCircleLine, RiPieChartLine, RiToolsLine } from "react-icons/ri";
 
 export default async function OwnerDashboard() {
@@ -12,10 +14,14 @@ export default async function OwnerDashboard() {
   if (!eff?.user?.id) redirect("/login");
   const userId = eff.user.id;
   const { units, occ, owed, trend, tickets } = await getOwnerDashboard(userId);
+  const buildingIds = await getOwnerBuildingIds(userId);
   const firstName = eff.user.name?.split(" ")[0] ?? "";
 
   return (
     <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+      {buildingIds.slice(0, 5).map((id) => (
+        <AutoRefresh key={id} buildingId={id} />
+      ))}
       <Hero
         title={`Καλησπέρα, ${firstName}`}
         subtitle={`${occ.total} ${occ.total === 1 ? "ακίνητο" : "ακίνητα"} · ${occ.rate}% πληρότητα`}
