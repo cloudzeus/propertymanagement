@@ -74,7 +74,7 @@ export async function getResidentDashboard(userId: string, companyId?: string) {
       orderBy: { createdAt: "desc" }, take: 6,
     }),
     db.announcement.findMany({
-      where: { buildingId: { in: buildingIds }, status: "ACTIVE" },
+      where: { buildingId: { in: buildingIds }, status: "ACTIVE", audience: { in: ["ALL", "RESIDENTS"] } },
       orderBy: { createdAt: "desc" }, take: 5,
     }),
   ]);
