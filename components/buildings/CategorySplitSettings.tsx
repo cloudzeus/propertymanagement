@@ -148,29 +148,29 @@ export function CategorySplitSettings({
                     </td>
                     <td style={{ ...td, textAlign: "right" }}>
                       {can.editDistribution && (
-                      <div style={{ display: "inline-flex", gap: 6 }}>
-                        {editing ? (
-                          <>
-                            <button onClick={() => save(r.category.id)} disabled={isPending} title="Αποθήκευση" style={iconBtn}>
-                              <RiSaveLine style={{ fontSize: 15 }} />
-                            </button>
-                            <button onClick={cancel} disabled={isPending} title="Άκυρο" style={iconBtn}>
-                              <RiCloseLine style={{ fontSize: 15 }} />
-                            </button>
-                          </>
-                        ) : (
-                          <>
-                            <button onClick={() => startEdit(r)} disabled={isPending} title="Επεξεργασία" style={iconBtn}>
-                              <RiEditLine style={{ fontSize: 15 }} />
-                            </button>
-                            {r.isOverridden && (
-                              <button onClick={() => reset(r.category.id)} disabled={isPending} title="Επαναφορά" style={{ ...iconBtn, color: "var(--color-danger)" }}>
-                                <RiRefreshLine style={{ fontSize: 15 }} />
+                        <div style={{ display: "inline-flex", gap: 6 }}>
+                          {editing ? (
+                            <>
+                              <button onClick={() => save(r.category.id)} disabled={isPending} title="Αποθήκευση" style={iconBtn}>
+                                <RiSaveLine style={{ fontSize: 15 }} />
                               </button>
-                            )}
-                          </>
-                        )}
-                      </div>
+                              <button onClick={cancel} disabled={isPending} title="Άκυρο" style={iconBtn}>
+                                <RiCloseLine style={{ fontSize: 15 }} />
+                              </button>
+                            </>
+                          ) : (
+                            <>
+                              <button onClick={() => startEdit(r)} disabled={isPending} title="Επεξεργασία" style={iconBtn}>
+                                <RiEditLine style={{ fontSize: 15 }} />
+                              </button>
+                              {r.isOverridden && (
+                                <button onClick={() => reset(r.category.id)} disabled={isPending} title="Επαναφορά" style={{ ...iconBtn, color: "var(--color-danger)" }}>
+                                  <RiRefreshLine style={{ fontSize: 15 }} />
+                                </button>
+                              )}
+                            </>
+                          )}
+                        </div>
                       )}
                     </td>
                   </tr>

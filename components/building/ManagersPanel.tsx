@@ -8,6 +8,7 @@ import {
   type ManagerRow, type ManagerCandidate,
 } from "@/app/actions/managers";
 import { RiUserStarLine, RiAddLine, RiDeleteBinLine, RiUserAddLine, RiArrowLeftLine } from "react-icons/ri";
+import type { BuildingCaps } from "@/lib/building-caps";
 
 const ORIGIN_BADGE: Record<ManagerCandidate["origin"], { label: string; color: string }> = {
   staff: { label: "Εταιρεία", color: "#0078D4" },
@@ -20,7 +21,7 @@ const ROLE_LABEL: Record<string, string> = {
   PROPERTY_ADMIN: "Διαχειριστής", PROPERTY_OWNER: "Ιδιοκτήτης", PROPERTY_RESIDENT: "Ένοικος", PROPERTY_VIEWER: "Προβολή",
 };
 
-export function ManagersPanel({ buildingId }: { buildingId: string }) {
+export function ManagersPanel({ buildingId, can }: { buildingId: string; can: BuildingCaps }) {
   const scope = { buildingId } as const;
   const [managers, setManagers] = useState<ManagerRow[]>([]);
   const [loading, setLoading] = useState(true);
@@ -77,10 +78,10 @@ export function ManagersPanel({ buildingId }: { buildingId: string }) {
         clientSide
         storageKey="building-managers"
         searchPlaceholder="Αναζήτηση διαχειριστή…"
-        getRowActions={getRowActions}
-        toolbar={
+        getRowActions={can.manageManagers ? getRowActions : undefined}
+        toolbar={can.manageManagers ? (
           <button onClick={() => setAdding(true)} style={{ ...btn, ...btnPrimary }}><RiAddLine /> Προσθήκη διαχειριστή</button>
-        }
+        ) : undefined}
       />
       {adding && (
         <AddManagerModal

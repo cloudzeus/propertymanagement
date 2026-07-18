@@ -174,7 +174,7 @@ export function BuildingDashboard({ building, kpis, units, files, people, contac
         ) : tab === "units" ? (
           <UnitsPanel buildingId={building.id} units={units} can={can} />
         ) : tab === "managers" ? (
-          <ManagersPanel buildingId={building.id} />
+          <ManagersPanel buildingId={building.id} can={can} />
         ) : tab === "files" ? (
           <FilesPanel buildingId={building.id} files={files} can={can} />
         ) : tab === "people" ? (
