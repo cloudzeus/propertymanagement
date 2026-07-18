@@ -1,10 +1,11 @@
-import { auth } from "@/auth";
+import { getEffectiveSession } from "@/lib/auth-effective";
 import { db } from "@/lib/db";
 
-/** Resolve the Customer id owned by the currently signed-in portal user, or null. */
+/** Resolve the Customer id owned by the currently signed-in portal user, or null.
+ *  Effective session so super-admin View-as exercises the wallet as the target user. */
 export async function currentCustomerId(): Promise<string | null> {
-  const session = await auth();
-  const userId = (session?.user as { id?: string } | undefined)?.id;
+  const session = await getEffectiveSession();
+  const userId = session?.user?.id;
   if (!userId) return null;
   // User→Customer link is the direct User.customerId foreign key
   // (relation "customerUsers" in prisma/schema.prisma).
