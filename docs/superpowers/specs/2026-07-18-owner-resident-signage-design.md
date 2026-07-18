@@ -48,10 +48,9 @@ cross-owner reads. Pages (server components, Orithon tokens, `components/dashboa
 - `/owner/requests`: maintenance requests for the owner's units (reported by anyone) +
   `NewRequestButton` constrained to the owner's buildings/units; detail links to
   `/portal/requests/[id]` (route already authorizes owners via `canAccessRequest`).
-- `/owner/announcements`: active announcements + building files (read-only; exclude internal
-  categories — only `REGULATION`, `MINUTES`, `NOTICE`, `OTHER`-class public categories; exact
-  enum values checked at implementation and listed in the plan) for buildings where the user owns
-  a unit.
+- `/owner/announcements`: active announcements + building files (read-only; public
+  `BuildingFileCategory` values only: `PLANS`, `PHOTOS`, `DOCUMENTS`, `CERTIFICATES`, `OTHER` —
+  never `RECEIPT`/`PAYMENT`/`MAINTENANCE`) for buildings where the user owns a unit.
 
 ### 3. Resident portal — completion
 
