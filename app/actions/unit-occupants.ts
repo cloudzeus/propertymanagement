@@ -6,6 +6,8 @@ import { revalidatePath } from "next/cache";
 import bcrypt from "bcryptjs";
 import { getScope, assertCustomer } from "@/lib/scope";
 import { requireBuildingCap } from "@/lib/building-access";
+import { roleAfterGaining } from "@/lib/customer-role-hierarchy";
+import type { UserRole } from "@/lib/prisma/enums";
 
 async function requireStaff() {
   const session = await auth();
@@ -120,7 +122,7 @@ export async function assignOccupant(
 ) {
   await requireStaff();
   const ctx = await authorizeUnit(unitId);
-  const user = await db.user.findUnique({ where: { id: userId }, select: { id: true, name: true, email: true, customerId: true } });
+  const user = await db.user.findUnique({ where: { id: userId }, select: { id: true, name: true, email: true, customerId: true, role: true } });
   if (!user) return { error: "Ο χρήστης δεν βρέθηκε" };
   // Data isolation: only a user of the unit's own customer may be linked as occupant.
   if (user.customerId !== ctx.customerId) return { error: "Ο χρήστης ανήκει σε άλλον πελάτη και δεν μπορεί να συνδεθεί" };
@@ -130,8 +132,16 @@ export async function assignOccupant(
   await db.unit.update({ where: { id: unitId }, data: role === "OWNER" ? { ownerId: user.id } : { residentId: user.id } });
   await openOccupancy(unitId, user.id, role, start);
 
+  // Customer-role hierarchy: gaining an assignment may only ever RAISE the user's
+  // customer role (User.role = highest role held); staff/collaborators untouched.
+  const gained: UserRole = role === "OWNER" ? "PROPERTY_OWNER" : "PROPERTY_RESIDENT";
+  const upgraded = roleAfterGaining(user.role as UserRole, gained);
+  if (upgraded !== user.role) {
+    await db.user.update({ where: { id: user.id }, data: { role: upgraded as any } });
+  }
+
   revalidate(ctx);
-  return { occupant: user };
+  return { occupant: { id: user.id, name: user.name, email: user.email } };
 }
 
 /** End the current owner/resident occupancy (έως) and clear the unit pointer. */

@@ -6,6 +6,8 @@ import { revalidatePath } from "next/cache";
 import bcrypt from "bcryptjs";
 import { getScope } from "@/lib/scope";
 import { requireBuildingCap } from "@/lib/building-access";
+import { roleAfterGaining } from "@/lib/customer-role-hierarchy";
+import type { UserRole } from "@/lib/prisma/enums";
 
 async function requireStaff() {
   const session = await auth();
@@ -129,6 +131,16 @@ export async function addManager(scope: ManagerScope, userId: string) {
     await db.managementAssignment.create({
       data: { userId, propertyId: targetPropertyId, buildingId: targetBuildingId, role: "PROPERTY_ADMIN" },
     });
+  }
+
+  // Customer-role hierarchy: becoming a manager may only ever RAISE the user's
+  // customer role to PROPERTY_ADMIN; staff/collaborator roles are never changed.
+  const target = await db.user.findUnique({ where: { id: userId }, select: { role: true } });
+  if (target) {
+    const upgraded = roleAfterGaining(target.role as UserRole, "PROPERTY_ADMIN");
+    if (upgraded !== target.role) {
+      await db.user.update({ where: { id: userId }, data: { role: upgraded as any } });
+    }
   }
 
   revalidatePath(`/super-admin/properties/${propertyId}`);
