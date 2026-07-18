@@ -36,7 +36,7 @@ export async function AppShell({ children, allowedRoles }: Props) {
   const expenseBuildings = EXPENSE_ROLES.includes(role) ? await listManageableBuildings() : [];
 
   const resolved = await getEffectivePermissions();
-  const menu = resolved ? buildMenu(resolved.surface, resolved.perms) : [];
+  const menu = resolved ? buildMenu(resolved.surface, resolved.perms, resolved.role) : [];
 
   return (
     <div style={{
