@@ -16,7 +16,7 @@ const STATUS_LABEL: Record<string, string> = {
   SENT: "Απεστάλη",
 };
 
-export function AssembliesPanel({ buildingId, can }: { buildingId: string; can: BuildingCaps }) {
+export function AssembliesPanel({ buildingId, can, linkToDetail = true }: { buildingId: string; can: BuildingCaps; linkToDetail?: boolean }) {
   const [rows, setRows] = useState<AssemblyRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [adding, setAdding] = useState(false);
@@ -28,14 +28,20 @@ export function AssembliesPanel({ buildingId, can }: { buildingId: string; can: 
   const columns: ColDef<AssemblyRow>[] = [
     {
       id: "title", header: "Τίτλος", sortKey: "title", width: 280, accessor: (a) => a.title,
-      cell: (a) => (
-        <Link href={`/super-admin/buildings/${buildingId}/assemblies/${a.id}`} style={{ display: "flex", alignItems: "center", gap: 8, minWidth: 0, textDecoration: "none" }}>
-          <div style={{ width: 26, height: 26, borderRadius: 7, flexShrink: 0, background: "var(--color-primary)18", color: "var(--color-primary)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <RiVideoChatLine style={{ fontSize: 14 }} />
-          </div>
-          <span style={{ fontSize: 13, fontWeight: 600, color: "var(--foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{a.title}</span>
-        </Link>
-      ),
+      cell: (a) => {
+        const inner = (
+          <>
+            <div style={{ width: 26, height: 26, borderRadius: 7, flexShrink: 0, background: "var(--color-primary)18", color: "var(--color-primary)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <RiVideoChatLine style={{ fontSize: 14 }} />
+            </div>
+            <span style={{ fontSize: 13, fontWeight: 600, color: "var(--foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{a.title}</span>
+          </>
+        );
+        const rowStyle: React.CSSProperties = { display: "flex", alignItems: "center", gap: 8, minWidth: 0, textDecoration: "none" };
+        return linkToDetail
+          ? <Link href={`/super-admin/buildings/${buildingId}/assemblies/${a.id}`} style={rowStyle}>{inner}</Link>
+          : <div style={rowStyle}>{inner}</div>;
+      },
     },
     { id: "scheduledAt", header: "Ημερομηνία", sortKey: "scheduledAt", width: 170, accessor: (a) => a.scheduledAt, cell: (a) => <span style={{ fontSize: 12, color: "var(--foreground)" }}>{new Date(a.scheduledAt).toLocaleString("el-GR")}</span> },
     { id: "status", header: "Κατάσταση", width: 150, accessor: (a) => STATUS_LABEL[a.status] ?? a.status, cell: (a) => <span style={{ fontSize: 11, fontWeight: 700, padding: "2px 8px", borderRadius: 9999, background: "var(--bg-canvas)", color: "var(--muted-foreground)", border: "1px solid var(--border)" }}>{STATUS_LABEL[a.status] ?? a.status}</span> },
