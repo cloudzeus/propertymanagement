@@ -7,7 +7,7 @@ import {
   RiDashboardLine, RiHome4Line, RiGroupLine, RiUserStarLine, RiFolderLine,
   RiCalendarTodoLine, RiContactsBook3Line, RiSettings3Line, RiWallet3Line,
   RiBankCardLine, RiToolsLine, RiMegaphoneLine, RiScales3Line, RiMoneyEuroCircleLine,
-  RiPieChartLine, RiSpeedUpLine, RiAlarmWarningLine,
+  RiPieChartLine, RiSpeedUpLine, RiAlarmWarningLine, RiListCheck2,
 } from "react-icons/ri";
 import { CategorySplitSettings } from "@/components/buildings/CategorySplitSettings";
 import { ManagedBadge } from "@/components/ui/managed-badge";
@@ -30,6 +30,7 @@ import { HeatingReadingsPanel } from "./HeatingReadingsPanel";
 import { type HeatingReadingDTO } from "@/app/actions/heating-readings";
 import { MeterReadingsPanel, type MeterReadingDTO } from "./MeterReadingsPanel";
 import { MaintenanceTab, type MaintenanceHistoryRow } from "./MaintenanceTab";
+import { ManagedItemsPanel, type ManagedItemRow, type ManagedItemTypeOption } from "./ManagedItemsPanel";
 import { AuditDrawer } from "./AuditDrawer";
 import type { AuditTab } from "@/lib/buildings/audit";
 
@@ -43,6 +44,7 @@ type Building = {
 type Kpis = {
   units: number; millesimes: number; files: number;
   infraPoints: number; contacts: number; recurringTasks: number;
+  managedItems: number;
 };
 type OverviewData = {
   paid: number; unpaid: number; openCount: number;
@@ -52,9 +54,9 @@ type OverviewData = {
 
 type TabKey =
   | "overview" | "units" | "people" | "managers" | "files" | "calendar"
-  | "contacts" | "infra" | "expenses" | "readings" | "splitsettings" | "millesimes" | "koino" | "pay" | "maint" | "maintenance" | "ann" | "assemblies";
+  | "contacts" | "infra" | "manageditems" | "expenses" | "readings" | "splitsettings" | "millesimes" | "koino" | "pay" | "maint" | "maintenance" | "ann" | "assemblies";
 
-const TABS: { key: TabKey; label: string; icon: React.ElementType; badge?: (k: Kpis) => number | undefined }[] = [
+const TABS: { key: TabKey; label: string; icon: React.ElementType; badge?: (k: Kpis) => number | undefined; managedOnly?: boolean }[] = [
   { key: "overview", label: "Επισκόπηση", icon: RiDashboardLine },
   { key: "units", label: "Μονάδες", icon: RiHome4Line, badge: (k) => k.units || undefined },
   { key: "people", label: "Ένοικοι", icon: RiGroupLine },
@@ -63,6 +65,7 @@ const TABS: { key: TabKey; label: string; icon: React.ElementType; badge?: (k: K
   { key: "calendar", label: "Ημερολόγιο", icon: RiCalendarTodoLine, badge: (k) => k.recurringTasks || undefined },
   { key: "contacts", label: "Επαφές", icon: RiContactsBook3Line, badge: (k) => k.contacts || undefined },
   { key: "infra", label: "Εγκαταστάσεις", icon: RiSettings3Line, badge: (k) => k.infraPoints || undefined },
+  { key: "manageditems", label: "Διαχειριζόμενα στοιχεία", icon: RiListCheck2, badge: (k) => k.managedItems || undefined, managedOnly: true },
   { key: "expenses", label: "Έξοδα", icon: RiMoneyEuroCircleLine },
   { key: "readings", label: "Ενδείξεις μετρητών", icon: RiSpeedUpLine },
   { key: "splitsettings", label: "Ρυθμίσεις κατανομής", icon: RiPieChartLine },
@@ -75,7 +78,7 @@ const TABS: { key: TabKey; label: string; icon: React.ElementType; badge?: (k: K
   { key: "assemblies", label: "Συνελεύσεις", icon: RiGroupLine },
 ];
 
-export function BuildingDashboard({ building, kpis, units, files, people, contacts, infraPoints, floorOptions, tasks, expenses, categorySplits, today, millesimeUnits, exclusionUnits, expenseCategories, categoryOverrides, unitExclusions, usesMeteredHeating, heatingPeriod, heatingReadingRows, meterReadingRows, overview, maintenanceHistory }: { building: Building; kpis: Kpis; units: Unit[]; files: FileRow[]; people: Person[]; contacts: ContactRow[]; infraPoints: InfraRow[]; floorOptions: string[]; tasks: TaskRow[]; expenses: ExpenseRow[]; categorySplits: CategorySplit[]; today: string; millesimeUnits: MillesimeUnit[]; exclusionUnits: Array<{ id: string; unitNumber: string; unitType: string }>; expenseCategories: Array<{ id: string; name: string; defaultBasis: string }>; categoryOverrides: Array<{ categoryId: string; distributionBasis: string | null }>; unitExclusions: Array<{ unitId: string; categoryId: string }>; usesMeteredHeating: boolean; heatingPeriod: string; heatingReadingRows: HeatingReadingDTO[]; meterReadingRows: MeterReadingDTO[]; overview: OverviewData; maintenanceHistory: MaintenanceHistoryRow[] }) {
+export function BuildingDashboard({ building, kpis, units, files, people, contacts, infraPoints, floorOptions, tasks, expenses, categorySplits, today, millesimeUnits, exclusionUnits, expenseCategories, categoryOverrides, unitExclusions, usesMeteredHeating, heatingPeriod, heatingReadingRows, meterReadingRows, overview, maintenanceHistory, managedItems, managedItemTypes }: { building: Building; managedItems: ManagedItemRow[]; managedItemTypes: ManagedItemTypeOption[]; kpis: Kpis; units: Unit[]; files: FileRow[]; people: Person[]; contacts: ContactRow[]; infraPoints: InfraRow[]; floorOptions: string[]; tasks: TaskRow[]; expenses: ExpenseRow[]; categorySplits: CategorySplit[]; today: string; millesimeUnits: MillesimeUnit[]; exclusionUnits: Array<{ id: string; unitNumber: string; unitType: string }>; expenseCategories: Array<{ id: string; name: string; defaultBasis: string }>; categoryOverrides: Array<{ categoryId: string; distributionBasis: string | null }>; unitExclusions: Array<{ unitId: string; categoryId: string }>; usesMeteredHeating: boolean; heatingPeriod: string; heatingReadingRows: HeatingReadingDTO[]; meterReadingRows: MeterReadingDTO[]; overview: OverviewData; maintenanceHistory: MaintenanceHistoryRow[] }) {
   const [tab, setTab] = useState<TabKey>("overview");
 
   const subParts = [
@@ -140,7 +143,7 @@ export function BuildingDashboard({ building, kpis, units, files, people, contac
 
       {/* 2-row wrapping tabs */}
       <div style={{ display: "flex", flexWrap: "wrap", gap: 7 }}>
-        {TABS.map((t) => {
+        {TABS.filter((t) => !t.managedOnly || building.propertyManaged).map((t) => {
           const Icon = t.icon;
           const active = tab === t.key;
           const badge = t.badge?.(kpis);
@@ -177,6 +180,8 @@ export function BuildingDashboard({ building, kpis, units, files, people, contac
           <ContactsPanel buildingId={building.id} contacts={contacts} />
         ) : tab === "infra" ? (
           <InfraPanel buildingId={building.id} points={infraPoints} floorOptions={floorOptions} />
+        ) : tab === "manageditems" && building.propertyManaged ? (
+          <ManagedItemsPanel buildingId={building.id} items={managedItems} itemTypes={managedItemTypes} floorOptions={floorOptions} />
         ) : tab === "calendar" ? (
           <CalendarPanel buildingId={building.id} tasks={tasks} today={today} />
         ) : tab === "expenses" ? (

@@ -208,9 +208,48 @@ export type CreateExpenseInput = {
 
 export type PaymentMethod = "CARD" | "CASH" | "VIVA" | "BANK_TRANSFER" | "CHECK" | "OTHER";
 
+/** Reject a bill that has already been registered for this building.
+ *  Match A: same supplier document (documentNumber, and same supplier if given).
+ *  Match B: same meter (type + number) for the same billing period. */
+async function assertNotDuplicate(
+  buildingId: string,
+  input: Pick<CreateExpenseInput, "documentNumber" | "supplierVat" | "meter">,
+  excludeExpenseId?: string,
+) {
+  const docNo = input.documentNumber?.trim();
+  if (docNo) {
+    const dup = await db.buildingExpense.findFirst({
+      where: {
+        buildingId,
+        documentNumber: docNo,
+        ...(input.supplierVat?.trim() ? { supplierVat: input.supplierVat.trim() } : {}),
+        ...(excludeExpenseId ? { id: { not: excludeExpenseId } } : {}),
+      },
+      select: { id: true, month: true },
+    });
+    if (dup) throw new Error(`Ο λογαριασμός με αριθμό παραστατικού «${docNo}» έχει ήδη καταχωρηθεί (μήνας ${dup.month}).`);
+  }
+  const m = input.meter;
+  if (m?.meterType && m.meterNumber?.trim() && m.periodFrom && m.periodTo) {
+    const dup = await db.meterReading.findFirst({
+      where: {
+        buildingId,
+        meterType: m.meterType,
+        meterNumber: m.meterNumber.trim(),
+        periodFrom: new Date(m.periodFrom),
+        periodTo: new Date(m.periodTo),
+        ...(excludeExpenseId ? { expenseId: { not: excludeExpenseId } } : {}),
+      },
+      select: { id: true },
+    });
+    if (dup) throw new Error(`Υπάρχει ήδη καταχωρημένος λογαριασμός για τον μετρητή ${m.meterNumber.trim()} με την ίδια περίοδο. Ο λογαριασμός δεν καταχωρήθηκε ξανά.`);
+  }
+}
+
 export async function createBuildingExpense(buildingId: string, input: CreateExpenseInput) {
   await requireBuildingAccess(buildingId);
   assertSplit(input.tenantPct, input.ownerPct);
+  await assertNotDuplicate(buildingId, input);
   const { loaded, basis, meterReadings, heatingMeterUnit } = await loadAllocContext(buildingId, input.categoryId, input.month);
   const { allocUnits, note } = buildAllocUnits(loaded, basis, meterReadings, heatingMeterUnit);
   const rows = computeAllocation({ total: input.totalAmount, tenantPct: input.tenantPct, ownerPct: input.ownerPct, units: allocUnits });
@@ -277,6 +316,7 @@ export async function updateBuildingExpense(id: string, input: UpdateExpenseInpu
   await requireBuildingAccess(current.buildingId);
   if (current.status === "ISSUED") throw new Error("Το έξοδο έχει ήδη συμπεριληφθεί σε έκδοση κοινοχρήστων και δεν επεξεργάζεται.");
   assertSplit(input.tenantPct, input.ownerPct);
+  await assertNotDuplicate(current.buildingId, input, id);
 
   const { loaded, basis, meterReadings, heatingMeterUnit } = await loadAllocContext(current.buildingId, input.categoryId, input.month);
   const { allocUnits, note } = buildAllocUnits(loaded, basis, meterReadings, heatingMeterUnit);

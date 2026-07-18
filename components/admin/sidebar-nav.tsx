@@ -36,6 +36,7 @@ import {
   RiSearchEyeLine,
   RiArticleLine, RiArticleFill,
   RiUserStarLine, RiUserStarFill,
+  RiListCheck2,
 } from "react-icons/ri";
 import type { MenuGroup } from "@/lib/rbac/permissions";
 
@@ -92,6 +93,7 @@ const ICONS: Record<string, { line: React.ElementType; fill: React.ElementType }
   RiImage2Line:             { line: RiImage2Line,             fill: RiImage2Fill },
   RiTranslate2:             { line: RiTranslate2,             fill: RiTranslate2 },
   RiEyeLine:                { line: RiEyeLine,                fill: RiEyeFill },
+  RiListCheck2:             { line: RiListCheck2,             fill: RiListCheck2 },
 };
 const FALLBACK_ICON = { line: RiFileListLine, fill: RiFileListFill };
 

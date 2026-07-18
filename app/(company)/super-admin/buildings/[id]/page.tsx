@@ -26,7 +26,7 @@ export default async function BuildingDashboardPage({ params, searchParams }: { 
       heatingMeterUnit: true,
       property: { select: { id: true, name: true, managed: true, customer: { select: { name: true } } } },
       _count: {
-        select: { units: true, files: true, infraPoints: true, contacts: true, recurringTasks: true },
+        select: { units: true, files: true, infraPoints: true, contacts: true, recurringTasks: true, managedItems: true },
       },
     },
   });
@@ -113,7 +113,7 @@ export default async function BuildingDashboardPage({ params, searchParams }: { 
   }
   const people = [...map.values()].sort((a, b) => (a.name ?? a.email).localeCompare(b.name ?? b.email, "el"));
 
-  const [contacts, infraPoints, taskRows] = await Promise.all([
+  const [contacts, infraPoints, taskRows, managedItemRows, managedItemTypes] = await Promise.all([
     db.contact.findMany({ where: { buildingId: id }, orderBy: { name: "asc" }, select: { id: true, name: true, category: true, phone: true, email: true, notes: true } }),
     db.infraPoint.findMany({
       where: { buildingId: id }, orderBy: { createdAt: "asc" },
@@ -126,6 +126,12 @@ export default async function BuildingDashboardPage({ params, searchParams }: { 
       },
     }),
     db.recurringTask.findMany({ where: { buildingId: id }, orderBy: { nextDueDate: "asc" }, select: { id: true, title: true, frequency: true, nextDueDate: true, vendor: true, notes: true, active: true, kind: true, inServicePackage: true, reminderDaysBefore: true } }),
+    db.managedItem.findMany({
+      where: { buildingId: id },
+      orderBy: [{ location: "asc" }, { createdAt: "asc" }],
+      select: { id: true, itemTypeId: true, location: true, floorLabel: true, quantity: true, photoUrl: true, notes: true, itemType: { select: { name: true } } },
+    }),
+    db.managedItemType.findMany({ orderBy: { name: "asc" }, select: { id: true, name: true, active: true } }),
   ]);
   const tasks = taskRows.map((t) => ({ ...t, nextDueDate: t.nextDueDate ? t.nextDueDate.toISOString() : null }));
 
@@ -275,6 +281,7 @@ export default async function BuildingDashboardPage({ params, searchParams }: { 
         infraPoints: building._count.infraPoints,
         contacts: building._count.contacts,
         recurringTasks: building._count.recurringTasks,
+        managedItems: building._count.managedItems,
       }}
       units={unitsHere.map((u) => ({
         id: u.id, unitNumber: u.unitNumber, unitType: u.unitType, floor: u.floor,
@@ -285,6 +292,12 @@ export default async function BuildingDashboardPage({ params, searchParams }: { 
       files={files.map((f) => ({ ...f, createdAt: f.createdAt.toISOString() }))}
       people={people}
       contacts={contacts}
+      managedItems={managedItemRows.map((m) => ({
+        id: m.id, itemTypeId: m.itemTypeId, itemTypeName: m.itemType.name,
+        location: m.location, floorLabel: m.floorLabel, quantity: m.quantity,
+        photoUrl: m.photoUrl, notes: m.notes,
+      }))}
+      managedItemTypes={managedItemTypes}
       infraPoints={infra}
       floorOptions={floorOptions}
       tasks={tasks}
