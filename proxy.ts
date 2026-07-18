@@ -165,5 +165,7 @@ export default auth((req: NextRequest & { auth: any }) => {
 });
 
 export const config = {
-  matcher: ["/((?!api/auth|_next/static|_next/image|favicon.ico|.*\\..*).*)"],
+  // api/realtime is excluded so the SSE route answers 401 itself (an EventSource on an
+  // unattended signage TV must get a retryable status, not an HTML login redirect).
+  matcher: ["/((?!api/auth|api/realtime|_next/static|_next/image|favicon.ico|.*\\..*).*)"],
 };
