@@ -85,6 +85,11 @@ export async function createMaintenanceRequest(input: CreateFaultInput) {
   if (!input.description?.trim()) return { error: "Η περιγραφή είναι υποχρεωτική" };
   if (!(await canReportInBuilding(user.id, user.role, input.buildingId))) return { error: "Δεν έχετε πρόσβαση στο κτήριο" };
 
+  if (input.unitId) {
+    const unit = await db.unit.findFirst({ where: { id: input.unitId, buildingId: input.buildingId }, select: { id: true } });
+    if (!unit) return { error: "Η μονάδα δεν ανήκει στο κτήριο." };
+  }
+
   const priority: FaultPriority = FAULT_PRIORITIES.includes(input.priority as any) ? (input.priority as FaultPriority) : "NORMAL";
   const category = input.categoryId
     ? await db.maintenanceCategory.findUnique({ where: { id: input.categoryId }, select: { id: true, name: true, slaHours: true } })
