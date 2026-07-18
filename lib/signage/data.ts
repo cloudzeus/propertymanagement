@@ -22,7 +22,16 @@ export async function getSignageData(buildingId: string) {
       select: { id: true, name: true, address: true, city: true, lat: true, lng: true },
     }),
     db.announcement.findMany({
-      where: { buildingId, status: "ACTIVE" },
+      where: {
+        buildingId,
+        status: "ACTIVE",
+        // Public lobby screen: only untargeted announcements, within their publish window.
+        audience: "ALL",
+        AND: [
+          { OR: [{ publishedAt: null }, { publishedAt: { lte: new Date() } }] },
+          { OR: [{ expiresAt: null }, { expiresAt: { gte: new Date() } }] },
+        ],
+      },
       orderBy: { createdAt: "desc" },
       take: 10,
       select: { id: true, title: true, content: true, imageUrl: true, createdAt: true },

@@ -155,7 +155,7 @@ export default auth((req: NextRequest & { auth: any }) => {
   if (pathWithoutLocale.startsWith("/owner") && !can("SUPER_ADMIN", "ADMIN", "PROPERTY_OWNER")) {
     return deny();
   }
-  if (pathWithoutLocale.startsWith("/portal") && !can("SUPER_ADMIN", "ADMIN", "PROPERTY_ADMIN", "PROPERTY_RESIDENT", "PROPERTY_VIEWER")) {
+  if (pathWithoutLocale.startsWith("/portal") && !can("SUPER_ADMIN", "ADMIN", "PROPERTY_ADMIN", "PROPERTY_RESIDENT")) {
     return deny();
   }
 
