@@ -1,8 +1,8 @@
 import { auth } from "@/auth";
 import { db } from "@/lib/db";
 import { listMaintenanceHistory } from "@/app/actions/maintenance-logs";
-import { CalendarPanel } from "@/app/(company)/super-admin/buildings/[id]/CalendarPanel";
-import { MaintenanceTab } from "@/app/(company)/super-admin/buildings/[id]/MaintenanceTab";
+import { CalendarPanel } from "@/components/building/CalendarPanel";
+import { MaintenanceTab } from "@/components/building/MaintenanceTab";
 import { EmptyState } from "@/components/dashboard";
 import { RiToolsLine } from "react-icons/ri";
 import Link from "next/link";
