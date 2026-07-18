@@ -4,7 +4,7 @@ import { auth } from "@/auth";
 import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import bcrypt from "bcryptjs";
-import { getScope, assertCustomer } from "@/lib/scope";
+import { getScope } from "@/lib/scope";
 import { requireBuildingCap } from "@/lib/building-access";
 
 async function requireStaff() {
@@ -15,19 +15,15 @@ async function requireStaff() {
   return user!.role as string;
 }
 
-/** Authorize the caller for a manager scope: staff → any; else same customer + manages it.
- *  Building scopes additionally go through the capability guard (`manageManagers`,
- *  which only company staff ever hold — PROPERTY_ADMIN is always denied). */
+/** Authorize the caller for a manager scope. Manager CRUD is company-staff-only:
+ *  building scopes route through the `manageManagers` capability (which only
+ *  staff ever hold), and property scopes require the staff role explicitly —
+ *  PROPERTY_ADMIN is always denied. */
 async function authorizeScope(scope: ManagerScope) {
   if ("buildingId" in scope) await requireBuildingCap(scope.buildingId, "manageManagers");
   const resolved = await resolveScope(scope);
   const s = await getScope();
-  if (s.seesAllCustomers) return resolved;
-  assertCustomer(s, resolved.customerId);
-  const conds: any[] = [{ propertyId: resolved.propertyId }];
-  if ("buildingId" in scope) conds.push({ buildingId: scope.buildingId });
-  const manages = await db.managementAssignment.findFirst({ where: { userId: s.userId, OR: conds }, select: { id: true } });
-  if (!manages) throw new Error("Forbidden: not a manager of this scope");
+  if (!s.seesAllCustomers) throw new Error("Forbidden");
   return resolved;
 }
 

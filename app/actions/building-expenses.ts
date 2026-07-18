@@ -246,6 +246,11 @@ async function assertNotDuplicate(
 export async function createBuildingExpense(buildingId: string, input: CreateExpenseInput) {
   await requireBuildingAccess(buildingId);
   assertSplit(input.tenantPct, input.ownerPct);
+  // Data isolation: a supplied receipt file must belong to THIS building.
+  if (input.fileId) {
+    const bf = await db.buildingFile.findFirst({ where: { id: input.fileId, buildingId }, select: { id: true } });
+    if (!bf) throw new Error("Το αρχείο παραστατικού δεν ανήκει σε αυτό το κτήριο.");
+  }
   await assertNotDuplicate(buildingId, input);
   const { loaded, basis, meterReadings, heatingMeterUnit } = await loadAllocContext(buildingId, input.categoryId, input.month);
   const { allocUnits, note } = buildAllocUnits(loaded, basis, meterReadings, heatingMeterUnit);

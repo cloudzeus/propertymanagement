@@ -26,7 +26,8 @@ function assertSplit(t: number, o: number) {
 }
 
 export async function listExpenseCategories() {
-  await auth();
+  const session = await auth();
+  if (!session?.user) throw new Error("Unauthorized");
   return db.expenseCategory.findMany({ orderBy: [{ active: "desc" }, { sortOrder: "asc" }] });
 }
 

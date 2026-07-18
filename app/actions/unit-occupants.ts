@@ -154,7 +154,7 @@ export async function setOccupancyDates(args: {
   startDate: string; endDate?: string | null;
 }) {
   await requireStaff();
-  await authorizeUnit(args.unitId);
+  const ctx = await authorizeUnit(args.unitId);
   const start = args.startDate ? new Date(args.startDate) : new Date();
   const end = args.endDate ? new Date(args.endDate) : null;
   if (end && end < start) return { error: "Η ημ/νία λήξης δεν μπορεί να είναι πριν την έναρξη" };
@@ -167,10 +167,13 @@ export async function setOccupancyDates(args: {
   if (existing) {
     await db.unitOccupancy.update({ where: { id: existing.id }, data: { startDate: start, endDate: end } });
   } else {
+    // Data isolation: only a user of the unit's own customer may be linked (same rule as assignOccupant).
+    const target = await db.user.findUnique({ where: { id: args.userId }, select: { customerId: true } });
+    if (!target) return { error: "Ο χρήστης δεν βρέθηκε" };
+    if (target.customerId !== ctx.customerId) return { error: "Ο χρήστης ανήκει σε άλλον πελάτη και δεν μπορεί να συνδεθεί" };
     await db.unitOccupancy.create({ data: { unitId: args.unitId, userId: args.userId, role: args.role as any, startDate: start, endDate: end } });
   }
 
-  const ctx = await unitContext(args.unitId);
   revalidate(ctx);
   return { ok: true };
 }

@@ -211,6 +211,15 @@ export async function getPersonStatement(buildingId: string, userId: string, mon
       }
     }
   }
+  // Data isolation: only return details for a person actually tied to THIS
+  // building (via an allocation above, or a unit occupancy). Otherwise 404.
+  if (lines.length === 0) {
+    const member = await db.unit.findFirst({
+      where: { buildingId, OR: [{ ownerId: userId }, { residentId: userId }, { occupancies: { some: { userId } } }] },
+      select: { id: true },
+    });
+    if (!member) throw new Error("Δεν βρέθηκε το άτομο σε αυτό το κτήριο.");
+  }
   return { userId, name: user?.name ?? user?.email ?? "—", email: user?.email ?? null, units: [...units].sort(), total, paid, due: total - paid, lines };
 }
 

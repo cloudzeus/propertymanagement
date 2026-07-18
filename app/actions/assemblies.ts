@@ -5,7 +5,7 @@ import { db } from "@/lib/db";
 import { env } from "@/lib/env";
 import { revalidatePath } from "next/cache";
 import { ensureRoom, createMeetingToken } from "@/lib/daily";
-import { generateMinutesHtml } from "@/lib/assemblies/minutes";
+import { runAssemblyMinutes } from "@/lib/assemblies/run-minutes";
 import { sendAnnouncementEmail } from "@/lib/mailgun";
 import { requireBuildingCap, requireBuildingView } from "@/lib/building-access";
 
@@ -157,9 +157,17 @@ export async function getAssemblyToken(assemblyId: string) {
   if (!assembly) throw new Error("Assembly not found");
 
   const me = await db.user.findUnique({ where: { id: userId }, select: { id: true, name: true, role: true } });
-  const isStaff = ["SUPER_ADMIN", "ADMIN", "MANAGER", "PROPERTY_ADMIN"].includes(me?.role ?? "");
+  // Host (owner-token) path: must hold the assemblies capability on THIS building
+  // (company staff always do; a PROPERTY_ADMIN only via ManagementAssignment).
+  let isHost = false;
+  try {
+    await requireBuildingCap(assembly.building.id, "manageAssemblies");
+    isHost = true;
+  } catch {
+    /* not a host — may still join as invited participant */
+  }
   const participant = await db.assemblyParticipant.findFirst({ where: { assemblyId, userId } });
-  if (!isStaff && !participant) throw new Error("Forbidden");
+  if (!isHost && !participant) throw new Error("Forbidden");
 
   // Ensure a participant row exists for join/leave aggregation (no unique constraint on assemblyId+userId).
   const existing = participant ?? (await db.assemblyParticipant.findFirst({ where: { assemblyId, userId } }));
@@ -174,7 +182,7 @@ export async function getAssemblyToken(assemblyId: string) {
     room: assembly.dailyRoomName,
     userName: me?.name ?? "Συμμετέχων",
     userId,
-    isOwner: isStaff,
+    isOwner: isHost,
     expEpochSeconds: exp,
   });
   return { token, roomName: assembly.dailyRoomName };
@@ -190,40 +198,19 @@ export async function endAssembly(assemblyId: string, transcript: string) {
     data: { transcriptRaw: transcript?.trim() ? transcript : null, status: transcript?.trim() ? "TRANSCRIBING" : "ENDED" },
   });
   if (transcript?.trim()) {
-    try { await runMinutes(assemblyId); } catch (e) { console.error("endAssembly runMinutes failed", e); }
+    try { await runAssemblyMinutes(assemblyId); } catch (e) { console.error("endAssembly runMinutes failed", e); }
   }
   revalidatePath(`/super-admin/buildings/${a.buildingId}/assemblies/${assemblyId}`);
   revalidatePath(`/building/${a.buildingId}/assemblies/${assemblyId}`);
   return { ok: true };
 }
 
-/** Core minutes generation WITHOUT auth — callable by the webhook. */
-export async function runMinutes(assemblyId: string) {
-  const a = await db.assembly.findUnique({
-    where: { id: assemblyId },
-    select: { id: true, transcriptRaw: true, buildingId: true, building: { select: { name: true, companyId: true, property: { select: { customerId: true } } } } },
-  });
-  if (!a?.transcriptRaw) throw new Error("No transcript yet");
-
-  const result = await generateMinutesHtml({
-    transcript: a.transcriptRaw,
-    buildingName: a.building.name,
-    ctx: { companyId: a.building.companyId ?? undefined, customerId: a.building.property?.customerId ?? undefined, buildingId: a.buildingId, assemblyId },
-  });
-  if (!result.success) throw new Error(result.error ?? "DeepSeek failed");
-
-  await db.assembly.update({ where: { id: assemblyId }, data: { minutesDraft: result.html, status: "DRAFT_READY" } });
-  revalidatePath(`/super-admin/buildings/${a.buildingId}/assemblies/${assemblyId}`);
-  revalidatePath(`/building/${a.buildingId}/assemblies/${assemblyId}`);
-  return { html: result.html };
-}
-
-/** Staff-facing wrapper: auth-gate then run. */
+/** Staff/manager-facing minutes generation: auth-gate then run the core (lib/assemblies/run-minutes). */
 export async function generateMinutes(assemblyId: string) {
   const a = await db.assembly.findUnique({ where: { id: assemblyId }, select: { buildingId: true } });
   if (!a) throw new Error("Assembly not found");
   await requireBuildingCap(a.buildingId, "manageAssemblies");
-  return runMinutes(assemblyId);
+  return runAssemblyMinutes(assemblyId);
 }
 
 export async function approveAndSendMinutes(assemblyId: string, finalHtml: string) {

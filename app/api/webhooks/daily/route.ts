@@ -3,7 +3,7 @@ import crypto from "crypto";
 import { db } from "@/lib/db";
 import { env } from "@/lib/env";
 import { logAPIUsage } from "@/lib/api-costs";
-import { runMinutes } from "@/app/actions/assemblies";
+import { runAssemblyMinutes } from "@/lib/assemblies/run-minutes";
 
 // Daily signs each delivery as: base64( HMAC-SHA256( `${timestamp}.${rawBody}` ) )
 // sent in headers X-Webhook-Signature + X-Webhook-Timestamp.
@@ -106,7 +106,7 @@ export async function POST(req: NextRequest) {
             assemblyId: assembly.id,
           });
         }
-        if (transcript) await runMinutes(assembly.id).catch((e) => console.error("auto-minutes failed", e));
+        if (transcript) await runAssemblyMinutes(assembly.id).catch((e) => console.error("auto-minutes failed", e));
       }
       break;
     }

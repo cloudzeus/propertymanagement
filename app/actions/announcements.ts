@@ -263,7 +263,10 @@ export async function deleteAnnouncement(id: string) {
   if (a.recurringTaskId) {
     await db.recurringTask.delete({ where: { id: a.recurringTaskId } }).catch(() => {});
   }
-  revalidatePath(`/super-admin/buildings/${a.buildingId}`);
-  revalidatePath(`/building/${a.buildingId}`);
+  if (a.buildingId) {
+    revalidatePath(`/super-admin/buildings/${a.buildingId}`);
+    revalidatePath(`/building/${a.buildingId}`);
+  }
+  revalidatePath(`/announcements`);
   return { ok: true };
 }
