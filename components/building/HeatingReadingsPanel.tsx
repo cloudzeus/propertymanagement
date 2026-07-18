@@ -9,15 +9,17 @@ import {
   saveHeatingMeterUnit,
   type HeatingReadingDTO,
 } from "@/app/actions/heating-readings";
+import type { BuildingCaps } from "@/lib/building-caps";
 
 type Props = {
   buildingId: string;
   period: string;
   rows: HeatingReadingDTO[];
   heatingMeterUnit: string | null;
+  can: BuildingCaps;
 };
 
-export function HeatingReadingsPanel({ buildingId, period, rows, heatingMeterUnit }: Props) {
+export function HeatingReadingsPanel({ buildingId, period, rows, heatingMeterUnit, can }: Props) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [draft, setDraft] = useState<Record<string, string>>(
@@ -72,15 +74,19 @@ export function HeatingReadingsPanel({ buildingId, period, rows, heatingMeterUni
           Περίοδος
           <input type="month" value={period} onChange={(e) => { if (e.target.value) changePeriod(e.target.value); }} style={inputStyle} />
         </label>
-        <label style={{ display: "inline-flex", alignItems: "center", gap: 8, fontSize: 13, color: "var(--foreground)" }}>
-          Μονάδα μέτρησης
-          <input
-            defaultValue={heatingMeterUnit ?? ""}
-            placeholder="π.χ. μονάδες"
-            onBlur={(e) => { if ((e.target.value || null) !== (heatingMeterUnit ?? null)) saveLabel(e.target.value); }}
-            style={{ width: 110, ...inputStyle }}
-          />
-        </label>
+        {can.editMillesimes ? (
+          <label style={{ display: "inline-flex", alignItems: "center", gap: 8, fontSize: 13, color: "var(--foreground)" }}>
+            Μονάδα μέτρησης
+            <input
+              defaultValue={heatingMeterUnit ?? ""}
+              placeholder="π.χ. μονάδες"
+              onBlur={(e) => { if ((e.target.value || null) !== (heatingMeterUnit ?? null)) saveLabel(e.target.value); }}
+              style={{ width: 110, ...inputStyle }}
+            />
+          </label>
+        ) : (
+          <span style={{ fontSize: 13, color: "var(--foreground)" }}>Μονάδα μέτρησης: <b>{heatingMeterUnit ?? "—"}</b></span>
+        )}
         {isPending && <RiLoaderLine style={{ animation: "spin 1s linear infinite", color: "var(--muted-foreground)" }} />}
       </div>
 
@@ -104,16 +110,20 @@ export function HeatingReadingsPanel({ buildingId, period, rows, heatingMeterUni
                 <td style={td}>{r.unitNumber}</td>
                 <td style={{ ...td, textAlign: "right", color: "var(--muted-foreground)" }}>{r.previousReading ?? "—"}</td>
                 <td style={{ ...td, textAlign: "right" }}>
-                  <input
-                    style={{ width: 80, textAlign: "right", ...inputStyle }}
-                    value={draft[r.unitId] ?? ""}
-                    inputMode="decimal"
-                    onChange={(e) => setDraft((d) => ({ ...d, [r.unitId]: e.target.value }))}
-                    onBlur={(e) => startTransition(async () => {
-                      await saveHeatingReading(buildingId, r.unitId, period, e.target.value === "" ? null : Number(e.target.value));
-                      router.refresh();
-                    })}
-                  />
+                  {can.editMillesimes ? (
+                    <input
+                      style={{ width: 80, textAlign: "right", ...inputStyle }}
+                      value={draft[r.unitId] ?? ""}
+                      inputMode="decimal"
+                      onChange={(e) => setDraft((d) => ({ ...d, [r.unitId]: e.target.value }))}
+                      onBlur={(e) => startTransition(async () => {
+                        await saveHeatingReading(buildingId, r.unitId, period, e.target.value === "" ? null : Number(e.target.value));
+                        router.refresh();
+                      })}
+                    />
+                  ) : (
+                    <span>{draft[r.unitId] === "" || draft[r.unitId] == null ? "—" : draft[r.unitId]}</span>
+                  )}
                 </td>
                 <td style={{ ...td, textAlign: "right", fontWeight: 600, color: negative ? "#dc2626" : "var(--foreground)" }}>
                   {c == null ? "—" : negative ? (
@@ -136,11 +146,13 @@ export function HeatingReadingsPanel({ buildingId, period, rows, heatingMeterUni
         </tfoot>
       </table>
 
-      <div style={{ display: "flex", gap: 8, padding: "13px 16px", borderTop: "1px solid var(--border)" }}>
-        <button onClick={saveAll} disabled={isPending} style={btn}>
-          <RiSave3Line /> Αποθήκευση όλων
-        </button>
-      </div>
+      {can.editMillesimes && (
+        <div style={{ display: "flex", gap: 8, padding: "13px 16px", borderTop: "1px solid var(--border)" }}>
+          <button onClick={saveAll} disabled={isPending} style={btn}>
+            <RiSave3Line /> Αποθήκευση όλων
+          </button>
+        </div>
+      )}
 
       <style>{`@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}`}</style>
     </div>

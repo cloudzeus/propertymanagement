@@ -33,6 +33,7 @@ import { MaintenanceTab, type MaintenanceHistoryRow } from "@/components/buildin
 import { ManagedItemsPanel, type ManagedItemRow, type ManagedItemTypeOption } from "@/components/building/ManagedItemsPanel";
 import { AuditDrawer } from "@/components/building/AuditDrawer";
 import type { AuditTab } from "@/lib/buildings/audit";
+import type { BuildingCaps } from "@/lib/building-caps";
 
 type Building = {
   id: string; name: string; address: string; city: string; postalCode: string;
@@ -78,7 +79,7 @@ const TABS: { key: TabKey; label: string; icon: React.ElementType; badge?: (k: K
   { key: "assemblies", label: "Συνελεύσεις", icon: RiGroupLine },
 ];
 
-export function BuildingDashboard({ building, kpis, units, files, people, contacts, infraPoints, floorOptions, tasks, expenses, categorySplits, today, millesimeUnits, exclusionUnits, expenseCategories, categoryOverrides, unitExclusions, usesMeteredHeating, heatingPeriod, heatingReadingRows, meterReadingRows, overview, maintenanceHistory, managedItems, managedItemTypes }: { building: Building; managedItems: ManagedItemRow[]; managedItemTypes: ManagedItemTypeOption[]; kpis: Kpis; units: Unit[]; files: FileRow[]; people: Person[]; contacts: ContactRow[]; infraPoints: InfraRow[]; floorOptions: string[]; tasks: TaskRow[]; expenses: ExpenseRow[]; categorySplits: CategorySplit[]; today: string; millesimeUnits: MillesimeUnit[]; exclusionUnits: Array<{ id: string; unitNumber: string; unitType: string }>; expenseCategories: Array<{ id: string; name: string; defaultBasis: string }>; categoryOverrides: Array<{ categoryId: string; distributionBasis: string | null }>; unitExclusions: Array<{ unitId: string; categoryId: string }>; usesMeteredHeating: boolean; heatingPeriod: string; heatingReadingRows: HeatingReadingDTO[]; meterReadingRows: MeterReadingDTO[]; overview: OverviewData; maintenanceHistory: MaintenanceHistoryRow[] }) {
+export function BuildingDashboard({ building, kpis, units, files, people, contacts, infraPoints, floorOptions, tasks, expenses, categorySplits, today, millesimeUnits, exclusionUnits, expenseCategories, categoryOverrides, unitExclusions, usesMeteredHeating, heatingPeriod, heatingReadingRows, meterReadingRows, overview, maintenanceHistory, managedItems, managedItemTypes, can }: { building: Building; managedItems: ManagedItemRow[]; managedItemTypes: ManagedItemTypeOption[]; kpis: Kpis; units: Unit[]; files: FileRow[]; people: Person[]; contacts: ContactRow[]; infraPoints: InfraRow[]; floorOptions: string[]; tasks: TaskRow[]; expenses: ExpenseRow[]; categorySplits: CategorySplit[]; today: string; millesimeUnits: MillesimeUnit[]; exclusionUnits: Array<{ id: string; unitNumber: string; unitType: string }>; expenseCategories: Array<{ id: string; name: string; defaultBasis: string }>; categoryOverrides: Array<{ categoryId: string; distributionBasis: string | null }>; unitExclusions: Array<{ unitId: string; categoryId: string }>; usesMeteredHeating: boolean; heatingPeriod: string; heatingReadingRows: HeatingReadingDTO[]; meterReadingRows: MeterReadingDTO[]; overview: OverviewData; maintenanceHistory: MaintenanceHistoryRow[]; can: BuildingCaps }) {
   const [tab, setTab] = useState<TabKey>("overview");
 
   const subParts = [
@@ -122,10 +123,12 @@ export function BuildingDashboard({ building, kpis, units, files, people, contac
             </div>
           </div>
           <div style={{ display: "flex", gap: 8 }}>
-            <AuditDrawer buildingId={building.id} onGoToTab={(t: AuditTab) => {
-              const map: Record<AuditTab, TabKey> = { units: "units", millesimes: "millesimes", distribution: "millesimes", exclusions: "millesimes", heating: "millesimes", info: "overview", customer: "overview" };
-              const target = map[t]; if (target) setTab(target);
-            }} />
+            {can.viewAudit && (
+              <AuditDrawer buildingId={building.id} onGoToTab={(t: AuditTab) => {
+                const map: Record<AuditTab, TabKey> = { units: "units", millesimes: "millesimes", distribution: "millesimes", exclusions: "millesimes", heating: "millesimes", info: "overview", customer: "overview" };
+                const target = map[t]; if (target) setTab(target);
+              }} />
+            )}
             <Link href={`/super-admin/properties/${building.propertyId}`} style={btn}><RiEditLine /> Επεξεργασία</Link>
             <button style={{ ...btn, ...btnPrimary }}><RiAddLine /> Ενέργεια</button>
           </div>
@@ -169,27 +172,27 @@ export function BuildingDashboard({ building, kpis, units, files, people, contac
         {tab === "overview" ? (
           <Overview building={building} data={overview} setTab={setTab} />
         ) : tab === "units" ? (
-          <UnitsPanel buildingId={building.id} units={units} />
+          <UnitsPanel buildingId={building.id} units={units} can={can} />
         ) : tab === "managers" ? (
           <ManagersPanel buildingId={building.id} />
         ) : tab === "files" ? (
-          <FilesPanel buildingId={building.id} files={files} />
+          <FilesPanel buildingId={building.id} files={files} can={can} />
         ) : tab === "people" ? (
-          <PeoplePanel people={people} />
+          <PeoplePanel people={people} can={can} />
         ) : tab === "contacts" ? (
-          <ContactsPanel buildingId={building.id} contacts={contacts} />
+          <ContactsPanel buildingId={building.id} contacts={contacts} can={can} />
         ) : tab === "infra" ? (
-          <InfraPanel buildingId={building.id} points={infraPoints} floorOptions={floorOptions} />
+          <InfraPanel buildingId={building.id} points={infraPoints} floorOptions={floorOptions} can={can} />
         ) : tab === "manageditems" && building.propertyManaged ? (
-          <ManagedItemsPanel buildingId={building.id} items={managedItems} itemTypes={managedItemTypes} floorOptions={floorOptions} />
+          <ManagedItemsPanel buildingId={building.id} items={managedItems} itemTypes={managedItemTypes} floorOptions={floorOptions} can={can} />
         ) : tab === "calendar" ? (
-          <CalendarPanel buildingId={building.id} tasks={tasks} today={today} />
+          <CalendarPanel buildingId={building.id} tasks={tasks} today={today} can={can} />
         ) : tab === "expenses" ? (
-          <ExpensesPanel buildingId={building.id} expenses={expenses} categories={categorySplits} />
+          <ExpensesPanel buildingId={building.id} expenses={expenses} categories={categorySplits} can={can} />
         ) : tab === "readings" ? (
           <MeterReadingsPanel rows={meterReadingRows} />
         ) : tab === "splitsettings" ? (
-          <CategorySplitSettings buildingId={building.id} rows={categorySplits} />
+          <CategorySplitSettings buildingId={building.id} rows={categorySplits} can={can} />
         ) : tab === "millesimes" ? (
           <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
             <MillesimeGrid
@@ -197,26 +200,28 @@ export function BuildingDashboard({ building, kpis, units, files, people, contac
               units={millesimeUnits}
               elevatorSurchargePerFloor={building.elevatorSurchargePerFloor}
               elevatorExemptGroundFloor={building.elevatorExemptGroundFloor}
+              can={can}
             />
-            <DistributionTab buildingId={building.id} categories={expenseCategories} overrides={categoryOverrides} />
-            <ExclusionMatrix buildingId={building.id} units={exclusionUnits} categories={expenseCategories} exclusions={unitExclusions} />
+            <DistributionTab buildingId={building.id} categories={expenseCategories} overrides={categoryOverrides} can={can} />
+            <ExclusionMatrix buildingId={building.id} units={exclusionUnits} categories={expenseCategories} exclusions={unitExclusions} can={can} />
             {usesMeteredHeating && (
               <HeatingReadingsPanel
                 buildingId={building.id}
                 period={heatingPeriod}
                 rows={heatingReadingRows}
                 heatingMeterUnit={building.heatingMeterUnit ?? null}
+                can={can}
               />
             )}
           </div>
         ) : tab === "maintenance" ? (
-          <MaintenanceTab rows={maintenanceHistory} tasks={tasks} buildingId={building.id} />
+          <MaintenanceTab rows={maintenanceHistory} tasks={tasks} buildingId={building.id} can={can} />
         ) : tab === "koino" ? (
-          <KoinochristaPanel buildingId={building.id} />
+          <KoinochristaPanel buildingId={building.id} can={can} />
         ) : tab === "ann" ? (
-          <AnnouncementsPanel buildingId={building.id} />
+          <AnnouncementsPanel buildingId={building.id} can={can} />
         ) : tab === "assemblies" ? (
-          <AssembliesPanel buildingId={building.id} />
+          <AssembliesPanel buildingId={building.id} can={can} />
         ) : (
           <Placeholder label={TABS.find((t) => t.key === tab)?.label ?? ""} />
         )}

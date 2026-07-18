@@ -7,6 +7,7 @@ import {
   upsertBuildingCategoryOverride,
   clearBuildingCategoryOverride,
 } from "@/app/actions/expense-categories";
+import type { BuildingCaps } from "@/lib/building-caps";
 
 type SplitRow = {
   category: {
@@ -28,10 +29,11 @@ function clampPct(n: number) {
 }
 
 export function CategorySplitSettings({
-  buildingId, rows,
+  buildingId, rows, can,
 }: {
   buildingId: string;
   rows: SplitRow[];
+  can: BuildingCaps;
 }) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -145,6 +147,7 @@ export function CategorySplitSettings({
                       </span>
                     </td>
                     <td style={{ ...td, textAlign: "right" }}>
+                      {can.editDistribution && (
                       <div style={{ display: "inline-flex", gap: 6 }}>
                         {editing ? (
                           <>
@@ -168,6 +171,7 @@ export function CategorySplitSettings({
                           </>
                         )}
                       </div>
+                      )}
                     </td>
                   </tr>
                 );

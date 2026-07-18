@@ -7,6 +7,7 @@ import {
   createRecurringTask, updateRecurringTask, deleteRecurringTask, type TaskFrequency, type TaskInput,
 } from "@/app/actions/recurring-tasks";
 import { completeMaintenance } from "@/app/actions/maintenance-logs";
+import type { BuildingCaps } from "@/lib/building-caps";
 import {
   RiAddLine, RiArrowLeftSLine, RiArrowRightSLine, RiCheckLine, RiLoaderLine,
   RiDeleteBinLine, RiCheckboxCircleLine,
@@ -66,13 +67,14 @@ function occurrences(t: TaskRow, start: Date, end: Date): Date[] {
 
 type View = "month" | "week" | "day";
 
-export function CalendarPanel({ buildingId, tasks, today }: { buildingId: string; tasks: TaskRow[]; today: string }) {
+export function CalendarPanel({ buildingId, tasks, today, can }: { buildingId: string; tasks: TaskRow[]; today: string; can: BuildingCaps }) {
   const router = useRouter();
   const now = useMemo(() => startOfDay(new Date(today)), [today]);
   const [view, setView] = useState<View>("month");
   const [cursor, setCursor] = useState<Date>(now);
   const [edit, setEdit] = useState<TaskRow | null | "new">(null);
   const [completing, setCompleting] = useState<TaskRow | null>(null);
+  const onEvent = can.manageCalendar ? (t: TaskRow) => setEdit(t) : () => {};
 
   const move = (dir: number) => {
     if (view === "month") { const d = new Date(cursor); d.setMonth(d.getMonth() + dir); setCursor(d); }
@@ -102,13 +104,13 @@ export function CalendarPanel({ buildingId, tasks, today }: { buildingId: string
               </button>
             ))}
           </div>
-          <button onClick={() => setEdit("new")} style={{ ...btn, ...btnPrimary }}><RiAddLine /> Εργασία</button>
+          {can.manageCalendar && <button onClick={() => setEdit("new")} style={{ ...btn, ...btnPrimary }}><RiAddLine /> Εργασία</button>}
         </div>
       </div>
 
-      {view === "month" && <MonthView cursor={cursor} now={now} tasks={tasks} onEvent={setEdit} />}
-      {view === "week" && <WeekView cursor={cursor} now={now} tasks={tasks} onEvent={setEdit} />}
-      {view === "day" && <DayView cursor={cursor} now={now} tasks={tasks} onEvent={setEdit} />}
+      {view === "month" && <MonthView cursor={cursor} now={now} tasks={tasks} onEvent={onEvent} />}
+      {view === "week" && <WeekView cursor={cursor} now={now} tasks={tasks} onEvent={onEvent} />}
+      {view === "day" && <DayView cursor={cursor} now={now} tasks={tasks} onEvent={onEvent} />}
 
       {edit !== null && (
         <TaskModal buildingId={buildingId} editing={edit === "new" ? null : edit} onClose={() => setEdit(null)} onComplete={(t) => { setEdit(null); setCompleting(t); }} onDone={() => { setEdit(null); router.refresh(); }} />

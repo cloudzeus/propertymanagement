@@ -12,12 +12,13 @@ import {
   RiMegaphoneLine, RiAddLine, RiDeleteBinLine, RiCheckLine, RiLoaderLine,
   RiCheckboxCircleFill, RiTimeLine, RiCalendarEventLine, RiUserStarLine, RiUserLine,
 } from "react-icons/ri";
+import type { BuildingCaps } from "@/lib/building-caps";
 
 const AUDIENCE_LABEL: Record<Audience, string> = { ALL: "Όλοι", OWNERS: "Ιδιοκτήτες", RESIDENTS: "Ένοικοι", CUSTOM: "Επιλεγμένοι" };
 const fmt = (iso: string | null) => (iso ? new Date(iso).toLocaleDateString("el-GR") : "—");
 const fmtDT = (iso: string | null) => (iso ? new Date(iso).toLocaleString("el-GR") : "—");
 
-export function AnnouncementsPanel({ buildingId }: { buildingId: string }) {
+export function AnnouncementsPanel({ buildingId, can }: { buildingId: string; can: BuildingCaps }) {
   const [rows, setRows] = useState<AnnouncementRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [adding, setAdding] = useState(false);
@@ -81,9 +82,9 @@ export function AnnouncementsPanel({ buildingId }: { buildingId: string }) {
         clientSide
         storageKey="building-announcements"
         searchPlaceholder="Αναζήτηση ανακοίνωσης…"
-        getRowActions={getRowActions}
+        getRowActions={can.manageAnnouncements ? getRowActions : undefined}
         expandedContent={(a) => <AnnouncementExpanded a={a} />}
-        toolbar={<button onClick={() => setAdding(true)} style={{ ...btn, ...btnPrimary }}><RiAddLine /> Νέα ανακοίνωση</button>}
+        toolbar={can.manageAnnouncements ? <button onClick={() => setAdding(true)} style={{ ...btn, ...btnPrimary }}><RiAddLine /> Νέα ανακοίνωση</button> : undefined}
       />
       {adding && <CreateModal buildingId={buildingId} onClose={() => setAdding(false)} onDone={() => { setAdding(false); reload(); }} />}
     </>

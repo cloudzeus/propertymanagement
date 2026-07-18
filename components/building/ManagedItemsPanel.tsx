@@ -10,6 +10,7 @@ import {
   RiShieldCheckLine, RiMapPinLine, RiSubtractLine, RiStackLine, RiLightbulbLine,
   RiImageAddLine, RiCloseLine, RiExternalLinkLine,
 } from "react-icons/ri";
+import type { BuildingCaps } from "@/lib/building-caps";
 
 export type ManagedItemRow = {
   id: string; itemTypeId: string; itemTypeName: string;
@@ -21,7 +22,7 @@ export type ManagedItemTypeOption = { id: string; name: string; active: boolean 
 // Common location suggestions (datalist — free text still allowed)
 const LOCATION_SUGGESTIONS = ["Κοινόχρηστοι χώροι", "Κλιμακοστάσιο", "Είσοδος", "Ταράτσα", "Υπόγειο", "Πυλωτή", "Λεβητοστάσιο", "Αύλειος χώρος"];
 
-export function ManagedItemsPanel({ buildingId, items, itemTypes, floorOptions }: { buildingId: string; items: ManagedItemRow[]; itemTypes: ManagedItemTypeOption[]; floorOptions: string[] }) {
+export function ManagedItemsPanel({ buildingId, items, itemTypes, floorOptions, can }: { buildingId: string; items: ManagedItemRow[]; itemTypes: ManagedItemTypeOption[]; floorOptions: string[]; can: BuildingCaps }) {
   const router = useRouter();
   const [editing, setEditing] = useState<ManagedItemRow | null | "new">(null);
   const [isPending, startTransition] = useTransition();
@@ -47,7 +48,7 @@ export function ManagedItemsPanel({ buildingId, items, itemTypes, floorOptions }
             </>
           )}
         </div>
-        <button onClick={() => setEditing("new")} disabled={activeTypes.length === 0} style={{ ...btn, ...btnPrimary, opacity: activeTypes.length === 0 ? 0.5 : 1 }}><RiAddLine /> Προσθήκη στοιχείου</button>
+        {can.manageManagedItems && <button onClick={() => setEditing("new")} disabled={activeTypes.length === 0} style={{ ...btn, ...btnPrimary, opacity: activeTypes.length === 0 ? 0.5 : 1 }}><RiAddLine /> Προσθήκη στοιχείου</button>}
       </div>
 
       {activeTypes.length === 0 && (
@@ -58,7 +59,7 @@ export function ManagedItemsPanel({ buildingId, items, itemTypes, floorOptions }
       )}
 
       {items.length === 0 ? (
-        <div onClick={() => activeTypes.length > 0 && setEditing("new")} style={{ border: "1.5px dashed var(--border-strong)", borderRadius: 8, padding: 36, textAlign: "center", color: "var(--muted-foreground)", cursor: activeTypes.length > 0 ? "pointer" : "default", background: "var(--bg-canvas)" }}>
+        <div onClick={() => can.manageManagedItems && activeTypes.length > 0 && setEditing("new")} style={{ border: "1.5px dashed var(--border-strong)", borderRadius: 8, padding: 36, textAlign: "center", color: "var(--muted-foreground)", cursor: can.manageManagedItems && activeTypes.length > 0 ? "pointer" : "default", background: "var(--bg-canvas)" }}>
           <RiLightbulbLine style={{ fontSize: 26, display: "block", margin: "0 auto 8px" }} />
           <div style={{ fontSize: 13, fontWeight: 600, color: "var(--foreground)", marginBottom: 3 }}>Δεν υπάρχουν διαχειριζόμενα στοιχεία</div>
           Επίλεξε από τον κατάλογο τι διαχειρίζεται η εταιρεία εδώ — π.χ. «Αλλαγή λαμπτήρων» στους κοινόχρηστους χώρους με αριθμό φωτιστικών.
@@ -87,8 +88,12 @@ export function ManagedItemsPanel({ buildingId, items, itemTypes, floorOptions }
                   <td style={td}>{i.floorLabel ?? "—"}</td>
                   <td style={{ ...td, textAlign: "right", fontVariantNumeric: "tabular-nums", fontWeight: 700 }}>{i.quantity}</td>
                   <td style={{ ...td, textAlign: "right", whiteSpace: "nowrap" }}>
-                    <button onClick={() => setEditing(i)} style={iconBtn} title="Επεξεργασία"><RiPencilLine /></button>
-                    <button onClick={() => remove(i)} disabled={isPending} style={{ ...iconBtn, color: "#c50f1f" }} title="Διαγραφή"><RiDeleteBinLine /></button>
+                    {can.manageManagedItems && (
+                      <>
+                        <button onClick={() => setEditing(i)} style={iconBtn} title="Επεξεργασία"><RiPencilLine /></button>
+                        <button onClick={() => remove(i)} disabled={isPending} style={{ ...iconBtn, color: "#c50f1f" }} title="Διαγραφή"><RiDeleteBinLine /></button>
+                      </>
+                    )}
                   </td>
                 </tr>
               ))}

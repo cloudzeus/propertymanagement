@@ -3,18 +3,21 @@
 import { useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { setUnitCategoryExclusion } from "@/app/actions/building-millesimes";
-import { RiLoaderLine, RiStore2Line } from "react-icons/ri";
+import { RiLoaderLine, RiStore2Line, RiCheckLine } from "react-icons/ri";
+import type { BuildingCaps } from "@/lib/building-caps";
 
 export function ExclusionMatrix({
   buildingId,
   units,
   categories,
   exclusions,
+  can,
 }: {
   buildingId: string;
   units: Array<{ id: string; unitNumber: string; unitType: string }>;
   categories: Array<{ id: string; name: string }>;
   exclusions: Array<{ unitId: string; categoryId: string }>;
+  can: BuildingCaps;
 }) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -52,9 +55,11 @@ export function ExclusionMatrix({
             {categories.map((c) => (
               <th key={c.id} style={{ ...th, textAlign: "center", minWidth: 120 }}>
                 <div style={{ marginBottom: 4 }}>{c.name}</div>
-                <button onClick={() => excludeShops(c.id)} disabled={isPending} style={shopBtn}>
-                  <RiStore2Line /> Εξαίρεσε καταστήματα
-                </button>
+                {can.editDistribution && (
+                  <button onClick={() => excludeShops(c.id)} disabled={isPending} style={shopBtn}>
+                    <RiStore2Line /> Εξαίρεσε καταστήματα
+                  </button>
+                )}
               </th>
             ))}
           </tr>
@@ -67,12 +72,18 @@ export function ExclusionMatrix({
                 const checked = !excludedSet.has(`${u.id}:${c.id}`);
                 return (
                   <td key={c.id} style={{ ...td, textAlign: "center" }}>
-                    <input
-                      type="checkbox"
-                      checked={checked}
-                      disabled={isPending}
-                      onChange={(e) => toggle(u.id, c.id, e.target.checked)}
-                    />
+                    {can.editDistribution ? (
+                      <input
+                        type="checkbox"
+                        checked={checked}
+                        disabled={isPending}
+                        onChange={(e) => toggle(u.id, c.id, e.target.checked)}
+                      />
+                    ) : checked ? (
+                      <RiCheckLine style={{ color: "var(--color-green)" }} title="Συμμετέχει" />
+                    ) : (
+                      <span style={{ color: "var(--muted-foreground)" }}>—</span>
+                    )}
                   </td>
                 );
               })}

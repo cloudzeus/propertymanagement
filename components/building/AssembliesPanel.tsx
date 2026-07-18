@@ -6,6 +6,7 @@ import { DataTable, type ColDef } from "@/components/ui/data-table";
 import { Modal, FormField, FieldInput } from "@/components/ui/modal";
 import { listAssemblies, createAssembly, createTestAssembly, type AssemblyRow } from "@/app/actions/assemblies";
 import { RiVideoChatLine, RiAddLine, RiCheckLine, RiLoaderLine, RiFlaskLine } from "react-icons/ri";
+import type { BuildingCaps } from "@/lib/building-caps";
 
 const STATUS_LABEL: Record<string, string> = {
   SCHEDULED: "Προγραμματισμένη",
@@ -15,7 +16,7 @@ const STATUS_LABEL: Record<string, string> = {
   SENT: "Απεστάλη",
 };
 
-export function AssembliesPanel({ buildingId }: { buildingId: string }) {
+export function AssembliesPanel({ buildingId, can }: { buildingId: string; can: BuildingCaps }) {
   const [rows, setRows] = useState<AssemblyRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [adding, setAdding] = useState(false);
@@ -57,10 +58,10 @@ export function AssembliesPanel({ buildingId }: { buildingId: string }) {
         clientSide
         storageKey="building-assemblies"
         searchPlaceholder="Αναζήτηση συνέλευσης…"
-        toolbar={<>
+        toolbar={can.manageAssemblies ? <>
           <button onClick={() => setAdding(true)} style={{ ...btn, ...btnPrimary }}><RiAddLine /> Νέα Συνέλευση</button>
           <button onClick={() => setTesting(true)} style={btn}><RiFlaskLine /> Δοκιμή (Super Admin)</button>
-        </>}
+        </> : undefined}
       />
       {adding && <CreateModal buildingId={buildingId} onClose={() => setAdding(false)} onDone={() => { setAdding(false); reload(); }} />}
       {testing && <TestModal buildingId={buildingId} onClose={() => setTesting(false)} onDone={() => { setTesting(false); reload(); }} />}

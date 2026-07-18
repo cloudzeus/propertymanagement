@@ -11,6 +11,7 @@ import { ExpenseEditModal } from "./ExpenseEditModal";
 import { AllocationBreakdown } from "./AllocationBreakdown";
 import { type CategorySplit } from "./ExpenseReviewForm";
 import { deleteBuildingExpense, includeExpensesInIssuance, type ExpenseRowDTO } from "@/app/actions/building-expenses";
+import type { BuildingCaps } from "@/lib/building-caps";
 
 export type ExpenseRow = ExpenseRowDTO;
 
@@ -27,9 +28,9 @@ const fmtDate = (s: string | null) => { if (!s) return "—"; try { return new D
 const eur = (n: number | null) => (n == null ? "—" : `${Number(n).toFixed(2)} €`);
 
 export function ExpensesPanel({
-  buildingId, expenses, categories,
+  buildingId, expenses, categories, can,
 }: {
-  buildingId: string; expenses: ExpenseRow[]; categories: CategorySplit[];
+  buildingId: string; expenses: ExpenseRow[]; categories: CategorySplit[]; can: BuildingCaps;
 }) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -78,14 +79,16 @@ export function ExpensesPanel({
         <div style={{ fontSize: 13, color: "var(--muted-foreground)", display: "flex", alignItems: "center", gap: 6 }}>
           <RiMoneyEuroCircleLine /> Έξοδα · {expenses.length}
         </div>
-        <div style={{ display: "flex", gap: 8 }}>
-          {selected.size > 0 && (
-            <button onClick={includeInIssuance} disabled={isPending} style={btnIssue}>
-              <RiSecurePaymentLine /> Συμπερίληψη σε έκδοση ({selected.size})
-            </button>
-          )}
-          <ExpenseOcrUpload buildingId={buildingId} categories={categories} />
-        </div>
+        {can.manageExpenses && (
+          <div style={{ display: "flex", gap: 8 }}>
+            {selected.size > 0 && (
+              <button onClick={includeInIssuance} disabled={isPending} style={btnIssue}>
+                <RiSecurePaymentLine /> Συμπερίληψη σε έκδοση ({selected.size})
+              </button>
+            )}
+            <ExpenseOcrUpload buildingId={buildingId} categories={categories} />
+          </div>
+        )}
       </div>
 
       {expenses.length === 0 ? (
@@ -97,7 +100,7 @@ export function ExpensesPanel({
           <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
             <thead>
               <tr style={{ textAlign: "left", color: "var(--muted-foreground)", borderBottom: "1px solid var(--border-strong)" }}>
-                <th style={th}><input type="checkbox" checked={allSelected} onChange={toggleAll} title="Επιλογή όλων" /></th>
+                <th style={th}>{can.manageExpenses && <input type="checkbox" checked={allSelected} onChange={toggleAll} title="Επιλογή όλων" />}</th>
                 <th style={th}></th>
                 <th style={th}>Ημ/νία</th>
                 <th style={th}>Προμηθευτής</th>
@@ -115,7 +118,7 @@ export function ExpensesPanel({
                 return (
                   <Fragment key={e.id}>
                     <tr style={{ borderBottom: "1px solid var(--border)" }}>
-                      <td style={td}><input type="checkbox" checked={selected.has(e.id)} disabled={e.status === "ISSUED"} onChange={() => toggle(e.id)} /></td>
+                      <td style={td}>{can.manageExpenses && <input type="checkbox" checked={selected.has(e.id)} disabled={e.status === "ISSUED"} onChange={() => toggle(e.id)} />}</td>
                       <td style={td}><button onClick={() => toggleExpand(e.id)} style={iconBtn} title="Λεπτομέρειες">{isOpen ? <RiArrowDownSLine /> : <RiArrowRightSLine />}</button></td>
                       <td style={td}>{fmtDate(e.documentDate)}</td>
                       <td style={td}>{e.supplierName ?? "—"}</td>
@@ -133,10 +136,10 @@ export function ExpensesPanel({
                           <>
                             <div onClick={() => setMenuId(null)} style={{ position: "fixed", inset: 0, zIndex: 40 }} />
                             <div style={menu}>
-                              <button style={menuItem} disabled={e.status === "ISSUED"} onClick={() => { setEditing(e); setMenuId(null); }}><RiEdit2Line /> Επεξεργασία</button>
+                              {can.manageExpenses && <button style={menuItem} disabled={e.status === "ISSUED"} onClick={() => { setEditing(e); setMenuId(null); }}><RiEdit2Line /> Επεξεργασία</button>}
                               {e.receiptUrl && <a style={menuItem} href={e.receiptUrl} target="_blank" rel="noreferrer" onClick={() => setMenuId(null)}><RiFileTextLine /> Παραστατικό</a>}
                               {e.paymentUrl && <a style={menuItem} href={e.paymentUrl} target="_blank" rel="noreferrer" onClick={() => setMenuId(null)}><RiSecurePaymentLine /> Απόδειξη πληρωμής</a>}
-                              <button style={{ ...menuItem, color: "var(--color-danger)" }} disabled={e.status === "ISSUED"} onClick={() => remove(e.id)}><RiDeleteBinLine /> Διαγραφή</button>
+                              {can.manageExpenses && <button style={{ ...menuItem, color: "var(--color-danger)" }} disabled={e.status === "ISSUED"} onClick={() => remove(e.id)}><RiDeleteBinLine /> Διαγραφή</button>}
                             </div>
                           </>
                         )}

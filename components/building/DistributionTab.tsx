@@ -6,6 +6,7 @@ import { setCategoryBasis } from "@/app/actions/building-millesimes";
 import { DistributionBasis, type DistributionBasis as TDistributionBasis } from "@/lib/prisma/enums";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import { RiLoaderLine } from "react-icons/ri";
+import type { BuildingCaps } from "@/lib/building-caps";
 
 const BASIS_LABEL: Record<string, string> = {
   GENERAL_MILLESIMES: "Γενικά χιλιοστά",
@@ -21,10 +22,12 @@ export function DistributionTab({
   buildingId,
   categories,
   overrides,
+  can,
 }: {
   buildingId: string;
   categories: Array<{ id: string; name: string; defaultBasis: string }>;
   overrides: Array<{ categoryId: string; distributionBasis: string | null }>;
+  can: BuildingCaps;
 }) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -61,23 +64,27 @@ export function DistributionTab({
                 <td style={{ ...td, fontWeight: 600 }}>{c.name}</td>
                 <td style={{ ...td, color: "var(--muted-foreground)" }}>{BASIS_LABEL[c.defaultBasis] ?? c.defaultBasis}</td>
                 <td style={td}>
-                  <Select value={current} onValueChange={(v) => change(c.id, v)}>
-                    <SelectTrigger style={{ width: 240 }}>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value={DEFAULT_SENTINEL}>(Προεπιλογή νόμου)</SelectItem>
-                      {Object.values(DistributionBasis).map((b) => (
-                        <SelectItem key={b} value={b}>{BASIS_LABEL[b]}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  {can.editDistribution ? (
+                    <Select value={current} onValueChange={(v) => change(c.id, v)}>
+                      <SelectTrigger style={{ width: 240 }}>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value={DEFAULT_SENTINEL}>(Προεπιλογή νόμου)</SelectItem>
+                        {Object.values(DistributionBasis).map((b) => (
+                          <SelectItem key={b} value={b}>{BASIS_LABEL[b]}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  ) : (
+                    <span>{current === DEFAULT_SENTINEL ? "(Προεπιλογή νόμου)" : BASIS_LABEL[current] ?? current}</span>
+                  )}
                 </td>
                 <td style={td}>
                   {differs && (
                     <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
                       <span style={{ fontSize: 11, fontWeight: 700, padding: "2px 8px", borderRadius: 9999, background: "#fffbeb", color: "#92400e", border: "1px solid #f59e0b" }}>κανονισμός</span>
-                      <button onClick={() => change(c.id, DEFAULT_SENTINEL)} style={linkBtn}>επαναφορά σε default</button>
+                      {can.editDistribution && <button onClick={() => change(c.id, DEFAULT_SENTINEL)} style={linkBtn}>επαναφορά σε default</button>}
                     </span>
                   )}
                 </td>

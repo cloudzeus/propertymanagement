@@ -8,6 +8,10 @@ import { RiToolsLine } from "react-icons/ri";
 import Link from "next/link";
 import { NewRequestButton } from "@/components/maintenance/new-request-form";
 import { STATUS_LABELS, STATUS_COLORS, HANDLER_LABELS, type FaultStatus } from "@/lib/maintenance-shared";
+import { NO_CAPS, type BuildingCaps } from "@/lib/building-caps";
+
+// Preserve pre-caps behavior: portal (PROPERTY_ADMIN) always had calendar/maintenance task UI here.
+const PORTAL_CAPS: BuildingCaps = { ...NO_CAPS, manageCalendar: true, manageMaintenance: true, createRequests: true };
 
 export default async function PortalMaintenance() {
   const session = await auth();
@@ -121,8 +125,8 @@ export default async function PortalMaintenance() {
       {sections.map((s) => (
         <div key={s.id} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <h2 style={{ fontSize: 18, fontWeight: 600, color: "var(--foreground)" }}>{s.name}</h2>
-          <CalendarPanel buildingId={s.id} tasks={s.tasks} today={today} />
-          <MaintenanceTab rows={s.history} tasks={s.tasks} buildingId={s.id} />
+          <CalendarPanel buildingId={s.id} tasks={s.tasks} today={today} can={PORTAL_CAPS} />
+          <MaintenanceTab rows={s.history} tasks={s.tasks} buildingId={s.id} can={PORTAL_CAPS} />
         </div>
       ))}
     </div>

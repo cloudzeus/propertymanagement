@@ -6,6 +6,7 @@ import { DataTable, type ColDef } from "@/components/ui/data-table";
 import { RiFileDownloadLine, RiAddLine, RiEditLine, RiCheckboxCircleLine } from "react-icons/ri";
 import type { listMaintenanceHistory } from "@/app/actions/maintenance-logs";
 import { TaskModal, CompleteModal, type TaskRow } from "./CalendarPanel";
+import type { BuildingCaps } from "@/lib/building-caps";
 
 export type MaintenanceHistoryRow = Awaited<ReturnType<typeof listMaintenanceHistory>>[number];
 
@@ -36,10 +37,12 @@ export function MaintenanceTab({
   rows,
   tasks,
   buildingId,
+  can,
 }: {
   rows: MaintenanceHistoryRow[];
   tasks: TaskRow[];
   buildingId: string;
+  can: BuildingCaps;
 }) {
   const router = useRouter();
   const [editing, setEditing] = useState<TaskRow | null | "new">(null);
@@ -76,15 +79,15 @@ export function MaintenanceTab({
       accessor: (r) => r.vendor ?? "",
       cell: (r) => <span style={cellMuted}>{r.vendor ?? "—"}</span>,
     },
-    {
+    ...(can.manageMaintenance ? [{
       id: "actions", header: "", width: 190,
-      cell: (r) => (
+      cell: (r: TaskRow) => (
         <div style={{ display: "flex", gap: 6 }}>
           <button onClick={() => setEditing(r)} style={rowBtn}><RiEditLine /> Επεξεργασία</button>
           <button onClick={() => setCompleting(r)} style={rowBtn}><RiCheckboxCircleLine /> Ολοκλήρωση</button>
         </div>
       ),
-    },
+    } satisfies ColDef<TaskRow>] : []),
   ];
 
   const historyCols: ColDef<MaintenanceHistoryRow>[] = [
@@ -128,7 +131,7 @@ export function MaintenanceTab({
       <section style={{ display: "flex", flexDirection: "column", gap: 12 }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <h3 style={{ fontSize: 15, fontWeight: 700, color: "var(--foreground)", margin: 0 }}>Προγραμματισμένες συντηρήσεις</h3>
-          <button onClick={() => setEditing("new")} style={addBtn}><RiAddLine /> Προσθήκη συντήρησης</button>
+          {can.manageMaintenance && <button onClick={() => setEditing("new")} style={addBtn}><RiAddLine /> Προσθήκη συντήρησης</button>}
         </div>
         <DataTable
           data={tasks}

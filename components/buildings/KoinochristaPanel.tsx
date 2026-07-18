@@ -11,6 +11,7 @@ import {
   type IssuanceDTO, type KoinoPersonDTO, type MonthExpenseDTO,
 } from "@/app/actions/koinochrista";
 import { PersonStatementModal } from "./PersonStatementModal";
+import type { BuildingCaps } from "@/lib/building-caps";
 
 const eur = (n: number) => `${n.toLocaleString("el-GR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €`;
 const GR_MONTHS = ["Ιανουαρίου", "Φεβρουαρίου", "Μαρτίου", "Απριλίου", "Μαΐου", "Ιουνίου", "Ιουλίου", "Αυγούστου", "Σεπτεμβρίου", "Οκτωβρίου", "Νοεμβρίου", "Δεκεμβρίου"];
@@ -50,7 +51,7 @@ const CSS = `
 .kx-menu{ animation:kx-in .12s var(--kx-ease); }
 `;
 
-export function KoinochristaPanel({ buildingId }: { buildingId: string }) {
+export function KoinochristaPanel({ buildingId, can }: { buildingId: string; can: BuildingCaps }) {
   const [issuances, setIssuances] = useState<IssuanceDTO[] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [openMonth, setOpenMonth] = useState<string | null>(null);
@@ -122,7 +123,7 @@ export function KoinochristaPanel({ buildingId }: { buildingId: string }) {
                     </span>
                   </span>
                 </button>
-                {open && <IssuanceDetail buildingId={buildingId} month={iss.month} unallocated={iss.unallocated} onChanged={reload} />}
+                {open && <IssuanceDetail buildingId={buildingId} month={iss.month} unallocated={iss.unallocated} onChanged={reload} can={can} />}
               </div>
             );
           })}
@@ -133,7 +134,7 @@ export function KoinochristaPanel({ buildingId }: { buildingId: string }) {
   );
 }
 
-function IssuanceDetail({ buildingId, month, unallocated, onChanged }: { buildingId: string; month: string; unallocated: number; onChanged?: () => void }) {
+function IssuanceDetail({ buildingId, month, unallocated, onChanged, can }: { buildingId: string; month: string; unallocated: number; onChanged?: () => void; can: BuildingCaps }) {
   const [tab, setTab] = useState<"people" | "expenses">("people");
   const [people, setPeople] = useState<KoinoPersonDTO[] | null>(null);
   const [expenses, setExpenses] = useState<MonthExpenseDTO[] | null>(null);
@@ -252,15 +253,15 @@ function IssuanceDetail({ buildingId, month, unallocated, onChanged }: { buildin
         <>
           <div onClick={() => setMenu(null)} style={{ position: "fixed", inset: 0, zIndex: 9998 }} />
           <div className="kx-menu" style={{ ...fixedMenu, top: menu.top, left: Math.max(8, menu.left) }}>
-            <button className="kx-menuitem" onClick={() => { setStatementUser(menu.p.userId); setMenu(null); }}><RiSecurePaymentLine className="kx-mi" /> Πληρωμή</button>
+            {can.managePayments && <button className="kx-menuitem" onClick={() => { setStatementUser(menu.p.userId); setMenu(null); }}><RiSecurePaymentLine className="kx-mi" /> Πληρωμή</button>}
             <button className="kx-menuitem" onClick={() => { setStatementUser(menu.p.userId); setMenu(null); }}><RiFileListLine className="kx-mi" /> Λεπτομέρειες</button>
-            <button className="kx-menuitem" disabled={!menu.p.email} onClick={() => { const p = menu.p; setMenu(null); remind(p); }}><RiMailSendLine className="kx-mi" /> Υπενθύμιση</button>
+            {can.manageKoinochrista && <button className="kx-menuitem" disabled={!menu.p.email} onClick={() => { const p = menu.p; setMenu(null); remind(p); }}><RiMailSendLine className="kx-mi" /> Υπενθύμιση</button>}
           </div>
         </>
       )}
 
       {statementUser && (
-        <PersonStatementModal open={!!statementUser} onClose={() => setStatementUser(null)} buildingId={buildingId} userId={statementUser} onChanged={() => { reloadPeople(); onChanged?.(); }} />
+        <PersonStatementModal open={!!statementUser} onClose={() => setStatementUser(null)} buildingId={buildingId} userId={statementUser} canPay={can.managePayments} onChanged={() => { reloadPeople(); onChanged?.(); }} />
       )}
     </div>
   );

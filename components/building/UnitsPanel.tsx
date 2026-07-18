@@ -9,6 +9,7 @@ import { createOccupant, assignOccupant, clearOccupant } from "@/app/actions/uni
 import { computeMillesimes } from "@/lib/millesimes";
 import { UserCombo } from "@/components/ui/user-combo";
 import { CUSTOMER_ROLES } from "@/lib/roles-constants";
+import type { BuildingCaps } from "@/lib/building-caps";
 import {
   RiHome4Line, RiStore2Line, RiCarLine, RiBox3Line, RiAddLine, RiPencilLine,
   RiDeleteBinLine, RiCheckLine, RiLoaderLine, RiCalculatorLine, RiUserStarLine, RiUserLine, RiCloseLine, RiSearchLine,
@@ -33,7 +34,7 @@ function occCell(o: TOccupant | null) {
   return <span style={{ fontSize: 12, color: "var(--foreground)" }}>{o.name ?? o.email}</span>;
 }
 
-export function UnitsPanel({ buildingId, units }: { buildingId: string; units: Unit[] }) {
+export function UnitsPanel({ buildingId, units, can }: { buildingId: string; units: Unit[]; can: BuildingCaps }) {
   const router = useRouter();
   const [editing, setEditing] = useState<Unit | null>(null);
   const [adding, setAdding] = useState(false);
@@ -83,12 +84,16 @@ export function UnitsPanel({ buildingId, units }: { buildingId: string; units: U
         clientSide
         storageKey="building-units"
         searchPlaceholder="Αναζήτηση μονάδας…"
-        getRowActions={getRowActions}
+        getRowActions={can.editUnits ? getRowActions : undefined}
         toolbar={
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
             <span style={{ fontSize: 12, color: "var(--muted-foreground)" }}>Σύνολο χιλιοστών: <b style={{ color: totalMil === 1000 ? "var(--color-green)" : "var(--foreground)" }}>{totalMil}‰</b></span>
-            <button onClick={() => setRecalc(true)} style={btn}><RiCalculatorLine /> Υπολογισμός χιλιοστών</button>
-            <button onClick={() => setAdding(true)} style={{ ...btn, ...btnPrimary }}><RiAddLine /> Νέα μονάδα</button>
+            {can.editUnits && (
+              <>
+                <button onClick={() => setRecalc(true)} style={btn}><RiCalculatorLine /> Υπολογισμός χιλιοστών</button>
+                <button onClick={() => setAdding(true)} style={{ ...btn, ...btnPrimary }}><RiAddLine /> Νέα μονάδα</button>
+              </>
+            )}
           </div>
         }
       />

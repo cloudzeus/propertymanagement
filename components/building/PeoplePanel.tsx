@@ -9,6 +9,7 @@ import {
   RiMailLine, RiPhoneLine, RiSmartphoneLine, RiHome4Line, RiMapPin2Line,
   RiPencilLine, RiCheckLine, RiLoaderLine, RiCalendarEventLine,
 } from "react-icons/ri";
+import type { BuildingCaps } from "@/lib/building-caps";
 
 export type PUnit = { key: string; unitId: string; unitNumber: string; unitType: string; floor: number | null; areaSqm: number | null; millesimes: number | null; role: "OWNER" | "RESIDENT"; rel: string; occupancyId: string | null; from: string | null; to: string | null };
 export type Person = {
@@ -29,7 +30,7 @@ function relChip(rel: string) {
   return <span style={{ fontSize: 11, fontWeight: 700, padding: "2px 8px", borderRadius: 9999, background: bg, color: fg }}>{rel}</span>;
 }
 
-export function PeoplePanel({ people }: { people: Person[] }) {
+export function PeoplePanel({ people, can }: { people: Person[]; can: BuildingCaps }) {
   const router = useRouter();
   const [editing, setEditing] = useState<Person | null>(null);
   const columns: ColDef<Person>[] = [
@@ -73,8 +74,8 @@ export function PeoplePanel({ people }: { people: Person[] }) {
         clientSide
         storageKey="building-people"
         searchPlaceholder="Αναζήτηση ενοίκου / ιδιοκτήτη…"
-        getRowActions={getRowActions}
-        expandedContent={(p) => <PersonExpanded person={p} />}
+        getRowActions={can.editUnits ? getRowActions : undefined}
+        expandedContent={(p) => <PersonExpanded person={p} canEdit={can.editUnits} />}
       />
       {editing && (
         <EditPersonModal person={editing} onClose={() => setEditing(null)} onDone={() => { setEditing(null); router.refresh(); }} />
@@ -109,7 +110,7 @@ function EditPersonModal({ person, onClose, onDone }: { person: Person; onClose:
   );
 }
 
-function PersonExpanded({ person }: { person: Person }) {
+function PersonExpanded({ person, canEdit }: { person: Person; canEdit: boolean }) {
   const [editUnit, setEditUnit] = useState<PUnit | null>(null);
   return (
     <div style={{ display: "grid", gridTemplateColumns: "260px 1fr", gap: 18, padding: "4px 6px 8px" }}>
@@ -146,9 +147,11 @@ function PersonExpanded({ person }: { person: Person }) {
                   <td style={td}>{fmtDate(u.from) ?? "—"}</td>
                   <td style={td}>{fmtDate(u.to) ?? <span style={{ color: "var(--color-green)", fontWeight: 700 }}>Τρέχον</span>}</td>
                   <td style={{ ...td, textAlign: "right" }}>
-                    <button onClick={() => setEditUnit(u)} title="Επεξεργασία ημερομηνιών" style={{ display: "inline-flex", alignItems: "center", gap: 4, border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)", borderRadius: 4, padding: "4px 8px", fontSize: 11, fontWeight: 600, cursor: "pointer" }}>
-                      <RiCalendarEventLine /> Ημ/νίες
-                    </button>
+                    {canEdit && (
+                      <button onClick={() => setEditUnit(u)} title="Επεξεργασία ημερομηνιών" style={{ display: "inline-flex", alignItems: "center", gap: 4, border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)", borderRadius: 4, padding: "4px 8px", fontSize: 11, fontWeight: 600, cursor: "pointer" }}>
+                        <RiCalendarEventLine /> Ημ/νίες
+                      </button>
+                    )}
                   </td>
                 </tr>
               ))}

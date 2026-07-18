@@ -5,10 +5,11 @@ import { useRouter } from "next/navigation";
 import { Modal, FormField, FieldInput, FieldTextarea } from "@/components/ui/modal";
 import { createContact, updateContact, deleteContact } from "@/app/actions/contacts";
 import { RiAddLine, RiPhoneLine, RiPencilLine, RiDeleteBinLine, RiCheckLine, RiLoaderLine, RiContactsBook3Line } from "react-icons/ri";
+import type { BuildingCaps } from "@/lib/building-caps";
 
 export type ContactRow = { id: string; name: string; category: string | null; phone: string | null; email: string | null; notes: string | null };
 
-export function ContactsPanel({ buildingId, contacts }: { buildingId: string; contacts: ContactRow[] }) {
+export function ContactsPanel({ buildingId, contacts, can }: { buildingId: string; contacts: ContactRow[]; can: BuildingCaps }) {
   const router = useRouter();
   const [editing, setEditing] = useState<ContactRow | null | "new">(null);
   const [isPending, startTransition] = useTransition();
@@ -22,11 +23,17 @@ export function ContactsPanel({ buildingId, contacts }: { buildingId: string; co
     <div>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
         <div style={{ fontSize: 13, color: "var(--muted-foreground)", display: "flex", alignItems: "center", gap: 6 }}><RiContactsBook3Line /> {contacts.length} επαφές</div>
-        <button onClick={() => setEditing("new")} style={{ ...btn, ...btnPrimary }}><RiAddLine /> Νέα επαφή</button>
+        {can.manageContacts && <button onClick={() => setEditing("new")} style={{ ...btn, ...btnPrimary }}><RiAddLine /> Νέα επαφή</button>}
       </div>
 
       {contacts.length === 0 ? (
-        <Empty onAdd={() => setEditing("new")} />
+        can.manageContacts ? (
+          <Empty onAdd={() => setEditing("new")} />
+        ) : (
+          <div style={{ border: "1.5px dashed var(--border-strong)", borderRadius: 8, padding: 36, textAlign: "center", color: "var(--muted-foreground)", background: "var(--bg-canvas)" }}>
+            Δεν υπάρχουν επαφές.
+          </div>
+        )
       ) : (
         <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 8, overflow: "hidden" }}>
           <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
@@ -42,8 +49,12 @@ export function ContactsPanel({ buildingId, contacts }: { buildingId: string; co
                   <td style={td}>{c.email ?? "—"}</td>
                   <td style={{ ...td, textAlign: "right", whiteSpace: "nowrap" }}>
                     {c.phone && <a href={`tel:${c.phone}`} style={iconBtn} title="Κλήση"><RiPhoneLine /></a>}
-                    <button onClick={() => setEditing(c)} style={iconBtn} title="Επεξεργασία"><RiPencilLine /></button>
-                    <button onClick={() => remove(c.id)} disabled={isPending} style={{ ...iconBtn, color: "#c50f1f" }} title="Διαγραφή"><RiDeleteBinLine /></button>
+                    {can.manageContacts && (
+                      <>
+                        <button onClick={() => setEditing(c)} style={iconBtn} title="Επεξεργασία"><RiPencilLine /></button>
+                        <button onClick={() => remove(c.id)} disabled={isPending} style={{ ...iconBtn, color: "#c50f1f" }} title="Διαγραφή"><RiDeleteBinLine /></button>
+                      </>
+                    )}
                   </td>
                 </tr>
               ))}

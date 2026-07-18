@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { saveMillesimeCell, saveElevatorParams } from "@/app/actions/building-millesimes";
 import { recalculateMillesimes } from "@/app/actions/buildings";
+import type { BuildingCaps } from "@/lib/building-caps";
 import { RiLockLine, RiRefreshLine, RiCheckLine, RiCalculatorLine, RiLoaderLine } from "react-icons/ri";
 
 type Set = "general" | "elevator" | "heating";
@@ -32,11 +33,13 @@ export function MillesimeGrid({
   units,
   elevatorSurchargePerFloor,
   elevatorExemptGroundFloor,
+  can,
 }: {
   buildingId: string;
   units: MillesimeUnit[];
   elevatorSurchargePerFloor: number;
   elevatorExemptGroundFloor: boolean;
+  can: BuildingCaps;
 }) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -97,28 +100,36 @@ export function MillesimeGrid({
     <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 8, boxShadow: "0 1px 2px rgba(0,0,0,0.06)" }}>
       {/* elevator params header */}
       <div style={{ padding: "13px 16px", borderBottom: "1px solid var(--border)", display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
-        <label style={{ display: "inline-flex", alignItems: "center", gap: 8, fontSize: 13, color: "var(--foreground)" }}>
-          Επιβάρυνση ανελκυστήρα/όροφο (%)
-          <input
-            type="number"
-            value={pct}
-            onChange={(e) => setPct(e.target.value)}
-            onBlur={() => {
-              const next = Number(pct);
-              if (Number.isNaN(next) || next / 100 === elevatorSurchargePerFloor) return;
-              saveElevator(next, exempt);
-            }}
-            style={{ width: 70, ...inputStyle }}
-          />
-        </label>
-        <label style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 13, color: "var(--foreground)", cursor: "pointer" }}>
-          <input
-            type="checkbox"
-            checked={exempt}
-            onChange={(e) => { setExempt(e.target.checked); saveElevator(Number(pct), e.target.checked); }}
-          />
-          Εξαίρεση ισογείου
-        </label>
+        {can.editMillesimes ? (
+          <>
+            <label style={{ display: "inline-flex", alignItems: "center", gap: 8, fontSize: 13, color: "var(--foreground)" }}>
+              Επιβάρυνση ανελκυστήρα/όροφο (%)
+              <input
+                type="number"
+                value={pct}
+                onChange={(e) => setPct(e.target.value)}
+                onBlur={() => {
+                  const next = Number(pct);
+                  if (Number.isNaN(next) || next / 100 === elevatorSurchargePerFloor) return;
+                  saveElevator(next, exempt);
+                }}
+                style={{ width: 70, ...inputStyle }}
+              />
+            </label>
+            <label style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 13, color: "var(--foreground)", cursor: "pointer" }}>
+              <input
+                type="checkbox"
+                checked={exempt}
+                onChange={(e) => { setExempt(e.target.checked); saveElevator(Number(pct), e.target.checked); }}
+              />
+              Εξαίρεση ισογείου
+            </label>
+          </>
+        ) : (
+          <span style={{ fontSize: 13, color: "var(--foreground)" }}>
+            Επιβάρυνση ανελκυστήρα/όροφο: <b>{pct}%</b> · Εξαίρεση ισογείου: <b>{exempt ? "Ναι" : "Όχι"}</b>
+          </span>
+        )}
         {isPending && <RiLoaderLine style={{ animation: "spin 1s linear infinite", color: "var(--muted-foreground)" }} />}
       </div>
 
@@ -146,14 +157,18 @@ export function MillesimeGrid({
                   <td key={s.key} style={{ ...td, textAlign: "right" }}>
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", gap: 4 }}>
                       {manual && <RiLockLine style={{ color: "#b45309", fontSize: 13 }} title="Κλειδωμένο (χειροκίνητο)" />}
-                      <input
-                        type="number"
-                        defaultValue={value ?? ""}
-                        key={`${s.key}-${value ?? ""}-${u[s.sourceField]}`}
-                        onBlur={(e) => saveCell(u, s.key, e.target.value, value)}
-                        style={{ width: 72, textAlign: "right", ...inputStyle, ...(manual ? { background: "#fffbeb", borderColor: "#f59e0b", color: "#92400e" } : {}) }}
-                      />
-                      {manual && (
+                      {can.editMillesimes ? (
+                        <input
+                          type="number"
+                          defaultValue={value ?? ""}
+                          key={`${s.key}-${value ?? ""}-${u[s.sourceField]}`}
+                          onBlur={(e) => saveCell(u, s.key, e.target.value, value)}
+                          style={{ width: 72, textAlign: "right", ...inputStyle, ...(manual ? { background: "#fffbeb", borderColor: "#f59e0b", color: "#92400e" } : {}) }}
+                        />
+                      ) : (
+                        <span>{value ?? "—"}</span>
+                      )}
+                      {manual && can.editMillesimes && (
                         <button onClick={() => resetCell(u.id, s.key)} title="Επαναφορά σε αυτόματο" style={iconBtn}>
                           <RiRefreshLine />
                         </button>
@@ -182,10 +197,12 @@ export function MillesimeGrid({
         </tfoot>
       </table>
 
-      <div style={{ display: "flex", gap: 8, padding: "13px 16px", borderTop: "1px solid var(--border)" }}>
-        <button onClick={recalcAuto} disabled={isPending} style={btn}><RiCalculatorLine /> Επανυπολογισμός αυτομάτων</button>
-        <button onClick={resetAllLocked} disabled={isPending} style={btn}><RiRefreshLine /> Επαναφορά κλειδωμένων</button>
-      </div>
+      {can.editMillesimes && (
+        <div style={{ display: "flex", gap: 8, padding: "13px 16px", borderTop: "1px solid var(--border)" }}>
+          <button onClick={recalcAuto} disabled={isPending} style={btn}><RiCalculatorLine /> Επανυπολογισμός αυτομάτων</button>
+          <button onClick={resetAllLocked} disabled={isPending} style={btn}><RiRefreshLine /> Επαναφορά κλειδωμένων</button>
+        </div>
+      )}
 
       <style>{`@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}`}</style>
     </div>

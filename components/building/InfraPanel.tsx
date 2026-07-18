@@ -8,6 +8,7 @@ import {
   searchInfraPeople, type InfraType, type InfraPerson,
 } from "@/app/actions/infra-points";
 import { toWebpResized } from "@/lib/resize-image";
+import type { BuildingCaps } from "@/lib/building-caps";
 import {
   RiAddLine, RiPencilLine, RiDeleteBinLine, RiCheckLine, RiLoaderLine, RiImageAddLine,
   RiMapPin2Line, RiGroupLine, RiKey2Line, RiLockLine, RiLockUnlockLine, RiCloseLine,
@@ -37,7 +38,7 @@ const TYPE_ICON: Record<string, React.ElementType> = {
 };
 const nm = (u: { name: string | null; email: string }) => u.name ?? u.email;
 
-export function InfraPanel({ buildingId, points, floorOptions }: { buildingId: string; points: InfraRow[]; floorOptions: string[] }) {
+export function InfraPanel({ buildingId, points, floorOptions, can }: { buildingId: string; points: InfraRow[]; floorOptions: string[]; can: BuildingCaps }) {
   const router = useRouter();
   const [editing, setEditing] = useState<InfraRow | null | "new">(null);
   const [isPending, startTransition] = useTransition();
@@ -51,7 +52,7 @@ export function InfraPanel({ buildingId, points, floorOptions }: { buildingId: s
     <div>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
         <div style={{ fontSize: 13, color: "var(--muted-foreground)" }}>Φωτο/βίντεο, όροφος, κλείδωμα, πρόσβαση & κάτοχος κλειδιού</div>
-        <button onClick={() => setEditing("new")} style={{ ...btn, ...btnPrimary }}><RiAddLine /> Νέο σημείο</button>
+        {can.manageInfra && <button onClick={() => setEditing("new")} style={{ ...btn, ...btnPrimary }}><RiAddLine /> Νέο σημείο</button>}
       </div>
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(280px,1fr))", gap: 14 }}>
@@ -84,20 +85,24 @@ export function InfraPanel({ buildingId, points, floorOptions }: { buildingId: s
                     </div>
                   )}
                 </div>
-                <div style={{ display: "flex", gap: 6, marginTop: 10 }}>
-                  <MediaButton infraPointId={p.id} onDone={() => router.refresh()} />
-                  <button onClick={() => setEditing(p)} style={iconBtn} title="Επεξεργασία"><RiPencilLine /></button>
-                  <button onClick={() => remove(p.id)} disabled={isPending} style={{ ...iconBtn, color: "#c50f1f" }} title="Διαγραφή"><RiDeleteBinLine /></button>
-                </div>
-                {p.media.length > 0 && <MediaStrip media={p.media} onDone={() => router.refresh()} />}
+                {can.manageInfra && (
+                  <div style={{ display: "flex", gap: 6, marginTop: 10 }}>
+                    <MediaButton infraPointId={p.id} onDone={() => router.refresh()} />
+                    <button onClick={() => setEditing(p)} style={iconBtn} title="Επεξεργασία"><RiPencilLine /></button>
+                    <button onClick={() => remove(p.id)} disabled={isPending} style={{ ...iconBtn, color: "#c50f1f" }} title="Διαγραφή"><RiDeleteBinLine /></button>
+                  </div>
+                )}
+                {p.media.length > 0 && <MediaStrip media={p.media} canDelete={can.manageInfra} onDone={() => router.refresh()} />}
               </div>
             </div>
           );
         })}
 
-        <div onClick={() => setEditing("new")} style={{ border: "1.5px dashed var(--border-strong)", borderRadius: 8, minHeight: 260, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", color: "var(--muted-foreground)", textAlign: "center" }}>
-          <div><RiAddLine style={{ fontSize: 22 }} /><div style={{ marginTop: 6 }}>Νέο σημείο</div></div>
-        </div>
+        {can.manageInfra && (
+          <div onClick={() => setEditing("new")} style={{ border: "1.5px dashed var(--border-strong)", borderRadius: 8, minHeight: 260, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", color: "var(--muted-foreground)", textAlign: "center" }}>
+            <div><RiAddLine style={{ fontSize: 22 }} /><div style={{ marginTop: 6 }}>Νέο σημείο</div></div>
+          </div>
+        )}
       </div>
 
       {editing !== null && (
@@ -107,7 +112,7 @@ export function InfraPanel({ buildingId, points, floorOptions }: { buildingId: s
   );
 }
 
-function MediaStrip({ media, onDone }: { media: MediaRow[]; onDone: () => void }) {
+function MediaStrip({ media, canDelete, onDone }: { media: MediaRow[]; canDelete: boolean; onDone: () => void }) {
   const [isPending, startTransition] = useTransition();
   function del(id: string) { if (!confirm("Διαγραφή αρχείου;")) return; startTransition(async () => { await deleteInfraMedia(id); onDone(); }); }
   return (
@@ -115,7 +120,7 @@ function MediaStrip({ media, onDone }: { media: MediaRow[]; onDone: () => void }
       {media.map((m) => (
         <div key={m.id} style={{ position: "relative", width: 56, height: 44, borderRadius: 4, overflow: "hidden", border: "1px solid var(--border)" }}>
           {m.type === "VIDEO" ? <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", background: "var(--bg-canvas)", color: "var(--muted-foreground)" }}><RiVideoLine /></div> : <img src={m.url} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />}
-          <button onClick={() => del(m.id)} disabled={isPending} title="Διαγραφή" style={{ position: "absolute", top: 1, right: 1, width: 16, height: 16, borderRadius: "50%", border: "none", background: "rgba(0,0,0,.6)", color: "#fff", cursor: "pointer", fontSize: 9, display: "flex", alignItems: "center", justifyContent: "center" }}>×</button>
+          {canDelete && <button onClick={() => del(m.id)} disabled={isPending} title="Διαγραφή" style={{ position: "absolute", top: 1, right: 1, width: 16, height: 16, borderRadius: "50%", border: "none", background: "rgba(0,0,0,.6)", color: "#fff", cursor: "pointer", fontSize: 9, display: "flex", alignItems: "center", justifyContent: "center" }}>×</button>}
         </div>
       ))}
     </div>

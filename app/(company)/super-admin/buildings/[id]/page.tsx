@@ -3,6 +3,7 @@ import { db } from "@/lib/db";
 import { redirect, notFound } from "next/navigation";
 import { BuildingDashboard } from "./BuildingDashboard";
 import { getBuildingDashboardData } from "@/lib/building/dashboard-data";
+import { capsForStaff } from "@/lib/building-caps";
 
 export const metadata = { title: "Κτήριο — Super Admin" };
 
@@ -18,5 +19,5 @@ export default async function BuildingDashboardPage({ params, searchParams }: { 
   const data = await getBuildingDashboardData(id, { heatingPeriod: rawHeatingPeriod });
   if (!data) notFound();
 
-  return <BuildingDashboard {...data} />;
+  return <BuildingDashboard {...data} can={capsForStaff()} />;
 }

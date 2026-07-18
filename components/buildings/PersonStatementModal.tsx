@@ -15,9 +15,9 @@ const fmtDate = (s: string | null) => { if (!s) return "—"; try { return new D
 const PM_LABEL: Record<string, string> = { CARD: "Κάρτα", CASH: "Μετρητά", VIVA: "Viva", BANK_TRANSFER: "Τράπεζα", CHECK: "Επιταγή", OTHER: "Άλλο" };
 
 export function PersonStatementModal({
-  open, onClose, buildingId, userId, onChanged,
+  open, onClose, buildingId, userId, canPay, onChanged,
 }: {
-  open: boolean; onClose: () => void; buildingId: string; userId: string; onChanged?: () => void;
+  open: boolean; onClose: () => void; buildingId: string; userId: string; canPay: boolean; onChanged?: () => void;
 }) {
   const [data, setData] = useState<PersonStatement | null>(null);
   const [sel, setSel] = useState<Set<string>>(new Set());
@@ -71,7 +71,7 @@ export function PersonStatementModal({
             <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}>
               <thead>
                 <tr style={{ textAlign: "left", color: "var(--muted-foreground)", borderBottom: "1px solid var(--border-strong)" }}>
-                  <th style={th}><input type="checkbox" checked={allUnpaidSelected} onChange={toggleAll} disabled={!unpaid.length} title="Επιλογή ανεξόφλητων" /></th>
+                  <th style={th}>{canPay && <input type="checkbox" checked={allUnpaidSelected} onChange={toggleAll} disabled={!unpaid.length} title="Επιλογή ανεξόφλητων" />}</th>
                   <th style={th}>Μήνας</th><th style={th}>Κατηγορία</th><th style={th}>Προμηθευτής</th><th style={th}>Μονάδα</th><th style={th}>Ιδιότητα</th>
                   <th style={{ ...th, textAlign: "right" }}>Ποσό</th><th style={th}>Κατάσταση</th>
                 </tr>
@@ -81,7 +81,7 @@ export function PersonStatementModal({
                   const k = key(l);
                   return (
                     <tr key={k} style={{ borderBottom: "1px solid var(--border)" }}>
-                      <td style={td}>{!l.paid ? <input type="checkbox" checked={sel.has(k)} onChange={() => toggle(k)} /> : null}</td>
+                      <td style={td}>{canPay && !l.paid ? <input type="checkbox" checked={sel.has(k)} onChange={() => toggle(k)} /> : null}</td>
                       <td style={{ ...td, whiteSpace: "nowrap", fontVariantNumeric: "tabular-nums", color: "var(--muted-foreground)" }}>{l.month}</td>
                       <td style={td}>{l.category ?? "—"}</td>
                       <td style={td}>{l.supplier ?? "—"}<div style={{ fontSize: 10, color: "var(--muted-foreground)" }}>{fmtDate(l.documentDate)}{l.documentNumber ? " · " + l.documentNumber : ""}</div></td>
@@ -90,7 +90,7 @@ export function PersonStatementModal({
                       <td style={{ ...td, textAlign: "right", fontWeight: 600, whiteSpace: "nowrap", fontVariantNumeric: "tabular-nums" }}>{eur(l.amount)}</td>
                       <td style={td}>
                         {l.paid
-                          ? <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}><span style={{ color: "#16a34a", fontWeight: 600, display: "inline-flex", alignItems: "center", gap: 2 }}><RiCheckLine /> {l.paymentMethod ? PM_LABEL[l.paymentMethod] ?? "Ναι" : "Πληρωμένο"}</span><button onClick={() => unpay(l)} disabled={pending} style={undoBtn} title="Αναίρεση">↺</button></span>
+                          ? <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}><span style={{ color: "#16a34a", fontWeight: 600, display: "inline-flex", alignItems: "center", gap: 2 }}><RiCheckLine /> {l.paymentMethod ? PM_LABEL[l.paymentMethod] ?? "Ναι" : "Πληρωμένο"}</span>{canPay && <button onClick={() => unpay(l)} disabled={pending} style={undoBtn} title="Αναίρεση">↺</button>}</span>
                           : <span style={{ color: "var(--muted-foreground)" }}>Ανεξόφλητο</span>}
                       </td>
                     </tr>
@@ -101,13 +101,15 @@ export function PersonStatementModal({
             </table>
           </div>
 
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", gap: 10, borderTop: "1px solid var(--border)", paddingTop: 12 }}>
-            <span style={{ fontSize: 12, color: "var(--muted-foreground)" }}>{sel.size} επιλεγμένα</span>
-            <select value={method} onChange={(e) => setMethod(e.target.value as PaymentMethod)} style={{ height: 34, padding: "0 10px", borderRadius: 6, border: "1px solid var(--border-strong)", background: "var(--bg-canvas)", fontSize: 13 }}>
-              {METHODS.map((m) => <option key={m.value} value={m.value}>{m.label}</option>)}
-            </select>
-            <button onClick={pay} disabled={!sel.size || pending} style={btnPay}>{pending ? <RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> : <RiCheckLine />} Καταχώρηση πληρωμής</button>
-          </div>
+          {canPay && (
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", gap: 10, borderTop: "1px solid var(--border)", paddingTop: 12 }}>
+              <span style={{ fontSize: 12, color: "var(--muted-foreground)" }}>{sel.size} επιλεγμένα</span>
+              <select value={method} onChange={(e) => setMethod(e.target.value as PaymentMethod)} style={{ height: 34, padding: "0 10px", borderRadius: 6, border: "1px solid var(--border-strong)", background: "var(--bg-canvas)", fontSize: 13 }}>
+                {METHODS.map((m) => <option key={m.value} value={m.value}>{m.label}</option>)}
+              </select>
+              <button onClick={pay} disabled={!sel.size || pending} style={btnPay}>{pending ? <RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> : <RiCheckLine />} Καταχώρηση πληρωμής</button>
+            </div>
+          )}
         </div>
       )}
       <style>{`@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}`}</style>

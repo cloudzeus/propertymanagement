@@ -4,6 +4,7 @@ import { useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { uploadBuildingFile, deleteBuildingFile } from "@/app/actions/building-files";
 import { toWebpResized } from "@/lib/resize-image";
+import type { BuildingCaps } from "@/lib/building-caps";
 import {
   RiFolderLine, RiRulerLine, RiImageLine, RiFileTextLine, RiShieldCheckLine,
   RiUploadCloud2Line, RiDownload2Line, RiDeleteBinLine, RiLoaderLine,
@@ -41,7 +42,7 @@ function thumbColor(name: string): [string, string] {
   return ["var(--bg-canvas)", "var(--muted-foreground)"];
 }
 
-export function FilesPanel({ buildingId, files }: { buildingId: string; files: FileRow[] }) {
+export function FilesPanel({ buildingId, files, can }: { buildingId: string; files: FileRow[]; can: BuildingCaps }) {
   const router = useRouter();
   const [cat, setCat] = useState("ALL");
   const [uploadCat, setUploadCat] = useState("DOCUMENTS");
@@ -79,15 +80,17 @@ export function FilesPanel({ buildingId, files }: { buildingId: string; files: F
         <div style={{ fontSize: 13, color: "var(--muted-foreground)", display: "flex", alignItems: "center", gap: 6 }}>
           <RiFolderLine /> {files.length} αρχεία
         </div>
-        <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-          <select value={uploadCat} onChange={(e) => setUploadCat(e.target.value)} style={selectStyle}>
-            {CATS.filter((c) => c.key !== "ALL").map((c) => <option key={c.key} value={c.key}>{c.label}</option>)}
-          </select>
-          <button onClick={() => inputRef.current?.click()} disabled={isPending} style={{ ...btn, ...btnPrimary }}>
-            {isPending ? <RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> : <RiUploadCloud2Line />} Ανέβασμα
-          </button>
-          <input ref={inputRef} type="file" multiple style={{ display: "none" }} onChange={(e) => onPick(e.target.files)} />
-        </div>
+        {can.manageFiles && (
+          <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+            <select value={uploadCat} onChange={(e) => setUploadCat(e.target.value)} style={selectStyle}>
+              {CATS.filter((c) => c.key !== "ALL").map((c) => <option key={c.key} value={c.key}>{c.label}</option>)}
+            </select>
+            <button onClick={() => inputRef.current?.click()} disabled={isPending} style={{ ...btn, ...btnPrimary }}>
+              {isPending ? <RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> : <RiUploadCloud2Line />} Ανέβασμα
+            </button>
+            <input ref={inputRef} type="file" multiple style={{ display: "none" }} onChange={(e) => onPick(e.target.files)} />
+          </div>
+        )}
       </div>
 
       {error && <div style={errBox}>{error}</div>}
@@ -109,11 +112,18 @@ export function FilesPanel({ buildingId, files }: { buildingId: string; files: F
       </div>
 
       {visible.length === 0 ? (
-        <div onClick={() => inputRef.current?.click()} style={dropzone}>
-          <RiUploadCloud2Line style={{ fontSize: 26 }} />
-          <div>Σύρε αρχεία ή κάνε κλικ για ανέβασμα</div>
-          <div style={{ fontSize: 11 }}>Αποθήκευση στον φάκελο του κτηρίου (BunnyCDN)</div>
-        </div>
+        can.manageFiles ? (
+          <div onClick={() => inputRef.current?.click()} style={dropzone}>
+            <RiUploadCloud2Line style={{ fontSize: 26 }} />
+            <div>Σύρε αρχεία ή κάνε κλικ για ανέβασμα</div>
+            <div style={{ fontSize: 11 }}>Αποθήκευση στον φάκελο του κτηρίου (BunnyCDN)</div>
+          </div>
+        ) : (
+          <div style={{ ...dropzone, cursor: "default" }}>
+            <RiFolderLine style={{ fontSize: 26 }} />
+            <div>Δεν υπάρχουν αρχεία.</div>
+          </div>
+        )
       ) : (
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(186px,1fr))", gap: 13 }}>
           {visible.map((f) => {
@@ -126,7 +136,7 @@ export function FilesPanel({ buildingId, files }: { buildingId: string; files: F
                   <div style={{ fontSize: 11, color: "var(--muted-foreground)", marginTop: 2 }}>{fmtSize(f.sizeBytes)}</div>
                   <div style={{ display: "flex", gap: 6, marginTop: 8 }}>
                     <a href={f.url} target="_blank" rel="noreferrer" style={{ ...btnSm, textDecoration: "none" }}><RiDownload2Line /> Άνοιγμα</a>
-                    <button onClick={() => remove(f.id)} disabled={isPending} style={{ ...btnSm, color: "#c50f1f" }}><RiDeleteBinLine /></button>
+                    {can.manageFiles && <button onClick={() => remove(f.id)} disabled={isPending} style={{ ...btnSm, color: "#c50f1f" }}><RiDeleteBinLine /></button>}
                   </div>
                 </div>
               </div>
