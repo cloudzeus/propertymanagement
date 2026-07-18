@@ -230,6 +230,31 @@ export async function getBuildingDashboardData(id: string, opts: { heatingPeriod
 
   const maintenanceHistory = await listMaintenanceHistory(building.id);
 
+  // ── Fault requests (full list) + active categories ──────────────────────────
+  const [maintenanceRequestRows, maintenanceCategories] = await Promise.all([
+    db.maintenanceRequest.findMany({
+      where: { buildingId: building.id },
+      orderBy: { createdAt: "desc" },
+      select: {
+        id: true, title: true, status: true, priority: true, createdAt: true, scheduledDate: true,
+        unit: { select: { unitNumber: true } },
+        categoryRef: { select: { name: true } },
+      },
+    }),
+    db.maintenanceCategory.findMany({
+      where: { active: true },
+      orderBy: { sortOrder: "asc" },
+      select: { id: true, name: true },
+    }),
+  ]);
+  const maintenanceRequests = maintenanceRequestRows.map((r) => ({
+    id: r.id, title: r.title, status: r.status, priority: r.priority,
+    createdAt: r.createdAt.toISOString(),
+    scheduledDate: r.scheduledDate ? r.scheduledDate.toISOString() : null,
+    unitNumber: r.unit?.unitNumber ?? null,
+    categoryName: r.categoryRef?.name ?? null,
+  }));
+
   return {
     building: {
       id: building.id,
@@ -292,6 +317,8 @@ export async function getBuildingDashboardData(id: string, opts: { heatingPeriod
     meterReadingRows,
     overview,
     maintenanceHistory,
+    maintenanceRequests,
+    maintenanceCategories,
     today: new Date().toISOString(),
   };
 }

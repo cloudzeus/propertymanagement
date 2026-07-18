@@ -30,6 +30,7 @@ import { HeatingReadingsPanel } from "@/components/building/HeatingReadingsPanel
 import { MeterReadingsPanel } from "@/components/building/MeterReadingsPanel";
 import { MaintenanceTab } from "@/components/building/MaintenanceTab";
 import { ManagedItemsPanel } from "@/components/building/ManagedItemsPanel";
+import { RequestsPanel } from "./RequestsPanel";
 import { SECTIONS, type SectionKey } from "./sections";
 import { ManagerOverview } from "./ManagerOverview";
 
@@ -57,6 +58,7 @@ export function BuildingManagerShell(props: Props) {
     expenseCategories, categoryOverrides, unitExclusions,
     usesMeteredHeating, heatingPeriod, heatingReadingRows, meterReadingRows,
     overview, maintenanceHistory, managedItems, managedItemTypes,
+    maintenanceRequests, maintenanceCategories,
   } = props;
 
   const router = useRouter();
@@ -236,6 +238,15 @@ export function BuildingManagerShell(props: Props) {
               />
             )}
           </div>
+        ) : tab === "maint" ? (
+          <RequestsPanel
+            buildingId={building.id}
+            buildingName={building.name}
+            units={units.map((u) => ({ id: u.id, unitNumber: u.unitNumber }))}
+            requests={maintenanceRequests}
+            categories={maintenanceCategories}
+            can={can}
+          />
         ) : tab === "maintenance" ? (
           <MaintenanceTab rows={maintenanceHistory} tasks={tasks} buildingId={building.id} can={can} />
         ) : tab === "koino" ? (
@@ -243,7 +254,7 @@ export function BuildingManagerShell(props: Props) {
         ) : tab === "ann" ? (
           <AnnouncementsPanel buildingId={building.id} can={can} />
         ) : tab === "assemblies" ? (
-          <AssembliesPanel buildingId={building.id} can={can} linkToDetail={viewer !== "manager"} />
+          <AssembliesPanel buildingId={building.id} can={can} linkToDetail={viewer !== "manager"} showTestButton={viewer !== "manager"} />
         ) : (
           <Placeholder label={visibleTabs.find((t) => t.key === tab)?.label ?? sectionDef.label} />
         )}

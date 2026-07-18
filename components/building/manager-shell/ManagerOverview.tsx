@@ -63,7 +63,7 @@ export function ManagerOverview({ building, data, can, onNavigate }: {
                 <div style={{ flex: 1, background: "#c50f1f" }} />
               </div>
               <div>
-                <button onClick={() => onNavigate("finance", "pay")} style={{ ...btn, ...btnPrimary }}><RiBankCardLine /> Πληρωμές</button>
+                <button onClick={() => onNavigate("finance", "koino")} style={{ ...btn, ...btnPrimary }}><RiBankCardLine /> Πληρωμές</button>
               </div>
             </div>
           </div>

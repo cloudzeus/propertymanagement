@@ -5,7 +5,7 @@ export const SECTIONS: { key: SectionKey; label: string; tabs: SubTab[] }[] = [
   { key: "overview", label: "Επισκόπηση", tabs: [] },
   { key: "finance", label: "Οικονομικά", tabs: [
     { key: "koino", label: "Κοινόχρηστα" }, { key: "expenses", label: "Έξοδα" },
-    { key: "pay", label: "Πληρωμές" }, { key: "readings", label: "Ενδείξεις μετρητών" },
+    { key: "readings", label: "Ενδείξεις μετρητών" },
   ]},
   { key: "building", label: "Κτήριο", tabs: [
     { key: "units", label: "Μονάδες" }, { key: "millesimes", label: "Χιλιοστά & Κατανομή" },

@@ -16,7 +16,7 @@ const STATUS_LABEL: Record<string, string> = {
   SENT: "Απεστάλη",
 };
 
-export function AssembliesPanel({ buildingId, can, linkToDetail = true }: { buildingId: string; can: BuildingCaps; linkToDetail?: boolean }) {
+export function AssembliesPanel({ buildingId, can, linkToDetail = true, showTestButton = true }: { buildingId: string; can: BuildingCaps; linkToDetail?: boolean; showTestButton?: boolean }) {
   const [rows, setRows] = useState<AssemblyRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [adding, setAdding] = useState(false);
@@ -66,7 +66,7 @@ export function AssembliesPanel({ buildingId, can, linkToDetail = true }: { buil
         searchPlaceholder="Αναζήτηση συνέλευσης…"
         toolbar={can.manageAssemblies ? <>
           <button onClick={() => setAdding(true)} style={{ ...btn, ...btnPrimary }}><RiAddLine /> Νέα Συνέλευση</button>
-          <button onClick={() => setTesting(true)} style={btn}><RiFlaskLine /> Δοκιμή (Super Admin)</button>
+          {showTestButton && <button onClick={() => setTesting(true)} style={btn}><RiFlaskLine /> Δοκιμή (Super Admin)</button>}
         </> : undefined}
       />
       {adding && <CreateModal buildingId={buildingId} onClose={() => setAdding(false)} onDone={() => { setAdding(false); reload(); }} />}
