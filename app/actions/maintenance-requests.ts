@@ -24,7 +24,7 @@ async function requireUser() {
 const isStaff = (role: string) => STAFF_ROLES.includes(role);
 const clean = (v?: string | null) => (v?.trim() ? v.trim() : null);
 
-function revalidateAll(requestId?: string) {
+function revalidateAll(requestId?: string, buildingId?: string | null) {
   revalidatePath("/admin/maintenance");
   revalidatePath("/portal/requests");
   revalidatePath("/portal/maintenance");
@@ -33,6 +33,8 @@ function revalidateAll(requestId?: string) {
     revalidatePath(`/portal/requests/${requestId}`);
     revalidatePath(`/portal/maintenance/${requestId}`);
   }
+  // Manager building-dashboard twin (fault-requests tab lives at /building/[id]).
+  if (buildingId) revalidatePath(`/building/${buildingId}`);
 }
 
 /** Μπορεί ο χρήστης να ΔΗΛΩΣΕΙ βλάβη στο κτήριο; (ένοικος/ιδιοκτήτης/διαχειριστής/staff) */
@@ -127,7 +129,7 @@ export async function createMaintenanceRequest(input: CreateFaultInput) {
     body: `Δηλώθηκε νέα βλάβη στο κτήριο «${row.building.name}». Υπεύθυνος: ${handledBy === "COMPANY" ? "εταιρία διαχείρισης" : "διαχειριστής ακινήτου"}.`,
     excludeUserId: user.id,
   });
-  revalidateAll(row.id);
+  revalidateAll(row.id, input.buildingId);
   return { id: row.id };
 }
 
@@ -176,7 +178,7 @@ export async function changeRequestStatus(id: string, status: FaultStatus, note?
     body: clean(note) ?? `Η κατάσταση άλλαξε σε «${STATUS_LABELS[status]}».`,
     excludeUserId: user.id,
   });
-  revalidateAll(id);
+  revalidateAll(id, req.buildingId);
   return { ok: true };
 }
 
@@ -184,7 +186,7 @@ export async function changeRequestStatus(id: string, status: FaultStatus, note?
 export async function assignRequest(id: string, assigneeId: string | null) {
   const user = await requireUser();
   if (!["SUPER_ADMIN", "ADMIN", "MANAGER"].includes(user.role)) return { error: "Δεν επιτρέπεται" };
-  const req = await db.maintenanceRequest.findUnique({ where: { id }, select: { id: true, title: true, status: true } });
+  const req = await db.maintenanceRequest.findUnique({ where: { id }, select: { id: true, title: true, status: true, buildingId: true } });
   if (!req) return { error: "Δεν βρέθηκε" };
 
   let assignee: { id: string; name: string | null } | null = null;
@@ -206,7 +208,7 @@ export async function assignRequest(id: string, assigneeId: string | null) {
       onlyUserIds: [assignee.id],
     });
   }
-  revalidateAll(id);
+  revalidateAll(id, req.buildingId);
   return { ok: true };
 }
 
@@ -218,7 +220,7 @@ export async function addRequestComment(id: string, body: string, internal = fal
   const user = await requireUser();
   if (!body?.trim()) return { error: "Κενό μήνυμα" };
   if (!(await canAccessRequest(user.id, user.role, id))) return { error: "Δεν επιτρέπεται" };
-  const req = await db.maintenanceRequest.findUnique({ where: { id }, select: { title: true } });
+  const req = await db.maintenanceRequest.findUnique({ where: { id }, select: { title: true, buildingId: true } });
   if (!req) return { error: "Δεν βρέθηκε" };
 
   await db.maintenanceComment.create({
@@ -233,7 +235,7 @@ export async function addRequestComment(id: string, body: string, internal = fal
       excludeUserId: user.id,
     });
   }
-  revalidateAll(id);
+  revalidateAll(id, req.buildingId);
   return { ok: true };
 }
 
@@ -245,7 +247,7 @@ export async function addRequestComment(id: string, body: string, internal = fal
 export async function setRequestEstimate(id: string, minutes: number | null, managerPresence: boolean) {
   const user = await requireUser();
   if (!isStaff(user.role)) return { error: "Δεν επιτρέπεται" };
-  const req = await db.maintenanceRequest.findUnique({ where: { id }, select: { title: true } });
+  const req = await db.maintenanceRequest.findUnique({ where: { id }, select: { title: true, buildingId: true } });
   if (!req) return { error: "Δεν βρέθηκε" };
   const mins = minutes && Number.isFinite(minutes) && minutes > 0 ? Math.round(minutes / 30) * 30 || 30 : null;
   await db.maintenanceRequest.update({ where: { id }, data: { estimatedMinutes: mins, managerPresence } });
@@ -258,7 +260,7 @@ export async function setRequestEstimate(id: string, minutes: number | null, man
       : "Η εκτίμηση διάρκειας αφαιρέθηκε.",
     excludeUserId: user.id,
   });
-  revalidateAll(id);
+  revalidateAll(id, req.buildingId);
   return { ok: true };
 }
 
@@ -276,7 +278,7 @@ export async function offerSlots(id: string, isoStarts: string[]) {
     if (d.getMinutes() % 30 !== 0 || d.getSeconds() !== 0) return { error: "Τα slots πρέπει να είναι σε όρια 30 λεπτών" };
   }
 
-  const req = await db.maintenanceRequest.findUnique({ where: { id }, select: { title: true } });
+  const req = await db.maintenanceRequest.findUnique({ where: { id }, select: { title: true, buildingId: true } });
   if (!req) return { error: "Δεν βρέθηκε" };
 
   await db.maintenanceSlot.createMany({
@@ -290,18 +292,18 @@ export async function offerSlots(id: string, isoStarts: string[]) {
     body: `${side === "COMPANY" ? "Η εταιρία" : "Ο διαχειριστής"} δήλωσε ${starts.length} διαθέσιμα slots για ραντεβού.`,
     excludeUserId: user.id,
   });
-  revalidateAll(id);
+  revalidateAll(id, req.buildingId);
   return { ok: true };
 }
 
 export async function removeSlot(slotId: string) {
   const user = await requireUser();
-  const slot = await db.maintenanceSlot.findUnique({ where: { id: slotId }, select: { id: true, requestId: true, offeredById: true, status: true } });
+  const slot = await db.maintenanceSlot.findUnique({ where: { id: slotId }, select: { id: true, requestId: true, offeredById: true, status: true, request: { select: { buildingId: true } } } });
   if (!slot) return { error: "Δεν βρέθηκε" };
   if (slot.status !== "OPEN") return { error: "Το slot έχει ήδη επιλεγεί" };
   if (slot.offeredById !== user.id && !isStaff(user.role)) return { error: "Δεν επιτρέπεται" };
   await db.maintenanceSlot.delete({ where: { id: slotId } });
-  revalidateAll(slot.requestId);
+  revalidateAll(slot.requestId, slot.request.buildingId);
   return { ok: true };
 }
 
@@ -310,7 +312,7 @@ export async function bookSlot(slotId: string) {
   const user = await requireUser();
   const slot = await db.maintenanceSlot.findUnique({
     where: { id: slotId },
-    select: { id: true, requestId: true, side: true, startAt: true, status: true, request: { select: { title: true, estimatedMinutes: true, managerPresence: true, status: true } } },
+    select: { id: true, requestId: true, side: true, startAt: true, status: true, request: { select: { title: true, estimatedMinutes: true, managerPresence: true, status: true, buildingId: true } } },
   });
   if (!slot || slot.status !== "OPEN") return { error: "Το slot δεν είναι διαθέσιμο" };
   if (!(await canAccessRequest(user.id, user.role, slot.requestId))) return { error: "Δεν επιτρέπεται" };
@@ -344,7 +346,7 @@ export async function bookSlot(slotId: string) {
     title: `Ραντεβού για τη βλάβη «${slot.request.title}»`,
     body: `Κλείστηκε ραντεβού: ${when} (διάρκεια ~${duration}').${slot.request.managerPresence ? " Απαιτείται παρουσία διαχειριστή." : ""}`,
   });
-  revalidateAll(slot.requestId);
+  revalidateAll(slot.requestId, slot.request.buildingId);
   return { ok: true };
 }
 

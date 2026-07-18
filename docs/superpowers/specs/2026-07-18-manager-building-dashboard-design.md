@@ -98,3 +98,10 @@ global user search in occupant pickers on the manager surface (known leak stays 
 - Manual flow via super-admin View-as PROPERTY_ADMIN: single & multi building, managed vs
   self-managed capability differences, one mutation per section.
 - No schema change expected (verify with `prisma migrate diff`).
+
+## Deviations (as-built)
+
+- **Πληρωμές sub-tab folded into Κοινόχρηστα**: there is no separate "pay" sub-tab; payment actions live inside `KoinochristaPanel` gated by `can.managePayments`. The overview "Πληρωμές" button navigates to finance/koino.
+- **Fault requests live only on the manager surface**: the manager shell's Αιτήματα βλαβών tab renders a real `RequestsPanel` (list + Δήλωση βλάβης via `NewRequestButton`, detail at `/portal/requests/[id]`), while the staff `BuildingDashboard` keeps its placeholder for the "maint"/"pay" keys (staff parity unchanged).
+- **Managed items are view-only for managers and managed-buildings-only**: the tab is hidden on non-managed buildings and `capsForManager(...)` always returns `manageManagedItems: false` (the catalog and CRUD are company staff features).
+- **Overview shows a paid/unpaid gauge without a separate debtors tile**: collections are presented as Gauge + Εξοφλημένα/Ανεξόφλητα/Ποσοστό stats and a red/green bar; there is no dedicated "Οφειλέτες" stat tile on this surface.

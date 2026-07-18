@@ -1,4 +1,4 @@
-import { auth } from "@/auth";
+import { getEffectiveSession } from "@/lib/auth-effective";
 import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 import Link from "next/link";
@@ -18,9 +18,10 @@ function currentMonth(): string {
 }
 
 export default async function ManagerBuildingsPage() {
-  const session = await auth();
+  // Effective session so super-admin View-as PROPERTY_ADMIN exercises this surface.
+  const session = await getEffectiveSession();
   if (!session?.user?.id) redirect("/login");
-  const userId = session.user.id as string;
+  const userId = session.user.id;
 
   const ids = await managerBuildingIds(userId);
 

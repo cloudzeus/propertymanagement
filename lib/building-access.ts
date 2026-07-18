@@ -1,4 +1,4 @@
-import { auth } from "@/auth";
+import { getEffectiveSession } from "@/lib/auth-effective";
 import { db } from "@/lib/db";
 import { type BuildingCaps, capsForStaff, capsForManager } from "@/lib/building-caps";
 
@@ -37,20 +37,22 @@ export async function getBuildingAccess(userId: string, buildingId: string): Pro
 
 /** Guard for server actions: throws unless the session user holds `cap` on the building. */
 export async function requireBuildingCap(buildingId: string, cap: keyof BuildingCaps): Promise<{ userId: string; access: BuildingAccess }> {
-  const session = await auth();
+  // Effective session: during super-admin View-as, authorize as the impersonated user
+  // so server actions agree with what the impersonated page rendered.
+  const session = await getEffectiveSession();
   if (!session?.user?.id) throw new Error("Unauthorized");
-  const access = await getBuildingAccess(session.user.id as string, buildingId);
+  const access = await getBuildingAccess(session.user.id, buildingId);
   if (!access || !access.can[cap]) throw new Error("Forbidden");
-  return { userId: session.user.id as string, access };
+  return { userId: session.user.id, access };
 }
 
 /** Guard for read paths: any viewer allowed on the building (staff or assigned manager). */
 export async function requireBuildingView(buildingId: string): Promise<{ userId: string; access: BuildingAccess }> {
-  const session = await auth();
+  const session = await getEffectiveSession();
   if (!session?.user?.id) throw new Error("Unauthorized");
-  const access = await getBuildingAccess(session.user.id as string, buildingId);
+  const access = await getBuildingAccess(session.user.id, buildingId);
   if (!access) throw new Error("Forbidden");
-  return { userId: session.user.id as string, access };
+  return { userId: session.user.id, access };
 }
 
 /** All building IDs a PROPERTY_ADMIN reaches via ManagementAssignment (direct or property-wide). */

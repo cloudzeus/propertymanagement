@@ -1,4 +1,4 @@
-import { auth } from "@/auth";
+import { getEffectiveSession } from "@/lib/auth-effective";
 import { db } from "@/lib/db";
 import { notFound, redirect } from "next/navigation";
 import { getBuildingAccess, managerBuildingIds } from "@/lib/building-access";
@@ -13,9 +13,10 @@ export default async function ManagerBuildingPage({ params, searchParams }: {
 }) {
   const { id } = await params;
   const sp = await searchParams;
-  const session = await auth();
+  // Effective session so super-admin View-as PROPERTY_ADMIN exercises this surface.
+  const session = await getEffectiveSession();
   if (!session?.user?.id) redirect("/login");
-  const userId = session.user.id as string;
+  const userId = session.user.id;
   const access = await getBuildingAccess(userId, id);
   if (!access) notFound();
 

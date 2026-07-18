@@ -30,7 +30,7 @@ describe("capsForManager", () => {
     expect(c.manageKoinochrista).toBe(true);
     expect(c.managePayments).toBe(true);
     expect(c.manageInfra).toBe(true);
-    expect(c.manageManagedItems).toBe(true);
+    expect(c.manageManagedItems).toBe(false); // managed items are company-catalog only
     expect(c.manageMaintenance).toBe(true);
     expect(c.editDistribution).toBe(false);
     expect(c.manageManagers).toBe(false);

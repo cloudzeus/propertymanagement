@@ -32,5 +32,7 @@ export function capsForManager(managed: boolean): BuildingCaps {
     manageAssemblies: true, manageCalendar: true, createRequests: true, viewAudit: true,
     // Company-owned settings are never manager-editable:
     editDistribution: false, manageManagers: false,
+    // Managed items exist only on managed buildings (company catalog) — always view-only for managers:
+    manageManagedItems: false,
   };
 }
