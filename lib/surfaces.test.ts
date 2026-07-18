@@ -25,7 +25,7 @@ describe("homePathForRole", () => {
     expect(homePathForRole("COLLABORATOR")).toBe("/marketplace");
     expect(homePathForRole("PROPERTY_OWNER")).toBe("/owner");
     expect(homePathForRole("PROPERTY_RESIDENT")).toBe("/portal");
-    expect(homePathForRole("PROPERTY_VIEWER")).toBe("/portal");
+    expect(homePathForRole("PROPERTY_VIEWER")).toBe("/signage");
   });
 });
 

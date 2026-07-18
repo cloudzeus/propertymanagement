@@ -23,7 +23,7 @@ const HOME_BY_ROLE: Record<UserRole, string> = {
   COLLABORATOR: "/marketplace",
   PROPERTY_OWNER: "/owner",
   PROPERTY_RESIDENT: "/portal",
-  PROPERTY_VIEWER: "/portal",
+  PROPERTY_VIEWER: "/signage",
 };
 
 export function homePathForRole(role: UserRole): string {
