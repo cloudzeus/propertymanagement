@@ -26,9 +26,9 @@ export type PaymentRow = {
   month: string;            // issuance month (issuedMonth ?? month), YYYY-MM
   role: "OWNER" | "RESIDENT" | "BOTH";
   statement: StatementWithPaid;
-  /** The viewer-side share for this row (OWNER side → Σ ownerAmount, TENANT → Σ tenantAmount). */
+  /** The viewer's role-aware payable — equals statement.myPayable (OWNER role → ownerTotal, RESIDENT → tenantTotal, BOTH → total). */
   myAmount: number;
-  /** Every my-side allocation with a positive amount is paid. */
+  /** Every role-relevant allocation with a positive amount is paid. */
   myPaid: boolean;
   /** statement.total = ownerTotal + tenantTotal (the whole unit αναλογία). */
   unitTotal: number;
@@ -38,12 +38,17 @@ export type PaymentRow = {
 /**
  * Build per-(unit,month) payment rows for `userId` seen from one side.
  *
- * Money attribution mirrors lib/building/occupant-data.ts exactly: the columns
- * are UNGATED (unitAmount = ownerAmount + tenantAmount, unitOwner = ownerAmount,
- * unitTenant = tenantAmount) so total === ownerTotal + tenantTotal always holds;
- * only `myAmount`/`myPaid` are gated to the viewer's side. A unit the viewer owns
- * where the tenant pays 100% therefore yields myAmount === 0 (no owner debt) —
- * NOT a phantom «Οφειλή».
+ * Money attribution mirrors lib/building/occupant-data.ts exactly: the split
+ * columns are UNGATED (unitAmount = ownerAmount + tenantAmount, unitOwner =
+ * ownerAmount, unitTenant = tenantAmount) so total === ownerTotal + tenantTotal
+ * always holds — that stays the apartment's true division in the analysis.
+ *
+ * `side` ONLY decides which units are listed (OWNER page → owned units, TENANT
+ * page → occupied units). The row's `myAmount`/`myPaid` are ROLE-aware, always
+ * equal to the notice's ΠΛΗΡΩΤΕΟ (statement.myPayable), so the column never
+ * disagrees with the expanded notice. A unit the viewer owns but rents out
+ * (owner owes 0) yields myAmount === 0 → «Καμία οφειλή»; a self-occupied unit
+ * shows its real payable → «Οφειλή {amount}».
  */
 export async function buildPaymentRows(userId: string, side: Side): Promise<PaymentRow[]> {
   const unitRows = await db.unit.findMany({
@@ -147,11 +152,13 @@ export async function buildPaymentRows(userId: string, side: Side): Promise<Paym
       b.tCnt += 1; if (a.tenantPaid) b.tPaid += 1;
       b.oCnt += 1; if (a.ownerPaid) b.oPaid += 1;
 
-      // My-side share + paid state (drive the row column + status).
-      const sideAmount = side === "OWNER" ? ownerAmount : tenantAmount;
-      const sidePaid = side === "OWNER" ? a.ownerPaid : a.tenantPaid;
-      b.myAmount += sideAmount;
-      if (sideAmount > 0 && !sidePaid) b.myUnpaidWithAmount += 1;
+      // My share + paid state — ROLE-aware, NOT side-gated: the column mirrors
+      // the notice's ΠΛΗΡΩΤΕΟ (statement.myPayable) exactly. OWNER role → owner
+      // amount, RESIDENT → tenant, BOTH (self-occupied) → owner + tenant.
+      const wantOwner = u.role === "OWNER" || u.role === "BOTH";
+      const wantTenant = u.role === "RESIDENT" || u.role === "BOTH";
+      if (wantOwner) { b.myAmount += ownerAmount; if (ownerAmount > 0 && !a.ownerPaid) b.myUnpaidWithAmount += 1; }
+      if (wantTenant) { b.myAmount += tenantAmount; if (tenantAmount > 0 && !a.tenantPaid) b.myUnpaidWithAmount += 1; }
     }
   }
 
