@@ -29,6 +29,7 @@ export const RBAC_MODULES: readonly RbacModule[] = [
   { key: "integrations", label: "Ενσωματώσεις", surface: "company", menu: { href: "/super-admin/integrations", icon: "RiLinksLine", group: "settings" }, actions: [...CRUD] },
   { key: "settings-company", label: "Εταιρία", surface: "company", menu: { href: "/super-admin/settings/company", icon: "RiBuildingLine", group: "settings" }, actions: [...CRUD] },
   { key: "settings-brand", label: "Brand", surface: "company", menu: { href: "/super-admin/settings/brand", icon: "RiPaletteLine", group: "settings" }, actions: [...CRUD] },
+  { key: "settings-payments", label: "Πληρωμές (Viva)", surface: "company", menu: { href: "/super-admin/settings/payments", icon: "RiBankCardLine", group: "settings" }, actions: [...CRUD] },
   { key: "settings", label: "Ρυθμίσεις", surface: "company", menu: { href: "/super-admin/settings", icon: "RiSettingsLine", group: "settings" }, actions: [...CRUD] },
   { key: "cms-landing", label: "CMS: Αρχική", surface: "company", menu: { href: "/super-admin/cms/landing", icon: "RiLayoutLine", group: "cms" }, actions: [...CRUD] },
   { key: "cms-seo", label: "CMS: SEO", surface: "company", menu: { href: "/super-admin/cms/seo", icon: "RiSearchEyeLine", group: "cms" }, actions: [...CRUD] },
@@ -80,7 +81,7 @@ export const DEFAULT_PERMISSIONS: RoleDefaults = {
     ...view("dashboard", "reports"),
     ...crud("properties", "units", "users", "residents", "maintenance", "announcements", "calendar", "managed-items"),
     ...crud("metered-plans", "customer-wallets"),
-    ...view("api-costs"), ...crud("settings"),
+    ...view("api-costs"), ...crud("settings", "settings-payments"),
   ],
   MANAGER: [
     ...view("dashboard", "calendar"),
