@@ -94,7 +94,7 @@ type Props = OccupantData & {
  */
 export function OccupantBuildingShell(props: Props) {
   const {
-    building, myUnits, months, selectedMonth, statements, managerName, expenses,
+    building, myUnits, months, selectedMonth, statements, managerName, expensesByMonth,
     heatingReadings, gallery, infra, units, tasks, maintenanceHistory, meterReadings, managedItems,
     assemblies, files, contacts, announcements, viewerRole, managed, quickPay,
   } = props;
@@ -206,7 +206,7 @@ export function OccupantBuildingShell(props: Props) {
             heatingReadings={heatingReadings}
           />
         ) : section === "expenses" ? (
-          <ExpensesSection expenses={expenses} months={months} selectedMonth={selectedMonth} />
+          <ExpensesSection expensesByMonth={expensesByMonth} />
         ) : section === "units" ? (
           <UnitsSection units={units} myUnitIds={myUnitIds} />
         ) : section === "infra" ? (

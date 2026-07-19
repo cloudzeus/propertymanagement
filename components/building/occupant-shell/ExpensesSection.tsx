@@ -1,12 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { RiCheckLine, RiDownload2Line, RiFileTextLine, RiMoneyEuroCircleLine } from "react-icons/ri";
+import { RiArrowDownSLine, RiArrowRightSLine, RiDownload2Line, RiFileTextLine, RiMoneyEuroCircleLine } from "react-icons/ri";
 import type { OccupantData } from "@/lib/building/occupant-data";
+import { StatusChip } from "@/components/dashboard";
 import { ModalShell } from "./Modal";
 
-type ExpenseItem = OccupantData["expenses"][number];
+type ExpenseMonth = OccupantData["expensesByMonth"][number];
+type ExpenseItem = ExpenseMonth["items"][number];
 
 const eur = (n: number | null) => (n == null ? "—" : `${n.toLocaleString("el-GR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €`);
 const fmtDate = (iso: string | null) => (iso ? new Date(iso).toLocaleDateString("el-GR") : "—");
@@ -19,98 +20,110 @@ const monthLabel = (m: string) => {
 const th: React.CSSProperties = { padding: "8px 10px", fontWeight: 600, fontSize: 12, textAlign: "left" };
 const td: React.CSSProperties = { padding: "9px 10px", verticalAlign: "middle" };
 const money: React.CSSProperties = { textAlign: "right", fontVariantNumeric: "tabular-nums", whiteSpace: "nowrap" };
-const badge: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 3, padding: "1px 8px", borderRadius: 999, border: "1px solid", fontSize: 11, fontWeight: 600, whiteSpace: "nowrap" };
 
-/** Read-only expenses of the selected month; row click opens the entry + receipt modal. */
-export function ExpensesSection({ expenses, months, selectedMonth }: {
-  expenses: OccupantData["expenses"];
-  months: OccupantData["months"];
-  selectedMonth: string;
+/** Read-only building-expenses ledger: every month is an expandable row (with its
+ * total) that opens to that month's detail rows; row click opens the receipt modal. */
+export function ExpensesSection({ expensesByMonth }: {
+  expensesByMonth: OccupantData["expensesByMonth"];
 }) {
-  const router = useRouter();
-  const pathname = usePathname();
-  const search = useSearchParams();
   const [sel, setSel] = useState<ExpenseItem | null>(null);
+  // First (latest) month open by default.
+  const [open, setOpen] = useState<Set<string>>(() => new Set(expensesByMonth.slice(0, 1).map((m) => m.month)));
 
-  const onMonth = (m: string) => {
-    const q = new URLSearchParams(search.toString());
-    q.set("s", "expenses");
-    q.set("month", m);
-    router.replace(`${pathname}?${q.toString()}`, { scroll: false });
-  };
+  const totalCount = expensesByMonth.reduce((s, m) => s + m.count, 0);
+  const toggle = (m: string) =>
+    setOpen((prev) => {
+      const next = new Set(prev);
+      if (next.has(m)) next.delete(m); else next.add(m);
+      return next;
+    });
 
   return (
     <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 12, padding: 18 }}>
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, flexWrap: "wrap", marginBottom: 12 }}>
-        <div style={{ fontSize: 13, color: "var(--muted-foreground)", display: "flex", alignItems: "center", gap: 6 }}>
-          <RiMoneyEuroCircleLine /> Έξοδα {monthLabel(selectedMonth)} · {expenses.length}
-        </div>
-        <select
-          value={selectedMonth}
-          onChange={(e) => onMonth(e.target.value)}
-          aria-label="Μήνας εξόδων"
-          style={{
-            border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)",
-            borderRadius: 6, padding: "6px 10px", fontSize: 13, fontWeight: 600, cursor: "pointer",
-          }}
-        >
-          {!months.includes(selectedMonth) && <option value={selectedMonth}>{monthLabel(selectedMonth)}</option>}
-          {months.map((m) => <option key={m} value={m}>{monthLabel(m)}</option>)}
-        </select>
+      <div style={{ fontSize: 13, color: "var(--muted-foreground)", display: "flex", alignItems: "center", gap: 6, marginBottom: 14 }}>
+        <RiMoneyEuroCircleLine /> Έξοδα κτηρίου · {totalCount}
       </div>
 
-      {expenses.length === 0 ? (
+      {expensesByMonth.length === 0 ? (
         <div style={{ padding: 28, textAlign: "center", color: "var(--muted-foreground)", fontSize: 13, border: "1px dashed var(--border-strong)", borderRadius: 8 }}>
-          Δεν υπάρχουν έξοδα για τον μήνα «{monthLabel(selectedMonth)}».
-          {months.length > 1 && <div style={{ marginTop: 6, fontSize: 12.5 }}>Επιλέξτε άλλον μήνα από την επιλογή πάνω δεξιά.</div>}
+          Δεν έχουν καταχωρηθεί έξοδα.
         </div>
       ) : (
-        <div style={{ overflowX: "auto" }}>
-          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
-            <thead>
-              <tr style={{ color: "var(--muted-foreground)", borderBottom: "1px solid var(--border-strong)" }}>
-                <th style={th}>Ημ/νία</th>
-                <th style={th}>Κατηγορία</th>
-                <th style={th}>Προμηθευτής</th>
-                <th style={th}>Παραστατικό</th>
-                <th style={{ ...th, ...money }}>Ποσό</th>
-                <th style={th}>Πληρωμή</th>
-              </tr>
-            </thead>
-            <tbody>
-              {expenses.map((e) => (
-                <tr
-                  key={e.id}
-                  className="occ-expense-row"
-                  role="button"
-                  tabIndex={0}
-                  onClick={() => setSel(e)}
-                  onKeyDown={(ev) => {
-                    if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); setSel(e); }
+        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+          {expensesByMonth.map((block) => {
+            const isOpen = open.has(block.month);
+            return (
+              <div key={block.month} style={{ border: "1px solid var(--border)", borderRadius: 10, overflow: "hidden" }}>
+                <button
+                  type="button"
+                  onClick={() => toggle(block.month)}
+                  aria-expanded={isOpen}
+                  style={{
+                    display: "flex", alignItems: "center", gap: 10, width: "100%", minHeight: 48,
+                    padding: "12px 14px", border: "none", cursor: "pointer", textAlign: "left",
+                    background: isOpen ? "var(--bg-canvas)" : "var(--card)", color: "var(--foreground)",
                   }}
-                  aria-label={`Προβολή εξόδου${e.categoryName ? `: ${e.categoryName}` : ""} ${eur(e.amount)}`}
-                  title="Προβολή εξόδου & παραστατικού"
-                  style={{ borderBottom: "1px solid var(--border)", cursor: "pointer" }}
                 >
-                  <td style={td}>{fmtDate(e.documentDate)}</td>
-                  <td style={{ ...td, fontWeight: 600 }}>{e.categoryName ?? "—"}</td>
-                  <td style={td}>{e.supplierName ?? "—"}</td>
-                  <td style={td}>
-                    <span style={{ display: "inline-flex", alignItems: "center", gap: 5 }}>
-                      {e.receipt && <RiFileTextLine style={{ color: "var(--muted-foreground)" }} title="Με συνημμένο παραστατικό" />}
-                      {e.documentNumber ?? "—"}
-                    </span>
-                  </td>
-                  <td style={{ ...td, ...money, fontWeight: 700 }}>{eur(e.amount)}</td>
-                  <td style={td}>
-                    {e.paid
-                      ? <span style={{ ...badge, color: "var(--color-success)", borderColor: "var(--color-success)" }}><RiCheckLine /> Πληρωμένο</span>
-                      : <span style={{ ...badge, color: "var(--muted-foreground)", borderColor: "var(--border-strong)" }}>Απλήρωτο</span>}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                  {isOpen ? <RiArrowDownSLine style={{ fontSize: 18, color: "var(--muted-foreground)", flexShrink: 0 }} /> : <RiArrowRightSLine style={{ fontSize: 18, color: "var(--muted-foreground)", flexShrink: 0 }} />}
+                  <span style={{ fontSize: 14, fontWeight: 700 }}>{monthLabel(block.month)}</span>
+                  <span style={{ fontSize: 12.5, color: "var(--muted-foreground)" }}>
+                    {block.count} {block.count === 1 ? "έξοδο" : "έξοδα"}
+                  </span>
+                  <span style={{ marginLeft: "auto", fontSize: 15, fontWeight: 800, fontVariantNumeric: "tabular-nums", whiteSpace: "nowrap" }}>
+                    {eur(block.total)}
+                  </span>
+                </button>
+
+                {isOpen && (
+                  <div style={{ overflowX: "auto", borderTop: "1px solid var(--border)" }}>
+                    <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
+                      <thead>
+                        <tr style={{ color: "var(--muted-foreground)", borderBottom: "1px solid var(--border-strong)" }}>
+                          <th style={th}>Ημ/νία</th>
+                          <th style={th}>Κατηγορία</th>
+                          <th style={th}>Προμηθευτής</th>
+                          <th style={th}>Παραστατικό</th>
+                          <th style={{ ...th, ...money }}>Ποσό</th>
+                          <th style={th}>Πληρωμή</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {block.items.map((e) => (
+                          <tr
+                            key={e.id}
+                            className="occ-expense-row"
+                            role="button"
+                            tabIndex={0}
+                            onClick={() => setSel(e)}
+                            onKeyDown={(ev) => {
+                              if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); setSel(e); }
+                            }}
+                            aria-label={`Προβολή εξόδου${e.categoryName ? `: ${e.categoryName}` : ""} ${eur(e.amount)}`}
+                            title="Προβολή εξόδου & παραστατικού"
+                            style={{ borderBottom: "1px solid var(--border)", cursor: "pointer" }}
+                          >
+                            <td style={td}>{fmtDate(e.documentDate)}</td>
+                            <td style={{ ...td, fontWeight: 600 }}>{e.categoryName ?? "—"}</td>
+                            <td style={td}>{e.supplierName ?? "—"}</td>
+                            <td style={td}>
+                              <span style={{ display: "inline-flex", alignItems: "center", gap: 5 }}>
+                                {e.receipt && <RiFileTextLine style={{ color: "var(--muted-foreground)" }} title="Με συνημμένο παραστατικό" />}
+                                {e.documentNumber ?? "—"}
+                              </span>
+                            </td>
+                            <td style={{ ...td, ...money, fontWeight: 700 }}>{eur(e.amount)}</td>
+                            <td style={td}>
+                              <StatusChip tone={e.paid ? "success" : "neutral"}>{e.paid ? "Πληρωμένο" : "Απλήρωτο"}</StatusChip>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </div>
       )}
 
@@ -170,11 +183,6 @@ function ExpenseModal({ expense, onClose }: { expense: ExpenseItem | null; onClo
               <Field label="ΦΠΑ" value={eur(e.vatAmount)} />
               <Field label="Σύνολο" value={eur(e.amount)} strong />
               <Field label="Επιμερισμός" value={`Ένοικος ${e.tenantPct}% · Ιδιοκτήτης ${e.ownerPct}%`} />
-              <Field
-                label="Η αναλογία μου"
-                value={`${eur(e.myShare)}${e.myTenant > 0 && e.myOwner > 0 ? ` (ενοίκου ${eur(e.myTenant)} · ιδιοκτήτη ${eur(e.myOwner)})` : ""}`}
-                strong
-              />
               <Field label="Πληρωμή προμηθευτή" value={e.paid ? "Πληρωμένο" : "Απλήρωτο"} />
             </div>
             {e.description && (

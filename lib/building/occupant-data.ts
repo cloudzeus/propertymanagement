@@ -92,7 +92,7 @@ export async function getOccupantControlCenter(
     : ["ALL", "RESIDENTS"];
 
   const [
-    expenseRows, infraPoints, photoFiles, assemblyRows, fileRows, contacts, announcementRows, heatingRows,
+    expenseRows, allExpenseRows, infraPoints, photoFiles, assemblyRows, fileRows, contacts, announcementRows, heatingRows,
     unitRowsAll, taskRows, maintenanceRows, meterRows, managedItemRows,
   ] = await Promise.all([
     db.buildingExpense.findMany({
@@ -114,6 +114,20 @@ export async function getOccupantControlCenter(
           where: { unitId: { in: myUnitIds } },
           select: { unitId: true, unitShare: true, tenantAmount: true, tenantPaid: true, ownerAmount: true, ownerPaid: true },
         },
+      },
+    }),
+    // All visible building expenses (NO month filter) — grouped into expensesByMonth.
+    // This is the building-expenses ledger: no my-share (that lives on the κοινόχρηστα notice).
+    db.buildingExpense.findMany({
+      where: { buildingId, status: { in: [...VISIBLE_STATUSES] } },
+      orderBy: [{ documentDate: "desc" }, { createdAt: "desc" }],
+      select: {
+        id: true, month: true, issuedMonth: true, category: true, description: true,
+        supplierName: true, documentNumber: true, documentDate: true,
+        netAmount: true, vatAmount: true, amount: true,
+        tenantPct: true, ownerPct: true, paid: true, status: true,
+        categoryRef: { select: { name: true } },
+        receiptFile: { select: { url: true, mimeType: true, name: true } },
       },
     }),
     db.infraPoint.findMany({
@@ -292,6 +306,41 @@ export async function getOccupantControlCenter(
     createdAt: e.createdAt.toISOString(),
   }));
 
+  // ── Building-expenses ledger: ALL months, grouped desc ──────────────────────
+  // Same item shape as `expenses` minus the my-share fields (those belong to the
+  // κοινόχρηστα ειδοποιητήριο, not the building ledger).
+  const allExpenses = allExpenseRows.map((e) => ({
+    id: e.id,
+    month: e.month,
+    issuedMonth: e.issuedMonth,
+    categoryName: e.categoryRef?.name ?? e.category ?? null,
+    description: e.description,
+    supplierName: e.supplierName,
+    documentNumber: e.documentNumber,
+    documentDate: iso(e.documentDate),
+    netAmount: e.netAmount != null ? Number(e.netAmount) : null,
+    vatAmount: e.vatAmount != null ? Number(e.vatAmount) : null,
+    amount: Number(e.amount),
+    tenantPct: e.tenantPct,
+    ownerPct: e.ownerPct,
+    paid: e.paid,
+    status: e.status,
+    receipt: e.receiptFile ? { url: e.receiptFile.url, mimeType: e.receiptFile.mimeType, name: e.receiptFile.name } : null,
+  }));
+  const byMonth = new Map<string, typeof allExpenses>();
+  for (const e of allExpenses) {
+    const m = e.issuedMonth ?? e.month;
+    (byMonth.get(m) ?? byMonth.set(m, []).get(m)!).push(e);
+  }
+  const expensesByMonth = [...byMonth.entries()]
+    .map(([month, items]) => ({
+      month,
+      count: items.length,
+      total: r2(items.reduce((s, e) => s + e.amount, 0)),
+      items,
+    }))
+    .sort((a, b) => b.month.localeCompare(a.month));
+
   // ── Gallery: infra points with images + building photo files ────────────────
   const gallery = {
     points: infraPoints
@@ -400,6 +449,7 @@ export async function getOccupantControlCenter(
     statements,
     managerName,
     expenses,
+    expensesByMonth,
     heatingReadings: heatingRows.map((h) => ({
       unitId: h.unitId,
       unitNumber: unitById.get(h.unitId)?.unitNumber ?? "",
