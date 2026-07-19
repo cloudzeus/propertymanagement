@@ -11,6 +11,7 @@ import { StatTile, StatusChip } from "@/components/dashboard";
 import { formatEuro } from "@/lib/dashboard/aggregations";
 import { ModalShell } from "@/components/building/occupant-shell/Modal";
 import { UnitStatementDocument } from "@/components/building/occupant-shell/UnitStatementDocument";
+import { PrintArea } from "@/components/ui/print-area";
 import type { PaymentRow } from "@/lib/dashboard/payment-statements";
 
 const GR_MONTHS = [
@@ -142,7 +143,6 @@ export function PaymentsTable({ rows, managerName = null, title = "Πληρωμ�
             month={r.month}
             managerName={managerName}
             heatingReadings={r.heatingReadings}
-            showPrintRoot={false}
           />
         )}
         getRowActions={getRowActions}
@@ -173,10 +173,22 @@ export function PaymentsTable({ rows, managerName = null, title = "Πληρωμ�
             month={modal.month}
             managerName={managerName}
             heatingReadings={modal.heatingReadings}
-            showPrintRoot
           />
         )}
       </ModalShell>
+
+      {/* Print target for the account modal — body-level, shown only in print. */}
+      {modal && (
+        <PrintArea>
+          <UnitStatementDocument
+            building={{ name: modal.buildingName, address: modal.buildingAddress, city: modal.buildingCity }}
+            statement={modal.statement}
+            month={modal.month}
+            managerName={managerName}
+            heatingReadings={modal.heatingReadings}
+          />
+        </PrintArea>
+      )}
     </div>
   );
 }

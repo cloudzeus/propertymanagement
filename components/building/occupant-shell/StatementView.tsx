@@ -3,6 +3,7 @@
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { RiPrinterLine } from "react-icons/ri";
 import type { OccupantData } from "@/lib/building/occupant-data";
+import { PrintArea } from "@/components/ui/print-area";
 import { UnitStatementDocument } from "./UnitStatementDocument";
 
 type Props = {
@@ -33,8 +34,9 @@ const control: React.CSSProperties = {
  * Ειδοποιητήριο κοινοχρήστων — classic PER-APARTMENT notice. Owns the month/unit
  * selectors + print button and resolves the selected `UnitStatement`; the notice
  * body itself lives in `UnitStatementDocument` (shared with the payments table +
- * account modal). Print-ready A4 via the `.statement-print-root` (on the document)
- * / `.no-print` classes (see app/globals.css).
+ * account modal). Printing renders the selected notice into a body-level
+ * `<PrintArea>` (see components/ui/print-area.tsx + `.print-area`/`.no-print`
+ * in app/globals.css).
  */
 export function StatementView({ building, statements, months, selectedMonth, managerName, heatingReadings }: Props) {
   const router = useRouter();
@@ -93,7 +95,6 @@ export function StatementView({ building, statements, months, selectedMonth, man
         month={selectedMonth}
         managerName={managerName}
         heatingReadings={heatingReadings}
-        showPrintRoot
         emptyMessage={
           <>
             {months.length === 0
@@ -105,6 +106,17 @@ export function StatementView({ building, statements, months, selectedMonth, man
           </>
         }
       />
+
+      {/* Print target: the selected notice rendered body-level, shown only in print. */}
+      <PrintArea>
+        <UnitStatementDocument
+          building={building}
+          statement={selected}
+          month={selectedMonth}
+          managerName={managerName}
+          heatingReadings={heatingReadings}
+        />
+      </PrintArea>
     </div>
   );
 }

@@ -13,8 +13,6 @@ type Props = {
   month: string;
   managerName?: string | null;
   heatingReadings?: OccupantData["heatingReadings"];
-  /** Wrap in `.statement-print-root` so `window.print()` targets this document (A4). */
-  showPrintRoot?: boolean;
   /** Message shown when the statement has no issued expenses (groups empty). */
   emptyMessage?: ReactNode;
 };
@@ -69,11 +67,11 @@ const headCellValue: React.CSSProperties = { fontSize: 13.5, fontWeight: 700, co
  *
  * Extracted from StatementView so it can also render inline in the payments
  * DataTable expand row and inside the «Προβολή λογαριασμού» print modal. The
- * month/unit selectors + print button stay in StatementView. Print-ready A4 via
- * `.statement-print-root` (toggled by `showPrintRoot`) — see app/globals.css.
+ * month/unit selectors + print button stay in StatementView. Printing goes
+ * through the body-level `<PrintArea>` (`.print-area` in app/globals.css).
  */
 export function UnitStatementDocument({
-  building, statement, month, managerName, heatingReadings, showPrintRoot = true, emptyMessage,
+  building, statement, month, managerName, heatingReadings, emptyMessage,
 }: Props) {
   const roleLabel = ROLE_LABEL[statement.role];
   const settled =
@@ -84,7 +82,7 @@ export function UnitStatementDocument({
   const unitLine = [UNIT_TYPE[statement.unitType] ?? statement.unitType, floorLabel(statement.floor)].filter(Boolean).join(" · ");
 
   return (
-    <div className={showPrintRoot ? "statement-print-root" : undefined} style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
       {/* notice header strip */}
       <div style={boxed} data-boxed>
         <div style={{ padding: "10px 14px", textAlign: "center", fontSize: 15, fontWeight: 800, letterSpacing: ".06em", borderBottom: "1px solid var(--border-strong)", color: "var(--foreground)" }}>
