@@ -6,6 +6,7 @@ import { BuildingsTree, type TBuilding, type TPropertyAddress } from "../../cust
 import { setPropertyService, addPrepaidMinutes } from "@/app/actions/property-package";
 import { RiArrowLeftLine, RiAddLine } from "react-icons/ri";
 import { ManagedBadge } from "@/components/ui/managed-badge";
+import { PropertyVivaSetup } from "@/components/property/PropertyVivaSetup";
 
 const PRICING_LABEL: Record<string, string> = {
   PER_UNIT: "ανά μονάδα", PER_BUILDING: "ανά κτήριο", PER_COMMON_AREA: "ανά κοιν. χώρο",
@@ -23,7 +24,7 @@ export function PropertyDetailClient({
   catalog: CatalogService[];
   propertyServices: PS[];
 }) {
-  const [tab, setTab] = useState<"buildings" | "package">("buildings");
+  const [tab, setTab] = useState<"buildings" | "package" | "viva">("buildings");
   const [ps, setPs] = useState<PS[]>(initialPS);
 
   const counts = useMemo(() => ({
@@ -49,7 +50,7 @@ export function PropertyDetailClient({
       </div>
 
       <div style={{ display: "flex", gap: 4, padding: 4, background: "var(--bg-canvas)", borderRadius: 6, border: "1px solid var(--border)", width: "fit-content" }}>
-        {([["buildings", "Κτήρια & Μονάδες"], ["package", "Πακέτο Υπηρεσιών"]] as const).map(([k, label]) => (
+        {([["buildings", "Κτήρια & Μονάδες"], ["package", "Πακέτο Υπηρεσιών"], ["viva", "Viva πληρωμές"]] as const).map(([k, label]) => (
           <button key={k} onClick={() => setTab(k)} style={{
             padding: "6px 16px", borderRadius: 4, fontSize: 13, fontWeight: 600, border: "none", cursor: "pointer",
             background: tab === k ? "var(--color-primary)" : "transparent", color: tab === k ? "#fff" : "var(--muted-foreground)",
@@ -57,11 +58,15 @@ export function PropertyDetailClient({
         ))}
       </div>
 
-      {tab === "buildings"
-        ? <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 8, padding: 12 }}>
-            <BuildingsTree propertyId={property.id} buildings={buildings} depthBase={0} propertyAddress={property} />
-          </div>
-        : <PackageTab propertyId={property.id} catalog={catalog} ps={ps} setPs={setPs} counts={counts} />}
+      {tab === "buildings" ? (
+        <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 8, padding: 12 }}>
+          <BuildingsTree propertyId={property.id} buildings={buildings} depthBase={0} propertyAddress={property} />
+        </div>
+      ) : tab === "package" ? (
+        <PackageTab propertyId={property.id} catalog={catalog} ps={ps} setPs={setPs} counts={counts} />
+      ) : (
+        <PropertyVivaSetup propertyId={property.id} />
+      )}
 
       <style>{`@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}`}</style>
     </div>

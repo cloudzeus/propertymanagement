@@ -5,7 +5,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import {
   RiBuildingLine, RiMapPinLine, RiDashboardLine, RiMoneyEuroCircleLine,
   RiGroupLine, RiToolsLine, RiMegaphoneLine, RiHome4Line, RiScales3Line,
-  RiFolderLine, RiSettings3Line, RiContactsBook3Line,
+  RiFolderLine, RiSettings3Line, RiContactsBook3Line, RiSettings4Line,
 } from "react-icons/ri";
 import type { BuildingDashboardData } from "@/lib/building/dashboard-data";
 import type { BuildingCaps } from "@/lib/building-caps";
@@ -31,6 +31,7 @@ import { HeatingReadingsPanel } from "@/components/building/HeatingReadingsPanel
 import { MeterReadingsPanel } from "@/components/building/MeterReadingsPanel";
 import { MaintenanceTab } from "@/components/building/MaintenanceTab";
 import { ManagedItemsPanel } from "@/components/building/ManagedItemsPanel";
+import { PropertyVivaSetup } from "@/components/property/PropertyVivaSetup";
 import { RequestsPanel } from "./RequestsPanel";
 import { SECTIONS, type SectionKey } from "./sections";
 import { ManagerOverview } from "./ManagerOverview";
@@ -42,6 +43,7 @@ const SECTION_ICONS: Record<SectionKey, React.ElementType> = {
   people: RiGroupLine,
   maintenance: RiToolsLine,
   communication: RiMegaphoneLine,
+  settings: RiSettings4Line,
 };
 
 type Props = BuildingDashboardData & {
@@ -257,6 +259,8 @@ export function BuildingManagerShell(props: Props) {
           <AnnouncementsPanel buildingId={building.id} can={can} />
         ) : tab === "assemblies" ? (
           <AssembliesPanel buildingId={building.id} can={can} linkToDetail={viewer !== "manager"} showTestButton={viewer !== "manager"} />
+        ) : tab === "viva" ? (
+          <PropertyVivaSetup propertyId={building.propertyId} />
         ) : (
           <Placeholder label={visibleTabs.find((t) => t.key === tab)?.label ?? sectionDef.label} />
         )}

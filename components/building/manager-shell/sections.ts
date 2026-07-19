@@ -1,5 +1,5 @@
 import type { BuildingCaps } from "@/lib/building-caps";
-export type SectionKey = "overview" | "finance" | "building" | "people" | "maintenance" | "communication";
+export type SectionKey = "overview" | "finance" | "building" | "people" | "maintenance" | "communication" | "settings";
 export type SubTab = { key: string; label: string; visible?: (can: BuildingCaps, f: { managed: boolean; metered: boolean }) => boolean };
 export const SECTIONS: { key: SectionKey; label: string; tabs: SubTab[] }[] = [
   { key: "overview", label: "Επισκόπηση", tabs: [] },
@@ -22,5 +22,8 @@ export const SECTIONS: { key: SectionKey; label: string; tabs: SubTab[] }[] = [
   { key: "communication", label: "Επικοινωνία", tabs: [
     { key: "ann", label: "Ανακοινώσεις" }, { key: "assemblies", label: "Συνελεύσεις" },
     { key: "files", label: "Αρχεία" },
+  ]},
+  { key: "settings", label: "Ρυθμίσεις", tabs: [
+    { key: "viva", label: "Viva πληρωμές" },
   ]},
 ];
