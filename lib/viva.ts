@@ -99,3 +99,26 @@ export async function createVivaOrder(
     checkoutUrl: `${checkoutBase}?ref=${data.orderCode}`,
   };
 }
+
+export interface VivaTransaction {
+  statusId?: string; // "F" = finished/successful
+  amount?: number;   // EUR major units (e.g. 12.34)
+  merchantTrns?: string;
+}
+
+/**
+ * Re-fetch a transaction to verify authenticity/amount before acting on a webhook.
+ * GET {api}/checkout/v2/transactions/{transactionId} with a Bearer token.
+ *
+ * VERIFY: confirm this endpoint path + the response shape (statusId/amount/
+ * merchantTrns) against a live/sandbox Viva account before enabling the flow.
+ */
+export async function getVivaTransaction(transactionId: string): Promise<VivaTransaction> {
+  const token = await getAccessToken();
+  const { api } = vivaUrls();
+  const res = await fetch(`${api}/checkout/v2/transactions/${transactionId}`, {
+    headers: { Authorization: `Bearer ${token}` }, cache: "no-store",
+  });
+  if (!res.ok) throw new Error(`Viva ${res.status}: ${await res.text()}`);
+  return (await res.json()) as VivaTransaction;
+}
