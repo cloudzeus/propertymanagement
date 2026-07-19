@@ -7478,6 +7478,12 @@ export const AppSettingsScalarFieldEnum = {
   contactPhone: 'contactPhone',
   contactAddress: 'contactAddress',
   websiteUrl: 'websiteUrl',
+  providerVivaEnabled: 'providerVivaEnabled',
+  providerVivaClientId: 'providerVivaClientId',
+  providerVivaClientSecretEnc: 'providerVivaClientSecretEnc',
+  providerVivaMerchantId: 'providerVivaMerchantId',
+  providerVivaApiKeyEnc: 'providerVivaApiKeyEnc',
+  providerVivaSourceCode: 'providerVivaSourceCode',
   updatedAt: 'updatedAt',
   updatedById: 'updatedById'
 } as const

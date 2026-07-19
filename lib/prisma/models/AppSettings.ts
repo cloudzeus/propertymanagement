@@ -45,6 +45,12 @@ export type AppSettingsMinAggregateOutputType = {
   contactPhone: string | null
   contactAddress: string | null
   websiteUrl: string | null
+  providerVivaEnabled: boolean | null
+  providerVivaClientId: string | null
+  providerVivaClientSecretEnc: string | null
+  providerVivaMerchantId: string | null
+  providerVivaApiKeyEnc: string | null
+  providerVivaSourceCode: string | null
   updatedAt: Date | null
   updatedById: string | null
 }
@@ -70,6 +76,12 @@ export type AppSettingsMaxAggregateOutputType = {
   contactPhone: string | null
   contactAddress: string | null
   websiteUrl: string | null
+  providerVivaEnabled: boolean | null
+  providerVivaClientId: string | null
+  providerVivaClientSecretEnc: string | null
+  providerVivaMerchantId: string | null
+  providerVivaApiKeyEnc: string | null
+  providerVivaSourceCode: string | null
   updatedAt: Date | null
   updatedById: string | null
 }
@@ -95,6 +107,12 @@ export type AppSettingsCountAggregateOutputType = {
   contactPhone: number
   contactAddress: number
   websiteUrl: number
+  providerVivaEnabled: number
+  providerVivaClientId: number
+  providerVivaClientSecretEnc: number
+  providerVivaMerchantId: number
+  providerVivaApiKeyEnc: number
+  providerVivaSourceCode: number
   updatedAt: number
   updatedById: number
   _all: number
@@ -122,6 +140,12 @@ export type AppSettingsMinAggregateInputType = {
   contactPhone?: true
   contactAddress?: true
   websiteUrl?: true
+  providerVivaEnabled?: true
+  providerVivaClientId?: true
+  providerVivaClientSecretEnc?: true
+  providerVivaMerchantId?: true
+  providerVivaApiKeyEnc?: true
+  providerVivaSourceCode?: true
   updatedAt?: true
   updatedById?: true
 }
@@ -147,6 +171,12 @@ export type AppSettingsMaxAggregateInputType = {
   contactPhone?: true
   contactAddress?: true
   websiteUrl?: true
+  providerVivaEnabled?: true
+  providerVivaClientId?: true
+  providerVivaClientSecretEnc?: true
+  providerVivaMerchantId?: true
+  providerVivaApiKeyEnc?: true
+  providerVivaSourceCode?: true
   updatedAt?: true
   updatedById?: true
 }
@@ -172,6 +202,12 @@ export type AppSettingsCountAggregateInputType = {
   contactPhone?: true
   contactAddress?: true
   websiteUrl?: true
+  providerVivaEnabled?: true
+  providerVivaClientId?: true
+  providerVivaClientSecretEnc?: true
+  providerVivaMerchantId?: true
+  providerVivaApiKeyEnc?: true
+  providerVivaSourceCode?: true
   updatedAt?: true
   updatedById?: true
   _all?: true
@@ -270,6 +306,12 @@ export type AppSettingsGroupByOutputType = {
   contactPhone: string | null
   contactAddress: string | null
   websiteUrl: string | null
+  providerVivaEnabled: boolean
+  providerVivaClientId: string | null
+  providerVivaClientSecretEnc: string | null
+  providerVivaMerchantId: string | null
+  providerVivaApiKeyEnc: string | null
+  providerVivaSourceCode: string | null
   updatedAt: Date
   updatedById: string | null
   _count: AppSettingsCountAggregateOutputType | null
@@ -316,6 +358,12 @@ export type AppSettingsWhereInput = {
   contactPhone?: Prisma.StringNullableFilter<"AppSettings"> | string | null
   contactAddress?: Prisma.StringNullableFilter<"AppSettings"> | string | null
   websiteUrl?: Prisma.StringNullableFilter<"AppSettings"> | string | null
+  providerVivaEnabled?: Prisma.BoolFilter<"AppSettings"> | boolean
+  providerVivaClientId?: Prisma.StringNullableFilter<"AppSettings"> | string | null
+  providerVivaClientSecretEnc?: Prisma.StringNullableFilter<"AppSettings"> | string | null
+  providerVivaMerchantId?: Prisma.StringNullableFilter<"AppSettings"> | string | null
+  providerVivaApiKeyEnc?: Prisma.StringNullableFilter<"AppSettings"> | string | null
+  providerVivaSourceCode?: Prisma.StringNullableFilter<"AppSettings"> | string | null
   updatedAt?: Prisma.DateTimeFilter<"AppSettings"> | Date | string
   updatedById?: Prisma.StringNullableFilter<"AppSettings"> | string | null
 }
@@ -341,6 +389,12 @@ export type AppSettingsOrderByWithRelationInput = {
   contactPhone?: Prisma.SortOrderInput | Prisma.SortOrder
   contactAddress?: Prisma.SortOrderInput | Prisma.SortOrder
   websiteUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  providerVivaEnabled?: Prisma.SortOrder
+  providerVivaClientId?: Prisma.SortOrderInput | Prisma.SortOrder
+  providerVivaClientSecretEnc?: Prisma.SortOrderInput | Prisma.SortOrder
+  providerVivaMerchantId?: Prisma.SortOrderInput | Prisma.SortOrder
+  providerVivaApiKeyEnc?: Prisma.SortOrderInput | Prisma.SortOrder
+  providerVivaSourceCode?: Prisma.SortOrderInput | Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   updatedById?: Prisma.SortOrderInput | Prisma.SortOrder
 }
@@ -369,6 +423,12 @@ export type AppSettingsWhereUniqueInput = Prisma.AtLeast<{
   contactPhone?: Prisma.StringNullableFilter<"AppSettings"> | string | null
   contactAddress?: Prisma.StringNullableFilter<"AppSettings"> | string | null
   websiteUrl?: Prisma.StringNullableFilter<"AppSettings"> | string | null
+  providerVivaEnabled?: Prisma.BoolFilter<"AppSettings"> | boolean
+  providerVivaClientId?: Prisma.StringNullableFilter<"AppSettings"> | string | null
+  providerVivaClientSecretEnc?: Prisma.StringNullableFilter<"AppSettings"> | string | null
+  providerVivaMerchantId?: Prisma.StringNullableFilter<"AppSettings"> | string | null
+  providerVivaApiKeyEnc?: Prisma.StringNullableFilter<"AppSettings"> | string | null
+  providerVivaSourceCode?: Prisma.StringNullableFilter<"AppSettings"> | string | null
   updatedAt?: Prisma.DateTimeFilter<"AppSettings"> | Date | string
   updatedById?: Prisma.StringNullableFilter<"AppSettings"> | string | null
 }, "id">
@@ -394,6 +454,12 @@ export type AppSettingsOrderByWithAggregationInput = {
   contactPhone?: Prisma.SortOrderInput | Prisma.SortOrder
   contactAddress?: Prisma.SortOrderInput | Prisma.SortOrder
   websiteUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  providerVivaEnabled?: Prisma.SortOrder
+  providerVivaClientId?: Prisma.SortOrderInput | Prisma.SortOrder
+  providerVivaClientSecretEnc?: Prisma.SortOrderInput | Prisma.SortOrder
+  providerVivaMerchantId?: Prisma.SortOrderInput | Prisma.SortOrder
+  providerVivaApiKeyEnc?: Prisma.SortOrderInput | Prisma.SortOrder
+  providerVivaSourceCode?: Prisma.SortOrderInput | Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   updatedById?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.AppSettingsCountOrderByAggregateInput
@@ -425,6 +491,12 @@ export type AppSettingsScalarWhereWithAggregatesInput = {
   contactPhone?: Prisma.StringNullableWithAggregatesFilter<"AppSettings"> | string | null
   contactAddress?: Prisma.StringNullableWithAggregatesFilter<"AppSettings"> | string | null
   websiteUrl?: Prisma.StringNullableWithAggregatesFilter<"AppSettings"> | string | null
+  providerVivaEnabled?: Prisma.BoolWithAggregatesFilter<"AppSettings"> | boolean
+  providerVivaClientId?: Prisma.StringNullableWithAggregatesFilter<"AppSettings"> | string | null
+  providerVivaClientSecretEnc?: Prisma.StringNullableWithAggregatesFilter<"AppSettings"> | string | null
+  providerVivaMerchantId?: Prisma.StringNullableWithAggregatesFilter<"AppSettings"> | string | null
+  providerVivaApiKeyEnc?: Prisma.StringNullableWithAggregatesFilter<"AppSettings"> | string | null
+  providerVivaSourceCode?: Prisma.StringNullableWithAggregatesFilter<"AppSettings"> | string | null
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"AppSettings"> | Date | string
   updatedById?: Prisma.StringNullableWithAggregatesFilter<"AppSettings"> | string | null
 }
@@ -450,6 +522,12 @@ export type AppSettingsCreateInput = {
   contactPhone?: string | null
   contactAddress?: string | null
   websiteUrl?: string | null
+  providerVivaEnabled?: boolean
+  providerVivaClientId?: string | null
+  providerVivaClientSecretEnc?: string | null
+  providerVivaMerchantId?: string | null
+  providerVivaApiKeyEnc?: string | null
+  providerVivaSourceCode?: string | null
   updatedAt?: Date | string
   updatedById?: string | null
 }
@@ -475,6 +553,12 @@ export type AppSettingsUncheckedCreateInput = {
   contactPhone?: string | null
   contactAddress?: string | null
   websiteUrl?: string | null
+  providerVivaEnabled?: boolean
+  providerVivaClientId?: string | null
+  providerVivaClientSecretEnc?: string | null
+  providerVivaMerchantId?: string | null
+  providerVivaApiKeyEnc?: string | null
+  providerVivaSourceCode?: string | null
   updatedAt?: Date | string
   updatedById?: string | null
 }
@@ -500,6 +584,12 @@ export type AppSettingsUpdateInput = {
   contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   websiteUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  providerVivaEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  providerVivaClientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  providerVivaClientSecretEnc?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  providerVivaMerchantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  providerVivaApiKeyEnc?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  providerVivaSourceCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -525,6 +615,12 @@ export type AppSettingsUncheckedUpdateInput = {
   contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   websiteUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  providerVivaEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  providerVivaClientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  providerVivaClientSecretEnc?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  providerVivaMerchantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  providerVivaApiKeyEnc?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  providerVivaSourceCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -550,6 +646,12 @@ export type AppSettingsCreateManyInput = {
   contactPhone?: string | null
   contactAddress?: string | null
   websiteUrl?: string | null
+  providerVivaEnabled?: boolean
+  providerVivaClientId?: string | null
+  providerVivaClientSecretEnc?: string | null
+  providerVivaMerchantId?: string | null
+  providerVivaApiKeyEnc?: string | null
+  providerVivaSourceCode?: string | null
   updatedAt?: Date | string
   updatedById?: string | null
 }
@@ -575,6 +677,12 @@ export type AppSettingsUpdateManyMutationInput = {
   contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   websiteUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  providerVivaEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  providerVivaClientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  providerVivaClientSecretEnc?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  providerVivaMerchantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  providerVivaApiKeyEnc?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  providerVivaSourceCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -600,6 +708,12 @@ export type AppSettingsUncheckedUpdateManyInput = {
   contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   websiteUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  providerVivaEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  providerVivaClientId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  providerVivaClientSecretEnc?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  providerVivaMerchantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  providerVivaApiKeyEnc?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  providerVivaSourceCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -625,6 +739,12 @@ export type AppSettingsCountOrderByAggregateInput = {
   contactPhone?: Prisma.SortOrder
   contactAddress?: Prisma.SortOrder
   websiteUrl?: Prisma.SortOrder
+  providerVivaEnabled?: Prisma.SortOrder
+  providerVivaClientId?: Prisma.SortOrder
+  providerVivaClientSecretEnc?: Prisma.SortOrder
+  providerVivaMerchantId?: Prisma.SortOrder
+  providerVivaApiKeyEnc?: Prisma.SortOrder
+  providerVivaSourceCode?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   updatedById?: Prisma.SortOrder
 }
@@ -650,6 +770,12 @@ export type AppSettingsMaxOrderByAggregateInput = {
   contactPhone?: Prisma.SortOrder
   contactAddress?: Prisma.SortOrder
   websiteUrl?: Prisma.SortOrder
+  providerVivaEnabled?: Prisma.SortOrder
+  providerVivaClientId?: Prisma.SortOrder
+  providerVivaClientSecretEnc?: Prisma.SortOrder
+  providerVivaMerchantId?: Prisma.SortOrder
+  providerVivaApiKeyEnc?: Prisma.SortOrder
+  providerVivaSourceCode?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   updatedById?: Prisma.SortOrder
 }
@@ -675,6 +801,12 @@ export type AppSettingsMinOrderByAggregateInput = {
   contactPhone?: Prisma.SortOrder
   contactAddress?: Prisma.SortOrder
   websiteUrl?: Prisma.SortOrder
+  providerVivaEnabled?: Prisma.SortOrder
+  providerVivaClientId?: Prisma.SortOrder
+  providerVivaClientSecretEnc?: Prisma.SortOrder
+  providerVivaMerchantId?: Prisma.SortOrder
+  providerVivaApiKeyEnc?: Prisma.SortOrder
+  providerVivaSourceCode?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   updatedById?: Prisma.SortOrder
 }
@@ -702,6 +834,12 @@ export type AppSettingsSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   contactPhone?: boolean
   contactAddress?: boolean
   websiteUrl?: boolean
+  providerVivaEnabled?: boolean
+  providerVivaClientId?: boolean
+  providerVivaClientSecretEnc?: boolean
+  providerVivaMerchantId?: boolean
+  providerVivaApiKeyEnc?: boolean
+  providerVivaSourceCode?: boolean
   updatedAt?: boolean
   updatedById?: boolean
 }, ExtArgs["result"]["appSettings"]>
@@ -727,6 +865,12 @@ export type AppSettingsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   contactPhone?: boolean
   contactAddress?: boolean
   websiteUrl?: boolean
+  providerVivaEnabled?: boolean
+  providerVivaClientId?: boolean
+  providerVivaClientSecretEnc?: boolean
+  providerVivaMerchantId?: boolean
+  providerVivaApiKeyEnc?: boolean
+  providerVivaSourceCode?: boolean
   updatedAt?: boolean
   updatedById?: boolean
 }, ExtArgs["result"]["appSettings"]>
@@ -752,6 +896,12 @@ export type AppSettingsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   contactPhone?: boolean
   contactAddress?: boolean
   websiteUrl?: boolean
+  providerVivaEnabled?: boolean
+  providerVivaClientId?: boolean
+  providerVivaClientSecretEnc?: boolean
+  providerVivaMerchantId?: boolean
+  providerVivaApiKeyEnc?: boolean
+  providerVivaSourceCode?: boolean
   updatedAt?: boolean
   updatedById?: boolean
 }, ExtArgs["result"]["appSettings"]>
@@ -777,11 +927,17 @@ export type AppSettingsSelectScalar = {
   contactPhone?: boolean
   contactAddress?: boolean
   websiteUrl?: boolean
+  providerVivaEnabled?: boolean
+  providerVivaClientId?: boolean
+  providerVivaClientSecretEnc?: boolean
+  providerVivaMerchantId?: boolean
+  providerVivaApiKeyEnc?: boolean
+  providerVivaSourceCode?: boolean
   updatedAt?: boolean
   updatedById?: boolean
 }
 
-export type AppSettingsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "companyName" | "logoUrl" | "logoSquareUrl" | "logoFullLight" | "logoFullDark" | "logoSquareLight" | "logoSquareDark" | "colorPrimary" | "colorPrimaryDk" | "colorAccent" | "colorSuccess" | "colorWarning" | "colorDanger" | "colorPurple" | "colorTeal" | "contactEmail" | "contactPhone" | "contactAddress" | "websiteUrl" | "updatedAt" | "updatedById", ExtArgs["result"]["appSettings"]>
+export type AppSettingsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "companyName" | "logoUrl" | "logoSquareUrl" | "logoFullLight" | "logoFullDark" | "logoSquareLight" | "logoSquareDark" | "colorPrimary" | "colorPrimaryDk" | "colorAccent" | "colorSuccess" | "colorWarning" | "colorDanger" | "colorPurple" | "colorTeal" | "contactEmail" | "contactPhone" | "contactAddress" | "websiteUrl" | "providerVivaEnabled" | "providerVivaClientId" | "providerVivaClientSecretEnc" | "providerVivaMerchantId" | "providerVivaApiKeyEnc" | "providerVivaSourceCode" | "updatedAt" | "updatedById", ExtArgs["result"]["appSettings"]>
 
 export type $AppSettingsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "AppSettings"
@@ -807,6 +963,12 @@ export type $AppSettingsPayload<ExtArgs extends runtime.Types.Extensions.Interna
     contactPhone: string | null
     contactAddress: string | null
     websiteUrl: string | null
+    providerVivaEnabled: boolean
+    providerVivaClientId: string | null
+    providerVivaClientSecretEnc: string | null
+    providerVivaMerchantId: string | null
+    providerVivaApiKeyEnc: string | null
+    providerVivaSourceCode: string | null
     updatedAt: Date
     updatedById: string | null
   }, ExtArgs["result"]["appSettings"]>
@@ -1252,6 +1414,12 @@ export interface AppSettingsFieldRefs {
   readonly contactPhone: Prisma.FieldRef<"AppSettings", 'String'>
   readonly contactAddress: Prisma.FieldRef<"AppSettings", 'String'>
   readonly websiteUrl: Prisma.FieldRef<"AppSettings", 'String'>
+  readonly providerVivaEnabled: Prisma.FieldRef<"AppSettings", 'Boolean'>
+  readonly providerVivaClientId: Prisma.FieldRef<"AppSettings", 'String'>
+  readonly providerVivaClientSecretEnc: Prisma.FieldRef<"AppSettings", 'String'>
+  readonly providerVivaMerchantId: Prisma.FieldRef<"AppSettings", 'String'>
+  readonly providerVivaApiKeyEnc: Prisma.FieldRef<"AppSettings", 'String'>
+  readonly providerVivaSourceCode: Prisma.FieldRef<"AppSettings", 'String'>
   readonly updatedAt: Prisma.FieldRef<"AppSettings", 'DateTime'>
   readonly updatedById: Prisma.FieldRef<"AppSettings", 'String'>
 }

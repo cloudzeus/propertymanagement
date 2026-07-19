@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "timestamp": "2026-07-18T13:58:37.284Z",
+  "timestamp": "2026-07-19T16:47:00.592Z",
   "source": "auto-postool",
   "partial": false,
   "phase": null,
@@ -22,34 +22,6 @@
     },
     {
       "status": "M",
-      "path": "app/(company)/admin/page.tsx"
-    },
-    {
-      "status": "M",
-      "path": "app/(company)/manager/page.tsx"
-    },
-    {
-      "status": "M",
-      "path": "app/(company)/staff/page.tsx"
-    },
-    {
-      "status": "M",
-      "path": "app/(company)/super-admin/page.tsx"
-    },
-    {
-      "status": "M",
-      "path": "components/landing/DemoBookingModal.tsx"
-    },
-    {
-      "status": "M",
-      "path": "lib/prisma/browser.ts"
-    },
-    {
-      "status": "M",
-      "path": "lib/prisma/client.ts"
-    },
-    {
-      "status": "M",
       "path": "lib/prisma/internal/class.ts"
     },
     {
@@ -62,37 +34,9 @@
     },
     {
       "status": "M",
-      "path": "lib/prisma/models.ts"
-    },
-    {
-      "status": "M",
-      "path": "lib/prisma/models/User.ts"
-    },
-    {
-      "status": "M",
-      "path": "prisma/schema.prisma"
-    },
-    {
-      "status": "??",
-      "path": "app/(company)/staff/support/"
-    },
-    {
-      "status": "??",
-      "path": "app/api/support/"
-    },
-    {
-      "status": "??",
-      "path": "components/support/"
-    },
-    {
-      "status": "??",
-      "path": "lib/prisma/models/SupportTicket.ts"
-    },
-    {
-      "status": "??",
-      "path": "prisma/migrations/20260718090000_support_tickets/"
+      "path": "lib/prisma/models/AppSettings.ts"
     }
   ],
   "next_action": null,
-  "context_notes": "Recent commits:\nd87ece4 fix(rbac): role-aware Dashboard menu href on the customer surface\n6e0cb8a fix(portal): owner-aware back-link on request detail\neee87c5 fix(view-as): signage impersonation escape + wallet effective session\n0c1a809 feat(roles): hierarchy-aware surface access + customer menu reconciliation\n36841ce feat(roles): customer role hierarchy — assignments only ever raise the role"
+  "context_notes": "Recent commits:\n821e420 feat(owner-dashboard): rebalance layout, expandable billing panel, fix owner charge bars, rename Πληρωμές→Λογαριασμοί\n81c58f4 fix(dashboard): drop duplicate top-level Ανακοινώσεις menu, consolidate on dashboard\n99b5474 feat(sidebar): building-centric tree for owners/residents\n303f9a7 fix(owner): un-cramp portfolio card footer + add κοινόχρηστα explainer\n04e4aeb feat(occupant): Κοινόχρηστα tab lists all issued months per unit as expandable notices"
 }
