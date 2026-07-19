@@ -1,5 +1,12 @@
 import { db } from "@/lib/db";
-import type { CreateVivaOrderInput, CreateVivaOrderResult, VivaTransaction } from "@/lib/viva";
+import {
+  createVivaOrderWith,
+  getVivaTransactionWith,
+  type CreateVivaOrderInput,
+  type CreateVivaOrderResult,
+  type VivaTransaction,
+} from "@/lib/viva";
+import { decryptSecret } from "@/lib/crypto/secrets";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // MONEY ROUTING — κοινόχρηστα must go to the PROPERTY's OWN Viva account.
@@ -77,30 +84,56 @@ export function isKoinochristaPayEnabled(cfg: PropertyVivaConfig | null): boolea
 }
 
 /**
- * STUB — create a Viva Smart Checkout order against the PROPERTY's OWN merchant
- * account. Throws until the per-property routing is built (see block above).
- * TODO before go-live: decrypt cfg.vivaApiKeyEnc, resolve Viva Smart Checkout v2
- * auth for the property's merchant, and create the order targeting
- * cfg.vivaMerchantId with cfg.vivaSourceCode. NEVER fall back to the global
- * provider createVivaOrder — that would route residents' money to us.
+ * Create a Viva order against the PROPERTY's OWN merchant account. Decrypts the
+ * property's stored api key and authenticates with the property's own
+ * merchantId/apiKey/sourceCode via createVivaOrderWith — NEVER the global
+ * provider createVivaOrder (that would route residents' money to us).
+ *
+ * VERIFY: the underlying createVivaOrderWith endpoint/auth must be confirmed
+ * against a real property-scoped Viva account (sandbox) before go-live; the
+ * per-property vivaEnabled flag + the master switch still gate activation.
+ * Throws if the config is incomplete (should be pre-checked by isPropertyVivaEnabled).
  */
 export async function createPropertyVivaOrder(
-  _cfg: PropertyVivaConfig,
-  _input: CreateVivaOrderInput,
+  cfg: PropertyVivaConfig,
+  input: CreateVivaOrderInput,
 ): Promise<CreateVivaOrderResult> {
-  throw new Error("per_property_viva_routing_not_implemented");
+  if (!cfg.vivaMerchantId || !cfg.vivaApiKeyEnc) {
+    throw new Error("property_viva_config_incomplete");
+  }
+  return createVivaOrderWith(
+    {
+      merchantId: cfg.vivaMerchantId,
+      apiKey: decryptSecret(cfg.vivaApiKeyEnc),
+      sourceCode: cfg.vivaSourceCode ?? undefined,
+    },
+    input,
+  );
 }
 
 /**
- * STUB — verify a transaction against the PROPERTY's OWN merchant account before
- * reconciling. Throws until per-property routing is built. Same rule: the
- * property's merchant creds, never the global provider's.
+ * Verify a transaction against the PROPERTY's OWN merchant account before
+ * reconciling. Same rule: the property's own decrypted merchant creds, never the
+ * global provider's.
+ *
+ * VERIFY: confirm getVivaTransactionWith endpoint/auth/response shape in sandbox
+ * before go-live. Throws if the config is incomplete.
  */
 export async function getPropertyVivaTransaction(
-  _cfg: PropertyVivaConfig,
-  _transactionId: string,
+  cfg: PropertyVivaConfig,
+  transactionId: string,
 ): Promise<VivaTransaction> {
-  throw new Error("per_property_viva_verification_not_implemented");
+  if (!cfg.vivaMerchantId || !cfg.vivaApiKeyEnc) {
+    throw new Error("property_viva_config_incomplete");
+  }
+  return getVivaTransactionWith(
+    {
+      merchantId: cfg.vivaMerchantId,
+      apiKey: decryptSecret(cfg.vivaApiKeyEnc),
+      sourceCode: cfg.vivaSourceCode ?? undefined,
+    },
+    transactionId,
+  );
 }
 
 export type AllocForPay = {

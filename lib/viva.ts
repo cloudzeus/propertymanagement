@@ -122,3 +122,91 @@ export async function getVivaTransaction(transactionId: string): Promise<VivaTra
   if (!res.ok) throw new Error(`Viva ${res.status}: ${await res.text()}`);
   return (await res.json()) as VivaTransaction;
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// PER-PROPERTY variants — auth against a SPECIFIC merchant's OWN credentials,
+// passed in explicitly. Used by the κοινόχρηστα flow so residents' payments land
+// in the property's own Viva account, NEVER the global provider account.
+//
+// These deliberately DO NOT read any global VIVA_* credential env var — the only
+// env they touch is VIVA_ENV (sandbox vs production base URLs), which is an
+// environment selector, not a credential. Auth uses the classic Viva REST Basic
+// scheme: base64(merchantId:apiKey). (Only the base host is environment-derived.)
+//
+// VERIFY: confirm the endpoint paths, request/response field casing, and that the
+// Merchant-ID/API-key Basic pair authorizes order-create + transaction-retrieve
+// against a real property-scoped Viva account (sandbox) before enabling the flow.
+// ─────────────────────────────────────────────────────────────────────────────
+
+export interface VivaMerchantCreds {
+  merchantId: string;
+  apiKey: string;
+  sourceCode?: string;
+}
+
+function basicAuth(creds: VivaMerchantCreds): string {
+  return Buffer.from(`${creds.merchantId}:${creds.apiKey}`).toString("base64");
+}
+
+/**
+ * Create a payment order against a SPECIFIC merchant's own credentials.
+ * POST {api}/api/orders with HTTP Basic auth (merchantId:apiKey).
+ */
+export async function createVivaOrderWith(
+  creds: VivaMerchantCreds,
+  input: CreateVivaOrderInput,
+): Promise<CreateVivaOrderResult> {
+  const { api, checkoutBase } = vivaUrls();
+  const res = await fetch(`${api}/api/orders`, {
+    method: "POST",
+    headers: {
+      Authorization: `Basic ${basicAuth(creds)}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      amount: input.amountCents,
+      customerTrns: input.customerTrns,
+      merchantTrns: input.merchantTrns,
+      sourceCode: input.sourceCode ?? creds.sourceCode,
+      paymentTimeout: 300,
+    }),
+    cache: "no-store",
+  });
+  if (!res.ok) throw new Error(`Viva ${res.status}: ${await res.text()}`);
+  const data = (await res.json()) as { orderCode?: number; OrderCode?: number };
+  const orderCode = data.orderCode ?? data.OrderCode;
+  if (typeof orderCode !== "number") {
+    throw new Error("Viva order response missing orderCode");
+  }
+  return {
+    orderCode,
+    checkoutUrl: `${checkoutBase}?ref=${orderCode}`,
+  };
+}
+
+/**
+ * Re-fetch a transaction against a SPECIFIC merchant's own credentials to verify
+ * authenticity/amount before reconciling. GET {api}/api/transactions/{id} with
+ * HTTP Basic auth (merchantId:apiKey).
+ */
+export async function getVivaTransactionWith(
+  creds: VivaMerchantCreds,
+  transactionId: string,
+): Promise<VivaTransaction> {
+  const { api } = vivaUrls();
+  const res = await fetch(`${api}/api/transactions/${transactionId}`, {
+    headers: { Authorization: `Basic ${basicAuth(creds)}` },
+    cache: "no-store",
+  });
+  if (!res.ok) throw new Error(`Viva ${res.status}: ${await res.text()}`);
+  const data = (await res.json()) as {
+    statusId?: string; StatusId?: string;
+    amount?: number; Amount?: number;
+    merchantTrns?: string; MerchantTrns?: string;
+  };
+  return {
+    statusId: data.statusId ?? data.StatusId,
+    amount: data.amount ?? data.Amount,
+    merchantTrns: data.merchantTrns ?? data.MerchantTrns,
+  };
+}
