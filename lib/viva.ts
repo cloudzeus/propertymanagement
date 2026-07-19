@@ -136,7 +136,20 @@ export interface VivaTransaction {
  * merchantTrns) against a live/sandbox Viva account before enabling the flow.
  */
 export async function getVivaTransaction(transactionId: string): Promise<VivaTransaction> {
-  const token = await getAccessToken();
+  return getVivaTransactionFor(await resolveProviderViva(), transactionId);
+}
+
+/**
+ * Re-fetch a transaction against an EXPLICIT provider config (DB- or env-resolved
+ * by the caller), OAuth token via getAccessTokenFor(cfg). Used to verify a
+ * webhook's authenticity/amount before marking a ServiceInvoice PAID.
+ * GET {api}/checkout/v2/transactions/{transactionId} with a Bearer token.
+ */
+export async function getVivaTransactionFor(
+  cfg: { clientId: string; clientSecret: string },
+  transactionId: string,
+): Promise<VivaTransaction> {
+  const token = await getAccessTokenFor(cfg);
   const { api } = vivaUrls();
   const res = await fetch(`${api}/checkout/v2/transactions/${transactionId}`, {
     headers: { Authorization: `Bearer ${token}` }, cache: "no-store",
