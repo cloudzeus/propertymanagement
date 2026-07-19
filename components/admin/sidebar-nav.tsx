@@ -106,7 +106,7 @@ const GROUP_META: Record<string, { label: string; color: string; icon: React.Ele
   cms:         { label: "CMS",             color: "#8764b8", icon: RiLayoutLine },
   preview:     { label: "Προεπισκόπηση",   color: "#038387", icon: RiEyeLine },
   properties:  { label: "Ακίνητα",         color: "#8764B8", icon: RiBuildingLine },
-  assets:      { label: "Ακίνητά μου",     color: "#8764B8", icon: RiHome3Line },
+  assets:      { label: "Τα ακίνητά μου",  color: "#8764B8", icon: RiHome3Line },
   services:    { label: "Υπηρεσίες",       color: "#CA5D00", icon: RiToolsLine },
   operations:  { label: "Εργασίες",        color: "#CA5D00", icon: RiToolsLine },
   tasks:       { label: "Εργασίες",        color: "#CA5D00", icon: RiToolsLine },
