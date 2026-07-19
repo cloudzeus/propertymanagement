@@ -1,16 +1,15 @@
 import { redirect } from "next/navigation";
 import { getEffectiveSession } from "@/lib/auth-effective";
-import { getOwnerAllocRows } from "@/lib/dashboard/owner-queries";
-import { PaymentsView } from "@/components/dashboard/payments-view";
+import { getOwnerPaymentRows } from "@/lib/dashboard/payment-statements";
+import { PaymentsTable } from "@/components/dashboard/PaymentsTable";
 
 export const metadata = { title: "Πληρωμές" };
 
 export default async function OwnerPaymentsPage() {
   const eff = await getEffectiveSession();
   if (!eff?.user?.id) redirect("/login");
-  const userId = eff.user.id;
 
-  const rows = await getOwnerAllocRows(userId);
+  const rows = await getOwnerPaymentRows(eff.user.id);
 
-  return <PaymentsView rows={rows} title="Πληρωμές" />;
+  return <PaymentsTable rows={rows} title="Πληρωμές" />;
 }
