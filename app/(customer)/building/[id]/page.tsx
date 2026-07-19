@@ -4,7 +4,7 @@ import { notFound, redirect } from "next/navigation";
 import { getBuildingAccess, managerBuildingIds } from "@/lib/building-access";
 import { getBuildingDashboardData } from "@/lib/building/dashboard-data";
 import { getOccupantControlCenter } from "@/lib/building/occupant-data";
-import { getBuildingOutstanding, isKoinochristaPayEnabled } from "@/lib/payments/koinochrista-pay";
+import { getBuildingOutstanding, getPropertyVivaConfig, isKoinochristaPayEnabled } from "@/lib/payments/koinochrista-pay";
 import { BuildingManagerShell } from "@/components/building/manager-shell/BuildingManagerShell";
 import { OccupantBuildingShell } from "@/components/building/occupant-shell/OccupantBuildingShell";
 
@@ -28,12 +28,17 @@ export default async function ManagerBuildingPage({ params, searchParams }: {
     const data = await getOccupantControlCenter(id, userId, { month });
     if (!data) notFound();
     // Quick-pay: outstanding is ALWAYS computed server-side from the viewer's own
-    // unpaid allocations; the client never sends an amount.
-    const outstanding = await getBuildingOutstanding(userId, id);
+    // unpaid allocations; the client never sends an amount. `enabled` is the
+    // per-property Viva gate (the property's OWN account) AND the master switch —
+    // off everywhere today, so the card shows «Σύντομα διαθέσιμο».
+    const [outstanding, vivaConfig] = await Promise.all([
+      getBuildingOutstanding(userId, id),
+      getPropertyVivaConfig(id),
+    ]);
     const quickPay = {
       perUnit: outstanding.perUnit.map((u) => ({ unitId: u.unitId, unitNumber: u.unitNumber, amountCents: u.amountCents })),
       totalCents: outstanding.totalCents,
-      enabled: isKoinochristaPayEnabled(),
+      enabled: isKoinochristaPayEnabled(vivaConfig),
     };
     return <OccupantBuildingShell {...data} viewerRole={session.user.role} managed={access.managed} quickPay={quickPay} />;
   }

@@ -1,13 +1,106 @@
 import { db } from "@/lib/db";
+import type { CreateVivaOrderInput, CreateVivaOrderResult, VivaTransaction } from "@/lib/viva";
+
+// ─────────────────────────────────────────────────────────────────────────────
+// MONEY ROUTING — κοινόχρηστα must go to the PROPERTY's OWN Viva account.
+//
+// A resident's κοινόχρηστα belong to their property/building, NOT to us (the
+// provider). Therefore this flow must create the Viva order against, and verify
+// it against, the *property's* Viva merchant credentials
+// (Property.vivaMerchantId / decrypted Property.vivaApiKeyEnc /
+// Property.vivaSourceCode) — never the global provider VIVA_* credentials used
+// by lib/viva.ts `createVivaOrder` (that is the wallet/top-up flow, which bills
+// OUR customers into OUR account). Using the global creds here would misroute
+// residents' money to the provider. That must be impossible.
+//
+// REMAINING PRE-GO-LIVE BUILD (all required before setting a property's
+// vivaEnabled=true and the master switch VIVA_KOINOCHRISTA_ENABLED="true"):
+//   1. A crypto helper to encrypt/decrypt Property.vivaApiKeyEnc (none exists in
+//      the repo today — vivaApiKeyEnc is currently unused everywhere).
+//   2. A super-admin UI to set a property's viva* fields (merchantId, encrypted
+//      apiKey, sourceCode) and toggle vivaEnabled.
+//   3. Real `createPropertyVivaOrder` / `getPropertyVivaTransaction` that resolve
+//      Viva Smart Checkout v2 auth for the property's merchant and target its
+//      vivaMerchantId / vivaSourceCode (both stubbed below to THROW today).
+//   4. Sandbox verification of the Viva order-create + transaction-retrieve calls
+//      against a real property-scoped Viva account.
+// Until all four ship, both stubs throw → the intent route returns 503 and the
+// callback stays inert (marks nothing paid). No property has viva* set today and
+// there is no UI to set them, so the whole feature is off everywhere → the UI
+// shows «Σύντομα διαθέσιμο», which is correct.
+// ─────────────────────────────────────────────────────────────────────────────
+
+export type PropertyVivaConfig = {
+  vivaEnabled: boolean;
+  vivaMerchantId: string | null;
+  vivaApiKeyEnc: string | null;
+  vivaSourceCode: string | null;
+};
+
+/** Load the owning property's Viva merchant config for a building (null if gone). */
+export async function getPropertyVivaConfig(buildingId: string): Promise<PropertyVivaConfig | null> {
+  const building = await db.building.findUnique({
+    where: { id: buildingId },
+    select: {
+      property: {
+        select: { vivaEnabled: true, vivaMerchantId: true, vivaApiKeyEnc: true, vivaSourceCode: true },
+      },
+    },
+  });
+  return building?.property ?? null;
+}
 
 /**
- * Feature flag for κοινόχρηστα online quick-pay via Viva. Default OFF: the flow
- * stays fully disabled (route → 503, UI → «Σύντομα διαθέσιμο») until Viva is
- * sandbox-verified and the env is explicitly turned on.
+ * Global master kill-switch. The whole κοινόχρηστα quick-pay feature is OFF
+ * unless this env is exactly "true" — a second gate on top of the per-property
+ * config so the feature can be disabled fleet-wide instantly. Default OFF.
  */
-export function isKoinochristaPayEnabled(): boolean {
-  return process.env.VIVA_KOINOCHRISTA_ENABLED === "true"
-    && !!process.env.VIVA_CLIENT_ID && !!process.env.VIVA_CLIENT_SECRET;
+export function isKoinochristaMasterEnabled(): boolean {
+  return process.env.VIVA_KOINOCHRISTA_ENABLED === "true";
+}
+
+/**
+ * Per-property gate: the property must have its OWN Viva account fully configured
+ * (enabled + merchant id + encrypted api key + source code). Pure — no env.
+ */
+export function isPropertyVivaEnabled(cfg: PropertyVivaConfig | null): boolean {
+  return cfg?.vivaEnabled === true
+    && !!cfg.vivaMerchantId && !!cfg.vivaApiKeyEnc && !!cfg.vivaSourceCode;
+}
+
+/**
+ * Combined gate used by the routes AND the UI: BOTH the global master switch AND
+ * the property's own Viva config must be on. Default OFF everywhere today.
+ */
+export function isKoinochristaPayEnabled(cfg: PropertyVivaConfig | null): boolean {
+  return isKoinochristaMasterEnabled() && isPropertyVivaEnabled(cfg);
+}
+
+/**
+ * STUB — create a Viva Smart Checkout order against the PROPERTY's OWN merchant
+ * account. Throws until the per-property routing is built (see block above).
+ * TODO before go-live: decrypt cfg.vivaApiKeyEnc, resolve Viva Smart Checkout v2
+ * auth for the property's merchant, and create the order targeting
+ * cfg.vivaMerchantId with cfg.vivaSourceCode. NEVER fall back to the global
+ * provider createVivaOrder — that would route residents' money to us.
+ */
+export async function createPropertyVivaOrder(
+  _cfg: PropertyVivaConfig,
+  _input: CreateVivaOrderInput,
+): Promise<CreateVivaOrderResult> {
+  throw new Error("per_property_viva_routing_not_implemented");
+}
+
+/**
+ * STUB — verify a transaction against the PROPERTY's OWN merchant account before
+ * reconciling. Throws until per-property routing is built. Same rule: the
+ * property's merchant creds, never the global provider's.
+ */
+export async function getPropertyVivaTransaction(
+  _cfg: PropertyVivaConfig,
+  _transactionId: string,
+): Promise<VivaTransaction> {
+  throw new Error("per_property_viva_verification_not_implemented");
 }
 
 export type AllocForPay = {

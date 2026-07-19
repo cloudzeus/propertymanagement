@@ -1,14 +1,21 @@
 import { revalidatePath } from "next/cache";
 import { db } from "@/lib/db";
-import { vivaUrls, getVivaTransaction } from "@/lib/viva";
-import { getUnitOutstanding, getBuildingOutstanding } from "@/lib/payments/koinochrista-pay";
+import { vivaUrls } from "@/lib/viva";
+import {
+  isKoinochristaPayEnabled,
+  getPropertyVivaConfig,
+  getPropertyVivaTransaction,
+  getUnitOutstanding,
+  getBuildingOutstanding,
+} from "@/lib/payments/koinochrista-pay";
 import { publishBuildingEvent } from "@/lib/realtime/bus";
 
 // Viva webhook receiver for κοινόχρηστα quick-pay.
 //
 // SECURITY (money flow): unlike the wallet callback, this endpoint does NOT
-// trust the POSTed event body. It re-fetches the transaction from Viva
-// (getVivaTransaction) and requires:
+// trust the POSTed event body, and it verifies against the PROPERTY's OWN Viva
+// account (never the global provider account). It re-fetches the transaction via
+// getPropertyVivaTransaction(cfg, …) and requires:
 //   1. the transaction succeeded (statusId "F"),
 //   2. its merchantTrns matches the event's MerchantTrns (our koino:… token),
 //   3. its amount matches the server-recomputed outstanding for that
@@ -16,7 +23,12 @@ import { publishBuildingEvent } from "@/lib/realtime/bus";
 // Only then are the specific ExpenseAllocation rows marked paid. Because the
 // recompute selects ONLY currently-unpaid ids, a webhook replay settles nothing
 // new (idempotent). It never returns 500 (Viva would retry forever): benign /
-// duplicate → 200, verification failure → 4xx.
+// duplicate / unverified → 200, verification failure → 4xx.
+//
+// INERT TODAY: getPropertyVivaTransaction is a stub that throws until per-property
+// Viva routing ships (see lib/payments/koinochrista-pay.ts), and no property has
+// Viva configured, so the gate fails and/or verification throws → the callback
+// marks NOTHING paid.
 
 /**
  * GET — Viva webhook URL verification handshake. Identical to the wallet
@@ -84,8 +96,25 @@ export async function POST(request: Request) {
     const transactionId = eventData?.TransactionId;
     if (!transactionId) return new Response("missing_transaction_id", { status: 400 });
 
-    // ── VERIFY: re-fetch the transaction from Viva (never trust the POST body) ──
-    const tx = await getVivaTransaction(transactionId);
+    // ── Resolve the PROPERTY's own Viva config; gate on it (+ master switch) ─────
+    // Reconciliation must ONLY happen through the property's own verified
+    // transaction. If the property isn't Viva-enabled, the callback is inert.
+    const vivaConfig = await getPropertyVivaConfig(buildingId);
+    if (!isKoinochristaPayEnabled(vivaConfig)) {
+      return new Response("disabled_ignored", { status: 200 });
+    }
+
+    // ── VERIFY: re-fetch via the PROPERTY's merchant creds (never trust the body) ─
+    // Stub throws today → treated as "unverified" below → 200, marks nothing paid.
+    let tx;
+    try {
+      tx = await getPropertyVivaTransaction(vivaConfig!, transactionId);
+    } catch {
+      // Cannot verify against the property's account (routing not wired yet, or a
+      // transient re-fetch failure). Do NOT reconcile. 200 so Viva does not retry
+      // forever; a genuinely-settled payment is reconciled once routing ships.
+      return new Response("unverified_ignored", { status: 200 });
+    }
     if (tx.statusId !== "F") {
       // Not a completed payment — benign (Viva may resend on completion).
       return new Response("not_settled", { status: 200 });
