@@ -45,7 +45,9 @@ export function PaymentsTable({ rows, managerName = null, title = "Πληρωμ�
 
   const columns: ColDef<PaymentRow>[] = [
     {
-      id: "month", header: "Μήνας", sortKey: "month", width: 150, accessor: (r) => r.month,
+      // Accessor drives both search + sort: the ISO prefix keeps sort chronological
+      // while the Greek label makes «Αναζήτηση μήνα» match the visible text.
+      id: "month", header: "Μήνας", sortKey: "month", width: 150, accessor: (r) => `${r.month} ${monthLabel(r.month)}`,
       cell: (r) => <span style={{ fontWeight: 600, color: "var(--foreground)" }}>{monthLabel(r.month)}</span>,
     },
     {
@@ -139,6 +141,7 @@ export function PaymentsTable({ rows, managerName = null, title = "Πληρωμ�
             statement={r.statement}
             month={r.month}
             managerName={managerName}
+            heatingReadings={r.heatingReadings}
             showPrintRoot={false}
           />
         )}
@@ -169,6 +172,7 @@ export function PaymentsTable({ rows, managerName = null, title = "Πληρωμ�
             statement={modal.statement}
             month={modal.month}
             managerName={managerName}
+            heatingReadings={modal.heatingReadings}
             showPrintRoot
           />
         )}

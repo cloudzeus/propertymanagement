@@ -33,6 +33,8 @@ export type PaymentRow = {
   /** statement.total = ownerTotal + tenantTotal (the whole unit αναλογία). */
   unitTotal: number;
   receiptUrls: string[];
+  /** Metered heating readings for this unit + month (empty when the building has none). */
+  heatingReadings: { unitId: string; unitNumber: string; previousReading: number | null; currentReading: number | null; consumption: number | null }[];
 };
 
 /**
@@ -85,10 +87,14 @@ export async function buildPaymentRows(userId: string, side: Side): Promise<Paym
   const myUnitIds = myUnits.map((u) => u.id);
   const buildingIds = [...new Set(myUnits.map((u) => u.building.id))];
 
-  const [overrides, expenseRows] = await Promise.all([
+  const [overrides, heatingRows, expenseRows] = await Promise.all([
     db.buildingCategoryOverride.findMany({
       where: { buildingId: { in: buildingIds } },
       select: { buildingId: true, categoryId: true, distributionBasis: true },
+    }),
+    db.unitHeatingReading.findMany({
+      where: { unitId: { in: myUnitIds } },
+      select: { unitId: true, period: true, previousReading: true, currentReading: true, consumption: true },
     }),
     db.buildingExpense.findMany({
       where: { buildingId: { in: buildingIds }, status: { in: [...VISIBLE_STATUSES] } },
@@ -112,6 +118,22 @@ export async function buildPaymentRows(userId: string, side: Side): Promise<Paym
     buildingId: string; categoryId: string | null; categoryRef: { defaultBasis: StatementBasis } | null;
   }): StatementBasis =>
     (e.categoryId ? overrideBasis.get(`${e.buildingId}:${e.categoryId}`) : null) ?? e.categoryRef?.defaultBasis ?? "GENERAL_MILLESIMES";
+
+  // Heating readings keyed by `${unitId}:${period}` — attached to the matching row.
+  const heatingByKey = new Map<string, PaymentRow["heatingReadings"]>();
+  for (const h of heatingRows) {
+    const u = unitById.get(h.unitId);
+    if (!u) continue;
+    const key = `${h.unitId}:${h.period}`;
+    const arr = heatingByKey.get(key) ?? [];
+    arr.push({
+      unitId: h.unitId, unitNumber: u.unitNumber,
+      previousReading: h.previousReading != null ? Number(h.previousReading) : null,
+      currentReading: h.currentReading != null ? Number(h.currentReading) : null,
+      consumption: h.consumption != null ? Number(h.consumption) : null,
+    });
+    heatingByKey.set(key, arr);
+  }
 
   // Accumulate per (unit, month): notice inputs, paid counters, receipts, my-side total.
   type Bucket = {
@@ -194,6 +216,7 @@ export async function buildPaymentRows(userId: string, side: Side): Promise<Paym
       myPaid: b.myUnpaidWithAmount === 0,
       unitTotal: st.total,
       receiptUrls: [...b.receiptUrls],
+      heatingReadings: heatingByKey.get(key) ?? [],
     });
   }
 
