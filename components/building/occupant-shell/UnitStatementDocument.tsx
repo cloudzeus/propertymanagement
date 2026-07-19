@@ -44,6 +44,8 @@ const th: React.CSSProperties = {
 };
 const td: React.CSSProperties = { padding: "8px 12px", fontSize: 13, color: "var(--foreground)", borderBottom: "1px solid var(--border)" };
 const money: React.CSSProperties = { textAlign: "right", fontVariantNumeric: "tabular-nums", whiteSpace: "nowrap" };
+/** The viewer's own share — emphasized in the primary colour so it reads as the key number. */
+const share: React.CSSProperties = { color: "var(--color-primary)", fontWeight: 700 };
 const groupRow: React.CSSProperties = {
   padding: "8px 12px", fontSize: 12, fontWeight: 800, letterSpacing: ".04em",
   textTransform: "uppercase", background: "var(--bg-canvas)", color: "var(--foreground)",
@@ -133,8 +135,9 @@ export function UnitStatementDocument({
               <table style={{ width: "100%", borderCollapse: "collapse" }}>
                 <thead>
                   <tr>
-                    <th style={th}>Κατηγορία δαπάνης</th>
-                    <th style={{ ...th, ...money, width: 170 }}>Δαπάνη κτηρίου</th>
+                    <th style={th}>Δαπάνη</th>
+                    <th style={{ ...th, ...money, width: 150 }}>Σύνολο κτηρίου</th>
+                    <th style={{ ...th, ...money, width: 150 }}>Το μερίδιό μου</th>
                     <th className="no-print" style={{ ...th, ...money, width: 90 }}>Απόδειξη</th>
                   </tr>
                 </thead>
@@ -145,6 +148,7 @@ export function UnitStatementDocument({
                   <tr>
                     <td style={grandRow}>ΣΥΝΟΛΟ ΔΑΠΑΝΩΝ ΚΤΗΡΙΟΥ</td>
                     <td style={{ ...grandRow, ...money }}>{eur(statement.groups.reduce((a, g) => a + g.buildingTotal, 0))}</td>
+                    <td style={{ ...grandRow, ...money, ...share }}>{eur(statement.total)}</td>
                     <td className="no-print" style={grandRow} />
                   </tr>
                 </tbody>
@@ -234,37 +238,51 @@ function GroupExpenseRows({ group }: { group: StatementWithPaid["groups"][number
   return (
     <>
       <tr>
-        <td colSpan={3} style={groupRow}>{group.label}</td>
+        <td colSpan={4} style={groupRow}>{group.label}</td>
       </tr>
-      {group.lines.map((l) => (
-        <tr key={l.id}>
-          <td style={td}>{l.categoryName}</td>
-          <td style={{ ...td, ...money }}>{eur(l.amount)}</td>
-          <td className="no-print" style={{ ...td, ...money }}>
-            {l.receiptUrl ? (
-              <a
-                href={l.receiptUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                title="Απόδειξη"
-                aria-label={`Απόδειξη — ${l.categoryName}`}
-                style={{
-                  display: "inline-flex", alignItems: "center", justifyContent: "center",
-                  width: 30, height: 30, borderRadius: 7, lineHeight: 0,
-                  border: "1px solid var(--border)", background: "var(--card)", color: "var(--color-primary)",
-                }}
-              >
-                <RiFileTextLine style={{ fontSize: 16 }} />
-              </a>
-            ) : (
-              <span style={{ color: "var(--muted-foreground)" }}>—</span>
-            )}
-          </td>
-        </tr>
-      ))}
+      {group.lines.map((l) => {
+        // Line label: the expense's own description (supplier/free text) when it
+        // is distinct from the category — the category then drops to a subtitle so
+        // several lines under one category stay tellable apart.
+        const hasDistinct = Boolean(l.description && l.description.trim() && l.description !== l.categoryName);
+        const primary = hasDistinct ? l.description! : l.categoryName;
+        return (
+          <tr key={l.id}>
+            <td style={td}>
+              <div style={{ fontWeight: 500 }}>{primary}</div>
+              {hasDistinct && (
+                <div style={{ fontSize: 11.5, color: "var(--muted-foreground)", marginTop: 1 }}>{l.categoryName}</div>
+              )}
+            </td>
+            <td style={{ ...td, ...money }}>{eur(l.amount)}</td>
+            <td style={{ ...td, ...money, ...share }}>{eur(l.unitAmount)}</td>
+            <td className="no-print" style={{ ...td, ...money }}>
+              {l.receiptUrl ? (
+                <a
+                  href={l.receiptUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="Απόδειξη"
+                  aria-label={`Απόδειξη — ${primary}`}
+                  style={{
+                    display: "inline-flex", alignItems: "center", justifyContent: "center",
+                    width: 30, height: 30, borderRadius: 7, lineHeight: 0,
+                    border: "1px solid var(--border)", background: "var(--card)", color: "var(--color-primary)",
+                  }}
+                >
+                  <RiFileTextLine style={{ fontSize: 16 }} />
+                </a>
+              ) : (
+                <span style={{ color: "var(--muted-foreground)" }}>—</span>
+              )}
+            </td>
+          </tr>
+        );
+      })}
       <tr>
         <td style={subtotalRow}>Σύνολο ομάδας</td>
         <td style={{ ...subtotalRow, ...money }}>{eur(group.buildingTotal)}</td>
+        <td style={{ ...subtotalRow, ...money, ...share }}>{eur(group.unitAmount)}</td>
         <td className="no-print" style={subtotalRow} />
       </tr>
     </>

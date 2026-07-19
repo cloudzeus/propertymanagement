@@ -59,6 +59,7 @@ describe("buildUnitStatement", () => {
     const a = s.groups.find((g) => g.key === "A")!;
     expect(a.buildingTotal).toBe(100);
     expect(a.lines.length).toBe(2);
+    expect(a.lines.find((l) => l.id === "a")!.unitAmount).toBe(6); // per-expense personal share carried on the line
     expect(a.unitAmount).toBe(10);
     expect(a.unitTenant).toBe(10);
     expect(a.appliedMillesimes).toBe(159.84);        // group A → general millesimes

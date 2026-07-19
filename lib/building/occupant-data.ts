@@ -232,7 +232,7 @@ export async function getOccupantControlCenter(
       if (u.ownerSide) { myOwner += ownerAmount; ownerAllocs += 1; if (a.ownerPaid) ownerPaidAllocs += 1; }
       // Per-unit notice row: FULL owner/tenant split so the columns provably sum
       // (unitAmount = owner + tenant, the billed truth, not unitShare).
-      perUnitRows.get(u.id)!.push({ ...shared, unitAmount: r2(ownerAmount + tenantAmount), unitTenant: r2(tenantAmount), unitOwner: r2(ownerAmount), receiptUrl: e.receiptFile?.url ?? null });
+      perUnitRows.get(u.id)!.push({ ...shared, unitAmount: r2(ownerAmount + tenantAmount), unitTenant: r2(tenantAmount), unitOwner: r2(ownerAmount), receiptUrl: e.receiptFile?.url ?? null, description: e.description ?? e.supplierName ?? null });
       const pu = perUnitPaid.get(u.id)!;
       if (u.tenantSide) { pu.tCnt += 1; if (a.tenantPaid) pu.tPaid += 1; }
       if (u.ownerSide) { pu.oCnt += 1; if (a.ownerPaid) pu.oPaid += 1; }

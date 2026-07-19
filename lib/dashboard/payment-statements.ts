@@ -101,6 +101,7 @@ export async function buildPaymentRows(userId: string, side: Side): Promise<Paym
       orderBy: [{ documentDate: "desc" }, { createdAt: "desc" }],
       select: {
         id: true, buildingId: true, month: true, issuedMonth: true, category: true,
+        description: true, supplierName: true,
         tenantPct: true, ownerPct: true, amount: true, categoryId: true,
         categoryRef: { select: { name: true, defaultBasis: true } },
         receiptFile: { select: { url: true } },
@@ -167,7 +168,7 @@ export async function buildPaymentRows(userId: string, side: Side): Promise<Paym
       const ownerAmount = Number(a.ownerAmount);
       const tenantAmount = Number(a.tenantAmount);
       // UNGATED per-unit notice row: the columns provably sum (unitAmount = owner + tenant).
-      b.inputs.push({ ...shared, unitAmount: r2(ownerAmount + tenantAmount), unitTenant: r2(tenantAmount), unitOwner: r2(ownerAmount), receiptUrl: e.receiptFile?.url ?? null });
+      b.inputs.push({ ...shared, unitAmount: r2(ownerAmount + tenantAmount), unitTenant: r2(tenantAmount), unitOwner: r2(ownerAmount), receiptUrl: e.receiptFile?.url ?? null, description: e.description ?? e.supplierName ?? null });
       if (e.receiptFile?.url) b.receiptUrls.add(e.receiptFile.url);
 
       // Both-side paid flags (drive the notice's settled badge).
