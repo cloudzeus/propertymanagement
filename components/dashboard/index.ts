@@ -7,6 +7,7 @@ export { ProgressMeter } from "./progress-meter";
 export { Donut } from "./donut";
 export { Gauge } from "./gauge";
 export { MiniBars } from "./mini-bars";
+export { DuoBars } from "./duo-bars";
 export { TicketList, type TicketItem } from "./ticket-list";
 export { EmptyState } from "./empty-state";
 export { PayNowButton } from "./pay-now-button";
