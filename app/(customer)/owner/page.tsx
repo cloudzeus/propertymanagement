@@ -61,7 +61,11 @@ export default async function OwnerDashboard() {
         subtitle={
           `${portfolio.length} ${portfolio.length === 1 ? "μονάδα" : "μονάδες"} σε ` +
           `${buildingIds.length} ${buildingIds.length === 1 ? "κτήριο" : "κτήρια"}` +
-          (tenantSide ? ` · και ένοικος στη μονάδα ${tenantSide.unitNumber}` : "")
+          (tenantSide
+            ? tenantSide.selfOwned
+              ? ` · ιδιοκατοίκηση στη μονάδα ${tenantSide.unitNumber}`
+              : ` · και ένοικος στη μονάδα ${tenantSide.unitNumber}`
+            : "")
         }
       />
 
@@ -80,7 +84,7 @@ export default async function OwnerDashboard() {
         />
         {tenantSide && (
           <StatTile
-            label="Ως ένοικος"
+            label={tenantSide.selfOwned ? "Μερίδιο ενοίκου (ιδιοκατοίκηση)" : "Ως ένοικος"}
             value={<span style={tnums}>{formatEuro(tenantSide.unpaidTenant)}</span>}
             sub={`Μονάδα ${tenantSide.unitNumber}`} icon={RiKeyLine} href="/portal/payments"
           />
@@ -170,7 +174,7 @@ export default async function OwnerDashboard() {
           </SectionCard>
 
           {tenantSide && (
-            <SectionCard title="Η κατοικία μου (ως ένοικος)">
+            <SectionCard title={tenantSide.selfOwned ? "Η κατοικία μου (ιδιοκατοίκηση)" : "Η κατοικία μου (ως ένοικος)"}>
               <div style={{ fontSize: 13, color: "var(--muted-foreground)" }}>
                 {tenantSide.buildingName} · Μονάδα {tenantSide.unitNumber}
               </div>
@@ -181,7 +185,7 @@ export default async function OwnerDashboard() {
                 {formatEuro(tenantSide.unpaidTenant)}
               </div>
               <div style={{ fontSize: 12, color: "var(--muted-foreground)", marginTop: 6 }}>
-                Ανεξόφλητα κοινόχρηστα
+                {tenantSide.selfOwned ? "Ανεξόφλητο μερίδιο ενοίκου" : "Ανεξόφλητα κοινόχρηστα"}
                 {tenantSide.latestMonth ? ` · τελευταίος μήνας ${monthLabel(tenantSide.latestMonth)}` : ""}
               </div>
               <Link href="/portal/payments" style={{
