@@ -49,7 +49,12 @@ export default async function OwnerDashboard() {
   const firstName = eff.user.name?.split(" ")[0] ?? "";
 
   const d = new Date();
-  const anchor = `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, "0")}`;
+  const today = `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, "0")}`;
+  // Anchor the 6-month window to the most recent month that actually has charges,
+  // so the chart shows real activity (owner + tenant) even when the latest issued
+  // month predates today. Falls back to the current month when there is no data.
+  const latestMonth = duoRows.reduce((mx, r) => (r.month > mx ? r.month : mx), "");
+  const anchor = latestMonth || today;
   const trend = duoTrend(duoRows, lastNMonths(anchor, 6));
 
   const totalOwed = owed + (tenantSide?.unpaidTenant ?? 0);
@@ -112,7 +117,7 @@ export default async function OwnerDashboard() {
           {portfolio.length === 0 ? (
             <EmptyState icon={RiHome3Line} label="Δεν έχουν καταχωρηθεί μονάδες — επικοινωνήστε με τη διαχείριση" />
           ) : (
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 12 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: 12, maxHeight: 640, overflowY: "auto", paddingRight: 4 }}>
               {portfolio.map((u) => {
                 const pill = {
                   display: "inline-flex", alignItems: "center", padding: "4px 10px", borderRadius: 999,
@@ -167,7 +172,58 @@ export default async function OwnerDashboard() {
           )}
         </SectionCard>
 
-          {explainer.length > 0 && <BillingExplainer buildings={explainer} />}
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }} className="dash-cols">
+            <SectionCard title="Ανοιχτά αιτήματα συντήρησης" viewAllHref="/owner/requests">
+              {tickets.length === 0 ? (
+                <div style={{ padding: "24px 0", textAlign: "center" }}>
+                  <RiToolsLine style={{ fontSize: 28, opacity: 0.35, display: "block", margin: "0 auto 8px", color: "var(--muted-foreground)" }} />
+                  <div style={{ fontSize: 13, color: "var(--muted-foreground)" }}>Κανένα ανοιχτό αίτημα</div>
+                  <Link href="/owner/requests" style={{
+                    display: "inline-block", marginTop: 12, padding: "6px 14px", borderRadius: 999,
+                    border: "1px solid var(--border-strong)", fontSize: 12, fontWeight: 600,
+                    color: "var(--foreground)", textDecoration: "none",
+                  }}>
+                    Δήλωση βλάβης
+                  </Link>
+                </div>
+              ) : (
+                <div style={{ maxHeight: 320, overflowY: "auto", paddingRight: 4 }}>
+                  <TicketList tickets={tickets.map((t) => ({ id: t.id, title: t.title, status: t.status, priority: t.priority, createdAt: t.createdAt }))} />
+                </div>
+              )}
+            </SectionCard>
+
+            <SectionCard title="Ανακοινώσεις">
+              {announcements.length === 0 ? (
+                <EmptyState icon={RiMegaphoneLine} label="Δεν υπάρχουν ανακοινώσεις." />
+              ) : (
+                <div style={{ display: "flex", flexDirection: "column", gap: 10, maxHeight: 320, overflowY: "auto", paddingRight: 4 }}>
+                  {announcements.map((ann) => {
+                    const text = preview(ann.content ?? "");
+                    return (
+                      <div key={ann.id} style={{
+                        padding: "12px 14px", background: "var(--bg-canvas)", borderRadius: 10,
+                        borderLeft: "3px solid var(--color-primary)",
+                      }}>
+                        <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 10 }}>
+                          <div style={{ fontSize: 14, fontWeight: 600, color: "var(--foreground)", minWidth: 0 }}>{ann.title}</div>
+                          <span style={{ fontSize: 11, color: "var(--muted-foreground)", whiteSpace: "nowrap", ...tnums }}>
+                            {dateFmt.format(ann.createdAt)}
+                          </span>
+                        </div>
+                        <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 3, fontSize: 12, color: "var(--muted-foreground)" }}>
+                          <RiBuildingLine style={{ fontSize: 13, flexShrink: 0 }} /> {ann.building?.name ?? "—"}
+                        </div>
+                        {text && (
+                          <p style={{ margin: "6px 0 0", fontSize: 12, lineHeight: 1.45, color: "var(--muted-foreground)" }}>{text}</p>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </SectionCard>
+          </div>
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
@@ -236,56 +292,7 @@ export default async function OwnerDashboard() {
         </div>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }} className="dash-cols">
-        <SectionCard title="Ανοιχτά αιτήματα συντήρησης" viewAllHref="/owner/requests">
-          {tickets.length === 0 ? (
-            <div style={{ padding: "32px 0", textAlign: "center" }}>
-              <RiToolsLine style={{ fontSize: 30, opacity: 0.35, display: "block", margin: "0 auto 8px", color: "var(--muted-foreground)" }} />
-              <div style={{ fontSize: 13, color: "var(--muted-foreground)" }}>Κανένα ανοιχτό αίτημα στα ακίνητά σας</div>
-              <Link href="/owner/requests" style={{
-                display: "inline-block", marginTop: 12, padding: "6px 14px", borderRadius: 999,
-                border: "1px solid var(--border-strong)", fontSize: 12, fontWeight: 600,
-                color: "var(--foreground)", textDecoration: "none",
-              }}>
-                Δήλωση βλάβης
-              </Link>
-            </div>
-          ) : (
-            <TicketList tickets={tickets.map((t) => ({ id: t.id, title: t.title, status: t.status, priority: t.priority, createdAt: t.createdAt }))} />
-          )}
-        </SectionCard>
-
-        <SectionCard title="Ανακοινώσεις">
-          {announcements.length === 0 ? (
-            <EmptyState icon={RiMegaphoneLine} label="Δεν υπάρχουν ανακοινώσεις." />
-          ) : (
-            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-              {announcements.map((ann) => {
-                const text = preview(ann.content ?? "");
-                return (
-                  <div key={ann.id} style={{
-                    padding: "12px 14px", background: "var(--bg-canvas)", borderRadius: 10,
-                    borderLeft: "3px solid var(--color-primary)",
-                  }}>
-                    <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 10 }}>
-                      <div style={{ fontSize: 14, fontWeight: 600, color: "var(--foreground)", minWidth: 0 }}>{ann.title}</div>
-                      <span style={{ fontSize: 11, color: "var(--muted-foreground)", whiteSpace: "nowrap", ...tnums }}>
-                        {dateFmt.format(ann.createdAt)}
-                      </span>
-                    </div>
-                    <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 3, fontSize: 12, color: "var(--muted-foreground)" }}>
-                      <RiBuildingLine style={{ fontSize: 13, flexShrink: 0 }} /> {ann.building?.name ?? "—"}
-                    </div>
-                    {text && (
-                      <p style={{ margin: "6px 0 0", fontSize: 12, lineHeight: 1.45, color: "var(--muted-foreground)" }}>{text}</p>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          )}
-        </SectionCard>
-      </div>
+      {explainer.length > 0 && <BillingExplainer buildings={explainer} />}
     </div>
   );
 }

@@ -4,7 +4,7 @@ import { getOwnerPaymentRows } from "@/lib/dashboard/payment-statements";
 import { getPropertyVivaConfig, isKoinochristaPayEnabled } from "@/lib/payments/koinochrista-pay";
 import { PaymentsTable } from "@/components/dashboard/PaymentsTable";
 
-export const metadata = { title: "Πληρωμές" };
+export const metadata = { title: "Λογαριασμοί" };
 
 export default async function OwnerPaymentsPage() {
   const eff = await getEffectiveSession();
@@ -19,5 +19,5 @@ export default async function OwnerPaymentsPage() {
   );
   const payEnabledByBuilding = Object.fromEntries(gates);
 
-  return <PaymentsTable rows={rows} payEnabledByBuilding={payEnabledByBuilding} title="Πληρωμές" />;
+  return <PaymentsTable rows={rows} payEnabledByBuilding={payEnabledByBuilding} title="Λογαριασμοί" />;
 }

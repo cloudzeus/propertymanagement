@@ -50,7 +50,7 @@ export const RBAC_MODULES: readonly RbacModule[] = [
   { key: "customer-dashboard", label: "Dashboard", surface: "customer", menu: { href: "/building", icon: "RiDashboardLine", group: "core" }, actions: [...VIEW] },
   { key: "customer-properties", label: "Ακίνητά μου", surface: "customer", menu: { href: "/building?s=building", icon: "RiBuildingLine", group: "properties" }, actions: [...CRUD] },
   { key: "customer-units", label: "Μονάδες", surface: "customer", menu: { href: "/owner/units", icon: "RiHome3Line", group: "assets" }, actions: [...CRUD] },
-  { key: "customer-income", label: "Πληρωμές", surface: "customer", menu: { href: "/owner/payments", icon: "RiMoneyDollarCircleLine", group: "assets" }, actions: [...VIEW] },
+  { key: "customer-income", label: "Λογαριασμοί", surface: "customer", menu: { href: "/owner/payments", icon: "RiMoneyDollarCircleLine", group: "assets" }, actions: [...VIEW] },
   { key: "customer-requests", label: "Αιτήσεις", surface: "customer", menu: { href: "/portal/requests", icon: "RiToolsLine", group: "services" }, actions: [...CRUD] },
   { key: "customer-maintenance", label: "Συντηρήσεις", surface: "customer", menu: { href: "/building?s=maintenance", icon: "RiToolsLine", group: "operations" }, actions: [...CRUD] },
   { key: "customer-communication", label: "Ανακοινώσεις", surface: "customer", menu: { href: "/building?s=communication", icon: "RiNotification2Line", group: "operations" }, actions: [...CRUD] },
@@ -59,7 +59,7 @@ export const RBAC_MODULES: readonly RbacModule[] = [
   { key: "owner-requests", label: "Αιτήματα", surface: "customer", menu: { href: "/owner/requests", icon: "RiToolsLine", group: "assets" }, actions: [...CRUD] },
   { key: "owner-announcements", label: "Ανακοινώσεις", surface: "customer", menu: { href: "/owner/announcements", icon: "RiNotification2Line", group: "assets" }, actions: [...VIEW] },
   { key: "occupant-building", label: "Το κτήριό μου", surface: "customer", menu: { href: "/building", icon: "RiBuildingLine", group: "assets" }, actions: [...VIEW] },
-  { key: "portal-payments", label: "Πληρωμές", surface: "customer", menu: { href: "/portal/payments", icon: "RiMoneyDollarCircleLine", group: "services" }, actions: [...VIEW] },
+  { key: "portal-payments", label: "Λογαριασμοί", surface: "customer", menu: { href: "/portal/payments", icon: "RiMoneyDollarCircleLine", group: "services" }, actions: [...VIEW] },
   { key: "portal-files", label: "Αρχεία", surface: "customer", menu: { href: "/portal/files", icon: "RiFileListLine", group: "services" }, actions: [...VIEW] },
   { key: "portal-maintenance", label: "Συντηρήσεις", surface: "customer", menu: { href: "/portal/maintenance", icon: "RiToolsLine", group: "operations" }, actions: [...VIEW] },
   // ── Marketplace surface ──

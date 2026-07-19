@@ -127,6 +127,14 @@ const BASIS_LABEL: Record<string, string> = {
   METERED_70_30: "Μετρητής θέρμανσης (70/30)",
 };
 
+const BASIS_DESC: Record<string, string> = {
+  GENERAL_MILLESIMES: "Επιμερίζεται στα διαμερίσματα ανάλογα με τα γενικά χιλιοστά ιδιοκτησίας τους.",
+  ELEVATOR_MILLESIMES: "Επιμερίζεται με τα χιλιοστά ανελκυστήρα (βαρύνουν περισσότερο οι ψηλότεροι όροφοι).",
+  HEATING_MILLESIMES: "Επιμερίζεται με τα χιλιοστά θέρμανσης κάθε διαμερίσματος.",
+  EQUAL_PER_UNIT: "Μοιράζεται ισόποσα σε κάθε διαμέρισμα, ανεξαρτήτως χιλιοστών.",
+  METERED_70_30: "70% βάσει κατανάλωσης μετρητή θέρμανσης, 30% βάσει χιλιοστών.",
+};
+
 export type BillingExplainerBuilding = {
   buildingId: string;
   buildingName: string;
@@ -138,9 +146,11 @@ export type BillingExplainerBuilding = {
     elevatorExemptGroundFloor: boolean;
     heatingMeterUnit: string | null;
   };
-  categories: { id: string; name: string; basis: string; basisLabel: string }[];
+  categories: { id: string; name: string; basis: string; basisLabel: string; basisDescription: string }[];
   myUnits: {
     unitNumber: string;
+    floor: number | null;
+    areaSqm: number | null;
     millesimes: number | null;
     millesimesElevator: number | null;
     millesimesHeating: number | null;
@@ -152,7 +162,8 @@ export async function getOwnerBillingExplainer(userId: string): Promise<BillingE
     where: { ownerId: userId },
     orderBy: [{ building: { name: "asc" } }, { unitNumber: "asc" }],
     select: {
-      unitNumber: true, millesimes: true, millesimesElevator: true, millesimesHeating: true,
+      unitNumber: true, floor: true, areaSqm: true,
+      millesimes: true, millesimesElevator: true, millesimesHeating: true,
       building: {
         select: {
           id: true, name: true, floors: true, basements: true, hasElevator: true,
@@ -194,12 +205,18 @@ export async function getOwnerBillingExplainer(userId: string): Promise<BillingE
       },
       categories: categories.map((c) => {
         const basis = (bOverrides.get(c.id) ?? c.defaultBasis) as string;
-        return { id: c.id, name: c.name, basis, basisLabel: BASIS_LABEL[basis] ?? basis };
+        return {
+          id: c.id, name: c.name, basis,
+          basisLabel: BASIS_LABEL[basis] ?? basis,
+          basisDescription: BASIS_DESC[basis] ?? "",
+        };
       }),
       myUnits: units
         .filter((u) => u.building.id === bid)
         .map((u) => ({
           unitNumber: u.unitNumber,
+          floor: u.floor,
+          areaSqm: u.areaSqm == null ? null : Number(u.areaSqm),
           millesimes: u.millesimes,
           millesimesElevator: u.millesimesElevator,
           millesimesHeating: u.millesimesHeating,
