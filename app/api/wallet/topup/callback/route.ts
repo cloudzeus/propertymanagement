@@ -20,11 +20,12 @@ import { getProviderVivaConfig } from "@/lib/payments/provider-viva";
  */
 export async function GET() {
   try {
-    // Provider Viva merchant/api: DB-first (when providerVivaEnabled), env fallback.
+    // Provider Viva merchant/api resolved atomically from ONE source (never a
+    // DB-merchantId paired with an env-apiKey of a different account).
     const cfg = await getProviderVivaConfig();
-    const merchantId = cfg?.merchantId ?? process.env.VIVA_MERCHANT_ID;
-    const apiKey = cfg?.apiKey ?? process.env.VIVA_API_KEY;
-    if (!merchantId || !apiKey) throw new Error("Missing VIVA_MERCHANT_ID/VIVA_API_KEY");
+    const merchantId = cfg ? cfg.merchantId : (process.env.VIVA_MERCHANT_ID ?? null);
+    const apiKey = cfg ? cfg.apiKey : (process.env.VIVA_API_KEY ?? null);
+    if (!merchantId || !apiKey) throw new Error("Missing Viva merchant/api credentials");
 
     const { api } = vivaUrls();
     const basic = Buffer.from(`${merchantId}:${apiKey}`).toString("base64");
