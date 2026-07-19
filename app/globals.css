@@ -157,14 +157,26 @@ body {
    Scoped via body:has(): only pages that actually render a statement hide the
    rest of the document — printing any other page stays untouched. */
 @media print {
+  /* A4 έντυπο. @page cannot be scoped to a selector, but the visibility rules
+     below (body:has) keep every OTHER page's print output untouched. */
+  @page { size: A4; margin: 12mm; }
+  body:has(.statement-print-root) { background: #fff; }
   body:has(.statement-print-root) * { visibility: hidden; }
   .statement-print-root, .statement-print-root * { visibility: visible; }
-  .statement-print-root { position: absolute; inset: 0; padding: 0; background: #fff; color: #000; }
+  .statement-print-root { position: absolute; inset: 0; padding: 0; background: #fff; color: #000; font-size: 10pt; }
   /* classic έντυπο look: white paper, black rules */
   .statement-print-root {
     --card: #fff; --bg-canvas: #fff; --paper: #fff;
     --foreground: #000; --muted-foreground: #333;
     --border: #000; --border-strong: #000;
   }
+  /* force black rules on every boxed container / table cell */
+  .statement-print-root [data-boxed],
+  .statement-print-root table,
+  .statement-print-root th,
+  .statement-print-root td { border-color: #000 !important; }
+  /* keep each boxed section from splitting across pages */
+  .statement-print-root [data-boxed] { break-inside: avoid; }
+  .statement-print-root tr { break-inside: avoid; }
   .statement-print-root .no-print { display: none !important; }
 }

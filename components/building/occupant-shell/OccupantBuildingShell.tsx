@@ -80,7 +80,7 @@ type Props = OccupantData & {
  */
 export function OccupantBuildingShell(props: Props) {
   const {
-    building, myUnits, months, selectedMonth, statement, paid, expenses,
+    building, myUnits, months, selectedMonth, statements, managerName, expenses,
     heatingReadings, gallery, assemblies, files, contacts, announcements,
     viewerRole, managed,
   } = props;
@@ -172,8 +172,7 @@ export function OccupantBuildingShell(props: Props) {
             myUnits={myUnits}
             months={months}
             selectedMonth={selectedMonth}
-            statement={statement}
-            paid={paid}
+            statements={statements}
             announcements={announcements}
             assemblies={assemblies}
             requestsHref={requestsHref}
@@ -182,11 +181,10 @@ export function OccupantBuildingShell(props: Props) {
         ) : section === "koino" ? (
           <StatementView
             building={building}
-            myUnits={myUnits}
+            statements={statements}
             months={months}
             selectedMonth={selectedMonth}
-            statement={statement}
-            paid={paid}
+            managerName={managerName}
             heatingReadings={heatingReadings}
           />
         ) : section === "expenses" ? (
@@ -209,18 +207,24 @@ export function OccupantBuildingShell(props: Props) {
 
 /* ─── Επισκόπηση ─────────────────────────────────────────────────────────── */
 
-function Overview({ myUnits, months, selectedMonth, statement, paid, announcements, assemblies, requestsHref, onNavigate }: {
+function Overview({ myUnits, months, selectedMonth, statements, announcements, assemblies, requestsHref, onNavigate }: {
   myUnits: OccupantData["myUnits"];
   months: OccupantData["months"];
   selectedMonth: string;
-  statement: OccupantData["statement"];
-  paid: OccupantData["paid"];
+  statements: OccupantData["statements"];
   announcements: OccupantData["announcements"];
   assemblies: OccupantData["assemblies"];
   requestsHref: string;
   onNavigate: (s: SectionKey) => void;
 }) {
-  const payable = Math.round((statement.myTenant + statement.myOwner) * 100) / 100;
+  // Overview aggregates across ALL the viewer's units: total payable + settled
+  // only when every unit's role-relevant side is paid.
+  const payable = Math.round(statements.reduce((a, s) => a + s.myPayable, 0) * 100) / 100;
+  const settled = statements.every((s) =>
+    s.role === "OWNER" ? s.ownerPaid !== false
+    : s.role === "RESIDENT" ? s.tenantPaid !== false
+    : s.tenantPaid !== false && s.ownerPaid !== false,
+  );
   const now = Date.now();
   const nextAssembly = assemblies
     .filter((a) => a.status !== "CANCELLED" && new Date(a.scheduledAt).getTime() >= now)
@@ -275,7 +279,7 @@ function Overview({ myUnits, months, selectedMonth, statement, paid, announcemen
               )}
             </div>
             {months.length > 0 && (
-              <StatusChip tone={paid.settled ? "success" : "warning"}>{paid.settled ? "Εξοφλημένο" : "Εκκρεμεί"}</StatusChip>
+              <StatusChip tone={settled ? "success" : "warning"}>{settled ? "Εξοφλημένο" : "Εκκρεμεί"}</StatusChip>
             )}
           </div>
           <div style={{ marginTop: 12, fontSize: 12.5, fontWeight: 700, color: "var(--color-primary)", display: "inline-flex", alignItems: "center", gap: 5 }}>
