@@ -10,6 +10,16 @@ const VISIBLE_STATUSES = ["CONFIRMED", "ISSUED"] as const;
 const r2 = (n: number) => Math.round(n * 100) / 100;
 const iso = (d: Date | null | undefined) => (d ? d.toISOString() : null);
 
+/** Per unit+month heating reading row (kept local to avoid a self-referential
+ *  `OccupantData[...]` lookup inside the function that infers `OccupantData`). */
+type HeatingReadingRow = {
+  unitId: string;
+  unitNumber: string;
+  previousReading: number | null;
+  currentReading: number | null;
+  consumption: number | null;
+};
+
 /**
  * Read-only data for the occupant control center at /building/[id].
  * `userId` is assumed to have viewer "occupant" on the building (page resolves
@@ -93,7 +103,7 @@ export async function getOccupantControlCenter(
 
   const [
     expenseRows, allExpenseRows, infraPoints, photoFiles, assemblyRows, fileRows, contacts, announcementRows, heatingRows,
-    unitRowsAll, taskRows, maintenanceRows, meterRows, managedItemRows,
+    allHeatingRows, unitRowsAll, taskRows, maintenanceRows, meterRows, managedItemRows,
   ] = await Promise.all([
     db.buildingExpense.findMany({
       where: {
@@ -116,8 +126,12 @@ export async function getOccupantControlCenter(
         },
       },
     }),
-    // All visible building expenses (NO month filter) — grouped into expensesByMonth.
-    // This is the building-expenses ledger: no my-share (that lives on the κοινόχρηστα notice).
+    // All visible building expenses (NO month filter) — powers BOTH the Έξοδα
+    // ledger (expensesByMonth, no my-share) AND the per-unit κοινόχρηστα notices
+    // across every issued month (statementsByUnit). The viewer's own allocation
+    // rows ride along so buildUnitStatement can produce a per-apartment
+    // ειδοποιητήριο for any month — identical selection/fields to the
+    // selected-month `expenseRows` above, so the math matches exactly.
     db.buildingExpense.findMany({
       where: { buildingId, status: { in: [...VISIBLE_STATUSES] } },
       orderBy: [{ documentDate: "desc" }, { createdAt: "desc" }],
@@ -125,9 +139,13 @@ export async function getOccupantControlCenter(
         id: true, month: true, issuedMonth: true, category: true, description: true,
         supplierName: true, documentNumber: true, documentDate: true,
         netAmount: true, vatAmount: true, amount: true,
-        tenantPct: true, ownerPct: true, paid: true, status: true,
-        categoryRef: { select: { name: true } },
+        tenantPct: true, ownerPct: true, paid: true, status: true, categoryId: true,
+        categoryRef: { select: { name: true, defaultBasis: true } },
         receiptFile: { select: { url: true, mimeType: true, name: true } },
+        allocations: {
+          where: { unitId: { in: myUnitIds } },
+          select: { unitId: true, unitShare: true, tenantAmount: true, tenantPaid: true, ownerAmount: true, ownerPaid: true },
+        },
       },
     }),
     db.infraPoint.findMany({
@@ -170,6 +188,12 @@ export async function getOccupantControlCenter(
     db.unitHeatingReading.findMany({
       where: { unitId: { in: myUnitIds }, period: selectedMonth },
       select: { unitId: true, previousReading: true, currentReading: true, consumption: true },
+    }),
+    // All-months heating readings for the viewer's units — attached per unit+month
+    // to statementsByUnit so each month's ειδοποιητήριο carries its own ενδείξεις.
+    db.unitHeatingReading.findMany({
+      where: { unitId: { in: myUnitIds } },
+      select: { unitId: true, period: true, previousReading: true, currentReading: true, consumption: true },
     }),
     // ── Full building info (read-only): every unit, maintenance, meters, items ──
     db.unit.findMany({
@@ -276,6 +300,84 @@ export async function getOccupantControlCenter(
       tenantPaid: pu.tCnt > 0 ? pu.tPaid === pu.tCnt : null,
       ownerPaid: pu.oCnt > 0 ? pu.oPaid === pu.oCnt : null,
     };
+  });
+
+  // ── statementsByUnit: the SAME per-apartment notice, for EVERY issued month ──
+  // Mirrors the selected-month `statements` computation above (same buildUnitStatement,
+  // same owner/tenant attribution, same paid gating) but iterates all months from
+  // `allExpenseRows`. For the selectedMonth this yields byte-for-byte the same
+  // UnitStatement as `statements` (identical expense selection + fields), so the
+  // money never diverges. Only months where the unit actually has an allocation are
+  // emitted — those are the unit's "issued" months.
+  const allRowsByMonth = new Map<string, typeof allExpenseRows>();
+  for (const e of allExpenseRows) {
+    const m = e.issuedMonth ?? e.month;
+    (allRowsByMonth.get(m) ?? allRowsByMonth.set(m, []).get(m)!).push(e);
+  }
+  const allMonthsDesc = [...allRowsByMonth.keys()].sort().reverse();
+
+  // Heating readings keyed by unit+month, in the shape UnitStatementDocument expects.
+  const heatingByUnitMonth = new Map<string, HeatingReadingRow[]>();
+  for (const h of allHeatingRows) {
+    const key = `${h.unitId}::${h.period}`;
+    (heatingByUnitMonth.get(key) ?? heatingByUnitMonth.set(key, []).get(key)!).push({
+      unitId: h.unitId,
+      unitNumber: unitById.get(h.unitId)?.unitNumber ?? "",
+      previousReading: h.previousReading != null ? Number(h.previousReading) : null,
+      currentReading: h.currentReading != null ? Number(h.currentReading) : null,
+      consumption: h.consumption != null ? Number(h.consumption) : null,
+    });
+  }
+
+  const statementsByUnit = myUnits.map((u) => {
+    const role: "OWNER" | "RESIDENT" | "BOTH" =
+      u.ownerSide && u.tenantSide ? "BOTH" : u.tenantSide ? "RESIDENT" : "OWNER";
+    const unitMeta = {
+      unitId: u.id, unitNumber: u.unitNumber, unitType: u.unitType, floor: u.floor, role,
+      millesimes: u.millesimes, millesimesElevator: u.millesimesElevator, millesimesHeating: u.millesimesHeating,
+    };
+    const months = allMonthsDesc
+      .map((month) => {
+        const inputs: UnitStatementInput[] = [];
+        let tCnt = 0, tPaid = 0, oCnt = 0, oPaid = 0;
+        for (const e of allRowsByMonth.get(month)!) {
+          const shared = {
+            id: e.id,
+            categoryName: e.categoryRef?.name ?? e.category ?? "Λοιπά έξοδα",
+            basis: basisOf(e),
+            amount: Number(e.amount),
+            tenantPct: e.tenantPct,
+            ownerPct: e.ownerPct,
+          };
+          for (const a of e.allocations) {
+            if (a.unitId !== u.id) continue;
+            const ownerAmount = Number(a.ownerAmount);
+            const tenantAmount = Number(a.tenantAmount);
+            inputs.push({ ...shared, unitAmount: r2(ownerAmount + tenantAmount), unitTenant: r2(tenantAmount), unitOwner: r2(ownerAmount), receiptUrl: e.receiptFile?.url ?? null, description: e.description ?? e.supplierName ?? null });
+            if (u.tenantSide) { tCnt += 1; if (a.tenantPaid) tPaid += 1; }
+            if (u.ownerSide) { oCnt += 1; if (a.ownerPaid) oPaid += 1; }
+          }
+        }
+        // Only months with an actual allocation count as "issued" for this unit.
+        if (inputs.length === 0) return null;
+        const st = buildUnitStatement(unitMeta, inputs);
+        const tenantPaid = tCnt > 0 ? tPaid === tCnt : null;
+        const ownerPaid = oCnt > 0 ? oPaid === oCnt : null;
+        // Settled rule mirrors UnitStatementDocument exactly (role-aware).
+        const settled =
+          role === "OWNER" ? ownerPaid === true
+          : role === "RESIDENT" ? tenantPaid === true
+          : tenantPaid !== false && ownerPaid !== false; // BOTH
+        return {
+          month,
+          myPayable: st.myPayable,
+          settled,
+          statement: { ...st, tenantPaid, ownerPaid },
+          heatingReadings: heatingByUnitMonth.get(`${u.id}::${month}`) ?? [],
+        };
+      })
+      .filter((m): m is NonNullable<typeof m> => m !== null);
+    return { unitId: u.id, unitNumber: u.unitNumber, unitType: u.unitType, floor: u.floor, role, months };
   });
 
   // Building manager (for the signature line): reuse the already-fetched contacts.
@@ -447,6 +549,7 @@ export async function getOccupantControlCenter(
     months,
     selectedMonth,
     statements,
+    statementsByUnit,
     managerName,
     expenses,
     expensesByMonth,

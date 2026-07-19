@@ -94,8 +94,8 @@ type Props = OccupantData & {
  */
 export function OccupantBuildingShell(props: Props) {
   const {
-    building, myUnits, months, selectedMonth, statements, managerName, expensesByMonth,
-    heatingReadings, gallery, infra, units, tasks, maintenanceHistory, meterReadings, managedItems,
+    building, myUnits, selectedMonth, statements, statementsByUnit, managerName, expensesByMonth,
+    gallery, infra, units, tasks, maintenanceHistory, meterReadings, managedItems,
     assemblies, files, contacts, announcements, viewerRole, managed, quickPay,
   } = props;
 
@@ -199,11 +199,8 @@ export function OccupantBuildingShell(props: Props) {
         ) : section === "koino" ? (
           <StatementView
             building={building}
-            statements={statements}
-            months={months}
-            selectedMonth={selectedMonth}
+            statementsByUnit={statementsByUnit}
             managerName={managerName}
-            heatingReadings={heatingReadings}
           />
         ) : section === "expenses" ? (
           <ExpensesSection expensesByMonth={expensesByMonth} />
