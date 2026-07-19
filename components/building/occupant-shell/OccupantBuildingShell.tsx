@@ -4,9 +4,10 @@ import { useCallback } from "react";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import {
-  RiArrowRightLine, RiBuildingLine, RiContactsBook3Line, RiDashboardLine,
-  RiFolderLine, RiGroupLine, RiHome4Line, RiImageLine, RiMailLine, RiMapPinLine,
-  RiMegaphoneLine, RiMoneyEuroCircleLine, RiPhoneLine, RiToolsLine, RiWallet3Line,
+  RiArrowRightLine, RiBuildingLine, RiCalendarTodoLine, RiContactsBook3Line, RiDashboardLine,
+  RiFolderLine, RiGroupLine, RiHome3Line, RiHome4Line, RiListCheck2, RiMailLine, RiMapPinLine,
+  RiMegaphoneLine, RiMoneyEuroCircleLine, RiPhoneLine, RiSettings3Line, RiSpeedUpLine,
+  RiToolsLine, RiWallet3Line,
 } from "react-icons/ri";
 import type { OccupantData } from "@/lib/building/occupant-data";
 import { ManagedBadge } from "@/components/ui/managed-badge";
@@ -15,16 +16,26 @@ import { EmptyState, StatusChip } from "@/components/dashboard";
 import { FilesList, type FileListGroup } from "@/components/dashboard/files-list";
 import { StatementView } from "./StatementView";
 import { ExpensesSection } from "./ExpensesSection";
-import { GallerySection } from "./GallerySection";
+import { InstallationsSection } from "./InstallationsSection";
+import { UnitsSection } from "./UnitsSection";
+import { MaintenanceSection } from "./MaintenanceSection";
+import { MetersSection } from "./MetersSection";
+import { ManagedItemsSection } from "./ManagedItemsSection";
 import { AssembliesSection } from "./AssembliesSection";
 
-type SectionKey = "overview" | "koino" | "expenses" | "gallery" | "assemblies" | "files" | "contacts" | "ann";
+type SectionKey =
+  | "overview" | "koino" | "expenses" | "units" | "infra" | "maintenance" | "meters" | "items"
+  | "assemblies" | "files" | "contacts" | "ann";
 
-const SECTIONS: { key: SectionKey; label: string; icon: React.ElementType }[] = [
+const SECTIONS: { key: SectionKey; label: string; icon: React.ElementType; managedOnly?: boolean }[] = [
   { key: "overview", label: "Επισκόπηση", icon: RiDashboardLine },
   { key: "koino", label: "Κοινόχρηστα", icon: RiWallet3Line },
   { key: "expenses", label: "Έξοδα", icon: RiMoneyEuroCircleLine },
-  { key: "gallery", label: "Χώροι & Φωτογραφίες", icon: RiImageLine },
+  { key: "units", label: "Μονάδες", icon: RiHome3Line },
+  { key: "infra", label: "Εγκαταστάσεις", icon: RiSettings3Line },
+  { key: "maintenance", label: "Συντηρήσεις", icon: RiCalendarTodoLine },
+  { key: "meters", label: "Μετρητές", icon: RiSpeedUpLine },
+  { key: "items", label: "Διαχ. στοιχεία", icon: RiListCheck2, managedOnly: true },
   { key: "assemblies", label: "Συνελεύσεις", icon: RiGroupLine },
   { key: "files", label: "Έγγραφα", icon: RiFolderLine },
   { key: "contacts", label: "Επαφές", icon: RiContactsBook3Line },
@@ -81,16 +92,20 @@ type Props = OccupantData & {
 export function OccupantBuildingShell(props: Props) {
   const {
     building, myUnits, months, selectedMonth, statements, managerName, expenses,
-    heatingReadings, gallery, assemblies, files, contacts, announcements,
-    viewerRole, managed,
+    heatingReadings, gallery, infra, units, tasks, maintenanceHistory, meterReadings, managedItems,
+    assemblies, files, contacts, announcements, viewerRole, managed,
   } = props;
 
   const router = useRouter();
   const pathname = usePathname();
   const search = useSearchParams();
 
+  const isManaged = managed ?? building.managed;
+  const myUnitIds = myUnits.map((u) => u.id);
+  const visibleSections = SECTIONS.filter((s) => !s.managedOnly || isManaged);
+
   const sParam = search.get("s");
-  const section: SectionKey = SECTIONS.some((x) => x.key === sParam) ? (sParam as SectionKey) : "overview";
+  const section: SectionKey = visibleSections.some((x) => x.key === sParam) ? (sParam as SectionKey) : "overview";
 
   const navigate = useCallback((s: SectionKey) => {
     const q = new URLSearchParams();
@@ -102,7 +117,6 @@ export function OccupantBuildingShell(props: Props) {
   }, [router, pathname, search]);
 
   const requestsHref = viewerRole === "PROPERTY_OWNER" ? "/owner/requests" : "/portal/requests";
-  const isManaged = managed ?? building.managed;
 
   const subParts = [
     [building.address, building.city].filter(Boolean).join(", ") || null,
@@ -148,7 +162,7 @@ export function OccupantBuildingShell(props: Props) {
 
       {/* section pills */}
       <div style={{ display: "flex", flexWrap: "wrap", gap: 7 }}>
-        {SECTIONS.map((s) => {
+        {visibleSections.map((s) => {
           const Icon = s.icon;
           const active = section === s.key;
           return (
@@ -189,8 +203,16 @@ export function OccupantBuildingShell(props: Props) {
           />
         ) : section === "expenses" ? (
           <ExpensesSection expenses={expenses} months={months} selectedMonth={selectedMonth} />
-        ) : section === "gallery" ? (
-          <GallerySection gallery={gallery} />
+        ) : section === "units" ? (
+          <UnitsSection units={units} myUnitIds={myUnitIds} />
+        ) : section === "infra" ? (
+          <InstallationsSection infra={infra} buildingPhotos={gallery.buildingPhotos} />
+        ) : section === "maintenance" ? (
+          <MaintenanceSection tasks={tasks} maintenanceHistory={maintenanceHistory} />
+        ) : section === "meters" ? (
+          <MetersSection meterReadings={meterReadings} />
+        ) : section === "items" ? (
+          <ManagedItemsSection managedItems={managedItems} />
         ) : section === "assemblies" ? (
           <AssembliesSection assemblies={assemblies} />
         ) : section === "files" ? (
@@ -298,6 +320,12 @@ function Overview({ myUnits, months, selectedMonth, statements, announcements, a
             </Link>
             <button type="button" onClick={() => onNavigate("koino")} style={quickAction}>
               <RiWallet3Line style={{ fontSize: 17 }} /> Ειδοποιητήριο κοινοχρήστων
+            </button>
+            <button type="button" onClick={() => onNavigate("infra")} style={quickAction}>
+              <RiSettings3Line style={{ fontSize: 17 }} /> Εγκαταστάσεις & κλειδιά
+            </button>
+            <button type="button" onClick={() => onNavigate("units")} style={quickAction}>
+              <RiHome3Line style={{ fontSize: 17 }} /> Μονάδες κτηρίου
             </button>
           </div>
         </div>
