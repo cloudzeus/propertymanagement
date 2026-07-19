@@ -167,7 +167,7 @@ export async function buildPaymentRows(userId: string, side: Side): Promise<Paym
       const ownerAmount = Number(a.ownerAmount);
       const tenantAmount = Number(a.tenantAmount);
       // UNGATED per-unit notice row: the columns provably sum (unitAmount = owner + tenant).
-      b.inputs.push({ ...shared, unitAmount: r2(ownerAmount + tenantAmount), unitTenant: r2(tenantAmount), unitOwner: r2(ownerAmount) });
+      b.inputs.push({ ...shared, unitAmount: r2(ownerAmount + tenantAmount), unitTenant: r2(tenantAmount), unitOwner: r2(ownerAmount), receiptUrl: e.receiptFile?.url ?? null });
       if (e.receiptFile?.url) b.receiptUrls.add(e.receiptFile.url);
 
       // Both-side paid flags (drive the notice's settled badge).

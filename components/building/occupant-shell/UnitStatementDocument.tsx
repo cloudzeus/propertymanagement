@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { RiWallet3Line } from "react-icons/ri";
+import { RiWallet3Line, RiFileTextLine } from "react-icons/ri";
 import type { UnitStatement } from "@/lib/building/statement";
 import type { OccupantData } from "@/lib/building/occupant-data";
 import { StatusChip } from "@/components/dashboard";
@@ -135,6 +135,7 @@ export function UnitStatementDocument({
                   <tr>
                     <th style={th}>Κατηγορία δαπάνης</th>
                     <th style={{ ...th, ...money, width: 170 }}>Δαπάνη κτηρίου</th>
+                    <th className="no-print" style={{ ...th, ...money, width: 90 }}>Απόδειξη</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -144,6 +145,7 @@ export function UnitStatementDocument({
                   <tr>
                     <td style={grandRow}>ΣΥΝΟΛΟ ΔΑΠΑΝΩΝ ΚΤΗΡΙΟΥ</td>
                     <td style={{ ...grandRow, ...money }}>{eur(statement.groups.reduce((a, g) => a + g.buildingTotal, 0))}</td>
+                    <td className="no-print" style={grandRow} />
                   </tr>
                 </tbody>
               </table>
@@ -232,17 +234,38 @@ function GroupExpenseRows({ group }: { group: StatementWithPaid["groups"][number
   return (
     <>
       <tr>
-        <td colSpan={2} style={groupRow}>{group.label}</td>
+        <td colSpan={3} style={groupRow}>{group.label}</td>
       </tr>
       {group.lines.map((l) => (
         <tr key={l.id}>
           <td style={td}>{l.categoryName}</td>
           <td style={{ ...td, ...money }}>{eur(l.amount)}</td>
+          <td className="no-print" style={{ ...td, ...money }}>
+            {l.receiptUrl ? (
+              <a
+                href={l.receiptUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Απόδειξη"
+                aria-label={`Απόδειξη — ${l.categoryName}`}
+                style={{
+                  display: "inline-flex", alignItems: "center", justifyContent: "center",
+                  width: 30, height: 30, borderRadius: 7, lineHeight: 0,
+                  border: "1px solid var(--border)", background: "var(--card)", color: "var(--color-primary)",
+                }}
+              >
+                <RiFileTextLine style={{ fontSize: 16 }} />
+              </a>
+            ) : (
+              <span style={{ color: "var(--muted-foreground)" }}>—</span>
+            )}
+          </td>
         </tr>
       ))}
       <tr>
         <td style={subtotalRow}>Σύνολο ομάδας</td>
         <td style={{ ...subtotalRow, ...money }}>{eur(group.buildingTotal)}</td>
+        <td className="no-print" style={subtotalRow} />
       </tr>
     </>
   );

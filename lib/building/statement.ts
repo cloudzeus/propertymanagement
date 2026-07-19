@@ -42,11 +42,11 @@ export function groupForBasis(basis: StatementBasis, tenantPct: number): Stateme
 
 // The aggregate `myShare/myTenant/myOwner` fields make no sense per-unit — the
 // unit* trio carries this unit's own allocation instead.
-export type UnitStatementInput = Omit<StatementExpense, "myShare" | "myTenant" | "myOwner"> & { unitAmount: number; unitTenant: number; unitOwner: number };
+export type UnitStatementInput = Omit<StatementExpense, "myShare" | "myTenant" | "myOwner"> & { unitAmount: number; unitTenant: number; unitOwner: number; receiptUrl?: string | null };
 
 export type UnitStatementGroup = {
   key: StatementGroupKey; label: string; buildingTotal: number;
-  lines: { id: string; categoryName: string; amount: number }[];
+  lines: { id: string; categoryName: string; amount: number; receiptUrl?: string | null }[];
   appliedMillesimes: number | null;
   unitAmount: number; unitTenant: number; unitOwner: number;
 };
@@ -93,7 +93,7 @@ export function buildUnitStatement(unit: UnitStatementMeta, rows: UnitStatementI
       groups.set(key, g);
     }
     g.buildingTotal += r.amount;
-    g.lines.push({ id: r.id, categoryName: r.categoryName, amount: r.amount });
+    g.lines.push({ id: r.id, categoryName: r.categoryName, amount: r.amount, receiptUrl: r.receiptUrl ?? null });
     g.unitAmount += r.unitAmount; g.unitTenant += r.unitTenant; g.unitOwner += r.unitOwner;
     total += r.unitAmount; tenantTotal += r.unitTenant; ownerTotal += r.unitOwner;
   }

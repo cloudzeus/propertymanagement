@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import {
-  RiMoneyEuroCircleLine, RiWallet3Line, RiFileTextLine, RiDownloadLine,
+  RiMoneyEuroCircleLine, RiWallet3Line, RiFileTextLine,
   RiExternalLinkLine, RiPrinterLine,
 } from "react-icons/ri";
 import { DataTable, type ColDef, type RowAction } from "@/components/ui/data-table";
@@ -94,11 +94,6 @@ export function PaymentsTable({ rows, managerName = null, title = "Πληρωμ�
 
   const getRowActions = (r: PaymentRow): RowAction<PaymentRow>[] => [
     { label: "Προβολή λογαριασμού", icon: <RiFileTextLine />, onClick: () => setModal(r) },
-    ...r.receiptUrls.map((u, i) => ({
-      label: r.receiptUrls.length > 1 ? `Απόδειξη ${i + 1}` : "Απόδειξη",
-      icon: <RiDownloadLine />,
-      onClick: () => window.open(u, "_blank", "noopener,noreferrer"),
-    })),
     {
       label: "Πλήρες control center", icon: <RiExternalLinkLine />,
       onClick: () => router.push(`/building/${r.buildingId}?s=koino&month=${r.month}&unit=${r.unitId}`),
