@@ -146,3 +146,17 @@ body {
 @media (max-width: 560px) {
   .dash-grid { grid-template-columns: 1fr !important; }
 }
+
+/* ─── Occupant statement print (ειδοποιητήριο κοινοχρήστων) ──────────────── */
+@media print {
+  body * { visibility: hidden; }
+  .statement-print-root, .statement-print-root * { visibility: visible; }
+  .statement-print-root { position: absolute; inset: 0; padding: 0; background: #fff; color: #000; }
+  /* classic έντυπο look: white paper, black rules */
+  .statement-print-root {
+    --card: #fff; --bg-canvas: #fff; --paper: #fff;
+    --foreground: #000; --muted-foreground: #333;
+    --border: #000; --border-strong: #000;
+  }
+  .statement-print-root .no-print { display: none !important; }
+}
