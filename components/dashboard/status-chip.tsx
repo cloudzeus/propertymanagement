@@ -1,11 +1,12 @@
 import type { ReactNode } from "react";
 
-type Tone = "success" | "warning" | "danger" | "neutral" | "accent";
+type Tone = "success" | "warning" | "danger" | "neutral" | "accent" | "info";
 const TONE: Record<Tone, string> = {
   success: "var(--color-success)",
   warning: "var(--color-warning)",
   danger: "var(--color-danger)",
   accent: "var(--color-accent)",
+  info: "var(--color-accent-2)",
   neutral: "var(--muted-foreground)",
 };
 
