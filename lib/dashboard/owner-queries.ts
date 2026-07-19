@@ -100,7 +100,7 @@ export async function getTenantSide(userId: string) {
     where: { residentId: userId },
     orderBy: { createdAt: "asc" },
     select: {
-      id: true, unitNumber: true, ownerId: true,
+      id: true, unitNumber: true, ownerId: true, buildingId: true,
       building: { select: { name: true } },
       expenseAllocations: {
         select: { tenantAmount: true, tenantPaid: true, expense: { select: { month: true } } },
@@ -111,7 +111,7 @@ export async function getTenantSide(userId: string) {
   if (!unit) return null;
   const unpaid = unit.expenseAllocations.reduce((s, a) => s + (a.tenantPaid ? 0 : Number(a.tenantAmount)), 0);
   return {
-    unitNumber: unit.unitNumber, buildingName: unit.building.name,
+    unitNumber: unit.unitNumber, buildingName: unit.building.name, buildingId: unit.buildingId,
     // Self-occupancy is a real tenant-side obligation (the owner pays the tenant
     // share of their own unit) — the flag only drives the wording upstream.
     selfOwned: unit.ownerId === userId,

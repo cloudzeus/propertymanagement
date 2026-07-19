@@ -57,6 +57,7 @@ export const RBAC_MODULES: readonly RbacModule[] = [
   { key: "customer-wallet", label: "Πορτοφόλι", surface: "customer", menu: { href: "/portal/wallet", icon: "RiWallet3Line", group: "services" }, actions: [...VIEW] },
   { key: "owner-requests", label: "Αιτήματα", surface: "customer", menu: { href: "/owner/requests", icon: "RiToolsLine", group: "assets" }, actions: [...CRUD] },
   { key: "owner-announcements", label: "Ανακοινώσεις", surface: "customer", menu: { href: "/owner/announcements", icon: "RiNotification2Line", group: "assets" }, actions: [...VIEW] },
+  { key: "occupant-building", label: "Το κτήριό μου", surface: "customer", menu: { href: "/building", icon: "RiBuildingLine", group: "assets" }, actions: [...VIEW] },
   { key: "portal-payments", label: "Πληρωμές", surface: "customer", menu: { href: "/portal/payments", icon: "RiMoneyDollarCircleLine", group: "services" }, actions: [...VIEW] },
   { key: "portal-files", label: "Αρχεία", surface: "customer", menu: { href: "/portal/files", icon: "RiFileListLine", group: "services" }, actions: [...VIEW] },
   { key: "portal-maintenance", label: "Συντηρήσεις", surface: "customer", menu: { href: "/portal/maintenance", icon: "RiToolsLine", group: "operations" }, actions: [...VIEW] },
@@ -94,12 +95,12 @@ export const DEFAULT_PERMISSIONS: RoleDefaults = {
     ...view("customer-wallet"),
   ],
   PROPERTY_OWNER: [
-    ...view("customer-dashboard", "customer-income"), ...crud("customer-units"),
+    ...view("customer-dashboard", "customer-income", "occupant-building"), ...crud("customer-units"),
     ...crud("owner-requests"),
     ...view("owner-announcements", "customer-wallet"),
   ],
   PROPERTY_RESIDENT: [
-    ...view("customer-dashboard"), ...crud("customer-requests"),
+    ...view("customer-dashboard", "occupant-building"), ...crud("customer-requests"),
     ...view("customer-announcements", "customer-wallet", "portal-payments", "portal-files", "portal-maintenance"),
   ],
   PROPERTY_VIEWER: [

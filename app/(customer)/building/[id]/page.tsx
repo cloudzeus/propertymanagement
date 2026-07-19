@@ -3,7 +3,9 @@ import { db } from "@/lib/db";
 import { notFound, redirect } from "next/navigation";
 import { getBuildingAccess, managerBuildingIds } from "@/lib/building-access";
 import { getBuildingDashboardData } from "@/lib/building/dashboard-data";
+import { getOccupantControlCenter } from "@/lib/building/occupant-data";
 import { BuildingManagerShell } from "@/components/building/manager-shell/BuildingManagerShell";
+import { OccupantBuildingShell } from "@/components/building/occupant-shell/OccupantBuildingShell";
 
 export const metadata = { title: "Το κτήριό μου" };
 
@@ -19,8 +21,13 @@ export default async function ManagerBuildingPage({ params, searchParams }: {
   const userId = session.user.id;
   const access = await getBuildingAccess(userId, id);
   if (!access) notFound();
-  // Occupant shell lands in the next commits — render 404 for now so this commit is safe standalone.
-  if (access.viewer === "occupant") notFound();
+
+  if (access.viewer === "occupant") {
+    const month = typeof sp.month === "string" ? sp.month : null;
+    const data = await getOccupantControlCenter(id, userId, { month });
+    if (!data) notFound();
+    return <OccupantBuildingShell {...data} viewerRole={session.user.role} managed={access.managed} />;
+  }
 
   const heatingPeriod = typeof sp.heatingPeriod === "string" ? sp.heatingPeriod : null;
   const [data, siblingIds] = await Promise.all([

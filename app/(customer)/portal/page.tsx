@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getEffectiveSession } from "@/lib/auth-effective";
 import { getResidentDashboard } from "@/lib/dashboard/queries";
@@ -6,7 +7,7 @@ import {
   Hero, StatTile, SectionCard, MoneyRow, MiniBars, TicketList, EmptyState, PayNowButton,
 } from "@/components/dashboard";
 import { AutoRefresh } from "@/components/realtime/AutoRefresh";
-import { RiMoneyEuroCircleLine, RiCalendarLine, RiToolsLine, RiNotification2Line } from "react-icons/ri";
+import { RiBuildingLine, RiMoneyEuroCircleLine, RiCalendarLine, RiToolsLine, RiNotification2Line } from "react-icons/ri";
 
 export default async function PortalDashboard() {
   const eff = await getEffectiveSession();
@@ -17,13 +18,26 @@ export default async function PortalDashboard() {
   const firstName = eff.user.name?.split(" ")[0] ?? "";
   const currentDue = allocations.find((a) => !a.tenantPaid);
 
+  const asideItems = [
+    balance > 0 ? <PayNowButton key="pay" amount={balance} /> : null,
+    unit ? (
+      <Link key="building" href={`/building/${unit.buildingId}`} style={{
+        display: "inline-flex", alignItems: "center", gap: 8, padding: "12px 20px",
+        borderRadius: 999, border: "1px solid var(--border-strong)", background: "var(--card)",
+        color: "var(--foreground)", fontSize: 14, fontWeight: 600, textDecoration: "none",
+      }}>
+        <RiBuildingLine style={{ fontSize: 18 }} /> Το κτήριό μου
+      </Link>
+    ) : null,
+  ].filter(Boolean);
+
   return (
     <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 20 }}>
       {unit ? <AutoRefresh buildingId={unit.buildingId} /> : null}
       <Hero
         title={`Καλώς ήρθατε, ${firstName}`}
         subtitle={unit ? `${unit.building?.name} · ${unit.unitNumber}` : "Πύλη ενοικιαστή"}
-        aside={balance > 0 ? <PayNowButton amount={balance} /> : undefined}
+        aside={asideItems.length > 0 ? <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>{asideItems}</div> : undefined}
       />
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16 }} className="dash-grid">

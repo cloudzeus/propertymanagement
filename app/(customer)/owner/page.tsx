@@ -11,7 +11,7 @@ import {
   Hero, StatTile, SectionCard, StatusChip, TicketList, EmptyState, DuoBars,
 } from "@/components/dashboard";
 import { AutoRefresh } from "@/components/realtime/AutoRefresh";
-import { RiHome3Line, RiKeyLine, RiMoneyEuroCircleLine, RiToolsLine, RiWallet3Line } from "react-icons/ri";
+import { RiBuildingLine, RiHome3Line, RiKeyLine, RiMoneyEuroCircleLine, RiToolsLine, RiWallet3Line } from "react-icons/ri";
 
 const MONTH_ABBR = ["Ιαν","Φεβ","Μαρ","Απρ","Μαϊ","Ιουν","Ιουλ","Αυγ","Σεπ","Οκτ","Νοε","Δεκ"];
 const monthLabel = (m: string) => `${MONTH_ABBR[Number(m.split("-")[1]) - 1]} ${m.split("-")[0]}`;
@@ -110,7 +110,9 @@ export default async function OwnerDashboard() {
                   <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 8 }}>
                     <div style={{ minWidth: 0 }}>
                       <div style={{ fontSize: 16, fontWeight: 700, color: "var(--foreground)" }}>{u.unitNumber}</div>
-                      <div style={{ fontSize: 12, color: "var(--muted-foreground)", marginTop: 2 }}>{u.buildingName}</div>
+                      <Link href={`/building/${u.buildingId}`} style={{ display: "block", fontSize: 12, color: "var(--muted-foreground)", marginTop: 2, textDecoration: "none" }}>
+                        {u.buildingName}
+                      </Link>
                     </div>
                     <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 4, flexShrink: 0 }}>
                       <StatusChip tone={TENANCY[u.tenancy].tone}>{TENANCY[u.tenancy].label}</StatusChip>
@@ -134,6 +136,9 @@ export default async function OwnerDashboard() {
                       </Link>
                       <Link href="/owner/requests" style={{ fontSize: 12, fontWeight: 600, color: "var(--muted-foreground)", textDecoration: "none" }}>
                         Βλάβη
+                      </Link>
+                      <Link href={`/building/${u.buildingId}`} style={{ fontSize: 12, fontWeight: 600, color: "var(--muted-foreground)", textDecoration: "none" }}>
+                        Το κτήριο →
                       </Link>
                     </span>
                   </div>
@@ -188,13 +193,22 @@ export default async function OwnerDashboard() {
                 {tenantSide.selfOwned ? "Ανεξόφλητο μερίδιο ενοίκου" : "Ανεξόφλητα κοινόχρηστα"}
                 {tenantSide.latestMonth ? ` · τελευταίος μήνας ${monthLabel(tenantSide.latestMonth)}` : ""}
               </div>
-              <Link href="/portal/payments" style={{
-                display: "inline-flex", alignItems: "center", gap: 6, marginTop: 14, padding: "8px 16px",
-                borderRadius: 10, background: "var(--color-primary)", color: "#fff",
-                fontSize: 13, fontWeight: 600, textDecoration: "none",
-              }}>
-                <RiWallet3Line /> Πληρωμές ενοίκου
-              </Link>
+              <div style={{ display: "flex", gap: 10, marginTop: 14, flexWrap: "wrap" }}>
+                <Link href="/portal/payments" style={{
+                  display: "inline-flex", alignItems: "center", gap: 6, padding: "8px 16px",
+                  borderRadius: 10, background: "var(--color-primary)", color: "#fff",
+                  fontSize: 13, fontWeight: 600, textDecoration: "none",
+                }}>
+                  <RiWallet3Line /> Πληρωμές ενοίκου
+                </Link>
+                <Link href={`/building/${tenantSide.buildingId}`} style={{
+                  display: "inline-flex", alignItems: "center", gap: 6, padding: "8px 16px",
+                  borderRadius: 10, border: "1px solid var(--border-strong)", color: "var(--foreground)",
+                  fontSize: 13, fontWeight: 600, textDecoration: "none",
+                }}>
+                  <RiBuildingLine /> Το κτήριό μου
+                </Link>
+              </div>
             </SectionCard>
           )}
         </div>
