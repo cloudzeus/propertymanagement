@@ -91,7 +91,10 @@ export async function getOccupantControlCenter(
     : isOwnerAnywhere ? ["ALL", "OWNERS"]
     : ["ALL", "RESIDENTS"];
 
-  const [expenseRows, infraPoints, photoFiles, assemblyRows, fileRows, contacts, announcementRows, heatingRows] = await Promise.all([
+  const [
+    expenseRows, infraPoints, photoFiles, assemblyRows, fileRows, contacts, announcementRows, heatingRows,
+    unitRowsAll, taskRows, maintenanceRows, meterRows, managedItemRows,
+  ] = await Promise.all([
     db.buildingExpense.findMany({
       where: {
         buildingId,
@@ -117,7 +120,10 @@ export async function getOccupantControlCenter(
       where: { buildingId },
       orderBy: { createdAt: "asc" },
       select: {
-        id: true, name: true, floorLabel: true,
+        id: true, name: true, type: true, floorLabel: true, location: true, locked: true, notes: true,
+        keyHolder: true,
+        keyHolderUser: { select: { name: true } },
+        access: { select: { user: { select: { name: true } } } },
         media: { where: { type: "IMAGE" }, orderBy: { createdAt: "asc" }, select: { id: true, url: true, name: true } },
       },
     }),
@@ -150,6 +156,43 @@ export async function getOccupantControlCenter(
     db.unitHeatingReading.findMany({
       where: { unitId: { in: myUnitIds }, period: selectedMonth },
       select: { unitId: true, previousReading: true, currentReading: true, consumption: true },
+    }),
+    // ── Full building info (read-only): every unit, maintenance, meters, items ──
+    db.unit.findMany({
+      where: { buildingId },
+      orderBy: { unitNumber: "asc" },
+      select: {
+        id: true, unitNumber: true, unitType: true, floor: true, areaSqm: true, millesimes: true,
+        owner: { select: { name: true } }, resident: { select: { name: true } },
+      },
+    }),
+    db.recurringTask.findMany({
+      where: { buildingId, active: true },
+      orderBy: { nextDueDate: "asc" },
+      select: { id: true, title: true, frequency: true, nextDueDate: true, vendor: true },
+    }),
+    db.maintenanceLog.findMany({
+      where: { buildingId },
+      orderBy: { performedAt: "desc" },
+      take: 50,
+      // No cost/performedBy — those are staff-internal.
+      select: { id: true, performedAt: true, notes: true, documentFile: { select: { url: true } }, recurringTask: { select: { title: true } } },
+    }),
+    db.meterReading.findMany({
+      where: { buildingId },
+      orderBy: [{ periodTo: "desc" }, { createdAt: "desc" }],
+      take: 60,
+      select: {
+        id: true, meterType: true, meterNumber: true, periodFrom: true, periodTo: true,
+        previousReading: true, currentReading: true, consumption: true, unit: true,
+        infraPoint: { select: { name: true } },
+      },
+    }),
+    // managedItems only make sense on managed buildings; gated below by property.managed.
+    db.managedItem.findMany({
+      where: { buildingId },
+      orderBy: [{ location: "asc" }, { createdAt: "asc" }],
+      select: { id: true, location: true, floorLabel: true, quantity: true, photoUrl: true, itemType: { select: { name: true } } },
     }),
   ]);
 
@@ -271,6 +314,72 @@ export async function getOccupantControlCenter(
     minutesFinal: a.status === "APPROVED" || a.status === "SENT" ? a.minutesFinal : null,
   }));
 
+  // ── Full building info: serializable read-only shapes ───────────────────────
+  const infra = infraPoints.map((p) => ({
+    id: p.id,
+    name: p.name,
+    type: p.type,
+    floorLabel: p.floorLabel,
+    location: p.location,
+    locked: p.locked,
+    notes: p.notes,
+    keyHolderName: p.keyHolderUser?.name ?? p.keyHolder ?? null,
+    accessNames: p.access.map((a) => a.user.name).filter((n): n is string => Boolean(n)),
+    media: p.media.map((m) => ({ id: m.id, url: m.url, name: m.name })),
+  }));
+
+  const units = unitRowsAll.map((u) => ({
+    id: u.id,
+    unitNumber: u.unitNumber,
+    unitType: u.unitType,
+    floor: u.floor,
+    areaSqm: u.areaSqm,
+    millesimes: u.millesimes != null ? Number(u.millesimes) : null,
+    ownerName: u.owner?.name ?? null,
+    residentName: u.resident?.name ?? null,
+  }));
+
+  const tasks = taskRows.map((t) => ({
+    id: t.id,
+    title: t.title,
+    frequency: t.frequency,
+    nextDueDate: iso(t.nextDueDate),
+    vendor: t.vendor,
+  }));
+
+  const maintenanceHistory = maintenanceRows.map((l) => ({
+    id: l.id,
+    taskTitle: l.recurringTask.title,
+    performedAt: iso(l.performedAt),
+    notes: l.notes,
+    certificateUrl: l.documentFile?.url ?? null,
+  }));
+
+  const meterReadings = meterRows.map((r) => ({
+    id: r.id,
+    meterType: r.meterType,
+    meterNumber: r.meterNumber,
+    periodFrom: iso(r.periodFrom),
+    periodTo: iso(r.periodTo),
+    previousReading: r.previousReading != null ? Number(r.previousReading) : null,
+    currentReading: r.currentReading != null ? Number(r.currentReading) : null,
+    consumption: r.consumption != null ? Number(r.consumption) : null,
+    unit: r.unit,
+    infraName: r.infraPoint?.name ?? null,
+  }));
+
+  // Managed items are a managed-building concept only — hide entirely otherwise.
+  const managedItems = building.property.managed
+    ? managedItemRows.map((m) => ({
+        id: m.id,
+        name: m.itemType.name,
+        location: m.location,
+        floorLabel: m.floorLabel,
+        quantity: m.quantity,
+        photoUrl: m.photoUrl,
+      }))
+    : [];
+
   return {
     building: {
       id: building.id,
@@ -299,6 +408,12 @@ export async function getOccupantControlCenter(
       consumption: h.consumption != null ? Number(h.consumption) : null,
     })),
     gallery,
+    infra,
+    units,
+    tasks,
+    maintenanceHistory,
+    meterReadings,
+    managedItems,
     assemblies,
     files: fileRows.map((f) => ({ ...f, createdAt: f.createdAt.toISOString() })),
     contacts,
