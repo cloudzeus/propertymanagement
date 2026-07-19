@@ -98,11 +98,16 @@ export const DEFAULT_PERMISSIONS: RoleDefaults = {
   PROPERTY_OWNER: [
     ...view("customer-dashboard", "customer-income"),
     ...crud("owner-requests"),
-    ...view("owner-announcements"),
+    // owner-announcements («Ανακοινώσεις») removed as a top-level menu grant — the
+    // building-tree sidebar surfaces Ανακοινώσεις per building, and the /owner
+    // dashboard shows a consolidated cross-building announcements widget.
   ],
   PROPERTY_RESIDENT: [
     ...view("customer-dashboard"), ...crud("customer-requests"),
-    ...view("customer-announcements", "portal-payments", "portal-files", "portal-maintenance"),
+    // customer-announcements («Ανακοινώσεις») removed as a top-level menu grant —
+    // per-building announcements live in the building tree; the /portal dashboard
+    // shows the consolidated announcements widget.
+    ...view("portal-payments", "portal-files", "portal-maintenance"),
   ],
   PROPERTY_VIEWER: [
     ...view("customer-dashboard", "customer-announcements"),

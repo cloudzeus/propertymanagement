@@ -3,7 +3,8 @@ import { redirect } from "next/navigation";
 import { getEffectiveSession } from "@/lib/auth-effective";
 import { getOwnerDashboard } from "@/lib/dashboard/queries";
 import {
-  getOwnerBuildingIds, getOwnerPortfolio, getTenantSide, getOwnerDuoRows, getOwnerBillingExplainer, type TenancyState,
+  getOwnerBuildingIds, getOwnerPortfolio, getTenantSide, getOwnerDuoRows, getOwnerBillingExplainer,
+  getOwnerAnnouncementsAndFiles, type TenancyState,
 } from "@/lib/dashboard/owner-queries";
 import { BillingExplainer } from "@/components/dashboard/BillingExplainer";
 import { formatEuro, lastNMonths } from "@/lib/dashboard/aggregations";
@@ -12,7 +13,13 @@ import {
   Hero, StatTile, SectionCard, StatusChip, TicketList, EmptyState, DuoBars,
 } from "@/components/dashboard";
 import { AutoRefresh } from "@/components/realtime/AutoRefresh";
-import { RiBuildingLine, RiHome3Line, RiKeyLine, RiMoneyEuroCircleLine, RiToolsLine, RiWallet3Line } from "react-icons/ri";
+import { RiBuildingLine, RiHome3Line, RiKeyLine, RiMegaphoneLine, RiMoneyEuroCircleLine, RiToolsLine, RiWallet3Line } from "react-icons/ri";
+
+const dateFmt = new Intl.DateTimeFormat("el-GR", { day: "2-digit", month: "short", year: "numeric" });
+const preview = (html: string, max = 140) => {
+  const text = html.replace(/<[^>]*>/g, " ").replace(/&[a-z]+;|&#\d+;/gi, " ").replace(/\s+/g, " ").trim();
+  return text.length > max ? `${text.slice(0, max).trimEnd()}…` : text;
+};
 
 const MONTH_ABBR = ["Ιαν","Φεβ","Μαρ","Απρ","Μαϊ","Ιουν","Ιουλ","Αυγ","Σεπ","Οκτ","Νοε","Δεκ"];
 const monthLabel = (m: string) => `${MONTH_ABBR[Number(m.split("-")[1]) - 1]} ${m.split("-")[0]}`;
@@ -28,15 +35,17 @@ export default async function OwnerDashboard() {
   const eff = await getEffectiveSession();
   if (!eff?.user?.id) redirect("/login");
   const userId = eff.user.id;
-  const [portfolio, tenantSide, duoRows, dash, buildingIds, explainer] = await Promise.all([
+  const [portfolio, tenantSide, duoRows, dash, buildingIds, explainer, annFiles] = await Promise.all([
     getOwnerPortfolio(userId),
     getTenantSide(userId),
     getOwnerDuoRows(userId),
     getOwnerDashboard(userId),
     getOwnerBuildingIds(userId),
     getOwnerBillingExplainer(userId),
+    getOwnerAnnouncementsAndFiles(userId),
   ]);
   const { owed, tickets } = dash;
+  const announcements = annFiles.announcements.slice(0, 5);
   const firstName = eff.user.name?.split(" ")[0] ?? "";
 
   const d = new Date();
@@ -227,23 +236,56 @@ export default async function OwnerDashboard() {
         </div>
       </div>
 
-      <SectionCard title="Ανοιχτά αιτήματα συντήρησης" viewAllHref="/owner/requests">
-        {tickets.length === 0 ? (
-          <div style={{ padding: "32px 0", textAlign: "center" }}>
-            <RiToolsLine style={{ fontSize: 30, opacity: 0.35, display: "block", margin: "0 auto 8px", color: "var(--muted-foreground)" }} />
-            <div style={{ fontSize: 13, color: "var(--muted-foreground)" }}>Κανένα ανοιχτό αίτημα στα ακίνητά σας</div>
-            <Link href="/owner/requests" style={{
-              display: "inline-block", marginTop: 12, padding: "6px 14px", borderRadius: 999,
-              border: "1px solid var(--border-strong)", fontSize: 12, fontWeight: 600,
-              color: "var(--foreground)", textDecoration: "none",
-            }}>
-              Δήλωση βλάβης
-            </Link>
-          </div>
-        ) : (
-          <TicketList tickets={tickets.map((t) => ({ id: t.id, title: t.title, status: t.status, priority: t.priority, createdAt: t.createdAt }))} />
-        )}
-      </SectionCard>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }} className="dash-cols">
+        <SectionCard title="Ανοιχτά αιτήματα συντήρησης" viewAllHref="/owner/requests">
+          {tickets.length === 0 ? (
+            <div style={{ padding: "32px 0", textAlign: "center" }}>
+              <RiToolsLine style={{ fontSize: 30, opacity: 0.35, display: "block", margin: "0 auto 8px", color: "var(--muted-foreground)" }} />
+              <div style={{ fontSize: 13, color: "var(--muted-foreground)" }}>Κανένα ανοιχτό αίτημα στα ακίνητά σας</div>
+              <Link href="/owner/requests" style={{
+                display: "inline-block", marginTop: 12, padding: "6px 14px", borderRadius: 999,
+                border: "1px solid var(--border-strong)", fontSize: 12, fontWeight: 600,
+                color: "var(--foreground)", textDecoration: "none",
+              }}>
+                Δήλωση βλάβης
+              </Link>
+            </div>
+          ) : (
+            <TicketList tickets={tickets.map((t) => ({ id: t.id, title: t.title, status: t.status, priority: t.priority, createdAt: t.createdAt }))} />
+          )}
+        </SectionCard>
+
+        <SectionCard title="Ανακοινώσεις">
+          {announcements.length === 0 ? (
+            <EmptyState icon={RiMegaphoneLine} label="Δεν υπάρχουν ανακοινώσεις." />
+          ) : (
+            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              {announcements.map((ann) => {
+                const text = preview(ann.content ?? "");
+                return (
+                  <div key={ann.id} style={{
+                    padding: "12px 14px", background: "var(--bg-canvas)", borderRadius: 10,
+                    borderLeft: "3px solid var(--color-primary)",
+                  }}>
+                    <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 10 }}>
+                      <div style={{ fontSize: 14, fontWeight: 600, color: "var(--foreground)", minWidth: 0 }}>{ann.title}</div>
+                      <span style={{ fontSize: 11, color: "var(--muted-foreground)", whiteSpace: "nowrap", ...tnums }}>
+                        {dateFmt.format(ann.createdAt)}
+                      </span>
+                    </div>
+                    <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 3, fontSize: 12, color: "var(--muted-foreground)" }}>
+                      <RiBuildingLine style={{ fontSize: 13, flexShrink: 0 }} /> {ann.building?.name ?? "—"}
+                    </div>
+                    {text && (
+                      <p style={{ margin: "6px 0 0", fontSize: 12, lineHeight: 1.45, color: "var(--muted-foreground)" }}>{text}</p>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </SectionCard>
+      </div>
     </div>
   );
 }
