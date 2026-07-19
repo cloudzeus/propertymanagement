@@ -155,7 +155,13 @@ export async function getVivaTransactionFor(
     headers: { Authorization: `Bearer ${token}` }, cache: "no-store",
   });
   if (!res.ok) throw new Error(`Viva ${res.status}: ${await res.text()}`);
-  return (await res.json()) as VivaTransaction;
+  const raw = (await res.json()) as Record<string, unknown>;
+  // Normalize casing defensively (v2 may return PascalCase).
+  return {
+    statusId: (raw.statusId ?? raw.StatusId) as string | undefined,
+    amount: (raw.amount ?? raw.Amount) as number | undefined,
+    merchantTrns: (raw.merchantTrns ?? raw.MerchantTrns) as string | undefined,
+  };
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

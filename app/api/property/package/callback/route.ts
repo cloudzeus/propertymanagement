@@ -84,7 +84,9 @@ export async function POST(request: Request) {
     }
 
     // Require a successful transaction whose merchantTrns matches ours exactly.
-    if (tx.statusId != null && tx.statusId !== "F") return new Response("ignored", { status: 200 });
+    // Fail-closed: require an explicit success status ("F" = finished). A missing
+    // status is treated as not-yet-settled, never as success.
+    if (tx.statusId !== "F") return new Response("ignored", { status: 200 });
     if ((tx.merchantTrns ?? "") !== postedMerchantTrns) return new Response("ignored", { status: 200 });
 
     // Re-read the invoice; require it exists for this (customer, period).
