@@ -97,11 +97,11 @@ export const DEFAULT_PERMISSIONS: RoleDefaults = {
   PROPERTY_OWNER: [
     ...view("customer-dashboard", "customer-income", "occupant-building"), ...crud("customer-units"),
     ...crud("owner-requests"),
-    ...view("owner-announcements", "customer-wallet"),
+    ...view("owner-announcements"),
   ],
   PROPERTY_RESIDENT: [
     ...view("customer-dashboard", "occupant-building"), ...crud("customer-requests"),
-    ...view("customer-announcements", "customer-wallet", "portal-payments", "portal-files", "portal-maintenance"),
+    ...view("customer-announcements", "portal-payments", "portal-files", "portal-maintenance"),
   ],
   PROPERTY_VIEWER: [
     ...view("customer-dashboard", "customer-announcements"),
