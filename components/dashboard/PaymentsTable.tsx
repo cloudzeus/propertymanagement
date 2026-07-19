@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import {
-  RiMoneyEuroCircleLine, RiWallet3Line, RiFileTextLine,
-  RiExternalLinkLine, RiPrinterLine, RiStackLine,
+  RiMoneyEuroCircleLine, RiWallet3Line, RiBankCardLine,
+  RiExternalLinkLine, RiPrinterLine, RiStackLine, RiLoader4Line,
 } from "react-icons/ri";
 import { DataTable, type ColDef, type RowAction } from "@/components/ui/data-table";
 import { StatTile, StatusChip } from "@/components/dashboard";
@@ -12,7 +12,10 @@ import { formatEuro } from "@/lib/dashboard/aggregations";
 import { ModalShell } from "@/components/building/occupant-shell/Modal";
 import { UnitStatementDocument } from "@/components/building/occupant-shell/UnitStatementDocument";
 import { PrintArea } from "@/components/ui/print-area";
+import { groupRowsByUnit, type UnitPaymentRow } from "@/lib/dashboard/payment-grouping";
 import type { PaymentRow } from "@/lib/dashboard/payment-statements";
+
+type UnitRow = UnitPaymentRow<PaymentRow>;
 
 const GR_MONTHS = [
   "Ιανουάριος", "Φεβρουάριος", "Μάρτιος", "Απρίλιος", "Μάιος", "Ιούνιος",
@@ -29,10 +32,7 @@ const floorLabel = (f: number | null): string =>
   f == null ? "—" : f === 0 ? "Ισόγειο" : f < 0 ? `Υπόγειο ${-f}` : `${f}ος`;
 const money: React.CSSProperties = { fontVariantNumeric: "tabular-nums", whiteSpace: "nowrap" };
 
-/** The account modal is either a single-unit notice or the consolidated all-properties view. */
-type PaymentsModal = { kind: "unit"; row: PaymentRow } | { kind: "all"; month: string } | null;
-
-/** Settled/owed badge for a payment row — shared by the table column + consolidated modal. */
+/** Settled/owed badge for a single (unit, month) statement — used in the expand. */
 function PaymentStatus({ r }: { r: PaymentRow }) {
   if (r.myAmount === 0) return <StatusChip tone="neutral">Καμία οφειλή</StatusChip>;
   return r.myPaid
@@ -40,99 +40,158 @@ function PaymentStatus({ r }: { r: PaymentRow }) {
     : <StatusChip tone="warning">Οφειλή {formatEuro(r.myAmount)}</StatusChip>;
 }
 
+/** Roll-up status for the collapsed unit row: εξοφλημένο / οφειλή / καμία οφειλή. */
+function UnitStatus({ r }: { r: UnitRow }) {
+  if (r.outstanding > 0) return <StatusChip tone="warning">Οφειλή {formatEuro(r.outstanding)}</StatusChip>;
+  if (r.total > 0) return <StatusChip tone="success">Εξοφλημένο</StatusChip>;
+  return <StatusChip tone="neutral">Καμία οφειλή</StatusChip>;
+}
+
 /**
  * Payments UI for the owner (side OWNER) and resident (side TENANT) portals.
- * One row per (unit, month); expand renders the FULL ειδοποιητήριο analysis
- * (UnitStatementDocument — διαμοιρασμός ενοικιαστές/ιδιοκτήτες, σύνολα, χιλιοστά)
- * inline; «Προβολή λογαριασμού» opens the same notice in a print modal.
  *
- * Read-only: it imports NO server actions — it only reads `rows` and navigates.
+ * ONE ROW PER UNIT: the per-(unit,month) `PaymentRow[]` is collapsed via
+ * groupRowsByUnit into totals rows (Συνολική οφειλή), and the full per-month
+ * ειδοποιητήριο analysis (UnitStatementDocument) moves into the expand. A
+ * «Πληρωμή {outstanding}» button hits POST /api/koinochrista/pay — the amount is
+ * ALWAYS recomputed server-side, the client never sends it. The button is gated
+ * by `payEnabledByBuilding[buildingId]` (the property's own Viva config + master
+ * switch, resolved on the server); disabled «Σύντομα» when off.
+ *
+ * It imports NO server actions — it only reads `rows`, navigates, and calls the
+ * pay route.
  */
-export function PaymentsTable({ rows, managerName = null, title = "Πληρωμές" }: {
-  rows: PaymentRow[]; managerName?: string | null; title?: string;
+export function PaymentsTable({ rows, payEnabledByBuilding = {}, managerName = null, title = "Πληρωμές" }: {
+  rows: PaymentRow[]; payEnabledByBuilding?: Record<string, boolean>; managerName?: string | null; title?: string;
 }) {
   const router = useRouter();
-  const [modal, setModal] = useState<PaymentsModal>(null);
+  const [modal, setModal] = useState<{ month: string } | null>(null);
+  const [paying, setPaying] = useState<string | null>(null);
+  const [notice, setNotice] = useState<string | null>(null);
 
-  const totalCharges = rows.reduce((a, r) => a + r.myAmount, 0);
-  const totalUnpaid = rows.reduce((a, r) => a + (r.myPaid ? 0 : r.myAmount), 0);
+  const unitRows = groupRowsByUnit(rows);
+  const totalCharges = unitRows.reduce((a, r) => a + r.total, 0);
+  const totalUnpaid = unitRows.reduce((a, r) => a + r.outstanding, 0);
 
-  const columns: ColDef<PaymentRow>[] = [
+  /** Amount is NEVER sent — the pay route recomputes it from the caller's own unpaid allocations. */
+  async function pay(buildingId: string, unitId: string | undefined, rowId: string) {
+    setNotice(null);
+    setPaying(rowId);
+    try {
+      const res = await fetch("/api/koinochrista/pay", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ buildingId, unitId }),
+      });
+      const j = await res.json().catch(() => ({}));
+      if (res.ok && j.checkoutUrl) { window.location.href = j.checkoutUrl; return; }
+      setNotice(res.status === 503 ? "Οι online πληρωμές δεν είναι ακόμη διαθέσιμες" : "Σφάλμα πληρωμής");
+    } catch {
+      setNotice("Σφάλμα πληρωμής");
+    } finally {
+      setPaying(null);
+    }
+  }
+
+  const columns: ColDef<UnitRow>[] = [
     {
-      // Accessor drives both search + sort: the ISO prefix keeps sort chronological
-      // while the Greek label makes «Αναζήτηση μήνα» match the visible text.
-      id: "month", header: "Μήνας", sortKey: "month", width: 150, accessor: (r) => `${r.month} ${monthLabel(r.month)}`,
-      cell: (r) => <span style={{ fontWeight: 600, color: "var(--foreground)" }}>{monthLabel(r.month)}</span>,
-    },
-    {
-      id: "building", header: "Ακίνητο", sortKey: "building", width: 210, accessor: (r) => r.buildingName,
-      cell: (r) => (
-        <div style={{ minWidth: 0 }}>
-          <div style={{ fontSize: 13, color: "var(--foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{r.buildingName}</div>
-          {(r.buildingAddress || r.buildingCity) && (
-            <div style={{ fontSize: 11, color: "var(--muted-foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-              {[r.buildingAddress, r.buildingCity].filter(Boolean).join(", ")}
-            </div>
-          )}
-        </div>
-      ),
+      id: "building", header: "Ακίνητο", sortKey: "building", width: 220, accessor: (r) => r.buildingName,
+      cell: (r) => {
+        const src = r.months[0];
+        const addr = [src?.buildingAddress, src?.buildingCity].filter(Boolean).join(", ");
+        return (
+          <div style={{ minWidth: 0 }}>
+            <div style={{ fontSize: 13, color: "var(--foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{r.buildingName}</div>
+            {addr && (
+              <div style={{ fontSize: 11, color: "var(--muted-foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{addr}</div>
+            )}
+          </div>
+        );
+      },
     },
     {
       id: "unit", header: "Μονάδα", sortKey: "unit", width: 150, accessor: (r) => r.unitNumber,
-      cell: (r) => (
-        <div style={{ minWidth: 0 }}>
-          <div style={{ fontSize: 13, fontWeight: 600, color: "var(--foreground)" }}>{r.unitNumber}</div>
-          <div style={{ fontSize: 11, color: "var(--muted-foreground)" }}>{UNIT_TYPE[r.unitType] ?? r.unitType}</div>
-        </div>
-      ),
+      cell: (r) => {
+        const type = r.months[0]?.unitType;
+        return (
+          <div style={{ minWidth: 0 }}>
+            <div style={{ fontSize: 13, fontWeight: 600, color: "var(--foreground)" }}>{r.unitNumber}</div>
+            {type && <div style={{ fontSize: 11, color: "var(--muted-foreground)" }}>{UNIT_TYPE[type] ?? type}</div>}
+          </div>
+        );
+      },
     },
     {
-      id: "floor", header: "Όροφος", width: 100, defaultVisible: true, accessor: (r) => r.floor ?? "",
+      id: "floor", header: "Όροφος", width: 100, accessor: (r) => r.floor ?? "",
       cell: (r) => <span style={{ fontSize: 13, color: "var(--foreground)" }}>{floorLabel(r.floor)}</span>,
     },
     {
-      id: "myAmount", header: "Το μερίδιό μου", sortKey: "myAmount", width: 150, accessor: (r) => r.myAmount,
+      id: "outstanding", header: "Συνολική οφειλή", sortKey: "outstanding", width: 160, accessor: (r) => r.outstanding,
       cell: (r) => (
-        <span style={{ ...money, fontWeight: 700, color: !r.myPaid && r.myAmount > 0 ? "var(--color-warning)" : "var(--foreground)" }}>
-          {formatEuro(r.myAmount)}
+        <span style={{ ...money, fontWeight: 700, color: r.outstanding > 0 ? "var(--color-warning)" : "var(--foreground)" }}>
+          {formatEuro(r.outstanding)}
         </span>
       ),
     },
     {
-      id: "status", header: "Κατάσταση", width: 170, accessor: (r) => (r.myAmount === 0 ? 0 : r.myPaid ? 1 : 2),
-      cell: (r) => <PaymentStatus r={r} />,
+      id: "status", header: "Κατάσταση", width: 180, accessor: (r) => (r.outstanding > 0 ? 2 : r.total > 0 ? 1 : 0),
+      cell: (r) => <UnitStatus r={r} />,
+    },
+    {
+      id: "pay", header: "", width: 190,
+      cell: (r) => {
+        if (r.outstanding <= 0) return <span style={{ color: "var(--muted-foreground)" }}>—</span>;
+        if (!payEnabledByBuilding[r.buildingId]) {
+          return (
+            <button type="button" disabled title="Το Viva της ιδιοκτησίας δεν έχει ρυθμιστεί" style={{
+              display: "inline-flex", alignItems: "center", gap: 6, borderRadius: 8, padding: "7px 14px",
+              border: "1px solid var(--border)", background: "var(--card)", color: "var(--muted-foreground)",
+              fontSize: 13, fontWeight: 700, cursor: "not-allowed", whiteSpace: "nowrap",
+            }}>
+              Σύντομα
+            </button>
+          );
+        }
+        const loading = paying === r.id;
+        return (
+          <button
+            type="button"
+            disabled={loading}
+            onClick={() => pay(r.buildingId, r.unitId, r.id)}
+            style={{
+              display: "inline-flex", alignItems: "center", gap: 6, borderRadius: 8, padding: "7px 14px",
+              border: "1px solid transparent", background: "var(--color-primary)", color: "var(--primary-foreground)",
+              fontSize: 13, fontWeight: 700, cursor: loading ? "wait" : "pointer", whiteSpace: "nowrap", opacity: loading ? 0.7 : 1,
+            }}
+          >
+            {loading
+              ? <RiLoader4Line style={{ fontSize: 16, animation: "spin 1s linear infinite" }} />
+              : <RiBankCardLine style={{ fontSize: 16 }} />}
+            Πληρωμή {formatEuro(r.outstanding)}
+          </button>
+        );
+      },
     },
   ];
 
-  const getRowActions = (r: PaymentRow): RowAction<PaymentRow>[] => [
-    { label: "Ανάλυση ακινήτου", icon: <RiFileTextLine />, onClick: () => setModal({ kind: "unit", row: r }) },
-    { label: "Συνολικό — όλα τα ακίνητα", icon: <RiStackLine />, onClick: () => setModal({ kind: "all", month: r.month }) },
-    {
+  const getRowActions = (r: UnitRow): RowAction<UnitRow>[] => {
+    const latestMonth = r.months[0]?.month;
+    const actions: RowAction<UnitRow>[] = [];
+    if (latestMonth) {
+      actions.push({ label: "Συνολικό — όλα τα ακίνητα", icon: <RiStackLine />, onClick: () => setModal({ month: latestMonth }) });
+    }
+    actions.push({
       label: "Πλήρες control center", icon: <RiExternalLinkLine />,
-      onClick: () => router.push(`/building/${r.buildingId}?s=koino&month=${r.month}&unit=${r.unitId}`),
-    },
-  ];
+      onClick: () => router.push(`/building/${r.buildingId}?s=koino&unit=${r.unitId}${latestMonth ? `&month=${latestMonth}` : ""}`),
+    });
+    return actions;
+  };
 
   // Consolidated modal derives its rows client-side from the already-loaded data.
-  const consolidatedRows = modal?.kind === "all" ? rows.filter((r) => r.month === modal.month) : [];
-  const modalTitle = !modal
-    ? ""
-    : modal.kind === "unit"
-      ? `Λογαριασμός · ${monthLabel(modal.row.month)} · ${modal.row.unitNumber}`
-      : `Συνολικό ειδοποιητήριο · ${monthLabel(modal.month)}`;
-
-  // The active document, rendered both in the modal body and (unstyled) in the PrintArea.
-  const activeDocument = !modal ? null : modal.kind === "unit" ? (
-    <UnitStatementDocument
-      building={{ name: modal.row.buildingName, address: modal.row.buildingAddress, city: modal.row.buildingCity }}
-      statement={modal.row.statement}
-      month={modal.row.month}
-      managerName={managerName}
-      heatingReadings={modal.row.heatingReadings}
-    />
-  ) : (
+  const consolidatedRows = modal ? rows.filter((r) => r.month === modal.month) : [];
+  const activeDocument = modal ? (
     <ConsolidatedDocument month={modal.month} rows={consolidatedRows} managerName={managerName} />
-  );
+  ) : null;
 
   return (
     <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 18 }}>
@@ -146,33 +205,54 @@ export function PaymentsTable({ rows, managerName = null, title = "Πληρωμ�
         <StatTile label="Σύνολο χρεώσεων" value={formatEuro(totalCharges)} sub="Όλες οι περίοδοι" icon={RiWallet3Line} />
       </div>
 
-      {rows.length === 0 && (
+      {notice && (
+        <div style={{
+          display: "flex", alignItems: "center", gap: 10, padding: "12px 16px", borderRadius: "var(--radius-lg)",
+          border: "1px solid var(--color-warning)", background: "color-mix(in srgb, var(--color-warning) 10%, transparent)",
+          color: "var(--foreground)", fontSize: 13,
+        }} role="status">
+          <RiMoneyEuroCircleLine style={{ fontSize: 18, flexShrink: 0 }} />
+          {notice}
+        </div>
+      )}
+
+      {unitRows.length === 0 && (
         <div style={{
           display: "flex", alignItems: "center", gap: 10, padding: "14px 16px", borderRadius: "var(--radius-lg)",
           border: "1px solid var(--border)", background: "var(--card)", color: "var(--muted-foreground)", fontSize: 13,
         }}>
           <RiMoneyEuroCircleLine style={{ fontSize: 18, flexShrink: 0 }} />
-          Δεν υπάρχουν εκδοθέντα κοινόχρηστα για τις μονάδες σας ακόμη. Μόλις εκδοθούν, θα εμφανιστούν εδώ ανά μήνα.
+          Δεν υπάρχουν εκδοθέντα κοινόχρηστα για τις μονάδες σας ακόμη. Μόλις εκδοθούν, θα εμφανιστούν εδώ ανά μονάδα.
         </div>
       )}
 
       <DataTable
-        data={rows}
+        data={unitRows}
         columns={columns}
-        totalRows={rows.length}
+        totalRows={unitRows.length}
         page={1}
         pageSize={25}
         clientSide
         storageKey="payments"
-        searchPlaceholder="Αναζήτηση μήνα ή ακινήτου…"
+        searchPlaceholder="Αναζήτηση μονάδας ή ακινήτου…"
         expandedContent={(r) => (
-          <UnitStatementDocument
-            building={{ name: r.buildingName, address: r.buildingAddress, city: r.buildingCity }}
-            statement={r.statement}
-            month={r.month}
-            managerName={managerName}
-            heatingReadings={r.heatingReadings}
-          />
+          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+            {r.months.map((m) => (
+              <section key={m.id} style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+                  <h4 style={{ fontSize: 14, fontWeight: 700, color: "var(--foreground)", margin: 0 }}>{monthLabel(m.month)}</h4>
+                  <PaymentStatus r={m} />
+                </div>
+                <UnitStatementDocument
+                  building={{ name: m.buildingName, address: m.buildingAddress, city: m.buildingCity }}
+                  statement={m.statement}
+                  month={m.month}
+                  managerName={managerName}
+                  heatingReadings={m.heatingReadings}
+                />
+              </section>
+            ))}
+          </div>
         )}
         getRowActions={getRowActions}
       />
@@ -180,9 +260,9 @@ export function PaymentsTable({ rows, managerName = null, title = "Πληρωμ�
       <ModalShell
         open={modal !== null}
         onClose={() => setModal(null)}
-        ariaLabel="Λογαριασμός κοινοχρήστων"
+        ariaLabel="Συνολικό ειδοποιητήριο κοινοχρήστων"
         maxWidth={860}
-        title={modalTitle}
+        title={modal ? `Συνολικό ειδοποιητήριο · ${monthLabel(modal.month)}` : ""}
         footer={
           <div style={{ display: "flex", justifyContent: "flex-end" }}>
             <button type="button" onClick={() => window.print()} style={{
@@ -198,7 +278,7 @@ export function PaymentsTable({ rows, managerName = null, title = "Πληρωμ�
         {activeDocument}
       </ModalShell>
 
-      {/* Print target for the account modal — body-level, shown only in print. */}
+      {/* Print target for the consolidated modal — body-level, shown only in print. */}
       {modal && <PrintArea>{activeDocument}</PrintArea>}
     </div>
   );
