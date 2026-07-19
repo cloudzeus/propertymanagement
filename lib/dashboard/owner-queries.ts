@@ -119,6 +119,95 @@ export async function getTenantSide(userId: string) {
   };
 }
 
+const BASIS_LABEL: Record<string, string> = {
+  GENERAL_MILLESIMES: "Γενικά χιλιοστά",
+  ELEVATOR_MILLESIMES: "Χιλιοστά ανελκυστήρα",
+  HEATING_MILLESIMES: "Χιλιοστά θέρμανσης",
+  EQUAL_PER_UNIT: "Ισομερώς ανά μονάδα",
+  METERED_70_30: "Μετρητής θέρμανσης (70/30)",
+};
+
+export type BillingExplainerBuilding = {
+  buildingId: string;
+  buildingName: string;
+  params: {
+    floors: number | null;
+    basements: number | null;
+    hasElevator: boolean;
+    elevatorSurchargePerFloor: number;
+    elevatorExemptGroundFloor: boolean;
+    heatingMeterUnit: string | null;
+  };
+  categories: { id: string; name: string; basis: string; basisLabel: string }[];
+  myUnits: {
+    unitNumber: string;
+    millesimes: number | null;
+    millesimesElevator: number | null;
+    millesimesHeating: number | null;
+  }[];
+};
+
+export async function getOwnerBillingExplainer(userId: string): Promise<BillingExplainerBuilding[]> {
+  const units = await db.unit.findMany({
+    where: { ownerId: userId },
+    orderBy: [{ building: { name: "asc" } }, { unitNumber: "asc" }],
+    select: {
+      unitNumber: true, millesimes: true, millesimesElevator: true, millesimesHeating: true,
+      building: {
+        select: {
+          id: true, name: true, floors: true, basements: true, hasElevator: true,
+          elevatorSurchargePerFloor: true, elevatorExemptGroundFloor: true, heatingMeterUnit: true,
+        },
+      },
+    },
+  });
+  if (units.length === 0) return [];
+
+  const buildingIds = [...new Set(units.map((u) => u.building.id))];
+  const [categories, overrides] = await Promise.all([
+    db.expenseCategory.findMany({
+      where: { active: true },
+      orderBy: { sortOrder: "asc" },
+      select: { id: true, name: true, defaultBasis: true },
+    }),
+    db.buildingCategoryOverride.findMany({
+      where: { buildingId: { in: buildingIds }, distributionBasis: { not: null } },
+      select: { buildingId: true, categoryId: true, distributionBasis: true },
+    }),
+  ]);
+
+  return buildingIds.map((bid) => {
+    const b = units.find((u) => u.building.id === bid)!.building;
+    const bOverrides = new Map(
+      overrides.filter((o) => o.buildingId === bid).map((o) => [o.categoryId, o.distributionBasis!]),
+    );
+    return {
+      buildingId: b.id,
+      buildingName: b.name,
+      params: {
+        floors: b.floors,
+        basements: b.basements,
+        hasElevator: b.hasElevator,
+        elevatorSurchargePerFloor: Number(b.elevatorSurchargePerFloor),
+        elevatorExemptGroundFloor: b.elevatorExemptGroundFloor,
+        heatingMeterUnit: b.heatingMeterUnit,
+      },
+      categories: categories.map((c) => {
+        const basis = (bOverrides.get(c.id) ?? c.defaultBasis) as string;
+        return { id: c.id, name: c.name, basis, basisLabel: BASIS_LABEL[basis] ?? basis };
+      }),
+      myUnits: units
+        .filter((u) => u.building.id === bid)
+        .map((u) => ({
+          unitNumber: u.unitNumber,
+          millesimes: u.millesimes,
+          millesimesElevator: u.millesimesElevator,
+          millesimesHeating: u.millesimesHeating,
+        })),
+    };
+  });
+}
+
 export async function getOwnerDuoRows(userId: string) {
   const [ownerAllocs, tenantAllocs] = await Promise.all([
     db.expenseAllocation.findMany({

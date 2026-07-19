@@ -3,8 +3,9 @@ import { redirect } from "next/navigation";
 import { getEffectiveSession } from "@/lib/auth-effective";
 import { getOwnerDashboard } from "@/lib/dashboard/queries";
 import {
-  getOwnerBuildingIds, getOwnerPortfolio, getTenantSide, getOwnerDuoRows, type TenancyState,
+  getOwnerBuildingIds, getOwnerPortfolio, getTenantSide, getOwnerDuoRows, getOwnerBillingExplainer, type TenancyState,
 } from "@/lib/dashboard/owner-queries";
+import { BillingExplainer } from "@/components/dashboard/BillingExplainer";
 import { formatEuro, lastNMonths } from "@/lib/dashboard/aggregations";
 import { duoTrend } from "@/lib/dashboard/alloc-view";
 import {
@@ -27,12 +28,13 @@ export default async function OwnerDashboard() {
   const eff = await getEffectiveSession();
   if (!eff?.user?.id) redirect("/login");
   const userId = eff.user.id;
-  const [portfolio, tenantSide, duoRows, dash, buildingIds] = await Promise.all([
+  const [portfolio, tenantSide, duoRows, dash, buildingIds, explainer] = await Promise.all([
     getOwnerPortfolio(userId),
     getTenantSide(userId),
     getOwnerDuoRows(userId),
     getOwnerDashboard(userId),
     getOwnerBuildingIds(userId),
+    getOwnerBillingExplainer(userId),
   ]);
   const { owed, tickets } = dash;
   const firstName = eff.user.name?.split(" ")[0] ?? "";
@@ -96,14 +98,22 @@ export default async function OwnerDashboard() {
       </div>
 
       <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: 16 }} className="dash-cols">
+        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
         <SectionCard title="Το χαρτοφυλάκιό μου" viewAllHref="/owner/units">
           {portfolio.length === 0 ? (
             <EmptyState icon={RiHome3Line} label="Δεν έχουν καταχωρηθεί μονάδες — επικοινωνήστε με τη διαχείριση" />
           ) : (
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: 12 }}>
-              {portfolio.map((u) => (
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 12 }}>
+              {portfolio.map((u) => {
+                const pill = {
+                  display: "inline-flex", alignItems: "center", padding: "4px 10px", borderRadius: 999,
+                  border: "1px solid var(--border)", background: "var(--card)",
+                  fontSize: 12, fontWeight: 600, color: "var(--foreground)", textDecoration: "none",
+                  whiteSpace: "nowrap" as const,
+                };
+                return (
                 <div key={u.id} style={{
-                  display: "flex", flexDirection: "column", gap: 8, padding: 16,
+                  display: "flex", flexDirection: "column", gap: 10, padding: 16,
                   background: "var(--bg-canvas)", borderRadius: 12,
                   border: u.tenancy === "VACANT" ? "1px solid var(--color-warning)" : "1px solid transparent",
                 }}>
@@ -116,37 +126,40 @@ export default async function OwnerDashboard() {
                     </div>
                     <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 4, flexShrink: 0 }}>
                       <StatusChip tone={TENANCY[u.tenancy].tone}>{TENANCY[u.tenancy].label}</StatusChip>
-                      {u.tenantName && <span style={{ fontSize: 12, color: "var(--muted-foreground)" }}>{u.tenantName}</span>}
+                      {u.tenantName && <span style={{ fontSize: 12, color: "var(--muted-foreground)", textAlign: "right" }}>{u.tenantName}</span>}
                     </div>
                   </div>
                   <div style={{ fontSize: 12, color: "var(--muted-foreground)" }}>
                     Όροφος {u.floor ?? "—"} · {u.areaSqm ?? "—"} τ.μ. · {u.millesimes ?? "—"}‰
                   </div>
-                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, marginTop: 4 }}>
+                  {/* Unpaid amount / paid status — own prominent line */}
+                  <div style={{ display: "flex", alignItems: "baseline", gap: 8, marginTop: 2 }}>
                     {u.unpaidOwner > 0 ? (
-                      <span style={{ fontSize: 14, fontWeight: 700, color: "var(--color-warning)", ...tnums }}>
-                        {formatEuro(u.unpaidOwner)}
-                      </span>
+                      <>
+                        <span style={{ fontSize: 20, fontWeight: 700, color: "var(--color-warning)", lineHeight: 1, ...tnums }}>
+                          {formatEuro(u.unpaidOwner)}
+                        </span>
+                        <span style={{ fontSize: 11, color: "var(--muted-foreground)" }}>ανεξόφλητα</span>
+                      </>
                     ) : (
-                      <span style={{ fontSize: 12, fontWeight: 600, color: "var(--color-success)" }}>Εξοφλημένο</span>
+                      <span style={{ fontSize: 13, fontWeight: 600, color: "var(--color-success)" }}>Εξοφλημένο</span>
                     )}
-                    <span style={{ display: "inline-flex", gap: 10 }}>
-                      <Link href="/owner/payments" style={{ fontSize: 12, fontWeight: 600, color: "var(--muted-foreground)", textDecoration: "none" }}>
-                        Κοινόχρηστα
-                      </Link>
-                      <Link href="/owner/requests" style={{ fontSize: 12, fontWeight: 600, color: "var(--muted-foreground)", textDecoration: "none" }}>
-                        Βλάβη
-                      </Link>
-                      <Link href={`/building/${u.buildingId}`} style={{ fontSize: 12, fontWeight: 600, color: "var(--muted-foreground)", textDecoration: "none" }}>
-                        Το κτήριο →
-                      </Link>
-                    </span>
+                  </div>
+                  {/* Actions — separate wrapping row of pill-links */}
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginTop: 2 }}>
+                    <Link href="/owner/payments" style={pill}>Κοινόχρηστα</Link>
+                    <Link href="/owner/requests" style={pill}>Βλάβη</Link>
+                    <Link href={`/building/${u.buildingId}`} style={pill}>Το κτήριο →</Link>
                   </div>
                 </div>
-              ))}
+                );
+              })}
             </div>
           )}
         </SectionCard>
+
+          {explainer.length > 0 && <BillingExplainer buildings={explainer} />}
+        </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <SectionCard title="Κατάσταση μονάδων">
