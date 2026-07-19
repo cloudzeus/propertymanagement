@@ -8,8 +8,10 @@ import { getEffectiveSession } from "@/lib/auth-effective";
 import { ImpersonationBanner } from "./impersonation-banner";
 import { NotificationsBell } from "@/components/maintenance/notifications-bell";
 import { getEffectivePermissions, buildMenu } from "@/lib/rbac/permissions";
+import { db } from "@/lib/db";
 
 const EXPENSE_ROLES = ["SUPER_ADMIN", "ADMIN", "MANAGER", "PROPERTY_ADMIN"];
+const OCCUPANT_ROLES = ["PROPERTY_OWNER", "PROPERTY_RESIDENT"];
 
 type UserRole =
   | "SUPER_ADMIN" | "ADMIN" | "MANAGER" | "EMPLOYEE"
@@ -38,6 +40,26 @@ export async function AppShell({ children, allowedRoles }: Props) {
   const resolved = await getEffectivePermissions();
   const menu = resolved ? buildMenu(resolved.surface, resolved.perms, resolved.role) : [];
 
+  // Building-centric tree for owners/residents: the buildings they occupy.
+  const uid = eff.user.id;
+  const customerBuildings = OCCUPANT_ROLES.includes(role)
+    ? await db.building.findMany({
+        where: {
+          units: {
+            some: {
+              OR: [
+                { ownerId: uid },
+                { residentId: uid },
+                { occupancies: { some: { userId: uid, endDate: null } } },
+              ],
+            },
+          },
+        },
+        select: { id: true, name: true },
+        orderBy: { name: "asc" },
+      })
+    : undefined;
+
   return (
     <div style={{
       display: "flex",
@@ -49,6 +71,7 @@ export async function AppShell({ children, allowedRoles }: Props) {
       <SidebarNav
         role={role}
         menu={menu}
+        customerBuildings={customerBuildings}
         userName={eff.user.name ?? ""}
         userEmail={eff.user.email ?? ""}
         logoUrl={settings.logoFullLight ?? settings.logoUrl}

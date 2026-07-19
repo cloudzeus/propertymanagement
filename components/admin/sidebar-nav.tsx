@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import {
   RiDashboardLine, RiDashboardFill,
   RiBuildingLine, RiBuildingFill,
@@ -37,6 +37,8 @@ import {
   RiArticleLine, RiArticleFill,
   RiUserStarLine, RiUserStarFill,
   RiListCheck2,
+  RiWallet3Line, RiMoneyEuroCircleLine, RiCalendarTodoLine,
+  RiSpeedUpLine, RiFolderLine, RiContactsBook3Line, RiMegaphoneLine,
 } from "react-icons/ri";
 import type { MenuGroup } from "@/lib/rbac/permissions";
 
@@ -136,10 +138,30 @@ function menuToNavGroups(menu: MenuGroup[]): NavGroup[] {
   });
 }
 
+// ─── Building control-center sections (owner/resident tree) ──────────────────
+// Fixed sub-items of each «Τα κτήριά μου» building group. `s` is the ?s= query
+// key on /building/[id]; null = Επισκόπηση (no query). Icons mirror the pills in
+// OccupantBuildingShell for visual continuity.
+const BUILDING_COLOR = "#8764B8";
+const BUILDING_SECTIONS: { key: string; label: string; s: string | null; icon: React.ElementType }[] = [
+  { key: "overview",    label: "Επισκόπηση",    s: null,          icon: RiDashboardLine },
+  { key: "koino",       label: "Κοινόχρηστα",   s: "koino",       icon: RiWallet3Line },
+  { key: "expenses",    label: "Έξοδα",         s: "expenses",    icon: RiMoneyEuroCircleLine },
+  { key: "units",       label: "Μονάδες",       s: "units",       icon: RiHome3Line },
+  { key: "infra",       label: "Εγκαταστάσεις", s: "infra",       icon: RiSettings3Line },
+  { key: "maintenance", label: "Συντηρήσεις",   s: "maintenance", icon: RiCalendarTodoLine },
+  { key: "meters",      label: "Μετρητές",      s: "meters",      icon: RiSpeedUpLine },
+  { key: "assemblies",  label: "Συνελεύσεις",   s: "assemblies",  icon: RiGroupLine },
+  { key: "files",       label: "Έγγραφα",       s: "files",       icon: RiFolderLine },
+  { key: "contacts",    label: "Επαφές",        s: "contacts",    icon: RiContactsBook3Line },
+  { key: "ann",         label: "Ανακοινώσεις",  s: "ann",         icon: RiMegaphoneLine },
+];
+
 // ─── Component ────────────────────────────────────────────────────────────────
 type Props = {
   role: UserRole;
   menu: MenuGroup[];
+  customerBuildings?: { id: string; name: string }[];
   userName: string;
   userEmail: string;
   logoUrl?: string | null;
@@ -151,9 +173,11 @@ type Props = {
 const STORAGE_COLLAPSED = "dg-sidebar-collapsed";
 const STORAGE_GROUPS    = "dg-sidebar-groups";
 
-export function SidebarNav({ role, menu, userName, userEmail, logoUrl, logoSquareUrl, companyName, onSignOut }: Props) {
+export function SidebarNav({ role, menu, customerBuildings, userName, userEmail, logoUrl, logoSquareUrl, companyName, onSignOut }: Props) {
   const pathname   = usePathname();
+  const search     = useSearchParams();
   const navGroups  = menuToNavGroups(menu);
+  const buildings  = customerBuildings ?? [];
 
   const [collapsed,   setCollapsed]   = useState(false);
   const [openGroups,  setOpenGroups]  = useState<Record<string, boolean>>(
@@ -187,6 +211,14 @@ export function SidebarNav({ role, menu, userName, userEmail, logoUrl, logoSquar
     if (href !== "/" && pathname.startsWith(href + "/")) return true;
     return false;
   }
+
+  // ── Building-tree active state (pathname + ?s=) ──
+  const activeS = search.get("s");
+  const buildingActive = (id: string) => pathname === `/building/${id}`;
+  const sectionActive = (id: string, s: string | null) => {
+    if (pathname !== `/building/${id}`) return false;
+    return s === null ? (!activeS || activeS === "overview") : activeS === s;
+  };
 
   const initials  = (userName || userEmail || "?").charAt(0).toUpperCase();
   const roleLabel = role.replace(/_/g, " ");
@@ -354,6 +386,114 @@ export function SidebarNav({ role, menu, userName, userEmail, logoUrl, logoSquar
             </div>
           );
         })}
+
+        {/* ── Building tree (owners/residents): «Τα κτήριά μου» ── */}
+        {buildings.length > 0 && (collapsed ? (
+          <div style={{ marginTop: 8 }}>
+            {buildings.map((b) => {
+              const active = buildingActive(b.id);
+              return (
+                <Link key={b.id} href={`/building/${b.id}`} title={b.name} style={{
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  width: 40, height: 40, borderRadius: 8, margin: "0 auto 2px",
+                  color: active ? BUILDING_COLOR : "#8A8A8A",
+                  background: active ? `${BUILDING_COLOR}14` : "transparent",
+                  textDecoration: "none", transition: "background 120ms, color 120ms",
+                }}>
+                  {active ? <RiBuildingFill size={18} /> : <RiBuildingLine size={18} />}
+                </Link>
+              );
+            })}
+          </div>
+        ) : (
+          <div style={{ marginTop: 6 }}>
+            <div style={{
+              padding: "5px 8px", fontSize: 11, fontWeight: 700, letterSpacing: "0.06em",
+              color: "#707070", textTransform: "uppercase", fontFamily: "var(--font-sans)",
+            }}>
+              Τα κτήριά μου
+            </div>
+
+            {buildings.map((b) => {
+              const groupId = `bldg-${b.id}`;
+              const bldgActive = buildingActive(b.id);
+              const isOpen = openGroups[groupId] ?? bldgActive;
+              return (
+                <div key={b.id} style={{ marginBottom: 4 }}>
+                  <button
+                    onClick={() => toggleGroup(groupId)}
+                    style={{
+                      display: "flex", alignItems: "center", gap: 7,
+                      width: "100%", padding: "5px 8px",
+                      border: "none", background: "transparent",
+                      cursor: "pointer", borderRadius: 6, marginBottom: 2,
+                    }}
+                    onMouseEnter={(e) => (e.currentTarget.style.background = "var(--paper)")}
+                    onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
+                  >
+                    <span style={{
+                      width: 18, height: 18, borderRadius: 4,
+                      background: `${BUILDING_COLOR}18`,
+                      display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
+                    }}>
+                      <RiBuildingLine size={11} style={{ color: BUILDING_COLOR }} />
+                    </span>
+                    <span style={{
+                      flex: 1, textAlign: "left",
+                      fontSize: 12.5, fontWeight: 600,
+                      color: bldgActive ? BUILDING_COLOR : "#292929",
+                      whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
+                      fontFamily: "var(--font-sans)",
+                    }}>
+                      {b.name}
+                    </span>
+                    <RiArrowDownSLine size={13} style={{
+                      flexShrink: 0, color: "#B3B3B3",
+                      transform: isOpen ? "rotate(0deg)" : "rotate(-90deg)",
+                      transition: "transform 200ms",
+                    }} />
+                  </button>
+
+                  <div style={{
+                    overflow: "hidden",
+                    maxHeight: isOpen ? `${BUILDING_SECTIONS.length * 42}px` : "0px",
+                    transition: "max-height 220ms cubic-bezier(0.4,0,0.2,1)",
+                  }}>
+                    {BUILDING_SECTIONS.map((sec) => {
+                      const active = sectionActive(b.id, sec.s);
+                      const href = sec.s ? `/building/${b.id}?s=${sec.s}` : `/building/${b.id}`;
+                      const Icon = sec.icon;
+                      return (
+                        <Link
+                          key={sec.key}
+                          href={href}
+                          style={{
+                            display: "flex", alignItems: "center", gap: 9,
+                            padding: "6px 8px 6px 22px",
+                            borderRadius: 6, marginBottom: 1, minHeight: 40, boxSizing: "border-box",
+                            color: active ? BUILDING_COLOR : "#292929",
+                            background: active ? `${BUILDING_COLOR}12` : "transparent",
+                            textDecoration: "none",
+                            fontSize: 13, fontWeight: active ? 600 : 400,
+                            fontFamily: "var(--font-sans)",
+                            transition: "background 120ms, color 120ms",
+                            whiteSpace: "nowrap", overflow: "hidden",
+                            borderLeft: active ? `2px solid ${BUILDING_COLOR}` : "2px solid transparent",
+                          }}
+                          onMouseEnter={(e) => { if (!active) (e.currentTarget as HTMLAnchorElement).style.background = "var(--paper)"; }}
+                          onMouseLeave={(e) => { if (!active) (e.currentTarget as HTMLAnchorElement).style.background = "transparent"; }}
+                        >
+                          <Icon size={16} style={{ flexShrink: 0, color: BUILDING_COLOR }} />
+                          <span style={{ overflow: "hidden", textOverflow: "ellipsis" }}>{sec.label}</span>
+                        </Link>
+                      );
+                    })}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        ))}
       </nav>
 
       {/* ── User block ────────────────────────────────────────── */}

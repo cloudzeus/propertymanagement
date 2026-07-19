@@ -96,12 +96,12 @@ export const DEFAULT_PERMISSIONS: RoleDefaults = {
     ...view("customer-wallet"),
   ],
   PROPERTY_OWNER: [
-    ...view("customer-dashboard", "customer-income", "occupant-building"), ...crud("customer-units"),
+    ...view("customer-dashboard", "customer-income"),
     ...crud("owner-requests"),
     ...view("owner-announcements"),
   ],
   PROPERTY_RESIDENT: [
-    ...view("customer-dashboard", "occupant-building"), ...crud("customer-requests"),
+    ...view("customer-dashboard"), ...crud("customer-requests"),
     ...view("customer-announcements", "portal-payments", "portal-files", "portal-maintenance"),
   ],
   PROPERTY_VIEWER: [
