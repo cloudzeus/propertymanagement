@@ -4,6 +4,7 @@ import { notFound, redirect } from "next/navigation";
 import { getBuildingAccess, managerBuildingIds } from "@/lib/building-access";
 import { getBuildingDashboardData } from "@/lib/building/dashboard-data";
 import { getOccupantControlCenter } from "@/lib/building/occupant-data";
+import { getBuildingOutstanding, isKoinochristaPayEnabled } from "@/lib/payments/koinochrista-pay";
 import { BuildingManagerShell } from "@/components/building/manager-shell/BuildingManagerShell";
 import { OccupantBuildingShell } from "@/components/building/occupant-shell/OccupantBuildingShell";
 
@@ -26,7 +27,15 @@ export default async function ManagerBuildingPage({ params, searchParams }: {
     const month = typeof sp.month === "string" ? sp.month : null;
     const data = await getOccupantControlCenter(id, userId, { month });
     if (!data) notFound();
-    return <OccupantBuildingShell {...data} viewerRole={session.user.role} managed={access.managed} />;
+    // Quick-pay: outstanding is ALWAYS computed server-side from the viewer's own
+    // unpaid allocations; the client never sends an amount.
+    const outstanding = await getBuildingOutstanding(userId, id);
+    const quickPay = {
+      perUnit: outstanding.perUnit.map((u) => ({ unitId: u.unitId, unitNumber: u.unitNumber, amountCents: u.amountCents })),
+      totalCents: outstanding.totalCents,
+      enabled: isKoinochristaPayEnabled(),
+    };
+    return <OccupantBuildingShell {...data} viewerRole={session.user.role} managed={access.managed} quickPay={quickPay} />;
   }
 
   const heatingPeriod = typeof sp.heatingPeriod === "string" ? sp.heatingPeriod : null;

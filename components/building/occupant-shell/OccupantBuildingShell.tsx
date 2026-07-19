@@ -22,6 +22,7 @@ import { MaintenanceSection } from "./MaintenanceSection";
 import { MetersSection } from "./MetersSection";
 import { ManagedItemsSection } from "./ManagedItemsSection";
 import { AssembliesSection } from "./AssembliesSection";
+import { QuickPayCard, type QuickPayProps } from "./QuickPayCard";
 
 type SectionKey =
   | "overview" | "koino" | "expenses" | "units" | "infra" | "maintenance" | "meters" | "items"
@@ -83,6 +84,8 @@ type Props = OccupantData & {
   managed?: boolean;
   /** Optional precomputed labels; derived from myUnits when omitted. */
   myUnitLabels?: string[];
+  /** Server-computed κοινόχρηστα quick-pay outstanding + flag (amounts never client-trusted). */
+  quickPay?: Omit<QuickPayProps, "buildingId">;
 };
 
 /**
@@ -93,7 +96,7 @@ export function OccupantBuildingShell(props: Props) {
   const {
     building, myUnits, months, selectedMonth, statements, managerName, expenses,
     heatingReadings, gallery, infra, units, tasks, maintenanceHistory, meterReadings, managedItems,
-    assemblies, files, contacts, announcements, viewerRole, managed,
+    assemblies, files, contacts, announcements, viewerRole, managed, quickPay,
   } = props;
 
   const router = useRouter();
@@ -183,6 +186,8 @@ export function OccupantBuildingShell(props: Props) {
       <div>
         {section === "overview" ? (
           <Overview
+            buildingId={building.id}
+            quickPay={quickPay}
             myUnits={myUnits}
             months={months}
             selectedMonth={selectedMonth}
@@ -229,7 +234,9 @@ export function OccupantBuildingShell(props: Props) {
 
 /* ─── Επισκόπηση ─────────────────────────────────────────────────────────── */
 
-function Overview({ myUnits, months, selectedMonth, statements, announcements, assemblies, requestsHref, onNavigate }: {
+function Overview({ buildingId, quickPay, myUnits, months, selectedMonth, statements, announcements, assemblies, requestsHref, onNavigate }: {
+  buildingId: string;
+  quickPay?: Omit<QuickPayProps, "buildingId">;
   myUnits: OccupantData["myUnits"];
   months: OccupantData["months"];
   selectedMonth: string;
@@ -254,8 +261,17 @@ function Overview({ myUnits, months, selectedMonth, statements, announcements, a
   const latestAnn = announcements[0];
 
   return (
-    <div className="dash-cols" style={{ display: "grid", gridTemplateColumns: "1.6fr 1fr", gap: 16, alignItems: "start" }}>
-      {/* left: my units + current month */}
+    <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+      {quickPay && (
+        <QuickPayCard
+          buildingId={buildingId}
+          perUnit={quickPay.perUnit}
+          totalCents={quickPay.totalCents}
+          enabled={quickPay.enabled}
+        />
+      )}
+      <div className="dash-cols" style={{ display: "grid", gridTemplateColumns: "1.6fr 1fr", gap: 16, alignItems: "start" }}>
+        {/* left: my units + current month */}
       <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
         <div style={{ display: "grid", gridTemplateColumns: myUnits.length > 1 ? "repeat(auto-fill, minmax(280px, 1fr))" : "1fr", gap: 16 }}>
           {myUnits.map((u) => (
@@ -364,6 +380,7 @@ function Overview({ myUnits, months, selectedMonth, statements, announcements, a
             Όλες οι ανακοινώσεις <RiArrowRightLine />
           </button>
         </div>
+      </div>
       </div>
     </div>
   );
