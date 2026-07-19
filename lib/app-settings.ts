@@ -21,6 +21,13 @@ export type AppSettings = {
   contactPhone: string | null;
   contactAddress: string | null;
   websiteUrl: string | null;
+  // Provider Viva account (encrypted secrets — never exposed to clients).
+  providerVivaEnabled: boolean;
+  providerVivaClientId: string | null;
+  providerVivaClientSecretEnc: string | null;
+  providerVivaMerchantId: string | null;
+  providerVivaApiKeyEnc: string | null;
+  providerVivaSourceCode: string | null;
 };
 
 const DEFAULTS: AppSettings = {
@@ -43,6 +50,12 @@ const DEFAULTS: AppSettings = {
   contactPhone: null,
   contactAddress: null,
   websiteUrl: null,
+  providerVivaEnabled: false,
+  providerVivaClientId: null,
+  providerVivaClientSecretEnc: null,
+  providerVivaMerchantId: null,
+  providerVivaApiKeyEnc: null,
+  providerVivaSourceCode: null,
 };
 
 export async function getAppSettings(): Promise<AppSettings> {

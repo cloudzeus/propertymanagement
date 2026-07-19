@@ -1919,6 +1919,15 @@ model AppSettings {
   contactAddress  String?
   websiteUrl      String?
 
+  // Provider Viva account (collects payments from app users, e.g. wallet top-ups).
+  // DB-first with env fallback; secrets stored AES-256-GCM encrypted (never plaintext).
+  providerVivaEnabled         Boolean @default(false)
+  providerVivaClientId        String?
+  providerVivaClientSecretEnc String?
+  providerVivaMerchantId      String?
+  providerVivaApiKeyEnc       String?
+  providerVivaSourceCode      String?
+
   updatedAt       DateTime @updatedAt
   updatedById     String?
 }
