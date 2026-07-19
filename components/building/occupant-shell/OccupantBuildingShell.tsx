@@ -1,12 +1,12 @@
 "use client";
 
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import {
-  RiArrowRightLine, RiBuildingLine, RiCalendarTodoLine, RiContactsBook3Line, RiDashboardLine,
-  RiFolderLine, RiGroupLine, RiHome3Line, RiHome4Line, RiListCheck2, RiMailLine, RiMapPinLine,
-  RiMegaphoneLine, RiMoneyEuroCircleLine, RiPhoneLine, RiSettings3Line, RiSpeedUpLine,
+  RiArrowRightLine, RiBankCardLine, RiBuildingLine, RiCalendarTodoLine, RiCheckLine, RiContactsBook3Line,
+  RiDashboardLine, RiFolderLine, RiGroupLine, RiHome3Line, RiHome4Line, RiListCheck2, RiMailLine,
+  RiMapPinLine, RiMegaphoneLine, RiMoneyEuroCircleLine, RiPhoneLine, RiSettings3Line, RiSpeedUpLine,
   RiToolsLine, RiWallet3Line,
 } from "react-icons/ri";
 import type { OccupantData } from "@/lib/building/occupant-data";
@@ -22,7 +22,7 @@ import { MaintenanceSection } from "./MaintenanceSection";
 import { MetersSection } from "./MetersSection";
 import { ManagedItemsSection } from "./ManagedItemsSection";
 import { AssembliesSection } from "./AssembliesSection";
-import { QuickPayCard, type QuickPayProps } from "./QuickPayCard";
+import { type QuickPayProps } from "./QuickPayCard";
 
 type SectionKey =
   | "overview" | "koino" | "expenses" | "units" | "infra" | "maintenance" | "meters" | "items"
@@ -189,7 +189,6 @@ export function OccupantBuildingShell(props: Props) {
             buildingId={building.id}
             quickPay={quickPay}
             myUnits={myUnits}
-            months={months}
             selectedMonth={selectedMonth}
             statements={statements}
             announcements={announcements}
@@ -234,11 +233,10 @@ export function OccupantBuildingShell(props: Props) {
 
 /* ─── Επισκόπηση ─────────────────────────────────────────────────────────── */
 
-function Overview({ buildingId, quickPay, myUnits, months, selectedMonth, statements, announcements, assemblies, requestsHref, onNavigate }: {
+function Overview({ buildingId, quickPay, myUnits, selectedMonth, statements, announcements, assemblies, requestsHref, onNavigate }: {
   buildingId: string;
   quickPay?: Omit<QuickPayProps, "buildingId">;
   myUnits: OccupantData["myUnits"];
-  months: OccupantData["months"];
   selectedMonth: string;
   statements: OccupantData["statements"];
   announcements: OccupantData["announcements"];
@@ -246,14 +244,50 @@ function Overview({ buildingId, quickPay, myUnits, months, selectedMonth, statem
   requestsHref: string;
   onNavigate: (s: SectionKey) => void;
 }) {
-  // Overview aggregates across ALL the viewer's units: total payable + settled
-  // only when every unit's role-relevant side is paid.
-  const payable = Math.round(statements.reduce((a, s) => a + s.myPayable, 0) * 100) / 100;
-  const settled = statements.every((s) =>
-    s.role === "OWNER" ? s.ownerPaid !== false
-    : s.role === "RESIDENT" ? s.tenantPaid !== false
-    : s.tenantPaid !== false && s.ownerPaid !== false,
-  );
+  const router = useRouter();
+  const pathname = usePathname();
+  const search = useSearchParams();
+
+  // Inline Viva pay handler (mirrors QuickPayCard). Amounts are NEVER sent —
+  // the route recomputes them; the client only names the scope (building/unit).
+  const [busy, setBusy] = useState<string | null>(null);
+  const [payError, setPayError] = useState<string | null>(null);
+
+  const enabled = quickPay?.enabled ?? false;
+  const total = (quickPay?.totalCents ?? 0) / 100;
+
+  async function pay(scope: string, unitId?: string) {
+    if (!enabled) return;
+    setPayError(null);
+    setBusy(scope);
+    try {
+      const res = await fetch("/api/koinochrista/pay", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(unitId ? { buildingId, unitId } : { buildingId }),
+      });
+      if (res.status === 503) { setPayError("Οι online πληρωμές δεν είναι ακόμη διαθέσιμες."); return; }
+      if (!res.ok) { setPayError("Σφάλμα πληρωμής. Δοκιμάστε ξανά."); return; }
+      const data = (await res.json()) as { checkoutUrl?: string };
+      if (data.checkoutUrl) { window.location.href = data.checkoutUrl; return; }
+      setPayError("Σφάλμα πληρωμής. Δοκιμάστε ξανά.");
+    } catch {
+      setPayError("Σφάλμα δικτύου. Δοκιμάστε ξανά.");
+    } finally {
+      setBusy(null);
+    }
+  }
+
+  // Deep-link to the per-apartment notice, preserving the selected month.
+  const goToNotice = (unitId: string) => {
+    const q = new URLSearchParams();
+    q.set("s", "koino");
+    q.set("unit", unitId);
+    const month = search.get("month");
+    if (month) q.set("month", month);
+    router.replace(`${pathname}?${q.toString()}`, { scroll: false });
+  };
+
   const now = Date.now();
   const nextAssembly = assemblies
     .filter((a) => a.status !== "CANCELLED" && new Date(a.scheduledAt).getTime() >= now)
@@ -262,86 +296,131 @@ function Overview({ buildingId, quickPay, myUnits, months, selectedMonth, statem
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-      {quickPay && (
-        <QuickPayCard
-          buildingId={buildingId}
-          perUnit={quickPay.perUnit}
-          totalCents={quickPay.totalCents}
-          enabled={quickPay.enabled}
-        />
-      )}
-      <div className="dash-cols" style={{ display: "grid", gridTemplateColumns: "1.6fr 1fr", gap: 16, alignItems: "start" }}>
-        {/* left: my units + current month */}
-      <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-        <div style={{ display: "grid", gridTemplateColumns: myUnits.length > 1 ? "repeat(auto-fill, minmax(280px, 1fr))" : "1fr", gap: 16 }}>
-          {myUnits.map((u) => (
-            <div key={u.id} style={card}>
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, flexWrap: "wrap" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                  <div style={{ width: 40, height: 40, borderRadius: 8, background: "color-mix(in srgb, var(--color-accent) 16%, transparent)", color: "var(--foreground)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <RiHome4Line style={{ fontSize: 20 }} />
-                  </div>
-                  <div>
-                    <div style={{ fontSize: 16, fontWeight: 800, color: "var(--foreground)" }}>Μονάδα {u.unitNumber}</div>
-                    <div style={{ fontSize: 12, color: "var(--muted-foreground)" }}>
-                      {[UNIT_TYPE[u.unitType] ?? u.unitType, floorLabel(u.floor), u.areaSqm != null ? `${u.areaSqm.toLocaleString("el-GR", { maximumFractionDigits: 1 })} μ²` : null]
-                        .filter(Boolean).join(" · ")}
-                    </div>
-                  </div>
-                </div>
-                <StatusChip tone={u.isOwner ? "accent" : "info"}>{u.rel}</StatusChip>
-              </div>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 8, marginTop: 14 }}>
-                <MilleStat label="Κοινόχρηστα" value={mill(u.millesimes)} />
-                <MilleStat label="Ανελκυστήρας" value={mill(u.millesimesElevator)} />
-                <MilleStat label="Θέρμανση" value={mill(u.millesimesHeating)} />
-              </div>
+      {/* summary hero — money first */}
+      <div style={{ ...card, padding: 22 }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 18, flexWrap: "wrap" }}>
+          <div style={{ minWidth: 0 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+              <span style={cardCaps}>Συνολική οφειλή</span>
+              <StatusChip tone={total > 0 ? "warning" : "success"}>{total > 0 ? "Εκκρεμεί" : "Εξοφλημένο"}</StatusChip>
             </div>
-          ))}
+            <div style={{ fontSize: 40, fontWeight: 800, fontVariantNumeric: "tabular-nums", lineHeight: 1.1, marginTop: 6, color: total > 0 ? "var(--color-warning)" : "var(--foreground)" }}>
+              {eur(total)}
+            </div>
+            <div style={{ fontSize: 13, color: "var(--muted-foreground)", marginTop: 6 }}>
+              {myUnits.length} {myUnits.length === 1 ? "διαμέρισμα" : "διαμερίσματα"} · {monthLabel(selectedMonth)}
+            </div>
+          </div>
+          {total > 0 && (
+            <button
+              type="button"
+              disabled={!enabled || busy != null}
+              onClick={() => pay("all")}
+              title={!enabled ? "Το Viva της ιδιοκτησίας δεν έχει ρυθμιστεί" : undefined}
+              style={heroPayBtn(enabled)}
+            >
+              <RiBankCardLine style={{ fontSize: 18 }} />
+              {!enabled ? "Σύντομα διαθέσιμο" : busy === "all" ? "Μεταφορά…" : `Πληρωμή όλων ${eur(total)}`}
+            </button>
+          )}
         </div>
-
-        {/* current-month tile */}
-        <button type="button" onClick={() => onNavigate("koino")} className="dash-tile" style={{ ...card, textAlign: "left", cursor: "pointer", width: "100%" }}>
-          <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
-            <div>
-              <div style={cardCaps}>Κοινόχρηστα · {monthLabel(selectedMonth)}</div>
-              {months.length === 0 ? (
-                <div style={{ fontSize: 14, color: "var(--muted-foreground)", marginTop: 8 }}>Δεν έχουν εκδοθεί ακόμη κοινόχρηστα.</div>
-              ) : (
-                <>
-                  <div style={{ fontSize: 30, fontWeight: 800, fontVariantNumeric: "tabular-nums", color: "var(--foreground)", marginTop: 4, lineHeight: 1.15 }}>
-                    {eur(payable)}
-                  </div>
-                  <div style={{ fontSize: 12.5, color: "var(--muted-foreground)", marginTop: 2 }}>Το μερίδιό μου για τον μήνα</div>
-                </>
-              )}
-            </div>
-            {months.length > 0 && (
-              <StatusChip tone={settled ? "success" : "warning"}>{settled ? "Εξοφλημένο" : "Εκκρεμεί"}</StatusChip>
-            )}
+        {!enabled && total > 0 && (
+          <div style={{ fontSize: 12, color: "var(--muted-foreground)", marginTop: 12 }}>
+            Οι online πληρωμές θα είναι σύντομα διαθέσιμες.
           </div>
-          <div style={{ marginTop: 12, fontSize: 12.5, fontWeight: 700, color: "var(--color-primary)", display: "inline-flex", alignItems: "center", gap: 5 }}>
-            Προβολή ειδοποιητηρίου <RiArrowRightLine />
-          </div>
-        </button>
+        )}
+        {payError && (
+          <div style={{ fontSize: 12.5, color: "var(--color-danger)", marginTop: 10 }}>{payError}</div>
+        )}
       </div>
 
-      {/* right: quick actions + next assembly + latest announcement */}
-      <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+      <div className="dash-cols" style={{ display: "grid", gridTemplateColumns: "1.6fr 1fr", gap: 16, alignItems: "start" }}>
+        {/* left: one unified card per unit (outstanding + current month + χιλιοστά + actions) */}
+        <div style={{ display: "grid", gridTemplateColumns: myUnits.length > 1 ? "repeat(auto-fill, minmax(300px, 1fr))" : "1fr", gap: 16 }}>
+          {myUnits.map((u) => {
+            const out = (quickPay?.perUnit.find((p) => p.unitId === u.id)?.amountCents ?? 0) / 100;
+            const share = statements.find((s) => s.unitId === u.id)?.myPayable ?? 0;
+            return (
+              <div key={u.id} style={{ ...card, display: "flex", flexDirection: "column", gap: 14 }}>
+                {/* header */}
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, flexWrap: "wrap" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 10, minWidth: 0 }}>
+                    <div style={{ width: 40, height: 40, borderRadius: 8, background: "color-mix(in srgb, var(--color-accent) 16%, transparent)", color: "var(--foreground)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                      <RiHome4Line style={{ fontSize: 20 }} />
+                    </div>
+                    <div style={{ minWidth: 0 }}>
+                      <div style={{ fontSize: 16, fontWeight: 800, color: "var(--foreground)" }}>Μονάδα {u.unitNumber}</div>
+                      <div style={{ fontSize: 12, color: "var(--muted-foreground)" }}>
+                        {[UNIT_TYPE[u.unitType] ?? u.unitType, floorLabel(u.floor), u.areaSqm != null ? `${u.areaSqm.toLocaleString("el-GR", { maximumFractionDigits: 1 })} μ²` : null]
+                          .filter(Boolean).join(" · ")}
+                      </div>
+                    </div>
+                  </div>
+                  <StatusChip tone={u.isOwner ? "accent" : "info"}>{u.rel}</StatusChip>
+                </div>
+
+                {/* money block — the dominant element */}
+                <div style={{ background: "var(--bg-canvas)", border: "1px solid var(--border)", borderRadius: 10, padding: "12px 14px" }}>
+                  {out > 0 ? (
+                    <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 10, flexWrap: "wrap" }}>
+                      <div>
+                        <div style={cardCaps}>Οφειλή</div>
+                        <div style={{ fontSize: 26, fontWeight: 800, fontVariantNumeric: "tabular-nums", color: "var(--color-warning)", lineHeight: 1.15, marginTop: 2 }}>
+                          {eur(out)}
+                        </div>
+                      </div>
+                      <StatusChip tone="warning">Εκκρεμεί</StatusChip>
+                    </div>
+                  ) : (
+                    <div style={{ display: "inline-flex", alignItems: "center", gap: 6, color: "var(--color-success)", fontSize: 15, fontWeight: 700 }}>
+                      <RiCheckLine style={{ fontSize: 18 }} /> Εξοφλημένο
+                    </div>
+                  )}
+                  <div style={{ fontSize: 12, color: "var(--muted-foreground)", marginTop: 8, fontVariantNumeric: "tabular-nums" }}>
+                    Τρέχων μήνας ({monthLabel(selectedMonth)}): {eur(share)}
+                  </div>
+                </div>
+
+                {/* χιλιοστά — de-emphasized chip row */}
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+                  <MilleChip label="Κοινόχρηστα" value={mill(u.millesimes)} />
+                  <MilleChip label="Ανελκυστήρας" value={mill(u.millesimesElevator)} />
+                  <MilleChip label="Θέρμανση" value={mill(u.millesimesHeating)} />
+                </div>
+
+                {/* actions */}
+                <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: "auto" }}>
+                  <button type="button" onClick={() => goToNotice(u.id)} style={secondaryBtn}>
+                    <RiWallet3Line style={{ fontSize: 16 }} /> Ειδοποιητήριο
+                  </button>
+                  {out > 0 && (
+                    <button
+                      type="button"
+                      disabled={!enabled || busy != null}
+                      onClick={() => pay(u.id, u.id)}
+                      title={!enabled ? "Το Viva της ιδιοκτησίας δεν έχει ρυθμιστεί" : undefined}
+                      style={unitPayBtn(enabled)}
+                    >
+                      <RiBankCardLine style={{ fontSize: 16 }} />
+                      {!enabled ? "Σύντομα" : busy === u.id ? "Μεταφορά…" : `Πληρωμή ${eur(out)}`}
+                    </button>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* right: secondary actions + next assembly + latest announcement */}
+        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
         <div style={card}>
           <div style={cardCaps}>Γρήγορες ενέργειες</div>
           <div style={{ display: "flex", flexDirection: "column", gap: 8, marginTop: 10 }}>
             <Link href={requestsHref} style={quickAction}>
               <RiToolsLine style={{ fontSize: 17 }} /> Δήλωση βλάβης
             </Link>
-            <button type="button" onClick={() => onNavigate("koino")} style={quickAction}>
-              <RiWallet3Line style={{ fontSize: 17 }} /> Ειδοποιητήριο κοινοχρήστων
-            </button>
             <button type="button" onClick={() => onNavigate("infra")} style={quickAction}>
               <RiSettings3Line style={{ fontSize: 17 }} /> Εγκαταστάσεις & κλειδιά
-            </button>
-            <button type="button" onClick={() => onNavigate("units")} style={quickAction}>
-              <RiHome3Line style={{ fontSize: 17 }} /> Μονάδες κτηρίου
             </button>
           </div>
         </div>
@@ -386,19 +465,45 @@ function Overview({ buildingId, quickPay, myUnits, months, selectedMonth, statem
   );
 }
 
-function MilleStat({ label, value }: { label: string; value: string }) {
+function MilleChip({ label, value }: { label: string; value: string }) {
   return (
-    <div style={{ background: "var(--bg-canvas)", border: "1px solid var(--border)", borderRadius: 8, padding: "8px 10px" }}>
-      <div style={{ fontSize: 10.5, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".03em", color: "var(--muted-foreground)" }}>{label}</div>
-      <div style={{ fontSize: 16, fontWeight: 800, fontVariantNumeric: "tabular-nums", color: "var(--foreground)", marginTop: 2 }}>{value}</div>
-    </div>
+    <span style={{
+      display: "inline-flex", alignItems: "center", gap: 5, padding: "3px 9px", borderRadius: 999,
+      background: "var(--bg-canvas)", border: "1px solid var(--border)", fontSize: 11.5, color: "var(--muted-foreground)",
+    }}>
+      {label} <span style={{ fontWeight: 700, fontVariantNumeric: "tabular-nums", color: "var(--foreground)" }}>{value}</span>
+    </span>
   );
 }
 
 const quickAction: React.CSSProperties = {
-  display: "flex", alignItems: "center", gap: 9, padding: "11px 13px", borderRadius: 9,
+  display: "flex", alignItems: "center", gap: 9, padding: "11px 13px", minHeight: 40, borderRadius: 9,
   border: "1px solid var(--border)", background: "var(--bg-canvas)", color: "var(--foreground)",
   fontSize: 13.5, fontWeight: 700, cursor: "pointer", textDecoration: "none", textAlign: "left", width: "100%",
+};
+
+const heroPayBtn = (active: boolean): React.CSSProperties => ({
+  display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, padding: "13px 20px", minHeight: 44,
+  borderRadius: 10, border: `1px solid ${active ? "var(--color-primary)" : "var(--border)"}`,
+  background: active ? "var(--color-primary)" : "var(--bg-muted, var(--bg-canvas))",
+  color: active ? "#fff" : "var(--muted-foreground)",
+  fontSize: 15, fontWeight: 800, fontVariantNumeric: "tabular-nums",
+  cursor: active ? "pointer" : "not-allowed", whiteSpace: "nowrap",
+});
+
+const unitPayBtn = (active: boolean): React.CSSProperties => ({
+  display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 7, padding: "10px 14px", minHeight: 40,
+  borderRadius: 9, flex: 1, border: `1px solid ${active ? "var(--color-primary)" : "var(--border)"}`,
+  background: active ? "var(--color-primary)" : "var(--bg-muted, var(--bg-canvas))",
+  color: active ? "#fff" : "var(--muted-foreground)",
+  fontSize: 13, fontWeight: 800, fontVariantNumeric: "tabular-nums",
+  cursor: active ? "pointer" : "not-allowed", whiteSpace: "nowrap",
+});
+
+const secondaryBtn: React.CSSProperties = {
+  display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 7, padding: "10px 14px", minHeight: 40,
+  borderRadius: 9, flex: 1, border: "1px solid var(--border)", background: "var(--bg-canvas)", color: "var(--foreground)",
+  fontSize: 13, fontWeight: 700, cursor: "pointer", whiteSpace: "nowrap",
 };
 const cardLink: React.CSSProperties = {
   display: "inline-flex", alignItems: "center", gap: 5, marginTop: 12, padding: 0,
