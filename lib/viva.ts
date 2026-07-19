@@ -1,6 +1,8 @@
 // Viva Smart Checkout v2 client. Coded to Viva's documented API; NOT yet verified
 // against a live/sandbox account. Set VIVA_* env + verify in sandbox before enabling.
 
+import { getProviderVivaConfig, type ProviderVivaConfig } from "@/lib/payments/provider-viva";
+
 type VivaEnv = "sandbox" | "production";
 
 function vivaEnv(): VivaEnv {
@@ -21,21 +23,20 @@ export function vivaUrls() {
   };
 }
 
-function requireEnv(name: string): string {
-  const v = process.env[name];
-  if (!v) throw new Error(`Missing required env var ${name}`);
-  return v;
+async function resolveProviderViva(): Promise<ProviderVivaConfig> {
+  const cfg = await getProviderVivaConfig();
+  if (!cfg) throw new Error("Provider Viva is not configured (no DB config and no VIVA_CLIENT_ID/SECRET env)");
+  return cfg;
 }
 
 /**
- * OAuth2 client-credentials token for Smart Checkout v2.
+ * OAuth2 client-credentials token for Smart Checkout v2, against an EXPLICIT
+ * provider client id/secret pair (DB- or env-resolved by the caller).
  * POST {accounts}/connect/token with HTTP Basic auth (client id:secret).
  */
-export async function getAccessToken(): Promise<string> {
-  const clientId = requireEnv("VIVA_CLIENT_ID");
-  const clientSecret = requireEnv("VIVA_CLIENT_SECRET");
+export async function getAccessTokenFor(cfg: { clientId: string; clientSecret: string }): Promise<string> {
   const { accounts } = vivaUrls();
-  const basic = Buffer.from(`${clientId}:${clientSecret}`).toString("base64");
+  const basic = Buffer.from(`${cfg.clientId}:${cfg.clientSecret}`).toString("base64");
 
   const res = await fetch(`${accounts}/connect/token`, {
     method: "POST",
@@ -52,6 +53,14 @@ export async function getAccessToken(): Promise<string> {
   return data.access_token;
 }
 
+/**
+ * OAuth2 client-credentials token using the resolved provider config
+ * (DB-first, env fallback). Thin wrapper so existing callers keep working.
+ */
+export async function getAccessToken(): Promise<string> {
+  return getAccessTokenFor(await resolveProviderViva());
+}
+
 export interface CreateVivaOrderInput {
   amountCents: number; // integer minor units (EUR cents)
   customerTrns: string;
@@ -65,13 +74,16 @@ export interface CreateVivaOrderResult {
 }
 
 /**
- * Create a Smart Checkout v2 payment order.
+ * Create a Smart Checkout v2 payment order against an EXPLICIT provider config
+ * (DB- or env-resolved). Uses cfg.clientId/secret for OAuth and cfg.sourceCode
+ * as the default source code.
  * POST {api}/checkout/v2/orders with a Bearer token.
  */
-export async function createVivaOrder(
+export async function createVivaOrderFor(
+  cfg: ProviderVivaConfig,
   input: CreateVivaOrderInput,
 ): Promise<CreateVivaOrderResult> {
-  const token = await getAccessToken();
+  const token = await getAccessTokenFor(cfg);
   const { api, checkoutBase } = vivaUrls();
 
   const res = await fetch(`${api}/checkout/v2/orders`, {
@@ -84,7 +96,7 @@ export async function createVivaOrder(
       amount: input.amountCents,
       customerTrns: input.customerTrns,
       merchantTrns: input.merchantTrns,
-      sourceCode: input.sourceCode ?? process.env.VIVA_SOURCE_CODE,
+      sourceCode: input.sourceCode ?? cfg.sourceCode ?? undefined,
       paymentTimeout: 300,
     }),
     cache: "no-store",
@@ -98,6 +110,16 @@ export async function createVivaOrder(
     orderCode: data.orderCode,
     checkoutUrl: `${checkoutBase}?ref=${data.orderCode}`,
   };
+}
+
+/**
+ * Create a Smart Checkout v2 payment order using the resolved provider config
+ * (DB-first, env fallback). Thin wrapper so existing callers keep working.
+ */
+export async function createVivaOrder(
+  input: CreateVivaOrderInput,
+): Promise<CreateVivaOrderResult> {
+  return createVivaOrderFor(await resolveProviderViva(), input);
 }
 
 export interface VivaTransaction {

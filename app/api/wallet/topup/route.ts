@@ -1,5 +1,6 @@
 import { currentCustomerId } from "@/lib/wallet/current-customer";
-import { createVivaOrder } from "@/lib/viva";
+import { createVivaOrderFor } from "@/lib/viva";
+import { getProviderVivaConfig } from "@/lib/payments/provider-viva";
 
 /**
  * POST /api/wallet/topup — create a Viva Smart Checkout order for a wallet top-up
@@ -26,8 +27,14 @@ export async function POST(request: Request) {
 
   const merchantTrns = `wallet-topup:${customerId}:${amountEur}`;
 
+  // Provider Viva config: DB-first, env fallback. 502 when neither is configured.
+  const cfg = await getProviderVivaConfig();
+  if (!cfg) {
+    return Response.json({ error: "viva_not_configured" }, { status: 502 });
+  }
+
   try {
-    const { checkoutUrl } = await createVivaOrder({
+    const { checkoutUrl } = await createVivaOrderFor(cfg, {
       amountCents: Math.round(amountEur * 100),
       customerTrns: "Wallet top-up",
       merchantTrns,

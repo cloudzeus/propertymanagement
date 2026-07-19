@@ -1,6 +1,7 @@
 import { db } from "@/lib/db";
 import { creditWallet } from "@/lib/wallet/ledger";
 import { vivaUrls } from "@/lib/viva";
+import { getProviderVivaConfig } from "@/lib/payments/provider-viva";
 
 // Viva webhook receiver for wallet top-ups.
 //
@@ -19,8 +20,10 @@ import { vivaUrls } from "@/lib/viva";
  */
 export async function GET() {
   try {
-    const merchantId = process.env.VIVA_MERCHANT_ID;
-    const apiKey = process.env.VIVA_API_KEY;
+    // Provider Viva merchant/api: DB-first (when providerVivaEnabled), env fallback.
+    const cfg = await getProviderVivaConfig();
+    const merchantId = cfg?.merchantId ?? process.env.VIVA_MERCHANT_ID;
+    const apiKey = cfg?.apiKey ?? process.env.VIVA_API_KEY;
     if (!merchantId || !apiKey) throw new Error("Missing VIVA_MERCHANT_ID/VIVA_API_KEY");
 
     const { api } = vivaUrls();
