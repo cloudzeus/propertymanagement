@@ -4,7 +4,7 @@ import { auth } from "@/auth";
 import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import { uploadFile, buildingFolder } from "@/lib/bunnycdn";
-import { requireBuildingCap, requireBuildingView } from "@/lib/building-access";
+import { requireBuildingCap } from "@/lib/building-access";
 import { publishBuildingEvent } from "@/lib/realtime/bus";
 import { computeAllocation } from "@/lib/expenses/allocation";
 import { resolveWeights, type BasisUnit } from "@/lib/expenses/basis";
@@ -431,7 +431,8 @@ export type ExpenseRowDTO = {
 };
 
 export async function listBuildingExpenses(buildingId: string): Promise<ExpenseRowDTO[]> {
-  await requireBuildingView(buildingId);
+  // Includes DRAFT (unconfirmed) entries + supplier VAT — staff/manager only.
+  await requireBuildingCap(buildingId, "viewLedger");
   const rows = await db.buildingExpense.findMany({
     where: { buildingId },
     orderBy: [{ documentDate: "desc" }, { createdAt: "desc" }],

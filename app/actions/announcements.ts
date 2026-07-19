@@ -99,7 +99,8 @@ async function peopleForBuildings(buildingIds: string[]): Promise<Person[]> {
 
 /** People available to target for an announcement (deduped, both roles flagged). */
 export async function listAnnouncementTargets(buildingId: string): Promise<{ id: string; name: string | null; email: string; roles: ("OWNER" | "RESIDENT")[] }[]> {
-  await requireBuildingView(buildingId);
+  // Building-wide person directory (names/emails) — staff/manager only.
+  await requireBuildingCap(buildingId, "viewLedger");
   const people = await peopleForBuildings([buildingId]);
   const map = new Map<string, { id: string; name: string | null; email: string; roles: ("OWNER" | "RESIDENT")[] }>();
   for (const p of people) {

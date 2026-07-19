@@ -7,7 +7,7 @@ import { revalidatePath } from "next/cache";
 import { ensureRoom, createMeetingToken } from "@/lib/daily";
 import { runAssemblyMinutes } from "@/lib/assemblies/run-minutes";
 import { sendAnnouncementEmail } from "@/lib/mailgun";
-import { requireBuildingCap, requireBuildingView } from "@/lib/building-access";
+import { requireBuildingCap } from "@/lib/building-access";
 import { publishBuildingEvent } from "@/lib/realtime/bus";
 
 async function requireSuperAdmin(): Promise<string> {
@@ -268,7 +268,9 @@ export type AssemblyRow = {
 };
 
 export async function listAssemblies(buildingId: string): Promise<AssemblyRow[]> {
-  await requireBuildingView(buildingId);
+  // Rows carry internal API cost — staff/manager panel only; the occupant shell
+  // renders assemblies from its own loader (lib/building/occupant-data.ts).
+  await requireBuildingCap(buildingId, "viewLedger");
   const rows = await db.assembly.findMany({
     where: { buildingId },
     orderBy: { scheduledAt: "desc" },
@@ -294,7 +296,8 @@ export async function listAssemblies(buildingId: string): Promise<AssemblyRow[]>
 export async function getAssemblyCost(assemblyId: string) {
   const assembly = await db.assembly.findUnique({ where: { id: assemblyId }, select: { buildingId: true } });
   if (!assembly) throw new Error("Assembly not found");
-  await requireBuildingView(assembly.buildingId);
+  // Internal API cost breakdown — staff/manager only.
+  await requireBuildingCap(assembly.buildingId, "viewLedger");
   const rows = await db.aPIUsageLog.groupBy({
     by: ["apiName"],
     where: { assemblyId },

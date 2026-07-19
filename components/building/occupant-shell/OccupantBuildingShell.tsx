@@ -154,7 +154,7 @@ export function OccupantBuildingShell(props: Props) {
           return (
             <button key={s.key} onClick={() => navigate(s.key)} style={{
               display: "inline-flex", alignItems: "center", gap: 7, borderRadius: 9999,
-              padding: "8px 15px", fontSize: 13, fontWeight: 700, cursor: "pointer",
+              padding: "10px 16px", minHeight: 40, fontSize: 13, fontWeight: 700, cursor: "pointer",
               border: `1px solid ${active ? "var(--color-primary)" : "var(--border)"}`,
               background: active ? "var(--color-primary)" : "var(--card)",
               color: active ? "#fff" : "var(--muted-foreground)",

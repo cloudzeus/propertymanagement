@@ -147,9 +147,17 @@ body {
   .dash-grid { grid-template-columns: 1fr !important; }
 }
 
-/* ─── Occupant statement print (ειδοποιητήριο κοινοχρήστων) ──────────────── */
+/* keyboard focus for clickable occupant expense rows */
+.occ-expense-row:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: -2px;
+}
+
+/* ─── Occupant statement print (ειδοποιητήριο κοινοχρήστων) ────────────────
+   Scoped via body:has(): only pages that actually render a statement hide the
+   rest of the document — printing any other page stays untouched. */
 @media print {
-  body * { visibility: hidden; }
+  body:has(.statement-print-root) * { visibility: hidden; }
   .statement-print-root, .statement-print-root * { visibility: visible; }
   .statement-print-root { position: absolute; inset: 0; padding: 0; background: #fff; color: #000; }
   /* classic έντυπο look: white paper, black rules */

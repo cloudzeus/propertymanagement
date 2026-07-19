@@ -81,7 +81,14 @@ export function ExpensesSection({ expenses, months, selectedMonth }: {
               {expenses.map((e) => (
                 <tr
                   key={e.id}
+                  className="occ-expense-row"
+                  role="button"
+                  tabIndex={0}
                   onClick={() => setSel(e)}
+                  onKeyDown={(ev) => {
+                    if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); setSel(e); }
+                  }}
+                  aria-label={`Προβολή εξόδου${e.categoryName ? `: ${e.categoryName}` : ""} ${eur(e.amount)}`}
                   title="Προβολή εξόδου & παραστατικού"
                   style={{ borderBottom: "1px solid var(--border)", cursor: "pointer" }}
                 >

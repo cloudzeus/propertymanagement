@@ -20,6 +20,7 @@ describe("capsForManager", () => {
     expect(c.createRequests).toBe(true);
     expect(c.editDistribution).toBe(false);
     expect(c.viewAudit).toBe(true);
+    expect(c.viewLedger).toBe(true); // managers legitimately see the building ledger
     expect(c.manageManagers).toBe(false);
   });
   it("self-managed building: full CRUD except distribution settings and managers", () => {
@@ -33,6 +34,7 @@ describe("capsForManager", () => {
     expect(c.manageManagedItems).toBe(false); // managed items are company-catalog only
     expect(c.manageMaintenance).toBe(true);
     expect(c.editDistribution).toBe(false);
+    expect(c.viewLedger).toBe(true);
     expect(c.manageManagers).toBe(false);
   });
   it("staff gets everything; NO_CAPS gets nothing", () => {
@@ -44,6 +46,8 @@ describe("capsForManager", () => {
 describe("OCCUPANT_CAPS", () => {
   it("is read-only except request creation", () => {
     expect(OCCUPANT_CAPS.createRequests).toBe(true);
+    // Ledger reads are manager-grade — occupants use their own scoped loaders.
+    expect(OCCUPANT_CAPS.viewLedger).toBe(false);
     const { createRequests: _cr, ...rest } = OCCUPANT_CAPS;
     expect(Object.values(rest).every((v) => v === false)).toBe(true);
   });

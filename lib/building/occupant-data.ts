@@ -139,7 +139,8 @@ export async function getOccupantControlCenter(
     db.contact.findMany({
       where: { buildingId },
       orderBy: { name: "asc" },
-      select: { id: true, name: true, category: true, phone: true, email: true, notes: true },
+      // No `notes` — they can carry staff-internal remarks; the shell never renders them.
+      select: { id: true, name: true, category: true, phone: true, email: true },
     }),
     db.announcement.findMany({
       where: { buildingId, status: "ACTIVE", audience: { in: announcementAudiences } },

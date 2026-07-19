@@ -6,6 +6,10 @@ export type BuildingCaps = {
   manageAssemblies: boolean; manageCalendar: boolean; manageInfra: boolean;
   manageManagedItems: boolean; manageMaintenance: boolean; createRequests: boolean;
   viewAudit: boolean; manageManagers: boolean;
+  /** Building-wide financial/person reads (ledger, per-person statements, expense
+   *  drafts, targets, heating readings). Staff + assigned managers only — occupants
+   *  get their own scoped loaders instead. */
+  viewLedger: boolean;
 };
 
 const all = (v: boolean): BuildingCaps => ({
@@ -14,7 +18,7 @@ const all = (v: boolean): BuildingCaps => ({
   manageFiles: v, manageContacts: v, manageAnnouncements: v,
   manageAssemblies: v, manageCalendar: v, manageInfra: v,
   manageManagedItems: v, manageMaintenance: v, createRequests: v,
-  viewAudit: v, manageManagers: v,
+  viewAudit: v, manageManagers: v, viewLedger: v,
 });
 
 export const NO_CAPS: BuildingCaps = all(false);
@@ -30,9 +34,10 @@ export const OCCUPANT_CAPS: BuildingCaps = { ...NO_CAPS, createRequests: true };
 export function capsForManager(managed: boolean): BuildingCaps {
   return {
     ...all(!managed),
-    // Communication + own requests are always allowed:
+    // Communication + own requests + building-wide reads are always allowed:
     manageFiles: true, manageContacts: true, manageAnnouncements: true,
     manageAssemblies: true, manageCalendar: true, createRequests: true, viewAudit: true,
+    viewLedger: true,
     // Company-owned settings are never manager-editable:
     editDistribution: false, manageManagers: false,
     // Managed items exist only on managed buildings (company catalog) — always view-only for managers:
