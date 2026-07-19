@@ -25,5 +25,6 @@ export const SECTIONS: { key: SectionKey; label: string; tabs: SubTab[] }[] = [
   ]},
   { key: "settings", label: "Ρυθμίσεις", tabs: [
     { key: "viva", label: "Viva πληρωμές" },
+    { key: "packages", label: "Πακέτα" },
   ]},
 ];

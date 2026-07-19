@@ -32,6 +32,7 @@ import { MeterReadingsPanel } from "@/components/building/MeterReadingsPanel";
 import { MaintenanceTab } from "@/components/building/MaintenanceTab";
 import { ManagedItemsPanel } from "@/components/building/ManagedItemsPanel";
 import { PropertyVivaSetup } from "@/components/property/PropertyVivaSetup";
+import { PropertyPackages } from "@/components/property/PropertyPackages";
 import { RequestsPanel } from "./RequestsPanel";
 import { SECTIONS, type SectionKey } from "./sections";
 import { ManagerOverview } from "./ManagerOverview";
@@ -51,11 +52,12 @@ type Props = BuildingDashboardData & {
   viewer: "staff" | "manager";
   managed: boolean;
   siblings: { id: string; name: string }[];
+  providerConfigured: boolean;
 };
 
 export function BuildingManagerShell(props: Props) {
   const {
-    building, kpis, can, viewer, managed, siblings,
+    building, kpis, can, viewer, managed, siblings, providerConfigured,
     units, files, people, contacts, infraPoints, floorOptions, tasks,
     expenses, categorySplits, today, millesimeUnits, exclusionUnits,
     expenseCategories, categoryOverrides, unitExclusions,
@@ -261,6 +263,8 @@ export function BuildingManagerShell(props: Props) {
           <AssembliesPanel buildingId={building.id} can={can} linkToDetail={viewer !== "manager"} showTestButton={viewer !== "manager"} />
         ) : tab === "viva" ? (
           <PropertyVivaSetup propertyId={building.propertyId} />
+        ) : tab === "packages" ? (
+          <PropertyPackages propertyId={building.propertyId} providerConfigured={providerConfigured} />
         ) : (
           <Placeholder label={visibleTabs.find((t) => t.key === tab)?.label ?? sectionDef.label} />
         )}

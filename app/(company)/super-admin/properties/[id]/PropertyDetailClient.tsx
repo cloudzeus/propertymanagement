@@ -7,6 +7,7 @@ import { setPropertyService, addPrepaidMinutes } from "@/app/actions/property-pa
 import { RiArrowLeftLine, RiAddLine } from "react-icons/ri";
 import { ManagedBadge } from "@/components/ui/managed-badge";
 import { PropertyVivaSetup } from "@/components/property/PropertyVivaSetup";
+import { PropertyPackages } from "@/components/property/PropertyPackages";
 
 const PRICING_LABEL: Record<string, string> = {
   PER_UNIT: "ανά μονάδα", PER_BUILDING: "ανά κτήριο", PER_COMMON_AREA: "ανά κοιν. χώρο",
@@ -17,12 +18,13 @@ type CatalogService = { id: string; name: string; code: string; isCore: boolean;
 type PS = { serviceId: string; active: boolean; prepaidPersonMinutes: number };
 
 export function PropertyDetailClient({
-  property, buildings, catalog, propertyServices: initialPS,
+  property, buildings, catalog, propertyServices: initialPS, providerConfigured,
 }: {
   property: { id: string; name: string; customerName: string; managed: boolean } & TPropertyAddress;
   buildings: TBuilding[];
   catalog: CatalogService[];
   propertyServices: PS[];
+  providerConfigured: boolean;
 }) {
   const [tab, setTab] = useState<"buildings" | "package" | "viva">("buildings");
   const [ps, setPs] = useState<PS[]>(initialPS);
@@ -63,7 +65,13 @@ export function PropertyDetailClient({
           <BuildingsTree propertyId={property.id} buildings={buildings} depthBase={0} propertyAddress={property} />
         </div>
       ) : tab === "package" ? (
-        <PackageTab propertyId={property.id} catalog={catalog} ps={ps} setPs={setPs} counts={counts} />
+        <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+          <PackageTab propertyId={property.id} catalog={catalog} ps={ps} setPs={setPs} counts={counts} />
+          <div>
+            <h2 style={{ fontSize: 15, fontWeight: 700, color: "var(--foreground)", margin: "0 0 10px" }}>Πακέτα & πληρωμή</h2>
+            <PropertyPackages propertyId={property.id} providerConfigured={providerConfigured} />
+          </div>
+        </div>
       ) : (
         <PropertyVivaSetup propertyId={property.id} />
       )}

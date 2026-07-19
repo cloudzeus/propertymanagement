@@ -5,6 +5,7 @@ import { getBuildingAccess, managerBuildingIds } from "@/lib/building-access";
 import { getBuildingDashboardData } from "@/lib/building/dashboard-data";
 import { getOccupantControlCenter } from "@/lib/building/occupant-data";
 import { getBuildingOutstanding, getPropertyVivaConfig, isKoinochristaPayEnabled } from "@/lib/payments/koinochrista-pay";
+import { isProviderVivaConfigured } from "@/lib/payments/provider-viva";
 import { BuildingManagerShell } from "@/components/building/manager-shell/BuildingManagerShell";
 import { OccupantBuildingShell } from "@/components/building/occupant-shell/OccupantBuildingShell";
 
@@ -44,14 +45,15 @@ export default async function ManagerBuildingPage({ params, searchParams }: {
   }
 
   const heatingPeriod = typeof sp.heatingPeriod === "string" ? sp.heatingPeriod : null;
-  const [data, siblingIds] = await Promise.all([
+  const [data, siblingIds, providerConfigured] = await Promise.all([
     getBuildingDashboardData(id, { heatingPeriod }),
     access.viewer === "manager" ? managerBuildingIds(userId) : Promise.resolve([id]),
+    isProviderVivaConfigured(),
   ]);
   if (!data) notFound();
   const siblings = siblingIds.length > 1
     ? await db.building.findMany({ where: { id: { in: siblingIds } }, select: { id: true, name: true }, orderBy: { name: "asc" } })
     : [];
 
-  return <BuildingManagerShell {...data} can={access.can} viewer={access.viewer} managed={access.managed} siblings={siblings} />;
+  return <BuildingManagerShell {...data} can={access.can} viewer={access.viewer} managed={access.managed} siblings={siblings} providerConfigured={providerConfigured} />;
 }

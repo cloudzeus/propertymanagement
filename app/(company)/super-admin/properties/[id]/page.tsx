@@ -2,6 +2,7 @@ import { auth } from "@/auth";
 import { db } from "@/lib/db";
 import { redirect, notFound } from "next/navigation";
 import { PropertyDetailClient } from "./PropertyDetailClient";
+import { isProviderVivaConfigured } from "@/lib/payments/provider-viva";
 
 export const metadata = { title: "Ιδιοκτησία — Super Admin" };
 
@@ -35,9 +36,11 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
   if (!property) notFound();
 
   const catalog = await db.service.findMany({ where: { active: true }, orderBy: [{ isCore: "desc" }, { name: "asc" }] });
+  const providerConfigured = await isProviderVivaConfigured();
 
   return (
     <PropertyDetailClient
+      providerConfigured={providerConfigured}
       property={{
         id: property.id, name: property.name, customerName: property.customer.name, managed: property.managed,
         address: property.address, city: property.city, postalCode: property.postalCode, country: property.country, lat: property.lat, lng: property.lng,
