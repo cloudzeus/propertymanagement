@@ -24,3 +24,17 @@ export function groupAllocationsByMonth(rows: AllocRow[]): {
     totalUnpaid: months.reduce((s, m) => s + m.unpaid, 0),
   };
 }
+
+export type DuoPoint = { month: string; owner: number; tenant: number };
+
+/** Sum owner/tenant amounts per month, aligned to `months` (missing → 0). */
+export function duoTrend(rows: DuoPoint[], months: string[]): DuoPoint[] {
+  const bucket = new Map<string, { owner: number; tenant: number }>(
+    months.map((m) => [m, { owner: 0, tenant: 0 }]),
+  );
+  for (const r of rows) {
+    const b = bucket.get(r.month);
+    if (b) { b.owner += r.owner; b.tenant += r.tenant; }
+  }
+  return months.map((m) => ({ month: m, ...bucket.get(m)! }));
+}

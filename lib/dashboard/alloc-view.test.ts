@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { groupAllocationsByMonth, type AllocRow } from "./alloc-view";
+import { groupAllocationsByMonth, duoTrend, type AllocRow } from "./alloc-view";
 
 const rows: AllocRow[] = [
   { id: "a", month: "2026-07", unitLabel: "A1", description: "Κοινόχρηστα", amount: 40, paid: false, receiptUrl: null },
@@ -21,5 +21,27 @@ describe("groupAllocationsByMonth", () => {
     expect(g.months).toEqual([]);
     expect(g.total).toBe(0);
     expect(g.totalUnpaid).toBe(0);
+  });
+});
+
+describe("duoTrend", () => {
+  const months = ["2026-05", "2026-06", "2026-07"];
+  it("aligns owner/tenant sums to the month window with zeros", () => {
+    const t = duoTrend(
+      [
+        { month: "2026-07", owner: 30, tenant: 0 },
+        { month: "2026-07", owner: 10, tenant: 5 },
+        { month: "2026-04", owner: 99, tenant: 99 },
+      ],
+      months,
+    );
+    expect(t).toEqual([
+      { month: "2026-05", owner: 0, tenant: 0 },
+      { month: "2026-06", owner: 0, tenant: 0 },
+      { month: "2026-07", owner: 40, tenant: 5 },
+    ]);
+  });
+  it("empty rows → all zero", () => {
+    expect(duoTrend([], ["2026-07"])).toEqual([{ month: "2026-07", owner: 0, tenant: 0 }]);
   });
 });

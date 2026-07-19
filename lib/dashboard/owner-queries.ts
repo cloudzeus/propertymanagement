@@ -72,3 +72,62 @@ export async function getOwnerRequests(userId: string) {
     },
   });
 }
+
+export type TenancyState = "SELF" | "RENTED" | "VACANT";
+
+export async function getOwnerPortfolio(userId: string) {
+  const units = await db.unit.findMany({
+    where: { ownerId: userId },
+    orderBy: [{ building: { name: "asc" } }, { unitNumber: "asc" }],
+    select: {
+      id: true, unitNumber: true, floor: true, areaSqm: true, millesimes: true, residentId: true,
+      resident: { select: { name: true, email: true } },
+      building: { select: { id: true, name: true } },
+      expenseAllocations: { where: { ownerPaid: false }, select: { ownerAmount: true } },
+    },
+  });
+  return units.map((u) => ({
+    id: u.id, unitNumber: u.unitNumber, floor: u.floor, areaSqm: u.areaSqm,
+    millesimes: u.millesimes, buildingId: u.building.id, buildingName: u.building.name,
+    tenancy: (u.residentId === userId ? "SELF" : u.residentId ? "RENTED" : "VACANT") as TenancyState,
+    tenantName: u.residentId && u.residentId !== userId ? (u.resident?.name ?? u.resident?.email ?? null) : null,
+    unpaidOwner: u.expenseAllocations.reduce((s, a) => s + Number(a.ownerAmount), 0),
+  }));
+}
+
+export async function getTenantSide(userId: string) {
+  const unit = await db.unit.findFirst({
+    where: { residentId: userId },
+    select: {
+      id: true, unitNumber: true,
+      building: { select: { name: true } },
+      expenseAllocations: {
+        select: { tenantAmount: true, tenantPaid: true, expense: { select: { month: true } } },
+        orderBy: { createdAt: "desc" },
+      },
+    },
+  });
+  if (!unit) return null;
+  const unpaid = unit.expenseAllocations.reduce((s, a) => s + (a.tenantPaid ? 0 : Number(a.tenantAmount)), 0);
+  return {
+    unitNumber: unit.unitNumber, buildingName: unit.building.name,
+    unpaidTenant: unpaid, latestMonth: unit.expenseAllocations[0]?.expense.month ?? null,
+  };
+}
+
+export async function getOwnerDuoRows(userId: string) {
+  const [ownerAllocs, tenantAllocs] = await Promise.all([
+    db.expenseAllocation.findMany({
+      where: { unit: { ownerId: userId } },
+      select: { ownerAmount: true, expense: { select: { month: true } } },
+    }),
+    db.expenseAllocation.findMany({
+      where: { unit: { residentId: userId } },
+      select: { tenantAmount: true, expense: { select: { month: true } } },
+    }),
+  ]);
+  return [
+    ...ownerAllocs.map((a) => ({ month: a.expense.month, owner: Number(a.ownerAmount), tenant: 0 })),
+    ...tenantAllocs.map((a) => ({ month: a.expense.month, owner: 0, tenant: Number(a.tenantAmount) })),
+  ];
+}
