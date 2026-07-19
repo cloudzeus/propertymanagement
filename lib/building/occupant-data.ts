@@ -1,6 +1,6 @@
 import { db } from "@/lib/db";
 import { PUBLIC_FILE_CATEGORIES } from "@/lib/dashboard/owner-queries";
-import { buildStatement, type StatementBasis, type StatementExpense } from "@/lib/building/statement";
+import { buildUnitStatement, type StatementBasis, type StatementExpense, type UnitStatementInput } from "@/lib/building/statement";
 
 export type OccupantData = NonNullable<Awaited<ReturnType<typeof getOccupantControlCenter>>>;
 
@@ -153,50 +153,72 @@ export async function getOccupantControlCenter(
     }),
   ]);
 
-  // ── Statement rows: my share + my tenant/owner euros per expense ────────────
-  let tenantUnpaid = 0, ownerUnpaid = 0;
+  // ── Statement rows: aggregate share (Έξοδα list) + one notice per unit ──────
+  // Per unit we keep ITS OWN allocation rows so buildUnitStatement can produce a
+  // strictly per-apartment ειδοποιητήριο with the owner/tenant split — never
+  // leaking another unit's amounts into this unit's notice.
+  const perUnitRows = new Map<string, UnitStatementInput[]>();
+  const perUnitPaid = new Map<string, { tCnt: number; tPaid: number; oCnt: number; oPaid: number }>();
+  for (const u of myUnits) {
+    perUnitRows.set(u.id, []);
+    perUnitPaid.set(u.id, { tCnt: 0, tPaid: 0, oCnt: 0, oPaid: 0 });
+  }
+
   const perExpense = expenseRows.map((e) => {
+    const shared = {
+      id: e.id,
+      categoryName: e.categoryRef?.name ?? e.category ?? "Λοιπά έξοδα",
+      basis: basisOf(e),
+      amount: Number(e.amount),
+      tenantPct: e.tenantPct,
+      ownerPct: e.ownerPct,
+    };
     let myShare = 0, myTenant = 0, myOwner = 0;
     let tenantAllocs = 0, tenantPaidAllocs = 0, ownerAllocs = 0, ownerPaidAllocs = 0;
     for (const a of e.allocations) {
       const u = unitById.get(a.unitId);
       if (!u) continue;
-      myShare += Number(a.unitShare);
-      if (u.tenantSide) {
-        myTenant += Number(a.tenantAmount);
-        tenantAllocs += 1;
-        if (a.tenantPaid) tenantPaidAllocs += 1;
-        else tenantUnpaid += Number(a.tenantAmount);
-      }
-      if (u.ownerSide) {
-        myOwner += Number(a.ownerAmount);
-        ownerAllocs += 1;
-        if (a.ownerPaid) ownerPaidAllocs += 1;
-        else ownerUnpaid += Number(a.ownerAmount);
-      }
+      const unitShare = Number(a.unitShare);
+      const tAmt = u.tenantSide ? Number(a.tenantAmount) : 0;
+      const oAmt = u.ownerSide ? Number(a.ownerAmount) : 0;
+      myShare += unitShare;
+      if (u.tenantSide) { myTenant += tAmt; tenantAllocs += 1; if (a.tenantPaid) tenantPaidAllocs += 1; }
+      if (u.ownerSide) { myOwner += oAmt; ownerAllocs += 1; if (a.ownerPaid) ownerPaidAllocs += 1; }
+      // per-unit notice row (this unit's own allocation only)
+      perUnitRows.get(u.id)!.push({ ...shared, unitAmount: r2(unitShare), unitTenant: r2(tAmt), unitOwner: r2(oAmt) });
+      const pu = perUnitPaid.get(u.id)!;
+      if (u.tenantSide) { pu.tCnt += 1; if (a.tenantPaid) pu.tPaid += 1; }
+      if (u.ownerSide) { pu.oCnt += 1; if (a.ownerPaid) pu.oPaid += 1; }
     }
     return {
-      row: {
-        id: e.id,
-        categoryName: e.categoryRef?.name ?? e.category ?? "Λοιπά έξοδα",
-        basis: basisOf(e),
-        amount: Number(e.amount),
-        tenantPct: e.tenantPct,
-        ownerPct: e.ownerPct,
-        myShare: r2(myShare), myTenant: r2(myTenant), myOwner: r2(myOwner),
-      } satisfies StatementExpense,
+      row: { ...shared, myShare: r2(myShare), myTenant: r2(myTenant), myOwner: r2(myOwner) } satisfies StatementExpense,
       myTenantPaid: tenantAllocs > 0 ? tenantPaidAllocs === tenantAllocs : null,
       myOwnerPaid: ownerAllocs > 0 ? ownerPaidAllocs === ownerAllocs : null,
     };
   });
 
-  const statement = buildStatement(perExpense.map((p) => p.row));
-  const paid = {
-    tenantUnpaid: r2(tenantUnpaid),
-    ownerUnpaid: r2(ownerUnpaid),
-    unpaid: r2(tenantUnpaid + ownerUnpaid),
-    settled: r2(tenantUnpaid + ownerUnpaid) === 0,
-  };
+  // One UnitStatement per unit (ordered by unitNumber via myUnits), plus a
+  // per-unit paid flag for each side relevant to the viewer's role.
+  const statements = myUnits.map((u) => {
+    const role: "OWNER" | "RESIDENT" | "BOTH" =
+      u.ownerSide && u.tenantSide ? "BOTH" : u.tenantSide ? "RESIDENT" : "OWNER";
+    const st = buildUnitStatement(
+      {
+        unitId: u.id, unitNumber: u.unitNumber, unitType: u.unitType, floor: u.floor, role,
+        millesimes: u.millesimes, millesimesElevator: u.millesimesElevator, millesimesHeating: u.millesimesHeating,
+      },
+      perUnitRows.get(u.id)!,
+    );
+    const pu = perUnitPaid.get(u.id)!;
+    return {
+      ...st,
+      tenantPaid: pu.tCnt > 0 ? pu.tPaid === pu.tCnt : null,
+      ownerPaid: pu.oCnt > 0 ? pu.oPaid === pu.oCnt : null,
+    };
+  });
+
+  // Building manager (for the signature line): reuse the already-fetched contacts.
+  const managerName = contacts.find((c) => c.category?.includes("ιαχειρ"))?.name ?? null;
 
   const expenses = expenseRows.map((e, i) => ({
     id: e.id,
@@ -262,8 +284,8 @@ export async function getOccupantControlCenter(
     isResident: isResidentAnywhere,
     months,
     selectedMonth,
-    statement,
-    paid,
+    statements,
+    managerName,
     expenses,
     heatingReadings: heatingRows.map((h) => ({
       unitId: h.unitId,
