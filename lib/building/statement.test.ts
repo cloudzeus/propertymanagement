@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { buildStatement, groupForBasis, type StatementExpense } from "./statement";
+import { buildStatement, buildUnitStatement, groupForBasis, type StatementExpense, type UnitStatementInput } from "./statement";
 
 const exp = (over: Partial<StatementExpense>): StatementExpense => ({
   id: "e1", categoryName: "Καθαριότητα", basis: "GENERAL_MILLESIMES",
@@ -38,5 +38,56 @@ describe("buildStatement", () => {
   });
   it("omits empty groups", () => {
     expect(buildStatement([exp({})]).groups.map((g) => g.key)).toEqual(["A"]);
+  });
+});
+
+const uexp = (o: Partial<UnitStatementInput>): UnitStatementInput => ({
+  id: "e", categoryName: "Καθαριότητα", basis: "GENERAL_MILLESIMES", amount: 100,
+  tenantPct: 100, ownerPct: 0, unitAmount: 10, unitTenant: 10, unitOwner: 0, ...o,
+});
+
+describe("buildUnitStatement", () => {
+  const unit = { unitId: "u1", unitNumber: "3", unitType: "APARTMENT", floor: 2, role: "BOTH" as const,
+    millesimes: 159.84, millesimesElevator: 150, millesimesHeating: 160 };
+
+  it("groups, splits owner/tenant per group, computes myPayable for BOTH (self-occupied)", () => {
+    const s = buildUnitStatement(unit, [
+      uexp({ id: "a", amount: 60, unitAmount: 6, unitTenant: 6, unitOwner: 0 }),
+      uexp({ id: "b", categoryName: "ΔΕΗ", amount: 40, unitAmount: 4, unitTenant: 4, unitOwner: 0 }),
+      uexp({ id: "c", categoryName: "Ασφάλιστρα", basis: "GENERAL_MILLESIMES", tenantPct: 0, ownerPct: 100, amount: 200, unitAmount: 20, unitTenant: 0, unitOwner: 20 }),
+    ]);
+    const a = s.groups.find((g) => g.key === "A")!;
+    expect(a.buildingTotal).toBe(100);
+    expect(a.lines.length).toBe(2);
+    expect(a.unitAmount).toBe(10);
+    expect(a.unitTenant).toBe(10);
+    expect(a.appliedMillesimes).toBe(159.84);        // group A → general millesimes
+    const e = s.groups.find((g) => g.key === "E")!;
+    expect(e.unitOwner).toBe(20);
+    expect(s.total).toBe(30);
+    expect(s.tenantTotal).toBe(10);
+    expect(s.ownerTotal).toBe(20);
+    expect(s.myPayable).toBe(30);                    // BOTH → owner + tenant
+  });
+
+  it("myPayable = owner only when the unit is rented out (role OWNER)", () => {
+    const s = buildUnitStatement({ ...unit, role: "OWNER" }, [
+      uexp({ amount: 100, unitAmount: 10, unitTenant: 10, unitOwner: 0 }),
+      uexp({ id: "x", basis: "ELEVATOR_MILLESIMES", tenantPct: 0, ownerPct: 100, amount: 50, unitAmount: 5, unitTenant: 0, unitOwner: 5 }),
+    ]);
+    expect(s.tenantTotal).toBe(10);
+    expect(s.ownerTotal).toBe(5);
+    expect(s.myPayable).toBe(5);
+    expect(s.groups.find((g) => g.key === "B")!.appliedMillesimes).toBe(150); // elevator
+  });
+
+  it("myPayable = tenant only for a plain resident (role RESIDENT)", () => {
+    const s = buildUnitStatement({ ...unit, role: "RESIDENT" }, [uexp({ amount: 100, unitAmount: 10, unitTenant: 10, unitOwner: 0 })]);
+    expect(s.myPayable).toBe(10);
+  });
+
+  it("omits empty groups and orders Α-Ε", () => {
+    const s = buildUnitStatement(unit, [uexp({}), uexp({ id: "h", basis: "HEATING_MILLESIMES", unitAmount: 3, unitTenant: 3, unitOwner: 0 })]);
+    expect(s.groups.map((g) => g.key)).toEqual(["A", "C"]);
   });
 });
