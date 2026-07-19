@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { capsForStaff, capsForManager, NO_CAPS } from "./building-caps";
+import { capsForStaff, capsForManager, NO_CAPS, OCCUPANT_CAPS } from "./building-caps";
 
 describe("capsForManager", () => {
   it("managed building: view-heavy, communication CRUD, request creation", () => {
@@ -38,5 +38,13 @@ describe("capsForManager", () => {
   it("staff gets everything; NO_CAPS gets nothing", () => {
     expect(Object.values(capsForStaff()).every(Boolean)).toBe(true);
     expect(Object.values(NO_CAPS).every((v) => v === false)).toBe(true);
+  });
+});
+
+describe("OCCUPANT_CAPS", () => {
+  it("is read-only except request creation", () => {
+    expect(OCCUPANT_CAPS.createRequests).toBe(true);
+    const { createRequests: _cr, ...rest } = OCCUPANT_CAPS;
+    expect(Object.values(rest).every((v) => v === false)).toBe(true);
   });
 });

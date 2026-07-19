@@ -23,6 +23,9 @@ export function capsForStaff(): BuildingCaps {
   return all(true);
 }
 
+/** Owners/residents inside their own building: view everything public, mutate nothing. */
+export const OCCUPANT_CAPS: BuildingCaps = { ...NO_CAPS, createRequests: true };
+
 /** PROPERTY_ADMIN caps. `managed` = the company manages the building (property.managed). */
 export function capsForManager(managed: boolean): BuildingCaps {
   return {

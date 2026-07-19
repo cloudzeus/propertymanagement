@@ -1,16 +1,21 @@
 import { getEffectiveSession } from "@/lib/auth-effective";
 import { db } from "@/lib/db";
-import { type BuildingCaps, capsForStaff, capsForManager } from "@/lib/building-caps";
+import { type BuildingCaps, capsForStaff, capsForManager, OCCUPANT_CAPS } from "@/lib/building-caps";
 
 export type BuildingAccess = {
-  viewer: "staff" | "manager";
+  viewer: "staff" | "manager" | "occupant";
   managed: boolean;
   can: BuildingCaps;
 };
 
 const STAFF_ROLES = ["SUPER_ADMIN", "ADMIN", "MANAGER", "EMPLOYEE"] as const;
 
-/** Resolve what `userId` may do on `buildingId`. Null → no access (render 404). */
+/**
+ * Resolve what `userId` may do on `buildingId`. Null → no access (render 404).
+ * Precedence: staff (company roles) → manager (PROPERTY_ADMIN with a ManagementAssignment
+ * reaching this building) → occupant (any customer role that owns, rents, or currently
+ * occupies a unit here — including a PROPERTY_ADMIN without an assignment) → null.
+ */
 export async function getBuildingAccess(userId: string, buildingId: string): Promise<BuildingAccess | null> {
   const [user, building] = await Promise.all([
     db.user.findUnique({ where: { id: userId }, select: { role: true } }),
@@ -25,14 +30,24 @@ export async function getBuildingAccess(userId: string, buildingId: string): Pro
   if ((STAFF_ROLES as readonly string[]).includes(user.role)) {
     return { viewer: "staff", managed, can: capsForStaff() };
   }
-  if (user.role !== "PROPERTY_ADMIN") return null;
 
-  const assignment = await db.managementAssignment.findFirst({
-    where: { userId, OR: [{ buildingId }, { propertyId: building.propertyId }] },
+  if (user.role === "PROPERTY_ADMIN") {
+    const assignment = await db.managementAssignment.findFirst({
+      where: { userId, OR: [{ buildingId }, { propertyId: building.propertyId }] },
+      select: { id: true },
+    });
+    if (assignment) return { viewer: "manager", managed, can: capsForManager(managed) };
+  }
+
+  const unit = await db.unit.findFirst({
+    where: {
+      buildingId,
+      OR: [{ ownerId: userId }, { residentId: userId }, { occupancies: { some: { userId, endDate: null } } }],
+    },
     select: { id: true },
   });
-  if (!assignment) return null;
-  return { viewer: "manager", managed, can: capsForManager(managed) };
+  if (unit) return { viewer: "occupant", managed, can: OCCUPANT_CAPS };
+  return null;
 }
 
 /** Guard for server actions: throws unless the session user holds `cap` on the building. */
