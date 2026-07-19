@@ -178,14 +178,18 @@ export async function getOccupantControlCenter(
     for (const a of e.allocations) {
       const u = unitById.get(a.unitId);
       if (!u) continue;
-      const unitShare = Number(a.unitShare);
-      const tAmt = u.tenantSide ? Number(a.tenantAmount) : 0;
-      const oAmt = u.ownerSide ? Number(a.ownerAmount) : 0;
-      myShare += unitShare;
-      if (u.tenantSide) { myTenant += tAmt; tenantAllocs += 1; if (a.tenantPaid) tenantPaidAllocs += 1; }
-      if (u.ownerSide) { myOwner += oAmt; ownerAllocs += 1; if (a.ownerPaid) ownerPaidAllocs += 1; }
-      // per-unit notice row (this unit's own allocation only)
-      perUnitRows.get(u.id)!.push({ ...shared, unitAmount: r2(unitShare), unitTenant: r2(tAmt), unitOwner: r2(oAmt) });
+      // The apartment's αναλογία ALWAYS splits into owner + tenant amounts — a
+      // property of the unit itself, independent of who the viewer is. Viewer-side
+      // gating belongs ONLY to myPayable (the builder) and the paid badge.
+      const ownerAmount = Number(a.ownerAmount);
+      const tenantAmount = Number(a.tenantAmount);
+      // Aggregate share for the Έξοδα list stays the viewer's PERSONAL portion.
+      myShare += Number(a.unitShare);
+      if (u.tenantSide) { myTenant += tenantAmount; tenantAllocs += 1; if (a.tenantPaid) tenantPaidAllocs += 1; }
+      if (u.ownerSide) { myOwner += ownerAmount; ownerAllocs += 1; if (a.ownerPaid) ownerPaidAllocs += 1; }
+      // Per-unit notice row: FULL owner/tenant split so the columns provably sum
+      // (unitAmount = owner + tenant, the billed truth, not unitShare).
+      perUnitRows.get(u.id)!.push({ ...shared, unitAmount: r2(ownerAmount + tenantAmount), unitTenant: r2(tenantAmount), unitOwner: r2(ownerAmount) });
       const pu = perUnitPaid.get(u.id)!;
       if (u.tenantSide) { pu.tCnt += 1; if (a.tenantPaid) pu.tPaid += 1; }
       if (u.ownerSide) { pu.oCnt += 1; if (a.ownerPaid) pu.oPaid += 1; }

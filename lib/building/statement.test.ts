@@ -86,6 +86,20 @@ describe("buildUnitStatement", () => {
     expect(s.myPayable).toBe(10);
   });
 
+  it("keeps total === ownerTotal + tenantTotal; rented unit (tenant pays all) owes 0", () => {
+    // Full owner/tenant split flows in (not gated on the viewer): a rented-out
+    // owner sees the whole αναλογία but personally owes only the owner side (0 here).
+    const s = buildUnitStatement({ ...unit, role: "OWNER" }, [
+      uexp({ amount: 100, unitAmount: 10, unitTenant: 10, unitOwner: 0 }),
+      uexp({ id: "y", categoryName: "ΔΕΗ", amount: 40, unitAmount: 4, unitTenant: 4, unitOwner: 0 }),
+    ]);
+    expect(s.tenantTotal).toBe(14);
+    expect(s.ownerTotal).toBe(0);
+    expect(s.total).toBe(14);
+    expect(s.total).toBe(s.ownerTotal + s.tenantTotal);
+    expect(s.myPayable).toBe(0);
+  });
+
   it("omits empty groups and orders Α-Ε", () => {
     const s = buildUnitStatement(unit, [uexp({}), uexp({ id: "h", basis: "HEATING_MILLESIMES", unitAmount: 3, unitTenant: 3, unitOwner: 0 })]);
     expect(s.groups.map((g) => g.key)).toEqual(["A", "C"]);

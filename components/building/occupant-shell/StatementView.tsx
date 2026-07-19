@@ -247,6 +247,9 @@ export function StatementView({ building, statements, months, selectedMonth, man
                 <div style={{ fontSize: 11.5, fontWeight: 700, letterSpacing: ".05em", color: "var(--muted-foreground)" }}>ΠΛΗΡΩΤΕΟ ΠΟΣΟ</div>
                 <div style={{ fontSize: 32, fontWeight: 800, fontVariantNumeric: "tabular-nums", color: "var(--foreground)", lineHeight: 1.15 }}>{eur(selected.myPayable)}</div>
                 <div style={{ fontSize: 12.5, color: "var(--muted-foreground)", marginTop: 2 }}>{PAYABLE_CAPTION[selected.role]}</div>
+                {selected.role === "OWNER" && selected.myPayable === 0 && selected.tenantTotal > 0 && (
+                  <div style={{ fontSize: 12.5, fontWeight: 600, color: "var(--muted-foreground)", marginTop: 2 }}>Το σύνολο βαρύνει τον ένοικο</div>
+                )}
                 {selected.role === "BOTH" && (selected.ownerTotal > 0 || selected.tenantTotal > 0) && (
                   <div style={{ fontSize: 12.5, color: "var(--muted-foreground)", display: "flex", gap: 14, marginTop: 4, flexWrap: "wrap" }}>
                     {selected.ownerTotal > 0 && (
