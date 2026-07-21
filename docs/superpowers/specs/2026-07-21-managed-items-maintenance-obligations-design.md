@@ -35,6 +35,14 @@ Gaps to close:
 - New page shows: managed-building list, upcoming obligations, history/logs, and per-building
   drill-down.
 
+## Deferred (future milestone)
+
+- **Τιμολόγηση / billing** of managed items & maintenance toward the customer — explicitly out of
+  scope for this spec, planned as a later addition. The data model here stays billing-friendly:
+  `RecurringTask` already carries `cost` (via `MaintenanceLog`) and `inServicePackage`, and
+  `ManagedItem` links to building/customer, so a future billing layer can attach without schema
+  rework. Do **not** build pricing UI/flows now.
+
 ## Non-goals / YAGNI
 
 - No separate maintenance calendar page — reuse `/staff/calendar`.
