@@ -1,10 +1,14 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState, useTransition } from "react";
 import Link from "next/link";
 import { DataTable, type ColDef } from "@/components/ui/data-table";
+import { Modal, FormField, FieldSelect } from "@/components/ui/modal";
+import { createManagedItem, listBuildingCommonAreas } from "@/app/actions/managed-items";
+import { createRecurringTask, type TaskFrequency } from "@/app/actions/recurring-tasks";
 import {
   RiBuilding2Line, RiToolsLine, RiStackLine, RiAlarmWarningLine, RiCalendarCheckLine, RiExternalLinkLine,
+  RiAddLine, RiCheckLine, RiLoaderLine, RiCalendarLine,
 } from "react-icons/ri";
 import type { ManagedBuildingRow, ObligationRow, RecentLogRow, ObligationStatus } from "@/lib/dashboard/managed-buildings";
 
@@ -22,9 +26,10 @@ function StatusPill({ status }: { status: ObligationStatus }) {
   return <span style={{ display: "inline-flex", alignItems: "center", fontSize: 11.5, fontWeight: 700, padding: "3px 9px", borderRadius: 999, background: s.bg, color: s.fg, whiteSpace: "nowrap" }}>{s.label}</span>;
 }
 
-export function ManagedBuildingsClient({ buildings, obligations, recent }: { buildings: ManagedBuildingRow[]; obligations: ObligationRow[]; recent: RecentLogRow[] }) {
+export function ManagedBuildingsClient({ buildings, obligations, recent, itemTypes }: { buildings: ManagedBuildingRow[]; obligations: ObligationRow[]; recent: RecentLogRow[]; itemTypes: { id: string; name: string }[] }) {
   const overdue = useMemo(() => obligations.filter((o) => o.status === "overdue"), [obligations]);
   const dueSoon = useMemo(() => obligations.filter((o) => o.status === "due-soon"), [obligations]);
+  const [assignOpen, setAssignOpen] = useState(false);
 
   const columns: ColDef<ManagedBuildingRow>[] = [
     { id: "name", header: "Κτήριο", accessor: (b) => b.name, cell: (b) => (
@@ -80,6 +85,9 @@ export function ManagedBuildingsClient({ buildings, obligations, recent }: { bui
           <RiBuilding2Line /> Διαχειριζόμενα κτήρια
         </h1>
         <p style={{ margin: "4px 0 0", fontSize: 13.5, color: "var(--muted-foreground)" }}>Στοιχεία, προγράμματα συντήρησης και υποχρεώσεις των κτηρίων που διαχειρίζεται η εταιρεία.</p>
+        <button onClick={() => setAssignOpen(true)} style={{ marginTop: 12, display: "inline-flex", alignItems: "center", gap: 7, border: "none", background: "var(--color-primary)", color: "#fff", borderRadius: 6, padding: "8px 14px", fontSize: 13, fontWeight: 600, cursor: "pointer" }}>
+          <RiAddLine /> Ανάθεση στοιχείου
+        </button>
       </header>
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(190px, 1fr))", gap: 12, marginBottom: 20 }}>
@@ -113,6 +121,8 @@ export function ManagedBuildingsClient({ buildings, obligations, recent }: { bui
         searchPlaceholder="Αναζήτηση κτηρίου…"
         expandedContent={renderExpanded}
       />
+
+      {assignOpen && <AssignItemModal buildings={buildings} itemTypes={itemTypes} onClose={() => setAssignOpen(false)} />}
     </div>
   );
 }
@@ -144,3 +154,93 @@ const panelTitle: React.CSSProperties = { display: "flex", alignItems: "center",
 const sectionTitle: React.CSSProperties = { display: "flex", alignItems: "center", gap: 7, fontSize: 12.5, fontWeight: 700, color: "var(--foreground)", marginBottom: 8 };
 const rowLine: React.CSSProperties = { display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap", fontSize: 13, color: "var(--foreground)", padding: "6px 0", borderTop: "1px solid var(--border)" };
 const muted: React.CSSProperties = { fontSize: 12.5, color: "var(--muted-foreground)", padding: "6px 0" };
+
+const FREQ_OPTIONS: { value: TaskFrequency; label: string }[] = [
+  { value: "WEEKLY", label: "Εβδομαδιαία" }, { value: "MONTHLY", label: "Μηνιαία" }, { value: "QUARTERLY", label: "Τριμηνιαία" },
+  { value: "SEMIANNUAL", label: "Εξαμηνιαία" }, { value: "ANNUAL", label: "Ετήσια" }, { value: "CUSTOM", label: "Προσαρμοσμένη" },
+];
+
+function AssignItemModal({ buildings, itemTypes, onClose }: { buildings: ManagedBuildingRow[]; itemTypes: { id: string; name: string }[]; onClose: () => void }) {
+  const [buildingId, setBuildingId] = useState("");
+  const [areas, setAreas] = useState<{ id: string; name: string; floor: number | null }[]>([]);
+  const [form, setForm] = useState({ itemTypeId: "", commonAreaId: "", location: "", quantity: 1 });
+  const [sched, setSched] = useState({ enabled: false, frequency: "MONTHLY" as TaskFrequency, nextDueDate: "" });
+  const [error, setError] = useState<string | null>(null);
+  const [isPending, startTransition] = useTransition();
+
+  function onBuilding(v: string) {
+    setBuildingId(v);
+    setForm((p) => ({ ...p, commonAreaId: "" }));
+    setAreas([]);
+    if (v) startTransition(async () => { setAreas(await listBuildingCommonAreas(v)); });
+  }
+
+  function save() {
+    setError(null);
+    if (!buildingId) { setError("Επίλεξε κτήριο"); return; }
+    startTransition(async () => {
+      const res = await createManagedItem(buildingId, {
+        itemTypeId: form.itemTypeId, location: form.location, quantity: form.quantity,
+        commonAreaId: form.commonAreaId || null,
+      });
+      if (res && "error" in res && res.error) { setError(res.error); return; }
+      const itemId = (res as { itemId?: string }).itemId;
+      if (itemId && sched.enabled) {
+        const sres = await createRecurringTask(buildingId, {
+          title: itemTypes.find((t) => t.id === form.itemTypeId)?.name ?? "Συντήρηση",
+          frequency: sched.frequency, nextDueDate: sched.nextDueDate || null, managedItemId: itemId, active: true,
+        });
+        if (sres && "error" in sres && sres.error) { setError(`Το στοιχείο αποθηκεύτηκε, αλλά το πρόγραμμα απέτυχε: ${sres.error}`); return; }
+      }
+      onClose();
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (globalThis as any).location?.reload?.();
+    });
+  }
+
+  return (
+    <Modal open onClose={onClose} title="Ανάθεση διαχειριζόμενου στοιχείου" width={520}
+      footer={<>
+        <button onClick={onClose} style={{ padding: "7px 16px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: 13, color: "var(--foreground)" }}>Ακύρωση</button>
+        <button onClick={save} disabled={isPending} style={{ padding: "7px 16px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: "pointer", fontSize: 13, fontWeight: 600, display: "flex", alignItems: "center", gap: 6 }}>{isPending ? <RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> : <RiCheckLine />} Αποθήκευση</button>
+      </>}>
+      {error && <div style={{ padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: 12, border: "1px solid #fca5a530", marginBottom: 12 }} role="alert">{error}</div>}
+      <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+        <FormField label="Κτήριο" required>
+          <FieldSelect value={buildingId} onChange={onBuilding} placeholder="— Επίλεξε κτήριο —" options={buildings.map((b) => ({ value: b.id, label: b.name }))} />
+        </FormField>
+        <FormField label="Στοιχείο" required hint="Από τον κατάλογο «Στοιχεία Διαχείρισης»">
+          <FieldSelect value={form.itemTypeId} onChange={(v) => setForm((p) => ({ ...p, itemTypeId: v }))} placeholder="— Επίλεξε στοιχείο —" options={itemTypes.map((t) => ({ value: t.id, label: t.name }))} />
+        </FormField>
+        {areas.length > 0 && (
+          <FormField label="Κοινόχρηστος χώρος" hint="Προαιρετικό">
+            <FieldSelect value={form.commonAreaId} onChange={(v) => setForm((p) => ({ ...p, commonAreaId: v, location: p.location.trim() ? p.location : (areas.find((a) => a.id === v)?.name ?? p.location) }))} placeholder="— Χωρίς σύνδεση —" options={areas.map((a) => ({ value: a.id, label: a.floor != null ? `${a.name} (όροφος ${a.floor})` : a.name }))} />
+          </FormField>
+        )}
+        <FormField label="Τοποθεσία" required>
+          <input value={form.location} onChange={(e) => setForm((p) => ({ ...p, location: e.target.value }))} placeholder="π.χ. Κοινόχρηστοι χώροι" style={{ width: "100%", height: 36, padding: "0 10px", border: "1px solid var(--border)", borderRadius: "var(--radius-sm)", fontSize: 13, color: "var(--foreground)", background: "var(--card)", outline: "none", boxSizing: "border-box" }} />
+        </FormField>
+        <FormField label="Ποσότητα" required>
+          <input type="number" min={1} value={form.quantity} onChange={(e) => setForm((p) => ({ ...p, quantity: Math.max(1, Math.round(Number(e.target.value)) || 1) }))} style={{ width: 120, height: 36, padding: "0 10px", border: "1px solid var(--border)", borderRadius: "var(--radius-sm)", fontSize: 13, color: "var(--foreground)", background: "var(--card)", outline: "none", boxSizing: "border-box", textAlign: "center", fontVariantNumeric: "tabular-nums" }} />
+        </FormField>
+        <div style={{ borderTop: "1px solid var(--border)", paddingTop: 12 }}>
+          <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, fontWeight: 700, color: "var(--foreground)", cursor: "pointer" }}>
+            <input type="checkbox" checked={sched.enabled} onChange={(e) => setSched((p) => ({ ...p, enabled: e.target.checked }))} />
+            <RiCalendarLine style={{ color: "var(--muted-foreground)" }} /> Πρόγραμμα συντήρησης
+          </label>
+          {sched.enabled && (
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginTop: 10 }}>
+              <FormField label="Συχνότητα" required>
+                <FieldSelect value={sched.frequency} onChange={(v) => setSched((p) => ({ ...p, frequency: v as TaskFrequency }))} options={FREQ_OPTIONS} />
+              </FormField>
+              <FormField label="Επόμενη ημερομηνία">
+                <input type="date" value={sched.nextDueDate} onChange={(e) => setSched((p) => ({ ...p, nextDueDate: e.target.value }))} style={{ width: "100%", height: 36, padding: "0 10px", border: "1px solid var(--border)", borderRadius: "var(--radius-sm)", fontSize: 13, color: "var(--foreground)", background: "var(--card)", outline: "none", boxSizing: "border-box" }} />
+              </FormField>
+            </div>
+          )}
+        </div>
+      </div>
+      <style>{`@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}`}</style>
+    </Modal>
+  );
+}

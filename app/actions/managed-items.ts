@@ -128,3 +128,8 @@ export async function deleteManagedItemPhoto(itemId: string) {
   revalidatePath(`/building/${item.buildingId}`);
   return { ok: true };
 }
+
+export async function listBuildingCommonAreas(buildingId: string): Promise<{ id: string; name: string; floor: number | null }[]> {
+  await requireBuildingCap(buildingId, "manageManagedItems");
+  return db.commonArea.findMany({ where: { buildingId }, orderBy: [{ floor: "asc" }, { name: "asc" }], select: { id: true, name: true, floor: true } });
+}
