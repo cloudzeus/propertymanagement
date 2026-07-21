@@ -4,11 +4,14 @@ import { useMemo, useState } from "react";
 import {
   RiArrowLeftSLine, RiArrowRightSLine, RiCalendarEventLine, RiMailLine, RiPhoneLine,
   RiBuilding2Line, RiChat1Line, RiCloseLine, RiTimeLine, RiUserSmileLine, RiVideoChatLine,
+  RiToolsLine,
 } from "react-icons/ri";
 
 export type DemoEvent = {
   id: string; name: string; email: string; phone: string | null; company: string | null;
   message: string | null; status: string; scheduledAt: string; durationMin: number;
+  kind?: "demo" | "maintenance"; buildingId?: string | null; buildingName?: string | null;
+  overdue?: boolean; itemName?: string | null;
 };
 
 const WD = ["Δευ", "Τρί", "Τετ", "Πέμ", "Παρ", "Σάβ", "Κυρ"];
@@ -20,6 +23,8 @@ const STATUS: Record<string, { label: string; bg: string; fg: string; bar: strin
   CONFIRMED: { label: "Επιβεβαιωμένο", bg: "#E4F0EA", fg: "#22604A", bar: "#2E7D5B" },
   CANCELLED: { label: "Ακυρωμένο", bg: "#F0F0EE", fg: "#8a8a85", bar: "#b9b9b4" },
   COMPLETED: { label: "Ολοκληρωμένο", bg: "#E5EDF8", fg: "#234E88", bar: "#3B6BB0" },
+  SCHEDULED: { label: "Προγραμματισμένη", bg: "#E4F0EA", fg: "#22604A", bar: "#2E7D5B" },
+  OVERDUE: { label: "Εκπρόθεσμη", bg: "#FBE4E4", fg: "#9A2B2B", bar: "#C0392B" },
 };
 const MAX_CHIPS_PER_DAY = 3;
 
@@ -38,11 +43,13 @@ function StatusPill({ status }: { status: string }) {
   );
 }
 
-export function DemoCalendarClient({ events, today }: { events: DemoEvent[]; today: string }) {
+export function DemoCalendarClient({ events: allEvents, today }: { events: DemoEvent[]; today: string }) {
   const now = useMemo(() => new Date(today), [today]);
   const [cursor, setCursor] = useState(() => new Date(now.getFullYear(), now.getMonth(), 1));
   const [selected, setSelected] = useState<DemoEvent | null>(null);
   const [dayFocus, setDayFocus] = useState<Date | null>(null);
+  const [kindFilter, setKindFilter] = useState<"all" | "demo" | "maintenance">("all");
+  const events = useMemo(() => allEvents.filter((e) => kindFilter === "all" || (e.kind ?? "demo") === kindFilter), [allEvents, kindFilter]);
 
   const byDay = useMemo(() => {
     const m = new Map<string, DemoEvent[]>();
@@ -105,6 +112,15 @@ export function DemoCalendarClient({ events, today }: { events: DemoEvent[]; tod
           </p>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <div role="tablist" aria-label="Φίλτρο τύπου" style={{ display: "inline-flex", gap: 4, background: "var(--paper, #FBFAF5)", border: "1px solid var(--border)", borderRadius: 999, padding: 3 }}>
+            {([["all", "Όλα"], ["demo", "Ραντεβού"], ["maintenance", "Συντηρήσεις"]] as const).map(([k, label]) => (
+              <button key={k} onClick={() => setKindFilter(k)} className="dcal-btn"
+                style={{ border: "none", borderRadius: 999, padding: "5px 12px", fontSize: 12.5, fontWeight: 700, cursor: "pointer",
+                  background: kindFilter === k ? "var(--foreground)" : "transparent", color: kindFilter === k ? "#fff" : "var(--muted-foreground)" }}>
+                {label}
+              </button>
+            ))}
+          </div>
           {!isCurrentMonth && (
             <button type="button" className="dcal-btn" onClick={() => setCursor(new Date(now.getFullYear(), now.getMonth(), 1))}
               style={{ ...navBtn, padding: "7px 12px", fontSize: 13, fontWeight: 600, lineHeight: 1.2 }}>
@@ -184,7 +200,11 @@ export function DemoCalendarClient({ events, today }: { events: DemoEvent[]; tod
                             overflow: "hidden", whiteSpace: "nowrap",
                             textDecoration: e.status === "CANCELLED" ? "line-through" : "none",
                           }}>
-                          <span style={{ fontVariantNumeric: "tabular-nums", flex: "none" }}>{timeFmt.format(new Date(e.scheduledAt))}</span>
+                          <span style={{ display: "inline-flex", alignItems: "center", flex: "none" }}>
+                            {e.kind === "maintenance"
+                              ? <RiToolsLine style={{ fontSize: 12 }} aria-hidden />
+                              : <span style={{ fontVariantNumeric: "tabular-nums" }}>{timeFmt.format(new Date(e.scheduledAt))}</span>}
+                          </span>
                           <span style={{ overflow: "hidden", textOverflow: "ellipsis" }}>{e.name}</span>
                         </button>
                       );
@@ -267,7 +287,9 @@ export function DemoCalendarClient({ events, today }: { events: DemoEvent[]; tod
       )}
 
       {/* Detail modal */}
-      {selected && (
+      {selected && selected.kind === "maintenance" ? (
+        <MaintenanceEventModal event={selected} onClose={() => setSelected(null)} />
+      ) : selected && (
         <Overlay onClose={() => setSelected(null)}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 10 }}>
             <div style={{ minWidth: 0 }}>
@@ -320,6 +342,36 @@ function Overlay({ children, onClose }: { children: React.ReactNode; onClose: ()
       <div className="dcal-modal-in" onClick={(e) => e.stopPropagation()}
         style={{ width: "100%", maxWidth: 440, maxHeight: "88vh", overflowY: "auto", background: "var(--card)", border: "1px solid var(--border)", borderRadius: 16, padding: 22, boxShadow: "0 24px 60px -24px rgba(27,28,26,.45)" }}>
         {children}
+      </div>
+    </div>
+  );
+}
+
+function MaintenanceEventModal({ event, onClose }: { event: DemoEvent; onClose: () => void }) {
+  const d = new Date(event.scheduledAt);
+  return (
+    <div onClick={onClose} style={{ position: "fixed", inset: 0, background: "rgba(27,28,26,.34)", display: "flex", alignItems: "center", justifyContent: "center", padding: 20, zIndex: 60 }}>
+      <div onClick={(e) => e.stopPropagation()} style={{ width: "min(440px, 96vw)", background: "var(--card)", border: "1px solid var(--border)", borderRadius: 14, padding: 20 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
+          <span style={{ display: "flex", alignItems: "center", justifyContent: "center", width: 38, height: 38, borderRadius: 10, background: event.overdue ? "#FBE4E4" : "#E4F0EA", color: event.overdue ? "#9A2B2B" : "#22604A" }}>
+            <RiToolsLine />
+          </span>
+          <div>
+            <div style={{ fontSize: 16, fontWeight: 800, color: "var(--foreground)" }}>{event.name}</div>
+            <div style={{ fontSize: 12.5, color: "var(--muted-foreground)" }}>{longFmt.format(d)}</div>
+          </div>
+          <button onClick={onClose} aria-label="Κλείσιμο" style={{ marginLeft: "auto", border: "none", background: "transparent", cursor: "pointer", color: "var(--muted-foreground)" }}><RiCloseLine style={{ fontSize: 20 }} /></button>
+        </div>
+        <div style={{ display: "flex", flexDirection: "column", gap: 8, fontSize: 13.5, color: "var(--foreground)" }}>
+          {event.buildingName && <div style={{ display: "flex", alignItems: "center", gap: 8 }}><RiBuilding2Line style={{ color: "var(--muted-foreground)" }} /> {event.buildingName}</div>}
+          {event.itemName && <div style={{ display: "flex", alignItems: "center", gap: 8 }}><RiToolsLine style={{ color: "var(--muted-foreground)" }} /> {event.itemName}</div>}
+          <div><StatusPill status={event.status} /></div>
+        </div>
+        {event.buildingId && (
+          <a href={`/super-admin/buildings/${event.buildingId}`} style={{ display: "inline-flex", alignItems: "center", gap: 6, marginTop: 14, fontSize: 13, fontWeight: 700, color: "var(--color-primary)", textDecoration: "none" }}>
+            Άνοιγμα κτηρίου <RiArrowRightSLine />
+          </a>
+        )}
       </div>
     </div>
   );
