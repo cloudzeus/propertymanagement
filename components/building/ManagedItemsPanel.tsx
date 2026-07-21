@@ -177,21 +177,27 @@ function ManagedItemModal({ buildingId, itemTypes, floorOptions, commonAreas, ed
         const up = await uploadManagedItemPhoto(fd);
         if (up && "error" in up && up.error) { setError(`Το στοιχείο αποθηκεύτηκε, αλλά η φωτογραφία απέτυχε: ${up.error}`); return; }
       }
-      if (itemId && sched.enabled) {
-        const taskPayload = {
-          title: itemTypes.find((t) => t.id === form.itemTypeId)?.name ?? "Συντήρηση",
-          frequency: sched.frequency,
-          nextDueDate: sched.nextDueDate || null,
-          vendor: sched.vendor || null,
-          managedItemId: itemId,
-          active: true,
-        };
-        const sres = editing?.schedule
-          ? await updateRecurringTask(editing.schedule.id, taskPayload)
-          : await createRecurringTask(buildingId, taskPayload);
-        if (sres && "error" in sres && sres.error) { setError(`Το στοιχείο αποθηκεύτηκε, αλλά το πρόγραμμα συντήρησης απέτυχε: ${sres.error}`); return; }
-      } else if (itemId && !sched.enabled && editing?.schedule) {
-        await updateRecurringTask(editing.schedule.id, { active: false });
+      try {
+        if (itemId && sched.enabled) {
+          const taskPayload = {
+            title: itemTypes.find((t) => t.id === form.itemTypeId)?.name ?? "Συντήρηση",
+            frequency: sched.frequency,
+            nextDueDate: sched.nextDueDate || null,
+            vendor: sched.vendor || null,
+            managedItemId: itemId,
+            active: true,
+          };
+          const sres = editing?.schedule
+            ? await updateRecurringTask(editing.schedule.id, taskPayload)
+            : await createRecurringTask(buildingId, taskPayload);
+          if (sres && "error" in sres && sres.error) { setError(`Το στοιχείο αποθηκεύτηκε, αλλά το πρόγραμμα συντήρησης απέτυχε: ${sres.error}`); return; }
+        } else if (itemId && !sched.enabled && editing?.schedule) {
+          const dres = await updateRecurringTask(editing.schedule.id, { active: false });
+          if (dres && "error" in dres && dres.error) { setError(`Το στοιχείο αποθηκεύτηκε, αλλά η απενεργοποίηση του προγράμματος απέτυχε: ${dres.error}`); return; }
+        }
+      } catch (e) {
+        setError(`Το στοιχείο αποθηκεύτηκε, αλλά το πρόγραμμα συντήρησης απέτυχε: ${e instanceof Error ? e.message : "σφάλμα"}`);
+        return;
       }
       onDone();
     });
