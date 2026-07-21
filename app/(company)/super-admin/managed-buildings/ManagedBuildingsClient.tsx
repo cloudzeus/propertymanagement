@@ -1,16 +1,17 @@
 "use client";
 
-import { useMemo, useState, useTransition } from "react";
+import { useMemo, useState, useTransition, useEffect } from "react";
 import Link from "next/link";
 import { DataTable, type ColDef } from "@/components/ui/data-table";
 import { Modal, FormField, FieldSelect } from "@/components/ui/modal";
 import { createManagedItem, listBuildingCommonAreas } from "@/app/actions/managed-items";
 import { createRecurringTask, type TaskFrequency } from "@/app/actions/recurring-tasks";
+import { fetchBuildingDrilldown } from "@/app/actions/managed-buildings";
 import {
   RiBuilding2Line, RiToolsLine, RiStackLine, RiAlarmWarningLine, RiCalendarCheckLine, RiExternalLinkLine,
   RiAddLine, RiCheckLine, RiLoaderLine, RiCalendarLine,
 } from "react-icons/ri";
-import type { ManagedBuildingRow, ObligationRow, RecentLogRow, ObligationStatus } from "@/lib/dashboard/managed-buildings";
+import type { ManagedBuildingRow, ObligationRow, RecentLogRow, ObligationStatus, BuildingDrilldown } from "@/lib/dashboard/managed-buildings";
 
 const STATUS_STYLE: Record<ObligationStatus, { label: string; bg: string; fg: string }> = {
   overdue: { label: "Εκπρόθεσμη", bg: "#FBE4E4", fg: "#9A2B2B" },
@@ -46,38 +47,6 @@ export function ManagedBuildingsClient({ buildings, obligations, recent, itemTyp
       : <span style={{ color: "var(--muted-foreground)" }}>0</span> },
   ];
 
-  const renderExpanded = (b: ManagedBuildingRow) => {
-    const rows = obligations.filter((o) => o.buildingId === b.id);
-    const logs = recent.filter((r) => r.buildingId === b.id).slice(0, 5);
-    return (
-      <div style={{ padding: "12px 16px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
-        <div>
-          <div style={sectionTitle}><RiToolsLine /> Προγράμματα συντήρησης</div>
-          {rows.length === 0 ? <div style={muted}>Χωρίς προγράμματα</div> : rows.map((o) => (
-            <div key={o.taskId} style={rowLine}>
-              <span>{o.title}{o.itemName ? ` · ${o.itemName}` : ""}</span>
-              <span style={{ marginLeft: "auto", display: "inline-flex", alignItems: "center", gap: 8 }}>{fmtDate(o.nextDueDate)} <StatusPill status={o.status} /></span>
-            </div>
-          ))}
-        </div>
-        <div>
-          <div style={sectionTitle}><RiCalendarCheckLine /> Πρόσφατο ιστορικό</div>
-          {logs.length === 0 ? <div style={muted}>Χωρίς καταχωρήσεις</div> : logs.map((l) => (
-            <div key={l.id} style={rowLine}>
-              <span>{l.title}</span>
-              <span style={{ marginLeft: "auto", color: "var(--muted-foreground)" }}>{fmtDate(l.performedAt)}{l.performedBy ? ` · ${l.performedBy}` : ""}</span>
-            </div>
-          ))}
-        </div>
-        <div style={{ gridColumn: "1 / -1" }}>
-          <Link href={`/super-admin/buildings/${b.id}`} style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 13, fontWeight: 700, color: "var(--color-primary)", textDecoration: "none" }}>
-            Άνοιγμα καρτέλας κτηρίου <RiExternalLinkLine />
-          </Link>
-        </div>
-      </div>
-    );
-  };
-
   return (
     <div style={{ padding: "22px 24px 40px", maxWidth: 1240 }}>
       <header style={{ marginBottom: 18 }}>
@@ -110,6 +79,19 @@ export function ManagedBuildingsClient({ buildings, obligations, recent, itemTyp
         </section>
       )}
 
+      {recent.length > 0 && (
+        <section style={panel}>
+          <div style={panelTitle}><RiCalendarCheckLine style={{ color: "#3B6BB0" }} /> Πρόσφατη δραστηριότητα</div>
+          {recent.slice(0, 10).map((l) => (
+            <div key={l.id} style={rowLine}>
+              <Link href={`/super-admin/buildings/${l.buildingId}`} style={{ fontWeight: 600, color: "var(--foreground)", textDecoration: "none" }}>{l.buildingName}</Link>
+              <span style={{ color: "var(--muted-foreground)" }}>· {l.title}</span>
+              <span style={{ marginLeft: "auto", color: "var(--muted-foreground)" }}>{fmtDate(l.performedAt)}{l.performedBy ? ` · ${l.performedBy}` : ""}{l.cost ? ` · ${l.cost}€` : ""}</span>
+            </div>
+          ))}
+        </section>
+      )}
+
       <DataTable
         data={buildings}
         columns={columns}
@@ -119,10 +101,49 @@ export function ManagedBuildingsClient({ buildings, obligations, recent, itemTyp
         clientSide
         storageKey="managed-buildings"
         searchPlaceholder="Αναζήτηση κτηρίου…"
-        expandedContent={renderExpanded}
+        expandedContent={(b) => <BuildingDrilldownPanel building={b} obligations={obligations} />}
       />
 
       {assignOpen && <AssignItemModal buildings={buildings} itemTypes={itemTypes} onClose={() => setAssignOpen(false)} />}
+    </div>
+  );
+}
+
+function BuildingDrilldownPanel({ building, obligations }: { building: ManagedBuildingRow; obligations: ObligationRow[] }) {
+  const rows = obligations.filter((o) => o.buildingId === building.id);
+  const [data, setData] = useState<BuildingDrilldown | null>(null);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    let alive = true;
+    fetchBuildingDrilldown(building.id).then((d) => { if (alive) { setData(d); setLoading(false); } }).catch(() => { if (alive) setLoading(false); });
+    return () => { alive = false; };
+  }, [building.id]);
+  const logs = data?.history.slice(0, 8) ?? [];
+  return (
+    <div style={{ padding: "12px 16px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
+      <div>
+        <div style={sectionTitle}><RiToolsLine /> Προγράμματα συντήρησης</div>
+        {rows.length === 0 ? <div style={muted}>Χωρίς προγράμματα</div> : rows.map((o) => (
+          <div key={o.taskId} style={rowLine}>
+            <span>{o.title}{o.itemName ? ` · ${o.itemName}` : ""}</span>
+            <span style={{ marginLeft: "auto", display: "inline-flex", alignItems: "center", gap: 8 }}>{fmtDate(o.nextDueDate)} <StatusPill status={o.status} /></span>
+          </div>
+        ))}
+      </div>
+      <div>
+        <div style={sectionTitle}><RiCalendarCheckLine /> Ιστορικό συντήρησης</div>
+        {loading ? <div style={muted}>Φόρτωση…</div> : logs.length === 0 ? <div style={muted}>Χωρίς καταχωρήσεις</div> : logs.map((l) => (
+          <div key={l.id} style={rowLine}>
+            <span>{l.title}</span>
+            <span style={{ marginLeft: "auto", color: "var(--muted-foreground)" }}>{fmtDate(l.performedAt)}{l.performedBy ? ` · ${l.performedBy}` : ""}</span>
+          </div>
+        ))}
+      </div>
+      <div style={{ gridColumn: "1 / -1" }}>
+        <Link href={`/super-admin/buildings/${building.id}`} style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 13, fontWeight: 700, color: "var(--color-primary)", textDecoration: "none" }}>
+          Άνοιγμα καρτέλας κτηρίου <RiExternalLinkLine />
+        </Link>
+      </div>
     </div>
   );
 }
@@ -186,11 +207,16 @@ function AssignItemModal({ buildings, itemTypes, onClose }: { buildings: Managed
       if (res && "error" in res && res.error) { setError(res.error); return; }
       const itemId = (res as { itemId?: string }).itemId;
       if (itemId && sched.enabled) {
-        const sres = await createRecurringTask(buildingId, {
-          title: itemTypes.find((t) => t.id === form.itemTypeId)?.name ?? "Συντήρηση",
-          frequency: sched.frequency, nextDueDate: sched.nextDueDate || null, managedItemId: itemId, active: true,
-        });
-        if (sres && "error" in sres && sres.error) { setError(`Το στοιχείο αποθηκεύτηκε, αλλά το πρόγραμμα απέτυχε: ${sres.error}`); return; }
+        try {
+          const sres = await createRecurringTask(buildingId, {
+            title: itemTypes.find((t) => t.id === form.itemTypeId)?.name ?? "Συντήρηση",
+            frequency: sched.frequency, nextDueDate: sched.nextDueDate || null, managedItemId: itemId, active: true,
+          });
+          if (sres && "error" in sres && sres.error) { setError(`Το στοιχείο αποθηκεύτηκε, αλλά το πρόγραμμα απέτυχε: ${sres.error}`); return; }
+        } catch (e) {
+          setError(`Το στοιχείο αποθηκεύτηκε, αλλά το πρόγραμμα απέτυχε: ${e instanceof Error ? e.message : "σφάλμα"}`);
+          return;
+        }
       }
       onClose();
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
