@@ -874,9 +874,12 @@ model RecurringTask {
   reminderDaysBefore Int      @default(7)
   reminderSentAt     DateTime?
   logs               MaintenanceLog[]
+  managedItemId      String?
+  managedItem        ManagedItem? @relation(fields: [managedItemId], references: [id], onDelete: SetNull)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   @@index([buildingId])
+  @@index([managedItemId])
 }
 
 model MaintenanceLog {
@@ -1097,6 +1100,8 @@ model CommonArea {
   floor                 Int?
   notes                 String?
 
+  managedItems          ManagedItem[]
+
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt
 
@@ -1138,11 +1143,16 @@ model ManagedItem {
   photoCdnPath          String?
   notes                 String?
 
+  commonAreaId          String?
+  commonArea            CommonArea? @relation(fields: [commonAreaId], references: [id], onDelete: SetNull)
+  tasks                 RecurringTask[]
+
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt
 
   @@index([buildingId])
   @@index([itemTypeId])
+  @@index([commonAreaId])
 }
 
 // Units - apartments, shops, parking spaces
