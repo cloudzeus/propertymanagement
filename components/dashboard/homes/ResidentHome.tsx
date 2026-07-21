@@ -1,0 +1,91 @@
+import Link from "next/link";
+import { getResidentDashboard } from "@/lib/dashboard/queries";
+import { formatEuro } from "@/lib/dashboard/aggregations";
+import {
+  Hero, StatTile, SectionCard, MoneyRow, MiniBars, TicketList, EmptyState, PayNowButton,
+} from "@/components/dashboard";
+import { AutoRefresh } from "@/components/realtime/AutoRefresh";
+import { RiBuildingLine, RiMoneyEuroCircleLine, RiCalendarLine, RiToolsLine, RiNotification2Line } from "react-icons/ri";
+
+/**
+ * Resident (portal) dashboard content, scoped to `userId` + `companyId`.
+ * `previewMode` skips realtime SSE + the pay button for the read-only role preview.
+ * Rendered by the real /portal page and by the read-only role preview.
+ */
+export async function ResidentHome({ userId, companyId, userName, previewMode = false }: { userId: string; companyId?: string; userName?: string | null; previewMode?: boolean }) {
+  const { unit, allocations, balance, trend, tickets, announcements } = await getResidentDashboard(userId, companyId);
+  const firstName = userName?.split(" ")[0] ?? "";
+  const currentDue = allocations.find((a) => !a.tenantPaid);
+
+  const asideItems = [
+    !previewMode && balance > 0 ? <PayNowButton key="pay" amount={balance} /> : null,
+    unit ? (
+      <Link key="building" href={`/building/${unit.buildingId}`} style={{
+        display: "inline-flex", alignItems: "center", gap: 8, padding: "12px 20px",
+        borderRadius: 999, border: "1px solid var(--border-strong)", background: "var(--card)",
+        color: "var(--foreground)", fontSize: 14, fontWeight: 600, textDecoration: "none",
+      }}>
+        <RiBuildingLine style={{ fontSize: 18 }} /> Το κτήριό μου
+      </Link>
+    ) : null,
+  ].filter(Boolean);
+
+  return (
+    <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+      {!previewMode && unit ? <AutoRefresh buildingId={unit.buildingId} /> : null}
+      <Hero
+        title={`Καλώς ήρθατε, ${firstName}`}
+        subtitle={unit ? `${unit.building?.name} · ${unit.unitNumber}` : "Πύλη ενοικιαστή"}
+        aside={asideItems.length > 0 ? <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>{asideItems}</div> : undefined}
+      />
+
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16 }} className="dash-grid">
+        <StatTile label="Υπόλοιπο κοινοχρήστων" value={formatEuro(balance)} sub={balance > 0 ? "Προς πληρωμή" : "Ενημερωμένο"}
+          icon={RiMoneyEuroCircleLine} valueColor={balance > 0 ? "var(--color-warning)" : "var(--foreground)"} />
+        <StatTile label="Τρέχουσα δόση" value={currentDue ? formatEuro(Number(currentDue.tenantAmount)) : "—"}
+          sub={currentDue ? currentDue.expense.month : "Καμία εκκρεμότητα"} icon={RiCalendarLine} />
+        <StatTile label="Αιτήματά μου" value={tickets.length} sub="Ανοιχτά" icon={RiToolsLine}
+          href="/portal/requests" />
+        <StatTile label="Ανακοινώσεις" value={announcements.length} sub="Ενεργές" icon={RiNotification2Line}
+          href="/portal/announcements" />
+      </div>
+
+      <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: 16 }} className="dash-cols">
+        <SectionCard title="Ιστορικό κοινοχρήστων" viewAllHref="/portal/payments">
+          {allocations.length === 0 ? (
+            <EmptyState icon={RiMoneyEuroCircleLine} label="Δεν υπάρχουν χρεώσεις" />
+          ) : (
+            <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+              {allocations.slice(0, 6).map((a) => (
+                <MoneyRow key={a.id} title={a.expense.description || `Κοινόχρηστα ${a.expense.month}`}
+                  subtitle={a.expense.month} amount={Number(a.tenantAmount)} paid={a.tenantPaid} />
+              ))}
+            </div>
+          )}
+        </SectionCard>
+
+        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+          <SectionCard title="Κοινόχρηστα ανά μήνα"><MiniBars data={trend} /></SectionCard>
+          <SectionCard title="Ανακοινώσεις" viewAllHref="/portal/announcements">
+            {announcements.length === 0 ? (
+              <EmptyState icon={RiNotification2Line} label="Δεν υπάρχουν ανακοινώσεις" />
+            ) : (
+              <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                {announcements.map((ann) => (
+                  <div key={ann.id} style={{ padding: "12px 14px", background: "var(--bg-canvas)", borderRadius: 8,
+                    borderLeft: "3px solid var(--color-primary)" }}>
+                    <div style={{ fontSize: 14, fontWeight: 500, color: "var(--foreground)" }}>{ann.title}</div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </SectionCard>
+        </div>
+      </div>
+
+      <SectionCard title="Ανοιχτά αιτήματα συντήρησης" viewAllHref="/portal/requests">
+        <TicketList tickets={tickets.map((t) => ({ id: t.id, title: t.title, status: t.status, priority: t.priority, createdAt: t.createdAt }))} />
+      </SectionCard>
+    </div>
+  );
+}
