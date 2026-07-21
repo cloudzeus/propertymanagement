@@ -241,6 +241,7 @@ export type CommonAreaWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"CommonArea"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"CommonArea"> | Date | string
   building?: Prisma.XOR<Prisma.BuildingScalarRelationFilter, Prisma.BuildingWhereInput>
+  managedItems?: Prisma.ManagedItemListRelationFilter
 }
 
 export type CommonAreaOrderByWithRelationInput = {
@@ -253,6 +254,7 @@ export type CommonAreaOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   building?: Prisma.BuildingOrderByWithRelationInput
+  managedItems?: Prisma.ManagedItemOrderByRelationAggregateInput
 }
 
 export type CommonAreaWhereUniqueInput = Prisma.AtLeast<{
@@ -268,6 +270,7 @@ export type CommonAreaWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"CommonArea"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"CommonArea"> | Date | string
   building?: Prisma.XOR<Prisma.BuildingScalarRelationFilter, Prisma.BuildingWhereInput>
+  managedItems?: Prisma.ManagedItemListRelationFilter
 }, "id">
 
 export type CommonAreaOrderByWithAggregationInput = {
@@ -309,6 +312,7 @@ export type CommonAreaCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   building: Prisma.BuildingCreateNestedOneWithoutCommonAreasInput
+  managedItems?: Prisma.ManagedItemCreateNestedManyWithoutCommonAreaInput
 }
 
 export type CommonAreaUncheckedCreateInput = {
@@ -320,6 +324,7 @@ export type CommonAreaUncheckedCreateInput = {
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  managedItems?: Prisma.ManagedItemUncheckedCreateNestedManyWithoutCommonAreaInput
 }
 
 export type CommonAreaUpdateInput = {
@@ -331,6 +336,7 @@ export type CommonAreaUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   building?: Prisma.BuildingUpdateOneRequiredWithoutCommonAreasNestedInput
+  managedItems?: Prisma.ManagedItemUpdateManyWithoutCommonAreaNestedInput
 }
 
 export type CommonAreaUncheckedUpdateInput = {
@@ -342,6 +348,7 @@ export type CommonAreaUncheckedUpdateInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  managedItems?: Prisma.ManagedItemUncheckedUpdateManyWithoutCommonAreaNestedInput
 }
 
 export type CommonAreaCreateManyInput = {
@@ -427,6 +434,11 @@ export type CommonAreaSumOrderByAggregateInput = {
   floor?: Prisma.SortOrder
 }
 
+export type CommonAreaNullableScalarRelationFilter = {
+  is?: Prisma.CommonAreaWhereInput | null
+  isNot?: Prisma.CommonAreaWhereInput | null
+}
+
 export type CommonAreaCreateNestedManyWithoutBuildingInput = {
   create?: Prisma.XOR<Prisma.CommonAreaCreateWithoutBuildingInput, Prisma.CommonAreaUncheckedCreateWithoutBuildingInput> | Prisma.CommonAreaCreateWithoutBuildingInput[] | Prisma.CommonAreaUncheckedCreateWithoutBuildingInput[]
   connectOrCreate?: Prisma.CommonAreaCreateOrConnectWithoutBuildingInput | Prisma.CommonAreaCreateOrConnectWithoutBuildingInput[]
@@ -469,6 +481,22 @@ export type CommonAreaUncheckedUpdateManyWithoutBuildingNestedInput = {
   deleteMany?: Prisma.CommonAreaScalarWhereInput | Prisma.CommonAreaScalarWhereInput[]
 }
 
+export type CommonAreaCreateNestedOneWithoutManagedItemsInput = {
+  create?: Prisma.XOR<Prisma.CommonAreaCreateWithoutManagedItemsInput, Prisma.CommonAreaUncheckedCreateWithoutManagedItemsInput>
+  connectOrCreate?: Prisma.CommonAreaCreateOrConnectWithoutManagedItemsInput
+  connect?: Prisma.CommonAreaWhereUniqueInput
+}
+
+export type CommonAreaUpdateOneWithoutManagedItemsNestedInput = {
+  create?: Prisma.XOR<Prisma.CommonAreaCreateWithoutManagedItemsInput, Prisma.CommonAreaUncheckedCreateWithoutManagedItemsInput>
+  connectOrCreate?: Prisma.CommonAreaCreateOrConnectWithoutManagedItemsInput
+  upsert?: Prisma.CommonAreaUpsertWithoutManagedItemsInput
+  disconnect?: Prisma.CommonAreaWhereInput | boolean
+  delete?: Prisma.CommonAreaWhereInput | boolean
+  connect?: Prisma.CommonAreaWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CommonAreaUpdateToOneWithWhereWithoutManagedItemsInput, Prisma.CommonAreaUpdateWithoutManagedItemsInput>, Prisma.CommonAreaUncheckedUpdateWithoutManagedItemsInput>
+}
+
 export type CommonAreaCreateWithoutBuildingInput = {
   id?: string
   name: string
@@ -477,6 +505,7 @@ export type CommonAreaCreateWithoutBuildingInput = {
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  managedItems?: Prisma.ManagedItemCreateNestedManyWithoutCommonAreaInput
 }
 
 export type CommonAreaUncheckedCreateWithoutBuildingInput = {
@@ -487,6 +516,7 @@ export type CommonAreaUncheckedCreateWithoutBuildingInput = {
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  managedItems?: Prisma.ManagedItemUncheckedCreateNestedManyWithoutCommonAreaInput
 }
 
 export type CommonAreaCreateOrConnectWithoutBuildingInput = {
@@ -529,6 +559,66 @@ export type CommonAreaScalarWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"CommonArea"> | Date | string
 }
 
+export type CommonAreaCreateWithoutManagedItemsInput = {
+  id?: string
+  name: string
+  type?: string | null
+  floor?: number | null
+  notes?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  building: Prisma.BuildingCreateNestedOneWithoutCommonAreasInput
+}
+
+export type CommonAreaUncheckedCreateWithoutManagedItemsInput = {
+  id?: string
+  buildingId: string
+  name: string
+  type?: string | null
+  floor?: number | null
+  notes?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type CommonAreaCreateOrConnectWithoutManagedItemsInput = {
+  where: Prisma.CommonAreaWhereUniqueInput
+  create: Prisma.XOR<Prisma.CommonAreaCreateWithoutManagedItemsInput, Prisma.CommonAreaUncheckedCreateWithoutManagedItemsInput>
+}
+
+export type CommonAreaUpsertWithoutManagedItemsInput = {
+  update: Prisma.XOR<Prisma.CommonAreaUpdateWithoutManagedItemsInput, Prisma.CommonAreaUncheckedUpdateWithoutManagedItemsInput>
+  create: Prisma.XOR<Prisma.CommonAreaCreateWithoutManagedItemsInput, Prisma.CommonAreaUncheckedCreateWithoutManagedItemsInput>
+  where?: Prisma.CommonAreaWhereInput
+}
+
+export type CommonAreaUpdateToOneWithWhereWithoutManagedItemsInput = {
+  where?: Prisma.CommonAreaWhereInput
+  data: Prisma.XOR<Prisma.CommonAreaUpdateWithoutManagedItemsInput, Prisma.CommonAreaUncheckedUpdateWithoutManagedItemsInput>
+}
+
+export type CommonAreaUpdateWithoutManagedItemsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  floor?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  building?: Prisma.BuildingUpdateOneRequiredWithoutCommonAreasNestedInput
+}
+
+export type CommonAreaUncheckedUpdateWithoutManagedItemsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  buildingId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  floor?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
 export type CommonAreaCreateManyBuildingInput = {
   id?: string
   name: string
@@ -547,6 +637,7 @@ export type CommonAreaUpdateWithoutBuildingInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  managedItems?: Prisma.ManagedItemUpdateManyWithoutCommonAreaNestedInput
 }
 
 export type CommonAreaUncheckedUpdateWithoutBuildingInput = {
@@ -557,6 +648,7 @@ export type CommonAreaUncheckedUpdateWithoutBuildingInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  managedItems?: Prisma.ManagedItemUncheckedUpdateManyWithoutCommonAreaNestedInput
 }
 
 export type CommonAreaUncheckedUpdateManyWithoutBuildingInput = {
@@ -570,6 +662,35 @@ export type CommonAreaUncheckedUpdateManyWithoutBuildingInput = {
 }
 
 
+/**
+ * Count Type CommonAreaCountOutputType
+ */
+
+export type CommonAreaCountOutputType = {
+  managedItems: number
+}
+
+export type CommonAreaCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  managedItems?: boolean | CommonAreaCountOutputTypeCountManagedItemsArgs
+}
+
+/**
+ * CommonAreaCountOutputType without action
+ */
+export type CommonAreaCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CommonAreaCountOutputType
+   */
+  select?: Prisma.CommonAreaCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * CommonAreaCountOutputType without action
+ */
+export type CommonAreaCountOutputTypeCountManagedItemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ManagedItemWhereInput
+}
+
 
 export type CommonAreaSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -581,6 +702,8 @@ export type CommonAreaSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   createdAt?: boolean
   updatedAt?: boolean
   building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
+  managedItems?: boolean | Prisma.CommonArea$managedItemsArgs<ExtArgs>
+  _count?: boolean | Prisma.CommonAreaCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["commonArea"]>
 
 export type CommonAreaSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -621,6 +744,8 @@ export type CommonAreaSelectScalar = {
 export type CommonAreaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "buildingId" | "name" | "type" | "floor" | "notes" | "createdAt" | "updatedAt", ExtArgs["result"]["commonArea"]>
 export type CommonAreaInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
+  managedItems?: boolean | Prisma.CommonArea$managedItemsArgs<ExtArgs>
+  _count?: boolean | Prisma.CommonAreaCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type CommonAreaIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
@@ -633,6 +758,7 @@ export type $CommonAreaPayload<ExtArgs extends runtime.Types.Extensions.Internal
   name: "CommonArea"
   objects: {
     building: Prisma.$BuildingPayload<ExtArgs>
+    managedItems: Prisma.$ManagedItemPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1038,6 +1164,7 @@ readonly fields: CommonAreaFieldRefs;
 export interface Prisma__CommonAreaClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   building<T extends Prisma.BuildingDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.BuildingDefaultArgs<ExtArgs>>): Prisma.Prisma__BuildingClient<runtime.Types.Result.GetResult<Prisma.$BuildingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  managedItems<T extends Prisma.CommonArea$managedItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CommonArea$managedItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ManagedItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1473,6 +1600,30 @@ export type CommonAreaDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.In
    * Limit how many CommonAreas to delete.
    */
   limit?: number
+}
+
+/**
+ * CommonArea.managedItems
+ */
+export type CommonArea$managedItemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ManagedItem
+   */
+  select?: Prisma.ManagedItemSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ManagedItem
+   */
+  omit?: Prisma.ManagedItemOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ManagedItemInclude<ExtArgs> | null
+  where?: Prisma.ManagedItemWhereInput
+  orderBy?: Prisma.ManagedItemOrderByWithRelationInput | Prisma.ManagedItemOrderByWithRelationInput[]
+  cursor?: Prisma.ManagedItemWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ManagedItemScalarFieldEnum | Prisma.ManagedItemScalarFieldEnum[]
 }
 
 /**
