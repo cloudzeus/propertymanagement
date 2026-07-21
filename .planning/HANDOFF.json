@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "timestamp": "2026-07-19T16:47:00.592Z",
+  "timestamp": "2026-07-21T05:28:58.977Z",
   "source": "auto-postool",
   "partial": false,
   "phase": null,
@@ -22,21 +22,77 @@
     },
     {
       "status": "M",
-      "path": "lib/prisma/internal/class.ts"
+      "path": "app/(company)/admin/page.tsx"
     },
     {
       "status": "M",
-      "path": "lib/prisma/internal/prismaNamespace.ts"
+      "path": "app/(company)/manager/page.tsx"
     },
     {
       "status": "M",
-      "path": "lib/prisma/internal/prismaNamespaceBrowser.ts"
+      "path": "app/(company)/staff/page.tsx"
     },
     {
       "status": "M",
-      "path": "lib/prisma/models/AppSettings.ts"
+      "path": "app/(company)/super-admin/page.tsx"
+    },
+    {
+      "status": "M",
+      "path": "app/(company)/super-admin/users/UsersClient.tsx"
+    },
+    {
+      "status": "M",
+      "path": "app/(company)/super-admin/users/page.tsx"
+    },
+    {
+      "status": "M",
+      "path": "app/(customer)/owner/page.tsx"
+    },
+    {
+      "status": "M",
+      "path": "app/(customer)/portal/page.tsx"
+    },
+    {
+      "status": "M",
+      "path": "app/actions/building-expenses.ts"
+    },
+    {
+      "status": "M",
+      "path": "app/actions/unit-occupants.ts"
+    },
+    {
+      "status": "M",
+      "path": "components/building/UnitsPanel.tsx"
+    },
+    {
+      "status": "M",
+      "path": "docs/superpowers/specs/2026-07-21-managed-items-maintenance-obligations-design.md"
+    },
+    {
+      "status": "M",
+      "path": "lib/building-caps.ts"
+    },
+    {
+      "status": "M",
+      "path": "lib/rbac/registry.ts"
+    },
+    {
+      "status": "??",
+      "path": "app/(company)/super-admin/preview/"
+    },
+    {
+      "status": "??",
+      "path": "components/dashboard/homes/"
+    },
+    {
+      "status": "??",
+      "path": "components/dashboard/kit.tsx"
+    },
+    {
+      "status": "??",
+      "path": "lib/dashboard/platform.ts"
     }
   ],
   "next_action": null,
-  "context_notes": "Recent commits:\n821e420 feat(owner-dashboard): rebalance layout, expandable billing panel, fix owner charge bars, rename Πληρωμές→Λογαριασμοί\n81c58f4 fix(dashboard): drop duplicate top-level Ανακοινώσεις menu, consolidate on dashboard\n99b5474 feat(sidebar): building-centric tree for owners/residents\n303f9a7 fix(owner): un-cramp portfolio card footer + add κοινόχρηστα explainer\n04e4aeb feat(occupant): Κοινόχρηστα tab lists all issued months per unit as expandable notices"
+  "context_notes": "Recent commits:\n68c576d docs: spec for managed-items maintenance, obligations dashboard & calendar\n3263688 chore(prisma): regenerate client for AppSettings providerViva* fields\n821e420 feat(owner-dashboard): rebalance layout, expandable billing panel, fix owner charge bars, rename Πληρωμές→Λογαριασμοί\n81c58f4 fix(dashboard): drop duplicate top-level Ανακοινώσεις menu, consolidate on dashboard\n99b5474 feat(sidebar): building-centric tree for owners/residents"
 }

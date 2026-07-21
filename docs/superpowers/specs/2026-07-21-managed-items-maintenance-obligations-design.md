@@ -145,8 +145,8 @@ optional schedule (reuses the Part 2 actions).
 - Load both `listDemoRequests` and `listMaintenanceCalendar` for the window.
 - Extend the client to render **two event types** (demo booking vs maintenance), colour-coded,
   with a simple filter toggle. Click a maintenance event → link to its building.
-- Gate: existing `calendar` / `mkt-calendar` view check already covers the four roles once EMPLOYEE
-  has `calendar` view (or keep maintenance events visible under `mkt-calendar` too).
+- Gate: unchanged — the page already allows `calendar` OR `mkt-calendar` view, which covers all
+  four roles today (EMPLOYEE via `mkt-calendar`). No RBAC change needed for the calendar itself.
 
 ---
 

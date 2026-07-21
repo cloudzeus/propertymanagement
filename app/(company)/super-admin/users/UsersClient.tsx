@@ -31,6 +31,7 @@ const STATUS_LABEL: Record<string, string> = {
 
 type Company = { id: string; name: string };
 type RoleRow = { id: string; key: string; label: string; baseRole: string; surface: string; isSystem: boolean };
+type CustomerScope = { id: string; name: string; roles: string[]; places: string[] };
 type User = {
   id: string;
   name: string | null;
@@ -39,8 +40,9 @@ type User = {
   roleId: string | null;
   status: string;
   companyId: string | null;
-  company: { name: string } | null;
+  company?: { name: string } | null;
   lastLoginAt: Date | null;
+  customers?: CustomerScope[];
 };
 
 function initForm() {
@@ -112,7 +114,9 @@ export function UsersClient({
       };
       const res = editing ? await updateUser(editing.id, payload) : await createUser(payload);
       if ("error" in res && res.error) { setError(res.error); return; }
-      const saved = (res as { user: User }).user;
+      // Server actions return the raw user without the computed scope fields; preserve
+      // the existing customer breakdown on edit (associations aren't changed by this form).
+      const saved = { ...(res as { user: User }).user, customers: editing?.customers ?? [] };
       setData((prev) => editing ? prev.map((u) => u.id === saved.id ? saved : u) : [saved, ...prev]);
       setOpen(false);
     });
@@ -153,9 +157,40 @@ export function UsersClient({
       ),
     },
     {
-      id: "company", header: "Εταιρεία", sortKey: "company", width: 180,
-      accessor: (u) => u.company?.name ?? "",
-      cell: (u) => <span style={{ fontSize: 13, color: "var(--muted-foreground)" }}>{u.company?.name || "—"}</span>,
+      id: "customer", header: "Πελάτες", sortKey: "customer", width: 220,
+      accessor: (u) => (u.customers ?? []).map((c) => c.name).join(", "),
+      cell: (u) => {
+        const customers = u.customers ?? [];
+        if (customers.length === 0) return <span style={{ fontSize: 12, color: "var(--muted-foreground)" }}>Προσωπικό εταιρείας</span>;
+        const shown = customers.slice(0, 2);
+        const extra = customers.length - shown.length;
+        return (
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }} title={customers.map((c) => c.name).join("\n")}>
+            {shown.map((c) => (
+              <span key={c.id} style={{ fontSize: 12, fontWeight: 600, padding: "2px 8px", borderRadius: 6, background: "#8764B818", color: "#8764B8", maxWidth: 180, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{c.name}</span>
+            ))}
+            {extra > 0 && <span style={{ fontSize: 11, fontWeight: 700, padding: "2px 8px", borderRadius: 6, background: "#8764B818", color: "#8764B8" }}>+{extra}</span>}
+          </div>
+        );
+      },
+    },
+    {
+      id: "places", header: "Ακίνητα / Μονάδες", sortKey: "places", width: 240,
+      accessor: (u) => (u.customers ?? []).flatMap((c) => c.places).join(", "),
+      cell: (u) => {
+        const places = Array.from(new Set((u.customers ?? []).flatMap((c) => c.places)));
+        if (places.length === 0) return <span style={{ fontSize: 12, color: "var(--muted-foreground)" }}>—</span>;
+        const shown = places.slice(0, 2);
+        const extra = places.length - shown.length;
+        return (
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }} title={places.join("\n")}>
+            {shown.map((p, i) => (
+              <span key={i} style={{ fontSize: 11, fontWeight: 500, padding: "2px 8px", borderRadius: 6, background: "var(--bg-canvas)", border: "1px solid var(--border)", color: "var(--foreground)", maxWidth: 200, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{p}</span>
+            ))}
+            {extra > 0 && <span style={{ fontSize: 11, fontWeight: 600, padding: "2px 8px", borderRadius: 6, background: "var(--color-primary)18", color: "var(--color-primary)" }}>+{extra}</span>}
+          </div>
+        );
+      },
     },
     {
       id: "role", header: "Ρόλος", sortKey: "role", width: 150,
@@ -188,6 +223,36 @@ export function UsersClient({
     { label: "Διαγραφή", icon: <RiDeleteBinLine />, danger: true, onClick: handleDelete },
   ];
 
+  // Per-customer breakdown — makes multi-customer participation (same email across
+  // several πελάτες/ακίνητα) explicit: customer → role(s) → buildings/units.
+  const PLACE_ROLE_COLOR: Record<string, string> = { "Ιδιοκτήτης": "#8764B8", "Ένοικος": "#0078D4", "Διαχειριστής": "#038387" };
+  const renderExpanded = (u: User) => {
+    const customers = u.customers ?? [];
+    if (customers.length === 0) {
+      return <div style={{ padding: "12px 16px", fontSize: 13, color: "var(--muted-foreground)" }}>Χρήστης προσωπικού — δεν συμμετέχει σε πελάτες/ακίνητα.</div>;
+    }
+    return (
+      <div style={{ padding: "12px 16px", display: "flex", flexDirection: "column", gap: 12 }}>
+        {customers.map((c) => (
+          <div key={c.id} style={{ display: "flex", flexDirection: "column", gap: 8, padding: "12px 14px", background: "var(--bg-canvas)", borderRadius: 8, border: "1px solid var(--border)" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+              <span style={{ fontSize: 13, fontWeight: 700, color: "var(--foreground)" }}>{c.name}</span>
+              {c.roles.map((r) => {
+                const col = PLACE_ROLE_COLOR[r] || "#707070";
+                return <span key={r} style={{ fontSize: 11, fontWeight: 600, padding: "2px 8px", borderRadius: 20, background: `${col}18`, color: col }}>{r}</span>;
+              })}
+            </div>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+              {c.places.map((p, i) => (
+                <span key={i} style={{ fontSize: 12, padding: "3px 10px", borderRadius: 6, background: "var(--card)", border: "1px solid var(--border)", color: "var(--foreground)" }}>{p}</span>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  };
+
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
       <div>
@@ -204,6 +269,7 @@ export function UsersClient({
         clientSide
         storageKey="super-admin-users"
         searchPlaceholder="Αναζήτηση χρήστη…"
+        expandedContent={renderExpanded}
         getRowActions={getRowActions}
         onAddNew={openAdd}
         addNewLabel="Νέος Χρήστης"

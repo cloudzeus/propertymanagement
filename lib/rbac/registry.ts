@@ -41,7 +41,7 @@ export const RBAC_MODULES: readonly RbacModule[] = [
   { key: "cms-authors", label: "CMS: Συγγραφείς", surface: "company", menu: { href: "/super-admin/cms/authors", icon: "RiUserStarLine", group: "cms" }, actions: [...CRUD] },
   { key: "cms-media", label: "CMS: Media", surface: "company", menu: { href: "/super-admin/cms/media", icon: "RiImage2Line", group: "cms" }, actions: [...CRUD] },
   { key: "cms-translations", label: "CMS: Μεταφράσεις", surface: "company", menu: { href: "/super-admin/cms/translations", icon: "RiTranslate2", group: "cms" }, actions: [...CRUD] },
-  { key: "view-as", label: "View as…", surface: "company", menu: { href: "/super-admin/view-as", icon: "RiEyeLine", group: "preview" }, actions: [...VIEW] },
+  { key: "view-as", label: "Προεπισκόπηση ρόλων", surface: "company", menu: { href: "/super-admin/preview", icon: "RiEyeLine", group: "preview" }, actions: [...VIEW] },
   // ── Customer surface ──
   // The customer surface serves 4 roles (PROPERTY_ADMIN/OWNER/RESIDENT/VIEWER) whose
   // pages live under different prefixes (/building, /owner, /portal). A module's menu

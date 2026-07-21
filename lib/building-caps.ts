@@ -32,15 +32,16 @@ export const OCCUPANT_CAPS: BuildingCaps = { ...NO_CAPS, createRequests: true };
 
 /** PROPERTY_ADMIN caps. `managed` = the company manages the building (property.managed). */
 export function capsForManager(managed: boolean): BuildingCaps {
+  // Self-managed building: no company runs it, so the assigned PROPERTY_ADMIN IS the
+  // manager and gets full staff-equivalent control — scoped to this specific building.
+  if (!managed) return all(true);
+  // Company-managed building: the company runs operations; the manager gets only
+  // communication + own requests + building-wide reads. Everything else stays off,
+  // including editDistribution / manageManagers / manageManagedItems (company-owned).
   return {
-    ...all(!managed),
-    // Communication + own requests + building-wide reads are always allowed:
+    ...all(false),
     manageFiles: true, manageContacts: true, manageAnnouncements: true,
     manageAssemblies: true, manageCalendar: true, createRequests: true, viewAudit: true,
     viewLedger: true,
-    // Company-owned settings are never manager-editable:
-    editDistribution: false, manageManagers: false,
-    // Managed items exist only on managed buildings (company catalog) — always view-only for managers:
-    manageManagedItems: false,
   };
 }

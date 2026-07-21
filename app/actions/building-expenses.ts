@@ -1,6 +1,6 @@
 "use server";
 
-import { auth } from "@/auth";
+import { getEffectiveSession } from "@/lib/auth-effective";
 import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import { uploadFile, buildingFolder } from "@/lib/bunnycdn";
@@ -38,11 +38,12 @@ export type ManageableBuilding = { id: string; name: string; city: string | null
  *  (SUPER_ADMIN/ADMIN/MANAGER) see all; building/property managers see only the
  *  buildings reachable through their ManagementAssignments. */
 export async function listManageableBuildings(): Promise<ManageableBuilding[]> {
-  const session = await auth();
+  // Effective session so super-admin View-as of a PROPERTY_ADMIN scopes the picker to
+  // the impersonated manager's assigned buildings — never the super-admin's global list.
+  const session = await getEffectiveSession();
   if (!session?.user) return [];
   const uid = session.user.id as string;
-  const user = await db.user.findUnique({ where: { id: uid }, select: { role: true } });
-  const role = user?.role ?? "";
+  const role = session.user.role ?? "";
 
   const select = { id: true, name: true, city: true, property: { select: { name: true } } } as const;
   const toResult = (b: { id: string; name: string; city: string | null; property: { name: string | null } | null }): ManageableBuilding =>

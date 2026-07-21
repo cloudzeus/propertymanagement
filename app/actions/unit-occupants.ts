@@ -146,6 +146,112 @@ export async function assignOccupant(
   return { occupant: { id: user.id, name: user.name, email: user.email } };
 }
 
+/**
+ * Batch-link an EXISTING user as owner/resident of MANY units at once ("replace all":
+ * any current occupant of that role is closed out first). Validates access + customer
+ * isolation on every unit BEFORE mutating anything, so a failure leaves no partial state.
+ */
+export async function assignOccupantsBatch(
+  unitIds: string[],
+  role: "OWNER" | "RESIDENT",
+  userId: string,
+  startDate?: string,
+) {
+  await requireStaff();
+  const ids = Array.from(new Set(unitIds.filter(Boolean)));
+  if (!ids.length) return { error: "Δεν επιλέχθηκαν μονάδες" };
+  const user = await db.user.findUnique({ where: { id: userId }, select: { id: true, name: true, email: true, customerId: true, role: true } });
+  if (!user) return { error: "Ο χρήστης δεν βρέθηκε" };
+
+  // Pass 1 — authorize every unit and confirm same-customer; throws before any write.
+  const ctxs: Ctx[] = [];
+  for (const unitId of ids) {
+    const ctx = await authorizeUnit(unitId);
+    if (user.customerId !== ctx.customerId) return { error: "Ο χρήστης ανήκει σε άλλον πελάτη και δεν μπορεί να συνδεθεί" };
+    ctxs.push(ctx);
+  }
+
+  // Pass 2 — mutate.
+  const start = startDate ? new Date(startDate) : new Date();
+  for (const unitId of ids) {
+    await closeOpenOccupancy(unitId, role, start);
+    await db.unit.update({ where: { id: unitId }, data: role === "OWNER" ? { ownerId: user.id } : { residentId: user.id } });
+    await openOccupancy(unitId, user.id, role, start);
+  }
+
+  // Role upgrade happens once (User.role = highest role held).
+  const gained: UserRole = role === "OWNER" ? "PROPERTY_OWNER" : "PROPERTY_RESIDENT";
+  const upgraded = roleAfterGaining(user.role as UserRole, gained);
+  if (upgraded !== user.role) {
+    await db.user.update({ where: { id: user.id }, data: { role: upgraded as any } });
+  }
+
+  revalidate(ctxs[0]);
+  return { count: ids.length, occupant: { id: user.id, name: user.name, email: user.email } };
+}
+
+/**
+ * Batch-create ONE new PROPERTY_OWNER/PROPERTY_RESIDENT user and assign them to MANY
+ * units at once ("replace all"). Units must all belong to the same customer.
+ */
+export async function createOccupantBatch(
+  unitIds: string[],
+  role: "OWNER" | "RESIDENT",
+  data: {
+    name: string; email: string; password: string; phone?: string; mobile?: string; startDate?: string;
+    isCompany?: boolean; afm?: string; doy?: string;
+    contactName?: string; contactEmail?: string; contactPhone?: string;
+  },
+) {
+  await requireStaff();
+  const ids = Array.from(new Set(unitIds.filter(Boolean)));
+  if (!ids.length) return { error: "Δεν επιλέχθηκαν μονάδες" };
+  const email = data.email.trim().toLowerCase();
+  const s = (v?: string) => (v?.trim() || null);
+  if (!data.name.trim()) return { error: data.isCompany ? "Η επωνυμία είναι υποχρεωτική" : "Το όνομα είναι υποχρεωτικό" };
+  if (!email) return { error: "Το email είναι υποχρεωτικό" };
+  if (data.password.length < 6) return { error: "Ο κωδικός πρέπει να έχει τουλάχιστον 6 χαρακτήρες" };
+  const exists = await db.user.findUnique({ where: { email } });
+  if (exists) return { error: "Υπάρχει ήδη χρήστης με αυτό το email" };
+
+  // Pass 1 — authorize every unit; all must share one customer/company.
+  const ctxs: Ctx[] = [];
+  for (const unitId of ids) ctxs.push(await authorizeUnit(unitId));
+  const ctx = ctxs[0];
+  if (ctxs.some((c) => c.customerId !== ctx.customerId)) return { error: "Οι μονάδες ανήκουν σε διαφορετικούς πελάτες" };
+
+  const user = await db.user.create({
+    data: {
+      email,
+      name: data.name.trim(),
+      phone: s(data.phone),
+      mobile: s(data.mobile),
+      role: (role === "OWNER" ? "PROPERTY_OWNER" : "PROPERTY_RESIDENT") as any,
+      status: "ACTIVE" as any,
+      companyId: ctx.companyId,
+      customerId: ctx.customerId,
+      passwordHash: await bcrypt.hash(data.password, 10),
+      isCompany: !!data.isCompany,
+      afm: data.isCompany ? s(data.afm) : null,
+      doy: data.isCompany ? s(data.doy) : null,
+      contactName: data.isCompany ? s(data.contactName) : null,
+      contactEmail: data.isCompany ? s(data.contactEmail) : null,
+      contactPhone: data.isCompany ? s(data.contactPhone) : null,
+    },
+    select: { id: true, name: true, email: true },
+  });
+
+  const start = data.startDate ? new Date(data.startDate) : new Date();
+  for (const unitId of ids) {
+    await closeOpenOccupancy(unitId, role, start);
+    await db.unit.update({ where: { id: unitId }, data: role === "OWNER" ? { ownerId: user.id } : { residentId: user.id } });
+    await openOccupancy(unitId, user.id, role, start);
+  }
+
+  revalidate(ctx);
+  return { count: ids.length, occupant: user };
+}
+
 /** End the current owner/resident occupancy (έως) and clear the unit pointer. */
 export async function clearOccupant(unitId: string, role: "OWNER" | "RESIDENT") {
   await requireStaff();

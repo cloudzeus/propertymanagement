@@ -2,10 +2,10 @@
 
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { DataTable, type ColDef, type RowAction } from "@/components/ui/data-table";
+import { DataTable, type ColDef, type RowAction, type BatchAction } from "@/components/ui/data-table";
 import { Modal, FormField, FieldInput, FieldSelect } from "@/components/ui/modal";
 import { createUnit, updateUnit, deleteUnit, recalculateMillesimes, type UnitInput } from "@/app/actions/buildings";
-import { createOccupant, assignOccupant, clearOccupant } from "@/app/actions/unit-occupants";
+import { createOccupant, assignOccupant, clearOccupant, assignOccupantsBatch, createOccupantBatch } from "@/app/actions/unit-occupants";
 import { computeMillesimes } from "@/lib/millesimes";
 import { UserCombo } from "@/components/ui/user-combo";
 import { CUSTOMER_ROLES } from "@/lib/roles-constants";
@@ -40,6 +40,7 @@ export function UnitsPanel({ buildingId, units, can }: { buildingId: string; uni
   const [adding, setAdding] = useState(false);
   const [recalc, setRecalc] = useState(false);
   const [occUnit, setOccUnit] = useState<Unit | null>(null);
+  const [batchUnits, setBatchUnits] = useState<Unit[] | null>(null);
   const refresh = () => router.refresh();
 
   const totalMil = Math.round(units.reduce((s, u) => s + (u.millesimes ?? 0), 0) * 100) / 100;
@@ -73,6 +74,10 @@ export function UnitsPanel({ buildingId, units, can }: { buildingId: string; uni
     { label: "Διαγραφή", icon: <RiDeleteBinLine />, danger: true, onClick: (u) => { if (confirm(`Διαγραφή μονάδας «${u.unitNumber}»;`)) deleteUnit(u.id).then(refresh); } },
   ];
 
+  const batchActions: BatchAction<Unit>[] = [
+    { label: "Ανάθεση ιδιοκτήτη / ενοίκου", icon: <RiUserStarLine />, onClick: (rows) => setBatchUnits(rows) },
+  ];
+
   return (
     <>
       <DataTable
@@ -85,6 +90,7 @@ export function UnitsPanel({ buildingId, units, can }: { buildingId: string; uni
         storageKey="building-units"
         searchPlaceholder="Αναζήτηση μονάδας…"
         getRowActions={can.editUnits ? getRowActions : undefined}
+        batchActions={can.editUnits ? batchActions : undefined}
         toolbar={
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
             <span style={{ fontSize: 12, color: "var(--muted-foreground)" }}>Σύνολο χιλιοστών: <b style={{ color: totalMil === 1000 ? "var(--color-green)" : "var(--foreground)" }}>{totalMil}‰</b></span>
@@ -102,6 +108,7 @@ export function UnitsPanel({ buildingId, units, can }: { buildingId: string; uni
       )}
       {recalc && <MillesimesModal units={units} buildingId={buildingId} onClose={() => setRecalc(false)} onDone={() => { setRecalc(false); refresh(); }} />}
       {occUnit && <OccupantsModal unit={occUnit} onClose={() => setOccUnit(null)} onDone={refresh} />}
+      {batchUnits && <BatchOccupantModal units={batchUnits} onClose={() => setBatchUnits(null)} onDone={() => { setBatchUnits(null); refresh(); }} />}
     </>
   );
 }
@@ -121,31 +128,17 @@ function OccupantsModal({ unit, onClose, onDone }: { unit: Unit; onClose: () => 
 
 const emptyForm = { name: "", email: "", password: "", phone: "", mobile: "", startDate: "", afm: "", doy: "", contactName: "", contactEmail: "", contactPhone: "" };
 
+export type OccupantPayload = typeof emptyForm & { isCompany: boolean };
+
 function Slot({ unitId, customerId, role, label, current, onDone }: { unitId: string; customerId: string; role: "OWNER" | "RESIDENT"; label: string; current: TOccupant | null; onDone: () => void }) {
   const [occupant, setOccupant] = useState<TOccupant | null>(current);
   const [adding, setAdding] = useState(false);
-  const [isCompany, setIsCompany] = useState(false);
-  const [form, setForm] = useState({ ...emptyForm });
   const [error, setError] = useState<string | null>(null);
-  const [aadeLoading, setAadeLoading] = useState(false);
   const [isPending, startTransition] = useTransition();
-  const f = (k: keyof typeof form) => (v: string) => setForm((p) => ({ ...p, [k]: v }));
 
-  async function aadeLookup() {
-    const afm = form.afm.replace(/\D/g, "");
-    if (afm.length !== 9) { setError("Συμπληρώστε έγκυρο ΑΦΜ (9 ψηφία)"); return; }
-    setAadeLoading(true); setError(null);
-    try {
-      const res = await fetch("/api/aade", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ afm }) });
-      const data: { data?: Record<string, string>; error?: string } = await res.json();
-      if (!res.ok || !data.data) { setError(data.error ?? "Δεν βρέθηκαν στοιχεία ΑΑΔΕ"); return; }
-      setForm((p) => ({ ...p, name: data.data!.name || p.name, doy: data.data!.taxOffice || p.doy }));
-    } catch { setError("Σφάλμα αναζήτησης ΑΑΔΕ"); } finally { setAadeLoading(false); }
-  }
-
-  function create() {
+  function submitNew(p: OccupantPayload) {
     setError(null);
-    startTransition(async () => { const res = await createOccupant(unitId, role, { ...form, isCompany }); if ("error" in res && res.error) { setError(res.error); return; } setOccupant(res.occupant ?? null); setAdding(false); setIsCompany(false); setForm({ ...emptyForm }); onDone(); });
+    startTransition(async () => { const res = await createOccupant(unitId, role, p); if ("error" in res && res.error) { setError(res.error); return; } setOccupant(res.occupant ?? null); setAdding(false); onDone(); });
   }
   function pickExisting(userId: string) {
     setError(null);
@@ -166,50 +159,7 @@ function Slot({ unitId, customerId, role, label, current, onDone }: { unitId: st
           <button onClick={clear} disabled={isPending} style={{ ...btnSmall, color: "#c50f1f" }}><RiCloseLine /> Αφαίρεση</button>
         </div>
       ) : adding ? (
-        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-          {error && <div style={errBox}>{error}</div>}
-          <FormField label="Τύπος">
-            <FieldSelect value={isCompany ? "COMPANY" : "INDIVIDUAL"} onChange={(v) => setIsCompany(v === "COMPANY")}
-              options={[{ value: "INDIVIDUAL", label: "Ιδιώτης" }, { value: "COMPANY", label: "Εταιρεία" }]} />
-          </FormField>
-
-          {isCompany ? (
-            <>
-              <FormField label="Επωνυμία" required><FieldInput value={form.name} onChange={f("name")} placeholder="π.χ. Εταιρεία ΕΠΕ" /></FormField>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr auto 1fr", gap: 10, alignItems: "end" }}>
-                <FormField label="ΑΦΜ"><FieldInput value={form.afm} onChange={f("afm")} placeholder="123456789" /></FormField>
-                <button type="button" onClick={aadeLookup} disabled={aadeLoading} title="Άντληση στοιχείων από ΑΑΔΕ" style={{ ...btnSmall, height: 34 }}>
-                  {aadeLoading ? <RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> : <RiSearchLine />} ΑΑΔΕ
-                </button>
-                <FormField label="ΔΟΥ"><FieldInput value={form.doy} onChange={f("doy")} /></FormField>
-              </div>
-              <div style={{ fontSize: 11, fontWeight: 700, color: "var(--muted-foreground)", textTransform: "uppercase", letterSpacing: "0.05em", marginTop: 4 }}>Πρόσωπο επικοινωνίας</div>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
-                <FormField label="Ονοματεπώνυμο"><FieldInput value={form.contactName} onChange={f("contactName")} /></FormField>
-                <FormField label="Email επικοινωνίας"><FieldInput type="email" value={form.contactEmail} onChange={f("contactEmail")} /></FormField>
-              </div>
-              <FormField label="Τηλέφωνο επικοινωνίας"><FieldInput value={form.contactPhone} onChange={f("contactPhone")} /></FormField>
-            </>
-          ) : (
-            <>
-              <FormField label="Ονοματεπώνυμο" required><FieldInput value={form.name} onChange={f("name")} /></FormField>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
-                <FormField label="Τηλέφωνο"><FieldInput value={form.phone} onChange={f("phone")} /></FormField>
-                <FormField label="Κινητό"><FieldInput value={form.mobile} onChange={f("mobile")} /></FormField>
-              </div>
-            </>
-          )}
-
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
-            <FormField label={isCompany ? "Email σύνδεσης" : "Email"} required><FieldInput type="email" value={form.email} onChange={f("email")} /></FormField>
-            <FormField label="Κωδικός εισόδου" required><FieldInput type="password" value={form.password} onChange={f("password")} placeholder="Τουλάχιστον 6 χαρακτήρες" /></FormField>
-          </div>
-          <FormField label={role === "OWNER" ? "Ιδιοκτήτης από" : "Ένοικος από"}><FieldInput type="date" value={form.startDate} onChange={f("startDate")} /></FormField>
-          <div style={{ display: "flex", gap: 8, justifyContent: "flex-end" }}>
-            <button onClick={() => setAdding(false)} style={btnCancel}>Άκυρο</button>
-            <button onClick={create} disabled={isPending} style={btnSave}>{isPending ? <RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> : <RiCheckLine />} Δημιουργία</button>
-          </div>
-        </div>
+        <NewOccupantForm role={role} submitLabel="Δημιουργία" pending={isPending} error={error} onCancel={() => setAdding(false)} onSubmit={submitNew} />
       ) : (
         <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
           {error && <div style={errBox}>{error}</div>}
@@ -224,6 +174,147 @@ function Slot({ unitId, customerId, role, label, current, onDone }: { unitId: st
         </div>
       )}
     </div>
+  );
+}
+
+/** Shared create-new-occupant form (individual or company, with ΑΑΔΕ lookup).
+ *  Used by the per-unit Slot and the batch assign modal. */
+function NewOccupantForm({ role, submitLabel, pending, error, onCancel, onSubmit }: {
+  role: "OWNER" | "RESIDENT"; submitLabel: string; pending: boolean; error: string | null;
+  onCancel: () => void; onSubmit: (p: OccupantPayload) => void;
+}) {
+  const [isCompany, setIsCompany] = useState(false);
+  const [form, setForm] = useState({ ...emptyForm });
+  const [aadeLoading, setAadeLoading] = useState(false);
+  const [localError, setLocalError] = useState<string | null>(null);
+  const f = (k: keyof typeof form) => (v: string) => setForm((p) => ({ ...p, [k]: v }));
+  const shown = error ?? localError;
+
+  async function aadeLookup() {
+    const afm = form.afm.replace(/\D/g, "");
+    if (afm.length !== 9) { setLocalError("Συμπληρώστε έγκυρο ΑΦΜ (9 ψηφία)"); return; }
+    setAadeLoading(true); setLocalError(null);
+    try {
+      const res = await fetch("/api/aade", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ afm }) });
+      const data: { data?: Record<string, string>; error?: string } = await res.json();
+      if (!res.ok || !data.data) { setLocalError(data.error ?? "Δεν βρέθηκαν στοιχεία ΑΑΔΕ"); return; }
+      setForm((p) => ({ ...p, name: data.data!.name || p.name, doy: data.data!.taxOffice || p.doy }));
+    } catch { setLocalError("Σφάλμα αναζήτησης ΑΑΔΕ"); } finally { setAadeLoading(false); }
+  }
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+      {shown && <div style={errBox}>{shown}</div>}
+      <FormField label="Τύπος">
+        <FieldSelect value={isCompany ? "COMPANY" : "INDIVIDUAL"} onChange={(v) => setIsCompany(v === "COMPANY")}
+          options={[{ value: "INDIVIDUAL", label: "Ιδιώτης" }, { value: "COMPANY", label: "Εταιρεία" }]} />
+      </FormField>
+
+      {isCompany ? (
+        <>
+          <FormField label="Επωνυμία" required><FieldInput value={form.name} onChange={f("name")} placeholder="π.χ. Εταιρεία ΕΠΕ" /></FormField>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr auto 1fr", gap: 10, alignItems: "end" }}>
+            <FormField label="ΑΦΜ"><FieldInput value={form.afm} onChange={f("afm")} placeholder="123456789" /></FormField>
+            <button type="button" onClick={aadeLookup} disabled={aadeLoading} title="Άντληση στοιχείων από ΑΑΔΕ" style={{ ...btnSmall, height: 34 }}>
+              {aadeLoading ? <RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> : <RiSearchLine />} ΑΑΔΕ
+            </button>
+            <FormField label="ΔΟΥ"><FieldInput value={form.doy} onChange={f("doy")} /></FormField>
+          </div>
+          <div style={{ fontSize: 11, fontWeight: 700, color: "var(--muted-foreground)", textTransform: "uppercase", letterSpacing: "0.05em", marginTop: 4 }}>Πρόσωπο επικοινωνίας</div>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+            <FormField label="Ονοματεπώνυμο"><FieldInput value={form.contactName} onChange={f("contactName")} /></FormField>
+            <FormField label="Email επικοινωνίας"><FieldInput type="email" value={form.contactEmail} onChange={f("contactEmail")} /></FormField>
+          </div>
+          <FormField label="Τηλέφωνο επικοινωνίας"><FieldInput value={form.contactPhone} onChange={f("contactPhone")} /></FormField>
+        </>
+      ) : (
+        <>
+          <FormField label="Ονοματεπώνυμο" required><FieldInput value={form.name} onChange={f("name")} /></FormField>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+            <FormField label="Τηλέφωνο"><FieldInput value={form.phone} onChange={f("phone")} /></FormField>
+            <FormField label="Κινητό"><FieldInput value={form.mobile} onChange={f("mobile")} /></FormField>
+          </div>
+        </>
+      )}
+
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+        <FormField label={isCompany ? "Email σύνδεσης" : "Email"} required><FieldInput type="email" value={form.email} onChange={f("email")} /></FormField>
+        <FormField label="Κωδικός εισόδου" required><FieldInput type="password" value={form.password} onChange={f("password")} placeholder="Τουλάχιστον 6 χαρακτήρες" /></FormField>
+      </div>
+      <FormField label={role === "OWNER" ? "Ιδιοκτήτης από" : "Ένοικος από"}><FieldInput type="date" value={form.startDate} onChange={f("startDate")} /></FormField>
+      <div style={{ display: "flex", gap: 8, justifyContent: "flex-end" }}>
+        <button onClick={onCancel} style={btnCancel}>Άκυρο</button>
+        <button onClick={() => onSubmit({ ...form, isCompany })} disabled={pending} style={btnSave}>{pending ? <RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> : <RiCheckLine />} {submitLabel}</button>
+      </div>
+    </div>
+  );
+}
+
+/** Batch-assign the selected units to one owner/resident (existing person or a new one). */
+function BatchOccupantModal({ units, onClose, onDone }: { units: Unit[]; onClose: () => void; onDone: () => void }) {
+  const [role, setRole] = useState<"OWNER" | "RESIDENT">("OWNER");
+  const [mode, setMode] = useState<"existing" | "new">("existing");
+  const [error, setError] = useState<string | null>(null);
+  const [isPending, startTransition] = useTransition();
+  const unitIds = units.map((u) => u.id);
+  const customerId = units[0]?.customerId ?? "";
+  const label = role === "OWNER" ? "ιδιοκτήτη" : "ένοικο";
+  const filled = units.filter((u) => (role === "OWNER" ? u.owner : u.resident)).length;
+
+  function assignExisting(userId: string) {
+    setError(null);
+    startTransition(async () => { const res = await assignOccupantsBatch(unitIds, role, userId); if ("error" in res && res.error) { setError(res.error); return; } onDone(); });
+  }
+  function createNew(p: OccupantPayload) {
+    setError(null);
+    startTransition(async () => { const res = await createOccupantBatch(unitIds, role, p); if ("error" in res && res.error) { setError(res.error); return; } onDone(); });
+  }
+
+  return (
+    <Modal open onClose={onClose} title={`Ανάθεση σε ${units.length} ${units.length === 1 ? "μονάδα" : "μονάδες"}`} width={560}
+      footer={mode === "existing" ? <button onClick={onClose} style={btnCancel}>Κλείσιμο</button> : undefined}>
+      <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+        {error && <div style={errBox}>{error}</div>}
+
+        <div style={{ fontSize: 12, color: "var(--muted-foreground)", display: "flex", flexWrap: "wrap", gap: 4 }}>
+          {units.map((u) => (
+            <span key={u.id} style={{ padding: "2px 8px", borderRadius: 9999, background: "var(--bg-canvas)", border: "1px solid var(--border)", fontWeight: 600, color: "var(--foreground)" }}>{u.unitNumber}</span>
+          ))}
+        </div>
+
+        <FormField label="Ρόλος">
+          <FieldSelect value={role} onChange={(v) => setRole(v as "OWNER" | "RESIDENT")}
+            options={[{ value: "OWNER", label: "Ιδιοκτήτης" }, { value: "RESIDENT", label: "Ένοικος" }]} />
+        </FormField>
+
+        {filled > 0 && (
+          <div style={warnBox}>
+            {filled} από {units.length} {units.length === 1 ? "μονάδα έχει" : "μονάδες έχουν"} ήδη {label}. Θα αντικατασταθ{filled === 1 ? "εί" : "ούν"}.
+          </div>
+        )}
+
+        <div style={{ display: "flex", gap: 8 }}>
+          <button onClick={() => setMode("existing")} style={mode === "existing" ? tabActive : tab}>Υπάρχον πρόσωπο</button>
+          <button onClick={() => setMode("new")} style={mode === "new" ? tabActive : tab}>Δημιουργία νέου</button>
+        </div>
+
+        {mode === "existing" ? (
+          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+            <UserCombo
+              selected={null}
+              onSelect={(u) => { if (u) assignExisting(u.id); }}
+              placeholder="Αναζήτηση με email ή όνομα…"
+              roles={CUSTOMER_ROLES}
+              customerId={customerId}
+            />
+            {isPending && <div style={{ fontSize: 12, color: "var(--muted-foreground)", display: "flex", alignItems: "center", gap: 6 }}><RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> Ανάθεση…</div>}
+          </div>
+        ) : (
+          <NewOccupantForm role={role} submitLabel="Δημιουργία & ανάθεση" pending={isPending} error={null} onCancel={onClose} onSubmit={createNew} />
+        )}
+      </div>
+      <style>{`@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}`}</style>
+    </Modal>
   );
 }
 
@@ -346,3 +437,6 @@ const btnCancel: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, b
 const btnSave: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: "pointer", fontSize: 13, fontWeight: 600, display: "flex", alignItems: "center", gap: 6 };
 const btnSmall: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 5, border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)", borderRadius: 6, padding: "6px 11px", fontSize: 12, fontWeight: 600, cursor: "pointer" };
 const errBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: 12 };
+const warnBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "#fff7ed", border: "1px solid #fed7aa", color: "#b45309", fontSize: 12, fontWeight: 600 };
+const tab: React.CSSProperties = { flex: 1, padding: "8px 12px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", color: "var(--muted-foreground)", fontSize: 13, fontWeight: 600, cursor: "pointer" };
+const tabActive: React.CSSProperties = { ...tab, background: "var(--color-primary)", color: "#fff", borderColor: "var(--color-primary)" };
