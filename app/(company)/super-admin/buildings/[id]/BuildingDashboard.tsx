@@ -30,7 +30,7 @@ import { HeatingReadingsPanel } from "@/components/building/HeatingReadingsPanel
 import { type HeatingReadingDTO } from "@/app/actions/heating-readings";
 import { MeterReadingsPanel, type MeterReadingDTO } from "@/components/building/MeterReadingsPanel";
 import { MaintenanceTab, type MaintenanceHistoryRow } from "@/components/building/MaintenanceTab";
-import { ManagedItemsPanel, type ManagedItemRow, type ManagedItemTypeOption } from "@/components/building/ManagedItemsPanel";
+import { ManagedItemsPanel, type ManagedItemRow, type ManagedItemTypeOption, type CommonAreaOption } from "@/components/building/ManagedItemsPanel";
 import { AuditDrawer } from "@/components/building/AuditDrawer";
 import type { AuditTab } from "@/lib/buildings/audit";
 import type { BuildingCaps } from "@/lib/building-caps";
@@ -79,7 +79,7 @@ const TABS: { key: TabKey; label: string; icon: React.ElementType; badge?: (k: K
   { key: "assemblies", label: "Συνελεύσεις", icon: RiGroupLine },
 ];
 
-export function BuildingDashboard({ building, kpis, units, files, people, contacts, infraPoints, floorOptions, tasks, expenses, categorySplits, today, millesimeUnits, exclusionUnits, expenseCategories, categoryOverrides, unitExclusions, usesMeteredHeating, heatingPeriod, heatingReadingRows, meterReadingRows, overview, maintenanceHistory, managedItems, managedItemTypes, can }: { building: Building; managedItems: ManagedItemRow[]; managedItemTypes: ManagedItemTypeOption[]; kpis: Kpis; units: Unit[]; files: FileRow[]; people: Person[]; contacts: ContactRow[]; infraPoints: InfraRow[]; floorOptions: string[]; tasks: TaskRow[]; expenses: ExpenseRow[]; categorySplits: CategorySplit[]; today: string; millesimeUnits: MillesimeUnit[]; exclusionUnits: Array<{ id: string; unitNumber: string; unitType: string }>; expenseCategories: Array<{ id: string; name: string; defaultBasis: string }>; categoryOverrides: Array<{ categoryId: string; distributionBasis: string | null }>; unitExclusions: Array<{ unitId: string; categoryId: string }>; usesMeteredHeating: boolean; heatingPeriod: string; heatingReadingRows: HeatingReadingDTO[]; meterReadingRows: MeterReadingDTO[]; overview: OverviewData; maintenanceHistory: MaintenanceHistoryRow[]; can: BuildingCaps }) {
+export function BuildingDashboard({ building, kpis, units, files, people, contacts, infraPoints, floorOptions, tasks, expenses, categorySplits, today, millesimeUnits, exclusionUnits, expenseCategories, categoryOverrides, unitExclusions, usesMeteredHeating, heatingPeriod, heatingReadingRows, meterReadingRows, overview, maintenanceHistory, managedItems, managedItemTypes, commonAreas, can }: { building: Building; managedItems: ManagedItemRow[]; managedItemTypes: ManagedItemTypeOption[]; commonAreas: CommonAreaOption[]; kpis: Kpis; units: Unit[]; files: FileRow[]; people: Person[]; contacts: ContactRow[]; infraPoints: InfraRow[]; floorOptions: string[]; tasks: TaskRow[]; expenses: ExpenseRow[]; categorySplits: CategorySplit[]; today: string; millesimeUnits: MillesimeUnit[]; exclusionUnits: Array<{ id: string; unitNumber: string; unitType: string }>; expenseCategories: Array<{ id: string; name: string; defaultBasis: string }>; categoryOverrides: Array<{ categoryId: string; distributionBasis: string | null }>; unitExclusions: Array<{ unitId: string; categoryId: string }>; usesMeteredHeating: boolean; heatingPeriod: string; heatingReadingRows: HeatingReadingDTO[]; meterReadingRows: MeterReadingDTO[]; overview: OverviewData; maintenanceHistory: MaintenanceHistoryRow[]; can: BuildingCaps }) {
   const [tab, setTab] = useState<TabKey>("overview");
 
   const subParts = [
@@ -184,7 +184,7 @@ export function BuildingDashboard({ building, kpis, units, files, people, contac
         ) : tab === "infra" ? (
           <InfraPanel buildingId={building.id} points={infraPoints} floorOptions={floorOptions} can={can} />
         ) : tab === "manageditems" && building.propertyManaged ? (
-          <ManagedItemsPanel buildingId={building.id} items={managedItems} itemTypes={managedItemTypes} floorOptions={floorOptions} can={can} />
+          <ManagedItemsPanel buildingId={building.id} items={managedItems} itemTypes={managedItemTypes} floorOptions={floorOptions} commonAreas={commonAreas} can={can} />
         ) : tab === "calendar" ? (
           <CalendarPanel buildingId={building.id} tasks={tasks} today={today} can={can} />
         ) : tab === "expenses" ? (

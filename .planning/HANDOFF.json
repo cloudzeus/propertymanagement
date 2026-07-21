@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "timestamp": "2026-07-21T05:32:08.784Z",
+  "timestamp": "2026-07-21T06:04:27.059Z",
   "source": "auto-postool",
   "partial": false,
   "phase": null,
@@ -18,25 +18,21 @@
   "uncommitted_files": [
     {
       "status": "M",
-      "path": "docs/superpowers/specs/2026-07-21-managed-items-maintenance-obligations-design.md"
+      "path": ".planning/HANDOFF.json"
     },
     {
-      "status": "??",
-      "path": "app/(company)/super-admin/preview/"
+      "status": "M",
+      "path": "app/(company)/super-admin/buildings/[id]/BuildingDashboard.tsx"
     },
     {
-      "status": "??",
-      "path": "components/dashboard/homes/"
+      "status": "M",
+      "path": "components/building/ManagedItemsPanel.tsx"
     },
     {
-      "status": "??",
-      "path": "components/dashboard/kit.tsx"
-    },
-    {
-      "status": "??",
-      "path": "lib/dashboard/platform.ts"
+      "status": "M",
+      "path": "components/building/manager-shell/BuildingManagerShell.tsx"
     }
   ],
   "next_action": null,
-  "context_notes": "Recent commits:\n70b61f2 docs: pin calendar RBAC gate (no change) in managed-items spec\n68c576d docs: spec for managed-items maintenance, obligations dashboard & calendar\n3263688 chore(prisma): regenerate client for AppSettings providerViva* fields\n821e420 feat(owner-dashboard): rebalance layout, expandable billing panel, fix owner charge bars, rename Πληρωμές→Λογαριασμοί\n81c58f4 fix(dashboard): drop duplicate top-level Ανακοινώσεις menu, consolidate on dashboard"
+  "context_notes": "Recent commits:\nd9d297b feat(actions): recurring task can attach to a managed item\n89816fc feat(actions): managed items can target a validated common area\n60e2402 feat(loader): supply common areas and per-item maintenance schedule to building dashboard\nfef62b3 feat(rbac): managed-buildings module + EMPLOYEE access to managed items\nb864a14 chore(prisma): regenerate client for managed-item/common-area/task relations"
 }

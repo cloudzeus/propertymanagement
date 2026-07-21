@@ -5,24 +5,31 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Modal, FormField, FieldSelect, FieldTextarea } from "@/components/ui/modal";
 import { createManagedItem, updateManagedItem, deleteManagedItem, uploadManagedItemPhoto, deleteManagedItemPhoto } from "@/app/actions/managed-items";
+import { createRecurringTask, updateRecurringTask, type TaskFrequency } from "@/app/actions/recurring-tasks";
 import {
   RiAddLine, RiPencilLine, RiDeleteBinLine, RiCheckLine, RiLoaderLine,
   RiShieldCheckLine, RiMapPinLine, RiSubtractLine, RiStackLine, RiLightbulbLine,
-  RiImageAddLine, RiCloseLine, RiExternalLinkLine,
+  RiImageAddLine, RiCloseLine, RiExternalLinkLine, RiCalendarLine, RiRepeatLine,
 } from "react-icons/ri";
 import type { BuildingCaps } from "@/lib/building-caps";
 
+export type ManagedItemSchedule = { id: string; title: string; frequency: TaskFrequency; nextDueDate: string | null; vendor: string | null; reminderDaysBefore: number; active: boolean };
 export type ManagedItemRow = {
   id: string; itemTypeId: string; itemTypeName: string;
   location: string; floorLabel: string | null;
   quantity: number; photoUrl: string | null; notes: string | null;
+  commonAreaId: string | null; schedule: ManagedItemSchedule | null;
 };
 export type ManagedItemTypeOption = { id: string; name: string; active: boolean };
+export type CommonAreaOption = { id: string; name: string; floor: number | null };
 
 // Common location suggestions (datalist — free text still allowed)
 const LOCATION_SUGGESTIONS = ["Κοινόχρηστοι χώροι", "Κλιμακοστάσιο", "Είσοδος", "Ταράτσα", "Υπόγειο", "Πυλωτή", "Λεβητοστάσιο", "Αύλειος χώρος"];
 
-export function ManagedItemsPanel({ buildingId, items, itemTypes, floorOptions, can }: { buildingId: string; items: ManagedItemRow[]; itemTypes: ManagedItemTypeOption[]; floorOptions: string[]; can: BuildingCaps }) {
+const FREQ_LABEL: Record<TaskFrequency, string> = { WEEKLY: "Εβδομαδιαία", MONTHLY: "Μηνιαία", QUARTERLY: "Τριμηνιαία", SEMIANNUAL: "Εξαμηνιαία", ANNUAL: "Ετήσια", CUSTOM: "Προσαρμοσμένη" };
+const FREQ_OPTIONS: { value: TaskFrequency; label: string }[] = (Object.keys(FREQ_LABEL) as TaskFrequency[]).map((f) => ({ value: f, label: FREQ_LABEL[f] }));
+
+export function ManagedItemsPanel({ buildingId, items, itemTypes, floorOptions, commonAreas, can }: { buildingId: string; items: ManagedItemRow[]; itemTypes: ManagedItemTypeOption[]; floorOptions: string[]; commonAreas: CommonAreaOption[]; can: BuildingCaps }) {
   const router = useRouter();
   const [editing, setEditing] = useState<ManagedItemRow | null | "new">(null);
   const [isPending, startTransition] = useTransition();
@@ -68,7 +75,7 @@ export function ManagedItemsPanel({ buildingId, items, itemTypes, floorOptions, 
         <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 8, overflow: "hidden" }}>
           <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
             <thead><tr style={{ textAlign: "left", color: "var(--muted-foreground)", fontSize: 11 }}>
-              <th style={th}>Φώτο</th><th style={th}>Στοιχείο</th><th style={th}>Τοποθεσία</th><th style={th}>Όροφος</th><th style={{ ...th, textAlign: "right" }}>Ποσότητα</th><th style={th}></th>
+              <th style={th}>Φώτο</th><th style={th}>Στοιχείο</th><th style={th}>Τοποθεσία</th><th style={th}>Συντήρηση</th><th style={th}>Όροφος</th><th style={{ ...th, textAlign: "right" }}>Ποσότητα</th><th style={th}></th>
             </tr></thead>
             <tbody>
               {items.map((i) => (
@@ -85,6 +92,14 @@ export function ManagedItemsPanel({ buildingId, items, itemTypes, floorOptions, 
                   </td>
                   <td style={td}><b>{i.itemTypeName}</b>{i.notes && <div style={{ fontSize: 11, color: "var(--muted-foreground)" }}>{i.notes}</div>}</td>
                   <td style={td}><span style={chip}><RiMapPinLine style={{ fontSize: 12 }} /> {i.location}</span></td>
+                  <td style={td}>
+                    {i.schedule ? (
+                      <span style={{ ...chip, background: "var(--color-green-soft, #E4F0EA)", color: "var(--color-green, #22604A)" }}>
+                        <RiRepeatLine style={{ fontSize: 12 }} /> {FREQ_LABEL[i.schedule.frequency]}
+                        {i.schedule.nextDueDate ? ` · ${new Date(i.schedule.nextDueDate).toLocaleDateString("el-GR")}` : ""}
+                      </span>
+                    ) : <span style={{ color: "var(--muted-foreground)" }}>—</span>}
+                  </td>
                   <td style={td}>{i.floorLabel ?? "—"}</td>
                   <td style={{ ...td, textAlign: "right", fontVariantNumeric: "tabular-nums", fontWeight: 700 }}>{i.quantity}</td>
                   <td style={{ ...td, textAlign: "right", whiteSpace: "nowrap" }}>
@@ -107,6 +122,7 @@ export function ManagedItemsPanel({ buildingId, items, itemTypes, floorOptions, 
           buildingId={buildingId}
           itemTypes={itemTypes}
           floorOptions={floorOptions}
+          commonAreas={commonAreas}
           editing={editing === "new" ? null : editing}
           onClose={() => setEditing(null)}
           onDone={() => { setEditing(null); router.refresh(); }}
@@ -116,13 +132,20 @@ export function ManagedItemsPanel({ buildingId, items, itemTypes, floorOptions, 
   );
 }
 
-function ManagedItemModal({ buildingId, itemTypes, floorOptions, editing, onClose, onDone }: { buildingId: string; itemTypes: ManagedItemTypeOption[]; floorOptions: string[]; editing: ManagedItemRow | null; onClose: () => void; onDone: () => void }) {
+function ManagedItemModal({ buildingId, itemTypes, floorOptions, commonAreas, editing, onClose, onDone }: { buildingId: string; itemTypes: ManagedItemTypeOption[]; floorOptions: string[]; commonAreas: CommonAreaOption[]; editing: ManagedItemRow | null; onClose: () => void; onDone: () => void }) {
   const [form, setForm] = useState({
     itemTypeId: editing?.itemTypeId ?? "",
     location: editing?.location ?? "",
     floorLabel: editing?.floorLabel ?? "",
     quantity: editing?.quantity ?? 1,
     notes: editing?.notes ?? "",
+    commonAreaId: editing?.commonAreaId ?? "",
+  });
+  const [sched, setSched] = useState({
+    enabled: !!editing?.schedule,
+    frequency: (editing?.schedule?.frequency ?? "MONTHLY") as TaskFrequency,
+    nextDueDate: editing?.schedule?.nextDueDate ? editing.schedule.nextDueDate.slice(0, 10) : "",
+    vendor: editing?.schedule?.vendor ?? "",
   });
   const [photoFile, setPhotoFile] = useState<File | null>(null);
   const [photoRemoved, setPhotoRemoved] = useState(false);
@@ -139,7 +162,7 @@ function ManagedItemModal({ buildingId, itemTypes, floorOptions, editing, onClos
 
   function save() {
     setError(null);
-    const payload = { itemTypeId: form.itemTypeId, location: form.location, floorLabel: form.floorLabel || null, quantity: form.quantity, notes: form.notes };
+    const payload = { itemTypeId: form.itemTypeId, location: form.location, floorLabel: form.floorLabel || null, quantity: form.quantity, notes: form.notes, commonAreaId: form.commonAreaId || null };
     startTransition(async () => {
       const res = editing ? await updateManagedItem(editing.id, payload) : await createManagedItem(buildingId, payload);
       if (res && "error" in res && res.error) { setError(res.error); return; }
@@ -153,6 +176,22 @@ function ManagedItemModal({ buildingId, itemTypes, floorOptions, editing, onClos
         fd.set("file", photoFile);
         const up = await uploadManagedItemPhoto(fd);
         if (up && "error" in up && up.error) { setError(`Το στοιχείο αποθηκεύτηκε, αλλά η φωτογραφία απέτυχε: ${up.error}`); return; }
+      }
+      if (itemId && sched.enabled) {
+        const taskPayload = {
+          title: itemTypes.find((t) => t.id === form.itemTypeId)?.name ?? "Συντήρηση",
+          frequency: sched.frequency,
+          nextDueDate: sched.nextDueDate || null,
+          vendor: sched.vendor || null,
+          managedItemId: itemId,
+          active: true,
+        };
+        const sres = editing?.schedule
+          ? await updateRecurringTask(editing.schedule.id, taskPayload)
+          : await createRecurringTask(buildingId, taskPayload);
+        if (sres && "error" in sres && sres.error) { setError(`Το στοιχείο αποθηκεύτηκε, αλλά το πρόγραμμα συντήρησης απέτυχε: ${sres.error}`); return; }
+      } else if (itemId && !sched.enabled && editing?.schedule) {
+        await updateRecurringTask(editing.schedule.id, { active: false });
       }
       onDone();
     });
@@ -180,6 +219,16 @@ function ManagedItemModal({ buildingId, itemTypes, floorOptions, editing, onClos
             <FieldSelect value={form.floorLabel} onChange={(v) => setForm((p) => ({ ...p, floorLabel: v }))} placeholder="— Προαιρετικό —" options={floorOptions.map((o) => ({ value: o, label: o }))} />
           </FormField>
         </div>
+        {commonAreas.length > 0 && (
+          <FormField label="Κοινόχρηστος χώρος" hint="Προαιρετικό — σύνδεση με συγκεκριμένο χώρο του κτηρίου">
+            <FieldSelect
+              value={form.commonAreaId}
+              onChange={(v) => setForm((p) => ({ ...p, commonAreaId: v, location: p.location.trim() ? p.location : (commonAreas.find((a) => a.id === v)?.name ?? p.location) }))}
+              placeholder="— Χωρίς σύνδεση —"
+              options={commonAreas.map((a) => ({ value: a.id, label: a.floor != null ? `${a.name} (όροφος ${a.floor})` : a.name }))}
+            />
+          </FormField>
+        )}
         <FormField label="Ποσότητα" required hint="π.χ. αριθμός φωτιστικών">
           <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
             <button type="button" onClick={() => setQty(form.quantity - 1)} disabled={form.quantity <= 1} aria-label="Μείωση" style={stepBtn}><RiSubtractLine /></button>
@@ -215,6 +264,27 @@ function ManagedItemModal({ buildingId, itemTypes, floorOptions, editing, onClos
           </div>
         </FormField>
         <FormField label="Σημειώσεις"><FieldTextarea value={form.notes} onChange={(v) => setForm((p) => ({ ...p, notes: v }))} rows={2} placeholder="π.χ. λαμπτήρες LED E27" /></FormField>
+        <div style={{ borderTop: "1px solid var(--border)", paddingTop: 12, marginTop: 2 }}>
+          <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, fontWeight: 700, color: "var(--foreground)", cursor: "pointer" }}>
+            <input type="checkbox" checked={sched.enabled} onChange={(e) => setSched((p) => ({ ...p, enabled: e.target.checked }))} />
+            <RiCalendarLine style={{ color: "var(--muted-foreground)" }} /> Πρόγραμμα συντήρησης
+          </label>
+          {sched.enabled && (
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginTop: 10 }}>
+              <FormField label="Συχνότητα" required>
+                <FieldSelect value={sched.frequency} onChange={(v) => setSched((p) => ({ ...p, frequency: v as TaskFrequency }))} options={FREQ_OPTIONS} />
+              </FormField>
+              <FormField label="Επόμενη ημερομηνία">
+                <input type="date" value={sched.nextDueDate} onChange={(e) => setSched((p) => ({ ...p, nextDueDate: e.target.value }))} style={inputStyle} />
+              </FormField>
+              <div style={{ gridColumn: "1 / -1" }}>
+                <FormField label="Συνεργείο / πάροχος" hint="Προαιρετικό">
+                  <input value={sched.vendor} onChange={(e) => setSched((p) => ({ ...p, vendor: e.target.value }))} placeholder="π.χ. Καθαριότητα ΑΕ" style={inputStyle} />
+                </FormField>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
       <style>{`@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}`}</style>
     </Modal>
