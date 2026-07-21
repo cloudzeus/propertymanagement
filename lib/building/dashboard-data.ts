@@ -103,7 +103,7 @@ export async function getBuildingDashboardData(id: string, opts: { heatingPeriod
   }
   const people = [...map.values()].sort((a, b) => (a.name ?? a.email).localeCompare(b.name ?? b.email, "el"));
 
-  const [contacts, infraPoints, taskRows, managedItemRows, managedItemTypes] = await Promise.all([
+  const [contacts, infraPoints, taskRows, managedItemRows, managedItemTypes, commonAreas] = await Promise.all([
     db.contact.findMany({ where: { buildingId: id }, orderBy: { name: "asc" }, select: { id: true, name: true, category: true, phone: true, email: true, notes: true } }),
     db.infraPoint.findMany({
       where: { buildingId: id }, orderBy: { createdAt: "asc" },
@@ -119,9 +119,20 @@ export async function getBuildingDashboardData(id: string, opts: { heatingPeriod
     db.managedItem.findMany({
       where: { buildingId: id },
       orderBy: [{ location: "asc" }, { createdAt: "asc" }],
-      select: { id: true, itemTypeId: true, location: true, floorLabel: true, quantity: true, photoUrl: true, notes: true, itemType: { select: { name: true } } },
+      select: {
+        id: true, itemTypeId: true, location: true, floorLabel: true, quantity: true,
+        photoUrl: true, notes: true, commonAreaId: true,
+        itemType: { select: { name: true } },
+        tasks: {
+          where: { active: true },
+          orderBy: { nextDueDate: "asc" },
+          take: 1,
+          select: { id: true, title: true, frequency: true, nextDueDate: true, vendor: true, reminderDaysBefore: true, active: true },
+        },
+      },
     }),
     db.managedItemType.findMany({ orderBy: { name: "asc" }, select: { id: true, name: true, active: true } }),
+    db.commonArea.findMany({ where: { buildingId: id }, orderBy: [{ floor: "asc" }, { name: "asc" }], select: { id: true, name: true, floor: true } }),
   ]);
   const tasks = taskRows.map((t) => ({ ...t, nextDueDate: t.nextDueDate ? t.nextDueDate.toISOString() : null }));
 
@@ -304,8 +315,17 @@ export async function getBuildingDashboardData(id: string, opts: { heatingPeriod
       id: m.id, itemTypeId: m.itemTypeId, itemTypeName: m.itemType.name,
       location: m.location, floorLabel: m.floorLabel, quantity: m.quantity,
       photoUrl: m.photoUrl, notes: m.notes,
+      commonAreaId: m.commonAreaId,
+      schedule: m.tasks[0]
+        ? {
+            id: m.tasks[0].id, title: m.tasks[0].title, frequency: m.tasks[0].frequency,
+            nextDueDate: m.tasks[0].nextDueDate ? m.tasks[0].nextDueDate.toISOString() : null,
+            vendor: m.tasks[0].vendor, reminderDaysBefore: m.tasks[0].reminderDaysBefore, active: m.tasks[0].active,
+          }
+        : null,
     })),
     managedItemTypes,
+    commonAreas,
     infraPoints: infra,
     floorOptions,
     tasks,

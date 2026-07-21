@@ -6703,6 +6703,7 @@ export const RecurringTaskScalarFieldEnum = {
   inServicePackage: 'inServicePackage',
   reminderDaysBefore: 'reminderDaysBefore',
   reminderSentAt: 'reminderSentAt',
+  managedItemId: 'managedItemId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -6916,6 +6917,7 @@ export const ManagedItemScalarFieldEnum = {
   photoUrl: 'photoUrl',
   photoCdnPath: 'photoCdnPath',
   notes: 'notes',
+  commonAreaId: 'commonAreaId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

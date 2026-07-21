@@ -44,6 +44,7 @@ export type ManagedItemMinAggregateOutputType = {
   photoUrl: string | null
   photoCdnPath: string | null
   notes: string | null
+  commonAreaId: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -58,6 +59,7 @@ export type ManagedItemMaxAggregateOutputType = {
   photoUrl: string | null
   photoCdnPath: string | null
   notes: string | null
+  commonAreaId: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -72,6 +74,7 @@ export type ManagedItemCountAggregateOutputType = {
   photoUrl: number
   photoCdnPath: number
   notes: number
+  commonAreaId: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -96,6 +99,7 @@ export type ManagedItemMinAggregateInputType = {
   photoUrl?: true
   photoCdnPath?: true
   notes?: true
+  commonAreaId?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -110,6 +114,7 @@ export type ManagedItemMaxAggregateInputType = {
   photoUrl?: true
   photoCdnPath?: true
   notes?: true
+  commonAreaId?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -124,6 +129,7 @@ export type ManagedItemCountAggregateInputType = {
   photoUrl?: true
   photoCdnPath?: true
   notes?: true
+  commonAreaId?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -225,6 +231,7 @@ export type ManagedItemGroupByOutputType = {
   photoUrl: string | null
   photoCdnPath: string | null
   notes: string | null
+  commonAreaId: string | null
   createdAt: Date
   updatedAt: Date
   _count: ManagedItemCountAggregateOutputType | null
@@ -262,10 +269,13 @@ export type ManagedItemWhereInput = {
   photoUrl?: Prisma.StringNullableFilter<"ManagedItem"> | string | null
   photoCdnPath?: Prisma.StringNullableFilter<"ManagedItem"> | string | null
   notes?: Prisma.StringNullableFilter<"ManagedItem"> | string | null
+  commonAreaId?: Prisma.StringNullableFilter<"ManagedItem"> | string | null
   createdAt?: Prisma.DateTimeFilter<"ManagedItem"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ManagedItem"> | Date | string
   building?: Prisma.XOR<Prisma.BuildingScalarRelationFilter, Prisma.BuildingWhereInput>
   itemType?: Prisma.XOR<Prisma.ManagedItemTypeScalarRelationFilter, Prisma.ManagedItemTypeWhereInput>
+  commonArea?: Prisma.XOR<Prisma.CommonAreaNullableScalarRelationFilter, Prisma.CommonAreaWhereInput> | null
+  tasks?: Prisma.RecurringTaskListRelationFilter
 }
 
 export type ManagedItemOrderByWithRelationInput = {
@@ -278,10 +288,13 @@ export type ManagedItemOrderByWithRelationInput = {
   photoUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   photoCdnPath?: Prisma.SortOrderInput | Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
+  commonAreaId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   building?: Prisma.BuildingOrderByWithRelationInput
   itemType?: Prisma.ManagedItemTypeOrderByWithRelationInput
+  commonArea?: Prisma.CommonAreaOrderByWithRelationInput
+  tasks?: Prisma.RecurringTaskOrderByRelationAggregateInput
 }
 
 export type ManagedItemWhereUniqueInput = Prisma.AtLeast<{
@@ -297,10 +310,13 @@ export type ManagedItemWhereUniqueInput = Prisma.AtLeast<{
   photoUrl?: Prisma.StringNullableFilter<"ManagedItem"> | string | null
   photoCdnPath?: Prisma.StringNullableFilter<"ManagedItem"> | string | null
   notes?: Prisma.StringNullableFilter<"ManagedItem"> | string | null
+  commonAreaId?: Prisma.StringNullableFilter<"ManagedItem"> | string | null
   createdAt?: Prisma.DateTimeFilter<"ManagedItem"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ManagedItem"> | Date | string
   building?: Prisma.XOR<Prisma.BuildingScalarRelationFilter, Prisma.BuildingWhereInput>
   itemType?: Prisma.XOR<Prisma.ManagedItemTypeScalarRelationFilter, Prisma.ManagedItemTypeWhereInput>
+  commonArea?: Prisma.XOR<Prisma.CommonAreaNullableScalarRelationFilter, Prisma.CommonAreaWhereInput> | null
+  tasks?: Prisma.RecurringTaskListRelationFilter
 }, "id">
 
 export type ManagedItemOrderByWithAggregationInput = {
@@ -313,6 +329,7 @@ export type ManagedItemOrderByWithAggregationInput = {
   photoUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   photoCdnPath?: Prisma.SortOrderInput | Prisma.SortOrder
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
+  commonAreaId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.ManagedItemCountOrderByAggregateInput
@@ -335,6 +352,7 @@ export type ManagedItemScalarWhereWithAggregatesInput = {
   photoUrl?: Prisma.StringNullableWithAggregatesFilter<"ManagedItem"> | string | null
   photoCdnPath?: Prisma.StringNullableWithAggregatesFilter<"ManagedItem"> | string | null
   notes?: Prisma.StringNullableWithAggregatesFilter<"ManagedItem"> | string | null
+  commonAreaId?: Prisma.StringNullableWithAggregatesFilter<"ManagedItem"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"ManagedItem"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"ManagedItem"> | Date | string
 }
@@ -351,6 +369,8 @@ export type ManagedItemCreateInput = {
   updatedAt?: Date | string
   building: Prisma.BuildingCreateNestedOneWithoutManagedItemsInput
   itemType: Prisma.ManagedItemTypeCreateNestedOneWithoutItemsInput
+  commonArea?: Prisma.CommonAreaCreateNestedOneWithoutManagedItemsInput
+  tasks?: Prisma.RecurringTaskCreateNestedManyWithoutManagedItemInput
 }
 
 export type ManagedItemUncheckedCreateInput = {
@@ -363,8 +383,10 @@ export type ManagedItemUncheckedCreateInput = {
   photoUrl?: string | null
   photoCdnPath?: string | null
   notes?: string | null
+  commonAreaId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  tasks?: Prisma.RecurringTaskUncheckedCreateNestedManyWithoutManagedItemInput
 }
 
 export type ManagedItemUpdateInput = {
@@ -379,6 +401,8 @@ export type ManagedItemUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   building?: Prisma.BuildingUpdateOneRequiredWithoutManagedItemsNestedInput
   itemType?: Prisma.ManagedItemTypeUpdateOneRequiredWithoutItemsNestedInput
+  commonArea?: Prisma.CommonAreaUpdateOneWithoutManagedItemsNestedInput
+  tasks?: Prisma.RecurringTaskUpdateManyWithoutManagedItemNestedInput
 }
 
 export type ManagedItemUncheckedUpdateInput = {
@@ -391,8 +415,10 @@ export type ManagedItemUncheckedUpdateInput = {
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   photoCdnPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  commonAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tasks?: Prisma.RecurringTaskUncheckedUpdateManyWithoutManagedItemNestedInput
 }
 
 export type ManagedItemCreateManyInput = {
@@ -405,6 +431,7 @@ export type ManagedItemCreateManyInput = {
   photoUrl?: string | null
   photoCdnPath?: string | null
   notes?: string | null
+  commonAreaId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -431,6 +458,7 @@ export type ManagedItemUncheckedUpdateManyInput = {
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   photoCdnPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  commonAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -445,6 +473,11 @@ export type ManagedItemOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
+export type ManagedItemNullableScalarRelationFilter = {
+  is?: Prisma.ManagedItemWhereInput | null
+  isNot?: Prisma.ManagedItemWhereInput | null
+}
+
 export type ManagedItemCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   buildingId?: Prisma.SortOrder
@@ -455,6 +488,7 @@ export type ManagedItemCountOrderByAggregateInput = {
   photoUrl?: Prisma.SortOrder
   photoCdnPath?: Prisma.SortOrder
   notes?: Prisma.SortOrder
+  commonAreaId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -473,6 +507,7 @@ export type ManagedItemMaxOrderByAggregateInput = {
   photoUrl?: Prisma.SortOrder
   photoCdnPath?: Prisma.SortOrder
   notes?: Prisma.SortOrder
+  commonAreaId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -487,6 +522,7 @@ export type ManagedItemMinOrderByAggregateInput = {
   photoUrl?: Prisma.SortOrder
   photoCdnPath?: Prisma.SortOrder
   notes?: Prisma.SortOrder
+  commonAreaId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -534,6 +570,64 @@ export type ManagedItemUncheckedUpdateManyWithoutBuildingNestedInput = {
   connect?: Prisma.ManagedItemWhereUniqueInput | Prisma.ManagedItemWhereUniqueInput[]
   update?: Prisma.ManagedItemUpdateWithWhereUniqueWithoutBuildingInput | Prisma.ManagedItemUpdateWithWhereUniqueWithoutBuildingInput[]
   updateMany?: Prisma.ManagedItemUpdateManyWithWhereWithoutBuildingInput | Prisma.ManagedItemUpdateManyWithWhereWithoutBuildingInput[]
+  deleteMany?: Prisma.ManagedItemScalarWhereInput | Prisma.ManagedItemScalarWhereInput[]
+}
+
+export type ManagedItemCreateNestedOneWithoutTasksInput = {
+  create?: Prisma.XOR<Prisma.ManagedItemCreateWithoutTasksInput, Prisma.ManagedItemUncheckedCreateWithoutTasksInput>
+  connectOrCreate?: Prisma.ManagedItemCreateOrConnectWithoutTasksInput
+  connect?: Prisma.ManagedItemWhereUniqueInput
+}
+
+export type ManagedItemUpdateOneWithoutTasksNestedInput = {
+  create?: Prisma.XOR<Prisma.ManagedItemCreateWithoutTasksInput, Prisma.ManagedItemUncheckedCreateWithoutTasksInput>
+  connectOrCreate?: Prisma.ManagedItemCreateOrConnectWithoutTasksInput
+  upsert?: Prisma.ManagedItemUpsertWithoutTasksInput
+  disconnect?: Prisma.ManagedItemWhereInput | boolean
+  delete?: Prisma.ManagedItemWhereInput | boolean
+  connect?: Prisma.ManagedItemWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ManagedItemUpdateToOneWithWhereWithoutTasksInput, Prisma.ManagedItemUpdateWithoutTasksInput>, Prisma.ManagedItemUncheckedUpdateWithoutTasksInput>
+}
+
+export type ManagedItemCreateNestedManyWithoutCommonAreaInput = {
+  create?: Prisma.XOR<Prisma.ManagedItemCreateWithoutCommonAreaInput, Prisma.ManagedItemUncheckedCreateWithoutCommonAreaInput> | Prisma.ManagedItemCreateWithoutCommonAreaInput[] | Prisma.ManagedItemUncheckedCreateWithoutCommonAreaInput[]
+  connectOrCreate?: Prisma.ManagedItemCreateOrConnectWithoutCommonAreaInput | Prisma.ManagedItemCreateOrConnectWithoutCommonAreaInput[]
+  createMany?: Prisma.ManagedItemCreateManyCommonAreaInputEnvelope
+  connect?: Prisma.ManagedItemWhereUniqueInput | Prisma.ManagedItemWhereUniqueInput[]
+}
+
+export type ManagedItemUncheckedCreateNestedManyWithoutCommonAreaInput = {
+  create?: Prisma.XOR<Prisma.ManagedItemCreateWithoutCommonAreaInput, Prisma.ManagedItemUncheckedCreateWithoutCommonAreaInput> | Prisma.ManagedItemCreateWithoutCommonAreaInput[] | Prisma.ManagedItemUncheckedCreateWithoutCommonAreaInput[]
+  connectOrCreate?: Prisma.ManagedItemCreateOrConnectWithoutCommonAreaInput | Prisma.ManagedItemCreateOrConnectWithoutCommonAreaInput[]
+  createMany?: Prisma.ManagedItemCreateManyCommonAreaInputEnvelope
+  connect?: Prisma.ManagedItemWhereUniqueInput | Prisma.ManagedItemWhereUniqueInput[]
+}
+
+export type ManagedItemUpdateManyWithoutCommonAreaNestedInput = {
+  create?: Prisma.XOR<Prisma.ManagedItemCreateWithoutCommonAreaInput, Prisma.ManagedItemUncheckedCreateWithoutCommonAreaInput> | Prisma.ManagedItemCreateWithoutCommonAreaInput[] | Prisma.ManagedItemUncheckedCreateWithoutCommonAreaInput[]
+  connectOrCreate?: Prisma.ManagedItemCreateOrConnectWithoutCommonAreaInput | Prisma.ManagedItemCreateOrConnectWithoutCommonAreaInput[]
+  upsert?: Prisma.ManagedItemUpsertWithWhereUniqueWithoutCommonAreaInput | Prisma.ManagedItemUpsertWithWhereUniqueWithoutCommonAreaInput[]
+  createMany?: Prisma.ManagedItemCreateManyCommonAreaInputEnvelope
+  set?: Prisma.ManagedItemWhereUniqueInput | Prisma.ManagedItemWhereUniqueInput[]
+  disconnect?: Prisma.ManagedItemWhereUniqueInput | Prisma.ManagedItemWhereUniqueInput[]
+  delete?: Prisma.ManagedItemWhereUniqueInput | Prisma.ManagedItemWhereUniqueInput[]
+  connect?: Prisma.ManagedItemWhereUniqueInput | Prisma.ManagedItemWhereUniqueInput[]
+  update?: Prisma.ManagedItemUpdateWithWhereUniqueWithoutCommonAreaInput | Prisma.ManagedItemUpdateWithWhereUniqueWithoutCommonAreaInput[]
+  updateMany?: Prisma.ManagedItemUpdateManyWithWhereWithoutCommonAreaInput | Prisma.ManagedItemUpdateManyWithWhereWithoutCommonAreaInput[]
+  deleteMany?: Prisma.ManagedItemScalarWhereInput | Prisma.ManagedItemScalarWhereInput[]
+}
+
+export type ManagedItemUncheckedUpdateManyWithoutCommonAreaNestedInput = {
+  create?: Prisma.XOR<Prisma.ManagedItemCreateWithoutCommonAreaInput, Prisma.ManagedItemUncheckedCreateWithoutCommonAreaInput> | Prisma.ManagedItemCreateWithoutCommonAreaInput[] | Prisma.ManagedItemUncheckedCreateWithoutCommonAreaInput[]
+  connectOrCreate?: Prisma.ManagedItemCreateOrConnectWithoutCommonAreaInput | Prisma.ManagedItemCreateOrConnectWithoutCommonAreaInput[]
+  upsert?: Prisma.ManagedItemUpsertWithWhereUniqueWithoutCommonAreaInput | Prisma.ManagedItemUpsertWithWhereUniqueWithoutCommonAreaInput[]
+  createMany?: Prisma.ManagedItemCreateManyCommonAreaInputEnvelope
+  set?: Prisma.ManagedItemWhereUniqueInput | Prisma.ManagedItemWhereUniqueInput[]
+  disconnect?: Prisma.ManagedItemWhereUniqueInput | Prisma.ManagedItemWhereUniqueInput[]
+  delete?: Prisma.ManagedItemWhereUniqueInput | Prisma.ManagedItemWhereUniqueInput[]
+  connect?: Prisma.ManagedItemWhereUniqueInput | Prisma.ManagedItemWhereUniqueInput[]
+  update?: Prisma.ManagedItemUpdateWithWhereUniqueWithoutCommonAreaInput | Prisma.ManagedItemUpdateWithWhereUniqueWithoutCommonAreaInput[]
+  updateMany?: Prisma.ManagedItemUpdateManyWithWhereWithoutCommonAreaInput | Prisma.ManagedItemUpdateManyWithWhereWithoutCommonAreaInput[]
   deleteMany?: Prisma.ManagedItemScalarWhereInput | Prisma.ManagedItemScalarWhereInput[]
 }
 
@@ -590,6 +684,8 @@ export type ManagedItemCreateWithoutBuildingInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   itemType: Prisma.ManagedItemTypeCreateNestedOneWithoutItemsInput
+  commonArea?: Prisma.CommonAreaCreateNestedOneWithoutManagedItemsInput
+  tasks?: Prisma.RecurringTaskCreateNestedManyWithoutManagedItemInput
 }
 
 export type ManagedItemUncheckedCreateWithoutBuildingInput = {
@@ -601,8 +697,10 @@ export type ManagedItemUncheckedCreateWithoutBuildingInput = {
   photoUrl?: string | null
   photoCdnPath?: string | null
   notes?: string | null
+  commonAreaId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  tasks?: Prisma.RecurringTaskUncheckedCreateNestedManyWithoutManagedItemInput
 }
 
 export type ManagedItemCreateOrConnectWithoutBuildingInput = {
@@ -644,8 +742,141 @@ export type ManagedItemScalarWhereInput = {
   photoUrl?: Prisma.StringNullableFilter<"ManagedItem"> | string | null
   photoCdnPath?: Prisma.StringNullableFilter<"ManagedItem"> | string | null
   notes?: Prisma.StringNullableFilter<"ManagedItem"> | string | null
+  commonAreaId?: Prisma.StringNullableFilter<"ManagedItem"> | string | null
   createdAt?: Prisma.DateTimeFilter<"ManagedItem"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ManagedItem"> | Date | string
+}
+
+export type ManagedItemCreateWithoutTasksInput = {
+  id?: string
+  location: string
+  floorLabel?: string | null
+  quantity?: number
+  photoUrl?: string | null
+  photoCdnPath?: string | null
+  notes?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  building: Prisma.BuildingCreateNestedOneWithoutManagedItemsInput
+  itemType: Prisma.ManagedItemTypeCreateNestedOneWithoutItemsInput
+  commonArea?: Prisma.CommonAreaCreateNestedOneWithoutManagedItemsInput
+}
+
+export type ManagedItemUncheckedCreateWithoutTasksInput = {
+  id?: string
+  buildingId: string
+  itemTypeId: string
+  location: string
+  floorLabel?: string | null
+  quantity?: number
+  photoUrl?: string | null
+  photoCdnPath?: string | null
+  notes?: string | null
+  commonAreaId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type ManagedItemCreateOrConnectWithoutTasksInput = {
+  where: Prisma.ManagedItemWhereUniqueInput
+  create: Prisma.XOR<Prisma.ManagedItemCreateWithoutTasksInput, Prisma.ManagedItemUncheckedCreateWithoutTasksInput>
+}
+
+export type ManagedItemUpsertWithoutTasksInput = {
+  update: Prisma.XOR<Prisma.ManagedItemUpdateWithoutTasksInput, Prisma.ManagedItemUncheckedUpdateWithoutTasksInput>
+  create: Prisma.XOR<Prisma.ManagedItemCreateWithoutTasksInput, Prisma.ManagedItemUncheckedCreateWithoutTasksInput>
+  where?: Prisma.ManagedItemWhereInput
+}
+
+export type ManagedItemUpdateToOneWithWhereWithoutTasksInput = {
+  where?: Prisma.ManagedItemWhereInput
+  data: Prisma.XOR<Prisma.ManagedItemUpdateWithoutTasksInput, Prisma.ManagedItemUncheckedUpdateWithoutTasksInput>
+}
+
+export type ManagedItemUpdateWithoutTasksInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  location?: Prisma.StringFieldUpdateOperationsInput | string
+  floorLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  quantity?: Prisma.IntFieldUpdateOperationsInput | number
+  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photoCdnPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  building?: Prisma.BuildingUpdateOneRequiredWithoutManagedItemsNestedInput
+  itemType?: Prisma.ManagedItemTypeUpdateOneRequiredWithoutItemsNestedInput
+  commonArea?: Prisma.CommonAreaUpdateOneWithoutManagedItemsNestedInput
+}
+
+export type ManagedItemUncheckedUpdateWithoutTasksInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  buildingId?: Prisma.StringFieldUpdateOperationsInput | string
+  itemTypeId?: Prisma.StringFieldUpdateOperationsInput | string
+  location?: Prisma.StringFieldUpdateOperationsInput | string
+  floorLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  quantity?: Prisma.IntFieldUpdateOperationsInput | number
+  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photoCdnPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  commonAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type ManagedItemCreateWithoutCommonAreaInput = {
+  id?: string
+  location: string
+  floorLabel?: string | null
+  quantity?: number
+  photoUrl?: string | null
+  photoCdnPath?: string | null
+  notes?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  building: Prisma.BuildingCreateNestedOneWithoutManagedItemsInput
+  itemType: Prisma.ManagedItemTypeCreateNestedOneWithoutItemsInput
+  tasks?: Prisma.RecurringTaskCreateNestedManyWithoutManagedItemInput
+}
+
+export type ManagedItemUncheckedCreateWithoutCommonAreaInput = {
+  id?: string
+  buildingId: string
+  itemTypeId: string
+  location: string
+  floorLabel?: string | null
+  quantity?: number
+  photoUrl?: string | null
+  photoCdnPath?: string | null
+  notes?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  tasks?: Prisma.RecurringTaskUncheckedCreateNestedManyWithoutManagedItemInput
+}
+
+export type ManagedItemCreateOrConnectWithoutCommonAreaInput = {
+  where: Prisma.ManagedItemWhereUniqueInput
+  create: Prisma.XOR<Prisma.ManagedItemCreateWithoutCommonAreaInput, Prisma.ManagedItemUncheckedCreateWithoutCommonAreaInput>
+}
+
+export type ManagedItemCreateManyCommonAreaInputEnvelope = {
+  data: Prisma.ManagedItemCreateManyCommonAreaInput | Prisma.ManagedItemCreateManyCommonAreaInput[]
+  skipDuplicates?: boolean
+}
+
+export type ManagedItemUpsertWithWhereUniqueWithoutCommonAreaInput = {
+  where: Prisma.ManagedItemWhereUniqueInput
+  update: Prisma.XOR<Prisma.ManagedItemUpdateWithoutCommonAreaInput, Prisma.ManagedItemUncheckedUpdateWithoutCommonAreaInput>
+  create: Prisma.XOR<Prisma.ManagedItemCreateWithoutCommonAreaInput, Prisma.ManagedItemUncheckedCreateWithoutCommonAreaInput>
+}
+
+export type ManagedItemUpdateWithWhereUniqueWithoutCommonAreaInput = {
+  where: Prisma.ManagedItemWhereUniqueInput
+  data: Prisma.XOR<Prisma.ManagedItemUpdateWithoutCommonAreaInput, Prisma.ManagedItemUncheckedUpdateWithoutCommonAreaInput>
+}
+
+export type ManagedItemUpdateManyWithWhereWithoutCommonAreaInput = {
+  where: Prisma.ManagedItemScalarWhereInput
+  data: Prisma.XOR<Prisma.ManagedItemUpdateManyMutationInput, Prisma.ManagedItemUncheckedUpdateManyWithoutCommonAreaInput>
 }
 
 export type ManagedItemCreateWithoutItemTypeInput = {
@@ -659,6 +890,8 @@ export type ManagedItemCreateWithoutItemTypeInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   building: Prisma.BuildingCreateNestedOneWithoutManagedItemsInput
+  commonArea?: Prisma.CommonAreaCreateNestedOneWithoutManagedItemsInput
+  tasks?: Prisma.RecurringTaskCreateNestedManyWithoutManagedItemInput
 }
 
 export type ManagedItemUncheckedCreateWithoutItemTypeInput = {
@@ -670,8 +903,10 @@ export type ManagedItemUncheckedCreateWithoutItemTypeInput = {
   photoUrl?: string | null
   photoCdnPath?: string | null
   notes?: string | null
+  commonAreaId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  tasks?: Prisma.RecurringTaskUncheckedCreateNestedManyWithoutManagedItemInput
 }
 
 export type ManagedItemCreateOrConnectWithoutItemTypeInput = {
@@ -709,6 +944,7 @@ export type ManagedItemCreateManyBuildingInput = {
   photoUrl?: string | null
   photoCdnPath?: string | null
   notes?: string | null
+  commonAreaId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -724,6 +960,8 @@ export type ManagedItemUpdateWithoutBuildingInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   itemType?: Prisma.ManagedItemTypeUpdateOneRequiredWithoutItemsNestedInput
+  commonArea?: Prisma.CommonAreaUpdateOneWithoutManagedItemsNestedInput
+  tasks?: Prisma.RecurringTaskUpdateManyWithoutManagedItemNestedInput
 }
 
 export type ManagedItemUncheckedUpdateWithoutBuildingInput = {
@@ -735,12 +973,73 @@ export type ManagedItemUncheckedUpdateWithoutBuildingInput = {
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   photoCdnPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  commonAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tasks?: Prisma.RecurringTaskUncheckedUpdateManyWithoutManagedItemNestedInput
 }
 
 export type ManagedItemUncheckedUpdateManyWithoutBuildingInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  itemTypeId?: Prisma.StringFieldUpdateOperationsInput | string
+  location?: Prisma.StringFieldUpdateOperationsInput | string
+  floorLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  quantity?: Prisma.IntFieldUpdateOperationsInput | number
+  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photoCdnPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  commonAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type ManagedItemCreateManyCommonAreaInput = {
+  id?: string
+  buildingId: string
+  itemTypeId: string
+  location: string
+  floorLabel?: string | null
+  quantity?: number
+  photoUrl?: string | null
+  photoCdnPath?: string | null
+  notes?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type ManagedItemUpdateWithoutCommonAreaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  location?: Prisma.StringFieldUpdateOperationsInput | string
+  floorLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  quantity?: Prisma.IntFieldUpdateOperationsInput | number
+  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photoCdnPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  building?: Prisma.BuildingUpdateOneRequiredWithoutManagedItemsNestedInput
+  itemType?: Prisma.ManagedItemTypeUpdateOneRequiredWithoutItemsNestedInput
+  tasks?: Prisma.RecurringTaskUpdateManyWithoutManagedItemNestedInput
+}
+
+export type ManagedItemUncheckedUpdateWithoutCommonAreaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  buildingId?: Prisma.StringFieldUpdateOperationsInput | string
+  itemTypeId?: Prisma.StringFieldUpdateOperationsInput | string
+  location?: Prisma.StringFieldUpdateOperationsInput | string
+  floorLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  quantity?: Prisma.IntFieldUpdateOperationsInput | number
+  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  photoCdnPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tasks?: Prisma.RecurringTaskUncheckedUpdateManyWithoutManagedItemNestedInput
+}
+
+export type ManagedItemUncheckedUpdateManyWithoutCommonAreaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  buildingId?: Prisma.StringFieldUpdateOperationsInput | string
   itemTypeId?: Prisma.StringFieldUpdateOperationsInput | string
   location?: Prisma.StringFieldUpdateOperationsInput | string
   floorLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -761,6 +1060,7 @@ export type ManagedItemCreateManyItemTypeInput = {
   photoUrl?: string | null
   photoCdnPath?: string | null
   notes?: string | null
+  commonAreaId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -776,6 +1076,8 @@ export type ManagedItemUpdateWithoutItemTypeInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   building?: Prisma.BuildingUpdateOneRequiredWithoutManagedItemsNestedInput
+  commonArea?: Prisma.CommonAreaUpdateOneWithoutManagedItemsNestedInput
+  tasks?: Prisma.RecurringTaskUpdateManyWithoutManagedItemNestedInput
 }
 
 export type ManagedItemUncheckedUpdateWithoutItemTypeInput = {
@@ -787,8 +1089,10 @@ export type ManagedItemUncheckedUpdateWithoutItemTypeInput = {
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   photoCdnPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  commonAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tasks?: Prisma.RecurringTaskUncheckedUpdateManyWithoutManagedItemNestedInput
 }
 
 export type ManagedItemUncheckedUpdateManyWithoutItemTypeInput = {
@@ -800,10 +1104,40 @@ export type ManagedItemUncheckedUpdateManyWithoutItemTypeInput = {
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   photoCdnPath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  commonAreaId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
+
+/**
+ * Count Type ManagedItemCountOutputType
+ */
+
+export type ManagedItemCountOutputType = {
+  tasks: number
+}
+
+export type ManagedItemCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  tasks?: boolean | ManagedItemCountOutputTypeCountTasksArgs
+}
+
+/**
+ * ManagedItemCountOutputType without action
+ */
+export type ManagedItemCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ManagedItemCountOutputType
+   */
+  select?: Prisma.ManagedItemCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * ManagedItemCountOutputType without action
+ */
+export type ManagedItemCountOutputTypeCountTasksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.RecurringTaskWhereInput
+}
 
 
 export type ManagedItemSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -816,10 +1150,14 @@ export type ManagedItemSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   photoUrl?: boolean
   photoCdnPath?: boolean
   notes?: boolean
+  commonAreaId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
   itemType?: boolean | Prisma.ManagedItemTypeDefaultArgs<ExtArgs>
+  commonArea?: boolean | Prisma.ManagedItem$commonAreaArgs<ExtArgs>
+  tasks?: boolean | Prisma.ManagedItem$tasksArgs<ExtArgs>
+  _count?: boolean | Prisma.ManagedItemCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["managedItem"]>
 
 export type ManagedItemSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -832,10 +1170,12 @@ export type ManagedItemSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   photoUrl?: boolean
   photoCdnPath?: boolean
   notes?: boolean
+  commonAreaId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
   itemType?: boolean | Prisma.ManagedItemTypeDefaultArgs<ExtArgs>
+  commonArea?: boolean | Prisma.ManagedItem$commonAreaArgs<ExtArgs>
 }, ExtArgs["result"]["managedItem"]>
 
 export type ManagedItemSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -848,10 +1188,12 @@ export type ManagedItemSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   photoUrl?: boolean
   photoCdnPath?: boolean
   notes?: boolean
+  commonAreaId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
   itemType?: boolean | Prisma.ManagedItemTypeDefaultArgs<ExtArgs>
+  commonArea?: boolean | Prisma.ManagedItem$commonAreaArgs<ExtArgs>
 }, ExtArgs["result"]["managedItem"]>
 
 export type ManagedItemSelectScalar = {
@@ -864,22 +1206,28 @@ export type ManagedItemSelectScalar = {
   photoUrl?: boolean
   photoCdnPath?: boolean
   notes?: boolean
+  commonAreaId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type ManagedItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "buildingId" | "itemTypeId" | "location" | "floorLabel" | "quantity" | "photoUrl" | "photoCdnPath" | "notes" | "createdAt" | "updatedAt", ExtArgs["result"]["managedItem"]>
+export type ManagedItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "buildingId" | "itemTypeId" | "location" | "floorLabel" | "quantity" | "photoUrl" | "photoCdnPath" | "notes" | "commonAreaId" | "createdAt" | "updatedAt", ExtArgs["result"]["managedItem"]>
 export type ManagedItemInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
   itemType?: boolean | Prisma.ManagedItemTypeDefaultArgs<ExtArgs>
+  commonArea?: boolean | Prisma.ManagedItem$commonAreaArgs<ExtArgs>
+  tasks?: boolean | Prisma.ManagedItem$tasksArgs<ExtArgs>
+  _count?: boolean | Prisma.ManagedItemCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ManagedItemIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
   itemType?: boolean | Prisma.ManagedItemTypeDefaultArgs<ExtArgs>
+  commonArea?: boolean | Prisma.ManagedItem$commonAreaArgs<ExtArgs>
 }
 export type ManagedItemIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
   itemType?: boolean | Prisma.ManagedItemTypeDefaultArgs<ExtArgs>
+  commonArea?: boolean | Prisma.ManagedItem$commonAreaArgs<ExtArgs>
 }
 
 export type $ManagedItemPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -887,6 +1235,8 @@ export type $ManagedItemPayload<ExtArgs extends runtime.Types.Extensions.Interna
   objects: {
     building: Prisma.$BuildingPayload<ExtArgs>
     itemType: Prisma.$ManagedItemTypePayload<ExtArgs>
+    commonArea: Prisma.$CommonAreaPayload<ExtArgs> | null
+    tasks: Prisma.$RecurringTaskPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -898,6 +1248,7 @@ export type $ManagedItemPayload<ExtArgs extends runtime.Types.Extensions.Interna
     photoUrl: string | null
     photoCdnPath: string | null
     notes: string | null
+    commonAreaId: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["managedItem"]>
@@ -1296,6 +1647,8 @@ export interface Prisma__ManagedItemClient<T, Null = never, ExtArgs extends runt
   readonly [Symbol.toStringTag]: "PrismaPromise"
   building<T extends Prisma.BuildingDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.BuildingDefaultArgs<ExtArgs>>): Prisma.Prisma__BuildingClient<runtime.Types.Result.GetResult<Prisma.$BuildingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   itemType<T extends Prisma.ManagedItemTypeDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ManagedItemTypeDefaultArgs<ExtArgs>>): Prisma.Prisma__ManagedItemTypeClient<runtime.Types.Result.GetResult<Prisma.$ManagedItemTypePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  commonArea<T extends Prisma.ManagedItem$commonAreaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ManagedItem$commonAreaArgs<ExtArgs>>): Prisma.Prisma__CommonAreaClient<runtime.Types.Result.GetResult<Prisma.$CommonAreaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  tasks<T extends Prisma.ManagedItem$tasksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ManagedItem$tasksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RecurringTaskPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1334,6 +1687,7 @@ export interface ManagedItemFieldRefs {
   readonly photoUrl: Prisma.FieldRef<"ManagedItem", 'String'>
   readonly photoCdnPath: Prisma.FieldRef<"ManagedItem", 'String'>
   readonly notes: Prisma.FieldRef<"ManagedItem", 'String'>
+  readonly commonAreaId: Prisma.FieldRef<"ManagedItem", 'String'>
   readonly createdAt: Prisma.FieldRef<"ManagedItem", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"ManagedItem", 'DateTime'>
 }
@@ -1734,6 +2088,49 @@ export type ManagedItemDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.I
    * Limit how many ManagedItems to delete.
    */
   limit?: number
+}
+
+/**
+ * ManagedItem.commonArea
+ */
+export type ManagedItem$commonAreaArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CommonArea
+   */
+  select?: Prisma.CommonAreaSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the CommonArea
+   */
+  omit?: Prisma.CommonAreaOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CommonAreaInclude<ExtArgs> | null
+  where?: Prisma.CommonAreaWhereInput
+}
+
+/**
+ * ManagedItem.tasks
+ */
+export type ManagedItem$tasksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the RecurringTask
+   */
+  select?: Prisma.RecurringTaskSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the RecurringTask
+   */
+  omit?: Prisma.RecurringTaskOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RecurringTaskInclude<ExtArgs> | null
+  where?: Prisma.RecurringTaskWhereInput
+  orderBy?: Prisma.RecurringTaskOrderByWithRelationInput | Prisma.RecurringTaskOrderByWithRelationInput[]
+  cursor?: Prisma.RecurringTaskWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.RecurringTaskScalarFieldEnum | Prisma.RecurringTaskScalarFieldEnum[]
 }
 
 /**

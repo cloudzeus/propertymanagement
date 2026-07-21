@@ -9,8 +9,16 @@ const FREQS = ["WEEKLY", "MONTHLY", "QUARTERLY", "SEMIANNUAL", "ANNUAL", "CUSTOM
 export type TaskFrequency = (typeof FREQS)[number];
 const KINDS = ["GENERAL","ELEVATOR","BOILER","FIRE_SAFETY","HVAC","ELECTRICAL","PLUMBING","OTHER"] as const;
 export type MaintenanceKind = (typeof KINDS)[number];
-export type TaskInput = { title: string; frequency: TaskFrequency; nextDueDate?: string | null; vendor?: string | null; notes?: string | null; active?: boolean; kind?: MaintenanceKind; inServicePackage?: boolean; reminderDaysBefore?: number };
+export type TaskInput = { title: string; frequency: TaskFrequency; nextDueDate?: string | null; vendor?: string | null; notes?: string | null; active?: boolean; kind?: MaintenanceKind; inServicePackage?: boolean; reminderDaysBefore?: number; managedItemId?: string | null };
 const clean = (v?: string | null) => (v?.trim() ? v.trim() : null);
+
+async function resolveManagedItem(buildingId: string, managedItemId?: string | null): Promise<{ ok: true; id: string | null } | { error: string }> {
+  const id = managedItemId?.trim() || null;
+  if (!id) return { ok: true, id: null };
+  const item = await db.managedItem.findFirst({ where: { id, buildingId }, select: { id: true } });
+  if (!item) return { error: "Το στοιχείο δεν ανήκει σε αυτό το κτήριο" };
+  return { ok: true, id: item.id };
+}
 
 function advance(date: Date, freq: TaskFrequency): Date {
   const d = new Date(date);
@@ -29,6 +37,8 @@ export async function createRecurringTask(buildingId: string, data: TaskInput) {
   await requireBuildingCap(buildingId, "manageCalendar");
   if (!data.title?.trim()) return { error: "Ο τίτλος είναι υποχρεωτικός" };
   const freq = FREQS.includes(data.frequency) ? data.frequency : "MONTHLY";
+  const mi = await resolveManagedItem(buildingId, data.managedItemId);
+  if ("error" in mi) return { error: mi.error };
   const row = await db.recurringTask.create({
     data: {
       buildingId, title: data.title.trim(), frequency: freq as any,
@@ -37,6 +47,7 @@ export async function createRecurringTask(buildingId: string, data: TaskInput) {
       kind: (KINDS.includes(data.kind as any) ? data.kind : "GENERAL") as any,
       inServicePackage: data.inServicePackage ?? false,
       reminderDaysBefore: Number.isFinite(data.reminderDaysBefore) ? Number(data.reminderDaysBefore) : 7,
+      managedItemId: mi.id,
     },
   });
   revalidatePath(`/super-admin/buildings/${buildingId}`);
@@ -49,6 +60,12 @@ export async function updateRecurringTask(id: string, data: Partial<TaskInput>) 
   const existing = await db.recurringTask.findUnique({ where: { id }, select: { buildingId: true } });
   if (!existing) return { error: "Δεν βρέθηκε" };
   await requireBuildingCap(existing.buildingId, "manageCalendar");
+  let managedItemId: string | null | undefined;
+  if (data.managedItemId !== undefined) {
+    const mi = await resolveManagedItem(existing.buildingId, data.managedItemId);
+    if ("error" in mi) return { error: mi.error };
+    managedItemId = mi.id;
+  }
   const row = await db.recurringTask.update({
     where: { id },
     data: {
@@ -61,6 +78,7 @@ export async function updateRecurringTask(id: string, data: Partial<TaskInput>) 
       ...(data.kind !== undefined ? { kind: (KINDS.includes(data.kind as any) ? data.kind : "GENERAL") as any } : {}),
       ...(data.inServicePackage !== undefined ? { inServicePackage: data.inServicePackage } : {}),
       ...(data.reminderDaysBefore !== undefined ? { reminderDaysBefore: Number(data.reminderDaysBefore) } : {}),
+      ...(managedItemId !== undefined ? { managedItemId } : {}),
     },
     select: { buildingId: true },
   });

@@ -15,6 +15,7 @@ export const RBAC_MODULES: readonly RbacModule[] = [
   { key: "users", label: "Χρήστες", surface: "company", menu: { href: "/super-admin/users", icon: "RiGroupLine", group: "management" }, actions: [...CRUD] },
   { key: "residents", label: "Ενοικιαστές", surface: "company", menu: { href: "/admin/residents", icon: "RiUserLine", group: "management" }, actions: [...CRUD] },
   { key: "managed-items", label: "Στοιχεία Διαχείρισης", surface: "company", menu: { href: "/super-admin/managed-items", icon: "RiListCheck2", group: "management" }, actions: [...CRUD] },
+  { key: "managed-buildings", label: "Διαχειριζόμενα κτήρια", surface: "company", menu: { href: "/super-admin/managed-buildings", icon: "RiBuilding2Line", group: "management" }, actions: [...CRUD] },
   { key: "roles", label: "Ρόλοι", surface: "company", menu: { href: "/super-admin/roles", icon: "RiShieldUserLine", group: "management" }, actions: [...CRUD] },
   { key: "services", label: "Υπηρεσίες", surface: "company", menu: { href: "/super-admin/services", icon: "RiServiceLine", group: "financials" }, actions: [...CRUD] },
   { key: "api-costs", label: "AI Κόστη / Tokens", surface: "company", menu: { href: "/super-admin/settings/costs", icon: "RiMoneyDollarCircleLine", group: "financials" }, actions: [...VIEW] },
@@ -79,16 +80,17 @@ export const DEFAULT_PERMISSIONS: RoleDefaults = {
   SUPER_ADMIN: all(),
   ADMIN: [
     ...view("dashboard", "reports"),
-    ...crud("properties", "units", "users", "residents", "maintenance", "announcements", "calendar", "managed-items"),
+    ...crud("properties", "units", "users", "residents", "maintenance", "announcements", "calendar", "managed-items", "managed-buildings"),
     ...crud("metered-plans", "customer-wallets"),
     ...view("api-costs"), ...crud("settings", "settings-payments"),
   ],
   MANAGER: [
     ...view("dashboard", "calendar"),
-    ...crud("properties", "units", "maintenance", "announcements", "managed-items"),
+    ...crud("properties", "units", "maintenance", "announcements", "managed-items", "managed-buildings"),
   ],
   EMPLOYEE: [
-    ...view("mkt-dashboard", "mkt-calendar"), ...crud("mkt-tasks", "mkt-maintenance"),
+    ...view("mkt-dashboard", "mkt-calendar", "managed-buildings"), ...crud("mkt-tasks", "mkt-maintenance"),
+    ...crud("managed-items"), ...view("maintenance", "calendar"),
   ],
   PROPERTY_ADMIN: [
     ...view("customer-dashboard"),

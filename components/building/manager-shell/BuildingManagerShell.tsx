@@ -62,7 +62,7 @@ export function BuildingManagerShell(props: Props) {
     expenses, categorySplits, today, millesimeUnits, exclusionUnits,
     expenseCategories, categoryOverrides, unitExclusions,
     usesMeteredHeating, heatingPeriod, heatingReadingRows, meterReadingRows,
-    overview, maintenanceHistory, managedItems, managedItemTypes,
+    overview, maintenanceHistory, managedItems, managedItemTypes, commonAreas,
     maintenanceRequests, maintenanceCategories,
   } = props;
 
@@ -214,7 +214,7 @@ export function BuildingManagerShell(props: Props) {
         ) : tab === "infra" ? (
           <InfraPanel buildingId={building.id} points={infraPoints} floorOptions={floorOptions} can={can} />
         ) : tab === "manageditems" && building.propertyManaged ? (
-          <ManagedItemsPanel buildingId={building.id} items={managedItems} itemTypes={managedItemTypes} floorOptions={floorOptions} can={can} />
+          <ManagedItemsPanel buildingId={building.id} items={managedItems} itemTypes={managedItemTypes} floorOptions={floorOptions} commonAreas={commonAreas} can={can} />
         ) : tab === "calendar" ? (
           <CalendarPanel buildingId={building.id} tasks={tasks} today={today} can={can} />
         ) : tab === "expenses" ? (
