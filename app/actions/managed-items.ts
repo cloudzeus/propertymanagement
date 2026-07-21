@@ -12,7 +12,7 @@ async function assertManagedBuilding(buildingId: string) {
   return null;
 }
 
-export type ManagedItemInput = { itemTypeId: string; location: string; floorLabel?: string | null; quantity?: number | null; notes?: string | null };
+export type ManagedItemInput = { itemTypeId: string; location: string; floorLabel?: string | null; quantity?: number | null; notes?: string | null; commonAreaId?: string | null };
 const clean = (v?: string | null) => (v?.trim() ? v.trim() : null);
 
 function validate(data: ManagedItemInput) {
@@ -23,6 +23,14 @@ function validate(data: ManagedItemInput) {
   return null;
 }
 
+async function resolveCommonArea(buildingId: string, commonAreaId?: string | null): Promise<{ ok: true; id: string | null } | { error: string }> {
+  const id = commonAreaId?.trim() || null;
+  if (!id) return { ok: true, id: null };
+  const area = await db.commonArea.findFirst({ where: { id, buildingId }, select: { id: true } });
+  if (!area) return { error: "Ο κοινόχρηστος χώρος δεν ανήκει σε αυτό το κτήριο" };
+  return { ok: true, id: area.id };
+}
+
 export async function createManagedItem(buildingId: string, data: ManagedItemInput) {
   await requireBuildingCap(buildingId, "manageManagedItems");
   const guard = await assertManagedBuilding(buildingId);
@@ -31,6 +39,8 @@ export async function createManagedItem(buildingId: string, data: ManagedItemInp
   if (err) return { error: err };
   const type = await db.managedItemType.findUnique({ where: { id: data.itemTypeId }, select: { id: true } });
   if (!type) return { error: "Το στοιχείο δεν βρέθηκε στον κατάλογο" };
+  const area = await resolveCommonArea(buildingId, data.commonAreaId);
+  if ("error" in area) return { error: area.error };
   const row = await db.managedItem.create({
     data: {
       buildingId,
@@ -39,6 +49,7 @@ export async function createManagedItem(buildingId: string, data: ManagedItemInp
       floorLabel: clean(data.floorLabel),
       quantity: data.quantity ?? 1,
       notes: clean(data.notes),
+      commonAreaId: area.id,
     },
   });
   revalidatePath(`/super-admin/buildings/${buildingId}`);
@@ -52,6 +63,8 @@ export async function updateManagedItem(id: string, data: ManagedItemInput) {
   await requireBuildingCap(existing.buildingId, "manageManagedItems");
   const err = validate(data);
   if (err) return { error: err };
+  const area = await resolveCommonArea(existing.buildingId, data.commonAreaId);
+  if ("error" in area) return { error: area.error };
   const row = await db.managedItem.update({
     where: { id },
     data: {
@@ -60,6 +73,7 @@ export async function updateManagedItem(id: string, data: ManagedItemInput) {
       floorLabel: clean(data.floorLabel),
       quantity: data.quantity ?? 1,
       notes: clean(data.notes),
+      commonAreaId: area.id,
     },
     select: { buildingId: true },
   });
