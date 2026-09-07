@@ -365,10 +365,6 @@ export type CronRunMinOrderByAggregateInput = {
   error?: Prisma.SortOrder
 }
 
-export type NullableBoolFieldUpdateOperationsInput = {
-  set?: boolean | null
-}
-
 
 
 export type CronRunSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{

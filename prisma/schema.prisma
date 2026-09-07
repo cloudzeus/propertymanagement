@@ -708,6 +708,8 @@ model Building {
   workOrders            WorkOrder[]
   supplierInquiries     SupplierInquiry[]
 
+  // SoftOne PRJC (Έργο) του κτηρίου — συμβάσεις/παραστατικά αναφέρονται σε αυτό
+  softonePrjc           Int?
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt
 
@@ -959,6 +961,7 @@ model BuildingExpense {
   meterReadings  MeterReading[]
   allocations    ExpenseAllocation[]
   createdAt   DateTime @default(now())
+  softoneFindoc  Int?     // SoftOne PURDOC (FINDOC) όταν το παραστατικό καταχωρείται στο ERP
   @@index([buildingId])
   @@index([buildingId, month])
   @@index([categoryId])
@@ -1245,6 +1248,7 @@ model Service {
   price                 Decimal  @db.Decimal(10, 2) // monthly rate / unit rate
   active                Boolean  @default(true)
 
+  softoneMtrl           Int?     // SoftOne SERVICE (MTRL, SODTYPE 52)
   propertyServices      PropertyService[]
 
   createdAt             DateTime @default(now())
@@ -1270,6 +1274,7 @@ model PropertyService {
   // For METERED_PREPAID (assemblies): prepaid balance in person-minutes.
   prepaidPersonMinutes  Int      @default(0)
 
+  softoneCntr           Int?     // SoftOne CNTR — σύμβαση διαχείρισης με διάρκεια
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt
 
@@ -1294,6 +1299,7 @@ model ServiceInvoice {
   paidAt                DateTime?
   vivaOrderRef          String?  // provider Viva transaction reference
 
+  softoneFindoc         Int?     // SoftOne SALDOC (FINDOC)
   lines                 ServiceInvoiceLine[]
 
   createdAt             DateTime @default(now())
@@ -1960,6 +1966,66 @@ model NewsletterSubscriber {
   @@index([status])
 }
 
+// ── SoftOne integration ──────────────────────────────────────────────────────
+// Parameters that differ per SoftOne installation (ids of lookup rows). Secrets
+// (URL/user/password/appId) stay in env. One row (id = "singleton").
+model SoftoneSettings {
+  id                 String   @id @default("singleton")
+  enabled            Boolean  @default(false)
+  company            Int?     // COMPANY
+  branch             Int?     // BRANCH
+  countryGr          Int?     // COUNTRY id για Ελλάδα
+  currencyEur        Int?     // SOCURRENCY id για EUR
+  vatMap             Json?    // { "24": <VAT id>, "13": ..., "6": ..., "0": ... }
+  unitMap            Json?    // { "τεμ.": <MTRUNIT id>, "ώρα": ..., "επίσκεψη": ..., "μήνας": ... }
+  paymentDefault     Int?     // PAYMENT
+  cntrTypeCustomer   Int?     // CNTRTYPE για σύμβαση Α (πελάτης↔εταιρεία)
+  cntrTypeSupplier   Int?     // CNTRTYPE για σύμβαση Β (εταιρεία↔συνεργάτης)
+  cntrTypeManaged    Int?     // CNTRTYPE για σύμβαση διαχείρισης (πακέτο υπηρεσιών)
+  cntrType1Default   Int?     // CNTRTYPE1 (χαρακτηρισμός)
+  visitUnitMonths    Int?     // $SrvTimeUnit id για «μήνες»
+  seriesSales        Int?     // SERIES τιμολογίων πώλησης (ServiceInvoice → SALDOC)
+  seriesPurchase     Int?     // SERIES παραστατικών αγοράς (BuildingExpense → PURDOC)
+  prjType            Int?     // PRJTYPE για κτήρια
+  codePrefixCustomer String   @default("PM-C-")
+  codePrefixSupplier String   @default("PM-S-")
+  codePrefixProject  String   @default("PM-B-")
+  codePrefixService  String   @default("PM-SRV-")
+  // cached web-service session (login/authenticate) — reused all day, re-login on errorcode < 0
+  clientId           String?
+  clientIdDate       String?  // YYYY-MM-DD
+  lastPingAt         DateTime?
+  lastPingOk         Boolean?
+  lastPingMessage    String?
+  updatedAt          DateTime @updatedAt
+}
+
+enum SoftoneSyncStatus {
+  DRY_RUN
+  OK
+  ERROR
+  SKIPPED
+}
+
+// One row per sync attempt (or dry run): what we sent, what came back.
+model SoftoneSyncLog {
+  id         String            @id @default(cuid())
+  entity     String            // customer | supplier | building | service | catalog-item | work-order | property-service | service-invoice | expense
+  entityId   String
+  object     String            // CUSTOMER | SUPPLIER | PRJC | SERVICE | ITEM | CNTR | SALDOC | PURDOC
+  action     String            // insert | update | read
+  status     SoftoneSyncStatus
+  softoneKey Int?
+  payload    Json?
+  response   Json?
+  error      String?           @db.Text
+  byUserId   String?
+  createdAt  DateTime          @default(now())
+
+  @@index([entity, entityId])
+  @@index([createdAt])
+}
+
 // In-process scheduler log (lib/cron): one row per job execution, used both to
 // decide "already ran today" and to show history in Ρυθμίσεις → Αυτόματες εργασίες.
 model CronRun {
@@ -2390,6 +2456,7 @@ model ServiceCatalogItem {
   active      Boolean  @default(true)
   sortOrder   Int      @default(0)
   supplierServices SupplierService[]
+  softoneMtrl Int?  // SoftOne MTRL (SERVICE=52 / ITEM=51)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
@@ -2411,6 +2478,7 @@ model SupplierService {
   vatPct      Int      @default(24)
   active      Boolean  @default(true)
   sortOrder   Int      @default(0)
+  softoneMtrl Int?  // SoftOne MTRL (SERVICE=52 / ITEM=51)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
@@ -2431,6 +2499,7 @@ model SupplierProduct {
   vatPct      Int      @default(24)
   active      Boolean  @default(true)
   sortOrder   Int      @default(0)
+  softoneMtrl Int?  // SoftOne MTRL (SERVICE=52 / ITEM=51)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
@@ -2605,6 +2674,9 @@ model WorkOrder {
   customerContractHtml  String?  @db.Text
   supplierContractHtml  String?  @db.Text
 
+  // SoftOne back-to-back: CNTR-A (πελάτης↔εταιρεία) και CNTR-B (εταιρεία↔συνεργάτης, CNTRS→A)
+  softoneCntrA          Int?
+  softoneCntrB          Int?
   createdById           String?
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt

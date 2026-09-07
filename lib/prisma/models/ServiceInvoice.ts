@@ -28,10 +28,12 @@ export type AggregateServiceInvoice = {
 
 export type ServiceInvoiceAvgAggregateOutputType = {
   amount: runtime.Decimal | null
+  softoneFindoc: number | null
 }
 
 export type ServiceInvoiceSumAggregateOutputType = {
   amount: runtime.Decimal | null
+  softoneFindoc: number | null
 }
 
 export type ServiceInvoiceMinAggregateOutputType = {
@@ -44,6 +46,7 @@ export type ServiceInvoiceMinAggregateOutputType = {
   dueDate: Date | null
   paidAt: Date | null
   vivaOrderRef: string | null
+  softoneFindoc: number | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -58,6 +61,7 @@ export type ServiceInvoiceMaxAggregateOutputType = {
   dueDate: Date | null
   paidAt: Date | null
   vivaOrderRef: string | null
+  softoneFindoc: number | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -72,6 +76,7 @@ export type ServiceInvoiceCountAggregateOutputType = {
   dueDate: number
   paidAt: number
   vivaOrderRef: number
+  softoneFindoc: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -80,10 +85,12 @@ export type ServiceInvoiceCountAggregateOutputType = {
 
 export type ServiceInvoiceAvgAggregateInputType = {
   amount?: true
+  softoneFindoc?: true
 }
 
 export type ServiceInvoiceSumAggregateInputType = {
   amount?: true
+  softoneFindoc?: true
 }
 
 export type ServiceInvoiceMinAggregateInputType = {
@@ -96,6 +103,7 @@ export type ServiceInvoiceMinAggregateInputType = {
   dueDate?: true
   paidAt?: true
   vivaOrderRef?: true
+  softoneFindoc?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -110,6 +118,7 @@ export type ServiceInvoiceMaxAggregateInputType = {
   dueDate?: true
   paidAt?: true
   vivaOrderRef?: true
+  softoneFindoc?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -124,6 +133,7 @@ export type ServiceInvoiceCountAggregateInputType = {
   dueDate?: true
   paidAt?: true
   vivaOrderRef?: true
+  softoneFindoc?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -225,6 +235,7 @@ export type ServiceInvoiceGroupByOutputType = {
   dueDate: Date | null
   paidAt: Date | null
   vivaOrderRef: string | null
+  softoneFindoc: number | null
   createdAt: Date
   updatedAt: Date
   _count: ServiceInvoiceCountAggregateOutputType | null
@@ -262,6 +273,7 @@ export type ServiceInvoiceWhereInput = {
   dueDate?: Prisma.DateTimeNullableFilter<"ServiceInvoice"> | Date | string | null
   paidAt?: Prisma.DateTimeNullableFilter<"ServiceInvoice"> | Date | string | null
   vivaOrderRef?: Prisma.StringNullableFilter<"ServiceInvoice"> | string | null
+  softoneFindoc?: Prisma.IntNullableFilter<"ServiceInvoice"> | number | null
   createdAt?: Prisma.DateTimeFilter<"ServiceInvoice"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ServiceInvoice"> | Date | string
   customer?: Prisma.XOR<Prisma.CustomerScalarRelationFilter, Prisma.CustomerWhereInput>
@@ -278,6 +290,7 @@ export type ServiceInvoiceOrderByWithRelationInput = {
   dueDate?: Prisma.SortOrderInput | Prisma.SortOrder
   paidAt?: Prisma.SortOrderInput | Prisma.SortOrder
   vivaOrderRef?: Prisma.SortOrderInput | Prisma.SortOrder
+  softoneFindoc?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   customer?: Prisma.CustomerOrderByWithRelationInput
@@ -298,6 +311,7 @@ export type ServiceInvoiceWhereUniqueInput = Prisma.AtLeast<{
   dueDate?: Prisma.DateTimeNullableFilter<"ServiceInvoice"> | Date | string | null
   paidAt?: Prisma.DateTimeNullableFilter<"ServiceInvoice"> | Date | string | null
   vivaOrderRef?: Prisma.StringNullableFilter<"ServiceInvoice"> | string | null
+  softoneFindoc?: Prisma.IntNullableFilter<"ServiceInvoice"> | number | null
   createdAt?: Prisma.DateTimeFilter<"ServiceInvoice"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ServiceInvoice"> | Date | string
   customer?: Prisma.XOR<Prisma.CustomerScalarRelationFilter, Prisma.CustomerWhereInput>
@@ -314,6 +328,7 @@ export type ServiceInvoiceOrderByWithAggregationInput = {
   dueDate?: Prisma.SortOrderInput | Prisma.SortOrder
   paidAt?: Prisma.SortOrderInput | Prisma.SortOrder
   vivaOrderRef?: Prisma.SortOrderInput | Prisma.SortOrder
+  softoneFindoc?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.ServiceInvoiceCountOrderByAggregateInput
@@ -336,6 +351,7 @@ export type ServiceInvoiceScalarWhereWithAggregatesInput = {
   dueDate?: Prisma.DateTimeNullableWithAggregatesFilter<"ServiceInvoice"> | Date | string | null
   paidAt?: Prisma.DateTimeNullableWithAggregatesFilter<"ServiceInvoice"> | Date | string | null
   vivaOrderRef?: Prisma.StringNullableWithAggregatesFilter<"ServiceInvoice"> | string | null
+  softoneFindoc?: Prisma.IntNullableWithAggregatesFilter<"ServiceInvoice"> | number | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"ServiceInvoice"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"ServiceInvoice"> | Date | string
 }
@@ -349,6 +365,7 @@ export type ServiceInvoiceCreateInput = {
   dueDate?: Date | string | null
   paidAt?: Date | string | null
   vivaOrderRef?: string | null
+  softoneFindoc?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   customer: Prisma.CustomerCreateNestedOneWithoutInvoicesInput
@@ -365,6 +382,7 @@ export type ServiceInvoiceUncheckedCreateInput = {
   dueDate?: Date | string | null
   paidAt?: Date | string | null
   vivaOrderRef?: string | null
+  softoneFindoc?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   lines?: Prisma.ServiceInvoiceLineUncheckedCreateNestedManyWithoutInvoiceInput
@@ -379,6 +397,7 @@ export type ServiceInvoiceUpdateInput = {
   dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   vivaOrderRef?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneFindoc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   customer?: Prisma.CustomerUpdateOneRequiredWithoutInvoicesNestedInput
@@ -395,6 +414,7 @@ export type ServiceInvoiceUncheckedUpdateInput = {
   dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   vivaOrderRef?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneFindoc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lines?: Prisma.ServiceInvoiceLineUncheckedUpdateManyWithoutInvoiceNestedInput
@@ -410,6 +430,7 @@ export type ServiceInvoiceCreateManyInput = {
   dueDate?: Date | string | null
   paidAt?: Date | string | null
   vivaOrderRef?: string | null
+  softoneFindoc?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -423,6 +444,7 @@ export type ServiceInvoiceUpdateManyMutationInput = {
   dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   vivaOrderRef?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneFindoc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -437,6 +459,7 @@ export type ServiceInvoiceUncheckedUpdateManyInput = {
   dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   vivaOrderRef?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneFindoc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -466,12 +489,14 @@ export type ServiceInvoiceCountOrderByAggregateInput = {
   dueDate?: Prisma.SortOrder
   paidAt?: Prisma.SortOrder
   vivaOrderRef?: Prisma.SortOrder
+  softoneFindoc?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type ServiceInvoiceAvgOrderByAggregateInput = {
   amount?: Prisma.SortOrder
+  softoneFindoc?: Prisma.SortOrder
 }
 
 export type ServiceInvoiceMaxOrderByAggregateInput = {
@@ -484,6 +509,7 @@ export type ServiceInvoiceMaxOrderByAggregateInput = {
   dueDate?: Prisma.SortOrder
   paidAt?: Prisma.SortOrder
   vivaOrderRef?: Prisma.SortOrder
+  softoneFindoc?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -498,12 +524,14 @@ export type ServiceInvoiceMinOrderByAggregateInput = {
   dueDate?: Prisma.SortOrder
   paidAt?: Prisma.SortOrder
   vivaOrderRef?: Prisma.SortOrder
+  softoneFindoc?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type ServiceInvoiceSumOrderByAggregateInput = {
   amount?: Prisma.SortOrder
+  softoneFindoc?: Prisma.SortOrder
 }
 
 export type ServiceInvoiceScalarRelationFilter = {
@@ -580,6 +608,7 @@ export type ServiceInvoiceCreateWithoutCustomerInput = {
   dueDate?: Date | string | null
   paidAt?: Date | string | null
   vivaOrderRef?: string | null
+  softoneFindoc?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   lines?: Prisma.ServiceInvoiceLineCreateNestedManyWithoutInvoiceInput
@@ -594,6 +623,7 @@ export type ServiceInvoiceUncheckedCreateWithoutCustomerInput = {
   dueDate?: Date | string | null
   paidAt?: Date | string | null
   vivaOrderRef?: string | null
+  softoneFindoc?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   lines?: Prisma.ServiceInvoiceLineUncheckedCreateNestedManyWithoutInvoiceInput
@@ -638,6 +668,7 @@ export type ServiceInvoiceScalarWhereInput = {
   dueDate?: Prisma.DateTimeNullableFilter<"ServiceInvoice"> | Date | string | null
   paidAt?: Prisma.DateTimeNullableFilter<"ServiceInvoice"> | Date | string | null
   vivaOrderRef?: Prisma.StringNullableFilter<"ServiceInvoice"> | string | null
+  softoneFindoc?: Prisma.IntNullableFilter<"ServiceInvoice"> | number | null
   createdAt?: Prisma.DateTimeFilter<"ServiceInvoice"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ServiceInvoice"> | Date | string
 }
@@ -651,6 +682,7 @@ export type ServiceInvoiceCreateWithoutLinesInput = {
   dueDate?: Date | string | null
   paidAt?: Date | string | null
   vivaOrderRef?: string | null
+  softoneFindoc?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   customer: Prisma.CustomerCreateNestedOneWithoutInvoicesInput
@@ -666,6 +698,7 @@ export type ServiceInvoiceUncheckedCreateWithoutLinesInput = {
   dueDate?: Date | string | null
   paidAt?: Date | string | null
   vivaOrderRef?: string | null
+  softoneFindoc?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -695,6 +728,7 @@ export type ServiceInvoiceUpdateWithoutLinesInput = {
   dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   vivaOrderRef?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneFindoc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   customer?: Prisma.CustomerUpdateOneRequiredWithoutInvoicesNestedInput
@@ -710,6 +744,7 @@ export type ServiceInvoiceUncheckedUpdateWithoutLinesInput = {
   dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   vivaOrderRef?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneFindoc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -723,6 +758,7 @@ export type ServiceInvoiceCreateManyCustomerInput = {
   dueDate?: Date | string | null
   paidAt?: Date | string | null
   vivaOrderRef?: string | null
+  softoneFindoc?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -736,6 +772,7 @@ export type ServiceInvoiceUpdateWithoutCustomerInput = {
   dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   vivaOrderRef?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneFindoc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lines?: Prisma.ServiceInvoiceLineUpdateManyWithoutInvoiceNestedInput
@@ -750,6 +787,7 @@ export type ServiceInvoiceUncheckedUpdateWithoutCustomerInput = {
   dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   vivaOrderRef?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneFindoc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lines?: Prisma.ServiceInvoiceLineUncheckedUpdateManyWithoutInvoiceNestedInput
@@ -764,6 +802,7 @@ export type ServiceInvoiceUncheckedUpdateManyWithoutCustomerInput = {
   dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   vivaOrderRef?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneFindoc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -809,6 +848,7 @@ export type ServiceInvoiceSelect<ExtArgs extends runtime.Types.Extensions.Intern
   dueDate?: boolean
   paidAt?: boolean
   vivaOrderRef?: boolean
+  softoneFindoc?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
@@ -826,6 +866,7 @@ export type ServiceInvoiceSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   dueDate?: boolean
   paidAt?: boolean
   vivaOrderRef?: boolean
+  softoneFindoc?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
@@ -841,6 +882,7 @@ export type ServiceInvoiceSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   dueDate?: boolean
   paidAt?: boolean
   vivaOrderRef?: boolean
+  softoneFindoc?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
@@ -856,11 +898,12 @@ export type ServiceInvoiceSelectScalar = {
   dueDate?: boolean
   paidAt?: boolean
   vivaOrderRef?: boolean
+  softoneFindoc?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type ServiceInvoiceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "customerId" | "period" | "amount" | "status" | "issuedAt" | "dueDate" | "paidAt" | "vivaOrderRef" | "createdAt" | "updatedAt", ExtArgs["result"]["serviceInvoice"]>
+export type ServiceInvoiceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "customerId" | "period" | "amount" | "status" | "issuedAt" | "dueDate" | "paidAt" | "vivaOrderRef" | "softoneFindoc" | "createdAt" | "updatedAt", ExtArgs["result"]["serviceInvoice"]>
 export type ServiceInvoiceInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
   lines?: boolean | Prisma.ServiceInvoice$linesArgs<ExtArgs>
@@ -889,6 +932,7 @@ export type $ServiceInvoicePayload<ExtArgs extends runtime.Types.Extensions.Inte
     dueDate: Date | null
     paidAt: Date | null
     vivaOrderRef: string | null
+    softoneFindoc: number | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["serviceInvoice"]>
@@ -1325,6 +1369,7 @@ export interface ServiceInvoiceFieldRefs {
   readonly dueDate: Prisma.FieldRef<"ServiceInvoice", 'DateTime'>
   readonly paidAt: Prisma.FieldRef<"ServiceInvoice", 'DateTime'>
   readonly vivaOrderRef: Prisma.FieldRef<"ServiceInvoice", 'String'>
+  readonly softoneFindoc: Prisma.FieldRef<"ServiceInvoice", 'Int'>
   readonly createdAt: Prisma.FieldRef<"ServiceInvoice", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"ServiceInvoice", 'DateTime'>
 }

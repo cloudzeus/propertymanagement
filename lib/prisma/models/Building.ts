@@ -33,6 +33,7 @@ export type BuildingAvgAggregateOutputType = {
   elevatorSurchargePerFloor: number | null
   lat: number | null
   lng: number | null
+  softonePrjc: number | null
 }
 
 export type BuildingSumAggregateOutputType = {
@@ -42,6 +43,7 @@ export type BuildingSumAggregateOutputType = {
   elevatorSurchargePerFloor: number | null
   lat: number | null
   lng: number | null
+  softonePrjc: number | null
 }
 
 export type BuildingMinAggregateOutputType = {
@@ -68,6 +70,7 @@ export type BuildingMinAggregateOutputType = {
   lat: number | null
   lng: number | null
   dailyRoomName: string | null
+  softonePrjc: number | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -96,6 +99,7 @@ export type BuildingMaxAggregateOutputType = {
   lat: number | null
   lng: number | null
   dailyRoomName: string | null
+  softonePrjc: number | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -124,6 +128,7 @@ export type BuildingCountAggregateOutputType = {
   lat: number
   lng: number
   dailyRoomName: number
+  softonePrjc: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -137,6 +142,7 @@ export type BuildingAvgAggregateInputType = {
   elevatorSurchargePerFloor?: true
   lat?: true
   lng?: true
+  softonePrjc?: true
 }
 
 export type BuildingSumAggregateInputType = {
@@ -146,6 +152,7 @@ export type BuildingSumAggregateInputType = {
   elevatorSurchargePerFloor?: true
   lat?: true
   lng?: true
+  softonePrjc?: true
 }
 
 export type BuildingMinAggregateInputType = {
@@ -172,6 +179,7 @@ export type BuildingMinAggregateInputType = {
   lat?: true
   lng?: true
   dailyRoomName?: true
+  softonePrjc?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -200,6 +208,7 @@ export type BuildingMaxAggregateInputType = {
   lat?: true
   lng?: true
   dailyRoomName?: true
+  softonePrjc?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -228,6 +237,7 @@ export type BuildingCountAggregateInputType = {
   lat?: true
   lng?: true
   dailyRoomName?: true
+  softonePrjc?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -343,6 +353,7 @@ export type BuildingGroupByOutputType = {
   lat: number | null
   lng: number | null
   dailyRoomName: string | null
+  softonePrjc: number | null
   createdAt: Date
   updatedAt: Date
   _count: BuildingCountAggregateOutputType | null
@@ -394,6 +405,7 @@ export type BuildingWhereInput = {
   lat?: Prisma.FloatNullableFilter<"Building"> | number | null
   lng?: Prisma.FloatNullableFilter<"Building"> | number | null
   dailyRoomName?: Prisma.StringNullableFilter<"Building"> | string | null
+  softonePrjc?: Prisma.IntNullableFilter<"Building"> | number | null
   createdAt?: Prisma.DateTimeFilter<"Building"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Building"> | Date | string
   company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
@@ -447,6 +459,7 @@ export type BuildingOrderByWithRelationInput = {
   lat?: Prisma.SortOrderInput | Prisma.SortOrder
   lng?: Prisma.SortOrderInput | Prisma.SortOrder
   dailyRoomName?: Prisma.SortOrderInput | Prisma.SortOrder
+  softonePrjc?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   company?: Prisma.CompanyOrderByWithRelationInput
@@ -503,6 +516,7 @@ export type BuildingWhereUniqueInput = Prisma.AtLeast<{
   lat?: Prisma.FloatNullableFilter<"Building"> | number | null
   lng?: Prisma.FloatNullableFilter<"Building"> | number | null
   dailyRoomName?: Prisma.StringNullableFilter<"Building"> | string | null
+  softonePrjc?: Prisma.IntNullableFilter<"Building"> | number | null
   createdAt?: Prisma.DateTimeFilter<"Building"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Building"> | Date | string
   company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
@@ -556,6 +570,7 @@ export type BuildingOrderByWithAggregationInput = {
   lat?: Prisma.SortOrderInput | Prisma.SortOrder
   lng?: Prisma.SortOrderInput | Prisma.SortOrder
   dailyRoomName?: Prisma.SortOrderInput | Prisma.SortOrder
+  softonePrjc?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.BuildingCountOrderByAggregateInput
@@ -592,6 +607,7 @@ export type BuildingScalarWhereWithAggregatesInput = {
   lat?: Prisma.FloatNullableWithAggregatesFilter<"Building"> | number | null
   lng?: Prisma.FloatNullableWithAggregatesFilter<"Building"> | number | null
   dailyRoomName?: Prisma.StringNullableWithAggregatesFilter<"Building"> | string | null
+  softonePrjc?: Prisma.IntNullableWithAggregatesFilter<"Building"> | number | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Building"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Building"> | Date | string
 }
@@ -617,6 +633,7 @@ export type BuildingCreateInput = {
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
+  softonePrjc?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
@@ -670,6 +687,7 @@ export type BuildingUncheckedCreateInput = {
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
+  softonePrjc?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
@@ -717,6 +735,7 @@ export type BuildingUpdateInput = {
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
@@ -770,6 +789,7 @@ export type BuildingUncheckedUpdateInput = {
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
@@ -820,6 +840,7 @@ export type BuildingCreateManyInput = {
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
+  softonePrjc?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -845,6 +866,7 @@ export type BuildingUpdateManyMutationInput = {
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -873,6 +895,7 @@ export type BuildingUncheckedUpdateManyInput = {
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -916,6 +939,7 @@ export type BuildingCountOrderByAggregateInput = {
   lat?: Prisma.SortOrder
   lng?: Prisma.SortOrder
   dailyRoomName?: Prisma.SortOrder
+  softonePrjc?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -927,6 +951,7 @@ export type BuildingAvgOrderByAggregateInput = {
   elevatorSurchargePerFloor?: Prisma.SortOrder
   lat?: Prisma.SortOrder
   lng?: Prisma.SortOrder
+  softonePrjc?: Prisma.SortOrder
 }
 
 export type BuildingMaxOrderByAggregateInput = {
@@ -953,6 +978,7 @@ export type BuildingMaxOrderByAggregateInput = {
   lat?: Prisma.SortOrder
   lng?: Prisma.SortOrder
   dailyRoomName?: Prisma.SortOrder
+  softonePrjc?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -981,6 +1007,7 @@ export type BuildingMinOrderByAggregateInput = {
   lat?: Prisma.SortOrder
   lng?: Prisma.SortOrder
   dailyRoomName?: Prisma.SortOrder
+  softonePrjc?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -992,6 +1019,7 @@ export type BuildingSumOrderByAggregateInput = {
   elevatorSurchargePerFloor?: Prisma.SortOrder
   lat?: Prisma.SortOrder
   lng?: Prisma.SortOrder
+  softonePrjc?: Prisma.SortOrder
 }
 
 export type BuildingScalarRelationFilter = {
@@ -1462,6 +1490,7 @@ export type BuildingCreateWithoutUsersInput = {
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
+  softonePrjc?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
@@ -1514,6 +1543,7 @@ export type BuildingUncheckedCreateWithoutUsersInput = {
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
+  softonePrjc?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   units?: Prisma.UnitUncheckedCreateNestedManyWithoutBuildingInput
@@ -1576,6 +1606,7 @@ export type BuildingUpdateWithoutUsersInput = {
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
@@ -1628,6 +1659,7 @@ export type BuildingUncheckedUpdateWithoutUsersInput = {
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   units?: Prisma.UnitUncheckedUpdateManyWithoutBuildingNestedInput
@@ -1674,6 +1706,7 @@ export type BuildingCreateWithoutCompanyInput = {
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
+  softonePrjc?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   property: Prisma.PropertyCreateNestedOneWithoutBuildingsInput
@@ -1725,6 +1758,7 @@ export type BuildingUncheckedCreateWithoutCompanyInput = {
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
+  softonePrjc?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
@@ -1804,6 +1838,7 @@ export type BuildingScalarWhereInput = {
   lat?: Prisma.FloatNullableFilter<"Building"> | number | null
   lng?: Prisma.FloatNullableFilter<"Building"> | number | null
   dailyRoomName?: Prisma.StringNullableFilter<"Building"> | string | null
+  softonePrjc?: Prisma.IntNullableFilter<"Building"> | number | null
   createdAt?: Prisma.DateTimeFilter<"Building"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Building"> | Date | string
 }
@@ -1829,6 +1864,7 @@ export type BuildingCreateWithoutAddonsInput = {
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
+  softonePrjc?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
@@ -1881,6 +1917,7 @@ export type BuildingUncheckedCreateWithoutAddonsInput = {
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
+  softonePrjc?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
@@ -1943,6 +1980,7 @@ export type BuildingUpdateWithoutAddonsInput = {
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
@@ -1995,6 +2033,7 @@ export type BuildingUncheckedUpdateWithoutAddonsInput = {
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
@@ -2041,6 +2080,7 @@ export type BuildingCreateWithoutCustomerInput = {
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
+  softonePrjc?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
@@ -2092,6 +2132,7 @@ export type BuildingUncheckedCreateWithoutCustomerInput = {
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
+  softonePrjc?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
@@ -2165,6 +2206,7 @@ export type BuildingCreateWithoutPropertyInput = {
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
+  softonePrjc?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
@@ -2216,6 +2258,7 @@ export type BuildingUncheckedCreateWithoutPropertyInput = {
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
+  softonePrjc?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
@@ -2289,6 +2332,7 @@ export type BuildingCreateWithoutFilesInput = {
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
+  softonePrjc?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
@@ -2341,6 +2385,7 @@ export type BuildingUncheckedCreateWithoutFilesInput = {
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
+  softonePrjc?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
@@ -2403,6 +2448,7 @@ export type BuildingUpdateWithoutFilesInput = {
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
@@ -2455,6 +2501,7 @@ export type BuildingUncheckedUpdateWithoutFilesInput = {
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
@@ -2501,6 +2548,7 @@ export type BuildingCreateWithoutInfraPointsInput = {
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
+  softonePrjc?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
@@ -2553,6 +2601,7 @@ export type BuildingUncheckedCreateWithoutInfraPointsInput = {
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
+  softonePrjc?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
@@ -2615,6 +2664,7 @@ export type BuildingUpdateWithoutInfraPointsInput = {
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
@@ -2667,6 +2717,7 @@ export type BuildingUncheckedUpdateWithoutInfraPointsInput = {
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
@@ -2713,6 +2764,7 @@ export type BuildingCreateWithoutContactsInput = {
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
+  softonePrjc?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
@@ -2765,6 +2817,7 @@ export type BuildingUncheckedCreateWithoutContactsInput = {
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
+  softonePrjc?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
@@ -2827,6 +2880,7 @@ export type BuildingUpdateWithoutContactsInput = {
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
@@ -2879,6 +2933,7 @@ export type BuildingUncheckedUpdateWithoutContactsInput = {
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
@@ -2925,6 +2980,7 @@ export type BuildingCreateWithoutRecurringTasksInput = {
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
+  softonePrjc?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
@@ -2977,6 +3033,7 @@ export type BuildingUncheckedCreateWithoutRecurringTasksInput = {
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
+  softonePrjc?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
@@ -3039,6 +3096,7 @@ export type BuildingUpdateWithoutRecurringTasksInput = {
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
@@ -3091,6 +3149,7 @@ export type BuildingUncheckedUpdateWithoutRecurringTasksInput = {
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
@@ -3137,6 +3196,7 @@ export type BuildingCreateWithoutMaintenanceLogsInput = {
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
+  softonePrjc?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
@@ -3189,6 +3249,7 @@ export type BuildingUncheckedCreateWithoutMaintenanceLogsInput = {
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
+  softonePrjc?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
@@ -3251,6 +3312,7 @@ export type BuildingUpdateWithoutMaintenanceLogsInput = {
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
@@ -3303,6 +3365,7 @@ export type BuildingUncheckedUpdateWithoutMaintenanceLogsInput = {
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
@@ -3349,6 +3412,7 @@ export type BuildingCreateWithoutExpensesInput = {
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
+  softonePrjc?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
@@ -3401,6 +3465,7 @@ export type BuildingUncheckedCreateWithoutExpensesInput = {
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
+  softonePrjc?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
@@ -3463,6 +3528,7 @@ export type BuildingUpdateWithoutExpensesInput = {
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
@@ -3515,6 +3581,7 @@ export type BuildingUncheckedUpdateWithoutExpensesInput = {
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
@@ -3561,6 +3628,7 @@ export type BuildingCreateWithoutCategoryOverridesInput = {
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
+  softonePrjc?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
@@ -3613,6 +3681,7 @@ export type BuildingUncheckedCreateWithoutCategoryOverridesInput = {
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
+  softonePrjc?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
@@ -3675,6 +3744,7 @@ export type BuildingUpdateWithoutCategoryOverridesInput = {
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
@@ -3727,6 +3797,7 @@ export type BuildingUncheckedUpdateWithoutCategoryOverridesInput = {
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
@@ -3773,6 +3844,7 @@ export type BuildingCreateWithoutHeatingReadingsInput = {
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
+  softonePrjc?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
@@ -3825,6 +3897,7 @@ export type BuildingUncheckedCreateWithoutHeatingReadingsInput = {
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
+  softonePrjc?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
@@ -3887,6 +3960,7 @@ export type BuildingUpdateWithoutHeatingReadingsInput = {
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
@@ -3939,6 +4013,7 @@ export type BuildingUncheckedUpdateWithoutHeatingReadingsInput = {
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
@@ -3985,6 +4060,7 @@ export type BuildingCreateWithoutMeterReadingsInput = {
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
+  softonePrjc?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
@@ -4037,6 +4113,7 @@ export type BuildingUncheckedCreateWithoutMeterReadingsInput = {
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
+  softonePrjc?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
@@ -4099,6 +4176,7 @@ export type BuildingUpdateWithoutMeterReadingsInput = {
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
@@ -4151,6 +4229,7 @@ export type BuildingUncheckedUpdateWithoutMeterReadingsInput = {
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
@@ -4197,6 +4276,7 @@ export type BuildingCreateWithoutManagementAssignmentsInput = {
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
+  softonePrjc?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
@@ -4249,6 +4329,7 @@ export type BuildingUncheckedCreateWithoutManagementAssignmentsInput = {
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
+  softonePrjc?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
@@ -4311,6 +4392,7 @@ export type BuildingUpdateWithoutManagementAssignmentsInput = {
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
@@ -4363,6 +4445,7 @@ export type BuildingUncheckedUpdateWithoutManagementAssignmentsInput = {
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
@@ -4409,6 +4492,7 @@ export type BuildingCreateWithoutCommonAreasInput = {
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
+  softonePrjc?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
@@ -4461,6 +4545,7 @@ export type BuildingUncheckedCreateWithoutCommonAreasInput = {
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
+  softonePrjc?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
@@ -4523,6 +4608,7 @@ export type BuildingUpdateWithoutCommonAreasInput = {
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
@@ -4575,6 +4661,7 @@ export type BuildingUncheckedUpdateWithoutCommonAreasInput = {
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
@@ -4621,6 +4708,7 @@ export type BuildingCreateWithoutManagedItemsInput = {
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
+  softonePrjc?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
@@ -4673,6 +4761,7 @@ export type BuildingUncheckedCreateWithoutManagedItemsInput = {
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
+  softonePrjc?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
@@ -4735,6 +4824,7 @@ export type BuildingUpdateWithoutManagedItemsInput = {
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
@@ -4787,6 +4877,7 @@ export type BuildingUncheckedUpdateWithoutManagedItemsInput = {
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
@@ -4833,6 +4924,7 @@ export type BuildingCreateWithoutUnitsInput = {
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
+  softonePrjc?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
@@ -4885,6 +4977,7 @@ export type BuildingUncheckedCreateWithoutUnitsInput = {
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
+  softonePrjc?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
@@ -4947,6 +5040,7 @@ export type BuildingUpdateWithoutUnitsInput = {
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
@@ -4999,6 +5093,7 @@ export type BuildingUncheckedUpdateWithoutUnitsInput = {
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
@@ -5045,6 +5140,7 @@ export type BuildingCreateWithoutAnnouncementsInput = {
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
+  softonePrjc?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
@@ -5097,6 +5193,7 @@ export type BuildingUncheckedCreateWithoutAnnouncementsInput = {
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
+  softonePrjc?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
@@ -5159,6 +5256,7 @@ export type BuildingUpdateWithoutAnnouncementsInput = {
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
@@ -5211,6 +5309,7 @@ export type BuildingUncheckedUpdateWithoutAnnouncementsInput = {
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
@@ -5257,6 +5356,7 @@ export type BuildingCreateWithoutAssembliesInput = {
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
+  softonePrjc?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
@@ -5309,6 +5409,7 @@ export type BuildingUncheckedCreateWithoutAssembliesInput = {
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
+  softonePrjc?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
@@ -5371,6 +5472,7 @@ export type BuildingUpdateWithoutAssembliesInput = {
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
@@ -5423,6 +5525,7 @@ export type BuildingUncheckedUpdateWithoutAssembliesInput = {
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
@@ -5469,6 +5572,7 @@ export type BuildingCreateWithoutMaintenanceRequestsInput = {
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
+  softonePrjc?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
@@ -5521,6 +5625,7 @@ export type BuildingUncheckedCreateWithoutMaintenanceRequestsInput = {
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
+  softonePrjc?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
@@ -5583,6 +5688,7 @@ export type BuildingUpdateWithoutMaintenanceRequestsInput = {
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
@@ -5635,6 +5741,7 @@ export type BuildingUncheckedUpdateWithoutMaintenanceRequestsInput = {
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
@@ -5681,6 +5788,7 @@ export type BuildingCreateWithoutPreferredSuppliersInput = {
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
+  softonePrjc?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
@@ -5733,6 +5841,7 @@ export type BuildingUncheckedCreateWithoutPreferredSuppliersInput = {
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
+  softonePrjc?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
@@ -5795,6 +5904,7 @@ export type BuildingUpdateWithoutPreferredSuppliersInput = {
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
@@ -5847,6 +5957,7 @@ export type BuildingUncheckedUpdateWithoutPreferredSuppliersInput = {
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
@@ -5893,6 +6004,7 @@ export type BuildingCreateWithoutServiceRequestsInput = {
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
+  softonePrjc?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
@@ -5945,6 +6057,7 @@ export type BuildingUncheckedCreateWithoutServiceRequestsInput = {
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
+  softonePrjc?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
@@ -6007,6 +6120,7 @@ export type BuildingUpdateWithoutServiceRequestsInput = {
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
@@ -6059,6 +6173,7 @@ export type BuildingUncheckedUpdateWithoutServiceRequestsInput = {
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
@@ -6105,6 +6220,7 @@ export type BuildingCreateWithoutWorkOrdersInput = {
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
+  softonePrjc?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
@@ -6157,6 +6273,7 @@ export type BuildingUncheckedCreateWithoutWorkOrdersInput = {
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
+  softonePrjc?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
@@ -6219,6 +6336,7 @@ export type BuildingUpdateWithoutWorkOrdersInput = {
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
@@ -6271,6 +6389,7 @@ export type BuildingUncheckedUpdateWithoutWorkOrdersInput = {
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
@@ -6317,6 +6436,7 @@ export type BuildingCreateWithoutSupplierInquiriesInput = {
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
+  softonePrjc?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
@@ -6369,6 +6489,7 @@ export type BuildingUncheckedCreateWithoutSupplierInquiriesInput = {
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
+  softonePrjc?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
@@ -6431,6 +6552,7 @@ export type BuildingUpdateWithoutSupplierInquiriesInput = {
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
@@ -6483,6 +6605,7 @@ export type BuildingUncheckedUpdateWithoutSupplierInquiriesInput = {
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
@@ -6531,6 +6654,7 @@ export type BuildingCreateManyCompanyInput = {
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
+  softonePrjc?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -6556,6 +6680,7 @@ export type BuildingUpdateWithoutCompanyInput = {
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   property?: Prisma.PropertyUpdateOneRequiredWithoutBuildingsNestedInput
@@ -6607,6 +6732,7 @@ export type BuildingUncheckedUpdateWithoutCompanyInput = {
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
@@ -6656,6 +6782,7 @@ export type BuildingUncheckedUpdateManyWithoutCompanyInput = {
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -6683,6 +6810,7 @@ export type BuildingCreateManyCustomerInput = {
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
+  softonePrjc?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -6708,6 +6836,7 @@ export type BuildingUpdateWithoutCustomerInput = {
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
@@ -6759,6 +6888,7 @@ export type BuildingUncheckedUpdateWithoutCustomerInput = {
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
@@ -6808,6 +6938,7 @@ export type BuildingUncheckedUpdateManyWithoutCustomerInput = {
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -6835,6 +6966,7 @@ export type BuildingCreateManyPropertyInput = {
   lat?: number | null
   lng?: number | null
   dailyRoomName?: string | null
+  softonePrjc?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -6860,6 +6992,7 @@ export type BuildingUpdateWithoutPropertyInput = {
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
@@ -6911,6 +7044,7 @@ export type BuildingUncheckedUpdateWithoutPropertyInput = {
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
@@ -6960,6 +7094,7 @@ export type BuildingUncheckedUpdateManyWithoutPropertyInput = {
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -7208,6 +7343,7 @@ export type BuildingSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   lat?: boolean
   lng?: boolean
   dailyRoomName?: boolean
+  softonePrjc?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
@@ -7262,6 +7398,7 @@ export type BuildingSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   lat?: boolean
   lng?: boolean
   dailyRoomName?: boolean
+  softonePrjc?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
@@ -7293,6 +7430,7 @@ export type BuildingSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   lat?: boolean
   lng?: boolean
   dailyRoomName?: boolean
+  softonePrjc?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
@@ -7324,11 +7462,12 @@ export type BuildingSelectScalar = {
   lat?: boolean
   lng?: boolean
   dailyRoomName?: boolean
+  softonePrjc?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type BuildingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "companyId" | "propertyId" | "customerId" | "name" | "address" | "city" | "postalCode" | "country" | "imageUrl" | "floors" | "basements" | "unitsCount" | "hasElevator" | "hasBoiler" | "hasFireSafety" | "technicalNotes" | "elevatorSurchargePerFloor" | "elevatorExemptGroundFloor" | "heatingMeterUnit" | "lat" | "lng" | "dailyRoomName" | "createdAt" | "updatedAt", ExtArgs["result"]["building"]>
+export type BuildingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "companyId" | "propertyId" | "customerId" | "name" | "address" | "city" | "postalCode" | "country" | "imageUrl" | "floors" | "basements" | "unitsCount" | "hasElevator" | "hasBoiler" | "hasFireSafety" | "technicalNotes" | "elevatorSurchargePerFloor" | "elevatorExemptGroundFloor" | "heatingMeterUnit" | "lat" | "lng" | "dailyRoomName" | "softonePrjc" | "createdAt" | "updatedAt", ExtArgs["result"]["building"]>
 export type BuildingInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
   property?: boolean | Prisma.PropertyDefaultArgs<ExtArgs>
@@ -7421,6 +7560,7 @@ export type $BuildingPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     lat: number | null
     lng: number | null
     dailyRoomName: string | null
+    softonePrjc: number | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["building"]>
@@ -7894,6 +8034,7 @@ export interface BuildingFieldRefs {
   readonly lat: Prisma.FieldRef<"Building", 'Float'>
   readonly lng: Prisma.FieldRef<"Building", 'Float'>
   readonly dailyRoomName: Prisma.FieldRef<"Building", 'String'>
+  readonly softonePrjc: Prisma.FieldRef<"Building", 'Int'>
   readonly createdAt: Prisma.FieldRef<"Building", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Building", 'DateTime'>
 }

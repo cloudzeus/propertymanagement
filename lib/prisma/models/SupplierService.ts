@@ -30,12 +30,14 @@ export type SupplierServiceAvgAggregateOutputType = {
   price: runtime.Decimal | null
   vatPct: number | null
   sortOrder: number | null
+  softoneMtrl: number | null
 }
 
 export type SupplierServiceSumAggregateOutputType = {
   price: runtime.Decimal | null
   vatPct: number | null
   sortOrder: number | null
+  softoneMtrl: number | null
 }
 
 export type SupplierServiceMinAggregateOutputType = {
@@ -49,6 +51,7 @@ export type SupplierServiceMinAggregateOutputType = {
   vatPct: number | null
   active: boolean | null
   sortOrder: number | null
+  softoneMtrl: number | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -64,6 +67,7 @@ export type SupplierServiceMaxAggregateOutputType = {
   vatPct: number | null
   active: boolean | null
   sortOrder: number | null
+  softoneMtrl: number | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -79,6 +83,7 @@ export type SupplierServiceCountAggregateOutputType = {
   vatPct: number
   active: number
   sortOrder: number
+  softoneMtrl: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -89,12 +94,14 @@ export type SupplierServiceAvgAggregateInputType = {
   price?: true
   vatPct?: true
   sortOrder?: true
+  softoneMtrl?: true
 }
 
 export type SupplierServiceSumAggregateInputType = {
   price?: true
   vatPct?: true
   sortOrder?: true
+  softoneMtrl?: true
 }
 
 export type SupplierServiceMinAggregateInputType = {
@@ -108,6 +115,7 @@ export type SupplierServiceMinAggregateInputType = {
   vatPct?: true
   active?: true
   sortOrder?: true
+  softoneMtrl?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -123,6 +131,7 @@ export type SupplierServiceMaxAggregateInputType = {
   vatPct?: true
   active?: true
   sortOrder?: true
+  softoneMtrl?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -138,6 +147,7 @@ export type SupplierServiceCountAggregateInputType = {
   vatPct?: true
   active?: true
   sortOrder?: true
+  softoneMtrl?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -240,6 +250,7 @@ export type SupplierServiceGroupByOutputType = {
   vatPct: number
   active: boolean
   sortOrder: number
+  softoneMtrl: number | null
   createdAt: Date
   updatedAt: Date
   _count: SupplierServiceCountAggregateOutputType | null
@@ -278,6 +289,7 @@ export type SupplierServiceWhereInput = {
   vatPct?: Prisma.IntFilter<"SupplierService"> | number
   active?: Prisma.BoolFilter<"SupplierService"> | boolean
   sortOrder?: Prisma.IntFilter<"SupplierService"> | number
+  softoneMtrl?: Prisma.IntNullableFilter<"SupplierService"> | number | null
   createdAt?: Prisma.DateTimeFilter<"SupplierService"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"SupplierService"> | Date | string
   supplier?: Prisma.XOR<Prisma.SupplierScalarRelationFilter, Prisma.SupplierWhereInput>
@@ -295,6 +307,7 @@ export type SupplierServiceOrderByWithRelationInput = {
   vatPct?: Prisma.SortOrder
   active?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
+  softoneMtrl?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   supplier?: Prisma.SupplierOrderByWithRelationInput
@@ -315,6 +328,7 @@ export type SupplierServiceWhereUniqueInput = Prisma.AtLeast<{
   vatPct?: Prisma.IntFilter<"SupplierService"> | number
   active?: Prisma.BoolFilter<"SupplierService"> | boolean
   sortOrder?: Prisma.IntFilter<"SupplierService"> | number
+  softoneMtrl?: Prisma.IntNullableFilter<"SupplierService"> | number | null
   createdAt?: Prisma.DateTimeFilter<"SupplierService"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"SupplierService"> | Date | string
   supplier?: Prisma.XOR<Prisma.SupplierScalarRelationFilter, Prisma.SupplierWhereInput>
@@ -332,6 +346,7 @@ export type SupplierServiceOrderByWithAggregationInput = {
   vatPct?: Prisma.SortOrder
   active?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
+  softoneMtrl?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.SupplierServiceCountOrderByAggregateInput
@@ -355,6 +370,7 @@ export type SupplierServiceScalarWhereWithAggregatesInput = {
   vatPct?: Prisma.IntWithAggregatesFilter<"SupplierService"> | number
   active?: Prisma.BoolWithAggregatesFilter<"SupplierService"> | boolean
   sortOrder?: Prisma.IntWithAggregatesFilter<"SupplierService"> | number
+  softoneMtrl?: Prisma.IntNullableWithAggregatesFilter<"SupplierService"> | number | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"SupplierService"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"SupplierService"> | Date | string
 }
@@ -368,6 +384,7 @@ export type SupplierServiceCreateInput = {
   vatPct?: number
   active?: boolean
   sortOrder?: number
+  softoneMtrl?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   supplier: Prisma.SupplierCreateNestedOneWithoutServicesInput
@@ -385,6 +402,7 @@ export type SupplierServiceUncheckedCreateInput = {
   vatPct?: number
   active?: boolean
   sortOrder?: number
+  softoneMtrl?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -398,6 +416,7 @@ export type SupplierServiceUpdateInput = {
   vatPct?: Prisma.IntFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  softoneMtrl?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   supplier?: Prisma.SupplierUpdateOneRequiredWithoutServicesNestedInput
@@ -415,6 +434,7 @@ export type SupplierServiceUncheckedUpdateInput = {
   vatPct?: Prisma.IntFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  softoneMtrl?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -430,6 +450,7 @@ export type SupplierServiceCreateManyInput = {
   vatPct?: number
   active?: boolean
   sortOrder?: number
+  softoneMtrl?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -443,6 +464,7 @@ export type SupplierServiceUpdateManyMutationInput = {
   vatPct?: Prisma.IntFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  softoneMtrl?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -458,6 +480,7 @@ export type SupplierServiceUncheckedUpdateManyInput = {
   vatPct?: Prisma.IntFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  softoneMtrl?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -483,6 +506,7 @@ export type SupplierServiceCountOrderByAggregateInput = {
   vatPct?: Prisma.SortOrder
   active?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
+  softoneMtrl?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -491,6 +515,7 @@ export type SupplierServiceAvgOrderByAggregateInput = {
   price?: Prisma.SortOrder
   vatPct?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
+  softoneMtrl?: Prisma.SortOrder
 }
 
 export type SupplierServiceMaxOrderByAggregateInput = {
@@ -504,6 +529,7 @@ export type SupplierServiceMaxOrderByAggregateInput = {
   vatPct?: Prisma.SortOrder
   active?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
+  softoneMtrl?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -519,6 +545,7 @@ export type SupplierServiceMinOrderByAggregateInput = {
   vatPct?: Prisma.SortOrder
   active?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
+  softoneMtrl?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -527,6 +554,7 @@ export type SupplierServiceSumOrderByAggregateInput = {
   price?: Prisma.SortOrder
   vatPct?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
+  softoneMtrl?: Prisma.SortOrder
 }
 
 export type SupplierServiceCreateNestedManyWithoutSupplierInput = {
@@ -622,6 +650,7 @@ export type SupplierServiceCreateWithoutSupplierInput = {
   vatPct?: number
   active?: boolean
   sortOrder?: number
+  softoneMtrl?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   catalogItem?: Prisma.ServiceCatalogItemCreateNestedOneWithoutSupplierServicesInput
@@ -637,6 +666,7 @@ export type SupplierServiceUncheckedCreateWithoutSupplierInput = {
   vatPct?: number
   active?: boolean
   sortOrder?: number
+  softoneMtrl?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -681,6 +711,7 @@ export type SupplierServiceScalarWhereInput = {
   vatPct?: Prisma.IntFilter<"SupplierService"> | number
   active?: Prisma.BoolFilter<"SupplierService"> | boolean
   sortOrder?: Prisma.IntFilter<"SupplierService"> | number
+  softoneMtrl?: Prisma.IntNullableFilter<"SupplierService"> | number | null
   createdAt?: Prisma.DateTimeFilter<"SupplierService"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"SupplierService"> | Date | string
 }
@@ -694,6 +725,7 @@ export type SupplierServiceCreateWithoutCatalogItemInput = {
   vatPct?: number
   active?: boolean
   sortOrder?: number
+  softoneMtrl?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   supplier: Prisma.SupplierCreateNestedOneWithoutServicesInput
@@ -709,6 +741,7 @@ export type SupplierServiceUncheckedCreateWithoutCatalogItemInput = {
   vatPct?: number
   active?: boolean
   sortOrder?: number
+  softoneMtrl?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -749,6 +782,7 @@ export type SupplierServiceCreateManySupplierInput = {
   vatPct?: number
   active?: boolean
   sortOrder?: number
+  softoneMtrl?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -762,6 +796,7 @@ export type SupplierServiceUpdateWithoutSupplierInput = {
   vatPct?: Prisma.IntFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  softoneMtrl?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   catalogItem?: Prisma.ServiceCatalogItemUpdateOneWithoutSupplierServicesNestedInput
@@ -777,6 +812,7 @@ export type SupplierServiceUncheckedUpdateWithoutSupplierInput = {
   vatPct?: Prisma.IntFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  softoneMtrl?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -791,6 +827,7 @@ export type SupplierServiceUncheckedUpdateManyWithoutSupplierInput = {
   vatPct?: Prisma.IntFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  softoneMtrl?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -805,6 +842,7 @@ export type SupplierServiceCreateManyCatalogItemInput = {
   vatPct?: number
   active?: boolean
   sortOrder?: number
+  softoneMtrl?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -818,6 +856,7 @@ export type SupplierServiceUpdateWithoutCatalogItemInput = {
   vatPct?: Prisma.IntFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  softoneMtrl?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   supplier?: Prisma.SupplierUpdateOneRequiredWithoutServicesNestedInput
@@ -833,6 +872,7 @@ export type SupplierServiceUncheckedUpdateWithoutCatalogItemInput = {
   vatPct?: Prisma.IntFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  softoneMtrl?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -847,6 +887,7 @@ export type SupplierServiceUncheckedUpdateManyWithoutCatalogItemInput = {
   vatPct?: Prisma.IntFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  softoneMtrl?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -864,6 +905,7 @@ export type SupplierServiceSelect<ExtArgs extends runtime.Types.Extensions.Inter
   vatPct?: boolean
   active?: boolean
   sortOrder?: boolean
+  softoneMtrl?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   supplier?: boolean | Prisma.SupplierDefaultArgs<ExtArgs>
@@ -881,6 +923,7 @@ export type SupplierServiceSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
   vatPct?: boolean
   active?: boolean
   sortOrder?: boolean
+  softoneMtrl?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   supplier?: boolean | Prisma.SupplierDefaultArgs<ExtArgs>
@@ -898,6 +941,7 @@ export type SupplierServiceSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   vatPct?: boolean
   active?: boolean
   sortOrder?: boolean
+  softoneMtrl?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   supplier?: boolean | Prisma.SupplierDefaultArgs<ExtArgs>
@@ -915,11 +959,12 @@ export type SupplierServiceSelectScalar = {
   vatPct?: boolean
   active?: boolean
   sortOrder?: boolean
+  softoneMtrl?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type SupplierServiceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "supplierId" | "catalogItemId" | "name" | "description" | "unit" | "price" | "vatPct" | "active" | "sortOrder" | "createdAt" | "updatedAt", ExtArgs["result"]["supplierService"]>
+export type SupplierServiceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "supplierId" | "catalogItemId" | "name" | "description" | "unit" | "price" | "vatPct" | "active" | "sortOrder" | "softoneMtrl" | "createdAt" | "updatedAt", ExtArgs["result"]["supplierService"]>
 export type SupplierServiceInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   supplier?: boolean | Prisma.SupplierDefaultArgs<ExtArgs>
   catalogItem?: boolean | Prisma.SupplierService$catalogItemArgs<ExtArgs>
@@ -950,6 +995,7 @@ export type $SupplierServicePayload<ExtArgs extends runtime.Types.Extensions.Int
     vatPct: number
     active: boolean
     sortOrder: number
+    softoneMtrl: number | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["supplierService"]>
@@ -1387,6 +1433,7 @@ export interface SupplierServiceFieldRefs {
   readonly vatPct: Prisma.FieldRef<"SupplierService", 'Int'>
   readonly active: Prisma.FieldRef<"SupplierService", 'Boolean'>
   readonly sortOrder: Prisma.FieldRef<"SupplierService", 'Int'>
+  readonly softoneMtrl: Prisma.FieldRef<"SupplierService", 'Int'>
   readonly createdAt: Prisma.FieldRef<"SupplierService", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"SupplierService", 'DateTime'>
 }

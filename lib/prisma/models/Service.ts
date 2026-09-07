@@ -28,10 +28,12 @@ export type AggregateService = {
 
 export type ServiceAvgAggregateOutputType = {
   price: runtime.Decimal | null
+  softoneMtrl: number | null
 }
 
 export type ServiceSumAggregateOutputType = {
   price: runtime.Decimal | null
+  softoneMtrl: number | null
 }
 
 export type ServiceMinAggregateOutputType = {
@@ -44,6 +46,7 @@ export type ServiceMinAggregateOutputType = {
   pricingModel: $Enums.ServicePricingModel | null
   price: runtime.Decimal | null
   active: boolean | null
+  softoneMtrl: number | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -58,6 +61,7 @@ export type ServiceMaxAggregateOutputType = {
   pricingModel: $Enums.ServicePricingModel | null
   price: runtime.Decimal | null
   active: boolean | null
+  softoneMtrl: number | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -72,6 +76,7 @@ export type ServiceCountAggregateOutputType = {
   pricingModel: number
   price: number
   active: number
+  softoneMtrl: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -80,10 +85,12 @@ export type ServiceCountAggregateOutputType = {
 
 export type ServiceAvgAggregateInputType = {
   price?: true
+  softoneMtrl?: true
 }
 
 export type ServiceSumAggregateInputType = {
   price?: true
+  softoneMtrl?: true
 }
 
 export type ServiceMinAggregateInputType = {
@@ -96,6 +103,7 @@ export type ServiceMinAggregateInputType = {
   pricingModel?: true
   price?: true
   active?: true
+  softoneMtrl?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -110,6 +118,7 @@ export type ServiceMaxAggregateInputType = {
   pricingModel?: true
   price?: true
   active?: true
+  softoneMtrl?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -124,6 +133,7 @@ export type ServiceCountAggregateInputType = {
   pricingModel?: true
   price?: true
   active?: true
+  softoneMtrl?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -225,6 +235,7 @@ export type ServiceGroupByOutputType = {
   pricingModel: $Enums.ServicePricingModel
   price: runtime.Decimal
   active: boolean
+  softoneMtrl: number | null
   createdAt: Date
   updatedAt: Date
   _count: ServiceCountAggregateOutputType | null
@@ -262,6 +273,7 @@ export type ServiceWhereInput = {
   pricingModel?: Prisma.EnumServicePricingModelFilter<"Service"> | $Enums.ServicePricingModel
   price?: Prisma.DecimalFilter<"Service"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   active?: Prisma.BoolFilter<"Service"> | boolean
+  softoneMtrl?: Prisma.IntNullableFilter<"Service"> | number | null
   createdAt?: Prisma.DateTimeFilter<"Service"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Service"> | Date | string
   company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
@@ -278,6 +290,7 @@ export type ServiceOrderByWithRelationInput = {
   pricingModel?: Prisma.SortOrder
   price?: Prisma.SortOrder
   active?: Prisma.SortOrder
+  softoneMtrl?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   company?: Prisma.CompanyOrderByWithRelationInput
@@ -297,6 +310,7 @@ export type ServiceWhereUniqueInput = Prisma.AtLeast<{
   pricingModel?: Prisma.EnumServicePricingModelFilter<"Service"> | $Enums.ServicePricingModel
   price?: Prisma.DecimalFilter<"Service"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   active?: Prisma.BoolFilter<"Service"> | boolean
+  softoneMtrl?: Prisma.IntNullableFilter<"Service"> | number | null
   createdAt?: Prisma.DateTimeFilter<"Service"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Service"> | Date | string
   company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
@@ -313,6 +327,7 @@ export type ServiceOrderByWithAggregationInput = {
   pricingModel?: Prisma.SortOrder
   price?: Prisma.SortOrder
   active?: Prisma.SortOrder
+  softoneMtrl?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.ServiceCountOrderByAggregateInput
@@ -335,6 +350,7 @@ export type ServiceScalarWhereWithAggregatesInput = {
   pricingModel?: Prisma.EnumServicePricingModelWithAggregatesFilter<"Service"> | $Enums.ServicePricingModel
   price?: Prisma.DecimalWithAggregatesFilter<"Service"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   active?: Prisma.BoolWithAggregatesFilter<"Service"> | boolean
+  softoneMtrl?: Prisma.IntNullableWithAggregatesFilter<"Service"> | number | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Service"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Service"> | Date | string
 }
@@ -348,6 +364,7 @@ export type ServiceCreateInput = {
   pricingModel: $Enums.ServicePricingModel
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   active?: boolean
+  softoneMtrl?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutServicesInput
@@ -364,6 +381,7 @@ export type ServiceUncheckedCreateInput = {
   pricingModel: $Enums.ServicePricingModel
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   active?: boolean
+  softoneMtrl?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   propertyServices?: Prisma.PropertyServiceUncheckedCreateNestedManyWithoutServiceInput
@@ -378,6 +396,7 @@ export type ServiceUpdateInput = {
   pricingModel?: Prisma.EnumServicePricingModelFieldUpdateOperationsInput | $Enums.ServicePricingModel
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  softoneMtrl?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutServicesNestedInput
@@ -394,6 +413,7 @@ export type ServiceUncheckedUpdateInput = {
   pricingModel?: Prisma.EnumServicePricingModelFieldUpdateOperationsInput | $Enums.ServicePricingModel
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  softoneMtrl?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   propertyServices?: Prisma.PropertyServiceUncheckedUpdateManyWithoutServiceNestedInput
@@ -409,6 +429,7 @@ export type ServiceCreateManyInput = {
   pricingModel: $Enums.ServicePricingModel
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   active?: boolean
+  softoneMtrl?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -422,6 +443,7 @@ export type ServiceUpdateManyMutationInput = {
   pricingModel?: Prisma.EnumServicePricingModelFieldUpdateOperationsInput | $Enums.ServicePricingModel
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  softoneMtrl?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -436,6 +458,7 @@ export type ServiceUncheckedUpdateManyInput = {
   pricingModel?: Prisma.EnumServicePricingModelFieldUpdateOperationsInput | $Enums.ServicePricingModel
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  softoneMtrl?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -460,12 +483,14 @@ export type ServiceCountOrderByAggregateInput = {
   pricingModel?: Prisma.SortOrder
   price?: Prisma.SortOrder
   active?: Prisma.SortOrder
+  softoneMtrl?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type ServiceAvgOrderByAggregateInput = {
   price?: Prisma.SortOrder
+  softoneMtrl?: Prisma.SortOrder
 }
 
 export type ServiceMaxOrderByAggregateInput = {
@@ -478,6 +503,7 @@ export type ServiceMaxOrderByAggregateInput = {
   pricingModel?: Prisma.SortOrder
   price?: Prisma.SortOrder
   active?: Prisma.SortOrder
+  softoneMtrl?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -492,12 +518,14 @@ export type ServiceMinOrderByAggregateInput = {
   pricingModel?: Prisma.SortOrder
   price?: Prisma.SortOrder
   active?: Prisma.SortOrder
+  softoneMtrl?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type ServiceSumOrderByAggregateInput = {
   price?: Prisma.SortOrder
+  softoneMtrl?: Prisma.SortOrder
 }
 
 export type ServiceScalarRelationFilter = {
@@ -574,6 +602,7 @@ export type ServiceCreateWithoutCompanyInput = {
   pricingModel: $Enums.ServicePricingModel
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   active?: boolean
+  softoneMtrl?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   propertyServices?: Prisma.PropertyServiceCreateNestedManyWithoutServiceInput
@@ -588,6 +617,7 @@ export type ServiceUncheckedCreateWithoutCompanyInput = {
   pricingModel: $Enums.ServicePricingModel
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   active?: boolean
+  softoneMtrl?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   propertyServices?: Prisma.PropertyServiceUncheckedCreateNestedManyWithoutServiceInput
@@ -632,6 +662,7 @@ export type ServiceScalarWhereInput = {
   pricingModel?: Prisma.EnumServicePricingModelFilter<"Service"> | $Enums.ServicePricingModel
   price?: Prisma.DecimalFilter<"Service"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   active?: Prisma.BoolFilter<"Service"> | boolean
+  softoneMtrl?: Prisma.IntNullableFilter<"Service"> | number | null
   createdAt?: Prisma.DateTimeFilter<"Service"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Service"> | Date | string
 }
@@ -645,6 +676,7 @@ export type ServiceCreateWithoutPropertyServicesInput = {
   pricingModel: $Enums.ServicePricingModel
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   active?: boolean
+  softoneMtrl?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutServicesInput
@@ -660,6 +692,7 @@ export type ServiceUncheckedCreateWithoutPropertyServicesInput = {
   pricingModel: $Enums.ServicePricingModel
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   active?: boolean
+  softoneMtrl?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -689,6 +722,7 @@ export type ServiceUpdateWithoutPropertyServicesInput = {
   pricingModel?: Prisma.EnumServicePricingModelFieldUpdateOperationsInput | $Enums.ServicePricingModel
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  softoneMtrl?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutServicesNestedInput
@@ -704,6 +738,7 @@ export type ServiceUncheckedUpdateWithoutPropertyServicesInput = {
   pricingModel?: Prisma.EnumServicePricingModelFieldUpdateOperationsInput | $Enums.ServicePricingModel
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  softoneMtrl?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -717,6 +752,7 @@ export type ServiceCreateManyCompanyInput = {
   pricingModel: $Enums.ServicePricingModel
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   active?: boolean
+  softoneMtrl?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -730,6 +766,7 @@ export type ServiceUpdateWithoutCompanyInput = {
   pricingModel?: Prisma.EnumServicePricingModelFieldUpdateOperationsInput | $Enums.ServicePricingModel
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  softoneMtrl?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   propertyServices?: Prisma.PropertyServiceUpdateManyWithoutServiceNestedInput
@@ -744,6 +781,7 @@ export type ServiceUncheckedUpdateWithoutCompanyInput = {
   pricingModel?: Prisma.EnumServicePricingModelFieldUpdateOperationsInput | $Enums.ServicePricingModel
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  softoneMtrl?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   propertyServices?: Prisma.PropertyServiceUncheckedUpdateManyWithoutServiceNestedInput
@@ -758,6 +796,7 @@ export type ServiceUncheckedUpdateManyWithoutCompanyInput = {
   pricingModel?: Prisma.EnumServicePricingModelFieldUpdateOperationsInput | $Enums.ServicePricingModel
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  softoneMtrl?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -803,6 +842,7 @@ export type ServiceSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   pricingModel?: boolean
   price?: boolean
   active?: boolean
+  softoneMtrl?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
@@ -820,6 +860,7 @@ export type ServiceSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   pricingModel?: boolean
   price?: boolean
   active?: boolean
+  softoneMtrl?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
@@ -835,6 +876,7 @@ export type ServiceSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   pricingModel?: boolean
   price?: boolean
   active?: boolean
+  softoneMtrl?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
@@ -850,11 +892,12 @@ export type ServiceSelectScalar = {
   pricingModel?: boolean
   price?: boolean
   active?: boolean
+  softoneMtrl?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type ServiceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "companyId" | "name" | "code" | "description" | "isCore" | "pricingModel" | "price" | "active" | "createdAt" | "updatedAt", ExtArgs["result"]["service"]>
+export type ServiceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "companyId" | "name" | "code" | "description" | "isCore" | "pricingModel" | "price" | "active" | "softoneMtrl" | "createdAt" | "updatedAt", ExtArgs["result"]["service"]>
 export type ServiceInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
   propertyServices?: boolean | Prisma.Service$propertyServicesArgs<ExtArgs>
@@ -883,6 +926,7 @@ export type $ServicePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     pricingModel: $Enums.ServicePricingModel
     price: runtime.Decimal
     active: boolean
+    softoneMtrl: number | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["service"]>
@@ -1319,6 +1363,7 @@ export interface ServiceFieldRefs {
   readonly pricingModel: Prisma.FieldRef<"Service", 'ServicePricingModel'>
   readonly price: Prisma.FieldRef<"Service", 'Decimal'>
   readonly active: Prisma.FieldRef<"Service", 'Boolean'>
+  readonly softoneMtrl: Prisma.FieldRef<"Service", 'Int'>
   readonly createdAt: Prisma.FieldRef<"Service", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Service", 'DateTime'>
 }

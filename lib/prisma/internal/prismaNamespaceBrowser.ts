@@ -116,6 +116,8 @@ export const ModelName = {
   PricingTier: 'PricingTier',
   ContactMessage: 'ContactMessage',
   NewsletterSubscriber: 'NewsletterSubscriber',
+  SoftoneSettings: 'SoftoneSettings',
+  SoftoneSyncLog: 'SoftoneSyncLog',
   CronRun: 'CronRun',
   CookieConsent: 'CookieConsent',
   AppSettings: 'AppSettings',
@@ -469,6 +471,7 @@ export const BuildingScalarFieldEnum = {
   lat: 'lat',
   lng: 'lng',
   dailyRoomName: 'dailyRoomName',
+  softonePrjc: 'softonePrjc',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -627,7 +630,8 @@ export const BuildingExpenseScalarFieldEnum = {
   paymentMethod: 'paymentMethod',
   paidAt: 'paidAt',
   paymentFileId: 'paymentFileId',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  softoneFindoc: 'softoneFindoc'
 } as const
 
 export type BuildingExpenseScalarFieldEnum = (typeof BuildingExpenseScalarFieldEnum)[keyof typeof BuildingExpenseScalarFieldEnum]
@@ -834,6 +838,7 @@ export const ServiceScalarFieldEnum = {
   pricingModel: 'pricingModel',
   price: 'price',
   active: 'active',
+  softoneMtrl: 'softoneMtrl',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -849,6 +854,7 @@ export const PropertyServiceScalarFieldEnum = {
   startedAt: 'startedAt',
   endedAt: 'endedAt',
   prepaidPersonMinutes: 'prepaidPersonMinutes',
+  softoneCntr: 'softoneCntr',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -866,6 +872,7 @@ export const ServiceInvoiceScalarFieldEnum = {
   dueDate: 'dueDate',
   paidAt: 'paidAt',
   vivaOrderRef: 'vivaOrderRef',
+  softoneFindoc: 'softoneFindoc',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -1346,6 +1353,57 @@ export const NewsletterSubscriberScalarFieldEnum = {
 export type NewsletterSubscriberScalarFieldEnum = (typeof NewsletterSubscriberScalarFieldEnum)[keyof typeof NewsletterSubscriberScalarFieldEnum]
 
 
+export const SoftoneSettingsScalarFieldEnum = {
+  id: 'id',
+  enabled: 'enabled',
+  company: 'company',
+  branch: 'branch',
+  countryGr: 'countryGr',
+  currencyEur: 'currencyEur',
+  vatMap: 'vatMap',
+  unitMap: 'unitMap',
+  paymentDefault: 'paymentDefault',
+  cntrTypeCustomer: 'cntrTypeCustomer',
+  cntrTypeSupplier: 'cntrTypeSupplier',
+  cntrTypeManaged: 'cntrTypeManaged',
+  cntrType1Default: 'cntrType1Default',
+  visitUnitMonths: 'visitUnitMonths',
+  seriesSales: 'seriesSales',
+  seriesPurchase: 'seriesPurchase',
+  prjType: 'prjType',
+  codePrefixCustomer: 'codePrefixCustomer',
+  codePrefixSupplier: 'codePrefixSupplier',
+  codePrefixProject: 'codePrefixProject',
+  codePrefixService: 'codePrefixService',
+  clientId: 'clientId',
+  clientIdDate: 'clientIdDate',
+  lastPingAt: 'lastPingAt',
+  lastPingOk: 'lastPingOk',
+  lastPingMessage: 'lastPingMessage',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SoftoneSettingsScalarFieldEnum = (typeof SoftoneSettingsScalarFieldEnum)[keyof typeof SoftoneSettingsScalarFieldEnum]
+
+
+export const SoftoneSyncLogScalarFieldEnum = {
+  id: 'id',
+  entity: 'entity',
+  entityId: 'entityId',
+  object: 'object',
+  action: 'action',
+  status: 'status',
+  softoneKey: 'softoneKey',
+  payload: 'payload',
+  response: 'response',
+  error: 'error',
+  byUserId: 'byUserId',
+  createdAt: 'createdAt'
+} as const
+
+export type SoftoneSyncLogScalarFieldEnum = (typeof SoftoneSyncLogScalarFieldEnum)[keyof typeof SoftoneSyncLogScalarFieldEnum]
+
+
 export const CronRunScalarFieldEnum = {
   id: 'id',
   job: 'job',
@@ -1699,6 +1757,7 @@ export const ServiceCatalogItemScalarFieldEnum = {
   categoryId: 'categoryId',
   active: 'active',
   sortOrder: 'sortOrder',
+  softoneMtrl: 'softoneMtrl',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -1717,6 +1776,7 @@ export const SupplierServiceScalarFieldEnum = {
   vatPct: 'vatPct',
   active: 'active',
   sortOrder: 'sortOrder',
+  softoneMtrl: 'softoneMtrl',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -1735,6 +1795,7 @@ export const SupplierProductScalarFieldEnum = {
   vatPct: 'vatPct',
   active: 'active',
   sortOrder: 'sortOrder',
+  softoneMtrl: 'softoneMtrl',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -1837,6 +1898,8 @@ export const WorkOrderScalarFieldEnum = {
   disputeNote: 'disputeNote',
   customerContractHtml: 'customerContractHtml',
   supplierContractHtml: 'supplierContractHtml',
+  softoneCntrA: 'softoneCntrA',
+  softoneCntrB: 'softoneCntrB',
   createdById: 'createdById',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

@@ -343,6 +343,16 @@ export type ContactMessage = Prisma.ContactMessageModel
  */
 export type NewsletterSubscriber = Prisma.NewsletterSubscriberModel
 /**
+ * Model SoftoneSettings
+ * 
+ */
+export type SoftoneSettings = Prisma.SoftoneSettingsModel
+/**
+ * Model SoftoneSyncLog
+ * 
+ */
+export type SoftoneSyncLog = Prisma.SoftoneSyncLogModel
+/**
  * Model CronRun
  * 
  */

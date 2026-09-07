@@ -33,6 +33,8 @@ export type WorkOrderAvgAggregateOutputType = {
   markupPct: runtime.Decimal | null
   surveyFee: runtime.Decimal | null
   warrantyMonths: number | null
+  softoneCntrA: number | null
+  softoneCntrB: number | null
 }
 
 export type WorkOrderSumAggregateOutputType = {
@@ -42,6 +44,8 @@ export type WorkOrderSumAggregateOutputType = {
   markupPct: runtime.Decimal | null
   surveyFee: runtime.Decimal | null
   warrantyMonths: number | null
+  softoneCntrA: number | null
+  softoneCntrB: number | null
 }
 
 export type WorkOrderMinAggregateOutputType = {
@@ -84,6 +88,8 @@ export type WorkOrderMinAggregateOutputType = {
   disputeNote: string | null
   customerContractHtml: string | null
   supplierContractHtml: string | null
+  softoneCntrA: number | null
+  softoneCntrB: number | null
   createdById: string | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -129,6 +135,8 @@ export type WorkOrderMaxAggregateOutputType = {
   disputeNote: string | null
   customerContractHtml: string | null
   supplierContractHtml: string | null
+  softoneCntrA: number | null
+  softoneCntrB: number | null
   createdById: string | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -175,6 +183,8 @@ export type WorkOrderCountAggregateOutputType = {
   disputeNote: number
   customerContractHtml: number
   supplierContractHtml: number
+  softoneCntrA: number
+  softoneCntrB: number
   createdById: number
   createdAt: number
   updatedAt: number
@@ -189,6 +199,8 @@ export type WorkOrderAvgAggregateInputType = {
   markupPct?: true
   surveyFee?: true
   warrantyMonths?: true
+  softoneCntrA?: true
+  softoneCntrB?: true
 }
 
 export type WorkOrderSumAggregateInputType = {
@@ -198,6 +210,8 @@ export type WorkOrderSumAggregateInputType = {
   markupPct?: true
   surveyFee?: true
   warrantyMonths?: true
+  softoneCntrA?: true
+  softoneCntrB?: true
 }
 
 export type WorkOrderMinAggregateInputType = {
@@ -240,6 +254,8 @@ export type WorkOrderMinAggregateInputType = {
   disputeNote?: true
   customerContractHtml?: true
   supplierContractHtml?: true
+  softoneCntrA?: true
+  softoneCntrB?: true
   createdById?: true
   createdAt?: true
   updatedAt?: true
@@ -285,6 +301,8 @@ export type WorkOrderMaxAggregateInputType = {
   disputeNote?: true
   customerContractHtml?: true
   supplierContractHtml?: true
+  softoneCntrA?: true
+  softoneCntrB?: true
   createdById?: true
   createdAt?: true
   updatedAt?: true
@@ -331,6 +349,8 @@ export type WorkOrderCountAggregateInputType = {
   disputeNote?: true
   customerContractHtml?: true
   supplierContractHtml?: true
+  softoneCntrA?: true
+  softoneCntrB?: true
   createdById?: true
   createdAt?: true
   updatedAt?: true
@@ -464,6 +484,8 @@ export type WorkOrderGroupByOutputType = {
   disputeNote: string | null
   customerContractHtml: string | null
   supplierContractHtml: string | null
+  softoneCntrA: number | null
+  softoneCntrB: number | null
   createdById: string | null
   createdAt: Date
   updatedAt: Date
@@ -533,6 +555,8 @@ export type WorkOrderWhereInput = {
   disputeNote?: Prisma.StringNullableFilter<"WorkOrder"> | string | null
   customerContractHtml?: Prisma.StringNullableFilter<"WorkOrder"> | string | null
   supplierContractHtml?: Prisma.StringNullableFilter<"WorkOrder"> | string | null
+  softoneCntrA?: Prisma.IntNullableFilter<"WorkOrder"> | number | null
+  softoneCntrB?: Prisma.IntNullableFilter<"WorkOrder"> | number | null
   createdById?: Prisma.StringNullableFilter<"WorkOrder"> | string | null
   createdAt?: Prisma.DateTimeFilter<"WorkOrder"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"WorkOrder"> | Date | string
@@ -585,6 +609,8 @@ export type WorkOrderOrderByWithRelationInput = {
   disputeNote?: Prisma.SortOrderInput | Prisma.SortOrder
   customerContractHtml?: Prisma.SortOrderInput | Prisma.SortOrder
   supplierContractHtml?: Prisma.SortOrderInput | Prisma.SortOrder
+  softoneCntrA?: Prisma.SortOrderInput | Prisma.SortOrder
+  softoneCntrB?: Prisma.SortOrderInput | Prisma.SortOrder
   createdById?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -640,6 +666,8 @@ export type WorkOrderWhereUniqueInput = Prisma.AtLeast<{
   disputeNote?: Prisma.StringNullableFilter<"WorkOrder"> | string | null
   customerContractHtml?: Prisma.StringNullableFilter<"WorkOrder"> | string | null
   supplierContractHtml?: Prisma.StringNullableFilter<"WorkOrder"> | string | null
+  softoneCntrA?: Prisma.IntNullableFilter<"WorkOrder"> | number | null
+  softoneCntrB?: Prisma.IntNullableFilter<"WorkOrder"> | number | null
   createdById?: Prisma.StringNullableFilter<"WorkOrder"> | string | null
   createdAt?: Prisma.DateTimeFilter<"WorkOrder"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"WorkOrder"> | Date | string
@@ -692,6 +720,8 @@ export type WorkOrderOrderByWithAggregationInput = {
   disputeNote?: Prisma.SortOrderInput | Prisma.SortOrder
   customerContractHtml?: Prisma.SortOrderInput | Prisma.SortOrder
   supplierContractHtml?: Prisma.SortOrderInput | Prisma.SortOrder
+  softoneCntrA?: Prisma.SortOrderInput | Prisma.SortOrder
+  softoneCntrB?: Prisma.SortOrderInput | Prisma.SortOrder
   createdById?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -746,6 +776,8 @@ export type WorkOrderScalarWhereWithAggregatesInput = {
   disputeNote?: Prisma.StringNullableWithAggregatesFilter<"WorkOrder"> | string | null
   customerContractHtml?: Prisma.StringNullableWithAggregatesFilter<"WorkOrder"> | string | null
   supplierContractHtml?: Prisma.StringNullableWithAggregatesFilter<"WorkOrder"> | string | null
+  softoneCntrA?: Prisma.IntNullableWithAggregatesFilter<"WorkOrder"> | number | null
+  softoneCntrB?: Prisma.IntNullableWithAggregatesFilter<"WorkOrder"> | number | null
   createdById?: Prisma.StringNullableWithAggregatesFilter<"WorkOrder"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"WorkOrder"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"WorkOrder"> | Date | string
@@ -786,6 +818,8 @@ export type WorkOrderCreateInput = {
   disputeNote?: string | null
   customerContractHtml?: string | null
   supplierContractHtml?: string | null
+  softoneCntrA?: number | null
+  softoneCntrB?: number | null
   createdById?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -838,6 +872,8 @@ export type WorkOrderUncheckedCreateInput = {
   disputeNote?: string | null
   customerContractHtml?: string | null
   supplierContractHtml?: string | null
+  softoneCntrA?: number | null
+  softoneCntrB?: number | null
   createdById?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -878,6 +914,8 @@ export type WorkOrderUpdateInput = {
   disputeNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplierContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneCntrA?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  softoneCntrB?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -930,6 +968,8 @@ export type WorkOrderUncheckedUpdateInput = {
   disputeNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplierContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneCntrA?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  softoneCntrB?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -976,6 +1016,8 @@ export type WorkOrderCreateManyInput = {
   disputeNote?: string | null
   customerContractHtml?: string | null
   supplierContractHtml?: string | null
+  softoneCntrA?: number | null
+  softoneCntrB?: number | null
   createdById?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1016,6 +1058,8 @@ export type WorkOrderUpdateManyMutationInput = {
   disputeNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplierContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneCntrA?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  softoneCntrB?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1062,6 +1106,8 @@ export type WorkOrderUncheckedUpdateManyInput = {
   disputeNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplierContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneCntrA?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  softoneCntrB?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1123,6 +1169,8 @@ export type WorkOrderCountOrderByAggregateInput = {
   disputeNote?: Prisma.SortOrder
   customerContractHtml?: Prisma.SortOrder
   supplierContractHtml?: Prisma.SortOrder
+  softoneCntrA?: Prisma.SortOrder
+  softoneCntrB?: Prisma.SortOrder
   createdById?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -1135,6 +1183,8 @@ export type WorkOrderAvgOrderByAggregateInput = {
   markupPct?: Prisma.SortOrder
   surveyFee?: Prisma.SortOrder
   warrantyMonths?: Prisma.SortOrder
+  softoneCntrA?: Prisma.SortOrder
+  softoneCntrB?: Prisma.SortOrder
 }
 
 export type WorkOrderMaxOrderByAggregateInput = {
@@ -1177,6 +1227,8 @@ export type WorkOrderMaxOrderByAggregateInput = {
   disputeNote?: Prisma.SortOrder
   customerContractHtml?: Prisma.SortOrder
   supplierContractHtml?: Prisma.SortOrder
+  softoneCntrA?: Prisma.SortOrder
+  softoneCntrB?: Prisma.SortOrder
   createdById?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -1222,6 +1274,8 @@ export type WorkOrderMinOrderByAggregateInput = {
   disputeNote?: Prisma.SortOrder
   customerContractHtml?: Prisma.SortOrder
   supplierContractHtml?: Prisma.SortOrder
+  softoneCntrA?: Prisma.SortOrder
+  softoneCntrB?: Prisma.SortOrder
   createdById?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -1234,6 +1288,8 @@ export type WorkOrderSumOrderByAggregateInput = {
   markupPct?: Prisma.SortOrder
   surveyFee?: Prisma.SortOrder
   warrantyMonths?: Prisma.SortOrder
+  softoneCntrA?: Prisma.SortOrder
+  softoneCntrB?: Prisma.SortOrder
 }
 
 export type WorkOrderCreateNestedManyWithoutCustomerInput = {
@@ -1517,6 +1573,8 @@ export type WorkOrderCreateWithoutCustomerInput = {
   disputeNote?: string | null
   customerContractHtml?: string | null
   supplierContractHtml?: string | null
+  softoneCntrA?: number | null
+  softoneCntrB?: number | null
   createdById?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1567,6 +1625,8 @@ export type WorkOrderUncheckedCreateWithoutCustomerInput = {
   disputeNote?: string | null
   customerContractHtml?: string | null
   supplierContractHtml?: string | null
+  softoneCntrA?: number | null
+  softoneCntrB?: number | null
   createdById?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1642,6 +1702,8 @@ export type WorkOrderScalarWhereInput = {
   disputeNote?: Prisma.StringNullableFilter<"WorkOrder"> | string | null
   customerContractHtml?: Prisma.StringNullableFilter<"WorkOrder"> | string | null
   supplierContractHtml?: Prisma.StringNullableFilter<"WorkOrder"> | string | null
+  softoneCntrA?: Prisma.IntNullableFilter<"WorkOrder"> | number | null
+  softoneCntrB?: Prisma.IntNullableFilter<"WorkOrder"> | number | null
   createdById?: Prisma.StringNullableFilter<"WorkOrder"> | string | null
   createdAt?: Prisma.DateTimeFilter<"WorkOrder"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"WorkOrder"> | Date | string
@@ -1682,6 +1744,8 @@ export type WorkOrderCreateWithoutBuildingInput = {
   disputeNote?: string | null
   customerContractHtml?: string | null
   supplierContractHtml?: string | null
+  softoneCntrA?: number | null
+  softoneCntrB?: number | null
   createdById?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1732,6 +1796,8 @@ export type WorkOrderUncheckedCreateWithoutBuildingInput = {
   disputeNote?: string | null
   customerContractHtml?: string | null
   supplierContractHtml?: string | null
+  softoneCntrA?: number | null
+  softoneCntrB?: number | null
   createdById?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1798,6 +1864,8 @@ export type WorkOrderCreateWithoutMaintenanceRequestInput = {
   disputeNote?: string | null
   customerContractHtml?: string | null
   supplierContractHtml?: string | null
+  softoneCntrA?: number | null
+  softoneCntrB?: number | null
   createdById?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1848,6 +1916,8 @@ export type WorkOrderUncheckedCreateWithoutMaintenanceRequestInput = {
   disputeNote?: string | null
   customerContractHtml?: string | null
   supplierContractHtml?: string | null
+  softoneCntrA?: number | null
+  softoneCntrB?: number | null
   createdById?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1914,6 +1984,8 @@ export type WorkOrderCreateWithoutSupplierInput = {
   disputeNote?: string | null
   customerContractHtml?: string | null
   supplierContractHtml?: string | null
+  softoneCntrA?: number | null
+  softoneCntrB?: number | null
   createdById?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1964,6 +2036,8 @@ export type WorkOrderUncheckedCreateWithoutSupplierInput = {
   disputeNote?: string | null
   customerContractHtml?: string | null
   supplierContractHtml?: string | null
+  softoneCntrA?: number | null
+  softoneCntrB?: number | null
   createdById?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2030,6 +2104,8 @@ export type WorkOrderCreateWithoutRfqInput = {
   disputeNote?: string | null
   customerContractHtml?: string | null
   supplierContractHtml?: string | null
+  softoneCntrA?: number | null
+  softoneCntrB?: number | null
   createdById?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2080,6 +2156,8 @@ export type WorkOrderUncheckedCreateWithoutRfqInput = {
   disputeNote?: string | null
   customerContractHtml?: string | null
   supplierContractHtml?: string | null
+  softoneCntrA?: number | null
+  softoneCntrB?: number | null
   createdById?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2146,6 +2224,8 @@ export type WorkOrderCreateWithoutOfferInput = {
   disputeNote?: string | null
   customerContractHtml?: string | null
   supplierContractHtml?: string | null
+  softoneCntrA?: number | null
+  softoneCntrB?: number | null
   createdById?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2196,6 +2276,8 @@ export type WorkOrderUncheckedCreateWithoutOfferInput = {
   disputeNote?: string | null
   customerContractHtml?: string | null
   supplierContractHtml?: string | null
+  softoneCntrA?: number | null
+  softoneCntrB?: number | null
   createdById?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2252,6 +2334,8 @@ export type WorkOrderUpdateWithoutOfferInput = {
   disputeNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplierContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneCntrA?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  softoneCntrB?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2302,6 +2386,8 @@ export type WorkOrderUncheckedUpdateWithoutOfferInput = {
   disputeNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplierContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneCntrA?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  softoneCntrB?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2347,6 +2433,8 @@ export type WorkOrderCreateManyCustomerInput = {
   disputeNote?: string | null
   customerContractHtml?: string | null
   supplierContractHtml?: string | null
+  softoneCntrA?: number | null
+  softoneCntrB?: number | null
   createdById?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2387,6 +2475,8 @@ export type WorkOrderUpdateWithoutCustomerInput = {
   disputeNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplierContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneCntrA?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  softoneCntrB?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2437,6 +2527,8 @@ export type WorkOrderUncheckedUpdateWithoutCustomerInput = {
   disputeNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplierContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneCntrA?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  softoneCntrB?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2482,6 +2574,8 @@ export type WorkOrderUncheckedUpdateManyWithoutCustomerInput = {
   disputeNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplierContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneCntrA?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  softoneCntrB?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2527,6 +2621,8 @@ export type WorkOrderCreateManyBuildingInput = {
   disputeNote?: string | null
   customerContractHtml?: string | null
   supplierContractHtml?: string | null
+  softoneCntrA?: number | null
+  softoneCntrB?: number | null
   createdById?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2567,6 +2663,8 @@ export type WorkOrderUpdateWithoutBuildingInput = {
   disputeNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplierContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneCntrA?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  softoneCntrB?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2617,6 +2715,8 @@ export type WorkOrderUncheckedUpdateWithoutBuildingInput = {
   disputeNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplierContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneCntrA?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  softoneCntrB?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2662,6 +2762,8 @@ export type WorkOrderUncheckedUpdateManyWithoutBuildingInput = {
   disputeNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplierContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneCntrA?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  softoneCntrB?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2707,6 +2809,8 @@ export type WorkOrderCreateManyMaintenanceRequestInput = {
   disputeNote?: string | null
   customerContractHtml?: string | null
   supplierContractHtml?: string | null
+  softoneCntrA?: number | null
+  softoneCntrB?: number | null
   createdById?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2747,6 +2851,8 @@ export type WorkOrderUpdateWithoutMaintenanceRequestInput = {
   disputeNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplierContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneCntrA?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  softoneCntrB?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2797,6 +2903,8 @@ export type WorkOrderUncheckedUpdateWithoutMaintenanceRequestInput = {
   disputeNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplierContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneCntrA?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  softoneCntrB?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2842,6 +2950,8 @@ export type WorkOrderUncheckedUpdateManyWithoutMaintenanceRequestInput = {
   disputeNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplierContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneCntrA?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  softoneCntrB?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2887,6 +2997,8 @@ export type WorkOrderCreateManySupplierInput = {
   disputeNote?: string | null
   customerContractHtml?: string | null
   supplierContractHtml?: string | null
+  softoneCntrA?: number | null
+  softoneCntrB?: number | null
   createdById?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -2927,6 +3039,8 @@ export type WorkOrderUpdateWithoutSupplierInput = {
   disputeNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplierContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneCntrA?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  softoneCntrB?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2977,6 +3091,8 @@ export type WorkOrderUncheckedUpdateWithoutSupplierInput = {
   disputeNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplierContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneCntrA?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  softoneCntrB?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3022,6 +3138,8 @@ export type WorkOrderUncheckedUpdateManyWithoutSupplierInput = {
   disputeNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplierContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneCntrA?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  softoneCntrB?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3067,6 +3185,8 @@ export type WorkOrderCreateManyRfqInput = {
   disputeNote?: string | null
   customerContractHtml?: string | null
   supplierContractHtml?: string | null
+  softoneCntrA?: number | null
+  softoneCntrB?: number | null
   createdById?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -3107,6 +3227,8 @@ export type WorkOrderUpdateWithoutRfqInput = {
   disputeNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplierContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneCntrA?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  softoneCntrB?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3157,6 +3279,8 @@ export type WorkOrderUncheckedUpdateWithoutRfqInput = {
   disputeNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplierContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneCntrA?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  softoneCntrB?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3202,6 +3326,8 @@ export type WorkOrderUncheckedUpdateManyWithoutRfqInput = {
   disputeNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplierContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneCntrA?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  softoneCntrB?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3250,6 +3376,8 @@ export type WorkOrderSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   disputeNote?: boolean
   customerContractHtml?: boolean
   supplierContractHtml?: boolean
+  softoneCntrA?: boolean
+  softoneCntrB?: boolean
   createdById?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -3302,6 +3430,8 @@ export type WorkOrderSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   disputeNote?: boolean
   customerContractHtml?: boolean
   supplierContractHtml?: boolean
+  softoneCntrA?: boolean
+  softoneCntrB?: boolean
   createdById?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -3354,6 +3484,8 @@ export type WorkOrderSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   disputeNote?: boolean
   customerContractHtml?: boolean
   supplierContractHtml?: boolean
+  softoneCntrA?: boolean
+  softoneCntrB?: boolean
   createdById?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -3406,12 +3538,14 @@ export type WorkOrderSelectScalar = {
   disputeNote?: boolean
   customerContractHtml?: boolean
   supplierContractHtml?: boolean
+  softoneCntrA?: boolean
+  softoneCntrB?: boolean
   createdById?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type WorkOrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "number" | "buildingId" | "customerId" | "supplierId" | "maintenanceRequestId" | "rfqId" | "offerId" | "title" | "description" | "covered" | "supplierPrice" | "customerPrice" | "vatPct" | "markupPct" | "surveyFee" | "surveyWaived" | "warrantyMonths" | "status" | "customerMessage" | "earliestDate" | "validUntil" | "customerAcceptedAt" | "customerAcceptedById" | "customerAcceptedIp" | "customerAcceptedUa" | "customerDeclinedAt" | "customerDeclineReason" | "supplierAcceptedAt" | "supplierAcceptedById" | "scheduledAt" | "completedAt" | "completionNote" | "completionMediaIds" | "customerConfirmedAt" | "customerConfirmedById" | "autoConfirmedAt" | "disputeNote" | "customerContractHtml" | "supplierContractHtml" | "createdById" | "createdAt" | "updatedAt", ExtArgs["result"]["workOrder"]>
+export type WorkOrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "number" | "buildingId" | "customerId" | "supplierId" | "maintenanceRequestId" | "rfqId" | "offerId" | "title" | "description" | "covered" | "supplierPrice" | "customerPrice" | "vatPct" | "markupPct" | "surveyFee" | "surveyWaived" | "warrantyMonths" | "status" | "customerMessage" | "earliestDate" | "validUntil" | "customerAcceptedAt" | "customerAcceptedById" | "customerAcceptedIp" | "customerAcceptedUa" | "customerDeclinedAt" | "customerDeclineReason" | "supplierAcceptedAt" | "supplierAcceptedById" | "scheduledAt" | "completedAt" | "completionNote" | "completionMediaIds" | "customerConfirmedAt" | "customerConfirmedById" | "autoConfirmedAt" | "disputeNote" | "customerContractHtml" | "supplierContractHtml" | "softoneCntrA" | "softoneCntrB" | "createdById" | "createdAt" | "updatedAt", ExtArgs["result"]["workOrder"]>
 export type WorkOrderInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
@@ -3488,6 +3622,8 @@ export type $WorkOrderPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     disputeNote: string | null
     customerContractHtml: string | null
     supplierContractHtml: string | null
+    softoneCntrA: number | null
+    softoneCntrB: number | null
     createdById: string | null
     createdAt: Date
     updatedAt: Date
@@ -3960,6 +4096,8 @@ export interface WorkOrderFieldRefs {
   readonly disputeNote: Prisma.FieldRef<"WorkOrder", 'String'>
   readonly customerContractHtml: Prisma.FieldRef<"WorkOrder", 'String'>
   readonly supplierContractHtml: Prisma.FieldRef<"WorkOrder", 'String'>
+  readonly softoneCntrA: Prisma.FieldRef<"WorkOrder", 'Int'>
+  readonly softoneCntrB: Prisma.FieldRef<"WorkOrder", 'Int'>
   readonly createdById: Prisma.FieldRef<"WorkOrder", 'String'>
   readonly createdAt: Prisma.FieldRef<"WorkOrder", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"WorkOrder", 'DateTime'>

@@ -884,6 +884,23 @@ export type BoolNullableWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedBoolNullableFilter<$PrismaModel>
 }
 
+export type EnumSoftoneSyncStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.SoftoneSyncStatus | Prisma.EnumSoftoneSyncStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.SoftoneSyncStatus[] | Prisma.ListEnumSoftoneSyncStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.SoftoneSyncStatus[] | Prisma.ListEnumSoftoneSyncStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumSoftoneSyncStatusFilter<$PrismaModel> | $Enums.SoftoneSyncStatus
+}
+
+export type EnumSoftoneSyncStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.SoftoneSyncStatus | Prisma.EnumSoftoneSyncStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.SoftoneSyncStatus[] | Prisma.ListEnumSoftoneSyncStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.SoftoneSyncStatus[] | Prisma.ListEnumSoftoneSyncStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumSoftoneSyncStatusWithAggregatesFilter<$PrismaModel> | $Enums.SoftoneSyncStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumSoftoneSyncStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumSoftoneSyncStatusFilter<$PrismaModel>
+}
+
 export type JsonFilter<$PrismaModel = never> =
 | Prisma.PatchUndefined<
     Prisma.Either<Required<JsonFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonFilterBase<$PrismaModel>>, 'path'>>,
@@ -1869,6 +1886,23 @@ export type NestedBoolNullableWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
   _min?: Prisma.NestedBoolNullableFilter<$PrismaModel>
   _max?: Prisma.NestedBoolNullableFilter<$PrismaModel>
+}
+
+export type NestedEnumSoftoneSyncStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.SoftoneSyncStatus | Prisma.EnumSoftoneSyncStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.SoftoneSyncStatus[] | Prisma.ListEnumSoftoneSyncStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.SoftoneSyncStatus[] | Prisma.ListEnumSoftoneSyncStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumSoftoneSyncStatusFilter<$PrismaModel> | $Enums.SoftoneSyncStatus
+}
+
+export type NestedEnumSoftoneSyncStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.SoftoneSyncStatus | Prisma.EnumSoftoneSyncStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.SoftoneSyncStatus[] | Prisma.ListEnumSoftoneSyncStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.SoftoneSyncStatus[] | Prisma.ListEnumSoftoneSyncStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumSoftoneSyncStatusWithAggregatesFilter<$PrismaModel> | $Enums.SoftoneSyncStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumSoftoneSyncStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumSoftoneSyncStatusFilter<$PrismaModel>
 }
 
 export type NestedJsonFilter<$PrismaModel = never> =

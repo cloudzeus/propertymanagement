@@ -308,6 +308,16 @@ export const NewsletterStatus = {
 export type NewsletterStatus = (typeof NewsletterStatus)[keyof typeof NewsletterStatus]
 
 
+export const SoftoneSyncStatus = {
+  DRY_RUN: 'DRY_RUN',
+  OK: 'OK',
+  ERROR: 'ERROR',
+  SKIPPED: 'SKIPPED'
+} as const
+
+export type SoftoneSyncStatus = (typeof SoftoneSyncStatus)[keyof typeof SoftoneSyncStatus]
+
+
 export const SupplierKind = {
   SERVICES: 'SERVICES',
   PRODUCTS: 'PRODUCTS',

@@ -449,6 +449,8 @@ export const ModelName = {
   PricingTier: 'PricingTier',
   ContactMessage: 'ContactMessage',
   NewsletterSubscriber: 'NewsletterSubscriber',
+  SoftoneSettings: 'SoftoneSettings',
+  SoftoneSyncLog: 'SoftoneSyncLog',
   CronRun: 'CronRun',
   CookieConsent: 'CookieConsent',
   AppSettings: 'AppSettings',
@@ -493,7 +495,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "account" | "session" | "verificationToken" | "company" | "department" | "jobPosition" | "employee" | "subscription" | "addonFeature" | "customer" | "property" | "building" | "unitOccupancy" | "buildingFile" | "infraPoint" | "infraAccess" | "infraMedia" | "contact" | "recurringTask" | "maintenanceLog" | "buildingExpense" | "expenseCategory" | "buildingCategoryOverride" | "unitCategoryExclusion" | "unitHeatingReading" | "meterReading" | "expenseAllocation" | "unitPayment" | "managementAssignment" | "commonArea" | "managedItemType" | "managedItem" | "unit" | "service" | "propertyService" | "serviceInvoice" | "serviceInvoiceLine" | "userCompanyRole" | "announcement" | "announcementTarget" | "announcement_User" | "assembly" | "assemblyParticipant" | "processedWebhook" | "aPIUsageLog" | "aPICostConfig" | "wallet" | "walletTransaction" | "customerMeteredPlan" | "monthlyCostSummary" | "maintenanceRequest" | "maintenanceCategory" | "maintenanceCoverageRule" | "maintenanceAttachment" | "maintenanceStatusEvent" | "maintenanceComment" | "maintenanceSlot" | "maintenanceAppointment" | "notification" | "cMSPage" | "fAQ" | "pricingTier" | "contactMessage" | "newsletterSubscriber" | "cronRun" | "cookieConsent" | "appSettings" | "impersonationEvent" | "landingSection" | "marketingPage" | "pageSeo" | "uiMessage" | "mediaAsset" | "siteSettings" | "author" | "article" | "role" | "rolePermission" | "demoRequest" | "supportTicket" | "supplier" | "supplierRating" | "buildingPreferredSupplier" | "supplierCategory" | "serviceCatalogItem" | "supplierService" | "supplierProduct" | "serviceRequest" | "rfqInvitation" | "supplierOffer" | "workOrder" | "supplierInquiry" | "contractTemplate"
+    modelProps: "user" | "account" | "session" | "verificationToken" | "company" | "department" | "jobPosition" | "employee" | "subscription" | "addonFeature" | "customer" | "property" | "building" | "unitOccupancy" | "buildingFile" | "infraPoint" | "infraAccess" | "infraMedia" | "contact" | "recurringTask" | "maintenanceLog" | "buildingExpense" | "expenseCategory" | "buildingCategoryOverride" | "unitCategoryExclusion" | "unitHeatingReading" | "meterReading" | "expenseAllocation" | "unitPayment" | "managementAssignment" | "commonArea" | "managedItemType" | "managedItem" | "unit" | "service" | "propertyService" | "serviceInvoice" | "serviceInvoiceLine" | "userCompanyRole" | "announcement" | "announcementTarget" | "announcement_User" | "assembly" | "assemblyParticipant" | "processedWebhook" | "aPIUsageLog" | "aPICostConfig" | "wallet" | "walletTransaction" | "customerMeteredPlan" | "monthlyCostSummary" | "maintenanceRequest" | "maintenanceCategory" | "maintenanceCoverageRule" | "maintenanceAttachment" | "maintenanceStatusEvent" | "maintenanceComment" | "maintenanceSlot" | "maintenanceAppointment" | "notification" | "cMSPage" | "fAQ" | "pricingTier" | "contactMessage" | "newsletterSubscriber" | "softoneSettings" | "softoneSyncLog" | "cronRun" | "cookieConsent" | "appSettings" | "impersonationEvent" | "landingSection" | "marketingPage" | "pageSeo" | "uiMessage" | "mediaAsset" | "siteSettings" | "author" | "article" | "role" | "rolePermission" | "demoRequest" | "supportTicket" | "supplier" | "supplierRating" | "buildingPreferredSupplier" | "supplierCategory" | "serviceCatalogItem" | "supplierService" | "supplierProduct" | "serviceRequest" | "rfqInvitation" | "supplierOffer" | "workOrder" | "supplierInquiry" | "contractTemplate"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -5307,6 +5309,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    SoftoneSettings: {
+      payload: Prisma.$SoftoneSettingsPayload<ExtArgs>
+      fields: Prisma.SoftoneSettingsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.SoftoneSettingsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneSettingsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.SoftoneSettingsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneSettingsPayload>
+        }
+        findFirst: {
+          args: Prisma.SoftoneSettingsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneSettingsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.SoftoneSettingsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneSettingsPayload>
+        }
+        findMany: {
+          args: Prisma.SoftoneSettingsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneSettingsPayload>[]
+        }
+        create: {
+          args: Prisma.SoftoneSettingsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneSettingsPayload>
+        }
+        createMany: {
+          args: Prisma.SoftoneSettingsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.SoftoneSettingsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneSettingsPayload>[]
+        }
+        delete: {
+          args: Prisma.SoftoneSettingsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneSettingsPayload>
+        }
+        update: {
+          args: Prisma.SoftoneSettingsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneSettingsPayload>
+        }
+        deleteMany: {
+          args: Prisma.SoftoneSettingsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.SoftoneSettingsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.SoftoneSettingsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneSettingsPayload>[]
+        }
+        upsert: {
+          args: Prisma.SoftoneSettingsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneSettingsPayload>
+        }
+        aggregate: {
+          args: Prisma.SoftoneSettingsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateSoftoneSettings>
+        }
+        groupBy: {
+          args: Prisma.SoftoneSettingsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SoftoneSettingsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.SoftoneSettingsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SoftoneSettingsCountAggregateOutputType> | number
+        }
+      }
+    }
+    SoftoneSyncLog: {
+      payload: Prisma.$SoftoneSyncLogPayload<ExtArgs>
+      fields: Prisma.SoftoneSyncLogFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.SoftoneSyncLogFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneSyncLogPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.SoftoneSyncLogFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneSyncLogPayload>
+        }
+        findFirst: {
+          args: Prisma.SoftoneSyncLogFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneSyncLogPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.SoftoneSyncLogFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneSyncLogPayload>
+        }
+        findMany: {
+          args: Prisma.SoftoneSyncLogFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneSyncLogPayload>[]
+        }
+        create: {
+          args: Prisma.SoftoneSyncLogCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneSyncLogPayload>
+        }
+        createMany: {
+          args: Prisma.SoftoneSyncLogCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.SoftoneSyncLogCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneSyncLogPayload>[]
+        }
+        delete: {
+          args: Prisma.SoftoneSyncLogDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneSyncLogPayload>
+        }
+        update: {
+          args: Prisma.SoftoneSyncLogUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneSyncLogPayload>
+        }
+        deleteMany: {
+          args: Prisma.SoftoneSyncLogDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.SoftoneSyncLogUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.SoftoneSyncLogUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneSyncLogPayload>[]
+        }
+        upsert: {
+          args: Prisma.SoftoneSyncLogUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneSyncLogPayload>
+        }
+        aggregate: {
+          args: Prisma.SoftoneSyncLogAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateSoftoneSyncLog>
+        }
+        groupBy: {
+          args: Prisma.SoftoneSyncLogGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SoftoneSyncLogGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.SoftoneSyncLogCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SoftoneSyncLogCountAggregateOutputType> | number
+        }
+      }
+    }
     CronRun: {
       payload: Prisma.$CronRunPayload<ExtArgs>
       fields: Prisma.CronRunFieldRefs
@@ -7798,6 +7948,7 @@ export const BuildingScalarFieldEnum = {
   lat: 'lat',
   lng: 'lng',
   dailyRoomName: 'dailyRoomName',
+  softonePrjc: 'softonePrjc',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -7956,7 +8107,8 @@ export const BuildingExpenseScalarFieldEnum = {
   paymentMethod: 'paymentMethod',
   paidAt: 'paidAt',
   paymentFileId: 'paymentFileId',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  softoneFindoc: 'softoneFindoc'
 } as const
 
 export type BuildingExpenseScalarFieldEnum = (typeof BuildingExpenseScalarFieldEnum)[keyof typeof BuildingExpenseScalarFieldEnum]
@@ -8163,6 +8315,7 @@ export const ServiceScalarFieldEnum = {
   pricingModel: 'pricingModel',
   price: 'price',
   active: 'active',
+  softoneMtrl: 'softoneMtrl',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -8178,6 +8331,7 @@ export const PropertyServiceScalarFieldEnum = {
   startedAt: 'startedAt',
   endedAt: 'endedAt',
   prepaidPersonMinutes: 'prepaidPersonMinutes',
+  softoneCntr: 'softoneCntr',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -8195,6 +8349,7 @@ export const ServiceInvoiceScalarFieldEnum = {
   dueDate: 'dueDate',
   paidAt: 'paidAt',
   vivaOrderRef: 'vivaOrderRef',
+  softoneFindoc: 'softoneFindoc',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -8675,6 +8830,57 @@ export const NewsletterSubscriberScalarFieldEnum = {
 export type NewsletterSubscriberScalarFieldEnum = (typeof NewsletterSubscriberScalarFieldEnum)[keyof typeof NewsletterSubscriberScalarFieldEnum]
 
 
+export const SoftoneSettingsScalarFieldEnum = {
+  id: 'id',
+  enabled: 'enabled',
+  company: 'company',
+  branch: 'branch',
+  countryGr: 'countryGr',
+  currencyEur: 'currencyEur',
+  vatMap: 'vatMap',
+  unitMap: 'unitMap',
+  paymentDefault: 'paymentDefault',
+  cntrTypeCustomer: 'cntrTypeCustomer',
+  cntrTypeSupplier: 'cntrTypeSupplier',
+  cntrTypeManaged: 'cntrTypeManaged',
+  cntrType1Default: 'cntrType1Default',
+  visitUnitMonths: 'visitUnitMonths',
+  seriesSales: 'seriesSales',
+  seriesPurchase: 'seriesPurchase',
+  prjType: 'prjType',
+  codePrefixCustomer: 'codePrefixCustomer',
+  codePrefixSupplier: 'codePrefixSupplier',
+  codePrefixProject: 'codePrefixProject',
+  codePrefixService: 'codePrefixService',
+  clientId: 'clientId',
+  clientIdDate: 'clientIdDate',
+  lastPingAt: 'lastPingAt',
+  lastPingOk: 'lastPingOk',
+  lastPingMessage: 'lastPingMessage',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SoftoneSettingsScalarFieldEnum = (typeof SoftoneSettingsScalarFieldEnum)[keyof typeof SoftoneSettingsScalarFieldEnum]
+
+
+export const SoftoneSyncLogScalarFieldEnum = {
+  id: 'id',
+  entity: 'entity',
+  entityId: 'entityId',
+  object: 'object',
+  action: 'action',
+  status: 'status',
+  softoneKey: 'softoneKey',
+  payload: 'payload',
+  response: 'response',
+  error: 'error',
+  byUserId: 'byUserId',
+  createdAt: 'createdAt'
+} as const
+
+export type SoftoneSyncLogScalarFieldEnum = (typeof SoftoneSyncLogScalarFieldEnum)[keyof typeof SoftoneSyncLogScalarFieldEnum]
+
+
 export const CronRunScalarFieldEnum = {
   id: 'id',
   job: 'job',
@@ -9028,6 +9234,7 @@ export const ServiceCatalogItemScalarFieldEnum = {
   categoryId: 'categoryId',
   active: 'active',
   sortOrder: 'sortOrder',
+  softoneMtrl: 'softoneMtrl',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -9046,6 +9253,7 @@ export const SupplierServiceScalarFieldEnum = {
   vatPct: 'vatPct',
   active: 'active',
   sortOrder: 'sortOrder',
+  softoneMtrl: 'softoneMtrl',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -9064,6 +9272,7 @@ export const SupplierProductScalarFieldEnum = {
   vatPct: 'vatPct',
   active: 'active',
   sortOrder: 'sortOrder',
+  softoneMtrl: 'softoneMtrl',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -9166,6 +9375,8 @@ export const WorkOrderScalarFieldEnum = {
   disputeNote: 'disputeNote',
   customerContractHtml: 'customerContractHtml',
   supplierContractHtml: 'supplierContractHtml',
+  softoneCntrA: 'softoneCntrA',
+  softoneCntrB: 'softoneCntrB',
   createdById: 'createdById',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -9761,6 +9972,20 @@ export type ListEnumNewsletterStatusFieldRefInput<$PrismaModel> = FieldRefInputT
 
 
 /**
+ * Reference to a field of type 'SoftoneSyncStatus'
+ */
+export type EnumSoftoneSyncStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SoftoneSyncStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'SoftoneSyncStatus[]'
+ */
+export type ListEnumSoftoneSyncStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SoftoneSyncStatus[]'>
+    
+
+
+/**
  * Reference to a field of type 'SupplierKind'
  */
 export type EnumSupplierKindFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SupplierKind'>
@@ -10018,6 +10243,8 @@ export type GlobalOmitConfig = {
   pricingTier?: Prisma.PricingTierOmit
   contactMessage?: Prisma.ContactMessageOmit
   newsletterSubscriber?: Prisma.NewsletterSubscriberOmit
+  softoneSettings?: Prisma.SoftoneSettingsOmit
+  softoneSyncLog?: Prisma.SoftoneSyncLogOmit
   cronRun?: Prisma.CronRunOmit
   cookieConsent?: Prisma.CookieConsentOmit
   appSettings?: Prisma.AppSettingsOmit

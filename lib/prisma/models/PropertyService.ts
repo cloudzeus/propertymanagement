@@ -28,10 +28,12 @@ export type AggregatePropertyService = {
 
 export type PropertyServiceAvgAggregateOutputType = {
   prepaidPersonMinutes: number | null
+  softoneCntr: number | null
 }
 
 export type PropertyServiceSumAggregateOutputType = {
   prepaidPersonMinutes: number | null
+  softoneCntr: number | null
 }
 
 export type PropertyServiceMinAggregateOutputType = {
@@ -42,6 +44,7 @@ export type PropertyServiceMinAggregateOutputType = {
   startedAt: Date | null
   endedAt: Date | null
   prepaidPersonMinutes: number | null
+  softoneCntr: number | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -54,6 +57,7 @@ export type PropertyServiceMaxAggregateOutputType = {
   startedAt: Date | null
   endedAt: Date | null
   prepaidPersonMinutes: number | null
+  softoneCntr: number | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -66,6 +70,7 @@ export type PropertyServiceCountAggregateOutputType = {
   startedAt: number
   endedAt: number
   prepaidPersonMinutes: number
+  softoneCntr: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -74,10 +79,12 @@ export type PropertyServiceCountAggregateOutputType = {
 
 export type PropertyServiceAvgAggregateInputType = {
   prepaidPersonMinutes?: true
+  softoneCntr?: true
 }
 
 export type PropertyServiceSumAggregateInputType = {
   prepaidPersonMinutes?: true
+  softoneCntr?: true
 }
 
 export type PropertyServiceMinAggregateInputType = {
@@ -88,6 +95,7 @@ export type PropertyServiceMinAggregateInputType = {
   startedAt?: true
   endedAt?: true
   prepaidPersonMinutes?: true
+  softoneCntr?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -100,6 +108,7 @@ export type PropertyServiceMaxAggregateInputType = {
   startedAt?: true
   endedAt?: true
   prepaidPersonMinutes?: true
+  softoneCntr?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -112,6 +121,7 @@ export type PropertyServiceCountAggregateInputType = {
   startedAt?: true
   endedAt?: true
   prepaidPersonMinutes?: true
+  softoneCntr?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -211,6 +221,7 @@ export type PropertyServiceGroupByOutputType = {
   startedAt: Date | null
   endedAt: Date | null
   prepaidPersonMinutes: number
+  softoneCntr: number | null
   createdAt: Date
   updatedAt: Date
   _count: PropertyServiceCountAggregateOutputType | null
@@ -246,6 +257,7 @@ export type PropertyServiceWhereInput = {
   startedAt?: Prisma.DateTimeNullableFilter<"PropertyService"> | Date | string | null
   endedAt?: Prisma.DateTimeNullableFilter<"PropertyService"> | Date | string | null
   prepaidPersonMinutes?: Prisma.IntFilter<"PropertyService"> | number
+  softoneCntr?: Prisma.IntNullableFilter<"PropertyService"> | number | null
   createdAt?: Prisma.DateTimeFilter<"PropertyService"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"PropertyService"> | Date | string
   property?: Prisma.XOR<Prisma.PropertyScalarRelationFilter, Prisma.PropertyWhereInput>
@@ -260,6 +272,7 @@ export type PropertyServiceOrderByWithRelationInput = {
   startedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   endedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   prepaidPersonMinutes?: Prisma.SortOrder
+  softoneCntr?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   property?: Prisma.PropertyOrderByWithRelationInput
@@ -278,6 +291,7 @@ export type PropertyServiceWhereUniqueInput = Prisma.AtLeast<{
   startedAt?: Prisma.DateTimeNullableFilter<"PropertyService"> | Date | string | null
   endedAt?: Prisma.DateTimeNullableFilter<"PropertyService"> | Date | string | null
   prepaidPersonMinutes?: Prisma.IntFilter<"PropertyService"> | number
+  softoneCntr?: Prisma.IntNullableFilter<"PropertyService"> | number | null
   createdAt?: Prisma.DateTimeFilter<"PropertyService"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"PropertyService"> | Date | string
   property?: Prisma.XOR<Prisma.PropertyScalarRelationFilter, Prisma.PropertyWhereInput>
@@ -292,6 +306,7 @@ export type PropertyServiceOrderByWithAggregationInput = {
   startedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   endedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   prepaidPersonMinutes?: Prisma.SortOrder
+  softoneCntr?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.PropertyServiceCountOrderByAggregateInput
@@ -312,6 +327,7 @@ export type PropertyServiceScalarWhereWithAggregatesInput = {
   startedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"PropertyService"> | Date | string | null
   endedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"PropertyService"> | Date | string | null
   prepaidPersonMinutes?: Prisma.IntWithAggregatesFilter<"PropertyService"> | number
+  softoneCntr?: Prisma.IntNullableWithAggregatesFilter<"PropertyService"> | number | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"PropertyService"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"PropertyService"> | Date | string
 }
@@ -322,6 +338,7 @@ export type PropertyServiceCreateInput = {
   startedAt?: Date | string | null
   endedAt?: Date | string | null
   prepaidPersonMinutes?: number
+  softoneCntr?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   property: Prisma.PropertyCreateNestedOneWithoutServicesInput
@@ -336,6 +353,7 @@ export type PropertyServiceUncheckedCreateInput = {
   startedAt?: Date | string | null
   endedAt?: Date | string | null
   prepaidPersonMinutes?: number
+  softoneCntr?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -346,6 +364,7 @@ export type PropertyServiceUpdateInput = {
   startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   prepaidPersonMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  softoneCntr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   property?: Prisma.PropertyUpdateOneRequiredWithoutServicesNestedInput
@@ -360,6 +379,7 @@ export type PropertyServiceUncheckedUpdateInput = {
   startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   prepaidPersonMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  softoneCntr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -372,6 +392,7 @@ export type PropertyServiceCreateManyInput = {
   startedAt?: Date | string | null
   endedAt?: Date | string | null
   prepaidPersonMinutes?: number
+  softoneCntr?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -382,6 +403,7 @@ export type PropertyServiceUpdateManyMutationInput = {
   startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   prepaidPersonMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  softoneCntr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -394,6 +416,7 @@ export type PropertyServiceUncheckedUpdateManyInput = {
   startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   prepaidPersonMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  softoneCntr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -421,12 +444,14 @@ export type PropertyServiceCountOrderByAggregateInput = {
   startedAt?: Prisma.SortOrder
   endedAt?: Prisma.SortOrder
   prepaidPersonMinutes?: Prisma.SortOrder
+  softoneCntr?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type PropertyServiceAvgOrderByAggregateInput = {
   prepaidPersonMinutes?: Prisma.SortOrder
+  softoneCntr?: Prisma.SortOrder
 }
 
 export type PropertyServiceMaxOrderByAggregateInput = {
@@ -437,6 +462,7 @@ export type PropertyServiceMaxOrderByAggregateInput = {
   startedAt?: Prisma.SortOrder
   endedAt?: Prisma.SortOrder
   prepaidPersonMinutes?: Prisma.SortOrder
+  softoneCntr?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -449,12 +475,14 @@ export type PropertyServiceMinOrderByAggregateInput = {
   startedAt?: Prisma.SortOrder
   endedAt?: Prisma.SortOrder
   prepaidPersonMinutes?: Prisma.SortOrder
+  softoneCntr?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
 
 export type PropertyServiceSumOrderByAggregateInput = {
   prepaidPersonMinutes?: Prisma.SortOrder
+  softoneCntr?: Prisma.SortOrder
 }
 
 export type PropertyServiceCreateNestedManyWithoutPropertyInput = {
@@ -547,6 +575,7 @@ export type PropertyServiceCreateWithoutPropertyInput = {
   startedAt?: Date | string | null
   endedAt?: Date | string | null
   prepaidPersonMinutes?: number
+  softoneCntr?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   service: Prisma.ServiceCreateNestedOneWithoutPropertyServicesInput
@@ -559,6 +588,7 @@ export type PropertyServiceUncheckedCreateWithoutPropertyInput = {
   startedAt?: Date | string | null
   endedAt?: Date | string | null
   prepaidPersonMinutes?: number
+  softoneCntr?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -600,6 +630,7 @@ export type PropertyServiceScalarWhereInput = {
   startedAt?: Prisma.DateTimeNullableFilter<"PropertyService"> | Date | string | null
   endedAt?: Prisma.DateTimeNullableFilter<"PropertyService"> | Date | string | null
   prepaidPersonMinutes?: Prisma.IntFilter<"PropertyService"> | number
+  softoneCntr?: Prisma.IntNullableFilter<"PropertyService"> | number | null
   createdAt?: Prisma.DateTimeFilter<"PropertyService"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"PropertyService"> | Date | string
 }
@@ -610,6 +641,7 @@ export type PropertyServiceCreateWithoutServiceInput = {
   startedAt?: Date | string | null
   endedAt?: Date | string | null
   prepaidPersonMinutes?: number
+  softoneCntr?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   property: Prisma.PropertyCreateNestedOneWithoutServicesInput
@@ -622,6 +654,7 @@ export type PropertyServiceUncheckedCreateWithoutServiceInput = {
   startedAt?: Date | string | null
   endedAt?: Date | string | null
   prepaidPersonMinutes?: number
+  softoneCntr?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -659,6 +692,7 @@ export type PropertyServiceCreateManyPropertyInput = {
   startedAt?: Date | string | null
   endedAt?: Date | string | null
   prepaidPersonMinutes?: number
+  softoneCntr?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -669,6 +703,7 @@ export type PropertyServiceUpdateWithoutPropertyInput = {
   startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   prepaidPersonMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  softoneCntr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   service?: Prisma.ServiceUpdateOneRequiredWithoutPropertyServicesNestedInput
@@ -681,6 +716,7 @@ export type PropertyServiceUncheckedUpdateWithoutPropertyInput = {
   startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   prepaidPersonMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  softoneCntr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -692,6 +728,7 @@ export type PropertyServiceUncheckedUpdateManyWithoutPropertyInput = {
   startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   prepaidPersonMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  softoneCntr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -703,6 +740,7 @@ export type PropertyServiceCreateManyServiceInput = {
   startedAt?: Date | string | null
   endedAt?: Date | string | null
   prepaidPersonMinutes?: number
+  softoneCntr?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -713,6 +751,7 @@ export type PropertyServiceUpdateWithoutServiceInput = {
   startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   prepaidPersonMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  softoneCntr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   property?: Prisma.PropertyUpdateOneRequiredWithoutServicesNestedInput
@@ -725,6 +764,7 @@ export type PropertyServiceUncheckedUpdateWithoutServiceInput = {
   startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   prepaidPersonMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  softoneCntr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -736,6 +776,7 @@ export type PropertyServiceUncheckedUpdateManyWithoutServiceInput = {
   startedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   endedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   prepaidPersonMinutes?: Prisma.IntFieldUpdateOperationsInput | number
+  softoneCntr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -750,6 +791,7 @@ export type PropertyServiceSelect<ExtArgs extends runtime.Types.Extensions.Inter
   startedAt?: boolean
   endedAt?: boolean
   prepaidPersonMinutes?: boolean
+  softoneCntr?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   property?: boolean | Prisma.PropertyDefaultArgs<ExtArgs>
@@ -764,6 +806,7 @@ export type PropertyServiceSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
   startedAt?: boolean
   endedAt?: boolean
   prepaidPersonMinutes?: boolean
+  softoneCntr?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   property?: boolean | Prisma.PropertyDefaultArgs<ExtArgs>
@@ -778,6 +821,7 @@ export type PropertyServiceSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   startedAt?: boolean
   endedAt?: boolean
   prepaidPersonMinutes?: boolean
+  softoneCntr?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   property?: boolean | Prisma.PropertyDefaultArgs<ExtArgs>
@@ -792,11 +836,12 @@ export type PropertyServiceSelectScalar = {
   startedAt?: boolean
   endedAt?: boolean
   prepaidPersonMinutes?: boolean
+  softoneCntr?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type PropertyServiceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "propertyId" | "serviceId" | "active" | "startedAt" | "endedAt" | "prepaidPersonMinutes" | "createdAt" | "updatedAt", ExtArgs["result"]["propertyService"]>
+export type PropertyServiceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "propertyId" | "serviceId" | "active" | "startedAt" | "endedAt" | "prepaidPersonMinutes" | "softoneCntr" | "createdAt" | "updatedAt", ExtArgs["result"]["propertyService"]>
 export type PropertyServiceInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   property?: boolean | Prisma.PropertyDefaultArgs<ExtArgs>
   service?: boolean | Prisma.ServiceDefaultArgs<ExtArgs>
@@ -824,6 +869,7 @@ export type $PropertyServicePayload<ExtArgs extends runtime.Types.Extensions.Int
     startedAt: Date | null
     endedAt: Date | null
     prepaidPersonMinutes: number
+    softoneCntr: number | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["propertyService"]>
@@ -1258,6 +1304,7 @@ export interface PropertyServiceFieldRefs {
   readonly startedAt: Prisma.FieldRef<"PropertyService", 'DateTime'>
   readonly endedAt: Prisma.FieldRef<"PropertyService", 'DateTime'>
   readonly prepaidPersonMinutes: Prisma.FieldRef<"PropertyService", 'Int'>
+  readonly softoneCntr: Prisma.FieldRef<"PropertyService", 'Int'>
   readonly createdAt: Prisma.FieldRef<"PropertyService", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"PropertyService", 'DateTime'>
 }
