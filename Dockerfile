@@ -23,7 +23,10 @@ ARG NEXT_PUBLIC_MAPTILER_API_KEY
 ARG GOOGLE_LOCATION_KEY
 
 COPY package.json package-lock.json ./
-RUN npm ci
+# `next build` needs devDependencies (@tailwindcss/postcss, typescript). Force
+# them even when Coolify injects NODE_ENV=production as a build arg, which
+# would otherwise make `npm ci` skip them.
+RUN npm ci --include=dev
 COPY . .
 RUN npx prisma generate
 RUN npm run build
