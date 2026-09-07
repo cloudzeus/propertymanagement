@@ -10,11 +10,12 @@ import { ManagerHome } from "@/components/dashboard/homes/ManagerHome";
 import { StaffHome } from "@/components/dashboard/homes/StaffHome";
 import { OwnerHome } from "@/components/dashboard/homes/OwnerHome";
 import { ResidentHome } from "@/components/dashboard/homes/ResidentHome";
+import { CollaboratorHome } from "@/components/dashboard/homes/CollaboratorHome";
 import { RiEyeLine, RiInformationLine } from "react-icons/ri";
 
 export const metadata = { title: "Προεπισκόπηση ρόλων — PropertyPro" };
 
-type Scope = "none" | "company" | "building" | "staffUser" | "ownerUser" | "residentUser";
+type Scope = "none" | "company" | "building" | "staffUser" | "ownerUser" | "residentUser" | "supplier";
 
 const ROLES: { key: string; label: string; scope: Scope; note: string }[] = [
   { key: "SUPER_ADMIN", label: "Super Admin", scope: "none", note: "Πλατφόρμα (όλες οι εταιρείες)" },
@@ -24,6 +25,7 @@ const ROLES: { key: string; label: string; scope: Scope; note: string }[] = [
   { key: "PROPERTY_ADMIN", label: "Διαχ. Ακινήτου", scope: "building", note: "Κέντρο ελέγχου κτηρίου" },
   { key: "PROPERTY_OWNER", label: "Ιδιοκτήτης", scope: "ownerUser", note: "Χαρτοφυλάκιο ιδιοκτήτη" },
   { key: "PROPERTY_RESIDENT", label: "Ένοικος", scope: "residentUser", note: "Πύλη ενοίκου" },
+  { key: "COLLABORATOR", label: "Συνεργάτης", scope: "supplier", note: "Dashboard εξωτερικού συνεργάτη" },
 ];
 
 /** Representative options for the selected role's scope. */
@@ -48,6 +50,10 @@ async function optionsForScope(scope: Scope): Promise<{ id: string; label: strin
       const rows = await db.user.findMany({ where: { role: role as any }, select: { id: true, name: true, email: true }, orderBy: { name: "asc" }, take: 200 });
       return rows.map((u) => ({ id: u.id, label: u.name ?? u.email ?? u.id, sub: u.email ?? undefined }));
     }
+    case "supplier": {
+      const rows = await db.supplier.findMany({ where: { customerId: null, isPlatform: false }, select: { id: true, name: true, city: true }, orderBy: { name: "asc" }, take: 200 });
+      return rows.map((s) => ({ id: s.id, label: s.name, sub: s.city ?? undefined }));
+    }
     default:
       return [];
   }
@@ -66,6 +72,11 @@ async function PreviewBody({ role, id }: { role: string; id?: string }) {
       if (!id) return <PickPrompt />;
       const u = await db.user.findUnique({ where: { id }, select: { companyId: true } });
       return <StaffHome userId={id} companyId={u?.companyId ?? undefined} />;
+    }
+    case "COLLABORATOR": {
+      if (!id) return <PickPrompt />;
+      const s = await db.supplier.findUnique({ where: { id }, select: { name: true } });
+      return <CollaboratorHome supplierId={id} supplierName={s?.name ?? null} isSupplierAdmin previewMode />;
     }
     case "PROPERTY_OWNER": {
       if (!id) return <PickPrompt />;

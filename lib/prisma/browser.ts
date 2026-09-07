@@ -358,6 +358,14 @@ export type ImpersonationEvent = Prisma.ImpersonationEventModel
  */
 export type LandingSection = Prisma.LandingSectionModel
 /**
+ * Model MarketingPage
+ * Structured, bilingual content for a public marketing page (pricing, news,
+ * faq, contact). One row per page; `data` holds a { el, en } blob typed by
+ * lib/cms/marketing-pages.ts. Long-form articles live in Article, plan rows in
+ * PricingTier and questions in FAQ — this is the surrounding page furniture.
+ */
+export type MarketingPage = Prisma.MarketingPageModel
+/**
  * Model PageSeo
  * 
  */
@@ -407,3 +415,38 @@ export type DemoRequest = Prisma.DemoRequestModel
  * 
  */
 export type SupportTicket = Prisma.SupportTicketModel
+/**
+ * Model Supplier
+ * 
+ */
+export type Supplier = Prisma.SupplierModel
+/**
+ * Model SupplierRating
+ * 
+ */
+export type SupplierRating = Prisma.SupplierRatingModel
+/**
+ * Model BuildingPreferredSupplier
+ * 
+ */
+export type BuildingPreferredSupplier = Prisma.BuildingPreferredSupplierModel
+/**
+ * Model SupplierCategory
+ * 
+ */
+export type SupplierCategory = Prisma.SupplierCategoryModel
+/**
+ * Model ServiceCatalogItem
+ * 
+ */
+export type ServiceCatalogItem = Prisma.ServiceCatalogItemModel
+/**
+ * Model SupplierService
+ * 
+ */
+export type SupplierService = Prisma.SupplierServiceModel
+/**
+ * Model SupplierProduct
+ * 
+ */
+export type SupplierProduct = Prisma.SupplierProductModel

@@ -29,12 +29,14 @@ export type AggregatePricingTier = {
 export type PricingTierAvgAggregateOutputType = {
   monthlyPrice: number | null
   annualPrice: number | null
+  minPerBuilding: number | null
   order: number | null
 }
 
 export type PricingTierSumAggregateOutputType = {
   monthlyPrice: number | null
   annualPrice: number | null
+  minPerBuilding: number | null
   order: number | null
 }
 
@@ -45,6 +47,10 @@ export type PricingTierMinAggregateOutputType = {
   description: string | null
   monthlyPrice: number | null
   annualPrice: number | null
+  minPerBuilding: number | null
+  badge: string | null
+  ctaLabel: string | null
+  ctaHref: string | null
   highlighted: boolean | null
   order: number | null
   published: boolean | null
@@ -59,6 +65,10 @@ export type PricingTierMaxAggregateOutputType = {
   description: string | null
   monthlyPrice: number | null
   annualPrice: number | null
+  minPerBuilding: number | null
+  badge: string | null
+  ctaLabel: string | null
+  ctaHref: string | null
   highlighted: boolean | null
   order: number | null
   published: boolean | null
@@ -74,6 +84,10 @@ export type PricingTierCountAggregateOutputType = {
   monthlyPrice: number
   annualPrice: number
   features: number
+  minPerBuilding: number
+  badge: number
+  ctaLabel: number
+  ctaHref: number
   highlighted: number
   order: number
   published: number
@@ -87,12 +101,14 @@ export type PricingTierCountAggregateOutputType = {
 export type PricingTierAvgAggregateInputType = {
   monthlyPrice?: true
   annualPrice?: true
+  minPerBuilding?: true
   order?: true
 }
 
 export type PricingTierSumAggregateInputType = {
   monthlyPrice?: true
   annualPrice?: true
+  minPerBuilding?: true
   order?: true
 }
 
@@ -103,6 +119,10 @@ export type PricingTierMinAggregateInputType = {
   description?: true
   monthlyPrice?: true
   annualPrice?: true
+  minPerBuilding?: true
+  badge?: true
+  ctaLabel?: true
+  ctaHref?: true
   highlighted?: true
   order?: true
   published?: true
@@ -117,6 +137,10 @@ export type PricingTierMaxAggregateInputType = {
   description?: true
   monthlyPrice?: true
   annualPrice?: true
+  minPerBuilding?: true
+  badge?: true
+  ctaLabel?: true
+  ctaHref?: true
   highlighted?: true
   order?: true
   published?: true
@@ -132,6 +156,10 @@ export type PricingTierCountAggregateInputType = {
   monthlyPrice?: true
   annualPrice?: true
   features?: true
+  minPerBuilding?: true
+  badge?: true
+  ctaLabel?: true
+  ctaHref?: true
   highlighted?: true
   order?: true
   published?: true
@@ -235,6 +263,10 @@ export type PricingTierGroupByOutputType = {
   monthlyPrice: number
   annualPrice: number
   features: string[]
+  minPerBuilding: number | null
+  badge: string | null
+  ctaLabel: string | null
+  ctaHref: string | null
   highlighted: boolean
   order: number
   published: boolean
@@ -274,6 +306,10 @@ export type PricingTierWhereInput = {
   monthlyPrice?: Prisma.FloatFilter<"PricingTier"> | number
   annualPrice?: Prisma.FloatFilter<"PricingTier"> | number
   features?: Prisma.StringNullableListFilter<"PricingTier">
+  minPerBuilding?: Prisma.FloatNullableFilter<"PricingTier"> | number | null
+  badge?: Prisma.StringNullableFilter<"PricingTier"> | string | null
+  ctaLabel?: Prisma.StringNullableFilter<"PricingTier"> | string | null
+  ctaHref?: Prisma.StringNullableFilter<"PricingTier"> | string | null
   highlighted?: Prisma.BoolFilter<"PricingTier"> | boolean
   order?: Prisma.IntFilter<"PricingTier"> | number
   published?: Prisma.BoolFilter<"PricingTier"> | boolean
@@ -290,6 +326,10 @@ export type PricingTierOrderByWithRelationInput = {
   monthlyPrice?: Prisma.SortOrder
   annualPrice?: Prisma.SortOrder
   features?: Prisma.SortOrder
+  minPerBuilding?: Prisma.SortOrderInput | Prisma.SortOrder
+  badge?: Prisma.SortOrderInput | Prisma.SortOrder
+  ctaLabel?: Prisma.SortOrderInput | Prisma.SortOrder
+  ctaHref?: Prisma.SortOrderInput | Prisma.SortOrder
   highlighted?: Prisma.SortOrder
   order?: Prisma.SortOrder
   published?: Prisma.SortOrder
@@ -309,6 +349,10 @@ export type PricingTierWhereUniqueInput = Prisma.AtLeast<{
   monthlyPrice?: Prisma.FloatFilter<"PricingTier"> | number
   annualPrice?: Prisma.FloatFilter<"PricingTier"> | number
   features?: Prisma.StringNullableListFilter<"PricingTier">
+  minPerBuilding?: Prisma.FloatNullableFilter<"PricingTier"> | number | null
+  badge?: Prisma.StringNullableFilter<"PricingTier"> | string | null
+  ctaLabel?: Prisma.StringNullableFilter<"PricingTier"> | string | null
+  ctaHref?: Prisma.StringNullableFilter<"PricingTier"> | string | null
   highlighted?: Prisma.BoolFilter<"PricingTier"> | boolean
   order?: Prisma.IntFilter<"PricingTier"> | number
   published?: Prisma.BoolFilter<"PricingTier"> | boolean
@@ -325,6 +369,10 @@ export type PricingTierOrderByWithAggregationInput = {
   monthlyPrice?: Prisma.SortOrder
   annualPrice?: Prisma.SortOrder
   features?: Prisma.SortOrder
+  minPerBuilding?: Prisma.SortOrderInput | Prisma.SortOrder
+  badge?: Prisma.SortOrderInput | Prisma.SortOrder
+  ctaLabel?: Prisma.SortOrderInput | Prisma.SortOrder
+  ctaHref?: Prisma.SortOrderInput | Prisma.SortOrder
   highlighted?: Prisma.SortOrder
   order?: Prisma.SortOrder
   published?: Prisma.SortOrder
@@ -349,6 +397,10 @@ export type PricingTierScalarWhereWithAggregatesInput = {
   monthlyPrice?: Prisma.FloatWithAggregatesFilter<"PricingTier"> | number
   annualPrice?: Prisma.FloatWithAggregatesFilter<"PricingTier"> | number
   features?: Prisma.StringNullableListFilter<"PricingTier">
+  minPerBuilding?: Prisma.FloatNullableWithAggregatesFilter<"PricingTier"> | number | null
+  badge?: Prisma.StringNullableWithAggregatesFilter<"PricingTier"> | string | null
+  ctaLabel?: Prisma.StringNullableWithAggregatesFilter<"PricingTier"> | string | null
+  ctaHref?: Prisma.StringNullableWithAggregatesFilter<"PricingTier"> | string | null
   highlighted?: Prisma.BoolWithAggregatesFilter<"PricingTier"> | boolean
   order?: Prisma.IntWithAggregatesFilter<"PricingTier"> | number
   published?: Prisma.BoolWithAggregatesFilter<"PricingTier"> | boolean
@@ -365,6 +417,10 @@ export type PricingTierCreateInput = {
   monthlyPrice: number
   annualPrice: number
   features?: Prisma.PricingTierCreatefeaturesInput | string[]
+  minPerBuilding?: number | null
+  badge?: string | null
+  ctaLabel?: string | null
+  ctaHref?: string | null
   highlighted?: boolean
   order?: number
   published?: boolean
@@ -381,6 +437,10 @@ export type PricingTierUncheckedCreateInput = {
   monthlyPrice: number
   annualPrice: number
   features?: Prisma.PricingTierCreatefeaturesInput | string[]
+  minPerBuilding?: number | null
+  badge?: string | null
+  ctaLabel?: string | null
+  ctaHref?: string | null
   highlighted?: boolean
   order?: number
   published?: boolean
@@ -397,6 +457,10 @@ export type PricingTierUpdateInput = {
   monthlyPrice?: Prisma.FloatFieldUpdateOperationsInput | number
   annualPrice?: Prisma.FloatFieldUpdateOperationsInput | number
   features?: Prisma.PricingTierUpdatefeaturesInput | string[]
+  minPerBuilding?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  badge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaHref?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   highlighted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   order?: Prisma.IntFieldUpdateOperationsInput | number
   published?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -413,6 +477,10 @@ export type PricingTierUncheckedUpdateInput = {
   monthlyPrice?: Prisma.FloatFieldUpdateOperationsInput | number
   annualPrice?: Prisma.FloatFieldUpdateOperationsInput | number
   features?: Prisma.PricingTierUpdatefeaturesInput | string[]
+  minPerBuilding?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  badge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaHref?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   highlighted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   order?: Prisma.IntFieldUpdateOperationsInput | number
   published?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -429,6 +497,10 @@ export type PricingTierCreateManyInput = {
   monthlyPrice: number
   annualPrice: number
   features?: Prisma.PricingTierCreatefeaturesInput | string[]
+  minPerBuilding?: number | null
+  badge?: string | null
+  ctaLabel?: string | null
+  ctaHref?: string | null
   highlighted?: boolean
   order?: number
   published?: boolean
@@ -445,6 +517,10 @@ export type PricingTierUpdateManyMutationInput = {
   monthlyPrice?: Prisma.FloatFieldUpdateOperationsInput | number
   annualPrice?: Prisma.FloatFieldUpdateOperationsInput | number
   features?: Prisma.PricingTierUpdatefeaturesInput | string[]
+  minPerBuilding?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  badge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaHref?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   highlighted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   order?: Prisma.IntFieldUpdateOperationsInput | number
   published?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -461,6 +537,10 @@ export type PricingTierUncheckedUpdateManyInput = {
   monthlyPrice?: Prisma.FloatFieldUpdateOperationsInput | number
   annualPrice?: Prisma.FloatFieldUpdateOperationsInput | number
   features?: Prisma.PricingTierUpdatefeaturesInput | string[]
+  minPerBuilding?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  badge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaLabel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ctaHref?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   highlighted?: Prisma.BoolFieldUpdateOperationsInput | boolean
   order?: Prisma.IntFieldUpdateOperationsInput | number
   published?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -485,6 +565,10 @@ export type PricingTierCountOrderByAggregateInput = {
   monthlyPrice?: Prisma.SortOrder
   annualPrice?: Prisma.SortOrder
   features?: Prisma.SortOrder
+  minPerBuilding?: Prisma.SortOrder
+  badge?: Prisma.SortOrder
+  ctaLabel?: Prisma.SortOrder
+  ctaHref?: Prisma.SortOrder
   highlighted?: Prisma.SortOrder
   order?: Prisma.SortOrder
   published?: Prisma.SortOrder
@@ -496,6 +580,7 @@ export type PricingTierCountOrderByAggregateInput = {
 export type PricingTierAvgOrderByAggregateInput = {
   monthlyPrice?: Prisma.SortOrder
   annualPrice?: Prisma.SortOrder
+  minPerBuilding?: Prisma.SortOrder
   order?: Prisma.SortOrder
 }
 
@@ -506,6 +591,10 @@ export type PricingTierMaxOrderByAggregateInput = {
   description?: Prisma.SortOrder
   monthlyPrice?: Prisma.SortOrder
   annualPrice?: Prisma.SortOrder
+  minPerBuilding?: Prisma.SortOrder
+  badge?: Prisma.SortOrder
+  ctaLabel?: Prisma.SortOrder
+  ctaHref?: Prisma.SortOrder
   highlighted?: Prisma.SortOrder
   order?: Prisma.SortOrder
   published?: Prisma.SortOrder
@@ -520,6 +609,10 @@ export type PricingTierMinOrderByAggregateInput = {
   description?: Prisma.SortOrder
   monthlyPrice?: Prisma.SortOrder
   annualPrice?: Prisma.SortOrder
+  minPerBuilding?: Prisma.SortOrder
+  badge?: Prisma.SortOrder
+  ctaLabel?: Prisma.SortOrder
+  ctaHref?: Prisma.SortOrder
   highlighted?: Prisma.SortOrder
   order?: Prisma.SortOrder
   published?: Prisma.SortOrder
@@ -530,6 +623,7 @@ export type PricingTierMinOrderByAggregateInput = {
 export type PricingTierSumOrderByAggregateInput = {
   monthlyPrice?: Prisma.SortOrder
   annualPrice?: Prisma.SortOrder
+  minPerBuilding?: Prisma.SortOrder
   order?: Prisma.SortOrder
 }
 
@@ -552,6 +646,10 @@ export type PricingTierSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   monthlyPrice?: boolean
   annualPrice?: boolean
   features?: boolean
+  minPerBuilding?: boolean
+  badge?: boolean
+  ctaLabel?: boolean
+  ctaHref?: boolean
   highlighted?: boolean
   order?: boolean
   published?: boolean
@@ -568,6 +666,10 @@ export type PricingTierSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   monthlyPrice?: boolean
   annualPrice?: boolean
   features?: boolean
+  minPerBuilding?: boolean
+  badge?: boolean
+  ctaLabel?: boolean
+  ctaHref?: boolean
   highlighted?: boolean
   order?: boolean
   published?: boolean
@@ -584,6 +686,10 @@ export type PricingTierSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   monthlyPrice?: boolean
   annualPrice?: boolean
   features?: boolean
+  minPerBuilding?: boolean
+  badge?: boolean
+  ctaLabel?: boolean
+  ctaHref?: boolean
   highlighted?: boolean
   order?: boolean
   published?: boolean
@@ -600,6 +706,10 @@ export type PricingTierSelectScalar = {
   monthlyPrice?: boolean
   annualPrice?: boolean
   features?: boolean
+  minPerBuilding?: boolean
+  badge?: boolean
+  ctaLabel?: boolean
+  ctaHref?: boolean
   highlighted?: boolean
   order?: boolean
   published?: boolean
@@ -608,7 +718,7 @@ export type PricingTierSelectScalar = {
   updatedAt?: boolean
 }
 
-export type PricingTierOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "slug" | "description" | "monthlyPrice" | "annualPrice" | "features" | "highlighted" | "order" | "published" | "i18n" | "createdAt" | "updatedAt", ExtArgs["result"]["pricingTier"]>
+export type PricingTierOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "slug" | "description" | "monthlyPrice" | "annualPrice" | "features" | "minPerBuilding" | "badge" | "ctaLabel" | "ctaHref" | "highlighted" | "order" | "published" | "i18n" | "createdAt" | "updatedAt", ExtArgs["result"]["pricingTier"]>
 
 export type $PricingTierPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "PricingTier"
@@ -621,6 +731,16 @@ export type $PricingTierPayload<ExtArgs extends runtime.Types.Extensions.Interna
     monthlyPrice: number
     annualPrice: number
     features: string[]
+    /**
+     * Per-building floor, per month. Null hides the "Minimum €x per building" line.
+     */
+    minPerBuilding: number | null
+    /**
+     * Badge over the featured card — exactly one plan on the page should carry it.
+     */
+    badge: string | null
+    ctaLabel: string | null
+    ctaHref: string | null
     highlighted: boolean
     order: number
     published: boolean
@@ -1057,6 +1177,10 @@ export interface PricingTierFieldRefs {
   readonly monthlyPrice: Prisma.FieldRef<"PricingTier", 'Float'>
   readonly annualPrice: Prisma.FieldRef<"PricingTier", 'Float'>
   readonly features: Prisma.FieldRef<"PricingTier", 'String[]'>
+  readonly minPerBuilding: Prisma.FieldRef<"PricingTier", 'Float'>
+  readonly badge: Prisma.FieldRef<"PricingTier", 'String'>
+  readonly ctaLabel: Prisma.FieldRef<"PricingTier", 'String'>
+  readonly ctaHref: Prisma.FieldRef<"PricingTier", 'String'>
   readonly highlighted: Prisma.FieldRef<"PricingTier", 'Boolean'>
   readonly order: Prisma.FieldRef<"PricingTier", 'Int'>
   readonly published: Prisma.FieldRef<"PricingTier", 'Boolean'>

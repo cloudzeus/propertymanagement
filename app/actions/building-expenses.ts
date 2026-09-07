@@ -13,6 +13,22 @@ import { extractDocument } from "@/lib/ocr/extract";
 import { normalizeExtraction } from "@/lib/ocr/normalize";
 import type { ExtractedDoc } from "@/lib/ocr/prompt";
 import { toConsumptionMap, type ReadingRow } from "@/lib/heating-readings";
+import { matchSupplierByAfm, supplierOptionsForBuilding } from "@/lib/suppliers";
+
+/**
+ * Resolve the registry supplier for an expense: an explicit pick wins (but must
+ * be one the viewer may see for this building), otherwise auto-link by ΑΦΜ.
+ */
+async function resolveExpenseSupplier(buildingId: string, explicit: string | null | undefined, vat: string | null | undefined): Promise<string | null> {
+  const eff = await getEffectiveSession();
+  const role = eff?.user.role ?? "";
+  if (explicit) {
+    const visible = await supplierOptionsForBuilding(buildingId, role);
+    return visible.some((o) => o.id === explicit) ? explicit : null;
+  }
+  if (explicit === null) return null; // user cleared the link on purpose
+  return matchSupplierByAfm(buildingId, vat, role);
+}
 
 const MAX_BYTES = 15 * 1024 * 1024;
 const ALLOWED = ["image/jpeg", "image/png", "image/webp", "application/pdf"];
@@ -196,6 +212,8 @@ export type CreateExpenseInput = {
   categoryId: string | null;
   month: string;
   supplierName?: string | null; supplierVat?: string | null;
+  /** Registry supplier link: id = explicit pick, null = keep unlinked, undefined = auto-match by ΑΦΜ. */
+  supplierId?: string | null;
   documentNumber?: string | null; documentDate?: string | null;
   netAmount?: number | null; vatAmount?: number | null; totalAmount: number;
   description?: string | null;
@@ -257,13 +275,14 @@ export async function createBuildingExpense(buildingId: string, input: CreateExp
   const { loaded, basis, meterReadings, heatingMeterUnit } = await loadAllocContext(buildingId, input.categoryId, input.month);
   const { allocUnits, note } = buildAllocUnits(loaded, basis, meterReadings, heatingMeterUnit);
   const rows = computeAllocation({ total: input.totalAmount, tenantPct: input.tenantPct, ownerPct: input.ownerPct, units: allocUnits });
+  const supplierId = await resolveExpenseSupplier(buildingId, input.supplierId, input.supplierVat);
 
   const expense = await db.$transaction(async (tx) => {
     const exp = await tx.buildingExpense.create({
       data: {
         buildingId, month: input.month, categoryId: input.categoryId, receiptFileId: input.fileId,
         amount: input.totalAmount, netAmount: input.netAmount ?? null, vatAmount: input.vatAmount ?? null,
-        supplierName: input.supplierName ?? null, supplierVat: input.supplierVat ?? null,
+        supplierName: input.supplierName ?? null, supplierVat: input.supplierVat ?? null, supplierId,
         documentNumber: input.documentNumber ?? null,
         documentDate: input.documentDate ? new Date(input.documentDate) : null,
         description: input.description ?? null, status: "CONFIRMED",
@@ -306,6 +325,7 @@ export type UpdateExpenseInput = {
   categoryId: string | null;
   month: string;
   supplierName?: string | null; supplierVat?: string | null;
+  supplierId?: string | null;
   documentNumber?: string | null; documentDate?: string | null;
   netAmount?: number | null; vatAmount?: number | null; totalAmount: number;
   description?: string | null;
@@ -327,6 +347,7 @@ export async function updateBuildingExpense(id: string, input: UpdateExpenseInpu
   const { loaded, basis, meterReadings, heatingMeterUnit } = await loadAllocContext(current.buildingId, input.categoryId, input.month);
   const { allocUnits, note } = buildAllocUnits(loaded, basis, meterReadings, heatingMeterUnit);
   const rows = computeAllocation({ total: input.totalAmount, tenantPct: input.tenantPct, ownerPct: input.ownerPct, units: allocUnits });
+  const supplierId = await resolveExpenseSupplier(current.buildingId, input.supplierId, input.supplierVat);
 
   await db.$transaction(async (tx) => {
     await tx.buildingExpense.update({
@@ -334,7 +355,7 @@ export async function updateBuildingExpense(id: string, input: UpdateExpenseInpu
       data: {
         categoryId: input.categoryId, month: input.month,
         amount: input.totalAmount, netAmount: input.netAmount ?? null, vatAmount: input.vatAmount ?? null,
-        supplierName: input.supplierName ?? null, supplierVat: input.supplierVat ?? null,
+        supplierName: input.supplierName ?? null, supplierVat: input.supplierVat ?? null, supplierId,
         documentNumber: input.documentNumber ?? null,
         documentDate: input.documentDate ? new Date(input.documentDate) : null,
         description: input.description ?? null,
@@ -420,8 +441,8 @@ export async function uploadExpensePayment(expenseId: string, formData: FormData
 }
 
 export type ExpenseRowDTO = {
-  id: string; month: string; status: string; issuedMonth: string | null;
-  documentDate: string | null; supplierName: string | null; supplierVat: string | null; documentNumber: string | null;
+  id: string; buildingId: string; month: string; status: string; issuedMonth: string | null;
+  documentDate: string | null; supplierName: string | null; supplierVat: string | null; supplierId: string | null; documentNumber: string | null;
   categoryId: string | null; categoryName: string | null;
   netAmount: number | null; vatAmount: number | null; amount: number; description: string | null;
   tenantPct: number; ownerPct: number; ocrConfidence: number | null;
@@ -447,9 +468,9 @@ export async function listBuildingExpenses(buildingId: string): Promise<ExpenseR
   return rows.map((e) => {
     const m = e.meterReadings[0];
     return {
-      id: e.id, month: e.month, status: e.status, issuedMonth: e.issuedMonth,
+      id: e.id, buildingId: e.buildingId, month: e.month, status: e.status, issuedMonth: e.issuedMonth,
       documentDate: e.documentDate ? e.documentDate.toISOString() : null,
-      supplierName: e.supplierName, supplierVat: e.supplierVat, documentNumber: e.documentNumber,
+      supplierName: e.supplierName, supplierVat: e.supplierVat, supplierId: e.supplierId, documentNumber: e.documentNumber,
       categoryId: e.categoryId, categoryName: e.categoryRef?.name ?? null,
       netAmount: num(e.netAmount), vatAmount: num(e.vatAmount), amount: Number(e.amount), description: e.description,
       tenantPct: e.tenantPct, ownerPct: e.ownerPct, ocrConfidence: e.ocrConfidence,

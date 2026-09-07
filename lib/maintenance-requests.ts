@@ -95,6 +95,7 @@ export async function getStakeholders(requestId: string): Promise<Recipient[]> {
     select: {
       reportedById: true,
       assignedToId: true,
+      supplierId: true,
       handledBy: true,
       building: {
         select: {
@@ -127,6 +128,11 @@ export async function getStakeholders(requestId: string): Promise<Recipient[]> {
     });
     staff.forEach((u) => ids.add(u.id));
   }
+  // Εξωτερικός συνεργάτης: όλοι οι ενεργοί λογαριασμοί του ενημερώνονται.
+  if (req.supplierId) {
+    const crew = await db.user.findMany({ where: { supplierId: req.supplierId, role: "COLLABORATOR", status: "ACTIVE" }, select: { id: true } });
+    crew.forEach((u) => ids.add(u.id));
+  }
 
   if (ids.size === 0) return [];
   return db.user.findMany({ where: { id: { in: [...ids] } }, select: { id: true, email: true } });
@@ -154,6 +160,7 @@ export async function notifyStakeholders(opts: {
   const hrefFor = (userId: string) => {
     const role = roleOf.get(userId);
     if (["SUPER_ADMIN", "ADMIN", "MANAGER", "EMPLOYEE"].includes(role ?? "")) return `/admin/maintenance/${opts.requestId}`;
+    if (role === "COLLABORATOR") return `/marketplace/requests/${opts.requestId}`;
     if (role === "PROPERTY_ADMIN") return `/portal/maintenance/${opts.requestId}`;
     return `/portal/requests/${opts.requestId}`;
   };
@@ -177,14 +184,20 @@ export async function notifyStakeholders(opts: {
   );
 }
 
-/** Πρόσβαση χρήστη στη βλάβη: staff εταιρίας, διαχειριστής κτηρίου/ακινήτου, δηλών, ή ένοικος/ιδιοκτήτης της μονάδας. */
+/** Πρόσβαση χρήστη στη βλάβη: staff εταιρίας, διαχειριστής κτηρίου/ακινήτου, δηλών, ένοικος/ιδιοκτήτης της μονάδας, ή ο ανατεθειμένος συνεργάτης. */
 export async function canAccessRequest(userId: string, role: string, requestId: string): Promise<boolean> {
   if (["SUPER_ADMIN", "ADMIN", "MANAGER", "EMPLOYEE"].includes(role)) return true;
   const req = await db.maintenanceRequest.findUnique({
     where: { id: requestId },
-    select: { reportedById: true, buildingId: true, unitId: true, building: { select: { propertyId: true } } },
+    select: { reportedById: true, buildingId: true, unitId: true, supplierId: true, building: { select: { propertyId: true } } },
   });
   if (!req) return false;
+  if (role === "COLLABORATOR") {
+    // Suppliers see ONLY work assigned to their own business.
+    if (!req.supplierId) return false;
+    const u = await db.user.findUnique({ where: { id: userId }, select: { supplierId: true } });
+    return u?.supplierId === req.supplierId;
+  }
   if (req.reportedById === userId) return true;
   const assignment = await db.managementAssignment.findFirst({
     where: { userId, OR: [{ buildingId: req.buildingId }, { propertyId: req.building.propertyId }] },
@@ -213,6 +226,8 @@ export async function loadFaultDetail(id: string) {
       categoryRef: { select: { name: true } },
       reportedBy: { select: { name: true, email: true } },
       assignedTo: { select: { name: true } },
+      supplier: { select: { id: true, name: true } },
+      supplierRating: { select: { score: true, comment: true } },
       attachments: { orderBy: { createdAt: "asc" } },
       comments: { orderBy: { createdAt: "asc" }, include: { author: { select: { id: true, name: true } } } },
       statusEvents: { orderBy: { createdAt: "desc" }, include: { byUser: { select: { name: true } } } },
@@ -234,6 +249,11 @@ export async function loadFaultDetail(id: string) {
     unitLabel: r.unit ? `Μονάδα ${r.unit.unitNumber}` : null,
     reporterName: r.reportedBy?.name ?? r.reportedBy?.email ?? null,
     assigneeName: r.assignedTo?.name ?? null,
+    supplierId: r.supplier?.id ?? null,
+    supplierName: r.supplier?.name ?? null,
+    supplierRating: r.supplierRating ? { score: r.supplierRating.score, comment: r.supplierRating.comment } : null,
+    categoryId: r.categoryId,
+    buildingId: r.buildingId,
     slaDueAt: iso(r.slaDueAt),
     scheduledDate: iso(r.scheduledDate),
     createdAt: r.createdAt.toISOString(),

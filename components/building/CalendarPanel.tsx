@@ -7,13 +7,14 @@ import {
   createRecurringTask, updateRecurringTask, deleteRecurringTask, type TaskFrequency, type TaskInput,
 } from "@/app/actions/recurring-tasks";
 import { completeMaintenance } from "@/app/actions/maintenance-logs";
+import { SupplierPicker } from "@/components/suppliers/SupplierPicker";
 import type { BuildingCaps } from "@/lib/building-caps";
 import {
   RiAddLine, RiArrowLeftSLine, RiArrowRightSLine, RiCheckLine, RiLoaderLine,
   RiDeleteBinLine, RiCheckboxCircleLine,
 } from "react-icons/ri";
 
-export type TaskRow = { id: string; title: string; frequency: TaskFrequency; nextDueDate: string | null; vendor: string | null; notes: string | null; active: boolean; kind: string; inServicePackage: boolean; reminderDaysBefore: number };
+export type TaskRow = { id: string; title: string; frequency: TaskFrequency; nextDueDate: string | null; vendor: string | null; supplierId?: string | null; notes: string | null; active: boolean; kind: string; inServicePackage: boolean; reminderDaysBefore: number };
 
 const FREQ_OPTS: { value: TaskFrequency; label: string }[] = [
   { value: "WEEKLY", label: "Εβδομαδιαία" }, { value: "MONTHLY", label: "Μηνιαία" },
@@ -220,6 +221,7 @@ function DayView({ cursor, now, tasks, onEvent }: { cursor: Date; now: Date; tas
 export function TaskModal({ buildingId, editing, onClose, onComplete, onDone }: { buildingId: string; editing: TaskRow | null; onClose: () => void; onComplete: (t: TaskRow) => void; onDone: () => void }) {
   const toInput = (iso: string | null) => (iso ? new Date(iso).toISOString().slice(0, 10) : "");
   const [form, setForm] = useState({ title: editing?.title ?? "", frequency: (editing?.frequency ?? "MONTHLY") as TaskFrequency, nextDueDate: toInput(editing?.nextDueDate ?? null), vendor: editing?.vendor ?? "", notes: editing?.notes ?? "" });
+  const [supplierId, setSupplierId] = useState(editing?.supplierId ?? "");
   const [kind, setKind] = useState(editing?.kind ?? "GENERAL");
   const [inServicePackage, setInServicePackage] = useState(editing?.inServicePackage ?? false);
   const [reminderDaysBefore, setReminderDaysBefore] = useState(editing?.reminderDaysBefore ?? 7);
@@ -228,7 +230,7 @@ export function TaskModal({ buildingId, editing, onClose, onComplete, onDone }: 
   const f = (k: keyof typeof form) => (v: string) => setForm((p) => ({ ...p, [k]: v }));
   function save() {
     setError(null);
-    const payload = { ...form, kind: kind as TaskInput["kind"], inServicePackage, reminderDaysBefore };
+    const payload = { ...form, supplierId: supplierId || null, kind: kind as TaskInput["kind"], inServicePackage, reminderDaysBefore };
     startTransition(async () => {
       const res = editing ? await updateRecurringTask(editing.id, payload) : await createRecurringTask(buildingId, payload);
       if (res && "error" in res && res.error) { setError(res.error); return; }
@@ -260,7 +262,10 @@ export function TaskModal({ buildingId, editing, onClose, onComplete, onDone }: 
           <input type="checkbox" checked={inServicePackage} onChange={(e) => setInServicePackage(e.target.checked)} />
           Εντός πακέτου υπηρεσιών
         </label>
-        <FormField label="Ανάδοχος / συνεργείο"><FieldInput value={form.vendor} onChange={f("vendor")} placeholder="π.χ. KLEEMANN" /></FormField>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+          <FormField label="Προμηθευτής (λίστα)"><SupplierPicker buildingId={buildingId} value={supplierId} onChange={setSupplierId} /></FormField>
+          <FormField label="Ανάδοχος / συνεργείο (ελεύθερο)"><FieldInput value={form.vendor} onChange={f("vendor")} placeholder="π.χ. KLEEMANN" /></FormField>
+        </div>
         <FormField label="Σημειώσεις"><FieldTextarea value={form.notes} onChange={f("notes")} rows={2} /></FormField>
       </div>
       <style>{`@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}`}</style>

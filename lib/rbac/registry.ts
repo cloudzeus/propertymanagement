@@ -16,6 +16,7 @@ export const RBAC_MODULES: readonly RbacModule[] = [
   { key: "residents", label: "Ενοικιαστές", surface: "company", menu: { href: "/admin/residents", icon: "RiUserLine", group: "management" }, actions: [...CRUD] },
   { key: "managed-items", label: "Στοιχεία Διαχείρισης", surface: "company", menu: { href: "/super-admin/managed-items", icon: "RiListCheck2", group: "management" }, actions: [...CRUD] },
   { key: "managed-buildings", label: "Διαχειριζόμενα κτήρια", surface: "company", menu: { href: "/super-admin/managed-buildings", icon: "RiBuilding2Line", group: "management" }, actions: [...CRUD] },
+  { key: "suppliers", label: "Συνεργάτες & Προμηθευτές", surface: "company", menu: { href: "/super-admin/suppliers", icon: "RiTeamLine", group: "management" }, actions: [...CRUD] },
   { key: "roles", label: "Ρόλοι", surface: "company", menu: { href: "/super-admin/roles", icon: "RiShieldUserLine", group: "management" }, actions: [...CRUD] },
   { key: "services", label: "Υπηρεσίες", surface: "company", menu: { href: "/super-admin/services", icon: "RiServiceLine", group: "financials" }, actions: [...CRUD] },
   { key: "api-costs", label: "AI Κόστη / Tokens", surface: "company", menu: { href: "/super-admin/settings/costs", icon: "RiMoneyDollarCircleLine", group: "financials" }, actions: [...VIEW] },
@@ -36,6 +37,7 @@ export const RBAC_MODULES: readonly RbacModule[] = [
   { key: "cms-seo", label: "CMS: SEO", surface: "company", menu: { href: "/super-admin/cms/seo", icon: "RiSearchEyeLine", group: "cms" }, actions: [...CRUD] },
   { key: "cms-settings", label: "CMS: Ρυθμίσεις", surface: "company", menu: { href: "/super-admin/cms/settings", icon: "RiSettings3Line", group: "cms" }, actions: [...CRUD] },
   { key: "cms-pages", label: "CMS: Σελίδες", surface: "company", menu: { href: "/super-admin/cms/pages", icon: "RiPagesLine", group: "cms" }, actions: [...CRUD] },
+  { key: "cms-site-pages", label: "CMS: Δημόσιες σελίδες", surface: "company", menu: { href: "/super-admin/cms/site-pages", icon: "RiLayoutMasonryLine", group: "cms" }, actions: [...CRUD] },
   { key: "cms-pricing", label: "CMS: Τιμές", surface: "company", menu: { href: "/super-admin/cms/pricing", icon: "RiPriceTag3Line", group: "cms" }, actions: [...CRUD] },
   { key: "cms-faq", label: "CMS: FAQ", surface: "company", menu: { href: "/super-admin/cms/faq", icon: "RiQuestionLine", group: "cms" }, actions: [...CRUD] },
   { key: "cms-articles", label: "CMS: Άρθρα", surface: "company", menu: { href: "/super-admin/cms/articles", icon: "RiArticleLine", group: "cms" }, actions: [...CRUD] },
@@ -55,6 +57,8 @@ export const RBAC_MODULES: readonly RbacModule[] = [
   { key: "customer-requests", label: "Αιτήσεις", surface: "customer", menu: { href: "/portal/requests", icon: "RiToolsLine", group: "services" }, actions: [...CRUD] },
   { key: "customer-maintenance", label: "Συντηρήσεις", surface: "customer", menu: { href: "/building?s=maintenance", icon: "RiToolsLine", group: "operations" }, actions: [...CRUD] },
   { key: "customer-communication", label: "Ανακοινώσεις", surface: "customer", menu: { href: "/building?s=communication", icon: "RiNotification2Line", group: "operations" }, actions: [...CRUD] },
+  // The manager's PRIVATE supplier list (contact cards) — isolated from the company registry.
+  { key: "customer-suppliers", label: "Οι προμηθευτές μου", surface: "customer", menu: { href: "/building/suppliers", icon: "RiTruckLine", group: "operations" }, actions: [...CRUD] },
   { key: "customer-announcements", label: "Ανακοινώσεις", surface: "customer", menu: { href: "/portal/announcements", icon: "RiNotification2Line", group: "operations" }, actions: [...VIEW] },
   { key: "customer-wallet", label: "Πορτοφόλι", surface: "customer", menu: { href: "/portal/wallet", icon: "RiWallet3Line", group: "services" }, actions: [...VIEW] },
   { key: "owner-requests", label: "Αιτήματα", surface: "customer", menu: { href: "/owner/requests", icon: "RiToolsLine", group: "assets" }, actions: [...CRUD] },
@@ -63,11 +67,16 @@ export const RBAC_MODULES: readonly RbacModule[] = [
   { key: "portal-payments", label: "Λογαριασμοί", surface: "customer", menu: { href: "/portal/payments", icon: "RiMoneyDollarCircleLine", group: "services" }, actions: [...VIEW] },
   { key: "portal-files", label: "Αρχεία", surface: "customer", menu: { href: "/portal/files", icon: "RiFileListLine", group: "services" }, actions: [...VIEW] },
   { key: "portal-maintenance", label: "Συντηρήσεις", surface: "customer", menu: { href: "/portal/maintenance", icon: "RiToolsLine", group: "operations" }, actions: [...VIEW] },
-  // ── Marketplace surface ──
-  { key: "mkt-dashboard", label: "Dashboard", surface: "marketplace", menu: { href: "/staff", icon: "RiDashboardLine", group: "core" }, actions: [...VIEW] },
-  { key: "mkt-tasks", label: "Assigned", surface: "marketplace", menu: { href: "/staff/tasks", icon: "RiFileListLine", group: "tasks" }, actions: [...CRUD] },
-  { key: "mkt-maintenance", label: "Συντηρήσεις", surface: "marketplace", menu: { href: "/staff/maintenance", icon: "RiToolsLine", group: "tasks" }, actions: [...CRUD] },
-  { key: "mkt-calendar", label: "Ημερολόγιο", surface: "marketplace", menu: { href: "/staff/calendar", icon: "RiCalendarLine", group: "tasks" }, actions: [...VIEW] },
+  // ── Marketplace surface (COLLABORATOR = external supplier's users) ──
+  { key: "mkt-dashboard", label: "Dashboard", surface: "marketplace", menu: { href: "/marketplace", icon: "RiDashboardLine", group: "core" }, actions: [...VIEW] },
+  { key: "mkt-tasks", label: "Αναθέσεις", surface: "marketplace", menu: { href: "/marketplace/requests", icon: "RiToolsLine", group: "tasks" }, actions: [...CRUD] },
+  { key: "mkt-catalog", label: "Υπηρεσίες & προϊόντα", surface: "marketplace", menu: { href: "/marketplace/catalog", icon: "RiPriceTag3Line", group: "business" }, actions: [...CRUD] },
+  { key: "mkt-team", label: "Ομάδα", surface: "marketplace", menu: { href: "/marketplace/team", icon: "RiGroupLine", group: "business" }, actions: [...CRUD] },
+  { key: "mkt-profile", label: "Προφίλ & ωράρια", surface: "marketplace", menu: { href: "/marketplace/profile", icon: "RiStoreLine", group: "business" }, actions: [...CRUD] },
+  // Legacy keys kept without a menu: EMPLOYEE defaults grant them and
+  // /staff/calendar still checks "mkt-calendar" (see that page).
+  { key: "mkt-maintenance", label: "Συντηρήσεις (legacy)", surface: "marketplace", actions: [...CRUD] },
+  { key: "mkt-calendar", label: "Ημερολόγιο (legacy)", surface: "marketplace", actions: [...VIEW] },
 ] as const;
 
 const all = (): string[] => RBAC_MODULES.flatMap((m) => m.actions.map((a) => permKey(m.key, a)));
@@ -80,21 +89,21 @@ export const DEFAULT_PERMISSIONS: RoleDefaults = {
   SUPER_ADMIN: all(),
   ADMIN: [
     ...view("dashboard", "reports"),
-    ...crud("properties", "units", "users", "residents", "maintenance", "announcements", "calendar", "managed-items", "managed-buildings"),
+    ...crud("properties", "units", "users", "residents", "maintenance", "announcements", "calendar", "managed-items", "managed-buildings", "suppliers"),
     ...crud("metered-plans", "customer-wallets"),
     ...view("api-costs"), ...crud("settings", "settings-payments"),
   ],
   MANAGER: [
     ...view("dashboard", "calendar"),
-    ...crud("properties", "units", "maintenance", "announcements", "managed-items", "managed-buildings"),
+    ...crud("properties", "units", "maintenance", "announcements", "managed-items", "managed-buildings", "suppliers"),
   ],
   EMPLOYEE: [
-    ...view("mkt-dashboard", "mkt-calendar", "managed-buildings"), ...crud("mkt-tasks", "mkt-maintenance"),
+    ...view("mkt-dashboard", "mkt-calendar", "managed-buildings", "suppliers"), ...crud("mkt-tasks", "mkt-maintenance"),
     ...crud("managed-items"), ...view("maintenance", "calendar"),
   ],
   PROPERTY_ADMIN: [
     ...view("customer-dashboard"),
-    ...crud("customer-properties", "customer-units", "customer-maintenance", "customer-communication"),
+    ...crud("customer-properties", "customer-units", "customer-maintenance", "customer-communication", "customer-suppliers"),
     ...view("customer-wallet"),
   ],
   PROPERTY_OWNER: [
@@ -115,7 +124,7 @@ export const DEFAULT_PERMISSIONS: RoleDefaults = {
     ...view("customer-dashboard", "customer-announcements"),
   ],
   COLLABORATOR: [
-    ...view("mkt-dashboard"), ...crud("mkt-tasks", "mkt-maintenance"),
+    ...view("mkt-dashboard"), ...crud("mkt-tasks", "mkt-catalog", "mkt-team", "mkt-profile"),
   ],
 };
 

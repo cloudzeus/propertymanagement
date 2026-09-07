@@ -29,6 +29,7 @@ import {
   RiEyeLine, RiEyeFill,
   RiLayoutLine, RiLayoutFill,
   RiPagesLine, RiPagesFill,
+  RiLayoutMasonryLine, RiLayoutMasonryFill,
   RiPriceTag3Line, RiPriceTag3Fill,
   RiQuestionLine, RiQuestionFill,
   RiImage2Line, RiImage2Fill,
@@ -39,6 +40,7 @@ import {
   RiListCheck2,
   RiWallet3Line, RiMoneyEuroCircleLine, RiCalendarTodoLine,
   RiSpeedUpLine, RiFolderLine, RiContactsBook3Line, RiMegaphoneLine,
+  RiTeamLine, RiTeamFill, RiTruckLine, RiTruckFill, RiStoreLine, RiStoreFill,
 } from "react-icons/ri";
 import type { MenuGroup } from "@/lib/rbac/permissions";
 
@@ -88,6 +90,7 @@ const ICONS: Record<string, { line: React.ElementType; fill: React.ElementType }
   RiSearchEyeLine:          { line: RiSearchEyeLine,          fill: RiSearchEyeLine },
   RiSettings3Line:          { line: RiSettings3Line,          fill: RiSettings3Fill },
   RiPagesLine:              { line: RiPagesLine,              fill: RiPagesFill },
+  RiLayoutMasonryLine:      { line: RiLayoutMasonryLine,      fill: RiLayoutMasonryFill },
   RiPriceTag3Line:          { line: RiPriceTag3Line,          fill: RiPriceTag3Fill },
   RiQuestionLine:           { line: RiQuestionLine,           fill: RiQuestionFill },
   RiArticleLine:            { line: RiArticleLine,            fill: RiArticleFill },
@@ -96,6 +99,9 @@ const ICONS: Record<string, { line: React.ElementType; fill: React.ElementType }
   RiTranslate2:             { line: RiTranslate2,             fill: RiTranslate2 },
   RiEyeLine:                { line: RiEyeLine,                fill: RiEyeFill },
   RiListCheck2:             { line: RiListCheck2,             fill: RiListCheck2 },
+  RiTeamLine:               { line: RiTeamLine,               fill: RiTeamFill },
+  RiTruckLine:              { line: RiTruckLine,              fill: RiTruckFill },
+  RiStoreLine:              { line: RiStoreLine,              fill: RiStoreFill },
 };
 const FALLBACK_ICON = { line: RiFileListLine, fill: RiFileListFill };
 
@@ -112,6 +118,7 @@ const GROUP_META: Record<string, { label: string; color: string; icon: React.Ele
   services:    { label: "Υπηρεσίες",       color: "#CA5D00", icon: RiToolsLine },
   operations:  { label: "Εργασίες",        color: "#CA5D00", icon: RiToolsLine },
   tasks:       { label: "Εργασίες",        color: "#CA5D00", icon: RiToolsLine },
+  business:    { label: "Η επιχείρησή μου", color: "#107C10", icon: RiStoreLine },
 };
 const FALLBACK_GROUP_META = { color: "#5C5C5C", icon: RiFileListLine };
 
@@ -187,6 +194,9 @@ export function SidebarNav({ role, menu, customerBuildings, userName, userEmail,
   useEffect(() => {
     const c = localStorage.getItem(STORAGE_COLLAPSED);
     if (c !== null) setCollapsed(c === "true");
+    // Phones: start collapsed so the content column gets the width (mobile
+    // fault reporting); the user's explicit choice still wins once stored.
+    else if (window.innerWidth < 768) setCollapsed(true);
     const g = localStorage.getItem(STORAGE_GROUPS);
     if (g) { try { setOpenGroups(JSON.parse(g)); } catch { /* ignore */ } }
   }, []);

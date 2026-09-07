@@ -11,6 +11,9 @@ export type FaultListItem = {
   unitLabel: string | null;
   reporterName: string | null;
   assigneeName: string | null;
+  /** Εξωτερικός συνεργάτης (μητρώο εταιρίας) στον οποίο ανατέθηκε — optional: not every list builds it. */
+  supplierId?: string | null;
+  supplierName?: string | null;
   slaDueAt: string | null;
   scheduledDate: string | null;
   createdAt: string;
@@ -24,6 +27,9 @@ export type FaultAppointment = { id: string; startAt: string; endAt: string; sta
 
 export type FaultDetail = FaultListItem & {
   description: string;
+  buildingId?: string;
+  categoryId?: string | null;
+  supplierRating?: { score: number; comment: string | null } | null;
   restrictedAccess: boolean;
   managerPresence: boolean;
   estimatedMinutes: number | null;

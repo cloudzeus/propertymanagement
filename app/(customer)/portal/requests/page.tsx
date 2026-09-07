@@ -5,7 +5,7 @@ import { db } from "@/lib/db";
 import { NewRequestButton } from "@/components/maintenance/new-request-form";
 import { EmptyState } from "@/components/dashboard";
 import { STATUS_LABELS, STATUS_COLORS, type FaultStatus } from "@/lib/maintenance-shared";
-import { RiToolsLine } from "react-icons/ri";
+import { RiToolsLine, RiCameraLine } from "react-icons/ri";
 
 export const metadata = { title: "Αιτήματα βλαβών" };
 
@@ -48,6 +48,11 @@ export default async function PortalRequestsPage() {
     <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 18, maxWidth: 860 }}>
       <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
         <h1 style={{ fontSize: 22, fontWeight: 700, color: "var(--foreground)", margin: 0, flex: 1 }}>Αιτήματα βλαβών</h1>
+        {buildings.length > 0 && (
+          <Link href="/portal/requests/new" style={{ display: "inline-flex", alignItems: "center", gap: 6, height: 36, padding: "0 14px", background: "var(--primary)", color: "var(--primary-foreground)", borderRadius: "var(--radius-sm)", fontSize: 13, fontWeight: 600, textDecoration: "none" }}>
+            <RiCameraLine /> Δήλωση με φωτογραφία
+          </Link>
+        )}
         {buildings.length > 0 && <NewRequestButton buildings={buildings} categories={categories} detailBase="/portal/requests" />}
       </div>
 

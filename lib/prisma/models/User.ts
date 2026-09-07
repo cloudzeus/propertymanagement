@@ -54,6 +54,8 @@ export type UserMinAggregateOutputType = {
   companyId: string | null
   customerId: string | null
   buildingId: string | null
+  supplierId: string | null
+  isSupplierAdmin: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
   lastLoginAt: Date | null
@@ -79,6 +81,8 @@ export type UserMaxAggregateOutputType = {
   companyId: string | null
   customerId: string | null
   buildingId: string | null
+  supplierId: string | null
+  isSupplierAdmin: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
   lastLoginAt: Date | null
@@ -104,6 +108,8 @@ export type UserCountAggregateOutputType = {
   companyId: number
   customerId: number
   buildingId: number
+  supplierId: number
+  isSupplierAdmin: number
   createdAt: number
   updatedAt: number
   lastLoginAt: number
@@ -139,6 +145,8 @@ export type UserMinAggregateInputType = {
   companyId?: true
   customerId?: true
   buildingId?: true
+  supplierId?: true
+  isSupplierAdmin?: true
   createdAt?: true
   updatedAt?: true
   lastLoginAt?: true
@@ -164,6 +172,8 @@ export type UserMaxAggregateInputType = {
   companyId?: true
   customerId?: true
   buildingId?: true
+  supplierId?: true
+  isSupplierAdmin?: true
   createdAt?: true
   updatedAt?: true
   lastLoginAt?: true
@@ -189,6 +199,8 @@ export type UserCountAggregateInputType = {
   companyId?: true
   customerId?: true
   buildingId?: true
+  supplierId?: true
+  isSupplierAdmin?: true
   createdAt?: true
   updatedAt?: true
   lastLoginAt?: true
@@ -301,6 +313,8 @@ export type UserGroupByOutputType = {
   companyId: string | null
   customerId: string | null
   buildingId: string | null
+  supplierId: string | null
+  isSupplierAdmin: boolean
   createdAt: Date
   updatedAt: Date
   lastLoginAt: Date | null
@@ -349,6 +363,8 @@ export type UserWhereInput = {
   companyId?: Prisma.StringNullableFilter<"User"> | string | null
   customerId?: Prisma.StringNullableFilter<"User"> | string | null
   buildingId?: Prisma.StringNullableFilter<"User"> | string | null
+  supplierId?: Prisma.StringNullableFilter<"User"> | string | null
+  isSupplierAdmin?: Prisma.BoolFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   lastLoginAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
@@ -377,6 +393,7 @@ export type UserWhereInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentListRelationFilter
   notifications?: Prisma.NotificationListRelationFilter
   accountCustomers?: Prisma.CustomerListRelationFilter
+  supplier?: Prisma.XOR<Prisma.SupplierNullableScalarRelationFilter, Prisma.SupplierWhereInput> | null
   apiUsageLogs?: Prisma.APIUsageLogListRelationFilter
   managementAssignments?: Prisma.ManagementAssignmentListRelationFilter
   accounts?: Prisma.AccountListRelationFilter
@@ -403,6 +420,8 @@ export type UserOrderByWithRelationInput = {
   companyId?: Prisma.SortOrderInput | Prisma.SortOrder
   customerId?: Prisma.SortOrderInput | Prisma.SortOrder
   buildingId?: Prisma.SortOrderInput | Prisma.SortOrder
+  supplierId?: Prisma.SortOrderInput | Prisma.SortOrder
+  isSupplierAdmin?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   lastLoginAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -431,6 +450,7 @@ export type UserOrderByWithRelationInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentOrderByRelationAggregateInput
   notifications?: Prisma.NotificationOrderByRelationAggregateInput
   accountCustomers?: Prisma.CustomerOrderByRelationAggregateInput
+  supplier?: Prisma.SupplierOrderByWithRelationInput
   apiUsageLogs?: Prisma.APIUsageLogOrderByRelationAggregateInput
   managementAssignments?: Prisma.ManagementAssignmentOrderByRelationAggregateInput
   accounts?: Prisma.AccountOrderByRelationAggregateInput
@@ -460,6 +480,8 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   companyId?: Prisma.StringNullableFilter<"User"> | string | null
   customerId?: Prisma.StringNullableFilter<"User"> | string | null
   buildingId?: Prisma.StringNullableFilter<"User"> | string | null
+  supplierId?: Prisma.StringNullableFilter<"User"> | string | null
+  isSupplierAdmin?: Prisma.BoolFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   lastLoginAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
@@ -488,6 +510,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   maintenanceAppointments?: Prisma.MaintenanceAppointmentListRelationFilter
   notifications?: Prisma.NotificationListRelationFilter
   accountCustomers?: Prisma.CustomerListRelationFilter
+  supplier?: Prisma.XOR<Prisma.SupplierNullableScalarRelationFilter, Prisma.SupplierWhereInput> | null
   apiUsageLogs?: Prisma.APIUsageLogListRelationFilter
   managementAssignments?: Prisma.ManagementAssignmentListRelationFilter
   accounts?: Prisma.AccountListRelationFilter
@@ -514,6 +537,8 @@ export type UserOrderByWithAggregationInput = {
   companyId?: Prisma.SortOrderInput | Prisma.SortOrder
   customerId?: Prisma.SortOrderInput | Prisma.SortOrder
   buildingId?: Prisma.SortOrderInput | Prisma.SortOrder
+  supplierId?: Prisma.SortOrderInput | Prisma.SortOrder
+  isSupplierAdmin?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   lastLoginAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -547,6 +572,8 @@ export type UserScalarWhereWithAggregatesInput = {
   companyId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   customerId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   buildingId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  supplierId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  isSupplierAdmin?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   lastLoginAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
@@ -568,6 +595,7 @@ export type UserCreateInput = {
   contactEmail?: string | null
   contactPhone?: string | null
   softoneTrdr?: number | null
+  isSupplierAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -596,6 +624,7 @@ export type UserCreateInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentCreateNestedManyWithoutBookedByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerCreateNestedManyWithoutAccountManagerInput
+  supplier?: Prisma.SupplierCreateNestedOneWithoutUsersInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -622,6 +651,8 @@ export type UserUncheckedCreateInput = {
   companyId?: string | null
   customerId?: string | null
   buildingId?: string | null
+  supplierId?: string | null
+  isSupplierAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -668,6 +699,7 @@ export type UserUpdateInput = {
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -696,6 +728,7 @@ export type UserUpdateInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUpdateManyWithoutBookedByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUpdateManyWithoutAccountManagerNestedInput
+  supplier?: Prisma.SupplierUpdateOneWithoutUsersNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -722,6 +755,8 @@ export type UserUncheckedUpdateInput = {
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -772,6 +807,8 @@ export type UserCreateManyInput = {
   companyId?: string | null
   customerId?: string | null
   buildingId?: string | null
+  supplierId?: string | null
+  isSupplierAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -793,6 +830,7 @@ export type UserUpdateManyMutationInput = {
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -818,6 +856,8 @@ export type UserUncheckedUpdateManyInput = {
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -843,6 +883,8 @@ export type UserCountOrderByAggregateInput = {
   companyId?: Prisma.SortOrder
   customerId?: Prisma.SortOrder
   buildingId?: Prisma.SortOrder
+  supplierId?: Prisma.SortOrder
+  isSupplierAdmin?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   lastLoginAt?: Prisma.SortOrder
@@ -872,6 +914,8 @@ export type UserMaxOrderByAggregateInput = {
   companyId?: Prisma.SortOrder
   customerId?: Prisma.SortOrder
   buildingId?: Prisma.SortOrder
+  supplierId?: Prisma.SortOrder
+  isSupplierAdmin?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   lastLoginAt?: Prisma.SortOrder
@@ -897,6 +941,8 @@ export type UserMinOrderByAggregateInput = {
   companyId?: Prisma.SortOrder
   customerId?: Prisma.SortOrder
   buildingId?: Prisma.SortOrder
+  supplierId?: Prisma.SortOrder
+  isSupplierAdmin?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   lastLoginAt?: Prisma.SortOrder
@@ -1514,6 +1560,48 @@ export type UserUpdateOneWithoutSupportTicketsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutSupportTicketsInput, Prisma.UserUpdateWithoutSupportTicketsInput>, Prisma.UserUncheckedUpdateWithoutSupportTicketsInput>
 }
 
+export type UserCreateNestedManyWithoutSupplierInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSupplierInput, Prisma.UserUncheckedCreateWithoutSupplierInput> | Prisma.UserCreateWithoutSupplierInput[] | Prisma.UserUncheckedCreateWithoutSupplierInput[]
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSupplierInput | Prisma.UserCreateOrConnectWithoutSupplierInput[]
+  createMany?: Prisma.UserCreateManySupplierInputEnvelope
+  connect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+}
+
+export type UserUncheckedCreateNestedManyWithoutSupplierInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSupplierInput, Prisma.UserUncheckedCreateWithoutSupplierInput> | Prisma.UserCreateWithoutSupplierInput[] | Prisma.UserUncheckedCreateWithoutSupplierInput[]
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSupplierInput | Prisma.UserCreateOrConnectWithoutSupplierInput[]
+  createMany?: Prisma.UserCreateManySupplierInputEnvelope
+  connect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+}
+
+export type UserUpdateManyWithoutSupplierNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSupplierInput, Prisma.UserUncheckedCreateWithoutSupplierInput> | Prisma.UserCreateWithoutSupplierInput[] | Prisma.UserUncheckedCreateWithoutSupplierInput[]
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSupplierInput | Prisma.UserCreateOrConnectWithoutSupplierInput[]
+  upsert?: Prisma.UserUpsertWithWhereUniqueWithoutSupplierInput | Prisma.UserUpsertWithWhereUniqueWithoutSupplierInput[]
+  createMany?: Prisma.UserCreateManySupplierInputEnvelope
+  set?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  disconnect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  delete?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  connect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  update?: Prisma.UserUpdateWithWhereUniqueWithoutSupplierInput | Prisma.UserUpdateWithWhereUniqueWithoutSupplierInput[]
+  updateMany?: Prisma.UserUpdateManyWithWhereWithoutSupplierInput | Prisma.UserUpdateManyWithWhereWithoutSupplierInput[]
+  deleteMany?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[]
+}
+
+export type UserUncheckedUpdateManyWithoutSupplierNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutSupplierInput, Prisma.UserUncheckedCreateWithoutSupplierInput> | Prisma.UserCreateWithoutSupplierInput[] | Prisma.UserUncheckedCreateWithoutSupplierInput[]
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSupplierInput | Prisma.UserCreateOrConnectWithoutSupplierInput[]
+  upsert?: Prisma.UserUpsertWithWhereUniqueWithoutSupplierInput | Prisma.UserUpsertWithWhereUniqueWithoutSupplierInput[]
+  createMany?: Prisma.UserCreateManySupplierInputEnvelope
+  set?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  disconnect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  delete?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  connect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  update?: Prisma.UserUpdateWithWhereUniqueWithoutSupplierInput | Prisma.UserUpdateWithWhereUniqueWithoutSupplierInput[]
+  updateMany?: Prisma.UserUpdateManyWithWhereWithoutSupplierInput | Prisma.UserUpdateManyWithWhereWithoutSupplierInput[]
+  deleteMany?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[]
+}
+
 export type UserCreateWithoutAccountsInput = {
   id?: string
   email: string
@@ -1530,6 +1618,7 @@ export type UserCreateWithoutAccountsInput = {
   contactEmail?: string | null
   contactPhone?: string | null
   softoneTrdr?: number | null
+  isSupplierAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -1558,6 +1647,7 @@ export type UserCreateWithoutAccountsInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentCreateNestedManyWithoutBookedByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerCreateNestedManyWithoutAccountManagerInput
+  supplier?: Prisma.SupplierCreateNestedOneWithoutUsersInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
@@ -1583,6 +1673,8 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   companyId?: string | null
   customerId?: string | null
   buildingId?: string | null
+  supplierId?: string | null
+  isSupplierAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -1644,6 +1736,7 @@ export type UserUpdateWithoutAccountsInput = {
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1672,6 +1765,7 @@ export type UserUpdateWithoutAccountsInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUpdateManyWithoutBookedByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUpdateManyWithoutAccountManagerNestedInput
+  supplier?: Prisma.SupplierUpdateOneWithoutUsersNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
@@ -1697,6 +1791,8 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1742,6 +1838,7 @@ export type UserCreateWithoutSessionsInput = {
   contactEmail?: string | null
   contactPhone?: string | null
   softoneTrdr?: number | null
+  isSupplierAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -1770,6 +1867,7 @@ export type UserCreateWithoutSessionsInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentCreateNestedManyWithoutBookedByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerCreateNestedManyWithoutAccountManagerInput
+  supplier?: Prisma.SupplierCreateNestedOneWithoutUsersInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -1795,6 +1893,8 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   companyId?: string | null
   customerId?: string | null
   buildingId?: string | null
+  supplierId?: string | null
+  isSupplierAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -1856,6 +1956,7 @@ export type UserUpdateWithoutSessionsInput = {
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1884,6 +1985,7 @@ export type UserUpdateWithoutSessionsInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUpdateManyWithoutBookedByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUpdateManyWithoutAccountManagerNestedInput
+  supplier?: Prisma.SupplierUpdateOneWithoutUsersNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -1909,6 +2011,8 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1954,6 +2058,7 @@ export type UserCreateWithoutCreatedCompaniesInput = {
   contactEmail?: string | null
   contactPhone?: string | null
   softoneTrdr?: number | null
+  isSupplierAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -1981,6 +2086,7 @@ export type UserCreateWithoutCreatedCompaniesInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentCreateNestedManyWithoutBookedByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerCreateNestedManyWithoutAccountManagerInput
+  supplier?: Prisma.SupplierCreateNestedOneWithoutUsersInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -2007,6 +2113,8 @@ export type UserUncheckedCreateWithoutCreatedCompaniesInput = {
   companyId?: string | null
   customerId?: string | null
   buildingId?: string | null
+  supplierId?: string | null
+  isSupplierAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -2057,6 +2165,7 @@ export type UserCreateWithoutCompanyInput = {
   contactEmail?: string | null
   contactPhone?: string | null
   softoneTrdr?: number | null
+  isSupplierAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -2084,6 +2193,7 @@ export type UserCreateWithoutCompanyInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentCreateNestedManyWithoutBookedByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerCreateNestedManyWithoutAccountManagerInput
+  supplier?: Prisma.SupplierCreateNestedOneWithoutUsersInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -2109,6 +2219,8 @@ export type UserUncheckedCreateWithoutCompanyInput = {
   softoneTrdr?: number | null
   customerId?: string | null
   buildingId?: string | null
+  supplierId?: string | null
+  isSupplierAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -2176,6 +2288,7 @@ export type UserUpdateWithoutCreatedCompaniesInput = {
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2203,6 +2316,7 @@ export type UserUpdateWithoutCreatedCompaniesInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUpdateManyWithoutBookedByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUpdateManyWithoutAccountManagerNestedInput
+  supplier?: Prisma.SupplierUpdateOneWithoutUsersNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -2229,6 +2343,8 @@ export type UserUncheckedUpdateWithoutCreatedCompaniesInput = {
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2297,6 +2413,8 @@ export type UserScalarWhereInput = {
   companyId?: Prisma.StringNullableFilter<"User"> | string | null
   customerId?: Prisma.StringNullableFilter<"User"> | string | null
   buildingId?: Prisma.StringNullableFilter<"User"> | string | null
+  supplierId?: Prisma.StringNullableFilter<"User"> | string | null
+  isSupplierAdmin?: Prisma.BoolFilter<"User"> | boolean
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   lastLoginAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
@@ -2318,6 +2436,7 @@ export type UserCreateWithoutEmployeeLinksInput = {
   contactEmail?: string | null
   contactPhone?: string | null
   softoneTrdr?: number | null
+  isSupplierAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -2345,6 +2464,7 @@ export type UserCreateWithoutEmployeeLinksInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentCreateNestedManyWithoutBookedByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerCreateNestedManyWithoutAccountManagerInput
+  supplier?: Prisma.SupplierCreateNestedOneWithoutUsersInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -2371,6 +2491,8 @@ export type UserUncheckedCreateWithoutEmployeeLinksInput = {
   companyId?: string | null
   customerId?: string | null
   buildingId?: string | null
+  supplierId?: string | null
+  isSupplierAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -2432,6 +2554,7 @@ export type UserUpdateWithoutEmployeeLinksInput = {
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2459,6 +2582,7 @@ export type UserUpdateWithoutEmployeeLinksInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUpdateManyWithoutBookedByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUpdateManyWithoutAccountManagerNestedInput
+  supplier?: Prisma.SupplierUpdateOneWithoutUsersNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -2485,6 +2609,8 @@ export type UserUncheckedUpdateWithoutEmployeeLinksInput = {
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2530,6 +2656,7 @@ export type UserCreateWithoutAccountCustomersInput = {
   contactEmail?: string | null
   contactPhone?: string | null
   softoneTrdr?: number | null
+  isSupplierAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -2557,6 +2684,7 @@ export type UserCreateWithoutAccountCustomersInput = {
   maintenanceSlots?: Prisma.MaintenanceSlotCreateNestedManyWithoutOfferedByInput
   maintenanceAppointments?: Prisma.MaintenanceAppointmentCreateNestedManyWithoutBookedByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  supplier?: Prisma.SupplierCreateNestedOneWithoutUsersInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -2583,6 +2711,8 @@ export type UserUncheckedCreateWithoutAccountCustomersInput = {
   companyId?: string | null
   customerId?: string | null
   buildingId?: string | null
+  supplierId?: string | null
+  isSupplierAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -2633,6 +2763,7 @@ export type UserCreateWithoutCustomerInput = {
   contactEmail?: string | null
   contactPhone?: string | null
   softoneTrdr?: number | null
+  isSupplierAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -2660,6 +2791,7 @@ export type UserCreateWithoutCustomerInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentCreateNestedManyWithoutBookedByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerCreateNestedManyWithoutAccountManagerInput
+  supplier?: Prisma.SupplierCreateNestedOneWithoutUsersInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -2685,6 +2817,8 @@ export type UserUncheckedCreateWithoutCustomerInput = {
   softoneTrdr?: number | null
   companyId?: string | null
   buildingId?: string | null
+  supplierId?: string | null
+  isSupplierAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -2752,6 +2886,7 @@ export type UserUpdateWithoutAccountCustomersInput = {
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2779,6 +2914,7 @@ export type UserUpdateWithoutAccountCustomersInput = {
   maintenanceSlots?: Prisma.MaintenanceSlotUpdateManyWithoutOfferedByNestedInput
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUpdateManyWithoutBookedByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  supplier?: Prisma.SupplierUpdateOneWithoutUsersNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -2805,6 +2941,8 @@ export type UserUncheckedUpdateWithoutAccountCustomersInput = {
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2866,6 +3004,7 @@ export type UserCreateWithoutBuildingInput = {
   contactEmail?: string | null
   contactPhone?: string | null
   softoneTrdr?: number | null
+  isSupplierAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -2893,6 +3032,7 @@ export type UserCreateWithoutBuildingInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentCreateNestedManyWithoutBookedByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerCreateNestedManyWithoutAccountManagerInput
+  supplier?: Prisma.SupplierCreateNestedOneWithoutUsersInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -2918,6 +3058,8 @@ export type UserUncheckedCreateWithoutBuildingInput = {
   softoneTrdr?: number | null
   companyId?: string | null
   customerId?: string | null
+  supplierId?: string | null
+  isSupplierAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -2990,6 +3132,7 @@ export type UserCreateWithoutOccupanciesInput = {
   contactEmail?: string | null
   contactPhone?: string | null
   softoneTrdr?: number | null
+  isSupplierAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -3017,6 +3160,7 @@ export type UserCreateWithoutOccupanciesInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentCreateNestedManyWithoutBookedByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerCreateNestedManyWithoutAccountManagerInput
+  supplier?: Prisma.SupplierCreateNestedOneWithoutUsersInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -3043,6 +3187,8 @@ export type UserUncheckedCreateWithoutOccupanciesInput = {
   companyId?: string | null
   customerId?: string | null
   buildingId?: string | null
+  supplierId?: string | null
+  isSupplierAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -3104,6 +3250,7 @@ export type UserUpdateWithoutOccupanciesInput = {
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3131,6 +3278,7 @@ export type UserUpdateWithoutOccupanciesInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUpdateManyWithoutBookedByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUpdateManyWithoutAccountManagerNestedInput
+  supplier?: Prisma.SupplierUpdateOneWithoutUsersNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -3157,6 +3305,8 @@ export type UserUncheckedUpdateWithoutOccupanciesInput = {
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3202,6 +3352,7 @@ export type UserCreateWithoutInfraKeyOfInput = {
   contactEmail?: string | null
   contactPhone?: string | null
   softoneTrdr?: number | null
+  isSupplierAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -3229,6 +3380,7 @@ export type UserCreateWithoutInfraKeyOfInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentCreateNestedManyWithoutBookedByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerCreateNestedManyWithoutAccountManagerInput
+  supplier?: Prisma.SupplierCreateNestedOneWithoutUsersInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -3255,6 +3407,8 @@ export type UserUncheckedCreateWithoutInfraKeyOfInput = {
   companyId?: string | null
   customerId?: string | null
   buildingId?: string | null
+  supplierId?: string | null
+  isSupplierAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -3316,6 +3470,7 @@ export type UserUpdateWithoutInfraKeyOfInput = {
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3343,6 +3498,7 @@ export type UserUpdateWithoutInfraKeyOfInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUpdateManyWithoutBookedByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUpdateManyWithoutAccountManagerNestedInput
+  supplier?: Prisma.SupplierUpdateOneWithoutUsersNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -3369,6 +3525,8 @@ export type UserUncheckedUpdateWithoutInfraKeyOfInput = {
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3414,6 +3572,7 @@ export type UserCreateWithoutInfraAccessInput = {
   contactEmail?: string | null
   contactPhone?: string | null
   softoneTrdr?: number | null
+  isSupplierAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -3441,6 +3600,7 @@ export type UserCreateWithoutInfraAccessInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentCreateNestedManyWithoutBookedByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerCreateNestedManyWithoutAccountManagerInput
+  supplier?: Prisma.SupplierCreateNestedOneWithoutUsersInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -3467,6 +3627,8 @@ export type UserUncheckedCreateWithoutInfraAccessInput = {
   companyId?: string | null
   customerId?: string | null
   buildingId?: string | null
+  supplierId?: string | null
+  isSupplierAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -3528,6 +3690,7 @@ export type UserUpdateWithoutInfraAccessInput = {
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3555,6 +3718,7 @@ export type UserUpdateWithoutInfraAccessInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUpdateManyWithoutBookedByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUpdateManyWithoutAccountManagerNestedInput
+  supplier?: Prisma.SupplierUpdateOneWithoutUsersNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -3581,6 +3745,8 @@ export type UserUncheckedUpdateWithoutInfraAccessInput = {
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3626,6 +3792,7 @@ export type UserCreateWithoutPerformedMaintenanceInput = {
   contactEmail?: string | null
   contactPhone?: string | null
   softoneTrdr?: number | null
+  isSupplierAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -3653,6 +3820,7 @@ export type UserCreateWithoutPerformedMaintenanceInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentCreateNestedManyWithoutBookedByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerCreateNestedManyWithoutAccountManagerInput
+  supplier?: Prisma.SupplierCreateNestedOneWithoutUsersInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -3679,6 +3847,8 @@ export type UserUncheckedCreateWithoutPerformedMaintenanceInput = {
   companyId?: string | null
   customerId?: string | null
   buildingId?: string | null
+  supplierId?: string | null
+  isSupplierAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -3740,6 +3910,7 @@ export type UserUpdateWithoutPerformedMaintenanceInput = {
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3767,6 +3938,7 @@ export type UserUpdateWithoutPerformedMaintenanceInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUpdateManyWithoutBookedByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUpdateManyWithoutAccountManagerNestedInput
+  supplier?: Prisma.SupplierUpdateOneWithoutUsersNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -3793,6 +3965,8 @@ export type UserUncheckedUpdateWithoutPerformedMaintenanceInput = {
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3838,6 +4012,7 @@ export type UserCreateWithoutManagementAssignmentsInput = {
   contactEmail?: string | null
   contactPhone?: string | null
   softoneTrdr?: number | null
+  isSupplierAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -3866,6 +4041,7 @@ export type UserCreateWithoutManagementAssignmentsInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentCreateNestedManyWithoutBookedByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerCreateNestedManyWithoutAccountManagerInput
+  supplier?: Prisma.SupplierCreateNestedOneWithoutUsersInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
@@ -3891,6 +4067,8 @@ export type UserUncheckedCreateWithoutManagementAssignmentsInput = {
   companyId?: string | null
   customerId?: string | null
   buildingId?: string | null
+  supplierId?: string | null
+  isSupplierAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -3952,6 +4130,7 @@ export type UserUpdateWithoutManagementAssignmentsInput = {
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3980,6 +4159,7 @@ export type UserUpdateWithoutManagementAssignmentsInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUpdateManyWithoutBookedByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUpdateManyWithoutAccountManagerNestedInput
+  supplier?: Prisma.SupplierUpdateOneWithoutUsersNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
@@ -4005,6 +4185,8 @@ export type UserUncheckedUpdateWithoutManagementAssignmentsInput = {
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4050,6 +4232,7 @@ export type UserCreateWithoutOwnedUnitsInput = {
   contactEmail?: string | null
   contactPhone?: string | null
   softoneTrdr?: number | null
+  isSupplierAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -4077,6 +4260,7 @@ export type UserCreateWithoutOwnedUnitsInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentCreateNestedManyWithoutBookedByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerCreateNestedManyWithoutAccountManagerInput
+  supplier?: Prisma.SupplierCreateNestedOneWithoutUsersInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -4103,6 +4287,8 @@ export type UserUncheckedCreateWithoutOwnedUnitsInput = {
   companyId?: string | null
   customerId?: string | null
   buildingId?: string | null
+  supplierId?: string | null
+  isSupplierAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -4153,6 +4339,7 @@ export type UserCreateWithoutResidentUnitsInput = {
   contactEmail?: string | null
   contactPhone?: string | null
   softoneTrdr?: number | null
+  isSupplierAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -4180,6 +4367,7 @@ export type UserCreateWithoutResidentUnitsInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentCreateNestedManyWithoutBookedByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerCreateNestedManyWithoutAccountManagerInput
+  supplier?: Prisma.SupplierCreateNestedOneWithoutUsersInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -4206,6 +4394,8 @@ export type UserUncheckedCreateWithoutResidentUnitsInput = {
   companyId?: string | null
   customerId?: string | null
   buildingId?: string | null
+  supplierId?: string | null
+  isSupplierAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -4267,6 +4457,7 @@ export type UserUpdateWithoutOwnedUnitsInput = {
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4294,6 +4485,7 @@ export type UserUpdateWithoutOwnedUnitsInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUpdateManyWithoutBookedByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUpdateManyWithoutAccountManagerNestedInput
+  supplier?: Prisma.SupplierUpdateOneWithoutUsersNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -4320,6 +4512,8 @@ export type UserUncheckedUpdateWithoutOwnedUnitsInput = {
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4376,6 +4570,7 @@ export type UserUpdateWithoutResidentUnitsInput = {
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4403,6 +4598,7 @@ export type UserUpdateWithoutResidentUnitsInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUpdateManyWithoutBookedByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUpdateManyWithoutAccountManagerNestedInput
+  supplier?: Prisma.SupplierUpdateOneWithoutUsersNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -4429,6 +4625,8 @@ export type UserUncheckedUpdateWithoutResidentUnitsInput = {
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4474,6 +4672,7 @@ export type UserCreateWithoutCompanyRolesInput = {
   contactEmail?: string | null
   contactPhone?: string | null
   softoneTrdr?: number | null
+  isSupplierAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -4501,6 +4700,7 @@ export type UserCreateWithoutCompanyRolesInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentCreateNestedManyWithoutBookedByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerCreateNestedManyWithoutAccountManagerInput
+  supplier?: Prisma.SupplierCreateNestedOneWithoutUsersInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -4527,6 +4727,8 @@ export type UserUncheckedCreateWithoutCompanyRolesInput = {
   companyId?: string | null
   customerId?: string | null
   buildingId?: string | null
+  supplierId?: string | null
+  isSupplierAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -4588,6 +4790,7 @@ export type UserUpdateWithoutCompanyRolesInput = {
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4615,6 +4818,7 @@ export type UserUpdateWithoutCompanyRolesInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUpdateManyWithoutBookedByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUpdateManyWithoutAccountManagerNestedInput
+  supplier?: Prisma.SupplierUpdateOneWithoutUsersNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -4641,6 +4845,8 @@ export type UserUncheckedUpdateWithoutCompanyRolesInput = {
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4686,6 +4892,7 @@ export type UserCreateWithoutCreatedAnnouncementsInput = {
   contactEmail?: string | null
   contactPhone?: string | null
   softoneTrdr?: number | null
+  isSupplierAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -4713,6 +4920,7 @@ export type UserCreateWithoutCreatedAnnouncementsInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentCreateNestedManyWithoutBookedByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerCreateNestedManyWithoutAccountManagerInput
+  supplier?: Prisma.SupplierCreateNestedOneWithoutUsersInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -4739,6 +4947,8 @@ export type UserUncheckedCreateWithoutCreatedAnnouncementsInput = {
   companyId?: string | null
   customerId?: string | null
   buildingId?: string | null
+  supplierId?: string | null
+  isSupplierAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -4800,6 +5010,7 @@ export type UserUpdateWithoutCreatedAnnouncementsInput = {
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4827,6 +5038,7 @@ export type UserUpdateWithoutCreatedAnnouncementsInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUpdateManyWithoutBookedByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUpdateManyWithoutAccountManagerNestedInput
+  supplier?: Prisma.SupplierUpdateOneWithoutUsersNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -4853,6 +5065,8 @@ export type UserUncheckedUpdateWithoutCreatedAnnouncementsInput = {
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4898,6 +5112,7 @@ export type UserCreateWithoutAnnouncementAcksInput = {
   contactEmail?: string | null
   contactPhone?: string | null
   softoneTrdr?: number | null
+  isSupplierAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -4925,6 +5140,7 @@ export type UserCreateWithoutAnnouncementAcksInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentCreateNestedManyWithoutBookedByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerCreateNestedManyWithoutAccountManagerInput
+  supplier?: Prisma.SupplierCreateNestedOneWithoutUsersInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -4951,6 +5167,8 @@ export type UserUncheckedCreateWithoutAnnouncementAcksInput = {
   companyId?: string | null
   customerId?: string | null
   buildingId?: string | null
+  supplierId?: string | null
+  isSupplierAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -5012,6 +5230,7 @@ export type UserUpdateWithoutAnnouncementAcksInput = {
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -5039,6 +5258,7 @@ export type UserUpdateWithoutAnnouncementAcksInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUpdateManyWithoutBookedByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUpdateManyWithoutAccountManagerNestedInput
+  supplier?: Prisma.SupplierUpdateOneWithoutUsersNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -5065,6 +5285,8 @@ export type UserUncheckedUpdateWithoutAnnouncementAcksInput = {
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -5110,6 +5332,7 @@ export type UserCreateWithoutApiUsageLogsInput = {
   contactEmail?: string | null
   contactPhone?: string | null
   softoneTrdr?: number | null
+  isSupplierAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -5138,6 +5361,7 @@ export type UserCreateWithoutApiUsageLogsInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentCreateNestedManyWithoutBookedByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerCreateNestedManyWithoutAccountManagerInput
+  supplier?: Prisma.SupplierCreateNestedOneWithoutUsersInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
@@ -5163,6 +5387,8 @@ export type UserUncheckedCreateWithoutApiUsageLogsInput = {
   companyId?: string | null
   customerId?: string | null
   buildingId?: string | null
+  supplierId?: string | null
+  isSupplierAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -5224,6 +5450,7 @@ export type UserUpdateWithoutApiUsageLogsInput = {
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -5252,6 +5479,7 @@ export type UserUpdateWithoutApiUsageLogsInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUpdateManyWithoutBookedByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUpdateManyWithoutAccountManagerNestedInput
+  supplier?: Prisma.SupplierUpdateOneWithoutUsersNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
@@ -5277,6 +5505,8 @@ export type UserUncheckedUpdateWithoutApiUsageLogsInput = {
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -5322,6 +5552,7 @@ export type UserCreateWithoutReportedMaintenanceInput = {
   contactEmail?: string | null
   contactPhone?: string | null
   softoneTrdr?: number | null
+  isSupplierAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -5349,6 +5580,7 @@ export type UserCreateWithoutReportedMaintenanceInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentCreateNestedManyWithoutBookedByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerCreateNestedManyWithoutAccountManagerInput
+  supplier?: Prisma.SupplierCreateNestedOneWithoutUsersInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -5375,6 +5607,8 @@ export type UserUncheckedCreateWithoutReportedMaintenanceInput = {
   companyId?: string | null
   customerId?: string | null
   buildingId?: string | null
+  supplierId?: string | null
+  isSupplierAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -5425,6 +5659,7 @@ export type UserCreateWithoutAssignedMaintenanceInput = {
   contactEmail?: string | null
   contactPhone?: string | null
   softoneTrdr?: number | null
+  isSupplierAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -5452,6 +5687,7 @@ export type UserCreateWithoutAssignedMaintenanceInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentCreateNestedManyWithoutBookedByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerCreateNestedManyWithoutAccountManagerInput
+  supplier?: Prisma.SupplierCreateNestedOneWithoutUsersInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -5478,6 +5714,8 @@ export type UserUncheckedCreateWithoutAssignedMaintenanceInput = {
   companyId?: string | null
   customerId?: string | null
   buildingId?: string | null
+  supplierId?: string | null
+  isSupplierAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -5539,6 +5777,7 @@ export type UserUpdateWithoutReportedMaintenanceInput = {
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -5566,6 +5805,7 @@ export type UserUpdateWithoutReportedMaintenanceInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUpdateManyWithoutBookedByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUpdateManyWithoutAccountManagerNestedInput
+  supplier?: Prisma.SupplierUpdateOneWithoutUsersNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -5592,6 +5832,8 @@ export type UserUncheckedUpdateWithoutReportedMaintenanceInput = {
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -5648,6 +5890,7 @@ export type UserUpdateWithoutAssignedMaintenanceInput = {
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -5675,6 +5918,7 @@ export type UserUpdateWithoutAssignedMaintenanceInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUpdateManyWithoutBookedByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUpdateManyWithoutAccountManagerNestedInput
+  supplier?: Prisma.SupplierUpdateOneWithoutUsersNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -5701,6 +5945,8 @@ export type UserUncheckedUpdateWithoutAssignedMaintenanceInput = {
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -5746,6 +5992,7 @@ export type UserCreateWithoutMaintenanceStatusEventsInput = {
   contactEmail?: string | null
   contactPhone?: string | null
   softoneTrdr?: number | null
+  isSupplierAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -5773,6 +6020,7 @@ export type UserCreateWithoutMaintenanceStatusEventsInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentCreateNestedManyWithoutBookedByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerCreateNestedManyWithoutAccountManagerInput
+  supplier?: Prisma.SupplierCreateNestedOneWithoutUsersInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -5799,6 +6047,8 @@ export type UserUncheckedCreateWithoutMaintenanceStatusEventsInput = {
   companyId?: string | null
   customerId?: string | null
   buildingId?: string | null
+  supplierId?: string | null
+  isSupplierAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -5860,6 +6110,7 @@ export type UserUpdateWithoutMaintenanceStatusEventsInput = {
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -5887,6 +6138,7 @@ export type UserUpdateWithoutMaintenanceStatusEventsInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUpdateManyWithoutBookedByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUpdateManyWithoutAccountManagerNestedInput
+  supplier?: Prisma.SupplierUpdateOneWithoutUsersNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -5913,6 +6165,8 @@ export type UserUncheckedUpdateWithoutMaintenanceStatusEventsInput = {
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -5958,6 +6212,7 @@ export type UserCreateWithoutMaintenanceCommentsInput = {
   contactEmail?: string | null
   contactPhone?: string | null
   softoneTrdr?: number | null
+  isSupplierAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -5985,6 +6240,7 @@ export type UserCreateWithoutMaintenanceCommentsInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentCreateNestedManyWithoutBookedByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerCreateNestedManyWithoutAccountManagerInput
+  supplier?: Prisma.SupplierCreateNestedOneWithoutUsersInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -6011,6 +6267,8 @@ export type UserUncheckedCreateWithoutMaintenanceCommentsInput = {
   companyId?: string | null
   customerId?: string | null
   buildingId?: string | null
+  supplierId?: string | null
+  isSupplierAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -6072,6 +6330,7 @@ export type UserUpdateWithoutMaintenanceCommentsInput = {
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -6099,6 +6358,7 @@ export type UserUpdateWithoutMaintenanceCommentsInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUpdateManyWithoutBookedByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUpdateManyWithoutAccountManagerNestedInput
+  supplier?: Prisma.SupplierUpdateOneWithoutUsersNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -6125,6 +6385,8 @@ export type UserUncheckedUpdateWithoutMaintenanceCommentsInput = {
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -6170,6 +6432,7 @@ export type UserCreateWithoutMaintenanceSlotsInput = {
   contactEmail?: string | null
   contactPhone?: string | null
   softoneTrdr?: number | null
+  isSupplierAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -6197,6 +6460,7 @@ export type UserCreateWithoutMaintenanceSlotsInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentCreateNestedManyWithoutBookedByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerCreateNestedManyWithoutAccountManagerInput
+  supplier?: Prisma.SupplierCreateNestedOneWithoutUsersInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -6223,6 +6487,8 @@ export type UserUncheckedCreateWithoutMaintenanceSlotsInput = {
   companyId?: string | null
   customerId?: string | null
   buildingId?: string | null
+  supplierId?: string | null
+  isSupplierAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -6284,6 +6550,7 @@ export type UserUpdateWithoutMaintenanceSlotsInput = {
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -6311,6 +6578,7 @@ export type UserUpdateWithoutMaintenanceSlotsInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUpdateManyWithoutBookedByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUpdateManyWithoutAccountManagerNestedInput
+  supplier?: Prisma.SupplierUpdateOneWithoutUsersNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -6337,6 +6605,8 @@ export type UserUncheckedUpdateWithoutMaintenanceSlotsInput = {
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -6382,6 +6652,7 @@ export type UserCreateWithoutMaintenanceAppointmentsInput = {
   contactEmail?: string | null
   contactPhone?: string | null
   softoneTrdr?: number | null
+  isSupplierAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -6409,6 +6680,7 @@ export type UserCreateWithoutMaintenanceAppointmentsInput = {
   maintenanceSlots?: Prisma.MaintenanceSlotCreateNestedManyWithoutOfferedByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerCreateNestedManyWithoutAccountManagerInput
+  supplier?: Prisma.SupplierCreateNestedOneWithoutUsersInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -6435,6 +6707,8 @@ export type UserUncheckedCreateWithoutMaintenanceAppointmentsInput = {
   companyId?: string | null
   customerId?: string | null
   buildingId?: string | null
+  supplierId?: string | null
+  isSupplierAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -6496,6 +6770,7 @@ export type UserUpdateWithoutMaintenanceAppointmentsInput = {
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -6523,6 +6798,7 @@ export type UserUpdateWithoutMaintenanceAppointmentsInput = {
   maintenanceSlots?: Prisma.MaintenanceSlotUpdateManyWithoutOfferedByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUpdateManyWithoutAccountManagerNestedInput
+  supplier?: Prisma.SupplierUpdateOneWithoutUsersNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -6549,6 +6825,8 @@ export type UserUncheckedUpdateWithoutMaintenanceAppointmentsInput = {
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -6594,6 +6872,7 @@ export type UserCreateWithoutNotificationsInput = {
   contactEmail?: string | null
   contactPhone?: string | null
   softoneTrdr?: number | null
+  isSupplierAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -6621,6 +6900,7 @@ export type UserCreateWithoutNotificationsInput = {
   maintenanceSlots?: Prisma.MaintenanceSlotCreateNestedManyWithoutOfferedByInput
   maintenanceAppointments?: Prisma.MaintenanceAppointmentCreateNestedManyWithoutBookedByInput
   accountCustomers?: Prisma.CustomerCreateNestedManyWithoutAccountManagerInput
+  supplier?: Prisma.SupplierCreateNestedOneWithoutUsersInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -6647,6 +6927,8 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   companyId?: string | null
   customerId?: string | null
   buildingId?: string | null
+  supplierId?: string | null
+  isSupplierAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -6708,6 +6990,7 @@ export type UserUpdateWithoutNotificationsInput = {
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -6735,6 +7018,7 @@ export type UserUpdateWithoutNotificationsInput = {
   maintenanceSlots?: Prisma.MaintenanceSlotUpdateManyWithoutOfferedByNestedInput
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUpdateManyWithoutBookedByNestedInput
   accountCustomers?: Prisma.CustomerUpdateManyWithoutAccountManagerNestedInput
+  supplier?: Prisma.SupplierUpdateOneWithoutUsersNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -6761,6 +7045,8 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -6806,6 +7092,7 @@ export type UserCreateWithoutCreatedRolesInput = {
   contactEmail?: string | null
   contactPhone?: string | null
   softoneTrdr?: number | null
+  isSupplierAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -6833,6 +7120,7 @@ export type UserCreateWithoutCreatedRolesInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentCreateNestedManyWithoutBookedByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerCreateNestedManyWithoutAccountManagerInput
+  supplier?: Prisma.SupplierCreateNestedOneWithoutUsersInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -6859,6 +7147,8 @@ export type UserUncheckedCreateWithoutCreatedRolesInput = {
   companyId?: string | null
   customerId?: string | null
   buildingId?: string | null
+  supplierId?: string | null
+  isSupplierAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -6909,6 +7199,7 @@ export type UserCreateWithoutAssignedRoleInput = {
   contactEmail?: string | null
   contactPhone?: string | null
   softoneTrdr?: number | null
+  isSupplierAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -6936,6 +7227,7 @@ export type UserCreateWithoutAssignedRoleInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentCreateNestedManyWithoutBookedByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerCreateNestedManyWithoutAccountManagerInput
+  supplier?: Prisma.SupplierCreateNestedOneWithoutUsersInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -6961,6 +7253,8 @@ export type UserUncheckedCreateWithoutAssignedRoleInput = {
   companyId?: string | null
   customerId?: string | null
   buildingId?: string | null
+  supplierId?: string | null
+  isSupplierAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -7028,6 +7322,7 @@ export type UserUpdateWithoutCreatedRolesInput = {
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -7055,6 +7350,7 @@ export type UserUpdateWithoutCreatedRolesInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUpdateManyWithoutBookedByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUpdateManyWithoutAccountManagerNestedInput
+  supplier?: Prisma.SupplierUpdateOneWithoutUsersNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -7081,6 +7377,8 @@ export type UserUncheckedUpdateWithoutCreatedRolesInput = {
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -7142,6 +7440,7 @@ export type UserCreateWithoutSupportTicketsInput = {
   contactEmail?: string | null
   contactPhone?: string | null
   softoneTrdr?: number | null
+  isSupplierAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -7169,6 +7468,7 @@ export type UserCreateWithoutSupportTicketsInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentCreateNestedManyWithoutBookedByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerCreateNestedManyWithoutAccountManagerInput
+  supplier?: Prisma.SupplierCreateNestedOneWithoutUsersInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -7195,6 +7495,8 @@ export type UserUncheckedCreateWithoutSupportTicketsInput = {
   companyId?: string | null
   customerId?: string | null
   buildingId?: string | null
+  supplierId?: string | null
+  isSupplierAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -7256,6 +7558,7 @@ export type UserUpdateWithoutSupportTicketsInput = {
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -7283,6 +7586,7 @@ export type UserUpdateWithoutSupportTicketsInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUpdateManyWithoutBookedByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUpdateManyWithoutAccountManagerNestedInput
+  supplier?: Prisma.SupplierUpdateOneWithoutUsersNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -7309,6 +7613,8 @@ export type UserUncheckedUpdateWithoutSupportTicketsInput = {
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -7338,6 +7644,134 @@ export type UserUncheckedUpdateWithoutSupportTicketsInput = {
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
 }
 
+export type UserCreateWithoutSupplierInput = {
+  id?: string
+  email: string
+  name?: string | null
+  phone?: string | null
+  mobile?: string | null
+  passwordHash?: string | null
+  role: $Enums.UserRole
+  status?: $Enums.UserStatus
+  isCompany?: boolean
+  afm?: string | null
+  doy?: string | null
+  contactName?: string | null
+  contactEmail?: string | null
+  contactPhone?: string | null
+  softoneTrdr?: number | null
+  isSupplierAdmin?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lastLoginAt?: Date | string | null
+  assignedRole?: Prisma.RoleCreateNestedOneWithoutUsersInput
+  createdRoles?: Prisma.RoleCreateNestedManyWithoutCreatedByInput
+  company?: Prisma.CompanyCreateNestedOneWithoutUsersInput
+  customer?: Prisma.CustomerCreateNestedOneWithoutUsersInput
+  building?: Prisma.BuildingCreateNestedOneWithoutUsersInput
+  ownedUnits?: Prisma.UnitCreateNestedManyWithoutOwnerInput
+  residentUnits?: Prisma.UnitCreateNestedManyWithoutResidentInput
+  occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
+  infraKeyOf?: Prisma.InfraPointCreateNestedManyWithoutKeyHolderUserInput
+  supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutCreatedByInput
+  infraAccess?: Prisma.InfraAccessCreateNestedManyWithoutUserInput
+  companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
+  createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
+  createdAnnouncements?: Prisma.AnnouncementCreateNestedManyWithoutCreatedByInput
+  announcementAcks?: Prisma.Announcement_UserCreateNestedManyWithoutUserInput
+  employeeLinks?: Prisma.EmployeeCreateNestedManyWithoutUserInput
+  reportedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutReportedByInput
+  assignedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutAssignedToInput
+  performedMaintenance?: Prisma.MaintenanceLogCreateNestedManyWithoutPerformedByInput
+  maintenanceStatusEvents?: Prisma.MaintenanceStatusEventCreateNestedManyWithoutByUserInput
+  maintenanceComments?: Prisma.MaintenanceCommentCreateNestedManyWithoutAuthorInput
+  maintenanceSlots?: Prisma.MaintenanceSlotCreateNestedManyWithoutOfferedByInput
+  maintenanceAppointments?: Prisma.MaintenanceAppointmentCreateNestedManyWithoutBookedByInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  accountCustomers?: Prisma.CustomerCreateNestedManyWithoutAccountManagerInput
+  apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
+  managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutSupplierInput = {
+  id?: string
+  email: string
+  name?: string | null
+  phone?: string | null
+  mobile?: string | null
+  passwordHash?: string | null
+  role: $Enums.UserRole
+  status?: $Enums.UserStatus
+  roleId?: string | null
+  isCompany?: boolean
+  afm?: string | null
+  doy?: string | null
+  contactName?: string | null
+  contactEmail?: string | null
+  contactPhone?: string | null
+  softoneTrdr?: number | null
+  companyId?: string | null
+  customerId?: string | null
+  buildingId?: string | null
+  isSupplierAdmin?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lastLoginAt?: Date | string | null
+  createdRoles?: Prisma.RoleUncheckedCreateNestedManyWithoutCreatedByInput
+  ownedUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutOwnerInput
+  residentUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutResidentInput
+  occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
+  infraKeyOf?: Prisma.InfraPointUncheckedCreateNestedManyWithoutKeyHolderUserInput
+  supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutCreatedByInput
+  infraAccess?: Prisma.InfraAccessUncheckedCreateNestedManyWithoutUserInput
+  companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
+  createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
+  createdAnnouncements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutCreatedByInput
+  announcementAcks?: Prisma.Announcement_UserUncheckedCreateNestedManyWithoutUserInput
+  employeeLinks?: Prisma.EmployeeUncheckedCreateNestedManyWithoutUserInput
+  reportedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutReportedByInput
+  assignedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutAssignedToInput
+  performedMaintenance?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutPerformedByInput
+  maintenanceStatusEvents?: Prisma.MaintenanceStatusEventUncheckedCreateNestedManyWithoutByUserInput
+  maintenanceComments?: Prisma.MaintenanceCommentUncheckedCreateNestedManyWithoutAuthorInput
+  maintenanceSlots?: Prisma.MaintenanceSlotUncheckedCreateNestedManyWithoutOfferedByInput
+  maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedCreateNestedManyWithoutBookedByInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  accountCustomers?: Prisma.CustomerUncheckedCreateNestedManyWithoutAccountManagerInput
+  apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutUserInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutSupplierInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutSupplierInput, Prisma.UserUncheckedCreateWithoutSupplierInput>
+}
+
+export type UserCreateManySupplierInputEnvelope = {
+  data: Prisma.UserCreateManySupplierInput | Prisma.UserCreateManySupplierInput[]
+  skipDuplicates?: boolean
+}
+
+export type UserUpsertWithWhereUniqueWithoutSupplierInput = {
+  where: Prisma.UserWhereUniqueInput
+  update: Prisma.XOR<Prisma.UserUpdateWithoutSupplierInput, Prisma.UserUncheckedUpdateWithoutSupplierInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutSupplierInput, Prisma.UserUncheckedCreateWithoutSupplierInput>
+}
+
+export type UserUpdateWithWhereUniqueWithoutSupplierInput = {
+  where: Prisma.UserWhereUniqueInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutSupplierInput, Prisma.UserUncheckedUpdateWithoutSupplierInput>
+}
+
+export type UserUpdateManyWithWhereWithoutSupplierInput = {
+  where: Prisma.UserScalarWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateManyMutationInput, Prisma.UserUncheckedUpdateManyWithoutSupplierInput>
+}
+
 export type UserCreateManyCompanyInput = {
   id?: string
   email: string
@@ -7357,6 +7791,8 @@ export type UserCreateManyCompanyInput = {
   softoneTrdr?: number | null
   customerId?: string | null
   buildingId?: string | null
+  supplierId?: string | null
+  isSupplierAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -7378,6 +7814,7 @@ export type UserUpdateWithoutCompanyInput = {
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -7405,6 +7842,7 @@ export type UserUpdateWithoutCompanyInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUpdateManyWithoutBookedByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUpdateManyWithoutAccountManagerNestedInput
+  supplier?: Prisma.SupplierUpdateOneWithoutUsersNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -7430,6 +7868,8 @@ export type UserUncheckedUpdateWithoutCompanyInput = {
   softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -7479,6 +7919,8 @@ export type UserUncheckedUpdateManyWithoutCompanyInput = {
   softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -7503,6 +7945,8 @@ export type UserCreateManyCustomerInput = {
   softoneTrdr?: number | null
   companyId?: string | null
   buildingId?: string | null
+  supplierId?: string | null
+  isSupplierAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -7524,6 +7968,7 @@ export type UserUpdateWithoutCustomerInput = {
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -7551,6 +7996,7 @@ export type UserUpdateWithoutCustomerInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUpdateManyWithoutBookedByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUpdateManyWithoutAccountManagerNestedInput
+  supplier?: Prisma.SupplierUpdateOneWithoutUsersNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -7576,6 +8022,8 @@ export type UserUncheckedUpdateWithoutCustomerInput = {
   softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -7625,6 +8073,8 @@ export type UserUncheckedUpdateManyWithoutCustomerInput = {
   softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -7649,6 +8099,8 @@ export type UserCreateManyBuildingInput = {
   softoneTrdr?: number | null
   companyId?: string | null
   customerId?: string | null
+  supplierId?: string | null
+  isSupplierAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -7670,6 +8122,7 @@ export type UserUpdateWithoutBuildingInput = {
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -7697,6 +8150,7 @@ export type UserUpdateWithoutBuildingInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUpdateManyWithoutBookedByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUpdateManyWithoutAccountManagerNestedInput
+  supplier?: Prisma.SupplierUpdateOneWithoutUsersNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -7722,6 +8176,8 @@ export type UserUncheckedUpdateWithoutBuildingInput = {
   softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -7771,6 +8227,8 @@ export type UserUncheckedUpdateManyWithoutBuildingInput = {
   softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -7795,6 +8253,8 @@ export type UserCreateManyAssignedRoleInput = {
   companyId?: string | null
   customerId?: string | null
   buildingId?: string | null
+  supplierId?: string | null
+  isSupplierAdmin?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   lastLoginAt?: Date | string | null
@@ -7816,6 +8276,7 @@ export type UserUpdateWithoutAssignedRoleInput = {
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -7843,6 +8304,7 @@ export type UserUpdateWithoutAssignedRoleInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUpdateManyWithoutBookedByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUpdateManyWithoutAccountManagerNestedInput
+  supplier?: Prisma.SupplierUpdateOneWithoutUsersNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -7868,6 +8330,8 @@ export type UserUncheckedUpdateWithoutAssignedRoleInput = {
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -7917,6 +8381,162 @@ export type UserUncheckedUpdateManyWithoutAssignedRoleInput = {
   companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+export type UserCreateManySupplierInput = {
+  id?: string
+  email: string
+  name?: string | null
+  phone?: string | null
+  mobile?: string | null
+  passwordHash?: string | null
+  role: $Enums.UserRole
+  status?: $Enums.UserStatus
+  roleId?: string | null
+  isCompany?: boolean
+  afm?: string | null
+  doy?: string | null
+  contactName?: string | null
+  contactEmail?: string | null
+  contactPhone?: string | null
+  softoneTrdr?: number | null
+  companyId?: string | null
+  customerId?: string | null
+  buildingId?: string | null
+  isSupplierAdmin?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lastLoginAt?: Date | string | null
+}
+
+export type UserUpdateWithoutSupplierInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isCompany?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  doy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  assignedRole?: Prisma.RoleUpdateOneWithoutUsersNestedInput
+  createdRoles?: Prisma.RoleUpdateManyWithoutCreatedByNestedInput
+  company?: Prisma.CompanyUpdateOneWithoutUsersNestedInput
+  customer?: Prisma.CustomerUpdateOneWithoutUsersNestedInput
+  building?: Prisma.BuildingUpdateOneWithoutUsersNestedInput
+  ownedUnits?: Prisma.UnitUpdateManyWithoutOwnerNestedInput
+  residentUnits?: Prisma.UnitUpdateManyWithoutResidentNestedInput
+  occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
+  infraKeyOf?: Prisma.InfraPointUpdateManyWithoutKeyHolderUserNestedInput
+  supportTickets?: Prisma.SupportTicketUpdateManyWithoutCreatedByNestedInput
+  infraAccess?: Prisma.InfraAccessUpdateManyWithoutUserNestedInput
+  companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
+  createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
+  createdAnnouncements?: Prisma.AnnouncementUpdateManyWithoutCreatedByNestedInput
+  announcementAcks?: Prisma.Announcement_UserUpdateManyWithoutUserNestedInput
+  employeeLinks?: Prisma.EmployeeUpdateManyWithoutUserNestedInput
+  reportedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutReportedByNestedInput
+  assignedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutAssignedToNestedInput
+  performedMaintenance?: Prisma.MaintenanceLogUpdateManyWithoutPerformedByNestedInput
+  maintenanceStatusEvents?: Prisma.MaintenanceStatusEventUpdateManyWithoutByUserNestedInput
+  maintenanceComments?: Prisma.MaintenanceCommentUpdateManyWithoutAuthorNestedInput
+  maintenanceSlots?: Prisma.MaintenanceSlotUpdateManyWithoutOfferedByNestedInput
+  maintenanceAppointments?: Prisma.MaintenanceAppointmentUpdateManyWithoutBookedByNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  accountCustomers?: Prisma.CustomerUpdateManyWithoutAccountManagerNestedInput
+  apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutSupplierInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  roleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isCompany?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  doy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdRoles?: Prisma.RoleUncheckedUpdateManyWithoutCreatedByNestedInput
+  ownedUnits?: Prisma.UnitUncheckedUpdateManyWithoutOwnerNestedInput
+  residentUnits?: Prisma.UnitUncheckedUpdateManyWithoutResidentNestedInput
+  occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
+  infraKeyOf?: Prisma.InfraPointUncheckedUpdateManyWithoutKeyHolderUserNestedInput
+  supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutCreatedByNestedInput
+  infraAccess?: Prisma.InfraAccessUncheckedUpdateManyWithoutUserNestedInput
+  companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
+  createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
+  createdAnnouncements?: Prisma.AnnouncementUncheckedUpdateManyWithoutCreatedByNestedInput
+  announcementAcks?: Prisma.Announcement_UserUncheckedUpdateManyWithoutUserNestedInput
+  employeeLinks?: Prisma.EmployeeUncheckedUpdateManyWithoutUserNestedInput
+  reportedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutReportedByNestedInput
+  assignedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutAssignedToNestedInput
+  performedMaintenance?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutPerformedByNestedInput
+  maintenanceStatusEvents?: Prisma.MaintenanceStatusEventUncheckedUpdateManyWithoutByUserNestedInput
+  maintenanceComments?: Prisma.MaintenanceCommentUncheckedUpdateManyWithoutAuthorNestedInput
+  maintenanceSlots?: Prisma.MaintenanceSlotUncheckedUpdateManyWithoutOfferedByNestedInput
+  maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedUpdateManyWithoutBookedByNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  accountCustomers?: Prisma.CustomerUncheckedUpdateManyWithoutAccountManagerNestedInput
+  apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutUserNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateManyWithoutSupplierInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  roleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isCompany?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  doy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -8189,6 +8809,8 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   companyId?: boolean
   customerId?: boolean
   buildingId?: boolean
+  supplierId?: boolean
+  isSupplierAdmin?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   lastLoginAt?: boolean
@@ -8217,6 +8839,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   maintenanceAppointments?: boolean | Prisma.User$maintenanceAppointmentsArgs<ExtArgs>
   notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
   accountCustomers?: boolean | Prisma.User$accountCustomersArgs<ExtArgs>
+  supplier?: boolean | Prisma.User$supplierArgs<ExtArgs>
   apiUsageLogs?: boolean | Prisma.User$apiUsageLogsArgs<ExtArgs>
   managementAssignments?: boolean | Prisma.User$managementAssignmentsArgs<ExtArgs>
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
@@ -8244,6 +8867,8 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   companyId?: boolean
   customerId?: boolean
   buildingId?: boolean
+  supplierId?: boolean
+  isSupplierAdmin?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   lastLoginAt?: boolean
@@ -8251,6 +8876,7 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   company?: boolean | Prisma.User$companyArgs<ExtArgs>
   customer?: boolean | Prisma.User$customerArgs<ExtArgs>
   building?: boolean | Prisma.User$buildingArgs<ExtArgs>
+  supplier?: boolean | Prisma.User$supplierArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -8273,6 +8899,8 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   companyId?: boolean
   customerId?: boolean
   buildingId?: boolean
+  supplierId?: boolean
+  isSupplierAdmin?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   lastLoginAt?: boolean
@@ -8280,6 +8908,7 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   company?: boolean | Prisma.User$companyArgs<ExtArgs>
   customer?: boolean | Prisma.User$customerArgs<ExtArgs>
   building?: boolean | Prisma.User$buildingArgs<ExtArgs>
+  supplier?: boolean | Prisma.User$supplierArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectScalar = {
@@ -8302,12 +8931,14 @@ export type UserSelectScalar = {
   companyId?: boolean
   customerId?: boolean
   buildingId?: boolean
+  supplierId?: boolean
+  isSupplierAdmin?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   lastLoginAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "name" | "phone" | "mobile" | "passwordHash" | "role" | "status" | "roleId" | "isCompany" | "afm" | "doy" | "contactName" | "contactEmail" | "contactPhone" | "softoneTrdr" | "companyId" | "customerId" | "buildingId" | "createdAt" | "updatedAt" | "lastLoginAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "name" | "phone" | "mobile" | "passwordHash" | "role" | "status" | "roleId" | "isCompany" | "afm" | "doy" | "contactName" | "contactEmail" | "contactPhone" | "softoneTrdr" | "companyId" | "customerId" | "buildingId" | "supplierId" | "isSupplierAdmin" | "createdAt" | "updatedAt" | "lastLoginAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   assignedRole?: boolean | Prisma.User$assignedRoleArgs<ExtArgs>
   createdRoles?: boolean | Prisma.User$createdRolesArgs<ExtArgs>
@@ -8334,6 +8965,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   maintenanceAppointments?: boolean | Prisma.User$maintenanceAppointmentsArgs<ExtArgs>
   notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
   accountCustomers?: boolean | Prisma.User$accountCustomersArgs<ExtArgs>
+  supplier?: boolean | Prisma.User$supplierArgs<ExtArgs>
   apiUsageLogs?: boolean | Prisma.User$apiUsageLogsArgs<ExtArgs>
   managementAssignments?: boolean | Prisma.User$managementAssignmentsArgs<ExtArgs>
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
@@ -8345,12 +8977,14 @@ export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   company?: boolean | Prisma.User$companyArgs<ExtArgs>
   customer?: boolean | Prisma.User$customerArgs<ExtArgs>
   building?: boolean | Prisma.User$buildingArgs<ExtArgs>
+  supplier?: boolean | Prisma.User$supplierArgs<ExtArgs>
 }
 export type UserIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   assignedRole?: boolean | Prisma.User$assignedRoleArgs<ExtArgs>
   company?: boolean | Prisma.User$companyArgs<ExtArgs>
   customer?: boolean | Prisma.User$customerArgs<ExtArgs>
   building?: boolean | Prisma.User$buildingArgs<ExtArgs>
+  supplier?: boolean | Prisma.User$supplierArgs<ExtArgs>
 }
 
 export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -8381,6 +9015,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     maintenanceAppointments: Prisma.$MaintenanceAppointmentPayload<ExtArgs>[]
     notifications: Prisma.$NotificationPayload<ExtArgs>[]
     accountCustomers: Prisma.$CustomerPayload<ExtArgs>[]
+    supplier: Prisma.$SupplierPayload<ExtArgs> | null
     apiUsageLogs: Prisma.$APIUsageLogPayload<ExtArgs>[]
     managementAssignments: Prisma.$ManagementAssignmentPayload<ExtArgs>[]
     accounts: Prisma.$AccountPayload<ExtArgs>[]
@@ -8406,6 +9041,8 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     companyId: string | null
     customerId: string | null
     buildingId: string | null
+    supplierId: string | null
+    isSupplierAdmin: boolean
     createdAt: Date
     updatedAt: Date
     lastLoginAt: Date | null
@@ -8828,6 +9465,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   maintenanceAppointments<T extends Prisma.User$maintenanceAppointmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$maintenanceAppointmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MaintenanceAppointmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   notifications<T extends Prisma.User$notificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   accountCustomers<T extends Prisma.User$accountCustomersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$accountCustomersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CustomerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  supplier<T extends Prisma.User$supplierArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$supplierArgs<ExtArgs>>): Prisma.Prisma__SupplierClient<runtime.Types.Result.GetResult<Prisma.$SupplierPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   apiUsageLogs<T extends Prisma.User$apiUsageLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$apiUsageLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$APIUsageLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   managementAssignments<T extends Prisma.User$managementAssignmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$managementAssignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ManagementAssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   accounts<T extends Prisma.User$accountsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -8880,6 +9518,8 @@ export interface UserFieldRefs {
   readonly companyId: Prisma.FieldRef<"User", 'String'>
   readonly customerId: Prisma.FieldRef<"User", 'String'>
   readonly buildingId: Prisma.FieldRef<"User", 'String'>
+  readonly supplierId: Prisma.FieldRef<"User", 'String'>
+  readonly isSupplierAdmin: Prisma.FieldRef<"User", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly lastLoginAt: Prisma.FieldRef<"User", 'DateTime'>
@@ -9861,6 +10501,25 @@ export type User$accountCustomersArgs<ExtArgs extends runtime.Types.Extensions.I
   take?: number
   skip?: number
   distinct?: Prisma.CustomerScalarFieldEnum | Prisma.CustomerScalarFieldEnum[]
+}
+
+/**
+ * User.supplier
+ */
+export type User$supplierArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Supplier
+   */
+  select?: Prisma.SupplierSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Supplier
+   */
+  omit?: Prisma.SupplierOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SupplierInclude<ExtArgs> | null
+  where?: Prisma.SupplierWhereInput
 }
 
 /**

@@ -179,6 +179,12 @@ model User {
   notifications           Notification[]           @relation("userNotifications")
   accountCustomers        Customer[]               @relation("customerAccountManager")
 
+  // Collaborator association: COLLABORATOR users belong to a Supplier (the
+  // supplier's admin manages the team/catalog from /marketplace).
+  supplierId          String?
+  supplier            Supplier? @relation("supplierUsers", fields: [supplierId], references: [id], onDelete: SetNull)
+  isSupplierAdmin     Boolean  @default(false)
+
   // API usage logs triggered by this user
   apiUsageLogs        APIUsageLog[]
 
@@ -198,6 +204,7 @@ model User {
   @@index([companyId])
   @@index([customerId])
   @@index([buildingId])
+  @@index([supplierId])
 }
 
 // Auth.js Account model
@@ -560,6 +567,7 @@ model Customer {
   invoices              ServiceInvoice[]
   announcements         Announcement[] @relation("customerAnnouncements")
   meteredPlan           CustomerMeteredPlan?
+  suppliers             Supplier[] @relation("customerSuppliers") // the customer's PRIVATE supplier list
 
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt
@@ -693,6 +701,7 @@ model Building {
   categoryOverrides     BuildingCategoryOverride[]
   meterReadings         MeterReading[]
   heatingReadings       UnitHeatingReading[]
+  preferredSuppliers    BuildingPreferredSupplier[]
 
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt
@@ -834,8 +843,11 @@ model Contact {
   phone       String?
   email       String?
   notes       String?
+  supplierId  String?
+  supplier    Supplier? @relation(fields: [supplierId], references: [id], onDelete: SetNull)
   createdAt   DateTime @default(now())
   @@index([buildingId])
+  @@index([supplierId])
 }
 
 enum TaskFrequency {
@@ -876,10 +888,14 @@ model RecurringTask {
   logs               MaintenanceLog[]
   managedItemId      String?
   managedItem        ManagedItem? @relation(fields: [managedItemId], references: [id], onDelete: SetNull)
+  // Ανάδοχος from a registry; `vendor` stays as the free-text fallback/label.
+  supplierId         String?
+  supplier           Supplier? @relation(fields: [supplierId], references: [id], onDelete: SetNull)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   @@index([buildingId])
   @@index([managedItemId])
+  @@index([supplierId])
 }
 
 model MaintenanceLog {
@@ -915,6 +931,9 @@ model BuildingExpense {
   categoryRef    ExpenseCategory? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
   supplierName   String?
   supplierVat    String?
+  // Linked registry supplier (auto-matched by ΑΦΜ on OCR, or picked manually).
+  supplierId     String?
+  supplier       Supplier? @relation(fields: [supplierId], references: [id], onDelete: SetNull)
   documentNumber String?
   documentDate   DateTime?
   netAmount      Decimal? @db.Decimal(10, 2)
@@ -936,6 +955,7 @@ model BuildingExpense {
   @@index([buildingId])
   @@index([buildingId, month])
   @@index([categoryId])
+  @@index([supplierId])
 }
 
 model ExpenseCategory {
@@ -1648,6 +1668,12 @@ model MaintenanceRequest {
   assignedToId          String?
   assignedTo            User?    @relation("maintenanceAssignedTo", fields: [assignedToId], references: [id], onDelete: SetNull)
 
+  // External supplier the company (Orithon) assigned the job to. Only company
+  // staff may set this — never the property manager (see suppliers program).
+  supplierId            String?
+  supplier              Supplier? @relation("maintenanceSupplier", fields: [supplierId], references: [id], onDelete: SetNull)
+  supplierRating        SupplierRating?
+
   attachmentUrl         String?  // BunnyCDN URL
 
   scheduledDate         DateTime?
@@ -1671,6 +1697,7 @@ model MaintenanceRequest {
   @@index([categoryId])
   @@index([handledBy])
   @@index([slaDueAt])
+  @@index([supplierId])
 }
 
 // Κατηγορίες βλαβών (διαχειρίσιμες από την εταιρία)
@@ -1685,6 +1712,9 @@ model MaintenanceCategory {
 
   requests      MaintenanceRequest[]
   coverageRules MaintenanceCoverageRule[]
+  suppliers     SupplierCategory[] // suppliers declaring this as a specialty
+  preferredBy   BuildingPreferredSupplier[]
+  catalogItems  ServiceCatalogItem[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -1844,9 +1874,15 @@ model PricingTier {
   name                  String   // STARTER, PROFESSIONAL, ENTERPRISE
   slug                  String   @unique
   description           String?
-  monthlyPrice          Float
+  monthlyPrice          Float    // € per apartment per month (handoff 05 §2)
   annualPrice           Float
   features              String[] // Array of feature strings
+  /// Per-building floor, per month. Null hides the "Minimum €x per building" line.
+  minPerBuilding        Float?
+  /// Badge over the featured card — exactly one plan on the page should carry it.
+  badge                 String?
+  ctaLabel              String?
+  ctaHref               String?
   highlighted           Boolean  @default(false)
   order                 Int      @default(0)
   published             Boolean  @default(true)
@@ -1964,6 +2000,18 @@ model LandingSection {
   updatedAt DateTime @updatedAt
 
   @@index([enabled, order])
+}
+
+/// Structured, bilingual content for a public marketing page (pricing, news,
+/// faq, contact). One row per page; `data` holds a { el, en } blob typed by
+/// lib/cms/marketing-pages.ts. Long-form articles live in Article, plan rows in
+/// PricingTier and questions in FAQ — this is the surrounding page furniture.
+model MarketingPage {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  data      Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model PageSeo {
@@ -2120,4 +2168,200 @@ model SupportTicket {
   createdAt   DateTime @default(now())
 
   @@index([createdAt])
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// Συνεργάτες / Προμηθευτές
+//
+// TWO strictly isolated registries live in this one table:
+//   customerId = null → the company's (Orithon) registry. Only company staff
+//                        see/manage it, and only they assign work from it.
+//   customerId = X    → customer X's PRIVATE list (contact cards, no login in
+//                        Φ1). Never visible to the company or other customers.
+// Exactly one row has isPlatform=true: the company itself, shown by default in
+// every customer's private list so they can "ask Orithon".
+// ═══════════════════════════════════════════════════════════════════════════
+enum SupplierKind {
+  SERVICES
+  PRODUCTS
+  BOTH
+}
+
+model Supplier {
+  id           String   @id @default(cuid())
+
+  customerId   String?
+  customer     Customer? @relation("customerSuppliers", fields: [customerId], references: [id], onDelete: Cascade)
+  isPlatform   Boolean  @default(false)
+
+  // ── SoftOne TRDR alignment (SODTYPE 12 = Προμηθευτής) ──────────────────
+  sodType      Int      @default(12)
+  softoneTrdr  Int?
+  code         String?  // CODE — Κωδικός συναλλασσόμενου
+  // ────────────────────────────────────────────────────────────────────────
+
+  kind         SupplierKind @default(SERVICES)
+  name         String   // NAME — Επωνυμία
+  afm          String?  // AFM
+  doy          String?  // IRSDATA
+  email        String?
+  phone        String?
+  phone2       String?
+  webpage      String?
+  address      String?
+  city         String?
+  district     String?
+  postalCode   String?
+  country      String?
+  isActive     Boolean  @default(true)
+  remarks      String?  @db.Text
+
+  // Contact person + payment terms
+  contactName  String?
+  contactPhone String?
+  contactEmail String?
+  iban         String?
+  bank         String?
+  paymentTermsDays Int?
+
+  // Αυτοψία (site survey): χρέωση επίσκεψης εκτίμησης πριν την προσφορά, και αν
+  // συμψηφίζεται όταν ανατεθεί τελικά η εργασία.
+  siteSurveyFee       Decimal? @db.Decimal(10, 2)
+  siteSurveyFeeWaived Boolean  @default(true)
+
+  // Availability: { "1": [["09:00","17:00"]], ... } keyed by ISO weekday 1-7
+  workingHours Json?
+  emergency24h Boolean  @default(false)
+
+  // Geodata (geocoded from the address) — proximity ranking vs. the building
+  lat          Float?
+  lng          Float?
+
+  // Rating aggregates (denormalised from SupplierRating on every new rating)
+  ratingAvg    Float?
+  ratingCount  Int      @default(0)
+
+  // First-login wizard (/marketplace/onboarding) completed by the supplier admin
+  onboardedAt  DateTime?
+
+  users        User[]   @relation("supplierUsers")
+  ratings      SupplierRating[]
+  preferredFor BuildingPreferredSupplier[]
+  categories   SupplierCategory[]
+  services     SupplierService[]
+  products     SupplierProduct[]
+  expenses     BuildingExpense[]
+  recurringTasks RecurringTask[]
+  contacts     Contact[]
+  maintenanceRequests MaintenanceRequest[] @relation("maintenanceSupplier")
+
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([customerId])
+  @@index([isPlatform])
+  @@index([afm])
+  @@index([softoneTrdr])
+}
+
+// Αξιολόγηση συνεργάτη από την εταιρία μετά την ολοκλήρωση μιας εργασίας (1-5).
+model SupplierRating {
+  id         String   @id @default(cuid())
+  supplierId String
+  supplier   Supplier @relation(fields: [supplierId], references: [id], onDelete: Cascade)
+  requestId  String?  @unique // one rating per fault
+  request    MaintenanceRequest? @relation(fields: [requestId], references: [id], onDelete: SetNull)
+  score      Int      // 1..5
+  comment    String?  @db.Text
+  byUserId   String?
+  createdAt  DateTime @default(now())
+
+  @@index([supplierId])
+}
+
+// Προτιμώμενος συνεργάτης ανά κτήριο (και προαιρετικά ανά κατηγορία) — συνέχεια:
+// ο ίδιος συνεργάτης προτείνεται πρώτος σε συντηρήσεις/επαναλαμβανόμενες εργασίες.
+model BuildingPreferredSupplier {
+  id         String   @id @default(cuid())
+  buildingId String
+  building   Building @relation(fields: [buildingId], references: [id], onDelete: Cascade)
+  categoryId String?
+  category   MaintenanceCategory? @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  supplierId String
+  supplier   Supplier @relation(fields: [supplierId], references: [id], onDelete: Cascade)
+  note       String?
+  createdAt  DateTime @default(now())
+
+  @@unique([buildingId, categoryId])
+  @@index([supplierId])
+}
+
+// Ειδικότητες συνεργάτη — ποιες κατηγορίες βλαβών αναλαμβάνει.
+model SupplierCategory {
+  supplierId String
+  supplier   Supplier @relation(fields: [supplierId], references: [id], onDelete: Cascade)
+  categoryId String
+  category   MaintenanceCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@id([supplierId, categoryId])
+  @@index([categoryId])
+}
+
+// Master κατάλογος υπηρεσιών που «ανοίγει» η εταιρία στους συνεργάτες: στο wizard
+// πρώτης σύνδεσης ο συνεργάτης επιλέγει ποιες προσφέρει (→ SupplierService rows).
+model ServiceCatalogItem {
+  id          String   @id @default(cuid())
+  name        String
+  description String?  @db.Text
+  unit        String?  // προτεινόμενη μονάδα, π.χ. "επίσκεψη"
+  categoryId  String?
+  category    MaintenanceCategory? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  active      Boolean  @default(true)
+  sortOrder   Int      @default(0)
+  supplierServices SupplierService[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([categoryId])
+}
+
+// Κατάλογος υπηρεσιών του συνεργάτη με τιμές (net, ανά μονάδα).
+// catalogItemId → επιλογή από τον master κατάλογο· null → ελεύθερη υπηρεσία.
+model SupplierService {
+  id          String   @id @default(cuid())
+  supplierId  String
+  supplier    Supplier @relation(fields: [supplierId], references: [id], onDelete: Cascade)
+  catalogItemId String?
+  catalogItem ServiceCatalogItem? @relation(fields: [catalogItemId], references: [id], onDelete: SetNull)
+  name        String
+  description String?  @db.Text
+  unit        String?  // π.χ. "επίσκεψη", "ώρα", "τ.μ."
+  price       Decimal? @db.Decimal(10, 2)
+  vatPct      Int      @default(24)
+  active      Boolean  @default(true)
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([supplierId])
+  @@index([catalogItemId])
+}
+
+// Κατάλογος προϊόντων του συνεργάτη με τιμές (net, ανά μονάδα).
+model SupplierProduct {
+  id          String   @id @default(cuid())
+  supplierId  String
+  supplier    Supplier @relation(fields: [supplierId], references: [id], onDelete: Cascade)
+  sku         String?
+  name        String
+  description String?  @db.Text
+  unit        String?  // π.χ. "τεμ.", "κιβώτιο", "λίτρο"
+  price       Decimal? @db.Decimal(10, 2)
+  vatPct      Int      @default(24)
+  active      Boolean  @default(true)
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([supplierId])
 }

@@ -7,13 +7,14 @@ import {
   type FaultStatus,
 } from "@/lib/maintenance-shared";
 import {
-  changeRequestStatus, assignRequest, addRequestComment, setRequestEstimate,
+  changeRequestStatus, assignRequest, assignRequestSupplier, addRequestComment, setRequestEstimate,
   offerSlots, removeSlot, bookSlot,
 } from "@/app/actions/maintenance-requests";
+import { rateSupplier, setPreferredSupplier } from "@/app/actions/suppliers";
 import { FormField, FieldSelect, FieldTextarea, FieldInput } from "@/components/ui/modal";
 import {
   RiTimeLine, RiUserLine, RiBuilding2Line, RiCalendarCheckLine, RiAlarmWarningLine,
-  RiChat3Line, RiHistoryLine, RiAttachmentLine, RiDeleteBinLine, RiCheckLine,
+  RiChat3Line, RiHistoryLine, RiAttachmentLine, RiDeleteBinLine, RiCheckLine, RiTeamLine,
 } from "react-icons/ri";
 import type { FaultDetail, Viewer, EmployeeOption } from "./types";
 
@@ -59,11 +60,17 @@ const btn: React.CSSProperties = {
 };
 const btnPrimary: React.CSSProperties = { ...btn, background: "var(--primary)", color: "var(--primary-foreground)", border: "none" };
 
-export function RequestDetail({ request, viewer, employees }: {
+export function RequestDetail({ request, viewer, employees, suppliers = [], preferredSupplierId = null }: {
   request: FaultDetail;
   viewer: Viewer;
   employees: EmployeeOption[];
+  /** Company-registry suppliers assignable to this fault, pre-ranked (staff only). */
+  suppliers?: EmployeeOption[];
+  preferredSupplierId?: string | null;
 }) {
+  const [makePreferred, setMakePreferred] = useState(false);
+  const [ratingScore, setRatingScore] = useState(request.supplierRating?.score ?? 0);
+  const [ratingComment, setRatingComment] = useState(request.supplierRating?.comment ?? "");
   const router = useRouter();
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -71,6 +78,7 @@ export function RequestDetail({ request, viewer, employees }: {
   const [comment, setComment] = useState("");
   const [internal, setInternal] = useState(false);
   const [assignee, setAssignee] = useState("");
+  const [supplierSel, setSupplierSel] = useState(request.supplierId ?? "");
   const [estMinutes, setEstMinutes] = useState(request.estimatedMinutes ? String(request.estimatedMinutes) : "");
   const [estPresence, setEstPresence] = useState(request.managerPresence);
   const [slotDate, setSlotDate] = useState("");
@@ -78,7 +86,8 @@ export function RequestDetail({ request, viewer, employees }: {
 
   const transitions = STATUS_TRANSITIONS[request.status as FaultStatus] ?? [];
   const canChangeStatus = viewer.canManage;
-  const mySide = viewer.isStaff ? "COMPANY" : "MANAGER";
+  // The assigned supplier acts on the company's side of the appointment flow.
+  const mySide = viewer.isStaff || viewer.role === "COLLABORATOR" ? "COMPANY" : "MANAGER";
   const closed = ["COMPLETED", "CANCELLED"].includes(request.status);
 
   const visibleComments = useMemo(
@@ -112,6 +121,7 @@ export function RequestDetail({ request, viewer, employees }: {
           <span>Προτεραιότητα: {PRIORITY_LABELS[request.priority as keyof typeof PRIORITY_LABELS] ?? request.priority}</span>
           <span>Υπεύθυνος: {HANDLER_LABELS[request.handledBy] ?? request.handledBy}</span>
           {request.assigneeName && <span>Ανατέθηκε: {request.assigneeName}</span>}
+          {request.supplierName && viewer.role !== "COLLABORATOR" && <span style={{ display: "inline-flex", alignItems: "center", gap: 4 }}><RiTeamLine /> Συνεργάτης: {request.supplierName}</span>}
           {request.scheduledDate && <span style={{ display: "inline-flex", alignItems: "center", gap: 4 }}><RiCalendarCheckLine /> Ραντεβού: {fmt(request.scheduledDate)}</span>}
         </div>
         <p style={{ fontSize: 13.5, color: "var(--foreground)", marginTop: 12, whiteSpace: "pre-wrap" }}>{request.description}</p>
@@ -166,6 +176,62 @@ export function RequestDetail({ request, viewer, employees }: {
               </button>
             </div>
           )}
+          {viewer.canAssign && (
+            <div style={{ marginTop: 14, paddingTop: 12, borderTop: "1px solid var(--border)" }}>
+              <div style={{
+                display: "inline-flex", alignItems: "center", gap: 6, fontSize: 12, fontWeight: 600, padding: "3px 10px", borderRadius: 999, marginBottom: 10,
+                color: request.handledBy === "COMPANY" ? "#15803d" : "#b45309",
+                background: request.handledBy === "COMPANY" ? "#15803d14" : "#b4530914",
+                border: `1px solid ${request.handledBy === "COMPANY" ? "#15803d40" : "#b4530940"}`,
+              }}>
+                {request.handledBy === "COMPANY"
+                  ? "Καλύπτεται από τη σύμβαση διαχείρισης — άμεση ανάθεση, χωρίς προσφορά προς τον πελάτη"
+                  : "Εκτός σύμβασης — απαιτείται προσφορά και αποδοχή από τον πελάτη (Φάση 2)"}
+              </div>
+              <div style={{ display: "flex", gap: 8, alignItems: "flex-end", maxWidth: 560 }}>
+                <div style={{ flex: 1 }}>
+                  <FormField label="Ανάθεση σε εξωτερικό συνεργάτη" hint="Ταξινόμηση: προτιμώμενος · ίδιος με προηγούμενη · ειδικότητα · αξιολόγηση · απόσταση · 24/7">
+                    <FieldSelect value={supplierSel} onChange={setSupplierSel} placeholder="— Χωρίς συνεργάτη —"
+                      options={suppliers.map((s) => ({ value: s.id, label: s.name }))} />
+                  </FormField>
+                </div>
+                <button disabled={busy || supplierSel === (request.supplierId ?? "")} style={btn}
+                  onClick={() => run(async () => {
+                    const res = await assignRequestSupplier(request.id, supplierSel || null);
+                    if ("error" in res && res.error) return res;
+                    if (makePreferred && supplierSel && request.buildingId) return setPreferredSupplier(request.buildingId, request.categoryId ?? null, supplierSel);
+                    return res;
+                  })}>
+                  {supplierSel ? "Ανάθεση" : "Αφαίρεση"}
+                </button>
+              </div>
+              <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 12.5, color: "var(--foreground)", marginTop: 8, cursor: "pointer" }}>
+                <input type="checkbox" checked={makePreferred} onChange={(e) => setMakePreferred(e.target.checked)} disabled={!supplierSel || supplierSel === preferredSupplierId} />
+                Ορισμός ως προτιμώμενου συνεργάτη για αυτό το κτήριο{request.categoryName ? ` (${request.categoryName})` : ""} — θα προτείνεται πρώτος σε επόμενες εργασίες
+              </label>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Supplier rating after completion (company staff) */}
+      {request.status === "COMPLETED" && viewer.canAssign && request.supplierId && (
+        <div style={card}>
+          <div style={h3}><RiTeamLine /> Αξιολόγηση συνεργάτη · {request.supplierName}</div>
+          <div style={{ display: "flex", alignItems: "center", gap: 4, marginBottom: 10 }}>
+            {[1, 2, 3, 4, 5].map((n) => (
+              <button key={n} type="button" onClick={() => setRatingScore(n)} aria-label={`${n} αστέρια`}
+                style={{ background: "none", border: "none", cursor: "pointer", fontSize: 26, lineHeight: 1, color: n <= ratingScore ? "#F2A23C" : "var(--border)", padding: 2 }}>★</button>
+            ))}
+            <span style={{ fontSize: 12.5, color: "var(--muted-foreground)", marginLeft: 8 }}>{ratingScore ? `${ratingScore}/5` : "Επιλέξτε 1–5"}</span>
+          </div>
+          <div style={{ display: "flex", gap: 8, alignItems: "flex-start", maxWidth: 560 }}>
+            <div style={{ flex: 1 }}><FieldInput value={ratingComment} onChange={setRatingComment} placeholder="Σχόλιο (προαιρετικά): ποιότητα, συνέπεια, επικοινωνία" /></div>
+            <button disabled={busy || !ratingScore} style={btnPrimary} onClick={() => run(() => rateSupplier(request.id, ratingScore, ratingComment))}>
+              {request.supplierRating ? "Ενημέρωση" : "Αποθήκευση"}
+            </button>
+          </div>
+          <p style={{ fontSize: 12, color: "var(--muted-foreground)", margin: "8px 0 0" }}>Η αξιολόγηση επηρεάζει τη σειρά πρότασης του συνεργάτη σε επόμενες αναθέσεις.</p>
         </div>
       )}
 

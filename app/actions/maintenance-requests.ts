@@ -19,10 +19,18 @@ async function requireUser() {
   const session = await getEffectiveSession();
   const u = session?.user;
   if (!u?.id) throw new Error("Unauthorized");
-  return { id: u.id as string, role: (u.role as string) ?? "", companyId: (u as any).companyId as string | null };
+  // COLLABORATOR users act on behalf of their Supplier — resolve the link once.
+  let supplierId: string | null = null;
+  if (u.role === "COLLABORATOR") {
+    const row = await db.user.findUnique({ where: { id: u.id }, select: { supplierId: true } });
+    supplierId = row?.supplierId ?? null;
+  }
+  return { id: u.id as string, role: (u.role as string) ?? "", companyId: (u as any).companyId as string | null, supplierId };
 }
 
 const isStaff = (role: string) => STAFF_ROLES.includes(role);
+/** The company side of a fault: its own staff OR the external supplier it assigned. */
+const isCompanySide = (role: string) => isStaff(role) || role === "COLLABORATOR";
 const clean = (v?: string | null) => (v?.trim() ? v.trim() : null);
 
 function revalidateAll(requestId?: string, buildingId?: string | null) {
@@ -142,8 +150,10 @@ export async function createMaintenanceRequest(input: CreateFaultInput) {
 /* ------------------------------------------------------------------ */
 
 /** Μπορεί ο χρήστης να ΔΙΑΧΕΙΡΙΣΤΕΙ τη βλάβη (αλλαγή status κ.λπ.); */
-async function canManageRequest(user: { id: string; role: string }, req: { handledBy: string; buildingId: string; reportedById: string | null; building: { propertyId: string } }) {
+async function canManageRequest(user: { id: string; role: string; supplierId?: string | null }, req: { handledBy: string; buildingId: string; reportedById: string | null; supplierId?: string | null; building: { propertyId: string } }) {
   if (isStaff(user.role)) return true;
+  // The assigned external supplier progresses the job (status/comments) — never other suppliers.
+  if (user.role === "COLLABORATOR") return !!user.supplierId && user.supplierId === req.supplierId;
   if (user.role !== "PROPERTY_ADMIN") return false;
   const assignment = await db.managementAssignment.findFirst({
     where: { userId: user.id, OR: [{ buildingId: req.buildingId }, { propertyId: req.building.propertyId }] },
@@ -156,7 +166,7 @@ export async function changeRequestStatus(id: string, status: FaultStatus, note?
   const user = await requireUser();
   const req = await db.maintenanceRequest.findUnique({
     where: { id },
-    select: { id: true, title: true, status: true, handledBy: true, buildingId: true, reportedById: true, firstResponseAt: true, building: { select: { propertyId: true } } },
+    select: { id: true, title: true, status: true, handledBy: true, buildingId: true, reportedById: true, supplierId: true, firstResponseAt: true, building: { select: { propertyId: true } } },
   });
   if (!req) return { error: "Δεν βρέθηκε" };
   if (!FAULT_STATUSES.includes(status)) return { error: "Μη έγκυρη κατάσταση" };
@@ -216,6 +226,50 @@ export async function assignRequest(id: string, assigneeId: string | null) {
   return { ok: true };
 }
 
+/**
+ * Ανάθεση σε ΕΞΩΤΕΡΙΚΟ συνεργάτη του μητρώου εταιρίας — μόνο ADMIN/MANAGER/SUPER_ADMIN.
+ * Ο διαχειριστής ακινήτου δεν αναθέτει ποτέ (βλ. suppliers program): η εταιρία
+ * τιμολογεί τον πελάτη και ο συνεργάτης την εταιρία.
+ */
+export async function assignRequestSupplier(id: string, supplierId: string | null) {
+  const user = await requireUser();
+  if (!["SUPER_ADMIN", "ADMIN", "MANAGER"].includes(user.role)) return { error: "Δεν επιτρέπεται" };
+  const req = await db.maintenanceRequest.findUnique({ where: { id }, select: { id: true, title: true, buildingId: true, supplierId: true, building: { select: { name: true, address: true, city: true } } } });
+  if (!req) return { error: "Δεν βρέθηκε" };
+
+  let supplier: { id: string; name: string } | null = null;
+  if (supplierId) {
+    // Only company-registry rows are assignable — never a customer's private card, never the platform row.
+    supplier = await db.supplier.findFirst({ where: { id: supplierId, customerId: null, isPlatform: false, isActive: true }, select: { id: true, name: true } });
+    if (!supplier) return { error: "Μη έγκυρος συνεργάτης" };
+  }
+  if ((supplier?.id ?? null) === req.supplierId) return { ok: true };
+
+  await db.maintenanceRequest.update({
+    where: { id },
+    data: {
+      supplierId: supplier?.id ?? null,
+      statusEvents: { create: { fromStatus: null, toStatus: "ASSIGNED", byUserId: user.id, note: supplier ? `Ανάθεση στον συνεργάτη «${supplier.name}»` : "Αφαίρεση ανάθεσης συνεργάτη" } },
+    },
+  });
+  if (supplier) {
+    const crew = await db.user.findMany({ where: { supplierId: supplier.id, role: "COLLABORATOR", status: "ACTIVE" }, select: { id: true } });
+    if (crew.length) {
+      await notifyStakeholders({
+        requestId: id,
+        type: "MAINTENANCE_ASSIGNED",
+        title: `Νέα ανάθεση: ${req.title}`,
+        body: `Η εταιρεία διαχείρισης σας ανέθεσε εργασία στο κτήριο ${[req.building.name, req.building.address, req.building.city].filter(Boolean).join(", ")}.`,
+        onlyUserIds: crew.map((u) => u.id),
+      });
+    }
+  }
+  revalidateAll(id, req.buildingId);
+  revalidatePath("/marketplace");
+  revalidatePath("/marketplace/requests");
+  return { ok: true };
+}
+
 /* ------------------------------------------------------------------ */
 /* Σχόλια (επικοινωνία δύο μεριών)                                     */
 /* ------------------------------------------------------------------ */
@@ -272,7 +326,7 @@ export async function setRequestEstimate(id: string, minutes: number | null, man
 export async function offerSlots(id: string, isoStarts: string[]) {
   const user = await requireUser();
   if (!(await canAccessRequest(user.id, user.role, id))) return { error: "Δεν επιτρέπεται" };
-  const side = isStaff(user.role) ? "COMPANY" : "MANAGER";
+  const side = isCompanySide(user.role) ? "COMPANY" : "MANAGER";
 
   const starts = (isoStarts ?? [])
     .map((s) => new Date(s))
@@ -321,7 +375,7 @@ export async function bookSlot(slotId: string) {
   if (!slot || slot.status !== "OPEN") return { error: "Το slot δεν είναι διαθέσιμο" };
   if (!(await canAccessRequest(user.id, user.role, slot.requestId))) return { error: "Δεν επιτρέπεται" };
 
-  const bookerSide = isStaff(user.role) ? "COMPANY" : "MANAGER";
+  const bookerSide = isCompanySide(user.role) ? "COMPANY" : "MANAGER";
   if (bookerSide === slot.side) return { error: "Το slot το επιλέγει η άλλη πλευρά" };
 
   const duration = slot.request.estimatedMinutes ?? 60;

@@ -115,7 +115,7 @@ export async function getBuildingDashboardData(id: string, opts: { heatingPeriod
         media: { orderBy: { createdAt: "asc" }, select: { id: true, url: true, type: true } },
       },
     }),
-    db.recurringTask.findMany({ where: { buildingId: id }, orderBy: { nextDueDate: "asc" }, select: { id: true, title: true, frequency: true, nextDueDate: true, vendor: true, notes: true, active: true, kind: true, inServicePackage: true, reminderDaysBefore: true } }),
+    db.recurringTask.findMany({ where: { buildingId: id }, orderBy: { nextDueDate: "asc" }, select: { id: true, title: true, frequency: true, nextDueDate: true, vendor: true, supplierId: true, notes: true, active: true, kind: true, inServicePackage: true, reminderDaysBefore: true } }),
     db.managedItem.findMany({
       where: { buildingId: id },
       orderBy: [{ location: "asc" }, { createdAt: "asc" }],

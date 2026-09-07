@@ -40,6 +40,8 @@ export function MaintenanceListClient({ items, canEditSettings, buildings, categ
     { id: "building", header: "Κτήριο", width: 160, accessor: (r) => r.buildingName, cell: (r) => <>{r.buildingName}{r.unitLabel ? ` · ${r.unitLabel}` : ""}</> },
     { id: "handledBy", header: "Υπεύθυνος", width: 150, accessor: (r) => r.handledBy, cell: (r) => HANDLER_LABELS[r.handledBy] ?? r.handledBy },
     { id: "assignee", header: "Ανάθεση", width: 130, accessor: (r) => r.assigneeName ?? "", cell: (r) => r.assigneeName ?? "—" },
+    { id: "supplier", header: "Συνεργάτης", width: 150, accessor: (r) => r.supplierName ?? "",
+      cell: (r) => r.supplierId ? <Link href={`/super-admin/suppliers/${r.supplierId}`} style={{ color: "var(--foreground)", textDecoration: "none" }}>{r.supplierName}</Link> : "—" },
     { id: "sla", header: "SLA", width: 140, accessor: (r) => r.slaDueAt ?? "", sortKey: "sla",
       cell: (r) => {
         if (!r.slaDueAt || ["COMPLETED", "CANCELLED"].includes(r.status)) return "—";
