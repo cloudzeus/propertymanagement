@@ -62,6 +62,13 @@ async function canReportInBuilding(userId: string, role: string, buildingId: str
       /* fall through to the occupant check */
     }
   }
+  if (role === "COLLABORATOR") {
+    // A supplier on site may report what they find, but only in buildings where they have (had) work.
+    const u = await db.user.findUnique({ where: { id: userId }, select: { supplierId: true } });
+    if (!u?.supplierId) return false;
+    const seen = await db.maintenanceRequest.findFirst({ where: { buildingId, supplierId: u.supplierId }, select: { id: true } });
+    return !!seen;
+  }
   const unit = await db.unit.findFirst({
     where: {
       buildingId,

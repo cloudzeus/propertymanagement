@@ -257,6 +257,7 @@ export type MaintenanceCategoryWhereInput = {
   suppliers?: Prisma.SupplierCategoryListRelationFilter
   preferredBy?: Prisma.BuildingPreferredSupplierListRelationFilter
   catalogItems?: Prisma.ServiceCatalogItemListRelationFilter
+  serviceRequests?: Prisma.ServiceRequestListRelationFilter
 }
 
 export type MaintenanceCategoryOrderByWithRelationInput = {
@@ -274,6 +275,7 @@ export type MaintenanceCategoryOrderByWithRelationInput = {
   suppliers?: Prisma.SupplierCategoryOrderByRelationAggregateInput
   preferredBy?: Prisma.BuildingPreferredSupplierOrderByRelationAggregateInput
   catalogItems?: Prisma.ServiceCatalogItemOrderByRelationAggregateInput
+  serviceRequests?: Prisma.ServiceRequestOrderByRelationAggregateInput
 }
 
 export type MaintenanceCategoryWhereUniqueInput = Prisma.AtLeast<{
@@ -294,6 +296,7 @@ export type MaintenanceCategoryWhereUniqueInput = Prisma.AtLeast<{
   suppliers?: Prisma.SupplierCategoryListRelationFilter
   preferredBy?: Prisma.BuildingPreferredSupplierListRelationFilter
   catalogItems?: Prisma.ServiceCatalogItemListRelationFilter
+  serviceRequests?: Prisma.ServiceRequestListRelationFilter
 }, "id">
 
 export type MaintenanceCategoryOrderByWithAggregationInput = {
@@ -343,6 +346,7 @@ export type MaintenanceCategoryCreateInput = {
   suppliers?: Prisma.SupplierCategoryCreateNestedManyWithoutCategoryInput
   preferredBy?: Prisma.BuildingPreferredSupplierCreateNestedManyWithoutCategoryInput
   catalogItems?: Prisma.ServiceCatalogItemCreateNestedManyWithoutCategoryInput
+  serviceRequests?: Prisma.ServiceRequestCreateNestedManyWithoutCategoryInput
 }
 
 export type MaintenanceCategoryUncheckedCreateInput = {
@@ -360,6 +364,7 @@ export type MaintenanceCategoryUncheckedCreateInput = {
   suppliers?: Prisma.SupplierCategoryUncheckedCreateNestedManyWithoutCategoryInput
   preferredBy?: Prisma.BuildingPreferredSupplierUncheckedCreateNestedManyWithoutCategoryInput
   catalogItems?: Prisma.ServiceCatalogItemUncheckedCreateNestedManyWithoutCategoryInput
+  serviceRequests?: Prisma.ServiceRequestUncheckedCreateNestedManyWithoutCategoryInput
 }
 
 export type MaintenanceCategoryUpdateInput = {
@@ -377,6 +382,7 @@ export type MaintenanceCategoryUpdateInput = {
   suppliers?: Prisma.SupplierCategoryUpdateManyWithoutCategoryNestedInput
   preferredBy?: Prisma.BuildingPreferredSupplierUpdateManyWithoutCategoryNestedInput
   catalogItems?: Prisma.ServiceCatalogItemUpdateManyWithoutCategoryNestedInput
+  serviceRequests?: Prisma.ServiceRequestUpdateManyWithoutCategoryNestedInput
 }
 
 export type MaintenanceCategoryUncheckedUpdateInput = {
@@ -394,6 +400,7 @@ export type MaintenanceCategoryUncheckedUpdateInput = {
   suppliers?: Prisma.SupplierCategoryUncheckedUpdateManyWithoutCategoryNestedInput
   preferredBy?: Prisma.BuildingPreferredSupplierUncheckedUpdateManyWithoutCategoryNestedInput
   catalogItems?: Prisma.ServiceCatalogItemUncheckedUpdateManyWithoutCategoryNestedInput
+  serviceRequests?: Prisma.ServiceRequestUncheckedUpdateManyWithoutCategoryNestedInput
 }
 
 export type MaintenanceCategoryCreateManyInput = {
@@ -566,6 +573,22 @@ export type MaintenanceCategoryUpdateOneWithoutCatalogItemsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.MaintenanceCategoryUpdateToOneWithWhereWithoutCatalogItemsInput, Prisma.MaintenanceCategoryUpdateWithoutCatalogItemsInput>, Prisma.MaintenanceCategoryUncheckedUpdateWithoutCatalogItemsInput>
 }
 
+export type MaintenanceCategoryCreateNestedOneWithoutServiceRequestsInput = {
+  create?: Prisma.XOR<Prisma.MaintenanceCategoryCreateWithoutServiceRequestsInput, Prisma.MaintenanceCategoryUncheckedCreateWithoutServiceRequestsInput>
+  connectOrCreate?: Prisma.MaintenanceCategoryCreateOrConnectWithoutServiceRequestsInput
+  connect?: Prisma.MaintenanceCategoryWhereUniqueInput
+}
+
+export type MaintenanceCategoryUpdateOneWithoutServiceRequestsNestedInput = {
+  create?: Prisma.XOR<Prisma.MaintenanceCategoryCreateWithoutServiceRequestsInput, Prisma.MaintenanceCategoryUncheckedCreateWithoutServiceRequestsInput>
+  connectOrCreate?: Prisma.MaintenanceCategoryCreateOrConnectWithoutServiceRequestsInput
+  upsert?: Prisma.MaintenanceCategoryUpsertWithoutServiceRequestsInput
+  disconnect?: Prisma.MaintenanceCategoryWhereInput | boolean
+  delete?: Prisma.MaintenanceCategoryWhereInput | boolean
+  connect?: Prisma.MaintenanceCategoryWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.MaintenanceCategoryUpdateToOneWithWhereWithoutServiceRequestsInput, Prisma.MaintenanceCategoryUpdateWithoutServiceRequestsInput>, Prisma.MaintenanceCategoryUncheckedUpdateWithoutServiceRequestsInput>
+}
+
 export type MaintenanceCategoryCreateWithoutRequestsInput = {
   id?: string
   name: string
@@ -580,6 +603,7 @@ export type MaintenanceCategoryCreateWithoutRequestsInput = {
   suppliers?: Prisma.SupplierCategoryCreateNestedManyWithoutCategoryInput
   preferredBy?: Prisma.BuildingPreferredSupplierCreateNestedManyWithoutCategoryInput
   catalogItems?: Prisma.ServiceCatalogItemCreateNestedManyWithoutCategoryInput
+  serviceRequests?: Prisma.ServiceRequestCreateNestedManyWithoutCategoryInput
 }
 
 export type MaintenanceCategoryUncheckedCreateWithoutRequestsInput = {
@@ -596,6 +620,7 @@ export type MaintenanceCategoryUncheckedCreateWithoutRequestsInput = {
   suppliers?: Prisma.SupplierCategoryUncheckedCreateNestedManyWithoutCategoryInput
   preferredBy?: Prisma.BuildingPreferredSupplierUncheckedCreateNestedManyWithoutCategoryInput
   catalogItems?: Prisma.ServiceCatalogItemUncheckedCreateNestedManyWithoutCategoryInput
+  serviceRequests?: Prisma.ServiceRequestUncheckedCreateNestedManyWithoutCategoryInput
 }
 
 export type MaintenanceCategoryCreateOrConnectWithoutRequestsInput = {
@@ -628,6 +653,7 @@ export type MaintenanceCategoryUpdateWithoutRequestsInput = {
   suppliers?: Prisma.SupplierCategoryUpdateManyWithoutCategoryNestedInput
   preferredBy?: Prisma.BuildingPreferredSupplierUpdateManyWithoutCategoryNestedInput
   catalogItems?: Prisma.ServiceCatalogItemUpdateManyWithoutCategoryNestedInput
+  serviceRequests?: Prisma.ServiceRequestUpdateManyWithoutCategoryNestedInput
 }
 
 export type MaintenanceCategoryUncheckedUpdateWithoutRequestsInput = {
@@ -644,6 +670,7 @@ export type MaintenanceCategoryUncheckedUpdateWithoutRequestsInput = {
   suppliers?: Prisma.SupplierCategoryUncheckedUpdateManyWithoutCategoryNestedInput
   preferredBy?: Prisma.BuildingPreferredSupplierUncheckedUpdateManyWithoutCategoryNestedInput
   catalogItems?: Prisma.ServiceCatalogItemUncheckedUpdateManyWithoutCategoryNestedInput
+  serviceRequests?: Prisma.ServiceRequestUncheckedUpdateManyWithoutCategoryNestedInput
 }
 
 export type MaintenanceCategoryCreateWithoutCoverageRulesInput = {
@@ -660,6 +687,7 @@ export type MaintenanceCategoryCreateWithoutCoverageRulesInput = {
   suppliers?: Prisma.SupplierCategoryCreateNestedManyWithoutCategoryInput
   preferredBy?: Prisma.BuildingPreferredSupplierCreateNestedManyWithoutCategoryInput
   catalogItems?: Prisma.ServiceCatalogItemCreateNestedManyWithoutCategoryInput
+  serviceRequests?: Prisma.ServiceRequestCreateNestedManyWithoutCategoryInput
 }
 
 export type MaintenanceCategoryUncheckedCreateWithoutCoverageRulesInput = {
@@ -676,6 +704,7 @@ export type MaintenanceCategoryUncheckedCreateWithoutCoverageRulesInput = {
   suppliers?: Prisma.SupplierCategoryUncheckedCreateNestedManyWithoutCategoryInput
   preferredBy?: Prisma.BuildingPreferredSupplierUncheckedCreateNestedManyWithoutCategoryInput
   catalogItems?: Prisma.ServiceCatalogItemUncheckedCreateNestedManyWithoutCategoryInput
+  serviceRequests?: Prisma.ServiceRequestUncheckedCreateNestedManyWithoutCategoryInput
 }
 
 export type MaintenanceCategoryCreateOrConnectWithoutCoverageRulesInput = {
@@ -708,6 +737,7 @@ export type MaintenanceCategoryUpdateWithoutCoverageRulesInput = {
   suppliers?: Prisma.SupplierCategoryUpdateManyWithoutCategoryNestedInput
   preferredBy?: Prisma.BuildingPreferredSupplierUpdateManyWithoutCategoryNestedInput
   catalogItems?: Prisma.ServiceCatalogItemUpdateManyWithoutCategoryNestedInput
+  serviceRequests?: Prisma.ServiceRequestUpdateManyWithoutCategoryNestedInput
 }
 
 export type MaintenanceCategoryUncheckedUpdateWithoutCoverageRulesInput = {
@@ -724,6 +754,7 @@ export type MaintenanceCategoryUncheckedUpdateWithoutCoverageRulesInput = {
   suppliers?: Prisma.SupplierCategoryUncheckedUpdateManyWithoutCategoryNestedInput
   preferredBy?: Prisma.BuildingPreferredSupplierUncheckedUpdateManyWithoutCategoryNestedInput
   catalogItems?: Prisma.ServiceCatalogItemUncheckedUpdateManyWithoutCategoryNestedInput
+  serviceRequests?: Prisma.ServiceRequestUncheckedUpdateManyWithoutCategoryNestedInput
 }
 
 export type MaintenanceCategoryCreateWithoutPreferredByInput = {
@@ -740,6 +771,7 @@ export type MaintenanceCategoryCreateWithoutPreferredByInput = {
   coverageRules?: Prisma.MaintenanceCoverageRuleCreateNestedManyWithoutCategoryInput
   suppliers?: Prisma.SupplierCategoryCreateNestedManyWithoutCategoryInput
   catalogItems?: Prisma.ServiceCatalogItemCreateNestedManyWithoutCategoryInput
+  serviceRequests?: Prisma.ServiceRequestCreateNestedManyWithoutCategoryInput
 }
 
 export type MaintenanceCategoryUncheckedCreateWithoutPreferredByInput = {
@@ -756,6 +788,7 @@ export type MaintenanceCategoryUncheckedCreateWithoutPreferredByInput = {
   coverageRules?: Prisma.MaintenanceCoverageRuleUncheckedCreateNestedManyWithoutCategoryInput
   suppliers?: Prisma.SupplierCategoryUncheckedCreateNestedManyWithoutCategoryInput
   catalogItems?: Prisma.ServiceCatalogItemUncheckedCreateNestedManyWithoutCategoryInput
+  serviceRequests?: Prisma.ServiceRequestUncheckedCreateNestedManyWithoutCategoryInput
 }
 
 export type MaintenanceCategoryCreateOrConnectWithoutPreferredByInput = {
@@ -788,6 +821,7 @@ export type MaintenanceCategoryUpdateWithoutPreferredByInput = {
   coverageRules?: Prisma.MaintenanceCoverageRuleUpdateManyWithoutCategoryNestedInput
   suppliers?: Prisma.SupplierCategoryUpdateManyWithoutCategoryNestedInput
   catalogItems?: Prisma.ServiceCatalogItemUpdateManyWithoutCategoryNestedInput
+  serviceRequests?: Prisma.ServiceRequestUpdateManyWithoutCategoryNestedInput
 }
 
 export type MaintenanceCategoryUncheckedUpdateWithoutPreferredByInput = {
@@ -804,6 +838,7 @@ export type MaintenanceCategoryUncheckedUpdateWithoutPreferredByInput = {
   coverageRules?: Prisma.MaintenanceCoverageRuleUncheckedUpdateManyWithoutCategoryNestedInput
   suppliers?: Prisma.SupplierCategoryUncheckedUpdateManyWithoutCategoryNestedInput
   catalogItems?: Prisma.ServiceCatalogItemUncheckedUpdateManyWithoutCategoryNestedInput
+  serviceRequests?: Prisma.ServiceRequestUncheckedUpdateManyWithoutCategoryNestedInput
 }
 
 export type MaintenanceCategoryCreateWithoutSuppliersInput = {
@@ -820,6 +855,7 @@ export type MaintenanceCategoryCreateWithoutSuppliersInput = {
   coverageRules?: Prisma.MaintenanceCoverageRuleCreateNestedManyWithoutCategoryInput
   preferredBy?: Prisma.BuildingPreferredSupplierCreateNestedManyWithoutCategoryInput
   catalogItems?: Prisma.ServiceCatalogItemCreateNestedManyWithoutCategoryInput
+  serviceRequests?: Prisma.ServiceRequestCreateNestedManyWithoutCategoryInput
 }
 
 export type MaintenanceCategoryUncheckedCreateWithoutSuppliersInput = {
@@ -836,6 +872,7 @@ export type MaintenanceCategoryUncheckedCreateWithoutSuppliersInput = {
   coverageRules?: Prisma.MaintenanceCoverageRuleUncheckedCreateNestedManyWithoutCategoryInput
   preferredBy?: Prisma.BuildingPreferredSupplierUncheckedCreateNestedManyWithoutCategoryInput
   catalogItems?: Prisma.ServiceCatalogItemUncheckedCreateNestedManyWithoutCategoryInput
+  serviceRequests?: Prisma.ServiceRequestUncheckedCreateNestedManyWithoutCategoryInput
 }
 
 export type MaintenanceCategoryCreateOrConnectWithoutSuppliersInput = {
@@ -868,6 +905,7 @@ export type MaintenanceCategoryUpdateWithoutSuppliersInput = {
   coverageRules?: Prisma.MaintenanceCoverageRuleUpdateManyWithoutCategoryNestedInput
   preferredBy?: Prisma.BuildingPreferredSupplierUpdateManyWithoutCategoryNestedInput
   catalogItems?: Prisma.ServiceCatalogItemUpdateManyWithoutCategoryNestedInput
+  serviceRequests?: Prisma.ServiceRequestUpdateManyWithoutCategoryNestedInput
 }
 
 export type MaintenanceCategoryUncheckedUpdateWithoutSuppliersInput = {
@@ -884,6 +922,7 @@ export type MaintenanceCategoryUncheckedUpdateWithoutSuppliersInput = {
   coverageRules?: Prisma.MaintenanceCoverageRuleUncheckedUpdateManyWithoutCategoryNestedInput
   preferredBy?: Prisma.BuildingPreferredSupplierUncheckedUpdateManyWithoutCategoryNestedInput
   catalogItems?: Prisma.ServiceCatalogItemUncheckedUpdateManyWithoutCategoryNestedInput
+  serviceRequests?: Prisma.ServiceRequestUncheckedUpdateManyWithoutCategoryNestedInput
 }
 
 export type MaintenanceCategoryCreateWithoutCatalogItemsInput = {
@@ -900,6 +939,7 @@ export type MaintenanceCategoryCreateWithoutCatalogItemsInput = {
   coverageRules?: Prisma.MaintenanceCoverageRuleCreateNestedManyWithoutCategoryInput
   suppliers?: Prisma.SupplierCategoryCreateNestedManyWithoutCategoryInput
   preferredBy?: Prisma.BuildingPreferredSupplierCreateNestedManyWithoutCategoryInput
+  serviceRequests?: Prisma.ServiceRequestCreateNestedManyWithoutCategoryInput
 }
 
 export type MaintenanceCategoryUncheckedCreateWithoutCatalogItemsInput = {
@@ -916,6 +956,7 @@ export type MaintenanceCategoryUncheckedCreateWithoutCatalogItemsInput = {
   coverageRules?: Prisma.MaintenanceCoverageRuleUncheckedCreateNestedManyWithoutCategoryInput
   suppliers?: Prisma.SupplierCategoryUncheckedCreateNestedManyWithoutCategoryInput
   preferredBy?: Prisma.BuildingPreferredSupplierUncheckedCreateNestedManyWithoutCategoryInput
+  serviceRequests?: Prisma.ServiceRequestUncheckedCreateNestedManyWithoutCategoryInput
 }
 
 export type MaintenanceCategoryCreateOrConnectWithoutCatalogItemsInput = {
@@ -948,6 +989,7 @@ export type MaintenanceCategoryUpdateWithoutCatalogItemsInput = {
   coverageRules?: Prisma.MaintenanceCoverageRuleUpdateManyWithoutCategoryNestedInput
   suppliers?: Prisma.SupplierCategoryUpdateManyWithoutCategoryNestedInput
   preferredBy?: Prisma.BuildingPreferredSupplierUpdateManyWithoutCategoryNestedInput
+  serviceRequests?: Prisma.ServiceRequestUpdateManyWithoutCategoryNestedInput
 }
 
 export type MaintenanceCategoryUncheckedUpdateWithoutCatalogItemsInput = {
@@ -964,6 +1006,91 @@ export type MaintenanceCategoryUncheckedUpdateWithoutCatalogItemsInput = {
   coverageRules?: Prisma.MaintenanceCoverageRuleUncheckedUpdateManyWithoutCategoryNestedInput
   suppliers?: Prisma.SupplierCategoryUncheckedUpdateManyWithoutCategoryNestedInput
   preferredBy?: Prisma.BuildingPreferredSupplierUncheckedUpdateManyWithoutCategoryNestedInput
+  serviceRequests?: Prisma.ServiceRequestUncheckedUpdateManyWithoutCategoryNestedInput
+}
+
+export type MaintenanceCategoryCreateWithoutServiceRequestsInput = {
+  id?: string
+  name: string
+  icon?: string | null
+  active?: boolean
+  sortOrder?: number
+  slaHours?: number | null
+  companyResponsible?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  requests?: Prisma.MaintenanceRequestCreateNestedManyWithoutCategoryRefInput
+  coverageRules?: Prisma.MaintenanceCoverageRuleCreateNestedManyWithoutCategoryInput
+  suppliers?: Prisma.SupplierCategoryCreateNestedManyWithoutCategoryInput
+  preferredBy?: Prisma.BuildingPreferredSupplierCreateNestedManyWithoutCategoryInput
+  catalogItems?: Prisma.ServiceCatalogItemCreateNestedManyWithoutCategoryInput
+}
+
+export type MaintenanceCategoryUncheckedCreateWithoutServiceRequestsInput = {
+  id?: string
+  name: string
+  icon?: string | null
+  active?: boolean
+  sortOrder?: number
+  slaHours?: number | null
+  companyResponsible?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  requests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutCategoryRefInput
+  coverageRules?: Prisma.MaintenanceCoverageRuleUncheckedCreateNestedManyWithoutCategoryInput
+  suppliers?: Prisma.SupplierCategoryUncheckedCreateNestedManyWithoutCategoryInput
+  preferredBy?: Prisma.BuildingPreferredSupplierUncheckedCreateNestedManyWithoutCategoryInput
+  catalogItems?: Prisma.ServiceCatalogItemUncheckedCreateNestedManyWithoutCategoryInput
+}
+
+export type MaintenanceCategoryCreateOrConnectWithoutServiceRequestsInput = {
+  where: Prisma.MaintenanceCategoryWhereUniqueInput
+  create: Prisma.XOR<Prisma.MaintenanceCategoryCreateWithoutServiceRequestsInput, Prisma.MaintenanceCategoryUncheckedCreateWithoutServiceRequestsInput>
+}
+
+export type MaintenanceCategoryUpsertWithoutServiceRequestsInput = {
+  update: Prisma.XOR<Prisma.MaintenanceCategoryUpdateWithoutServiceRequestsInput, Prisma.MaintenanceCategoryUncheckedUpdateWithoutServiceRequestsInput>
+  create: Prisma.XOR<Prisma.MaintenanceCategoryCreateWithoutServiceRequestsInput, Prisma.MaintenanceCategoryUncheckedCreateWithoutServiceRequestsInput>
+  where?: Prisma.MaintenanceCategoryWhereInput
+}
+
+export type MaintenanceCategoryUpdateToOneWithWhereWithoutServiceRequestsInput = {
+  where?: Prisma.MaintenanceCategoryWhereInput
+  data: Prisma.XOR<Prisma.MaintenanceCategoryUpdateWithoutServiceRequestsInput, Prisma.MaintenanceCategoryUncheckedUpdateWithoutServiceRequestsInput>
+}
+
+export type MaintenanceCategoryUpdateWithoutServiceRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  slaHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  companyResponsible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  requests?: Prisma.MaintenanceRequestUpdateManyWithoutCategoryRefNestedInput
+  coverageRules?: Prisma.MaintenanceCoverageRuleUpdateManyWithoutCategoryNestedInput
+  suppliers?: Prisma.SupplierCategoryUpdateManyWithoutCategoryNestedInput
+  preferredBy?: Prisma.BuildingPreferredSupplierUpdateManyWithoutCategoryNestedInput
+  catalogItems?: Prisma.ServiceCatalogItemUpdateManyWithoutCategoryNestedInput
+}
+
+export type MaintenanceCategoryUncheckedUpdateWithoutServiceRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  slaHours?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  companyResponsible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  requests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutCategoryRefNestedInput
+  coverageRules?: Prisma.MaintenanceCoverageRuleUncheckedUpdateManyWithoutCategoryNestedInput
+  suppliers?: Prisma.SupplierCategoryUncheckedUpdateManyWithoutCategoryNestedInput
+  preferredBy?: Prisma.BuildingPreferredSupplierUncheckedUpdateManyWithoutCategoryNestedInput
+  catalogItems?: Prisma.ServiceCatalogItemUncheckedUpdateManyWithoutCategoryNestedInput
 }
 
 
@@ -977,6 +1104,7 @@ export type MaintenanceCategoryCountOutputType = {
   suppliers: number
   preferredBy: number
   catalogItems: number
+  serviceRequests: number
 }
 
 export type MaintenanceCategoryCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -985,6 +1113,7 @@ export type MaintenanceCategoryCountOutputTypeSelect<ExtArgs extends runtime.Typ
   suppliers?: boolean | MaintenanceCategoryCountOutputTypeCountSuppliersArgs
   preferredBy?: boolean | MaintenanceCategoryCountOutputTypeCountPreferredByArgs
   catalogItems?: boolean | MaintenanceCategoryCountOutputTypeCountCatalogItemsArgs
+  serviceRequests?: boolean | MaintenanceCategoryCountOutputTypeCountServiceRequestsArgs
 }
 
 /**
@@ -1032,6 +1161,13 @@ export type MaintenanceCategoryCountOutputTypeCountCatalogItemsArgs<ExtArgs exte
   where?: Prisma.ServiceCatalogItemWhereInput
 }
 
+/**
+ * MaintenanceCategoryCountOutputType without action
+ */
+export type MaintenanceCategoryCountOutputTypeCountServiceRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ServiceRequestWhereInput
+}
+
 
 export type MaintenanceCategorySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1048,6 +1184,7 @@ export type MaintenanceCategorySelect<ExtArgs extends runtime.Types.Extensions.I
   suppliers?: boolean | Prisma.MaintenanceCategory$suppliersArgs<ExtArgs>
   preferredBy?: boolean | Prisma.MaintenanceCategory$preferredByArgs<ExtArgs>
   catalogItems?: boolean | Prisma.MaintenanceCategory$catalogItemsArgs<ExtArgs>
+  serviceRequests?: boolean | Prisma.MaintenanceCategory$serviceRequestsArgs<ExtArgs>
   _count?: boolean | Prisma.MaintenanceCategoryCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["maintenanceCategory"]>
 
@@ -1094,6 +1231,7 @@ export type MaintenanceCategoryInclude<ExtArgs extends runtime.Types.Extensions.
   suppliers?: boolean | Prisma.MaintenanceCategory$suppliersArgs<ExtArgs>
   preferredBy?: boolean | Prisma.MaintenanceCategory$preferredByArgs<ExtArgs>
   catalogItems?: boolean | Prisma.MaintenanceCategory$catalogItemsArgs<ExtArgs>
+  serviceRequests?: boolean | Prisma.MaintenanceCategory$serviceRequestsArgs<ExtArgs>
   _count?: boolean | Prisma.MaintenanceCategoryCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type MaintenanceCategoryIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -1107,6 +1245,7 @@ export type $MaintenanceCategoryPayload<ExtArgs extends runtime.Types.Extensions
     suppliers: Prisma.$SupplierCategoryPayload<ExtArgs>[]
     preferredBy: Prisma.$BuildingPreferredSupplierPayload<ExtArgs>[]
     catalogItems: Prisma.$ServiceCatalogItemPayload<ExtArgs>[]
+    serviceRequests: Prisma.$ServiceRequestPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1517,6 +1656,7 @@ export interface Prisma__MaintenanceCategoryClient<T, Null = never, ExtArgs exte
   suppliers<T extends Prisma.MaintenanceCategory$suppliersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MaintenanceCategory$suppliersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SupplierCategoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   preferredBy<T extends Prisma.MaintenanceCategory$preferredByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MaintenanceCategory$preferredByArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BuildingPreferredSupplierPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   catalogItems<T extends Prisma.MaintenanceCategory$catalogItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MaintenanceCategory$catalogItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ServiceCatalogItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  serviceRequests<T extends Prisma.MaintenanceCategory$serviceRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MaintenanceCategory$serviceRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ServiceRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2065,6 +2205,30 @@ export type MaintenanceCategory$catalogItemsArgs<ExtArgs extends runtime.Types.E
   take?: number
   skip?: number
   distinct?: Prisma.ServiceCatalogItemScalarFieldEnum | Prisma.ServiceCatalogItemScalarFieldEnum[]
+}
+
+/**
+ * MaintenanceCategory.serviceRequests
+ */
+export type MaintenanceCategory$serviceRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ServiceRequest
+   */
+  select?: Prisma.ServiceRequestSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ServiceRequest
+   */
+  omit?: Prisma.ServiceRequestOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ServiceRequestInclude<ExtArgs> | null
+  where?: Prisma.ServiceRequestWhereInput
+  orderBy?: Prisma.ServiceRequestOrderByWithRelationInput | Prisma.ServiceRequestOrderByWithRelationInput[]
+  cursor?: Prisma.ServiceRequestWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ServiceRequestScalarFieldEnum | Prisma.ServiceRequestScalarFieldEnum[]
 }
 
 /**

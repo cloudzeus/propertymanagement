@@ -15,8 +15,8 @@ export default async function SupplierRequestPage({ params }: { params: Promise<
   const ctx = await requireCollaborator("mkt-tasks");
   if (!ctx.supplierId) return <UnlinkedNotice />;
 
-  // Strict scoping: a supplier only ever opens work assigned to THEM.
-  const owned = await db.maintenanceRequest.findFirst({ where: { id, supplierId: ctx.supplierId }, select: { id: true } });
+  // Strict scoping: a supplier only ever opens work assigned to THEM (or a fault they reported via /report).
+  const owned = await db.maintenanceRequest.findFirst({ where: { id, OR: [{ supplierId: ctx.supplierId }, { reportedById: ctx.userId }] }, select: { id: true } });
   if (!owned) notFound();
   const detail = await loadFaultDetail(id);
   if (!detail) notFound();

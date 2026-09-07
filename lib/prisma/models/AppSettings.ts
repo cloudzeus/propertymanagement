@@ -20,8 +20,22 @@ export type AppSettingsModel = runtime.Types.Result.DefaultSelection<Prisma.$App
 
 export type AggregateAppSettings = {
   _count: AppSettingsCountAggregateOutputType | null
+  _avg: AppSettingsAvgAggregateOutputType | null
+  _sum: AppSettingsSumAggregateOutputType | null
   _min: AppSettingsMinAggregateOutputType | null
   _max: AppSettingsMaxAggregateOutputType | null
+}
+
+export type AppSettingsAvgAggregateOutputType = {
+  offerMarkupPct: runtime.Decimal | null
+  warrantyMonths: number | null
+  silentAcceptDays: number | null
+}
+
+export type AppSettingsSumAggregateOutputType = {
+  offerMarkupPct: runtime.Decimal | null
+  warrantyMonths: number | null
+  silentAcceptDays: number | null
 }
 
 export type AppSettingsMinAggregateOutputType = {
@@ -51,6 +65,9 @@ export type AppSettingsMinAggregateOutputType = {
   providerVivaMerchantId: string | null
   providerVivaApiKeyEnc: string | null
   providerVivaSourceCode: string | null
+  offerMarkupPct: runtime.Decimal | null
+  warrantyMonths: number | null
+  silentAcceptDays: number | null
   updatedAt: Date | null
   updatedById: string | null
 }
@@ -82,6 +99,9 @@ export type AppSettingsMaxAggregateOutputType = {
   providerVivaMerchantId: string | null
   providerVivaApiKeyEnc: string | null
   providerVivaSourceCode: string | null
+  offerMarkupPct: runtime.Decimal | null
+  warrantyMonths: number | null
+  silentAcceptDays: number | null
   updatedAt: Date | null
   updatedById: string | null
 }
@@ -113,11 +133,26 @@ export type AppSettingsCountAggregateOutputType = {
   providerVivaMerchantId: number
   providerVivaApiKeyEnc: number
   providerVivaSourceCode: number
+  offerMarkupPct: number
+  warrantyMonths: number
+  silentAcceptDays: number
   updatedAt: number
   updatedById: number
   _all: number
 }
 
+
+export type AppSettingsAvgAggregateInputType = {
+  offerMarkupPct?: true
+  warrantyMonths?: true
+  silentAcceptDays?: true
+}
+
+export type AppSettingsSumAggregateInputType = {
+  offerMarkupPct?: true
+  warrantyMonths?: true
+  silentAcceptDays?: true
+}
 
 export type AppSettingsMinAggregateInputType = {
   id?: true
@@ -146,6 +181,9 @@ export type AppSettingsMinAggregateInputType = {
   providerVivaMerchantId?: true
   providerVivaApiKeyEnc?: true
   providerVivaSourceCode?: true
+  offerMarkupPct?: true
+  warrantyMonths?: true
+  silentAcceptDays?: true
   updatedAt?: true
   updatedById?: true
 }
@@ -177,6 +215,9 @@ export type AppSettingsMaxAggregateInputType = {
   providerVivaMerchantId?: true
   providerVivaApiKeyEnc?: true
   providerVivaSourceCode?: true
+  offerMarkupPct?: true
+  warrantyMonths?: true
+  silentAcceptDays?: true
   updatedAt?: true
   updatedById?: true
 }
@@ -208,6 +249,9 @@ export type AppSettingsCountAggregateInputType = {
   providerVivaMerchantId?: true
   providerVivaApiKeyEnc?: true
   providerVivaSourceCode?: true
+  offerMarkupPct?: true
+  warrantyMonths?: true
+  silentAcceptDays?: true
   updatedAt?: true
   updatedById?: true
   _all?: true
@@ -251,6 +295,18 @@ export type AppSettingsAggregateArgs<ExtArgs extends runtime.Types.Extensions.In
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: AppSettingsAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: AppSettingsSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: AppSettingsMinAggregateInputType
@@ -281,6 +337,8 @@ export type AppSettingsGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inte
   take?: number
   skip?: number
   _count?: AppSettingsCountAggregateInputType | true
+  _avg?: AppSettingsAvgAggregateInputType
+  _sum?: AppSettingsSumAggregateInputType
   _min?: AppSettingsMinAggregateInputType
   _max?: AppSettingsMaxAggregateInputType
 }
@@ -312,9 +370,14 @@ export type AppSettingsGroupByOutputType = {
   providerVivaMerchantId: string | null
   providerVivaApiKeyEnc: string | null
   providerVivaSourceCode: string | null
+  offerMarkupPct: runtime.Decimal
+  warrantyMonths: number
+  silentAcceptDays: number
   updatedAt: Date
   updatedById: string | null
   _count: AppSettingsCountAggregateOutputType | null
+  _avg: AppSettingsAvgAggregateOutputType | null
+  _sum: AppSettingsSumAggregateOutputType | null
   _min: AppSettingsMinAggregateOutputType | null
   _max: AppSettingsMaxAggregateOutputType | null
 }
@@ -364,6 +427,9 @@ export type AppSettingsWhereInput = {
   providerVivaMerchantId?: Prisma.StringNullableFilter<"AppSettings"> | string | null
   providerVivaApiKeyEnc?: Prisma.StringNullableFilter<"AppSettings"> | string | null
   providerVivaSourceCode?: Prisma.StringNullableFilter<"AppSettings"> | string | null
+  offerMarkupPct?: Prisma.DecimalFilter<"AppSettings"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  warrantyMonths?: Prisma.IntFilter<"AppSettings"> | number
+  silentAcceptDays?: Prisma.IntFilter<"AppSettings"> | number
   updatedAt?: Prisma.DateTimeFilter<"AppSettings"> | Date | string
   updatedById?: Prisma.StringNullableFilter<"AppSettings"> | string | null
 }
@@ -395,6 +461,9 @@ export type AppSettingsOrderByWithRelationInput = {
   providerVivaMerchantId?: Prisma.SortOrderInput | Prisma.SortOrder
   providerVivaApiKeyEnc?: Prisma.SortOrderInput | Prisma.SortOrder
   providerVivaSourceCode?: Prisma.SortOrderInput | Prisma.SortOrder
+  offerMarkupPct?: Prisma.SortOrder
+  warrantyMonths?: Prisma.SortOrder
+  silentAcceptDays?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   updatedById?: Prisma.SortOrderInput | Prisma.SortOrder
 }
@@ -429,6 +498,9 @@ export type AppSettingsWhereUniqueInput = Prisma.AtLeast<{
   providerVivaMerchantId?: Prisma.StringNullableFilter<"AppSettings"> | string | null
   providerVivaApiKeyEnc?: Prisma.StringNullableFilter<"AppSettings"> | string | null
   providerVivaSourceCode?: Prisma.StringNullableFilter<"AppSettings"> | string | null
+  offerMarkupPct?: Prisma.DecimalFilter<"AppSettings"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  warrantyMonths?: Prisma.IntFilter<"AppSettings"> | number
+  silentAcceptDays?: Prisma.IntFilter<"AppSettings"> | number
   updatedAt?: Prisma.DateTimeFilter<"AppSettings"> | Date | string
   updatedById?: Prisma.StringNullableFilter<"AppSettings"> | string | null
 }, "id">
@@ -460,11 +532,16 @@ export type AppSettingsOrderByWithAggregationInput = {
   providerVivaMerchantId?: Prisma.SortOrderInput | Prisma.SortOrder
   providerVivaApiKeyEnc?: Prisma.SortOrderInput | Prisma.SortOrder
   providerVivaSourceCode?: Prisma.SortOrderInput | Prisma.SortOrder
+  offerMarkupPct?: Prisma.SortOrder
+  warrantyMonths?: Prisma.SortOrder
+  silentAcceptDays?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   updatedById?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.AppSettingsCountOrderByAggregateInput
+  _avg?: Prisma.AppSettingsAvgOrderByAggregateInput
   _max?: Prisma.AppSettingsMaxOrderByAggregateInput
   _min?: Prisma.AppSettingsMinOrderByAggregateInput
+  _sum?: Prisma.AppSettingsSumOrderByAggregateInput
 }
 
 export type AppSettingsScalarWhereWithAggregatesInput = {
@@ -497,6 +574,9 @@ export type AppSettingsScalarWhereWithAggregatesInput = {
   providerVivaMerchantId?: Prisma.StringNullableWithAggregatesFilter<"AppSettings"> | string | null
   providerVivaApiKeyEnc?: Prisma.StringNullableWithAggregatesFilter<"AppSettings"> | string | null
   providerVivaSourceCode?: Prisma.StringNullableWithAggregatesFilter<"AppSettings"> | string | null
+  offerMarkupPct?: Prisma.DecimalWithAggregatesFilter<"AppSettings"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  warrantyMonths?: Prisma.IntWithAggregatesFilter<"AppSettings"> | number
+  silentAcceptDays?: Prisma.IntWithAggregatesFilter<"AppSettings"> | number
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"AppSettings"> | Date | string
   updatedById?: Prisma.StringNullableWithAggregatesFilter<"AppSettings"> | string | null
 }
@@ -528,6 +608,9 @@ export type AppSettingsCreateInput = {
   providerVivaMerchantId?: string | null
   providerVivaApiKeyEnc?: string | null
   providerVivaSourceCode?: string | null
+  offerMarkupPct?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  warrantyMonths?: number
+  silentAcceptDays?: number
   updatedAt?: Date | string
   updatedById?: string | null
 }
@@ -559,6 +642,9 @@ export type AppSettingsUncheckedCreateInput = {
   providerVivaMerchantId?: string | null
   providerVivaApiKeyEnc?: string | null
   providerVivaSourceCode?: string | null
+  offerMarkupPct?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  warrantyMonths?: number
+  silentAcceptDays?: number
   updatedAt?: Date | string
   updatedById?: string | null
 }
@@ -590,6 +676,9 @@ export type AppSettingsUpdateInput = {
   providerVivaMerchantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   providerVivaApiKeyEnc?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   providerVivaSourceCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  offerMarkupPct?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  warrantyMonths?: Prisma.IntFieldUpdateOperationsInput | number
+  silentAcceptDays?: Prisma.IntFieldUpdateOperationsInput | number
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -621,6 +710,9 @@ export type AppSettingsUncheckedUpdateInput = {
   providerVivaMerchantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   providerVivaApiKeyEnc?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   providerVivaSourceCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  offerMarkupPct?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  warrantyMonths?: Prisma.IntFieldUpdateOperationsInput | number
+  silentAcceptDays?: Prisma.IntFieldUpdateOperationsInput | number
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -652,6 +744,9 @@ export type AppSettingsCreateManyInput = {
   providerVivaMerchantId?: string | null
   providerVivaApiKeyEnc?: string | null
   providerVivaSourceCode?: string | null
+  offerMarkupPct?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  warrantyMonths?: number
+  silentAcceptDays?: number
   updatedAt?: Date | string
   updatedById?: string | null
 }
@@ -683,6 +778,9 @@ export type AppSettingsUpdateManyMutationInput = {
   providerVivaMerchantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   providerVivaApiKeyEnc?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   providerVivaSourceCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  offerMarkupPct?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  warrantyMonths?: Prisma.IntFieldUpdateOperationsInput | number
+  silentAcceptDays?: Prisma.IntFieldUpdateOperationsInput | number
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -714,6 +812,9 @@ export type AppSettingsUncheckedUpdateManyInput = {
   providerVivaMerchantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   providerVivaApiKeyEnc?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   providerVivaSourceCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  offerMarkupPct?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  warrantyMonths?: Prisma.IntFieldUpdateOperationsInput | number
+  silentAcceptDays?: Prisma.IntFieldUpdateOperationsInput | number
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -745,8 +846,17 @@ export type AppSettingsCountOrderByAggregateInput = {
   providerVivaMerchantId?: Prisma.SortOrder
   providerVivaApiKeyEnc?: Prisma.SortOrder
   providerVivaSourceCode?: Prisma.SortOrder
+  offerMarkupPct?: Prisma.SortOrder
+  warrantyMonths?: Prisma.SortOrder
+  silentAcceptDays?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   updatedById?: Prisma.SortOrder
+}
+
+export type AppSettingsAvgOrderByAggregateInput = {
+  offerMarkupPct?: Prisma.SortOrder
+  warrantyMonths?: Prisma.SortOrder
+  silentAcceptDays?: Prisma.SortOrder
 }
 
 export type AppSettingsMaxOrderByAggregateInput = {
@@ -776,6 +886,9 @@ export type AppSettingsMaxOrderByAggregateInput = {
   providerVivaMerchantId?: Prisma.SortOrder
   providerVivaApiKeyEnc?: Prisma.SortOrder
   providerVivaSourceCode?: Prisma.SortOrder
+  offerMarkupPct?: Prisma.SortOrder
+  warrantyMonths?: Prisma.SortOrder
+  silentAcceptDays?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   updatedById?: Prisma.SortOrder
 }
@@ -807,8 +920,17 @@ export type AppSettingsMinOrderByAggregateInput = {
   providerVivaMerchantId?: Prisma.SortOrder
   providerVivaApiKeyEnc?: Prisma.SortOrder
   providerVivaSourceCode?: Prisma.SortOrder
+  offerMarkupPct?: Prisma.SortOrder
+  warrantyMonths?: Prisma.SortOrder
+  silentAcceptDays?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   updatedById?: Prisma.SortOrder
+}
+
+export type AppSettingsSumOrderByAggregateInput = {
+  offerMarkupPct?: Prisma.SortOrder
+  warrantyMonths?: Prisma.SortOrder
+  silentAcceptDays?: Prisma.SortOrder
 }
 
 
@@ -840,6 +962,9 @@ export type AppSettingsSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   providerVivaMerchantId?: boolean
   providerVivaApiKeyEnc?: boolean
   providerVivaSourceCode?: boolean
+  offerMarkupPct?: boolean
+  warrantyMonths?: boolean
+  silentAcceptDays?: boolean
   updatedAt?: boolean
   updatedById?: boolean
 }, ExtArgs["result"]["appSettings"]>
@@ -871,6 +996,9 @@ export type AppSettingsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   providerVivaMerchantId?: boolean
   providerVivaApiKeyEnc?: boolean
   providerVivaSourceCode?: boolean
+  offerMarkupPct?: boolean
+  warrantyMonths?: boolean
+  silentAcceptDays?: boolean
   updatedAt?: boolean
   updatedById?: boolean
 }, ExtArgs["result"]["appSettings"]>
@@ -902,6 +1030,9 @@ export type AppSettingsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   providerVivaMerchantId?: boolean
   providerVivaApiKeyEnc?: boolean
   providerVivaSourceCode?: boolean
+  offerMarkupPct?: boolean
+  warrantyMonths?: boolean
+  silentAcceptDays?: boolean
   updatedAt?: boolean
   updatedById?: boolean
 }, ExtArgs["result"]["appSettings"]>
@@ -933,11 +1064,14 @@ export type AppSettingsSelectScalar = {
   providerVivaMerchantId?: boolean
   providerVivaApiKeyEnc?: boolean
   providerVivaSourceCode?: boolean
+  offerMarkupPct?: boolean
+  warrantyMonths?: boolean
+  silentAcceptDays?: boolean
   updatedAt?: boolean
   updatedById?: boolean
 }
 
-export type AppSettingsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "companyName" | "logoUrl" | "logoSquareUrl" | "logoFullLight" | "logoFullDark" | "logoSquareLight" | "logoSquareDark" | "colorPrimary" | "colorPrimaryDk" | "colorAccent" | "colorSuccess" | "colorWarning" | "colorDanger" | "colorPurple" | "colorTeal" | "contactEmail" | "contactPhone" | "contactAddress" | "websiteUrl" | "providerVivaEnabled" | "providerVivaClientId" | "providerVivaClientSecretEnc" | "providerVivaMerchantId" | "providerVivaApiKeyEnc" | "providerVivaSourceCode" | "updatedAt" | "updatedById", ExtArgs["result"]["appSettings"]>
+export type AppSettingsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "companyName" | "logoUrl" | "logoSquareUrl" | "logoFullLight" | "logoFullDark" | "logoSquareLight" | "logoSquareDark" | "colorPrimary" | "colorPrimaryDk" | "colorAccent" | "colorSuccess" | "colorWarning" | "colorDanger" | "colorPurple" | "colorTeal" | "contactEmail" | "contactPhone" | "contactAddress" | "websiteUrl" | "providerVivaEnabled" | "providerVivaClientId" | "providerVivaClientSecretEnc" | "providerVivaMerchantId" | "providerVivaApiKeyEnc" | "providerVivaSourceCode" | "offerMarkupPct" | "warrantyMonths" | "silentAcceptDays" | "updatedAt" | "updatedById", ExtArgs["result"]["appSettings"]>
 
 export type $AppSettingsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "AppSettings"
@@ -969,6 +1103,9 @@ export type $AppSettingsPayload<ExtArgs extends runtime.Types.Extensions.Interna
     providerVivaMerchantId: string | null
     providerVivaApiKeyEnc: string | null
     providerVivaSourceCode: string | null
+    offerMarkupPct: runtime.Decimal
+    warrantyMonths: number
+    silentAcceptDays: number
     updatedAt: Date
     updatedById: string | null
   }, ExtArgs["result"]["appSettings"]>
@@ -1420,6 +1557,9 @@ export interface AppSettingsFieldRefs {
   readonly providerVivaMerchantId: Prisma.FieldRef<"AppSettings", 'String'>
   readonly providerVivaApiKeyEnc: Prisma.FieldRef<"AppSettings", 'String'>
   readonly providerVivaSourceCode: Prisma.FieldRef<"AppSettings", 'String'>
+  readonly offerMarkupPct: Prisma.FieldRef<"AppSettings", 'Decimal'>
+  readonly warrantyMonths: Prisma.FieldRef<"AppSettings", 'Int'>
+  readonly silentAcceptDays: Prisma.FieldRef<"AppSettings", 'Int'>
   readonly updatedAt: Prisma.FieldRef<"AppSettings", 'DateTime'>
   readonly updatedById: Prisma.FieldRef<"AppSettings", 'String'>
 }

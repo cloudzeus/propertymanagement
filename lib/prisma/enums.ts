@@ -306,3 +306,41 @@ export const SupplierKind = {
 } as const
 
 export type SupplierKind = (typeof SupplierKind)[keyof typeof SupplierKind]
+
+
+export const RfqStatus = {
+  OPEN: 'OPEN',
+  OFFERED: 'OFFERED',
+  FORWARDED: 'FORWARDED',
+  ACCEPTED: 'ACCEPTED',
+  DECLINED: 'DECLINED',
+  CANCELLED: 'CANCELLED',
+  EXPIRED: 'EXPIRED'
+} as const
+
+export type RfqStatus = (typeof RfqStatus)[keyof typeof RfqStatus]
+
+
+export const OfferStatus = {
+  SUBMITTED: 'SUBMITTED',
+  WITHDRAWN: 'WITHDRAWN',
+  SELECTED: 'SELECTED',
+  REJECTED: 'REJECTED'
+} as const
+
+export type OfferStatus = (typeof OfferStatus)[keyof typeof OfferStatus]
+
+
+export const WorkOrderStatus = {
+  PENDING_CUSTOMER: 'PENDING_CUSTOMER',
+  ACCEPTED: 'ACCEPTED',
+  DECLINED: 'DECLINED',
+  SCHEDULED: 'SCHEDULED',
+  IN_PROGRESS: 'IN_PROGRESS',
+  COMPLETED: 'COMPLETED',
+  CONFIRMED: 'CONFIRMED',
+  DISPUTED: 'DISPUTED',
+  CANCELLED: 'CANCELLED'
+} as const
+
+export type WorkOrderStatus = (typeof WorkOrderStatus)[keyof typeof WorkOrderStatus]

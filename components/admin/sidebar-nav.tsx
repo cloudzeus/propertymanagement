@@ -41,6 +41,7 @@ import {
   RiWallet3Line, RiMoneyEuroCircleLine, RiCalendarTodoLine,
   RiSpeedUpLine, RiFolderLine, RiContactsBook3Line, RiMegaphoneLine,
   RiTeamLine, RiTeamFill, RiTruckLine, RiTruckFill, RiStoreLine, RiStoreFill,
+  RiMoneyEuroCircleFill, RiFileTextLine, RiFileTextFill, RiAlarmWarningLine, RiAlarmWarningFill,
 } from "react-icons/ri";
 import type { MenuGroup } from "@/lib/rbac/permissions";
 
@@ -102,6 +103,9 @@ const ICONS: Record<string, { line: React.ElementType; fill: React.ElementType }
   RiTeamLine:               { line: RiTeamLine,               fill: RiTeamFill },
   RiTruckLine:              { line: RiTruckLine,              fill: RiTruckFill },
   RiStoreLine:              { line: RiStoreLine,              fill: RiStoreFill },
+  RiMoneyEuroCircleLine:    { line: RiMoneyEuroCircleLine,    fill: RiMoneyEuroCircleFill },
+  RiFileTextLine:           { line: RiFileTextLine,           fill: RiFileTextFill },
+  RiAlarmWarningLine:       { line: RiAlarmWarningLine,       fill: RiAlarmWarningFill },
 };
 const FALLBACK_ICON = { line: RiFileListLine, fill: RiFileListFill };
 

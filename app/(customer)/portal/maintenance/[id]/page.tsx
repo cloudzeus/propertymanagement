@@ -4,6 +4,9 @@ import { getEffectiveSession } from "@/lib/auth-effective";
 import { db } from "@/lib/db";
 import { loadFaultDetail, canAccessRequest } from "@/lib/maintenance-requests";
 import { RequestDetail } from "@/components/maintenance/request-detail";
+import { OfferCard } from "@/components/maintenance/offer-card";
+import { loadCustomerWorkOrders } from "@/lib/rfq";
+import { buildingDeciderIds } from "@/lib/notify";
 import { RiArrowLeftLine } from "react-icons/ri";
 
 export const metadata = { title: "Βλάβη" };
@@ -22,6 +25,12 @@ export default async function PortalMaintenanceDetailPage({ params }: { params: 
     db.maintenanceRequest.findUnique({ where: { id }, select: { buildingId: true } }),
   ]);
   if (!detail) notFound();
+  // Offers / work orders from the company (customer view: no supplier price/identity).
+  const [workOrders, deciders, company] = await Promise.all([
+    loadCustomerWorkOrders(id),
+    req ? buildingDeciderIds(req.buildingId) : Promise.resolve([] as string[]),
+    db.company.findFirst({ orderBy: { createdAt: "asc" }, select: { name: true } }),
+  ]);
 
   // Ο διαχειριστής διαχειρίζεται τη βλάβη όταν είναι δικής του ευθύνης.
   const canManage = role === "PROPERTY_ADMIN" && detail.handledBy === "PROPERTY_ADMIN";
@@ -36,6 +45,7 @@ export default async function PortalMaintenanceDetailPage({ params }: { params: 
       <Link href={backHref} style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: "var(--fs-13)", color: "var(--muted-foreground)", textDecoration: "none" }}>
         <RiArrowLeftLine /> Πίσω στις συντηρήσεις
       </Link>
+      <OfferCard workOrders={workOrders} canDecide={deciders.includes(userId)} companyName={company?.name ?? "την εταιρεία διαχείρισης"} />
       <RequestDetail
         request={detail}
         viewer={{ id: userId, role, isStaff: false, canManage, canAssign: false }}

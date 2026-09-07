@@ -193,7 +193,8 @@ export async function canAccessRequest(userId: string, role: string, requestId: 
   });
   if (!req) return false;
   if (role === "COLLABORATOR") {
-    // Suppliers see ONLY work assigned to their own business.
+    // Suppliers see ONLY work assigned to their own business — plus faults they reported themselves.
+    if (req.reportedById === userId) return true;
     if (!req.supplierId) return false;
     const u = await db.user.findUnique({ where: { id: userId }, select: { supplierId: true } });
     return u?.supplierId === req.supplierId;

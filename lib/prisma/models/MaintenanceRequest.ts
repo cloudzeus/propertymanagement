@@ -375,6 +375,8 @@ export type MaintenanceRequestWhereInput = {
   assignedTo?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   supplier?: Prisma.XOR<Prisma.SupplierNullableScalarRelationFilter, Prisma.SupplierWhereInput> | null
   supplierRating?: Prisma.XOR<Prisma.SupplierRatingNullableScalarRelationFilter, Prisma.SupplierRatingWhereInput> | null
+  serviceRequests?: Prisma.ServiceRequestListRelationFilter
+  workOrders?: Prisma.WorkOrderListRelationFilter
   attachments?: Prisma.MaintenanceAttachmentListRelationFilter
   statusEvents?: Prisma.MaintenanceStatusEventListRelationFilter
   comments?: Prisma.MaintenanceCommentListRelationFilter
@@ -415,6 +417,8 @@ export type MaintenanceRequestOrderByWithRelationInput = {
   assignedTo?: Prisma.UserOrderByWithRelationInput
   supplier?: Prisma.SupplierOrderByWithRelationInput
   supplierRating?: Prisma.SupplierRatingOrderByWithRelationInput
+  serviceRequests?: Prisma.ServiceRequestOrderByRelationAggregateInput
+  workOrders?: Prisma.WorkOrderOrderByRelationAggregateInput
   attachments?: Prisma.MaintenanceAttachmentOrderByRelationAggregateInput
   statusEvents?: Prisma.MaintenanceStatusEventOrderByRelationAggregateInput
   comments?: Prisma.MaintenanceCommentOrderByRelationAggregateInput
@@ -458,6 +462,8 @@ export type MaintenanceRequestWhereUniqueInput = Prisma.AtLeast<{
   assignedTo?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   supplier?: Prisma.XOR<Prisma.SupplierNullableScalarRelationFilter, Prisma.SupplierWhereInput> | null
   supplierRating?: Prisma.XOR<Prisma.SupplierRatingNullableScalarRelationFilter, Prisma.SupplierRatingWhereInput> | null
+  serviceRequests?: Prisma.ServiceRequestListRelationFilter
+  workOrders?: Prisma.WorkOrderListRelationFilter
   attachments?: Prisma.MaintenanceAttachmentListRelationFilter
   statusEvents?: Prisma.MaintenanceStatusEventListRelationFilter
   comments?: Prisma.MaintenanceCommentListRelationFilter
@@ -554,6 +560,8 @@ export type MaintenanceRequestCreateInput = {
   assignedTo?: Prisma.UserCreateNestedOneWithoutAssignedMaintenanceInput
   supplier?: Prisma.SupplierCreateNestedOneWithoutMaintenanceRequestsInput
   supplierRating?: Prisma.SupplierRatingCreateNestedOneWithoutRequestInput
+  serviceRequests?: Prisma.ServiceRequestCreateNestedManyWithoutMaintenanceRequestInput
+  workOrders?: Prisma.WorkOrderCreateNestedManyWithoutMaintenanceRequestInput
   attachments?: Prisma.MaintenanceAttachmentCreateNestedManyWithoutRequestInput
   statusEvents?: Prisma.MaintenanceStatusEventCreateNestedManyWithoutRequestInput
   comments?: Prisma.MaintenanceCommentCreateNestedManyWithoutRequestInput
@@ -588,6 +596,8 @@ export type MaintenanceRequestUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   supplierRating?: Prisma.SupplierRatingUncheckedCreateNestedOneWithoutRequestInput
+  serviceRequests?: Prisma.ServiceRequestUncheckedCreateNestedManyWithoutMaintenanceRequestInput
+  workOrders?: Prisma.WorkOrderUncheckedCreateNestedManyWithoutMaintenanceRequestInput
   attachments?: Prisma.MaintenanceAttachmentUncheckedCreateNestedManyWithoutRequestInput
   statusEvents?: Prisma.MaintenanceStatusEventUncheckedCreateNestedManyWithoutRequestInput
   comments?: Prisma.MaintenanceCommentUncheckedCreateNestedManyWithoutRequestInput
@@ -622,6 +632,8 @@ export type MaintenanceRequestUpdateInput = {
   assignedTo?: Prisma.UserUpdateOneWithoutAssignedMaintenanceNestedInput
   supplier?: Prisma.SupplierUpdateOneWithoutMaintenanceRequestsNestedInput
   supplierRating?: Prisma.SupplierRatingUpdateOneWithoutRequestNestedInput
+  serviceRequests?: Prisma.ServiceRequestUpdateManyWithoutMaintenanceRequestNestedInput
+  workOrders?: Prisma.WorkOrderUpdateManyWithoutMaintenanceRequestNestedInput
   attachments?: Prisma.MaintenanceAttachmentUpdateManyWithoutRequestNestedInput
   statusEvents?: Prisma.MaintenanceStatusEventUpdateManyWithoutRequestNestedInput
   comments?: Prisma.MaintenanceCommentUpdateManyWithoutRequestNestedInput
@@ -656,6 +668,8 @@ export type MaintenanceRequestUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   supplierRating?: Prisma.SupplierRatingUncheckedUpdateOneWithoutRequestNestedInput
+  serviceRequests?: Prisma.ServiceRequestUncheckedUpdateManyWithoutMaintenanceRequestNestedInput
+  workOrders?: Prisma.WorkOrderUncheckedUpdateManyWithoutMaintenanceRequestNestedInput
   attachments?: Prisma.MaintenanceAttachmentUncheckedUpdateManyWithoutRequestNestedInput
   statusEvents?: Prisma.MaintenanceStatusEventUncheckedUpdateManyWithoutRequestNestedInput
   comments?: Prisma.MaintenanceCommentUncheckedUpdateManyWithoutRequestNestedInput
@@ -1202,6 +1216,38 @@ export type MaintenanceRequestUpdateOneWithoutSupplierRatingNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.MaintenanceRequestUpdateToOneWithWhereWithoutSupplierRatingInput, Prisma.MaintenanceRequestUpdateWithoutSupplierRatingInput>, Prisma.MaintenanceRequestUncheckedUpdateWithoutSupplierRatingInput>
 }
 
+export type MaintenanceRequestCreateNestedOneWithoutServiceRequestsInput = {
+  create?: Prisma.XOR<Prisma.MaintenanceRequestCreateWithoutServiceRequestsInput, Prisma.MaintenanceRequestUncheckedCreateWithoutServiceRequestsInput>
+  connectOrCreate?: Prisma.MaintenanceRequestCreateOrConnectWithoutServiceRequestsInput
+  connect?: Prisma.MaintenanceRequestWhereUniqueInput
+}
+
+export type MaintenanceRequestUpdateOneWithoutServiceRequestsNestedInput = {
+  create?: Prisma.XOR<Prisma.MaintenanceRequestCreateWithoutServiceRequestsInput, Prisma.MaintenanceRequestUncheckedCreateWithoutServiceRequestsInput>
+  connectOrCreate?: Prisma.MaintenanceRequestCreateOrConnectWithoutServiceRequestsInput
+  upsert?: Prisma.MaintenanceRequestUpsertWithoutServiceRequestsInput
+  disconnect?: Prisma.MaintenanceRequestWhereInput | boolean
+  delete?: Prisma.MaintenanceRequestWhereInput | boolean
+  connect?: Prisma.MaintenanceRequestWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.MaintenanceRequestUpdateToOneWithWhereWithoutServiceRequestsInput, Prisma.MaintenanceRequestUpdateWithoutServiceRequestsInput>, Prisma.MaintenanceRequestUncheckedUpdateWithoutServiceRequestsInput>
+}
+
+export type MaintenanceRequestCreateNestedOneWithoutWorkOrdersInput = {
+  create?: Prisma.XOR<Prisma.MaintenanceRequestCreateWithoutWorkOrdersInput, Prisma.MaintenanceRequestUncheckedCreateWithoutWorkOrdersInput>
+  connectOrCreate?: Prisma.MaintenanceRequestCreateOrConnectWithoutWorkOrdersInput
+  connect?: Prisma.MaintenanceRequestWhereUniqueInput
+}
+
+export type MaintenanceRequestUpdateOneWithoutWorkOrdersNestedInput = {
+  create?: Prisma.XOR<Prisma.MaintenanceRequestCreateWithoutWorkOrdersInput, Prisma.MaintenanceRequestUncheckedCreateWithoutWorkOrdersInput>
+  connectOrCreate?: Prisma.MaintenanceRequestCreateOrConnectWithoutWorkOrdersInput
+  upsert?: Prisma.MaintenanceRequestUpsertWithoutWorkOrdersInput
+  disconnect?: Prisma.MaintenanceRequestWhereInput | boolean
+  delete?: Prisma.MaintenanceRequestWhereInput | boolean
+  connect?: Prisma.MaintenanceRequestWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.MaintenanceRequestUpdateToOneWithWhereWithoutWorkOrdersInput, Prisma.MaintenanceRequestUpdateWithoutWorkOrdersInput>, Prisma.MaintenanceRequestUncheckedUpdateWithoutWorkOrdersInput>
+}
+
 export type MaintenanceRequestCreateWithoutReportedByInput = {
   id?: string
   title: string
@@ -1227,6 +1273,8 @@ export type MaintenanceRequestCreateWithoutReportedByInput = {
   assignedTo?: Prisma.UserCreateNestedOneWithoutAssignedMaintenanceInput
   supplier?: Prisma.SupplierCreateNestedOneWithoutMaintenanceRequestsInput
   supplierRating?: Prisma.SupplierRatingCreateNestedOneWithoutRequestInput
+  serviceRequests?: Prisma.ServiceRequestCreateNestedManyWithoutMaintenanceRequestInput
+  workOrders?: Prisma.WorkOrderCreateNestedManyWithoutMaintenanceRequestInput
   attachments?: Prisma.MaintenanceAttachmentCreateNestedManyWithoutRequestInput
   statusEvents?: Prisma.MaintenanceStatusEventCreateNestedManyWithoutRequestInput
   comments?: Prisma.MaintenanceCommentCreateNestedManyWithoutRequestInput
@@ -1260,6 +1308,8 @@ export type MaintenanceRequestUncheckedCreateWithoutReportedByInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   supplierRating?: Prisma.SupplierRatingUncheckedCreateNestedOneWithoutRequestInput
+  serviceRequests?: Prisma.ServiceRequestUncheckedCreateNestedManyWithoutMaintenanceRequestInput
+  workOrders?: Prisma.WorkOrderUncheckedCreateNestedManyWithoutMaintenanceRequestInput
   attachments?: Prisma.MaintenanceAttachmentUncheckedCreateNestedManyWithoutRequestInput
   statusEvents?: Prisma.MaintenanceStatusEventUncheckedCreateNestedManyWithoutRequestInput
   comments?: Prisma.MaintenanceCommentUncheckedCreateNestedManyWithoutRequestInput
@@ -1303,6 +1353,8 @@ export type MaintenanceRequestCreateWithoutAssignedToInput = {
   reportedBy?: Prisma.UserCreateNestedOneWithoutReportedMaintenanceInput
   supplier?: Prisma.SupplierCreateNestedOneWithoutMaintenanceRequestsInput
   supplierRating?: Prisma.SupplierRatingCreateNestedOneWithoutRequestInput
+  serviceRequests?: Prisma.ServiceRequestCreateNestedManyWithoutMaintenanceRequestInput
+  workOrders?: Prisma.WorkOrderCreateNestedManyWithoutMaintenanceRequestInput
   attachments?: Prisma.MaintenanceAttachmentCreateNestedManyWithoutRequestInput
   statusEvents?: Prisma.MaintenanceStatusEventCreateNestedManyWithoutRequestInput
   comments?: Prisma.MaintenanceCommentCreateNestedManyWithoutRequestInput
@@ -1336,6 +1388,8 @@ export type MaintenanceRequestUncheckedCreateWithoutAssignedToInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   supplierRating?: Prisma.SupplierRatingUncheckedCreateNestedOneWithoutRequestInput
+  serviceRequests?: Prisma.ServiceRequestUncheckedCreateNestedManyWithoutMaintenanceRequestInput
+  workOrders?: Prisma.WorkOrderUncheckedCreateNestedManyWithoutMaintenanceRequestInput
   attachments?: Prisma.MaintenanceAttachmentUncheckedCreateNestedManyWithoutRequestInput
   statusEvents?: Prisma.MaintenanceStatusEventUncheckedCreateNestedManyWithoutRequestInput
   comments?: Prisma.MaintenanceCommentUncheckedCreateNestedManyWithoutRequestInput
@@ -1441,6 +1495,8 @@ export type MaintenanceRequestCreateWithoutBuildingInput = {
   assignedTo?: Prisma.UserCreateNestedOneWithoutAssignedMaintenanceInput
   supplier?: Prisma.SupplierCreateNestedOneWithoutMaintenanceRequestsInput
   supplierRating?: Prisma.SupplierRatingCreateNestedOneWithoutRequestInput
+  serviceRequests?: Prisma.ServiceRequestCreateNestedManyWithoutMaintenanceRequestInput
+  workOrders?: Prisma.WorkOrderCreateNestedManyWithoutMaintenanceRequestInput
   attachments?: Prisma.MaintenanceAttachmentCreateNestedManyWithoutRequestInput
   statusEvents?: Prisma.MaintenanceStatusEventCreateNestedManyWithoutRequestInput
   comments?: Prisma.MaintenanceCommentCreateNestedManyWithoutRequestInput
@@ -1474,6 +1530,8 @@ export type MaintenanceRequestUncheckedCreateWithoutBuildingInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   supplierRating?: Prisma.SupplierRatingUncheckedCreateNestedOneWithoutRequestInput
+  serviceRequests?: Prisma.ServiceRequestUncheckedCreateNestedManyWithoutMaintenanceRequestInput
+  workOrders?: Prisma.WorkOrderUncheckedCreateNestedManyWithoutMaintenanceRequestInput
   attachments?: Prisma.MaintenanceAttachmentUncheckedCreateNestedManyWithoutRequestInput
   statusEvents?: Prisma.MaintenanceStatusEventUncheckedCreateNestedManyWithoutRequestInput
   comments?: Prisma.MaintenanceCommentUncheckedCreateNestedManyWithoutRequestInput
@@ -1533,6 +1591,8 @@ export type MaintenanceRequestCreateWithoutUnitInput = {
   assignedTo?: Prisma.UserCreateNestedOneWithoutAssignedMaintenanceInput
   supplier?: Prisma.SupplierCreateNestedOneWithoutMaintenanceRequestsInput
   supplierRating?: Prisma.SupplierRatingCreateNestedOneWithoutRequestInput
+  serviceRequests?: Prisma.ServiceRequestCreateNestedManyWithoutMaintenanceRequestInput
+  workOrders?: Prisma.WorkOrderCreateNestedManyWithoutMaintenanceRequestInput
   attachments?: Prisma.MaintenanceAttachmentCreateNestedManyWithoutRequestInput
   statusEvents?: Prisma.MaintenanceStatusEventCreateNestedManyWithoutRequestInput
   comments?: Prisma.MaintenanceCommentCreateNestedManyWithoutRequestInput
@@ -1566,6 +1626,8 @@ export type MaintenanceRequestUncheckedCreateWithoutUnitInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   supplierRating?: Prisma.SupplierRatingUncheckedCreateNestedOneWithoutRequestInput
+  serviceRequests?: Prisma.ServiceRequestUncheckedCreateNestedManyWithoutMaintenanceRequestInput
+  workOrders?: Prisma.WorkOrderUncheckedCreateNestedManyWithoutMaintenanceRequestInput
   attachments?: Prisma.MaintenanceAttachmentUncheckedCreateNestedManyWithoutRequestInput
   statusEvents?: Prisma.MaintenanceStatusEventUncheckedCreateNestedManyWithoutRequestInput
   comments?: Prisma.MaintenanceCommentUncheckedCreateNestedManyWithoutRequestInput
@@ -1625,6 +1687,8 @@ export type MaintenanceRequestCreateWithoutCategoryRefInput = {
   assignedTo?: Prisma.UserCreateNestedOneWithoutAssignedMaintenanceInput
   supplier?: Prisma.SupplierCreateNestedOneWithoutMaintenanceRequestsInput
   supplierRating?: Prisma.SupplierRatingCreateNestedOneWithoutRequestInput
+  serviceRequests?: Prisma.ServiceRequestCreateNestedManyWithoutMaintenanceRequestInput
+  workOrders?: Prisma.WorkOrderCreateNestedManyWithoutMaintenanceRequestInput
   attachments?: Prisma.MaintenanceAttachmentCreateNestedManyWithoutRequestInput
   statusEvents?: Prisma.MaintenanceStatusEventCreateNestedManyWithoutRequestInput
   comments?: Prisma.MaintenanceCommentCreateNestedManyWithoutRequestInput
@@ -1658,6 +1722,8 @@ export type MaintenanceRequestUncheckedCreateWithoutCategoryRefInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   supplierRating?: Prisma.SupplierRatingUncheckedCreateNestedOneWithoutRequestInput
+  serviceRequests?: Prisma.ServiceRequestUncheckedCreateNestedManyWithoutMaintenanceRequestInput
+  workOrders?: Prisma.WorkOrderUncheckedCreateNestedManyWithoutMaintenanceRequestInput
   attachments?: Prisma.MaintenanceAttachmentUncheckedCreateNestedManyWithoutRequestInput
   statusEvents?: Prisma.MaintenanceStatusEventUncheckedCreateNestedManyWithoutRequestInput
   comments?: Prisma.MaintenanceCommentUncheckedCreateNestedManyWithoutRequestInput
@@ -1718,6 +1784,8 @@ export type MaintenanceRequestCreateWithoutAttachmentsInput = {
   assignedTo?: Prisma.UserCreateNestedOneWithoutAssignedMaintenanceInput
   supplier?: Prisma.SupplierCreateNestedOneWithoutMaintenanceRequestsInput
   supplierRating?: Prisma.SupplierRatingCreateNestedOneWithoutRequestInput
+  serviceRequests?: Prisma.ServiceRequestCreateNestedManyWithoutMaintenanceRequestInput
+  workOrders?: Prisma.WorkOrderCreateNestedManyWithoutMaintenanceRequestInput
   statusEvents?: Prisma.MaintenanceStatusEventCreateNestedManyWithoutRequestInput
   comments?: Prisma.MaintenanceCommentCreateNestedManyWithoutRequestInput
   slots?: Prisma.MaintenanceSlotCreateNestedManyWithoutRequestInput
@@ -1751,6 +1819,8 @@ export type MaintenanceRequestUncheckedCreateWithoutAttachmentsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   supplierRating?: Prisma.SupplierRatingUncheckedCreateNestedOneWithoutRequestInput
+  serviceRequests?: Prisma.ServiceRequestUncheckedCreateNestedManyWithoutMaintenanceRequestInput
+  workOrders?: Prisma.WorkOrderUncheckedCreateNestedManyWithoutMaintenanceRequestInput
   statusEvents?: Prisma.MaintenanceStatusEventUncheckedCreateNestedManyWithoutRequestInput
   comments?: Prisma.MaintenanceCommentUncheckedCreateNestedManyWithoutRequestInput
   slots?: Prisma.MaintenanceSlotUncheckedCreateNestedManyWithoutRequestInput
@@ -1800,6 +1870,8 @@ export type MaintenanceRequestUpdateWithoutAttachmentsInput = {
   assignedTo?: Prisma.UserUpdateOneWithoutAssignedMaintenanceNestedInput
   supplier?: Prisma.SupplierUpdateOneWithoutMaintenanceRequestsNestedInput
   supplierRating?: Prisma.SupplierRatingUpdateOneWithoutRequestNestedInput
+  serviceRequests?: Prisma.ServiceRequestUpdateManyWithoutMaintenanceRequestNestedInput
+  workOrders?: Prisma.WorkOrderUpdateManyWithoutMaintenanceRequestNestedInput
   statusEvents?: Prisma.MaintenanceStatusEventUpdateManyWithoutRequestNestedInput
   comments?: Prisma.MaintenanceCommentUpdateManyWithoutRequestNestedInput
   slots?: Prisma.MaintenanceSlotUpdateManyWithoutRequestNestedInput
@@ -1833,6 +1905,8 @@ export type MaintenanceRequestUncheckedUpdateWithoutAttachmentsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   supplierRating?: Prisma.SupplierRatingUncheckedUpdateOneWithoutRequestNestedInput
+  serviceRequests?: Prisma.ServiceRequestUncheckedUpdateManyWithoutMaintenanceRequestNestedInput
+  workOrders?: Prisma.WorkOrderUncheckedUpdateManyWithoutMaintenanceRequestNestedInput
   statusEvents?: Prisma.MaintenanceStatusEventUncheckedUpdateManyWithoutRequestNestedInput
   comments?: Prisma.MaintenanceCommentUncheckedUpdateManyWithoutRequestNestedInput
   slots?: Prisma.MaintenanceSlotUncheckedUpdateManyWithoutRequestNestedInput
@@ -1866,6 +1940,8 @@ export type MaintenanceRequestCreateWithoutStatusEventsInput = {
   assignedTo?: Prisma.UserCreateNestedOneWithoutAssignedMaintenanceInput
   supplier?: Prisma.SupplierCreateNestedOneWithoutMaintenanceRequestsInput
   supplierRating?: Prisma.SupplierRatingCreateNestedOneWithoutRequestInput
+  serviceRequests?: Prisma.ServiceRequestCreateNestedManyWithoutMaintenanceRequestInput
+  workOrders?: Prisma.WorkOrderCreateNestedManyWithoutMaintenanceRequestInput
   attachments?: Prisma.MaintenanceAttachmentCreateNestedManyWithoutRequestInput
   comments?: Prisma.MaintenanceCommentCreateNestedManyWithoutRequestInput
   slots?: Prisma.MaintenanceSlotCreateNestedManyWithoutRequestInput
@@ -1899,6 +1975,8 @@ export type MaintenanceRequestUncheckedCreateWithoutStatusEventsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   supplierRating?: Prisma.SupplierRatingUncheckedCreateNestedOneWithoutRequestInput
+  serviceRequests?: Prisma.ServiceRequestUncheckedCreateNestedManyWithoutMaintenanceRequestInput
+  workOrders?: Prisma.WorkOrderUncheckedCreateNestedManyWithoutMaintenanceRequestInput
   attachments?: Prisma.MaintenanceAttachmentUncheckedCreateNestedManyWithoutRequestInput
   comments?: Prisma.MaintenanceCommentUncheckedCreateNestedManyWithoutRequestInput
   slots?: Prisma.MaintenanceSlotUncheckedCreateNestedManyWithoutRequestInput
@@ -1948,6 +2026,8 @@ export type MaintenanceRequestUpdateWithoutStatusEventsInput = {
   assignedTo?: Prisma.UserUpdateOneWithoutAssignedMaintenanceNestedInput
   supplier?: Prisma.SupplierUpdateOneWithoutMaintenanceRequestsNestedInput
   supplierRating?: Prisma.SupplierRatingUpdateOneWithoutRequestNestedInput
+  serviceRequests?: Prisma.ServiceRequestUpdateManyWithoutMaintenanceRequestNestedInput
+  workOrders?: Prisma.WorkOrderUpdateManyWithoutMaintenanceRequestNestedInput
   attachments?: Prisma.MaintenanceAttachmentUpdateManyWithoutRequestNestedInput
   comments?: Prisma.MaintenanceCommentUpdateManyWithoutRequestNestedInput
   slots?: Prisma.MaintenanceSlotUpdateManyWithoutRequestNestedInput
@@ -1981,6 +2061,8 @@ export type MaintenanceRequestUncheckedUpdateWithoutStatusEventsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   supplierRating?: Prisma.SupplierRatingUncheckedUpdateOneWithoutRequestNestedInput
+  serviceRequests?: Prisma.ServiceRequestUncheckedUpdateManyWithoutMaintenanceRequestNestedInput
+  workOrders?: Prisma.WorkOrderUncheckedUpdateManyWithoutMaintenanceRequestNestedInput
   attachments?: Prisma.MaintenanceAttachmentUncheckedUpdateManyWithoutRequestNestedInput
   comments?: Prisma.MaintenanceCommentUncheckedUpdateManyWithoutRequestNestedInput
   slots?: Prisma.MaintenanceSlotUncheckedUpdateManyWithoutRequestNestedInput
@@ -2014,6 +2096,8 @@ export type MaintenanceRequestCreateWithoutCommentsInput = {
   assignedTo?: Prisma.UserCreateNestedOneWithoutAssignedMaintenanceInput
   supplier?: Prisma.SupplierCreateNestedOneWithoutMaintenanceRequestsInput
   supplierRating?: Prisma.SupplierRatingCreateNestedOneWithoutRequestInput
+  serviceRequests?: Prisma.ServiceRequestCreateNestedManyWithoutMaintenanceRequestInput
+  workOrders?: Prisma.WorkOrderCreateNestedManyWithoutMaintenanceRequestInput
   attachments?: Prisma.MaintenanceAttachmentCreateNestedManyWithoutRequestInput
   statusEvents?: Prisma.MaintenanceStatusEventCreateNestedManyWithoutRequestInput
   slots?: Prisma.MaintenanceSlotCreateNestedManyWithoutRequestInput
@@ -2047,6 +2131,8 @@ export type MaintenanceRequestUncheckedCreateWithoutCommentsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   supplierRating?: Prisma.SupplierRatingUncheckedCreateNestedOneWithoutRequestInput
+  serviceRequests?: Prisma.ServiceRequestUncheckedCreateNestedManyWithoutMaintenanceRequestInput
+  workOrders?: Prisma.WorkOrderUncheckedCreateNestedManyWithoutMaintenanceRequestInput
   attachments?: Prisma.MaintenanceAttachmentUncheckedCreateNestedManyWithoutRequestInput
   statusEvents?: Prisma.MaintenanceStatusEventUncheckedCreateNestedManyWithoutRequestInput
   slots?: Prisma.MaintenanceSlotUncheckedCreateNestedManyWithoutRequestInput
@@ -2096,6 +2182,8 @@ export type MaintenanceRequestUpdateWithoutCommentsInput = {
   assignedTo?: Prisma.UserUpdateOneWithoutAssignedMaintenanceNestedInput
   supplier?: Prisma.SupplierUpdateOneWithoutMaintenanceRequestsNestedInput
   supplierRating?: Prisma.SupplierRatingUpdateOneWithoutRequestNestedInput
+  serviceRequests?: Prisma.ServiceRequestUpdateManyWithoutMaintenanceRequestNestedInput
+  workOrders?: Prisma.WorkOrderUpdateManyWithoutMaintenanceRequestNestedInput
   attachments?: Prisma.MaintenanceAttachmentUpdateManyWithoutRequestNestedInput
   statusEvents?: Prisma.MaintenanceStatusEventUpdateManyWithoutRequestNestedInput
   slots?: Prisma.MaintenanceSlotUpdateManyWithoutRequestNestedInput
@@ -2129,6 +2217,8 @@ export type MaintenanceRequestUncheckedUpdateWithoutCommentsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   supplierRating?: Prisma.SupplierRatingUncheckedUpdateOneWithoutRequestNestedInput
+  serviceRequests?: Prisma.ServiceRequestUncheckedUpdateManyWithoutMaintenanceRequestNestedInput
+  workOrders?: Prisma.WorkOrderUncheckedUpdateManyWithoutMaintenanceRequestNestedInput
   attachments?: Prisma.MaintenanceAttachmentUncheckedUpdateManyWithoutRequestNestedInput
   statusEvents?: Prisma.MaintenanceStatusEventUncheckedUpdateManyWithoutRequestNestedInput
   slots?: Prisma.MaintenanceSlotUncheckedUpdateManyWithoutRequestNestedInput
@@ -2162,6 +2252,8 @@ export type MaintenanceRequestCreateWithoutSlotsInput = {
   assignedTo?: Prisma.UserCreateNestedOneWithoutAssignedMaintenanceInput
   supplier?: Prisma.SupplierCreateNestedOneWithoutMaintenanceRequestsInput
   supplierRating?: Prisma.SupplierRatingCreateNestedOneWithoutRequestInput
+  serviceRequests?: Prisma.ServiceRequestCreateNestedManyWithoutMaintenanceRequestInput
+  workOrders?: Prisma.WorkOrderCreateNestedManyWithoutMaintenanceRequestInput
   attachments?: Prisma.MaintenanceAttachmentCreateNestedManyWithoutRequestInput
   statusEvents?: Prisma.MaintenanceStatusEventCreateNestedManyWithoutRequestInput
   comments?: Prisma.MaintenanceCommentCreateNestedManyWithoutRequestInput
@@ -2195,6 +2287,8 @@ export type MaintenanceRequestUncheckedCreateWithoutSlotsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   supplierRating?: Prisma.SupplierRatingUncheckedCreateNestedOneWithoutRequestInput
+  serviceRequests?: Prisma.ServiceRequestUncheckedCreateNestedManyWithoutMaintenanceRequestInput
+  workOrders?: Prisma.WorkOrderUncheckedCreateNestedManyWithoutMaintenanceRequestInput
   attachments?: Prisma.MaintenanceAttachmentUncheckedCreateNestedManyWithoutRequestInput
   statusEvents?: Prisma.MaintenanceStatusEventUncheckedCreateNestedManyWithoutRequestInput
   comments?: Prisma.MaintenanceCommentUncheckedCreateNestedManyWithoutRequestInput
@@ -2244,6 +2338,8 @@ export type MaintenanceRequestUpdateWithoutSlotsInput = {
   assignedTo?: Prisma.UserUpdateOneWithoutAssignedMaintenanceNestedInput
   supplier?: Prisma.SupplierUpdateOneWithoutMaintenanceRequestsNestedInput
   supplierRating?: Prisma.SupplierRatingUpdateOneWithoutRequestNestedInput
+  serviceRequests?: Prisma.ServiceRequestUpdateManyWithoutMaintenanceRequestNestedInput
+  workOrders?: Prisma.WorkOrderUpdateManyWithoutMaintenanceRequestNestedInput
   attachments?: Prisma.MaintenanceAttachmentUpdateManyWithoutRequestNestedInput
   statusEvents?: Prisma.MaintenanceStatusEventUpdateManyWithoutRequestNestedInput
   comments?: Prisma.MaintenanceCommentUpdateManyWithoutRequestNestedInput
@@ -2277,6 +2373,8 @@ export type MaintenanceRequestUncheckedUpdateWithoutSlotsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   supplierRating?: Prisma.SupplierRatingUncheckedUpdateOneWithoutRequestNestedInput
+  serviceRequests?: Prisma.ServiceRequestUncheckedUpdateManyWithoutMaintenanceRequestNestedInput
+  workOrders?: Prisma.WorkOrderUncheckedUpdateManyWithoutMaintenanceRequestNestedInput
   attachments?: Prisma.MaintenanceAttachmentUncheckedUpdateManyWithoutRequestNestedInput
   statusEvents?: Prisma.MaintenanceStatusEventUncheckedUpdateManyWithoutRequestNestedInput
   comments?: Prisma.MaintenanceCommentUncheckedUpdateManyWithoutRequestNestedInput
@@ -2310,6 +2408,8 @@ export type MaintenanceRequestCreateWithoutAppointmentsInput = {
   assignedTo?: Prisma.UserCreateNestedOneWithoutAssignedMaintenanceInput
   supplier?: Prisma.SupplierCreateNestedOneWithoutMaintenanceRequestsInput
   supplierRating?: Prisma.SupplierRatingCreateNestedOneWithoutRequestInput
+  serviceRequests?: Prisma.ServiceRequestCreateNestedManyWithoutMaintenanceRequestInput
+  workOrders?: Prisma.WorkOrderCreateNestedManyWithoutMaintenanceRequestInput
   attachments?: Prisma.MaintenanceAttachmentCreateNestedManyWithoutRequestInput
   statusEvents?: Prisma.MaintenanceStatusEventCreateNestedManyWithoutRequestInput
   comments?: Prisma.MaintenanceCommentCreateNestedManyWithoutRequestInput
@@ -2343,6 +2443,8 @@ export type MaintenanceRequestUncheckedCreateWithoutAppointmentsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   supplierRating?: Prisma.SupplierRatingUncheckedCreateNestedOneWithoutRequestInput
+  serviceRequests?: Prisma.ServiceRequestUncheckedCreateNestedManyWithoutMaintenanceRequestInput
+  workOrders?: Prisma.WorkOrderUncheckedCreateNestedManyWithoutMaintenanceRequestInput
   attachments?: Prisma.MaintenanceAttachmentUncheckedCreateNestedManyWithoutRequestInput
   statusEvents?: Prisma.MaintenanceStatusEventUncheckedCreateNestedManyWithoutRequestInput
   comments?: Prisma.MaintenanceCommentUncheckedCreateNestedManyWithoutRequestInput
@@ -2392,6 +2494,8 @@ export type MaintenanceRequestUpdateWithoutAppointmentsInput = {
   assignedTo?: Prisma.UserUpdateOneWithoutAssignedMaintenanceNestedInput
   supplier?: Prisma.SupplierUpdateOneWithoutMaintenanceRequestsNestedInput
   supplierRating?: Prisma.SupplierRatingUpdateOneWithoutRequestNestedInput
+  serviceRequests?: Prisma.ServiceRequestUpdateManyWithoutMaintenanceRequestNestedInput
+  workOrders?: Prisma.WorkOrderUpdateManyWithoutMaintenanceRequestNestedInput
   attachments?: Prisma.MaintenanceAttachmentUpdateManyWithoutRequestNestedInput
   statusEvents?: Prisma.MaintenanceStatusEventUpdateManyWithoutRequestNestedInput
   comments?: Prisma.MaintenanceCommentUpdateManyWithoutRequestNestedInput
@@ -2425,6 +2529,8 @@ export type MaintenanceRequestUncheckedUpdateWithoutAppointmentsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   supplierRating?: Prisma.SupplierRatingUncheckedUpdateOneWithoutRequestNestedInput
+  serviceRequests?: Prisma.ServiceRequestUncheckedUpdateManyWithoutMaintenanceRequestNestedInput
+  workOrders?: Prisma.WorkOrderUncheckedUpdateManyWithoutMaintenanceRequestNestedInput
   attachments?: Prisma.MaintenanceAttachmentUncheckedUpdateManyWithoutRequestNestedInput
   statusEvents?: Prisma.MaintenanceStatusEventUncheckedUpdateManyWithoutRequestNestedInput
   comments?: Prisma.MaintenanceCommentUncheckedUpdateManyWithoutRequestNestedInput
@@ -2458,6 +2564,8 @@ export type MaintenanceRequestCreateWithoutNotificationsInput = {
   assignedTo?: Prisma.UserCreateNestedOneWithoutAssignedMaintenanceInput
   supplier?: Prisma.SupplierCreateNestedOneWithoutMaintenanceRequestsInput
   supplierRating?: Prisma.SupplierRatingCreateNestedOneWithoutRequestInput
+  serviceRequests?: Prisma.ServiceRequestCreateNestedManyWithoutMaintenanceRequestInput
+  workOrders?: Prisma.WorkOrderCreateNestedManyWithoutMaintenanceRequestInput
   attachments?: Prisma.MaintenanceAttachmentCreateNestedManyWithoutRequestInput
   statusEvents?: Prisma.MaintenanceStatusEventCreateNestedManyWithoutRequestInput
   comments?: Prisma.MaintenanceCommentCreateNestedManyWithoutRequestInput
@@ -2491,6 +2599,8 @@ export type MaintenanceRequestUncheckedCreateWithoutNotificationsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   supplierRating?: Prisma.SupplierRatingUncheckedCreateNestedOneWithoutRequestInput
+  serviceRequests?: Prisma.ServiceRequestUncheckedCreateNestedManyWithoutMaintenanceRequestInput
+  workOrders?: Prisma.WorkOrderUncheckedCreateNestedManyWithoutMaintenanceRequestInput
   attachments?: Prisma.MaintenanceAttachmentUncheckedCreateNestedManyWithoutRequestInput
   statusEvents?: Prisma.MaintenanceStatusEventUncheckedCreateNestedManyWithoutRequestInput
   comments?: Prisma.MaintenanceCommentUncheckedCreateNestedManyWithoutRequestInput
@@ -2540,6 +2650,8 @@ export type MaintenanceRequestUpdateWithoutNotificationsInput = {
   assignedTo?: Prisma.UserUpdateOneWithoutAssignedMaintenanceNestedInput
   supplier?: Prisma.SupplierUpdateOneWithoutMaintenanceRequestsNestedInput
   supplierRating?: Prisma.SupplierRatingUpdateOneWithoutRequestNestedInput
+  serviceRequests?: Prisma.ServiceRequestUpdateManyWithoutMaintenanceRequestNestedInput
+  workOrders?: Prisma.WorkOrderUpdateManyWithoutMaintenanceRequestNestedInput
   attachments?: Prisma.MaintenanceAttachmentUpdateManyWithoutRequestNestedInput
   statusEvents?: Prisma.MaintenanceStatusEventUpdateManyWithoutRequestNestedInput
   comments?: Prisma.MaintenanceCommentUpdateManyWithoutRequestNestedInput
@@ -2573,6 +2685,8 @@ export type MaintenanceRequestUncheckedUpdateWithoutNotificationsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   supplierRating?: Prisma.SupplierRatingUncheckedUpdateOneWithoutRequestNestedInput
+  serviceRequests?: Prisma.ServiceRequestUncheckedUpdateManyWithoutMaintenanceRequestNestedInput
+  workOrders?: Prisma.WorkOrderUncheckedUpdateManyWithoutMaintenanceRequestNestedInput
   attachments?: Prisma.MaintenanceAttachmentUncheckedUpdateManyWithoutRequestNestedInput
   statusEvents?: Prisma.MaintenanceStatusEventUncheckedUpdateManyWithoutRequestNestedInput
   comments?: Prisma.MaintenanceCommentUncheckedUpdateManyWithoutRequestNestedInput
@@ -2605,6 +2719,8 @@ export type MaintenanceRequestCreateWithoutSupplierInput = {
   reportedBy?: Prisma.UserCreateNestedOneWithoutReportedMaintenanceInput
   assignedTo?: Prisma.UserCreateNestedOneWithoutAssignedMaintenanceInput
   supplierRating?: Prisma.SupplierRatingCreateNestedOneWithoutRequestInput
+  serviceRequests?: Prisma.ServiceRequestCreateNestedManyWithoutMaintenanceRequestInput
+  workOrders?: Prisma.WorkOrderCreateNestedManyWithoutMaintenanceRequestInput
   attachments?: Prisma.MaintenanceAttachmentCreateNestedManyWithoutRequestInput
   statusEvents?: Prisma.MaintenanceStatusEventCreateNestedManyWithoutRequestInput
   comments?: Prisma.MaintenanceCommentCreateNestedManyWithoutRequestInput
@@ -2638,6 +2754,8 @@ export type MaintenanceRequestUncheckedCreateWithoutSupplierInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   supplierRating?: Prisma.SupplierRatingUncheckedCreateNestedOneWithoutRequestInput
+  serviceRequests?: Prisma.ServiceRequestUncheckedCreateNestedManyWithoutMaintenanceRequestInput
+  workOrders?: Prisma.WorkOrderUncheckedCreateNestedManyWithoutMaintenanceRequestInput
   attachments?: Prisma.MaintenanceAttachmentUncheckedCreateNestedManyWithoutRequestInput
   statusEvents?: Prisma.MaintenanceStatusEventUncheckedCreateNestedManyWithoutRequestInput
   comments?: Prisma.MaintenanceCommentUncheckedCreateNestedManyWithoutRequestInput
@@ -2697,6 +2815,8 @@ export type MaintenanceRequestCreateWithoutSupplierRatingInput = {
   reportedBy?: Prisma.UserCreateNestedOneWithoutReportedMaintenanceInput
   assignedTo?: Prisma.UserCreateNestedOneWithoutAssignedMaintenanceInput
   supplier?: Prisma.SupplierCreateNestedOneWithoutMaintenanceRequestsInput
+  serviceRequests?: Prisma.ServiceRequestCreateNestedManyWithoutMaintenanceRequestInput
+  workOrders?: Prisma.WorkOrderCreateNestedManyWithoutMaintenanceRequestInput
   attachments?: Prisma.MaintenanceAttachmentCreateNestedManyWithoutRequestInput
   statusEvents?: Prisma.MaintenanceStatusEventCreateNestedManyWithoutRequestInput
   comments?: Prisma.MaintenanceCommentCreateNestedManyWithoutRequestInput
@@ -2730,6 +2850,8 @@ export type MaintenanceRequestUncheckedCreateWithoutSupplierRatingInput = {
   notes?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  serviceRequests?: Prisma.ServiceRequestUncheckedCreateNestedManyWithoutMaintenanceRequestInput
+  workOrders?: Prisma.WorkOrderUncheckedCreateNestedManyWithoutMaintenanceRequestInput
   attachments?: Prisma.MaintenanceAttachmentUncheckedCreateNestedManyWithoutRequestInput
   statusEvents?: Prisma.MaintenanceStatusEventUncheckedCreateNestedManyWithoutRequestInput
   comments?: Prisma.MaintenanceCommentUncheckedCreateNestedManyWithoutRequestInput
@@ -2779,6 +2901,8 @@ export type MaintenanceRequestUpdateWithoutSupplierRatingInput = {
   reportedBy?: Prisma.UserUpdateOneWithoutReportedMaintenanceNestedInput
   assignedTo?: Prisma.UserUpdateOneWithoutAssignedMaintenanceNestedInput
   supplier?: Prisma.SupplierUpdateOneWithoutMaintenanceRequestsNestedInput
+  serviceRequests?: Prisma.ServiceRequestUpdateManyWithoutMaintenanceRequestNestedInput
+  workOrders?: Prisma.WorkOrderUpdateManyWithoutMaintenanceRequestNestedInput
   attachments?: Prisma.MaintenanceAttachmentUpdateManyWithoutRequestNestedInput
   statusEvents?: Prisma.MaintenanceStatusEventUpdateManyWithoutRequestNestedInput
   comments?: Prisma.MaintenanceCommentUpdateManyWithoutRequestNestedInput
@@ -2812,6 +2936,320 @@ export type MaintenanceRequestUncheckedUpdateWithoutSupplierRatingInput = {
   notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  serviceRequests?: Prisma.ServiceRequestUncheckedUpdateManyWithoutMaintenanceRequestNestedInput
+  workOrders?: Prisma.WorkOrderUncheckedUpdateManyWithoutMaintenanceRequestNestedInput
+  attachments?: Prisma.MaintenanceAttachmentUncheckedUpdateManyWithoutRequestNestedInput
+  statusEvents?: Prisma.MaintenanceStatusEventUncheckedUpdateManyWithoutRequestNestedInput
+  comments?: Prisma.MaintenanceCommentUncheckedUpdateManyWithoutRequestNestedInput
+  slots?: Prisma.MaintenanceSlotUncheckedUpdateManyWithoutRequestNestedInput
+  appointments?: Prisma.MaintenanceAppointmentUncheckedUpdateManyWithoutRequestNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutRequestRefNestedInput
+}
+
+export type MaintenanceRequestCreateWithoutServiceRequestsInput = {
+  id?: string
+  title: string
+  description: string
+  category: string
+  priority?: string
+  status?: string
+  handledBy?: string
+  slaDueAt?: Date | string | null
+  firstResponseAt?: Date | string | null
+  restrictedAccess?: boolean
+  managerPresence?: boolean
+  estimatedMinutes?: number | null
+  attachmentUrl?: string | null
+  scheduledDate?: Date | string | null
+  completedAt?: Date | string | null
+  notes?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  building: Prisma.BuildingCreateNestedOneWithoutMaintenanceRequestsInput
+  unit?: Prisma.UnitCreateNestedOneWithoutMaintenanceRequestsInput
+  categoryRef?: Prisma.MaintenanceCategoryCreateNestedOneWithoutRequestsInput
+  reportedBy?: Prisma.UserCreateNestedOneWithoutReportedMaintenanceInput
+  assignedTo?: Prisma.UserCreateNestedOneWithoutAssignedMaintenanceInput
+  supplier?: Prisma.SupplierCreateNestedOneWithoutMaintenanceRequestsInput
+  supplierRating?: Prisma.SupplierRatingCreateNestedOneWithoutRequestInput
+  workOrders?: Prisma.WorkOrderCreateNestedManyWithoutMaintenanceRequestInput
+  attachments?: Prisma.MaintenanceAttachmentCreateNestedManyWithoutRequestInput
+  statusEvents?: Prisma.MaintenanceStatusEventCreateNestedManyWithoutRequestInput
+  comments?: Prisma.MaintenanceCommentCreateNestedManyWithoutRequestInput
+  slots?: Prisma.MaintenanceSlotCreateNestedManyWithoutRequestInput
+  appointments?: Prisma.MaintenanceAppointmentCreateNestedManyWithoutRequestInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutRequestRefInput
+}
+
+export type MaintenanceRequestUncheckedCreateWithoutServiceRequestsInput = {
+  id?: string
+  buildingId: string
+  unitId?: string | null
+  title: string
+  description: string
+  category: string
+  categoryId?: string | null
+  priority?: string
+  status?: string
+  handledBy?: string
+  slaDueAt?: Date | string | null
+  firstResponseAt?: Date | string | null
+  restrictedAccess?: boolean
+  managerPresence?: boolean
+  estimatedMinutes?: number | null
+  reportedById?: string | null
+  assignedToId?: string | null
+  supplierId?: string | null
+  attachmentUrl?: string | null
+  scheduledDate?: Date | string | null
+  completedAt?: Date | string | null
+  notes?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  supplierRating?: Prisma.SupplierRatingUncheckedCreateNestedOneWithoutRequestInput
+  workOrders?: Prisma.WorkOrderUncheckedCreateNestedManyWithoutMaintenanceRequestInput
+  attachments?: Prisma.MaintenanceAttachmentUncheckedCreateNestedManyWithoutRequestInput
+  statusEvents?: Prisma.MaintenanceStatusEventUncheckedCreateNestedManyWithoutRequestInput
+  comments?: Prisma.MaintenanceCommentUncheckedCreateNestedManyWithoutRequestInput
+  slots?: Prisma.MaintenanceSlotUncheckedCreateNestedManyWithoutRequestInput
+  appointments?: Prisma.MaintenanceAppointmentUncheckedCreateNestedManyWithoutRequestInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutRequestRefInput
+}
+
+export type MaintenanceRequestCreateOrConnectWithoutServiceRequestsInput = {
+  where: Prisma.MaintenanceRequestWhereUniqueInput
+  create: Prisma.XOR<Prisma.MaintenanceRequestCreateWithoutServiceRequestsInput, Prisma.MaintenanceRequestUncheckedCreateWithoutServiceRequestsInput>
+}
+
+export type MaintenanceRequestUpsertWithoutServiceRequestsInput = {
+  update: Prisma.XOR<Prisma.MaintenanceRequestUpdateWithoutServiceRequestsInput, Prisma.MaintenanceRequestUncheckedUpdateWithoutServiceRequestsInput>
+  create: Prisma.XOR<Prisma.MaintenanceRequestCreateWithoutServiceRequestsInput, Prisma.MaintenanceRequestUncheckedCreateWithoutServiceRequestsInput>
+  where?: Prisma.MaintenanceRequestWhereInput
+}
+
+export type MaintenanceRequestUpdateToOneWithWhereWithoutServiceRequestsInput = {
+  where?: Prisma.MaintenanceRequestWhereInput
+  data: Prisma.XOR<Prisma.MaintenanceRequestUpdateWithoutServiceRequestsInput, Prisma.MaintenanceRequestUncheckedUpdateWithoutServiceRequestsInput>
+}
+
+export type MaintenanceRequestUpdateWithoutServiceRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  category?: Prisma.StringFieldUpdateOperationsInput | string
+  priority?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  handledBy?: Prisma.StringFieldUpdateOperationsInput | string
+  slaDueAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  firstResponseAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  restrictedAccess?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  managerPresence?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  attachmentUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  building?: Prisma.BuildingUpdateOneRequiredWithoutMaintenanceRequestsNestedInput
+  unit?: Prisma.UnitUpdateOneWithoutMaintenanceRequestsNestedInput
+  categoryRef?: Prisma.MaintenanceCategoryUpdateOneWithoutRequestsNestedInput
+  reportedBy?: Prisma.UserUpdateOneWithoutReportedMaintenanceNestedInput
+  assignedTo?: Prisma.UserUpdateOneWithoutAssignedMaintenanceNestedInput
+  supplier?: Prisma.SupplierUpdateOneWithoutMaintenanceRequestsNestedInput
+  supplierRating?: Prisma.SupplierRatingUpdateOneWithoutRequestNestedInput
+  workOrders?: Prisma.WorkOrderUpdateManyWithoutMaintenanceRequestNestedInput
+  attachments?: Prisma.MaintenanceAttachmentUpdateManyWithoutRequestNestedInput
+  statusEvents?: Prisma.MaintenanceStatusEventUpdateManyWithoutRequestNestedInput
+  comments?: Prisma.MaintenanceCommentUpdateManyWithoutRequestNestedInput
+  slots?: Prisma.MaintenanceSlotUpdateManyWithoutRequestNestedInput
+  appointments?: Prisma.MaintenanceAppointmentUpdateManyWithoutRequestNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutRequestRefNestedInput
+}
+
+export type MaintenanceRequestUncheckedUpdateWithoutServiceRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  buildingId?: Prisma.StringFieldUpdateOperationsInput | string
+  unitId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  category?: Prisma.StringFieldUpdateOperationsInput | string
+  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priority?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  handledBy?: Prisma.StringFieldUpdateOperationsInput | string
+  slaDueAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  firstResponseAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  restrictedAccess?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  managerPresence?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reportedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  assignedToId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  attachmentUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  supplierRating?: Prisma.SupplierRatingUncheckedUpdateOneWithoutRequestNestedInput
+  workOrders?: Prisma.WorkOrderUncheckedUpdateManyWithoutMaintenanceRequestNestedInput
+  attachments?: Prisma.MaintenanceAttachmentUncheckedUpdateManyWithoutRequestNestedInput
+  statusEvents?: Prisma.MaintenanceStatusEventUncheckedUpdateManyWithoutRequestNestedInput
+  comments?: Prisma.MaintenanceCommentUncheckedUpdateManyWithoutRequestNestedInput
+  slots?: Prisma.MaintenanceSlotUncheckedUpdateManyWithoutRequestNestedInput
+  appointments?: Prisma.MaintenanceAppointmentUncheckedUpdateManyWithoutRequestNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutRequestRefNestedInput
+}
+
+export type MaintenanceRequestCreateWithoutWorkOrdersInput = {
+  id?: string
+  title: string
+  description: string
+  category: string
+  priority?: string
+  status?: string
+  handledBy?: string
+  slaDueAt?: Date | string | null
+  firstResponseAt?: Date | string | null
+  restrictedAccess?: boolean
+  managerPresence?: boolean
+  estimatedMinutes?: number | null
+  attachmentUrl?: string | null
+  scheduledDate?: Date | string | null
+  completedAt?: Date | string | null
+  notes?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  building: Prisma.BuildingCreateNestedOneWithoutMaintenanceRequestsInput
+  unit?: Prisma.UnitCreateNestedOneWithoutMaintenanceRequestsInput
+  categoryRef?: Prisma.MaintenanceCategoryCreateNestedOneWithoutRequestsInput
+  reportedBy?: Prisma.UserCreateNestedOneWithoutReportedMaintenanceInput
+  assignedTo?: Prisma.UserCreateNestedOneWithoutAssignedMaintenanceInput
+  supplier?: Prisma.SupplierCreateNestedOneWithoutMaintenanceRequestsInput
+  supplierRating?: Prisma.SupplierRatingCreateNestedOneWithoutRequestInput
+  serviceRequests?: Prisma.ServiceRequestCreateNestedManyWithoutMaintenanceRequestInput
+  attachments?: Prisma.MaintenanceAttachmentCreateNestedManyWithoutRequestInput
+  statusEvents?: Prisma.MaintenanceStatusEventCreateNestedManyWithoutRequestInput
+  comments?: Prisma.MaintenanceCommentCreateNestedManyWithoutRequestInput
+  slots?: Prisma.MaintenanceSlotCreateNestedManyWithoutRequestInput
+  appointments?: Prisma.MaintenanceAppointmentCreateNestedManyWithoutRequestInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutRequestRefInput
+}
+
+export type MaintenanceRequestUncheckedCreateWithoutWorkOrdersInput = {
+  id?: string
+  buildingId: string
+  unitId?: string | null
+  title: string
+  description: string
+  category: string
+  categoryId?: string | null
+  priority?: string
+  status?: string
+  handledBy?: string
+  slaDueAt?: Date | string | null
+  firstResponseAt?: Date | string | null
+  restrictedAccess?: boolean
+  managerPresence?: boolean
+  estimatedMinutes?: number | null
+  reportedById?: string | null
+  assignedToId?: string | null
+  supplierId?: string | null
+  attachmentUrl?: string | null
+  scheduledDate?: Date | string | null
+  completedAt?: Date | string | null
+  notes?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  supplierRating?: Prisma.SupplierRatingUncheckedCreateNestedOneWithoutRequestInput
+  serviceRequests?: Prisma.ServiceRequestUncheckedCreateNestedManyWithoutMaintenanceRequestInput
+  attachments?: Prisma.MaintenanceAttachmentUncheckedCreateNestedManyWithoutRequestInput
+  statusEvents?: Prisma.MaintenanceStatusEventUncheckedCreateNestedManyWithoutRequestInput
+  comments?: Prisma.MaintenanceCommentUncheckedCreateNestedManyWithoutRequestInput
+  slots?: Prisma.MaintenanceSlotUncheckedCreateNestedManyWithoutRequestInput
+  appointments?: Prisma.MaintenanceAppointmentUncheckedCreateNestedManyWithoutRequestInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutRequestRefInput
+}
+
+export type MaintenanceRequestCreateOrConnectWithoutWorkOrdersInput = {
+  where: Prisma.MaintenanceRequestWhereUniqueInput
+  create: Prisma.XOR<Prisma.MaintenanceRequestCreateWithoutWorkOrdersInput, Prisma.MaintenanceRequestUncheckedCreateWithoutWorkOrdersInput>
+}
+
+export type MaintenanceRequestUpsertWithoutWorkOrdersInput = {
+  update: Prisma.XOR<Prisma.MaintenanceRequestUpdateWithoutWorkOrdersInput, Prisma.MaintenanceRequestUncheckedUpdateWithoutWorkOrdersInput>
+  create: Prisma.XOR<Prisma.MaintenanceRequestCreateWithoutWorkOrdersInput, Prisma.MaintenanceRequestUncheckedCreateWithoutWorkOrdersInput>
+  where?: Prisma.MaintenanceRequestWhereInput
+}
+
+export type MaintenanceRequestUpdateToOneWithWhereWithoutWorkOrdersInput = {
+  where?: Prisma.MaintenanceRequestWhereInput
+  data: Prisma.XOR<Prisma.MaintenanceRequestUpdateWithoutWorkOrdersInput, Prisma.MaintenanceRequestUncheckedUpdateWithoutWorkOrdersInput>
+}
+
+export type MaintenanceRequestUpdateWithoutWorkOrdersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  category?: Prisma.StringFieldUpdateOperationsInput | string
+  priority?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  handledBy?: Prisma.StringFieldUpdateOperationsInput | string
+  slaDueAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  firstResponseAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  restrictedAccess?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  managerPresence?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  attachmentUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  building?: Prisma.BuildingUpdateOneRequiredWithoutMaintenanceRequestsNestedInput
+  unit?: Prisma.UnitUpdateOneWithoutMaintenanceRequestsNestedInput
+  categoryRef?: Prisma.MaintenanceCategoryUpdateOneWithoutRequestsNestedInput
+  reportedBy?: Prisma.UserUpdateOneWithoutReportedMaintenanceNestedInput
+  assignedTo?: Prisma.UserUpdateOneWithoutAssignedMaintenanceNestedInput
+  supplier?: Prisma.SupplierUpdateOneWithoutMaintenanceRequestsNestedInput
+  supplierRating?: Prisma.SupplierRatingUpdateOneWithoutRequestNestedInput
+  serviceRequests?: Prisma.ServiceRequestUpdateManyWithoutMaintenanceRequestNestedInput
+  attachments?: Prisma.MaintenanceAttachmentUpdateManyWithoutRequestNestedInput
+  statusEvents?: Prisma.MaintenanceStatusEventUpdateManyWithoutRequestNestedInput
+  comments?: Prisma.MaintenanceCommentUpdateManyWithoutRequestNestedInput
+  slots?: Prisma.MaintenanceSlotUpdateManyWithoutRequestNestedInput
+  appointments?: Prisma.MaintenanceAppointmentUpdateManyWithoutRequestNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutRequestRefNestedInput
+}
+
+export type MaintenanceRequestUncheckedUpdateWithoutWorkOrdersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  buildingId?: Prisma.StringFieldUpdateOperationsInput | string
+  unitId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  category?: Prisma.StringFieldUpdateOperationsInput | string
+  categoryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priority?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  handledBy?: Prisma.StringFieldUpdateOperationsInput | string
+  slaDueAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  firstResponseAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  restrictedAccess?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  managerPresence?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  estimatedMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  reportedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  assignedToId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  attachmentUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  scheduledDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  notes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  supplierRating?: Prisma.SupplierRatingUncheckedUpdateOneWithoutRequestNestedInput
+  serviceRequests?: Prisma.ServiceRequestUncheckedUpdateManyWithoutMaintenanceRequestNestedInput
   attachments?: Prisma.MaintenanceAttachmentUncheckedUpdateManyWithoutRequestNestedInput
   statusEvents?: Prisma.MaintenanceStatusEventUncheckedUpdateManyWithoutRequestNestedInput
   comments?: Prisma.MaintenanceCommentUncheckedUpdateManyWithoutRequestNestedInput
@@ -2897,6 +3335,8 @@ export type MaintenanceRequestUpdateWithoutReportedByInput = {
   assignedTo?: Prisma.UserUpdateOneWithoutAssignedMaintenanceNestedInput
   supplier?: Prisma.SupplierUpdateOneWithoutMaintenanceRequestsNestedInput
   supplierRating?: Prisma.SupplierRatingUpdateOneWithoutRequestNestedInput
+  serviceRequests?: Prisma.ServiceRequestUpdateManyWithoutMaintenanceRequestNestedInput
+  workOrders?: Prisma.WorkOrderUpdateManyWithoutMaintenanceRequestNestedInput
   attachments?: Prisma.MaintenanceAttachmentUpdateManyWithoutRequestNestedInput
   statusEvents?: Prisma.MaintenanceStatusEventUpdateManyWithoutRequestNestedInput
   comments?: Prisma.MaintenanceCommentUpdateManyWithoutRequestNestedInput
@@ -2930,6 +3370,8 @@ export type MaintenanceRequestUncheckedUpdateWithoutReportedByInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   supplierRating?: Prisma.SupplierRatingUncheckedUpdateOneWithoutRequestNestedInput
+  serviceRequests?: Prisma.ServiceRequestUncheckedUpdateManyWithoutMaintenanceRequestNestedInput
+  workOrders?: Prisma.WorkOrderUncheckedUpdateManyWithoutMaintenanceRequestNestedInput
   attachments?: Prisma.MaintenanceAttachmentUncheckedUpdateManyWithoutRequestNestedInput
   statusEvents?: Prisma.MaintenanceStatusEventUncheckedUpdateManyWithoutRequestNestedInput
   comments?: Prisma.MaintenanceCommentUncheckedUpdateManyWithoutRequestNestedInput
@@ -2989,6 +3431,8 @@ export type MaintenanceRequestUpdateWithoutAssignedToInput = {
   reportedBy?: Prisma.UserUpdateOneWithoutReportedMaintenanceNestedInput
   supplier?: Prisma.SupplierUpdateOneWithoutMaintenanceRequestsNestedInput
   supplierRating?: Prisma.SupplierRatingUpdateOneWithoutRequestNestedInput
+  serviceRequests?: Prisma.ServiceRequestUpdateManyWithoutMaintenanceRequestNestedInput
+  workOrders?: Prisma.WorkOrderUpdateManyWithoutMaintenanceRequestNestedInput
   attachments?: Prisma.MaintenanceAttachmentUpdateManyWithoutRequestNestedInput
   statusEvents?: Prisma.MaintenanceStatusEventUpdateManyWithoutRequestNestedInput
   comments?: Prisma.MaintenanceCommentUpdateManyWithoutRequestNestedInput
@@ -3022,6 +3466,8 @@ export type MaintenanceRequestUncheckedUpdateWithoutAssignedToInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   supplierRating?: Prisma.SupplierRatingUncheckedUpdateOneWithoutRequestNestedInput
+  serviceRequests?: Prisma.ServiceRequestUncheckedUpdateManyWithoutMaintenanceRequestNestedInput
+  workOrders?: Prisma.WorkOrderUncheckedUpdateManyWithoutMaintenanceRequestNestedInput
   attachments?: Prisma.MaintenanceAttachmentUncheckedUpdateManyWithoutRequestNestedInput
   statusEvents?: Prisma.MaintenanceStatusEventUncheckedUpdateManyWithoutRequestNestedInput
   comments?: Prisma.MaintenanceCommentUncheckedUpdateManyWithoutRequestNestedInput
@@ -3107,6 +3553,8 @@ export type MaintenanceRequestUpdateWithoutBuildingInput = {
   assignedTo?: Prisma.UserUpdateOneWithoutAssignedMaintenanceNestedInput
   supplier?: Prisma.SupplierUpdateOneWithoutMaintenanceRequestsNestedInput
   supplierRating?: Prisma.SupplierRatingUpdateOneWithoutRequestNestedInput
+  serviceRequests?: Prisma.ServiceRequestUpdateManyWithoutMaintenanceRequestNestedInput
+  workOrders?: Prisma.WorkOrderUpdateManyWithoutMaintenanceRequestNestedInput
   attachments?: Prisma.MaintenanceAttachmentUpdateManyWithoutRequestNestedInput
   statusEvents?: Prisma.MaintenanceStatusEventUpdateManyWithoutRequestNestedInput
   comments?: Prisma.MaintenanceCommentUpdateManyWithoutRequestNestedInput
@@ -3140,6 +3588,8 @@ export type MaintenanceRequestUncheckedUpdateWithoutBuildingInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   supplierRating?: Prisma.SupplierRatingUncheckedUpdateOneWithoutRequestNestedInput
+  serviceRequests?: Prisma.ServiceRequestUncheckedUpdateManyWithoutMaintenanceRequestNestedInput
+  workOrders?: Prisma.WorkOrderUncheckedUpdateManyWithoutMaintenanceRequestNestedInput
   attachments?: Prisma.MaintenanceAttachmentUncheckedUpdateManyWithoutRequestNestedInput
   statusEvents?: Prisma.MaintenanceStatusEventUncheckedUpdateManyWithoutRequestNestedInput
   comments?: Prisma.MaintenanceCommentUncheckedUpdateManyWithoutRequestNestedInput
@@ -3225,6 +3675,8 @@ export type MaintenanceRequestUpdateWithoutUnitInput = {
   assignedTo?: Prisma.UserUpdateOneWithoutAssignedMaintenanceNestedInput
   supplier?: Prisma.SupplierUpdateOneWithoutMaintenanceRequestsNestedInput
   supplierRating?: Prisma.SupplierRatingUpdateOneWithoutRequestNestedInput
+  serviceRequests?: Prisma.ServiceRequestUpdateManyWithoutMaintenanceRequestNestedInput
+  workOrders?: Prisma.WorkOrderUpdateManyWithoutMaintenanceRequestNestedInput
   attachments?: Prisma.MaintenanceAttachmentUpdateManyWithoutRequestNestedInput
   statusEvents?: Prisma.MaintenanceStatusEventUpdateManyWithoutRequestNestedInput
   comments?: Prisma.MaintenanceCommentUpdateManyWithoutRequestNestedInput
@@ -3258,6 +3710,8 @@ export type MaintenanceRequestUncheckedUpdateWithoutUnitInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   supplierRating?: Prisma.SupplierRatingUncheckedUpdateOneWithoutRequestNestedInput
+  serviceRequests?: Prisma.ServiceRequestUncheckedUpdateManyWithoutMaintenanceRequestNestedInput
+  workOrders?: Prisma.WorkOrderUncheckedUpdateManyWithoutMaintenanceRequestNestedInput
   attachments?: Prisma.MaintenanceAttachmentUncheckedUpdateManyWithoutRequestNestedInput
   statusEvents?: Prisma.MaintenanceStatusEventUncheckedUpdateManyWithoutRequestNestedInput
   comments?: Prisma.MaintenanceCommentUncheckedUpdateManyWithoutRequestNestedInput
@@ -3343,6 +3797,8 @@ export type MaintenanceRequestUpdateWithoutCategoryRefInput = {
   assignedTo?: Prisma.UserUpdateOneWithoutAssignedMaintenanceNestedInput
   supplier?: Prisma.SupplierUpdateOneWithoutMaintenanceRequestsNestedInput
   supplierRating?: Prisma.SupplierRatingUpdateOneWithoutRequestNestedInput
+  serviceRequests?: Prisma.ServiceRequestUpdateManyWithoutMaintenanceRequestNestedInput
+  workOrders?: Prisma.WorkOrderUpdateManyWithoutMaintenanceRequestNestedInput
   attachments?: Prisma.MaintenanceAttachmentUpdateManyWithoutRequestNestedInput
   statusEvents?: Prisma.MaintenanceStatusEventUpdateManyWithoutRequestNestedInput
   comments?: Prisma.MaintenanceCommentUpdateManyWithoutRequestNestedInput
@@ -3376,6 +3832,8 @@ export type MaintenanceRequestUncheckedUpdateWithoutCategoryRefInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   supplierRating?: Prisma.SupplierRatingUncheckedUpdateOneWithoutRequestNestedInput
+  serviceRequests?: Prisma.ServiceRequestUncheckedUpdateManyWithoutMaintenanceRequestNestedInput
+  workOrders?: Prisma.WorkOrderUncheckedUpdateManyWithoutMaintenanceRequestNestedInput
   attachments?: Prisma.MaintenanceAttachmentUncheckedUpdateManyWithoutRequestNestedInput
   statusEvents?: Prisma.MaintenanceStatusEventUncheckedUpdateManyWithoutRequestNestedInput
   comments?: Prisma.MaintenanceCommentUncheckedUpdateManyWithoutRequestNestedInput
@@ -3461,6 +3919,8 @@ export type MaintenanceRequestUpdateWithoutSupplierInput = {
   reportedBy?: Prisma.UserUpdateOneWithoutReportedMaintenanceNestedInput
   assignedTo?: Prisma.UserUpdateOneWithoutAssignedMaintenanceNestedInput
   supplierRating?: Prisma.SupplierRatingUpdateOneWithoutRequestNestedInput
+  serviceRequests?: Prisma.ServiceRequestUpdateManyWithoutMaintenanceRequestNestedInput
+  workOrders?: Prisma.WorkOrderUpdateManyWithoutMaintenanceRequestNestedInput
   attachments?: Prisma.MaintenanceAttachmentUpdateManyWithoutRequestNestedInput
   statusEvents?: Prisma.MaintenanceStatusEventUpdateManyWithoutRequestNestedInput
   comments?: Prisma.MaintenanceCommentUpdateManyWithoutRequestNestedInput
@@ -3494,6 +3954,8 @@ export type MaintenanceRequestUncheckedUpdateWithoutSupplierInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   supplierRating?: Prisma.SupplierRatingUncheckedUpdateOneWithoutRequestNestedInput
+  serviceRequests?: Prisma.ServiceRequestUncheckedUpdateManyWithoutMaintenanceRequestNestedInput
+  workOrders?: Prisma.WorkOrderUncheckedUpdateManyWithoutMaintenanceRequestNestedInput
   attachments?: Prisma.MaintenanceAttachmentUncheckedUpdateManyWithoutRequestNestedInput
   statusEvents?: Prisma.MaintenanceStatusEventUncheckedUpdateManyWithoutRequestNestedInput
   comments?: Prisma.MaintenanceCommentUncheckedUpdateManyWithoutRequestNestedInput
@@ -3534,6 +3996,8 @@ export type MaintenanceRequestUncheckedUpdateManyWithoutSupplierInput = {
  */
 
 export type MaintenanceRequestCountOutputType = {
+  serviceRequests: number
+  workOrders: number
   attachments: number
   statusEvents: number
   comments: number
@@ -3543,6 +4007,8 @@ export type MaintenanceRequestCountOutputType = {
 }
 
 export type MaintenanceRequestCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  serviceRequests?: boolean | MaintenanceRequestCountOutputTypeCountServiceRequestsArgs
+  workOrders?: boolean | MaintenanceRequestCountOutputTypeCountWorkOrdersArgs
   attachments?: boolean | MaintenanceRequestCountOutputTypeCountAttachmentsArgs
   statusEvents?: boolean | MaintenanceRequestCountOutputTypeCountStatusEventsArgs
   comments?: boolean | MaintenanceRequestCountOutputTypeCountCommentsArgs
@@ -3559,6 +4025,20 @@ export type MaintenanceRequestCountOutputTypeDefaultArgs<ExtArgs extends runtime
    * Select specific fields to fetch from the MaintenanceRequestCountOutputType
    */
   select?: Prisma.MaintenanceRequestCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * MaintenanceRequestCountOutputType without action
+ */
+export type MaintenanceRequestCountOutputTypeCountServiceRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ServiceRequestWhereInput
+}
+
+/**
+ * MaintenanceRequestCountOutputType without action
+ */
+export type MaintenanceRequestCountOutputTypeCountWorkOrdersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.WorkOrderWhereInput
 }
 
 /**
@@ -3636,6 +4116,8 @@ export type MaintenanceRequestSelect<ExtArgs extends runtime.Types.Extensions.In
   assignedTo?: boolean | Prisma.MaintenanceRequest$assignedToArgs<ExtArgs>
   supplier?: boolean | Prisma.MaintenanceRequest$supplierArgs<ExtArgs>
   supplierRating?: boolean | Prisma.MaintenanceRequest$supplierRatingArgs<ExtArgs>
+  serviceRequests?: boolean | Prisma.MaintenanceRequest$serviceRequestsArgs<ExtArgs>
+  workOrders?: boolean | Prisma.MaintenanceRequest$workOrdersArgs<ExtArgs>
   attachments?: boolean | Prisma.MaintenanceRequest$attachmentsArgs<ExtArgs>
   statusEvents?: boolean | Prisma.MaintenanceRequest$statusEventsArgs<ExtArgs>
   comments?: boolean | Prisma.MaintenanceRequest$commentsArgs<ExtArgs>
@@ -3747,6 +4229,8 @@ export type MaintenanceRequestInclude<ExtArgs extends runtime.Types.Extensions.I
   assignedTo?: boolean | Prisma.MaintenanceRequest$assignedToArgs<ExtArgs>
   supplier?: boolean | Prisma.MaintenanceRequest$supplierArgs<ExtArgs>
   supplierRating?: boolean | Prisma.MaintenanceRequest$supplierRatingArgs<ExtArgs>
+  serviceRequests?: boolean | Prisma.MaintenanceRequest$serviceRequestsArgs<ExtArgs>
+  workOrders?: boolean | Prisma.MaintenanceRequest$workOrdersArgs<ExtArgs>
   attachments?: boolean | Prisma.MaintenanceRequest$attachmentsArgs<ExtArgs>
   statusEvents?: boolean | Prisma.MaintenanceRequest$statusEventsArgs<ExtArgs>
   comments?: boolean | Prisma.MaintenanceRequest$commentsArgs<ExtArgs>
@@ -3782,6 +4266,8 @@ export type $MaintenanceRequestPayload<ExtArgs extends runtime.Types.Extensions.
     assignedTo: Prisma.$UserPayload<ExtArgs> | null
     supplier: Prisma.$SupplierPayload<ExtArgs> | null
     supplierRating: Prisma.$SupplierRatingPayload<ExtArgs> | null
+    serviceRequests: Prisma.$ServiceRequestPayload<ExtArgs>[]
+    workOrders: Prisma.$WorkOrderPayload<ExtArgs>[]
     attachments: Prisma.$MaintenanceAttachmentPayload<ExtArgs>[]
     statusEvents: Prisma.$MaintenanceStatusEventPayload<ExtArgs>[]
     comments: Prisma.$MaintenanceCommentPayload<ExtArgs>[]
@@ -4215,6 +4701,8 @@ export interface Prisma__MaintenanceRequestClient<T, Null = never, ExtArgs exten
   assignedTo<T extends Prisma.MaintenanceRequest$assignedToArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MaintenanceRequest$assignedToArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   supplier<T extends Prisma.MaintenanceRequest$supplierArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MaintenanceRequest$supplierArgs<ExtArgs>>): Prisma.Prisma__SupplierClient<runtime.Types.Result.GetResult<Prisma.$SupplierPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   supplierRating<T extends Prisma.MaintenanceRequest$supplierRatingArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MaintenanceRequest$supplierRatingArgs<ExtArgs>>): Prisma.Prisma__SupplierRatingClient<runtime.Types.Result.GetResult<Prisma.$SupplierRatingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  serviceRequests<T extends Prisma.MaintenanceRequest$serviceRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MaintenanceRequest$serviceRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ServiceRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  workOrders<T extends Prisma.MaintenanceRequest$workOrdersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MaintenanceRequest$workOrdersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WorkOrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   attachments<T extends Prisma.MaintenanceRequest$attachmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MaintenanceRequest$attachmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MaintenanceAttachmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   statusEvents<T extends Prisma.MaintenanceRequest$statusEventsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MaintenanceRequest$statusEventsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MaintenanceStatusEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   comments<T extends Prisma.MaintenanceRequest$commentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MaintenanceRequest$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MaintenanceCommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -4786,6 +5274,54 @@ export type MaintenanceRequest$supplierRatingArgs<ExtArgs extends runtime.Types.
    */
   include?: Prisma.SupplierRatingInclude<ExtArgs> | null
   where?: Prisma.SupplierRatingWhereInput
+}
+
+/**
+ * MaintenanceRequest.serviceRequests
+ */
+export type MaintenanceRequest$serviceRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ServiceRequest
+   */
+  select?: Prisma.ServiceRequestSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ServiceRequest
+   */
+  omit?: Prisma.ServiceRequestOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ServiceRequestInclude<ExtArgs> | null
+  where?: Prisma.ServiceRequestWhereInput
+  orderBy?: Prisma.ServiceRequestOrderByWithRelationInput | Prisma.ServiceRequestOrderByWithRelationInput[]
+  cursor?: Prisma.ServiceRequestWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ServiceRequestScalarFieldEnum | Prisma.ServiceRequestScalarFieldEnum[]
+}
+
+/**
+ * MaintenanceRequest.workOrders
+ */
+export type MaintenanceRequest$workOrdersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the WorkOrder
+   */
+  select?: Prisma.WorkOrderSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the WorkOrder
+   */
+  omit?: Prisma.WorkOrderOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.WorkOrderInclude<ExtArgs> | null
+  where?: Prisma.WorkOrderWhereInput
+  orderBy?: Prisma.WorkOrderOrderByWithRelationInput | Prisma.WorkOrderOrderByWithRelationInput[]
+  cursor?: Prisma.WorkOrderWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.WorkOrderScalarFieldEnum | Prisma.WorkOrderScalarFieldEnum[]
 }
 
 /**

@@ -6,6 +6,8 @@ import { db } from "@/lib/db";
 import { loadFaultDetail } from "@/lib/maintenance-requests";
 import { rankSuppliers, describeRank } from "@/lib/supplier-ranking";
 import { RequestDetail } from "@/components/maintenance/request-detail";
+import { RfqPanel } from "@/components/maintenance/rfq-panel";
+import { loadRfqPanel } from "@/lib/rfq";
 import { RiArrowLeftLine } from "react-icons/ri";
 
 export const metadata = { title: "Βλάβη" };
@@ -59,6 +61,7 @@ export default async function MaintenanceDetailPage({ params }: { params: Promis
     );
     supplierOptions = ranked.map((r) => ({ id: r.id, name: describeRank(r) }));
   }
+  const rfqPanel = canAssign ? await loadRfqPanel(id) : null;
 
   return (
     <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 14, maxWidth: 920 }}>
@@ -72,6 +75,9 @@ export default async function MaintenanceDetailPage({ params }: { params: Promis
         suppliers={supplierOptions}
         preferredSupplierId={preferredSupplierId}
       />
+      {rfqPanel && (
+        <RfqPanel requestId={id} handledBy={detail.handledBy} rfqs={rfqPanel.rfqs} workOrders={rfqPanel.workOrders} defaults={rfqPanel.defaults} suppliers={supplierOptions} />
+      )}
     </div>
   );
 }

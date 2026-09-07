@@ -474,3 +474,28 @@ export type SupplierService = Prisma.SupplierServiceModel
  * 
  */
 export type SupplierProduct = Prisma.SupplierProductModel
+/**
+ * Model ServiceRequest
+ * 
+ */
+export type ServiceRequest = Prisma.ServiceRequestModel
+/**
+ * Model RfqInvitation
+ * 
+ */
+export type RfqInvitation = Prisma.RfqInvitationModel
+/**
+ * Model SupplierOffer
+ * 
+ */
+export type SupplierOffer = Prisma.SupplierOfferModel
+/**
+ * Model WorkOrder
+ * 
+ */
+export type WorkOrder = Prisma.WorkOrderModel
+/**
+ * Model ContractTemplate
+ * 
+ */
+export type ContractTemplate = Prisma.ContractTemplateModel

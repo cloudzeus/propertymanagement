@@ -26,6 +26,11 @@ export const RBAC_MODULES: readonly RbacModule[] = [
   { key: "metered-plans", label: "Πακέτα Χρεώσεων", surface: "company", menu: { href: "/admin/metered-plans", icon: "RiPriceTag3Line", group: "financials" }, actions: [...CRUD] },
   { key: "customer-wallets", label: "Πορτοφόλια Πελατών", surface: "company", menu: { href: "/admin/customer-wallets", icon: "RiMoneyEuroCircleLine", group: "financials" }, actions: [...CRUD] },
   { key: "maintenance", label: "Συντηρήσεις", surface: "company", menu: { href: "/admin/maintenance", icon: "RiToolsLine", group: "operations" }, actions: [...CRUD] },
+  // Universal phone-first fault report (/report) — one module per surface so every role gets the entry.
+  { key: "report", label: "Δήλωση βλάβης", surface: "company", menu: { href: "/report", icon: "RiAlarmWarningLine", group: "operations" }, actions: [...VIEW] },
+  // Φ2: RFQ → offers → back-to-back work orders (company side).
+  { key: "work-orders", label: "Συμβάσεις έργου", surface: "company", menu: { href: "/admin/work-orders", icon: "RiFileTextLine", group: "operations" }, actions: [...CRUD] },
+  { key: "settings-contracts", label: "Προσφορές & συμβάσεις", surface: "company", menu: { href: "/super-admin/settings/contracts", icon: "RiFileTextLine", group: "settings" }, actions: [...CRUD] },
   { key: "announcements", label: "Ανακοινώσεις", surface: "company", menu: { href: "/admin/announcements", icon: "RiNotification2Line", group: "operations" }, actions: [...CRUD] },
   { key: "calendar", label: "Ημερολόγιο", surface: "company", menu: { href: "/staff/calendar", icon: "RiCalendarLine", group: "operations" }, actions: [...CRUD] },
   { key: "integrations", label: "Ενσωματώσεις", surface: "company", menu: { href: "/super-admin/integrations", icon: "RiLinksLine", group: "settings" }, actions: [...CRUD] },
@@ -70,9 +75,13 @@ export const RBAC_MODULES: readonly RbacModule[] = [
   { key: "portal-files", label: "Αρχεία", surface: "customer", menu: { href: "/portal/files", icon: "RiFileListLine", group: "services" }, actions: [...VIEW] },
   { key: "portal-maintenance", label: "Συντηρήσεις", surface: "customer", menu: { href: "/portal/maintenance", icon: "RiToolsLine", group: "operations" }, actions: [...VIEW] },
   { key: "customer-help", label: "Βοήθεια & οδηγίες", surface: "customer", menu: { href: "/portal/help", icon: "RiQuestionLine", group: "help" }, actions: [...VIEW] },
+  { key: "customer-report", label: "Δήλωση βλάβης", surface: "customer", menu: { href: "/report", icon: "RiAlarmWarningLine", group: "core" }, actions: [...VIEW] },
   // ── Marketplace surface (COLLABORATOR = external supplier's users) ──
   { key: "mkt-dashboard", label: "Dashboard", surface: "marketplace", menu: { href: "/marketplace", icon: "RiDashboardLine", group: "core" }, actions: [...VIEW] },
   { key: "mkt-tasks", label: "Αναθέσεις", surface: "marketplace", menu: { href: "/marketplace/requests", icon: "RiToolsLine", group: "tasks" }, actions: [...CRUD] },
+  { key: "mkt-rfq", label: "Αιτήματα προσφοράς", surface: "marketplace", menu: { href: "/marketplace/rfq", icon: "RiMoneyEuroCircleLine", group: "tasks" }, actions: [...CRUD] },
+  { key: "mkt-work-orders", label: "Συμβάσεις έργου", surface: "marketplace", menu: { href: "/marketplace/work-orders", icon: "RiFileTextLine", group: "tasks" }, actions: [...CRUD] },
+  { key: "mkt-report", label: "Δήλωση βλάβης", surface: "marketplace", menu: { href: "/report", icon: "RiAlarmWarningLine", group: "tasks" }, actions: [...VIEW] },
   { key: "mkt-catalog", label: "Υπηρεσίες & προϊόντα", surface: "marketplace", menu: { href: "/marketplace/catalog", icon: "RiPriceTag3Line", group: "business" }, actions: [...CRUD] },
   { key: "mkt-team", label: "Ομάδα", surface: "marketplace", menu: { href: "/marketplace/team", icon: "RiGroupLine", group: "business" }, actions: [...CRUD] },
   { key: "mkt-profile", label: "Προφίλ & ωράρια", surface: "marketplace", menu: { href: "/marketplace/profile", icon: "RiStoreLine", group: "business" }, actions: [...CRUD] },
@@ -93,25 +102,25 @@ export const DEFAULT_PERMISSIONS: RoleDefaults = {
   SUPER_ADMIN: all(),
   ADMIN: [
     ...view("dashboard", "reports"),
-    ...crud("properties", "units", "users", "residents", "maintenance", "announcements", "calendar", "managed-items", "managed-buildings", "suppliers"),
+    ...crud("properties", "units", "users", "residents", "maintenance", "announcements", "calendar", "managed-items", "managed-buildings", "suppliers", "work-orders"),
     ...crud("metered-plans", "customer-wallets"),
-    ...view("api-costs"), ...crud("settings", "settings-payments"), ...view("help"),
+    ...view("api-costs"), ...crud("settings", "settings-payments", "settings-contracts"), ...view("help", "report"),
   ],
   MANAGER: [
-    ...view("dashboard", "calendar", "help"),
-    ...crud("properties", "units", "maintenance", "announcements", "managed-items", "managed-buildings", "suppliers"),
+    ...view("dashboard", "calendar", "help", "report"),
+    ...crud("properties", "units", "maintenance", "announcements", "managed-items", "managed-buildings", "suppliers", "work-orders"),
   ],
   EMPLOYEE: [
-    ...view("mkt-dashboard", "mkt-calendar", "managed-buildings", "suppliers", "help"), ...crud("mkt-tasks", "mkt-maintenance"),
+    ...view("mkt-dashboard", "mkt-calendar", "managed-buildings", "suppliers", "help", "report"), ...crud("mkt-tasks", "mkt-maintenance"),
     ...crud("managed-items"), ...view("maintenance", "calendar"),
   ],
   PROPERTY_ADMIN: [
-    ...view("customer-dashboard", "customer-help"),
+    ...view("customer-dashboard", "customer-help", "customer-report"),
     ...crud("customer-properties", "customer-units", "customer-maintenance", "customer-communication", "customer-suppliers"),
     ...view("customer-wallet"),
   ],
   PROPERTY_OWNER: [
-    ...view("customer-dashboard", "customer-income", "customer-help"),
+    ...view("customer-dashboard", "customer-income", "customer-help", "customer-report"),
     ...crud("owner-requests"),
     // owner-announcements («Ανακοινώσεις») removed as a top-level menu grant — the
     // building-tree sidebar surfaces Ανακοινώσεις per building, and the /owner
@@ -122,13 +131,13 @@ export const DEFAULT_PERMISSIONS: RoleDefaults = {
     // customer-announcements («Ανακοινώσεις») removed as a top-level menu grant —
     // per-building announcements live in the building tree; the /portal dashboard
     // shows the consolidated announcements widget.
-    ...view("portal-payments", "portal-files", "portal-maintenance", "customer-help"),
+    ...view("portal-payments", "portal-files", "portal-maintenance", "customer-help", "customer-report"),
   ],
   PROPERTY_VIEWER: [
     ...view("customer-dashboard", "customer-announcements"),
   ],
   COLLABORATOR: [
-    ...view("mkt-dashboard", "mkt-help"), ...crud("mkt-tasks", "mkt-catalog", "mkt-team", "mkt-profile"),
+    ...view("mkt-dashboard", "mkt-help", "mkt-report"), ...crud("mkt-tasks", "mkt-rfq", "mkt-work-orders", "mkt-catalog", "mkt-team", "mkt-profile"),
   ],
 };
 

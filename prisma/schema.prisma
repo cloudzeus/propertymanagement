@@ -568,6 +568,7 @@ model Customer {
   announcements         Announcement[] @relation("customerAnnouncements")
   meteredPlan           CustomerMeteredPlan?
   suppliers             Supplier[] @relation("customerSuppliers") // the customer's PRIVATE supplier list
+  workOrders            WorkOrder[]
 
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt
@@ -702,6 +703,8 @@ model Building {
   meterReadings         MeterReading[]
   heatingReadings       UnitHeatingReading[]
   preferredSuppliers    BuildingPreferredSupplier[]
+  serviceRequests       ServiceRequest[]
+  workOrders            WorkOrder[]
 
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt
@@ -1673,6 +1676,8 @@ model MaintenanceRequest {
   supplierId            String?
   supplier              Supplier? @relation("maintenanceSupplier", fields: [supplierId], references: [id], onDelete: SetNull)
   supplierRating        SupplierRating?
+  serviceRequests       ServiceRequest[]
+  workOrders            WorkOrder[]
 
   attachmentUrl         String?  // BunnyCDN URL
 
@@ -1715,6 +1720,7 @@ model MaintenanceCategory {
   suppliers     SupplierCategory[] // suppliers declaring this as a specialty
   preferredBy   BuildingPreferredSupplier[]
   catalogItems  ServiceCatalogItem[]
+  serviceRequests ServiceRequest[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -1973,6 +1979,11 @@ model AppSettings {
   providerVivaMerchantId      String?
   providerVivaApiKeyEnc       String?
   providerVivaSourceCode      String?
+
+  // Suppliers program (Φ2): defaults for offers → work orders
+  offerMarkupPct  Decimal  @default(15) @db.Decimal(5, 2) // % added on top of the supplier price
+  warrantyMonths  Int      @default(6)
+  silentAcceptDays Int     @default(5) // customer confirmation deemed given after N business days
 
   updatedAt       DateTime @updatedAt
   updatedById     String?
@@ -2247,6 +2258,9 @@ model Supplier {
   users        User[]   @relation("supplierUsers")
   ratings      SupplierRating[]
   preferredFor BuildingPreferredSupplier[]
+  rfqInvitations RfqInvitation[]
+  offers       SupplierOffer[]
+  workOrders   WorkOrder[]
   categories   SupplierCategory[]
   services     SupplierService[]
   products     SupplierProduct[]
@@ -2364,4 +2378,195 @@ model SupplierProduct {
   updatedAt   DateTime @updatedAt
 
   @@index([supplierId])
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// Συνεργάτες Φ2 — Αίτημα προσφοράς (RFQ) → Προσφορά → Σύμβαση έργου (WorkOrder)
+//
+// The company sends an RFQ for a fault/supply to 1..n registry suppliers; each
+// answers with an offer (net price, validity, earliest date). The company picks
+// ONE, adds its markup and forwards it to the customer as a WorkOrder in
+// PENDING_CUSTOMER. The customer sees only the company and `customerPrice`;
+// `supplierPrice` never leaves the company side. Covered jobs skip acceptance.
+// ═══════════════════════════════════════════════════════════════════════════
+enum RfqStatus {
+  OPEN
+  OFFERED
+  FORWARDED
+  ACCEPTED
+  DECLINED
+  CANCELLED
+  EXPIRED
+}
+
+enum OfferStatus {
+  SUBMITTED
+  WITHDRAWN
+  SELECTED
+  REJECTED
+}
+
+enum WorkOrderStatus {
+  PENDING_CUSTOMER
+  ACCEPTED
+  DECLINED
+  SCHEDULED
+  IN_PROGRESS
+  COMPLETED
+  CONFIRMED
+  DISPUTED
+  CANCELLED
+}
+
+model ServiceRequest {
+  id                   String   @id @default(cuid())
+  buildingId           String
+  building             Building @relation(fields: [buildingId], references: [id], onDelete: Cascade)
+  maintenanceRequestId String?
+  maintenanceRequest   MaintenanceRequest? @relation(fields: [maintenanceRequestId], references: [id], onDelete: SetNull)
+  categoryId           String?
+  category             MaintenanceCategory? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+
+  title                String
+  description          String   @db.Text
+  status               RfqStatus @default(OPEN)
+  deadlineAt           DateTime?
+  surveyRequired       Boolean  @default(false) // ask suppliers to quote a site survey
+  notes                String?  @db.Text        // internal, company only
+
+  createdById          String?
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  invitations          RfqInvitation[]
+  offers               SupplierOffer[]
+  workOrders           WorkOrder[]
+
+  @@index([buildingId])
+  @@index([maintenanceRequestId])
+  @@index([status])
+}
+
+model RfqInvitation {
+  id            String   @id @default(cuid())
+  rfqId         String
+  rfq           ServiceRequest @relation(fields: [rfqId], references: [id], onDelete: Cascade)
+  supplierId    String
+  supplier      Supplier @relation(fields: [supplierId], references: [id], onDelete: Cascade)
+  status        String   @default("INVITED") // INVITED, OFFERED, DECLINED
+  sentAt        DateTime @default(now())
+  viewedAt      DateTime?
+  declineReason String?
+
+  @@unique([rfqId, supplierId])
+  @@index([supplierId])
+}
+
+model SupplierOffer {
+  id               String   @id @default(cuid())
+  rfqId            String
+  rfq              ServiceRequest @relation(fields: [rfqId], references: [id], onDelete: Cascade)
+  supplierId       String
+  supplier         Supplier @relation(fields: [supplierId], references: [id], onDelete: Cascade)
+
+  amount           Decimal  @db.Decimal(10, 2) // net, what the supplier charges the company
+  vatPct           Int      @default(24)
+  surveyFee        Decimal? @db.Decimal(10, 2)
+  surveyWaived     Boolean  @default(true)
+  lines            Json?    // [{ name, qty, unit, unitPrice }]
+  description      String?  @db.Text
+  estimatedMinutes Int?
+  earliestDate     DateTime?
+  validUntil       DateTime?
+  status           OfferStatus @default(SUBMITTED)
+  submittedById    String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  workOrder        WorkOrder?
+
+  @@index([rfqId])
+  @@index([supplierId])
+}
+
+model WorkOrder {
+  id                    String   @id @default(cuid())
+  number                String   @unique // WO-2026-0042
+  buildingId            String
+  building              Building @relation(fields: [buildingId], references: [id], onDelete: Cascade)
+  customerId            String
+  customer              Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  supplierId            String
+  supplier              Supplier @relation(fields: [supplierId], references: [id], onDelete: Restrict)
+  maintenanceRequestId  String?
+  maintenanceRequest    MaintenanceRequest? @relation(fields: [maintenanceRequestId], references: [id], onDelete: SetNull)
+  rfqId                 String?
+  rfq                   ServiceRequest? @relation(fields: [rfqId], references: [id], onDelete: SetNull)
+  offerId               String?  @unique
+  offer                 SupplierOffer? @relation(fields: [offerId], references: [id], onDelete: SetNull)
+
+  title                 String
+  description           String   @db.Text
+  covered               Boolean  @default(false) // covered by the management contract → no customer price
+  // Two prices (back-to-back): what the company pays vs. what it charges
+  supplierPrice         Decimal  @db.Decimal(10, 2)
+  customerPrice         Decimal  @db.Decimal(10, 2)
+  vatPct                Int      @default(24)
+  markupPct             Decimal? @db.Decimal(5, 2)
+  surveyFee             Decimal? @db.Decimal(10, 2)
+  surveyWaived          Boolean  @default(true)
+  warrantyMonths        Int?
+
+  status                WorkOrderStatus @default(PENDING_CUSTOMER)
+  customerMessage       String?  @db.Text  // what the customer reads with the offer
+  earliestDate          DateTime?
+  validUntil            DateTime?
+
+  // Acceptance trail (click + IP/UA/time)
+  customerAcceptedAt    DateTime?
+  customerAcceptedById  String?
+  customerAcceptedIp    String?
+  customerAcceptedUa    String?
+  customerDeclinedAt    DateTime?
+  customerDeclineReason String?
+  supplierAcceptedAt    DateTime?
+  supplierAcceptedById  String?
+
+  scheduledAt           DateTime?
+
+  // Proof of repair + customer confirmation (next slice)
+  completedAt           DateTime?
+  completionNote        String?  @db.Text
+  completionMediaIds    Json?
+  customerConfirmedAt   DateTime?
+  customerConfirmedById String?
+  disputeNote           String?  @db.Text
+
+  // Frozen contract copies (rendered from ContractTemplate at acceptance time)
+  customerContractHtml  String?  @db.Text
+  supplierContractHtml  String?  @db.Text
+
+  createdById           String?
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  @@index([buildingId])
+  @@index([customerId])
+  @@index([supplierId])
+  @@index([status])
+  @@index([maintenanceRequestId])
+}
+
+// Editable contract templates (Markdown with {{placeholders}}), one per side of
+// the back-to-back work order: WO_CUSTOMER (customer ↔ company) and
+// WO_SUPPLIER (company ↔ supplier). Rendered copies are frozen on the WorkOrder.
+model ContractTemplate {
+  id          String   @id @default(cuid())
+  key         String   @unique // WO_CUSTOMER | WO_SUPPLIER
+  title       String
+  body        String   @db.Text
+  version     Int      @default(1)
+  updatedById String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }

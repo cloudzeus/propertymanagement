@@ -136,7 +136,12 @@ export const ModelName = {
   SupplierCategory: 'SupplierCategory',
   ServiceCatalogItem: 'ServiceCatalogItem',
   SupplierService: 'SupplierService',
-  SupplierProduct: 'SupplierProduct'
+  SupplierProduct: 'SupplierProduct',
+  ServiceRequest: 'ServiceRequest',
+  RfqInvitation: 'RfqInvitation',
+  SupplierOffer: 'SupplierOffer',
+  WorkOrder: 'WorkOrder',
+  ContractTemplate: 'ContractTemplate'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1359,6 +1364,9 @@ export const AppSettingsScalarFieldEnum = {
   providerVivaMerchantId: 'providerVivaMerchantId',
   providerVivaApiKeyEnc: 'providerVivaApiKeyEnc',
   providerVivaSourceCode: 'providerVivaSourceCode',
+  offerMarkupPct: 'offerMarkupPct',
+  warrantyMonths: 'warrantyMonths',
+  silentAcceptDays: 'silentAcceptDays',
   updatedAt: 'updatedAt',
   updatedById: 'updatedById'
 } as const
@@ -1689,6 +1697,122 @@ export const SupplierProductScalarFieldEnum = {
 } as const
 
 export type SupplierProductScalarFieldEnum = (typeof SupplierProductScalarFieldEnum)[keyof typeof SupplierProductScalarFieldEnum]
+
+
+export const ServiceRequestScalarFieldEnum = {
+  id: 'id',
+  buildingId: 'buildingId',
+  maintenanceRequestId: 'maintenanceRequestId',
+  categoryId: 'categoryId',
+  title: 'title',
+  description: 'description',
+  status: 'status',
+  deadlineAt: 'deadlineAt',
+  surveyRequired: 'surveyRequired',
+  notes: 'notes',
+  createdById: 'createdById',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ServiceRequestScalarFieldEnum = (typeof ServiceRequestScalarFieldEnum)[keyof typeof ServiceRequestScalarFieldEnum]
+
+
+export const RfqInvitationScalarFieldEnum = {
+  id: 'id',
+  rfqId: 'rfqId',
+  supplierId: 'supplierId',
+  status: 'status',
+  sentAt: 'sentAt',
+  viewedAt: 'viewedAt',
+  declineReason: 'declineReason'
+} as const
+
+export type RfqInvitationScalarFieldEnum = (typeof RfqInvitationScalarFieldEnum)[keyof typeof RfqInvitationScalarFieldEnum]
+
+
+export const SupplierOfferScalarFieldEnum = {
+  id: 'id',
+  rfqId: 'rfqId',
+  supplierId: 'supplierId',
+  amount: 'amount',
+  vatPct: 'vatPct',
+  surveyFee: 'surveyFee',
+  surveyWaived: 'surveyWaived',
+  lines: 'lines',
+  description: 'description',
+  estimatedMinutes: 'estimatedMinutes',
+  earliestDate: 'earliestDate',
+  validUntil: 'validUntil',
+  status: 'status',
+  submittedById: 'submittedById',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SupplierOfferScalarFieldEnum = (typeof SupplierOfferScalarFieldEnum)[keyof typeof SupplierOfferScalarFieldEnum]
+
+
+export const WorkOrderScalarFieldEnum = {
+  id: 'id',
+  number: 'number',
+  buildingId: 'buildingId',
+  customerId: 'customerId',
+  supplierId: 'supplierId',
+  maintenanceRequestId: 'maintenanceRequestId',
+  rfqId: 'rfqId',
+  offerId: 'offerId',
+  title: 'title',
+  description: 'description',
+  covered: 'covered',
+  supplierPrice: 'supplierPrice',
+  customerPrice: 'customerPrice',
+  vatPct: 'vatPct',
+  markupPct: 'markupPct',
+  surveyFee: 'surveyFee',
+  surveyWaived: 'surveyWaived',
+  warrantyMonths: 'warrantyMonths',
+  status: 'status',
+  customerMessage: 'customerMessage',
+  earliestDate: 'earliestDate',
+  validUntil: 'validUntil',
+  customerAcceptedAt: 'customerAcceptedAt',
+  customerAcceptedById: 'customerAcceptedById',
+  customerAcceptedIp: 'customerAcceptedIp',
+  customerAcceptedUa: 'customerAcceptedUa',
+  customerDeclinedAt: 'customerDeclinedAt',
+  customerDeclineReason: 'customerDeclineReason',
+  supplierAcceptedAt: 'supplierAcceptedAt',
+  supplierAcceptedById: 'supplierAcceptedById',
+  scheduledAt: 'scheduledAt',
+  completedAt: 'completedAt',
+  completionNote: 'completionNote',
+  completionMediaIds: 'completionMediaIds',
+  customerConfirmedAt: 'customerConfirmedAt',
+  customerConfirmedById: 'customerConfirmedById',
+  disputeNote: 'disputeNote',
+  customerContractHtml: 'customerContractHtml',
+  supplierContractHtml: 'supplierContractHtml',
+  createdById: 'createdById',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type WorkOrderScalarFieldEnum = (typeof WorkOrderScalarFieldEnum)[keyof typeof WorkOrderScalarFieldEnum]
+
+
+export const ContractTemplateScalarFieldEnum = {
+  id: 'id',
+  key: 'key',
+  title: 'title',
+  body: 'body',
+  version: 'version',
+  updatedById: 'updatedById',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ContractTemplateScalarFieldEnum = (typeof ContractTemplateScalarFieldEnum)[keyof typeof ContractTemplateScalarFieldEnum]
 
 
 export const SortOrder = {
