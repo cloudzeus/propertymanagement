@@ -1,0 +1,341 @@
+/* ============================================================
+   Orithon — globals.css
+   Tailwind CSS 4.1. Paste into app/globals.css.
+   Fonts are wired in layout.tsx via next/font and exposed as
+   --font-commissioner / --font-acaslon.
+   ============================================================ */
+
+@import "tailwindcss";
+
+@theme {
+  /* ---- surfaces ---- */
+  --color-bg:        #F4F2EA;
+  --color-card:      #ffffff;
+  --color-paper:     #FBFAF5;
+  --color-alt:       #EFEDE2;
+  --color-chip:      #15161a;
+
+  /* ---- ink ---- */
+  --color-txt:       #1b1c1a;
+  --color-mut:       rgba(27, 28, 26, 0.62);
+  --color-mut2:      rgba(27, 28, 26, 0.42);
+  --color-prose:     #33342f;
+
+  /* ---- accent ---- */
+  --color-accent:    #F2A23C;
+  --color-accent-2:  #5BB6D6;
+
+  /* ---- lines ---- */
+  --color-line:      rgba(27, 28, 26, 0.12);
+  --color-line2:     rgba(27, 28, 26, 0.07);
+
+  /* ---- type ---- */
+  --font-sans:       var(--font-commissioner), system-ui, sans-serif;
+  --font-display:    var(--font-acaslon), Georgia, serif;
+
+  /* ---- radii ---- */
+  --radius-tile:     18px;
+  --radius-panel:    20px;
+  --radius-card:     22px;
+  --radius-quote:    24px;
+
+  /* ---- shadows ---- */
+  --shadow-card:     0 1px 2px rgba(27,28,26,.04), 0 22px 48px -32px rgba(27,28,26,.28);
+  --shadow-card-alt: 0 24px 50px -34px rgba(27,28,26,.3);
+  --shadow-step:     0 20px 44px -34px rgba(27,28,26,.28);
+  --shadow-primary:  0 14px 30px -16px rgba(21,22,26,.55);
+  --shadow-ghost:    0 1px 2px rgba(27,28,26,.04);
+  --shadow-lift:     0 12px 26px -16px rgba(27,28,26,.3);
+  --shadow-photo:    0 44px 80px -40px rgba(27,28,26,.4);
+  --shadow-photo-lg: 0 44px 90px -44px rgba(27,28,26,.4);
+  --shadow-post:     0 30px 58px -34px rgba(27,28,26,.42);
+  --shadow-feature:  0 34px 66px -38px rgba(27,28,26,.4);
+  --shadow-amber:    0 30px 66px -34px rgba(242,162,60,.6), 0 1px 2px rgba(27,28,26,.05);
+  --shadow-amber-sm: 0 10px 26px -18px rgba(242,162,60,.75);
+  --shadow-tab:      0 10px 24px -18px rgba(27,28,26,.35);
+  --shadow-seg:      0 2px 8px -3px rgba(27,28,26,.28);
+  --shadow-open:     0 26px 54px -34px rgba(27,28,26,.34);
+  --shadow-thumb:    0 3px 10px -2px rgba(27,28,26,.42);
+
+  /* ---- motion ---- */
+  --ease-out-soft:   cubic-bezier(.2, .7, .3, 1);
+
+  /* ---- animations ---- */
+  --animate-spin-slow: spin-ring 44s linear infinite;
+  --animate-floaty:    floaty 7s ease-in-out infinite;
+  --animate-floaty-2:  floaty 6s ease-in-out infinite .8s;
+  --animate-marquee:   marquee 30s linear infinite;
+  --animate-fade-in:   fade-in .34s var(--ease-out-soft) both;
+}
+
+/* ============================================================
+   Base
+   ============================================================ */
+
+@layer base {
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+  html, body { overflow-x: clip; }
+
+  body {
+    margin: 0;
+    /* The fixed warm gradient — see 01 §5.1. Required on every page. */
+    background:
+      radial-gradient(120% 95% at 0% 0%,   #F1EED6 0%, transparent 46%),
+      radial-gradient(120% 95% at 100% 0%, #E7F0E0 0%, transparent 48%),
+      var(--color-bg);
+    background-attachment: fixed;
+    color: var(--color-txt);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  img, svg, video { display: block; max-width: 100%; }
+
+  /* Links: defined up front so editor-added links never render browser blue. */
+  a { color: inherit; text-decoration: none; }
+  a:hover { color: var(--color-txt); }
+
+  h1, h2, h3, h4, .text-balance { text-wrap: pretty; }
+
+  input, textarea, select, button { font: inherit; color: inherit; }
+
+  ::selection { background: rgba(242, 162, 60, .28); }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
+  /* Figures must not jitter as values change. */
+  .tnum { font-variant-numeric: tabular-nums; }
+}
+
+/* ============================================================
+   Keyframes
+   ============================================================ */
+
+@keyframes spin-ring {
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+@keyframes floaty {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-13px); }
+}
+@keyframes marquee {
+  to { transform: translateX(-50%); }
+}
+@keyframes reveal-up {
+  from { opacity: 0; transform: translateY(42px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes pop-in {
+  from { opacity: 0; transform: translateY(26px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ============================================================
+   Utilities — the gradient / effect layers from 01 §5.
+   These are genuinely awkward as Tailwind classes; keep them here.
+   ============================================================ */
+
+@utility surface-card {
+  background: var(--color-card);
+  border: 1px solid var(--color-line);
+  box-shadow: var(--shadow-card);
+}
+
+/* Radial glow blob. Set size/position per instance; see 01 §5.2.
+   Parent needs position:relative + overflow:hidden. */
+@utility glow-blob {
+  position: absolute;
+  pointer-events: none;
+  background: radial-gradient(
+    closest-side,
+    rgba(242, 162, 60, .16),
+    rgba(91, 182, 214, .07) 55%,
+    transparent 75%
+  );
+  filter: blur(8px);
+}
+@utility glow-blob-soft {
+  position: absolute;
+  pointer-events: none;
+  background: radial-gradient(
+    closest-side,
+    rgba(242, 162, 60, .15),
+    rgba(91, 182, 214, .06) 56%,
+    transparent 76%
+  );
+  filter: blur(6px);
+}
+
+/* Masked hero grid — the mask is not optional. 01 §5.3 */
+@utility grid-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(27, 28, 26, .045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(27, 28, 26, .045) 1px, transparent 1px);
+  background-size: 54px 54px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 30%, #000, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 30%, #000, transparent 75%);
+}
+
+/* Film grain. multiply, not overlay — this is a light theme. 01 §5.4 */
+@utility grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: .03;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Rotating conic ring, hero right column. 01 §5.5 */
+@utility conic-ring {
+  position: absolute;
+  width: 430px;
+  height: 430px;
+  border-radius: 50%;
+  top: 50%;
+  left: 54%;
+  transform: translate(-50%, -50%);
+  background: conic-gradient(
+    from 200deg,
+    var(--color-accent), var(--color-accent-2),
+    var(--color-accent), var(--color-accent-2),
+    var(--color-accent)
+  );
+  opacity: .32;
+  filter: blur(2px);
+  mask: radial-gradient(circle, transparent 56%, #000 57%, #000 60%, transparent 61%);
+  -webkit-mask: radial-gradient(circle, transparent 56%, #000 57%, #000 60%, transparent 61%);
+  animation: var(--animate-spin-slow);
+}
+
+/* Image scrims. 01 §5.6 — cool slate, never black. */
+@utility scrim-photo {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg,
+    rgba(15, 22, 30, .04) 0%,
+    rgba(15, 22, 30, .06) 50%,
+    rgba(15, 22, 30, .42) 100%);
+}
+@utility scrim-tile {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(15, 22, 30, .02), rgba(15, 22, 30, .5));
+}
+@utility scrim-diagonal {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, rgba(15, 22, 30, .18), rgba(15, 22, 30, .02));
+}
+/* Cream veil — dark text over a full-bleed photo. */
+@utility scrim-cream {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(244, 242, 234, .84), rgba(244, 242, 234, .93));
+}
+
+/* Marquee edge fade. */
+@utility marquee-mask {
+  mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+}
+
+/* Amber tint panel — the only amber fill behind body text. 01 §5.8 */
+@utility panel-amber {
+  background: rgba(242, 162, 60, .13);
+  border: 1px solid rgba(242, 162, 60, .32);
+}
+
+/* Article drop cap. */
+@utility dropcap {
+  &::first-letter {
+    font-family: var(--font-display);
+    font-size: 66px;
+    float: left;
+    line-height: .82;
+    padding: 6px 12px 0 0;
+    color: var(--color-accent);
+  }
+}
+
+/* ============================================================
+   Range slider — the fill percentage is set inline per value:
+   style={{ background: `linear-gradient(90deg, #F2A23C ${p}%, rgba(27,28,26,.10) ${p}%)` }}
+   ============================================================ */
+
+@layer components {
+  .range {
+    -webkit-appearance: none;
+    appearance: none;
+    display: block;
+    width: 100%;
+    height: 6px;
+    margin: 0;
+    border-radius: 999px;
+    background: rgba(27, 28, 26, .10);
+    outline: none;
+  }
+  .range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    border: 3px solid #fff;
+    box-shadow: var(--shadow-thumb);
+    cursor: grab;
+    transition: transform .15s;
+  }
+  .range::-webkit-slider-thumb:active { transform: scale(1.12); cursor: grabbing; }
+  /* Firefox measures the thumb box differently — 16px here matches 22px above. */
+  .range::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    border: 3px solid #fff;
+    box-shadow: var(--shadow-thumb);
+    cursor: grab;
+  }
+
+  /* Scroll reveal. Progressive enhancement: visible if unsupported. */
+  .reveal {
+    animation: reveal-up linear both;
+    animation-timeline: view();
+    animation-range: entry 2% cover 26%;
+  }
+}
+
+@supports not (animation-timeline: view()) {
+  .reveal { animation: none; opacity: 1; transform: none; }
+}
+
+/* ============================================================
+   Reduced motion — kill ambient movement, keep hover feedback.
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .conic-ring,
+  [class*="animate-floaty"],
+  [class*="animate-marquee"] {
+    animation: none !important;
+  }
+  .reveal { animation: none !important; opacity: 1; transform: none; }
+}

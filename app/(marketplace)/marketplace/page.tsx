@@ -1,10 +1,15 @@
-export const metadata = { title: "Marketplace — PropertyPro" };
+import { requireCollaborator } from "@/lib/marketplace";
+import { UnlinkedNotice } from "@/components/marketplace/UnlinkedNotice";
+import { CollaboratorHome } from "@/components/dashboard/homes/CollaboratorHome";
 
-export default function MarketplaceHome() {
+export const metadata = { title: "Συνεργάτης — Dashboard" };
+
+export default async function MarketplaceHome() {
+  const ctx = await requireCollaborator("mkt-dashboard");
+  if (!ctx.supplierId) return <UnlinkedNotice />;
   return (
-    <div className="p-8">
-      <h1 className="text-2xl font-semibold">Marketplace επαγγελματιών</h1>
-      <p className="text-gray-600 mt-2">Η εμπειρία συνεργαζόμενων επαγγελματιών σχεδιάζεται σε επόμενη φάση.</p>
+    <div className="dash-page">
+      <CollaboratorHome supplierId={ctx.supplierId} supplierName={ctx.supplierName} isSupplierAdmin={ctx.isSupplierAdmin} />
     </div>
   );
 }

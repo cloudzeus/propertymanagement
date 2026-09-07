@@ -2,17 +2,36 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getLocale } from "next-intl/server";
 import type { Locale } from "@/i18n";
-import { getArticleBySlug, localizedArticle } from "@/lib/cms/blog";
+import {
+  getArticleBySlug,
+  getRelatedArticles,
+  localizedArticle,
+  readMinutes,
+} from "@/lib/cms/blog";
 import { getMediaByIds } from "@/lib/cms/media";
 import { getSiteSettings } from "@/lib/cms/site-settings";
+import { getMarketingPage } from "@/lib/cms/marketing-pages.server";
 import { pickLocale } from "@/lib/i18n/translatable";
 import { buildMetadata } from "@/lib/seo/metadata";
 import { SITE_BASE } from "@/lib/seo/page-metadata";
 import { articleSchema, breadcrumbSchema } from "@/lib/seo/schema";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { Markdown } from "@/components/cms/Markdown";
-import { LandingHeader } from "@/components/landing/landing-header";
-import { LandingFooter } from "@/components/landing/landing-footer";
+import { MarketingShell } from "@/components/site/MarketingShell";
+import { ReadingProgress } from "@/components/site/ReadingProgress";
+import { Prose } from "@/components/site/Prose";
+import { ShareRow } from "@/components/site/ShareRow";
+import { PostCard, type PostSummary } from "@/components/site/PostCard";
+import {
+  Avatar,
+  Card,
+  GlowBlob,
+  Grain,
+  ImagePlaceholder,
+  Kicker,
+  Tag,
+  Wrap,
+  btnClass,
+} from "@/components/site/kit";
 import { Gallery } from "./Gallery";
 
 // Reads articles from the DB, so it must not be statically prerendered at
@@ -85,99 +104,203 @@ export default async function ArticlePage({
   if (!a || a.status !== "PUBLISHED") notFound();
 
   const locale = (await getLocale()) as Locale;
+  const lang = locale === "en" ? "en" : "el";
   const loc = localizedArticle(a, locale);
+  const content = await getMarketingPage("news", locale);
 
-  const featured = (await getMediaByIds([a.featuredMediaId].filter(Boolean) as string[]))[0];
-  const gallery = await getMediaByIds(((a.galleryMediaIds as string[] | null) ?? []));
-  const avatar = a.author?.avatarMediaId
-    ? (await getMediaByIds([a.author.avatarMediaId]))[0]
-    : null;
+  const [featured, gallery, avatar, related] = await Promise.all([
+    getMediaByIds([a.featuredMediaId].filter(Boolean) as string[]).then((m) => m[0]),
+    getMediaByIds(((a.galleryMediaIds as string[] | null) ?? [])),
+    a.author?.avatarMediaId ? getMediaByIds([a.author.avatarMediaId]).then((m) => m[0]) : null,
+    getRelatedArticles(a.tags, a.slug, 3),
+  ]);
 
-  const date = new Intl.DateTimeFormat(locale).format(new Date(a.publishedAt ?? a.createdAt));
+  const relatedMedia = await getMediaByIds(
+    related.map((r) => r.featuredMediaId).filter(Boolean) as string[],
+  );
+  const relatedById = new Map(relatedMedia.map((m) => [m!.id, m!]));
+
+  const dateFmt = new Intl.DateTimeFormat(lang === "el" ? "el-GR" : "en-GB", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
   const published = a.publishedAt ?? a.createdAt;
+  const date = dateFmt.format(new Date(published));
+  const readTime = loc.body
+    ? content.readTimeTemplate.replace("{minutes}", String(readMinutes(loc.body)))
+    : null;
+  const category = a.tags[0] ?? null;
+
+  const relatedPosts: PostSummary[] = related.map((r) => {
+    const rl = localizedArticle(r, locale);
+    const asset = r.featuredMediaId ? relatedById.get(r.featuredMediaId) : undefined;
+    return {
+      slug: r.slug,
+      title: rl.title,
+      excerpt: rl.excerpt,
+      category: r.tags[0] ?? null,
+      imageUrl: asset?.url ?? null,
+      imageAlt: asset?.alt ?? null,
+      date: dateFmt.format(new Date(r.publishedAt ?? r.createdAt)),
+      readTime: rl.body ? content.readTimeTemplate.replace("{minutes}", String(readMinutes(rl.body))) : null,
+      author: r.author?.name ?? null,
+    };
+  });
 
   return (
-    <div className="min-h-screen bg-white">
-      <LandingHeader />
-      <main className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {a.featuredEmbedUrl ? (
-          <div className="aspect-video overflow-hidden rounded-xl">
-            <iframe
-              src={embedToSrc(a.featuredEmbedUrl)}
-              className="w-full h-full"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
+    <MarketingShell>
+      <ReadingProgress />
+
+      {/* Header — narrow column, over the same glow + grain as the other pages */}
+      <section className="relative overflow-hidden pt-[74px]">
+        <GlowBlob variant="header" />
+        <Grain />
+        <Wrap narrow={760} className="relative">
+          <nav className="mb-[26px] flex flex-wrap items-center gap-2 text-[13px] text-[var(--mut2)]">
+            <Link href="/blog" className="hover:text-[var(--txt)]">
+              {content.article.breadcrumbRoot}
+            </Link>
+            {category ? (
+              <>
+                <span aria-hidden>›</span>
+                <span>{category}</span>
+              </>
+            ) : null}
+          </nav>
+
+          {category ? <div><Tag>{category}</Tag></div> : null}
+
+          <h1 className="mt-5 text-[34px] font-extrabold leading-[1.02] tracking-[-.03em] sm:text-[44px] lg:text-[52px]">
+            {loc.title}
+          </h1>
+
+          {loc.excerpt ? (
+            <p className="mt-[18px] text-[19px] leading-[1.62] text-[var(--mut)]">{loc.excerpt}</p>
+          ) : null}
+
+          <div className="mt-[30px] flex items-center gap-3.5">
+            <Avatar size={46} src={avatar?.url} alt={a.author?.name ?? ""} />
+            <div>
+              {a.author?.name ? <div className="text-[14.5px] font-bold">{a.author.name}</div> : null}
+              <div className="text-[12.5px] text-[var(--mut)]">
+                {[date, readTime].filter(Boolean).join(" · ")}
+              </div>
+            </div>
           </div>
-        ) : featured?.type === "VIDEO" ? (
-          // eslint-disable-next-line jsx-a11y/media-has-caption
-          <video src={featured.url} controls className="w-full rounded-xl" />
-        ) : featured ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={featured.url} alt={loc.title} className="w-full rounded-xl" />
-        ) : null}
+        </Wrap>
+      </section>
 
-        <h1 className="mt-8 text-3xl md:text-4xl font-bold tracking-tight text-gray-900">
-          {loc.title}
-        </h1>
-
-        {(a.author?.name || date) && (
-          <div className="mt-4 flex items-center gap-3 text-sm text-gray-600">
-            {avatar && (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={avatar.url}
-                alt={a.author?.name ?? ""}
-                className="h-9 w-9 rounded-full object-cover"
-              />
+      {/* Hero media — wider than the text column */}
+      {(a.featuredEmbedUrl || featured) && (
+        <Wrap narrow={1000} className="mt-11">
+          <div className="overflow-hidden rounded-[22px] border border-[var(--line)]">
+            {a.featuredEmbedUrl ? (
+              <div className="aspect-video">
+                <iframe
+                  src={embedToSrc(a.featuredEmbedUrl)}
+                  title={loc.title}
+                  className="h-full w-full"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              </div>
+            ) : featured?.type === "VIDEO" ? (
+              <video src={featured.url} controls className="w-full" />
+            ) : (
+              <div className="h-[280px] lg:h-[440px]">
+                <ImagePlaceholder label={featured?.alt || loc.title} src={featured?.url} />
+              </div>
             )}
-            {a.author?.name && <span className="font-medium text-gray-900">{a.author.name}</span>}
-            {a.author?.name && <span aria-hidden>·</span>}
-            <time>{date}</time>
           </div>
-        )}
+          {featured?.title ? (
+            <p className="mt-3 text-center text-[12.5px] italic text-[var(--mut2)]">{featured.title}</p>
+          ) : null}
+        </Wrap>
+      )}
 
-        <div className="mt-8">
-          <Markdown>{loc.body}</Markdown>
+      {/* Body */}
+      <Wrap narrow={760} className="pb-5 pt-14">
+        <div className="mx-auto" style={{ maxWidth: 720 }}>
+          <Prose>{loc.body}</Prose>
+
+          {gallery.length > 0 && (
+            <Gallery items={gallery.map((m) => ({ url: m!.url, alt: m!.alt ?? "" }))} />
+          )}
+
+          <ShareRow label={content.article.shareLabel} title={loc.title} />
+
+          {a.author?.name && (
+            <Card radius={18} className="flex items-start gap-5 px-[30px] py-7">
+              <Avatar size={62} src={avatar?.url} alt={a.author.name} />
+              <div>
+                <div className="text-[16.5px] font-extrabold">{a.author.name}</div>
+                {a.author.bio ? (
+                  <p className="mt-3 text-[14px] leading-[1.6] text-[var(--mut)]">
+                    {pickLocale(a.author.bio as any, locale) as string}
+                  </p>
+                ) : null}
+              </div>
+            </Card>
+          )}
+
+          {a.tags.length > 0 && (
+            <div className="mt-8 flex flex-wrap gap-2">
+              {a.tags.map((t) => (
+                <Link
+                  key={t}
+                  href={`/blog?category=${encodeURIComponent(t)}`}
+                  className="inline-block rounded-full border border-[var(--line2)] bg-[var(--paper)] px-3 py-1.5 text-[12.5px] text-[var(--mut)] transition-colors hover:text-[var(--txt)]"
+                >
+                  {t}
+                </Link>
+              ))}
+            </div>
+          )}
         </div>
+      </Wrap>
 
-        {gallery.length > 0 && (
-          <Gallery items={gallery.map((m) => ({ url: m!.url, alt: m!.alt ?? "" }))} />
-        )}
-
-        {a.tags.length > 0 && (
-          <div className="mt-10 flex flex-wrap gap-2 border-t border-gray-100 pt-6">
-            {a.tags.map((t) => (
-              <Link
-                key={t}
-                href={`/blog?tag=${encodeURIComponent(t)}`}
-                className="inline-block rounded-full border border-gray-200 px-3 py-1 text-sm text-gray-700 transition hover:bg-gray-50"
-              >
-                {t}
+      {/* Related band */}
+      {relatedPosts.length > 0 && (
+        <section className="mt-[60px] bg-[var(--section-alt)] py-[72px]">
+          <Wrap>
+            <div className="mb-8 flex flex-wrap items-end justify-between gap-5">
+              <div>
+                <Kicker>{content.article.relatedKicker}</Kicker>
+                <h2 className="mt-3 text-[30px] font-extrabold leading-[1.05] tracking-[-.02em] sm:text-[36px]">
+                  {content.article.relatedHeading}
+                </h2>
+              </div>
+              <Link href="/blog" className={btnClass("ghost", "sm")}>
+                {content.article.relatedCtaLabel}
               </Link>
-            ))}
-          </div>
-        )}
+            </div>
+            <div className="grid gap-5 min-[560px]:grid-cols-2 lg:grid-cols-3">
+              {relatedPosts.map((post) => (
+                <PostCard key={post.slug} post={post} />
+              ))}
+            </div>
+          </Wrap>
+        </section>
+      )}
 
-        <JsonLd
-          data={[
-            articleSchema({
-              headline: loc.title,
-              url: `${SITE_BASE}/blog/${a.slug}`,
-              description: loc.excerpt,
-              image: featured?.url,
-              datePublished: published?.toISOString?.() ?? undefined,
-              authorName: a.author?.name,
-            }),
-            breadcrumbSchema([
-              { name: "Home", url: SITE_BASE },
-              { name: "Blog", url: `${SITE_BASE}/blog` },
-              { name: loc.title, url: `${SITE_BASE}/blog/${a.slug}` },
-            ]),
-          ]}
-        />
-      </main>
-      <LandingFooter />
-    </div>
+      <JsonLd
+        data={[
+          articleSchema({
+            headline: loc.title,
+            url: `${SITE_BASE}/blog/${a.slug}`,
+            description: loc.excerpt,
+            image: featured?.url,
+            datePublished: published?.toISOString?.() ?? undefined,
+            authorName: a.author?.name,
+          }),
+          breadcrumbSchema([
+            { name: "Home", url: SITE_BASE },
+            { name: content.article.breadcrumbRoot, url: `${SITE_BASE}/blog` },
+            { name: loc.title, url: `${SITE_BASE}/blog/${a.slug}` },
+          ]),
+        ]}
+      />
+    </MarketingShell>
   );
 }

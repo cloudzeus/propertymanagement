@@ -63,13 +63,19 @@ export function useSectionForm(section: { id: string; data: unknown }) {
     setData((d) => ({ ...d, [locale]: { ...d[locale], [key]: items } }));
     setSaved(false);
   }
+  /** Language-independent values that are not media — prices, multipliers, counts.
+   *  Written into every locale so the two dictionaries can never disagree on a number. */
+  function setBoth(key: string, value: unknown) {
+    setData((d) => ({ el: { ...d.el, [key]: value }, en: { ...d.en, [key]: value } }));
+    setSaved(false);
+  }
   function save() {
     start(async () => {
       await updateSection(section.id, data);
       setSaved(true);
     });
   }
-  return { data, cur: data[locale] ?? {}, locale, setLocale, patch, patchMedia, setItems, save, saved, pending };
+  return { data, cur: data[locale] ?? {}, locale, setLocale, patch, patchMedia, setItems, setBoth, save, saved, pending };
 }
 
 /** Titled group of fields — gives long forms visible structure. `cols={2}` lays short inputs side by side. */

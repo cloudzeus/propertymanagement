@@ -10,7 +10,10 @@ export function HeroForm({ section }: { section: { id: string; type: string; dat
     <FormChrome locale={f.locale} setLocale={f.setLocale} save={f.save} saved={f.saved} pending={f.pending}>
       <FormGroup title="Κείμενα" hint="Το βασικό μήνυμα της σελίδας.">
         <CmsField label="Eyebrow (μικρό badge πάνω από τον τίτλο)"><CmsInput value={c.eyebrow ?? ""} onChange={(e) => f.patch({ eyebrow: e.target.value })} /></CmsField>
-        <CmsField label="Τίτλος (H1)"><CmsInput value={c.title ?? ""} onChange={(e) => f.patch({ title: e.target.value })} /></CmsField>
+        <CmsField label="Τίτλος (H1) — πρώτη γραμμή"><CmsInput value={c.title ?? ""} onChange={(e) => f.patch({ title: e.target.value })} /></CmsField>
+        <CmsField label="Τίτλος — δεύτερη γραμμή (πορτοκαλί)" hint="Η γραμμή έμφασης. Αφήστε την κενή για τίτλο μίας γραμμής.">
+          <CmsInput value={c.titleAccent ?? ""} onChange={(e) => f.patch({ titleAccent: e.target.value })} />
+        </CmsField>
         <CmsField label="Υπότιτλος"><CmsTextarea value={c.subtitle ?? ""} onChange={(e) => f.patch({ subtitle: e.target.value })} /></CmsField>
         <CmsField label="Κείμενο εμπιστοσύνης (κάτω από τα κουμπιά)"><CmsInput value={c.trustText ?? ""} onChange={(e) => f.patch({ trustText: e.target.value })} /></CmsField>
       </FormGroup>

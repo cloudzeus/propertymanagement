@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { FormField, FieldInput, FieldSelect, FieldTextarea } from "@/components/ui/modal";
 import { createBuildingExpense, previewExpenseAllocation } from "@/app/actions/building-expenses";
+import { SupplierPicker } from "@/components/suppliers/SupplierPicker";
 
 type UtilityType = "NONE" | "POWER" | "WATER" | "GAS";
 
@@ -92,6 +93,7 @@ export function ExpenseReviewForm({
   const [categoryId, setCategoryId] = useState<string>(initialCat?.category.id ?? "");
   const [supplierName, setSupplierName] = useState(extracted.supplierName ?? "");
   const [supplierVat, setSupplierVat] = useState(extracted.supplierVat ?? "");
+  const [supplierId, setSupplierId] = useState("");
   const [documentNumber, setDocumentNumber] = useState(extracted.documentNumber ?? "");
   const [documentDate, setDocumentDate] = useState(extracted.documentDate ?? "");
   const [netAmount, setNetAmount] = useState(extracted.netAmount != null ? String(extracted.netAmount) : "");
@@ -177,6 +179,7 @@ export function ExpenseReviewForm({
         month,
         supplierName: supplierName || null,
         supplierVat: supplierVat || null,
+        supplierId: supplierId || undefined, // undefined → server auto-links by ΑΦΜ
         documentNumber: documentNumber || null,
         documentDate: documentDate || null,
         netAmount: num(netAmount),
@@ -252,6 +255,11 @@ export function ExpenseReviewForm({
         <FormField label="ΑΦΜ">
           <FieldInput value={supplierVat} onChange={setSupplierVat} />
         </FormField>
+        <div style={{ gridColumn: "span 2" }}>
+          <FormField label="Σύνδεση με προμηθευτή" hint="Από τη λίστα προμηθευτών σας — συνδέεται αυτόματα όταν ταιριάζει το ΑΦΜ">
+            <SupplierPicker buildingId={buildingId} value={supplierId} onChange={setSupplierId} matchAfm={supplierVat} />
+          </FormField>
+        </div>
         <FormField label="Αρ. παραστατικού">
           <FieldInput value={documentNumber} onChange={setDocumentNumber} />
         </FormField>

@@ -417,6 +417,7 @@ export type BuildingWhereInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideListRelationFilter
   meterReadings?: Prisma.MeterReadingListRelationFilter
   heatingReadings?: Prisma.UnitHeatingReadingListRelationFilter
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierListRelationFilter
 }
 
 export type BuildingOrderByWithRelationInput = {
@@ -466,6 +467,7 @@ export type BuildingOrderByWithRelationInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideOrderByRelationAggregateInput
   meterReadings?: Prisma.MeterReadingOrderByRelationAggregateInput
   heatingReadings?: Prisma.UnitHeatingReadingOrderByRelationAggregateInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierOrderByRelationAggregateInput
 }
 
 export type BuildingWhereUniqueInput = Prisma.AtLeast<{
@@ -518,6 +520,7 @@ export type BuildingWhereUniqueInput = Prisma.AtLeast<{
   categoryOverrides?: Prisma.BuildingCategoryOverrideListRelationFilter
   meterReadings?: Prisma.MeterReadingListRelationFilter
   heatingReadings?: Prisma.UnitHeatingReadingListRelationFilter
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierListRelationFilter
 }, "id">
 
 export type BuildingOrderByWithAggregationInput = {
@@ -628,6 +631,7 @@ export type BuildingCreateInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingCreateNestedManyWithoutBuildingInput
   heatingReadings?: Prisma.UnitHeatingReadingCreateNestedManyWithoutBuildingInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUncheckedCreateInput = {
@@ -674,6 +678,7 @@ export type BuildingUncheckedCreateInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingUncheckedCreateNestedManyWithoutBuildingInput
   heatingReadings?: Prisma.UnitHeatingReadingUncheckedCreateNestedManyWithoutBuildingInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierUncheckedCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUpdateInput = {
@@ -720,6 +725,7 @@ export type BuildingUpdateInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUpdateManyWithoutBuildingNestedInput
   heatingReadings?: Prisma.UnitHeatingReadingUpdateManyWithoutBuildingNestedInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateInput = {
@@ -766,6 +772,7 @@ export type BuildingUncheckedUpdateInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUncheckedUpdateManyWithoutBuildingNestedInput
   heatingReadings?: Prisma.UnitHeatingReadingUncheckedUpdateManyWithoutBuildingNestedInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierUncheckedUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingCreateManyInput = {
@@ -1357,6 +1364,20 @@ export type BuildingUpdateOneRequiredWithoutMaintenanceRequestsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.BuildingUpdateToOneWithWhereWithoutMaintenanceRequestsInput, Prisma.BuildingUpdateWithoutMaintenanceRequestsInput>, Prisma.BuildingUncheckedUpdateWithoutMaintenanceRequestsInput>
 }
 
+export type BuildingCreateNestedOneWithoutPreferredSuppliersInput = {
+  create?: Prisma.XOR<Prisma.BuildingCreateWithoutPreferredSuppliersInput, Prisma.BuildingUncheckedCreateWithoutPreferredSuppliersInput>
+  connectOrCreate?: Prisma.BuildingCreateOrConnectWithoutPreferredSuppliersInput
+  connect?: Prisma.BuildingWhereUniqueInput
+}
+
+export type BuildingUpdateOneRequiredWithoutPreferredSuppliersNestedInput = {
+  create?: Prisma.XOR<Prisma.BuildingCreateWithoutPreferredSuppliersInput, Prisma.BuildingUncheckedCreateWithoutPreferredSuppliersInput>
+  connectOrCreate?: Prisma.BuildingCreateOrConnectWithoutPreferredSuppliersInput
+  upsert?: Prisma.BuildingUpsertWithoutPreferredSuppliersInput
+  connect?: Prisma.BuildingWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.BuildingUpdateToOneWithWhereWithoutPreferredSuppliersInput, Prisma.BuildingUpdateWithoutPreferredSuppliersInput>, Prisma.BuildingUncheckedUpdateWithoutPreferredSuppliersInput>
+}
+
 export type BuildingCreateWithoutUsersInput = {
   id?: string
   name: string
@@ -1400,6 +1421,7 @@ export type BuildingCreateWithoutUsersInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingCreateNestedManyWithoutBuildingInput
   heatingReadings?: Prisma.UnitHeatingReadingCreateNestedManyWithoutBuildingInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUncheckedCreateWithoutUsersInput = {
@@ -1445,6 +1467,7 @@ export type BuildingUncheckedCreateWithoutUsersInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingUncheckedCreateNestedManyWithoutBuildingInput
   heatingReadings?: Prisma.UnitHeatingReadingUncheckedCreateNestedManyWithoutBuildingInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierUncheckedCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingCreateOrConnectWithoutUsersInput = {
@@ -1506,6 +1529,7 @@ export type BuildingUpdateWithoutUsersInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUpdateManyWithoutBuildingNestedInput
   heatingReadings?: Prisma.UnitHeatingReadingUpdateManyWithoutBuildingNestedInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateWithoutUsersInput = {
@@ -1551,6 +1575,7 @@ export type BuildingUncheckedUpdateWithoutUsersInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUncheckedUpdateManyWithoutBuildingNestedInput
   heatingReadings?: Prisma.UnitHeatingReadingUncheckedUpdateManyWithoutBuildingNestedInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierUncheckedUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingCreateWithoutCompanyInput = {
@@ -1596,6 +1621,7 @@ export type BuildingCreateWithoutCompanyInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingCreateNestedManyWithoutBuildingInput
   heatingReadings?: Prisma.UnitHeatingReadingCreateNestedManyWithoutBuildingInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUncheckedCreateWithoutCompanyInput = {
@@ -1641,6 +1667,7 @@ export type BuildingUncheckedCreateWithoutCompanyInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingUncheckedCreateNestedManyWithoutBuildingInput
   heatingReadings?: Prisma.UnitHeatingReadingUncheckedCreateNestedManyWithoutBuildingInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierUncheckedCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingCreateOrConnectWithoutCompanyInput = {
@@ -1743,6 +1770,7 @@ export type BuildingCreateWithoutAddonsInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingCreateNestedManyWithoutBuildingInput
   heatingReadings?: Prisma.UnitHeatingReadingCreateNestedManyWithoutBuildingInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUncheckedCreateWithoutAddonsInput = {
@@ -1788,6 +1816,7 @@ export type BuildingUncheckedCreateWithoutAddonsInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingUncheckedCreateNestedManyWithoutBuildingInput
   heatingReadings?: Prisma.UnitHeatingReadingUncheckedCreateNestedManyWithoutBuildingInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierUncheckedCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingCreateOrConnectWithoutAddonsInput = {
@@ -1849,6 +1878,7 @@ export type BuildingUpdateWithoutAddonsInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUpdateManyWithoutBuildingNestedInput
   heatingReadings?: Prisma.UnitHeatingReadingUpdateManyWithoutBuildingNestedInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateWithoutAddonsInput = {
@@ -1894,6 +1924,7 @@ export type BuildingUncheckedUpdateWithoutAddonsInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUncheckedUpdateManyWithoutBuildingNestedInput
   heatingReadings?: Prisma.UnitHeatingReadingUncheckedUpdateManyWithoutBuildingNestedInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierUncheckedUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingCreateWithoutCustomerInput = {
@@ -1939,6 +1970,7 @@ export type BuildingCreateWithoutCustomerInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingCreateNestedManyWithoutBuildingInput
   heatingReadings?: Prisma.UnitHeatingReadingCreateNestedManyWithoutBuildingInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUncheckedCreateWithoutCustomerInput = {
@@ -1984,6 +2016,7 @@ export type BuildingUncheckedCreateWithoutCustomerInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingUncheckedCreateNestedManyWithoutBuildingInput
   heatingReadings?: Prisma.UnitHeatingReadingUncheckedCreateNestedManyWithoutBuildingInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierUncheckedCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingCreateOrConnectWithoutCustomerInput = {
@@ -2055,6 +2088,7 @@ export type BuildingCreateWithoutPropertyInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingCreateNestedManyWithoutBuildingInput
   heatingReadings?: Prisma.UnitHeatingReadingCreateNestedManyWithoutBuildingInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUncheckedCreateWithoutPropertyInput = {
@@ -2100,6 +2134,7 @@ export type BuildingUncheckedCreateWithoutPropertyInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingUncheckedCreateNestedManyWithoutBuildingInput
   heatingReadings?: Prisma.UnitHeatingReadingUncheckedCreateNestedManyWithoutBuildingInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierUncheckedCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingCreateOrConnectWithoutPropertyInput = {
@@ -2171,6 +2206,7 @@ export type BuildingCreateWithoutFilesInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingCreateNestedManyWithoutBuildingInput
   heatingReadings?: Prisma.UnitHeatingReadingCreateNestedManyWithoutBuildingInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUncheckedCreateWithoutFilesInput = {
@@ -2216,6 +2252,7 @@ export type BuildingUncheckedCreateWithoutFilesInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingUncheckedCreateNestedManyWithoutBuildingInput
   heatingReadings?: Prisma.UnitHeatingReadingUncheckedCreateNestedManyWithoutBuildingInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierUncheckedCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingCreateOrConnectWithoutFilesInput = {
@@ -2277,6 +2314,7 @@ export type BuildingUpdateWithoutFilesInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUpdateManyWithoutBuildingNestedInput
   heatingReadings?: Prisma.UnitHeatingReadingUpdateManyWithoutBuildingNestedInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateWithoutFilesInput = {
@@ -2322,6 +2360,7 @@ export type BuildingUncheckedUpdateWithoutFilesInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUncheckedUpdateManyWithoutBuildingNestedInput
   heatingReadings?: Prisma.UnitHeatingReadingUncheckedUpdateManyWithoutBuildingNestedInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierUncheckedUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingCreateWithoutInfraPointsInput = {
@@ -2367,6 +2406,7 @@ export type BuildingCreateWithoutInfraPointsInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingCreateNestedManyWithoutBuildingInput
   heatingReadings?: Prisma.UnitHeatingReadingCreateNestedManyWithoutBuildingInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUncheckedCreateWithoutInfraPointsInput = {
@@ -2412,6 +2452,7 @@ export type BuildingUncheckedCreateWithoutInfraPointsInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingUncheckedCreateNestedManyWithoutBuildingInput
   heatingReadings?: Prisma.UnitHeatingReadingUncheckedCreateNestedManyWithoutBuildingInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierUncheckedCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingCreateOrConnectWithoutInfraPointsInput = {
@@ -2473,6 +2514,7 @@ export type BuildingUpdateWithoutInfraPointsInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUpdateManyWithoutBuildingNestedInput
   heatingReadings?: Prisma.UnitHeatingReadingUpdateManyWithoutBuildingNestedInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateWithoutInfraPointsInput = {
@@ -2518,6 +2560,7 @@ export type BuildingUncheckedUpdateWithoutInfraPointsInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUncheckedUpdateManyWithoutBuildingNestedInput
   heatingReadings?: Prisma.UnitHeatingReadingUncheckedUpdateManyWithoutBuildingNestedInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierUncheckedUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingCreateWithoutContactsInput = {
@@ -2563,6 +2606,7 @@ export type BuildingCreateWithoutContactsInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingCreateNestedManyWithoutBuildingInput
   heatingReadings?: Prisma.UnitHeatingReadingCreateNestedManyWithoutBuildingInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUncheckedCreateWithoutContactsInput = {
@@ -2608,6 +2652,7 @@ export type BuildingUncheckedCreateWithoutContactsInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingUncheckedCreateNestedManyWithoutBuildingInput
   heatingReadings?: Prisma.UnitHeatingReadingUncheckedCreateNestedManyWithoutBuildingInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierUncheckedCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingCreateOrConnectWithoutContactsInput = {
@@ -2669,6 +2714,7 @@ export type BuildingUpdateWithoutContactsInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUpdateManyWithoutBuildingNestedInput
   heatingReadings?: Prisma.UnitHeatingReadingUpdateManyWithoutBuildingNestedInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateWithoutContactsInput = {
@@ -2714,6 +2760,7 @@ export type BuildingUncheckedUpdateWithoutContactsInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUncheckedUpdateManyWithoutBuildingNestedInput
   heatingReadings?: Prisma.UnitHeatingReadingUncheckedUpdateManyWithoutBuildingNestedInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierUncheckedUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingCreateWithoutRecurringTasksInput = {
@@ -2759,6 +2806,7 @@ export type BuildingCreateWithoutRecurringTasksInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingCreateNestedManyWithoutBuildingInput
   heatingReadings?: Prisma.UnitHeatingReadingCreateNestedManyWithoutBuildingInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUncheckedCreateWithoutRecurringTasksInput = {
@@ -2804,6 +2852,7 @@ export type BuildingUncheckedCreateWithoutRecurringTasksInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingUncheckedCreateNestedManyWithoutBuildingInput
   heatingReadings?: Prisma.UnitHeatingReadingUncheckedCreateNestedManyWithoutBuildingInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierUncheckedCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingCreateOrConnectWithoutRecurringTasksInput = {
@@ -2865,6 +2914,7 @@ export type BuildingUpdateWithoutRecurringTasksInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUpdateManyWithoutBuildingNestedInput
   heatingReadings?: Prisma.UnitHeatingReadingUpdateManyWithoutBuildingNestedInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateWithoutRecurringTasksInput = {
@@ -2910,6 +2960,7 @@ export type BuildingUncheckedUpdateWithoutRecurringTasksInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUncheckedUpdateManyWithoutBuildingNestedInput
   heatingReadings?: Prisma.UnitHeatingReadingUncheckedUpdateManyWithoutBuildingNestedInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierUncheckedUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingCreateWithoutMaintenanceLogsInput = {
@@ -2955,6 +3006,7 @@ export type BuildingCreateWithoutMaintenanceLogsInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingCreateNestedManyWithoutBuildingInput
   heatingReadings?: Prisma.UnitHeatingReadingCreateNestedManyWithoutBuildingInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUncheckedCreateWithoutMaintenanceLogsInput = {
@@ -3000,6 +3052,7 @@ export type BuildingUncheckedCreateWithoutMaintenanceLogsInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingUncheckedCreateNestedManyWithoutBuildingInput
   heatingReadings?: Prisma.UnitHeatingReadingUncheckedCreateNestedManyWithoutBuildingInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierUncheckedCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingCreateOrConnectWithoutMaintenanceLogsInput = {
@@ -3061,6 +3114,7 @@ export type BuildingUpdateWithoutMaintenanceLogsInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUpdateManyWithoutBuildingNestedInput
   heatingReadings?: Prisma.UnitHeatingReadingUpdateManyWithoutBuildingNestedInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateWithoutMaintenanceLogsInput = {
@@ -3106,6 +3160,7 @@ export type BuildingUncheckedUpdateWithoutMaintenanceLogsInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUncheckedUpdateManyWithoutBuildingNestedInput
   heatingReadings?: Prisma.UnitHeatingReadingUncheckedUpdateManyWithoutBuildingNestedInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierUncheckedUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingCreateWithoutExpensesInput = {
@@ -3151,6 +3206,7 @@ export type BuildingCreateWithoutExpensesInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingCreateNestedManyWithoutBuildingInput
   heatingReadings?: Prisma.UnitHeatingReadingCreateNestedManyWithoutBuildingInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUncheckedCreateWithoutExpensesInput = {
@@ -3196,6 +3252,7 @@ export type BuildingUncheckedCreateWithoutExpensesInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingUncheckedCreateNestedManyWithoutBuildingInput
   heatingReadings?: Prisma.UnitHeatingReadingUncheckedCreateNestedManyWithoutBuildingInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierUncheckedCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingCreateOrConnectWithoutExpensesInput = {
@@ -3257,6 +3314,7 @@ export type BuildingUpdateWithoutExpensesInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUpdateManyWithoutBuildingNestedInput
   heatingReadings?: Prisma.UnitHeatingReadingUpdateManyWithoutBuildingNestedInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateWithoutExpensesInput = {
@@ -3302,6 +3360,7 @@ export type BuildingUncheckedUpdateWithoutExpensesInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUncheckedUpdateManyWithoutBuildingNestedInput
   heatingReadings?: Prisma.UnitHeatingReadingUncheckedUpdateManyWithoutBuildingNestedInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierUncheckedUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingCreateWithoutCategoryOverridesInput = {
@@ -3347,6 +3406,7 @@ export type BuildingCreateWithoutCategoryOverridesInput = {
   expenses?: Prisma.BuildingExpenseCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingCreateNestedManyWithoutBuildingInput
   heatingReadings?: Prisma.UnitHeatingReadingCreateNestedManyWithoutBuildingInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUncheckedCreateWithoutCategoryOverridesInput = {
@@ -3392,6 +3452,7 @@ export type BuildingUncheckedCreateWithoutCategoryOverridesInput = {
   expenses?: Prisma.BuildingExpenseUncheckedCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingUncheckedCreateNestedManyWithoutBuildingInput
   heatingReadings?: Prisma.UnitHeatingReadingUncheckedCreateNestedManyWithoutBuildingInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierUncheckedCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingCreateOrConnectWithoutCategoryOverridesInput = {
@@ -3453,6 +3514,7 @@ export type BuildingUpdateWithoutCategoryOverridesInput = {
   expenses?: Prisma.BuildingExpenseUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUpdateManyWithoutBuildingNestedInput
   heatingReadings?: Prisma.UnitHeatingReadingUpdateManyWithoutBuildingNestedInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateWithoutCategoryOverridesInput = {
@@ -3498,6 +3560,7 @@ export type BuildingUncheckedUpdateWithoutCategoryOverridesInput = {
   expenses?: Prisma.BuildingExpenseUncheckedUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUncheckedUpdateManyWithoutBuildingNestedInput
   heatingReadings?: Prisma.UnitHeatingReadingUncheckedUpdateManyWithoutBuildingNestedInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierUncheckedUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingCreateWithoutHeatingReadingsInput = {
@@ -3543,6 +3606,7 @@ export type BuildingCreateWithoutHeatingReadingsInput = {
   expenses?: Prisma.BuildingExpenseCreateNestedManyWithoutBuildingInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingCreateNestedManyWithoutBuildingInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUncheckedCreateWithoutHeatingReadingsInput = {
@@ -3588,6 +3652,7 @@ export type BuildingUncheckedCreateWithoutHeatingReadingsInput = {
   expenses?: Prisma.BuildingExpenseUncheckedCreateNestedManyWithoutBuildingInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingUncheckedCreateNestedManyWithoutBuildingInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierUncheckedCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingCreateOrConnectWithoutHeatingReadingsInput = {
@@ -3649,6 +3714,7 @@ export type BuildingUpdateWithoutHeatingReadingsInput = {
   expenses?: Prisma.BuildingExpenseUpdateManyWithoutBuildingNestedInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUpdateManyWithoutBuildingNestedInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateWithoutHeatingReadingsInput = {
@@ -3694,6 +3760,7 @@ export type BuildingUncheckedUpdateWithoutHeatingReadingsInput = {
   expenses?: Prisma.BuildingExpenseUncheckedUpdateManyWithoutBuildingNestedInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUncheckedUpdateManyWithoutBuildingNestedInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierUncheckedUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingCreateWithoutMeterReadingsInput = {
@@ -3739,6 +3806,7 @@ export type BuildingCreateWithoutMeterReadingsInput = {
   expenses?: Prisma.BuildingExpenseCreateNestedManyWithoutBuildingInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideCreateNestedManyWithoutBuildingInput
   heatingReadings?: Prisma.UnitHeatingReadingCreateNestedManyWithoutBuildingInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUncheckedCreateWithoutMeterReadingsInput = {
@@ -3784,6 +3852,7 @@ export type BuildingUncheckedCreateWithoutMeterReadingsInput = {
   expenses?: Prisma.BuildingExpenseUncheckedCreateNestedManyWithoutBuildingInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedCreateNestedManyWithoutBuildingInput
   heatingReadings?: Prisma.UnitHeatingReadingUncheckedCreateNestedManyWithoutBuildingInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierUncheckedCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingCreateOrConnectWithoutMeterReadingsInput = {
@@ -3845,6 +3914,7 @@ export type BuildingUpdateWithoutMeterReadingsInput = {
   expenses?: Prisma.BuildingExpenseUpdateManyWithoutBuildingNestedInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideUpdateManyWithoutBuildingNestedInput
   heatingReadings?: Prisma.UnitHeatingReadingUpdateManyWithoutBuildingNestedInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateWithoutMeterReadingsInput = {
@@ -3890,6 +3960,7 @@ export type BuildingUncheckedUpdateWithoutMeterReadingsInput = {
   expenses?: Prisma.BuildingExpenseUncheckedUpdateManyWithoutBuildingNestedInput
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedUpdateManyWithoutBuildingNestedInput
   heatingReadings?: Prisma.UnitHeatingReadingUncheckedUpdateManyWithoutBuildingNestedInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierUncheckedUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingCreateWithoutManagementAssignmentsInput = {
@@ -3935,6 +4006,7 @@ export type BuildingCreateWithoutManagementAssignmentsInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingCreateNestedManyWithoutBuildingInput
   heatingReadings?: Prisma.UnitHeatingReadingCreateNestedManyWithoutBuildingInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUncheckedCreateWithoutManagementAssignmentsInput = {
@@ -3980,6 +4052,7 @@ export type BuildingUncheckedCreateWithoutManagementAssignmentsInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingUncheckedCreateNestedManyWithoutBuildingInput
   heatingReadings?: Prisma.UnitHeatingReadingUncheckedCreateNestedManyWithoutBuildingInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierUncheckedCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingCreateOrConnectWithoutManagementAssignmentsInput = {
@@ -4041,6 +4114,7 @@ export type BuildingUpdateWithoutManagementAssignmentsInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUpdateManyWithoutBuildingNestedInput
   heatingReadings?: Prisma.UnitHeatingReadingUpdateManyWithoutBuildingNestedInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateWithoutManagementAssignmentsInput = {
@@ -4086,6 +4160,7 @@ export type BuildingUncheckedUpdateWithoutManagementAssignmentsInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUncheckedUpdateManyWithoutBuildingNestedInput
   heatingReadings?: Prisma.UnitHeatingReadingUncheckedUpdateManyWithoutBuildingNestedInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierUncheckedUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingCreateWithoutCommonAreasInput = {
@@ -4131,6 +4206,7 @@ export type BuildingCreateWithoutCommonAreasInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingCreateNestedManyWithoutBuildingInput
   heatingReadings?: Prisma.UnitHeatingReadingCreateNestedManyWithoutBuildingInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUncheckedCreateWithoutCommonAreasInput = {
@@ -4176,6 +4252,7 @@ export type BuildingUncheckedCreateWithoutCommonAreasInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingUncheckedCreateNestedManyWithoutBuildingInput
   heatingReadings?: Prisma.UnitHeatingReadingUncheckedCreateNestedManyWithoutBuildingInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierUncheckedCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingCreateOrConnectWithoutCommonAreasInput = {
@@ -4237,6 +4314,7 @@ export type BuildingUpdateWithoutCommonAreasInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUpdateManyWithoutBuildingNestedInput
   heatingReadings?: Prisma.UnitHeatingReadingUpdateManyWithoutBuildingNestedInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateWithoutCommonAreasInput = {
@@ -4282,6 +4360,7 @@ export type BuildingUncheckedUpdateWithoutCommonAreasInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUncheckedUpdateManyWithoutBuildingNestedInput
   heatingReadings?: Prisma.UnitHeatingReadingUncheckedUpdateManyWithoutBuildingNestedInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierUncheckedUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingCreateWithoutManagedItemsInput = {
@@ -4327,6 +4406,7 @@ export type BuildingCreateWithoutManagedItemsInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingCreateNestedManyWithoutBuildingInput
   heatingReadings?: Prisma.UnitHeatingReadingCreateNestedManyWithoutBuildingInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUncheckedCreateWithoutManagedItemsInput = {
@@ -4372,6 +4452,7 @@ export type BuildingUncheckedCreateWithoutManagedItemsInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingUncheckedCreateNestedManyWithoutBuildingInput
   heatingReadings?: Prisma.UnitHeatingReadingUncheckedCreateNestedManyWithoutBuildingInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierUncheckedCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingCreateOrConnectWithoutManagedItemsInput = {
@@ -4433,6 +4514,7 @@ export type BuildingUpdateWithoutManagedItemsInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUpdateManyWithoutBuildingNestedInput
   heatingReadings?: Prisma.UnitHeatingReadingUpdateManyWithoutBuildingNestedInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateWithoutManagedItemsInput = {
@@ -4478,6 +4560,7 @@ export type BuildingUncheckedUpdateWithoutManagedItemsInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUncheckedUpdateManyWithoutBuildingNestedInput
   heatingReadings?: Prisma.UnitHeatingReadingUncheckedUpdateManyWithoutBuildingNestedInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierUncheckedUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingCreateWithoutUnitsInput = {
@@ -4523,6 +4606,7 @@ export type BuildingCreateWithoutUnitsInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingCreateNestedManyWithoutBuildingInput
   heatingReadings?: Prisma.UnitHeatingReadingCreateNestedManyWithoutBuildingInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUncheckedCreateWithoutUnitsInput = {
@@ -4568,6 +4652,7 @@ export type BuildingUncheckedCreateWithoutUnitsInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingUncheckedCreateNestedManyWithoutBuildingInput
   heatingReadings?: Prisma.UnitHeatingReadingUncheckedCreateNestedManyWithoutBuildingInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierUncheckedCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingCreateOrConnectWithoutUnitsInput = {
@@ -4629,6 +4714,7 @@ export type BuildingUpdateWithoutUnitsInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUpdateManyWithoutBuildingNestedInput
   heatingReadings?: Prisma.UnitHeatingReadingUpdateManyWithoutBuildingNestedInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateWithoutUnitsInput = {
@@ -4674,6 +4760,7 @@ export type BuildingUncheckedUpdateWithoutUnitsInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUncheckedUpdateManyWithoutBuildingNestedInput
   heatingReadings?: Prisma.UnitHeatingReadingUncheckedUpdateManyWithoutBuildingNestedInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierUncheckedUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingCreateWithoutAnnouncementsInput = {
@@ -4719,6 +4806,7 @@ export type BuildingCreateWithoutAnnouncementsInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingCreateNestedManyWithoutBuildingInput
   heatingReadings?: Prisma.UnitHeatingReadingCreateNestedManyWithoutBuildingInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUncheckedCreateWithoutAnnouncementsInput = {
@@ -4764,6 +4852,7 @@ export type BuildingUncheckedCreateWithoutAnnouncementsInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingUncheckedCreateNestedManyWithoutBuildingInput
   heatingReadings?: Prisma.UnitHeatingReadingUncheckedCreateNestedManyWithoutBuildingInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierUncheckedCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingCreateOrConnectWithoutAnnouncementsInput = {
@@ -4825,6 +4914,7 @@ export type BuildingUpdateWithoutAnnouncementsInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUpdateManyWithoutBuildingNestedInput
   heatingReadings?: Prisma.UnitHeatingReadingUpdateManyWithoutBuildingNestedInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateWithoutAnnouncementsInput = {
@@ -4870,6 +4960,7 @@ export type BuildingUncheckedUpdateWithoutAnnouncementsInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUncheckedUpdateManyWithoutBuildingNestedInput
   heatingReadings?: Prisma.UnitHeatingReadingUncheckedUpdateManyWithoutBuildingNestedInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierUncheckedUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingCreateWithoutAssembliesInput = {
@@ -4915,6 +5006,7 @@ export type BuildingCreateWithoutAssembliesInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingCreateNestedManyWithoutBuildingInput
   heatingReadings?: Prisma.UnitHeatingReadingCreateNestedManyWithoutBuildingInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUncheckedCreateWithoutAssembliesInput = {
@@ -4960,6 +5052,7 @@ export type BuildingUncheckedCreateWithoutAssembliesInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingUncheckedCreateNestedManyWithoutBuildingInput
   heatingReadings?: Prisma.UnitHeatingReadingUncheckedCreateNestedManyWithoutBuildingInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierUncheckedCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingCreateOrConnectWithoutAssembliesInput = {
@@ -5021,6 +5114,7 @@ export type BuildingUpdateWithoutAssembliesInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUpdateManyWithoutBuildingNestedInput
   heatingReadings?: Prisma.UnitHeatingReadingUpdateManyWithoutBuildingNestedInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateWithoutAssembliesInput = {
@@ -5066,6 +5160,7 @@ export type BuildingUncheckedUpdateWithoutAssembliesInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUncheckedUpdateManyWithoutBuildingNestedInput
   heatingReadings?: Prisma.UnitHeatingReadingUncheckedUpdateManyWithoutBuildingNestedInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierUncheckedUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingCreateWithoutMaintenanceRequestsInput = {
@@ -5111,6 +5206,7 @@ export type BuildingCreateWithoutMaintenanceRequestsInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingCreateNestedManyWithoutBuildingInput
   heatingReadings?: Prisma.UnitHeatingReadingCreateNestedManyWithoutBuildingInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingUncheckedCreateWithoutMaintenanceRequestsInput = {
@@ -5156,6 +5252,7 @@ export type BuildingUncheckedCreateWithoutMaintenanceRequestsInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedCreateNestedManyWithoutBuildingInput
   meterReadings?: Prisma.MeterReadingUncheckedCreateNestedManyWithoutBuildingInput
   heatingReadings?: Prisma.UnitHeatingReadingUncheckedCreateNestedManyWithoutBuildingInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierUncheckedCreateNestedManyWithoutBuildingInput
 }
 
 export type BuildingCreateOrConnectWithoutMaintenanceRequestsInput = {
@@ -5217,6 +5314,7 @@ export type BuildingUpdateWithoutMaintenanceRequestsInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUpdateManyWithoutBuildingNestedInput
   heatingReadings?: Prisma.UnitHeatingReadingUpdateManyWithoutBuildingNestedInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateWithoutMaintenanceRequestsInput = {
@@ -5252,6 +5350,207 @@ export type BuildingUncheckedUpdateWithoutMaintenanceRequestsInput = {
   addons?: Prisma.AddonFeatureUncheckedUpdateManyWithoutBuildingNestedInput
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutBuildingNestedInput
   assemblies?: Prisma.AssemblyUncheckedUpdateManyWithoutBuildingNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutBuildingNestedInput
+  files?: Prisma.BuildingFileUncheckedUpdateManyWithoutBuildingNestedInput
+  infraPoints?: Prisma.InfraPointUncheckedUpdateManyWithoutBuildingNestedInput
+  contacts?: Prisma.ContactUncheckedUpdateManyWithoutBuildingNestedInput
+  recurringTasks?: Prisma.RecurringTaskUncheckedUpdateManyWithoutBuildingNestedInput
+  maintenanceLogs?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutBuildingNestedInput
+  expenses?: Prisma.BuildingExpenseUncheckedUpdateManyWithoutBuildingNestedInput
+  categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedUpdateManyWithoutBuildingNestedInput
+  meterReadings?: Prisma.MeterReadingUncheckedUpdateManyWithoutBuildingNestedInput
+  heatingReadings?: Prisma.UnitHeatingReadingUncheckedUpdateManyWithoutBuildingNestedInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierUncheckedUpdateManyWithoutBuildingNestedInput
+}
+
+export type BuildingCreateWithoutPreferredSuppliersInput = {
+  id?: string
+  name: string
+  address: string
+  city: string
+  postalCode: string
+  country?: string
+  imageUrl?: string | null
+  floors?: number | null
+  basements?: number | null
+  unitsCount?: number
+  hasElevator?: boolean
+  hasBoiler?: boolean
+  hasFireSafety?: boolean
+  technicalNotes?: string | null
+  elevatorSurchargePerFloor?: number
+  elevatorExemptGroundFloor?: boolean
+  heatingMeterUnit?: string | null
+  lat?: number | null
+  lng?: number | null
+  dailyRoomName?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  company: Prisma.CompanyCreateNestedOneWithoutBuildingsInput
+  property: Prisma.PropertyCreateNestedOneWithoutBuildingsInput
+  customer: Prisma.CustomerCreateNestedOneWithoutBuildingsInput
+  users?: Prisma.UserCreateNestedManyWithoutBuildingInput
+  units?: Prisma.UnitCreateNestedManyWithoutBuildingInput
+  commonAreas?: Prisma.CommonAreaCreateNestedManyWithoutBuildingInput
+  managedItems?: Prisma.ManagedItemCreateNestedManyWithoutBuildingInput
+  addons?: Prisma.AddonFeatureCreateNestedManyWithoutBuildingInput
+  announcements?: Prisma.AnnouncementCreateNestedManyWithoutBuildingInput
+  assemblies?: Prisma.AssemblyCreateNestedManyWithoutBuildingInput
+  maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutBuildingInput
+  managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutBuildingInput
+  files?: Prisma.BuildingFileCreateNestedManyWithoutBuildingInput
+  infraPoints?: Prisma.InfraPointCreateNestedManyWithoutBuildingInput
+  contacts?: Prisma.ContactCreateNestedManyWithoutBuildingInput
+  recurringTasks?: Prisma.RecurringTaskCreateNestedManyWithoutBuildingInput
+  maintenanceLogs?: Prisma.MaintenanceLogCreateNestedManyWithoutBuildingInput
+  expenses?: Prisma.BuildingExpenseCreateNestedManyWithoutBuildingInput
+  categoryOverrides?: Prisma.BuildingCategoryOverrideCreateNestedManyWithoutBuildingInput
+  meterReadings?: Prisma.MeterReadingCreateNestedManyWithoutBuildingInput
+  heatingReadings?: Prisma.UnitHeatingReadingCreateNestedManyWithoutBuildingInput
+}
+
+export type BuildingUncheckedCreateWithoutPreferredSuppliersInput = {
+  id?: string
+  companyId: string
+  propertyId: string
+  customerId: string
+  name: string
+  address: string
+  city: string
+  postalCode: string
+  country?: string
+  imageUrl?: string | null
+  floors?: number | null
+  basements?: number | null
+  unitsCount?: number
+  hasElevator?: boolean
+  hasBoiler?: boolean
+  hasFireSafety?: boolean
+  technicalNotes?: string | null
+  elevatorSurchargePerFloor?: number
+  elevatorExemptGroundFloor?: boolean
+  heatingMeterUnit?: string | null
+  lat?: number | null
+  lng?: number | null
+  dailyRoomName?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutBuildingInput
+  units?: Prisma.UnitUncheckedCreateNestedManyWithoutBuildingInput
+  commonAreas?: Prisma.CommonAreaUncheckedCreateNestedManyWithoutBuildingInput
+  managedItems?: Prisma.ManagedItemUncheckedCreateNestedManyWithoutBuildingInput
+  addons?: Prisma.AddonFeatureUncheckedCreateNestedManyWithoutBuildingInput
+  announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutBuildingInput
+  assemblies?: Prisma.AssemblyUncheckedCreateNestedManyWithoutBuildingInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutBuildingInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutBuildingInput
+  files?: Prisma.BuildingFileUncheckedCreateNestedManyWithoutBuildingInput
+  infraPoints?: Prisma.InfraPointUncheckedCreateNestedManyWithoutBuildingInput
+  contacts?: Prisma.ContactUncheckedCreateNestedManyWithoutBuildingInput
+  recurringTasks?: Prisma.RecurringTaskUncheckedCreateNestedManyWithoutBuildingInput
+  maintenanceLogs?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutBuildingInput
+  expenses?: Prisma.BuildingExpenseUncheckedCreateNestedManyWithoutBuildingInput
+  categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedCreateNestedManyWithoutBuildingInput
+  meterReadings?: Prisma.MeterReadingUncheckedCreateNestedManyWithoutBuildingInput
+  heatingReadings?: Prisma.UnitHeatingReadingUncheckedCreateNestedManyWithoutBuildingInput
+}
+
+export type BuildingCreateOrConnectWithoutPreferredSuppliersInput = {
+  where: Prisma.BuildingWhereUniqueInput
+  create: Prisma.XOR<Prisma.BuildingCreateWithoutPreferredSuppliersInput, Prisma.BuildingUncheckedCreateWithoutPreferredSuppliersInput>
+}
+
+export type BuildingUpsertWithoutPreferredSuppliersInput = {
+  update: Prisma.XOR<Prisma.BuildingUpdateWithoutPreferredSuppliersInput, Prisma.BuildingUncheckedUpdateWithoutPreferredSuppliersInput>
+  create: Prisma.XOR<Prisma.BuildingCreateWithoutPreferredSuppliersInput, Prisma.BuildingUncheckedCreateWithoutPreferredSuppliersInput>
+  where?: Prisma.BuildingWhereInput
+}
+
+export type BuildingUpdateToOneWithWhereWithoutPreferredSuppliersInput = {
+  where?: Prisma.BuildingWhereInput
+  data: Prisma.XOR<Prisma.BuildingUpdateWithoutPreferredSuppliersInput, Prisma.BuildingUncheckedUpdateWithoutPreferredSuppliersInput>
+}
+
+export type BuildingUpdateWithoutPreferredSuppliersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.StringFieldUpdateOperationsInput | string
+  postalCode?: Prisma.StringFieldUpdateOperationsInput | string
+  country?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  floors?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  basements?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  unitsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  hasElevator?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasBoiler?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasFireSafety?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
+  elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  company?: Prisma.CompanyUpdateOneRequiredWithoutBuildingsNestedInput
+  property?: Prisma.PropertyUpdateOneRequiredWithoutBuildingsNestedInput
+  customer?: Prisma.CustomerUpdateOneRequiredWithoutBuildingsNestedInput
+  users?: Prisma.UserUpdateManyWithoutBuildingNestedInput
+  units?: Prisma.UnitUpdateManyWithoutBuildingNestedInput
+  commonAreas?: Prisma.CommonAreaUpdateManyWithoutBuildingNestedInput
+  managedItems?: Prisma.ManagedItemUpdateManyWithoutBuildingNestedInput
+  addons?: Prisma.AddonFeatureUpdateManyWithoutBuildingNestedInput
+  announcements?: Prisma.AnnouncementUpdateManyWithoutBuildingNestedInput
+  assemblies?: Prisma.AssemblyUpdateManyWithoutBuildingNestedInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutBuildingNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutBuildingNestedInput
+  files?: Prisma.BuildingFileUpdateManyWithoutBuildingNestedInput
+  infraPoints?: Prisma.InfraPointUpdateManyWithoutBuildingNestedInput
+  contacts?: Prisma.ContactUpdateManyWithoutBuildingNestedInput
+  recurringTasks?: Prisma.RecurringTaskUpdateManyWithoutBuildingNestedInput
+  maintenanceLogs?: Prisma.MaintenanceLogUpdateManyWithoutBuildingNestedInput
+  expenses?: Prisma.BuildingExpenseUpdateManyWithoutBuildingNestedInput
+  categoryOverrides?: Prisma.BuildingCategoryOverrideUpdateManyWithoutBuildingNestedInput
+  meterReadings?: Prisma.MeterReadingUpdateManyWithoutBuildingNestedInput
+  heatingReadings?: Prisma.UnitHeatingReadingUpdateManyWithoutBuildingNestedInput
+}
+
+export type BuildingUncheckedUpdateWithoutPreferredSuppliersInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  companyId?: Prisma.StringFieldUpdateOperationsInput | string
+  propertyId?: Prisma.StringFieldUpdateOperationsInput | string
+  customerId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.StringFieldUpdateOperationsInput | string
+  postalCode?: Prisma.StringFieldUpdateOperationsInput | string
+  country?: Prisma.StringFieldUpdateOperationsInput | string
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  floors?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  basements?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  unitsCount?: Prisma.IntFieldUpdateOperationsInput | number
+  hasElevator?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasBoiler?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  hasFireSafety?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  technicalNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  elevatorSurchargePerFloor?: Prisma.FloatFieldUpdateOperationsInput | number
+  elevatorExemptGroundFloor?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUncheckedUpdateManyWithoutBuildingNestedInput
+  units?: Prisma.UnitUncheckedUpdateManyWithoutBuildingNestedInput
+  commonAreas?: Prisma.CommonAreaUncheckedUpdateManyWithoutBuildingNestedInput
+  managedItems?: Prisma.ManagedItemUncheckedUpdateManyWithoutBuildingNestedInput
+  addons?: Prisma.AddonFeatureUncheckedUpdateManyWithoutBuildingNestedInput
+  announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutBuildingNestedInput
+  assemblies?: Prisma.AssemblyUncheckedUpdateManyWithoutBuildingNestedInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutBuildingNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutBuildingNestedInput
   files?: Prisma.BuildingFileUncheckedUpdateManyWithoutBuildingNestedInput
   infraPoints?: Prisma.InfraPointUncheckedUpdateManyWithoutBuildingNestedInput
@@ -5334,6 +5633,7 @@ export type BuildingUpdateWithoutCompanyInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUpdateManyWithoutBuildingNestedInput
   heatingReadings?: Prisma.UnitHeatingReadingUpdateManyWithoutBuildingNestedInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateWithoutCompanyInput = {
@@ -5379,6 +5679,7 @@ export type BuildingUncheckedUpdateWithoutCompanyInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUncheckedUpdateManyWithoutBuildingNestedInput
   heatingReadings?: Prisma.UnitHeatingReadingUncheckedUpdateManyWithoutBuildingNestedInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierUncheckedUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateManyWithoutCompanyInput = {
@@ -5478,6 +5779,7 @@ export type BuildingUpdateWithoutCustomerInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUpdateManyWithoutBuildingNestedInput
   heatingReadings?: Prisma.UnitHeatingReadingUpdateManyWithoutBuildingNestedInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateWithoutCustomerInput = {
@@ -5523,6 +5825,7 @@ export type BuildingUncheckedUpdateWithoutCustomerInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUncheckedUpdateManyWithoutBuildingNestedInput
   heatingReadings?: Prisma.UnitHeatingReadingUncheckedUpdateManyWithoutBuildingNestedInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierUncheckedUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateManyWithoutCustomerInput = {
@@ -5622,6 +5925,7 @@ export type BuildingUpdateWithoutPropertyInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUpdateManyWithoutBuildingNestedInput
   heatingReadings?: Prisma.UnitHeatingReadingUpdateManyWithoutBuildingNestedInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateWithoutPropertyInput = {
@@ -5667,6 +5971,7 @@ export type BuildingUncheckedUpdateWithoutPropertyInput = {
   categoryOverrides?: Prisma.BuildingCategoryOverrideUncheckedUpdateManyWithoutBuildingNestedInput
   meterReadings?: Prisma.MeterReadingUncheckedUpdateManyWithoutBuildingNestedInput
   heatingReadings?: Prisma.UnitHeatingReadingUncheckedUpdateManyWithoutBuildingNestedInput
+  preferredSuppliers?: Prisma.BuildingPreferredSupplierUncheckedUpdateManyWithoutBuildingNestedInput
 }
 
 export type BuildingUncheckedUpdateManyWithoutPropertyInput = {
@@ -5720,6 +6025,7 @@ export type BuildingCountOutputType = {
   categoryOverrides: number
   meterReadings: number
   heatingReadings: number
+  preferredSuppliers: number
 }
 
 export type BuildingCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -5741,6 +6047,7 @@ export type BuildingCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensio
   categoryOverrides?: boolean | BuildingCountOutputTypeCountCategoryOverridesArgs
   meterReadings?: boolean | BuildingCountOutputTypeCountMeterReadingsArgs
   heatingReadings?: boolean | BuildingCountOutputTypeCountHeatingReadingsArgs
+  preferredSuppliers?: boolean | BuildingCountOutputTypeCountPreferredSuppliersArgs
 }
 
 /**
@@ -5879,6 +6186,13 @@ export type BuildingCountOutputTypeCountHeatingReadingsArgs<ExtArgs extends runt
   where?: Prisma.UnitHeatingReadingWhereInput
 }
 
+/**
+ * BuildingCountOutputType without action
+ */
+export type BuildingCountOutputTypeCountPreferredSuppliersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.BuildingPreferredSupplierWhereInput
+}
+
 
 export type BuildingSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -5927,6 +6241,7 @@ export type BuildingSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   categoryOverrides?: boolean | Prisma.Building$categoryOverridesArgs<ExtArgs>
   meterReadings?: boolean | Prisma.Building$meterReadingsArgs<ExtArgs>
   heatingReadings?: boolean | Prisma.Building$heatingReadingsArgs<ExtArgs>
+  preferredSuppliers?: boolean | Prisma.Building$preferredSuppliersArgs<ExtArgs>
   _count?: boolean | Prisma.BuildingCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["building"]>
 
@@ -6043,6 +6358,7 @@ export type BuildingInclude<ExtArgs extends runtime.Types.Extensions.InternalArg
   categoryOverrides?: boolean | Prisma.Building$categoryOverridesArgs<ExtArgs>
   meterReadings?: boolean | Prisma.Building$meterReadingsArgs<ExtArgs>
   heatingReadings?: boolean | Prisma.Building$heatingReadingsArgs<ExtArgs>
+  preferredSuppliers?: boolean | Prisma.Building$preferredSuppliersArgs<ExtArgs>
   _count?: boolean | Prisma.BuildingCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type BuildingIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -6080,6 +6396,7 @@ export type $BuildingPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     categoryOverrides: Prisma.$BuildingCategoryOverridePayload<ExtArgs>[]
     meterReadings: Prisma.$MeterReadingPayload<ExtArgs>[]
     heatingReadings: Prisma.$UnitHeatingReadingPayload<ExtArgs>[]
+    preferredSuppliers: Prisma.$BuildingPreferredSupplierPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -6522,6 +6839,7 @@ export interface Prisma__BuildingClient<T, Null = never, ExtArgs extends runtime
   categoryOverrides<T extends Prisma.Building$categoryOverridesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Building$categoryOverridesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BuildingCategoryOverridePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   meterReadings<T extends Prisma.Building$meterReadingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Building$meterReadingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MeterReadingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   heatingReadings<T extends Prisma.Building$heatingReadingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Building$heatingReadingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UnitHeatingReadingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  preferredSuppliers<T extends Prisma.Building$preferredSuppliersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Building$preferredSuppliersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BuildingPreferredSupplierPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7406,6 +7724,30 @@ export type Building$heatingReadingsArgs<ExtArgs extends runtime.Types.Extension
   take?: number
   skip?: number
   distinct?: Prisma.UnitHeatingReadingScalarFieldEnum | Prisma.UnitHeatingReadingScalarFieldEnum[]
+}
+
+/**
+ * Building.preferredSuppliers
+ */
+export type Building$preferredSuppliersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the BuildingPreferredSupplier
+   */
+  select?: Prisma.BuildingPreferredSupplierSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the BuildingPreferredSupplier
+   */
+  omit?: Prisma.BuildingPreferredSupplierOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BuildingPreferredSupplierInclude<ExtArgs> | null
+  where?: Prisma.BuildingPreferredSupplierWhereInput
+  orderBy?: Prisma.BuildingPreferredSupplierOrderByWithRelationInput | Prisma.BuildingPreferredSupplierOrderByWithRelationInput[]
+  cursor?: Prisma.BuildingPreferredSupplierWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.BuildingPreferredSupplierScalarFieldEnum | Prisma.BuildingPreferredSupplierScalarFieldEnum[]
 }
 
 /**

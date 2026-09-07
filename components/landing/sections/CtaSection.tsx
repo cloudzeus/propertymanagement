@@ -1,20 +1,24 @@
 import Link from "next/link";
 import type { CtaData } from "@/lib/cms/landing-types";
 import { Reveal } from "@/components/landing/Reveal";
+import { Grain } from "@/components/site/kit";
 
 export function CtaSection({ data }: { data: CtaData }) {
   return (
     <section id="cta" className="relative overflow-hidden py-[84px] text-center md:py-32">
-      {/* Full-bleed background image behind a light cream scrim */}
-      <div aria-hidden className="absolute inset-0 -z-10">
+      {/*
+        Full-bleed photo under a near-opaque cream veil (handoff 01 §5.6) — the
+        odd scrim out, because dark text sits on top of the photo.
+        No negative z-index: the section has no z-index of its own, so `-z-10`
+        escaped to the root stacking context and painted behind the page
+        background, hiding the photo entirely.
+      */}
+      <div aria-hidden className="absolute inset-0">
         {data.imageUrl ? (
           <>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={data.imageUrl} alt="" className="h-full w-full object-cover" />
-            <div
-              className="absolute inset-0"
-              style={{ background: "linear-gradient(180deg,rgba(244,242,234,.84),rgba(244,242,234,.93))" }}
-            />
+            <div className="scrim-cream" />
           </>
         ) : (
           <div
@@ -23,6 +27,7 @@ export function CtaSection({ data }: { data: CtaData }) {
           />
         )}
       </div>
+      <Grain />
 
       <Reveal className="relative mx-auto max-w-[1200px] px-5 sm:px-7">
         <h2 className="mx-auto max-w-[680px] text-[32px] font-extrabold leading-[1.05] tracking-[-0.02em] text-[var(--foreground)] md:text-[54px]">

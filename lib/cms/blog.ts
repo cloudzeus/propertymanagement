@@ -30,3 +30,33 @@ export async function getAuthor(id: string) { return db.author.findUnique({ wher
 export async function publishedArticleSlugs() {
   return db.article.findMany({ where: { status: "PUBLISHED" }, select: { slug: true } });
 }
+
+/** Articles sharing a tag with `tags`, newest first, excluding `excludeSlug`. */
+export async function getRelatedArticles(tags: string[], excludeSlug: string, take = 3) {
+  const byTag = tags.length
+    ? await db.article.findMany({
+        where: { status: "PUBLISHED", slug: { not: excludeSlug }, tags: { hasSome: tags } },
+        orderBy: { publishedAt: "desc" },
+        take,
+        include: { author: true },
+      })
+    : [];
+  if (byTag.length >= take) return byTag;
+  // Top up with the newest articles so the band is never half-empty.
+  const fill = await db.article.findMany({
+    where: {
+      status: "PUBLISHED",
+      slug: { notIn: [excludeSlug, ...byTag.map((a) => a.slug)] },
+    },
+    orderBy: { publishedAt: "desc" },
+    take: take - byTag.length,
+    include: { author: true },
+  });
+  return [...byTag, ...fill];
+}
+
+/** ~200 words per minute, floored at 1. The design shows a read time on every card. */
+export function readMinutes(body: string): number {
+  const words = body.replace(/<[^>]+>/g, " ").trim().split(/\s+/).filter(Boolean).length;
+  return Math.max(1, Math.round(words / 200));
+}

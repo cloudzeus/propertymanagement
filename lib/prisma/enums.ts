@@ -297,3 +297,12 @@ export const WalletTxnType = {
 } as const
 
 export type WalletTxnType = (typeof WalletTxnType)[keyof typeof WalletTxnType]
+
+
+export const SupplierKind = {
+  SERVICES: 'SERVICES',
+  PRODUCTS: 'PRODUCTS',
+  BOTH: 'BOTH'
+} as const
+
+export type SupplierKind = (typeof SupplierKind)[keyof typeof SupplierKind]

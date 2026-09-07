@@ -6,6 +6,7 @@ import { RiLoaderLine, RiUpload2Line, RiFileTextLine } from "react-icons/ri";
 import { Modal } from "@/components/ui/modal";
 import { type CategorySplit } from "./ExpenseReviewForm";
 import { updateBuildingExpense, uploadExpensePayment, type ExpenseRowDTO, type PaymentMethod } from "@/app/actions/building-expenses";
+import { SupplierPicker } from "@/components/suppliers/SupplierPicker";
 
 const PAYMENT_METHODS: { value: PaymentMethod; label: string }[] = [
   { value: "CARD", label: "Πιστωτική / Χρεωστική κάρτα" },
@@ -36,6 +37,7 @@ export function ExpenseEditModal({
     month: expense.month,
     supplierName: expense.supplierName ?? "",
     supplierVat: expense.supplierVat ?? "",
+    supplierId: expense.supplierId ?? "",
     documentNumber: expense.documentNumber ?? "",
     documentDate: expense.documentDate ? expense.documentDate.slice(0, 10) : "",
     netAmount: expense.netAmount?.toString() ?? "",
@@ -99,6 +101,7 @@ export function ExpenseEditModal({
         month: f.month,
         supplierName: f.supplierName || null,
         supplierVat: f.supplierVat || null,
+        supplierId: f.supplierId || null, // explicit clear stays unlinked
         documentNumber: f.documentNumber || null,
         documentDate: f.documentDate || null,
         netAmount: numOrNull(f.netAmount),
@@ -143,6 +146,10 @@ export function ExpenseEditModal({
           <div><label style={lbl}>Μήνας (YYYY-MM)</label><input value={f.month} onChange={(e) => set("month", e.target.value)} style={inp} /></div>
           <div><label style={lbl}>Προμηθευτής</label><input value={f.supplierName} onChange={(e) => set("supplierName", e.target.value)} style={inp} /></div>
           <div><label style={lbl}>ΑΦΜ</label><input value={f.supplierVat} onChange={(e) => set("supplierVat", e.target.value)} style={inp} /></div>
+          <div style={{ gridColumn: "span 2" }}>
+            <label style={lbl}>Σύνδεση με προμηθευτή</label>
+            <SupplierPicker buildingId={expense.buildingId} value={f.supplierId} onChange={(v) => set("supplierId", v)} matchAfm={f.supplierVat} />
+          </div>
           <div><label style={lbl}>Αρ. παραστατικού</label><input value={f.documentNumber} onChange={(e) => set("documentNumber", e.target.value)} style={inp} /></div>
           <div><label style={lbl}>Ημ/νία παραστατικού</label><input type="date" value={f.documentDate} onChange={(e) => set("documentDate", e.target.value)} style={inp} /></div>
           <div><label style={lbl}>Καθαρή αξία (€)</label><input value={f.netAmount} onChange={(e) => set("netAmount", e.target.value)} style={inp} /></div>

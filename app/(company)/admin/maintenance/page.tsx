@@ -29,6 +29,7 @@ export default async function MaintenancePage() {
       categoryRef: { select: { name: true } },
       reportedBy: { select: { name: true, email: true } },
       assignedTo: { select: { name: true } },
+      supplier: { select: { id: true, name: true } },
     },
   });
 
@@ -43,6 +44,8 @@ export default async function MaintenancePage() {
     unitLabel: r.unit ? `Μονάδα ${r.unit.unitNumber}` : null,
     reporterName: r.reportedBy?.name ?? r.reportedBy?.email ?? null,
     assigneeName: r.assignedTo?.name ?? null,
+    supplierId: r.supplier?.id ?? null,
+    supplierName: r.supplier?.name ?? null,
     slaDueAt: r.slaDueAt?.toISOString() ?? null,
     scheduledDate: r.scheduledDate?.toISOString() ?? null,
     createdAt: r.createdAt.toISOString(),

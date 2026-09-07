@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "timestamp": "2026-07-21T06:04:27.059Z",
+  "timestamp": "2026-09-07T11:31:11.053Z",
   "source": "auto-postool",
   "partial": false,
   "phase": null,
@@ -22,17 +22,65 @@
     },
     {
       "status": "M",
-      "path": "app/(company)/super-admin/buildings/[id]/BuildingDashboard.tsx"
+      "path": "components/admin/sidebar-nav.tsx"
     },
     {
       "status": "M",
-      "path": "components/building/ManagedItemsPanel.tsx"
+      "path": "components/building/AnnouncementsPanel.tsx"
     },
     {
       "status": "M",
-      "path": "components/building/manager-shell/BuildingManagerShell.tsx"
+      "path": "components/building/AssembliesPanel.tsx"
+    },
+    {
+      "status": "M",
+      "path": "components/building/CalendarPanel.tsx"
+    },
+    {
+      "status": "M",
+      "path": "components/building/UnitsPanel.tsx"
+    },
+    {
+      "status": "M",
+      "path": "lib/rbac/registry.ts"
+    },
+    {
+      "status": "??",
+      "path": ".claude/"
+    },
+    {
+      "status": "??",
+      "path": "app/(company)/staff/help/"
+    },
+    {
+      "status": "??",
+      "path": "app/(customer)/portal/help/"
+    },
+    {
+      "status": "??",
+      "path": "app/(marketplace)/marketplace/help/"
+    },
+    {
+      "status": "??",
+      "path": "components/building/wizards/"
+    },
+    {
+      "status": "??",
+      "path": "components/help/"
+    },
+    {
+      "status": "??",
+      "path": "components/ui/guided-flow.tsx"
+    },
+    {
+      "status": "??",
+      "path": "docs/wiki/"
+    },
+    {
+      "status": "??",
+      "path": "lib/help.ts"
     }
   ],
   "next_action": null,
-  "context_notes": "Recent commits:\nd9d297b feat(actions): recurring task can attach to a managed item\n89816fc feat(actions): managed items can target a validated common area\n60e2402 feat(loader): supply common areas and per-item maintenance schedule to building dashboard\nfef62b3 feat(rbac): managed-buildings module + EMPLOYEE access to managed items\nb864a14 chore(prisma): regenerate client for managed-item/common-area/task relations"
+  "context_notes": "Recent commits:\nf16ff64 feat(suppliers): Φ1 — registries, supplier portal + wizard, ranking, mobile fault report\ne2fe895 feat(site): Orithon handoff pages — pricing, FAQ, contact, news, calculator + CMS site-pages\n883a756 Merge feat/managed-items-maintenance: managed items → maintenance, obligations dashboard, calendar\n90e8c5c fix(obligations): accurate per-building drill-down history + recent-activity feed + guard assign schedule\ne5325d4 feat(page): central managed-item assignment modal on obligations page"
 }

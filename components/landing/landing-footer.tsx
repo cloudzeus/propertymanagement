@@ -1,11 +1,16 @@
 import Link from "next/link";
 import { getLocale } from "next-intl/server";
-import { LanguageSwitcher } from "@/components/i18n/LanguageSwitcher";
 import { getChromeSection } from "@/lib/cms/landing";
 import { pickLocale } from "@/lib/i18n/translatable";
 import type { Locale } from "@/i18n";
 import type { FooterData } from "@/lib/cms/landing-types";
 
+/**
+ * Handoff 02 §2 names the columns Product / Company / Resources. Only routes
+ * that actually exist are linked — About, Careers, Security, Help centre and
+ * the API docs are still unwritten, so they are left out rather than shipped
+ * as dead links. Everything here is overridden by the FOOTER CMS section.
+ */
 const COLUMNS: {
   title: { el: string; en: string };
   links: { href: string; el: string; en: string }[];
@@ -13,21 +18,23 @@ const COLUMNS: {
   {
     title: { el: "Προϊόν", en: "Product" },
     links: [
-      { href: "/pricing", el: "Τιμολόγηση", en: "Pricing" },
+      { href: "/pricing", el: "Τιμές", en: "Pricing" },
+      { href: "/#features", el: "Δυνατότητες", en: "Features" },
+      { href: "/#calc", el: "Κοστολόγιο", en: "Calculator" },
       { href: "/services", el: "Υπηρεσίες", en: "Solutions" },
-      { href: "/faq", el: "Συχνές ερωτήσεις", en: "FAQ" },
     ],
   },
   {
     title: { el: "Εταιρία", en: "Company" },
     links: [
-      { href: "/blog", el: "Blog", en: "Blog" },
+      { href: "/blog", el: "Νέα", en: "News" },
       { href: "/contact", el: "Επικοινωνία", en: "Contact" },
     ],
   },
   {
-    title: { el: "Νομικά", en: "Legal" },
+    title: { el: "Πόροι", en: "Resources" },
     links: [
+      { href: "/faq", el: "Συχνές ερωτήσεις", en: "FAQ" },
       { href: "/privacy", el: "Απόρρητο", en: "Privacy" },
       { href: "/terms", el: "Όροι χρήσης", en: "Terms" },
       { href: "/cookie-policy", el: "Πολιτική cookies", en: "Cookie policy" },
@@ -40,6 +47,9 @@ const TAGLINE = {
   en: "Every building, under control. Manage shared expenses, tasks and communication in one platform.",
 };
 
+const RIGHTS = { el: "Με επιφύλαξη παντός δικαιώματος.", en: "All rights reserved." };
+const PLACE = { el: "Αθήνα · Ελλάδα", en: "Athens · Greece" };
+
 export async function LandingFooter() {
   const raw = await getLocale();
   const locale = raw === "en" ? "en" : "el";
@@ -50,42 +60,41 @@ export async function LandingFooter() {
     ? data.columns.map((c) => ({ title: c.heading, links: c.links.map((l) => ({ href: l.href, label: l.label })) }))
     : COLUMNS.map((c) => ({ title: c.title[locale], links: c.links.map((l) => ({ href: l.href, label: l[locale] })) }));
   const tagline = data?.tagline || TAGLINE[locale];
-  const copyright = data?.copyright || `© ${new Date().getFullYear()} Orithon · Athens · Greece`;
+  const copyright =
+    data?.copyright || `© ${new Date().getFullYear()} Orithon. ${RIGHTS[locale]}`;
 
   return (
-    <footer className="border-t" style={{ borderColor: "rgba(27,28,26,.07)" }}>
-      <div className="mx-auto max-w-[1200px] px-5 sm:px-7 pt-14 pb-10">
-        <div className="flex flex-col gap-12 md:flex-row md:justify-between">
+    <footer className="border-t border-[var(--line2)]">
+      <div className="mx-auto max-w-[1200px] px-5 pb-10 pt-14 sm:px-7">
+        <div className="flex flex-wrap justify-between gap-10">
           {/* Brand block */}
-          <div className="max-w-xs">
-            <div className="flex items-center gap-2.5">
+          <div style={{ maxWidth: 300 }}>
+            <div className="flex items-center gap-[11px]">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/orithon/orithon-symbol-black.png" alt="Orithon" width={24} height={24} className="h-6 w-6 object-contain" />
               <span
-                className="text-[19px] font-semibold text-[var(--foreground)]"
-                style={{ fontFamily: "var(--font-display)", letterSpacing: "0.16em" }}
+                className="text-[19px] font-semibold text-[var(--txt)]"
+                style={{ fontFamily: "var(--font-display)", letterSpacing: "0.16em", paddingLeft: ".06em" }}
               >
                 ORITHON
               </span>
             </div>
-            <p className="mt-4 text-sm text-[var(--muted-foreground)] leading-relaxed">
-              {tagline}
-            </p>
+            <p className="mt-4 text-[14px] leading-[1.6] text-[var(--mut)]">{tagline}</p>
           </div>
 
           {/* Link columns */}
-          <div className="grid grid-cols-2 gap-10 sm:grid-cols-3">
+          <div className="flex flex-wrap gap-10 lg:gap-[60px]">
             {columns.map((col) => (
               <div key={col.title}>
-                <div className="mb-3 text-[13px] font-bold uppercase tracking-[0.14em] text-[var(--muted-foreground)]">
+                <div className="u-caps mb-4 text-[12px] font-bold tracking-[.08em] text-[var(--mut2)]">
                   {col.title}
                 </div>
-                <ul className="space-y-2.5">
+                <ul>
                   {col.links.map((link) => (
                     <li key={link.href + link.label}>
                       <Link
                         href={link.href}
-                        className="text-sm text-[var(--muted-foreground)] transition-colors hover:text-[var(--foreground)]"
+                        className="block py-1.5 text-[14px] text-[var(--mut)] transition-colors hover:text-[var(--txt)]"
                       >
                         {link.label}
                       </Link>
@@ -97,13 +106,9 @@ export async function LandingFooter() {
           </div>
         </div>
 
-        {/* Bottom bar */}
-        <div
-          className="mt-12 flex flex-col items-center justify-between gap-4 border-t pt-6 sm:flex-row"
-          style={{ borderColor: "rgba(27,28,26,.07)" }}
-        >
-          <p className="text-[13px] text-[var(--muted-foreground)]">{copyright}</p>
-          <LanguageSwitcher />
+        <div className="mt-[46px] flex flex-wrap items-center justify-between gap-3 border-t border-[var(--line2)] pt-6 text-[13px] text-[var(--mut2)]">
+          <p>{copyright}</p>
+          <p>{PLACE[locale]}</p>
         </div>
       </div>
     </footer>

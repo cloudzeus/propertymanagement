@@ -12,8 +12,9 @@ import { CUSTOMER_ROLES } from "@/lib/roles-constants";
 import type { BuildingCaps } from "@/lib/building-caps";
 import {
   RiHome4Line, RiStore2Line, RiCarLine, RiBox3Line, RiAddLine, RiPencilLine,
-  RiDeleteBinLine, RiCheckLine, RiLoaderLine, RiCalculatorLine, RiUserStarLine, RiUserLine, RiCloseLine, RiSearchLine,
+  RiDeleteBinLine, RiCheckLine, RiLoaderLine, RiCalculatorLine, RiUserStarLine, RiUserLine, RiCloseLine, RiSearchLine, RiGuideLine,
 } from "react-icons/ri";
+import { OccupantWizard } from "./wizards/OccupantWizard";
 
 export type TOccupant = { id: string; name: string | null; email: string };
 export type Unit = {
@@ -40,6 +41,7 @@ export function UnitsPanel({ buildingId, units, can }: { buildingId: string; uni
   const [adding, setAdding] = useState(false);
   const [recalc, setRecalc] = useState(false);
   const [occUnit, setOccUnit] = useState<Unit | null>(null);
+  const [guided, setGuided] = useState<"OWNER" | "RESIDENT" | null>(null); // step-by-step occupant wizard
   const [batchUnits, setBatchUnits] = useState<Unit[] | null>(null);
   const refresh = () => router.refresh();
 
@@ -107,19 +109,23 @@ export function UnitsPanel({ buildingId, units, can }: { buildingId: string; uni
         <UnitModal buildingId={buildingId} editing={editing} onClose={() => { setAdding(false); setEditing(null); }} onDone={() => { setAdding(false); setEditing(null); refresh(); }} />
       )}
       {recalc && <MillesimesModal units={units} buildingId={buildingId} onClose={() => setRecalc(false)} onDone={() => { setRecalc(false); refresh(); }} />}
-      {occUnit && <OccupantsModal unit={occUnit} onClose={() => setOccUnit(null)} onDone={refresh} />}
+      {occUnit && !guided && <OccupantsModal unit={occUnit} onClose={() => setOccUnit(null)} onDone={refresh} onGuided={(role) => setGuided(role)} />}
+      {occUnit && guided && (
+        <OccupantWizard unitId={occUnit.id} unitNumber={occUnit.unitNumber} customerId={occUnit.customerId} initialRole={guided}
+          onClose={() => setGuided(null)} onDone={() => { setGuided(null); setOccUnit(null); refresh(); }} />
+      )}
       {batchUnits && <BatchOccupantModal units={batchUnits} onClose={() => setBatchUnits(null)} onDone={() => { setBatchUnits(null); refresh(); }} />}
     </>
   );
 }
 
-function OccupantsModal({ unit, onClose, onDone }: { unit: Unit; onClose: () => void; onDone: () => void }) {
+function OccupantsModal({ unit, onClose, onDone, onGuided }: { unit: Unit; onClose: () => void; onDone: () => void; onGuided?: (role: "OWNER" | "RESIDENT") => void }) {
   return (
     <Modal open onClose={onClose} title={`Ιδιοκτήτης / Ένοικος — Μονάδα ${unit.unitNumber}`} width={520}
       footer={<button onClick={onClose} style={btnCancel}>Κλείσιμο</button>}>
       <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
-        <Slot unitId={unit.id} customerId={unit.customerId} role="OWNER" label="Ιδιοκτήτης" current={unit.owner} onDone={onDone} />
-        <Slot unitId={unit.id} customerId={unit.customerId} role="RESIDENT" label="Ένοικος" current={unit.resident} onDone={onDone} />
+        <Slot unitId={unit.id} customerId={unit.customerId} role="OWNER" label="Ιδιοκτήτης" current={unit.owner} onDone={onDone} onGuided={onGuided ? () => onGuided("OWNER") : undefined} />
+        <Slot unitId={unit.id} customerId={unit.customerId} role="RESIDENT" label="Ένοικος" current={unit.resident} onDone={onDone} onGuided={onGuided ? () => onGuided("RESIDENT") : undefined} />
       </div>
       <style>{`@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}`}</style>
     </Modal>
@@ -130,7 +136,7 @@ const emptyForm = { name: "", email: "", password: "", phone: "", mobile: "", st
 
 export type OccupantPayload = typeof emptyForm & { isCompany: boolean };
 
-function Slot({ unitId, customerId, role, label, current, onDone }: { unitId: string; customerId: string; role: "OWNER" | "RESIDENT"; label: string; current: TOccupant | null; onDone: () => void }) {
+function Slot({ unitId, customerId, role, label, current, onDone, onGuided }: { unitId: string; customerId: string; role: "OWNER" | "RESIDENT"; label: string; current: TOccupant | null; onDone: () => void; onGuided?: () => void }) {
   const [occupant, setOccupant] = useState<TOccupant | null>(current);
   const [adding, setAdding] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -170,7 +176,10 @@ function Slot({ unitId, customerId, role, label, current, onDone }: { unitId: st
             roles={CUSTOMER_ROLES}
             customerId={customerId}
           />
-          <button onClick={() => setAdding(true)} style={btnSmall}><RiAddLine /> Δημιουργία νέου</button>
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+            {onGuided && <button onClick={onGuided} style={{ ...btnSmall, borderColor: "var(--color-primary)", color: "var(--color-primary)" }}><RiGuideLine /> Οδηγός βήμα-βήμα</button>}
+            <button onClick={() => setAdding(true)} style={btnSmall}><RiAddLine /> Δημιουργία νέου</button>
+          </div>
         </div>
       )}
     </div>

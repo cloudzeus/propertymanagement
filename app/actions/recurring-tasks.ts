@@ -9,8 +9,20 @@ const FREQS = ["WEEKLY", "MONTHLY", "QUARTERLY", "SEMIANNUAL", "ANNUAL", "CUSTOM
 export type TaskFrequency = (typeof FREQS)[number];
 const KINDS = ["GENERAL","ELEVATOR","BOILER","FIRE_SAFETY","HVAC","ELECTRICAL","PLUMBING","OTHER"] as const;
 export type MaintenanceKind = (typeof KINDS)[number];
-export type TaskInput = { title: string; frequency: TaskFrequency; nextDueDate?: string | null; vendor?: string | null; notes?: string | null; active?: boolean; kind?: MaintenanceKind; inServicePackage?: boolean; reminderDaysBefore?: number; managedItemId?: string | null };
+export type TaskInput = { title: string; frequency: TaskFrequency; nextDueDate?: string | null; vendor?: string | null; supplierId?: string | null; notes?: string | null; active?: boolean; kind?: MaintenanceKind; inServicePackage?: boolean; reminderDaysBefore?: number; managedItemId?: string | null };
 const clean = (v?: string | null) => (v?.trim() ? v.trim() : null);
+
+/** A registry supplier may be linked only if the viewer may see it for this building. */
+async function resolveSupplier(buildingId: string, supplierId?: string | null): Promise<{ ok: true; id: string | null } | { error: string }> {
+  const id = supplierId?.trim() || null;
+  if (!id) return { ok: true, id: null };
+  const { getEffectiveSession } = await import("@/lib/auth-effective");
+  const { supplierOptionsForBuilding } = await import("@/lib/suppliers");
+  const eff = await getEffectiveSession();
+  const visible = await supplierOptionsForBuilding(buildingId, eff?.user.role ?? "");
+  if (!visible.some((o) => o.id === id)) return { error: "Ο προμηθευτής δεν είναι διαθέσιμος για αυτό το κτήριο" };
+  return { ok: true, id };
+}
 
 async function resolveManagedItem(buildingId: string, managedItemId?: string | null): Promise<{ ok: true; id: string | null } | { error: string }> {
   const id = managedItemId?.trim() || null;
@@ -39,11 +51,13 @@ export async function createRecurringTask(buildingId: string, data: TaskInput) {
   const freq = FREQS.includes(data.frequency) ? data.frequency : "MONTHLY";
   const mi = await resolveManagedItem(buildingId, data.managedItemId);
   if ("error" in mi) return { error: mi.error };
+  const sup = await resolveSupplier(buildingId, data.supplierId);
+  if ("error" in sup) return { error: sup.error };
   const row = await db.recurringTask.create({
     data: {
       buildingId, title: data.title.trim(), frequency: freq as any,
       nextDueDate: data.nextDueDate ? new Date(data.nextDueDate) : null,
-      vendor: clean(data.vendor), notes: clean(data.notes), active: data.active ?? true,
+      vendor: clean(data.vendor), supplierId: sup.id, notes: clean(data.notes), active: data.active ?? true,
       kind: (KINDS.includes(data.kind as any) ? data.kind : "GENERAL") as any,
       inServicePackage: data.inServicePackage ?? false,
       reminderDaysBefore: Number.isFinite(data.reminderDaysBefore) ? Number(data.reminderDaysBefore) : 7,
@@ -66,6 +80,12 @@ export async function updateRecurringTask(id: string, data: Partial<TaskInput>) 
     if ("error" in mi) return { error: mi.error };
     managedItemId = mi.id;
   }
+  let supplierId: string | null | undefined;
+  if (data.supplierId !== undefined) {
+    const sup = await resolveSupplier(existing.buildingId, data.supplierId);
+    if ("error" in sup) return { error: sup.error };
+    supplierId = sup.id;
+  }
   const row = await db.recurringTask.update({
     where: { id },
     data: {
@@ -73,6 +93,7 @@ export async function updateRecurringTask(id: string, data: Partial<TaskInput>) 
       ...(data.frequency !== undefined ? { frequency: (FREQS.includes(data.frequency) ? data.frequency : "MONTHLY") as any } : {}),
       ...(data.nextDueDate !== undefined ? { nextDueDate: data.nextDueDate ? new Date(data.nextDueDate) : null } : {}),
       ...(data.vendor !== undefined ? { vendor: clean(data.vendor) } : {}),
+      ...(supplierId !== undefined ? { supplierId } : {}),
       ...(data.notes !== undefined ? { notes: clean(data.notes) } : {}),
       ...(data.active !== undefined ? { active: data.active } : {}),
       ...(data.kind !== undefined ? { kind: (KINDS.includes(data.kind as any) ? data.kind : "GENERAL") as any } : {}),

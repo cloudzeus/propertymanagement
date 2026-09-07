@@ -119,6 +119,7 @@ export const ModelName = {
   AppSettings: 'AppSettings',
   ImpersonationEvent: 'ImpersonationEvent',
   LandingSection: 'LandingSection',
+  MarketingPage: 'MarketingPage',
   PageSeo: 'PageSeo',
   UiMessage: 'UiMessage',
   MediaAsset: 'MediaAsset',
@@ -128,7 +129,14 @@ export const ModelName = {
   Role: 'Role',
   RolePermission: 'RolePermission',
   DemoRequest: 'DemoRequest',
-  SupportTicket: 'SupportTicket'
+  SupportTicket: 'SupportTicket',
+  Supplier: 'Supplier',
+  SupplierRating: 'SupplierRating',
+  BuildingPreferredSupplier: 'BuildingPreferredSupplier',
+  SupplierCategory: 'SupplierCategory',
+  ServiceCatalogItem: 'ServiceCatalogItem',
+  SupplierService: 'SupplierService',
+  SupplierProduct: 'SupplierProduct'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -167,6 +175,8 @@ export const UserScalarFieldEnum = {
   companyId: 'companyId',
   customerId: 'customerId',
   buildingId: 'buildingId',
+  supplierId: 'supplierId',
+  isSupplierAdmin: 'isSupplierAdmin',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   lastLoginAt: 'lastLoginAt'
@@ -538,6 +548,7 @@ export const ContactScalarFieldEnum = {
   phone: 'phone',
   email: 'email',
   notes: 'notes',
+  supplierId: 'supplierId',
   createdAt: 'createdAt'
 } as const
 
@@ -559,6 +570,7 @@ export const RecurringTaskScalarFieldEnum = {
   reminderDaysBefore: 'reminderDaysBefore',
   reminderSentAt: 'reminderSentAt',
   managedItemId: 'managedItemId',
+  supplierId: 'supplierId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -592,6 +604,7 @@ export const BuildingExpenseScalarFieldEnum = {
   categoryId: 'categoryId',
   supplierName: 'supplierName',
   supplierVat: 'supplierVat',
+  supplierId: 'supplierId',
   documentNumber: 'documentNumber',
   documentDate: 'documentDate',
   netAmount: 'netAmount',
@@ -1105,6 +1118,7 @@ export const MaintenanceRequestScalarFieldEnum = {
   estimatedMinutes: 'estimatedMinutes',
   reportedById: 'reportedById',
   assignedToId: 'assignedToId',
+  supplierId: 'supplierId',
   attachmentUrl: 'attachmentUrl',
   scheduledDate: 'scheduledDate',
   completedAt: 'completedAt',
@@ -1268,6 +1282,10 @@ export const PricingTierScalarFieldEnum = {
   monthlyPrice: 'monthlyPrice',
   annualPrice: 'annualPrice',
   features: 'features',
+  minPerBuilding: 'minPerBuilding',
+  badge: 'badge',
+  ctaLabel: 'ctaLabel',
+  ctaHref: 'ctaHref',
   highlighted: 'highlighted',
   order: 'order',
   published: 'published',
@@ -1371,6 +1389,17 @@ export const LandingSectionScalarFieldEnum = {
 } as const
 
 export type LandingSectionScalarFieldEnum = (typeof LandingSectionScalarFieldEnum)[keyof typeof LandingSectionScalarFieldEnum]
+
+
+export const MarketingPageScalarFieldEnum = {
+  id: 'id',
+  slug: 'slug',
+  data: 'data',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type MarketingPageScalarFieldEnum = (typeof MarketingPageScalarFieldEnum)[keyof typeof MarketingPageScalarFieldEnum]
 
 
 export const PageSeoScalarFieldEnum = {
@@ -1532,6 +1561,134 @@ export const SupportTicketScalarFieldEnum = {
 } as const
 
 export type SupportTicketScalarFieldEnum = (typeof SupportTicketScalarFieldEnum)[keyof typeof SupportTicketScalarFieldEnum]
+
+
+export const SupplierScalarFieldEnum = {
+  id: 'id',
+  customerId: 'customerId',
+  isPlatform: 'isPlatform',
+  sodType: 'sodType',
+  softoneTrdr: 'softoneTrdr',
+  code: 'code',
+  kind: 'kind',
+  name: 'name',
+  afm: 'afm',
+  doy: 'doy',
+  email: 'email',
+  phone: 'phone',
+  phone2: 'phone2',
+  webpage: 'webpage',
+  address: 'address',
+  city: 'city',
+  district: 'district',
+  postalCode: 'postalCode',
+  country: 'country',
+  isActive: 'isActive',
+  remarks: 'remarks',
+  contactName: 'contactName',
+  contactPhone: 'contactPhone',
+  contactEmail: 'contactEmail',
+  iban: 'iban',
+  bank: 'bank',
+  paymentTermsDays: 'paymentTermsDays',
+  siteSurveyFee: 'siteSurveyFee',
+  siteSurveyFeeWaived: 'siteSurveyFeeWaived',
+  workingHours: 'workingHours',
+  emergency24h: 'emergency24h',
+  lat: 'lat',
+  lng: 'lng',
+  ratingAvg: 'ratingAvg',
+  ratingCount: 'ratingCount',
+  onboardedAt: 'onboardedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SupplierScalarFieldEnum = (typeof SupplierScalarFieldEnum)[keyof typeof SupplierScalarFieldEnum]
+
+
+export const SupplierRatingScalarFieldEnum = {
+  id: 'id',
+  supplierId: 'supplierId',
+  requestId: 'requestId',
+  score: 'score',
+  comment: 'comment',
+  byUserId: 'byUserId',
+  createdAt: 'createdAt'
+} as const
+
+export type SupplierRatingScalarFieldEnum = (typeof SupplierRatingScalarFieldEnum)[keyof typeof SupplierRatingScalarFieldEnum]
+
+
+export const BuildingPreferredSupplierScalarFieldEnum = {
+  id: 'id',
+  buildingId: 'buildingId',
+  categoryId: 'categoryId',
+  supplierId: 'supplierId',
+  note: 'note',
+  createdAt: 'createdAt'
+} as const
+
+export type BuildingPreferredSupplierScalarFieldEnum = (typeof BuildingPreferredSupplierScalarFieldEnum)[keyof typeof BuildingPreferredSupplierScalarFieldEnum]
+
+
+export const SupplierCategoryScalarFieldEnum = {
+  supplierId: 'supplierId',
+  categoryId: 'categoryId'
+} as const
+
+export type SupplierCategoryScalarFieldEnum = (typeof SupplierCategoryScalarFieldEnum)[keyof typeof SupplierCategoryScalarFieldEnum]
+
+
+export const ServiceCatalogItemScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  unit: 'unit',
+  categoryId: 'categoryId',
+  active: 'active',
+  sortOrder: 'sortOrder',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ServiceCatalogItemScalarFieldEnum = (typeof ServiceCatalogItemScalarFieldEnum)[keyof typeof ServiceCatalogItemScalarFieldEnum]
+
+
+export const SupplierServiceScalarFieldEnum = {
+  id: 'id',
+  supplierId: 'supplierId',
+  catalogItemId: 'catalogItemId',
+  name: 'name',
+  description: 'description',
+  unit: 'unit',
+  price: 'price',
+  vatPct: 'vatPct',
+  active: 'active',
+  sortOrder: 'sortOrder',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SupplierServiceScalarFieldEnum = (typeof SupplierServiceScalarFieldEnum)[keyof typeof SupplierServiceScalarFieldEnum]
+
+
+export const SupplierProductScalarFieldEnum = {
+  id: 'id',
+  supplierId: 'supplierId',
+  sku: 'sku',
+  name: 'name',
+  description: 'description',
+  unit: 'unit',
+  price: 'price',
+  vatPct: 'vatPct',
+  active: 'active',
+  sortOrder: 'sortOrder',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SupplierProductScalarFieldEnum = (typeof SupplierProductScalarFieldEnum)[keyof typeof SupplierProductScalarFieldEnum]
 
 
 export const SortOrder = {
