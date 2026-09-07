@@ -17,15 +17,30 @@ interface EmailResponse {
   error?: string;
 }
 
+/**
+ * Safety net for local/staging runs against the shared production database:
+ * when EMAIL_REDIRECT_TO is set (and we are not in production), EVERY outgoing
+ * email goes to that address instead of the real recipients, with the original
+ * recipients noted in the subject. Real people never get test notifications.
+ */
+function redirectRecipients(to: string | string[], subject: string): { to: string; subject: string; redirected: boolean } {
+  const target = process.env.EMAIL_REDIRECT_TO?.trim();
+  const original = Array.isArray(to) ? to.join(",") : to;
+  if (!target || process.env.NODE_ENV === "production") return { to: original, subject, redirected: false };
+  return { to: target, subject: `[TEST → ${original}] ${subject}`, redirected: true };
+}
+
 async function sendEmail(
   options: EmailOptions,
   ctx?: { buildingId?: string; customerId?: string; assemblyId?: string; companyId?: string; userId?: string }
 ): Promise<EmailResponse> {
   try {
+    const routed = redirectRecipients(options.to, options.subject);
+    if (routed.redirected) console.info(`[mail] redirected to ${routed.to}: ${routed.subject}`);
     const form = new FormData();
     form.append("from", options.from ?? env.MAILGUN_FROM_EMAIL);
-    form.append("to", Array.isArray(options.to) ? options.to.join(",") : options.to);
-    form.append("subject", options.subject);
+    form.append("to", routed.to);
+    form.append("subject", routed.subject);
     form.append("html", options.html);
 
     if (options.text) {
@@ -301,10 +316,12 @@ export async function sendEmailWithAttachments(options: {
   attachments: EmailAttachment[];
 }): Promise<EmailResponse> {
   try {
+    const routed = redirectRecipients(options.to, options.subject);
+    if (routed.redirected) console.info(`[mail] redirected to ${routed.to}: ${routed.subject}`);
     const form = new FormData();
     form.append("from", env.MAILGUN_FROM_EMAIL);
-    form.append("to", Array.isArray(options.to) ? options.to.join(",") : options.to);
-    form.append("subject", options.subject);
+    form.append("to", routed.to);
+    form.append("subject", routed.subject);
     form.append("html", options.html);
     if (options.replyTo) form.append("h:Reply-To", options.replyTo);
     (options.tags ?? []).forEach((t) => form.append("o:tag", t));
