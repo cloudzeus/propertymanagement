@@ -449,6 +449,7 @@ export const ModelName = {
   PricingTier: 'PricingTier',
   ContactMessage: 'ContactMessage',
   NewsletterSubscriber: 'NewsletterSubscriber',
+  CronRun: 'CronRun',
   CookieConsent: 'CookieConsent',
   AppSettings: 'AppSettings',
   ImpersonationEvent: 'ImpersonationEvent',
@@ -492,7 +493,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "account" | "session" | "verificationToken" | "company" | "department" | "jobPosition" | "employee" | "subscription" | "addonFeature" | "customer" | "property" | "building" | "unitOccupancy" | "buildingFile" | "infraPoint" | "infraAccess" | "infraMedia" | "contact" | "recurringTask" | "maintenanceLog" | "buildingExpense" | "expenseCategory" | "buildingCategoryOverride" | "unitCategoryExclusion" | "unitHeatingReading" | "meterReading" | "expenseAllocation" | "unitPayment" | "managementAssignment" | "commonArea" | "managedItemType" | "managedItem" | "unit" | "service" | "propertyService" | "serviceInvoice" | "serviceInvoiceLine" | "userCompanyRole" | "announcement" | "announcementTarget" | "announcement_User" | "assembly" | "assemblyParticipant" | "processedWebhook" | "aPIUsageLog" | "aPICostConfig" | "wallet" | "walletTransaction" | "customerMeteredPlan" | "monthlyCostSummary" | "maintenanceRequest" | "maintenanceCategory" | "maintenanceCoverageRule" | "maintenanceAttachment" | "maintenanceStatusEvent" | "maintenanceComment" | "maintenanceSlot" | "maintenanceAppointment" | "notification" | "cMSPage" | "fAQ" | "pricingTier" | "contactMessage" | "newsletterSubscriber" | "cookieConsent" | "appSettings" | "impersonationEvent" | "landingSection" | "marketingPage" | "pageSeo" | "uiMessage" | "mediaAsset" | "siteSettings" | "author" | "article" | "role" | "rolePermission" | "demoRequest" | "supportTicket" | "supplier" | "supplierRating" | "buildingPreferredSupplier" | "supplierCategory" | "serviceCatalogItem" | "supplierService" | "supplierProduct" | "serviceRequest" | "rfqInvitation" | "supplierOffer" | "workOrder" | "supplierInquiry" | "contractTemplate"
+    modelProps: "user" | "account" | "session" | "verificationToken" | "company" | "department" | "jobPosition" | "employee" | "subscription" | "addonFeature" | "customer" | "property" | "building" | "unitOccupancy" | "buildingFile" | "infraPoint" | "infraAccess" | "infraMedia" | "contact" | "recurringTask" | "maintenanceLog" | "buildingExpense" | "expenseCategory" | "buildingCategoryOverride" | "unitCategoryExclusion" | "unitHeatingReading" | "meterReading" | "expenseAllocation" | "unitPayment" | "managementAssignment" | "commonArea" | "managedItemType" | "managedItem" | "unit" | "service" | "propertyService" | "serviceInvoice" | "serviceInvoiceLine" | "userCompanyRole" | "announcement" | "announcementTarget" | "announcement_User" | "assembly" | "assemblyParticipant" | "processedWebhook" | "aPIUsageLog" | "aPICostConfig" | "wallet" | "walletTransaction" | "customerMeteredPlan" | "monthlyCostSummary" | "maintenanceRequest" | "maintenanceCategory" | "maintenanceCoverageRule" | "maintenanceAttachment" | "maintenanceStatusEvent" | "maintenanceComment" | "maintenanceSlot" | "maintenanceAppointment" | "notification" | "cMSPage" | "fAQ" | "pricingTier" | "contactMessage" | "newsletterSubscriber" | "cronRun" | "cookieConsent" | "appSettings" | "impersonationEvent" | "landingSection" | "marketingPage" | "pageSeo" | "uiMessage" | "mediaAsset" | "siteSettings" | "author" | "article" | "role" | "rolePermission" | "demoRequest" | "supportTicket" | "supplier" | "supplierRating" | "buildingPreferredSupplier" | "supplierCategory" | "serviceCatalogItem" | "supplierService" | "supplierProduct" | "serviceRequest" | "rfqInvitation" | "supplierOffer" | "workOrder" | "supplierInquiry" | "contractTemplate"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -5306,6 +5307,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    CronRun: {
+      payload: Prisma.$CronRunPayload<ExtArgs>
+      fields: Prisma.CronRunFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.CronRunFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CronRunPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.CronRunFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CronRunPayload>
+        }
+        findFirst: {
+          args: Prisma.CronRunFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CronRunPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.CronRunFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CronRunPayload>
+        }
+        findMany: {
+          args: Prisma.CronRunFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CronRunPayload>[]
+        }
+        create: {
+          args: Prisma.CronRunCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CronRunPayload>
+        }
+        createMany: {
+          args: Prisma.CronRunCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.CronRunCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CronRunPayload>[]
+        }
+        delete: {
+          args: Prisma.CronRunDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CronRunPayload>
+        }
+        update: {
+          args: Prisma.CronRunUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CronRunPayload>
+        }
+        deleteMany: {
+          args: Prisma.CronRunDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.CronRunUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.CronRunUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CronRunPayload>[]
+        }
+        upsert: {
+          args: Prisma.CronRunUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CronRunPayload>
+        }
+        aggregate: {
+          args: Prisma.CronRunAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateCronRun>
+        }
+        groupBy: {
+          args: Prisma.CronRunGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CronRunGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.CronRunCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CronRunCountAggregateOutputType> | number
+        }
+      }
+    }
     CookieConsent: {
       payload: Prisma.$CookieConsentPayload<ExtArgs>
       fields: Prisma.CookieConsentFieldRefs
@@ -8600,6 +8675,20 @@ export const NewsletterSubscriberScalarFieldEnum = {
 export type NewsletterSubscriberScalarFieldEnum = (typeof NewsletterSubscriberScalarFieldEnum)[keyof typeof NewsletterSubscriberScalarFieldEnum]
 
 
+export const CronRunScalarFieldEnum = {
+  id: 'id',
+  job: 'job',
+  trigger: 'trigger',
+  startedAt: 'startedAt',
+  finishedAt: 'finishedAt',
+  ok: 'ok',
+  result: 'result',
+  error: 'error'
+} as const
+
+export type CronRunScalarFieldEnum = (typeof CronRunScalarFieldEnum)[keyof typeof CronRunScalarFieldEnum]
+
+
 export const CookieConsentScalarFieldEnum = {
   id: 'id',
   sessionId: 'sessionId',
@@ -9929,6 +10018,7 @@ export type GlobalOmitConfig = {
   pricingTier?: Prisma.PricingTierOmit
   contactMessage?: Prisma.ContactMessageOmit
   newsletterSubscriber?: Prisma.NewsletterSubscriberOmit
+  cronRun?: Prisma.CronRunOmit
   cookieConsent?: Prisma.CookieConsentOmit
   appSettings?: Prisma.AppSettingsOmit
   impersonationEvent?: Prisma.ImpersonationEventOmit

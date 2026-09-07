@@ -3,6 +3,7 @@ import { db } from "@/lib/db";
 import type { Prisma } from "@/lib/prisma/client";
 import type { RfqDTO, OfferDTO, WorkOrderDTO } from "@/lib/rfq-shared";
 
+const place = (...parts: (string | null | undefined)[]) => [...new Set(parts.filter(Boolean) as string[])].join(", ");
 const iso = (d: Date | null | undefined) => (d ? d.toISOString() : null);
 const num = (v: Prisma.Decimal | null | undefined) => (v == null ? null : Number(v));
 
@@ -82,7 +83,7 @@ export async function listSupplierRfqs(supplierId: string) {
   return inv.map((i) => ({
     invitationId: i.id, rfqId: i.rfqId, status: i.status, sentAt: i.sentAt.toISOString(), viewedAt: iso(i.viewedAt),
     title: i.rfq.title, description: i.rfq.description, rfqStatus: i.rfq.status, deadlineAt: iso(i.rfq.deadlineAt), surveyRequired: i.rfq.surveyRequired,
-    building: [i.rfq.building.name, i.rfq.building.address, i.rfq.building.city].filter(Boolean).join(", "), category: i.rfq.category?.name ?? null,
+    building: place(i.rfq.building.name, i.rfq.building.address, i.rfq.building.city), category: i.rfq.category?.name ?? null,
     myOffer: i.rfq.offers[0] ? { id: i.rfq.offers[0].id, amount: Number(i.rfq.offers[0].amount), status: i.rfq.offers[0].status } : null,
   }));
 }
@@ -93,7 +94,7 @@ export async function loadSupplierRfq(rfqId: string, supplierId: string) {
   const r = inv.rfq; const o = r.offers[0] ?? null;
   return {
     invitation: { id: inv.id, status: inv.status, viewedAt: iso(inv.viewedAt), declineReason: inv.declineReason },
-    rfq: { id: r.id, title: r.title, description: r.description, status: r.status, deadlineAt: iso(r.deadlineAt), surveyRequired: r.surveyRequired, building: [r.building.name, r.building.address, r.building.city].filter(Boolean).join(", "), category: r.category?.name ?? null, priority: r.maintenanceRequest?.priority ?? null, restrictedAccess: r.maintenanceRequest?.restrictedAccess ?? false, attachments: r.maintenanceRequest?.attachments ?? [] },
+    rfq: { id: r.id, title: r.title, description: r.description, status: r.status, deadlineAt: iso(r.deadlineAt), surveyRequired: r.surveyRequired, building: place(r.building.name, r.building.address, r.building.city), category: r.category?.name ?? null, priority: r.maintenanceRequest?.priority ?? null, restrictedAccess: r.maintenanceRequest?.restrictedAccess ?? false, attachments: r.maintenanceRequest?.attachments ?? [] },
     myOffer: o ? { id: o.id, amount: Number(o.amount), vatPct: o.vatPct, surveyFee: num(o.surveyFee), surveyWaived: o.surveyWaived, description: o.description, estimatedMinutes: o.estimatedMinutes, earliestDate: iso(o.earliestDate), validUntil: iso(o.validUntil), status: o.status } : null,
   };
 }
@@ -106,7 +107,7 @@ export async function listSupplierWorkOrders(supplierId: string) {
     supplierPrice: Number(w.supplierPrice), vatPct: w.vatPct, surveyFee: num(w.surveyFee), surveyWaived: w.surveyWaived, warrantyMonths: w.warrantyMonths,
     earliestDate: iso(w.earliestDate), scheduledAt: iso(w.scheduledAt), supplierAcceptedAt: iso(w.supplierAcceptedAt), completedAt: iso(w.completedAt), completionNote: w.completionNote,
     completionMedia: (w.completionMediaIds as { url: string; kind: string }[] | null) ?? [], customerConfirmedAt: iso(w.customerConfirmedAt), disputeNote: w.disputeNote,
-    building: [w.building.name, w.building.address, w.building.city].filter(Boolean).join(", "), maintenanceRequestId: w.maintenanceRequestId, createdAt: w.createdAt.toISOString(),
+    building: place(w.building.name, w.building.address, w.building.city), maintenanceRequestId: w.maintenanceRequestId, createdAt: w.createdAt.toISOString(),
   }));
 }
 export type SupplierWorkOrderDTO = Awaited<ReturnType<typeof listSupplierWorkOrders>>[number];

@@ -116,6 +116,7 @@ export const ModelName = {
   PricingTier: 'PricingTier',
   ContactMessage: 'ContactMessage',
   NewsletterSubscriber: 'NewsletterSubscriber',
+  CronRun: 'CronRun',
   CookieConsent: 'CookieConsent',
   AppSettings: 'AppSettings',
   ImpersonationEvent: 'ImpersonationEvent',
@@ -1343,6 +1344,20 @@ export const NewsletterSubscriberScalarFieldEnum = {
 } as const
 
 export type NewsletterSubscriberScalarFieldEnum = (typeof NewsletterSubscriberScalarFieldEnum)[keyof typeof NewsletterSubscriberScalarFieldEnum]
+
+
+export const CronRunScalarFieldEnum = {
+  id: 'id',
+  job: 'job',
+  trigger: 'trigger',
+  startedAt: 'startedAt',
+  finishedAt: 'finishedAt',
+  ok: 'ok',
+  result: 'result',
+  error: 'error'
+} as const
+
+export type CronRunScalarFieldEnum = (typeof CronRunScalarFieldEnum)[keyof typeof CronRunScalarFieldEnum]
 
 
 export const CookieConsentScalarFieldEnum = {

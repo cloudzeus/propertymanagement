@@ -27,6 +27,7 @@ const A = {
   roles: { key: "roles", label: "Ρόλοι & δικαιώματα", icon: "RiShieldUserLine", href: "/super-admin/roles" },
   contracts: { key: "contracts", label: "Προσφορές & συμβάσεις", icon: "RiFileTextLine", href: "/super-admin/settings/contracts" },
   maintSettings: { key: "maint-settings", label: "Ρυθμίσεις συντηρήσεων", icon: "RiSettings3Line", href: "/admin/maintenance/settings" },
+  cron: { key: "cron", label: "Αυτόματες εργασίες", icon: "RiTimerLine", href: "/super-admin/settings/cron" },
   managedBuildings: { key: "managed", label: "Διαχειριζόμενα κτήρια", icon: "RiBuilding2Line", href: "/super-admin/managed-buildings" },
   cmsLanding: { key: "cms-landing", label: "Αρχική σελίδα", icon: "RiLayoutLine", href: "/super-admin/cms/landing" },
   cmsArticles: { key: "cms-articles", label: "Νέο άρθρο", icon: "RiArticleLine", href: "/super-admin/cms/articles" },
@@ -85,7 +86,7 @@ export function resolveQuickActions(ctx: Ctx): QuickAction[] {
     else if (p.startsWith("/admin/maintenance")) picks = [A.report, A.workOrders, A.programme, A.maintSettings, A.suppliers];
     else if (p.startsWith("/super-admin/suppliers")) picks = [A.catalog, A.faults, A.workOrders, A.contracts];
     else if (p.startsWith("/super-admin/cms")) picks = [A.cmsArticles, A.cmsMedia, A.cmsLanding, A.cmsNewsletter];
-    else if (p.startsWith("/super-admin/settings") || p.startsWith("/super-admin/roles") || p.startsWith("/super-admin/users")) picks = [A.users, A.roles, A.contracts, A.maintSettings];
+    else if (p.startsWith("/super-admin/settings") || p.startsWith("/super-admin/roles") || p.startsWith("/super-admin/users")) picks = [A.users, A.roles, A.contracts, A.cron];
     else if (p.startsWith("/super-admin/customers") || p.startsWith("/super-admin/properties") || p.startsWith("/super-admin/units")) picks = [A.onboarding, A.expense, A.managedBuildings, A.announcement];
     else if (p.startsWith("/super-admin/managed") || p.startsWith("/super-admin/buildings")) picks = [A.expense, A.programme, A.report, A.announcement];
     else if (p.startsWith("/super-admin/billing")) picks = [A.customers, A.properties, A.billing];
@@ -120,7 +121,7 @@ export function resolveQuickActions(ctx: Ctx): QuickAction[] {
   // and never the page we are already on.
   const base = (h: string) => h.split("?")[0];
   return picks
-    .filter((a) => (a.kind === "expense" ? ctx.canExpense : a.href === "/report" || ctx.allowed.has(a.href!) || ctx.allowed.has(base(a.href!))))
+    .filter((a) => (a.kind === "expense" ? ctx.canExpense : a.href === "/report" || ctx.allowed.has(a.href!) || ctx.allowed.has(base(a.href!)) || (a.key === "cron" && ctx.allowed.has("/super-admin/settings"))))
     .filter((a) => !a.href || base(a.href) !== p.split("?")[0] || a.href.includes("?"))
     .slice(0, 5);
 }

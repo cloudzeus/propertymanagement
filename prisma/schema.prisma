@@ -1960,6 +1960,21 @@ model NewsletterSubscriber {
   @@index([status])
 }
 
+// In-process scheduler log (lib/cron): one row per job execution, used both to
+// decide "already ran today" and to show history in Ρυθμίσεις → Αυτόματες εργασίες.
+model CronRun {
+  id         String    @id @default(cuid())
+  job        String
+  trigger    String    @default("scheduler") // scheduler | http | manual
+  startedAt  DateTime  @default(now())
+  finishedAt DateTime?
+  ok         Boolean?
+  result     Json?
+  error      String?   @db.Text
+
+  @@index([job, startedAt])
+}
+
 model CookieConsent {
   id                    String   @id @default(cuid())
   sessionId             String   @unique // Browser session identifier

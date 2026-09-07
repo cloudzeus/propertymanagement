@@ -367,6 +367,11 @@ export type ContactMessage = Prisma.ContactMessageModel
  */
 export type NewsletterSubscriber = Prisma.NewsletterSubscriberModel
 /**
+ * Model CronRun
+ * 
+ */
+export type CronRun = Prisma.CronRunModel
+/**
  * Model CookieConsent
  * 
  */
