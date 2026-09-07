@@ -70,7 +70,7 @@
 
 - Παραγωγή: Coolify (Docker, Node 24). Μεταβλητές μόνο στο Coolify.
 - Σε κάθε deploy: `prisma migrate deploy` και `npx tsx prisma/seed-rbac.ts`.
-- **Cron (Coolify scheduled tasks, καθημερινά, header `x-cron-secret: $CRON_SECRET`):** `/api/cron/maintenance-reminders` (υπενθυμίσεις συντηρήσεων), `/api/cron/monthly-allowance`, `/api/cron/work-orders` (σιωπηρή παραλαβή συμβάσεων έργου, υπενθύμιση διαχειριστή, λήξη RFQ χωρίς προσφορές).
+- **Αυτόματες εργασίες (cron):** τρέχουν **μέσα από την εφαρμογή** — δεν χρειάζεται ρύθμιση στο Coolify. Ο χρονοπρογραμματιστής ξεκινά με τον server (production) και εκτελεί καθημερινά μετά τις 07:00 τη «σιωπηρή παραλαβή» συμβάσεων έργου (+ υπενθύμιση διαχειριστή, λήξη RFQ χωρίς προσφορές) και τις υπενθυμίσεις συντηρήσεων, και την 1η κάθε μήνα τη μηνιαία πίστωση πορτοφολιών. Ιστορικό και «Εκτέλεση τώρα» στο Ρυθμίσεις → Αυτόματες εργασίες. Απενεργοποίηση με `CRON_IN_PROCESS=false` (τότε τα `/api/cron/*` με `x-cron-secret` παραμένουν διαθέσιμα για εξωτερικό cron).
 - **Emails:** όλα τα εξερχόμενα (κωδικοί, ειδοποιήσεις, ανακοινώσεις, κοινόχρηστα, demo, newsletter, αιτήματα σε προμηθευτές) περνούν από το ίδιο πρότυπο (`lib/email-template.ts`) με το λογότυπο και τα στοιχεία της εταιρείας από Ρυθμίσεις → Εταιρία/Brand (fallback: Orithon). Σε μη-production περιβάλλον η `EMAIL_REDIRECT_TO` στέλνει τα πάντα σε μία διεύθυνση.
 - Ορίστε `NEXT_PUBLIC_SITE_URL` για σωστά sitemap/SEO και σωστούς συνδέσμους στα emails.
 - Κλειδιά τρίτων: DeepSeek (AI), MapTiler (geocoding), Bunny CDN (αρχεία), Viva (πληρωμές), Daily (συνελεύσεις), Mailgun (email).
