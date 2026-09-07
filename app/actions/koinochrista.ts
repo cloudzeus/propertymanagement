@@ -4,6 +4,7 @@ import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import { buildKoinochristaDoc, type KoinoLine } from "@/lib/koinochrista-doc";
 import { sendEmailWithAttachments, type EmailAttachment } from "@/lib/mailgun";
+import { renderEmail, textToHtml, detailRows } from "@/lib/email-template";
 import type { PaymentMethod } from "@/app/actions/building-expenses";
 import { requireBuildingCap } from "@/lib/building-access";
 import type { BuildingCaps } from "@/lib/building-caps";
@@ -283,18 +284,16 @@ export async function sendKoinochristaReminder(buildingId: string, month: string
   }
 
   const due = person.total - person.paid;
-  const html = `
-    <div style="font-family:Arial,sans-serif;font-size:14px;color:#1a1a1a">
-      <p>Αγαπητέ/ή ${person.name},</p>
-      <p>Σας υπενθυμίζουμε τα κοινόχρηστα της περιόδου <b>${month}</b> για το κτήριο <b>${building.name}</b>.</p>
-      <ul>
-        <li>Σύνολο χρεώσεων: <b>${person.total.toFixed(2)} €</b></li>
-        <li>Πληρωμένα: <b>${person.paid.toFixed(2)} €</b></li>
-        <li>Υπόλοιπο προς πληρωμή: <b style="color:#b91c1c">${due.toFixed(2)} €</b></li>
-      </ul>
-      <p>Επισυνάπτεται η αναλυτική κατάσταση (Word) και τα σχετικά παραστατικά.</p>
-      <p>Σας ευχαριστούμε.</p>
-    </div>`;
+  const html = renderEmail({
+    title: `Κοινόχρηστα ${month}`,
+    eyebrow: building.name,
+    greeting: `Αγαπητέ/ή ${person.name},`,
+    bodyHtml: `${textToHtml(`Σας υπενθυμίζουμε τα κοινόχρηστα της περιόδου ${month} για το κτήριο ${building.name}.`)}${detailRows([
+      ["Σύνολο χρεώσεων", `${person.total.toFixed(2)} €`],
+      ["Πληρωμένα", `${person.paid.toFixed(2)} €`],
+      ["Υπόλοιπο προς πληρωμή", `<span style="color:#C0392B">${due.toFixed(2)} €</span>`],
+    ])}${textToHtml("Επισυνάπτεται η αναλυτική κατάσταση (Word) και τα σχετικά παραστατικά.\n\nΣας ευχαριστούμε.")}`,
+  });
 
   const sent = await sendEmailWithAttachments({
     to: person.email,

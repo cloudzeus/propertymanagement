@@ -448,6 +448,7 @@ export const ModelName = {
   FAQ: 'FAQ',
   PricingTier: 'PricingTier',
   ContactMessage: 'ContactMessage',
+  NewsletterSubscriber: 'NewsletterSubscriber',
   CookieConsent: 'CookieConsent',
   AppSettings: 'AppSettings',
   ImpersonationEvent: 'ImpersonationEvent',
@@ -474,6 +475,7 @@ export const ModelName = {
   RfqInvitation: 'RfqInvitation',
   SupplierOffer: 'SupplierOffer',
   WorkOrder: 'WorkOrder',
+  SupplierInquiry: 'SupplierInquiry',
   ContractTemplate: 'ContractTemplate'
 } as const
 
@@ -490,7 +492,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "account" | "session" | "verificationToken" | "company" | "department" | "jobPosition" | "employee" | "subscription" | "addonFeature" | "customer" | "property" | "building" | "unitOccupancy" | "buildingFile" | "infraPoint" | "infraAccess" | "infraMedia" | "contact" | "recurringTask" | "maintenanceLog" | "buildingExpense" | "expenseCategory" | "buildingCategoryOverride" | "unitCategoryExclusion" | "unitHeatingReading" | "meterReading" | "expenseAllocation" | "unitPayment" | "managementAssignment" | "commonArea" | "managedItemType" | "managedItem" | "unit" | "service" | "propertyService" | "serviceInvoice" | "serviceInvoiceLine" | "userCompanyRole" | "announcement" | "announcementTarget" | "announcement_User" | "assembly" | "assemblyParticipant" | "processedWebhook" | "aPIUsageLog" | "aPICostConfig" | "wallet" | "walletTransaction" | "customerMeteredPlan" | "monthlyCostSummary" | "maintenanceRequest" | "maintenanceCategory" | "maintenanceCoverageRule" | "maintenanceAttachment" | "maintenanceStatusEvent" | "maintenanceComment" | "maintenanceSlot" | "maintenanceAppointment" | "notification" | "cMSPage" | "fAQ" | "pricingTier" | "contactMessage" | "cookieConsent" | "appSettings" | "impersonationEvent" | "landingSection" | "marketingPage" | "pageSeo" | "uiMessage" | "mediaAsset" | "siteSettings" | "author" | "article" | "role" | "rolePermission" | "demoRequest" | "supportTicket" | "supplier" | "supplierRating" | "buildingPreferredSupplier" | "supplierCategory" | "serviceCatalogItem" | "supplierService" | "supplierProduct" | "serviceRequest" | "rfqInvitation" | "supplierOffer" | "workOrder" | "contractTemplate"
+    modelProps: "user" | "account" | "session" | "verificationToken" | "company" | "department" | "jobPosition" | "employee" | "subscription" | "addonFeature" | "customer" | "property" | "building" | "unitOccupancy" | "buildingFile" | "infraPoint" | "infraAccess" | "infraMedia" | "contact" | "recurringTask" | "maintenanceLog" | "buildingExpense" | "expenseCategory" | "buildingCategoryOverride" | "unitCategoryExclusion" | "unitHeatingReading" | "meterReading" | "expenseAllocation" | "unitPayment" | "managementAssignment" | "commonArea" | "managedItemType" | "managedItem" | "unit" | "service" | "propertyService" | "serviceInvoice" | "serviceInvoiceLine" | "userCompanyRole" | "announcement" | "announcementTarget" | "announcement_User" | "assembly" | "assemblyParticipant" | "processedWebhook" | "aPIUsageLog" | "aPICostConfig" | "wallet" | "walletTransaction" | "customerMeteredPlan" | "monthlyCostSummary" | "maintenanceRequest" | "maintenanceCategory" | "maintenanceCoverageRule" | "maintenanceAttachment" | "maintenanceStatusEvent" | "maintenanceComment" | "maintenanceSlot" | "maintenanceAppointment" | "notification" | "cMSPage" | "fAQ" | "pricingTier" | "contactMessage" | "newsletterSubscriber" | "cookieConsent" | "appSettings" | "impersonationEvent" | "landingSection" | "marketingPage" | "pageSeo" | "uiMessage" | "mediaAsset" | "siteSettings" | "author" | "article" | "role" | "rolePermission" | "demoRequest" | "supportTicket" | "supplier" | "supplierRating" | "buildingPreferredSupplier" | "supplierCategory" | "serviceCatalogItem" | "supplierService" | "supplierProduct" | "serviceRequest" | "rfqInvitation" | "supplierOffer" | "workOrder" | "supplierInquiry" | "contractTemplate"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -5230,6 +5232,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    NewsletterSubscriber: {
+      payload: Prisma.$NewsletterSubscriberPayload<ExtArgs>
+      fields: Prisma.NewsletterSubscriberFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.NewsletterSubscriberFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NewsletterSubscriberPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.NewsletterSubscriberFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NewsletterSubscriberPayload>
+        }
+        findFirst: {
+          args: Prisma.NewsletterSubscriberFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NewsletterSubscriberPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.NewsletterSubscriberFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NewsletterSubscriberPayload>
+        }
+        findMany: {
+          args: Prisma.NewsletterSubscriberFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NewsletterSubscriberPayload>[]
+        }
+        create: {
+          args: Prisma.NewsletterSubscriberCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NewsletterSubscriberPayload>
+        }
+        createMany: {
+          args: Prisma.NewsletterSubscriberCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.NewsletterSubscriberCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NewsletterSubscriberPayload>[]
+        }
+        delete: {
+          args: Prisma.NewsletterSubscriberDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NewsletterSubscriberPayload>
+        }
+        update: {
+          args: Prisma.NewsletterSubscriberUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NewsletterSubscriberPayload>
+        }
+        deleteMany: {
+          args: Prisma.NewsletterSubscriberDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.NewsletterSubscriberUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.NewsletterSubscriberUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NewsletterSubscriberPayload>[]
+        }
+        upsert: {
+          args: Prisma.NewsletterSubscriberUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NewsletterSubscriberPayload>
+        }
+        aggregate: {
+          args: Prisma.NewsletterSubscriberAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateNewsletterSubscriber>
+        }
+        groupBy: {
+          args: Prisma.NewsletterSubscriberGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.NewsletterSubscriberGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.NewsletterSubscriberCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.NewsletterSubscriberCountAggregateOutputType> | number
+        }
+      }
+    }
     CookieConsent: {
       payload: Prisma.$CookieConsentPayload<ExtArgs>
       fields: Prisma.CookieConsentFieldRefs
@@ -7154,6 +7230,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    SupplierInquiry: {
+      payload: Prisma.$SupplierInquiryPayload<ExtArgs>
+      fields: Prisma.SupplierInquiryFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.SupplierInquiryFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SupplierInquiryPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.SupplierInquiryFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SupplierInquiryPayload>
+        }
+        findFirst: {
+          args: Prisma.SupplierInquiryFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SupplierInquiryPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.SupplierInquiryFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SupplierInquiryPayload>
+        }
+        findMany: {
+          args: Prisma.SupplierInquiryFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SupplierInquiryPayload>[]
+        }
+        create: {
+          args: Prisma.SupplierInquiryCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SupplierInquiryPayload>
+        }
+        createMany: {
+          args: Prisma.SupplierInquiryCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.SupplierInquiryCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SupplierInquiryPayload>[]
+        }
+        delete: {
+          args: Prisma.SupplierInquiryDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SupplierInquiryPayload>
+        }
+        update: {
+          args: Prisma.SupplierInquiryUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SupplierInquiryPayload>
+        }
+        deleteMany: {
+          args: Prisma.SupplierInquiryDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.SupplierInquiryUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.SupplierInquiryUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SupplierInquiryPayload>[]
+        }
+        upsert: {
+          args: Prisma.SupplierInquiryUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SupplierInquiryPayload>
+        }
+        aggregate: {
+          args: Prisma.SupplierInquiryAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateSupplierInquiry>
+        }
+        groupBy: {
+          args: Prisma.SupplierInquiryGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SupplierInquiryGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.SupplierInquiryCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SupplierInquiryCountAggregateOutputType> | number
+        }
+      }
+    }
     ContractTemplate: {
       payload: Prisma.$ContractTemplatePayload<ExtArgs>
       fields: Prisma.ContractTemplateFieldRefs
@@ -8231,6 +8381,7 @@ export const MaintenanceRequestScalarFieldEnum = {
   reportedById: 'reportedById',
   assignedToId: 'assignedToId',
   supplierId: 'supplierId',
+  recurringTaskId: 'recurringTaskId',
   attachmentUrl: 'attachmentUrl',
   scheduledDate: 'scheduledDate',
   completedAt: 'completedAt',
@@ -8419,11 +8570,34 @@ export const ContactMessageScalarFieldEnum = {
   status: 'status',
   ipAddress: 'ipAddress',
   userAgent: 'userAgent',
+  consentText: 'consentText',
+  consentedAt: 'consentedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type ContactMessageScalarFieldEnum = (typeof ContactMessageScalarFieldEnum)[keyof typeof ContactMessageScalarFieldEnum]
+
+
+export const NewsletterSubscriberScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  locale: 'locale',
+  source: 'source',
+  status: 'status',
+  consentText: 'consentText',
+  consentVersion: 'consentVersion',
+  consentedAt: 'consentedAt',
+  confirmedAt: 'confirmedAt',
+  unsubscribedAt: 'unsubscribedAt',
+  ipAddress: 'ipAddress',
+  userAgent: 'userAgent',
+  token: 'token',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type NewsletterSubscriberScalarFieldEnum = (typeof NewsletterSubscriberScalarFieldEnum)[keyof typeof NewsletterSubscriberScalarFieldEnum]
 
 
 export const CookieConsentScalarFieldEnum = {
@@ -8660,6 +8834,8 @@ export const DemoRequestScalarFieldEnum = {
   durationMin: 'durationMin',
   status: 'status',
   locale: 'locale',
+  consentText: 'consentText',
+  consentedAt: 'consentedAt',
   createdAt: 'createdAt'
 } as const
 
@@ -8897,6 +9073,7 @@ export const WorkOrderScalarFieldEnum = {
   completionMediaIds: 'completionMediaIds',
   customerConfirmedAt: 'customerConfirmedAt',
   customerConfirmedById: 'customerConfirmedById',
+  autoConfirmedAt: 'autoConfirmedAt',
   disputeNote: 'disputeNote',
   customerContractHtml: 'customerContractHtml',
   supplierContractHtml: 'supplierContractHtml',
@@ -8906,6 +9083,27 @@ export const WorkOrderScalarFieldEnum = {
 } as const
 
 export type WorkOrderScalarFieldEnum = (typeof WorkOrderScalarFieldEnum)[keyof typeof WorkOrderScalarFieldEnum]
+
+
+export const SupplierInquiryScalarFieldEnum = {
+  id: 'id',
+  supplierId: 'supplierId',
+  customerId: 'customerId',
+  buildingId: 'buildingId',
+  maintenanceRequestId: 'maintenanceRequestId',
+  kind: 'kind',
+  status: 'status',
+  message: 'message',
+  preferredDates: 'preferredDates',
+  sentTo: 'sentTo',
+  answer: 'answer',
+  answeredAt: 'answeredAt',
+  createdById: 'createdById',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SupplierInquiryScalarFieldEnum = (typeof SupplierInquiryScalarFieldEnum)[keyof typeof SupplierInquiryScalarFieldEnum]
 
 
 export const ContractTemplateScalarFieldEnum = {
@@ -9460,6 +9658,20 @@ export type ListEnumWalletTxnTypeFieldRefInput<$PrismaModel> = FieldRefInputType
 
 
 /**
+ * Reference to a field of type 'NewsletterStatus'
+ */
+export type EnumNewsletterStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NewsletterStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'NewsletterStatus[]'
+ */
+export type ListEnumNewsletterStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NewsletterStatus[]'>
+    
+
+
+/**
  * Reference to a field of type 'SupplierKind'
  */
 export type EnumSupplierKindFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SupplierKind'>
@@ -9512,6 +9724,34 @@ export type EnumWorkOrderStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$
  * Reference to a field of type 'WorkOrderStatus[]'
  */
 export type ListEnumWorkOrderStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'WorkOrderStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'SupplierInquiryKind'
+ */
+export type EnumSupplierInquiryKindFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SupplierInquiryKind'>
+    
+
+
+/**
+ * Reference to a field of type 'SupplierInquiryKind[]'
+ */
+export type ListEnumSupplierInquiryKindFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SupplierInquiryKind[]'>
+    
+
+
+/**
+ * Reference to a field of type 'SupplierInquiryStatus'
+ */
+export type EnumSupplierInquiryStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SupplierInquiryStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'SupplierInquiryStatus[]'
+ */
+export type ListEnumSupplierInquiryStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SupplierInquiryStatus[]'>
     
 
 /**
@@ -9688,6 +9928,7 @@ export type GlobalOmitConfig = {
   fAQ?: Prisma.FAQOmit
   pricingTier?: Prisma.PricingTierOmit
   contactMessage?: Prisma.ContactMessageOmit
+  newsletterSubscriber?: Prisma.NewsletterSubscriberOmit
   cookieConsent?: Prisma.CookieConsentOmit
   appSettings?: Prisma.AppSettingsOmit
   impersonationEvent?: Prisma.ImpersonationEventOmit
@@ -9714,6 +9955,7 @@ export type GlobalOmitConfig = {
   rfqInvitation?: Prisma.RfqInvitationOmit
   supplierOffer?: Prisma.SupplierOfferOmit
   workOrder?: Prisma.WorkOrderOmit
+  supplierInquiry?: Prisma.SupplierInquiryOmit
   contractTemplate?: Prisma.ContractTemplateOmit
 }
 

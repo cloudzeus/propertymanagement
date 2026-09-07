@@ -299,6 +299,15 @@ export const WalletTxnType = {
 export type WalletTxnType = (typeof WalletTxnType)[keyof typeof WalletTxnType]
 
 
+export const NewsletterStatus = {
+  PENDING: 'PENDING',
+  CONFIRMED: 'CONFIRMED',
+  UNSUBSCRIBED: 'UNSUBSCRIBED'
+} as const
+
+export type NewsletterStatus = (typeof NewsletterStatus)[keyof typeof NewsletterStatus]
+
+
 export const SupplierKind = {
   SERVICES: 'SERVICES',
   PRODUCTS: 'PRODUCTS',
@@ -344,3 +353,20 @@ export const WorkOrderStatus = {
 } as const
 
 export type WorkOrderStatus = (typeof WorkOrderStatus)[keyof typeof WorkOrderStatus]
+
+
+export const SupplierInquiryKind = {
+  OFFER: 'OFFER',
+  APPOINTMENT: 'APPOINTMENT'
+} as const
+
+export type SupplierInquiryKind = (typeof SupplierInquiryKind)[keyof typeof SupplierInquiryKind]
+
+
+export const SupplierInquiryStatus = {
+  SENT: 'SENT',
+  ANSWERED: 'ANSWERED',
+  CLOSED: 'CLOSED'
+} as const
+
+export type SupplierInquiryStatus = (typeof SupplierInquiryStatus)[keyof typeof SupplierInquiryStatus]

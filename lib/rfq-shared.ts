@@ -55,6 +55,33 @@ export function applyMarkup(supplierPrice: number, markupPct: number): number {
   return Math.round(supplierPrice * (1 + markupPct / 100) * 100) / 100;
 }
 
+/** Add N business days (Mon–Fri) to a date — used for the silent-acceptance deadline. */
+export function addBusinessDays(from: Date, days: number): Date {
+  const d = new Date(from);
+  let left = Math.max(0, Math.floor(days));
+  while (left > 0) {
+    d.setDate(d.getDate() + 1);
+    const wd = d.getDay();
+    if (wd !== 0 && wd !== 6) left--;
+  }
+  return d;
+}
+
+/** Whole business days remaining until `deadline` (negative when passed). */
+export function businessDaysUntil(deadline: Date, now: Date = new Date()): number {
+  const a = new Date(now); a.setHours(0, 0, 0, 0);
+  const b = new Date(deadline); b.setHours(0, 0, 0, 0);
+  const sign = b >= a ? 1 : -1;
+  let n = 0;
+  const cur = new Date(a);
+  while (sign > 0 ? cur < b : cur > b) {
+    cur.setDate(cur.getDate() + sign);
+    const wd = cur.getDay();
+    if (wd !== 0 && wd !== 6) n++;
+  }
+  return sign * n;
+}
+
 export function withVat(net: number, vatPct: number): number {
   return Math.round(net * (1 + vatPct / 100) * 100) / 100;
 }

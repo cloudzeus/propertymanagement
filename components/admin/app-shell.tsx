@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 import { getAppSettings } from "@/lib/app-settings";
 import { signOutAction } from "@/app/actions/sign-out";
 import { SidebarNav } from "./sidebar-nav";
-import { GlobalExpenseButton } from "@/components/buildings/GlobalExpenseButton";
+import { QuickActions } from "./QuickActions";
 import { listManageableBuildings } from "@/app/actions/building-expenses";
 import { getEffectiveSession } from "@/lib/auth-effective";
 import { ImpersonationBanner } from "./impersonation-banner";
@@ -85,12 +85,12 @@ export async function AppShell({ children, allowedRoles }: Props) {
         <div style={{ position: "absolute", top: 16, right: 24, zIndex: 400 }}>
           <NotificationsBell />
         </div>
-        <main style={{ flex: 1, overflowY: "auto", padding: 28, minWidth: 0 }}>
+        <main className="app-main" style={{ flex: 1, overflowY: "auto", padding: 28, minWidth: 0, display: "flex", flexDirection: "column" }}>
           {children}
         </main>
+        {/* Context-aware quick menu (bottom-left of the content area) — replaces the old fixed "Νέο έξοδο" button. */}
+        <QuickActions role={role} allowedHrefs={menu.flatMap((g) => g.items.map((i) => i.href))} expenseBuildings={expenseBuildings} />
       </div>
-
-      {expenseBuildings.length > 0 && <GlobalExpenseButton buildings={expenseBuildings} />}
     </div>
   );
 }

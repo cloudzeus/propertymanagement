@@ -16,7 +16,7 @@ export async function notifyUsers(userIds: string[], opts: { type: string; title
   await db.notification.createMany({
     data: users.map((u) => ({ userId: u.id, type: opts.type, title: opts.title, body: opts.body ?? null, href: opts.href, requestId: opts.requestId ?? null })),
   });
-  void Promise.allSettled(users.filter((u) => u.email).map((u) => sendNotificationEmail(u.email, opts.title, opts.body ?? opts.title)));
+  void Promise.allSettled(users.filter((u) => u.email).map((u) => sendNotificationEmail(u.email, opts.title, opts.body ?? opts.title, { href: opts.href })));
 }
 
 /** Active COLLABORATOR logins of a supplier. */

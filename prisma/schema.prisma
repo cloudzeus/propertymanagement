@@ -569,6 +569,7 @@ model Customer {
   meteredPlan           CustomerMeteredPlan?
   suppliers             Supplier[] @relation("customerSuppliers") // the customer's PRIVATE supplier list
   workOrders            WorkOrder[]
+  supplierInquiries     SupplierInquiry[]
 
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt
@@ -705,6 +706,7 @@ model Building {
   preferredSuppliers    BuildingPreferredSupplier[]
   serviceRequests       ServiceRequest[]
   workOrders            WorkOrder[]
+  supplierInquiries     SupplierInquiry[]
 
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt
@@ -894,6 +896,8 @@ model RecurringTask {
   // Ανάδοχος from a registry; `vendor` stays as the free-text fallback/label.
   supplierId         String?
   supplier           Supplier? @relation(fields: [supplierId], references: [id], onDelete: SetNull)
+  // Faults opened from an occurrence of this schedule (annual programme).
+  requests           MaintenanceRequest[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   @@index([buildingId])
@@ -1675,6 +1679,10 @@ model MaintenanceRequest {
   // staff may set this — never the property manager (see suppliers program).
   supplierId            String?
   supplier              Supplier? @relation("maintenanceSupplier", fields: [supplierId], references: [id], onDelete: SetNull)
+  // Set when the fault was opened from a recurring-task occurrence.
+  recurringTaskId       String?
+  recurringTask         RecurringTask? @relation(fields: [recurringTaskId], references: [id], onDelete: SetNull)
+  inquiries             SupplierInquiry[]
   supplierRating        SupplierRating?
   serviceRequests       ServiceRequest[]
   workOrders            WorkOrder[]
@@ -1912,6 +1920,9 @@ model ContactMessage {
   status                String   @default("NEW") // NEW, READ, RESPONDED, SPAM
   ipAddress             String?
   userAgent             String?
+  // GDPR: the exact consent wording the person ticked, and when.
+  consentText           String?  @db.Text
+  consentedAt           DateTime?
 
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt
@@ -1919,6 +1930,34 @@ model ContactMessage {
   @@index([email])
   @@index([status])
   @@index([createdAt])
+}
+
+enum NewsletterStatus {
+  PENDING       // double opt-in email sent, not yet confirmed
+  CONFIRMED
+  UNSUBSCRIBED
+}
+
+// Newsletter list with a full GDPR consent trail: wording + version ticked,
+// IP/UA at signup, double opt-in confirmation, one-click unsubscribe token.
+model NewsletterSubscriber {
+  id             String           @id @default(cuid())
+  email          String           @unique
+  locale         String           @default("el")
+  source         String           @default("news")   // where the form lived
+  status         NewsletterStatus @default(PENDING)
+  consentText    String           @db.Text
+  consentVersion String           @default("v1")
+  consentedAt    DateTime         @default(now())
+  confirmedAt    DateTime?
+  unsubscribedAt DateTime?
+  ipAddress      String?
+  userAgent      String?
+  token          String           @unique            // confirm / unsubscribe link
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  @@index([status])
 }
 
 model CookieConsent {
@@ -2161,6 +2200,8 @@ model DemoRequest {
   durationMin Int      @default(30)
   status      String   @default("PENDING") // PENDING | CONFIRMED | CANCELLED | COMPLETED
   locale      String   @default("el")
+  consentText String?  @db.Text
+  consentedAt DateTime?
   createdAt   DateTime @default(now())
 
   @@index([scheduledAt])
@@ -2261,6 +2302,7 @@ model Supplier {
   rfqInvitations RfqInvitation[]
   offers       SupplierOffer[]
   workOrders   WorkOrder[]
+  inquiries    SupplierInquiry[]
   categories   SupplierCategory[]
   services     SupplierService[]
   products     SupplierProduct[]
@@ -2540,6 +2582,8 @@ model WorkOrder {
   completionMediaIds    Json?
   customerConfirmedAt   DateTime?
   customerConfirmedById String?
+  // Set when the cron confirmed on the customer's behalf (silent acceptance).
+  autoConfirmedAt       DateTime?
   disputeNote           String?  @db.Text
 
   // Frozen contract copies (rendered from ContractTemplate at acceptance time)
@@ -2554,6 +2598,47 @@ model WorkOrder {
   @@index([customerId])
   @@index([supplierId])
   @@index([status])
+  @@index([maintenanceRequestId])
+}
+
+enum SupplierInquiryKind {
+  OFFER         // "please quote"
+  APPOINTMENT   // "please come on one of these dates"
+}
+
+enum SupplierInquiryStatus {
+  SENT
+  ANSWERED
+  CLOSED
+}
+
+// A property manager's request to one of THEIR OWN private suppliers (who has
+// no login): an email goes out, the manager records the answer by hand.
+// Never touches the company registry / RFQ flow.
+model SupplierInquiry {
+  id                   String                @id @default(cuid())
+  supplierId           String
+  supplier             Supplier              @relation(fields: [supplierId], references: [id], onDelete: Cascade)
+  customerId           String
+  customer             Customer              @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  buildingId           String
+  building             Building              @relation(fields: [buildingId], references: [id], onDelete: Cascade)
+  maintenanceRequestId String?
+  maintenanceRequest   MaintenanceRequest?   @relation(fields: [maintenanceRequestId], references: [id], onDelete: SetNull)
+  kind                 SupplierInquiryKind
+  status               SupplierInquiryStatus @default(SENT)
+  message              String                @db.Text
+  preferredDates       Json?                 // ISO strings, APPOINTMENT only
+  sentTo               String                // supplier email at send time
+  answer               String?               @db.Text
+  answeredAt           DateTime?
+  createdById          String
+  createdAt            DateTime              @default(now())
+  updatedAt            DateTime              @updatedAt
+
+  @@index([customerId])
+  @@index([supplierId])
+  @@index([buildingId])
   @@index([maintenanceRequestId])
 }
 

@@ -67,6 +67,8 @@ export interface NewsPageContent {
   newsletter: {
     heading: string; body: string; placeholder: string;
     submitLabel: string; successMessage: string; errorMessage: string;
+    /** GDPR: the exact wording stored with each signup (double opt-in follows). */
+    consentLabel?: string; consentLinkLabel?: string; pendingMessage?: string;
   };
   /** Article page furniture. */
   article: {
@@ -252,6 +254,9 @@ const NEWS_EN: NewsPageContent = {
     submitLabel: "Subscribe",
     successMessage: "You are on the list. Look out for the next brief.",
     errorMessage: "That did not go through. Please try again.",
+    consentLabel: "I agree to receive the Orithon newsletter by email and to my address being stored for that purpose, as described in the",
+    consentLinkLabel: "privacy policy",
+    pendingMessage: "Almost there — check your inbox and press the confirmation link.",
   },
   article: {
     breadcrumbRoot: "News",
@@ -286,6 +291,9 @@ const NEWS_EL: NewsPageContent = {
     submitLabel: "Εγγραφή",
     successMessage: "Είστε στη λίστα. Τα λέμε στο επόμενο ενημερωτικό.",
     errorMessage: "Η εγγραφή δεν ολοκληρώθηκε. Δοκιμάστε ξανά.",
+    consentLabel: "Συμφωνώ να λαμβάνω το ενημερωτικό του Orithon με email και να αποθηκευτεί η διεύθυνσή μου για αυτόν τον σκοπό, όπως περιγράφεται στην",
+    consentLinkLabel: "πολιτική απορρήτου",
+    pendingMessage: "Σχεδόν έτοιμο — ελέγξτε το inbox σας και πατήστε τον σύνδεσμο επιβεβαίωσης.",
   },
   article: {
     breadcrumbRoot: "Νέα",

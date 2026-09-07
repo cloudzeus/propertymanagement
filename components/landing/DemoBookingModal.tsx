@@ -15,6 +15,7 @@ const T = {
     day: "Ημέρα", time: "Ώρα", details: "Τα στοιχεία σου",
     name: "Ονοματεπώνυμο *", email: "Email *", phone: "Τηλέφωνο", company: "Εταιρεία / Γραφείο",
     message: "Τι θα θέλατε να δείτε; (προαιρετικό)",
+    consent: "Συμφωνώ να επικοινωνήσετε μαζί μου για το demo και να αποθηκευτούν τα στοιχεία μου σύμφωνα με την", consentLink: "πολιτική απορρήτου",
     submit: "Κλείσε το ραντεβού", submitting: "Κλείνουμε…",
     successTitle: "Κλείστηκε!", successBody: "Θα λάβεις email επιβεβαίωσης με πρόσκληση ημερολογίου.",
     close: "Κλείσιμο", errGeneric: "Κάτι πήγε στραβά — δοκίμασε ξανά.", errTaken: "Η ώρα μόλις κλείστηκε — διάλεξε άλλη.",
@@ -26,6 +27,7 @@ const T = {
     day: "Day", time: "Time", details: "Your details",
     name: "Full name *", email: "Email *", phone: "Phone", company: "Company",
     message: "What would you like to see? (optional)",
+    consent: "I agree to be contacted about the demo and to my details being stored in line with the", consentLink: "privacy policy",
     submit: "Book the demo", submitting: "Booking…",
     successTitle: "Booked!", successBody: "You'll receive a confirmation email with a calendar invite.",
     close: "Close", errGeneric: "Something went wrong — please try again.", errTaken: "That time was just taken — pick another.",
@@ -58,6 +60,7 @@ export function DemoBookingModal({ open, onClose }: { open: boolean; onClose: ()
   const [dayIdx, setDayIdx] = useState(0);
   const [slotIso, setSlotIso] = useState<string | null>(null);
   const [form, setForm] = useState({ name: "", email: "", phone: "", company: "", message: "", website: "" });
+  const [consent, setConsent] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [done, setDone] = useState<string | null>(null);
   const [pending, start] = useTransition();
@@ -77,14 +80,14 @@ export function DemoBookingModal({ open, onClose }: { open: boolean; onClose: ()
   }, [open, onClose]);
 
   const day = useMemo(() => (days && days.length ? days[Math.min(dayIdx, days.length - 1)] : null), [days, dayIdx]);
-  const canSubmit = !!slotIso && form.name.trim().length >= 2 && /\S+@\S+\.\S+/.test(form.email) && !pending;
+  const canSubmit = !!slotIso && form.name.trim().length >= 2 && /\S+@\S+\.\S+/.test(form.email) && consent && !pending;
 
   function submit() {
     if (!canSubmit || !slotIso) return;
     setError(null);
     start(async () => {
       try {
-        const res = await bookDemo({ ...form, slotIso, locale });
+        const res = await bookDemo({ ...form, slotIso, locale, consentText: `${t.consent} ${t.consentLink}` });
         if (res.ok) setDone(res.whenLabel);
         else if (res.error === "SLOT_TAKEN") { setError(t.errTaken); setSlotIso(null); setDays(await getDemoSlots()); }
         else setError(t.errGeneric);
@@ -191,6 +194,10 @@ export function DemoBookingModal({ open, onClose }: { open: boolean; onClose: ()
               <input className="demo-input" style={inputStyle} placeholder={t.company} autoComplete="organization" value={form.company} onChange={(e) => setForm({ ...form, company: e.target.value })} />
             </div>
             <textarea className="demo-input" style={{ ...inputStyle, marginTop: 10, minHeight: 70, resize: "vertical" }} placeholder={t.message} value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} />
+            <label style={{ display: "flex", alignItems: "flex-start", gap: 9, marginTop: 12, fontSize: "var(--fs-12-5)", lineHeight: 1.5, color: "var(--mut, #666)", cursor: "pointer" }}>
+              <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} style={{ marginTop: 2, width: 16, height: 16, accentColor: "#F2A23C", flex: "none" }} />
+              <span>{t.consent} <a href={`/${locale}/privacy`} target="_blank" rel="noreferrer" style={{ textDecoration: "underline", color: "inherit" }}>{t.consentLink}</a>.</span>
+            </label>
             {/* Honeypot — invisible to humans */}
             <input style={{ position: "absolute", left: -9999, opacity: 0, height: 0 }} tabIndex={-1} autoComplete="off" value={form.website} onChange={(e) => setForm({ ...form, website: e.target.value })} placeholder="website" />
           </div>

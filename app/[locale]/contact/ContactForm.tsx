@@ -45,6 +45,9 @@ export function ContactForm({ content }: { content: FormContent }) {
       phone: fd.get("phone") || null,
       subject: fd.get("topic"),
       message: context ? `${context}\n\n${fd.get("message")}` : fd.get("message"),
+      // GDPR trail: the exact wording the person ticked.
+      consent: true,
+      consentText: `${content.consent} ${content.consentLinkLabel}`,
     };
 
     setStatus("sending");

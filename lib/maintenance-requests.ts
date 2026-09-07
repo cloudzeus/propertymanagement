@@ -180,7 +180,7 @@ export async function notifyStakeholders(opts: {
   void Promise.allSettled(
     recipients
       .filter((r) => r.email)
-      .map((r) => sendNotificationEmail(r.email!, opts.title, opts.body ?? opts.title)),
+      .map((r) => sendNotificationEmail(r.email!, opts.title, opts.body ?? opts.title, { href: hrefFor(r.id), eyebrow: "Βλάβη / συντήρηση" })),
   );
 }
 

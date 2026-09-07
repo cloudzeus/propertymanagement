@@ -34,6 +34,8 @@ export type ContactMessageMinAggregateOutputType = {
   status: string | null
   ipAddress: string | null
   userAgent: string | null
+  consentText: string | null
+  consentedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -48,6 +50,8 @@ export type ContactMessageMaxAggregateOutputType = {
   status: string | null
   ipAddress: string | null
   userAgent: string | null
+  consentText: string | null
+  consentedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -62,6 +66,8 @@ export type ContactMessageCountAggregateOutputType = {
   status: number
   ipAddress: number
   userAgent: number
+  consentText: number
+  consentedAt: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -78,6 +84,8 @@ export type ContactMessageMinAggregateInputType = {
   status?: true
   ipAddress?: true
   userAgent?: true
+  consentText?: true
+  consentedAt?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -92,6 +100,8 @@ export type ContactMessageMaxAggregateInputType = {
   status?: true
   ipAddress?: true
   userAgent?: true
+  consentText?: true
+  consentedAt?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -106,6 +116,8 @@ export type ContactMessageCountAggregateInputType = {
   status?: true
   ipAddress?: true
   userAgent?: true
+  consentText?: true
+  consentedAt?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -193,6 +205,8 @@ export type ContactMessageGroupByOutputType = {
   status: string
   ipAddress: string | null
   userAgent: string | null
+  consentText: string | null
+  consentedAt: Date | null
   createdAt: Date
   updatedAt: Date
   _count: ContactMessageCountAggregateOutputType | null
@@ -228,6 +242,8 @@ export type ContactMessageWhereInput = {
   status?: Prisma.StringFilter<"ContactMessage"> | string
   ipAddress?: Prisma.StringNullableFilter<"ContactMessage"> | string | null
   userAgent?: Prisma.StringNullableFilter<"ContactMessage"> | string | null
+  consentText?: Prisma.StringNullableFilter<"ContactMessage"> | string | null
+  consentedAt?: Prisma.DateTimeNullableFilter<"ContactMessage"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"ContactMessage"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ContactMessage"> | Date | string
 }
@@ -242,6 +258,8 @@ export type ContactMessageOrderByWithRelationInput = {
   status?: Prisma.SortOrder
   ipAddress?: Prisma.SortOrderInput | Prisma.SortOrder
   userAgent?: Prisma.SortOrderInput | Prisma.SortOrder
+  consentText?: Prisma.SortOrderInput | Prisma.SortOrder
+  consentedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -259,6 +277,8 @@ export type ContactMessageWhereUniqueInput = Prisma.AtLeast<{
   status?: Prisma.StringFilter<"ContactMessage"> | string
   ipAddress?: Prisma.StringNullableFilter<"ContactMessage"> | string | null
   userAgent?: Prisma.StringNullableFilter<"ContactMessage"> | string | null
+  consentText?: Prisma.StringNullableFilter<"ContactMessage"> | string | null
+  consentedAt?: Prisma.DateTimeNullableFilter<"ContactMessage"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"ContactMessage"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ContactMessage"> | Date | string
 }, "id">
@@ -273,6 +293,8 @@ export type ContactMessageOrderByWithAggregationInput = {
   status?: Prisma.SortOrder
   ipAddress?: Prisma.SortOrderInput | Prisma.SortOrder
   userAgent?: Prisma.SortOrderInput | Prisma.SortOrder
+  consentText?: Prisma.SortOrderInput | Prisma.SortOrder
+  consentedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.ContactMessageCountOrderByAggregateInput
@@ -293,6 +315,8 @@ export type ContactMessageScalarWhereWithAggregatesInput = {
   status?: Prisma.StringWithAggregatesFilter<"ContactMessage"> | string
   ipAddress?: Prisma.StringNullableWithAggregatesFilter<"ContactMessage"> | string | null
   userAgent?: Prisma.StringNullableWithAggregatesFilter<"ContactMessage"> | string | null
+  consentText?: Prisma.StringNullableWithAggregatesFilter<"ContactMessage"> | string | null
+  consentedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"ContactMessage"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"ContactMessage"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"ContactMessage"> | Date | string
 }
@@ -307,6 +331,8 @@ export type ContactMessageCreateInput = {
   status?: string
   ipAddress?: string | null
   userAgent?: string | null
+  consentText?: string | null
+  consentedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -321,6 +347,8 @@ export type ContactMessageUncheckedCreateInput = {
   status?: string
   ipAddress?: string | null
   userAgent?: string | null
+  consentText?: string | null
+  consentedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -335,6 +363,8 @@ export type ContactMessageUpdateInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   ipAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userAgent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  consentText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  consentedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -349,6 +379,8 @@ export type ContactMessageUncheckedUpdateInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   ipAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userAgent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  consentText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  consentedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -363,6 +395,8 @@ export type ContactMessageCreateManyInput = {
   status?: string
   ipAddress?: string | null
   userAgent?: string | null
+  consentText?: string | null
+  consentedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -377,6 +411,8 @@ export type ContactMessageUpdateManyMutationInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   ipAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userAgent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  consentText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  consentedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -391,6 +427,8 @@ export type ContactMessageUncheckedUpdateManyInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   ipAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   userAgent?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  consentText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  consentedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -405,6 +443,8 @@ export type ContactMessageCountOrderByAggregateInput = {
   status?: Prisma.SortOrder
   ipAddress?: Prisma.SortOrder
   userAgent?: Prisma.SortOrder
+  consentText?: Prisma.SortOrder
+  consentedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -419,6 +459,8 @@ export type ContactMessageMaxOrderByAggregateInput = {
   status?: Prisma.SortOrder
   ipAddress?: Prisma.SortOrder
   userAgent?: Prisma.SortOrder
+  consentText?: Prisma.SortOrder
+  consentedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -433,6 +475,8 @@ export type ContactMessageMinOrderByAggregateInput = {
   status?: Prisma.SortOrder
   ipAddress?: Prisma.SortOrder
   userAgent?: Prisma.SortOrder
+  consentText?: Prisma.SortOrder
+  consentedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -449,6 +493,8 @@ export type ContactMessageSelect<ExtArgs extends runtime.Types.Extensions.Intern
   status?: boolean
   ipAddress?: boolean
   userAgent?: boolean
+  consentText?: boolean
+  consentedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["contactMessage"]>
@@ -463,6 +509,8 @@ export type ContactMessageSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   status?: boolean
   ipAddress?: boolean
   userAgent?: boolean
+  consentText?: boolean
+  consentedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["contactMessage"]>
@@ -477,6 +525,8 @@ export type ContactMessageSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   status?: boolean
   ipAddress?: boolean
   userAgent?: boolean
+  consentText?: boolean
+  consentedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["contactMessage"]>
@@ -491,11 +541,13 @@ export type ContactMessageSelectScalar = {
   status?: boolean
   ipAddress?: boolean
   userAgent?: boolean
+  consentText?: boolean
+  consentedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type ContactMessageOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "phone" | "subject" | "message" | "status" | "ipAddress" | "userAgent" | "createdAt" | "updatedAt", ExtArgs["result"]["contactMessage"]>
+export type ContactMessageOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "phone" | "subject" | "message" | "status" | "ipAddress" | "userAgent" | "consentText" | "consentedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["contactMessage"]>
 
 export type $ContactMessagePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "ContactMessage"
@@ -510,6 +562,8 @@ export type $ContactMessagePayload<ExtArgs extends runtime.Types.Extensions.Inte
     status: string
     ipAddress: string | null
     userAgent: string | null
+    consentText: string | null
+    consentedAt: Date | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["contactMessage"]>
@@ -944,6 +998,8 @@ export interface ContactMessageFieldRefs {
   readonly status: Prisma.FieldRef<"ContactMessage", 'String'>
   readonly ipAddress: Prisma.FieldRef<"ContactMessage", 'String'>
   readonly userAgent: Prisma.FieldRef<"ContactMessage", 'String'>
+  readonly consentText: Prisma.FieldRef<"ContactMessage", 'String'>
+  readonly consentedAt: Prisma.FieldRef<"ContactMessage", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"ContactMessage", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"ContactMessage", 'DateTime'>
 }

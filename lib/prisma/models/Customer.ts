@@ -407,6 +407,7 @@ export type CustomerWhereInput = {
   meteredPlan?: Prisma.XOR<Prisma.CustomerMeteredPlanNullableScalarRelationFilter, Prisma.CustomerMeteredPlanWhereInput> | null
   suppliers?: Prisma.SupplierListRelationFilter
   workOrders?: Prisma.WorkOrderListRelationFilter
+  supplierInquiries?: Prisma.SupplierInquiryListRelationFilter
 }
 
 export type CustomerOrderByWithRelationInput = {
@@ -447,6 +448,7 @@ export type CustomerOrderByWithRelationInput = {
   meteredPlan?: Prisma.CustomerMeteredPlanOrderByWithRelationInput
   suppliers?: Prisma.SupplierOrderByRelationAggregateInput
   workOrders?: Prisma.WorkOrderOrderByRelationAggregateInput
+  supplierInquiries?: Prisma.SupplierInquiryOrderByRelationAggregateInput
 }
 
 export type CustomerWhereUniqueInput = Prisma.AtLeast<{
@@ -491,6 +493,7 @@ export type CustomerWhereUniqueInput = Prisma.AtLeast<{
   meteredPlan?: Prisma.XOR<Prisma.CustomerMeteredPlanNullableScalarRelationFilter, Prisma.CustomerMeteredPlanWhereInput> | null
   suppliers?: Prisma.SupplierListRelationFilter
   workOrders?: Prisma.WorkOrderListRelationFilter
+  supplierInquiries?: Prisma.SupplierInquiryListRelationFilter
 }, "id" | "companyId_softoneTrdr">
 
 export type CustomerOrderByWithAggregationInput = {
@@ -595,6 +598,7 @@ export type CustomerCreateInput = {
   meteredPlan?: Prisma.CustomerMeteredPlanCreateNestedOneWithoutCustomerInput
   suppliers?: Prisma.SupplierCreateNestedManyWithoutCustomerInput
   workOrders?: Prisma.WorkOrderCreateNestedManyWithoutCustomerInput
+  supplierInquiries?: Prisma.SupplierInquiryCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerUncheckedCreateInput = {
@@ -633,6 +637,7 @@ export type CustomerUncheckedCreateInput = {
   meteredPlan?: Prisma.CustomerMeteredPlanUncheckedCreateNestedOneWithoutCustomerInput
   suppliers?: Prisma.SupplierUncheckedCreateNestedManyWithoutCustomerInput
   workOrders?: Prisma.WorkOrderUncheckedCreateNestedManyWithoutCustomerInput
+  supplierInquiries?: Prisma.SupplierInquiryUncheckedCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerUpdateInput = {
@@ -671,6 +676,7 @@ export type CustomerUpdateInput = {
   meteredPlan?: Prisma.CustomerMeteredPlanUpdateOneWithoutCustomerNestedInput
   suppliers?: Prisma.SupplierUpdateManyWithoutCustomerNestedInput
   workOrders?: Prisma.WorkOrderUpdateManyWithoutCustomerNestedInput
+  supplierInquiries?: Prisma.SupplierInquiryUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerUncheckedUpdateInput = {
@@ -709,6 +715,7 @@ export type CustomerUncheckedUpdateInput = {
   meteredPlan?: Prisma.CustomerMeteredPlanUncheckedUpdateOneWithoutCustomerNestedInput
   suppliers?: Prisma.SupplierUncheckedUpdateManyWithoutCustomerNestedInput
   workOrders?: Prisma.WorkOrderUncheckedUpdateManyWithoutCustomerNestedInput
+  supplierInquiries?: Prisma.SupplierInquiryUncheckedUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerCreateManyInput = {
@@ -1142,6 +1149,20 @@ export type CustomerUpdateOneRequiredWithoutWorkOrdersNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.CustomerUpdateToOneWithWhereWithoutWorkOrdersInput, Prisma.CustomerUpdateWithoutWorkOrdersInput>, Prisma.CustomerUncheckedUpdateWithoutWorkOrdersInput>
 }
 
+export type CustomerCreateNestedOneWithoutSupplierInquiriesInput = {
+  create?: Prisma.XOR<Prisma.CustomerCreateWithoutSupplierInquiriesInput, Prisma.CustomerUncheckedCreateWithoutSupplierInquiriesInput>
+  connectOrCreate?: Prisma.CustomerCreateOrConnectWithoutSupplierInquiriesInput
+  connect?: Prisma.CustomerWhereUniqueInput
+}
+
+export type CustomerUpdateOneRequiredWithoutSupplierInquiriesNestedInput = {
+  create?: Prisma.XOR<Prisma.CustomerCreateWithoutSupplierInquiriesInput, Prisma.CustomerUncheckedCreateWithoutSupplierInquiriesInput>
+  connectOrCreate?: Prisma.CustomerCreateOrConnectWithoutSupplierInquiriesInput
+  upsert?: Prisma.CustomerUpsertWithoutSupplierInquiriesInput
+  connect?: Prisma.CustomerWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CustomerUpdateToOneWithWhereWithoutSupplierInquiriesInput, Prisma.CustomerUpdateWithoutSupplierInquiriesInput>, Prisma.CustomerUncheckedUpdateWithoutSupplierInquiriesInput>
+}
+
 export type CustomerCreateWithoutUsersInput = {
   id?: string
   type?: $Enums.CustomerType
@@ -1177,6 +1198,7 @@ export type CustomerCreateWithoutUsersInput = {
   meteredPlan?: Prisma.CustomerMeteredPlanCreateNestedOneWithoutCustomerInput
   suppliers?: Prisma.SupplierCreateNestedManyWithoutCustomerInput
   workOrders?: Prisma.WorkOrderCreateNestedManyWithoutCustomerInput
+  supplierInquiries?: Prisma.SupplierInquiryCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerUncheckedCreateWithoutUsersInput = {
@@ -1214,6 +1236,7 @@ export type CustomerUncheckedCreateWithoutUsersInput = {
   meteredPlan?: Prisma.CustomerMeteredPlanUncheckedCreateNestedOneWithoutCustomerInput
   suppliers?: Prisma.SupplierUncheckedCreateNestedManyWithoutCustomerInput
   workOrders?: Prisma.WorkOrderUncheckedCreateNestedManyWithoutCustomerInput
+  supplierInquiries?: Prisma.SupplierInquiryUncheckedCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerCreateOrConnectWithoutUsersInput = {
@@ -1256,6 +1279,7 @@ export type CustomerCreateWithoutAccountManagerInput = {
   meteredPlan?: Prisma.CustomerMeteredPlanCreateNestedOneWithoutCustomerInput
   suppliers?: Prisma.SupplierCreateNestedManyWithoutCustomerInput
   workOrders?: Prisma.WorkOrderCreateNestedManyWithoutCustomerInput
+  supplierInquiries?: Prisma.SupplierInquiryCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerUncheckedCreateWithoutAccountManagerInput = {
@@ -1293,6 +1317,7 @@ export type CustomerUncheckedCreateWithoutAccountManagerInput = {
   meteredPlan?: Prisma.CustomerMeteredPlanUncheckedCreateNestedOneWithoutCustomerInput
   suppliers?: Prisma.SupplierUncheckedCreateNestedManyWithoutCustomerInput
   workOrders?: Prisma.WorkOrderUncheckedCreateNestedManyWithoutCustomerInput
+  supplierInquiries?: Prisma.SupplierInquiryUncheckedCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerCreateOrConnectWithoutAccountManagerInput = {
@@ -1351,6 +1376,7 @@ export type CustomerUpdateWithoutUsersInput = {
   meteredPlan?: Prisma.CustomerMeteredPlanUpdateOneWithoutCustomerNestedInput
   suppliers?: Prisma.SupplierUpdateManyWithoutCustomerNestedInput
   workOrders?: Prisma.WorkOrderUpdateManyWithoutCustomerNestedInput
+  supplierInquiries?: Prisma.SupplierInquiryUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerUncheckedUpdateWithoutUsersInput = {
@@ -1388,6 +1414,7 @@ export type CustomerUncheckedUpdateWithoutUsersInput = {
   meteredPlan?: Prisma.CustomerMeteredPlanUncheckedUpdateOneWithoutCustomerNestedInput
   suppliers?: Prisma.SupplierUncheckedUpdateManyWithoutCustomerNestedInput
   workOrders?: Prisma.WorkOrderUncheckedUpdateManyWithoutCustomerNestedInput
+  supplierInquiries?: Prisma.SupplierInquiryUncheckedUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerUpsertWithWhereUniqueWithoutAccountManagerInput = {
@@ -1473,6 +1500,7 @@ export type CustomerCreateWithoutCompanyInput = {
   meteredPlan?: Prisma.CustomerMeteredPlanCreateNestedOneWithoutCustomerInput
   suppliers?: Prisma.SupplierCreateNestedManyWithoutCustomerInput
   workOrders?: Prisma.WorkOrderCreateNestedManyWithoutCustomerInput
+  supplierInquiries?: Prisma.SupplierInquiryCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerUncheckedCreateWithoutCompanyInput = {
@@ -1510,6 +1538,7 @@ export type CustomerUncheckedCreateWithoutCompanyInput = {
   meteredPlan?: Prisma.CustomerMeteredPlanUncheckedCreateNestedOneWithoutCustomerInput
   suppliers?: Prisma.SupplierUncheckedCreateNestedManyWithoutCustomerInput
   workOrders?: Prisma.WorkOrderUncheckedCreateNestedManyWithoutCustomerInput
+  supplierInquiries?: Prisma.SupplierInquiryUncheckedCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerCreateOrConnectWithoutCompanyInput = {
@@ -1573,6 +1602,7 @@ export type CustomerCreateWithoutPropertiesInput = {
   meteredPlan?: Prisma.CustomerMeteredPlanCreateNestedOneWithoutCustomerInput
   suppliers?: Prisma.SupplierCreateNestedManyWithoutCustomerInput
   workOrders?: Prisma.WorkOrderCreateNestedManyWithoutCustomerInput
+  supplierInquiries?: Prisma.SupplierInquiryCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerUncheckedCreateWithoutPropertiesInput = {
@@ -1610,6 +1640,7 @@ export type CustomerUncheckedCreateWithoutPropertiesInput = {
   meteredPlan?: Prisma.CustomerMeteredPlanUncheckedCreateNestedOneWithoutCustomerInput
   suppliers?: Prisma.SupplierUncheckedCreateNestedManyWithoutCustomerInput
   workOrders?: Prisma.WorkOrderUncheckedCreateNestedManyWithoutCustomerInput
+  supplierInquiries?: Prisma.SupplierInquiryUncheckedCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerCreateOrConnectWithoutPropertiesInput = {
@@ -1663,6 +1694,7 @@ export type CustomerUpdateWithoutPropertiesInput = {
   meteredPlan?: Prisma.CustomerMeteredPlanUpdateOneWithoutCustomerNestedInput
   suppliers?: Prisma.SupplierUpdateManyWithoutCustomerNestedInput
   workOrders?: Prisma.WorkOrderUpdateManyWithoutCustomerNestedInput
+  supplierInquiries?: Prisma.SupplierInquiryUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerUncheckedUpdateWithoutPropertiesInput = {
@@ -1700,6 +1732,7 @@ export type CustomerUncheckedUpdateWithoutPropertiesInput = {
   meteredPlan?: Prisma.CustomerMeteredPlanUncheckedUpdateOneWithoutCustomerNestedInput
   suppliers?: Prisma.SupplierUncheckedUpdateManyWithoutCustomerNestedInput
   workOrders?: Prisma.WorkOrderUncheckedUpdateManyWithoutCustomerNestedInput
+  supplierInquiries?: Prisma.SupplierInquiryUncheckedUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerCreateWithoutBuildingsInput = {
@@ -1737,6 +1770,7 @@ export type CustomerCreateWithoutBuildingsInput = {
   meteredPlan?: Prisma.CustomerMeteredPlanCreateNestedOneWithoutCustomerInput
   suppliers?: Prisma.SupplierCreateNestedManyWithoutCustomerInput
   workOrders?: Prisma.WorkOrderCreateNestedManyWithoutCustomerInput
+  supplierInquiries?: Prisma.SupplierInquiryCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerUncheckedCreateWithoutBuildingsInput = {
@@ -1774,6 +1808,7 @@ export type CustomerUncheckedCreateWithoutBuildingsInput = {
   meteredPlan?: Prisma.CustomerMeteredPlanUncheckedCreateNestedOneWithoutCustomerInput
   suppliers?: Prisma.SupplierUncheckedCreateNestedManyWithoutCustomerInput
   workOrders?: Prisma.WorkOrderUncheckedCreateNestedManyWithoutCustomerInput
+  supplierInquiries?: Prisma.SupplierInquiryUncheckedCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerCreateOrConnectWithoutBuildingsInput = {
@@ -1827,6 +1862,7 @@ export type CustomerUpdateWithoutBuildingsInput = {
   meteredPlan?: Prisma.CustomerMeteredPlanUpdateOneWithoutCustomerNestedInput
   suppliers?: Prisma.SupplierUpdateManyWithoutCustomerNestedInput
   workOrders?: Prisma.WorkOrderUpdateManyWithoutCustomerNestedInput
+  supplierInquiries?: Prisma.SupplierInquiryUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerUncheckedUpdateWithoutBuildingsInput = {
@@ -1864,6 +1900,7 @@ export type CustomerUncheckedUpdateWithoutBuildingsInput = {
   meteredPlan?: Prisma.CustomerMeteredPlanUncheckedUpdateOneWithoutCustomerNestedInput
   suppliers?: Prisma.SupplierUncheckedUpdateManyWithoutCustomerNestedInput
   workOrders?: Prisma.WorkOrderUncheckedUpdateManyWithoutCustomerNestedInput
+  supplierInquiries?: Prisma.SupplierInquiryUncheckedUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerCreateWithoutUnitsInput = {
@@ -1901,6 +1938,7 @@ export type CustomerCreateWithoutUnitsInput = {
   meteredPlan?: Prisma.CustomerMeteredPlanCreateNestedOneWithoutCustomerInput
   suppliers?: Prisma.SupplierCreateNestedManyWithoutCustomerInput
   workOrders?: Prisma.WorkOrderCreateNestedManyWithoutCustomerInput
+  supplierInquiries?: Prisma.SupplierInquiryCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerUncheckedCreateWithoutUnitsInput = {
@@ -1938,6 +1976,7 @@ export type CustomerUncheckedCreateWithoutUnitsInput = {
   meteredPlan?: Prisma.CustomerMeteredPlanUncheckedCreateNestedOneWithoutCustomerInput
   suppliers?: Prisma.SupplierUncheckedCreateNestedManyWithoutCustomerInput
   workOrders?: Prisma.WorkOrderUncheckedCreateNestedManyWithoutCustomerInput
+  supplierInquiries?: Prisma.SupplierInquiryUncheckedCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerCreateOrConnectWithoutUnitsInput = {
@@ -1991,6 +2030,7 @@ export type CustomerUpdateWithoutUnitsInput = {
   meteredPlan?: Prisma.CustomerMeteredPlanUpdateOneWithoutCustomerNestedInput
   suppliers?: Prisma.SupplierUpdateManyWithoutCustomerNestedInput
   workOrders?: Prisma.WorkOrderUpdateManyWithoutCustomerNestedInput
+  supplierInquiries?: Prisma.SupplierInquiryUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerUncheckedUpdateWithoutUnitsInput = {
@@ -2028,6 +2068,7 @@ export type CustomerUncheckedUpdateWithoutUnitsInput = {
   meteredPlan?: Prisma.CustomerMeteredPlanUncheckedUpdateOneWithoutCustomerNestedInput
   suppliers?: Prisma.SupplierUncheckedUpdateManyWithoutCustomerNestedInput
   workOrders?: Prisma.WorkOrderUncheckedUpdateManyWithoutCustomerNestedInput
+  supplierInquiries?: Prisma.SupplierInquiryUncheckedUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerCreateWithoutInvoicesInput = {
@@ -2065,6 +2106,7 @@ export type CustomerCreateWithoutInvoicesInput = {
   meteredPlan?: Prisma.CustomerMeteredPlanCreateNestedOneWithoutCustomerInput
   suppliers?: Prisma.SupplierCreateNestedManyWithoutCustomerInput
   workOrders?: Prisma.WorkOrderCreateNestedManyWithoutCustomerInput
+  supplierInquiries?: Prisma.SupplierInquiryCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerUncheckedCreateWithoutInvoicesInput = {
@@ -2102,6 +2144,7 @@ export type CustomerUncheckedCreateWithoutInvoicesInput = {
   meteredPlan?: Prisma.CustomerMeteredPlanUncheckedCreateNestedOneWithoutCustomerInput
   suppliers?: Prisma.SupplierUncheckedCreateNestedManyWithoutCustomerInput
   workOrders?: Prisma.WorkOrderUncheckedCreateNestedManyWithoutCustomerInput
+  supplierInquiries?: Prisma.SupplierInquiryUncheckedCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerCreateOrConnectWithoutInvoicesInput = {
@@ -2155,6 +2198,7 @@ export type CustomerUpdateWithoutInvoicesInput = {
   meteredPlan?: Prisma.CustomerMeteredPlanUpdateOneWithoutCustomerNestedInput
   suppliers?: Prisma.SupplierUpdateManyWithoutCustomerNestedInput
   workOrders?: Prisma.WorkOrderUpdateManyWithoutCustomerNestedInput
+  supplierInquiries?: Prisma.SupplierInquiryUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerUncheckedUpdateWithoutInvoicesInput = {
@@ -2192,6 +2236,7 @@ export type CustomerUncheckedUpdateWithoutInvoicesInput = {
   meteredPlan?: Prisma.CustomerMeteredPlanUncheckedUpdateOneWithoutCustomerNestedInput
   suppliers?: Prisma.SupplierUncheckedUpdateManyWithoutCustomerNestedInput
   workOrders?: Prisma.WorkOrderUncheckedUpdateManyWithoutCustomerNestedInput
+  supplierInquiries?: Prisma.SupplierInquiryUncheckedUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerCreateWithoutAnnouncementsInput = {
@@ -2229,6 +2274,7 @@ export type CustomerCreateWithoutAnnouncementsInput = {
   meteredPlan?: Prisma.CustomerMeteredPlanCreateNestedOneWithoutCustomerInput
   suppliers?: Prisma.SupplierCreateNestedManyWithoutCustomerInput
   workOrders?: Prisma.WorkOrderCreateNestedManyWithoutCustomerInput
+  supplierInquiries?: Prisma.SupplierInquiryCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerUncheckedCreateWithoutAnnouncementsInput = {
@@ -2266,6 +2312,7 @@ export type CustomerUncheckedCreateWithoutAnnouncementsInput = {
   meteredPlan?: Prisma.CustomerMeteredPlanUncheckedCreateNestedOneWithoutCustomerInput
   suppliers?: Prisma.SupplierUncheckedCreateNestedManyWithoutCustomerInput
   workOrders?: Prisma.WorkOrderUncheckedCreateNestedManyWithoutCustomerInput
+  supplierInquiries?: Prisma.SupplierInquiryUncheckedCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerCreateOrConnectWithoutAnnouncementsInput = {
@@ -2319,6 +2366,7 @@ export type CustomerUpdateWithoutAnnouncementsInput = {
   meteredPlan?: Prisma.CustomerMeteredPlanUpdateOneWithoutCustomerNestedInput
   suppliers?: Prisma.SupplierUpdateManyWithoutCustomerNestedInput
   workOrders?: Prisma.WorkOrderUpdateManyWithoutCustomerNestedInput
+  supplierInquiries?: Prisma.SupplierInquiryUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerUncheckedUpdateWithoutAnnouncementsInput = {
@@ -2356,6 +2404,7 @@ export type CustomerUncheckedUpdateWithoutAnnouncementsInput = {
   meteredPlan?: Prisma.CustomerMeteredPlanUncheckedUpdateOneWithoutCustomerNestedInput
   suppliers?: Prisma.SupplierUncheckedUpdateManyWithoutCustomerNestedInput
   workOrders?: Prisma.WorkOrderUncheckedUpdateManyWithoutCustomerNestedInput
+  supplierInquiries?: Prisma.SupplierInquiryUncheckedUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerCreateWithoutMeteredPlanInput = {
@@ -2393,6 +2442,7 @@ export type CustomerCreateWithoutMeteredPlanInput = {
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutCustomerInput
   suppliers?: Prisma.SupplierCreateNestedManyWithoutCustomerInput
   workOrders?: Prisma.WorkOrderCreateNestedManyWithoutCustomerInput
+  supplierInquiries?: Prisma.SupplierInquiryCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerUncheckedCreateWithoutMeteredPlanInput = {
@@ -2430,6 +2480,7 @@ export type CustomerUncheckedCreateWithoutMeteredPlanInput = {
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutCustomerInput
   suppliers?: Prisma.SupplierUncheckedCreateNestedManyWithoutCustomerInput
   workOrders?: Prisma.WorkOrderUncheckedCreateNestedManyWithoutCustomerInput
+  supplierInquiries?: Prisma.SupplierInquiryUncheckedCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerCreateOrConnectWithoutMeteredPlanInput = {
@@ -2483,6 +2534,7 @@ export type CustomerUpdateWithoutMeteredPlanInput = {
   announcements?: Prisma.AnnouncementUpdateManyWithoutCustomerNestedInput
   suppliers?: Prisma.SupplierUpdateManyWithoutCustomerNestedInput
   workOrders?: Prisma.WorkOrderUpdateManyWithoutCustomerNestedInput
+  supplierInquiries?: Prisma.SupplierInquiryUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerUncheckedUpdateWithoutMeteredPlanInput = {
@@ -2520,6 +2572,7 @@ export type CustomerUncheckedUpdateWithoutMeteredPlanInput = {
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutCustomerNestedInput
   suppliers?: Prisma.SupplierUncheckedUpdateManyWithoutCustomerNestedInput
   workOrders?: Prisma.WorkOrderUncheckedUpdateManyWithoutCustomerNestedInput
+  supplierInquiries?: Prisma.SupplierInquiryUncheckedUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerCreateWithoutSuppliersInput = {
@@ -2557,6 +2610,7 @@ export type CustomerCreateWithoutSuppliersInput = {
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutCustomerInput
   meteredPlan?: Prisma.CustomerMeteredPlanCreateNestedOneWithoutCustomerInput
   workOrders?: Prisma.WorkOrderCreateNestedManyWithoutCustomerInput
+  supplierInquiries?: Prisma.SupplierInquiryCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerUncheckedCreateWithoutSuppliersInput = {
@@ -2594,6 +2648,7 @@ export type CustomerUncheckedCreateWithoutSuppliersInput = {
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutCustomerInput
   meteredPlan?: Prisma.CustomerMeteredPlanUncheckedCreateNestedOneWithoutCustomerInput
   workOrders?: Prisma.WorkOrderUncheckedCreateNestedManyWithoutCustomerInput
+  supplierInquiries?: Prisma.SupplierInquiryUncheckedCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerCreateOrConnectWithoutSuppliersInput = {
@@ -2647,6 +2702,7 @@ export type CustomerUpdateWithoutSuppliersInput = {
   announcements?: Prisma.AnnouncementUpdateManyWithoutCustomerNestedInput
   meteredPlan?: Prisma.CustomerMeteredPlanUpdateOneWithoutCustomerNestedInput
   workOrders?: Prisma.WorkOrderUpdateManyWithoutCustomerNestedInput
+  supplierInquiries?: Prisma.SupplierInquiryUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerUncheckedUpdateWithoutSuppliersInput = {
@@ -2684,6 +2740,7 @@ export type CustomerUncheckedUpdateWithoutSuppliersInput = {
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutCustomerNestedInput
   meteredPlan?: Prisma.CustomerMeteredPlanUncheckedUpdateOneWithoutCustomerNestedInput
   workOrders?: Prisma.WorkOrderUncheckedUpdateManyWithoutCustomerNestedInput
+  supplierInquiries?: Prisma.SupplierInquiryUncheckedUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerCreateWithoutWorkOrdersInput = {
@@ -2721,6 +2778,7 @@ export type CustomerCreateWithoutWorkOrdersInput = {
   announcements?: Prisma.AnnouncementCreateNestedManyWithoutCustomerInput
   meteredPlan?: Prisma.CustomerMeteredPlanCreateNestedOneWithoutCustomerInput
   suppliers?: Prisma.SupplierCreateNestedManyWithoutCustomerInput
+  supplierInquiries?: Prisma.SupplierInquiryCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerUncheckedCreateWithoutWorkOrdersInput = {
@@ -2758,6 +2816,7 @@ export type CustomerUncheckedCreateWithoutWorkOrdersInput = {
   announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutCustomerInput
   meteredPlan?: Prisma.CustomerMeteredPlanUncheckedCreateNestedOneWithoutCustomerInput
   suppliers?: Prisma.SupplierUncheckedCreateNestedManyWithoutCustomerInput
+  supplierInquiries?: Prisma.SupplierInquiryUncheckedCreateNestedManyWithoutCustomerInput
 }
 
 export type CustomerCreateOrConnectWithoutWorkOrdersInput = {
@@ -2811,6 +2870,7 @@ export type CustomerUpdateWithoutWorkOrdersInput = {
   announcements?: Prisma.AnnouncementUpdateManyWithoutCustomerNestedInput
   meteredPlan?: Prisma.CustomerMeteredPlanUpdateOneWithoutCustomerNestedInput
   suppliers?: Prisma.SupplierUpdateManyWithoutCustomerNestedInput
+  supplierInquiries?: Prisma.SupplierInquiryUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerUncheckedUpdateWithoutWorkOrdersInput = {
@@ -2848,6 +2908,175 @@ export type CustomerUncheckedUpdateWithoutWorkOrdersInput = {
   announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutCustomerNestedInput
   meteredPlan?: Prisma.CustomerMeteredPlanUncheckedUpdateOneWithoutCustomerNestedInput
   suppliers?: Prisma.SupplierUncheckedUpdateManyWithoutCustomerNestedInput
+  supplierInquiries?: Prisma.SupplierInquiryUncheckedUpdateManyWithoutCustomerNestedInput
+}
+
+export type CustomerCreateWithoutSupplierInquiriesInput = {
+  id?: string
+  type?: $Enums.CustomerType
+  sodType?: number
+  softoneTrdr?: number | null
+  code?: string | null
+  name: string
+  afm?: string | null
+  doy?: string | null
+  email?: string | null
+  phone?: string | null
+  phone2?: string | null
+  fax?: string | null
+  webpage?: string | null
+  address?: string | null
+  city?: string | null
+  district?: string | null
+  postalCode?: string | null
+  country?: string | null
+  isActive?: boolean
+  remarks?: string | null
+  lat?: number | null
+  lng?: number | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  company: Prisma.CompanyCreateNestedOneWithoutCustomersInput
+  accountManager?: Prisma.UserCreateNestedOneWithoutAccountCustomersInput
+  users?: Prisma.UserCreateNestedManyWithoutCustomerInput
+  properties?: Prisma.PropertyCreateNestedManyWithoutCustomerInput
+  buildings?: Prisma.BuildingCreateNestedManyWithoutCustomerInput
+  units?: Prisma.UnitCreateNestedManyWithoutCustomerInput
+  invoices?: Prisma.ServiceInvoiceCreateNestedManyWithoutCustomerInput
+  announcements?: Prisma.AnnouncementCreateNestedManyWithoutCustomerInput
+  meteredPlan?: Prisma.CustomerMeteredPlanCreateNestedOneWithoutCustomerInput
+  suppliers?: Prisma.SupplierCreateNestedManyWithoutCustomerInput
+  workOrders?: Prisma.WorkOrderCreateNestedManyWithoutCustomerInput
+}
+
+export type CustomerUncheckedCreateWithoutSupplierInquiriesInput = {
+  id?: string
+  companyId: string
+  type?: $Enums.CustomerType
+  sodType?: number
+  softoneTrdr?: number | null
+  code?: string | null
+  name: string
+  afm?: string | null
+  doy?: string | null
+  email?: string | null
+  phone?: string | null
+  phone2?: string | null
+  fax?: string | null
+  webpage?: string | null
+  address?: string | null
+  city?: string | null
+  district?: string | null
+  postalCode?: string | null
+  country?: string | null
+  isActive?: boolean
+  remarks?: string | null
+  lat?: number | null
+  lng?: number | null
+  accountManagerId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutCustomerInput
+  properties?: Prisma.PropertyUncheckedCreateNestedManyWithoutCustomerInput
+  buildings?: Prisma.BuildingUncheckedCreateNestedManyWithoutCustomerInput
+  units?: Prisma.UnitUncheckedCreateNestedManyWithoutCustomerInput
+  invoices?: Prisma.ServiceInvoiceUncheckedCreateNestedManyWithoutCustomerInput
+  announcements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutCustomerInput
+  meteredPlan?: Prisma.CustomerMeteredPlanUncheckedCreateNestedOneWithoutCustomerInput
+  suppliers?: Prisma.SupplierUncheckedCreateNestedManyWithoutCustomerInput
+  workOrders?: Prisma.WorkOrderUncheckedCreateNestedManyWithoutCustomerInput
+}
+
+export type CustomerCreateOrConnectWithoutSupplierInquiriesInput = {
+  where: Prisma.CustomerWhereUniqueInput
+  create: Prisma.XOR<Prisma.CustomerCreateWithoutSupplierInquiriesInput, Prisma.CustomerUncheckedCreateWithoutSupplierInquiriesInput>
+}
+
+export type CustomerUpsertWithoutSupplierInquiriesInput = {
+  update: Prisma.XOR<Prisma.CustomerUpdateWithoutSupplierInquiriesInput, Prisma.CustomerUncheckedUpdateWithoutSupplierInquiriesInput>
+  create: Prisma.XOR<Prisma.CustomerCreateWithoutSupplierInquiriesInput, Prisma.CustomerUncheckedCreateWithoutSupplierInquiriesInput>
+  where?: Prisma.CustomerWhereInput
+}
+
+export type CustomerUpdateToOneWithWhereWithoutSupplierInquiriesInput = {
+  where?: Prisma.CustomerWhereInput
+  data: Prisma.XOR<Prisma.CustomerUpdateWithoutSupplierInquiriesInput, Prisma.CustomerUncheckedUpdateWithoutSupplierInquiriesInput>
+}
+
+export type CustomerUpdateWithoutSupplierInquiriesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumCustomerTypeFieldUpdateOperationsInput | $Enums.CustomerType
+  sodType?: Prisma.IntFieldUpdateOperationsInput | number
+  softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  doy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fax?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  webpage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  district?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  company?: Prisma.CompanyUpdateOneRequiredWithoutCustomersNestedInput
+  accountManager?: Prisma.UserUpdateOneWithoutAccountCustomersNestedInput
+  users?: Prisma.UserUpdateManyWithoutCustomerNestedInput
+  properties?: Prisma.PropertyUpdateManyWithoutCustomerNestedInput
+  buildings?: Prisma.BuildingUpdateManyWithoutCustomerNestedInput
+  units?: Prisma.UnitUpdateManyWithoutCustomerNestedInput
+  invoices?: Prisma.ServiceInvoiceUpdateManyWithoutCustomerNestedInput
+  announcements?: Prisma.AnnouncementUpdateManyWithoutCustomerNestedInput
+  meteredPlan?: Prisma.CustomerMeteredPlanUpdateOneWithoutCustomerNestedInput
+  suppliers?: Prisma.SupplierUpdateManyWithoutCustomerNestedInput
+  workOrders?: Prisma.WorkOrderUpdateManyWithoutCustomerNestedInput
+}
+
+export type CustomerUncheckedUpdateWithoutSupplierInquiriesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  companyId?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.EnumCustomerTypeFieldUpdateOperationsInput | $Enums.CustomerType
+  sodType?: Prisma.IntFieldUpdateOperationsInput | number
+  softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  doy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fax?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  webpage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  district?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  accountManagerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUncheckedUpdateManyWithoutCustomerNestedInput
+  properties?: Prisma.PropertyUncheckedUpdateManyWithoutCustomerNestedInput
+  buildings?: Prisma.BuildingUncheckedUpdateManyWithoutCustomerNestedInput
+  units?: Prisma.UnitUncheckedUpdateManyWithoutCustomerNestedInput
+  invoices?: Prisma.ServiceInvoiceUncheckedUpdateManyWithoutCustomerNestedInput
+  announcements?: Prisma.AnnouncementUncheckedUpdateManyWithoutCustomerNestedInput
+  meteredPlan?: Prisma.CustomerMeteredPlanUncheckedUpdateOneWithoutCustomerNestedInput
+  suppliers?: Prisma.SupplierUncheckedUpdateManyWithoutCustomerNestedInput
+  workOrders?: Prisma.WorkOrderUncheckedUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerCreateManyAccountManagerInput = {
@@ -2913,6 +3142,7 @@ export type CustomerUpdateWithoutAccountManagerInput = {
   meteredPlan?: Prisma.CustomerMeteredPlanUpdateOneWithoutCustomerNestedInput
   suppliers?: Prisma.SupplierUpdateManyWithoutCustomerNestedInput
   workOrders?: Prisma.WorkOrderUpdateManyWithoutCustomerNestedInput
+  supplierInquiries?: Prisma.SupplierInquiryUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerUncheckedUpdateWithoutAccountManagerInput = {
@@ -2950,6 +3180,7 @@ export type CustomerUncheckedUpdateWithoutAccountManagerInput = {
   meteredPlan?: Prisma.CustomerMeteredPlanUncheckedUpdateOneWithoutCustomerNestedInput
   suppliers?: Prisma.SupplierUncheckedUpdateManyWithoutCustomerNestedInput
   workOrders?: Prisma.WorkOrderUncheckedUpdateManyWithoutCustomerNestedInput
+  supplierInquiries?: Prisma.SupplierInquiryUncheckedUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerUncheckedUpdateManyWithoutAccountManagerInput = {
@@ -3043,6 +3274,7 @@ export type CustomerUpdateWithoutCompanyInput = {
   meteredPlan?: Prisma.CustomerMeteredPlanUpdateOneWithoutCustomerNestedInput
   suppliers?: Prisma.SupplierUpdateManyWithoutCustomerNestedInput
   workOrders?: Prisma.WorkOrderUpdateManyWithoutCustomerNestedInput
+  supplierInquiries?: Prisma.SupplierInquiryUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerUncheckedUpdateWithoutCompanyInput = {
@@ -3080,6 +3312,7 @@ export type CustomerUncheckedUpdateWithoutCompanyInput = {
   meteredPlan?: Prisma.CustomerMeteredPlanUncheckedUpdateOneWithoutCustomerNestedInput
   suppliers?: Prisma.SupplierUncheckedUpdateManyWithoutCustomerNestedInput
   workOrders?: Prisma.WorkOrderUncheckedUpdateManyWithoutCustomerNestedInput
+  supplierInquiries?: Prisma.SupplierInquiryUncheckedUpdateManyWithoutCustomerNestedInput
 }
 
 export type CustomerUncheckedUpdateManyWithoutCompanyInput = {
@@ -3124,6 +3357,7 @@ export type CustomerCountOutputType = {
   announcements: number
   suppliers: number
   workOrders: number
+  supplierInquiries: number
 }
 
 export type CustomerCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -3135,6 +3369,7 @@ export type CustomerCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensio
   announcements?: boolean | CustomerCountOutputTypeCountAnnouncementsArgs
   suppliers?: boolean | CustomerCountOutputTypeCountSuppliersArgs
   workOrders?: boolean | CustomerCountOutputTypeCountWorkOrdersArgs
+  supplierInquiries?: boolean | CustomerCountOutputTypeCountSupplierInquiriesArgs
 }
 
 /**
@@ -3203,6 +3438,13 @@ export type CustomerCountOutputTypeCountWorkOrdersArgs<ExtArgs extends runtime.T
   where?: Prisma.WorkOrderWhereInput
 }
 
+/**
+ * CustomerCountOutputType without action
+ */
+export type CustomerCountOutputTypeCountSupplierInquiriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SupplierInquiryWhereInput
+}
+
 
 export type CustomerSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -3242,6 +3484,7 @@ export type CustomerSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   meteredPlan?: boolean | Prisma.Customer$meteredPlanArgs<ExtArgs>
   suppliers?: boolean | Prisma.Customer$suppliersArgs<ExtArgs>
   workOrders?: boolean | Prisma.Customer$workOrdersArgs<ExtArgs>
+  supplierInquiries?: boolean | Prisma.Customer$supplierInquiriesArgs<ExtArgs>
   _count?: boolean | Prisma.CustomerCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["customer"]>
 
@@ -3349,6 +3592,7 @@ export type CustomerInclude<ExtArgs extends runtime.Types.Extensions.InternalArg
   meteredPlan?: boolean | Prisma.Customer$meteredPlanArgs<ExtArgs>
   suppliers?: boolean | Prisma.Customer$suppliersArgs<ExtArgs>
   workOrders?: boolean | Prisma.Customer$workOrdersArgs<ExtArgs>
+  supplierInquiries?: boolean | Prisma.Customer$supplierInquiriesArgs<ExtArgs>
   _count?: boolean | Prisma.CustomerCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type CustomerIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -3374,6 +3618,7 @@ export type $CustomerPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     meteredPlan: Prisma.$CustomerMeteredPlanPayload<ExtArgs> | null
     suppliers: Prisma.$SupplierPayload<ExtArgs>[]
     workOrders: Prisma.$WorkOrderPayload<ExtArgs>[]
+    supplierInquiries: Prisma.$SupplierInquiryPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -3807,6 +4052,7 @@ export interface Prisma__CustomerClient<T, Null = never, ExtArgs extends runtime
   meteredPlan<T extends Prisma.Customer$meteredPlanArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Customer$meteredPlanArgs<ExtArgs>>): Prisma.Prisma__CustomerMeteredPlanClient<runtime.Types.Result.GetResult<Prisma.$CustomerMeteredPlanPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   suppliers<T extends Prisma.Customer$suppliersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Customer$suppliersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SupplierPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   workOrders<T extends Prisma.Customer$workOrdersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Customer$workOrdersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WorkOrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  supplierInquiries<T extends Prisma.Customer$supplierInquiriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Customer$supplierInquiriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SupplierInquiryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4490,6 +4736,30 @@ export type Customer$workOrdersArgs<ExtArgs extends runtime.Types.Extensions.Int
   take?: number
   skip?: number
   distinct?: Prisma.WorkOrderScalarFieldEnum | Prisma.WorkOrderScalarFieldEnum[]
+}
+
+/**
+ * Customer.supplierInquiries
+ */
+export type Customer$supplierInquiriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SupplierInquiry
+   */
+  select?: Prisma.SupplierInquirySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the SupplierInquiry
+   */
+  omit?: Prisma.SupplierInquiryOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SupplierInquiryInclude<ExtArgs> | null
+  where?: Prisma.SupplierInquiryWhereInput
+  orderBy?: Prisma.SupplierInquiryOrderByWithRelationInput | Prisma.SupplierInquiryOrderByWithRelationInput[]
+  cursor?: Prisma.SupplierInquiryWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SupplierInquiryScalarFieldEnum | Prisma.SupplierInquiryScalarFieldEnum[]
 }
 
 /**

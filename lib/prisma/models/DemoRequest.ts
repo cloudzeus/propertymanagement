@@ -45,6 +45,8 @@ export type DemoRequestMinAggregateOutputType = {
   durationMin: number | null
   status: string | null
   locale: string | null
+  consentText: string | null
+  consentedAt: Date | null
   createdAt: Date | null
 }
 
@@ -59,6 +61,8 @@ export type DemoRequestMaxAggregateOutputType = {
   durationMin: number | null
   status: string | null
   locale: string | null
+  consentText: string | null
+  consentedAt: Date | null
   createdAt: Date | null
 }
 
@@ -73,6 +77,8 @@ export type DemoRequestCountAggregateOutputType = {
   durationMin: number
   status: number
   locale: number
+  consentText: number
+  consentedAt: number
   createdAt: number
   _all: number
 }
@@ -97,6 +103,8 @@ export type DemoRequestMinAggregateInputType = {
   durationMin?: true
   status?: true
   locale?: true
+  consentText?: true
+  consentedAt?: true
   createdAt?: true
 }
 
@@ -111,6 +119,8 @@ export type DemoRequestMaxAggregateInputType = {
   durationMin?: true
   status?: true
   locale?: true
+  consentText?: true
+  consentedAt?: true
   createdAt?: true
 }
 
@@ -125,6 +135,8 @@ export type DemoRequestCountAggregateInputType = {
   durationMin?: true
   status?: true
   locale?: true
+  consentText?: true
+  consentedAt?: true
   createdAt?: true
   _all?: true
 }
@@ -226,6 +238,8 @@ export type DemoRequestGroupByOutputType = {
   durationMin: number
   status: string
   locale: string
+  consentText: string | null
+  consentedAt: Date | null
   createdAt: Date
   _count: DemoRequestCountAggregateOutputType | null
   _avg: DemoRequestAvgAggregateOutputType | null
@@ -263,6 +277,8 @@ export type DemoRequestWhereInput = {
   durationMin?: Prisma.IntFilter<"DemoRequest"> | number
   status?: Prisma.StringFilter<"DemoRequest"> | string
   locale?: Prisma.StringFilter<"DemoRequest"> | string
+  consentText?: Prisma.StringNullableFilter<"DemoRequest"> | string | null
+  consentedAt?: Prisma.DateTimeNullableFilter<"DemoRequest"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"DemoRequest"> | Date | string
 }
 
@@ -277,6 +293,8 @@ export type DemoRequestOrderByWithRelationInput = {
   durationMin?: Prisma.SortOrder
   status?: Prisma.SortOrder
   locale?: Prisma.SortOrder
+  consentText?: Prisma.SortOrderInput | Prisma.SortOrder
+  consentedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -294,6 +312,8 @@ export type DemoRequestWhereUniqueInput = Prisma.AtLeast<{
   durationMin?: Prisma.IntFilter<"DemoRequest"> | number
   status?: Prisma.StringFilter<"DemoRequest"> | string
   locale?: Prisma.StringFilter<"DemoRequest"> | string
+  consentText?: Prisma.StringNullableFilter<"DemoRequest"> | string | null
+  consentedAt?: Prisma.DateTimeNullableFilter<"DemoRequest"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"DemoRequest"> | Date | string
 }, "id">
 
@@ -308,6 +328,8 @@ export type DemoRequestOrderByWithAggregationInput = {
   durationMin?: Prisma.SortOrder
   status?: Prisma.SortOrder
   locale?: Prisma.SortOrder
+  consentText?: Prisma.SortOrderInput | Prisma.SortOrder
+  consentedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.DemoRequestCountOrderByAggregateInput
   _avg?: Prisma.DemoRequestAvgOrderByAggregateInput
@@ -330,6 +352,8 @@ export type DemoRequestScalarWhereWithAggregatesInput = {
   durationMin?: Prisma.IntWithAggregatesFilter<"DemoRequest"> | number
   status?: Prisma.StringWithAggregatesFilter<"DemoRequest"> | string
   locale?: Prisma.StringWithAggregatesFilter<"DemoRequest"> | string
+  consentText?: Prisma.StringNullableWithAggregatesFilter<"DemoRequest"> | string | null
+  consentedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"DemoRequest"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"DemoRequest"> | Date | string
 }
 
@@ -344,6 +368,8 @@ export type DemoRequestCreateInput = {
   durationMin?: number
   status?: string
   locale?: string
+  consentText?: string | null
+  consentedAt?: Date | string | null
   createdAt?: Date | string
 }
 
@@ -358,6 +384,8 @@ export type DemoRequestUncheckedCreateInput = {
   durationMin?: number
   status?: string
   locale?: string
+  consentText?: string | null
+  consentedAt?: Date | string | null
   createdAt?: Date | string
 }
 
@@ -372,6 +400,8 @@ export type DemoRequestUpdateInput = {
   durationMin?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   locale?: Prisma.StringFieldUpdateOperationsInput | string
+  consentText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  consentedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -386,6 +416,8 @@ export type DemoRequestUncheckedUpdateInput = {
   durationMin?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   locale?: Prisma.StringFieldUpdateOperationsInput | string
+  consentText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  consentedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -400,6 +432,8 @@ export type DemoRequestCreateManyInput = {
   durationMin?: number
   status?: string
   locale?: string
+  consentText?: string | null
+  consentedAt?: Date | string | null
   createdAt?: Date | string
 }
 
@@ -414,6 +448,8 @@ export type DemoRequestUpdateManyMutationInput = {
   durationMin?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   locale?: Prisma.StringFieldUpdateOperationsInput | string
+  consentText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  consentedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -428,6 +464,8 @@ export type DemoRequestUncheckedUpdateManyInput = {
   durationMin?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   locale?: Prisma.StringFieldUpdateOperationsInput | string
+  consentText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  consentedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -442,6 +480,8 @@ export type DemoRequestCountOrderByAggregateInput = {
   durationMin?: Prisma.SortOrder
   status?: Prisma.SortOrder
   locale?: Prisma.SortOrder
+  consentText?: Prisma.SortOrder
+  consentedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -460,6 +500,8 @@ export type DemoRequestMaxOrderByAggregateInput = {
   durationMin?: Prisma.SortOrder
   status?: Prisma.SortOrder
   locale?: Prisma.SortOrder
+  consentText?: Prisma.SortOrder
+  consentedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -474,6 +516,8 @@ export type DemoRequestMinOrderByAggregateInput = {
   durationMin?: Prisma.SortOrder
   status?: Prisma.SortOrder
   locale?: Prisma.SortOrder
+  consentText?: Prisma.SortOrder
+  consentedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -494,6 +538,8 @@ export type DemoRequestSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   durationMin?: boolean
   status?: boolean
   locale?: boolean
+  consentText?: boolean
+  consentedAt?: boolean
   createdAt?: boolean
 }, ExtArgs["result"]["demoRequest"]>
 
@@ -508,6 +554,8 @@ export type DemoRequestSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   durationMin?: boolean
   status?: boolean
   locale?: boolean
+  consentText?: boolean
+  consentedAt?: boolean
   createdAt?: boolean
 }, ExtArgs["result"]["demoRequest"]>
 
@@ -522,6 +570,8 @@ export type DemoRequestSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   durationMin?: boolean
   status?: boolean
   locale?: boolean
+  consentText?: boolean
+  consentedAt?: boolean
   createdAt?: boolean
 }, ExtArgs["result"]["demoRequest"]>
 
@@ -536,10 +586,12 @@ export type DemoRequestSelectScalar = {
   durationMin?: boolean
   status?: boolean
   locale?: boolean
+  consentText?: boolean
+  consentedAt?: boolean
   createdAt?: boolean
 }
 
-export type DemoRequestOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "phone" | "company" | "message" | "scheduledAt" | "durationMin" | "status" | "locale" | "createdAt", ExtArgs["result"]["demoRequest"]>
+export type DemoRequestOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "phone" | "company" | "message" | "scheduledAt" | "durationMin" | "status" | "locale" | "consentText" | "consentedAt" | "createdAt", ExtArgs["result"]["demoRequest"]>
 
 export type $DemoRequestPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "DemoRequest"
@@ -555,6 +607,8 @@ export type $DemoRequestPayload<ExtArgs extends runtime.Types.Extensions.Interna
     durationMin: number
     status: string
     locale: string
+    consentText: string | null
+    consentedAt: Date | null
     createdAt: Date
   }, ExtArgs["result"]["demoRequest"]>
   composites: {}
@@ -989,6 +1043,8 @@ export interface DemoRequestFieldRefs {
   readonly durationMin: Prisma.FieldRef<"DemoRequest", 'Int'>
   readonly status: Prisma.FieldRef<"DemoRequest", 'String'>
   readonly locale: Prisma.FieldRef<"DemoRequest", 'String'>
+  readonly consentText: Prisma.FieldRef<"DemoRequest", 'String'>
+  readonly consentedAt: Prisma.FieldRef<"DemoRequest", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"DemoRequest", 'DateTime'>
 }
     

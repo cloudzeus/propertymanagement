@@ -80,6 +80,7 @@ export type WorkOrderMinAggregateOutputType = {
   completionNote: string | null
   customerConfirmedAt: Date | null
   customerConfirmedById: string | null
+  autoConfirmedAt: Date | null
   disputeNote: string | null
   customerContractHtml: string | null
   supplierContractHtml: string | null
@@ -124,6 +125,7 @@ export type WorkOrderMaxAggregateOutputType = {
   completionNote: string | null
   customerConfirmedAt: Date | null
   customerConfirmedById: string | null
+  autoConfirmedAt: Date | null
   disputeNote: string | null
   customerContractHtml: string | null
   supplierContractHtml: string | null
@@ -169,6 +171,7 @@ export type WorkOrderCountAggregateOutputType = {
   completionMediaIds: number
   customerConfirmedAt: number
   customerConfirmedById: number
+  autoConfirmedAt: number
   disputeNote: number
   customerContractHtml: number
   supplierContractHtml: number
@@ -233,6 +236,7 @@ export type WorkOrderMinAggregateInputType = {
   completionNote?: true
   customerConfirmedAt?: true
   customerConfirmedById?: true
+  autoConfirmedAt?: true
   disputeNote?: true
   customerContractHtml?: true
   supplierContractHtml?: true
@@ -277,6 +281,7 @@ export type WorkOrderMaxAggregateInputType = {
   completionNote?: true
   customerConfirmedAt?: true
   customerConfirmedById?: true
+  autoConfirmedAt?: true
   disputeNote?: true
   customerContractHtml?: true
   supplierContractHtml?: true
@@ -322,6 +327,7 @@ export type WorkOrderCountAggregateInputType = {
   completionMediaIds?: true
   customerConfirmedAt?: true
   customerConfirmedById?: true
+  autoConfirmedAt?: true
   disputeNote?: true
   customerContractHtml?: true
   supplierContractHtml?: true
@@ -454,6 +460,7 @@ export type WorkOrderGroupByOutputType = {
   completionMediaIds: runtime.JsonValue | null
   customerConfirmedAt: Date | null
   customerConfirmedById: string | null
+  autoConfirmedAt: Date | null
   disputeNote: string | null
   customerContractHtml: string | null
   supplierContractHtml: string | null
@@ -522,6 +529,7 @@ export type WorkOrderWhereInput = {
   completionMediaIds?: Prisma.JsonNullableFilter<"WorkOrder">
   customerConfirmedAt?: Prisma.DateTimeNullableFilter<"WorkOrder"> | Date | string | null
   customerConfirmedById?: Prisma.StringNullableFilter<"WorkOrder"> | string | null
+  autoConfirmedAt?: Prisma.DateTimeNullableFilter<"WorkOrder"> | Date | string | null
   disputeNote?: Prisma.StringNullableFilter<"WorkOrder"> | string | null
   customerContractHtml?: Prisma.StringNullableFilter<"WorkOrder"> | string | null
   supplierContractHtml?: Prisma.StringNullableFilter<"WorkOrder"> | string | null
@@ -573,6 +581,7 @@ export type WorkOrderOrderByWithRelationInput = {
   completionMediaIds?: Prisma.SortOrderInput | Prisma.SortOrder
   customerConfirmedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   customerConfirmedById?: Prisma.SortOrderInput | Prisma.SortOrder
+  autoConfirmedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   disputeNote?: Prisma.SortOrderInput | Prisma.SortOrder
   customerContractHtml?: Prisma.SortOrderInput | Prisma.SortOrder
   supplierContractHtml?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -627,6 +636,7 @@ export type WorkOrderWhereUniqueInput = Prisma.AtLeast<{
   completionMediaIds?: Prisma.JsonNullableFilter<"WorkOrder">
   customerConfirmedAt?: Prisma.DateTimeNullableFilter<"WorkOrder"> | Date | string | null
   customerConfirmedById?: Prisma.StringNullableFilter<"WorkOrder"> | string | null
+  autoConfirmedAt?: Prisma.DateTimeNullableFilter<"WorkOrder"> | Date | string | null
   disputeNote?: Prisma.StringNullableFilter<"WorkOrder"> | string | null
   customerContractHtml?: Prisma.StringNullableFilter<"WorkOrder"> | string | null
   supplierContractHtml?: Prisma.StringNullableFilter<"WorkOrder"> | string | null
@@ -678,6 +688,7 @@ export type WorkOrderOrderByWithAggregationInput = {
   completionMediaIds?: Prisma.SortOrderInput | Prisma.SortOrder
   customerConfirmedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   customerConfirmedById?: Prisma.SortOrderInput | Prisma.SortOrder
+  autoConfirmedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   disputeNote?: Prisma.SortOrderInput | Prisma.SortOrder
   customerContractHtml?: Prisma.SortOrderInput | Prisma.SortOrder
   supplierContractHtml?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -731,6 +742,7 @@ export type WorkOrderScalarWhereWithAggregatesInput = {
   completionMediaIds?: Prisma.JsonNullableWithAggregatesFilter<"WorkOrder">
   customerConfirmedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"WorkOrder"> | Date | string | null
   customerConfirmedById?: Prisma.StringNullableWithAggregatesFilter<"WorkOrder"> | string | null
+  autoConfirmedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"WorkOrder"> | Date | string | null
   disputeNote?: Prisma.StringNullableWithAggregatesFilter<"WorkOrder"> | string | null
   customerContractHtml?: Prisma.StringNullableWithAggregatesFilter<"WorkOrder"> | string | null
   supplierContractHtml?: Prisma.StringNullableWithAggregatesFilter<"WorkOrder"> | string | null
@@ -770,6 +782,7 @@ export type WorkOrderCreateInput = {
   completionMediaIds?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   customerConfirmedAt?: Date | string | null
   customerConfirmedById?: string | null
+  autoConfirmedAt?: Date | string | null
   disputeNote?: string | null
   customerContractHtml?: string | null
   supplierContractHtml?: string | null
@@ -821,6 +834,7 @@ export type WorkOrderUncheckedCreateInput = {
   completionMediaIds?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   customerConfirmedAt?: Date | string | null
   customerConfirmedById?: string | null
+  autoConfirmedAt?: Date | string | null
   disputeNote?: string | null
   customerContractHtml?: string | null
   supplierContractHtml?: string | null
@@ -860,6 +874,7 @@ export type WorkOrderUpdateInput = {
   completionMediaIds?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   customerConfirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customerConfirmedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  autoConfirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   disputeNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplierContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -911,6 +926,7 @@ export type WorkOrderUncheckedUpdateInput = {
   completionMediaIds?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   customerConfirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customerConfirmedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  autoConfirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   disputeNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplierContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -956,6 +972,7 @@ export type WorkOrderCreateManyInput = {
   completionMediaIds?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   customerConfirmedAt?: Date | string | null
   customerConfirmedById?: string | null
+  autoConfirmedAt?: Date | string | null
   disputeNote?: string | null
   customerContractHtml?: string | null
   supplierContractHtml?: string | null
@@ -995,6 +1012,7 @@ export type WorkOrderUpdateManyMutationInput = {
   completionMediaIds?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   customerConfirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customerConfirmedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  autoConfirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   disputeNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplierContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1040,6 +1058,7 @@ export type WorkOrderUncheckedUpdateManyInput = {
   completionMediaIds?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   customerConfirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customerConfirmedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  autoConfirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   disputeNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplierContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1100,6 +1119,7 @@ export type WorkOrderCountOrderByAggregateInput = {
   completionMediaIds?: Prisma.SortOrder
   customerConfirmedAt?: Prisma.SortOrder
   customerConfirmedById?: Prisma.SortOrder
+  autoConfirmedAt?: Prisma.SortOrder
   disputeNote?: Prisma.SortOrder
   customerContractHtml?: Prisma.SortOrder
   supplierContractHtml?: Prisma.SortOrder
@@ -1153,6 +1173,7 @@ export type WorkOrderMaxOrderByAggregateInput = {
   completionNote?: Prisma.SortOrder
   customerConfirmedAt?: Prisma.SortOrder
   customerConfirmedById?: Prisma.SortOrder
+  autoConfirmedAt?: Prisma.SortOrder
   disputeNote?: Prisma.SortOrder
   customerContractHtml?: Prisma.SortOrder
   supplierContractHtml?: Prisma.SortOrder
@@ -1197,6 +1218,7 @@ export type WorkOrderMinOrderByAggregateInput = {
   completionNote?: Prisma.SortOrder
   customerConfirmedAt?: Prisma.SortOrder
   customerConfirmedById?: Prisma.SortOrder
+  autoConfirmedAt?: Prisma.SortOrder
   disputeNote?: Prisma.SortOrder
   customerContractHtml?: Prisma.SortOrder
   supplierContractHtml?: Prisma.SortOrder
@@ -1491,6 +1513,7 @@ export type WorkOrderCreateWithoutCustomerInput = {
   completionMediaIds?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   customerConfirmedAt?: Date | string | null
   customerConfirmedById?: string | null
+  autoConfirmedAt?: Date | string | null
   disputeNote?: string | null
   customerContractHtml?: string | null
   supplierContractHtml?: string | null
@@ -1540,6 +1563,7 @@ export type WorkOrderUncheckedCreateWithoutCustomerInput = {
   completionMediaIds?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   customerConfirmedAt?: Date | string | null
   customerConfirmedById?: string | null
+  autoConfirmedAt?: Date | string | null
   disputeNote?: string | null
   customerContractHtml?: string | null
   supplierContractHtml?: string | null
@@ -1614,6 +1638,7 @@ export type WorkOrderScalarWhereInput = {
   completionMediaIds?: Prisma.JsonNullableFilter<"WorkOrder">
   customerConfirmedAt?: Prisma.DateTimeNullableFilter<"WorkOrder"> | Date | string | null
   customerConfirmedById?: Prisma.StringNullableFilter<"WorkOrder"> | string | null
+  autoConfirmedAt?: Prisma.DateTimeNullableFilter<"WorkOrder"> | Date | string | null
   disputeNote?: Prisma.StringNullableFilter<"WorkOrder"> | string | null
   customerContractHtml?: Prisma.StringNullableFilter<"WorkOrder"> | string | null
   supplierContractHtml?: Prisma.StringNullableFilter<"WorkOrder"> | string | null
@@ -1653,6 +1678,7 @@ export type WorkOrderCreateWithoutBuildingInput = {
   completionMediaIds?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   customerConfirmedAt?: Date | string | null
   customerConfirmedById?: string | null
+  autoConfirmedAt?: Date | string | null
   disputeNote?: string | null
   customerContractHtml?: string | null
   supplierContractHtml?: string | null
@@ -1702,6 +1728,7 @@ export type WorkOrderUncheckedCreateWithoutBuildingInput = {
   completionMediaIds?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   customerConfirmedAt?: Date | string | null
   customerConfirmedById?: string | null
+  autoConfirmedAt?: Date | string | null
   disputeNote?: string | null
   customerContractHtml?: string | null
   supplierContractHtml?: string | null
@@ -1767,6 +1794,7 @@ export type WorkOrderCreateWithoutMaintenanceRequestInput = {
   completionMediaIds?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   customerConfirmedAt?: Date | string | null
   customerConfirmedById?: string | null
+  autoConfirmedAt?: Date | string | null
   disputeNote?: string | null
   customerContractHtml?: string | null
   supplierContractHtml?: string | null
@@ -1816,6 +1844,7 @@ export type WorkOrderUncheckedCreateWithoutMaintenanceRequestInput = {
   completionMediaIds?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   customerConfirmedAt?: Date | string | null
   customerConfirmedById?: string | null
+  autoConfirmedAt?: Date | string | null
   disputeNote?: string | null
   customerContractHtml?: string | null
   supplierContractHtml?: string | null
@@ -1881,6 +1910,7 @@ export type WorkOrderCreateWithoutSupplierInput = {
   completionMediaIds?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   customerConfirmedAt?: Date | string | null
   customerConfirmedById?: string | null
+  autoConfirmedAt?: Date | string | null
   disputeNote?: string | null
   customerContractHtml?: string | null
   supplierContractHtml?: string | null
@@ -1930,6 +1960,7 @@ export type WorkOrderUncheckedCreateWithoutSupplierInput = {
   completionMediaIds?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   customerConfirmedAt?: Date | string | null
   customerConfirmedById?: string | null
+  autoConfirmedAt?: Date | string | null
   disputeNote?: string | null
   customerContractHtml?: string | null
   supplierContractHtml?: string | null
@@ -1995,6 +2026,7 @@ export type WorkOrderCreateWithoutRfqInput = {
   completionMediaIds?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   customerConfirmedAt?: Date | string | null
   customerConfirmedById?: string | null
+  autoConfirmedAt?: Date | string | null
   disputeNote?: string | null
   customerContractHtml?: string | null
   supplierContractHtml?: string | null
@@ -2044,6 +2076,7 @@ export type WorkOrderUncheckedCreateWithoutRfqInput = {
   completionMediaIds?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   customerConfirmedAt?: Date | string | null
   customerConfirmedById?: string | null
+  autoConfirmedAt?: Date | string | null
   disputeNote?: string | null
   customerContractHtml?: string | null
   supplierContractHtml?: string | null
@@ -2109,6 +2142,7 @@ export type WorkOrderCreateWithoutOfferInput = {
   completionMediaIds?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   customerConfirmedAt?: Date | string | null
   customerConfirmedById?: string | null
+  autoConfirmedAt?: Date | string | null
   disputeNote?: string | null
   customerContractHtml?: string | null
   supplierContractHtml?: string | null
@@ -2158,6 +2192,7 @@ export type WorkOrderUncheckedCreateWithoutOfferInput = {
   completionMediaIds?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   customerConfirmedAt?: Date | string | null
   customerConfirmedById?: string | null
+  autoConfirmedAt?: Date | string | null
   disputeNote?: string | null
   customerContractHtml?: string | null
   supplierContractHtml?: string | null
@@ -2213,6 +2248,7 @@ export type WorkOrderUpdateWithoutOfferInput = {
   completionMediaIds?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   customerConfirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customerConfirmedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  autoConfirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   disputeNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplierContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2262,6 +2298,7 @@ export type WorkOrderUncheckedUpdateWithoutOfferInput = {
   completionMediaIds?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   customerConfirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customerConfirmedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  autoConfirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   disputeNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplierContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2306,6 +2343,7 @@ export type WorkOrderCreateManyCustomerInput = {
   completionMediaIds?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   customerConfirmedAt?: Date | string | null
   customerConfirmedById?: string | null
+  autoConfirmedAt?: Date | string | null
   disputeNote?: string | null
   customerContractHtml?: string | null
   supplierContractHtml?: string | null
@@ -2345,6 +2383,7 @@ export type WorkOrderUpdateWithoutCustomerInput = {
   completionMediaIds?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   customerConfirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customerConfirmedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  autoConfirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   disputeNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplierContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2394,6 +2433,7 @@ export type WorkOrderUncheckedUpdateWithoutCustomerInput = {
   completionMediaIds?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   customerConfirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customerConfirmedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  autoConfirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   disputeNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplierContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2438,6 +2478,7 @@ export type WorkOrderUncheckedUpdateManyWithoutCustomerInput = {
   completionMediaIds?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   customerConfirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customerConfirmedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  autoConfirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   disputeNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplierContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2482,6 +2523,7 @@ export type WorkOrderCreateManyBuildingInput = {
   completionMediaIds?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   customerConfirmedAt?: Date | string | null
   customerConfirmedById?: string | null
+  autoConfirmedAt?: Date | string | null
   disputeNote?: string | null
   customerContractHtml?: string | null
   supplierContractHtml?: string | null
@@ -2521,6 +2563,7 @@ export type WorkOrderUpdateWithoutBuildingInput = {
   completionMediaIds?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   customerConfirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customerConfirmedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  autoConfirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   disputeNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplierContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2570,6 +2613,7 @@ export type WorkOrderUncheckedUpdateWithoutBuildingInput = {
   completionMediaIds?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   customerConfirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customerConfirmedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  autoConfirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   disputeNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplierContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2614,6 +2658,7 @@ export type WorkOrderUncheckedUpdateManyWithoutBuildingInput = {
   completionMediaIds?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   customerConfirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customerConfirmedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  autoConfirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   disputeNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplierContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2658,6 +2703,7 @@ export type WorkOrderCreateManyMaintenanceRequestInput = {
   completionMediaIds?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   customerConfirmedAt?: Date | string | null
   customerConfirmedById?: string | null
+  autoConfirmedAt?: Date | string | null
   disputeNote?: string | null
   customerContractHtml?: string | null
   supplierContractHtml?: string | null
@@ -2697,6 +2743,7 @@ export type WorkOrderUpdateWithoutMaintenanceRequestInput = {
   completionMediaIds?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   customerConfirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customerConfirmedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  autoConfirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   disputeNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplierContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2746,6 +2793,7 @@ export type WorkOrderUncheckedUpdateWithoutMaintenanceRequestInput = {
   completionMediaIds?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   customerConfirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customerConfirmedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  autoConfirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   disputeNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplierContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2790,6 +2838,7 @@ export type WorkOrderUncheckedUpdateManyWithoutMaintenanceRequestInput = {
   completionMediaIds?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   customerConfirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customerConfirmedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  autoConfirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   disputeNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplierContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2834,6 +2883,7 @@ export type WorkOrderCreateManySupplierInput = {
   completionMediaIds?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   customerConfirmedAt?: Date | string | null
   customerConfirmedById?: string | null
+  autoConfirmedAt?: Date | string | null
   disputeNote?: string | null
   customerContractHtml?: string | null
   supplierContractHtml?: string | null
@@ -2873,6 +2923,7 @@ export type WorkOrderUpdateWithoutSupplierInput = {
   completionMediaIds?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   customerConfirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customerConfirmedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  autoConfirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   disputeNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplierContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2922,6 +2973,7 @@ export type WorkOrderUncheckedUpdateWithoutSupplierInput = {
   completionMediaIds?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   customerConfirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customerConfirmedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  autoConfirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   disputeNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplierContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2966,6 +3018,7 @@ export type WorkOrderUncheckedUpdateManyWithoutSupplierInput = {
   completionMediaIds?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   customerConfirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customerConfirmedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  autoConfirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   disputeNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplierContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3010,6 +3063,7 @@ export type WorkOrderCreateManyRfqInput = {
   completionMediaIds?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   customerConfirmedAt?: Date | string | null
   customerConfirmedById?: string | null
+  autoConfirmedAt?: Date | string | null
   disputeNote?: string | null
   customerContractHtml?: string | null
   supplierContractHtml?: string | null
@@ -3049,6 +3103,7 @@ export type WorkOrderUpdateWithoutRfqInput = {
   completionMediaIds?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   customerConfirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customerConfirmedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  autoConfirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   disputeNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplierContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3098,6 +3153,7 @@ export type WorkOrderUncheckedUpdateWithoutRfqInput = {
   completionMediaIds?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   customerConfirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customerConfirmedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  autoConfirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   disputeNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplierContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3142,6 +3198,7 @@ export type WorkOrderUncheckedUpdateManyWithoutRfqInput = {
   completionMediaIds?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   customerConfirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customerConfirmedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  autoConfirmedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   disputeNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplierContractHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3189,6 +3246,7 @@ export type WorkOrderSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   completionMediaIds?: boolean
   customerConfirmedAt?: boolean
   customerConfirmedById?: boolean
+  autoConfirmedAt?: boolean
   disputeNote?: boolean
   customerContractHtml?: boolean
   supplierContractHtml?: boolean
@@ -3240,6 +3298,7 @@ export type WorkOrderSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   completionMediaIds?: boolean
   customerConfirmedAt?: boolean
   customerConfirmedById?: boolean
+  autoConfirmedAt?: boolean
   disputeNote?: boolean
   customerContractHtml?: boolean
   supplierContractHtml?: boolean
@@ -3291,6 +3350,7 @@ export type WorkOrderSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   completionMediaIds?: boolean
   customerConfirmedAt?: boolean
   customerConfirmedById?: boolean
+  autoConfirmedAt?: boolean
   disputeNote?: boolean
   customerContractHtml?: boolean
   supplierContractHtml?: boolean
@@ -3342,6 +3402,7 @@ export type WorkOrderSelectScalar = {
   completionMediaIds?: boolean
   customerConfirmedAt?: boolean
   customerConfirmedById?: boolean
+  autoConfirmedAt?: boolean
   disputeNote?: boolean
   customerContractHtml?: boolean
   supplierContractHtml?: boolean
@@ -3350,7 +3411,7 @@ export type WorkOrderSelectScalar = {
   updatedAt?: boolean
 }
 
-export type WorkOrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "number" | "buildingId" | "customerId" | "supplierId" | "maintenanceRequestId" | "rfqId" | "offerId" | "title" | "description" | "covered" | "supplierPrice" | "customerPrice" | "vatPct" | "markupPct" | "surveyFee" | "surveyWaived" | "warrantyMonths" | "status" | "customerMessage" | "earliestDate" | "validUntil" | "customerAcceptedAt" | "customerAcceptedById" | "customerAcceptedIp" | "customerAcceptedUa" | "customerDeclinedAt" | "customerDeclineReason" | "supplierAcceptedAt" | "supplierAcceptedById" | "scheduledAt" | "completedAt" | "completionNote" | "completionMediaIds" | "customerConfirmedAt" | "customerConfirmedById" | "disputeNote" | "customerContractHtml" | "supplierContractHtml" | "createdById" | "createdAt" | "updatedAt", ExtArgs["result"]["workOrder"]>
+export type WorkOrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "number" | "buildingId" | "customerId" | "supplierId" | "maintenanceRequestId" | "rfqId" | "offerId" | "title" | "description" | "covered" | "supplierPrice" | "customerPrice" | "vatPct" | "markupPct" | "surveyFee" | "surveyWaived" | "warrantyMonths" | "status" | "customerMessage" | "earliestDate" | "validUntil" | "customerAcceptedAt" | "customerAcceptedById" | "customerAcceptedIp" | "customerAcceptedUa" | "customerDeclinedAt" | "customerDeclineReason" | "supplierAcceptedAt" | "supplierAcceptedById" | "scheduledAt" | "completedAt" | "completionNote" | "completionMediaIds" | "customerConfirmedAt" | "customerConfirmedById" | "autoConfirmedAt" | "disputeNote" | "customerContractHtml" | "supplierContractHtml" | "createdById" | "createdAt" | "updatedAt", ExtArgs["result"]["workOrder"]>
 export type WorkOrderInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
@@ -3423,6 +3484,7 @@ export type $WorkOrderPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     completionMediaIds: runtime.JsonValue | null
     customerConfirmedAt: Date | null
     customerConfirmedById: string | null
+    autoConfirmedAt: Date | null
     disputeNote: string | null
     customerContractHtml: string | null
     supplierContractHtml: string | null
@@ -3894,6 +3956,7 @@ export interface WorkOrderFieldRefs {
   readonly completionMediaIds: Prisma.FieldRef<"WorkOrder", 'Json'>
   readonly customerConfirmedAt: Prisma.FieldRef<"WorkOrder", 'DateTime'>
   readonly customerConfirmedById: Prisma.FieldRef<"WorkOrder", 'String'>
+  readonly autoConfirmedAt: Prisma.FieldRef<"WorkOrder", 'DateTime'>
   readonly disputeNote: Prisma.FieldRef<"WorkOrder", 'String'>
   readonly customerContractHtml: Prisma.FieldRef<"WorkOrder", 'String'>
   readonly supplierContractHtml: Prisma.FieldRef<"WorkOrder", 'String'>

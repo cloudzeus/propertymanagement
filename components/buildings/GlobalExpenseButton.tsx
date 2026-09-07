@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { RiMoneyEuroCircleLine, RiSearchLine, RiArrowLeftLine, RiLoaderLine, RiBuilding2Line } from "react-icons/ri";
+import { RiSearchLine, RiArrowLeftLine, RiLoaderLine, RiBuilding2Line } from "react-icons/ri";
 import { Modal } from "@/components/ui/modal";
 import { ExpenseUploadFlow } from "./ExpenseUploadFlow";
 import { type CategorySplit } from "./ExpenseReviewForm";
@@ -9,12 +9,11 @@ import { getBuildingCategorySplits } from "@/app/actions/expense-categories";
 import type { ManageableBuilding } from "@/app/actions/building-expenses";
 
 /**
- * A floating "Νέο έξοδο" action mounted in the app shell, visible on every page
- * for users who can register expenses. Step 1: pick a building. Step 2: run the
- * shared OCR upload + review flow for that building.
+ * The "Νέο έξοδο" flow (pick a building → OCR upload + review), opened from
+ * the quick-actions menu. Step 1: pick a building. Step 2: run the shared
+ * upload + review flow for that building.
  */
-export function GlobalExpenseButton({ buildings }: { buildings: ManageableBuilding[] }) {
-  const [open, setOpen] = useState(false);
+export function ExpenseQuickModal({ open, onClose, buildings }: { open: boolean; onClose: () => void; buildings: ManageableBuilding[] }) {
   const [query, setQuery] = useState("");
   const [picked, setPicked] = useState<ManageableBuilding | null>(null);
   const [categories, setCategories] = useState<CategorySplit[] | null>(null);
@@ -39,7 +38,7 @@ export function GlobalExpenseButton({ buildings }: { buildings: ManageableBuildi
     setError(null);
   }
   function close() {
-    setOpen(false);
+    onClose();
     reset();
   }
 
@@ -64,11 +63,6 @@ export function GlobalExpenseButton({ buildings }: { buildings: ManageableBuildi
 
   return (
     <>
-      <button onClick={() => setOpen(true)} style={fab} title="Καταχώρηση εξόδου">
-        <RiMoneyEuroCircleLine style={{ fontSize: "var(--fs-20)" }} />
-        <span style={{ fontSize: "var(--fs-13)", fontWeight: 600 }}>Νέο έξοδο</span>
-      </button>
-
       <Modal open={open} onClose={close} title={title} width={picked && categories ? 760 : 480}>
         {error && (
           <div style={{ padding: 10, borderRadius: 6, background: "#FEE7E618", border: "1px solid var(--color-danger)", color: "var(--color-danger)", fontSize: "var(--fs-12)", marginBottom: 10 }}>
@@ -124,14 +118,6 @@ export function GlobalExpenseButton({ buildings }: { buildings: ManageableBuildi
     </>
   );
 }
-
-const fab: React.CSSProperties = {
-  position: "fixed", right: 24, bottom: 24, zIndex: 50,
-  display: "inline-flex", alignItems: "center", gap: 8,
-  height: 48, padding: "0 18px", borderRadius: 999,
-  border: "none", background: "var(--color-primary)", color: "#fff",
-  boxShadow: "0 6px 20px rgba(0,0,0,0.18)", cursor: "pointer",
-};
 
 const backBtn: React.CSSProperties = {
   alignSelf: "flex-start", display: "inline-flex", alignItems: "center", gap: 6,

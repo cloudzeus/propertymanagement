@@ -277,13 +277,16 @@ export function DataTable<T extends { id: string }>({
   const colCount     = 1 + (hasExpand ? 1 : 0) + (hasDrag ? 1 : 0) + visibleCols.length + (hasActions ? 1 : 0);
 
   return (
-    <div style={{ display: "flex", flexDirection: "column" }}>
+    // `dt-root` lets a page that is a flex column stretch the table to the bottom of the
+    // viewport (see globals.css); the rows area then scrolls inside the card.
+    <div className="dt-root" style={{ display: "flex", flexDirection: "column", flex: "1 1 auto", minHeight: 0 }}>
       <div style={{
         background: "var(--card)",
         borderRadius: "var(--radius)",
         border: "1px solid var(--border)",
         overflow: "hidden",
         boxShadow: "0 1px 2px rgba(0,0,0,0.05), 0 2px 8px rgba(0,0,0,0.06)",
+        display: "flex", flexDirection: "column", flex: "1 1 auto", minHeight: 0,
       }}>
 
         {/* ── Command bar ───────────────────────────────────── */}
@@ -429,7 +432,7 @@ export function DataTable<T extends { id: string }>({
         )}
 
         {/* ── Table ─────────────────────────────────────────── */}
-        <div style={{ overflowX: "auto" }}>
+        <div style={{ overflow: "auto", flex: "1 1 auto", minHeight: 0 }}>
           <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
             <table style={{ borderCollapse: "collapse", width: "100%", tableLayout: "fixed" }}>
               <colgroup>
@@ -516,7 +519,7 @@ export function DataTable<T extends { id: string }>({
           padding: "0 12px", height: 40,
           borderTop: "1px solid var(--border)",
           background: "var(--card)",
-          flexWrap: "wrap", gap: 8,
+          flexWrap: "wrap", gap: 8, flexShrink: 0,
         }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
             <span style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)", fontFamily: "inherit" }}>

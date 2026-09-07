@@ -49,6 +49,11 @@ export function NewsPageForm({ initial }: { initial: unknown }) {
         </div>
         <CmsField label="Μήνυμα επιτυχίας"><CmsInput value={c.newsletter?.successMessage ?? ""} onChange={(e) => f.setGroup("newsletter", { successMessage: e.target.value })} /></CmsField>
         <CmsField label="Μήνυμα σφάλματος"><CmsInput value={c.newsletter?.errorMessage ?? ""} onChange={(e) => f.setGroup("newsletter", { errorMessage: e.target.value })} /></CmsField>
+        <CmsField label="Κείμενο συναίνεσης (GDPR)" hint="Αποθηκεύεται αυτολεξεί με κάθε εγγραφή. Ακολουθεί ο σύνδεσμος προς την πολιτική απορρήτου."><CmsTextarea value={c.newsletter?.consentLabel ?? ""} onChange={(e) => f.setGroup("newsletter", { consentLabel: e.target.value })} /></CmsField>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+          <CmsField label="Ετικέτα συνδέσμου απορρήτου"><CmsInput value={c.newsletter?.consentLinkLabel ?? ""} onChange={(e) => f.setGroup("newsletter", { consentLinkLabel: e.target.value })} /></CmsField>
+          <CmsField label="Μήνυμα «ελέγξτε το email» (double opt-in)"><CmsInput value={c.newsletter?.pendingMessage ?? ""} onChange={(e) => f.setGroup("newsletter", { pendingMessage: e.target.value })} /></CmsField>
+        </div>
       </FormGroup>
 
       <FormGroup title="Σελίδα άρθρου" cols={2}>

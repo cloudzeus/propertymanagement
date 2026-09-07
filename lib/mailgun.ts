@@ -1,5 +1,7 @@
 import { env } from "./env";
 import { logAPIUsage } from "./api-costs";
+import { getEmailBrand } from "./email-brand";
+import { renderEmail, renderText, textToHtml, codeBlock, absoluteUrl, type EmailBrand } from "./email-template";
 
 interface EmailOptions {
   to: string | string[];
@@ -111,118 +113,91 @@ async function sendEmail(
   }
 }
 
-// Email templates
+// Email templates — every one goes through the branded shell in lib/email-template.ts.
+
+const otpHtml = (title: string, intro: string, otp: string, expiresIn: number, brand?: Partial<EmailBrand>) =>
+  renderEmail({
+    title, brand, preheader: `Κωδικός: ${otp}`,
+    bodyHtml: `${textToHtml(intro)}${codeBlock(otp)}${textToHtml(`Ο κωδικός ισχύει για ${expiresIn} λεπτά. Αν δεν ζητήσατε αυτή την αλλαγή, αγνοήστε αυτό το email.`)}`,
+    afterCta: "Ποτέ μην μοιράζεστε αυτόν τον κωδικό με κανέναν.",
+  });
+
 export const emailTemplates = {
-  passwordResetOTP: (otp: string, expiresIn: number = 10) => ({
+  passwordResetOTP: (otp: string, expiresIn: number = 10, brand?: Partial<EmailBrand>) => ({
     subject: "Κωδικός επαναφοράς κωδικού πρόσβασης - 6 ψηφία",
-    html: `
-      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <h2>Επαναφορά κωδικού πρόσβασης</h2>
-        <p>Κάναμε λήψη ενός αιτήματος για επαναφορά του κωδικού πρόσβασής σας.</p>
-        <p>Ο κωδικός σας είναι:</p>
-        <div style="background-color: #f0f0f0; padding: 20px; text-align: center; border-radius: 5px; margin: 20px 0;">
-          <h1 style="letter-spacing: 2px; color: #3b82f6; margin: 0; font-size: 32px;">${otp}</h1>
-        </div>
-        <p style="color: #666;">Αυτός ο κωδικός ισχύει για ${expiresIn} λεπτά.</p>
-        <p style="color: #666;">Αν δεν ζητήσατε αυτή την αλλαγή, αγνοήστε αυτό το email.</p>
-        <p style="color: #999; font-size: 12px;">Ποτέ μην μοιράζεστε αυτόν τον κωδικό με κανέναν.</p>
-      </div>
-    `,
+    html: otpHtml("Επαναφορά κωδικού πρόσβασης", "Λάβαμε αίτημα για επαναφορά του κωδικού πρόσβασής σας. Ο κωδικός σας είναι:", otp, expiresIn, brand),
     text: `Επαναφορά κωδικού πρόσβασης\n\nΟ κωδικός σας είναι: ${otp}\n\nΑυτός ο κωδικός ισχύει για ${expiresIn} λεπτά.\n\nΑν δεν ζητήσατε αυτή την αλλαγή, αγνοήστε αυτό το email.`,
   }),
 
-  passwordChangeOTP: (otp: string, expiresIn: number = 10) => ({
+  passwordChangeOTP: (otp: string, expiresIn: number = 10, brand?: Partial<EmailBrand>) => ({
     subject: "Κωδικός αλλαγής κωδικού πρόσβασης - 6 ψηφία",
-    html: `
-      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <h2>Αλλαγή κωδικού πρόσβασης</h2>
-        <p>Κάναμε λήψη ενός αιτήματος για αλλαγή του κωδικού πρόσβασής σας.</p>
-        <p>Ο κωδικός σας είναι:</p>
-        <div style="background-color: #f0f0f0; padding: 20px; text-align: center; border-radius: 5px; margin: 20px 0;">
-          <h1 style="letter-spacing: 2px; color: #10b981; margin: 0; font-size: 32px;">${otp}</h1>
-        </div>
-        <p style="color: #666;">Αυτός ο κωδικός ισχύει για ${expiresIn} λεπτά.</p>
-        <p style="color: #666;">Αν δεν ζητήσατε αυτή την αλλαγή, αγνοήστε αυτό το email.</p>
-        <p style="color: #999; font-size: 12px;">Ποτέ μην μοιράζεστε αυτόν τον κωδικό με κανέναν.</p>
-      </div>
-    `,
+    html: otpHtml("Αλλαγή κωδικού πρόσβασης", "Λάβαμε αίτημα για αλλαγή του κωδικού πρόσβασής σας. Ο κωδικός σας είναι:", otp, expiresIn, brand),
     text: `Αλλαγή κωδικού πρόσβασης\n\nΟ κωδικός σας είναι: ${otp}\n\nΑυτός ο κωδικός ισχύει για ${expiresIn} λεπτά.\n\nΑν δεν ζητήσατε αυτή την αλλαγή, αγνοήστε αυτό το email.`,
   }),
 
-  passwordReset: (email: string, resetLink: string) => ({
+  passwordReset: (email: string, resetLink: string, brand?: Partial<EmailBrand>) => ({
     subject: "Επαναφορά κωδικού πρόσβασης",
-    html: `
-      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <h2>Επαναφορά κωδικού πρόσβασης</h2>
-        <p>Κάναμε λήψη ενός αιτήματος για επαναφορά του κωδικού πρόσβασής σας.</p>
-        <p>
-          <a href="${resetLink}" style="display: inline-block; padding: 10px 20px; background-color: #3b82f6; color: white; text-decoration: none; border-radius: 5px;">
-            Επαναφορά κωδικού
-          </a>
-        </p>
-        <p style="color: #666;">Αν δεν ζητήσατε αυτή την αλλαγή, αγνοήστε αυτό το email.</p>
-        <p style="color: #666; font-size: 12px;">Ο σύνδεσμος θα λήξει σε 24 ώρες.</p>
-      </div>
-    `,
-    text: `Κάναμε λήψη ενός αιτήματος για επαναφορά του κωδικού πρόσβασής σας.\n\nΑντιγράψτε αυτόν τον σύνδεσμο: ${resetLink}\n\nΟ σύνδεσμος θα λήξει σε 24 ώρες.`,
+    html: renderEmail({
+      title: "Επαναφορά κωδικού πρόσβασης", brand,
+      bodyHtml: textToHtml(`Λάβαμε αίτημα για επαναφορά του κωδικού πρόσβασης του λογαριασμού ${email}. Πατήστε το κουμπί για να ορίσετε νέο κωδικό.`),
+      cta: { label: "Επαναφορά κωδικού", href: resetLink },
+      afterCta: "Ο σύνδεσμος λήγει σε 24 ώρες. Αν δεν ζητήσατε αυτή την αλλαγή, αγνοήστε αυτό το email.",
+    }),
+    text: `Λάβαμε αίτημα για επαναφορά του κωδικού πρόσβασής σας.\n\nΑντιγράψτε αυτόν τον σύνδεσμο: ${resetLink}\n\nΟ σύνδεσμος θα λήξει σε 24 ώρες.`,
   }),
 
-  welcomeEmail: (name: string) => ({
-    subject: "Καλώς ήρθατε στη Διαχείριση Κτηρίων",
-    html: `
-      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <h2>Καλώς ήρθατε, ${name}!</h2>
-        <p>Ευχαριστούμε που εγγραφήκατε στη Διαχείριση Κτηρίων.</p>
-        <p>Ο λογαριασμός σας είναι πλέον ενεργός και μπορείτε να αρχίσετε να χρησιμοποιείτε το σύστημα.</p>
-        <p style="color: #666;">Αν έχετε ερωτήσεις, μην διστάσετε να επικοινωνήσετε με εμάς.</p>
-      </div>
-    `,
-    text: `Καλώς ήρθατε, ${name}!\n\nΕυχαριστούμε που εγγραφήκατε στη Διαχείριση Κτηρίων.`,
+  welcomeEmail: (name: string, brand?: Partial<EmailBrand>) => ({
+    subject: `Καλώς ήρθατε στο ${brand?.name ?? "Orithon"}`,
+    html: renderEmail({
+      title: `Καλώς ήρθατε, ${name}!`, brand,
+      bodyHtml: textToHtml("Ο λογαριασμός σας είναι ενεργός. Συνδεθείτε για να δείτε το κτήριό σας, τους λογαριασμούς και να δηλώσετε βλάβη με δύο κινήσεις από το κινητό σας.\n\nΑν έχετε ερωτήσεις, απαντήστε σε αυτό το email ή ανοίξτε τη «Βοήθεια» μέσα στην εφαρμογή."),
+      cta: { label: "Σύνδεση", href: absoluteUrl("/login", brand) },
+    }),
+    text: `Καλώς ήρθατε, ${name}!\n\nΟ λογαριασμός σας είναι ενεργός: ${absoluteUrl("/login", brand)}`,
   }),
 
-  notificationEmail: (title: string, message: string) => ({
-    subject: title,
-    html: `
-      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <h2>${title}</h2>
-        <p>${message}</p>
-      </div>
-    `,
-    text: `${title}\n\n${message}`,
-  }),
+  notificationEmail: (title: string, message: string, opts?: { href?: string; ctaLabel?: string; eyebrow?: string; brand?: Partial<EmailBrand> }) => {
+    const href = opts?.href ? absoluteUrl(opts.href, opts.brand) : undefined;
+    return {
+      subject: title,
+      html: renderEmail({
+        title, brand: opts?.brand, eyebrow: opts?.eyebrow, preheader: message.slice(0, 120),
+        bodyHtml: textToHtml(message),
+        cta: href ? { label: opts?.ctaLabel ?? "Άνοιγμα στην εφαρμογή", href } : undefined,
+      }),
+      text: renderText({ title, text: message, cta: href ? { label: opts?.ctaLabel ?? "Άνοιγμα", href } : undefined, brand: opts?.brand }),
+    };
+  },
 };
 
 export async function sendPasswordResetEmail(
   email: string,
   resetLink: string
 ): Promise<EmailResponse> {
-  return sendEmail({
-    to: email,
-    ...emailTemplates.passwordReset(email, resetLink),
-    tags: ["password-reset"],
-  });
+  const brand = await getEmailBrand();
+  return sendEmail({ to: email, ...emailTemplates.passwordReset(email, resetLink, brand), from: brandedFrom(brand.name), tags: ["password-reset"] });
 }
 
 export async function sendWelcomeEmail(
   email: string,
   name: string
 ): Promise<EmailResponse> {
-  return sendEmail({
-    to: email,
-    ...emailTemplates.welcomeEmail(name),
-    tags: ["welcome"],
-  });
+  const brand = await getEmailBrand();
+  return sendEmail({ to: email, ...emailTemplates.welcomeEmail(name, brand), from: brandedFrom(brand.name), tags: ["welcome"] });
 }
 
 export async function sendNotificationEmail(
   email: string,
   title: string,
-  message: string
+  message: string,
+  opts?: { href?: string; ctaLabel?: string; eyebrow?: string; tags?: string[] }
 ): Promise<EmailResponse> {
+  const brand = await getEmailBrand();
   return sendEmail({
     to: email,
-    ...emailTemplates.notificationEmail(title, message),
-    tags: ["notification"],
+    ...emailTemplates.notificationEmail(title, message, { ...opts, brand }),
+    from: brandedFrom(brand.name),
+    tags: opts?.tags ?? ["notification"],
   });
 }
 
@@ -245,32 +220,21 @@ export async function sendAnnouncementEmail(
   opts?: { senderName?: string | null; replyTo?: string | null; preview?: string | null },
   ctx?: { buildingId?: string; customerId?: string; assemblyId?: string; companyId?: string; userId?: string }
 ): Promise<EmailResponse> {
+  const brand = await getEmailBrand();
   const greeting = recipientName ? `Αγαπητέ/ή ${recipientName},` : "Αγαπητέ/ή ένοικε,";
-  const preheader = opts?.preview
-    ? `<div style="display:none;max-height:0;overflow:hidden;opacity:0;">${opts.preview}</div>`
-    : "";
-  const html = `
-    ${preheader}
-    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #1a1a1a;">
-      <p style="font-size: 13px; color: #666; margin: 0 0 4px;">Ανακοίνωση — ${headingLabel}</p>
-      <h2 style="margin: 0 0 16px;">${subject}</h2>
-      <p style="margin: 0 0 12px;">${greeting}</p>
-      <div style="border: 1px solid #e5e5e5; border-radius: 8px; padding: 16px; background: #fafafa; font-size: 14px; line-height: 1.6;">
-        ${htmlBody}
-      </div>
-      <div style="text-align: center; margin: 24px 0;">
-        <a href="${ackUrl}" style="display: inline-block; background: #c50f1f; color: #fff; text-decoration: none; padding: 12px 28px; border-radius: 6px; font-weight: 600; font-size: 14px;">Έλαβα γνώση</a>
-      </div>
-      <p style="font-size: 12px; color: #999; text-align: center; margin: 0;">Πατώντας το κουμπί επιβεβαιώνετε ότι λάβατε γνώση αυτής της ανακοίνωσης.</p>
-    </div>
-  `;
+  const html = renderEmail({
+    title: subject, brand, eyebrow: `Ανακοίνωση — ${headingLabel}`, greeting, preheader: opts?.preview ?? undefined,
+    bodyHtml: `<div style="border:1px solid rgba(27,28,26,.10);border-radius:12px;padding:16px;background:#FBFAF5;font-size:14.5px;line-height:1.65">${htmlBody}</div>`,
+    cta: { label: "Έλαβα γνώση", href: ackUrl, variant: "accent" },
+    afterCta: "Πατώντας το κουμπί επιβεβαιώνετε ότι λάβατε γνώση αυτής της ανακοίνωσης.",
+  });
   const text = `Ανακοίνωση — ${headingLabel}\n\n${subject}\n\n${greeting}\n\nΓια να δηλώσετε ότι λάβατε γνώση, επισκεφθείτε:\n${ackUrl}`;
   return sendEmail({
     to: email,
     subject,
     html,
     text,
-    from: brandedFrom(opts?.senderName),
+    from: brandedFrom(opts?.senderName ?? brand.name),
     replyTo: opts?.replyTo ?? undefined,
     tags: ["announcement"],
   }, ctx);
@@ -281,11 +245,8 @@ export async function sendPasswordResetOTP(
   otp: string,
   expiresIn: number = 10
 ): Promise<EmailResponse> {
-  return sendEmail({
-    to: email,
-    ...emailTemplates.passwordResetOTP(otp, expiresIn),
-    tags: ["otp", "password-reset"],
-  });
+  const brand = await getEmailBrand();
+  return sendEmail({ to: email, ...emailTemplates.passwordResetOTP(otp, expiresIn, brand), from: brandedFrom(brand.name), tags: ["otp", "password-reset"] });
 }
 
 export async function sendPasswordChangeOTP(
@@ -293,11 +254,8 @@ export async function sendPasswordChangeOTP(
   otp: string,
   expiresIn: number = 10
 ): Promise<EmailResponse> {
-  return sendEmail({
-    to: email,
-    ...emailTemplates.passwordChangeOTP(otp, expiresIn),
-    tags: ["otp", "password-change"],
-  });
+  const brand = await getEmailBrand();
+  return sendEmail({ to: email, ...emailTemplates.passwordChangeOTP(otp, expiresIn, brand), from: brandedFrom(brand.name), tags: ["otp", "password-change"] });
 }
 
 export interface EmailAttachment {
@@ -311,6 +269,7 @@ export async function sendEmailWithAttachments(options: {
   to: string | string[];
   subject: string;
   html: string;
+  from?: string;
   replyTo?: string;
   tags?: string[];
   attachments: EmailAttachment[];
@@ -319,7 +278,7 @@ export async function sendEmailWithAttachments(options: {
     const routed = redirectRecipients(options.to, options.subject);
     if (routed.redirected) console.info(`[mail] redirected to ${routed.to}: ${routed.subject}`);
     const form = new FormData();
-    form.append("from", env.MAILGUN_FROM_EMAIL);
+    form.append("from", options.from ?? brandedFrom((await getEmailBrand()).name));
     form.append("to", routed.to);
     form.append("subject", routed.subject);
     form.append("html", options.html);

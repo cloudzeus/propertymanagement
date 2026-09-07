@@ -1,6 +1,7 @@
 import "server-only";
 import { db } from "@/lib/db";
-import { sendEmailWithAttachments, brandedFrom } from "@/lib/mailgun";
+import { renderEmail, detailRows, escapeHtml } from "@/lib/email-template";
+import { sendEmailWithAttachments } from "@/lib/mailgun";
 
 /** Booking window: business days, Athens time. */
 const TZ = "Europe/Athens";
@@ -102,36 +103,14 @@ function buildIcs(opts: { id: string; start: Date; durationMin: number; requeste
 
 /** Orithon-branded email shell (cream background, amber accent — matches the landing). */
 function emailShell(title: string, inner: string): string {
-  return `
-  <div style="background:#F4F2EA;padding:32px 16px;font-family:'Segoe UI',Arial,sans-serif;color:#1b1c1a">
-    <div style="max-width:560px;margin:0 auto">
-      <div style="text-align:center;padding-bottom:18px;font-size:20px;font-weight:600;letter-spacing:.16em">ORITHON</div>
-      <div style="background:#ffffff;border:1px solid rgba(27,28,26,.12);border-radius:18px;padding:32px;box-shadow:0 22px 48px -32px rgba(27,28,26,.28)">
-        <h1 style="margin:0 0 16px;font-size:22px;letter-spacing:-.01em">${title}</h1>
-        ${inner}
-      </div>
-      <div style="text-align:center;padding-top:18px;font-size:12px;color:rgba(27,28,26,.45)">© ${new Date().getFullYear()} Orithon · Athens · Greece</div>
-    </div>
-  </div>`;
+  return renderEmail({ title, bodyHtml: inner });
 }
 
-function detailRows(rows: [string, string][]): string {
-  return `<table style="width:100%;border-collapse:collapse;margin:18px 0">${rows
-    .filter(([, v]) => v)
-    .map(
-      ([k, v]) => `<tr>
-        <td style="padding:9px 12px;font-size:13px;color:rgba(27,28,26,.55);border-top:1px solid rgba(27,28,26,.08);white-space:nowrap">${k}</td>
-        <td style="padding:9px 12px;font-size:14px;font-weight:600;border-top:1px solid rgba(27,28,26,.08)">${v}</td>
-      </tr>`,
-    )
-    .join("")}</table>`;
-}
-
-const esc = (s: string) => s.replace(/[<>&"]/g, (c) => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;", '"': "&quot;" }[c]!));
+const esc = escapeHtml;
 
 export type DemoBookingInput = {
   name: string; email: string; phone?: string; company?: string; message?: string;
-  slotIso: string; locale: string;
+  slotIso: string; locale: string; consentText?: string;
 };
 
 export async function createDemoBooking(input: DemoBookingInput) {
@@ -148,6 +127,8 @@ export async function createDemoBooking(input: DemoBookingInput) {
       phone: input.phone?.trim() || null,
       company: input.company?.trim() || null,
       message: input.message?.trim() || null,
+      consentText: input.consentText?.trim() || null,
+      consentedAt: input.consentText?.trim() ? new Date() : null,
       scheduledAt: start,
       locale: input.locale === "en" ? "en" : "el",
     },

@@ -20,7 +20,8 @@ export function CmsPage({
 }) {
   const accent = color ?? "var(--color-primary)";
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+    // flex:1 + minHeight:0 let a DataTable inside stretch to the bottom of the page (see .app-main in globals.css)
+    <div style={{ display: "flex", flexDirection: "column", gap: 20, flex: "1 1 auto", minHeight: 0 }}>
       <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
         <div
           style={{
@@ -52,6 +53,8 @@ export function CmsPage({
           display: "flex",
           flexDirection: "column",
           gap: 24,
+          flex: "1 1 auto",
+          minHeight: 0,
         }}
       >
         {children}

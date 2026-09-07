@@ -115,6 +115,7 @@ export const ModelName = {
   FAQ: 'FAQ',
   PricingTier: 'PricingTier',
   ContactMessage: 'ContactMessage',
+  NewsletterSubscriber: 'NewsletterSubscriber',
   CookieConsent: 'CookieConsent',
   AppSettings: 'AppSettings',
   ImpersonationEvent: 'ImpersonationEvent',
@@ -141,6 +142,7 @@ export const ModelName = {
   RfqInvitation: 'RfqInvitation',
   SupplierOffer: 'SupplierOffer',
   WorkOrder: 'WorkOrder',
+  SupplierInquiry: 'SupplierInquiry',
   ContractTemplate: 'ContractTemplate'
 } as const
 
@@ -1124,6 +1126,7 @@ export const MaintenanceRequestScalarFieldEnum = {
   reportedById: 'reportedById',
   assignedToId: 'assignedToId',
   supplierId: 'supplierId',
+  recurringTaskId: 'recurringTaskId',
   attachmentUrl: 'attachmentUrl',
   scheduledDate: 'scheduledDate',
   completedAt: 'completedAt',
@@ -1312,11 +1315,34 @@ export const ContactMessageScalarFieldEnum = {
   status: 'status',
   ipAddress: 'ipAddress',
   userAgent: 'userAgent',
+  consentText: 'consentText',
+  consentedAt: 'consentedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type ContactMessageScalarFieldEnum = (typeof ContactMessageScalarFieldEnum)[keyof typeof ContactMessageScalarFieldEnum]
+
+
+export const NewsletterSubscriberScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  locale: 'locale',
+  source: 'source',
+  status: 'status',
+  consentText: 'consentText',
+  consentVersion: 'consentVersion',
+  consentedAt: 'consentedAt',
+  confirmedAt: 'confirmedAt',
+  unsubscribedAt: 'unsubscribedAt',
+  ipAddress: 'ipAddress',
+  userAgent: 'userAgent',
+  token: 'token',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type NewsletterSubscriberScalarFieldEnum = (typeof NewsletterSubscriberScalarFieldEnum)[keyof typeof NewsletterSubscriberScalarFieldEnum]
 
 
 export const CookieConsentScalarFieldEnum = {
@@ -1553,6 +1579,8 @@ export const DemoRequestScalarFieldEnum = {
   durationMin: 'durationMin',
   status: 'status',
   locale: 'locale',
+  consentText: 'consentText',
+  consentedAt: 'consentedAt',
   createdAt: 'createdAt'
 } as const
 
@@ -1790,6 +1818,7 @@ export const WorkOrderScalarFieldEnum = {
   completionMediaIds: 'completionMediaIds',
   customerConfirmedAt: 'customerConfirmedAt',
   customerConfirmedById: 'customerConfirmedById',
+  autoConfirmedAt: 'autoConfirmedAt',
   disputeNote: 'disputeNote',
   customerContractHtml: 'customerContractHtml',
   supplierContractHtml: 'supplierContractHtml',
@@ -1799,6 +1828,27 @@ export const WorkOrderScalarFieldEnum = {
 } as const
 
 export type WorkOrderScalarFieldEnum = (typeof WorkOrderScalarFieldEnum)[keyof typeof WorkOrderScalarFieldEnum]
+
+
+export const SupplierInquiryScalarFieldEnum = {
+  id: 'id',
+  supplierId: 'supplierId',
+  customerId: 'customerId',
+  buildingId: 'buildingId',
+  maintenanceRequestId: 'maintenanceRequestId',
+  kind: 'kind',
+  status: 'status',
+  message: 'message',
+  preferredDates: 'preferredDates',
+  sentTo: 'sentTo',
+  answer: 'answer',
+  answeredAt: 'answeredAt',
+  createdById: 'createdById',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SupplierInquiryScalarFieldEnum = (typeof SupplierInquiryScalarFieldEnum)[keyof typeof SupplierInquiryScalarFieldEnum]
 
 
 export const ContractTemplateScalarFieldEnum = {

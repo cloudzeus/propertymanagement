@@ -4,7 +4,7 @@ import { sendNotificationEmail } from '@/lib/mailgun';
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { name, email, phone, subject, message } = body;
+    const { name, email, phone, subject, message, consent, consentText } = body;
 
     // Validate required fields
     if (!name || !email || !subject || !message) {
@@ -29,14 +29,18 @@ export async function POST(request: Request) {
         ipAddress: ip,
         userAgent,
         status: 'NEW',
+        // GDPR trail: only when the person ticked the box (the form requires it).
+        consentText: consent ? String(consentText ?? 'Συναίνεση επικοινωνίας (φόρμα επικοινωνίας)') : null,
+        consentedAt: consent ? new Date() : null,
       },
     });
 
     // Send confirmation email to user
     await sendNotificationEmail(
       email,
-      'We received your message',
-      `Hi ${name},\n\nThank you for reaching out to us. We've received your message and will get back to you within 24 business hours.\n\nBest regards,\nPropertyPro Team`
+      'Λάβαμε το μήνυμά σας',
+      `Γεια σας ${name},\n\nευχαριστούμε που επικοινωνήσατε μαζί μας. Λάβαμε το μήνυμά σας «${subject}» και θα σας απαντήσουμε εντός 24 εργάσιμων ωρών.\n\nΜε εκτίμηση,\nη ομάδα του Orithon`,
+      { eyebrow: 'Φόρμα επικοινωνίας', tags: ['contact'] }
     );
 
     // Optionally: Send notification to admin

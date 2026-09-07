@@ -4,6 +4,7 @@ import { requirePermission, getEffectivePermissions, can } from "@/lib/rbac/perm
 import { getEffectiveSession } from "@/lib/auth-effective";
 import { homePathForRole } from "@/lib/surfaces";
 import { customerVisibleWhere, ensurePlatformSupplier, supplierListInclude, supplierToDTO } from "@/lib/suppliers";
+import { managerBuildingIds } from "@/lib/building-access";
 import { PrivateSuppliersClient } from "./PrivateSuppliersClient";
 
 export const metadata = { title: "Οι προμηθευτές μου" };
@@ -40,12 +41,22 @@ export default async function PrivateSuppliersPage() {
     db.maintenanceCategory.findMany({ where: { active: true }, orderBy: { sortOrder: "asc" }, select: { id: true, name: true } }),
   ]);
   const perms = resolved!.perms;
+  // For "ask offer / appointment": the manager's buildings, their open faults, and past inquiries.
+  const managed = await managerBuildingIds(eff.user.id);
+  const [buildings, faults, inquiries] = await Promise.all([
+    db.building.findMany({ where: { id: { in: managed } }, orderBy: { name: "asc" }, select: { id: true, name: true } }),
+    db.maintenanceRequest.findMany({ where: { buildingId: { in: managed }, status: { notIn: ["COMPLETED", "CANCELLED"] } }, orderBy: { createdAt: "desc" }, take: 100, select: { id: true, title: true, buildingId: true } }),
+    db.supplierInquiry.findMany({ where: { customerId }, orderBy: { createdAt: "desc" }, take: 100, select: { id: true, kind: true, status: true, message: true, preferredDates: true, sentTo: true, answer: true, answeredAt: true, createdAt: true, supplier: { select: { id: true, name: true } }, building: { select: { name: true } }, maintenanceRequest: { select: { id: true, title: true } } } }),
+  ]);
 
   return (
     <PrivateSuppliersClient
       suppliers={rows.map(supplierToDTO)}
       categories={categories}
       caps={{ create: can(perms, "customer-suppliers", "create"), edit: can(perms, "customer-suppliers", "edit"), delete: can(perms, "customer-suppliers", "delete") }}
+      buildings={buildings}
+      faults={faults}
+      inquiries={inquiries.map((i) => ({ id: i.id, kind: i.kind, status: i.status, message: i.message, preferredDates: (i.preferredDates as string[] | null) ?? [], sentTo: i.sentTo, answer: i.answer, answeredAt: i.answeredAt?.toISOString() ?? null, createdAt: i.createdAt.toISOString(), supplierId: i.supplier.id, supplierName: i.supplier.name, buildingName: i.building.name, faultId: i.maintenanceRequest?.id ?? null, faultTitle: i.maintenanceRequest?.title ?? null }))}
     />
   );
 }

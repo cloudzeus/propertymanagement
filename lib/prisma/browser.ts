@@ -338,6 +338,11 @@ export type PricingTier = Prisma.PricingTierModel
  */
 export type ContactMessage = Prisma.ContactMessageModel
 /**
+ * Model NewsletterSubscriber
+ * 
+ */
+export type NewsletterSubscriber = Prisma.NewsletterSubscriberModel
+/**
  * Model CookieConsent
  * 
  */
@@ -470,6 +475,11 @@ export type SupplierOffer = Prisma.SupplierOfferModel
  * 
  */
 export type WorkOrder = Prisma.WorkOrderModel
+/**
+ * Model SupplierInquiry
+ * 
+ */
+export type SupplierInquiry = Prisma.SupplierInquiryModel
 /**
  * Model ContractTemplate
  * 

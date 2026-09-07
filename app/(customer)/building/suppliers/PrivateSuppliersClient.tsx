@@ -4,19 +4,24 @@ import { useMemo, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { SupplierFormModal, type CategoryOption } from "@/components/suppliers/SupplierFormModal";
 import { deleteSupplier } from "@/app/actions/suppliers";
+import { InquiryModal, InquiryList, type InquiryDTO } from "@/components/suppliers/SupplierInquiries";
 import { SUPPLIER_KIND_LABELS, formatHoursSummary, type SupplierDTO } from "@/lib/suppliers-shared";
 import {
   RiTruckLine, RiAddLine, RiPencilLine, RiDeleteBinLine, RiPhoneLine, RiMailLine, RiMapPinLine, RiTimeLine,
-  RiSearchLine, RiEyeOffLine, RiAlarmWarningLine, RiBuilding4Line, RiUserLine,
+  RiSearchLine, RiEyeOffLine, RiAlarmWarningLine, RiBuilding4Line, RiUserLine, RiMoneyEuroCircleLine, RiCalendarCheckLine,
 } from "react-icons/ri";
 
-export function PrivateSuppliersClient({ suppliers, categories, caps }: {
+export function PrivateSuppliersClient({ suppliers, categories, caps, buildings, faults, inquiries }: {
   suppliers: SupplierDTO[];
   categories: CategoryOption[];
   caps: { create: boolean; edit: boolean; delete: boolean };
+  buildings: { id: string; name: string }[];
+  faults: { id: string; title: string; buildingId: string }[];
+  inquiries: InquiryDTO[];
 }) {
   const router = useRouter();
   const [editing, setEditing] = useState<SupplierDTO | null | "new">(null);
+  const [inquiry, setInquiry] = useState<{ supplier: SupplierDTO; kind: "OFFER" | "APPOINTMENT" } | null>(null);
   const [q, setQ] = useState("");
   const [isPending, startTransition] = useTransition();
   const [err, setErr] = useState<string | null>(null);
@@ -109,9 +114,20 @@ export function PrivateSuppliersClient({ suppliers, categories, caps }: {
                 {(s.address || s.city) && <Row icon={RiMapPinLine}>{[s.address, s.city].filter(Boolean).join(", ")}</Row>}
                 <Row icon={RiTimeLine}>{formatHoursSummary(s.workingHours)}</Row>
               </div>
+              {caps.edit && s.isActive && (
+                <div style={{ display: "flex", gap: 6, marginTop: 12, flexWrap: "wrap" }}>
+                  <button onClick={() => setInquiry({ supplier: s, kind: "OFFER" })} disabled={!s.email} title={s.email ? "" : "Προσθέστε email στην καρτέλα"} style={{ ...btn, flex: 1, justifyContent: "center", padding: "6px 10px", opacity: s.email ? 1 : 0.5 }}><RiMoneyEuroCircleLine /> Ζήτηση προσφοράς</button>
+                  <button onClick={() => setInquiry({ supplier: s, kind: "APPOINTMENT" })} disabled={!s.email} title={s.email ? "" : "Προσθέστε email στην καρτέλα"} style={{ ...btn, flex: 1, justifyContent: "center", padding: "6px 10px", opacity: s.email ? 1 : 0.5 }}><RiCalendarCheckLine /> Ραντεβού</button>
+                </div>
+              )}
             </div>
           ))}
         </div>
+      )}
+
+      <InquiryList inquiries={inquiries} canEdit={caps.edit} />
+      {inquiry && (
+        <InquiryModal supplier={{ id: inquiry.supplier.id, name: inquiry.supplier.name, email: inquiry.supplier.email }} kind={inquiry.kind} buildings={buildings} faults={faults} onClose={() => setInquiry(null)} onDone={() => { setInquiry(null); router.refresh(); }} />
       )}
 
       {editing !== null && (
