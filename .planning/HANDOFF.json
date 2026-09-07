@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "timestamp": "2026-09-07T11:13:33.466Z",
+  "timestamp": "2026-09-07T11:31:11.053Z",
   "source": "auto-postool",
   "partial": false,
   "phase": null,
@@ -22,91 +22,15 @@
     },
     {
       "status": "M",
-      "path": "app/(company)/admin/maintenance/MaintenanceListClient.tsx"
-    },
-    {
-      "status": "M",
-      "path": "app/(company)/admin/maintenance/[id]/page.tsx"
-    },
-    {
-      "status": "M",
-      "path": "app/(company)/admin/maintenance/page.tsx"
-    },
-    {
-      "status": "M",
-      "path": "app/(company)/super-admin/cms/landing/[type]/SectionForm.tsx"
-    },
-    {
-      "status": "M",
-      "path": "app/(company)/super-admin/cms/landing/[type]/forms/HeroForm.tsx"
-    },
-    {
-      "status": "M",
-      "path": "app/(company)/super-admin/cms/landing/[type]/forms/formShared.tsx"
-    },
-    {
-      "status": "M",
-      "path": "app/(company)/super-admin/cms/pricing/PricingClient.tsx"
-    },
-    {
-      "status": "M",
-      "path": "app/(company)/super-admin/preview/page.tsx"
-    },
-    {
-      "status": "M",
-      "path": "app/(customer)/portal/requests/page.tsx"
-    },
-    {
-      "status": "M",
-      "path": "app/(marketplace)/marketplace/page.tsx"
-    },
-    {
-      "status": "M",
-      "path": "app/[locale]/blog/[slug]/page.tsx"
-    },
-    {
-      "status": "M",
-      "path": "app/[locale]/blog/page.tsx"
-    },
-    {
-      "status": "M",
-      "path": "app/[locale]/contact/ContactForm.tsx"
-    },
-    {
-      "status": "M",
-      "path": "app/[locale]/contact/page.tsx"
-    },
-    {
-      "status": "D",
-      "path": "app/[locale]/faq/FaqAccordion.tsx"
-    },
-    {
-      "status": "M",
-      "path": "app/[locale]/faq/page.tsx"
-    },
-    {
-      "status": "M",
-      "path": "app/[locale]/pricing/page.tsx"
-    },
-    {
-      "status": "M",
-      "path": "app/actions/building-expenses.ts"
-    },
-    {
-      "status": "M",
-      "path": "app/actions/maintenance-requests.ts"
-    },
-    {
-      "status": "M",
-      "path": "app/actions/recurring-tasks.ts"
-    },
-    {
-      "status": "M",
-      "path": "app/globals.css"
-    },
-    {
-      "status": "M",
       "path": "components/admin/sidebar-nav.tsx"
+    },
+    {
+      "status": "M",
+      "path": "components/building/AnnouncementsPanel.tsx"
+    },
+    {
+      "status": "M",
+      "path": "components/building/AssembliesPanel.tsx"
     },
     {
       "status": "M",
@@ -114,155 +38,11 @@
     },
     {
       "status": "M",
-      "path": "components/buildings/ExpenseEditModal.tsx"
-    },
-    {
-      "status": "M",
-      "path": "components/buildings/ExpenseReviewForm.tsx"
-    },
-    {
-      "status": "M",
-      "path": "components/landing/landing-footer.tsx"
-    },
-    {
-      "status": "M",
-      "path": "components/landing/landing-header-client.tsx"
-    },
-    {
-      "status": "M",
-      "path": "components/landing/section-registry.tsx"
-    },
-    {
-      "status": "M",
-      "path": "components/landing/sections/CtaSection.tsx"
-    },
-    {
-      "status": "M",
-      "path": "components/landing/sections/HeroSection.tsx"
-    },
-    {
-      "status": "M",
-      "path": "components/maintenance/request-detail.tsx"
-    },
-    {
-      "status": "M",
-      "path": "components/maintenance/types.ts"
-    },
-    {
-      "status": "M",
-      "path": "lib/building/dashboard-data.ts"
-    },
-    {
-      "status": "M",
-      "path": "lib/cms/blog.ts"
-    },
-    {
-      "status": "M",
-      "path": "lib/cms/landing-meta.ts"
-    },
-    {
-      "status": "M",
-      "path": "lib/cms/landing-types.test.ts"
-    },
-    {
-      "status": "M",
-      "path": "lib/cms/landing-types.ts"
-    },
-    {
-      "status": "M",
-      "path": "lib/cms/landing.ts"
-    },
-    {
-      "status": "M",
-      "path": "lib/cms/pages.ts"
-    },
-    {
-      "status": "M",
-      "path": "lib/maintenance-requests.ts"
-    },
-    {
-      "status": "M",
-      "path": "lib/prisma/browser.ts"
-    },
-    {
-      "status": "M",
-      "path": "lib/prisma/client.ts"
-    },
-    {
-      "status": "M",
-      "path": "lib/prisma/commonInputTypes.ts"
-    },
-    {
-      "status": "M",
-      "path": "lib/prisma/enums.ts"
-    },
-    {
-      "status": "M",
-      "path": "lib/prisma/internal/class.ts"
-    },
-    {
-      "status": "M",
-      "path": "lib/prisma/internal/prismaNamespace.ts"
-    },
-    {
-      "status": "M",
-      "path": "lib/prisma/internal/prismaNamespaceBrowser.ts"
-    },
-    {
-      "status": "M",
-      "path": "lib/prisma/models.ts"
-    },
-    {
-      "status": "M",
-      "path": "lib/prisma/models/Building.ts"
-    },
-    {
-      "status": "M",
-      "path": "lib/prisma/models/BuildingExpense.ts"
-    },
-    {
-      "status": "M",
-      "path": "lib/prisma/models/Contact.ts"
-    },
-    {
-      "status": "M",
-      "path": "lib/prisma/models/Customer.ts"
-    },
-    {
-      "status": "M",
-      "path": "lib/prisma/models/MaintenanceCategory.ts"
-    },
-    {
-      "status": "M",
-      "path": "lib/prisma/models/MaintenanceRequest.ts"
-    },
-    {
-      "status": "M",
-      "path": "lib/prisma/models/PricingTier.ts"
-    },
-    {
-      "status": "M",
-      "path": "lib/prisma/models/RecurringTask.ts"
-    },
-    {
-      "status": "M",
-      "path": "lib/prisma/models/User.ts"
+      "path": "components/building/UnitsPanel.tsx"
     },
     {
       "status": "M",
       "path": "lib/rbac/registry.ts"
-    },
-    {
-      "status": "M",
-      "path": "prisma/schema.prisma"
-    },
-    {
-      "status": "M",
-      "path": "prisma/seed-landing.ts"
-    },
-    {
-      "status": "M",
-      "path": "proxy.ts"
     },
     {
       "status": "??",
@@ -270,205 +50,37 @@
     },
     {
       "status": "??",
-      "path": "app/(company)/super-admin/cms/landing/[type]/forms/CalculatorForm.tsx"
+      "path": "app/(company)/staff/help/"
     },
     {
       "status": "??",
-      "path": "app/(company)/super-admin/cms/site-pages/"
+      "path": "app/(customer)/portal/help/"
     },
     {
       "status": "??",
-      "path": "app/(company)/super-admin/suppliers/"
+      "path": "app/(marketplace)/marketplace/help/"
     },
     {
       "status": "??",
-      "path": "app/(customer)/building/suppliers/"
+      "path": "components/building/wizards/"
     },
     {
       "status": "??",
-      "path": "app/(customer)/portal/requests/new/"
+      "path": "components/help/"
     },
     {
       "status": "??",
-      "path": "app/(marketplace)/marketplace/catalog/"
+      "path": "components/ui/guided-flow.tsx"
     },
     {
       "status": "??",
-      "path": "app/(marketplace)/marketplace/onboarding/"
+      "path": "docs/wiki/"
     },
     {
       "status": "??",
-      "path": "app/(marketplace)/marketplace/profile/"
-    },
-    {
-      "status": "??",
-      "path": "app/(marketplace)/marketplace/requests/"
-    },
-    {
-      "status": "??",
-      "path": "app/(marketplace)/marketplace/team/"
-    },
-    {
-      "status": "??",
-      "path": "app/[locale]/faq/FaqBrowser.tsx"
-    },
-    {
-      "status": "??",
-      "path": "app/[locale]/pricing/PlanGrid.tsx"
-    },
-    {
-      "status": "??",
-      "path": "app/actions/marketing-cms.ts"
-    },
-    {
-      "status": "??",
-      "path": "app/actions/suppliers.ts"
-    },
-    {
-      "status": "??",
-      "path": "components/calculator/"
-    },
-    {
-      "status": "??",
-      "path": "components/dashboard/homes/CollaboratorHome.tsx"
-    },
-    {
-      "status": "??",
-      "path": "components/landing/sections/CalculatorSection.tsx"
-    },
-    {
-      "status": "??",
-      "path": "components/maintenance/MobileReportForm.tsx"
-    },
-    {
-      "status": "??",
-      "path": "components/marketplace/"
-    },
-    {
-      "status": "??",
-      "path": "components/site/MarketingShell.tsx"
-    },
-    {
-      "status": "??",
-      "path": "components/site/NewsletterStrip.tsx"
-    },
-    {
-      "status": "??",
-      "path": "components/site/PostCard.tsx"
-    },
-    {
-      "status": "??",
-      "path": "components/site/Prose.tsx"
-    },
-    {
-      "status": "??",
-      "path": "components/site/ReadingProgress.tsx"
-    },
-    {
-      "status": "??",
-      "path": "components/site/ShareRow.tsx"
-    },
-    {
-      "status": "??",
-      "path": "components/site/kit.tsx"
-    },
-    {
-      "status": "??",
-      "path": "components/suppliers/"
-    },
-    {
-      "status": "??",
-      "path": "design/"
-    },
-    {
-      "status": "??",
-      "path": "lib/cms/marketing-pages.server.ts"
-    },
-    {
-      "status": "??",
-      "path": "lib/cms/marketing-pages.ts"
-    },
-    {
-      "status": "??",
-      "path": "lib/marketplace.ts"
-    },
-    {
-      "status": "??",
-      "path": "lib/pricing/"
-    },
-    {
-      "status": "??",
-      "path": "lib/prisma/models/BuildingPreferredSupplier.ts"
-    },
-    {
-      "status": "??",
-      "path": "lib/prisma/models/MarketingPage.ts"
-    },
-    {
-      "status": "??",
-      "path": "lib/prisma/models/ServiceCatalogItem.ts"
-    },
-    {
-      "status": "??",
-      "path": "lib/prisma/models/Supplier.ts"
-    },
-    {
-      "status": "??",
-      "path": "lib/prisma/models/SupplierCategory.ts"
-    },
-    {
-      "status": "??",
-      "path": "lib/prisma/models/SupplierProduct.ts"
-    },
-    {
-      "status": "??",
-      "path": "lib/prisma/models/SupplierRating.ts"
-    },
-    {
-      "status": "??",
-      "path": "lib/prisma/models/SupplierService.ts"
-    },
-    {
-      "status": "??",
-      "path": "lib/supplier-ranking.test.ts"
-    },
-    {
-      "status": "??",
-      "path": "lib/supplier-ranking.ts"
-    },
-    {
-      "status": "??",
-      "path": "lib/suppliers-shared.test.ts"
-    },
-    {
-      "status": "??",
-      "path": "lib/suppliers-shared.ts"
-    },
-    {
-      "status": "??",
-      "path": "lib/suppliers.ts"
-    },
-    {
-      "status": "??",
-      "path": "prisma/migrations/20260729110000_marketing_pages/"
-    },
-    {
-      "status": "??",
-      "path": "prisma/migrations/20260907120000_suppliers/"
-    },
-    {
-      "status": "??",
-      "path": "prisma/migrations/20260907130000_supplier_ranking_wizard/"
-    },
-    {
-      "status": "??",
-      "path": "prisma/migrations/20260907140000_supplier_site_survey/"
-    },
-    {
-      "status": "??",
-      "path": "prisma/seed-site-pages.ts"
+      "path": "lib/help.ts"
     }
   ],
   "next_action": null,
-  "context_notes": "Recent commits:\n883a756 Merge feat/managed-items-maintenance: managed items → maintenance, obligations dashboard, calendar\n90e8c5c fix(obligations): accurate per-building drill-down history + recent-activity feed + guard assign schedule\ne5325d4 feat(page): central managed-item assignment modal on obligations page\n0dd1dc4 feat(page): managed-buildings obligations dashboard with drill-down\n9c8b379 feat(obligations): aggregation layer for managed buildings and obligations"
+  "context_notes": "Recent commits:\nf16ff64 feat(suppliers): Φ1 — registries, supplier portal + wizard, ranking, mobile fault report\ne2fe895 feat(site): Orithon handoff pages — pricing, FAQ, contact, news, calculator + CMS site-pages\n883a756 Merge feat/managed-items-maintenance: managed items → maintenance, obligations dashboard, calendar\n90e8c5c fix(obligations): accurate per-building drill-down history + recent-activity feed + guard assign schedule\ne5325d4 feat(page): central managed-item assignment modal on obligations page"
 }

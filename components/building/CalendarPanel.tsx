@@ -8,6 +8,7 @@ import {
 } from "@/app/actions/recurring-tasks";
 import { completeMaintenance } from "@/app/actions/maintenance-logs";
 import { SupplierPicker } from "@/components/suppliers/SupplierPicker";
+import { MaintenanceTaskWizard } from "./wizards/MaintenanceTaskWizard";
 import type { BuildingCaps } from "@/lib/building-caps";
 import {
   RiAddLine, RiArrowLeftSLine, RiArrowRightSLine, RiCheckLine, RiLoaderLine,
@@ -74,6 +75,7 @@ export function CalendarPanel({ buildingId, tasks, today, can }: { buildingId: s
   const [view, setView] = useState<View>("month");
   const [cursor, setCursor] = useState<Date>(now);
   const [edit, setEdit] = useState<TaskRow | null | "new">(null);
+  const [simpleNew, setSimpleNew] = useState(false); // "Προτιμώ την απλή φόρμα" opt-out of the guided flow
   const [completing, setCompleting] = useState<TaskRow | null>(null);
   const onEvent = can.manageCalendar ? (t: TaskRow) => setEdit(t) : () => {};
 
@@ -113,8 +115,11 @@ export function CalendarPanel({ buildingId, tasks, today, can }: { buildingId: s
       {view === "week" && <WeekView cursor={cursor} now={now} tasks={tasks} onEvent={onEvent} />}
       {view === "day" && <DayView cursor={cursor} now={now} tasks={tasks} onEvent={onEvent} />}
 
-      {edit !== null && (
-        <TaskModal buildingId={buildingId} editing={edit === "new" ? null : edit} onClose={() => setEdit(null)} onComplete={(t) => { setEdit(null); setCompleting(t); }} onDone={() => { setEdit(null); router.refresh(); }} />
+      {edit === "new" && !simpleNew && (
+        <MaintenanceTaskWizard buildingId={buildingId} onClose={() => setEdit(null)} onDone={() => { setEdit(null); router.refresh(); }} onSimpleForm={() => setSimpleNew(true)} />
+      )}
+      {edit !== null && (edit !== "new" || simpleNew) && (
+        <TaskModal buildingId={buildingId} editing={edit === "new" ? null : edit} onClose={() => { setEdit(null); setSimpleNew(false); }} onComplete={(t) => { setEdit(null); setCompleting(t); }} onDone={() => { setEdit(null); setSimpleNew(false); router.refresh(); }} />
       )}
       {completing && (
         <CompleteModal task={completing} onClose={() => setCompleting(null)} onDone={() => { setCompleting(null); router.refresh(); }} />

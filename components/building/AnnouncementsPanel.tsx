@@ -13,6 +13,7 @@ import {
   RiCheckboxCircleFill, RiTimeLine, RiCalendarEventLine, RiUserStarLine, RiUserLine,
 } from "react-icons/ri";
 import type { BuildingCaps } from "@/lib/building-caps";
+import { AnnouncementWizard } from "./wizards/AnnouncementWizard";
 
 const AUDIENCE_LABEL: Record<Audience, string> = { ALL: "Όλοι", OWNERS: "Ιδιοκτήτες", RESIDENTS: "Ένοικοι", CUSTOM: "Επιλεγμένοι" };
 const fmt = (iso: string | null) => (iso ? new Date(iso).toLocaleDateString("el-GR") : "—");
@@ -22,6 +23,7 @@ export function AnnouncementsPanel({ buildingId, can }: { buildingId: string; ca
   const [rows, setRows] = useState<AnnouncementRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [adding, setAdding] = useState(false);
+  const [simple, setSimple] = useState(false); // experienced users may opt out of the guided flow
   const [, startTransition] = useTransition();
 
   const reload = useCallback(() => listAnnouncements(buildingId).then(setRows).finally(() => setLoading(false)), [buildingId]);
@@ -86,7 +88,8 @@ export function AnnouncementsPanel({ buildingId, can }: { buildingId: string; ca
         expandedContent={(a) => <AnnouncementExpanded a={a} />}
         toolbar={can.manageAnnouncements ? <button onClick={() => setAdding(true)} style={{ ...btn, ...btnPrimary }}><RiAddLine /> Νέα ανακοίνωση</button> : undefined}
       />
-      {adding && <CreateModal buildingId={buildingId} onClose={() => setAdding(false)} onDone={() => { setAdding(false); reload(); }} />}
+      {adding && !simple && <AnnouncementWizard buildingId={buildingId} onClose={() => setAdding(false)} onDone={() => { setAdding(false); reload(); }} onSimpleForm={() => setSimple(true)} />}
+      {adding && simple && <CreateModal buildingId={buildingId} onClose={() => { setAdding(false); setSimple(false); }} onDone={() => { setAdding(false); setSimple(false); reload(); }} />}
     </>
   );
 }

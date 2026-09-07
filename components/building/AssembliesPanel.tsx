@@ -7,6 +7,7 @@ import { Modal, FormField, FieldInput } from "@/components/ui/modal";
 import { listAssemblies, createAssembly, createTestAssembly, type AssemblyRow } from "@/app/actions/assemblies";
 import { RiVideoChatLine, RiAddLine, RiCheckLine, RiLoaderLine, RiFlaskLine } from "react-icons/ri";
 import type { BuildingCaps } from "@/lib/building-caps";
+import { AssemblyWizard } from "./wizards/AssemblyWizard";
 
 const STATUS_LABEL: Record<string, string> = {
   SCHEDULED: "Προγραμματισμένη",
@@ -20,6 +21,7 @@ export function AssembliesPanel({ buildingId, can, linkToDetail = true, showTest
   const [rows, setRows] = useState<AssemblyRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [adding, setAdding] = useState(false);
+  const [simple, setSimple] = useState(false);
   const [testing, setTesting] = useState(false);
 
   const reload = useCallback(() => listAssemblies(buildingId).then(setRows).finally(() => setLoading(false)), [buildingId]);
@@ -69,7 +71,8 @@ export function AssembliesPanel({ buildingId, can, linkToDetail = true, showTest
           {showTestButton && <button onClick={() => setTesting(true)} style={btn}><RiFlaskLine /> Δοκιμή (Super Admin)</button>}
         </> : undefined}
       />
-      {adding && <CreateModal buildingId={buildingId} onClose={() => setAdding(false)} onDone={() => { setAdding(false); reload(); }} />}
+      {adding && !simple && <AssemblyWizard buildingId={buildingId} onClose={() => setAdding(false)} onDone={() => { setAdding(false); reload(); }} onSimpleForm={() => setSimple(true)} />}
+      {adding && simple && <CreateModal buildingId={buildingId} onClose={() => { setAdding(false); setSimple(false); }} onDone={() => { setAdding(false); setSimple(false); reload(); }} />}
       {testing && <TestModal buildingId={buildingId} onClose={() => setTesting(false)} onDone={() => { setTesting(false); reload(); }} />}
     </>
   );

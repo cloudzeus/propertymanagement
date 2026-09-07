@@ -45,6 +45,8 @@ export const RBAC_MODULES: readonly RbacModule[] = [
   { key: "cms-media", label: "CMS: Media", surface: "company", menu: { href: "/super-admin/cms/media", icon: "RiImage2Line", group: "cms" }, actions: [...CRUD] },
   { key: "cms-translations", label: "CMS: Μεταφράσεις", surface: "company", menu: { href: "/super-admin/cms/translations", icon: "RiTranslate2", group: "cms" }, actions: [...CRUD] },
   { key: "view-as", label: "Προεπισκόπηση ρόλων", surface: "company", menu: { href: "/super-admin/preview", icon: "RiEyeLine", group: "preview" }, actions: [...VIEW] },
+  // In-app manuals (docs/wiki) — one help module per surface, granted to every role.
+  { key: "help", label: "Βοήθεια & εγχειρίδια", surface: "company", menu: { href: "/staff/help", icon: "RiQuestionLine", group: "help" }, actions: [...VIEW] },
   // ── Customer surface ──
   // The customer surface serves 4 roles (PROPERTY_ADMIN/OWNER/RESIDENT/VIEWER) whose
   // pages live under different prefixes (/building, /owner, /portal). A module's menu
@@ -67,12 +69,14 @@ export const RBAC_MODULES: readonly RbacModule[] = [
   { key: "portal-payments", label: "Λογαριασμοί", surface: "customer", menu: { href: "/portal/payments", icon: "RiMoneyDollarCircleLine", group: "services" }, actions: [...VIEW] },
   { key: "portal-files", label: "Αρχεία", surface: "customer", menu: { href: "/portal/files", icon: "RiFileListLine", group: "services" }, actions: [...VIEW] },
   { key: "portal-maintenance", label: "Συντηρήσεις", surface: "customer", menu: { href: "/portal/maintenance", icon: "RiToolsLine", group: "operations" }, actions: [...VIEW] },
+  { key: "customer-help", label: "Βοήθεια & οδηγίες", surface: "customer", menu: { href: "/portal/help", icon: "RiQuestionLine", group: "help" }, actions: [...VIEW] },
   // ── Marketplace surface (COLLABORATOR = external supplier's users) ──
   { key: "mkt-dashboard", label: "Dashboard", surface: "marketplace", menu: { href: "/marketplace", icon: "RiDashboardLine", group: "core" }, actions: [...VIEW] },
   { key: "mkt-tasks", label: "Αναθέσεις", surface: "marketplace", menu: { href: "/marketplace/requests", icon: "RiToolsLine", group: "tasks" }, actions: [...CRUD] },
   { key: "mkt-catalog", label: "Υπηρεσίες & προϊόντα", surface: "marketplace", menu: { href: "/marketplace/catalog", icon: "RiPriceTag3Line", group: "business" }, actions: [...CRUD] },
   { key: "mkt-team", label: "Ομάδα", surface: "marketplace", menu: { href: "/marketplace/team", icon: "RiGroupLine", group: "business" }, actions: [...CRUD] },
   { key: "mkt-profile", label: "Προφίλ & ωράρια", surface: "marketplace", menu: { href: "/marketplace/profile", icon: "RiStoreLine", group: "business" }, actions: [...CRUD] },
+  { key: "mkt-help", label: "Βοήθεια & οδηγίες", surface: "marketplace", menu: { href: "/marketplace/help", icon: "RiQuestionLine", group: "help" }, actions: [...VIEW] },
   // Legacy keys kept without a menu: EMPLOYEE defaults grant them and
   // /staff/calendar still checks "mkt-calendar" (see that page).
   { key: "mkt-maintenance", label: "Συντηρήσεις (legacy)", surface: "marketplace", actions: [...CRUD] },
@@ -91,23 +95,23 @@ export const DEFAULT_PERMISSIONS: RoleDefaults = {
     ...view("dashboard", "reports"),
     ...crud("properties", "units", "users", "residents", "maintenance", "announcements", "calendar", "managed-items", "managed-buildings", "suppliers"),
     ...crud("metered-plans", "customer-wallets"),
-    ...view("api-costs"), ...crud("settings", "settings-payments"),
+    ...view("api-costs"), ...crud("settings", "settings-payments"), ...view("help"),
   ],
   MANAGER: [
-    ...view("dashboard", "calendar"),
+    ...view("dashboard", "calendar", "help"),
     ...crud("properties", "units", "maintenance", "announcements", "managed-items", "managed-buildings", "suppliers"),
   ],
   EMPLOYEE: [
-    ...view("mkt-dashboard", "mkt-calendar", "managed-buildings", "suppliers"), ...crud("mkt-tasks", "mkt-maintenance"),
+    ...view("mkt-dashboard", "mkt-calendar", "managed-buildings", "suppliers", "help"), ...crud("mkt-tasks", "mkt-maintenance"),
     ...crud("managed-items"), ...view("maintenance", "calendar"),
   ],
   PROPERTY_ADMIN: [
-    ...view("customer-dashboard"),
+    ...view("customer-dashboard", "customer-help"),
     ...crud("customer-properties", "customer-units", "customer-maintenance", "customer-communication", "customer-suppliers"),
     ...view("customer-wallet"),
   ],
   PROPERTY_OWNER: [
-    ...view("customer-dashboard", "customer-income"),
+    ...view("customer-dashboard", "customer-income", "customer-help"),
     ...crud("owner-requests"),
     // owner-announcements («Ανακοινώσεις») removed as a top-level menu grant — the
     // building-tree sidebar surfaces Ανακοινώσεις per building, and the /owner
@@ -118,13 +122,13 @@ export const DEFAULT_PERMISSIONS: RoleDefaults = {
     // customer-announcements («Ανακοινώσεις») removed as a top-level menu grant —
     // per-building announcements live in the building tree; the /portal dashboard
     // shows the consolidated announcements widget.
-    ...view("portal-payments", "portal-files", "portal-maintenance"),
+    ...view("portal-payments", "portal-files", "portal-maintenance", "customer-help"),
   ],
   PROPERTY_VIEWER: [
     ...view("customer-dashboard", "customer-announcements"),
   ],
   COLLABORATOR: [
-    ...view("mkt-dashboard"), ...crud("mkt-tasks", "mkt-catalog", "mkt-team", "mkt-profile"),
+    ...view("mkt-dashboard", "mkt-help"), ...crud("mkt-tasks", "mkt-catalog", "mkt-team", "mkt-profile"),
   ],
 };
 

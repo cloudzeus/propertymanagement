@@ -119,6 +119,7 @@ const GROUP_META: Record<string, { label: string; color: string; icon: React.Ele
   operations:  { label: "Εργασίες",        color: "#CA5D00", icon: RiToolsLine },
   tasks:       { label: "Εργασίες",        color: "#CA5D00", icon: RiToolsLine },
   business:    { label: "Η επιχείρησή μου", color: "#107C10", icon: RiStoreLine },
+  help:        { label: "Βοήθεια",         color: "#038387", icon: RiQuestionLine },
 };
 const FALLBACK_GROUP_META = { color: "#5C5C5C", icon: RiFileListLine };
 
