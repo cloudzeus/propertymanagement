@@ -4,7 +4,7 @@ import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 import { OnboardingWizard } from "../customers/[id]/onboarding/OnboardingWizard";
 
-export const metadata = { title: "AI Onboarding — Super Admin" };
+export const metadata = { title: "Νέα πολυκατοικία (AI) — Super Admin" };
 
 // Global AI onboarding: pick any customer, then describe the building to the AI.
 export default async function GlobalOnboardingPage() {

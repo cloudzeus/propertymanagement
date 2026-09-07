@@ -78,13 +78,11 @@ export async function AppShell({ children, allowedRoles }: Props) {
         logoSquareUrl={settings.logoSquareLight ?? settings.logoSquareUrl}
         companyName={settings.companyName}
         onSignOut={signOutAction}
+        bell={<NotificationsBell key="bell" />}
       />
 
-      <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0, overflow: "hidden", position: "relative" }}>
+      <div className="app-content" style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0, overflow: "hidden", position: "relative" }}>
         {eff.impersonatorId && <ImpersonationBanner name={eff.user.name ?? eff.user.email ?? ""} role={role} />}
-        <div style={{ position: "absolute", top: 16, right: 24, zIndex: 400 }}>
-          <NotificationsBell />
-        </div>
         <main className="app-main" style={{ flex: 1, overflowY: "auto", padding: 28, minWidth: 0, display: "flex", flexDirection: "column" }}>
           {children}
         </main>

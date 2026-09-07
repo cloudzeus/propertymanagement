@@ -32,6 +32,7 @@ export function Modal({ open, onClose, title, children, width = 520, footer }: P
   return createPortal(
     <div
       ref={backdropRef}
+      className="ui-modal-backdrop"
       onClick={(e) => { if (e.target === backdropRef.current) onClose(); }}
       style={{
         position: "fixed", inset: 0, zIndex: 1000,
@@ -40,7 +41,7 @@ export function Modal({ open, onClose, title, children, width = 520, footer }: P
         padding: 24,
       }}
     >
-      <div style={{
+      <div className="ui-modal" style={{
         width: "100%", maxWidth: width,
         background: "var(--card)",
         border: "1px solid var(--border)",

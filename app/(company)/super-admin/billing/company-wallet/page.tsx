@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { requirePermission } from "@/lib/rbac/permissions";
 import CompanyWalletClient from "./CompanyWalletClient";
 
-export const metadata = { title: "Company Wallet — Super Admin" };
+export const metadata = { title: "Πορτοφόλι εταιρείας — Super Admin" };
 
 export default async function Page() {
   await requirePermission("billing", "view");

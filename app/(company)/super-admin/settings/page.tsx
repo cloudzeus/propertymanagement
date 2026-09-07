@@ -1,143 +1,81 @@
-import { requirePermission } from "@/lib/rbac/permissions";
+import Link from "next/link";
+import { requirePermission, getEffectivePermissions, can } from "@/lib/rbac/permissions";
+import {
+  RiSettingsLine, RiBuildingLine, RiPaletteLine, RiBankCardLine, RiFileTextLine, RiToolsLine, RiShieldUserLine, RiLinksLine,
+  RiMoneyDollarCircleLine, RiLayoutLine, RiMailCheckLine, RiTeamLine, RiPriceTag3Line, RiArrowRightSLine,
+} from "react-icons/ri";
 
+export const metadata = { title: "Ρυθμίσεις" };
+
+/** Settings hub: every configuration screen in one place, filtered by the viewer's permissions. */
 export default async function SettingsPage() {
   await requirePermission("settings", "view");
+  const resolved = await getEffectivePermissions();
+  const perms = resolved?.perms ?? new Set<string>();
+  const ok = (mod: string) => can(perms, mod, "view");
+
+  const groups: { title: string; items: { href: string; label: string; desc: string; icon: React.ReactNode; mod: string }[] }[] = [
+    {
+      title: "Εταιρεία & εμφάνιση",
+      items: [
+        { href: "/super-admin/settings/company", label: "Εταιρία", desc: "Επωνυμία, ΑΦΜ, στοιχεία επικοινωνίας, τμήματα & θέσεις.", icon: <RiBuildingLine />, mod: "settings-company" },
+        { href: "/super-admin/settings/brand", label: "Brand & εμφάνιση", desc: "Λογότυπα, χρώματα, στοιχεία που εμφανίζονται στα emails και στη Βοήθεια.", icon: <RiPaletteLine />, mod: "settings-brand" },
+        { href: "/super-admin/roles", label: "Ρόλοι & δικαιώματα", desc: "Τι βλέπει και τι κάνει κάθε ρόλος· προσαρμοσμένοι ρόλοι.", icon: <RiShieldUserLine />, mod: "roles" },
+      ],
+    },
+    {
+      title: "Λειτουργία",
+      items: [
+        { href: "/admin/maintenance/settings", label: "Βλάβες & συντηρήσεις", desc: "Κατηγορίες, SLA, κανόνες κάλυψης της σύμβασης διαχείρισης.", icon: <RiToolsLine />, mod: "maintenance" },
+        { href: "/super-admin/settings/contracts", label: "Προσφορές & συμβάσεις έργου", desc: "Περιθώριο, εγγύηση, σιωπηρή παραλαβή, πρότυπα συμβάσεων Α/Β.", icon: <RiFileTextLine />, mod: "settings-contracts" },
+        { href: "/super-admin/suppliers/catalog", label: "Κατάλογος υπηρεσιών συνεργατών", desc: "Οι υπηρεσίες που «ανοίγει» η εταιρεία στους συνεργάτες.", icon: <RiTeamLine />, mod: "suppliers" },
+        { href: "/super-admin/services", label: "Υπηρεσίες & πακέτα", desc: "Τι πουλάει η εταιρεία στους πελάτες της.", icon: <RiPriceTag3Line />, mod: "services" },
+      ],
+    },
+    {
+      title: "Πληρωμές & ενσωματώσεις",
+      items: [
+        { href: "/super-admin/settings/payments", label: "Πληρωμές (Viva)", desc: "Ο λογαριασμός εισπράξεων της εταιρείας.", icon: <RiBankCardLine />, mod: "settings-payments" },
+        { href: "/super-admin/integrations", label: "Ενσωματώσεις", desc: "SoftOne, Bunny CDN, Daily, χάρτες και άλλα κλειδιά.", icon: <RiLinksLine />, mod: "integrations" },
+        { href: "/super-admin/settings/costs", label: "Κόστη AI / API", desc: "Τι καταναλώνει η πλατφόρμα ανά υπηρεσία και πελάτη.", icon: <RiMoneyDollarCircleLine />, mod: "api-costs" },
+      ],
+    },
+    {
+      title: "Δημόσιο site",
+      items: [
+        { href: "/super-admin/cms/landing", label: "CMS — Αρχική & σελίδες", desc: "Περιεχόμενο, τιμές, FAQ, άρθρα, SEO, μεταφράσεις.", icon: <RiLayoutLine />, mod: "cms-landing" },
+        { href: "/super-admin/cms/newsletter", label: "Newsletter & συναινέσεις (GDPR)", desc: "Συνδρομητές, φόρμα επικοινωνίας, demo — με το μητρώο συναινέσεων.", icon: <RiMailCheckLine />, mod: "cms-newsletter" },
+      ],
+    },
+  ];
+
   return (
-    <div className="space-y-6 max-w-4xl">
+    <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 20, maxWidth: 1100 }}>
       <div>
-        <h1 className="text-3xl font-bold text-gray-900">System Settings</h1>
-        <p className="text-gray-600 mt-1">Configure global system settings and preferences</p>
+        <h1 style={{ display: "flex", alignItems: "center", gap: 10, fontSize: "var(--fs-22)", fontWeight: 700, margin: 0, color: "var(--foreground)" }}><RiSettingsLine style={{ color: "var(--color-primary)" }} /> Ρυθμίσεις</h1>
+        <p style={{ margin: "4px 0 0", fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }}>Όλες οι ρυθμίσεις της πλατφόρμας σε ένα μέρος. Βλέπετε μόνο όσες επιτρέπει ο ρόλος σας.</p>
       </div>
-
-      {/* General Settings */}
-      <div className="bg-white rounded-lg shadow p-6">
-        <h2 className="text-xl font-semibold text-gray-900 mb-6">General Settings</h2>
-        <div className="space-y-6">
-          <div>
-            <label className="block text-sm font-medium text-gray-900 mb-2">Application Name</label>
-            <input
-              type="text"
-              defaultValue="PropertyPro"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-900 mb-2">Support Email</label>
-            <input
-              type="email"
-              defaultValue="support@propertypro.com"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-900 mb-2">Default Language</label>
-            <select className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-              <option>Greek (Ελληνικά)</option>
-              <option>English</option>
-            </select>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-900 mb-2">Timezone</label>
-            <select className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-              <option>Europe/Athens (UTC+2)</option>
-              <option>Europe/London (UTC+0)</option>
-              <option>Europe/Paris (UTC+1)</option>
-            </select>
-          </div>
-        </div>
-      </div>
-
-      {/* Trial Settings */}
-      <div className="bg-white rounded-lg shadow p-6">
-        <h2 className="text-xl font-semibold text-gray-900 mb-6">Trial Settings</h2>
-        <div className="space-y-6">
-          <div>
-            <label className="block text-sm font-medium text-gray-900 mb-2">Default Trial Duration (days)</label>
-            <input
-              type="number"
-              defaultValue="14"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-900 mb-2">Trial Reminder (days before expiry)</label>
-            <input
-              type="number"
-              defaultValue="3"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-        </div>
-      </div>
-
-      {/* Feature Flags */}
-      <div className="bg-white rounded-lg shadow p-6">
-        <h2 className="text-xl font-semibold text-gray-900 mb-6">Feature Flags</h2>
-        <div className="space-y-4">
-          <div className="flex items-center justify-between p-4 border rounded-lg">
-            <div>
-              <p className="font-medium text-gray-900">New User Registration</p>
-              <p className="text-sm text-gray-600">Allow new users to sign up</p>
+      {groups.map((g) => {
+        const items = g.items.filter((i) => ok(i.mod));
+        if (items.length === 0) return null;
+        return (
+          <section key={g.title}>
+            <h2 style={{ fontSize: "var(--fs-12)", fontWeight: 700, letterSpacing: ".08em", textTransform: "uppercase", color: "var(--muted-foreground)", margin: "0 0 10px" }}>{g.title}</h2>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 12 }}>
+              {items.map((i) => (
+                <Link key={i.href} href={i.href} style={{ display: "flex", gap: 12, alignItems: "flex-start", padding: "14px 16px", background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius-lg)", textDecoration: "none", color: "var(--foreground)", minHeight: 44 }}>
+                  <span style={{ width: 38, height: 38, borderRadius: 10, background: "var(--paper)", border: "1px solid var(--border)", color: "var(--color-primary)", display: "inline-flex", alignItems: "center", justifyContent: "center", fontSize: "var(--fs-18)", flexShrink: 0 }}>{i.icon}</span>
+                  <span style={{ flex: 1, minWidth: 0 }}>
+                    <span style={{ display: "block", fontSize: "var(--fs-14)", fontWeight: 700 }}>{i.label}</span>
+                    <span style={{ display: "block", fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)", marginTop: 2 }}>{i.desc}</span>
+                  </span>
+                  <RiArrowRightSLine style={{ color: "var(--muted-foreground)", flexShrink: 0, marginTop: 10 }} />
+                </Link>
+              ))}
             </div>
-            <label className="relative inline-flex items-center cursor-pointer">
-              <input type="checkbox" defaultChecked className="sr-only peer" />
-              <div className="w-11 h-6 bg-gray-300 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
-            </label>
-          </div>
-
-          <div className="flex items-center justify-between p-4 border rounded-lg">
-            <div>
-              <p className="font-medium text-gray-900">Maintenance Features</p>
-              <p className="text-sm text-gray-600">Enable maintenance request system</p>
-            </div>
-            <label className="relative inline-flex items-center cursor-pointer">
-              <input type="checkbox" defaultChecked className="sr-only peer" />
-              <div className="w-11 h-6 bg-gray-300 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
-            </label>
-          </div>
-
-          <div className="flex items-center justify-between p-4 border rounded-lg">
-            <div>
-              <p className="font-medium text-gray-900">AI Features</p>
-              <p className="text-sm text-gray-600">Enable AI-powered tools and analysis</p>
-            </div>
-            <label className="relative inline-flex items-center cursor-pointer">
-              <input type="checkbox" defaultChecked className="sr-only peer" />
-              <div className="w-11 h-6 bg-gray-300 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
-            </label>
-          </div>
-        </div>
-      </div>
-
-      {/* Data & Privacy */}
-      <div className="bg-white rounded-lg shadow p-6">
-        <h2 className="text-xl font-semibold text-gray-900 mb-6">Data & Privacy</h2>
-        <div className="space-y-4">
-          <button className="w-full px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 text-left text-gray-900 font-medium">
-            Export System Data
-          </button>
-          <button className="w-full px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 text-left text-gray-900 font-medium">
-            View Privacy Policy
-          </button>
-          <button className="w-full px-4 py-2 border border-red-300 rounded-lg hover:bg-red-50 text-left text-red-600 font-medium">
-            Delete Logs Older Than 90 Days
-          </button>
-        </div>
-      </div>
-
-      {/* Save Button */}
-      <div className="flex gap-4">
-        <button className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium">
-          Save Changes
-        </button>
-        <button className="px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 font-medium">
-          Cancel
-        </button>
-      </div>
+          </section>
+        );
+      })}
     </div>
   );
 }

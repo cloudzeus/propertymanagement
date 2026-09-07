@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { requirePermission } from "@/lib/rbac/permissions";
 import AiToolsClient from "./AiToolsClient";
 
-export const metadata = { title: "AI Tools & APIs — Super Admin" };
+export const metadata = { title: "AI Εργαλεία & APIs — Super Admin" };
 
 export default async function AIToolsPage() {
   await requirePermission("ai-tools", "view");

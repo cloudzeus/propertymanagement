@@ -3,6 +3,7 @@
 import {
   useState, useEffect, useRef, Fragment,
 } from "react";
+import { useMediaQuery } from "@/lib/use-media-query";
 import { createPortal } from "react-dom";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import {
@@ -101,6 +102,8 @@ export function DataTable<T extends { id: string }>({
   const [cPageSize, setCPageSize] = useState(pageSize);
   const [showColMenu, setShowColMenu] = useState(false);
   const [hoveredId, setHoveredId]     = useState<string | null>(null);
+  // Phones get a card list instead of a wide table (same data, same actions).
+  const isPhone = useMediaQuery("(max-width: 640px)");
   const searchTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
   const colMenuRef  = useRef<HTMLDivElement>(null);
 
@@ -291,8 +294,8 @@ export function DataTable<T extends { id: string }>({
 
         {/* ── Command bar ───────────────────────────────────── */}
         <div style={{
-          display: "flex", alignItems: "center", gap: 8,
-          padding: "0 12px", height: 44,
+          display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap",
+          padding: "6px 12px", minHeight: 44,
           borderBottom: "1px solid var(--border)",
           background: "var(--card)",
         }}>
@@ -431,7 +434,53 @@ export function DataTable<T extends { id: string }>({
           </div>
         )}
 
-        {/* ── Table ─────────────────────────────────────────── */}
+        {/* ── Phone: card list ───────────────────────────────── */}
+        {isPhone ? (
+          <div style={{ overflow: "auto", flex: "1 1 auto", minHeight: 0, padding: 10, display: "flex", flexDirection: "column", gap: 8, background: "var(--paper)" }}>
+            {viewRows.length === 0 && (
+              <div style={{ padding: "40px 16px", textAlign: "center", color: "var(--muted-foreground)", fontSize: "var(--fs-13)" }}>Δεν βρέθηκαν εγγραφές</div>
+            )}
+            {viewRows.map((row) => {
+              const actions = getRowActions?.(row) ?? [];
+              const [first, ...rest] = visibleCols;
+              const isSel = selected.has(row.id);
+              const isExp = expanded.has(row.id);
+              return (
+                <div key={row.id} style={{ background: "var(--card)", border: `1px solid ${isSel ? "var(--primary)" : "var(--border)"}`, borderRadius: 12, padding: "10px 12px", boxShadow: "0 1px 2px rgba(0,0,0,.04)" }}>
+                  <div style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
+                    <input type="checkbox" checked={isSel} onChange={() => toggleSelect(row.id)} style={{ width: 18, height: 18, marginTop: 2, accentColor: "var(--primary)", flexShrink: 0 }} />
+                    <div style={{ flex: 1, minWidth: 0, fontSize: "var(--fs-14)", fontWeight: 600, color: "var(--foreground)", overflowWrap: "anywhere" }}>{first ? first.cell(row) : row.id}</div>
+                  </div>
+                  {rest.length > 0 && (
+                    <div style={{ display: "grid", gridTemplateColumns: "minmax(0, 38%) minmax(0, 1fr)", columnGap: 10, rowGap: 6, marginTop: 8, fontSize: "var(--fs-13)" }}>
+                      {rest.map((c) => (
+                        <div key={c.id} style={{ display: "contents" }}>
+                          <div style={{ color: "var(--muted-foreground)", fontSize: "var(--fs-11-5)", fontWeight: 600, textTransform: "uppercase", letterSpacing: ".04em", paddingTop: 2 }}>{c.header}</div>
+                          <div style={{ minWidth: 0, overflowWrap: "anywhere" }}>{c.cell(row)}</div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  {(actions.length > 0 || expandedContent) && (
+                    <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginTop: 10, paddingTop: 8, borderTop: "1px dashed var(--border)" }}>
+                      {expandedContent && (
+                        <button onClick={() => toggleExpand(row.id)} style={{ display: "inline-flex", alignItems: "center", gap: 5, minHeight: 36, padding: "0 12px", borderRadius: 999, border: "1px solid var(--border)", background: "var(--paper)", color: "var(--foreground)", fontSize: "var(--fs-12-5)", fontWeight: 600, cursor: "pointer" }}>
+                          {isExp ? "Λιγότερα" : "Λεπτομέρειες"}
+                        </button>
+                      )}
+                      {actions.map((a) => (
+                        <button key={a.label} onClick={() => a.onClick(row)} style={{ display: "inline-flex", alignItems: "center", gap: 5, minHeight: 36, padding: "0 12px", borderRadius: 999, border: "1px solid var(--border)", background: a.danger ? "color-mix(in oklab, var(--destructive) 10%, var(--card))" : "var(--card)", color: a.danger ? "var(--destructive)" : "var(--foreground)", fontSize: "var(--fs-12-5)", fontWeight: 600, cursor: "pointer" }}>
+                          {a.icon}{a.label}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                  {isExp && expandedContent && <div style={{ marginTop: 10 }}>{expandedContent(row)}</div>}
+                </div>
+              );
+            })}
+          </div>
+        ) : (
         <div style={{ overflow: "auto", flex: "1 1 auto", minHeight: 0 }}>
           <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
             <table style={{ borderCollapse: "collapse", width: "100%", tableLayout: "fixed" }}>
@@ -512,6 +561,7 @@ export function DataTable<T extends { id: string }>({
             </table>
           </DndContext>
         </div>
+        )}
 
         {/* ── Pagination footer ─────────────────────────────── */}
         <div style={{

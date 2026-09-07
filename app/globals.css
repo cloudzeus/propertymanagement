@@ -438,10 +438,54 @@ body {
 .dash-tile:hover { transform: translateY(-2px); box-shadow: 0 1px 2px rgba(27,28,26,.05), 0 30px 60px -34px rgba(27,28,26,.35); }
 
 /* soft pastel wash behind dashboard content (inspiration-style) */
+/* ── Responsive app shell ─────────────────────────────────────────────────────
+   Phones (≤767px): sidebar becomes an off-canvas drawer under a 52px top bar,
+   main padding shrinks, inline multi-column grids collapse to one column and
+   modals become bottom sheets. Tablets (768–1023px): 3+-column inline grids
+   become two columns. Inline styles are overridden via attribute selectors so
+   every existing page benefits without per-page edits. */
+.app-topbar { display: none; }
+.app-sidebar-backdrop { display: none; }
+@media (max-width: 767px) {
+  .app-topbar {
+    display: flex; position: fixed; top: 0; left: 0; right: 0; height: 52px; z-index: 250;
+    align-items: center; gap: 10px; padding: 0 10px;
+    background: var(--card); border-bottom: 1px solid var(--border);
+  }
+  .app-sidebar {
+    position: fixed !important; top: 0; bottom: 0; left: 0;
+    width: 280px !important; min-width: 280px !important; height: 100dvh !important;
+    transform: translateX(-100%); transition: transform 220ms ease !important;
+    z-index: 320 !important; box-shadow: 24px 0 48px -24px rgba(27,28,26,.45);
+  }
+  .app-sidebar.is-open { transform: none; }
+  .app-sidebar-backdrop.is-open { display: block; position: fixed; inset: 0; background: rgba(27,28,26,.4); z-index: 310; }
+  .app-content { padding-top: 52px; }
+  .app-main { padding: 14px 14px 96px !important; } /* room under the quick-actions button */
+  .app-main > .dash-page { margin: -14px -14px -96px; padding: 14px 14px 96px; border-radius: 0; }
+  /* horizontal tab rows / button strips scroll instead of clipping */
+  .app-main [role="tablist"], .app-main .tab-row { overflow-x: auto; flex-wrap: nowrap !important; }
+  .imp-label { display: none; }
+  /* decorative blobs/marquees must never create sideways scroll on phones */
+  html, body { overflow-x: clip; }
+  .app-main [style*="grid-template-columns"]:not([style*="auto-fit"]):not([style*="auto-fill"]) { grid-template-columns: minmax(0, 1fr) !important; }
+  .app-main :not(table):not(th):not(td):not(col)[style*="min-width"] { min-width: 0 !important; }
+  .app-main h1 { font-size: var(--fs-20) !important; }
+  .ui-modal-backdrop { padding: 0 !important; align-items: flex-end !important; }
+  .ui-modal { max-height: calc(100dvh - 24px) !important; border-radius: 18px 18px 0 0 !important; }
+}
+@media (min-width: 768px) and (max-width: 1023px) {
+  .app-main [style*="1fr 1fr 1fr"], .app-main [style*="repeat(3"], .app-main [style*="repeat(4"], .app-main [style*="repeat(5"], .app-main [style*="repeat(6"] { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  .app-main { padding: 20px !important; }
+}
+
 /* Full-height tables: the page fills the main viewport, so a DataTable that is
    the last flex child stretches to the bottom (rows scroll inside the card). */
-.app-main > .dash-page { min-height: calc(100% + 48px); }
-.app-main > :not(.dash-page):only-child { min-height: 100%; }
+/* flex-grow (never shrink): the page fills the viewport when short and keeps its
+   content height when long — an explicit min-height would let flex shrink
+   children with overflow:hidden (e.g. the greeting Hero) below their content. */
+.app-main > .dash-page, .app-main > :not(.dash-page):only-child { flex: 1 0 auto; }
+.dash-page > :not(.dt-root) { flex-shrink: 0; }
 
 .dash-page {
   background:
@@ -498,3 +542,8 @@ body {
 }
 /* Hidden on screen; the @media print `display:block !important` wins when printing. */
 .print-area { display: none; }
+
+
+
+
+

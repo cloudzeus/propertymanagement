@@ -6,9 +6,10 @@ import path from "path";
  * In-app manuals. Source of truth is docs/wiki (plain Markdown, editable by
  * anyone); this module maps roles → manuals and reads them at request time.
  */
-export type ManualKey = "property-admin" | "owner" | "resident" | "collaborator" | "staff" | "super-admin" | "suppliers-flow";
+export type ManualKey = "basics" | "property-admin" | "owner" | "resident" | "collaborator" | "staff" | "super-admin" | "suppliers-flow";
 
 export const MANUALS: Record<ManualKey, { file: string; title: string; audience: string }> = {
+  basics: { file: "basics.md", title: "Τα βασικά — σύνδεση, μενού, κινητό", audience: "Όλοι" },
   "property-admin": { file: "roles/property-admin.md", title: "Διαχειριστής πολυκατοικίας", audience: "PROPERTY_ADMIN" },
   owner: { file: "roles/owner.md", title: "Ιδιοκτήτης", audience: "PROPERTY_OWNER" },
   resident: { file: "roles/resident.md", title: "Ένοικος", audience: "PROPERTY_RESIDENT" },
@@ -32,10 +33,10 @@ export function manualForRole(role: string): ManualKey {
 
 /** Manuals a role may browse: customers/suppliers see their own + the flow; staff see everything. */
 export function manualsForRole(role: string): ManualKey[] {
-  if (["SUPER_ADMIN", "ADMIN", "MANAGER", "EMPLOYEE"].includes(role)) return ["staff", "super-admin", "property-admin", "owner", "resident", "collaborator", "suppliers-flow"];
-  if (role === "PROPERTY_ADMIN") return ["property-admin", "owner", "resident", "suppliers-flow"];
-  if (role === "COLLABORATOR") return ["collaborator", "suppliers-flow"];
-  return [manualForRole(role), "suppliers-flow"];
+  if (["SUPER_ADMIN", "ADMIN", "MANAGER", "EMPLOYEE"].includes(role)) return ["staff", "super-admin", "basics", "property-admin", "owner", "resident", "collaborator", "suppliers-flow"];
+  if (role === "PROPERTY_ADMIN") return ["property-admin", "basics", "owner", "resident", "suppliers-flow"];
+  if (role === "COLLABORATOR") return ["collaborator", "basics", "suppliers-flow"];
+  return [manualForRole(role), "basics", "suppliers-flow"];
 }
 
 export async function loadManual(key: ManualKey): Promise<string> {

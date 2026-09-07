@@ -21,7 +21,7 @@ import {
   RiCalendarLine, RiCalendarFill,
   RiUserLine, RiUserFill,
   RiLogoutBoxRLine,
-  RiMenuFoldLine, RiMenuUnfoldLine,
+  RiMenuFoldLine, RiMenuUnfoldLine, RiMenuLine,
   RiArrowDownSLine,
   RiContactsLine, RiContactsFill, RiServiceLine, RiServiceFill,
   RiCommunityLine, RiCommunityFill,
@@ -45,6 +45,7 @@ import {
   RiMailCheckLine, RiMailCheckFill, RiCalendarTodoFill,
 } from "react-icons/ri";
 import type { MenuGroup } from "@/lib/rbac/permissions";
+import { usePhone } from "@/lib/use-media-query";
 
 type UserRole =
   | "SUPER_ADMIN" | "ADMIN" | "MANAGER" | "EMPLOYEE"
@@ -177,6 +178,8 @@ type Props = {
   role: UserRole;
   menu: MenuGroup[];
   customerBuildings?: { id: string; name: string }[];
+  /** Notifications bell (client element) — rendered in the phone top bar or the sidebar header. */
+  bell?: React.ReactNode;
   userName: string;
   userEmail: string;
   logoUrl?: string | null;
@@ -188,29 +191,35 @@ type Props = {
 const STORAGE_COLLAPSED = "dg-sidebar-collapsed";
 const STORAGE_GROUPS    = "dg-sidebar-groups";
 
-export function SidebarNav({ role, menu, customerBuildings, userName, userEmail, logoUrl, logoSquareUrl, companyName, onSignOut }: Props) {
+export function SidebarNav({ role, menu, customerBuildings, userName, userEmail, logoUrl, logoSquareUrl, companyName, onSignOut, bell }: Props) {
   const pathname   = usePathname();
   const search     = useSearchParams();
   const navGroups  = menuToNavGroups(menu);
   const buildings  = customerBuildings ?? [];
 
-  const [collapsed,   setCollapsed]   = useState(false);
+  // `collapsedPref` is the user's stored choice (desktop rail); on phones the
+  // sidebar is an off-canvas drawer and always shows full labels.
+  const [collapsedPref, setCollapsedPref] = useState(false);
+  const isPhone = usePhone();
+  const [mobileOpenFor, setMobileOpenFor] = useState<string | null>(null);
+  const collapsed = collapsedPref && !isPhone;
+  const mobileOpen = mobileOpenFor === pathname; // navigating away closes the drawer
   const [openGroups,  setOpenGroups]  = useState<Record<string, boolean>>(
     () => Object.fromEntries(navGroups.map((g) => [g.id, true])),
   );
 
   useEffect(() => {
     const c = localStorage.getItem(STORAGE_COLLAPSED);
-    if (c !== null) setCollapsed(c === "true");
-    // Phones: start collapsed so the content column gets the width (mobile
-    // fault reporting); the user's explicit choice still wins once stored.
-    else if (window.innerWidth < 768) setCollapsed(true);
+    if (c !== null) setCollapsedPref(c === "true");
+    // Tablets: start as an icon rail so the content column gets the width;
+    // the user's explicit choice still wins once stored.
+    else if (window.innerWidth < 1024) setCollapsedPref(true);
     const g = localStorage.getItem(STORAGE_GROUPS);
     if (g) { try { setOpenGroups(JSON.parse(g)); } catch { /* ignore */ } }
   }, []);
 
   function toggleSidebar() {
-    setCollapsed((v) => {
+    setCollapsedPref((v) => {
       localStorage.setItem(STORAGE_COLLAPSED, String(!v));
       return !v;
     });
@@ -245,7 +254,20 @@ export function SidebarNav({ role, menu, customerBuildings, userName, userEmail,
   const squareLogo = logoSquareUrl  || null;
 
   return (
-    <aside style={{
+    <>
+      {/* Phone top bar (CSS shows it only ≤767px) */}
+      <header className="app-topbar">
+        <button onClick={() => setMobileOpenFor(mobileOpen ? null : pathname)} style={{ ...iconBtnStyle, width: 40, height: 40 }} aria-label="Μενού" aria-expanded={mobileOpen}>
+          <RiMenuLine size={20} />
+        </button>
+        {fullLogo
+          /* eslint-disable-next-line @next/next/no-img-element */
+          ? <img src={fullLogo} alt={companyName} style={{ height: 24, width: "auto", maxWidth: 140, objectFit: "contain" }} />
+          : <span style={{ fontSize: "var(--fs-15)", fontWeight: 700, color: "var(--primary)" }}>{companyName}</span>}
+        <span style={{ marginLeft: "auto" }}>{isPhone ? bell : null}</span>
+      </header>
+      <div className={`app-sidebar-backdrop${mobileOpen ? " is-open" : ""}`} onClick={() => setMobileOpenFor(null)} />
+    <aside className={`app-sidebar${mobileOpen ? " is-open" : ""}`} style={{
       width: collapsed ? 64 : 240,
       minWidth: collapsed ? 64 : 240,
       height: "100vh",
@@ -286,16 +308,22 @@ export function SidebarNav({ role, menu, customerBuildings, userName, userEmail,
               </span>
         )}
         {!collapsed && (
-          <button onClick={toggleSidebar} style={iconBtnStyle} title="Σύμπτυξη">
-            <RiMenuFoldLine size={16} />
-          </button>
+          <span style={{ display: "inline-flex", alignItems: "center", gap: 6, marginLeft: "auto" }}>
+            {!isPhone && bell}
+            <button onClick={toggleSidebar} style={iconBtnStyle} title="Σύμπτυξη">
+              <RiMenuFoldLine size={16} />
+            </button>
+          </span>
         )}
       </div>
 
       {collapsed && (
-        <button onClick={toggleSidebar} style={{ ...iconBtnStyle, margin: "12px auto 4px", display: "flex" }} title="Ανάπτυξη">
-          <RiMenuUnfoldLine size={16} />
-        </button>
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6, margin: "10px auto 4px" }}>
+          <button onClick={toggleSidebar} style={{ ...iconBtnStyle, display: "flex" }} title="Ανάπτυξη">
+            <RiMenuUnfoldLine size={16} />
+          </button>
+          {bell}
+        </div>
       )}
 
       {/* ── Nav ──────────────────────────────────────────────── */}
@@ -556,6 +584,7 @@ export function SidebarNav({ role, menu, customerBuildings, userName, userEmail,
         )}
       </div>
     </aside>
+    </>
   );
 }
 

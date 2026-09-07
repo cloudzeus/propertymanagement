@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 import { RiPaletteLine } from "react-icons/ri";
 import { BrandForm } from "./BrandForm";
 
-export const metadata = { title: "Brand Settings — Super Admin" };
+export const metadata = { title: "Brand & εμφάνιση — Super Admin" };
 
 async function saveBrandSettings(formData: FormData) {
   "use server";
@@ -49,7 +49,7 @@ export default async function BrandSettingsPage() {
           <RiPaletteLine style={{ fontSize: "var(--fs-20)", color: "var(--color-purple)" }} />
         </div>
         <div>
-          <h1 style={{ fontSize: "var(--fs-22)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}>Brand Settings</h1>
+          <h1 style={{ fontSize: "var(--fs-22)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}>Brand & εμφάνιση</h1>
           <p style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)", marginTop: 4 }}>
             Χρώματα, στοιχεία εταιρείας και εμφάνιση της εφαρμογής
           </p>
