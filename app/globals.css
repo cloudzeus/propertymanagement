@@ -522,7 +522,7 @@ body {
    it (the old absolute/visibility print trick clipped the modal → blank page). */
 @media print {
   @page { size: A4; margin: 12mm; }
-  body > *:not(.print-area) { display: none !important; }
+  body > *:not(.print-area):not(.print-page) { display: none !important; }
   .print-area { display: block !important; background: #fff; color: #000; font-size: 10pt; }
   /* classic έντυπο look: white paper, black rules */
   .print-area {
@@ -542,6 +542,8 @@ body {
 }
 /* Hidden on screen; the @media print `display:block !important` wins when printing. */
 .print-area { display: none; }
+
+
 
 
 

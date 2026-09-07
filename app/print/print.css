@@ -1,0 +1,110 @@
+/* ── Printable documents (manager → owners/residents) ─────────────────────────
+   One A4 sheet per `.pdoc`. On screen the sheets sit on a grey desk with a
+   toolbar; in print/PDF each sheet becomes one page (break-after) with pure
+   black ink on white — no cards, no shadows, classic έντυπο rules. */
+.print-page { background: #e8e5df; min-height: 100vh; padding: 64px 16px 40px; color: #111; font-family: var(--font-sans); }
+.print-toolbar {
+  position: fixed; inset: 0 0 auto 0; z-index: 50; height: 48px; display: flex; align-items: center; gap: 10px; padding: 0 16px;
+  background: #1c1b19; color: #f4f1ea; font-size: 13px; box-shadow: 0 1px 0 rgba(0,0,0,.25);
+}
+.print-toolbar .grow { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; opacity: .85; }
+.print-toolbar a, .print-toolbar button {
+  display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,.18);
+  background: transparent; color: inherit; font: inherit; font-weight: 600; cursor: pointer; text-decoration: none; white-space: nowrap;
+}
+.print-toolbar button.primary { background: #f4f1ea; color: #1c1b19; border-color: #f4f1ea; }
+
+.pdoc {
+  width: 210mm; min-height: 297mm; margin: 0 auto 28px; background: #fff; color: #111;
+  padding: 14mm 14mm 16mm; box-shadow: 0 2px 24px rgba(0,0,0,.14); box-sizing: border-box;
+  font-size: 10pt; line-height: 1.45; position: relative; display: flex; flex-direction: column;
+}
+.pdoc * { box-sizing: border-box; }
+.pdoc-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; padding-bottom: 10px; border-bottom: 1.5px solid #111; }
+.pdoc-logo { height: 30px; width: auto; display: block; }
+.pdoc-issuer { text-align: right; font-size: 8.5pt; line-height: 1.4; color: #333; }
+.pdoc-issuer b { color: #111; font-size: 9.5pt; }
+.pdoc-title { margin: 14px 0 0; }
+.pdoc-eyebrow { font-size: 8pt; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #555; }
+.pdoc-h1 { font-family: var(--font-display); font-weight: 600; font-size: 26pt; line-height: 1.05; margin: 2px 0 0; letter-spacing: -.01em; color: #111; }
+.pdoc-sub { font-size: 10.5pt; color: #333; margin-top: 4px; }
+.pdoc-meta { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; margin-top: 12px; border: 1px solid #111; }
+.pdoc-meta > div { padding: 6px 9px; border-right: 1px solid #111; min-width: 0; }
+.pdoc-meta > div:last-child { border-right: 0; }
+.pdoc-meta .k { font-size: 7.5pt; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: #555; }
+.pdoc-meta .v { font-size: 10pt; font-weight: 700; margin-top: 1px; overflow-wrap: anywhere; }
+.pdoc-meta .s { font-size: 8.5pt; color: #444; }
+.pdoc-body { flex: 1; margin-top: 14px; display: flex; flex-direction: column; gap: 12px; }
+.pdoc-foot { margin-top: 16px; padding-top: 6px; border-top: 1px solid #111; display: flex; justify-content: space-between; gap: 12px; font-size: 7.5pt; color: #555; }
+
+.pt { width: 100%; border-collapse: collapse; font-size: 9.5pt; }
+.pt th { text-align: left; font-size: 7.5pt; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: #333; padding: 5px 7px; border-bottom: 1.5px solid #111; vertical-align: bottom; }
+.pt td { padding: 5px 7px; border-bottom: 1px solid #cfcac2; vertical-align: top; }
+.pt tr.group td { background: #f1efea; font-weight: 800; font-size: 8.5pt; letter-spacing: .05em; text-transform: uppercase; border-top: 1px solid #111; border-bottom: 1px solid #111; }
+.pt tr.sub td { font-weight: 700; background: #faf9f6; }
+.pt tfoot td, .pt tr.total td { font-weight: 800; border-top: 1.5px solid #111; border-bottom: 0; background: #f1efea; }
+.pt .num { text-align: right; font-variant-numeric: tabular-nums; }
+.pt td.num { white-space: nowrap; }
+.pt { table-layout: auto; max-width: 100%; }
+.pt .dim { color: #666; font-size: 8.5pt; }
+.pt tr { break-inside: avoid; }
+.pt .key { color: var(--color-primary, #8a4b2a); font-weight: 700; }
+
+.psec { break-inside: avoid; }
+.psec-title { font-size: 8.5pt; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; padding: 5px 0; border-bottom: 1.5px solid #111; margin-bottom: 4px; color: #111; }
+.pbox { border: 1px solid #111; padding: 9px 11px; break-inside: avoid; }
+.pbox.soft { border-color: #cfcac2; }
+.pkv { display: grid; grid-template-columns: max-content 1fr; gap: 3px 12px; font-size: 9.5pt; }
+.pkv .k { color: #555; }
+.ppay { display: flex; justify-content: space-between; align-items: center; gap: 14px; border: 1.5px solid #111; padding: 10px 14px; }
+.ppay .lbl { font-size: 8pt; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #555; }
+.ppay .amt { font-size: 24pt; font-weight: 800; font-variant-numeric: tabular-nums; line-height: 1.1; }
+.ppay .note { font-size: 8.5pt; color: #444; }
+.psign { display: flex; justify-content: space-between; gap: 24px; margin-top: 22px; }
+.psign > div { flex: 1; text-align: center; }
+.psign .line { border-top: 1px solid #111; margin-top: 34px; padding-top: 4px; font-size: 8.5pt; color: #555; }
+.psign .name { font-weight: 700; font-size: 9.5pt; }
+.pstamp { display: inline-block; border: 1.5px solid #111; padding: 2px 8px; font-size: 8pt; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+.pprose { font-size: 10.5pt; line-height: 1.55; }
+.pprose h1, .pprose h2, .pprose h3 { font-family: var(--font-display); font-weight: 600; margin: 14px 0 4px; line-height: 1.15; }
+.pprose h1 { font-size: 18pt; } .pprose h2 { font-size: 15pt; } .pprose h3 { font-size: 12.5pt; }
+.pprose p { margin: 0 0 8px; } .pprose ul, .pprose ol { margin: 0 0 8px 20px; } .pprose li { margin-bottom: 3px; }
+.pprose hr { border: 0; border-top: 1px solid #111; margin: 10px 0; }
+.pprose table { border-collapse: collapse; width: 100%; font-size: 9.5pt; } .pprose td, .pprose th { border: 1px solid #111; padding: 4px 6px; }
+.pcut { border-top: 1.5px dashed #111; margin-top: 14px; padding-top: 10px; position: relative; }
+.compact { gap: 6px !important; }
+.compact .psign .line { margin-top: 22px; }
+.compact .pkv { gap: 2px 12px; }
+.pcut::before { content: "✂ αποκόψτε και παραδώστε στον διαχειριστή"; position: absolute; top: -8px; left: 0; background: #fff; padding-right: 8px; font-size: 7.5pt; color: #555; }
+.pcheck { display: inline-block; width: 11px; height: 11px; border: 1.2px solid #111; vertical-align: -1px; margin-right: 5px; }
+.pagenda { counter-reset: agenda; list-style: none; margin: 0; padding: 0; }
+.pagenda li { display: grid; grid-template-columns: 26px 1fr; gap: 6px; padding: 6px 0; border-bottom: 1px solid #cfcac2; font-size: 10.5pt; }
+.pagenda li::before { counter-increment: agenda; content: counter(agenda) "."; font-family: var(--font-display); font-weight: 700; font-size: 14pt; line-height: 1; color: #111; }
+
+@media (max-width: 900px) {
+  .print-page { padding: 56px 0 24px; }
+  .pdoc { width: 100%; min-height: 0; padding: 18px 14px; box-shadow: none; }
+  .pdoc-meta { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pdoc-meta > div:nth-child(2n) { border-right: 0; }
+  .pdoc-meta > div:nth-child(-n+2) { border-bottom: 1px solid #111; }
+  .pt { font-size: 8.5pt; }
+}
+@media print {
+  @page { size: A4; margin: 10mm 10mm 12mm; }
+  html, body { background: #fff !important; }
+  .print-page { background: none; padding: 0; min-height: 0; }
+  .print-toolbar { display: none !important; }
+  .pdoc { width: auto; min-height: 0; margin: 0; padding: 0; box-shadow: none; break-after: page; display: block; }
+  .pdoc:last-child { break-after: auto; }
+  .pdoc-foot { margin-top: 14px; }
+  .pdoc-head { padding-bottom: 8px; }
+  .pdoc-title { margin-top: 10px; }
+  .pdoc-h1 { font-size: 23pt; }
+  .pdoc-meta { margin-top: 9px; }
+  .pdoc-body { margin-top: 10px; gap: 10px; }
+  .psign { margin-top: 16px; }
+  .pagenda li { padding: 4px 0; }
+  .pprose { line-height: 1.5; }
+  nextjs-portal, .no-print { display: none !important; }
+}
+

@@ -35,6 +35,7 @@ const A = {
   cmsNewsletter: { key: "cms-newsletter", label: "Newsletter & συναινέσεις", icon: "RiMailCheckLine", href: "/super-admin/cms/newsletter" },
   billing: { key: "billing", label: "Τιμολόγηση", icon: "RiFileListLine", href: "/super-admin/billing" },
   help: { key: "help", label: "Βοήθεια", icon: "RiQuestionLine", href: "/staff/help" },
+  printables: { key: "printables", label: "Εκτυπωτικά", icon: "RiPrinterLine", href: "/print", hint: "Ειδοποιητήρια, αποδείξεις, προσκλήσεις" },
   // customer surface
   mySuppliers: { key: "my-suppliers", label: "Οι προμηθευτές μου", icon: "RiTruckLine", href: "/building/suppliers" },
   myMaintenance: { key: "my-maint", label: "Συντηρήσεις", icon: "RiToolsLine", href: "/building?s=maintenance" },
@@ -87,22 +88,22 @@ export function resolveQuickActions(ctx: Ctx): QuickAction[] {
     else if (p.startsWith("/super-admin/suppliers")) picks = [A.catalog, A.faults, A.workOrders, A.contracts];
     else if (p.startsWith("/super-admin/cms")) picks = [A.cmsArticles, A.cmsMedia, A.cmsLanding, A.cmsNewsletter];
     else if (p.startsWith("/super-admin/settings") || p.startsWith("/super-admin/roles") || p.startsWith("/super-admin/users")) picks = [A.users, A.roles, A.contracts, A.cron];
-    else if (p.startsWith("/super-admin/customers") || p.startsWith("/super-admin/properties") || p.startsWith("/super-admin/units")) picks = [A.onboarding, A.expense, A.managedBuildings, A.announcement];
-    else if (p.startsWith("/super-admin/managed") || p.startsWith("/super-admin/buildings")) picks = [A.expense, A.programme, A.report, A.announcement];
+    else if (p.startsWith("/super-admin/customers") || p.startsWith("/super-admin/properties") || p.startsWith("/super-admin/units")) picks = [A.onboarding, A.expense, A.printables, A.managedBuildings, A.announcement];
+    else if (p.startsWith("/super-admin/managed") || p.startsWith("/super-admin/buildings")) picks = [A.expense, A.printables, A.programme, A.report, A.announcement];
     else if (p.startsWith("/super-admin/billing")) picks = [A.customers, A.properties, A.billing];
     else if (p.startsWith("/staff/calendar")) picks = [A.programme, A.faults, A.report, A.announcement];
     else if (p.startsWith("/admin/announcements")) picks = [A.properties, A.calendar, A.report];
     else if (p.startsWith("/staff/help")) picks = [A.report, A.faults, A.calendar];
-    else picks = [A.report, A.expense, A.faults, A.announcement, A.onboarding]; // dashboards
+    else picks = [A.report, A.expense, A.faults, A.printables, A.announcement]; // dashboards
   } else if (role === "PROPERTY_ADMIN") {
     if (p.startsWith("/building/suppliers")) picks = [A.report, A.myMaintenance, A.expense];
     else if (p.startsWith("/portal/maintenance") || p.includes("s=maintenance")) picks = [A.report, A.mySuppliers, A.expense, A.myAnnouncement];
-    else if (p.includes("s=finance") || p.includes("s=expenses")) picks = [A.expense, A.report, A.myMaintenance];
-    else picks = [A.report, A.expense, A.myAnnouncement, A.mySuppliers, A.customerHelp];
+    else if (p.includes("s=finance") || p.includes("s=expenses")) picks = [A.expense, A.printables, A.report, A.myMaintenance];
+    else picks = [A.report, A.expense, A.printables, A.myAnnouncement, A.mySuppliers];
   } else if (role === "PROPERTY_OWNER") {
     if (p.startsWith("/owner/payments")) picks = [A.report, A.ownerRequests];
     else if (p.startsWith("/owner/requests")) picks = [A.report, A.ownerPayments];
-    else picks = [A.report, A.ownerPayments, A.ownerRequests, A.customerHelp];
+    else picks = [A.report, A.ownerPayments, A.printables, A.ownerRequests, A.customerHelp];
   } else if (role === "PROPERTY_RESIDENT" || role === "PROPERTY_VIEWER") {
     if (p.startsWith("/portal/payments")) picks = [A.report, A.portalRequests, A.portalFiles];
     else if (p.startsWith("/portal/requests")) picks = [A.report, A.portalPayments];
@@ -121,7 +122,7 @@ export function resolveQuickActions(ctx: Ctx): QuickAction[] {
   // and never the page we are already on.
   const base = (h: string) => h.split("?")[0];
   return picks
-    .filter((a) => (a.kind === "expense" ? ctx.canExpense : a.href === "/report" || ctx.allowed.has(a.href!) || ctx.allowed.has(base(a.href!)) || (a.key === "cron" && ctx.allowed.has("/super-admin/settings"))))
+    .filter((a) => (a.kind === "expense" ? ctx.canExpense : a.href === "/report" || a.href === "/print" || ctx.allowed.has(a.href!) || ctx.allowed.has(base(a.href!)) || (a.key === "cron" && ctx.allowed.has("/super-admin/settings"))))
     .filter((a) => !a.href || base(a.href) !== p.split("?")[0] || a.href.includes("?"))
     .slice(0, 5);
 }
