@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getLocale } from "next-intl/server";
 import type { HeroData } from "@/lib/cms/landing-types";
+import { GlowBlob, Grain, GridOverlay, ImagePlaceholder } from "@/components/site/kit";
 
 const BARS = ["46%", "62%", "54%", "72%", "64%", "84%", "70%", "92%", "80%"];
 
@@ -36,30 +37,19 @@ export async function HeroSection({ data }: { data: HeroData }) {
   const t = T[raw === "en" ? "en" : "el"];
   return (
     <section className="relative overflow-hidden pt-[78px] pb-24">
-      {/* Glow blob */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -top-[260px] left-1/2 -z-10 h-[780px] w-[1100px] -translate-x-1/2"
-        style={{
-          background:
-            "radial-gradient(closest-side, rgba(242,162,60,.16), rgba(91,182,214,.07) 55%, transparent 75%)",
-          filter: "blur(8px)",
-        }}
-      />
-      {/* Line grid */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10"
-        style={{
-          backgroundImage:
-            "linear-gradient(rgba(27,28,26,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(27,28,26,.045) 1px,transparent 1px)",
-          backgroundSize: "54px 54px",
-          maskImage: "radial-gradient(ellipse 80% 60% at 50% 30%,#000,transparent 75%)",
-          WebkitMaskImage: "radial-gradient(ellipse 80% 60% at 50% 30%,#000,transparent 75%)",
-        }}
-      />
+      {/*
+        Three stacked background layers (handoff 03 §1 / 01 §5.2–5.4).
+        They must NOT use a negative z-index: `section.relative` has no z-index,
+        so it creates no stacking context, and `-z-10` children escape all the
+        way to the root — painting behind the opaque `.orithon-marketing`
+        background, where they are invisible. Instead they paint in source order
+        and the content wrapper below is given `relative` to sit above them.
+      */}
+      <GlowBlob variant="hero" />
+      <GridOverlay />
+      <Grain />
 
-      <div className="mx-auto max-w-[1200px] px-5 sm:px-7">
+      <div className="relative mx-auto max-w-[1200px] px-5 sm:px-7">
         <div className="grid grid-cols-1 items-center gap-[50px] md:grid-cols-[1.05fr_0.95fr]">
           {/* Copy */}
           <div>
@@ -74,10 +64,20 @@ export async function HeroSection({ data }: { data: HeroData }) {
               {data.eyebrow || t.eyebrow}
             </span>
 
+            {/* Two lines: the first in ink, the second in amber (handoff 03 §1).
+                `titleAccent` is optional — an unsplit title renders on its own. */}
             <h1 className="mt-6 text-[42px] font-extrabold leading-[1.0] tracking-[-0.025em] text-[var(--foreground)] md:text-[74px]">
-              <span className="pop inline-block" style={{ animationDelay: ".12s" }}>
+              <span className="pop block" style={{ animationDelay: ".12s" }}>
                 {data.title}
               </span>
+              {data.titleAccent ? (
+                <span
+                  className="pop block text-[var(--accent)]"
+                  style={{ animationDelay: ".2s" }}
+                >
+                  {data.titleAccent}
+                </span>
+              ) : null}
             </h1>
 
             <p
@@ -129,21 +129,10 @@ export async function HeroSection({ data }: { data: HeroData }) {
 
           {/* Visual */}
           <div className="pop relative h-[480px]" style={{ animationDelay: ".32s" }}>
-            {/* Spinning ring */}
-            <div
-              aria-hidden
-              className="pointer-events-none absolute left-[54%] top-1/2 h-[430px] w-[430px] rounded-full opacity-[0.32]"
-              style={{
-                transform: "translate(-50%,-50%)",
-                background:
-                  "conic-gradient(from 200deg,var(--accent),var(--accent-2),var(--accent),var(--accent-2),var(--accent))",
-                filter: "blur(2px)",
-                WebkitMask:
-                  "radial-gradient(circle, transparent 56%, #000 57%, #000 60%, transparent 61%)",
-                mask: "radial-gradient(circle, transparent 56%, #000 57%, #000 60%, transparent 61%)",
-                animation: "spin 44s linear infinite",
-              }}
-            />
+            {/* Rotating conic ring. The shared utility uses `spin-ring`, whose
+                keyframe keeps the centring translate — plain `spin` drops it and
+                the ring jumps a half-width off-centre the moment it animates. */}
+            <div aria-hidden className="conic-ring pointer-events-none" />
 
             {/* Photo card */}
             <div
@@ -164,16 +153,11 @@ export async function HeroSection({ data }: { data: HeroData }) {
                 // eslint-disable-next-line @next/next/no-img-element
                 <img src={data.imageUrl} alt={data.title} className="h-full w-full object-cover" />
               ) : (
-                <div className="h-full w-full bg-gradient-to-br from-[#EFEDE2] to-[#E7F0E0]" />
+                /* Placeholders stay obvious and name what belongs there
+                   (handoff README §10) — never a stand-in that reads as a photo. */
+                <ImagePlaceholder label={data.propertyName || "Building photo"} />
               )}
-              <div
-                aria-hidden
-                className="absolute inset-0"
-                style={{
-                  background:
-                    "linear-gradient(180deg,rgba(15,22,30,.04) 0%,rgba(15,22,30,.06) 50%,rgba(15,22,30,.42) 100%)",
-                }}
-              />
+              <div aria-hidden className="scrim-photo" />
               <div
                 className="absolute inset-x-3.5 bottom-3.5 flex items-center justify-between rounded-[14px] border bg-[var(--card)] px-4 py-3"
                 style={{ borderColor: "rgba(27,28,26,.12)" }}

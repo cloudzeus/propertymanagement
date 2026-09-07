@@ -1,75 +1,174 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
+import type { ContactPageContent } from "@/lib/cms/marketing-pages";
+import { btnClass } from "@/components/site/kit";
 
-type Labels = {
-  name: string;
-  email: string;
-  phone: string;
-  subject: string;
-  message: string;
-  send: string;
-  sending: string;
-  success: string;
-  error: string;
-};
+type FormContent = ContactPageContent["form"];
 
-export function ContactForm({ labels }: { labels: Labels }) {
+const FIELD =
+  "w-full rounded-[11px] border border-[var(--line)] bg-[var(--paper)] px-[15px] py-[13px] text-[14.5px] outline-none " +
+  "transition-[border-color,box-shadow,background] duration-[180ms] " +
+  "focus:border-[var(--accent)] focus:bg-white focus:shadow-[0_0_0_3px_rgba(242,162,60,.16)]";
+
+function Label({ children, required }: { children: React.ReactNode; required?: boolean }) {
+  return (
+    <span className="mb-2 block text-[13px] font-bold">
+      {children}
+      {required ? <span className="text-[var(--accent)]"> *</span> : null}
+    </span>
+  );
+}
+
+export function ContactForm({ content }: { content: FormContent }) {
   const [status, setStatus] = useState<"idle" | "sending" | "ok" | "error">("idle");
+  const l = content.labels;
+  const p = content.placeholders;
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = e.currentTarget;
-    const data = Object.fromEntries(new FormData(form).entries());
+    const fd = new FormData(form);
+
+    const company = String(fd.get("company") ?? "").trim();
+    const buildings = String(fd.get("buildings") ?? "").trim();
+    // ContactMessage has no company/buildings columns — fold them into the body
+    // rather than losing what the sender told us.
+    const context = [company && `${l.company}: ${company}`, buildings && `${l.buildings}: ${buildings}`]
+      .filter(Boolean)
+      .join("\n");
+
+    const payload = {
+      name: fd.get("name"),
+      email: fd.get("email"),
+      phone: fd.get("phone") || null,
+      subject: fd.get("topic"),
+      message: context ? `${context}\n\n${fd.get("message")}` : fd.get("message"),
+    };
+
     setStatus("sending");
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: JSON.stringify(payload),
       });
       if (!res.ok) throw new Error("request failed");
-      setStatus("ok");
       form.reset();
+      setStatus("ok");
+      window.scrollTo({ top: 0, behavior: "smooth" });
     } catch {
       setStatus("error");
     }
   }
 
-  const inputCls =
-    "w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500";
+  if (status === "ok") {
+    return (
+      <div className="rounded-[22px] border border-[var(--line)] bg-white px-11 py-14 text-center shadow-[var(--shadow-card)]">
+        <span className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-[var(--accent)]">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M20 6 9 17l-5-5" />
+          </svg>
+        </span>
+        <h2 className="text-[30px] font-extrabold tracking-[-.02em]">{content.success.heading}</h2>
+        <p className="mx-auto mb-7 mt-4 max-w-[400px] text-[16px] leading-[1.6] text-[var(--mut)]">
+          {content.success.body}
+        </p>
+        <button type="button" onClick={() => setStatus("idle")} className={btnClass("ghost")}>
+          {content.success.againLabel}
+        </button>
+      </div>
+    );
+  }
 
   return (
-    <form onSubmit={onSubmit} className="space-y-4 max-w-xl">
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">{labels.name}</label>
-        <input name="name" required className={inputCls} />
+    <form
+      onSubmit={onSubmit}
+      className="rounded-[22px] border border-[var(--line)] bg-white px-6 py-7 shadow-[var(--shadow-card)] sm:px-[38px] sm:py-9"
+    >
+      <h2 className="text-[21px] font-extrabold tracking-[-.015em]">{content.heading}</h2>
+      <p className="mb-7 mt-2.5 text-[14px] leading-[1.6] text-[var(--mut)]">{content.body}</p>
+
+      <div className="mb-[18px] grid gap-4 min-[560px]:grid-cols-2">
+        <label>
+          <Label required>{l.name}</Label>
+          <input name="name" required autoComplete="name" placeholder={p.name} className={FIELD} />
+        </label>
+        <label>
+          <Label>{l.company}</Label>
+          <input name="company" autoComplete="organization" placeholder={p.company} className={FIELD} />
+        </label>
       </div>
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">{labels.email}</label>
-        <input name="email" type="email" required className={inputCls} />
+
+      <div className="mb-[18px] grid gap-4 min-[560px]:grid-cols-2">
+        <label>
+          <Label required>{l.email}</Label>
+          <input name="email" type="email" required autoComplete="email" placeholder={p.email} className={FIELD} />
+        </label>
+        <label>
+          <Label>{l.phone}</Label>
+          <input name="phone" type="tel" autoComplete="tel" placeholder={p.phone} className={FIELD} />
+        </label>
       </div>
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">{labels.phone}</label>
-        <input name="phone" className={inputCls} />
+
+      <div className="mb-[18px] grid gap-4 min-[560px]:grid-cols-2">
+        <label>
+          <Label>{l.buildings}</Label>
+          <select name="buildings" className={FIELD} defaultValue="">
+            <option value="">—</option>
+            {content.buildingOptions.map((o) => (
+              <option key={o} value={o}>{o}</option>
+            ))}
+          </select>
+        </label>
+        <label>
+          <Label required>{l.topic}</Label>
+          <select name="topic" required className={FIELD} defaultValue={content.topicOptions[0] ?? ""}>
+            {content.topicOptions.map((o) => (
+              <option key={o} value={o}>{o}</option>
+            ))}
+          </select>
+        </label>
       </div>
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">{labels.subject}</label>
-        <input name="subject" required className={inputCls} />
-      </div>
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">{labels.message}</label>
-        <textarea name="message" required rows={5} className={inputCls} />
-      </div>
-      <button
-        type="submit"
-        disabled={status === "sending"}
-        className="rounded-md bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-blue-700 disabled:opacity-60"
-      >
-        {status === "sending" ? labels.sending : labels.send}
+
+      <label className="mb-[18px] block">
+        <Label required>{l.message}</Label>
+        <textarea
+          name="message"
+          required
+          placeholder={p.message}
+          className={`${FIELD} min-h-[130px] resize-y leading-[1.6]`}
+        />
+      </label>
+
+      <label className="mb-[22px] mt-1.5 flex cursor-pointer items-start gap-[11px] text-[13px] leading-[1.55] text-[var(--mut)]">
+        <input
+          type="checkbox"
+          required
+          className="mt-0.5 h-[17px] w-[17px] flex-none"
+          style={{ accentColor: "var(--accent)" }}
+        />
+        <span>
+          {content.consent}{" "}
+          <Link href={content.consentLinkHref} className="prose-link">
+            {content.consentLinkLabel}
+          </Link>
+          .
+        </span>
+      </label>
+
+      <button type="submit" disabled={status === "sending"} className={btnClass("primary", "md", "w-full disabled:opacity-60")}>
+        {status === "sending" ? content.submittingLabel : content.submitLabel}
       </button>
-      {status === "ok" && <p className="text-sm text-green-600">{labels.success}</p>}
-      {status === "error" && <p className="text-sm text-red-600">{labels.error}</p>}
+
+      {status === "error" && (
+        <p role="alert" className="mt-3 text-center text-[13px] font-semibold text-[var(--color-danger)]">
+          {content.errorMessage}
+        </p>
+      )}
+
+      <p className="mt-3.5 text-center text-[12px] text-[var(--mut2)]">{content.footnote}</p>
     </form>
   );
 }

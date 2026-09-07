@@ -8,7 +8,8 @@ const uid = () => crypto.randomUUID();
 const HERO = {
   el: {
     eyebrow: "Διαχείριση κτηρίων & κοινοχρήστων",
-    title: "Κάθε κτήριο, υπό έλεγχο.",
+    title: "Κάθε κτήριο,",
+    titleAccent: "υπό έλεγχο.",
     subtitle:
       "Κοινόχρηστα, πληρωμές, συντήρηση και επικοινωνία ενοίκων — ένας καθαρός, σύγχρονος χώρος εργασίας που κρατά όλο το χαρτοφυλάκιο σε κίνηση.",
     primaryCta: { label: "Κλείσε demo", href: "#demo" },
@@ -23,7 +24,8 @@ const HERO = {
   },
   en: {
     eyebrow: "Property & common-area management",
-    title: "Every building, under control.",
+    title: "Every building,",
+    titleAccent: "under control.",
     subtitle:
       "Shared expenses, payments, maintenance and resident communication — one calm, modern workspace that keeps your whole portfolio moving.",
     primaryCta: { label: "Book a demo", href: "#demo" },
@@ -137,6 +139,59 @@ const HOW = {
   },
 };
 
+// Cost calculator (handoff 04). Rates are € per apartment / month, VAT excluded.
+// The numbers are identical in both dictionaries — the calculator never quotes
+// a different price per language.
+const CALC_RATES = {
+  rates: { essential: 1.2, standard: 2.2, pro: 3.4 },
+  minimums: { essential: 18, standard: 32, pro: 55 },
+  addonRates: { payments: 0.35, technician: 0.45, accounting: 0.25 },
+  annualMultiplier: 0.8,
+};
+
+const CALCULATOR = {
+  el: {
+    ...CALC_RATES,
+    kicker: "Κοστολόγιο",
+    heading: "Πόσο θα κοστίσει ανά διαμέρισμα;",
+    lead: "Χρεώνουμε ανά διαμέρισμα, ανά μήνα. Βάλτε τα δικά σας νούμερα και δείτε το κόστος πριν μιλήσετε με πωλητή.",
+    footnote: "Μόνο εκτίμηση. Χωρίς ΦΠΑ. Τελική προσφορά μετά από μια παρουσίαση 20 λεπτών.",
+    primaryCta: { label: "Κλείσε demo", href: "/contact" },
+    secondaryCta: { label: "Δείτε όλες τις τιμές", href: "/pricing" },
+    planNames: { essential: "Essential", standard: "Standard", pro: "Pro" },
+    planUnits: {
+      essential: "χρεώσεις + πληρωμές",
+      standard: "+ αιτήματα, αρχεία, επικοινωνία",
+      pro: "+ API, αναφορές, SSO",
+    },
+    addonNames: {
+      payments: "Ηλεκτρονικές πληρωμές",
+      technician: "Εφαρμογή τεχνικού",
+      accounting: "Λογιστική εξαγωγή",
+    },
+  },
+  en: {
+    ...CALC_RATES,
+    kicker: "Cost calculator",
+    heading: "What will it cost per apartment?",
+    lead: "We charge per apartment, per month. Put your own numbers in and see the cost before you talk to anyone.",
+    footnote: "Estimate only. VAT excluded. Final quote after a 20-minute walkthrough.",
+    primaryCta: { label: "Book a demo", href: "/contact" },
+    secondaryCta: { label: "See full pricing", href: "/pricing" },
+    planNames: { essential: "Essential", standard: "Standard", pro: "Pro" },
+    planUnits: {
+      essential: "charges + payments",
+      standard: "+ tickets, docs, comms",
+      pro: "+ API, reporting, SSO",
+    },
+    addonNames: {
+      payments: "Online payments",
+      technician: "Technician app",
+      accounting: "Accounting export",
+    },
+  },
+};
+
 const SHOWCASE = {
   el: {
     kicker: "Διαφανής λειτουργία",
@@ -196,22 +251,29 @@ const CTA = {
   },
 };
 
+// Handoff 02 §1 link set: Features · Calculator · Pricing · News · FAQ · Contact.
+// The links measure ~544px, which is why the header hides them below 1080px —
+// do not add more without raising that breakpoint.
 const NAV = {
   el: {
     links: [
-      { id: uid(), label: "Λειτουργίες", href: "/#features" },
-      { id: uid(), label: "Λύσεις", href: "/#roles" },
-      { id: uid(), label: "Πώς δουλεύει", href: "/#how" },
+      { id: uid(), label: "Δυνατότητες", href: "/#features" },
+      { id: uid(), label: "Κοστολόγιο", href: "/#calc" },
       { id: uid(), label: "Τιμές", href: "/pricing" },
+      { id: uid(), label: "Νέα", href: "/blog" },
+      { id: uid(), label: "FAQ", href: "/faq" },
+      { id: uid(), label: "Επικοινωνία", href: "/contact" },
     ],
     loginLabel: "Σύνδεση", demoLabel: "Κλείσε demo", demoHref: "#demo", mineLabel: "Ο χώρος μου",
   },
   en: {
     links: [
       { id: uid(), label: "Features", href: "/#features" },
-      { id: uid(), label: "Solutions", href: "/#roles" },
-      { id: uid(), label: "How it works", href: "/#how" },
+      { id: uid(), label: "Calculator", href: "/#calc" },
       { id: uid(), label: "Pricing", href: "/pricing" },
+      { id: uid(), label: "News", href: "/blog" },
+      { id: uid(), label: "FAQ", href: "/faq" },
+      { id: uid(), label: "Contact", href: "/contact" },
     ],
     loginLabel: "Log in", demoLabel: "Book a demo", demoHref: "#demo", mineLabel: "My workspace",
   },
@@ -220,19 +282,20 @@ const NAV = {
 const FOOTER = {
   el: {
     tagline: "Σύγχρονη διαχείριση κοινοχρήστων, εργασιών και επικοινωνίας για κτήρια κατοικιών και επαγγελματικούς χώρους.",
-    copyright: "© 2026 Orithon · Αθήνα · Ελλάδα",
+    copyright: "© 2026 Orithon. Με επιφύλαξη παντός δικαιώματος.",
     columns: [
       { id: uid(), heading: "Προϊόν", links: [
-        { label: "Λειτουργίες", href: "/#features" },
-        { label: "Λύσεις", href: "/#roles" },
         { label: "Τιμές", href: "/pricing" },
-        { label: "Συχνές ερωτήσεις", href: "/faq" },
+        { label: "Δυνατότητες", href: "/#features" },
+        { label: "Κοστολόγιο", href: "/#calc" },
+        { label: "Υπηρεσίες", href: "/services" },
       ] },
-      { id: uid(), heading: "Εταιρεία", links: [
-        { label: "Blog", href: "/blog" },
+      { id: uid(), heading: "Εταιρία", links: [
+        { label: "Νέα", href: "/blog" },
         { label: "Επικοινωνία", href: "/contact" },
       ] },
-      { id: uid(), heading: "Νομικά", links: [
+      { id: uid(), heading: "Πόροι", links: [
+        { label: "Συχνές ερωτήσεις", href: "/faq" },
         { label: "Απόρρητο", href: "/privacy" },
         { label: "Όροι χρήσης", href: "/terms" },
         { label: "Πολιτική cookies", href: "/cookie-policy" },
@@ -241,19 +304,20 @@ const FOOTER = {
   },
   en: {
     tagline: "Modern management for shared expenses, tasks and communication across residential and commercial buildings.",
-    copyright: "© 2026 Orithon · Athens · Greece",
+    copyright: "© 2026 Orithon. All rights reserved.",
     columns: [
       { id: uid(), heading: "Product", links: [
-        { label: "Features", href: "/#features" },
-        { label: "Solutions", href: "/#roles" },
         { label: "Pricing", href: "/pricing" },
-        { label: "FAQ", href: "/faq" },
+        { label: "Features", href: "/#features" },
+        { label: "Calculator", href: "/#calc" },
+        { label: "Solutions", href: "/services" },
       ] },
       { id: uid(), heading: "Company", links: [
-        { label: "Blog", href: "/blog" },
+        { label: "News", href: "/blog" },
         { label: "Contact", href: "/contact" },
       ] },
-      { id: uid(), heading: "Legal", links: [
+      { id: uid(), heading: "Resources", links: [
+        { label: "FAQ", href: "/faq" },
         { label: "Privacy", href: "/privacy" },
         { label: "Terms", href: "/terms" },
         { label: "Cookie policy", href: "/cookie-policy" },
@@ -270,9 +334,11 @@ const SECTIONS: { type: string; order: number; enabled: boolean; data: unknown }
   { type: "FEATURES", order: 3, enabled: true, data: FEATURES },
   { type: "ROLES", order: 4, enabled: true, data: ROLES },
   { type: "HOW", order: 5, enabled: true, data: HOW },
-  { type: "SHOWCASE", order: 6, enabled: true, data: SHOWCASE },
-  { type: "TESTIMONIALS", order: 7, enabled: true, data: TESTIMONIALS },
-  { type: "CTA", order: 8, enabled: true, data: CTA },
+  // The calculator sits between "How it works" and the showcase (handoff 03).
+  { type: "CALCULATOR", order: 6, enabled: true, data: CALCULATOR },
+  { type: "SHOWCASE", order: 7, enabled: true, data: SHOWCASE },
+  { type: "TESTIMONIALS", order: 8, enabled: true, data: TESTIMONIALS },
+  { type: "CTA", order: 9, enabled: true, data: CTA },
   { type: "NAV", order: 20, enabled: true, data: NAV },
   { type: "FOOTER", order: 21, enabled: true, data: FOOTER },
 ];

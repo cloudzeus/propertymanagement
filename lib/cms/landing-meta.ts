@@ -3,6 +3,7 @@ import {
   RiLayoutTopLine, RiRepeatLine, RiBarChartBoxLine, RiApps2Line, RiTeamLine,
   RiListOrdered2, RiSlideshow3Line, RiPriceTag3Line, RiChatQuoteLine,
   RiMegaphoneLine, RiNewspaperLine, RiNavigationLine, RiLayoutBottomLine,
+  RiCalculatorLine,
 } from "react-icons/ri";
 
 /** Human-facing metadata for each landing section type — shown in the CMS editor. */
@@ -36,6 +37,11 @@ export const LANDING_META: Record<string, { label: string; description: string; 
     label: "Πώς δουλεύει",
     description: "3 αριθμημένα βήματα σε μπεζ φόντο.",
     icon: RiListOrdered2,
+  },
+  CALCULATOR: {
+    label: "Κοστολόγιο",
+    description: "Διαδραστικός υπολογιστής κόστους ανά διαμέρισμα — τιμές πακέτων, πρόσθετα και έκπτωση ετήσιας χρέωσης.",
+    icon: RiCalculatorLine,
   },
   SHOWCASE: {
     label: "Showcase",

@@ -26,6 +26,18 @@ export async function ensureLandingSections(): Promise<void> {
   }
 }
 
+/** Raw (bilingual) data of the CALCULATOR section, regardless of whether it is
+ *  enabled — the pricing page needs its annual discount even when the landing
+ *  section is switched off. */
+export async function getCalculatorSection(): Promise<unknown | null> {
+  try {
+    const row = await db.landingSection.findUnique({ where: { type: "CALCULATOR" } });
+    return row?.data ?? null;
+  } catch {
+    return null;
+  }
+}
+
 /** Raw (bilingual) data of a chrome section (NAV / FOOTER), or null if absent/disabled. */
 export async function getChromeSection(type: "NAV" | "FOOTER"): Promise<unknown | null> {
   try {

@@ -9,6 +9,7 @@ import { StatsForm } from "./forms/StatsForm";
 import { RolesForm } from "./forms/RolesForm";
 import { HowForm } from "./forms/HowForm";
 import { ShowcaseForm } from "./forms/ShowcaseForm";
+import { CalculatorForm } from "./forms/CalculatorForm";
 import { NavForm } from "./forms/NavForm";
 import { FooterForm } from "./forms/FooterForm";
 
@@ -26,6 +27,7 @@ export function SectionForm({ section }: { section: Section }) {
     case "ROLES": return <RolesForm section={section} />;
     case "HOW": return <HowForm section={section} />;
     case "SHOWCASE": return <ShowcaseForm section={section} />;
+    case "CALCULATOR": return <CalculatorForm section={section} />;
     case "NAV": return <NavForm section={section} />;
     case "FOOTER": return <FooterForm section={section} />;
     case "PRICING":

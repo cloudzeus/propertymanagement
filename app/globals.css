@@ -25,9 +25,18 @@
   --foreground:        #1b1c1a;
   --muted-foreground:  #5b5c58;
 
+  /* Marketing ink scale (handoff 01 §1) — mut/mut2 are alpha so they tint over the wash */
+  --txt:               #1b1c1a;
+  --mut:               rgba(27,28,26,.62);
+  --mut2:              rgba(27,28,26,.42);
+  --prose-ink:         #33342f;
+  --ink-chip:          #15161a;
+
   /* Borders */
   --border:            rgba(27,28,26,.12);
   --border-strong:     rgba(27,28,26,.20);
+  --line:              rgba(27,28,26,.12);
+  --line2:             rgba(27,28,26,.07);
 
   /* Semantic aliases (used by DataTable, sidebar, buttons) */
   --primary:           var(--color-primary);
@@ -54,6 +63,25 @@
   --shadow-card:       0 1px 2px rgba(27,28,26,.04), 0 22px 48px -32px rgba(27,28,26,.28);
   --shadow-btn:        0 14px 30px -16px rgba(21,22,26,.55);
 
+  /* Marketing shadow set (handoff 01 §4) */
+  --shadow-card-alt:   0 24px 50px -34px rgba(27,28,26,.3);
+  --shadow-step:       0 20px 44px -34px rgba(27,28,26,.28);
+  --shadow-ghost:      0 1px 2px rgba(27,28,26,.04);
+  --shadow-lift:       0 12px 26px -16px rgba(27,28,26,.3);
+  --shadow-photo:      0 44px 80px -40px rgba(27,28,26,.4);
+  --shadow-photo-lg:   0 44px 90px -44px rgba(27,28,26,.4);
+  --shadow-post:       0 30px 58px -34px rgba(27,28,26,.42);
+  --shadow-feature:    0 34px 66px -38px rgba(27,28,26,.4);
+  --shadow-amber:      0 30px 66px -34px rgba(242,162,60,.6), 0 1px 2px rgba(27,28,26,.05);
+  --shadow-amber-sm:   0 10px 26px -18px rgba(242,162,60,.75);
+  --shadow-tab:        0 10px 24px -18px rgba(27,28,26,.35);
+  --shadow-seg:        0 2px 8px -3px rgba(27,28,26,.28);
+  --shadow-open:       0 26px 54px -34px rgba(27,28,26,.34);
+  --shadow-thumb:      0 3px 10px -2px rgba(27,28,26,.42);
+
+  /* Motion */
+  --ease-out-soft:     cubic-bezier(.2,.7,.3,1);
+
   /* Fonts */
   --font-sans:         var(--font-commissioner, "Segoe UI", system-ui, sans-serif);
   --font-display:      var(--font-cormorant, Georgia, "Times New Roman", serif);
@@ -71,9 +99,21 @@
   --font-sans:         var(--font-sans);
   --font-display:      var(--font-display);
   --font-mono:         var(--font-geist-mono);
+
+  /* Marketing palette — `text-mut`, `border-line2`, `bg-alt`, `bg-chip`, … */
+  --color-txt:         var(--txt);
+  --color-mut:         var(--mut);
+  --color-mut2:        var(--mut2);
+  --color-prose:       var(--prose-ink);
+  --color-chip:        var(--ink-chip);
+  --color-alt:         var(--section-alt);
+  --color-line:        var(--line);
+  --color-line2:       var(--line2);
 }
 
-/* Marketing scope — opted-in by the landing route wrapper (S1) */
+/* Marketing scope — opted-in by every public page wrapper.
+   The fixed warm wash (01 §5.1) is what stops the light palette reading flat;
+   it is scoped here rather than on <body> so the dashboards stay flat cream. */
 .orithon-marketing {
   --bg-canvas: #F4F2EA;
   background:
@@ -81,7 +121,19 @@
     radial-gradient(120% 95% at 100% 0%, #E7F0E0, transparent 48%),
     #F4F2EA;
   background-attachment: fixed;
+  color: var(--txt);
 }
+.orithon-marketing h1,
+.orithon-marketing h2,
+.orithon-marketing h3,
+.orithon-marketing .text-pretty { text-wrap: pretty; }
+.orithon-marketing ::selection { background: rgba(242,162,60,.28); }
+.orithon-marketing :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+/* Greek keeps its accents — `text-transform:uppercase` strips them in some
+   renderers, so uppercase styling is dropped for Greek strings (handoff 08 §2). */
+.orithon-marketing [lang="el"] .u-caps,
+.orithon-marketing:lang(el) .u-caps { text-transform: none; }
+.orithon-marketing .u-caps { text-transform: uppercase; }
 
 /* ─── Base ────────────────────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; }
@@ -122,10 +174,191 @@ body {
   from { opacity: 0; transform: translateY(26px); }
   to   { opacity: 1; transform: none; }
 }
+/* The conic hero ring is centred with a translate — its spin must preserve it. */
+@keyframes spin-ring {
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+@keyframes reveal-up {
+  from { opacity: 0; transform: translateY(42px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: none; }
+}
 .pop { animation: pop .7s cubic-bezier(.2,.7,.3,1) both; }
+.fade-in { animation: fade-in .34s var(--ease-out-soft) both; }
 @media (prefers-reduced-motion: reduce) {
   [style*="animation"] { animation: none !important; }
 }
+
+/* ─── Orithon marketing surfaces & background effects (handoff 01 §5) ─────
+   These are awkward as Tailwind classes — the gradients, masks and the grain
+   are load-bearing for the light palette and must not be flattened. */
+
+/* Tabular figures — required on every price/stat so values don't jitter. */
+.tnum { font-variant-numeric: tabular-nums; }
+
+@utility surface-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-card);
+}
+
+/* Radial glow blob. Size/position set per instance; parent needs
+   position:relative + overflow:hidden. 01 §5.2 */
+@utility glow-blob {
+  position: absolute;
+  pointer-events: none;
+  background: radial-gradient(closest-side,
+    rgba(242,162,60,.16), rgba(91,182,214,.07) 55%, transparent 75%);
+  filter: blur(8px);
+}
+@utility glow-blob-soft {
+  position: absolute;
+  pointer-events: none;
+  background: radial-gradient(closest-side,
+    rgba(242,162,60,.15), rgba(91,182,214,.06) 56%, transparent 76%);
+  filter: blur(6px);
+}
+
+/* Masked hero grid — the mask is not optional; unmasked it reads as a wireframe. */
+@utility grid-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(27,28,26,.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(27,28,26,.045) 1px, transparent 1px);
+  background-size: 54px 54px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 30%, #000, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 30%, #000, transparent 75%);
+}
+
+/* Film grain — multiply, not overlay: this is a light theme. */
+@utility grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: .03;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Rotating conic ring, hero right column. The mask turns the disc into a ~3% ring. */
+@utility conic-ring {
+  position: absolute;
+  width: 430px;
+  height: 430px;
+  border-radius: 50%;
+  top: 50%;
+  left: 54%;
+  transform: translate(-50%, -50%);
+  background: conic-gradient(from 200deg,
+    var(--accent), var(--accent-2), var(--accent), var(--accent-2), var(--accent));
+  opacity: .32;
+  filter: blur(2px);
+  mask: radial-gradient(circle, transparent 56%, #000 57%, #000 60%, transparent 61%);
+  -webkit-mask: radial-gradient(circle, transparent 56%, #000 57%, #000 60%, transparent 61%);
+  animation: spin-ring 44s linear infinite;
+}
+
+/* Image scrims — cool slate (15,22,30), never pure black. 01 §5.6 */
+@utility scrim-photo {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg,
+    rgba(15,22,30,.04) 0%, rgba(15,22,30,.06) 50%, rgba(15,22,30,.42) 100%);
+}
+@utility scrim-tile {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(15,22,30,.02), rgba(15,22,30,.5));
+}
+@utility scrim-diagonal {
+  position: absolute; inset: 0;
+  background: linear-gradient(120deg, rgba(15,22,30,.18), rgba(15,22,30,.02));
+}
+/* The odd one out — a cream veil, because dark text sits over a full-bleed photo. */
+@utility scrim-cream {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(244,242,234,.84), rgba(244,242,234,.93));
+}
+
+@utility marquee-mask {
+  mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+}
+
+/* The only place amber fills behind body text — and only at 13%. 01 §5.8 */
+@utility panel-amber {
+  background: rgba(242,162,60,.13);
+  border: 1px solid rgba(242,162,60,.32);
+}
+
+@utility dropcap {
+  &::first-letter {
+    font-family: var(--font-display);
+    font-size: 66px;
+    float: left;
+    line-height: .82;
+    padding: 6px 12px 0 0;
+    color: var(--accent);
+  }
+}
+
+@layer components {
+  /* Range slider. The fill percentage is set inline per value:
+     style={{ background: `linear-gradient(90deg,#F2A23C ${p}%,rgba(27,28,26,.10) ${p}%)` }} */
+  .range {
+    -webkit-appearance: none;
+    appearance: none;
+    display: block;
+    width: 100%;
+    height: 6px;
+    margin: 0;
+    border-radius: 999px;
+    background: rgba(27,28,26,.10);
+    outline: none;
+  }
+  .range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 22px; height: 22px; border-radius: 50%;
+    background: var(--accent); border: 3px solid #fff;
+    box-shadow: var(--shadow-thumb);
+    cursor: grab;
+    transition: transform .15s;
+  }
+  .range::-webkit-slider-thumb:active { transform: scale(1.12); cursor: grabbing; }
+  /* Firefox measures the thumb box differently — 16px here matches 22px above. */
+  .range::-moz-range-thumb {
+    width: 16px; height: 16px; border-radius: 50%;
+    background: var(--accent); border: 3px solid #fff;
+    box-shadow: var(--shadow-thumb);
+    cursor: grab;
+  }
+
+  /* Scroll reveal. Progressive enhancement — visible when unsupported. */
+  .reveal {
+    animation: reveal-up linear both;
+    animation-timeline: view();
+    animation-range: entry 2% cover 26%;
+  }
+}
+
+@supports not (animation-timeline: view()) {
+  .reveal { animation: none; opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .conic-ring { animation: none !important; }
+  .reveal { animation: none !important; opacity: 1; transform: none; }
+}
+
+/* Marketing prose: links get an amber underline rather than browser blue. */
+.orithon-marketing a.prose-link {
+  color: var(--accent);
+  border-bottom: 1px solid rgba(242,162,60,.4);
+}
+.orithon-marketing a.prose-link:hover { border-bottom-color: var(--accent); }
 
 .dash-tile { transition: transform .16s ease, box-shadow .16s ease; display: block; height: 100%; }
 .dash-tile:hover { transform: translateY(-2px); box-shadow: 0 1px 2px rgba(27,28,26,.05), 0 30px 60px -34px rgba(27,28,26,.35); }

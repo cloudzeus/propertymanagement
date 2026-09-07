@@ -3,7 +3,7 @@ import type { Translatable } from "@/lib/i18n/translatable";
 export type LocalizedSectionData = Translatable<any>;
 
 export const LANDING_SECTION_TYPES = [
-  "HERO", "LOGOS", "STATS", "FEATURES", "ROLES", "HOW", "SHOWCASE",
+  "HERO", "LOGOS", "STATS", "FEATURES", "ROLES", "HOW", "CALCULATOR", "SHOWCASE",
   "PRICING", "TESTIMONIALS", "CTA", "NEWS", "NAV", "FOOTER",
 ] as const;
 export type SectionType = (typeof LANDING_SECTION_TYPES)[number];
@@ -17,7 +17,11 @@ export function isSectionType(v: string): v is SectionType {
 
 export interface Cta { label: string; href: string }
 export interface HeroData {
-  title: string; subtitle: string; primaryCta: Cta; secondaryCta: Cta;
+  title: string;
+  /** Second H1 line, rendered in amber (handoff 03 §1). Optional — the title
+   *  renders alone when it is empty. */
+  titleAccent?: string;
+  subtitle: string; primaryCta: Cta; secondaryCta: Cta;
   imageUrl: string;
   /** Optional video for the hero visual — takes precedence over imageUrl. */
   videoUrl?: string;
@@ -51,6 +55,25 @@ export interface ShowcaseData {
   cta?: Cta;
 }
 export interface PricingData { heading: string; subtitle: string }
+/** Cost calculator (handoff 04). Rates are € per apartment / month, VAT excluded.
+ *  Leave a number blank to fall back to the constant in lib/pricing/calculator.ts.
+ *
+ *  Text is keyed per language; the numbers are keyed flat and mirrored into both
+ *  locales, so the el and en dictionaries can never price the same plan differently. */
+export interface CalculatorData {
+  kicker?: string; heading?: string; lead?: string; footnote?: string;
+  primaryCta?: Cta; secondaryCta?: Cta;
+  /** plan key → display name / unit line. */
+  planNames?: Record<string, string>;
+  planUnits?: Record<string, string>;
+  addonNames?: Record<string, string>;
+  /** plan key → € per apartment / month, and the per-building floor. */
+  rates?: Record<string, number>;
+  minimums?: Record<string, number>;
+  addonRates?: Record<string, number>;
+  /** Annual discount as a multiplier — 0.8 is −20%. */
+  annualMultiplier?: number;
+}
 export interface TestimonialItem { quote: string; author: string; role?: string; avatarUrl?: string }
 export interface TestimonialsData { heading: string; items: TestimonialItem[] }
 export interface CtaData {
@@ -72,7 +95,7 @@ export interface FooterData {
 
 export type SectionData =
   | HeroData | LogosData | StatsData | FeaturesData | RolesData | HowData | ShowcaseData
-  | PricingData | TestimonialsData | CtaData | NewsData | NavData | FooterData;
+  | PricingData | CalculatorData | TestimonialsData | CtaData | NewsData | NavData | FooterData;
 
 export function defaultSectionData(type: SectionType): any {
   switch (type) {
@@ -84,6 +107,15 @@ export function defaultSectionData(type: SectionType): any {
     case "HOW": return { heading: "", steps: [] };
     case "SHOWCASE": return { heading: "", points: [] };
     case "PRICING": return { heading: "", subtitle: "" };
+    case "CALCULATOR": return {
+      kicker: "", heading: "", lead: "", footnote: "",
+      primaryCta: { label: "", href: "/contact" }, secondaryCta: { label: "", href: "/pricing" },
+      planNames: {}, planUnits: {}, addonNames: {},
+      rates: { essential: 1.2, standard: 2.2, pro: 3.4 },
+      minimums: { essential: 18, standard: 32, pro: 55 },
+      addonRates: { payments: 0.35, technician: 0.45, accounting: 0.25 },
+      annualMultiplier: 0.8,
+    };
     case "TESTIMONIALS": return { heading: "", items: [] };
     case "CTA": return { heading: "", body: "", cta: { label: "Δοκιμή", href: "/register" } };
     case "NEWS": return { heading: "", intro: "", count: 3 };

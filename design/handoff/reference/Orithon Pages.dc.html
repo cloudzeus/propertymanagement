@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Commissioner:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="image-slot.js"></script>
+<style>
+@font-face{font-family:'ACaslon';src:url('uploads/ACaslonPro-Semibold.otf') format('opentype');font-weight:600;font-style:normal;font-display:swap}
+:root{
+  --bg:#F4F2EA; --txt:#1b1c1a; --mut:rgba(27,28,26,.62); --mut2:rgba(27,28,26,.42);
+  --line:rgba(27,28,26,.12); --line2:rgba(27,28,26,.07);
+  --card:#ffffff; --ink-chip:#15161a; --accent:#F2A23C; --accent-2:#5BB6D6;
+  --paper:#FBFAF5; --alt:#EFEDE2;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;height:auto !important}
+html,body{overflow-x:clip}
+body{margin:0;background:radial-gradient(120% 95% at 0% 0%, #F1EED6 0%, transparent 46%),radial-gradient(120% 95% at 100% 0%, #E7F0E0 0%, transparent 48%),var(--bg);background-attachment:fixed;color:var(--txt);font-family:'Commissioner',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+a:hover{color:var(--txt)}
+img{display:block}
+input,textarea,select,button{font-family:inherit;font-size:inherit;color:inherit}
+.wrap{max-width:1200px;margin:0 auto;padding:0 28px}
+.narrow{max-width:760px;margin:0 auto;padding:0 28px}
+.sec{padding:96px 0}
+.glass{background:var(--card);border:1px solid var(--line);box-shadow:0 1px 2px rgba(27,28,26,.04), 0 22px 48px -32px rgba(27,28,26,.28)}
+.grain{position:absolute;inset:0;pointer-events:none;opacity:.03;mix-blend-mode:multiply;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;font-weight:600;font-size:15px;border-radius:12px;padding:14px 22px;cursor:pointer;transition:transform .18s cubic-bezier(.2,.7,.3,1),box-shadow .18s,filter .18s;white-space:nowrap;border:0}
+.btn-sm{padding:10px 17px;font-size:14px;border-radius:10px}
+.btn-primary{background:var(--ink-chip);color:#fff;font-weight:700;box-shadow:0 14px 30px -16px rgba(21,22,26,.55)}
+.btn-primary:hover{transform:translateY(-2px);filter:brightness(1.18)}
+.btn-ghost{background:#fff;color:var(--txt);border:1px solid var(--line);box-shadow:0 1px 2px rgba(27,28,26,.04)}
+.btn-ghost:hover{transform:translateY(-2px);box-shadow:0 12px 26px -16px rgba(27,28,26,.3)}
+.eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:13px;font-weight:600;color:var(--txt);background:#fff;border:1px solid var(--line);padding:7px 15px 7px 10px;border-radius:999px;box-shadow:0 1px 2px rgba(27,28,26,.04)}
+.eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px rgba(242,162,60,.55)}
+.h1{font-size:62px;line-height:1.02;letter-spacing:-.03em;font-weight:800;margin:22px 0 0}
+.h2{font-size:40px;line-height:1.06;letter-spacing:-.022em;font-weight:800;margin:0}
+.h3{font-size:24px;line-height:1.2;letter-spacing:-.015em;font-weight:800;margin:0}
+.kicker{font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--mut2)}
+.lead{font-size:19px;line-height:1.62;color:var(--mut);max-width:600px;margin:22px 0 0}
+/* nav */
+.nav{position:sticky;top:0;z-index:60;background:rgba(244,242,234,.72);backdrop-filter:blur(20px) saturate(140%);-webkit-backdrop-filter:blur(20px) saturate(140%);border-bottom:1px solid var(--line2)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;gap:24px;height:70px}
+.brand{display:flex;align-items:center;gap:11px;flex:none}
+.brand-mark{width:27px;height:27px}
+.brand-word{font-family:'ACaslon',serif;font-weight:600;font-size:21px;letter-spacing:.16em;padding-left:.06em}
+.nav-links{display:flex;gap:26px;font-size:14.5px;color:var(--mut)}
+.nav-links a{cursor:pointer;transition:color .15s;white-space:nowrap;position:relative;padding:4px 0}
+.nav-links a:hover{color:var(--txt)}
+.nav-actions{display:flex;align-items:center;gap:14px;flex:none}
+.lang{display:flex;align-items:center;border:1px solid var(--line);border-radius:999px;padding:2px;font-size:12px}
+.langseg{cursor:pointer;transition:all .15s}
+.prog{position:fixed;top:0;left:0;height:3px;background:var(--accent);z-index:80;transition:width .08s linear}
+/* page head */
+.phead{position:relative;padding:74px 0 12px;overflow:hidden}
+.phead-glow{position:absolute;top:-260px;left:50%;transform:translateX(-50%);width:1000px;height:640px;background:radial-gradient(closest-side,rgba(242,162,60,.15),rgba(91,182,214,.06) 56%,transparent 76%);pointer-events:none;filter:blur(6px)}
+.crumb{font-size:13px;color:var(--mut2);display:flex;align-items:center;gap:8px;margin-bottom:26px}
+.crumb a{cursor:pointer}.crumb a:hover{color:var(--txt)}
+/* pricing */
+.cyc{display:inline-flex;gap:6px;background:rgba(27,28,26,.05);padding:4px;border-radius:12px;margin-top:34px}
+.cyc div{cursor:pointer;padding:11px 20px;border-radius:9px;font-size:13.5px;font-weight:600;transition:all .18s}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;align-items:start;margin-top:52px}
+.plan{border-radius:22px;padding:32px 30px 34px;position:relative;display:flex;flex-direction:column}
+.plan-badge{position:absolute;top:-12px;left:30px;background:var(--accent);color:#1b1c1a;font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;padding:6px 12px;border-radius:999px}
+.plan .pn{font-size:20px;font-weight:800;letter-spacing:-.01em}
+.plan .pd{font-size:13.5px;color:var(--mut);margin-top:7px;line-height:1.5;min-height:40px}
+.plan .prow{display:flex;align-items:flex-end;gap:8px;margin:22px 0 4px}
+.plan .pv{font-size:52px;font-weight:800;letter-spacing:-.035em;line-height:.92;font-variant-numeric:tabular-nums}
+.plan .pu{font-size:12.5px;color:var(--mut);line-height:1.35;max-width:92px;padding-bottom:5px}
+.plan .pmin{font-size:12px;color:var(--mut2);font-variant-numeric:tabular-nums}
+.plan .pfeat{list-style:none;padding:0;margin:26px 0 28px;display:flex;flex-direction:column;gap:12px}
+.plan .pfeat li{display:flex;gap:11px;align-items:flex-start;font-size:14px;line-height:1.5}
+.tick{width:18px;height:18px;border-radius:5px;flex:none;margin-top:1px;display:flex;align-items:center;justify-content:center;background:var(--accent)}
+.tick svg{width:11px;height:11px;stroke:#fff;stroke-width:2.8;fill:none}
+.plan .pcta{margin-top:auto}
+.ent{border-radius:20px;padding:32px 34px;display:flex;align-items:center;justify-content:space-between;gap:30px;flex-wrap:wrap;margin-top:18px}
+.incl{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:56px}
+.incl div{border-radius:14px;padding:20px;background:var(--paper);border:1px solid var(--line2)}
+.incl .it{font-size:14.5px;font-weight:700;margin-bottom:6px}
+.incl .id{font-size:13px;color:var(--mut);line-height:1.5}
+.cmp{width:100%;border-collapse:collapse;margin-top:44px;font-size:14.5px}
+.cmp th{text-align:left;padding:16px 18px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--mut2);font-weight:700;border-bottom:1px solid var(--line)}
+.cmp th.c,.cmp td.c{text-align:center;width:150px}
+.cmp td{padding:16px 18px;border-bottom:1px solid var(--line2)}
+.cmp tr:hover td{background:rgba(255,255,255,.6)}
+.cmp .yes{color:var(--accent);font-weight:800}
+.cmp .no{color:var(--mut2)}
+/* news */
+.chips{display:flex;gap:9px;flex-wrap:wrap;margin-top:34px}
+.chip{cursor:pointer;font-size:13.5px;font-weight:600;padding:9px 16px;border-radius:999px;transition:all .18s}
+.feat-post{display:grid;grid-template-columns:1.08fr .92fr;gap:0;border-radius:22px;overflow:hidden;margin-top:48px;cursor:pointer;transition:transform .2s cubic-bezier(.2,.7,.3,1),box-shadow .2s}
+.feat-post:hover{transform:translateY(-3px);box-shadow:0 34px 66px -38px rgba(27,28,26,.4)}
+.feat-post .media{position:relative;min-height:380px}
+.feat-post image-slot{width:100%;height:100%}
+.feat-post .body{padding:44px 46px;display:flex;flex-direction:column;justify-content:center}
+.tag{display:inline-flex;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#1b1c1a;background:var(--accent);padding:5px 11px;border-radius:999px}
+.pmeta{display:flex;align-items:center;gap:10px;font-size:12.5px;color:var(--mut2);margin-top:18px}
+.pmeta i{width:3px;height:3px;border-radius:50%;background:var(--mut2);display:block}
+.posts{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:24px}
+.post{border-radius:18px;overflow:hidden;cursor:pointer;display:flex;flex-direction:column;transition:transform .2s cubic-bezier(.2,.7,.3,1),box-shadow .2s}
+.post:hover{transform:translateY(-4px);box-shadow:0 30px 58px -34px rgba(27,28,26,.42)}
+.post .media{position:relative;height:186px}
+.post image-slot{width:100%;height:100%}
+.post .body{padding:22px 24px 26px;display:flex;flex-direction:column;flex:1}
+.post .pt{font-size:17.5px;font-weight:700;line-height:1.3;letter-spacing:-.01em;margin:14px 0 9px}
+.post .pe{font-size:14px;color:var(--mut);line-height:1.58;flex:1}
+.tagsm{display:inline-flex;font-size:10.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--mut);background:var(--paper);border:1px solid var(--line2);padding:4px 9px;border-radius:999px}
+.news-cta{border-radius:22px;padding:44px 46px;display:flex;align-items:center;justify-content:space-between;gap:34px;flex-wrap:wrap;margin-top:60px;background:var(--ink-chip);color:#fff}
+.news-cta .h3{color:#fff}
+.nf{display:flex;gap:9px;flex-wrap:wrap}
+.nf input{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.18);border-radius:11px;padding:13px 16px;color:#fff;min-width:250px;outline:none;transition:border-color .18s}
+.nf input::placeholder{color:rgba(255,255,255,.42)}
+.nf input:focus{border-color:var(--accent)}
+.nf button{background:var(--accent);color:#1b1c1a;font-weight:700;border-radius:11px;padding:13px 22px;cursor:pointer;transition:filter .18s}
+.nf button:hover{filter:brightness(1.08)}
+/* post detail */
+.art-hero{border-radius:22px;overflow:hidden;height:440px;position:relative;margin-top:44px;border:1px solid var(--line)}
+.art-hero image-slot{width:100%;height:100%}
+.cap{font-size:12.5px;color:var(--mut2);margin-top:12px;text-align:center;font-style:italic}
+.author{display:flex;align-items:center;gap:13px;margin-top:30px}
+.author .av{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,#c9c4b6,#9aa39a);flex:none}
+.author .an{font-size:14.5px;font-weight:700}
+.author .ar{font-size:12.5px;color:var(--mut)}
+.prose{font-size:18px;line-height:1.75;color:#33342f;max-width:720px;margin:0 auto}
+.prose p{margin:0 0 26px}
+.prose .dropcap::first-letter{font-family:'ACaslon',serif;font-size:66px;float:left;line-height:.82;padding:6px 12px 0 0;color:var(--accent)}
+.prose h2{font-size:29px;font-weight:800;letter-spacing:-.02em;color:var(--txt);margin:48px 0 18px;line-height:1.2}
+.prose ul{margin:0 0 28px;padding-left:0;list-style:none;display:flex;flex-direction:column;gap:13px}
+.prose ul li{display:flex;gap:13px;align-items:flex-start;font-size:17px;line-height:1.6}
+.prose ul li b{color:var(--accent);flex:none;font-weight:800}
+.pull{border-left:3px solid var(--accent);padding:6px 0 6px 28px;margin:40px 0;font-size:25px;line-height:1.42;font-weight:600;letter-spacing:-.012em;color:var(--txt)}
+.takeaway{border-radius:18px;padding:30px 32px;margin:44px 0;background:var(--paper);border:1px solid var(--line)}
+.takeaway .tk{font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:800;color:var(--mut2);margin-bottom:18px}
+.takeaway ul{margin:0}
+.share{display:flex;align-items:center;gap:11px;padding:28px 0;border-top:1px solid var(--line2);border-bottom:1px solid var(--line2);margin:48px 0;font-size:13.5px;color:var(--mut)}
+.share a{width:38px;height:38px;border-radius:10px;background:#fff;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;cursor:pointer;transition:all .18s}
+.share a:hover{background:var(--ink-chip);color:#fff;border-color:var(--ink-chip);transform:translateY(-2px)}
+.bio{border-radius:18px;padding:28px 30px;display:flex;gap:20px;align-items:flex-start}
+.bio .av{width:62px;height:62px;border-radius:50%;background:linear-gradient(135deg,#c9c4b6,#9aa39a);flex:none}
+.bio .bn{font-size:16.5px;font-weight:800}
+.bio .br{font-size:13px;color:var(--mut);margin-top:3px}
+.bio .bd{font-size:14px;color:var(--mut);line-height:1.6;margin-top:12px}
+/* faq */
+.faq-wrap{display:grid;grid-template-columns:250px 1fr;gap:40px;align-items:start;margin-top:52px}
+.faq-nav{display:flex;flex-direction:column;gap:5px;position:sticky;top:96px}
+.faq-nav div{cursor:pointer;padding:13px 16px;border-radius:11px;font-size:14.5px;font-weight:600;transition:all .18s;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.faq-nav .ct{font-size:11.5px;font-variant-numeric:tabular-nums;opacity:.55}
+.qa{border-radius:16px;overflow:hidden;margin-bottom:10px;transition:box-shadow .2s}
+.qa-q{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;padding:24px 28px;cursor:pointer;font-size:16.5px;font-weight:700;letter-spacing:-.008em;line-height:1.4}
+.qa-ic{width:26px;height:26px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;margin-top:1px;transition:all .25s cubic-bezier(.2,.7,.3,1)}
+.qa-ic svg{width:12px;height:12px;stroke-width:2.4;fill:none}
+.qa-a{padding:0 28px 26px;font-size:15.5px;line-height:1.68;color:var(--mut);max-width:720px}
+.faq-help{border-radius:20px;padding:38px 40px;margin-top:44px;display:flex;align-items:center;justify-content:space-between;gap:30px;flex-wrap:wrap}
+/* contact */
+.cwrap{display:grid;grid-template-columns:1.1fr .9fr;gap:26px;align-items:start;margin-top:52px}
+.form{border-radius:22px;padding:36px 38px}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.fld{margin-bottom:18px}
+.fld label{display:block;font-size:13px;font-weight:700;margin-bottom:8px}
+.fld .req{color:var(--accent)}
+.fld input,.fld textarea,.fld select{width:100%;background:var(--paper);border:1px solid var(--line);border-radius:11px;padding:13px 15px;outline:none;transition:border-color .18s,box-shadow .18s}
+.fld input:focus,.fld textarea:focus,.fld select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(242,162,60,.16);background:#fff}
+.fld textarea{min-height:130px;resize:vertical;line-height:1.6}
+.consent{display:flex;gap:11px;align-items:flex-start;font-size:13px;color:var(--mut);line-height:1.55;margin:6px 0 22px;cursor:pointer}
+.consent input{width:17px;height:17px;flex:none;margin-top:2px;accent-color:var(--accent)}
+.cside{display:flex;flex-direction:column;gap:14px}
+.ccard{border-radius:18px;padding:24px 26px}
+.ccard .ci{width:38px;height:38px;border-radius:50%;background:var(--ink-chip);display:flex;align-items:center;justify-content:center;font-size:15px;color:#fff;margin-bottom:16px}
+.ccard .ct{font-size:15.5px;font-weight:700}
+.ccard .cd{font-size:13.5px;color:var(--mut);line-height:1.55;margin-top:6px}
+.ccard .cv{font-size:15px;font-weight:700;color:var(--accent);margin-top:12px;display:inline-block}
+.offices{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:56px}
+.office{border-radius:18px;overflow:hidden}
+.office .media{height:170px;position:relative}
+.office image-slot{width:100%;height:100%}
+.office .body{padding:22px 24px 24px}
+.office .on{font-size:17px;font-weight:800}
+.office .oa{font-size:13.5px;color:var(--mut);line-height:1.55;margin-top:8px}
+.sent{border-radius:22px;padding:56px 44px;text-align:center}
+.sent .ok{width:64px;height:64px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;margin:0 auto 24px}
+.sent .ok svg{width:28px;height:28px;stroke:#fff;stroke-width:2.6;fill:none}
+/* footer */
+.foot{border-top:1px solid var(--line2);padding:56px 0 40px;margin-top:40px}
+.foot-grid{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap}
+.foot-tag{max-width:300px;font-size:14px;color:var(--mut);line-height:1.6;margin:16px 0 0}
+.foot-cols{display:flex;gap:60px;flex-wrap:wrap}
+.foot-col h4{font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;margin:0 0 16px}
+.foot-col a{display:block;font-size:14px;color:var(--mut);padding:6px 0;cursor:pointer}
+.foot-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:46px;padding-top:24px;border-top:1px solid var(--line2);font-size:13px;color:var(--mut2);flex-wrap:wrap;gap:12px}
+@keyframes revealUp{from{opacity:0;transform:translateY(34px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.reveal{animation:revealUp linear both;animation-timeline:view();animation-range:entry 2% cover 24%}
+@supports not (animation-timeline:view()){.reveal{animation:none;opacity:1}}
+.pagefade{animation:fadeIn .34s cubic-bezier(.2,.7,.3,1) both}
+@media (max-width:1080px){.nav-links{display:none}}
+@media (max-width:980px){
+  .h1{font-size:46px}.h2{font-size:32px}
+  .plans{grid-template-columns:1fr}.incl{grid-template-columns:1fr 1fr}
+  .feat-post{grid-template-columns:1fr}.feat-post .media{min-height:260px}.feat-post .body{padding:32px 28px}
+  .posts{grid-template-columns:1fr 1fr}
+  .faq-wrap{grid-template-columns:1fr}.faq-nav{position:static;flex-direction:row;flex-wrap:wrap}
+  .cwrap{grid-template-columns:1fr}.offices{grid-template-columns:1fr}
+  .prose{font-size:17px}.art-hero{height:280px}.sec{padding:70px 0}
+  .cmp th.c,.cmp td.c{width:auto}.cmp{font-size:13px}.cmp td,.cmp th{padding:12px 10px}
+}
+@media (max-width:560px){.h1{font-size:36px}.posts{grid-template-columns:1fr}.frow{grid-template-columns:1fr}.wrap,.narrow{padding:0 20px}.form{padding:26px 22px}.pull{font-size:21px}}
+</style>
+</helmet>
+
+<div class="prog" style="{{ progStyle }}"></div>
+
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="Orithon%20Landing.dc.html"><img class="brand-mark" src="assets/orithon-symbol-black.png" alt="Orithon"><span class="brand-word">ORITHON</span></a>
+    <nav class="nav-links">
+      <a href="Orithon%20Landing.dc.html#features">{{ t.navFeatures }}</a>
+      <a href="Orithon%20Landing.dc.html#calc">{{ t.navCalc }}</a>
+      <sc-for list="{{ navPages }}" as="n" hint-placeholder-count="4">
+        <a onClick="{{ n.go }}" style="{{ n.style }}">{{ n.label }}</a>
+      </sc-for>
+    </nav>
+    <div class="nav-actions">
+      <div class="lang">
+        <span class="langseg" onClick="{{ setEN }}" style="{{ enStyle }}">EN</span>
+        <span class="langseg" onClick="{{ setGR }}" style="{{ grStyle }}">ΕΛ</span>
+      </div>
+      <a class="btn btn-primary btn-sm" onClick="{{ goContact }}">{{ t.navDemo }}</a>
+    </div>
+  </div>
+</header>
+
+<sc-if value="{{ isPricing }}" hint-placeholder-val="{{ true }}">
+<main id="pricing" class="pagefade" data-screen-label="Pricing">
+  <section class="phead">
+    <div class="phead-glow"></div>
+    <div class="grain"></div>
+    <div class="wrap" style="position:relative">
+      <span class="eyebrow"><span class="dot"></span>{{ t.prEyebrow }}</span>
+      <h1 class="h1" style="max-width:820px">{{ t.prTitle }}</h1>
+      <p class="lead">{{ t.prSub }}</p>
+      <div class="cyc">
+        <div onClick="{{ setMonthly }}" style="{{ mStyle }}">{{ t.cycMonthly }}</div>
+        <div onClick="{{ setAnnual }}" style="{{ yStyle }}">{{ t.cycAnnual }}</div>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding:0 0 40px">
+    <div class="wrap">
+      <div class="plans">
+        <sc-for list="{{ plans }}" as="p" hint-placeholder-count="3">
+          <div class="plan glass" style="{{ p.style }}">
+            <sc-if value="{{ p.popular }}" hint-placeholder-val="{{ false }}">
+              <span class="plan-badge">{{ t.prPopular }}</span>
+            </sc-if>
+            <div class="pn">{{ p.name }}</div>
+            <div class="pd">{{ p.desc }}</div>
+            <div class="prow"><span class="pv">{{ p.priceLabel }}</span><span class="pu">{{ t.prPerApt }}</span></div>
+            <div class="pmin">{{ p.minLabel }}</div>
+            <ul class="pfeat">
+              <sc-for list="{{ p.feats }}" as="f" hint-placeholder-count="5">
+                <li><span class="tick"><svg viewBox="0 0 24 24"><path d="M4 12.5l5.2 5.2L20 7"/></svg></span><span>{{ f }}</span></li>
+              </sc-for>
+            </ul>
+            <a class="btn pcta" onClick="{{ goContact }}" style="{{ p.ctaStyle }}">{{ p.cta }}</a>
+          </div>
+        </sc-for>
+      </div>
+      <div class="ent glass">
+        <div>
+          <div class="h3">{{ t.prEntTitle }}</div>
+          <p style="font-size:15px;color:var(--mut);line-height:1.6;margin:12px 0 0;max-width:620px">{{ t.prEntSub }}</p>
+        </div>
+        <a class="btn btn-ghost" onClick="{{ goContact }}">{{ t.prEntCta }}</a>
+      </div>
+      <div class="incl reveal">
+        <sc-for list="{{ prIncluded }}" as="i" hint-placeholder-count="4">
+          <div><div class="it">{{ i.t }}</div><div class="id">{{ i.d }}</div></div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" style="background:var(--alt)">
+    <div class="wrap">
+      <span class="kicker">{{ t.prCmpKicker }}</span>
+      <h2 class="h2" style="margin-top:14px">{{ t.prCmpTitle }}</h2>
+      <table class="cmp">
+        <thead><tr><th>{{ t.prCmpFeature }}</th><th class="c">Essential</th><th class="c">Standard</th><th class="c">Pro</th></tr></thead>
+        <tbody>
+          <sc-for list="{{ cmpRows }}" as="r" hint-placeholder-count="9">
+            <tr><td>{{ r.f }}</td><td class="c {{ r.c1 }}">{{ r.v1 }}</td><td class="c {{ r.c2 }}">{{ r.v2 }}</td><td class="c {{ r.c3 }}">{{ r.v3 }}</td></tr>
+          </sc-for>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="sec" style="padding-bottom:20px">
+    <div class="wrap">
+      <div class="ent glass" style="background:var(--ink-chip);border-color:var(--ink-chip)">
+        <div>
+          <div class="h3" style="color:#fff">{{ t.prCalcTitle }}</div>
+          <p style="font-size:15px;color:rgba(255,255,255,.62);line-height:1.6;margin:12px 0 0;max-width:560px">{{ t.prCalcSub }}</p>
+        </div>
+        <a class="btn" href="Orithon%20Landing.dc.html#calc" style="background:var(--accent);color:#1b1c1a;font-weight:700">{{ t.prCalcCta }}</a>
+      </div>
+    </div>
+  </section>
+</main>
+</sc-if>
+
+<sc-if value="{{ isNews }}" hint-placeholder-val="{{ false }}">
+<main id="news" class="pagefade" data-screen-label="News list">
+  <section class="phead">
+    <div class="phead-glow"></div>
+    <div class="grain"></div>
+    <div class="wrap" style="position:relative">
+      <span class="eyebrow"><span class="dot"></span>{{ t.nwEyebrow }}</span>
+      <h1 class="h1" style="max-width:760px">{{ t.nwTitle }}</h1>
+      <p class="lead">{{ t.nwSub }}</p>
+      <div class="chips">
+        <sc-for list="{{ catChips }}" as="c" hint-placeholder-count="5">
+          <span class="chip" onClick="{{ c.go }}" style="{{ c.style }}">{{ c.label }}</span>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding:0 0 30px">
+    <div class="wrap">
+      <div class="feat-post glass" onClick="{{ openPost }}">
+        <div class="media"><image-slot id="news-featured" shape="rect" placeholder="{{ t.imgPh }}"></image-slot></div>
+        <div class="body">
+          <div><span class="tag">{{ featPost.cat }}</span></div>
+          <h2 class="h2" style="font-size:33px;margin:20px 0 14px">{{ featPost.title }}</h2>
+          <p style="font-size:16px;color:var(--mut);line-height:1.62;margin:0">{{ featPost.excerpt }}</p>
+          <div class="pmeta"><span>{{ featPost.author }}</span><i></i><span>{{ featPost.date }}</span><i></i><span>{{ featPost.read }}</span></div>
+          <div style="margin-top:26px"><span class="btn btn-ghost btn-sm">{{ t.nwRead }}</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding:26px 0 0">
+    <div class="wrap">
+      <div class="posts">
+        <sc-for list="{{ postList }}" as="p" hint-placeholder-count="6">
+          <article class="post glass reveal" onClick="{{ p.go }}">
+            <div class="media"><image-slot id="{{ p.slot }}" shape="rect" placeholder="{{ t.imgPh }}"></image-slot></div>
+            <div class="body">
+              <div><span class="tagsm">{{ p.cat }}</span></div>
+              <div class="pt">{{ p.title }}</div>
+              <div class="pe">{{ p.excerpt }}</div>
+              <div class="pmeta"><span>{{ p.date }}</span><i></i><span>{{ p.read }}</span></div>
+            </div>
+          </article>
+        </sc-for>
+      </div>
+      <div style="display:flex;justify-content:center;margin-top:44px">
+        <span class="btn btn-ghost">{{ t.nwMore }}</span>
+      </div>
+      <div class="news-cta">
+        <div>
+          <div class="h3">{{ t.nwNlTitle }}</div>
+          <p style="font-size:14.5px;color:rgba(255,255,255,.6);line-height:1.6;margin:12px 0 0;max-width:420px">{{ t.nwNlSub }}</p>
+        </div>
+        <div class="nf">
+          <input type="email" placeholder="{{ t.nwNlPh }}">
+          <button>{{ t.nwNlCta }}</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+</sc-if>
+
+<sc-if value="{{ isPost }}" hint-placeholder-val="{{ false }}">
+<main id="post" class="pagefade" data-screen-label="Post detail">
+  <section class="phead" style="padding-bottom:0">
+    <div class="phead-glow"></div>
+    <div class="narrow" style="position:relative">
+      <div class="crumb"><a onClick="{{ goNews }}">{{ t.navNews }}</a><span>›</span><span>{{ article.cat }}</span></div>
+      <span class="tag">{{ article.cat }}</span>
+      <h1 class="h1" style="font-size:52px;margin-top:20px">{{ article.title }}</h1>
+      <p class="lead" style="max-width:100%">{{ article.standfirst }}</p>
+      <div class="author">
+        <span class="av"></span>
+        <div>
+          <div class="an">{{ article.author }}</div>
+          <div class="ar">{{ article.date }} · {{ article.read }}</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="narrow" style="max-width:1000px">
+    <div class="art-hero">
+      <image-slot id="post-hero" shape="rect" placeholder="{{ t.imgPh }}"></image-slot>
+    </div>
+    <div class="cap">{{ article.caption }}</div>
+  </div>
+
+  <section style="padding:56px 0 20px">
+    <div class="narrow">
+      <div class="prose">
+        <p class="dropcap">{{ article.p1 }}</p>
+        <p>{{ article.p2 }}</p>
+        <div class="pull">{{ article.pull }}</div>
+        <h2>{{ article.h2a }}</h2>
+        <p>{{ article.p3 }}</p>
+        <ul>
+          <sc-for list="{{ article.bullets }}" as="b" hint-placeholder-count="4">
+            <li><b>›</b><span>{{ b }}</span></li>
+          </sc-for>
+        </ul>
+        <h2>{{ article.h2b }}</h2>
+        <p>{{ article.p4 }}</p>
+        <div class="takeaway">
+          <div class="tk">{{ t.psTakeaways }}</div>
+          <ul>
+            <sc-for list="{{ article.takeaways }}" as="k" hint-placeholder-count="3">
+              <li><b>✓</b><span>{{ k }}</span></li>
+            </sc-for>
+          </ul>
+        </div>
+        <p>{{ article.p5 }}</p>
+        <div class="share">
+          <span>{{ t.psShare }}</span>
+          <a>in</a><a>X</a><a>f</a><a>✉</a>
+        </div>
+        <div class="bio glass">
+          <span class="av"></span>
+          <div>
+            <div class="bn">{{ article.author }}</div>
+            <div class="br">{{ article.authorRole }}</div>
+            <div class="bd">{{ article.authorBio }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" style="background:var(--alt);margin-top:60px">
+    <div class="wrap">
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:32px">
+        <div><span class="kicker">{{ t.psRelatedK }}</span><h2 class="h2" style="margin-top:14px">{{ t.psRelated }}</h2></div>
+        <span class="btn btn-ghost btn-sm" onClick="{{ goNews }}">{{ t.psAll }}</span>
+      </div>
+      <div class="posts" style="margin-top:0">
+        <sc-for list="{{ relatedList }}" as="p" hint-placeholder-count="3">
+          <article class="post glass" onClick="{{ p.go }}">
+            <div class="media"><image-slot id="{{ p.slot }}" shape="rect" placeholder="{{ t.imgPh }}"></image-slot></div>
+            <div class="body">
+              <div><span class="tagsm">{{ p.cat }}</span></div>
+              <div class="pt">{{ p.title }}</div>
+              <div class="pe">{{ p.excerpt }}</div>
+              <div class="pmeta"><span>{{ p.date }}</span><i></i><span>{{ p.read }}</span></div>
+            </div>
+          </article>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+</main>
+</sc-if>
+
+<sc-if value="{{ isFaq }}" hint-placeholder-val="{{ false }}">
+<main id="faq" class="pagefade" data-screen-label="FAQ">
+  <section class="phead">
+    <div class="phead-glow"></div>
+    <div class="grain"></div>
+    <div class="wrap" style="position:relative">
+      <span class="eyebrow"><span class="dot"></span>{{ t.fqEyebrow }}</span>
+      <h1 class="h1" style="max-width:700px">{{ t.fqTitle }}</h1>
+      <p class="lead">{{ t.fqSub }}</p>
+    </div>
+  </section>
+
+  <section style="padding:0 0 60px">
+    <div class="wrap">
+      <div class="faq-wrap">
+        <div class="faq-nav">
+          <sc-for list="{{ faqCats }}" as="c" hint-placeholder-count="4">
+            <div onClick="{{ c.go }}" style="{{ c.style }}"><span>{{ c.label }}</span><span class="ct">{{ c.count }}</span></div>
+          </sc-for>
+        </div>
+        <div>
+          <sc-for list="{{ faqItems }}" as="q" hint-placeholder-count="6">
+            <div class="qa glass" style="{{ q.cardStyle }}">
+              <div class="qa-q" onClick="{{ q.toggle }}">
+                <span>{{ q.q }}</span>
+                <span class="qa-ic" style="{{ q.icStyle }}"><svg viewBox="0 0 24 24" style="{{ q.svgStyle }}"><path d="M12 5v14M5 12h14"/></svg></span>
+              </div>
+              <sc-if value="{{ q.open }}" hint-placeholder-val="{{ false }}">
+                <div class="qa-a">{{ q.a }}</div>
+              </sc-if>
+            </div>
+          </sc-for>
+          <div class="faq-help glass">
+            <div>
+              <div class="h3">{{ t.fqHelpTitle }}</div>
+              <p style="font-size:15px;color:var(--mut);line-height:1.6;margin:12px 0 0;max-width:480px">{{ t.fqHelpSub }}</p>
+            </div>
+            <a class="btn btn-primary" onClick="{{ goContact }}">{{ t.fqHelpCta }}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+</sc-if>
+
+<sc-if value="{{ isContact }}" hint-placeholder-val="{{ false }}">
+<main id="contact" class="pagefade" data-screen-label="Contact">
+  <section class="phead">
+    <div class="phead-glow"></div>
+    <div class="grain"></div>
+    <div class="wrap" style="position:relative">
+      <span class="eyebrow"><span class="dot"></span>{{ t.ctEyebrow }}</span>
+      <h1 class="h1" style="max-width:700px">{{ t.ctTitle }}</h1>
+      <p class="lead">{{ t.ctSub }}</p>
+    </div>
+  </section>
+
+  <section style="padding:0 0 40px">
+    <div class="wrap">
+      <div class="cwrap">
+        <sc-if value="{{ notSent }}" hint-placeholder-val="{{ true }}">
+          <div class="form glass">
+            <div class="h3" style="font-size:21px">{{ t.ctFormTitle }}</div>
+            <p style="font-size:14px;color:var(--mut);line-height:1.6;margin:10px 0 28px">{{ t.ctFormSub }}</p>
+            <div class="frow">
+              <div class="fld"><label>{{ t.ctName }} <span class="req">*</span></label><input type="text" placeholder="{{ t.ctNamePh }}"></div>
+              <div class="fld"><label>{{ t.ctCompany }}</label><input type="text" placeholder="{{ t.ctCompanyPh }}"></div>
+            </div>
+            <div class="frow">
+              <div class="fld"><label>{{ t.ctEmail }} <span class="req">*</span></label><input type="email" placeholder="{{ t.ctEmailPh }}"></div>
+              <div class="fld"><label>{{ t.ctPhone }}</label><input type="tel" placeholder="{{ t.ctPhonePh }}"></div>
+            </div>
+            <div class="frow">
+              <div class="fld"><label>{{ t.ctBuildings }}</label>
+                <select>
+                  <sc-for list="{{ bldOptions }}" as="o" hint-placeholder-count="4"><option>{{ o }}</option></sc-for>
+                </select>
+              </div>
+              <div class="fld"><label>{{ t.ctTopic }}</label>
+                <select>
+                  <sc-for list="{{ topicOptions }}" as="o" hint-placeholder-count="4"><option>{{ o }}</option></sc-for>
+                </select>
+              </div>
+            </div>
+            <div class="fld"><label>{{ t.ctMsg }}</label><textarea placeholder="{{ t.ctMsgPh }}"></textarea></div>
+            <label class="consent"><input type="checkbox"><span>{{ t.ctConsent }}</span></label>
+            <button class="btn btn-primary" onClick="{{ send }}" style="width:100%">{{ t.ctSend }}</button>
+            <div style="font-size:12px;color:var(--mut2);text-align:center;margin-top:14px">{{ t.ctReply }}</div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ sent }}" hint-placeholder-val="{{ false }}">
+          <div class="sent glass">
+            <div class="ok"><svg viewBox="0 0 24 24"><path d="M4 12.5l5.2 5.2L20 7"/></svg></div>
+            <div class="h2" style="font-size:30px">{{ t.ctSentTitle }}</div>
+            <p style="font-size:16px;color:var(--mut);line-height:1.6;margin:16px auto 28px;max-width:400px">{{ t.ctSentSub }}</p>
+            <span class="btn btn-ghost" onClick="{{ resetForm }}">{{ t.ctSentCta }}</span>
+          </div>
+        </sc-if>
+        <div class="cside">
+          <sc-for list="{{ contactCards }}" as="c" hint-placeholder-count="3">
+            <div class="ccard glass">
+              <div class="ci">{{ c.icon }}</div>
+              <div class="ct">{{ c.title }}</div>
+              <div class="cd">{{ c.desc }}</div>
+              <a class="cv">{{ c.value }}</a>
+            </div>
+          </sc-for>
+          <div class="ccard" style="background:var(--ink-chip);color:#fff">
+            <div class="ct" style="color:#fff">{{ t.ctHoursTitle }}</div>
+            <sc-for list="{{ hours }}" as="h" hint-placeholder-count="3">
+              <div style="display:flex;justify-content:space-between;gap:16px;font-size:13.5px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.1)">
+                <span style="color:rgba(255,255,255,.6)">{{ h.d }}</span><span style="font-weight:700">{{ h.h }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+      <div class="offices reveal">
+        <sc-for list="{{ offices }}" as="o" hint-placeholder-count="2">
+          <div class="office glass">
+            <div class="media"><image-slot id="{{ o.slot }}" shape="rect" placeholder="{{ t.imgPh }}"></image-slot></div>
+            <div class="body">
+              <div class="on">{{ o.city }}</div>
+              <div class="oa">{{ o.addr }}</div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+</main>
+</sc-if>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a class="brand" href="Orithon%20Landing.dc.html"><img class="brand-mark" src="assets/orithon-symbol-black.png" alt="Orithon"><span class="brand-word">ORITHON</span></a>
+        <p class="foot-tag">{{ t.footTag }}</p>
+      </div>
+      <div class="foot-cols">
+        <sc-for list="{{ footCols }}" as="c" hint-placeholder-count="3">
+          <div class="foot-col"><h4>{{ c.h }}</h4><sc-for list="{{ c.links }}" as="l" hint-placeholder-count="4"><a onClick="{{ l.go }}">{{ l.label }}</a></sc-for></div>
+        </sc-for>
+      </div>
+    </div>
+    <div class="foot-bottom"><span>© 2026 Orithon. {{ t.rights }}</span><span>Athens · Greece</span></div>
+  </div>
+</footer>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440}}">
+class Component extends DCLogic {
+  state = { lang: 'en', page: 'pricing', annual: true, cat: 0, faqCat: 0, faqOpen: 0, sent: false, prog: 0 };
+
+  componentDidMount() {
+    const h = (location.hash || '').replace('#', '');
+    if (['pricing', 'news', 'post', 'faq', 'contact'].indexOf(h) >= 0) this.setState({ page: h });
+    this._onScroll = () => {
+      const d = document.documentElement;
+      const max = d.scrollHeight - d.clientHeight;
+      this.setState({ prog: max > 0 ? Math.min(1, d.scrollTop / max) : 0 });
+    };
+    window.addEventListener('scroll', this._onScroll, { passive: true });
+  }
+  componentWillUnmount() { window.removeEventListener('scroll', this._onScroll); }
+
+  go(page) {
+    this.setState({ page, faqOpen: 0, sent: false });
+    if (history.replaceState) history.replaceState(null, '', '#' + page);
+    window.scrollTo(0, 0);
+  }
+
+  renderVals() {
+    const S = this.state, lang = S.lang;
+    const L = (a, b) => (lang === 'en' ? a : b);
+    const money = (n, d) => {
+      const dec = d === undefined ? 2 : d;
+      return '€' + n.toLocaleString(lang === 'en' ? 'en-US' : 'el-GR', { minimumFractionDigits: dec, maximumFractionDigits: dec });
+    };
+
+    const t = {
+      navFeatures: L('Features', 'Λειτουργίες'),
+      navCalc: L('Calculator', 'Υπολογισμός'),
+      navPricing: L('Pricing', 'Τιμές'),
+      navNews: L('News', 'Νέα'),
+      navFaq: L('FAQ', 'Συχνές ερωτήσεις'),
+      navContact: L('Contact', 'Επικοινωνία'),
+      navDemo: L('Book a demo', 'Κλείσε demo'),
+      imgPh: L('Building photo', 'Φωτογραφία κτηρίου'),
+      rights: L('All rights reserved.', 'Με επιφύλαξη παντός δικαιώματος.'),
+      footTag: L('Modern management for shared expenses, tasks and communication across residential and commercial buildings.',
+                 'Σύγχρονη διαχείριση κοινοχρήστων, εργασιών και επικοινωνίας για κτήρια κατοικιών και επαγγελματικούς χώρους.'),
+      cycMonthly: L('Monthly', 'Μηνιαία'), cycAnnual: L('Annual · save 20%', 'Ετήσια · −20%'),
+
+      prEyebrow: L('Pricing', 'Τιμοκατάλογος'),
+      prTitle: L('Priced per apartment. Never per headache.', 'Τιμή ανά διαμέρισμα. Όχι ανά πονοκέφαλο.'),
+      prSub: L('One transparent rate per apartment, per month. No setup fees, no per-user charges, no lock-in — cancel whenever you like.',
+               'Μία διαφανής τιμή ανά διαμέρισμα, ανά μήνα. Χωρίς κόστος εγκατάστασης, χωρίς χρέωση ανά χρήστη, χωρίς δέσμευση — ακύρωση όποτε θέλεις.'),
+      prPerApt: L('per apartment / month', 'ανά διαμέρισμα / μήνα'),
+      prPopular: L('Most popular', 'Πιο δημοφιλές'),
+      prEntTitle: L('Managing more than 100 buildings?', 'Διαχειρίζεσαι πάνω από 100 κτήρια;'),
+      prEntSub: L('Enterprise portfolios get volume pricing, a dedicated migration team, custom SLAs and single sign-on. Tell us your numbers and we will put a figure on it within two working days.',
+                  'Τα enterprise χαρτοφυλάκια έχουν τιμολόγηση όγκου, αφιερωμένη ομάδα μετάπτωσης, custom SLA και single sign-on. Πες μας τα νούμερά σου και θα σου δώσουμε τιμή σε δύο εργάσιμες.'),
+      prEntCta: L('Request a quote', 'Ζήτα προσφορά'),
+      prCmpKicker: L('Compare', 'Σύγκριση'),
+      prCmpTitle: L('What is in each plan', 'Τι περιλαμβάνει κάθε πακέτο'),
+      prCmpFeature: L('Feature', 'Λειτουργία'),
+      prCalcTitle: L('Not sure which plan fits?', 'Δεν είσαι σίγουρος ποιο πακέτο ταιριάζει;'),
+      prCalcSub: L('Use the cost calculator on the home page — set your buildings and apartments and see the real per-apartment figure in seconds.',
+                   'Χρησιμοποίησε τον υπολογιστή κόστους στην αρχική — βάλε κτήρια και διαμερίσματα και δες το πραγματικό νούμερο ανά διαμέρισμα σε δευτερόλεπτα.'),
+      prCalcCta: L('Open the calculator', 'Άνοιξε τον υπολογιστή'),
+
+      nwEyebrow: L('Newsroom', 'Νέα'),
+      nwTitle: L('Notes on running better buildings.', 'Σημειώσεις για καλύτερα κτήρια.'),
+      nwSub: L('Product releases, regulation updates and field notes from managers running hundreds of buildings on Orithon.',
+               'Νέες λειτουργίες, νομοθετικές αλλαγές και εμπειρίες από διαχειριστές που τρέχουν εκατοντάδες κτήρια στο Orithon.'),
+      nwRead: L('Read the story', 'Διάβασε το άρθρο'),
+      nwMore: L('Load more articles', 'Φόρτωσε περισσότερα'),
+      nwNlTitle: L('The monthly building brief', 'Το μηνιαίο building brief'),
+      nwNlSub: L('One email a month: what changed in the law, what changed in Orithon, and one operational trick worth stealing.',
+                 'Ένα email τον μήνα: τι άλλαξε στη νομοθεσία, τι άλλαξε στο Orithon, και ένα κόλπο που αξίζει να κλέψεις.'),
+      nwNlPh: L('you@company.gr', 'you@company.gr'), nwNlCta: L('Subscribe', 'Εγγραφή'),
+
+      psTakeaways: L('Key takeaways', 'Βασικά σημεία'),
+      psShare: L('Share this article', 'Κοινοποίησε το άρθρο'),
+      psRelatedK: L('Keep reading', 'Συνέχισε'),
+      psRelated: L('Related articles', 'Σχετικά άρθρα'),
+      psAll: L('All articles', 'Όλα τα άρθρα'),
+
+      fqEyebrow: L('Support', 'Υποστήριξη'),
+      fqTitle: L('Questions, answered plainly.', 'Ερωτήσεις, με ξεκάθαρες απαντήσεις.'),
+      fqSub: L('Everything managers ask us before they switch — pricing, migration, legal compliance and what happens on day one.',
+               'Ό,τι μας ρωτούν οι διαχειριστές πριν αλλάξουν — τιμές, μετάπτωση, νομική συμμόρφωση και τι γίνεται την πρώτη μέρα.'),
+      fqHelpTitle: L('Still not sure?', 'Δεν βρήκες την απάντηση;'),
+      fqHelpSub: L('Our team answers within four working hours — usually much faster, and always in Greek or English.',
+                   'Η ομάδα μας απαντά μέσα σε τέσσερις εργάσιμες ώρες — συνήθως πολύ πιο γρήγορα, στα Ελληνικά ή στα Αγγλικά.'),
+      fqHelpCta: L('Talk to a human', 'Μίλα με άνθρωπο'),
+
+      ctEyebrow: L('Contact', 'Επικοινωνία'),
+      ctTitle: L('Let us look at your portfolio together.', 'Ας δούμε μαζί το χαρτοφυλάκιό σου.'),
+      ctSub: L('Book a 20-minute walkthrough, ask about migration, or just tell us what is broken today. A real person reads every message.',
+               'Κλείσε παρουσίαση 20 λεπτών, ρώτησε για τη μετάπτωση, ή πες μας απλά τι δεν δουλεύει σήμερα. Κάθε μήνυμα το διαβάζει άνθρωπος.'),
+      ctFormTitle: L('Send us a message', 'Στείλε μας μήνυμα'),
+      ctFormSub: L('Fill in what you can — the more we know about your buildings, the more useful the first call will be.',
+                   'Συμπλήρωσε ό,τι μπορείς — όσο περισσότερα ξέρουμε για τα κτήριά σου, τόσο πιο χρήσιμη η πρώτη κλήση.'),
+      ctName: L('Full name', 'Ονοματεπώνυμο'), ctNamePh: L('Eleni Markou', 'Ελένη Μάρκου'),
+      ctCompany: L('Company', 'Εταιρεία'), ctCompanyPh: L('Markou Property Management', 'Μάρκου Διαχειρίσεις'),
+      ctEmail: L('Email', 'Email'), ctEmailPh: 'eleni@company.gr',
+      ctPhone: L('Phone', 'Τηλέφωνο'), ctPhonePh: '+30 210 000 0000',
+      ctBuildings: L('Buildings you manage', 'Κτήρια που διαχειρίζεσαι'),
+      ctTopic: L('What is this about?', 'Σχετικά με;'),
+      ctMsg: L('Message', 'Μήνυμα'),
+      ctMsgPh: L('Tell us about your buildings, your current tools and what you would like to fix first.',
+                 'Πες μας για τα κτήριά σου, τα εργαλεία που χρησιμοποιείς και τι θα θέλες να λύσεις πρώτα.'),
+      ctConsent: L('I agree that Orithon may contact me about this enquiry and store my details in line with the privacy policy.',
+                   'Συμφωνώ ότι το Orithon μπορεί να επικοινωνήσει μαζί μου για το αίτημα και να διατηρήσει τα στοιχεία μου σύμφωνα με την πολιτική απορρήτου.'),
+      ctSend: L('Send message', 'Στείλε το μήνυμα'),
+      ctReply: L('We reply within four working hours.', 'Απαντάμε μέσα σε τέσσερις εργάσιμες ώρες.'),
+      ctSentTitle: L('Message received.', 'Το μήνυμα στάλθηκε.'),
+      ctSentSub: L('Thank you — we have your details and someone from the team will be in touch within four working hours.',
+                   'Ευχαριστούμε — έχουμε τα στοιχεία σου και κάποιος από την ομάδα θα επικοινωνήσει μέσα σε τέσσερις εργάσιμες ώρες.'),
+      ctSentCta: L('Send another message', 'Στείλε άλλο μήνυμα'),
+      ctHoursTitle: L('Support hours', 'Ώρες υποστήριξης')
+    };
+
+    /* ---------- nav ---------- */
+    const pages = [
+      { k: 'pricing', label: t.navPricing },
+      { k: 'news', label: t.navNews },
+      { k: 'faq', label: t.navFaq },
+      { k: 'contact', label: t.navContact }
+    ];
+    const navOn = 'cursor:pointer;white-space:nowrap;padding:4px 0;color:var(--txt);font-weight:700;box-shadow:inset 0 -2px 0 var(--accent)';
+    const navOff = 'cursor:pointer;white-space:nowrap;padding:4px 0;color:var(--mut)';
+    const activeNav = S.page === 'post' ? 'news' : S.page;
+    const navPages = pages.map(p => ({ label: p.label, go: () => this.go(p.k), style: activeNav === p.k ? navOn : navOff }));
+
+    const segActive = 'padding:6px 12px;border-radius:999px;background:var(--ink-chip);color:#fff;font-weight:700';
+    const segIdle = 'padding:6px 12px;border-radius:999px;background:transparent;color:rgba(27,28,26,.5);font-weight:600';
+
+    /* ---------- pricing ---------- */
+    const cycOn = 'cursor:pointer;padding:11px 20px;border-radius:9px;font-size:13.5px;font-weight:700;background:#fff;color:var(--txt);box-shadow:0 2px 8px -3px rgba(27,28,26,.28)';
+    const cycOff = 'cursor:pointer;padding:11px 20px;border-radius:9px;font-size:13.5px;font-weight:600;background:transparent;color:var(--mut)';
+    const mult = S.annual ? 0.8 : 1;
+    const planDefs = [
+      { name: L('Essential', 'Βασικό'), rate: 1.20, min: 18, popular: false,
+        desc: L('For small portfolios that mainly need charges issued and paid.', 'Για μικρά χαρτοφυλάκια που θέλουν κυρίως έκδοση και πληρωμή κοινοχρήστων.'),
+        feats: L(['Unlimited buildings & units', 'Automatic expense splitting', 'Card & bank payments', 'Resident portal', 'Email support'],
+                 ['Απεριόριστα κτήρια & διαμερίσματα', 'Αυτόματος επιμερισμός δαπανών', 'Πληρωμές κάρτα & τράπεζα', 'Portal ενοίκων', 'Υποστήριξη email']) },
+      { name: 'Standard', rate: 2.20, min: 32, popular: true,
+        desc: L('The complete day-to-day workspace for professional managers.', 'Ο πλήρης καθημερινός χώρος εργασίας για επαγγελματίες διαχειριστές.'),
+        feats: L(['Everything in Essential', 'Tickets & maintenance workflow', 'Document archive per building', 'Announcements & polls', 'Owner reports & exports', 'Priority support'],
+                 ['Όλα του Βασικού', 'Αιτήματα & ροή συντήρησης', 'Αρχείο εγγράφων ανά κτήριο', 'Ανακοινώσεις & ψηφοφορίες', 'Reports & εξαγωγές ιδιοκτητών', 'Priority υποστήριξη']) },
+      { name: 'Pro', rate: 3.40, min: 55, popular: false,
+        desc: L('For large operations that need integrations and deep reporting.', 'Για μεγάλες λειτουργίες που θέλουν integrations και βαθιά reports.'),
+        feats: L(['Everything in Standard', 'Open API & webhooks', 'Custom dashboards & KPIs', 'Accounting integrations', 'Single sign-on (SSO)', 'Dedicated success manager'],
+                 ['Όλα του Standard', 'Ανοιχτό API & webhooks', 'Custom dashboards & KPIs', 'Λογιστικά integrations', 'Single sign-on (SSO)', 'Dedicated success manager']) }
+    ];
+    const planOn = 'border:1.5px solid var(--accent);box-shadow:0 30px 66px -34px rgba(242,162,60,.6), 0 1px 2px rgba(27,28,26,.05);transform:translateY(-8px)';
+    const planOff = '';
+    const plans = planDefs.map(p => ({
+      name: p.name, desc: p.desc, feats: p.feats, popular: p.popular,
+      priceLabel: money(p.rate * mult),
+      minLabel: L('Minimum ', 'Ελάχιστο ') + money(p.min * mult, 0) + L(' per building / month', ' ανά κτήριο / μήνα'),
+      style: p.popular ? planOn : planOff,
+      ctaStyle: p.popular ? 'background:var(--ink-chip);color:#fff;font-weight:700;box-shadow:0 14px 30px -16px rgba(21,22,26,.55)'
+                          : 'background:#fff;color:var(--txt);border:1px solid var(--line)',
+      cta: p.popular ? L('Book a demo', 'Κλείσε demo') : L('Get started', 'Ξεκίνα')
+    }));
+
+    const prIncluded = L(
+      [{ t: 'No setup fee', d: 'Onboarding, training and data import are included in every plan.' },
+       { t: 'Unlimited users', d: 'Add every colleague, owner and technician at no extra cost.' },
+       { t: 'Greek compliance', d: 'Built around Greek common-expense law and myDATA reporting.' },
+       { t: 'Cancel anytime', d: 'Monthly plans stop when you say so. Your data exports with you.' }],
+      [{ t: 'Χωρίς κόστος εγκατάστασης', d: 'Onboarding, εκπαίδευση και εισαγωγή δεδομένων σε κάθε πακέτο.' },
+       { t: 'Απεριόριστοι χρήστες', d: 'Πρόσθεσε συνεργάτες, ιδιοκτήτες και τεχνικούς χωρίς επιπλέον κόστος.' },
+       { t: 'Ελληνική συμμόρφωση', d: 'Χτισμένο γύρω από τον νόμο κοινοχρήστων και το myDATA.' },
+       { t: 'Ακύρωση όποτε θες', d: 'Τα μηνιαία πακέτα σταματούν όποτε πεις. Τα δεδομένα φεύγουν μαζί σου.' }]
+    );
+
+    const Y = 'yes', N = 'no';
+    const cmpDefs = L(
+      [['Buildings & units', '∞', '∞', '∞'], ['Automatic expense splitting', '✓', '✓', '✓'],
+       ['Online payments', '✓', '✓', '✓'], ['Resident portal & app', '✓', '✓', '✓'],
+       ['Tickets & maintenance', '—', '✓', '✓'], ['Document archive', '—', '✓', '✓'],
+       ['Announcements & polls', '—', '✓', '✓'], ['Owner reports & exports', '—', '✓', '✓'],
+       ['Custom dashboards', '—', '—', '✓'], ['Open API & webhooks', '—', '—', '✓'],
+       ['Accounting integrations', '—', '—', '✓'], ['Single sign-on (SSO)', '—', '—', '✓'],
+       ['Support', 'Email', 'Priority', 'Dedicated']],
+      [['Κτήρια & διαμερίσματα', '∞', '∞', '∞'], ['Αυτόματος επιμερισμός', '✓', '✓', '✓'],
+       ['Πληρωμές online', '✓', '✓', '✓'], ['Portal & app ενοίκων', '✓', '✓', '✓'],
+       ['Αιτήματα & συντήρηση', '—', '✓', '✓'], ['Αρχείο εγγράφων', '—', '✓', '✓'],
+       ['Ανακοινώσεις & ψηφοφορίες', '—', '✓', '✓'], ['Reports & εξαγωγές', '—', '✓', '✓'],
+       ['Custom dashboards', '—', '—', '✓'], ['Ανοιχτό API & webhooks', '—', '—', '✓'],
+       ['Λογιστικά integrations', '—', '—', '✓'], ['Single sign-on (SSO)', '—', '—', '✓'],
+       ['Υποστήριξη', 'Email', 'Priority', 'Dedicated']]
+    );
+    const cls = v => (v === '✓' ? Y : v === '—' ? N : '');
+    const cmpRows = cmpDefs.map(r => ({ f: r[0], v1: r[1], v2: r[2], v3: r[3], c1: cls(r[1]), c2: cls(r[2]), c3: cls(r[3]) }));
+
+    /* ---------- news ---------- */
+    const cats = L(['All', 'Product', 'Regulation', 'Field notes', 'Company'],
+                   ['Όλα', 'Προϊόν', 'Νομοθεσία', 'Από το πεδίο', 'Εταιρεία']);
+    const chipOn = 'cursor:pointer;font-size:13.5px;font-weight:700;padding:9px 16px;border-radius:999px;background:var(--ink-chip);color:#fff';
+    const chipOff = 'cursor:pointer;font-size:13.5px;font-weight:600;padding:9px 16px;border-radius:999px;background:#fff;color:var(--mut);border:1px solid var(--line)';
+    const catChips = cats.map((c, i) => ({ label: c, go: () => this.setState({ cat: i }), style: i === S.cat ? chipOn : chipOff }));
+
+    const featPost = {
+      cat: cats[1],
+      title: L('Reserve funds, explained: how much should a building actually hold?',
+               'Αποθεματικό: πόσα πρέπει πραγματικά να κρατά ένα κτήριο;'),
+      excerpt: L('We looked at two years of collections across 200 buildings to find out what a healthy reserve looks like — and why the buildings that hold three months of expenses almost never have an emergency levy.',
+                 'Εξετάσαμε δύο χρόνια εισπράξεων σε 200 κτήρια για να βρούμε πώς μοιάζει ένα υγιές αποθεματικό — και γιατί τα κτήρια που κρατούν τρεις μήνες δαπανών σχεδόν ποτέ δεν βγάζουν έκτακτη εισφορά.'),
+      author: L('Eleni Markou', 'Ελένη Μάρκου'),
+      date: L('12 July 2026', '12 Ιουλίου 2026'),
+      read: L('8 min read', '8 λεπτά')
+    };
+
+    const postDefs = L([
+      { cat: 'Product', title: 'Split by share, area or your own rule — expense allocation gets an upgrade', excerpt: 'Custom allocation rules are now available on every plan, including per-column and per-riser splits.', date: '4 July 2026', read: '5 min' },
+      { cat: 'Regulation', title: 'What the 2026 building energy audit means for managers', excerpt: 'New audit thresholds land in September. Here is the paperwork you will need per building.', date: '28 June 2026', read: '6 min' },
+      { cat: 'Field notes', title: 'How one manager cut ticket resolution from 11 days to 4 hours', excerpt: 'A small change in how work orders are dispatched turned out to matter more than any new tool.', date: '19 June 2026', read: '7 min' },
+      { cat: 'Product', title: 'The resident app now works fully offline', excerpt: 'Report a fault in the basement with no signal — it syncs the moment you are back online.', date: '11 June 2026', read: '3 min' },
+      { cat: 'Company', title: 'Orithon raises a seed round to expand across Southern Europe', excerpt: 'The team is growing from 14 to 30 people, with a second office opening in Thessaloniki.', date: '2 June 2026', read: '4 min' },
+      { cat: 'Field notes', title: 'Nine ways buildings lose money without anyone noticing', excerpt: 'Unread meters, unclaimed guarantees and standing orders nobody cancelled. A practical audit list.', date: '24 May 2026', read: '9 min' }
+    ], [
+      { cat: 'Προϊόν', title: 'Επιμερισμός με χιλιοστά, εμβαδόν ή δικό σου κανόνα — αναβάθμιση δαπανών', excerpt: 'Οι custom κανόνες επιμερισμού είναι πλέον διαθέσιμοι σε κάθε πακέτο, με επιμερισμό ανά κολώνα και ανά στήλη.', date: '4 Ιουλίου 2026', read: '5 λεπτά' },
+      { cat: 'Νομοθεσία', title: 'Τι σημαίνει ο ενεργειακός έλεγχος κτηρίων 2026 για τους διαχειριστές', excerpt: 'Τα νέα όρια ελέγχου ισχύουν από Σεπτέμβριο. Δες τι χαρτιά θα χρειαστείς ανά κτήριο.', date: '28 Ιουνίου 2026', read: '6 λεπτά' },
+      { cat: 'Από το πεδίο', title: 'Πώς ένας διαχειριστής έριξε την επίλυση αιτημάτων από 11 μέρες σε 4 ώρες', excerpt: 'Μια μικρή αλλαγή στον τρόπο ανάθεσης εντολών μέτρησε περισσότερο από κάθε νέο εργαλείο.', date: '19 Ιουνίου 2026', read: '7 λεπτά' },
+      { cat: 'Προϊόν', title: 'Η εφαρμογή ενοίκων δουλεύει πλέον πλήρως offline', excerpt: 'Δήλωσε βλάβη στο υπόγειο χωρίς σήμα — συγχρονίζεται μόλις επανέλθει η σύνδεση.', date: '11 Ιουνίου 2026', read: '3 λεπτά' },
+      { cat: 'Εταιρεία', title: 'Το Orithon αντλεί seed κεφάλαια για επέκταση στη Νότια Ευρώπη', excerpt: 'Η ομάδα μεγαλώνει από 14 σε 30 άτομα, με δεύτερο γραφείο στη Θεσσαλονίκη.', date: '2 Ιουνίου 2026', read: '4 λεπτά' },
+      { cat: 'Από το πεδίο', title: 'Εννέα τρόποι που τα κτήρια χάνουν χρήματα χωρίς να το καταλάβει κανείς', excerpt: 'Αδιάβαστοι μετρητές, αζήτητες εγγυήσεις και πάγιες εντολές που ξέχασαν να ακυρώσουν.', date: '24 Μαΐου 2026', read: '9 λεπτά' }
+    ]);
+    const filtered = S.cat === 0 ? postDefs : postDefs.filter(p => p.cat === cats[S.cat]);
+    const postList = filtered.map((p, i) => ({ ...p, slot: 'news-' + i, go: () => this.go('post') }));
+    const relatedList = postDefs.slice(0, 3).map((p, i) => ({ ...p, slot: 'rel-' + i, go: () => this.go('post') }));
+
+    /* ---------- post detail ---------- */
+    const article = L({
+      cat: 'Product', title: 'Reserve funds, explained: how much should a building actually hold?',
+      standfirst: 'Two years of collections data across 200 buildings, and a surprisingly simple answer to the question every board argues about.',
+      author: 'Eleni Markou', authorRole: 'Head of Operations, Orithon',
+      authorBio: 'Eleni spent eleven years managing residential portfolios in Athens before joining Orithon. She writes about the unglamorous mechanics of keeping buildings solvent.',
+      date: '12 July 2026', read: '8 min read',
+      caption: 'Astra Residences, Kifisias Avenue — one of the 200 buildings in the dataset.',
+      p1: 'Every general assembly eventually arrives at the same argument. Someone wants the reserve fund raised, someone else points out that owners are already paying enough, and the discussion ends with a number that nobody can defend. We wanted to know whether there is a defensible number — so we looked at what actually happens to buildings that hold different amounts.',
+      p2: 'The dataset is two years of common-expense collections and unplanned spending across 200 buildings on Orithon, ranging from six-apartment walk-ups to a 94-unit mixed-use block. We were not looking for an accounting rule. We were looking for the point at which a building stops needing emergency levies.',
+      pull: 'Buildings holding three months of average expenses issued an emergency levy in 4% of years. Buildings holding less than one month did so in 61%.',
+      h2a: 'What the numbers say',
+      p3: 'The relationship is not linear. Going from zero reserve to one month of expenses barely helps, because the events that empty a reserve — a lift motor, a roof, a burst riser — almost never cost less than one month of expenses. The curve bends sharply somewhere between two and three months, and then flattens: holding six months was no safer than holding three.',
+      bullets: ['Lift repairs were the single most common cause of an emergency levy, at 34% of all cases.',
+                'Buildings with a documented maintenance schedule needed 40% less reserve for the same safety level.',
+                'Reserves held in a separate account were three times less likely to be quietly spent on routine costs.',
+                'Every building that collected above 95% on time managed on a smaller reserve than the average.'],
+      h2b: 'A rule you can actually take to a general assembly',
+      p4: 'Hold three months of average monthly expenses, in a separate account, and pair it with a written maintenance schedule for the lift, the boiler and the roof. That combination covered 96% of the unplanned events in our dataset without a single extra call on owners. It is also an easy motion to pass, because it is a specific number with a reason attached rather than a vague appeal to prudence.',
+      takeaways: ['Three months of average expenses is the practical target — more is rarely justified.',
+                  'Keep the reserve in a separate account so it cannot drift into routine spending.',
+                  'A maintenance schedule reduces the reserve you need more than extra cash does.'],
+      p5: 'If you manage buildings on Orithon, the reserve health indicator on each building card now shows months of cover rather than a raw balance, so you can see at a glance which buildings are one lift motor away from an awkward assembly.'
+    }, {
+      cat: 'Προϊόν', title: 'Αποθεματικό: πόσα πρέπει πραγματικά να κρατά ένα κτήριο;',
+      standfirst: 'Δύο χρόνια δεδομένων εισπράξεων σε 200 κτήρια, και μια εκπληκτικά απλή απάντηση στο ερώτημα για το οποίο μαλώνει κάθε γενική συνέλευση.',
+      author: 'Ελένη Μάρκου', authorRole: 'Head of Operations, Orithon',
+      authorBio: 'Η Ελένη διαχειρίστηκε χαρτοφυλάκια κατοικιών στην Αθήνα για έντεκα χρόνια πριν έρθει στο Orithon. Γράφει για τη μη γοητευτική μηχανική του να κρατάς ένα κτήριο φερέγγυο.',
+      date: '12 Ιουλίου 2026', read: '8 λεπτά',
+      caption: 'Astra Residences, Λεωφόρος Κηφισίας — ένα από τα 200 κτήρια του δείγματος.',
+      p1: 'Κάθε γενική συνέλευση καταλήγει τελικά στον ίδιο καυγά. Κάποιος ζητά αύξηση του αποθεματικού, κάποιος άλλος λέει ότι οι ιδιοκτήτες πληρώνουν ήδη αρκετά, και η συζήτηση κλείνει με ένα νούμερο που κανείς δεν μπορεί να υπερασπιστεί. Θέλαμε να μάθουμε αν υπάρχει νούμερο που υπερασπίζεται — γι᾽ αυτό κοιτάξαμε τι συμβαίνει στην πράξη σε κτήρια που κρατούν διαφορετικά ποσά.',
+      p2: 'Το δείγμα είναι δύο χρόνια εισπράξεων κοινοχρήστων και απρόβλεπτων δαπανών σε 200 κτήρια στο Orithon, από εξαόροφες πολυκατοικίες έως ένα συγκρότημα 94 διαμερισμάτων μικτής χρήσης. Δεν ψάχναμε λογιστικό κανόνα. Ψάχναμε το σημείο στο οποίο ένα κτήριο σταματά να χρειάζεται έκτακτες εισφορές.',
+      pull: 'Τα κτήρια που κρατούν τρεις μήνες μέσων δαπανών έβγαλαν έκτακτη εισφορά στο 4% των ετών. Όσα κρατούν λιγότερο από έναν μήνα, στο 61%.',
+      h2a: 'Τι λένε τα νούμερα',
+      p3: 'Η σχέση δεν είναι γραμμική. Το να πας από μηδέν αποθεματικό σε έναν μήνα δαπανών σχεδόν δεν βοηθά, γιατί τα γεγονότα που αδειάζουν ένα αποθεματικό — μοτέρ ανελκυστήρα, ταράτσα, σπασμένη στήλη — σχεδόν ποτέ δεν κοστίζουν λιγότερο από έναν μήνα δαπανών. Η καμπύλη λυγίζει απότομα κάπου μεταξύ δύο και τριών μηνών, και μετά ισιώνει: το να κρατάς έξι μήνες δεν ήταν πιο ασφαλές από το να κρατάς τρεις.',
+      bullets: ['Οι επισκευές ανελκυστήρα ήταν η πιο συχνή αιτία έκτακτης εισφοράς, στο 34% των περιπτώσεων.',
+                'Τα κτήρια με τεκμηριωμένο πρόγραμμα συντήρησης χρειάστηκαν 40% λιγότερο αποθεματικό για το ίδιο επίπεδο ασφάλειας.',
+                'Τα αποθεματικά σε ξεχωριστό λογαριασμό είχαν τρεις φορές μικρότερη πιθανότητα να ξοδευτούν αθόρυβα σε τρέχοντα.',
+                'Κάθε κτήριο με έγκαιρη είσπραξη πάνω από 95% τα έβγαλε πέρα με μικρότερο αποθεματικό από τον μέσο όρο.'],
+      h2b: 'Ένας κανόνας που μπορείς όντως να πας σε γενική συνέλευση',
+      p4: 'Κράτα τρεις μήνες μέσων μηνιαίων δαπανών, σε ξεχωριστό λογαριασμό, και συνδύασέ το με γραπτό πρόγραμμα συντήρησης για ανελκυστήρα, λέβητα και ταράτσα. Ο συνδυασμός κάλυψε το 96% των απρόβλεπτων γεγονότων του δείγματος χωρίς ούτε μία επιπλέον επιβάρυνση ιδιοκτητών. Είναι και εύκολη πρόταση να περάσει, γιατί είναι συγκεκριμένο νούμερο με αιτιολογία και όχι αόριστη έκκληση σε σύνεση.',
+      takeaways: ['Οι τρεις μήνες μέσων δαπανών είναι ο πρακτικός στόχος — τα περισσότερα σπάνια δικαιολογούνται.',
+                  'Κράτα το αποθεματικό σε ξεχωριστό λογαριασμό ώστε να μη γλιστρήσει σε τρέχοντα έξοδα.',
+                  'Ένα πρόγραμμα συντήρησης μειώνει το αποθεματικό που χρειάζεσαι περισσότερο από επιπλέον ρευστό.'],
+      p5: 'Αν διαχειρίζεσαι κτήρια στο Orithon, ο δείκτης υγείας αποθεματικού σε κάθε καρτέλα κτηρίου δείχνει πλέον μήνες κάλυψης αντί για σκέτο υπόλοιπο, ώστε να βλέπεις με μια ματιά ποια κτήρια απέχουν ένα μοτέρ ανελκυστήρα από μια άβολη συνέλευση.'
+    });
+
+    /* ---------- faq ---------- */
+    const faqDefs = L([
+      { c: 0, q: 'How is Orithon priced?', a: 'Per apartment, per month, with a small minimum per building so that a six-apartment block is not priced like a sixty-apartment one. There are no setup fees and no per-user charges — add as many colleagues, owners and technicians as you like.' },
+      { c: 0, q: 'Is there a minimum contract?', a: 'No. Monthly plans can be cancelled at any time and stop at the end of the current month. Annual plans are billed once and save 20%. If you cancel, you can export all of your data in open formats.' },
+      { c: 0, q: 'What happens if a building leaves my portfolio?', a: 'You remove it and your next invoice drops accordingly — we bill on the apartments active at the start of each period, not on your peak.' },
+      { c: 1, q: 'How long does migration take?', a: 'Most portfolios are live within a week. You send us whatever you have — spreadsheets, exports from another platform, even scanned tables — and our team maps units, owners, meters and opening balances for you. You review before anything goes live.' },
+      { c: 1, q: 'Can I import opening balances and history?', a: 'Yes. Balances, past charges and payment history all come across, so owner statements stay continuous. We keep the imported figures separately flagged so you can always audit what came from where.' },
+      { c: 1, q: 'Do residents need to install anything?', a: 'No. Residents get a link and can use Orithon in any browser. There is an optional app for iOS and Android if they prefer notifications and offline fault reporting.' },
+      { c: 2, q: 'Is Orithon compliant with Greek common-expense law?', a: 'Yes. Expense allocation supports the standard share-based methods as well as area, per-riser and fully custom rules, and issued statements carry the information required for owner disputes and assembly minutes.' },
+      { c: 2, q: 'Does it connect to myDATA and my accountant?', a: 'Pro plans include accounting integrations and myDATA-ready exports. On other plans you can export to CSV and standard accounting formats at any time.' },
+      { c: 2, q: 'Where is our data stored?', a: 'In EU data centres, encrypted at rest and in transit, with daily backups held for 30 days. We are GDPR compliant and will sign a data processing agreement on request.' },
+      { c: 3, q: 'How do payments actually reach the building account?', a: 'Card and bank payments settle directly into the building account you nominate. Orithon never holds your funds — we only reconcile the incoming payments against issued charges automatically.' },
+      { c: 3, q: 'What support do we get on day one?', a: 'A guided onboarding session, a migration review call and unlimited email support on every plan. Standard adds priority response, Pro adds a named success manager.' },
+      { c: 3, q: 'Can technicians use it without an Orithon account?', a: 'Yes. You can dispatch a work order by link to an external contractor — they update status and upload photos without needing a login.' }
+    ], [
+      { c: 0, q: 'Πώς τιμολογείται το Orithon;', a: 'Ανά διαμέρισμα, ανά μήνα, με ένα μικρό ελάχιστο ανά κτήριο ώστε μια πολυκατοικία έξι διαμερισμάτων να μην πληρώνει σαν μία εξήντα. Δεν υπάρχει κόστος εγκατάστασης ούτε χρέωση ανά χρήστη — πρόσθεσε όσους συνεργάτες, ιδιοκτήτες και τεχνικούς θέλεις.' },
+      { c: 0, q: 'Υπάρχει ελάχιστη διάρκεια σύμβασης;', a: 'Όχι. Τα μηνιαία πακέτα ακυρώνονται όποτε θέλεις και σταματούν στο τέλος του τρέχοντος μήνα. Τα ετήσια χρεώνονται μία φορά και γλιτώνουν 20%. Αν ακυρώσεις, εξάγεις όλα τα δεδομένα σε ανοιχτά formats.' },
+      { c: 0, q: 'Τι γίνεται αν φύγει ένα κτήριο από το χαρτοφυλάκιο;', a: 'Το αφαιρείς και το επόμενο τιμολόγιο μειώνεται αντίστοιχα — χρεώνουμε στα διαμερίσματα που είναι ενεργά στην αρχή κάθε περιόδου, όχι στη μέγιστη τιμή σου.' },
+      { c: 1, q: 'Πόσο διαρκεί η μετάπτωση;', a: 'Τα περισσότερα χαρτοφυλάκια είναι έτοιμα μέσα σε μία εβδομάδα. Μας στέλνεις ό,τι έχεις — excel, εξαγωγές από άλλη πλατφόρμα, ακόμη και σκαναρισμένους πίνακες — και η ομάδα μας αντιστοιχίζει διαμερίσματα, ιδιοκτήτες, μετρητές και αρχικά υπόλοιπα. Τα ελέγχεις πριν βγουν στον αέρα.' },
+      { c: 1, q: 'Μπορώ να εισάγω αρχικά υπόλοιπα και ιστορικό;', a: 'Ναι. Υπόλοιπα, παλιές χρεώσεις και ιστορικό πληρωμών μεταφέρονται, ώστε οι καρτέλες ιδιοκτητών να παραμείνουν συνεχείς. Τα εισαγόμενα ποσά επισημαίνονται ξεχωριστά για να μπορείς πάντα να ελέγξεις τι ήρθε από πού.' },
+      { c: 1, q: 'Χρειάζεται να εγκαταστήσουν κάτι οι ένοικοι;', a: 'Όχι. Οι ένοικοι παίρνουν έναν σύνδεσμο και χρησιμοποιούν το Orithon από οποιοδήποτε browser. Υπάρχει προαιρετική εφαρμογή για iOS και Android αν προτιμούν ειδοποιήσεις και offline δήλωση βλαβών.' },
+      { c: 2, q: 'Είναι συμβατό με τον ελληνικό νόμο κοινοχρήστων;', a: 'Ναι. Ο επιμερισμός υποστηρίζει τις τυπικές μεθόδους χιλιοστών, καθώς και εμβαδόν, ανά στήλη και πλήρως custom κανόνες, και οι εκδόσεις φέρουν τις πληροφορίες που απαιτούνται για ενστάσεις ιδιοκτητών και πρακτικά συνελεύσεων.' },
+      { c: 2, q: 'Συνδέεται με το myDATA και τον λογιστή μου;', a: 'Τα πακέτα Pro περιλαμβάνουν λογιστικά integrations και εξαγωγές έτοιμες για myDATA. Στα άλλα πακέτα μπορείς να εξάγεις σε CSV και τυπικά λογιστικά formats όποτε θέλεις.' },
+      { c: 2, q: 'Πού αποθηκεύονται τα δεδομένα μας;', a: 'Σε data centres της ΕΕ, κρυπτογραφημένα σε ηρεμία και μεταφορά, με ημερήσια backups που κρατούνται 30 ημέρες. Είμαστε συμβατοί με GDPR και υπογράφουμε σύμβαση επεξεργασίας δεδομένων κατόπιν αιτήματος.' },
+      { c: 3, q: 'Πώς φτάνουν οι πληρωμές στον λογαριασμό του κτηρίου;', a: 'Οι πληρωμές με κάρτα και τράπεζα καταλήγουν απευθείας στον λογαριασμό κτηρίου που ορίζεις. Το Orithon δεν κρατά ποτέ χρήματά σου — μόνο συμφωνεί αυτόματα τις εισπράξεις με τις εκδοθείσες χρεώσεις.' },
+      { c: 3, q: 'Τι υποστήριξη έχουμε την πρώτη μέρα;', a: 'Καθοδηγούμενη συνεδρία onboarding, κλήση ελέγχου μετάπτωσης και απεριόριστη υποστήριξη email σε κάθε πακέτο. Το Standard προσθέτει priority απόκριση, το Pro έναν ονομαστικό success manager.' },
+      { c: 3, q: 'Μπορούν οι τεχνικοί να το χρησιμοποιήσουν χωρίς λογαριασμό;', a: 'Ναι. Στέλνεις εντολή εργασίας με σύνδεσμο σε εξωτερικό συνεργείο — ενημερώνουν κατάσταση και ανεβάζουν φωτογραφίες χωρίς login.' }
+    ]);
+    const faqCatNames = L(['Pricing & contracts', 'Setup & migration', 'Compliance & data', 'Operations & support'],
+                          ['Τιμές & συμβάσεις', 'Εγκατάσταση & μετάπτωση', 'Συμμόρφωση & δεδομένα', 'Λειτουργία & υποστήριξη']);
+    const fnOn = 'cursor:pointer;padding:13px 16px;border-radius:11px;font-size:14.5px;font-weight:700;background:var(--ink-chip);color:#fff;display:flex;justify-content:space-between;align-items:center;gap:10px';
+    const fnOff = 'cursor:pointer;padding:13px 16px;border-radius:11px;font-size:14.5px;font-weight:600;background:transparent;color:var(--mut);display:flex;justify-content:space-between;align-items:center;gap:10px';
+    const faqCats = faqCatNames.map((c, i) => ({
+      label: c, count: faqDefs.filter(f => f.c === i).length,
+      go: () => this.setState({ faqCat: i, faqOpen: 0 }), style: i === S.faqCat ? fnOn : fnOff
+    }));
+    const icOn = 'width:26px;height:26px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;margin-top:1px;background:var(--accent);transform:rotate(135deg)';
+    const icOff = 'width:26px;height:26px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;margin-top:1px;background:rgba(27,28,26,.06)';
+    const faqItems = faqDefs.filter(f => f.c === S.faqCat).map((f, i) => ({
+      q: f.q, a: f.a, open: i === S.faqOpen,
+      toggle: () => this.setState({ faqOpen: S.faqOpen === i ? -1 : i }),
+      cardStyle: i === S.faqOpen ? 'border-color:rgba(27,28,26,.18);box-shadow:0 26px 54px -34px rgba(27,28,26,.34)' : '',
+      icStyle: i === S.faqOpen ? icOn : icOff,
+      svgStyle: i === S.faqOpen ? 'stroke:#fff' : 'stroke:rgba(27,28,26,.55)'
+    }));
+
+    /* ---------- contact ---------- */
+    const bldOptions = L(['1–5 buildings', '6–20 buildings', '21–60 buildings', '61–100 buildings', 'More than 100'],
+                         ['1–5 κτήρια', '6–20 κτήρια', '21–60 κτήρια', '61–100 κτήρια', 'Πάνω από 100']);
+    const topicOptions = L(['Book a demo', 'Pricing question', 'Migrating from another tool', 'Technical support', 'Partnership'],
+                           ['Κλείσιμο demo', 'Ερώτηση για τιμές', 'Μετάπτωση από άλλο εργαλείο', 'Τεχνική υποστήριξη', 'Συνεργασία']);
+    const contactCards = L([
+      { icon: '☎', title: 'Talk to sales', desc: 'For demos, pricing and migration questions.', value: '+30 210 300 4500' },
+      { icon: '✉', title: 'Support', desc: 'Existing customers, any question, any plan.', value: 'support@orithon.gr' },
+      { icon: '⚑', title: 'Partnerships', desc: 'Accountants, technicians and software partners.', value: 'partners@orithon.gr' }
+    ], [
+      { icon: '☎', title: 'Πωλήσεις', desc: 'Για demo, τιμές και ερωτήσεις μετάπτωσης.', value: '+30 210 300 4500' },
+      { icon: '✉', title: 'Υποστήριξη', desc: 'Για υπάρχοντες πελάτες, κάθε ερώτηση, κάθε πακέτο.', value: 'support@orithon.gr' },
+      { icon: '⚑', title: 'Συνεργασίες', desc: 'Λογιστές, τεχνικοί και συνεργάτες λογισμικού.', value: 'partners@orithon.gr' }
+    ]);
+    const hours = L([{ d: 'Monday – Friday', h: '09:00 – 19:00' }, { d: 'Saturday', h: '10:00 – 14:00' }, { d: 'Emergencies', h: '24 / 7' }],
+                    [{ d: 'Δευτέρα – Παρασκευή', h: '09:00 – 19:00' }, { d: 'Σάββατο', h: '10:00 – 14:00' }, { d: 'Έκτακτα', h: '24 / 7' }]);
+    const offices = L([
+      { city: 'Athens', addr: 'Kifisias Avenue 124, Marousi 151 25 — third floor, above the pharmacy.', slot: 'office-athens' },
+      { city: 'Thessaloniki', addr: 'Tsimiski 43, Thessaloniki 546 23 — opening September 2026.', slot: 'office-thess' }
+    ], [
+      { city: 'Αθήνα', addr: 'Λεωφόρος Κηφισίας 124, Μαρούσι 151 25 — τρίτος όροφος, πάνω από το φαρμακείο.', slot: 'office-athens' },
+      { city: 'Θεσσαλονίκη', addr: 'Τσιμισκή 43, Θεσσαλονίκη 546 23 — άνοιγμα Σεπτέμβριος 2026.', slot: 'office-thess' }
+    ]);
+
+    const footCols = [
+      { h: L('Product', 'Προϊόν'), links: [
+        { label: t.navPricing, go: () => this.go('pricing') },
+        { label: t.navFeatures, go: () => { location.href = 'Orithon%20Landing.dc.html#features'; } },
+        { label: t.navCalc, go: () => { location.href = 'Orithon%20Landing.dc.html#calc'; } },
+        { label: L('Security', 'Ασφάλεια'), go: () => this.go('faq') } ] },
+      { h: L('Company', 'Εταιρεία'), links: [
+        { label: L('About', 'Σχετικά'), go: () => this.go('pricing') },
+        { label: t.navNews, go: () => this.go('news') },
+        { label: L('Careers', 'Καριέρα'), go: () => this.go('contact') },
+        { label: t.navContact, go: () => this.go('contact') } ] },
+      { h: L('Resources', 'Πόροι'), links: [
+        { label: t.navFaq, go: () => this.go('faq') },
+        { label: L('Help center', 'Βοήθεια'), go: () => this.go('faq') },
+        { label: 'API', go: () => this.go('faq') },
+        { label: L('Privacy', 'Απόρρητο'), go: () => this.go('faq') } ] }
+    ];
+
+    return {
+      t, lang,
+      setEN: () => this.setState({ lang: 'en' }), setGR: () => this.setState({ lang: 'gr' }),
+      enStyle: lang === 'en' ? segActive : segIdle, grStyle: lang === 'gr' ? segActive : segIdle,
+      navPages, footCols,
+      progStyle: 'width:' + (S.prog * 100).toFixed(2) + '%',
+      isPricing: S.page === 'pricing', isNews: S.page === 'news', isPost: S.page === 'post',
+      isFaq: S.page === 'faq', isContact: S.page === 'contact',
+      goContact: () => this.go('contact'), goNews: () => this.go('news'), openPost: () => this.go('post'),
+      setMonthly: () => this.setState({ annual: false }), setAnnual: () => this.setState({ annual: true }),
+      mStyle: S.annual ? cycOff : cycOn, yStyle: S.annual ? cycOn : cycOff,
+      plans, prIncluded, cmpRows,
+      catChips, featPost, postList, relatedList, article,
+      faqCats, faqItems,
+      bldOptions, topicOptions, contactCards, hours, offices,
+      sent: S.sent, notSent: !S.sent,
+      send: () => { this.setState({ sent: true }); window.scrollTo(0, 0); },
+      resetForm: () => this.setState({ sent: false })
+    };
+  }
+}
+</script>
+</body>
+</html>

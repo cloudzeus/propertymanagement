@@ -4,6 +4,7 @@ import { StatsSection } from "./sections/StatsSection";
 import { FeaturesSection } from "./sections/FeaturesSection";
 import { RolesSection } from "./sections/RolesSection";
 import { HowSection } from "./sections/HowSection";
+import { CalculatorSection } from "./sections/CalculatorSection";
 import { ShowcaseSection } from "./sections/ShowcaseSection";
 import { PricingSection } from "./sections/PricingSection";
 import { TestimonialsSection } from "./sections/TestimonialsSection";
@@ -18,6 +19,7 @@ export function renderSection(type: string, data: any, key: string) {
     case "FEATURES": return <FeaturesSection key={key} data={data} />;
     case "ROLES": return <RolesSection key={key} data={data} />;
     case "HOW": return <HowSection key={key} data={data} />;
+    case "CALCULATOR": return <CalculatorSection key={key} data={data} />;
     case "SHOWCASE": return <ShowcaseSection key={key} data={data} />;
     case "PRICING": return <PricingSection key={key} data={data} />;
     case "TESTIMONIALS": return <TestimonialsSection key={key} data={data} />;

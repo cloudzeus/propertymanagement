@@ -46,6 +46,10 @@ export default auth((req: NextRequest & { auth: any }) => {
     "/contact",
     "/pricing",
     "/faq",
+    // /blog and /services are linked from the nav and footer — without them here
+    // the auth gate below sent public visitors to /login.
+    "/blog",
+    "/services",
     "/privacy",
     "/terms",
     "/cookie-policy",

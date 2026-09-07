@@ -18,6 +18,10 @@ type Tier = {
   monthlyPrice: number;
   annualPrice: number;
   features: string[];
+  minPerBuilding: number | null;
+  badge: string | null;
+  ctaLabel: string | null;
+  ctaHref: string | null;
   highlighted: boolean;
   order: number;
   published: boolean;
@@ -30,6 +34,8 @@ type I18n = {
   name: { el: string; en: string };
   description: { el: string; en: string };
   features: { el: string[]; en: string[] };
+  badge: { el: string; en: string };
+  ctaLabel: { el: string; en: string };
 };
 
 function initI18n(tier: Tier | null): I18n {
@@ -41,6 +47,8 @@ function initI18n(tier: Tier | null): I18n {
       el: Array.isArray(raw?.features?.el) ? raw.features.el : (tier?.features ?? []),
       en: Array.isArray(raw?.features?.en) ? raw.features.en : [],
     },
+    badge: { el: raw?.badge?.el ?? tier?.badge ?? "", en: raw?.badge?.en ?? "" },
+    ctaLabel: { el: raw?.ctaLabel?.el ?? tier?.ctaLabel ?? "", en: raw?.ctaLabel?.en ?? "" },
   };
 }
 
@@ -71,6 +79,8 @@ export function PricingClient({ initial }: { initial: Tier[] }) {
   const [slug, setSlug] = useState("");
   const [monthlyPrice, setMonthlyPrice] = useState("0");
   const [annualPrice, setAnnualPrice] = useState("0");
+  const [minPerBuilding, setMinPerBuilding] = useState("");
+  const [ctaHref, setCtaHref] = useState("");
   const [order, setOrder] = useState("0");
   const [highlighted, setHighlighted] = useState(false);
   const [published, setPublished] = useState(false);
@@ -82,6 +92,8 @@ export function PricingClient({ initial }: { initial: Tier[] }) {
     setSlug(tier?.slug ?? `tier-${Date.now()}`);
     setMonthlyPrice(String(tier?.monthlyPrice ?? 0));
     setAnnualPrice(String(tier?.annualPrice ?? 0));
+    setMinPerBuilding(tier?.minPerBuilding != null ? String(tier.minPerBuilding) : "");
+    setCtaHref(tier?.ctaHref ?? "");
     setOrder(String(tier?.order ?? 0));
     setHighlighted(tier?.highlighted ?? false);
     setPublished(tier?.published ?? false);
@@ -96,15 +108,20 @@ export function PricingClient({ initial }: { initial: Tier[] }) {
     if (!i18n.name.el.trim()) { setError("Το όνομα είναι υποχρεωτικό"); return; }
     if (!slug.trim()) { setError("Το slug είναι υποχρεωτικό"); return; }
     const features = { el: splitFeatures(featuresText.el), en: splitFeatures(featuresText.en) };
-    const fullI18n = { name: i18n.name, description: i18n.description, features };
+    const fullI18n = { name: i18n.name, description: i18n.description, features, badge: i18n.badge, ctaLabel: i18n.ctaLabel };
     const payload = {
       i18n: fullI18n,
       name: i18n.name.el,
       description: i18n.description.el,
       features: features.el,
+      badge: i18n.badge.el.trim() || null,
+      ctaLabel: i18n.ctaLabel.el.trim() || null,
+      ctaHref: ctaHref.trim() || null,
       slug: slug.trim(),
       monthlyPrice: Number(monthlyPrice) || 0,
       annualPrice: Number(annualPrice) || 0,
+      // Empty means "no minimum" — the public card hides the line entirely.
+      minPerBuilding: minPerBuilding.trim() === "" ? null : Number(minPerBuilding),
       order: Number(order) || 0,
       highlighted,
       published,
@@ -251,11 +268,28 @@ export function PricingClient({ initial }: { initial: Tier[] }) {
             )}
           </FormField>
 
+          <FormField label="Ετικέτα κουμπιού">
+            <FieldInput
+              value={i18n.ctaLabel[locale]}
+              onChange={(v) => setI18n((p) => ({ ...p, ctaLabel: { ...p.ctaLabel, [locale]: v } }))}
+              placeholder="Κλείσε demo"
+            />
+          </FormField>
+          <FormField label="Ετικέτα προβολής (badge)">
+            <FieldInput
+              value={i18n.badge[locale]}
+              onChange={(v) => setI18n((p) => ({ ...p, badge: { ...p.badge, [locale]: v } }))}
+              placeholder="Δημοφιλέστερο"
+            />
+          </FormField>
+
           <div style={{ borderTop: "1px solid var(--border)", paddingTop: 14, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
             <FormField label="Slug" required><FieldInput value={slug} onChange={setSlug} placeholder="basic" /></FormField>
             <FormField label="Σειρά"><FieldInput type="number" value={order} onChange={setOrder} /></FormField>
-            <FormField label="Μηνιαία τιμή (€)"><FieldInput type="number" value={monthlyPrice} onChange={setMonthlyPrice} /></FormField>
+            <FormField label="Τιμή ανά διαμέρισμα / μήνα (€)"><FieldInput type="number" value={monthlyPrice} onChange={setMonthlyPrice} /></FormField>
             <FormField label="Ετήσια τιμή (€)"><FieldInput type="number" value={annualPrice} onChange={setAnnualPrice} /></FormField>
+            <FormField label="Ελάχιστο ανά κτήριο (€)"><FieldInput type="number" value={minPerBuilding} onChange={setMinPerBuilding} /></FormField>
+            <FormField label="Σύνδεσμος κουμπιού"><FieldInput value={ctaHref} onChange={setCtaHref} placeholder="/contact" /></FormField>
           </div>
 
           <div style={{ display: "flex", gap: 24 }}>

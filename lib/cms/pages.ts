@@ -11,10 +11,18 @@ export async function getCmsPage(slug: string) { return db.cMSPage.findUnique({ 
 export async function getPricingTiers() { return db.pricingTier.findMany({ where: { published: true }, orderBy: { order: "asc" } }); }
 export function localizedTier(t: any, locale: Locale) {
   const i = t.i18n;
+  // The scalar column holds the Greek value; i18n holds both. An empty string in
+  // the requested locale falls back to the column rather than rendering blank.
+  const pick = (key: string, fallback: string) => {
+    const v = i?.[key] ? pickLocale(i[key], locale) : "";
+    return (typeof v === "string" && v.trim()) || fallback;
+  };
   return {
-    name: i?.name ? pickLocale(i.name, locale) : t.name,
-    description: i?.description ? pickLocale(i.description, locale) : (t.description ?? ""),
+    name: pick("name", t.name),
+    description: pick("description", t.description ?? ""),
     features: i?.features ? pickLocale(i.features, locale) : (t.features ?? []),
+    badge: pick("badge", t.badge ?? ""),
+    ctaLabel: pick("ctaLabel", t.ctaLabel ?? ""),
   };
 }
 export async function getFaqs() { return db.fAQ.findMany({ where: { published: true }, orderBy: { order: "asc" } }); }
