@@ -24,6 +24,7 @@
 
 ## Ροές
 
+- [flows/app-flows.md](flows/app-flows.md) — όλες οι ροές της εφαρμογής ανά λειτουργία, με διαγράμματα Mermaid.
 - [flows/suppliers.md](flows/suppliers.md) — από τη δήλωση βλάβης μέχρι το τιμολόγιο (συνεργάτες, προσφορές, σύμβαση back-to-back).
 
 ## Συμβάσεις γραφής

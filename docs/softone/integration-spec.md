@@ -1,6 +1,6 @@
 # Προδιαγραφή διασύνδεσης Orithon ↔ SoftOne ERP
 
-**Έκδοση:** 1.0 — 7 Σεπτεμβρίου 2026 · **Κατάσταση:** προς συμφωνία με τον integrator · **Συντάκτης:** ομάδα πλατφόρμας Orithon
+**Έκδοση:** 1.1 — 7 Σεπτεμβρίου 2026 · **Κατάσταση:** προς συμφωνία με τον integrator · **Συντάκτης:** ομάδα πλατφόρμας Orithon
 
 > Το έγγραφο περιγράφει **τι** θα ανταλλάσσουν η πλατφόρμα Orithon (διαχείριση κτηρίων) και το νέο SoftOne της Orithon, **με ποια αντικείμενα και πεδία**, **πότε**, και **τι πρέπει να προετοιμάσει ο integrator** στο SoftOne. Η υλοποίηση από πλευράς Orithon ξεκινά μετά τη συμφωνία των σημείων της ενότητας 11.
 
@@ -199,6 +199,216 @@ FINDOC: SERIES * (παράμετρος), TRDR * (συνεργάτης), TRNDATE 
 | Καθημερινό job | επανάληψη αποτυχημένων, ανάγνωση υπολοίπων/εισπράξεων |
 
 Όλες οι αποστολές είναι ασύγχρονες ως προς τον χρήστη (δεν μπλοκάρουν την οθόνη) και ορατές στη σελίδα «SoftOne → Συγχρονισμός» με κατάσταση ΟΚ/σφάλμα/εκκρεμεί.
+
+## 5α. Ροές διασύνδεσης (διαγράμματα)
+
+Τα διαγράμματα είναι σε Mermaid (αποδίδονται στο GitHub, στη Βοήθεια της εφαρμογής και στο artifact). Δείχνουν **ποιος ξεκινά** κάθε ροή, **ποιο αντικείμενο** SoftOne αγγίζεται και **πού καταγράφεται** το αποτέλεσμα.
+
+### 5α.1 Αρχιτεκτονική
+
+```mermaid
+flowchart LR
+  subgraph O["Orithon (Next.js · PostgreSQL)"]
+    UI["Οθόνες / server actions"]
+    Q["Ουρά συγχρονισμού<br/>(SoftoneSyncLog: DRY_RUN · OK · ERROR · SKIPPED)"]
+    M["Mappers<br/>lib/softone/mapping.ts"]
+    C["Client Web Services<br/>lib/softone/client.ts"]
+    S["SoftoneSettings<br/>(ids παραμέτρων, clientID ημέρας)"]
+    CR["Cron (καθημερινό job 07:00)"]
+  end
+  subgraph S1["SoftOne (oncloud) — Web Services v2"]
+    WS["/s1services<br/>login · authenticate · getData · setData · getBrowserInfo/Data · getSelectorData"]
+    TRDR[("TRDR<br/>CUSTOMER · SUPPLIER")]
+    PRJC[("PRJC<br/>Έργα = κτήρια")]
+    MTRL[("MTRL<br/>SERVICE · ITEM")]
+    CNTR[("CNTR + CNTRLINES<br/>Ειδικές συμβάσεις")]
+    FIN[("FINDOC<br/>SALDOC · PURDOC")]
+  end
+  UI -->|γεγονός| Q --> M --> C -->|JSON · gzip · win-1253| WS
+  S <--> C
+  CR --> Q
+  WS --> TRDR & PRJC & MTRL & CNTR & FIN
+```
+
+### 5α.2 Σύνδεση και συνεδρία
+
+```mermaid
+sequenceDiagram
+  autonumber
+  participant O as Orithon client
+  participant DB as SoftoneSettings
+  participant S1 as SoftOne WS
+  O->>DB: clientId + clientIdDate == σήμερα;
+  alt υπάρχει έγκυρο clientID
+    DB-->>O: clientID
+  else δεν υπάρχει / έληξε
+    O->>S1: login (username, password, appId)
+    S1-->>O: clientID (προσωρινό), objs[]
+    O->>S1: authenticate (clientID, company, branch, module, refid)
+    S1-->>O: clientID (μόνιμο ημέρας)
+    O->>DB: αποθήκευση clientID + ημερομηνία
+  end
+  O->>S1: service (clientID, appId, VERSION 2, ...)
+  S1-->>O: gzip + windows-1253 → arrayBuffer → gunzip → iconv → JSON
+  opt errorcode -100 / -101
+    O->>DB: διαγραφή clientID
+    O->>S1: login + authenticate ξανά, επανάληψη κλήσης (1 φορά)
+  end
+```
+
+### 5α.3 Πελάτης → CUSTOMER (upsert με έλεγχο ΑΦΜ)
+
+```mermaid
+sequenceDiagram
+  autonumber
+  participant A as Στέλεχος Orithon
+  participant O as Orithon
+  participant S1 as SoftOne
+  A->>O: δημιουργία / αλλαγή πελάτη (επωνυμία, ΑΦΜ, ΔΟΥ, διεύθυνση)
+  O->>O: SyncLog(customer, PENDING)
+  alt customer.softoneTrdr υπάρχει
+    O->>S1: setData CUSTOMER key=TRDR (μόνο τα πεδία που κατέχει η Orithon)
+  else πρώτη αποστολή
+    O->>S1: getBrowserInfo CUSTOMER filters "CUSTOMER.AFM=ΑΦΜ"
+    alt βρέθηκε TRDR με ίδιο ΑΦΜ
+      O->>O: σύνδεση με τον υπάρχοντα TRDR (χωρίς insert)
+    else
+      O->>S1: setData CUSTOMER (CODE PM-C-nnnnn, NAME, AFM, IRSDATA, ADDRESS, ZIP, CITY, COUNTRY, SOCURRENCY, PAYMENT, EMAIL, PHONE01)
+      S1-->>O: id (TRDR)
+    end
+  end
+  O->>S1: getData CUSTOMER key=TRDR (επαλήθευση)
+  O->>O: customer.softoneTrdr = TRDR · SyncLog OK / ERROR
+```
+
+Η ίδια ροή ισχύει για **Συνεργάτη → SUPPLIER** (SODTYPE 12, κωδικοί `PM-S-`) με επιπλέον το IBAN στον child πίνακα τραπεζικών λογαριασμών (σημείο συμφωνίας 5).
+
+### 5α.4 Κτήριο → PRJC (Έργο)
+
+```mermaid
+flowchart TD
+  A["Νέο κτήριο / αλλαγή στοιχείων<br/>(onboarding wizard ή φόρμα)"] --> B{"Ο πελάτης-ιδιοκτήτης<br/>έχει TRDR;"}
+  B -- όχι --> C["Συγχρονισμός πελάτη πρώτα (5α.3)"] --> D
+  B -- ναι --> D["setData PRJC<br/>CODE PM-B-nnnnn · NAME · TRDR πελάτη · PRJTYPE «Κτήριο»<br/>ADDRESS · CITY · ZIP · COMMENTS (μονάδες, χιλιοστά)"]
+  D --> E["building.softonePrjc = PRJC"]
+  E --> F["Κάθε CNTR / SALDOC / PURDOC του κτηρίου<br/>δείχνει το PRJC (στήλη PRJC)"]
+```
+
+### 5α.5 Κατάλογος υπηρεσιών → SERVICE / ITEM (MTRL)
+
+```mermaid
+flowchart LR
+  A["Κατάλογος υπηρεσιών Orithon<br/>(45 βασικές, 11 κατηγορίες)"] --> B["setData SERVICE<br/>CODE PM-SRV-nnnnn · NAME · MTRUNIT · VAT · MTRCATEGORY"]
+  P["Προϊόντα συνεργατών<br/>(SupplierProduct)"] --> C["setData ITEM<br/>CODE PM-ITM-nnnnn · NAME · MTRUNIT · VAT"]
+  B --> D["serviceCatalogItem.softoneMtrl"]
+  C --> E["supplierProduct.softoneMtrl"]
+  D & E --> F["Γραμμές CNTRLINES / SRVLINES / ITELINES<br/>αναφέρουν το MTRL"]
+```
+
+### 5α.6 Σύμβαση έργου → δύο CNTR (back-to-back)
+
+```mermaid
+sequenceDiagram
+  autonumber
+  participant Sup as Συνεργάτης
+  participant O as Orithon
+  participant Cust as Πελάτης (διαχειριστής)
+  participant S1 as SoftOne
+  Sup->>O: προσφορά σε RFQ (καθαρή τιμή, ΦΠΑ, γραμμές)
+  O->>Cust: προώθηση με περιθώριο (τιμή πελάτη)
+  Cust->>O: αποδοχή προσφοράς → WorkOrder (PENDING_CUSTOMER → ACCEPTED)
+  O->>S1: setData CNTR «Έργου — πελάτης» (TSODTYPE 13, TRDR πελάτη, PRJC κτηρίου, CODE WO-έτος-nnnn-A, FROMDATE, VARCHAR01 = workOrder.id)
+  Note over O,S1: CNTRLINES: μία γραμμή ανά υπηρεσία/προϊόν (LINETYPE1, MSODTYPE 52/51, MTRL, QTY1, PRICE πελάτη, VAT, GUARANTY μήνες)
+  S1-->>O: CNTR A → workOrder.softoneCntrA
+  Sup->>O: αποδοχή ανάθεσης (supplierAcceptWorkOrder)
+  O->>S1: setData CNTR «Έργου — συνεργάτης» (TSODTYPE 12, TRDR συνεργάτη, CODE ...-B, CNTRS = CNTR A, PRICE συνεργάτη)
+  S1-->>O: CNTR B → workOrder.softoneCntrB
+  Sup->>O: ολοκλήρωση + αποδεικτικά
+  Cust->>O: επιβεβαίωση παραλαβής (ή σιωπηρή από το cron)
+  O->>S1: setData CNTR A & B: TODATE = ημερομηνία παραλαβής
+  opt απόρριψη / ακύρωση
+    O->>S1: setData CNTR: BLCKDATE, ISACTIVE 0
+  end
+```
+
+Καταστάσεις WorkOrder ↔ ενέργεια SoftOne:
+
+```mermaid
+stateDiagram-v2
+  [*] --> PENDING_CUSTOMER
+  PENDING_CUSTOMER --> ACCEPTED: αποδοχή πελάτη → insert CNTR-A
+  PENDING_CUSTOMER --> DECLINED: απόρριψη (καμία εγγραφή)
+  ACCEPTED --> SCHEDULED: αποδοχή συνεργάτη → insert CNTR-B (CNTRS→A)
+  SCHEDULED --> IN_PROGRESS: έναρξη εργασιών
+  IN_PROGRESS --> COMPLETED: ολοκλήρωση + αποδεικτικά
+  COMPLETED --> CONFIRMED: παραλαβή (ρητή ή σιωπηρή) → TODATE σε A & B
+  COMPLETED --> DISPUTED: αμφισβήτηση → σημείωση COMMENTS
+  DISPUTED --> CONFIRMED
+  ACCEPTED --> CANCELLED: ακύρωση → BLCKDATE / ISACTIVE 0
+  SCHEDULED --> CANCELLED
+  CONFIRMED --> [*]
+```
+
+### 5α.7 Πακέτο διαχείρισης ακινήτου → CNTR περιοδική
+
+```mermaid
+sequenceDiagram
+  autonumber
+  participant M as Διαχειριστής (πελάτης)
+  participant O as Orithon
+  participant S1 as SoftOne
+  M->>O: επιλογή υπηρεσιών πακέτου (Ρυθμίσεις → Πακέτα) · πληρωμή μηνιαίου
+  O->>S1: setData CNTR «Διαχείρισης» (TSODTYPE 13, TRDR πελάτη, PRJC κτηρίου, CODE PM-MC-nnnnn, FROMDATE, PERIODINV = 1 μήνας, VISITUNIT μήνες)
+  Note over O,S1: CNTRLINES: μία γραμμή ανά υπηρεσία πακέτου (MTRL, QTY1 = μονάδες, PRICE = μηνιαίο/μονάδα)
+  S1-->>O: CNTR → propertyService.softoneCntr
+  loop κάθε μήνα (σημείο συμφωνίας 2)
+    alt το SoftOne τιμολογεί από τη σύμβαση
+      S1->>S1: περιοδική τιμολόγηση CNTR → SALDOC
+      O->>S1: getBrowserInfo SALDOC (ανάγνωση, Φάση Β)
+    else η Orithon τιμολογεί
+      O->>S1: setData SALDOC (SERIES πώλησης, TRDR, PRJC, SRVLINES από CNTRLINES)
+      S1-->>O: FINDOC → serviceInvoice.softoneFindoc
+    end
+  end
+  M->>O: αλλαγή πακέτου
+  O->>S1: setData CNTR (γραμμές με LINENUM: υπάρχουσες ενημερώνονται, νέες ≥ 9000001, απούσες διαγράφονται)
+```
+
+### 5α.8 Τιμολόγιο συνεργάτη → PURDOC (Φάση Β)
+
+```mermaid
+flowchart TD
+  A["Ο συνεργάτης ανεβάζει τιμολόγιο στη σύμβαση έργου<br/>(ή το στέλεχος καταχωρεί έξοδο με OCR)"] --> B{"Υπάρχει CNTR-B;"}
+  B -- ναι --> C["setData PURDOC<br/>SERIES αγοράς · TRDR συνεργάτη · PRJC · TRNDATE · FINCODE αρ. τιμολογίου<br/>SRVLINES/ITELINES από τις γραμμές της CNTR-B"]
+  B -- όχι --> D["Σφάλμα «λείπει σύμβαση» → ουρά επανάληψης"]
+  C --> E["FINDOC → buildingExpense.softoneFindoc / workOrder"]
+  E --> F["Έλεγχος συμφωνίας ποσού με CNTR-B<br/>(διαφορά → επισήμανση στη σελίδα Συγχρονισμού)"]
+```
+
+### 5α.9 Ανάγνωση από SoftOne (Φάση Β) και καθημερινό job
+
+```mermaid
+flowchart LR
+  CR["Cron 07:00 (in-process)"] --> R1["Επανάληψη αποτυχημένων SyncLog<br/>(backoff 1′ · 5′ · 30′)"]
+  CR --> R2["getBrowserInfo CUSTOMER: υπόλοιπα πελατών"] --> U1["Ενημέρωση ένδειξης «οφειλή» στον πελάτη"]
+  CR --> R3["getBrowserInfo SALDOC / PURDOC: νέα παραστατικά"] --> U2["Αντιστοίχιση σε ServiceInvoice / BuildingExpense"]
+  CR --> R4["Έλεγχος συνέπειας: NAME/ADDRESS που άλλαξαν στο SoftOne"] --> U3["Λίστα αποκλίσεων (χωρίς αυτόματη επαναφορά στη Φάση Α)"]
+```
+
+### 5α.10 Κύκλος ζωής μιας εγγραφής συγχρονισμού
+
+```mermaid
+stateDiagram-v2
+  [*] --> PENDING: γεγονός στην Orithon
+  PENDING --> DRY_RUN: λειτουργία δοκιμής (χωρίς setData)
+  PENDING --> OK: setData + επαλήθευση getData
+  PENDING --> SKIPPED: δεν αλλάζει τίποτα / ο πελάτης εξαιρείται
+  PENDING --> ERROR: business error · HTTP 5xx · λείπει προαπαιτούμενο
+  ERROR --> PENDING: αυτόματη επανάληψη (≤3) ή χειροκίνητα από «Συγχρονισμός»
+  ERROR --> NEEDS_ATTENTION: εξαντλήθηκαν οι επαναλήψεις
+  NEEDS_ATTENTION --> PENDING: διόρθωση παραμέτρου / δεδομένων και επανάληψη
+  OK --> [*]
+```
 
 ## 6. Κωδικοί, μοναδικότητα, συγκρούσεις
 
