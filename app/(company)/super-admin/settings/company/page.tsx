@@ -78,14 +78,14 @@ export default async function CompanySettingsPage() {
         }}>
           {company.logoUrl
             ? <img src={company.logoUrl} alt={company.name} style={{ width: 40, height: 40, borderRadius: 10, objectFit: "contain" }} />
-            : <RiBuildingLine style={{ fontSize: 20, color: "var(--color-primary)" }} />
+            : <RiBuildingLine style={{ fontSize: "var(--fs-20)", color: "var(--color-primary)" }} />
           }
         </div>
         <div>
-          <h1 style={{ fontSize: 20, fontWeight: 700, color: "var(--foreground)", margin: 0 }}>
+          <h1 style={{ fontSize: "var(--fs-20)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}>
             {company.name}
           </h1>
-          <p style={{ fontSize: 12, color: "var(--muted-foreground)", marginTop: 2 }}>
+          <p style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)", marginTop: 2 }}>
             {company.afm && <>ΑΦΜ: {company.afm} · </>}
             {company.legalForm && <>{company.legalForm} · </>}
             {company.city && <>{company.city}</>}
@@ -101,8 +101,8 @@ export default async function CompanySettingsPage() {
             { icon: RiBriefcaseLine, label: "Υπάλληλοι", val: company._count.employees },
           ].map(({ icon: Icon, label, val }) => (
             <div key={label} style={{ textAlign: "center" }}>
-              <div style={{ fontSize: 18, fontWeight: 700, color: "var(--foreground)" }}>{val}</div>
-              <div style={{ fontSize: 11, color: "var(--muted-foreground)" }}>{label}</div>
+              <div style={{ fontSize: "var(--fs-18)", fontWeight: 700, color: "var(--foreground)" }}>{val}</div>
+              <div style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)" }}>{label}</div>
             </div>
           ))}
         </div>

@@ -15,15 +15,15 @@ export function RolesSection({ data }: { data: RolesData }) {
       <div className="mx-auto max-w-[1200px] px-5 sm:px-7 py-[84px]">
         <Reveal className="mb-12 max-w-[620px]">
           {data.kicker && (
-            <span className="text-[13px] font-bold uppercase tracking-[0.14em] text-[var(--muted-foreground)]">
+            <span className="text-[length:var(--fs-13)] font-bold uppercase tracking-[0.14em] text-[var(--muted-foreground)]">
               {data.kicker}
             </span>
           )}
-          <h2 className="mt-3.5 text-[32px] font-extrabold leading-[1.05] tracking-[-0.02em] text-[var(--foreground)] md:text-[46px]">
+          <h2 className="mt-3.5 text-[length:var(--fs-32)] font-extrabold leading-[1.05] tracking-[-0.02em] text-[var(--foreground)] md:text-[length:var(--fs-46)]">
             {data.heading}
           </h2>
           {data.subtitle && (
-            <p className="mt-4 text-[17px] leading-relaxed text-[var(--muted-foreground)]">{data.subtitle}</p>
+            <p className="mt-4 text-[length:var(--fs-17)] leading-relaxed text-[var(--muted-foreground)]">{data.subtitle}</p>
           )}
         </Reveal>
 
@@ -55,8 +55,8 @@ export function RolesSection({ data }: { data: RolesData }) {
                     {r.initial}
                   </span>
                   <span>
-                    <span className="block text-[15px] font-bold text-[var(--foreground)]">{r.name}</span>
-                    <span className="text-[12.5px] text-[var(--muted-foreground)]">{r.tag}</span>
+                    <span className="block text-[length:var(--fs-15)] font-bold text-[var(--foreground)]">{r.name}</span>
+                    <span className="text-[length:var(--fs-12-5)] text-[var(--muted-foreground)]">{r.tag}</span>
                   </span>
                 </button>
               );
@@ -74,17 +74,17 @@ export function RolesSection({ data }: { data: RolesData }) {
               </span>
               <div>
                 <div className="text-2xl font-extrabold tracking-[-0.01em] text-[var(--foreground)]">{role.name}</div>
-                <div className="text-[13.5px] text-[var(--muted-foreground)]">{role.tag}</div>
+                <div className="text-[length:var(--fs-13-5)] text-[var(--muted-foreground)]">{role.tag}</div>
               </div>
             </div>
             <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
               {(role.points ?? []).map((p, i) => (
                 <div
                   key={i}
-                  className="flex items-start gap-2.5 rounded-xl border bg-[var(--paper)] px-4 py-[15px] text-[14.5px] leading-normal text-[var(--foreground)]"
+                  className="flex items-start gap-2.5 rounded-xl border bg-[var(--paper)] px-4 py-[15px] text-[length:var(--fs-14-5)] leading-normal text-[var(--foreground)]"
                   style={{ borderColor: "rgba(27,28,26,.07)" }}
                 >
-                  <b className="text-[13px] text-[var(--accent)]">›</b>
+                  <b className="text-[length:var(--fs-13)] text-[var(--accent)]">›</b>
                   {p}
                 </div>
               ))}

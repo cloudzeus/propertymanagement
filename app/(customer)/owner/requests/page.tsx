@@ -35,7 +35,7 @@ export default async function OwnerRequestsPage() {
   return (
     <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 18, maxWidth: 860 }}>
       <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-        <h1 style={{ fontSize: 22, fontWeight: 700, color: "var(--foreground)", margin: 0, flex: 1 }}>Αιτήματα βλαβών</h1>
+        <h1 style={{ fontSize: "var(--fs-22)", fontWeight: 700, color: "var(--foreground)", margin: 0, flex: 1 }}>Αιτήματα βλαβών</h1>
         {buildings.length > 0 && <NewRequestButton buildings={buildings} categories={categories} detailBase="/portal/requests" />}
       </div>
 
@@ -53,16 +53,16 @@ export default async function OwnerRequestsPage() {
                 background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius-lg)",
               }}>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ fontSize: 14, fontWeight: 600, color: "var(--foreground)" }}>{r.title}</div>
-                  <div style={{ fontSize: 12, color: "var(--muted-foreground)" }}>
+                  <div style={{ fontSize: "var(--fs-14)", fontWeight: 600, color: "var(--foreground)" }}>{r.title}</div>
+                  <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>
                     {r.building.name}{r.unit ? ` · Μονάδα ${r.unit.unitNumber}` : ""} · {r.categoryRef?.name ?? "—"} · {fmt(r.createdAt)}
                   </div>
                 </div>
-                <span style={{ fontSize: 11, fontWeight: 700, color: prColor, whiteSpace: "nowrap" }}>
+                <span style={{ fontSize: "var(--fs-11)", fontWeight: 700, color: prColor, whiteSpace: "nowrap" }}>
                   {PRIORITY_LABELS[pr] ?? r.priority}
                 </span>
                 <span style={{
-                  padding: "3px 10px", borderRadius: 999, fontSize: 12, fontWeight: 600, color,
+                  padding: "3px 10px", borderRadius: 999, fontSize: "var(--fs-12)", fontWeight: 600, color,
                   background: `${color}18`, border: `1px solid ${color}40`, whiteSpace: "nowrap",
                 }}>
                   {STATUS_LABELS[r.status as FaultStatus] ?? r.status}

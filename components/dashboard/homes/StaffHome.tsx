@@ -54,8 +54,8 @@ export async function StaffHome({ userId, companyId }: { userId: string; company
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
       <div>
-        <h1 style={{ fontSize: 22, fontWeight: 700, color: "var(--foreground)", margin: 0 }}>Οι Εργασίες μου</h1>
-        <p style={{ fontSize: 13, color: "var(--muted-foreground)", marginTop: 4 }}>Επισκόπηση ανατεθειμένων εργασιών</p>
+        <h1 style={{ fontSize: "var(--fs-22)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}>Οι Εργασίες μου</h1>
+        <p style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)", marginTop: 4 }}>Επισκόπηση ανατεθειμένων εργασιών</p>
       </div>
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
@@ -68,11 +68,11 @@ export async function StaffHome({ userId, companyId }: { userId: string; company
           return (
             <Link key={card.label} href={card.href} style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius)", padding: "20px 24px", display: "flex", flexDirection: "column", gap: 8, textDecoration: "none" }}>
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                <span style={{ fontSize: 13, color: "var(--muted-foreground)", fontWeight: 500 }}>{card.label}</span>
-                <Icon style={{ fontSize: 20, color: card.color, opacity: 0.8 }} />
+                <span style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)", fontWeight: 500 }}>{card.label}</span>
+                <Icon style={{ fontSize: "var(--fs-20)", color: card.color, opacity: 0.8 }} />
               </div>
-              <span style={{ fontSize: 28, fontWeight: 700, color: "var(--foreground)", lineHeight: 1 }}>{card.value}</span>
-              <span style={{ fontSize: 12, color: "var(--muted-foreground)" }}>{card.sub}</span>
+              <span style={{ fontSize: "var(--fs-28)", fontWeight: 700, color: "var(--foreground)", lineHeight: 1 }}>{card.value}</span>
+              <span style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>{card.sub}</span>
             </Link>
           );
         })}
@@ -80,15 +80,15 @@ export async function StaffHome({ userId, companyId }: { userId: string; company
 
       <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius)", padding: 24 }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
-          <h2 style={{ fontSize: 15, fontWeight: 600, color: "var(--foreground)", margin: 0 }}>Οι Εκκρεμείς Εργασίες μου</h2>
-          <Link href="/staff/tasks" style={{ fontSize: 12, color: "var(--color-primary)", display: "flex", alignItems: "center", gap: 4, textDecoration: "none" }}>
+          <h2 style={{ fontSize: "var(--fs-15)", fontWeight: 600, color: "var(--foreground)", margin: 0 }}>Οι Εκκρεμείς Εργασίες μου</h2>
+          <Link href="/staff/tasks" style={{ fontSize: "var(--fs-12)", color: "var(--color-primary)", display: "flex", alignItems: "center", gap: 4, textDecoration: "none" }}>
             Όλες <RiArrowRightLine />
           </Link>
         </div>
 
         {myTasks.length === 0 ? (
-          <div style={{ padding: "32px 0", textAlign: "center", color: "var(--muted-foreground)", fontSize: 13 }}>
-            <RiCheckboxCircleLine style={{ fontSize: 32, opacity: 0.4, display: "block", margin: "0 auto 8px", color: "var(--color-success)" }} />
+          <div style={{ padding: "32px 0", textAlign: "center", color: "var(--muted-foreground)", fontSize: "var(--fs-13)" }}>
+            <RiCheckboxCircleLine style={{ fontSize: "var(--fs-32)", opacity: 0.4, display: "block", margin: "0 auto 8px", color: "var(--color-success)" }} />
             Δεν υπάρχουν εκκρεμείς εργασίες
           </div>
         ) : (
@@ -97,12 +97,12 @@ export async function StaffHome({ userId, companyId }: { userId: string; company
               const StatusIcon = STATUS_ICON[task.status] || RiAlertLine;
               return (
                 <div key={task.id} style={{ display: "flex", alignItems: "center", gap: 12, padding: "10px 14px", background: "var(--bg-canvas)", borderRadius: 6 }}>
-                  <StatusIcon style={{ fontSize: 18, color: task.status === "IN_PROGRESS" ? "var(--color-primary)" : "var(--color-warning)", flexShrink: 0 }} />
+                  <StatusIcon style={{ fontSize: "var(--fs-18)", color: task.status === "IN_PROGRESS" ? "var(--color-primary)" : "var(--color-warning)", flexShrink: 0 }} />
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontSize: 14, fontWeight: 500, color: "var(--foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{task.title}</div>
-                    <div style={{ fontSize: 12, color: "var(--muted-foreground)" }}>{task.status}</div>
+                    <div style={{ fontSize: "var(--fs-14)", fontWeight: 500, color: "var(--foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{task.title}</div>
+                    <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>{task.status}</div>
                   </div>
-                  <span style={{ fontSize: 11, fontWeight: 600, padding: "2px 8px", borderRadius: 20, flexShrink: 0, background: `${PRIORITY_COLOR[task.priority] || "var(--muted-foreground)"}18`, color: PRIORITY_COLOR[task.priority] || "var(--muted-foreground)" }}>
+                  <span style={{ fontSize: "var(--fs-11)", fontWeight: 600, padding: "2px 8px", borderRadius: 20, flexShrink: 0, background: `${PRIORITY_COLOR[task.priority] || "var(--muted-foreground)"}18`, color: PRIORITY_COLOR[task.priority] || "var(--muted-foreground)" }}>
                     {task.priority}
                   </span>
                 </div>

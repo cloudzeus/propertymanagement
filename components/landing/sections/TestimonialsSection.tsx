@@ -31,19 +31,19 @@ export function TestimonialsSection({ data }: { data: TestimonialsData }) {
             >
               <div
                 aria-hidden
-                className="h-[42px] text-[90px] leading-[0.5] text-[var(--accent)]"
+                className="h-[42px] text-[length:var(--fs-90)] leading-[0.5] text-[var(--accent)]"
                 style={{ fontFamily: "var(--font-display)" }}
               >
                 &ldquo;
               </div>
-              <blockquote className="mx-auto mt-[22px] max-w-[760px] text-[23px] font-medium leading-[1.42] tracking-[-0.01em] text-[var(--foreground)] md:text-[28px]">
+              <blockquote className="mx-auto mt-[22px] max-w-[760px] text-[length:var(--fs-23)] font-medium leading-[1.42] tracking-[-0.01em] text-[var(--foreground)] md:text-[length:var(--fs-28)]">
                 {item.quote}
               </blockquote>
               <figcaption className="mt-[30px] flex items-center justify-center gap-3.5">
                 <Avatar item={item} />
                 <div className="text-left">
-                  <div className="text-[15px] font-bold text-[var(--foreground)]">{item.author}</div>
-                  {item.role && <div className="text-[13px] text-[var(--muted-foreground)]">{item.role}</div>}
+                  <div className="text-[length:var(--fs-15)] font-bold text-[var(--foreground)]">{item.author}</div>
+                  {item.role && <div className="text-[length:var(--fs-13)] text-[var(--muted-foreground)]">{item.role}</div>}
                 </div>
               </figcaption>
             </figure>
@@ -58,7 +58,7 @@ export function TestimonialsSection({ data }: { data: TestimonialsData }) {
       <div className="mx-auto max-w-[1200px] px-5 sm:px-7 py-[84px]">
         {data.heading && (
           <Reveal>
-            <h2 className="mb-10 text-center text-[32px] font-extrabold tracking-[-0.02em] text-[var(--foreground)] md:text-[46px]">
+            <h2 className="mb-10 text-center text-[length:var(--fs-32)] font-extrabold tracking-[-0.02em] text-[var(--foreground)] md:text-[length:var(--fs-46)]">
               {data.heading}
             </h2>
           </Reveal>
@@ -71,13 +71,13 @@ export function TestimonialsSection({ data }: { data: TestimonialsData }) {
               style={BORDER}
             >
               <div
-                className="mb-2 text-[46px] leading-none text-[var(--accent)]"
+                className="mb-2 text-[length:var(--fs-46)] leading-none text-[var(--accent)]"
                 style={{ fontFamily: "var(--font-display)" }}
                 aria-hidden
               >
                 &ldquo;
               </div>
-              <blockquote className="-mt-4 flex-1 text-[17px] leading-relaxed text-[var(--foreground)]">
+              <blockquote className="-mt-4 flex-1 text-[length:var(--fs-17)] leading-relaxed text-[var(--foreground)]">
                 {item.quote}
               </blockquote>
               <figcaption className="mt-6 flex items-center gap-3">

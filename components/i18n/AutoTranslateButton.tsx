@@ -32,7 +32,7 @@ export function AutoTranslateButton({
         gap: 6,
         padding: "6px 12px",
         borderRadius: 6,
-        fontSize: 12,
+        fontSize: "var(--fs-12)",
         fontWeight: 600,
         border: "1px solid var(--border)",
         background: "transparent",

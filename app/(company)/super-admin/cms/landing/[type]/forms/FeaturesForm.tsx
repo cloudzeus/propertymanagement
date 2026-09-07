@@ -46,7 +46,7 @@ export function FeaturesForm({ section }: { section: { id: string; type: string;
         <div style={{ display: "flex", alignItems: "center", gap: 8, fontWeight: 700, color: "var(--foreground)" }}><RiSparkling2Line /> Δημιουργία με AI</div>
         <CmsField label="Σύντομη περιγραφή"><CmsTextarea value={brief} onChange={(e) => setBrief(e.target.value)} placeholder="π.χ. πλατφόρμα διαχείρισης κοινοχρήστων για πολυκατοικίες…" /></CmsField>
         <CmsField label="Πλήθος"><CmsInput type="number" min={1} max={8} value={count} onChange={(e) => setCount(Number(e.target.value))} /></CmsField>
-        {aiError && <p style={{ color: "var(--destructive)", fontSize: 13 }}>{aiError}</p>}
+        {aiError && <p style={{ color: "var(--destructive)", fontSize: "var(--fs-13)" }}>{aiError}</p>}
         <div><CmsButton variant="secondary" onClick={runAi} loading={aiPending} disabled={aiPending || !brief.trim()}>{aiPending ? "Δημιουργία…" : "Δημιουργία δυνατοτήτων"}</CmsButton></div>
       </div>
 

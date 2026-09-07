@@ -40,14 +40,14 @@ export function AnnouncementsPanel({ buildingId, can }: { buildingId: string; ca
       cell: (a) => (
         <div style={{ display: "flex", alignItems: "center", gap: 8, minWidth: 0 }}>
           <div style={{ width: 26, height: 26, borderRadius: 7, flexShrink: 0, background: "var(--color-primary)18", color: "var(--color-primary)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <RiMegaphoneLine style={{ fontSize: 14 }} />
+            <RiMegaphoneLine style={{ fontSize: "var(--fs-14)" }} />
           </div>
-          <span style={{ fontSize: 13, fontWeight: 600, color: "var(--foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{a.title}</span>
+          <span style={{ fontSize: "var(--fs-13)", fontWeight: 600, color: "var(--foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{a.title}</span>
         </div>
       ),
     },
-    { id: "publishedAt", header: "Δημοσίευση", sortKey: "publishedAt", width: 120, accessor: (a) => a.publishedAt ?? "", cell: (a) => <span style={{ fontSize: 12, color: "var(--foreground)" }}>{fmt(a.publishedAt)}</span> },
-    { id: "audience", header: "Παραλήπτες", width: 120, accessor: (a) => AUDIENCE_LABEL[a.audience], cell: (a) => <span style={{ fontSize: 11, fontWeight: 700, padding: "2px 8px", borderRadius: 9999, background: "var(--bg-canvas)", color: "var(--muted-foreground)", border: "1px solid var(--border)" }}>{AUDIENCE_LABEL[a.audience]}</span> },
+    { id: "publishedAt", header: "Δημοσίευση", sortKey: "publishedAt", width: 120, accessor: (a) => a.publishedAt ?? "", cell: (a) => <span style={{ fontSize: "var(--fs-12)", color: "var(--foreground)" }}>{fmt(a.publishedAt)}</span> },
+    { id: "audience", header: "Παραλήπτες", width: 120, accessor: (a) => AUDIENCE_LABEL[a.audience], cell: (a) => <span style={{ fontSize: "var(--fs-11)", fontWeight: 700, padding: "2px 8px", borderRadius: 9999, background: "var(--bg-canvas)", color: "var(--muted-foreground)", border: "1px solid var(--border)" }}>{AUDIENCE_LABEL[a.audience]}</span> },
     {
       id: "ack", header: "Έλαβαν γνώση", width: 140, accessor: (a) => a.acknowledged,
       cell: (a) => {
@@ -57,7 +57,7 @@ export function AnnouncementsPanel({ buildingId, can }: { buildingId: string; ca
             <div style={{ flex: 1, height: 6, borderRadius: 9999, background: "var(--bg-canvas)", overflow: "hidden", minWidth: 50 }}>
               <div style={{ width: `${pct}%`, height: "100%", background: pct === 100 ? "var(--color-green)" : "var(--color-primary)" }} />
             </div>
-            <span style={{ fontSize: 12, color: "var(--muted-foreground)", whiteSpace: "nowrap" }}>{a.acknowledged}/{a.total}</span>
+            <span style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)", whiteSpace: "nowrap" }}>{a.acknowledged}/{a.total}</span>
           </div>
         );
       },
@@ -70,7 +70,7 @@ export function AnnouncementsPanel({ buildingId, can }: { buildingId: string; ca
   ];
 
   if (loading) {
-    return <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 8, padding: 40, textAlign: "center", color: "var(--muted-foreground)", fontSize: 14 }}>Φόρτωση…</div>;
+    return <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 8, padding: 40, textAlign: "center", color: "var(--muted-foreground)", fontSize: "var(--fs-14)" }}>Φόρτωση…</div>;
   }
 
   return (
@@ -99,9 +99,9 @@ function AnnouncementExpanded({ a }: { a: AnnouncementRow }) {
     <div style={{ display: "grid", gridTemplateColumns: "1.3fr 1fr", gap: 18, padding: "4px 6px 8px" }}>
       <div>
         <SectionTitle>Κείμενο ανακοίνωσης</SectionTitle>
-        <div style={{ border: "1px solid var(--border)", borderRadius: 8, padding: 14, background: "var(--card)", fontSize: 13, lineHeight: 1.6, color: "var(--foreground)" }}
+        <div style={{ border: "1px solid var(--border)", borderRadius: 8, padding: 14, background: "var(--card)", fontSize: "var(--fs-13)", lineHeight: 1.6, color: "var(--foreground)" }}
           dangerouslySetInnerHTML={{ __html: a.content }} />
-        <div style={{ marginTop: 10, fontSize: 12, color: "var(--muted-foreground)", display: "flex", gap: 14, flexWrap: "wrap" }}>
+        <div style={{ marginTop: 10, fontSize: "var(--fs-12)", color: "var(--muted-foreground)", display: "flex", gap: 14, flexWrap: "wrap" }}>
           <span>Δημοσίευση: <b style={{ color: "var(--foreground)" }}>{fmt(a.publishedAt)}</b></span>
           <span>Ομάδα: <b style={{ color: "var(--foreground)" }}>{AUDIENCE_LABEL[a.audience]}</b></span>
           {a.createdByName && <span>Από: <b style={{ color: "var(--foreground)" }}>{a.createdByName}</b></span>}
@@ -112,8 +112,8 @@ function AnnouncementExpanded({ a }: { a: AnnouncementRow }) {
       <div>
         <SectionTitle>Παραλήπτες — {a.acknowledged}/{a.total} έλαβαν γνώση</SectionTitle>
         <div style={{ border: "1px solid var(--border)", borderRadius: 8, overflow: "hidden" }}>
-          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}>
-            <thead><tr style={{ textAlign: "left", color: "var(--muted-foreground)", fontSize: 11, background: "var(--bg-canvas)" }}>
+          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "var(--fs-12)" }}>
+            <thead><tr style={{ textAlign: "left", color: "var(--muted-foreground)", fontSize: "var(--fs-11)", background: "var(--bg-canvas)" }}>
               <th style={th}>Όνομα</th><th style={th}>Ιδιότητα</th><th style={th}>Κατάσταση</th><th style={th}>IP</th>
             </tr></thead>
             <tbody>
@@ -192,7 +192,7 @@ function CreateModal({ buildingId, onClose, onDone }: { buildingId: string; onCl
         <button onClick={save} disabled={isPending || sent != null} style={btnSave}>{isPending ? <RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> : <RiCheckLine />} Δημοσίευση & αποστολή</button>
       </>}>
       {error && <div style={errBox}>{error}</div>}
-      {sent != null && <div style={{ padding: "8px 12px", borderRadius: 6, background: "#16a34a18", color: "#16a34a", fontSize: 12, marginBottom: 12, fontWeight: 600 }}>Στάλθηκε σε {sent} παραλήπτες ✓</div>}
+      {sent != null && <div style={{ padding: "8px 12px", borderRadius: 6, background: "#16a34a18", color: "#16a34a", fontSize: "var(--fs-12)", marginBottom: 12, fontWeight: 600 }}>Στάλθηκε σε {sent} παραλήπτες ✓</div>}
       <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
         <FormField label="Θέμα" required><FieldInput value={title} onChange={setTitle} placeholder="π.χ. Διακοπή νερού" /></FormField>
         <FormField label="Κείμενο" required>
@@ -212,25 +212,25 @@ function CreateModal({ buildingId, onClose, onDone }: { buildingId: string; onCl
 
         {audience === "CUSTOM" && (
           <div style={{ border: "1px solid var(--border)", borderRadius: 6, maxHeight: 200, overflowY: "auto" }}>
-            {targets.length === 0 && <div style={{ padding: 12, fontSize: 12, color: "var(--muted-foreground)" }}>Δεν υπάρχουν ιδιοκτήτες/ένοικοι.</div>}
+            {targets.length === 0 && <div style={{ padding: 12, fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>Δεν υπάρχουν ιδιοκτήτες/ένοικοι.</div>}
             {targets.map((t) => (
               <label key={t.id} style={{ display: "flex", alignItems: "center", gap: 10, padding: "8px 12px", borderBottom: "1px solid var(--border)", cursor: "pointer" }}>
                 <input type="checkbox" checked={selected.has(t.id)} onChange={() => toggle(t.id)} />
                 <span style={{ flex: 1, minWidth: 0 }}>
-                  <span style={{ display: "block", fontSize: 13, fontWeight: 600, color: "var(--foreground)" }}>{t.name ?? t.email}</span>
-                  <span style={{ display: "block", fontSize: 11, color: "var(--muted-foreground)" }}>{t.email}</span>
+                  <span style={{ display: "block", fontSize: "var(--fs-13)", fontWeight: 600, color: "var(--foreground)" }}>{t.name ?? t.email}</span>
+                  <span style={{ display: "block", fontSize: "var(--fs-11)", color: "var(--muted-foreground)" }}>{t.email}</span>
                 </span>
-                <span style={{ fontSize: 10, fontWeight: 700, color: "var(--muted-foreground)" }}>{t.roles.map((r) => (r === "OWNER" ? "Ιδιοκτήτης" : "Ένοικος")).join(" & ")}</span>
+                <span style={{ fontSize: "var(--fs-10)", fontWeight: 700, color: "var(--muted-foreground)" }}>{t.roles.map((r) => (r === "OWNER" ? "Ιδιοκτήτης" : "Ένοικος")).join(" & ")}</span>
               </label>
             ))}
           </div>
         )}
 
-        <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: "var(--foreground)", cursor: "pointer" }}>
+        <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: "var(--fs-13)", color: "var(--foreground)", cursor: "pointer" }}>
           <input type="checkbox" checked={addToCalendar} onChange={(e) => setAddToCalendar(e.target.checked)} />
           <RiCalendarEventLine /> Προσθήκη στο ημερολόγιο (στην ημ/νία δημοσίευσης)
         </label>
-        <p style={{ fontSize: 11, color: "var(--muted-foreground)", margin: 0 }}>
+        <p style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)", margin: 0 }}>
           Θα σταλεί email σε κάθε παραλήπτη με σύνδεσμο «Έλαβα γνώση». Καταχωρείται η πραγματική IP, η ώρα και το λειτουργικό κατά την επιβεβαίωση.
         </p>
       </div>
@@ -240,13 +240,13 @@ function CreateModal({ buildingId, onClose, onDone }: { buildingId: string; onCl
 }
 
 function SectionTitle({ children }: { children: React.ReactNode }) {
-  return <div style={{ fontSize: 11, fontWeight: 700, color: "var(--muted-foreground)", textTransform: "uppercase", letterSpacing: ".05em", marginBottom: 8 }}>{children}</div>;
+  return <div style={{ fontSize: "var(--fs-11)", fontWeight: 700, color: "var(--muted-foreground)", textTransform: "uppercase", letterSpacing: ".05em", marginBottom: 8 }}>{children}</div>;
 }
 
 const th: React.CSSProperties = { padding: "7px 8px", fontWeight: 600 };
 const td: React.CSSProperties = { padding: "7px 8px", color: "var(--foreground)", verticalAlign: "top" };
-const btn: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 6, border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)", borderRadius: 6, padding: "7px 13px", fontSize: 13, fontWeight: 600, cursor: "pointer" };
+const btn: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 6, border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)", borderRadius: 6, padding: "7px 13px", fontSize: "var(--fs-13)", fontWeight: 600, cursor: "pointer" };
 const btnPrimary: React.CSSProperties = { background: "var(--color-primary)", color: "#fff", borderColor: "var(--color-primary)" };
-const btnCancel: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: 13, color: "var(--foreground)" };
-const btnSave: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: "pointer", fontSize: 13, fontWeight: 600, display: "flex", alignItems: "center", gap: 6 };
-const errBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: 12, marginBottom: 12 };
+const btnCancel: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: "var(--fs-13)", color: "var(--foreground)" };
+const btnSave: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: "pointer", fontSize: "var(--fs-13)", fontWeight: 600, display: "flex", alignItems: "center", gap: 6 };
+const errBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: "var(--fs-12)", marginBottom: 12 };

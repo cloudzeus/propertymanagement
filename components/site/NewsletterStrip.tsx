@@ -55,11 +55,11 @@ export function NewsletterStrip({
   return (
     <DarkPanel className="mt-[60px] flex flex-wrap items-center justify-between gap-[34px] px-8 py-11 sm:px-[46px]">
       <div>
-        <h3 className="text-[24px] font-extrabold tracking-[-.015em] text-white">{heading}</h3>
-        <p className="mt-3 max-w-[420px] text-[14.5px] leading-[1.6] text-[rgba(255,255,255,.6)]">{body}</p>
+        <h3 className="text-[length:var(--fs-24)] font-extrabold tracking-[-.015em] text-white">{heading}</h3>
+        <p className="mt-3 max-w-[420px] text-[length:var(--fs-14-5)] leading-[1.6] text-[rgba(255,255,255,.6)]">{body}</p>
       </div>
       {status === "ok" ? (
-        <p className="text-[14.5px] font-semibold text-[var(--accent)]">{successMessage}</p>
+        <p className="text-[length:var(--fs-14-5)] font-semibold text-[var(--accent)]">{successMessage}</p>
       ) : (
         <form onSubmit={onSubmit} className="flex flex-wrap items-start gap-[9px]">
           <div>
@@ -69,11 +69,11 @@ export function NewsletterStrip({
               required
               placeholder={placeholder}
               aria-label={placeholder}
-              className="min-w-[250px] rounded-[11px] border border-[rgba(255,255,255,.18)] bg-[rgba(255,255,255,.09)] px-4 py-[13px] text-[14.5px] text-white outline-none transition-colors placeholder:text-[rgba(255,255,255,.42)] focus:border-[var(--accent)]"
+              className="min-w-[250px] rounded-[11px] border border-[rgba(255,255,255,.18)] bg-[rgba(255,255,255,.09)] px-4 py-[13px] text-[length:var(--fs-14-5)] text-white outline-none transition-colors placeholder:text-[rgba(255,255,255,.42)] focus:border-[var(--accent)]"
             />
             {/* Amber rather than red — there is no red anywhere in this palette. */}
             {status === "error" && (
-              <p role="alert" className="mt-2 max-w-[250px] text-[12.5px] text-[var(--accent)]">
+              <p role="alert" className="mt-2 max-w-[250px] text-[length:var(--fs-12-5)] text-[var(--accent)]">
                 {errorMessage}
               </p>
             )}

@@ -38,9 +38,9 @@ export function SuppliersClient({ suppliers, categories, caps }: {
       cell: (r) => (
         <div style={{ opacity: r.isActive ? 1 : 0.55 }}>
           <Link href={`/super-admin/suppliers/${r.id}`} style={{ fontWeight: 600, color: "var(--foreground)", textDecoration: "none" }}>{r.name}</Link>
-          {!r.isActive && <RiEyeOffLine title="Ανενεργός" style={{ marginLeft: 6, fontSize: 12, color: "var(--muted-foreground)", verticalAlign: "middle" }} />}
-          {r.emergency24h && <RiAlarmWarningLine title="Έκτακτα 24/7" style={{ marginLeft: 6, fontSize: 12, color: "#c50f1f", verticalAlign: "middle" }} />}
-          <div style={{ fontSize: 11.5, color: "var(--muted-foreground)" }}>{[r.afm ? `ΑΦΜ ${r.afm}` : null, r.code].filter(Boolean).join(" · ")}</div>
+          {!r.isActive && <RiEyeOffLine title="Ανενεργός" style={{ marginLeft: 6, fontSize: "var(--fs-12)", color: "var(--muted-foreground)", verticalAlign: "middle" }} />}
+          {r.emergency24h && <RiAlarmWarningLine title="Έκτακτα 24/7" style={{ marginLeft: 6, fontSize: "var(--fs-12)", color: "#c50f1f", verticalAlign: "middle" }} />}
+          <div style={{ fontSize: "var(--fs-11-5)", color: "var(--muted-foreground)" }}>{[r.afm ? `ΑΦΜ ${r.afm}` : null, r.code].filter(Boolean).join(" · ")}</div>
         </div>
       ) },
     { id: "kind", header: "Είδος", width: 130, accessor: (r) => SUPPLIER_KIND_LABELS[r.kind], cell: (r) => SUPPLIER_KIND_LABELS[r.kind] },
@@ -51,11 +51,11 @@ export function SuppliersClient({ suppliers, categories, caps }: {
         </div>
       ) : <span style={{ color: "var(--muted-foreground)" }}>—</span> },
     { id: "contact", header: "Επικοινωνία", width: 200, accessor: (r) => [r.phone, r.email].filter(Boolean).join(" "),
-      cell: (r) => <div style={{ fontSize: 12.5 }}>{r.phone ?? "—"}<div style={{ color: "var(--muted-foreground)" }}>{r.email ?? ""}</div></div> },
+      cell: (r) => <div style={{ fontSize: "var(--fs-12-5)" }}>{r.phone ?? "—"}<div style={{ color: "var(--muted-foreground)" }}>{r.email ?? ""}</div></div> },
     { id: "city", header: "Πόλη", width: 120, sortKey: "city", accessor: (r) => r.city ?? "", cell: (r) => r.city ?? "—" },
-    { id: "hours", header: "Ωράριο", width: 200, defaultVisible: false, accessor: (r) => formatHoursSummary(r.workingHours), cell: (r) => <span style={{ fontSize: 12 }}>{formatHoursSummary(r.workingHours)}</span> },
+    { id: "hours", header: "Ωράριο", width: 200, defaultVisible: false, accessor: (r) => formatHoursSummary(r.workingHours), cell: (r) => <span style={{ fontSize: "var(--fs-12)" }}>{formatHoursSummary(r.workingHours)}</span> },
     { id: "catalog", header: "Κατάλογος", width: 110, accessor: (r) => r.servicesCount + r.productsCount,
-      cell: (r) => <span style={{ fontSize: 12.5 }}>{r.servicesCount} υπηρ. · {r.productsCount} προϊ.</span> },
+      cell: (r) => <span style={{ fontSize: "var(--fs-12-5)" }}>{r.servicesCount} υπηρ. · {r.productsCount} προϊ.</span> },
     { id: "users", header: "Λογαριασμοί", width: 100, accessor: (r) => r.usersCount,
       cell: (r) => <span style={{ display: "inline-flex", alignItems: "center", gap: 4, fontVariantNumeric: "tabular-nums" }}><RiUserLine style={{ color: "var(--muted-foreground)" }} /> {r.usersCount}</span> },
   ];
@@ -70,14 +70,14 @@ export function SuppliersClient({ suppliers, categories, caps }: {
     <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 18 }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 12, flexWrap: "wrap" }}>
         <div>
-          <h1 style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 22, fontWeight: 800, margin: 0, color: "var(--foreground)" }}>
+          <h1 style={{ display: "flex", alignItems: "center", gap: 10, fontSize: "var(--fs-22)", fontWeight: 800, margin: 0, color: "var(--foreground)" }}>
             <RiTeamLine style={{ color: "var(--color-primary)" }} /> Συνεργάτες & Προμηθευτές
           </h1>
-          <p style={{ margin: "4px 0 0", fontSize: 13, color: "var(--muted-foreground)" }}>
+          <p style={{ margin: "4px 0 0", fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }}>
             Το μητρώο της εταιρίας: όποιος παρέχει υπηρεσίες ή προϊόντα στα κτήρια. Η ανάθεση εργασιών σε συνεργάτη γίνεται μόνο από εδώ (από τη βλάβη).
           </p>
         </div>
-        <Link href="/super-admin/suppliers/catalog" style={{ display: "inline-flex", alignItems: "center", gap: 6, height: 36, padding: "0 12px", border: "1px solid var(--border)", borderRadius: "var(--radius-sm)", fontSize: 13, color: "var(--foreground)", textDecoration: "none", background: "var(--card)" }}>
+        <Link href="/super-admin/suppliers/catalog" style={{ display: "inline-flex", alignItems: "center", gap: 6, height: 36, padding: "0 12px", border: "1px solid var(--border)", borderRadius: "var(--radius-sm)", fontSize: "var(--fs-13)", color: "var(--foreground)", textDecoration: "none", background: "var(--card)" }}>
           <RiPriceTag3Line /> Κατάλογος υπηρεσιών
         </Link>
       </div>
@@ -90,8 +90,8 @@ export function SuppliersClient({ suppliers, categories, caps }: {
           { label: "Έκτακτα 24/7", value: emergency },
         ].map((k) => (
           <div key={k.label} style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius-lg)", padding: "14px 16px" }}>
-            <div style={{ fontSize: 12, color: "var(--muted-foreground)" }}>{k.label}</div>
-            <div style={{ fontSize: 24, fontWeight: 700, color: "var(--foreground)" }}>{k.value}</div>
+            <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>{k.label}</div>
+            <div style={{ fontSize: "var(--fs-24)", fontWeight: 700, color: "var(--foreground)" }}>{k.value}</div>
           </div>
         ))}
       </div>
@@ -126,5 +126,5 @@ export function SuppliersClient({ suppliers, categories, caps }: {
   );
 }
 
-const chip: React.CSSProperties = { fontSize: 11, fontWeight: 600, padding: "2px 7px", borderRadius: 9999, background: "var(--bg-canvas)", border: "1px solid var(--border)", color: "var(--foreground)" };
-const errBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: 12, border: "1px solid #fca5a530" };
+const chip: React.CSSProperties = { fontSize: "var(--fs-11)", fontWeight: 600, padding: "2px 7px", borderRadius: 9999, background: "var(--bg-canvas)", border: "1px solid var(--border)", color: "var(--foreground)" };
+const errBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: "var(--fs-12)", border: "1px solid #fca5a530" };

@@ -23,7 +23,7 @@ const STATUS: Record<string, { label: string; tone: Tone }> = {
 const fmtDateTime = (iso: string) =>
   new Date(iso).toLocaleString("el-GR", { day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" });
 
-const th: React.CSSProperties = { padding: "8px 10px", fontWeight: 600, fontSize: 12, textAlign: "left" };
+const th: React.CSSProperties = { padding: "8px 10px", fontWeight: 600, fontSize: "var(--fs-12)", textAlign: "left" };
 const td: React.CSSProperties = { padding: "10px 10px", verticalAlign: "middle" };
 
 /** Assembly history with status badges; approved/sent minutes open in the decisions modal. */
@@ -32,21 +32,21 @@ export function AssembliesSection({ assemblies }: { assemblies: OccupantData["as
 
   if (assemblies.length === 0) {
     return (
-      <div style={{ background: "var(--card)", border: "1px dashed var(--border-strong)", borderRadius: 12, padding: "36px 20px", textAlign: "center", color: "var(--muted-foreground)", fontSize: 13 }}>
-        <RiGroupLine style={{ fontSize: 30, opacity: 0.35, display: "block", margin: "0 auto 8px" }} />
+      <div style={{ background: "var(--card)", border: "1px dashed var(--border-strong)", borderRadius: 12, padding: "36px 20px", textAlign: "center", color: "var(--muted-foreground)", fontSize: "var(--fs-13)" }}>
+        <RiGroupLine style={{ fontSize: "var(--fs-30)", opacity: 0.35, display: "block", margin: "0 auto 8px" }} />
         Δεν έχουν προγραμματιστεί συνελεύσεις για το κτήριο.
-        <div style={{ marginTop: 6, fontSize: 12.5 }}>Όταν οριστεί γενική συνέλευση, θα εμφανιστεί εδώ μαζί με τις αποφάσεις της.</div>
+        <div style={{ marginTop: 6, fontSize: "var(--fs-12-5)" }}>Όταν οριστεί γενική συνέλευση, θα εμφανιστεί εδώ μαζί με τις αποφάσεις της.</div>
       </div>
     );
   }
 
   return (
     <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 12, padding: 18 }}>
-      <div style={{ fontSize: 13, color: "var(--muted-foreground)", display: "flex", alignItems: "center", gap: 6, marginBottom: 12 }}>
+      <div style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)", display: "flex", alignItems: "center", gap: 6, marginBottom: 12 }}>
         <RiGroupLine /> Γενικές συνελεύσεις · {assemblies.length}
       </div>
       <div style={{ overflowX: "auto" }}>
-        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
+        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "var(--fs-13)" }}>
           <thead>
             <tr style={{ color: "var(--muted-foreground)", borderBottom: "1px solid var(--border-strong)" }}>
               <th style={th}>Ημερομηνία</th>
@@ -71,13 +71,13 @@ export function AssembliesSection({ assemblies }: { assemblies: OccupantData["as
                         style={{
                           display: "inline-flex", alignItems: "center", gap: 6, borderRadius: 6, padding: "6px 12px",
                           border: "1px solid var(--border-strong)", background: "var(--card)", color: "var(--foreground)",
-                          fontSize: 12.5, fontWeight: 700, cursor: "pointer",
+                          fontSize: "var(--fs-12-5)", fontWeight: 700, cursor: "pointer",
                         }}
                       >
                         <RiFileList3Line /> Αποφάσεις
                       </button>
                     ) : (
-                      <span style={{ fontSize: 12, color: "var(--muted-foreground)" }}>—</span>
+                      <span style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>—</span>
                     )}
                   </td>
                 </tr>
@@ -96,12 +96,12 @@ export function AssembliesSection({ assemblies }: { assemblies: OccupantData["as
       >
         {sel && (
           <>
-            <div style={{ fontSize: 12, color: "var(--muted-foreground)", marginBottom: 12 }}>
+            <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)", marginBottom: 12 }}>
               {fmtDateTime(sel.scheduledAt)}
               {sel.approvedAt && ` · Εγκρίθηκαν ${new Date(sel.approvedAt).toLocaleDateString("el-GR")}`}
             </div>
             <div
-              style={{ fontSize: 13.5, lineHeight: 1.65, color: "var(--foreground)" }}
+              style={{ fontSize: "var(--fs-13-5)", lineHeight: 1.65, color: "var(--foreground)" }}
               dangerouslySetInnerHTML={{ __html: sel.minutesFinal ?? "" }}
             />
           </>

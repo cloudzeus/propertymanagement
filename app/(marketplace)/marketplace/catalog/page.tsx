@@ -18,8 +18,8 @@ export default async function SupplierCatalogPage() {
   return (
     <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 16, maxWidth: 1100 }}>
       <div>
-        <h1 style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 22, fontWeight: 700, color: "var(--foreground)", margin: 0 }}><RiPriceTag3Line style={{ color: "var(--color-primary)" }} /> Υπηρεσίες & προϊόντα</h1>
-        <p style={{ margin: "4px 0 0", fontSize: 13, color: "var(--muted-foreground)" }}>
+        <h1 style={{ display: "flex", alignItems: "center", gap: 10, fontSize: "var(--fs-22)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}><RiPriceTag3Line style={{ color: "var(--color-primary)" }} /> Υπηρεσίες & προϊόντα</h1>
+        <p style={{ margin: "4px 0 0", fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }}>
           Ο κατάλογός σας με καθαρές τιμές. Χρησιμοποιείται ως βάση όταν σας ζητηθεί προσφορά από την εταιρεία διαχείρισης.
         </p>
       </div>

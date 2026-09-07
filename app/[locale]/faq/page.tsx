@@ -68,8 +68,8 @@ export default async function FAQPage() {
 
         <Card radius={20} className="mt-11 flex flex-wrap items-center justify-between gap-[30px] px-10 py-9">
           <div>
-            <h3 className="text-[24px] font-extrabold tracking-[-.015em]">{content.help.heading}</h3>
-            <p className="mt-3 max-w-[480px] text-[15px] leading-[1.6] text-[var(--mut)]">{content.help.body}</p>
+            <h3 className="text-[length:var(--fs-24)] font-extrabold tracking-[-.015em]">{content.help.heading}</h3>
+            <p className="mt-3 max-w-[480px] text-[length:var(--fs-15)] leading-[1.6] text-[var(--mut)]">{content.help.body}</p>
           </div>
           <BtnLink href={content.help.cta.href}>{content.help.cta.label}</BtnLink>
         </Card>

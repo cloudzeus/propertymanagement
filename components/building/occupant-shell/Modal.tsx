@@ -116,7 +116,7 @@ export function ModalShell({ open, onClose, ariaLabel, title, footer, maxWidth =
             display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12,
             padding: "15px 20px", borderBottom: "1px solid var(--border)", flex: "none",
           }}>
-            <div style={{ fontSize: 15.5, fontWeight: 800, color: "var(--foreground)", minWidth: 0 }}>{title}</div>
+            <div style={{ fontSize: "var(--fs-15-5)", fontWeight: 800, color: "var(--foreground)", minWidth: 0 }}>{title}</div>
             <button
               ref={closeRef}
               type="button"

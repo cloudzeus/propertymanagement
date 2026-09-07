@@ -102,8 +102,8 @@ export function PositionsTab({
       width: 220,
       cell: (r) => (
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <RiBriefcaseLine style={{ fontSize: 16, color: "var(--color-primary)", flexShrink: 0 }} />
-          <span style={{ fontSize: 13, fontWeight: 600, color: "var(--foreground)" }}>{r.title}</span>
+          <RiBriefcaseLine style={{ fontSize: "var(--fs-16)", color: "var(--color-primary)", flexShrink: 0 }} />
+          <span style={{ fontSize: "var(--fs-13)", fontWeight: 600, color: "var(--foreground)" }}>{r.title}</span>
         </div>
       ),
     },
@@ -113,23 +113,23 @@ export function PositionsTab({
       width: 110,
       cell: (r) => r.level ? (
         <span style={{
-          fontSize: 11, fontWeight: 600, padding: "2px 8px", borderRadius: 20,
+          fontSize: "var(--fs-11)", fontWeight: 600, padding: "2px 8px", borderRadius: 20,
           background: `${levelColor[r.level] || "#6b7280"}18`,
           color: levelColor[r.level] || "#6b7280",
         }}>{r.level}</span>
-      ) : <span style={{ color: "var(--muted-foreground)", fontSize: 12 }}>—</span>,
+      ) : <span style={{ color: "var(--muted-foreground)", fontSize: "var(--fs-12)" }}>—</span>,
     },
     {
       id: "department",
       header: "Τμήμα",
       width: 180,
-      cell: (r) => <span style={{ fontSize: 13, color: "var(--muted-foreground)" }}>{r.department?.name ?? "—"}</span>,
+      cell: (r) => <span style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }}>{r.department?.name ?? "—"}</span>,
     },
     {
       id: "employees",
       header: "Υπάλληλοι",
       width: 100,
-      cell: (r) => <span style={{ fontSize: 13, color: "var(--muted-foreground)" }}>{r._count.employees}</span>,
+      cell: (r) => <span style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }}>{r._count.employees}</span>,
     },
     {
       id: "status",
@@ -137,7 +137,7 @@ export function PositionsTab({
       width: 110,
       cell: (r) => (
         <span style={{
-          fontSize: 11, fontWeight: 600, padding: "2px 8px", borderRadius: 20,
+          fontSize: "var(--fs-11)", fontWeight: 600, padding: "2px 8px", borderRadius: 20,
           background: r.isActive ? "#16a34a18" : "#6b728018",
           color: r.isActive ? "#16a34a" : "#6b7280",
         }}>{r.isActive ? "Ενεργή" : "Ανενεργή"}</span>
@@ -162,7 +162,7 @@ export function PositionsTab({
         storageKey="company-positions"
         searchPlaceholder="Αναζήτηση θέσης…"
         expandedContent={(r) => (
-          <div style={{ padding: "12px 16px", background: "var(--bg-canvas)", fontSize: 13 }}>
+          <div style={{ padding: "12px 16px", background: "var(--bg-canvas)", fontSize: "var(--fs-13)" }}>
             {r.description
               ? <p style={{ margin: 0, color: "var(--foreground)" }}>{r.description}</p>
               : <p style={{ margin: 0, color: "var(--muted-foreground)" }}>Χωρίς περιγραφή</p>
@@ -180,8 +180,8 @@ export function PositionsTab({
         title={editing ? "Επεξεργασία Θέσης" : "Νέα Θέση Εργασίας"}
         footer={
           <>
-            <button onClick={() => setModalOpen(false)} style={{ padding: "7px 16px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: 13, color: "var(--foreground)" }}>Ακύρωση</button>
-            <button onClick={handleSave} disabled={isPending} style={{ padding: "7px 16px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: isPending ? "wait" : "pointer", fontSize: 13, fontWeight: 600, display: "flex", alignItems: "center", gap: 6 }}>
+            <button onClick={() => setModalOpen(false)} style={{ padding: "7px 16px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: "var(--fs-13)", color: "var(--foreground)" }}>Ακύρωση</button>
+            <button onClick={handleSave} disabled={isPending} style={{ padding: "7px 16px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: isPending ? "wait" : "pointer", fontSize: "var(--fs-13)", fontWeight: 600, display: "flex", alignItems: "center", gap: 6 }}>
               {isPending ? <RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> : <RiCheckLine />}
               Αποθήκευση
             </button>
@@ -189,7 +189,7 @@ export function PositionsTab({
         }
       >
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-          {error && <div style={{ padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: 12, border: "1px solid #fca5a530" }}>{error}</div>}
+          {error && <div style={{ padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: "var(--fs-12)", border: "1px solid #fca5a530" }}>{error}</div>}
           <FormField label="Τίτλος θέσης" required>
             <FieldInput value={form.title} onChange={(v) => setForm((p) => ({ ...p, title: v }))} placeholder="π.χ. Υπεύθυνος Συντήρησης" />
           </FormField>
@@ -216,7 +216,7 @@ export function PositionsTab({
           </FormField>
           {editing && (
             <FormField label="Κατάσταση">
-              <label style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer", fontSize: 13 }}>
+              <label style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer", fontSize: "var(--fs-13)" }}>
                 <input type="checkbox" checked={form.isActive} onChange={(e) => setForm((p) => ({ ...p, isActive: e.target.checked }))} />
                 Ενεργή θέση
               </label>

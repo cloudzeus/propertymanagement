@@ -23,7 +23,7 @@ type Article = {
 function Badge({ label, color }: { label: string; color: string }) {
   return (
     <span style={{
-      fontSize: 11, fontWeight: 600, padding: "2px 8px", borderRadius: 20,
+      fontSize: "var(--fs-11)", fontWeight: 600, padding: "2px 8px", borderRadius: 20,
       background: `color-mix(in srgb, ${color} 12%, transparent)`, color,
     }}>{label}</span>
   );
@@ -119,15 +119,15 @@ export function ArticlesClient({ initial }: { initial: Article[] }) {
       accessor: (a) => a.i18n?.title?.el ?? a.slug,
       cell: (a) => (
         <div>
-          <div style={{ fontSize: 13, fontWeight: 600, color: "var(--foreground)" }}>{a.i18n?.title?.el ?? a.slug}</div>
-          <div style={{ fontSize: 11, color: "var(--muted-foreground)", fontFamily: "monospace" }}>{a.slug}</div>
+          <div style={{ fontSize: "var(--fs-13)", fontWeight: 600, color: "var(--foreground)" }}>{a.i18n?.title?.el ?? a.slug}</div>
+          <div style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)", fontFamily: "monospace" }}>{a.slug}</div>
         </div>
       ),
     },
     {
       id: "author", header: "Συγγραφέας", sortKey: "author", width: 160,
       accessor: (a) => a.author?.name ?? "—",
-      cell: (a) => <span style={{ fontSize: 13, color: "var(--foreground)" }}>{a.author?.name ?? "—"}</span>,
+      cell: (a) => <span style={{ fontSize: "var(--fs-13)", color: "var(--foreground)" }}>{a.author?.name ?? "—"}</span>,
     },
     {
       id: "status", header: "Κατάσταση", sortKey: "status", width: 140,
@@ -137,12 +137,12 @@ export function ArticlesClient({ initial }: { initial: Article[] }) {
     {
       id: "publishedAt", header: "Ημερομηνία", sortKey: "publishedAt", width: 130,
       accessor: (a) => a.publishedAt ?? "",
-      cell: (a) => <span style={{ fontSize: 13, color: "var(--muted-foreground)" }}>{fmtDate(a.publishedAt)}</span>,
+      cell: (a) => <span style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }}>{fmtDate(a.publishedAt)}</span>,
     },
     {
       id: "tags", header: "Tags", width: 200,
       accessor: (a) => a.tags.join(", "),
-      cell: (a) => <span style={{ fontSize: 12, color: "var(--muted-foreground)" }}>{a.tags.join(", ") || "—"}</span>,
+      cell: (a) => <span style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>{a.tags.join(", ") || "—"}</span>,
     },
   ];
 
@@ -167,7 +167,7 @@ export function ArticlesClient({ initial }: { initial: Article[] }) {
           <CmsField label="Πλήθος">
             <CmsInput type="number" min={1} max={8} value={count} onChange={(e) => setCount(Number(e.target.value))} />
           </CmsField>
-          {aiError && <p style={{ color: "var(--destructive)", fontSize: 13, margin: 0 }}>{aiError}</p>}
+          {aiError && <p style={{ color: "var(--destructive)", fontSize: "var(--fs-13)", margin: 0 }}>{aiError}</p>}
           <div>
             <CmsButton variant="secondary" loading={aiBusy} disabled={aiBusy} onClick={runSuggest} icon={<RiSparkling2Line size={15} />}>
               {aiBusy ? "Δημιουργία…" : "Δημιουργία προτάσεων"}
@@ -177,10 +177,10 @@ export function ArticlesClient({ initial }: { initial: Article[] }) {
             {topics.map((t, i) => (
               <div key={i} style={{ border: "1px solid var(--border)", borderRadius: "var(--radius)", background: "var(--card)", padding: 12 }}>
                 <div style={{ fontWeight: 700, color: "var(--foreground)" }}>{t.title}</div>
-                {t.angle && <div style={{ fontSize: 13, color: "var(--muted-foreground)", marginTop: 4 }}>{t.angle}</div>}
+                {t.angle && <div style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)", marginTop: 4 }}>{t.angle}</div>}
                 <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginTop: 8 }}>
                   {t.tags.map((tag) => (
-                    <span key={tag} style={{ fontSize: 11, padding: "2px 8px", borderRadius: 999, background: "var(--paper)", border: "1px solid var(--border)", color: "var(--muted-foreground)" }}>{tag}</span>
+                    <span key={tag} style={{ fontSize: "var(--fs-11)", padding: "2px 8px", borderRadius: 999, background: "var(--paper)", border: "1px solid var(--border)", color: "var(--muted-foreground)" }}>{tag}</span>
                   ))}
                 </div>
                 <div style={{ marginTop: 10 }}>

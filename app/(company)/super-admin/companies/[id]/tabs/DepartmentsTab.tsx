@@ -101,9 +101,9 @@ export function DepartmentsTab({
             background: "var(--color-primary)18",
             display: "flex", alignItems: "center", justifyContent: "center",
           }}>
-            <RiBuildingLine style={{ fontSize: 14, color: "var(--color-primary)" }} />
+            <RiBuildingLine style={{ fontSize: "var(--fs-14)", color: "var(--color-primary)" }} />
           </div>
-          <span style={{ fontSize: 13, fontWeight: 600, color: "var(--foreground)" }}>{r.name}</span>
+          <span style={{ fontSize: "var(--fs-13)", fontWeight: 600, color: "var(--foreground)" }}>{r.name}</span>
         </div>
       ),
     },
@@ -113,7 +113,7 @@ export function DepartmentsTab({
       width: 110,
       cell: (r) => (
         <span style={{
-          fontSize: 11, fontWeight: 600, padding: "2px 8px", borderRadius: 20,
+          fontSize: "var(--fs-11)", fontWeight: 600, padding: "2px 8px", borderRadius: 20,
           background: r.isActive ? "#16a34a18" : "#6b728018",
           color: r.isActive ? "#16a34a" : "#6b7280",
         }}>
@@ -125,20 +125,20 @@ export function DepartmentsTab({
       id: "positions",
       header: "Θέσεις",
       width: 90,
-      cell: (r) => <span style={{ fontSize: 13, color: "var(--muted-foreground)" }}>{r._count.positions}</span>,
+      cell: (r) => <span style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }}>{r._count.positions}</span>,
     },
     {
       id: "employees",
       header: "Υπάλληλοι",
       width: 100,
-      cell: (r) => <span style={{ fontSize: 13, color: "var(--muted-foreground)" }}>{r._count.employees}</span>,
+      cell: (r) => <span style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }}>{r._count.employees}</span>,
     },
     {
       id: "createdAt",
       header: "Δημιουργία",
       width: 120,
       defaultVisible: false,
-      cell: (r) => <span style={{ fontSize: 12, color: "var(--muted-foreground)" }}>{new Date(r.createdAt).toLocaleDateString("el-GR")}</span>,
+      cell: (r) => <span style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>{new Date(r.createdAt).toLocaleDateString("el-GR")}</span>,
     },
   ];
 
@@ -159,7 +159,7 @@ export function DepartmentsTab({
         storageKey="company-departments"
         searchPlaceholder="Αναζήτηση τμήματος…"
         expandedContent={(r) => (
-          <div style={{ padding: "12px 16px", background: "var(--bg-canvas)", fontSize: 13 }}>
+          <div style={{ padding: "12px 16px", background: "var(--bg-canvas)", fontSize: "var(--fs-13)" }}>
             {r.description
               ? <p style={{ margin: 0, color: "var(--foreground)" }}>{r.description}</p>
               : <p style={{ margin: 0, color: "var(--muted-foreground)" }}>Χωρίς περιγραφή</p>
@@ -179,12 +179,12 @@ export function DepartmentsTab({
           <>
             <button onClick={() => setModalOpen(false)} style={{
               padding: "7px 16px", borderRadius: 6, border: "1px solid var(--border)",
-              background: "var(--card)", cursor: "pointer", fontSize: 13, color: "var(--foreground)",
+              background: "var(--card)", cursor: "pointer", fontSize: "var(--fs-13)", color: "var(--foreground)",
             }}>Ακύρωση</button>
             <button onClick={handleSave} disabled={isPending} style={{
               padding: "7px 16px", borderRadius: 6, border: "none",
               background: "var(--color-primary)", color: "#fff",
-              cursor: isPending ? "wait" : "pointer", fontSize: 13, fontWeight: 600,
+              cursor: isPending ? "wait" : "pointer", fontSize: "var(--fs-13)", fontWeight: 600,
               display: "flex", alignItems: "center", gap: 6,
             }}>
               {isPending ? <RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> : <RiCheckLine />}
@@ -195,7 +195,7 @@ export function DepartmentsTab({
       >
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           {error && (
-            <div style={{ padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: 12, border: "1px solid #fca5a530" }}>
+            <div style={{ padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: "var(--fs-12)", border: "1px solid #fca5a530" }}>
               {error}
             </div>
           )}
@@ -207,7 +207,7 @@ export function DepartmentsTab({
           </FormField>
           {editing && (
             <FormField label="Κατάσταση">
-              <label style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer", fontSize: 13 }}>
+              <label style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer", fontSize: "var(--fs-13)" }}>
                 <input
                   type="checkbox"
                   checked={form.isActive}

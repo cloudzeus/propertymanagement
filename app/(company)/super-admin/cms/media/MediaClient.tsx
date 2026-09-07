@@ -173,7 +173,7 @@ export function MediaClient({ initial }: { initial: MediaAsset[] }) {
                   style={{
                     padding: "7px 12px",
                     borderRadius: 6,
-                    fontSize: 12,
+                    fontSize: "var(--fs-12)",
                     fontWeight: 600,
                     cursor: "pointer",
                     border: "1px solid var(--border)",
@@ -196,7 +196,7 @@ export function MediaClient({ initial }: { initial: MediaAsset[] }) {
               borderRadius: 6,
               background: "color-mix(in srgb, var(--color-danger) 10%, white)",
               border: "1px solid var(--color-danger)",
-              fontSize: 12,
+              fontSize: "var(--fs-12)",
               color: "var(--color-danger)",
             }}
           >
@@ -215,7 +215,7 @@ export function MediaClient({ initial }: { initial: MediaAsset[] }) {
               padding: "48px 0",
               textAlign: "center",
               color: "var(--muted-foreground)",
-              fontSize: 13,
+              fontSize: "var(--fs-13)",
             }}
           >
             Δεν υπάρχουν αρχεία.
@@ -284,7 +284,7 @@ export function MediaClient({ initial }: { initial: MediaAsset[] }) {
                 <div style={{ padding: "8px 10px" }}>
                   <div
                     style={{
-                      fontSize: 12,
+                      fontSize: "var(--fs-12)",
                       fontWeight: 600,
                       color: "var(--foreground)",
                       whiteSpace: "nowrap",
@@ -301,7 +301,7 @@ export function MediaClient({ initial }: { initial: MediaAsset[] }) {
                       alignItems: "center",
                       justifyContent: "space-between",
                       gap: 6,
-                      fontSize: 11,
+                      fontSize: "var(--fs-11)",
                       color: "var(--muted-foreground)",
                     }}
                   >
@@ -312,7 +312,7 @@ export function MediaClient({ initial }: { initial: MediaAsset[] }) {
                         borderRadius: 999,
                         background: "var(--muted)",
                         fontWeight: 600,
-                        fontSize: 10,
+                        fontSize: "var(--fs-10)",
                       }}
                     >
                       {m.type}
@@ -411,7 +411,7 @@ export function MediaClient({ initial }: { initial: MediaAsset[] }) {
                 display: "flex",
                 flexWrap: "wrap",
                 gap: 16,
-                fontSize: 12,
+                fontSize: "var(--fs-12)",
                 color: "var(--muted-foreground)",
               }}
             >

@@ -24,13 +24,13 @@ export async function NewsSection({ data }: { data: NewsData }) {
       <div className="mx-auto max-w-[1200px] px-5 sm:px-7 py-[84px]">
         {data.heading && (
           <Reveal>
-            <h2 className="text-[32px] font-extrabold tracking-[-0.02em] text-[var(--foreground)] md:text-[46px]">
+            <h2 className="text-[length:var(--fs-32)] font-extrabold tracking-[-0.02em] text-[var(--foreground)] md:text-[length:var(--fs-46)]">
               {data.heading}
             </h2>
           </Reveal>
         )}
         {data.intro && (
-          <p className="mt-3 max-w-2xl text-[17px] text-[var(--muted-foreground)]">{data.intro}</p>
+          <p className="mt-3 max-w-2xl text-[length:var(--fs-17)] text-[var(--muted-foreground)]">{data.intro}</p>
         )}
         <Reveal stagger className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
           {rows.map((row) => {
@@ -50,9 +50,9 @@ export async function NewsSection({ data }: { data: NewsData }) {
                   ) : null}
                 </div>
                 <div className="p-5">
-                  <h3 className="text-[18px] font-bold text-[var(--foreground)]">{a.title}</h3>
+                  <h3 className="text-[length:var(--fs-18)] font-bold text-[var(--foreground)]">{a.title}</h3>
                   {a.excerpt && (
-                    <p className="mt-2 line-clamp-2 text-[14.5px] text-[var(--muted-foreground)]">
+                    <p className="mt-2 line-clamp-2 text-[length:var(--fs-14-5)] text-[var(--muted-foreground)]">
                       {a.excerpt}
                     </p>
                   )}

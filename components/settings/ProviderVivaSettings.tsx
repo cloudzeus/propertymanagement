@@ -15,7 +15,7 @@ import {
 import { saveProviderViva, type ProviderVivaEditView } from "@/app/actions/provider-viva";
 
 const labelStyle: React.CSSProperties = {
-  fontSize: 12,
+  fontSize: "var(--fs-12)",
   fontWeight: 600,
   color: "var(--muted-foreground)",
   display: "block",
@@ -28,7 +28,7 @@ const inputStyle: React.CSSProperties = {
   padding: "8px 12px",
   border: "1px solid var(--border)",
   borderRadius: 6,
-  fontSize: 13,
+  fontSize: "var(--fs-13)",
   color: "var(--foreground)",
   background: "var(--bg-canvas)",
   outline: "none",
@@ -69,7 +69,7 @@ function SecretField({
               padding: "8px 12px",
               border: "1px solid var(--border)",
               borderRadius: 6,
-              fontSize: 13,
+              fontSize: "var(--fs-13)",
               fontFamily: "monospace",
               color: "var(--muted-foreground)",
               background: "var(--card)",
@@ -89,7 +89,7 @@ function SecretField({
               border: "1px solid var(--border)",
               background: "var(--card)",
               cursor: "pointer",
-              fontSize: 12,
+              fontSize: "var(--fs-12)",
               fontWeight: 600,
               color: "var(--foreground)",
             }}
@@ -194,10 +194,10 @@ export function ProviderVivaSettings({ initial }: { initial: ProviderVivaEditVie
         }}
       >
         <SourceIcon size={18} style={{ color: sourceColor }} />
-        <div style={{ fontSize: 13, color: "var(--foreground)" }}>
+        <div style={{ fontSize: "var(--fs-13)", color: "var(--foreground)" }}>
           Ενεργή πηγή ρύθμισης: <strong style={{ color: sourceColor }}>{sourceLabel}</strong>
         </div>
-        <span style={{ marginLeft: "auto", fontSize: 11, color: "var(--muted-foreground)" }}>
+        <span style={{ marginLeft: "auto", fontSize: "var(--fs-11)", color: "var(--muted-foreground)" }}>
           DB-first · fallback σε ENV
         </span>
       </div>
@@ -206,13 +206,13 @@ export function ProviderVivaSettings({ initial }: { initial: ProviderVivaEditVie
       <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius)", padding: 24, display: "flex", flexDirection: "column", gap: 18 }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <div>
-            <h2 style={{ fontSize: 15, fontWeight: 600, color: "var(--foreground)", margin: 0 }}>Λογαριασμός Viva (Provider)</h2>
-            <p style={{ fontSize: 12, color: "var(--muted-foreground)", margin: "4px 0 0" }}>
+            <h2 style={{ fontSize: "var(--fs-15)", fontWeight: 600, color: "var(--foreground)", margin: 0 }}>Λογαριασμός Viva (Provider)</h2>
+            <p style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)", margin: "4px 0 0" }}>
               Ο λογαριασμός Viva της πλατφόρμας για είσπραξη πληρωμών από χρήστες (π.χ. top-up πορτοφολιού).
             </p>
           </div>
           <label style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer", flexShrink: 0 }}>
-            <span style={{ fontSize: 12, fontWeight: 600, color: "var(--muted-foreground)" }}>Ενεργό</span>
+            <span style={{ fontSize: "var(--fs-12)", fontWeight: 600, color: "var(--muted-foreground)" }}>Ενεργό</span>
             <input type="checkbox" checked={enabled} onChange={(e) => setEnabled(e.target.checked)} style={{ width: 18, height: 18, accentColor: "var(--color-primary)", cursor: "pointer" }} />
           </label>
         </div>
@@ -256,13 +256,13 @@ export function ProviderVivaSettings({ initial }: { initial: ProviderVivaEditVie
           </div>
         </div>
 
-        <p style={{ fontSize: 11, color: "var(--muted-foreground)", margin: 0, display: "flex", alignItems: "center", gap: 6 }}>
+        <p style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)", margin: 0, display: "flex", alignItems: "center", gap: 6 }}>
           <RiBankCardLine size={13} /> Τα μυστικά αποθηκεύονται κρυπτογραφημένα (AES-256-GCM) και δεν εμφανίζονται ποτέ ολόκληρα. Αφήστε ένα πεδίο μυστικού κενό σε λειτουργία «Αλλαγή» για διαγραφή.
         </p>
       </div>
 
       {error && (
-        <div style={{ fontSize: 13, color: "var(--color-danger)", display: "flex", alignItems: "center", gap: 6 }}>
+        <div style={{ fontSize: "var(--fs-13)", color: "var(--color-danger)", display: "flex", alignItems: "center", gap: 6 }}>
           <RiErrorWarningLine size={15} /> {error}
         </div>
       )}
@@ -281,7 +281,7 @@ export function ProviderVivaSettings({ initial }: { initial: ProviderVivaEditVie
             color: "#fff",
             border: "none",
             cursor: isPending ? "not-allowed" : "pointer",
-            fontSize: 13,
+            fontSize: "var(--fs-13)",
             fontWeight: 600,
             opacity: isPending ? 0.7 : 1,
             transition: "background 0.3s",

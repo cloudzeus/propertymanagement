@@ -47,9 +47,9 @@ export default async function PortalRequestsPage() {
   return (
     <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 18, maxWidth: 860 }}>
       <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-        <h1 style={{ fontSize: 22, fontWeight: 700, color: "var(--foreground)", margin: 0, flex: 1 }}>Αιτήματα βλαβών</h1>
+        <h1 style={{ fontSize: "var(--fs-22)", fontWeight: 700, color: "var(--foreground)", margin: 0, flex: 1 }}>Αιτήματα βλαβών</h1>
         {buildings.length > 0 && (
-          <Link href="/portal/requests/new" style={{ display: "inline-flex", alignItems: "center", gap: 6, height: 36, padding: "0 14px", background: "var(--primary)", color: "var(--primary-foreground)", borderRadius: "var(--radius-sm)", fontSize: 13, fontWeight: 600, textDecoration: "none" }}>
+          <Link href="/portal/requests/new" style={{ display: "inline-flex", alignItems: "center", gap: 6, height: 36, padding: "0 14px", background: "var(--primary)", color: "var(--primary-foreground)", borderRadius: "var(--radius-sm)", fontSize: "var(--fs-13)", fontWeight: 600, textDecoration: "none" }}>
             <RiCameraLine /> Δήλωση με φωτογραφία
           </Link>
         )}
@@ -68,12 +68,12 @@ export default async function PortalRequestsPage() {
                 background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius-lg)",
               }}>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ fontSize: 14, fontWeight: 600, color: "var(--foreground)" }}>{r.title}</div>
-                  <div style={{ fontSize: 12, color: "var(--muted-foreground)" }}>
+                  <div style={{ fontSize: "var(--fs-14)", fontWeight: 600, color: "var(--foreground)" }}>{r.title}</div>
+                  <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>
                     {r.building.name} · {r.categoryRef?.name ?? r.category} · {fmt(r.createdAt)}
                   </div>
                 </div>
-                <span style={{ padding: "3px 10px", borderRadius: 999, fontSize: 12, fontWeight: 600, color, background: `${color}18`, border: `1px solid ${color}40`, whiteSpace: "nowrap" }}>
+                <span style={{ padding: "3px 10px", borderRadius: 999, fontSize: "var(--fs-12)", fontWeight: 600, color, background: `${color}18`, border: `1px solid ${color}40`, whiteSpace: "nowrap" }}>
                   {STATUS_LABELS[r.status as FaultStatus] ?? r.status}
                 </span>
               </Link>

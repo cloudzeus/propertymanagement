@@ -45,7 +45,7 @@ export function MinutesEditor({ assemblyId, initialHtml, readonly }: { assemblyI
   return (
     <div style={cardStyle}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12, marginBottom: 14 }}>
-        <h2 style={{ fontSize: 15, fontWeight: 700, color: "var(--foreground)", margin: 0 }}>Πρακτικά</h2>
+        <h2 style={{ fontSize: "var(--fs-15)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}>Πρακτικά</h2>
         {!readonly && (
           <div style={{ display: "flex", gap: 8 }}>
             <button type="button" onClick={handleRegenerate} disabled={pending} style={btnStyle(pending)}>
@@ -59,18 +59,18 @@ export function MinutesEditor({ assemblyId, initialHtml, readonly }: { assemblyI
       </div>
 
       {sent && (
-        <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, fontWeight: 600, color: "#16a34a", marginBottom: 12 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: "var(--fs-13)", fontWeight: 600, color: "#16a34a", marginBottom: 12 }}>
           <RiCheckLine /> Τα πρακτικά εγκρίθηκαν και απεστάλησαν στους συμμετέχοντες.
         </div>
       )}
       {error && (
-        <div style={{ fontSize: 13, color: "#dc2626", marginBottom: 12 }}>{error}</div>
+        <div style={{ fontSize: "var(--fs-13)", color: "#dc2626", marginBottom: 12 }}>{error}</div>
       )}
 
       {readonly ? (
         <div
           className="rte-body"
-          style={{ fontSize: 13, lineHeight: 1.6, color: "var(--foreground)" }}
+          style={{ fontSize: "var(--fs-13)", lineHeight: 1.6, color: "var(--foreground)" }}
           dangerouslySetInnerHTML={{ __html: html }}
         />
       ) : (
@@ -86,7 +86,7 @@ function btnStyle(disabled: boolean, primary = false): React.CSSProperties {
     display: "inline-flex",
     alignItems: "center",
     gap: 6,
-    fontSize: 13,
+    fontSize: "var(--fs-13)",
     fontWeight: 600,
     padding: "7px 12px",
     borderRadius: 8,

@@ -112,7 +112,7 @@ export default async function BlogPage({
               <Link
                 key={c.slug || "all"}
                 href={c.slug ? `/blog?category=${encodeURIComponent(c.slug)}` : "/blog"}
-                className={`flex min-h-[44px] items-center rounded-full px-4 text-[13.5px] transition-colors ${
+                className={`flex min-h-[44px] items-center rounded-full px-4 text-[length:var(--fs-13-5)] transition-colors ${
                   on
                     ? "bg-[var(--ink-chip)] font-bold text-white"
                     : "border border-[var(--line)] bg-white font-semibold text-[var(--mut)] hover:text-[var(--txt)]"
@@ -142,11 +142,11 @@ export default async function BlogPage({
                 </div>
                 <div className="flex flex-col justify-center px-7 py-10 sm:px-[46px] sm:py-11">
                   {featured.category ? <div><Tag>{featured.category}</Tag></div> : null}
-                  <h2 className="mb-3.5 mt-5 text-[26px] font-extrabold leading-[1.05] tracking-[-.02em] sm:text-[33px]">
+                  <h2 className="mb-3.5 mt-5 text-[length:var(--fs-26)] font-extrabold leading-[1.05] tracking-[-.02em] sm:text-[length:var(--fs-33)]">
                     {featured.title}
                   </h2>
                   {featured.excerpt ? (
-                    <p className="text-[16px] leading-[1.62] text-[var(--mut)]">{featured.excerpt}</p>
+                    <p className="text-[length:var(--fs-16)] leading-[1.62] text-[var(--mut)]">{featured.excerpt}</p>
                   ) : null}
                   <div className="mt-[18px]">
                     <MetaRow items={[featured.author, featured.date, featured.readTime]} />
@@ -178,7 +178,7 @@ export default async function BlogPage({
               <div className="mt-4 flex justify-center">
                 <Link
                   href={page - 1 === 1 ? `/blog${active ? `?category=${encodeURIComponent(active)}` : ""}` : `/blog?page=${page - 1}${catQuery}`}
-                  className="text-[13.5px] text-[var(--mut)] hover:text-[var(--txt)]"
+                  className="text-[length:var(--fs-13-5)] text-[var(--mut)] hover:text-[var(--txt)]"
                 >
                   {lang === "el" ? "← Προηγούμενη σελίδα" : "← Previous page"}
                 </Link>

@@ -12,11 +12,11 @@ export function ManagedBadge({ managed, size = "md" }: { managed: boolean; size?
       style={{
         display: "inline-flex", alignItems: "center", gap: 4,
         padding: sm ? "1px 8px" : "3px 10px", borderRadius: 999,
-        fontSize: sm ? 11 : 12, fontWeight: 700, whiteSpace: "nowrap",
+        fontSize: sm ? "var(--fs-11)" : "var(--fs-12)", fontWeight: 700, whiteSpace: "nowrap",
         color, background: `${color}15`, border: `1px solid ${color}40`,
       }}
     >
-      <Icon style={{ fontSize: sm ? 12 : 14 }} /> {label}
+      <Icon style={{ fontSize: sm ? "var(--fs-12)" : "var(--fs-14)" }} /> {label}
     </span>
   );
 }

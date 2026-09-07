@@ -44,11 +44,11 @@ export default async function NewRequestPage() {
 
   return (
     <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-      <Link href={back} style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 13, color: "var(--muted-foreground)", textDecoration: "none" }}>
+      <Link href={back} style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: "var(--fs-13)", color: "var(--muted-foreground)", textDecoration: "none" }}>
         <RiArrowLeftLine /> Πίσω
       </Link>
       {buildings.length === 0 ? (
-        <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 12, padding: 28, textAlign: "center", fontSize: 13.5, color: "var(--muted-foreground)" }}>
+        <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 12, padding: 28, textAlign: "center", fontSize: "var(--fs-13-5)", color: "var(--muted-foreground)" }}>
           Δεν έχετε συνδεθεί με κάποιο κτήριο ακόμη — επικοινωνήστε με την εταιρεία διαχείρισης.
         </div>
       ) : (

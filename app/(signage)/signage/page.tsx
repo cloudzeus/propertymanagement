@@ -17,14 +17,14 @@ function ImpersonationEscape() {
     <div style={{
       position: "fixed", top: 0, left: 0, right: 0, zIndex: 1000,
       display: "flex", justifyContent: "space-between", alignItems: "center",
-      padding: "6px 14px", fontSize: 13, background: "#5b5c58", color: "#fff",
+      padding: "6px 14px", fontSize: "var(--fs-13)", background: "#5b5c58", color: "#fff",
       cursor: "default",
     }}>
       <span>Προβολή ως θεατής</span>
       <form action={stopImpersonation}>
         <button type="submit" style={{
           background: "rgba(255,255,255,.16)", border: "1px solid rgba(255,255,255,.35)",
-          color: "#fff", fontSize: 12, fontWeight: 600, padding: "4px 12px", borderRadius: 999,
+          color: "#fff", fontSize: "var(--fs-12)", fontWeight: 600, padding: "4px 12px", borderRadius: 999,
           cursor: "pointer",
         }}>Έξοδος</button>
       </form>
@@ -68,7 +68,7 @@ export default async function SignagePage({
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            fontSize: 28,
+            fontSize: "var(--fs-28)",
             opacity: 0.7,
           }}
         >

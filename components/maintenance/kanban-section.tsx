@@ -70,14 +70,14 @@ export async function MaintenanceKanbanSection() {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
       <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-        <RiToolsLine style={{ fontSize: 18, color: "var(--color-primary)" }} />
-        <h2 style={{ fontSize: 16, fontWeight: 700, color: "var(--foreground)", margin: 0, flex: 1 }}>Βλάβες & Εργασίες</h2>
-        <Link href="/admin/maintenance" style={{ display: "inline-flex", alignItems: "center", gap: 4, fontSize: 12.5, fontWeight: 600, color: "var(--color-primary)", textDecoration: "none" }}>
+        <RiToolsLine style={{ fontSize: "var(--fs-18)", color: "var(--color-primary)" }} />
+        <h2 style={{ fontSize: "var(--fs-16)", fontWeight: 700, color: "var(--foreground)", margin: 0, flex: 1 }}>Βλάβες & Εργασίες</h2>
+        <Link href="/admin/maintenance" style={{ display: "inline-flex", alignItems: "center", gap: 4, fontSize: "var(--fs-12-5)", fontWeight: 600, color: "var(--color-primary)", textDecoration: "none" }}>
           Όλες οι βλάβες <RiArrowRightLine />
         </Link>
       </div>
       {items.length === 0 ? (
-        <div style={{ padding: "18px 16px", border: "1px dashed var(--border)", borderRadius: "var(--radius-lg)", fontSize: 13, color: "var(--muted-foreground)" }}>
+        <div style={{ padding: "18px 16px", border: "1px dashed var(--border)", borderRadius: "var(--radius-lg)", fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }}>
           Δεν υπάρχουν ενεργές βλάβες.
         </div>
       ) : (

@@ -30,7 +30,7 @@ const UNIT_TYPE: Record<string, string> = {
 
 const control: React.CSSProperties = {
   border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)",
-  borderRadius: 6, padding: "7px 10px", fontSize: 13, fontWeight: 600, cursor: "pointer",
+  borderRadius: 6, padding: "7px 10px", fontSize: "var(--fs-13)", fontWeight: 600, cursor: "pointer",
 };
 
 /**
@@ -65,14 +65,14 @@ export function StatementView({ building, statementsByUnit, managerName }: Props
       {/* controls — screen only */}
       <div className="no-print" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, flexWrap: "wrap" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
-          <div style={{ fontSize: 15, fontWeight: 800, color: "var(--foreground)" }}>
+          <div style={{ fontSize: "var(--fs-15)", fontWeight: 800, color: "var(--foreground)" }}>
             {UNIT_TYPE[selected.unitType] ?? selected.unitType} {selected.unitNumber}
           </div>
-          {unitLine && <div style={{ fontSize: 12.5, color: "var(--muted-foreground)" }}>{unitLine}</div>}
+          {unitLine && <div style={{ fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)" }}>{unitLine}</div>}
         </div>
         {statementsByUnit.length > 1 && (
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-            <label htmlFor="stmt-unit" style={{ fontSize: 13, fontWeight: 600, color: "var(--muted-foreground)" }}>Διαμέρισμα</label>
+            <label htmlFor="stmt-unit" style={{ fontSize: "var(--fs-13)", fontWeight: 600, color: "var(--muted-foreground)" }}>Διαμέρισμα</label>
             <select id="stmt-unit" value={selected.unitId} onChange={(e) => setUnit(e.target.value)} style={control}>
               {statementsByUnit.map((u) => (
                 <option key={u.unitId} value={u.unitId}>
@@ -112,8 +112,8 @@ function UnitStatements({ unit, building, managerName }: {
 
   if (unit.months.length === 0) {
     return (
-      <div style={{ border: "1px dashed var(--border-strong)", borderRadius: 10, padding: "36px 20px", textAlign: "center", color: "var(--muted-foreground)", fontSize: 13, background: "var(--card)" }}>
-        <RiWallet3Line style={{ fontSize: 30, opacity: 0.35, display: "block", margin: "0 auto 8px" }} />
+      <div style={{ border: "1px dashed var(--border-strong)", borderRadius: 10, padding: "36px 20px", textAlign: "center", color: "var(--muted-foreground)", fontSize: "var(--fs-13)", background: "var(--card)" }}>
+        <RiWallet3Line style={{ fontSize: "var(--fs-30)", opacity: 0.35, display: "block", margin: "0 auto 8px" }} />
         Δεν έχουν εκδοθεί κοινόχρηστα για το διαμέρισμα.
       </div>
     );
@@ -148,13 +148,13 @@ function UnitStatements({ unit, building, managerName }: {
               }}
             >
               {isOpen
-                ? <RiArrowDownSLine style={{ fontSize: 18, color: "var(--muted-foreground)", flexShrink: 0 }} />
-                : <RiArrowRightSLine style={{ fontSize: 18, color: "var(--muted-foreground)", flexShrink: 0 }} />}
-              <span style={{ fontSize: 14, fontWeight: 700 }}>{monthLabel(m.month)}</span>
+                ? <RiArrowDownSLine style={{ fontSize: "var(--fs-18)", color: "var(--muted-foreground)", flexShrink: 0 }} />
+                : <RiArrowRightSLine style={{ fontSize: "var(--fs-18)", color: "var(--muted-foreground)", flexShrink: 0 }} />}
+              <span style={{ fontSize: "var(--fs-14)", fontWeight: 700 }}>{monthLabel(m.month)}</span>
               <span style={{ marginLeft: "auto", display: "inline-flex", alignItems: "center", gap: 12, flexWrap: "wrap", justifyContent: "flex-end" }}>
-                <span style={{ fontSize: 12.5, color: "var(--muted-foreground)" }}>
+                <span style={{ fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)" }}>
                   Το μερίδιό μου:{" "}
-                  <b style={{ fontSize: 15, fontWeight: 800, color: "var(--color-primary)", fontVariantNumeric: "tabular-nums", whiteSpace: "nowrap" }}>
+                  <b style={{ fontSize: "var(--fs-15)", fontWeight: 800, color: "var(--color-primary)", fontVariantNumeric: "tabular-nums", whiteSpace: "nowrap" }}>
                     {eur(m.myPayable)}
                   </b>
                 </span>
@@ -175,9 +175,9 @@ function UnitStatements({ unit, building, managerName }: {
                   <button type="button" onClick={() => doPrint(m.month)} style={{
                     display: "inline-flex", alignItems: "center", gap: 6, borderRadius: 6, padding: "8px 15px",
                     border: "1px solid var(--border-strong)", background: "var(--card)", color: "var(--foreground)",
-                    fontSize: 13, fontWeight: 700, cursor: "pointer",
+                    fontSize: "var(--fs-13)", fontWeight: 700, cursor: "pointer",
                   }}>
-                    <RiPrinterLine style={{ fontSize: 16 }} /> Εκτύπωση
+                    <RiPrinterLine style={{ fontSize: "var(--fs-16)" }} /> Εκτύπωση
                   </button>
                 </div>
               </div>

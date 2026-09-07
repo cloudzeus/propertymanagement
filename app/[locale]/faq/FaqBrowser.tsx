@@ -38,12 +38,12 @@ export function FaqBrowser({ categories }: { categories: FaqCategory[] }) {
               type="button"
               onClick={() => setActiveSlug(c.slug)}
               aria-current={on ? "true" : undefined}
-              className={`flex min-h-[44px] items-center justify-between gap-2.5 rounded-[11px] px-4 py-[13px] text-left text-[14.5px] transition-colors ${
+              className={`flex min-h-[44px] items-center justify-between gap-2.5 rounded-[11px] px-4 py-[13px] text-left text-[length:var(--fs-14-5)] transition-colors ${
                 on ? "bg-[var(--ink-chip)] font-bold text-white" : "font-semibold text-[var(--mut)] hover:text-[var(--txt)]"
               }`}
             >
               <span>{c.label}</span>
-              <span className="tnum text-[11.5px] opacity-55">{c.items.length}</span>
+              <span className="tnum text-[length:var(--fs-11-5)] opacity-55">{c.items.length}</span>
             </button>
           );
         })}
@@ -67,7 +67,7 @@ export function FaqBrowser({ categories }: { categories: FaqCategory[] }) {
                 onClick={() => setOpenId(open ? "" : item.id)}
                 aria-expanded={open}
                 aria-controls={panelId}
-                className="flex w-full items-start justify-between gap-5 px-7 py-6 text-left text-[16.5px] font-bold leading-[1.4] tracking-[-.008em]"
+                className="flex w-full items-start justify-between gap-5 px-7 py-6 text-left text-[length:var(--fs-16-5)] font-bold leading-[1.4] tracking-[-.008em]"
               >
                 <span>{item.question}</span>
                 <span
@@ -92,7 +92,7 @@ export function FaqBrowser({ categories }: { categories: FaqCategory[] }) {
                 style={{ gridTemplateRows: open ? "1fr" : "0fr" }}
               >
                 <div className="overflow-hidden">
-                  <p className="max-w-[720px] whitespace-pre-line px-7 pb-[26px] text-[15.5px] leading-[1.68] text-[var(--mut)]">
+                  <p className="max-w-[720px] whitespace-pre-line px-7 pb-[26px] text-[length:var(--fs-15-5)] leading-[1.68] text-[var(--mut)]">
                     {item.answer}
                   </p>
                 </div>

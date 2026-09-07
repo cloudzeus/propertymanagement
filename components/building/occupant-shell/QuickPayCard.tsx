@@ -19,7 +19,7 @@ const card: React.CSSProperties = {
   borderRadius: "var(--radius-lg)", boxShadow: "var(--shadow-card)", padding: 18,
 };
 const cardCaps: React.CSSProperties = {
-  fontSize: 11.5, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".04em", color: "var(--muted-foreground)",
+  fontSize: "var(--fs-11-5)", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".04em", color: "var(--muted-foreground)",
 };
 
 /**
@@ -69,12 +69,12 @@ export function QuickPayCard({ buildingId, perUnit, totalCents, enabled }: Quick
   return (
     <div style={card}>
       <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-        <RiSecurePaymentLine style={{ fontSize: 17, color: "var(--color-primary)" }} />
+        <RiSecurePaymentLine style={{ fontSize: "var(--fs-17)", color: "var(--color-primary)" }} />
         <span style={cardCaps}>Γρήγορη πληρωμή κοινοχρήστων</span>
       </div>
 
       {owing.length === 0 ? (
-        <div style={{ fontSize: 13.5, color: "var(--muted-foreground)", marginTop: 12 }}>
+        <div style={{ fontSize: "var(--fs-13-5)", color: "var(--muted-foreground)", marginTop: 12 }}>
           Δεν υπάρχουν εκκρεμείς οφειλές.
         </div>
       ) : (
@@ -82,8 +82,8 @@ export function QuickPayCard({ buildingId, perUnit, totalCents, enabled }: Quick
           {owing.map((u) => (
             <div key={u.unitId} style={payRow}>
               <div style={{ display: "flex", flexDirection: "column", gap: 2, minWidth: 0 }}>
-                <span style={{ fontSize: 13.5, fontWeight: 700, color: "var(--foreground)" }}>Μονάδα {u.unitNumber}</span>
-                <span style={{ fontSize: 15, fontWeight: 800, fontVariantNumeric: "tabular-nums", color: "var(--foreground)" }}>
+                <span style={{ fontSize: "var(--fs-13-5)", fontWeight: 700, color: "var(--foreground)" }}>Μονάδα {u.unitNumber}</span>
+                <span style={{ fontSize: "var(--fs-15)", fontWeight: 800, fontVariantNumeric: "tabular-nums", color: "var(--foreground)" }}>
                   {eurCents(u.amountCents)}
                 </span>
               </div>
@@ -103,7 +103,7 @@ export function QuickPayCard({ buildingId, perUnit, totalCents, enabled }: Quick
               title={!enabled ? "Σύντομα διαθέσιμο" : undefined}
               style={payAllBtn(enabled)}
             >
-              <RiBankCardLine style={{ fontSize: 17 }} />
+              <RiBankCardLine style={{ fontSize: "var(--fs-17)" }} />
               {busy === "all" ? "Μεταφορά…" : `Πληρωμή όλων ${eurCents(totalCents)}`}
             </button>
           )}
@@ -114,20 +114,20 @@ export function QuickPayCard({ buildingId, perUnit, totalCents, enabled }: Quick
         <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginTop: 12 }}>
           {settled.map((u) => (
             <span key={u.unitId} style={settledChip}>
-              <RiCheckLine style={{ fontSize: 13 }} /> Μονάδα {u.unitNumber} · Εξοφλημένο
+              <RiCheckLine style={{ fontSize: "var(--fs-13)" }} /> Μονάδα {u.unitNumber} · Εξοφλημένο
             </span>
           ))}
         </div>
       )}
 
       {!enabled && owing.length > 0 && (
-        <div style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 12, color: "var(--muted-foreground)", marginTop: 12 }}>
+        <div style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: "var(--fs-12)", color: "var(--muted-foreground)", marginTop: 12 }}>
           <RiTimeLine /> Οι online πληρωμές θα είναι σύντομα διαθέσιμες.
         </div>
       )}
 
       {error && (
-        <div style={{ fontSize: 12.5, color: "var(--color-danger, #b42318)", marginTop: 10 }}>{error}</div>
+        <div style={{ fontSize: "var(--fs-12-5)", color: "var(--color-danger, #b42318)", marginTop: 10 }}>{error}</div>
       )}
     </div>
   );
@@ -142,7 +142,7 @@ function PayButton({ disabled, busy, onClick }: { disabled: boolean; busy: boole
       title={disabled ? "Σύντομα διαθέσιμο" : undefined}
       style={payBtn(!disabled)}
     >
-      <RiBankCardLine style={{ fontSize: 16 }} />
+      <RiBankCardLine style={{ fontSize: "var(--fs-16)" }} />
       {busy ? "Μεταφορά…" : "Πληρωμή με Viva"}
     </button>
   );
@@ -158,7 +158,7 @@ const payBtn = (active: boolean): React.CSSProperties => ({
   border: `1px solid ${active ? "var(--color-primary)" : "var(--border)"}`,
   background: active ? "var(--color-primary)" : "var(--bg-muted, var(--bg-canvas))",
   color: active ? "#fff" : "var(--muted-foreground)",
-  fontSize: 13, fontWeight: 700, cursor: active ? "pointer" : "not-allowed", whiteSpace: "nowrap",
+  fontSize: "var(--fs-13)", fontWeight: 700, cursor: active ? "pointer" : "not-allowed", whiteSpace: "nowrap",
 });
 
 const payAllBtn = (active: boolean): React.CSSProperties => ({
@@ -166,12 +166,12 @@ const payAllBtn = (active: boolean): React.CSSProperties => ({
   border: `1px solid ${active ? "var(--color-primary)" : "var(--border)"}`,
   background: active ? "var(--color-primary)" : "var(--bg-muted, var(--bg-canvas))",
   color: active ? "#fff" : "var(--muted-foreground)",
-  fontSize: 13.5, fontWeight: 800, fontVariantNumeric: "tabular-nums",
+  fontSize: "var(--fs-13-5)", fontWeight: 800, fontVariantNumeric: "tabular-nums",
   cursor: active ? "pointer" : "not-allowed", width: "100%",
 });
 
 const settledChip: React.CSSProperties = {
   display: "inline-flex", alignItems: "center", gap: 4, padding: "3px 9px", borderRadius: 999,
   background: "color-mix(in srgb, var(--color-success, #12805c) 12%, transparent)",
-  color: "var(--color-success, #12805c)", fontSize: 11.5, fontWeight: 700,
+  color: "var(--color-success, #12805c)", fontSize: "var(--fs-11-5)", fontWeight: 700,
 };

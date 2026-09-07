@@ -98,7 +98,7 @@ export function ContactPageForm({ initial }: { initial: unknown }) {
                   <select
                     value={item.icon ?? "mail"}
                     onChange={(e) => patch({ icon: e.target.value })}
-                    style={{ width: "100%", padding: "8px 12px", border: "1px solid var(--border)", borderRadius: 6, fontSize: 13, background: "var(--bg-canvas)", color: "var(--foreground)" }}
+                    style={{ width: "100%", padding: "8px 12px", border: "1px solid var(--border)", borderRadius: 6, fontSize: "var(--fs-13)", background: "var(--bg-canvas)", color: "var(--foreground)" }}
                   >
                     {ICON_OPTIONS.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
                   </select>

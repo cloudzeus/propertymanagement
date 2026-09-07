@@ -39,7 +39,7 @@ export default async function PortalFilesPage() {
 
   return (
     <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 18, maxWidth: 900 }}>
-      <h1 style={{ fontSize: 22, fontWeight: 700, color: "var(--foreground)", margin: 0 }}>Αρχεία</h1>
+      <h1 style={{ fontSize: "var(--fs-22)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}>Αρχεία</h1>
       <FilesList groups={groups} />
     </div>
   );

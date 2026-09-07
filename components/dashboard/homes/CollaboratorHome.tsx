@@ -45,8 +45,8 @@ export async function CollaboratorHome({ supplierId, supplierName, isSupplierAdm
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
       <div>
-        <h1 style={{ fontSize: 22, fontWeight: 700, color: "var(--foreground)", margin: 0 }}>{supplierName ?? "Συνεργάτης"}</h1>
-        <p style={{ fontSize: 13, color: "var(--muted-foreground)", marginTop: 4 }}>Αναθέσεις από την εταιρεία διαχείρισης και η επιχείρησή σας</p>
+        <h1 style={{ fontSize: "var(--fs-22)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}>{supplierName ?? "Συνεργάτης"}</h1>
+        <p style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)", marginTop: 4 }}>Αναθέσεις από την εταιρεία διαχείρισης και η επιχείρησή σας</p>
       </div>
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
@@ -59,11 +59,11 @@ export async function CollaboratorHome({ supplierId, supplierName, isSupplierAdm
           return (
             <Link key={card.label} href={previewMode ? "#" : card.href} style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius)", padding: "20px 24px", display: "flex", flexDirection: "column", gap: 8, textDecoration: "none" }}>
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                <span style={{ fontSize: 13, color: "var(--muted-foreground)", fontWeight: 500 }}>{card.label}</span>
-                <Icon style={{ fontSize: 20, color: card.color, opacity: 0.8 }} />
+                <span style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)", fontWeight: 500 }}>{card.label}</span>
+                <Icon style={{ fontSize: "var(--fs-20)", color: card.color, opacity: 0.8 }} />
               </div>
-              <span style={{ fontSize: 28, fontWeight: 700, color: "var(--foreground)", lineHeight: 1 }}>{card.value}</span>
-              <span style={{ fontSize: 12, color: "var(--muted-foreground)" }}>{card.sub}</span>
+              <span style={{ fontSize: "var(--fs-28)", fontWeight: 700, color: "var(--foreground)", lineHeight: 1 }}>{card.value}</span>
+              <span style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>{card.sub}</span>
             </Link>
           );
         })}
@@ -71,12 +71,12 @@ export async function CollaboratorHome({ supplierId, supplierName, isSupplierAdm
 
       {todo.length > 0 && (
         <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius)", padding: 18 }}>
-          <div style={{ fontSize: 13, fontWeight: 700, color: "var(--foreground)", marginBottom: 8 }}>Ολοκληρώστε το προφίλ σας</div>
+          <div style={{ fontSize: "var(--fs-13)", fontWeight: 700, color: "var(--foreground)", marginBottom: 8 }}>Ολοκληρώστε το προφίλ σας</div>
           <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
             {todo.map((t) => {
               const Icon = t.icon;
               return (
-                <Link key={t.label} href={previewMode ? "#" : t.href} style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 13, color: "var(--foreground)", textDecoration: "none", padding: "8px 12px", background: "var(--bg-canvas)", borderRadius: 6 }}>
+                <Link key={t.label} href={previewMode ? "#" : t.href} style={{ display: "flex", alignItems: "center", gap: 10, fontSize: "var(--fs-13)", color: "var(--foreground)", textDecoration: "none", padding: "8px 12px", background: "var(--bg-canvas)", borderRadius: 6 }}>
                   <Icon style={{ color: "var(--color-primary)" }} /> <span style={{ flex: 1 }}>{t.label}</span> <RiArrowRightLine style={{ color: "var(--muted-foreground)" }} />
                 </Link>
               );
@@ -87,14 +87,14 @@ export async function CollaboratorHome({ supplierId, supplierName, isSupplierAdm
 
       <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius)", padding: 24 }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
-          <h2 style={{ fontSize: 15, fontWeight: 600, color: "var(--foreground)", margin: 0 }}>Ανοιχτές αναθέσεις</h2>
-          <Link href={previewMode ? "#" : "/marketplace/requests"} style={{ fontSize: 12, color: "var(--color-primary)", display: "flex", alignItems: "center", gap: 4, textDecoration: "none" }}>
+          <h2 style={{ fontSize: "var(--fs-15)", fontWeight: 600, color: "var(--foreground)", margin: 0 }}>Ανοιχτές αναθέσεις</h2>
+          <Link href={previewMode ? "#" : "/marketplace/requests"} style={{ fontSize: "var(--fs-12)", color: "var(--color-primary)", display: "flex", alignItems: "center", gap: 4, textDecoration: "none" }}>
             Όλες <RiArrowRightLine />
           </Link>
         </div>
         {tasks.length === 0 ? (
-          <div style={{ padding: "32px 0", textAlign: "center", color: "var(--muted-foreground)", fontSize: 13 }}>
-            <RiCheckboxCircleLine style={{ fontSize: 32, opacity: 0.4, display: "block", margin: "0 auto 8px", color: "var(--color-success)" }} />
+          <div style={{ padding: "32px 0", textAlign: "center", color: "var(--muted-foreground)", fontSize: "var(--fs-13)" }}>
+            <RiCheckboxCircleLine style={{ fontSize: "var(--fs-32)", opacity: 0.4, display: "block", margin: "0 auto 8px", color: "var(--color-success)" }} />
             Δεν υπάρχουν ανοιχτές αναθέσεις
           </div>
         ) : (
@@ -103,15 +103,15 @@ export async function CollaboratorHome({ supplierId, supplierName, isSupplierAdm
               const color = STATUS_COLORS[t.status as FaultStatus] ?? "#6b7280";
               return (
                 <Link key={t.id} href={previewMode ? "#" : `/marketplace/requests/${t.id}`} style={{ display: "flex", alignItems: "center", gap: 12, padding: "10px 14px", background: "var(--bg-canvas)", borderRadius: 6, textDecoration: "none" }}>
-                  <RiAlertLine style={{ fontSize: 18, color, flexShrink: 0 }} />
+                  <RiAlertLine style={{ fontSize: "var(--fs-18)", color, flexShrink: 0 }} />
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontSize: 14, fontWeight: 500, color: "var(--foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{t.title}</div>
-                    <div style={{ fontSize: 12, color: "var(--muted-foreground)" }}>
+                    <div style={{ fontSize: "var(--fs-14)", fontWeight: 500, color: "var(--foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{t.title}</div>
+                    <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>
                       {t.building.name}{t.building.city ? ` · ${t.building.city}` : ""} · {STATUS_LABELS[t.status as FaultStatus] ?? t.status}
                       {t.scheduledDate ? ` · Ραντεβού ${t.scheduledDate.toLocaleString("el-GR", { dateStyle: "short", timeStyle: "short" })}` : ""}
                     </div>
                   </div>
-                  <span style={{ fontSize: 11, fontWeight: 600, padding: "2px 8px", borderRadius: 20, flexShrink: 0, background: `${color}18`, color }}>
+                  <span style={{ fontSize: "var(--fs-11)", fontWeight: 600, padding: "2px 8px", borderRadius: 20, flexShrink: 0, background: `${color}18`, color }}>
                     {PRIORITY_LABELS[t.priority as keyof typeof PRIORITY_LABELS] ?? t.priority}
                   </span>
                 </Link>

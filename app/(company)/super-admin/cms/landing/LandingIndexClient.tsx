@@ -68,19 +68,19 @@ export function LandingIndexClient({ initial }: { initial: Row[] }) {
               )}
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                  <span style={{ fontWeight: 700, color: "var(--foreground)", fontSize: 14.5 }}>{meta?.label ?? r.type}</span>
-                  <code style={{ fontSize: 10.5, color: "var(--muted-foreground)", background: "var(--paper)", border: "1px solid var(--border)", borderRadius: 5, padding: "1px 6px" }}>{r.type}</code>
+                  <span style={{ fontWeight: 700, color: "var(--foreground)", fontSize: "var(--fs-14-5)" }}>{meta?.label ?? r.type}</span>
+                  <code style={{ fontSize: "var(--fs-10-5)", color: "var(--muted-foreground)", background: "var(--paper)", border: "1px solid var(--border)", borderRadius: 5, padding: "1px 6px" }}>{r.type}</code>
                   {chrome && (
-                    <span style={{ fontSize: 11, color: "var(--muted-foreground)" }}>· σε όλες τις σελίδες</span>
+                    <span style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)" }}>· σε όλες τις σελίδες</span>
                   )}
                 </div>
-                <div style={{ fontSize: 12.5, color: "var(--muted-foreground)", marginTop: 2, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                <div style={{ fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)", marginTop: 2, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                   {meta?.description ?? ""}
                 </div>
               </div>
               <label
                 onClick={(e) => e.stopPropagation()}
-                style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 13, color: "var(--muted-foreground)", whiteSpace: "nowrap" }}
+                style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: "var(--fs-13)", color: "var(--muted-foreground)", whiteSpace: "nowrap" }}
               >
                 <input type="checkbox" checked={r.enabled} onChange={() => toggle(r.id)} /> Ενεργό
               </label>

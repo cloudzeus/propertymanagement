@@ -56,13 +56,13 @@ export default async function ManagerPropertyDetailPage({ params }: Props) {
             color: "var(--muted-foreground)", textDecoration: "none",
           }}
         >
-          <RiArrowLeftLine style={{ fontSize: 16 }} />
+          <RiArrowLeftLine style={{ fontSize: "var(--fs-16)" }} />
         </Link>
         <div>
-          <h1 style={{ fontSize: 20, fontWeight: 700, color: "var(--foreground)", margin: 0 }}>
+          <h1 style={{ fontSize: "var(--fs-20)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}>
             {property.name}
           </h1>
-          <p style={{ fontSize: 12, color: "var(--muted-foreground)", marginTop: 2 }}>
+          <p style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)", marginTop: 2 }}>
             {property.address}, {property.city} {property.postalCode}
           </p>
         </div>
@@ -81,9 +81,9 @@ export default async function ManagerPropertyDetailPage({ params }: Props) {
             borderRadius: 8, padding: "12px 14px",
             display: "flex", flexDirection: "column", gap: 4,
           }}>
-            <Icon style={{ fontSize: 16, color: "var(--color-primary)" }} />
-            <span style={{ fontSize: 20, fontWeight: 700, color: "var(--foreground)" }}>{value}</span>
-            <span style={{ fontSize: 11, color: "var(--muted-foreground)" }}>{label}</span>
+            <Icon style={{ fontSize: "var(--fs-16)", color: "var(--color-primary)" }} />
+            <span style={{ fontSize: "var(--fs-20)", fontWeight: 700, color: "var(--foreground)" }}>{value}</span>
+            <span style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)" }}>{label}</span>
           </div>
         ))}
       </div>
@@ -95,8 +95,8 @@ export default async function ManagerPropertyDetailPage({ params }: Props) {
           borderRadius: 10, padding: 20, display: "flex", flexDirection: "column", gap: 16,
         }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-            <RiMapPin2Line style={{ fontSize: 18, color: "var(--color-primary)" }} />
-            <h2 style={{ fontSize: 15, fontWeight: 700, color: "var(--foreground)", margin: 0 }}>
+            <RiMapPin2Line style={{ fontSize: "var(--fs-18)", color: "var(--color-primary)" }} />
+            <h2 style={{ fontSize: "var(--fs-15)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}>
               Τοποθεσία
             </h2>
           </div>
@@ -114,15 +114,15 @@ export default async function ManagerPropertyDetailPage({ params }: Props) {
             background: "var(--card)", border: "1px solid var(--border)",
             borderRadius: 10, padding: 14,
           }}>
-            <h3 style={{ fontSize: 13, fontWeight: 700, color: "var(--foreground)", margin: "0 0 10px" }}>
+            <h3 style={{ fontSize: "var(--fs-13)", fontWeight: 700, color: "var(--foreground)", margin: "0 0 10px" }}>
               Πρόσφατα αιτήματα
             </h3>
             {property.maintenanceRequests.length === 0
-              ? <p style={{ fontSize: 12, color: "var(--muted-foreground)" }}>Κανένα</p>
+              ? <p style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>Κανένα</p>
               : property.maintenanceRequests.map((req) => (
                 <div key={req.id} style={{
                   padding: "7px 9px", borderRadius: 5, background: "var(--bg-canvas)",
-                  fontSize: 12, marginBottom: 6,
+                  fontSize: "var(--fs-12)", marginBottom: 6,
                 }}>
                   <div style={{ fontWeight: 600, color: "var(--foreground)" }}>{req.title}</div>
                   <div style={{ color: "var(--muted-foreground)" }}>{req.reportedBy?.name}</div>
@@ -136,13 +136,13 @@ export default async function ManagerPropertyDetailPage({ params }: Props) {
             background: "var(--card)", border: "1px solid var(--border)",
             borderRadius: 10, padding: 14,
           }}>
-            <h3 style={{ fontSize: 13, fontWeight: 700, color: "var(--foreground)", margin: "0 0 10px" }}>
+            <h3 style={{ fontSize: "var(--fs-13)", fontWeight: 700, color: "var(--foreground)", margin: "0 0 10px" }}>
               Διαμερίσματα
             </h3>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 5 }}>
               {property.units.map((unit) => (
                 <div key={unit.id} style={{
-                  padding: "3px 7px", borderRadius: 4, fontSize: 11, fontWeight: 600,
+                  padding: "3px 7px", borderRadius: 4, fontSize: "var(--fs-11)", fontWeight: 600,
                   background: unit.residentId ? "#16a34a18" : "var(--bg-canvas)",
                   color: unit.residentId ? "#16a34a" : "var(--muted-foreground)",
                   border: `1px solid ${unit.residentId ? "#16a34a30" : "var(--border)"}`,

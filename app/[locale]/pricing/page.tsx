@@ -85,8 +85,8 @@ export default async function PricingPage() {
       <Wrap className="mt-[18px]">
         <Card radius={20} className="flex flex-wrap items-center justify-between gap-[30px] px-[34px] py-8">
           <div>
-            <h3 className="text-[24px] font-extrabold tracking-[-.015em]">{content.enterprise.heading}</h3>
-            <p className="mt-3 max-w-[620px] text-[15px] leading-[1.6] text-[var(--mut)]">
+            <h3 className="text-[length:var(--fs-24)] font-extrabold tracking-[-.015em]">{content.enterprise.heading}</h3>
+            <p className="mt-3 max-w-[620px] text-[length:var(--fs-15)] leading-[1.6] text-[var(--mut)]">
               {content.enterprise.body}
             </p>
           </div>
@@ -105,8 +105,8 @@ export default async function PricingPage() {
               key={item.title}
               className="rounded-[14px] border border-[var(--line2)] bg-[var(--paper)] p-5"
             >
-              <div className="mb-1.5 text-[14.5px] font-bold">{item.title}</div>
-              <p className="text-[13px] leading-[1.5] text-[var(--mut)]">{item.body}</p>
+              <div className="mb-1.5 text-[length:var(--fs-14-5)] font-bold">{item.title}</div>
+              <p className="text-[length:var(--fs-13)] leading-[1.5] text-[var(--mut)]">{item.body}</p>
             </div>
           ))}
         </div>
@@ -116,21 +116,21 @@ export default async function PricingPage() {
       <section className="mt-[88px] bg-[var(--section-alt)] py-[88px] lg:py-24">
         <Wrap>
           <Kicker>{content.comparison.kicker}</Kicker>
-          <h2 className="mt-[14px] text-[32px] font-extrabold leading-[1.05] tracking-[-.02em] sm:text-[40px]">
+          <h2 className="mt-[14px] text-[length:var(--fs-32)] font-extrabold leading-[1.05] tracking-[-.02em] sm:text-[length:var(--fs-40)]">
             {content.comparison.heading}
           </h2>
           {/* Horizontal scroll rather than three-line cells (handoff 05 §5) */}
           <div className="mt-11 -mx-5 overflow-x-auto px-5 sm:-mx-7 sm:px-7">
-            <table className="w-full min-w-[620px] border-collapse text-[13px] sm:text-[14.5px]">
+            <table className="w-full min-w-[620px] border-collapse text-[length:var(--fs-13)] sm:text-[length:var(--fs-14-5)]">
               <thead>
                 <tr>
-                  <th className="u-caps border-b border-[var(--line)] px-2.5 py-3 text-left text-[12px] font-bold tracking-[.1em] text-[var(--mut2)] sm:px-[18px] sm:py-4">
+                  <th className="u-caps border-b border-[var(--line)] px-2.5 py-3 text-left text-[length:var(--fs-12)] font-bold tracking-[.1em] text-[var(--mut2)] sm:px-[18px] sm:py-4">
                     &nbsp;
                   </th>
                   {content.comparison.columns.map((col) => (
                     <th
                       key={col}
-                      className="u-caps w-[110px] border-b border-[var(--line)] px-2.5 py-3 text-center text-[12px] font-bold tracking-[.1em] text-[var(--mut2)] sm:w-[150px] sm:px-[18px] sm:py-4"
+                      className="u-caps w-[110px] border-b border-[var(--line)] px-2.5 py-3 text-center text-[length:var(--fs-12)] font-bold tracking-[.1em] text-[var(--mut2)] sm:w-[150px] sm:px-[18px] sm:py-4"
                     >
                       {col}
                     </th>
@@ -169,10 +169,10 @@ export default async function PricingPage() {
       <Wrap className="py-[72px] pb-5">
         <DarkPanel radius={20} className="flex flex-wrap items-center justify-between gap-[30px] px-[34px] py-8">
           <div>
-            <h3 className="text-[24px] font-extrabold tracking-[-.015em] text-white">
+            <h3 className="text-[length:var(--fs-24)] font-extrabold tracking-[-.015em] text-white">
               {content.calculatorStrip.heading}
             </h3>
-            <p className="mt-3 max-w-[560px] text-[15px] leading-[1.6] text-[rgba(255,255,255,.62)]">
+            <p className="mt-3 max-w-[560px] text-[length:var(--fs-15)] leading-[1.6] text-[rgba(255,255,255,.62)]">
               {content.calculatorStrip.body}
             </p>
           </div>

@@ -77,7 +77,7 @@ export function FilesPanel({ buildingId, files, can }: { buildingId: string; fil
   return (
     <div>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, marginBottom: 14, flexWrap: "wrap" }}>
-        <div style={{ fontSize: 13, color: "var(--muted-foreground)", display: "flex", alignItems: "center", gap: 6 }}>
+        <div style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)", display: "flex", alignItems: "center", gap: 6 }}>
           <RiFolderLine /> {files.length} αρχεία
         </div>
         {can.manageFiles && (
@@ -105,7 +105,7 @@ export function FilesPanel({ buildingId, files, can }: { buildingId: string; fil
             <button key={c.key} onClick={() => setCat(c.key)} style={{
               ...btn, ...(active ? btnPrimary : {}),
             }}>
-              <Icon style={{ fontSize: 15 }} /> {c.label} <span style={{ opacity: 0.7 }}>{count}</span>
+              <Icon style={{ fontSize: "var(--fs-15)" }} /> {c.label} <span style={{ opacity: 0.7 }}>{count}</span>
             </button>
           );
         })}
@@ -114,13 +114,13 @@ export function FilesPanel({ buildingId, files, can }: { buildingId: string; fil
       {visible.length === 0 ? (
         can.manageFiles ? (
           <div onClick={() => inputRef.current?.click()} style={dropzone}>
-            <RiUploadCloud2Line style={{ fontSize: 26 }} />
+            <RiUploadCloud2Line style={{ fontSize: "var(--fs-26)" }} />
             <div>Σύρε αρχεία ή κάνε κλικ για ανέβασμα</div>
-            <div style={{ fontSize: 11 }}>Αποθήκευση στον φάκελο του κτηρίου (BunnyCDN)</div>
+            <div style={{ fontSize: "var(--fs-11)" }}>Αποθήκευση στον φάκελο του κτηρίου (BunnyCDN)</div>
           </div>
         ) : (
           <div style={{ ...dropzone, cursor: "default" }}>
-            <RiFolderLine style={{ fontSize: 26 }} />
+            <RiFolderLine style={{ fontSize: "var(--fs-26)" }} />
             <div>Δεν υπάρχουν αρχεία.</div>
           </div>
         )
@@ -130,10 +130,10 @@ export function FilesPanel({ buildingId, files, can }: { buildingId: string; fil
             const [bg, fg] = thumbColor(f.name);
             return (
               <div key={f.id} style={{ border: "1px solid var(--border)", borderRadius: 8, overflow: "hidden", background: "var(--card)" }}>
-                <div style={{ height: 96, display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800, fontSize: 13, background: bg, color: fg }}>{ext(f.name)}</div>
+                <div style={{ height: 96, display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800, fontSize: "var(--fs-13)", background: bg, color: fg }}>{ext(f.name)}</div>
                 <div style={{ padding: "10px 11px" }}>
-                  <div style={{ fontSize: 13, fontWeight: 600, color: "var(--foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }} title={f.name}>{f.name}</div>
-                  <div style={{ fontSize: 11, color: "var(--muted-foreground)", marginTop: 2 }}>{fmtSize(f.sizeBytes)}</div>
+                  <div style={{ fontSize: "var(--fs-13)", fontWeight: 600, color: "var(--foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }} title={f.name}>{f.name}</div>
+                  <div style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)", marginTop: 2 }}>{fmtSize(f.sizeBytes)}</div>
                   <div style={{ display: "flex", gap: 6, marginTop: 8 }}>
                     <a href={f.url} target="_blank" rel="noreferrer" style={{ ...btnSm, textDecoration: "none" }}><RiDownload2Line /> Άνοιγμα</a>
                     {can.manageFiles && <button onClick={() => remove(f.id)} disabled={isPending} style={{ ...btnSm, color: "#c50f1f" }}><RiDeleteBinLine /></button>}
@@ -149,9 +149,9 @@ export function FilesPanel({ buildingId, files, can }: { buildingId: string; fil
   );
 }
 
-const btn: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 7, border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)", borderRadius: 9999, padding: "7px 13px", fontSize: 13, fontWeight: 600, cursor: "pointer" };
+const btn: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 7, border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)", borderRadius: 9999, padding: "7px 13px", fontSize: "var(--fs-13)", fontWeight: 600, cursor: "pointer" };
 const btnPrimary: React.CSSProperties = { background: "var(--color-primary)", color: "#fff", borderColor: "var(--color-primary)" };
-const btnSm: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 5, border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)", borderRadius: 4, padding: "5px 9px", fontSize: 12, fontWeight: 600, cursor: "pointer" };
-const selectStyle: React.CSSProperties = { height: 34, borderRadius: 4, border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)", fontSize: 13, padding: "0 8px" };
+const btnSm: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 5, border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)", borderRadius: 4, padding: "5px 9px", fontSize: "var(--fs-12)", fontWeight: 600, cursor: "pointer" };
+const selectStyle: React.CSSProperties = { height: 34, borderRadius: 4, border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)", fontSize: "var(--fs-13)", padding: "0 8px" };
 const dropzone: React.CSSProperties = { border: "1.5px dashed var(--border-strong)", borderRadius: 8, padding: 30, textAlign: "center", color: "var(--muted-foreground)", background: "var(--bg-canvas)", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", gap: 8 };
-const errBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: 12, border: "1px solid #fca5a530", marginBottom: 12 };
+const errBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: "var(--fs-12)", border: "1px solid #fca5a530", marginBottom: 12 };

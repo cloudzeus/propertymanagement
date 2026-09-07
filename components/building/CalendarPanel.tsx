@@ -97,12 +97,12 @@ export function CalendarPanel({ buildingId, tasks, today, can }: { buildingId: s
           <button onClick={() => move(-1)} style={iconBtn}><RiArrowLeftSLine /></button>
           <button onClick={() => setCursor(now)} style={btn}>Σήμερα</button>
           <button onClick={() => move(1)} style={iconBtn}><RiArrowRightSLine /></button>
-          <div style={{ fontSize: 16, fontWeight: 800, marginLeft: 6, textTransform: "capitalize" }}>{title}</div>
+          <div style={{ fontSize: "var(--fs-16)", fontWeight: 800, marginLeft: 6, textTransform: "capitalize" }}>{title}</div>
         </div>
         <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
           <div style={{ display: "flex", gap: 4, background: "var(--bg-canvas)", border: "1px solid var(--border)", borderRadius: 6, padding: 3 }}>
             {(["day", "week", "month"] as View[]).map((v) => (
-              <button key={v} onClick={() => setView(v)} style={{ border: "none", borderRadius: 4, padding: "5px 12px", fontSize: 13, fontWeight: 600, cursor: "pointer", background: view === v ? "var(--card)" : "transparent", color: view === v ? "var(--color-primary)" : "var(--muted-foreground)", boxShadow: view === v ? "0 1px 2px rgba(0,0,0,.06)" : "none" }}>
+              <button key={v} onClick={() => setView(v)} style={{ border: "none", borderRadius: 4, padding: "5px 12px", fontSize: "var(--fs-13)", fontWeight: 600, cursor: "pointer", background: view === v ? "var(--card)" : "transparent", color: view === v ? "var(--color-primary)" : "var(--muted-foreground)", boxShadow: view === v ? "0 1px 2px rgba(0,0,0,.06)" : "none" }}>
                 {v === "day" ? "Ημέρα" : v === "week" ? "Εβδομάδα" : "Μήνας"}
               </button>
             ))}
@@ -131,7 +131,7 @@ export function CalendarPanel({ buildingId, tasks, today, can }: { buildingId: s
 function EventChip({ t, onClick }: { t: TaskRow; onClick: () => void }) {
   const [bg, fg] = FREQ_COLOR[t.frequency] ?? FREQ_COLOR.CUSTOM;
   return (
-    <button onClick={onClick} title={`${t.title} · ${FREQ_LABEL[t.frequency]}`} style={{ display: "block", width: "100%", textAlign: "left", border: "none", borderRadius: 4, padding: "2px 6px", fontSize: 11, fontWeight: 600, background: bg, color: fg, cursor: "pointer", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", marginTop: 2 }}>
+    <button onClick={onClick} title={`${t.title} · ${FREQ_LABEL[t.frequency]}`} style={{ display: "block", width: "100%", textAlign: "left", border: "none", borderRadius: 4, padding: "2px 6px", fontSize: "var(--fs-11)", fontWeight: 600, background: bg, color: fg, cursor: "pointer", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", marginTop: 2 }}>
       {t.title}
     </button>
   );
@@ -153,7 +153,7 @@ function MonthView({ cursor, now, tasks, onEvent }: { cursor: Date; now: Date; t
   return (
     <div style={{ border: "1px solid var(--border)", borderRadius: 8, overflow: "hidden", background: "var(--card)" }}>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(7,1fr)", borderBottom: "1px solid var(--border)" }}>
-        {WD.map((d) => <div key={d} style={{ padding: "8px 10px", fontSize: 11, fontWeight: 700, color: "var(--muted-foreground)", textAlign: "center" }}>{d}</div>)}
+        {WD.map((d) => <div key={d} style={{ padding: "8px 10px", fontSize: "var(--fs-11)", fontWeight: 700, color: "var(--muted-foreground)", textAlign: "center" }}>{d}</div>)}
       </div>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(7,1fr)" }}>
         {cells.map((d, i) => {
@@ -163,10 +163,10 @@ function MonthView({ cursor, now, tasks, onEvent }: { cursor: Date; now: Date; t
           return (
             <div key={i} style={{ minHeight: 92, borderRight: (i % 7 !== 6) ? "1px solid var(--border)" : "none", borderBottom: i < 35 ? "1px solid var(--border)" : "none", padding: 5, background: inMonth ? "var(--card)" : "var(--bg-canvas)", opacity: inMonth ? 1 : 0.6 }}>
               <div style={{ display: "flex", justifyContent: "flex-end" }}>
-                <span style={{ fontSize: 12, fontWeight: isToday ? 800 : 600, width: 22, height: 22, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", background: isToday ? "var(--color-primary)" : "transparent", color: isToday ? "#fff" : "var(--foreground)" }}>{d.getDate()}</span>
+                <span style={{ fontSize: "var(--fs-12)", fontWeight: isToday ? 800 : 600, width: 22, height: 22, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", background: isToday ? "var(--color-primary)" : "transparent", color: isToday ? "#fff" : "var(--foreground)" }}>{d.getDate()}</span>
               </div>
               {evs.slice(0, 3).map((t, j) => <EventChip key={j} t={t} onClick={() => onEvent(t)} />)}
-              {evs.length > 3 && <div style={{ fontSize: 10, color: "var(--muted-foreground)", marginTop: 2 }}>+{evs.length - 3} ακόμα</div>}
+              {evs.length > 3 && <div style={{ fontSize: "var(--fs-10)", color: "var(--muted-foreground)", marginTop: 2 }}>+{evs.length - 3} ακόμα</div>}
             </div>
           );
         })}
@@ -186,11 +186,11 @@ function WeekView({ cursor, now, tasks, onEvent }: { cursor: Date; now: Date; ta
         return (
           <div key={i} style={{ border: "1px solid var(--border)", borderRadius: 8, background: "var(--card)", minHeight: 160, overflow: "hidden" }}>
             <div style={{ padding: "8px 10px", borderBottom: "1px solid var(--border)", background: isToday ? "var(--color-primary-soft)" : "var(--bg-canvas)" }}>
-              <div style={{ fontSize: 11, color: "var(--muted-foreground)", fontWeight: 700 }}>{WD[i]}</div>
-              <div style={{ fontSize: 16, fontWeight: 800, color: isToday ? "var(--color-primary)" : "var(--foreground)" }}>{d.getDate()}</div>
+              <div style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)", fontWeight: 700 }}>{WD[i]}</div>
+              <div style={{ fontSize: "var(--fs-16)", fontWeight: 800, color: isToday ? "var(--color-primary)" : "var(--foreground)" }}>{d.getDate()}</div>
             </div>
             <div style={{ padding: 6 }}>
-              {evs.length === 0 ? <div style={{ fontSize: 11, color: "var(--muted-foreground)", padding: 4 }}>—</div> : evs.map((t, j) => <EventChip key={j} t={t} onClick={() => onEvent(t)} />)}
+              {evs.length === 0 ? <div style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)", padding: 4 }}>—</div> : evs.map((t, j) => <EventChip key={j} t={t} onClick={() => onEvent(t)} />)}
             </div>
           </div>
         );
@@ -204,7 +204,7 @@ function DayView({ cursor, now, tasks, onEvent }: { cursor: Date; now: Date; tas
   return (
     <div style={{ border: "1px solid var(--border)", borderRadius: 8, background: "var(--card)", padding: 16 }}>
       {evs.length === 0 ? (
-        <div style={{ color: "var(--muted-foreground)", fontSize: 13, textAlign: "center", padding: 24 }}>Καμία εργασία για αυτή την ημέρα.</div>
+        <div style={{ color: "var(--muted-foreground)", fontSize: "var(--fs-13)", textAlign: "center", padding: 24 }}>Καμία εργασία για αυτή την ημέρα.</div>
       ) : (
         <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
           {evs.map((t) => {
@@ -212,8 +212,8 @@ function DayView({ cursor, now, tasks, onEvent }: { cursor: Date; now: Date; tas
             return (
               <button key={t.id} onClick={() => onEvent(t)} style={{ display: "flex", alignItems: "center", gap: 12, border: "1px solid var(--border)", borderRadius: 8, padding: "10px 14px", background: "var(--card)", cursor: "pointer", textAlign: "left" }}>
                 <span style={{ width: 10, height: 10, borderRadius: "50%", background: fg, flexShrink: 0 }} />
-                <span style={{ flex: 1 }}><span style={{ fontSize: 14, fontWeight: 600 }}>{t.title}</span>{t.vendor && <span style={{ fontSize: 12, color: "var(--muted-foreground)" }}> · {t.vendor}</span>}</span>
-                <span style={{ fontSize: 11, fontWeight: 700, padding: "2px 8px", borderRadius: 9999, background: bg, color: fg }}>{FREQ_LABEL[t.frequency]}</span>
+                <span style={{ flex: 1 }}><span style={{ fontSize: "var(--fs-14)", fontWeight: 600 }}>{t.title}</span>{t.vendor && <span style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}> · {t.vendor}</span>}</span>
+                <span style={{ fontSize: "var(--fs-11)", fontWeight: 700, padding: "2px 8px", borderRadius: 9999, background: bg, color: fg }}>{FREQ_LABEL[t.frequency]}</span>
               </button>
             );
           })}
@@ -263,7 +263,7 @@ export function TaskModal({ buildingId, editing, onClose, onComplete, onDone }: 
           <FormField label="Τύπος συντήρησης"><FieldSelect value={kind} onChange={(v) => setKind(v)} options={KIND_OPTS} /></FormField>
           <FormField label="Υπενθύμιση (ημέρες πριν)"><FieldInput type="number" value={String(reminderDaysBefore)} onChange={(v) => setReminderDaysBefore(Number(v) || 0)} /></FormField>
         </div>
-        <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: "var(--foreground)", cursor: "pointer" }}>
+        <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: "var(--fs-13)", color: "var(--foreground)", cursor: "pointer" }}>
           <input type="checkbox" checked={inServicePackage} onChange={(e) => setInServicePackage(e.target.checked)} />
           Εντός πακέτου υπηρεσιών
         </label>
@@ -309,9 +309,9 @@ export function CompleteModal({ task, onClose, onDone }: { task: TaskRow; onClos
   );
 }
 
-const btn: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 7, border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)", borderRadius: 6, padding: "7px 13px", fontSize: 13, fontWeight: 600, cursor: "pointer" };
+const btn: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 7, border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)", borderRadius: 6, padding: "7px 13px", fontSize: "var(--fs-13)", fontWeight: 600, cursor: "pointer" };
 const btnPrimary: React.CSSProperties = { background: "var(--color-primary)", color: "#fff", borderColor: "var(--color-primary)" };
 const iconBtn: React.CSSProperties = { display: "inline-flex", alignItems: "center", justifyContent: "center", width: 32, height: 32, border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)", borderRadius: 6, cursor: "pointer" };
-const cancelBtn: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 6, padding: "7px 14px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: 13, color: "var(--foreground)" };
-const saveBtn: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: "pointer", fontSize: 13, fontWeight: 600, display: "flex", alignItems: "center", gap: 6 };
-const errBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: 12, marginBottom: 12 };
+const cancelBtn: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 6, padding: "7px 14px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: "var(--fs-13)", color: "var(--foreground)" };
+const saveBtn: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: "pointer", fontSize: "var(--fs-13)", fontWeight: 600, display: "flex", alignItems: "center", gap: 6 };
+const errBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: "var(--fs-12)", marginBottom: 12 };

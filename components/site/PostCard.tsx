@@ -25,11 +25,11 @@ export function PostCard({ post }: { post: PostSummary }) {
       </div>
       <div className="flex flex-1 flex-col px-6 pb-[26px] pt-[22px]">
         {post.category ? <div><TagQuiet>{post.category}</TagQuiet></div> : null}
-        <h3 className="mb-[9px] mt-3.5 text-[17.5px] font-bold leading-[1.3] tracking-[-.01em]">
+        <h3 className="mb-[9px] mt-3.5 text-[length:var(--fs-17-5)] font-bold leading-[1.3] tracking-[-.01em]">
           {post.title}
         </h3>
         {post.excerpt ? (
-          <p className="flex-1 text-[14px] leading-[1.58] text-[var(--mut)]">{post.excerpt}</p>
+          <p className="flex-1 text-[length:var(--fs-14)] leading-[1.58] text-[var(--mut)]">{post.excerpt}</p>
         ) : (
           <div className="flex-1" />
         )}

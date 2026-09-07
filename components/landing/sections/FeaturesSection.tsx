@@ -13,15 +13,15 @@ export function FeaturesSection({ data }: { data: FeaturesData }) {
       <div className="mx-auto max-w-[1200px] px-5 sm:px-7 py-[84px] md:py-[108px]">
         <Reveal className="mb-12 max-w-[620px]">
           {data.kicker && (
-            <span className="text-[13px] font-bold uppercase tracking-[0.14em] text-[var(--muted-foreground)]">
+            <span className="text-[length:var(--fs-13)] font-bold uppercase tracking-[0.14em] text-[var(--muted-foreground)]">
               {data.kicker}
             </span>
           )}
-          <h2 className="mt-3.5 text-[32px] font-extrabold leading-[1.05] tracking-[-0.02em] text-[var(--foreground)] md:text-[46px]">
+          <h2 className="mt-3.5 text-[length:var(--fs-32)] font-extrabold leading-[1.05] tracking-[-0.02em] text-[var(--foreground)] md:text-[length:var(--fs-46)]">
             {data.heading}
           </h2>
           {data.subtitle && (
-            <p className="mt-4 text-[17px] leading-relaxed text-[var(--muted-foreground)]">{data.subtitle}</p>
+            <p className="mt-4 text-[length:var(--fs-17)] leading-relaxed text-[var(--muted-foreground)]">{data.subtitle}</p>
           )}
         </Reveal>
 
@@ -40,10 +40,10 @@ export function FeaturesSection({ data }: { data: FeaturesData }) {
                 <div className="mb-auto flex h-[42px] w-[42px] items-center justify-center rounded-full bg-[var(--primary)]">
                   <Icon className="h-[19px] w-[19px]" style={{ color: "#fff" }} />
                 </div>
-                <h3 className={`mb-2 mt-[18px] font-bold tracking-[-0.01em] text-[var(--foreground)] ${big ? "text-[24px]" : "text-[18.5px]"}`}>
+                <h3 className={`mb-2 mt-[18px] font-bold tracking-[-0.01em] text-[var(--foreground)] ${big ? "text-[length:var(--fs-24)]" : "text-[length:var(--fs-18-5)]"}`}>
                   {item.title}
                 </h3>
-                <p className="text-[14.5px] leading-relaxed text-[var(--muted-foreground)]">{item.body}</p>
+                <p className="text-[length:var(--fs-14-5)] leading-relaxed text-[var(--muted-foreground)]">{item.body}</p>
                 {big && (
                   <div className="mt-[18px] flex h-[54px] items-end gap-[7px]">
                     {BARS.map((h, j) => (
@@ -81,9 +81,9 @@ export function FeaturesSection({ data }: { data: FeaturesData }) {
                   className="absolute inset-x-4 bottom-4 rounded-[13px] border bg-[var(--card)] px-3.5 py-3"
                   style={BORDER}
                 >
-                  {tile.title && <div className="text-[13.5px] font-bold text-[var(--foreground)]">{tile.title}</div>}
+                  {tile.title && <div className="text-[length:var(--fs-13-5)] font-bold text-[var(--foreground)]">{tile.title}</div>}
                   {tile.subtitle && (
-                    <div className="mt-0.5 text-[11.5px] text-[var(--muted-foreground)]">{tile.subtitle}</div>
+                    <div className="mt-0.5 text-[length:var(--fs-11-5)] text-[var(--muted-foreground)]">{tile.subtitle}</div>
                   )}
                 </div>
               )}

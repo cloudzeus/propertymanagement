@@ -24,7 +24,7 @@ const field = "h-9 w-full rounded-md border border-[var(--border)] bg-[var(--car
 const fieldSm = "h-8 rounded-md border border-[var(--border)] bg-[var(--card)] px-2 text-sm text-[var(--foreground)] outline-none transition-colors focus:border-[var(--primary)] focus:ring-2 focus:ring-[var(--primary)]/20";
 // Number inputs without the ugly browser spinner arrows.
 const numField = `${fieldSm} [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none`;
-const lbl = "mb-1 block text-[11px] font-semibold uppercase tracking-wide text-[var(--muted-foreground)]";
+const lbl = "mb-1 block text-[length:var(--fs-11)] font-semibold uppercase tracking-wide text-[var(--muted-foreground)]";
 
 export function OnboardingWizard({ customerId, customerName, customers }: { customerId?: string; customerName?: string; customers?: { id: string; name: string }[] }) {
   const router = useRouter();
@@ -84,9 +84,9 @@ export function OnboardingWizard({ customerId, customerName, customers }: { cust
         <header className="mb-5 flex items-start justify-between gap-3">
           <div>
             <h1 className="text-lg font-semibold tracking-tight text-[var(--foreground)]">Νέα πολυκατοικία</h1>
-            <p className="mt-0.5 text-[13px] text-[var(--muted-foreground)]">Πες τα στοιχεία στον βοηθό AI (κάτω δεξιά) ή συμπλήρωσέ τα εδώ.</p>
+            <p className="mt-0.5 text-[length:var(--fs-13)] text-[var(--muted-foreground)]">Πες τα στοιχεία στον βοηθό AI (κάτω δεξιά) ή συμπλήρωσέ τα εδώ.</p>
           </div>
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-[var(--border)] bg-[var(--card)] px-2.5 py-1 text-[11px] font-medium text-[var(--muted-foreground)]">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-[var(--border)] bg-[var(--card)] px-2.5 py-1 text-[length:var(--fs-11)] font-medium text-[var(--muted-foreground)]">
             <RiSparkling2Line className="text-[var(--primary)]" /> {stepsDone}/5 βήματα
           </span>
         </header>
@@ -116,7 +116,7 @@ export function OnboardingWizard({ customerId, customerName, customers }: { cust
                 <option value="">— Επιλέξτε —</option>
                 {(Object.keys(HEATING_LABEL) as HeatingType[]).map((h) => <option key={h} value={h}>{HEATING_LABEL[h]}</option>)}
               </select>
-              {info.heatingType && <span className="mt-1 inline-block rounded bg-amber-50 px-1.5 py-0.5 text-[11px] font-medium text-amber-700">{method}</span>}
+              {info.heatingType && <span className="mt-1 inline-block rounded bg-amber-50 px-1.5 py-0.5 text-[length:var(--fs-11)] font-medium text-amber-700">{method}</span>}
             </div>
 
             <div className="sm:col-span-2">
@@ -143,11 +143,11 @@ export function OnboardingWizard({ customerId, customerName, customers }: { cust
             </label>
             {info.hasElevator && (
               <div className="mt-2.5 flex flex-wrap items-center gap-x-6 gap-y-2 pl-6">
-                <label className="flex items-center gap-2 text-[13px] text-[var(--muted-foreground)]">
+                <label className="flex items-center gap-2 text-[length:var(--fs-13)] text-[var(--muted-foreground)]">
                   Επιβάρυνση/όροφο
                   <input type="number" className={`${fieldSm} w-16 text-right`} value={Math.round((info.elevatorSurchargePerFloor ?? 0.1) * 100)} onChange={(e) => setInfo((f) => ({ ...f, elevatorSurchargePerFloor: Number(e.target.value) / 100 }))} /> %
                 </label>
-                <label className="flex cursor-pointer items-center gap-2 text-[13px] text-[var(--muted-foreground)]">
+                <label className="flex cursor-pointer items-center gap-2 text-[length:var(--fs-13)] text-[var(--muted-foreground)]">
                   <input type="checkbox" className="h-4 w-4 accent-[var(--primary)]" checked={info.elevatorExemptGroundFloor ?? true} onChange={(e) => setInfo((f) => ({ ...f, elevatorExemptGroundFloor: e.target.checked }))} />
                   Εξαίρεση ισογείου
                 </label>
@@ -166,14 +166,14 @@ export function OnboardingWizard({ customerId, customerName, customers }: { cust
           </div>
 
           {units.length === 0 ? (
-            <div className="rounded-md border border-dashed border-[var(--border)] px-3 py-6 text-center text-[13px] text-[var(--muted-foreground)]">
+            <div className="rounded-md border border-dashed border-[var(--border)] px-3 py-6 text-center text-[length:var(--fs-13)] text-[var(--muted-foreground)]">
               Καμία μονάδα ακόμη — πρόσθεσε ή πες τις στον βοηθό AI.
             </div>
           ) : (
             <div className="overflow-x-auto">
               <table className="border-separate border-spacing-x-2 border-spacing-y-1 text-sm">
                 <thead>
-                  <tr className="text-left text-[11px] font-semibold uppercase tracking-wide text-[var(--muted-foreground)]">
+                  <tr className="text-left text-[length:var(--fs-11)] font-semibold uppercase tracking-wide text-[var(--muted-foreground)]">
                     <th className="pb-1 font-semibold">Αρ.</th>
                     <th className="pb-1 text-center font-semibold">Όροφος</th>
                     <th className="pb-1 text-right font-semibold">τ.μ.</th>
@@ -206,7 +206,7 @@ export function OnboardingWizard({ customerId, customerName, customers }: { cust
                       </tr>
                     );
                   })}
-                  <tr className="text-[13px] font-semibold">
+                  <tr className="text-[length:var(--fs-13)] font-semibold">
                     <td className="pt-1" colSpan={4}>Σύνολο</td>
                     <td className={`pt-1 text-right tabular-nums ${gSumOk ? "text-emerald-600" : "text-red-500"}`}>{Math.round(mil.gSum)}{gSumOk && <RiCheckLine className="ml-0.5 inline" />}</td>
                     <td className={`pt-1 text-right tabular-nums ${!mil.e ? "text-[var(--muted-foreground)]" : eSumOk ? "text-emerald-600" : "text-red-500"}`}>{mil.e ? Math.round(mil.eSum) : "—"}</td>
@@ -224,7 +224,7 @@ export function OnboardingWizard({ customerId, customerName, customers }: { cust
       {/* Sticky footer action bar */}
       <div className="fixed inset-x-0 bottom-0 z-40 border-t border-[var(--border)] bg-[var(--card)]/90 backdrop-blur">
         <div className="mx-auto flex max-w-3xl items-center justify-between gap-3 px-4 py-3">
-          <span className="text-[13px] text-[var(--muted-foreground)]">{complete ? "Έτοιμο — τα υπόλοιπα (τ.μ., θέρμανση) μπαίνουν μετά" : "Χρειάζονται: πελάτης, διεύθυνση και ≥1 μονάδα"}</span>
+          <span className="text-[length:var(--fs-13)] text-[var(--muted-foreground)]">{complete ? "Έτοιμο — τα υπόλοιπα (τ.μ., θέρμανση) μπαίνουν μετά" : "Χρειάζονται: πελάτης, διεύθυνση και ≥1 μονάδα"}</span>
           <button onClick={create} disabled={!complete || pending} className="inline-flex h-10 shrink-0 items-center gap-1.5 rounded-md bg-[var(--primary)] px-5 text-sm font-medium text-white shadow-sm transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40">
             {pending ? "Δημιουργία…" : <>Δημιουργία <RiArrowRightLine /></>}
           </button>

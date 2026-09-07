@@ -54,7 +54,7 @@ export async function HeroSection({ data }: { data: HeroData }) {
           {/* Copy */}
           <div>
             <span
-              className="pop inline-flex items-center gap-2 rounded-full border bg-[var(--card)] px-3 py-1.5 text-[13px] font-semibold text-[var(--foreground)]"
+              className="pop inline-flex items-center gap-2 rounded-full border bg-[var(--card)] px-3 py-1.5 text-[length:var(--fs-13)] font-semibold text-[var(--foreground)]"
               style={{ borderColor: "rgba(27,28,26,.12)", animationDelay: ".05s" }}
             >
               <span
@@ -66,7 +66,7 @@ export async function HeroSection({ data }: { data: HeroData }) {
 
             {/* Two lines: the first in ink, the second in amber (handoff 03 §1).
                 `titleAccent` is optional — an unsplit title renders on its own. */}
-            <h1 className="mt-6 text-[42px] font-extrabold leading-[1.0] tracking-[-0.025em] text-[var(--foreground)] md:text-[74px]">
+            <h1 className="mt-6 text-[length:var(--fs-42)] font-extrabold leading-[1.0] tracking-[-0.025em] text-[var(--foreground)] md:text-[length:var(--fs-74)]">
               <span className="pop block" style={{ animationDelay: ".12s" }}>
                 {data.title}
               </span>
@@ -81,7 +81,7 @@ export async function HeroSection({ data }: { data: HeroData }) {
             </h1>
 
             <p
-              className="pop mt-6 max-w-[520px] text-[19px] leading-relaxed text-[var(--muted-foreground)]"
+              className="pop mt-6 max-w-[520px] text-[length:var(--fs-19)] leading-relaxed text-[var(--muted-foreground)]"
               style={{ animationDelay: ".3s" }}
             >
               {data.subtitle}
@@ -121,7 +121,7 @@ export async function HeroSection({ data }: { data: HeroData }) {
                   />
                 ))}
               </div>
-              <span className="text-[13.5px] text-[var(--muted-foreground)]">
+              <span className="text-[length:var(--fs-13-5)] text-[var(--muted-foreground)]">
                 {data.trustText || t.trust}
               </span>
             </div>
@@ -164,11 +164,11 @@ export async function HeroSection({ data }: { data: HeroData }) {
               >
                 <div>
                   <div className="text-sm font-bold text-[var(--foreground)]">{data.propertyName || "Astra Residences"}</div>
-                  <div className="text-[11.5px] text-[var(--muted-foreground)]">{data.propertyAddress || "Λ. Κηφισίας 124"}</div>
+                  <div className="text-[length:var(--fs-11-5)] text-[var(--muted-foreground)]">{data.propertyAddress || "Λ. Κηφισίας 124"}</div>
                 </div>
                 <div className="text-right">
                   <div className="text-base font-extrabold text-[var(--foreground)]">{data.occupancy || "96%"}</div>
-                  <div className="text-[10.5px] text-[var(--muted-foreground)]">{data.occLabel || t.occ}</div>
+                  <div className="text-[length:var(--fs-10-5)] text-[var(--muted-foreground)]">{data.occLabel || t.occ}</div>
                 </div>
               </div>
             </div>
@@ -178,12 +178,12 @@ export async function HeroSection({ data }: { data: HeroData }) {
               className="absolute left-1.5 top-1.5 z-[4] flex items-center gap-2.5 rounded-[14px] border bg-[var(--card)] px-3.5 py-2.5 shadow-[var(--shadow-card)]"
               style={{ borderColor: "rgba(27,28,26,.12)", animation: "floaty 6s ease-in-out .8s infinite" }}
             >
-              <span className="flex h-[26px] w-[26px] items-center justify-center rounded-lg bg-[var(--accent)] text-[13px] font-extrabold text-[#1b1c1a]">
+              <span className="flex h-[26px] w-[26px] items-center justify-center rounded-lg bg-[var(--accent)] text-[length:var(--fs-13)] font-extrabold text-[#1b1c1a]">
                 €
               </span>
               <div>
                 <div className="text-xs font-bold text-[var(--foreground)]">{data.toastTitle || t.toastT}</div>
-                <div className="text-[10.5px] text-[var(--muted-foreground)]">{data.toastSub || t.toastS}</div>
+                <div className="text-[length:var(--fs-10-5)] text-[var(--muted-foreground)]">{data.toastSub || t.toastS}</div>
               </div>
             </div>
 
@@ -193,26 +193,26 @@ export async function HeroSection({ data }: { data: HeroData }) {
               style={{ borderColor: "rgba(27,28,26,.12)", animation: "floaty 7s ease-in-out infinite" }}
             >
               <div className="flex items-center justify-between">
-                <span className="inline-flex items-center gap-1.5 text-[11px] text-[var(--muted-foreground)]">
+                <span className="inline-flex items-center gap-1.5 text-[length:var(--fs-11)] text-[var(--muted-foreground)]">
                   <span
                     className="h-1.5 w-1.5 rounded-full bg-[var(--accent)]"
                     style={{ boxShadow: "0 0 8px rgba(242,162,60,.6)" }}
                   />
                   {data.liveBadge || t.live}
                 </span>
-                <span className="text-[10.5px] text-[var(--muted-foreground)]">{data.monthLabel || t.month}</span>
+                <span className="text-[length:var(--fs-10-5)] text-[var(--muted-foreground)]">{data.monthLabel || t.month}</span>
               </div>
               <div className="my-3 grid grid-cols-2 gap-2.5">
                 <div className="rounded-[11px] border bg-[var(--paper)] px-3 py-2.5" style={{ borderColor: "rgba(27,28,26,.12)" }}>
-                  <div className="text-[10px] text-[var(--muted-foreground)]">{data.kpi1Label || t.k1}</div>
-                  <div className="mt-0.5 text-[21px] font-extrabold text-[var(--foreground)]">{data.kpi1Value || "€184k"}</div>
+                  <div className="text-[length:var(--fs-10)] text-[var(--muted-foreground)]">{data.kpi1Label || t.k1}</div>
+                  <div className="mt-0.5 text-[length:var(--fs-21)] font-extrabold text-[var(--foreground)]">{data.kpi1Value || "€184k"}</div>
                 </div>
                 <div className="rounded-[11px] border bg-[var(--paper)] px-3 py-2.5" style={{ borderColor: "rgba(27,28,26,.12)" }}>
-                  <div className="text-[10px] text-[var(--muted-foreground)]">{data.kpi2Label || t.k2}</div>
-                  <div className="mt-0.5 text-[21px] font-extrabold text-[var(--foreground)]">{data.kpi2Value || "12"}</div>
+                  <div className="text-[length:var(--fs-10)] text-[var(--muted-foreground)]">{data.kpi2Label || t.k2}</div>
+                  <div className="mt-0.5 text-[length:var(--fs-21)] font-extrabold text-[var(--foreground)]">{data.kpi2Value || "12"}</div>
                 </div>
               </div>
-              <div className="text-[10.5px] text-[var(--muted-foreground)]">{data.chartLabel || t.chart}</div>
+              <div className="text-[length:var(--fs-10-5)] text-[var(--muted-foreground)]">{data.chartLabel || t.chart}</div>
               <div className="mt-2 flex h-[60px] items-end gap-1.5">
                 {BARS.map((h, i) => (
                   <i

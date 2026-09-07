@@ -12,11 +12,11 @@ const num = (n: number | null, suffix = "") =>
   n == null ? "—" : `${n.toLocaleString("el-GR", { maximumFractionDigits: 2 })}${suffix}`;
 
 const th: React.CSSProperties = {
-  textAlign: "left", padding: "10px 12px", fontSize: 11.5, fontWeight: 700, textTransform: "uppercase",
+  textAlign: "left", padding: "10px 12px", fontSize: "var(--fs-11-5)", fontWeight: 700, textTransform: "uppercase",
   letterSpacing: ".03em", color: "var(--muted-foreground)", whiteSpace: "nowrap", borderBottom: "1px solid var(--border)",
 };
 const td: React.CSSProperties = {
-  padding: "11px 12px", fontSize: 13, color: "var(--foreground)", borderBottom: "1px solid var(--border)", verticalAlign: "middle",
+  padding: "11px 12px", fontSize: "var(--fs-13)", color: "var(--foreground)", borderBottom: "1px solid var(--border)", verticalAlign: "middle",
 };
 const tdNum: React.CSSProperties = { ...td, fontVariantNumeric: "tabular-nums", whiteSpace: "nowrap" };
 
@@ -52,9 +52,9 @@ export function UnitsSection({ units, myUnitIds }: {
                   <td style={td}>
                     <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
                       <span style={{ fontWeight: 700 }}>{u.unitNumber}</span>
-                      <span style={{ fontSize: 12, color: "var(--muted-foreground)" }}>{UNIT_TYPE[u.unitType] ?? u.unitType}</span>
+                      <span style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>{UNIT_TYPE[u.unitType] ?? u.unitType}</span>
                       {isMine && (
-                        <span style={{ fontSize: 10.5, fontWeight: 700, padding: "2px 8px", borderRadius: 999, background: "color-mix(in srgb, var(--color-primary) 14%, transparent)", color: "var(--color-primary)", whiteSpace: "nowrap" }}>
+                        <span style={{ fontSize: "var(--fs-10-5)", fontWeight: 700, padding: "2px 8px", borderRadius: 999, background: "color-mix(in srgb, var(--color-primary) 14%, transparent)", color: "var(--color-primary)", whiteSpace: "nowrap" }}>
                           Η μονάδα μου
                         </span>
                       )}

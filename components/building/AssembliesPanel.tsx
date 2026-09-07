@@ -34,9 +34,9 @@ export function AssembliesPanel({ buildingId, can, linkToDetail = true, showTest
         const inner = (
           <>
             <div style={{ width: 26, height: 26, borderRadius: 7, flexShrink: 0, background: "var(--color-primary)18", color: "var(--color-primary)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <RiVideoChatLine style={{ fontSize: 14 }} />
+              <RiVideoChatLine style={{ fontSize: "var(--fs-14)" }} />
             </div>
-            <span style={{ fontSize: 13, fontWeight: 600, color: "var(--foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{a.title}</span>
+            <span style={{ fontSize: "var(--fs-13)", fontWeight: 600, color: "var(--foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{a.title}</span>
           </>
         );
         const rowStyle: React.CSSProperties = { display: "flex", alignItems: "center", gap: 8, minWidth: 0, textDecoration: "none" };
@@ -45,14 +45,14 @@ export function AssembliesPanel({ buildingId, can, linkToDetail = true, showTest
           : <div style={rowStyle}>{inner}</div>;
       },
     },
-    { id: "scheduledAt", header: "Ημερομηνία", sortKey: "scheduledAt", width: 170, accessor: (a) => a.scheduledAt, cell: (a) => <span style={{ fontSize: 12, color: "var(--foreground)" }}>{new Date(a.scheduledAt).toLocaleString("el-GR")}</span> },
-    { id: "status", header: "Κατάσταση", width: 150, accessor: (a) => STATUS_LABEL[a.status] ?? a.status, cell: (a) => <span style={{ fontSize: 11, fontWeight: 700, padding: "2px 8px", borderRadius: 9999, background: "var(--bg-canvas)", color: "var(--muted-foreground)", border: "1px solid var(--border)" }}>{STATUS_LABEL[a.status] ?? a.status}</span> },
-    { id: "participantCount", header: "Συμμετέχοντες", width: 120, accessor: (a) => a.participantCount, cell: (a) => <span style={{ fontSize: 12, color: "var(--foreground)" }}>{a.participantCount}</span> },
-    { id: "cost", header: "Κόστος", sortKey: "cost", width: 100, accessor: (a) => a.cost, cell: (a) => <span style={{ fontSize: 12, color: "var(--foreground)", whiteSpace: "nowrap" }}>{a.cost.toFixed(2)} €</span> },
+    { id: "scheduledAt", header: "Ημερομηνία", sortKey: "scheduledAt", width: 170, accessor: (a) => a.scheduledAt, cell: (a) => <span style={{ fontSize: "var(--fs-12)", color: "var(--foreground)" }}>{new Date(a.scheduledAt).toLocaleString("el-GR")}</span> },
+    { id: "status", header: "Κατάσταση", width: 150, accessor: (a) => STATUS_LABEL[a.status] ?? a.status, cell: (a) => <span style={{ fontSize: "var(--fs-11)", fontWeight: 700, padding: "2px 8px", borderRadius: 9999, background: "var(--bg-canvas)", color: "var(--muted-foreground)", border: "1px solid var(--border)" }}>{STATUS_LABEL[a.status] ?? a.status}</span> },
+    { id: "participantCount", header: "Συμμετέχοντες", width: 120, accessor: (a) => a.participantCount, cell: (a) => <span style={{ fontSize: "var(--fs-12)", color: "var(--foreground)" }}>{a.participantCount}</span> },
+    { id: "cost", header: "Κόστος", sortKey: "cost", width: 100, accessor: (a) => a.cost, cell: (a) => <span style={{ fontSize: "var(--fs-12)", color: "var(--foreground)", whiteSpace: "nowrap" }}>{a.cost.toFixed(2)} €</span> },
   ];
 
   if (loading) {
-    return <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 8, padding: 40, textAlign: "center", color: "var(--muted-foreground)", fontSize: 14 }}>Φόρτωση…</div>;
+    return <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 8, padding: 40, textAlign: "center", color: "var(--muted-foreground)", fontSize: "var(--fs-14)" }}>Φόρτωση…</div>;
   }
 
   return (
@@ -156,8 +156,8 @@ function TestModal({ buildingId, onClose, onDone }: { buildingId: string; onClos
   );
 }
 
-const btn: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 6, border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)", borderRadius: 6, padding: "7px 13px", fontSize: 13, fontWeight: 600, cursor: "pointer" };
+const btn: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 6, border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)", borderRadius: 6, padding: "7px 13px", fontSize: "var(--fs-13)", fontWeight: 600, cursor: "pointer" };
 const btnPrimary: React.CSSProperties = { background: "var(--color-primary)", color: "#fff", borderColor: "var(--color-primary)" };
-const btnCancel: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: 13, color: "var(--foreground)" };
-const btnSave: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: "pointer", fontSize: 13, fontWeight: 600, display: "flex", alignItems: "center", gap: 6 };
-const errBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: 12, marginBottom: 12 };
+const btnCancel: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: "var(--fs-13)", color: "var(--foreground)" };
+const btnSave: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: "pointer", fontSize: "var(--fs-13)", fontWeight: 600, display: "flex", alignItems: "center", gap: 6 };
+const errBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: "var(--fs-12)", marginBottom: 12 };

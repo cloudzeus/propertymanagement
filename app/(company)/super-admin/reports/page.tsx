@@ -66,10 +66,10 @@ export default async function ReportsPage() {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
       <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-        <RiBarChartLine style={{ fontSize: 24, color: "var(--color-primary)" }} />
+        <RiBarChartLine style={{ fontSize: "var(--fs-24)", color: "var(--color-primary)" }} />
         <div>
-          <h1 style={{ fontSize: 22, fontWeight: 700, color: "var(--foreground)", margin: 0 }}>Αναφορές Συστήματος</h1>
-          <p style={{ fontSize: 13, color: "var(--muted-foreground)", marginTop: 4 }}>Στατιστικά στοιχεία για όλες τις εταιρείες</p>
+          <h1 style={{ fontSize: "var(--fs-22)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}>Αναφορές Συστήματος</h1>
+          <p style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)", marginTop: 4 }}>Στατιστικά στοιχεία για όλες τις εταιρείες</p>
         </div>
       </div>
 
@@ -83,10 +83,10 @@ export default async function ReportsPage() {
               borderRadius: "var(--radius)", padding: "18px 20px",
             }}>
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
-                <span style={{ fontSize: 12, color: "var(--muted-foreground)", fontWeight: 500 }}>{stat.label}</span>
-                <Icon style={{ fontSize: 18, color: stat.color, opacity: 0.7 }} />
+                <span style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)", fontWeight: 500 }}>{stat.label}</span>
+                <Icon style={{ fontSize: "var(--fs-18)", color: stat.color, opacity: 0.7 }} />
               </div>
-              <span style={{ fontSize: 26, fontWeight: 700, color: "var(--foreground)" }}>{stat.value}</span>
+              <span style={{ fontSize: "var(--fs-26)", fontWeight: 700, color: "var(--foreground)" }}>{stat.value}</span>
             </div>
           );
         })}
@@ -95,7 +95,7 @@ export default async function ReportsPage() {
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
         {/* Users by role */}
         <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius)", padding: 24 }}>
-          <h2 style={{ fontSize: 15, fontWeight: 600, color: "var(--foreground)", margin: "0 0 16px" }}>Χρήστες ανά Ρόλο</h2>
+          <h2 style={{ fontSize: "var(--fs-15)", fontWeight: 600, color: "var(--foreground)", margin: "0 0 16px" }}>Χρήστες ανά Ρόλο</h2>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             {(data.usersByRole as any[]).map((row) => {
               const color = ROLE_COLOR[row.role] || "#707070";
@@ -103,8 +103,8 @@ export default async function ReportsPage() {
               return (
                 <div key={row.role}>
                   <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
-                    <span style={{ fontSize: 13, color: "var(--foreground)", fontWeight: 500 }}>{row.role}</span>
-                    <span style={{ fontSize: 13, color: "var(--muted-foreground)" }}>{row._count.role} ({pct}%)</span>
+                    <span style={{ fontSize: "var(--fs-13)", color: "var(--foreground)", fontWeight: 500 }}>{row.role}</span>
+                    <span style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }}>{row._count.role} ({pct}%)</span>
                   </div>
                   <div style={{ height: 6, background: "var(--bg-canvas)", borderRadius: 3, overflow: "hidden" }}>
                     <div style={{ height: "100%", width: `${pct}%`, background: color, borderRadius: 3, transition: "width 0.3s" }} />
@@ -117,7 +117,7 @@ export default async function ReportsPage() {
 
         {/* Companies by status */}
         <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius)", padding: 24 }}>
-          <h2 style={{ fontSize: 15, fontWeight: 600, color: "var(--foreground)", margin: "0 0 16px" }}>Εταιρείες ανά Κατάσταση</h2>
+          <h2 style={{ fontSize: "var(--fs-15)", fontWeight: 600, color: "var(--foreground)", margin: "0 0 16px" }}>Εταιρείες ανά Κατάσταση</h2>
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             {(data.companiesByStatus as any[]).map((row) => {
               const color = STATUS_COLOR[row.status] || "#707070";
@@ -129,17 +129,17 @@ export default async function ReportsPage() {
                 }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                     <div style={{ width: 10, height: 10, borderRadius: "50%", background: color, flexShrink: 0 }} />
-                    <span style={{ fontSize: 13, color: "var(--foreground)", fontWeight: 500 }}>{row.status}</span>
+                    <span style={{ fontSize: "var(--fs-13)", color: "var(--foreground)", fontWeight: 500 }}>{row.status}</span>
                   </div>
                   <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                    <span style={{ fontSize: 18, fontWeight: 700, color: "var(--foreground)" }}>{row._count.status}</span>
-                    <span style={{ fontSize: 12, color: "var(--muted-foreground)" }}>{pct}%</span>
+                    <span style={{ fontSize: "var(--fs-18)", fontWeight: 700, color: "var(--foreground)" }}>{row._count.status}</span>
+                    <span style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>{pct}%</span>
                   </div>
                 </div>
               );
             })}
             {data.companiesByStatus.length === 0 && (
-              <div style={{ padding: "24px 0", textAlign: "center", color: "var(--muted-foreground)", fontSize: 13 }}>
+              <div style={{ padding: "24px 0", textAlign: "center", color: "var(--muted-foreground)", fontSize: "var(--fs-13)" }}>
                 Δεν υπάρχουν δεδομένα
               </div>
             )}

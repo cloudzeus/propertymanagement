@@ -66,15 +66,15 @@ export function AnnouncementWizard({ buildingId, onClose, onDone, onSimpleForm }
               <ChoiceCards options={AUDIENCES} value={audience} onChange={setAudience} />
               {audience === "CUSTOM" && (
                 <div style={{ border: "1px solid var(--border)", borderRadius: 8, maxHeight: 220, overflowY: "auto" }}>
-                  {targets.length === 0 && <div style={{ padding: 12, fontSize: 12.5, color: "var(--muted-foreground)" }}>Δεν υπάρχουν ιδιοκτήτες/ένοικοι στο κτήριο.</div>}
+                  {targets.length === 0 && <div style={{ padding: 12, fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)" }}>Δεν υπάρχουν ιδιοκτήτες/ένοικοι στο κτήριο.</div>}
                   {targets.map((t) => (
                     <label key={t.id} style={{ display: "flex", alignItems: "center", gap: 10, padding: "9px 12px", borderBottom: "1px solid var(--border)", cursor: "pointer" }}>
                       <input type="checkbox" checked={selected.has(t.id)} onChange={() => setSelected((p) => { const n = new Set(p); if (n.has(t.id)) n.delete(t.id); else n.add(t.id); return n; })} style={{ width: 18, height: 18 }} />
                       <span style={{ flex: 1, minWidth: 0 }}>
-                        <span style={{ display: "block", fontSize: 13.5, fontWeight: 600, color: "var(--foreground)" }}>{t.name ?? t.email}</span>
-                        <span style={{ display: "block", fontSize: 11.5, color: "var(--muted-foreground)" }}>{t.email}</span>
+                        <span style={{ display: "block", fontSize: "var(--fs-13-5)", fontWeight: 600, color: "var(--foreground)" }}>{t.name ?? t.email}</span>
+                        <span style={{ display: "block", fontSize: "var(--fs-11-5)", color: "var(--muted-foreground)" }}>{t.email}</span>
                       </span>
-                      <span style={{ fontSize: 11, fontWeight: 700, color: "var(--muted-foreground)" }}>{t.roles.map((r) => (r === "OWNER" ? "Ιδιοκτήτης" : "Ένοικος")).join(" & ")}</span>
+                      <span style={{ fontSize: "var(--fs-11)", fontWeight: 700, color: "var(--muted-foreground)" }}>{t.roles.map((r) => (r === "OWNER" ? "Ιδιοκτήτης" : "Ένοικος")).join(" & ")}</span>
                     </label>
                   ))}
                 </div>
@@ -92,7 +92,7 @@ export function AnnouncementWizard({ buildingId, onClose, onDone, onSimpleForm }
               <FormField label="Κείμενο" required><RichTextEditor value={content} onChange={setContent} placeholder="Γράψτε το κείμενο της ανακοίνωσης…" /></FormField>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, alignItems: "end" }}>
                 <FormField label="Ημερομηνία δημοσίευσης" hint="Συνήθως σήμερα"><FieldInput type="date" value={publishedAt} onChange={setPublishedAt} /></FormField>
-                <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: "var(--foreground)", cursor: "pointer", paddingBottom: 8 }}>
+                <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: "var(--fs-13)", color: "var(--foreground)", cursor: "pointer", paddingBottom: 8 }}>
                   <input type="checkbox" checked={addToCalendar} onChange={(e) => setAddToCalendar(e.target.checked)} /> Να μπει και στο ημερολόγιο του κτηρίου
                 </label>
               </div>

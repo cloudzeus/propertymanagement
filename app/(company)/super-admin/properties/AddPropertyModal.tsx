@@ -72,12 +72,12 @@ export function AddPropertyModal({ customerId, customerName, onClose, onCreated 
   return (
     <Modal open onClose={onClose} title={`Νέα Ιδιοκτησία — ${customerName}`} width={520}
       footer={<>
-        <button onClick={onClose} style={{ padding: "7px 16px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: 13, color: "var(--foreground)" }}>Ακύρωση</button>
-        <button onClick={save} disabled={isPending} style={{ padding: "7px 16px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: isPending ? "wait" : "pointer", fontSize: 13, fontWeight: 600, display: "flex", alignItems: "center", gap: 6 }}>
+        <button onClick={onClose} style={{ padding: "7px 16px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: "var(--fs-13)", color: "var(--foreground)" }}>Ακύρωση</button>
+        <button onClick={save} disabled={isPending} style={{ padding: "7px 16px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: isPending ? "wait" : "pointer", fontSize: "var(--fs-13)", fontWeight: 600, display: "flex", alignItems: "center", gap: 6 }}>
           {isPending ? <RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> : <RiCheckLine />} Αποθήκευση
         </button>
       </>}>
-      {error && <div style={{ padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: 12, border: "1px solid #fca5a530", marginBottom: 14 }}>{error}</div>}
+      {error && <div style={{ padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: "var(--fs-12)", border: "1px solid #fca5a530", marginBottom: 14 }}>{error}</div>}
       <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
         <FormField label="Όνομα ιδιοκτησίας" required>
           <FieldInput value={form.name} onChange={f("name")} placeholder="π.χ. Συγκρότημα Κολωνακίου" />
@@ -94,7 +94,7 @@ export function AddPropertyModal({ customerId, customerName, onClose, onCreated 
           </div>
           <button type="button" onClick={geocode} disabled={geoLoading || !form.address} title="Εύρεση στίγματος"
             style={{ flexShrink: 0, width: 36, height: 34, borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)", cursor: geoLoading ? "wait" : "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            {geoLoading ? <RiLoaderLine style={{ fontSize: 15, animation: "spin 1s linear infinite" }} /> : <RiMapPin2Line style={{ fontSize: 15 }} />}
+            {geoLoading ? <RiLoaderLine style={{ fontSize: "var(--fs-15)", animation: "spin 1s linear infinite" }} /> : <RiMapPin2Line style={{ fontSize: "var(--fs-15)" }} />}
           </button>
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr", gap: 12 }}>
@@ -103,22 +103,22 @@ export function AddPropertyModal({ customerId, customerName, onClose, onCreated 
           <FormField label="Χώρα"><FieldInput value={form.country} onChange={f("country")} /></FormField>
         </div>
         {lat !== null && lng !== null && (
-          <div style={{ fontSize: 11, color: "#16a34a", display: "flex", alignItems: "center", gap: 5 }}>
-            <RiMapPin2Line style={{ fontSize: 13 }} /> Στίγμα: {lat.toFixed(6)}, {lng.toFixed(6)}
+          <div style={{ fontSize: "var(--fs-11)", color: "#16a34a", display: "flex", alignItems: "center", gap: 5 }}>
+            <RiMapPin2Line style={{ fontSize: "var(--fs-13)" }} /> Στίγμα: {lat.toFixed(6)}, {lng.toFixed(6)}
           </div>
         )}
-        <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: "var(--foreground)", cursor: "pointer" }}>
+        <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: "var(--fs-13)", color: "var(--foreground)", cursor: "pointer" }}>
           <input type="checkbox" checked={sameAddress} onChange={(e) => setSameAddress(e.target.checked)} style={{ width: 15, height: 15, accentColor: "var(--color-primary)" }} />
           Το κτήριο έχει την ίδια διεύθυνση με την ιδιοκτησία
         </label>
-        <p style={{ fontSize: 11, color: "var(--muted-foreground)", margin: "-6px 0 0" }}>
+        <p style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)", margin: "-6px 0 0" }}>
           Κάθε ιδιοκτησία ξεκινά με ένα κτήριο. {sameAddress ? "Θα πάρει τη διεύθυνση της ιδιοκτησίας." : "Θα ορίσετε τη διεύθυνσή του στη διαχείριση."}
         </p>
-        <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: "var(--foreground)", cursor: "pointer" }}>
+        <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: "var(--fs-13)", color: "var(--foreground)", cursor: "pointer" }}>
           <input type="checkbox" checked={managed} onChange={(e) => setManaged(e.target.checked)} style={{ width: 15, height: 15, accentColor: "var(--color-primary)" }} />
           Διαχειρίζεται από την εταιρεία
         </label>
-        <p style={{ fontSize: 11, color: "var(--muted-foreground)", margin: "-6px 0 0" }}>
+        <p style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)", margin: "-6px 0 0" }}>
           {managed
             ? "Ο διαχειριστής θα πρέπει να είναι υπάλληλος της εταιρείας."
             : "Αυτοδιαχείριστη — ως διαχειριστής μπορεί να οριστεί ιδιοκτήτης/ένοικος ή ο πελάτης."}

@@ -31,7 +31,7 @@ export function RequestsPanel({ buildingId, buildingName, units, requests, categ
   return (
     <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 8, boxShadow: "0 1px 2px rgba(0,0,0,0.06)" }}>
       <div style={{ padding: "13px 16px", borderBottom: "1px solid var(--border)", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, flexWrap: "wrap" }}>
-        <span style={{ fontSize: 14, fontWeight: 700, color: "var(--foreground)" }}>
+        <span style={{ fontSize: "var(--fs-14)", fontWeight: 700, color: "var(--foreground)" }}>
           Αιτήματα βλαβών{requests.length ? ` (${requests.length})` : ""}
         </span>
         {can.createRequests && (
@@ -44,8 +44,8 @@ export function RequestsPanel({ buildingId, buildingName, units, requests, categ
       </div>
       <div style={{ padding: 16 }}>
         {requests.length === 0 ? (
-          <div style={{ padding: "28px 0", textAlign: "center", color: "var(--muted-foreground)", fontSize: 13 }}>
-            <RiAlarmWarningLine style={{ fontSize: 26, marginBottom: 6 }} />
+          <div style={{ padding: "28px 0", textAlign: "center", color: "var(--muted-foreground)", fontSize: "var(--fs-13)" }}>
+            <RiAlarmWarningLine style={{ fontSize: "var(--fs-26)", marginBottom: 6 }} />
             <div>Δεν υπάρχουν αιτήματα βλαβών για αυτό το κτήριο.</div>
           </div>
         ) : (
@@ -58,8 +58,8 @@ export function RequestsPanel({ buildingId, buildingName, units, requests, categ
               return (
                 <div key={r.id} style={{ display: "flex", alignItems: "center", gap: 12, padding: "10px 12px", border: "1px solid var(--border)", borderRadius: 8, flexWrap: "wrap" }}>
                   <div style={{ flex: 1, minWidth: 200 }}>
-                    <div style={{ fontSize: 13, fontWeight: 700, color: "var(--foreground)" }}>{r.title}</div>
-                    <div style={{ display: "flex", alignItems: "center", gap: 12, fontSize: 11, color: "var(--muted-foreground)", marginTop: 3, flexWrap: "wrap" }}>
+                    <div style={{ fontSize: "var(--fs-13)", fontWeight: 700, color: "var(--foreground)" }}>{r.title}</div>
+                    <div style={{ display: "flex", alignItems: "center", gap: 12, fontSize: "var(--fs-11)", color: "var(--muted-foreground)", marginTop: 3, flexWrap: "wrap" }}>
                       <span style={{ display: "inline-flex", alignItems: "center", gap: 4 }}>
                         <RiHome4Line /> {r.unitNumber ? `Μονάδα ${r.unitNumber}` : "Κοινόχρηστος χώρος"}
                       </span>
@@ -72,8 +72,8 @@ export function RequestsPanel({ buildingId, buildingName, units, requests, categ
                       {r.scheduledDate && <span>Προγραμματισμένο: {fmtDay(r.scheduledDate)}</span>}
                     </div>
                   </div>
-                  <span style={{ flexShrink: 0, fontSize: 10, fontWeight: 700, padding: "2px 8px", borderRadius: 9999, background: `${prColor}18`, color: prColor }}>{prLabel}</span>
-                  <span style={{ flexShrink: 0, fontSize: 10, fontWeight: 700, padding: "2px 8px", borderRadius: 9999, background: `${statusColor}18`, color: statusColor }}>{statusLabel}</span>
+                  <span style={{ flexShrink: 0, fontSize: "var(--fs-10)", fontWeight: 700, padding: "2px 8px", borderRadius: 9999, background: `${prColor}18`, color: prColor }}>{prLabel}</span>
+                  <span style={{ flexShrink: 0, fontSize: "var(--fs-10)", fontWeight: 700, padding: "2px 8px", borderRadius: 9999, background: `${statusColor}18`, color: statusColor }}>{statusLabel}</span>
                 </div>
               );
             })}

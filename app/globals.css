@@ -87,6 +87,67 @@
   --font-display:      var(--font-cormorant, Georgia, "Times New Roman", serif);
 }
 
+/* ─── Fluid type scale ─────────────────────────────────────────────────────
+   One token per font size used in the codebase, in rem (respects user zoom /
+   OS text size). Each clamp() ramps linearly between a 360px phone and a
+   1280px desktop, so tablets land in between — no breakpoint jumps.
+     ≤ 15px  → +1px on phones (small UI text must grow, not shrink)
+     16–20px → unchanged
+     ≥ 22px  → ×0.78 on phones (big headings must fit 360px)
+   Desktop values equal the original px, so nothing changes ≥1280px.
+   Usage: inline  fontSize: "var(--fs-13)"   ·   Tailwind  text-[length:var(--fs-13)]
+   Regenerate with scripts/fluid-type.mjs when a new size is introduced. */
+:root {
+  --fs-9: clamp(0.5625rem, 0.6495rem - 0.1087vw, 0.625rem);
+  --fs-10: clamp(0.625rem, 0.712rem - 0.1087vw, 0.6875rem);
+  --fs-10-5: clamp(0.6563rem, 0.7432rem - 0.1087vw, 0.7188rem);
+  --fs-11: clamp(0.6875rem, 0.7745rem - 0.1087vw, 0.75rem);
+  --fs-11-5: clamp(0.7188rem, 0.8057rem - 0.1087vw, 0.7813rem);
+  --fs-12: clamp(0.75rem, 0.837rem - 0.1087vw, 0.8125rem);
+  --fs-12-5: clamp(0.7813rem, 0.8682rem - 0.1087vw, 0.8438rem);
+  --fs-13: clamp(0.8125rem, 0.8995rem - 0.1087vw, 0.875rem);
+  --fs-13-5: clamp(0.8438rem, 0.9307rem - 0.1087vw, 0.9063rem);
+  --fs-14: clamp(0.875rem, 0.962rem - 0.1087vw, 0.9375rem);
+  --fs-14-5: clamp(0.9063rem, 0.9932rem - 0.1087vw, 0.9688rem);
+  --fs-15: clamp(0.9375rem, 1.0245rem - 0.1087vw, 1rem);
+  --fs-15-5: 0.9688rem;
+  --fs-16: 1rem;
+  --fs-16-5: 1.0313rem;
+  --fs-17: 1.0625rem;
+  --fs-17-5: 1.0938rem;
+  --fs-18: 1.125rem;
+  --fs-18-5: 1.1563rem;
+  --fs-19: 1.1875rem;
+  --fs-20: 1.25rem;
+  --fs-21: clamp(1.0313rem, 0.9212rem + 0.4891vw, 1.3125rem);
+  --fs-22: clamp(1.0625rem, 0.9402rem + 0.5435vw, 1.375rem);
+  --fs-23: clamp(1.125rem, 1.0027rem + 0.5435vw, 1.4375rem);
+  --fs-24: clamp(1.1563rem, 1.0217rem + 0.5978vw, 1.5rem);
+  --fs-25: clamp(1.2188rem, 1.0842rem + 0.5978vw, 1.5625rem);
+  --fs-26: clamp(1.2813rem, 1.1467rem + 0.5978vw, 1.625rem);
+  --fs-28: clamp(1.375rem, 1.2283rem + 0.6522vw, 1.75rem);
+  --fs-29: clamp(1.4063rem, 1.2473rem + 0.7065vw, 1.8125rem);
+  --fs-30: clamp(1.4688rem, 1.3098rem + 0.7065vw, 1.875rem);
+  --fs-32: clamp(1.5625rem, 1.3913rem + 0.7609vw, 2rem);
+  --fs-33: clamp(1.5938rem, 1.4103rem + 0.8152vw, 2.0625rem);
+  --fs-34: clamp(1.6563rem, 1.4728rem + 0.8152vw, 2.125rem);
+  --fs-36: clamp(1.75rem, 1.5543rem + 0.8696vw, 2.25rem);
+  --fs-38: clamp(1.8438rem, 1.6359rem + 0.9239vw, 2.375rem);
+  --fs-40: clamp(1.9375rem, 1.7174rem + 0.9783vw, 2.5rem);
+  --fs-42: clamp(2.0625rem, 1.8424rem + 0.9783vw, 2.625rem);
+  --fs-44: clamp(2.1563rem, 1.9239rem + 1.0326vw, 2.75rem);
+  --fs-46: clamp(2.25rem, 2.0054rem + 1.087vw, 2.875rem);
+  --fs-48: clamp(2.3438rem, 2.087rem + 1.1413vw, 3rem);
+  --fs-52: clamp(2.5313rem, 2.25rem + 1.25vw, 3.25rem);
+  --fs-54: clamp(2.625rem, 2.3315rem + 1.3043vw, 3.375rem);
+  --fs-56: clamp(2.7188rem, 2.413rem + 1.3587vw, 3.5rem);
+  --fs-62: clamp(3.0313rem, 2.7011rem + 1.4674vw, 3.875rem);
+  --fs-66: clamp(3.2188rem, 2.8641rem + 1.5761vw, 4.125rem);
+  --fs-74: clamp(3.5938rem, 3.1902rem + 1.7935vw, 4.625rem);
+  --fs-88: clamp(4.2813rem, 3.8043rem + 2.1196vw, 5.5rem);
+  --fs-90: clamp(4.375rem, 3.8859rem + 2.1739vw, 5.625rem);
+}
+
 @theme inline {
   --color-background:  var(--bg-canvas);
   --color-foreground:  var(--foreground);
@@ -99,6 +160,19 @@
   --font-sans:         var(--font-sans);
   --font-display:      var(--font-display);
   --font-mono:         var(--font-geist-mono);
+
+  /* text-xs … text-7xl follow the fluid scale */
+  --text-xs:   var(--fs-12);
+  --text-sm:   var(--fs-14);
+  --text-base: var(--fs-16);
+  --text-lg:   var(--fs-18);
+  --text-xl:   var(--fs-20);
+  --text-2xl:  var(--fs-24);
+  --text-3xl:  var(--fs-30);
+  --text-4xl:  var(--fs-36);
+  --text-5xl:  var(--fs-48);
+  --text-6xl:  var(--fs-62);
+  --text-7xl:  var(--fs-74);
 
   /* Marketing palette — `text-mut`, `border-line2`, `bg-alt`, `bg-chip`, … */
   --color-txt:         var(--txt);
@@ -146,7 +220,7 @@ body {
   background: var(--bg-canvas);
   color: var(--foreground);
   font-family: var(--font-sans);
-  font-size: 14px;
+  font-size: var(--fs-14);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
 }
@@ -297,7 +371,7 @@ body {
 @utility dropcap {
   &::first-letter {
     font-family: var(--font-display);
-    font-size: 66px;
+    font-size: var(--fs-66);
     float: left;
     line-height: .82;
     padding: 6px 12px 0 0;
@@ -369,6 +443,12 @@ body {
     radial-gradient(90% 70% at 100% 0%, color-mix(in srgb, var(--color-accent-2) 12%, transparent), transparent 60%),
     radial-gradient(90% 70% at 0% 100%, color-mix(in srgb, var(--color-accent) 9%, transparent), transparent 55%);
   margin: -24px; padding: 24px; border-radius: 24px;
+}
+
+/* Phones: form controls at ≥16px so iOS Safari does not zoom on focus,
+   and buttons/labels stay readable and tappable. */
+@media (max-width: 767px) {
+  input:not([type="checkbox"]):not([type="radio"]), select, textarea { font-size: max(1rem, 1em); }
 }
 
 /* dashboard responsive */

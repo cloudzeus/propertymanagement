@@ -70,7 +70,7 @@ export function PropertiesMap({ markers, missing = [], height = 560 }: { markers
         style={{ height, width: "100%", borderRadius: 8, overflow: "hidden", border: "1px solid var(--border)" }}
       />
       {missing.length > 0 && (
-        <div style={{ fontSize: 12, color: "var(--muted-foreground)", padding: "8px 10px", borderRadius: 6, background: "#CA5D0014", border: "1px solid #CA5D0033" }}>
+        <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)", padding: "8px 10px", borderRadius: 6, background: "#CA5D0014", border: "1px solid #CA5D0033" }}>
           <strong style={{ color: "#CA5D00" }}>{missing.length}</strong> {missing.length === 1 ? "ιδιοκτησία χωρίς" : "ιδιοκτησίες χωρίς"} θέση στον χάρτη: {missing.join(", ")}.
           {" "}Ορίστε συντεταγμένες από την επεξεργασία της ιδιοκτησίας (κουμπί εύρεσης στίγματος).
         </div>

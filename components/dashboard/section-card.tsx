@@ -11,10 +11,10 @@ export function SectionCard({
       borderRadius: 18, boxShadow: "var(--shadow-card)", padding: 24,
     }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
-        <h2 style={{ fontSize: 15, fontWeight: 600, color: "var(--foreground)", margin: 0 }}>{title}</h2>
+        <h2 style={{ fontSize: "var(--fs-15)", fontWeight: 600, color: "var(--foreground)", margin: 0 }}>{title}</h2>
         {viewAllHref && (
           <Link href={viewAllHref} style={{
-            fontSize: 12, color: "var(--muted-foreground)", display: "flex", alignItems: "center",
+            fontSize: "var(--fs-12)", color: "var(--muted-foreground)", display: "flex", alignItems: "center",
             gap: 4, textDecoration: "none", fontWeight: 600,
           }}>
             {viewAllLabel} <RiArrowRightLine />

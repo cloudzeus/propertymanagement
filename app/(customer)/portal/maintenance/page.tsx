@@ -59,7 +59,7 @@ export default async function PortalMaintenancePage() {
 
   return (
     <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 18, maxWidth: 900 }}>
-      <h1 style={{ fontSize: 22, fontWeight: 700, color: "var(--foreground)", margin: 0 }}>Συντηρήσεις</h1>
+      <h1 style={{ fontSize: "var(--fs-22)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}>Συντηρήσεις</h1>
 
       <SectionCard title="Επερχόμενες συντηρήσεις">
         {tasks.length === 0 ? (
@@ -72,14 +72,14 @@ export default async function PortalMaintenancePage() {
                 padding: "10px 14px", background: "var(--bg-canvas)", borderRadius: 8, flexWrap: "wrap",
               }}>
                 <div style={{ minWidth: 0 }}>
-                  <div style={{ fontSize: 14, fontWeight: 500, color: "var(--foreground)" }}>{t.title}</div>
-                  <div style={{ fontSize: 12, color: "var(--muted-foreground)" }}>
+                  <div style={{ fontSize: "var(--fs-14)", fontWeight: 500, color: "var(--foreground)" }}>{t.title}</div>
+                  <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>
                     {FREQ_LABEL[t.frequency] ?? t.frequency}
                     {multiBuilding ? ` · ${t.building.name}` : ""}
                     {t.vendor ? ` · ${t.vendor}` : ""}
                   </div>
                 </div>
-                <span style={{ fontSize: 13, fontWeight: 600, color: "var(--foreground)", whiteSpace: "nowrap" }}>
+                <span style={{ fontSize: "var(--fs-13)", fontWeight: 600, color: "var(--foreground)", whiteSpace: "nowrap" }}>
                   {t.nextDueDate ? fmtDate(t.nextDueDate) : "—"}
                 </span>
               </div>
@@ -99,8 +99,8 @@ export default async function PortalMaintenancePage() {
                 padding: "10px 14px", background: "var(--bg-canvas)", borderRadius: 8,
               }}>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ fontSize: 14, fontWeight: 500, color: "var(--foreground)" }}>{h.recurringTask?.title ?? "—"}</div>
-                  <div style={{ fontSize: 12, color: "var(--muted-foreground)" }}>
+                  <div style={{ fontSize: "var(--fs-14)", fontWeight: 500, color: "var(--foreground)" }}>{h.recurringTask?.title ?? "—"}</div>
+                  <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>
                     {fmtDate(h.performedAt)}{multiBuilding ? ` · ${h.building.name}` : ""}{h.notes ? ` · ${h.notes}` : ""}
                   </div>
                 </div>

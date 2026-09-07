@@ -60,7 +60,7 @@ export function ExpenseUploadFlow({
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
       {error && (
-        <div style={{ padding: 10, borderRadius: 6, background: "#FEE7E618", border: "1px solid var(--color-danger)", color: "var(--color-danger)", fontSize: 12 }}>
+        <div style={{ padding: 10, borderRadius: 6, background: "#FEE7E618", border: "1px solid var(--color-danger)", color: "var(--color-danger)", fontSize: "var(--fs-12)" }}>
           {error}
         </div>
       )}
@@ -79,20 +79,20 @@ export function ExpenseUploadFlow({
       >
         {loading ? (
           <>
-            <RiLoaderLine style={{ fontSize: 26, animation: "spin 1s linear infinite" }} />
+            <RiLoaderLine style={{ fontSize: "var(--fs-26)", animation: "spin 1s linear infinite" }} />
             <div>{manual ? "Ανέβασμα αρχείου…" : "Επεξεργασία παραστατικού…"}</div>
           </>
         ) : (
           <>
-            <RiUploadCloud2Line style={{ fontSize: 28 }} />
+            <RiUploadCloud2Line style={{ fontSize: "var(--fs-28)" }} />
             <div>Σύρε ή κάνε κλικ για ανέβασμα παραστατικού</div>
-            <div style={{ fontSize: 11 }}>
+            <div style={{ fontSize: "var(--fs-11)" }}>
               {manual ? "Χειροκίνητη καταχώρηση — το αρχείο αποθηκεύεται χωρίς OCR" : "Εικόνα ή PDF (έως 15MB) — αυτόματη ανάγνωση"}
             </div>
           </>
         )}
       </div>
-      <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 12, color: "var(--muted-foreground)", cursor: loading ? "default" : "pointer" }}>
+      <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: "var(--fs-12)", color: "var(--muted-foreground)", cursor: loading ? "default" : "pointer" }}>
         <input type="checkbox" checked={manual} disabled={loading} onChange={(e) => setManual(e.target.checked)} />
         Χειροκίνητη καταχώρηση (χωρίς αυτόματη ανάγνωση OCR)
       </label>

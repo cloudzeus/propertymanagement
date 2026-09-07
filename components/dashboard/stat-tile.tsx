@@ -20,17 +20,17 @@ export function StatTile({
       display: "flex", flexDirection: "column", gap: 16, height: "100%", minHeight: 132,
     }}>
       <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12 }}>
-        <span style={{ fontSize: 13, color: "var(--muted-foreground)", fontWeight: 500 }}>{label}</span>
+        <span style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)", fontWeight: 500 }}>{label}</span>
         <span style={{
           width: 34, height: 34, borderRadius: 999, background: "var(--color-primary)",
           display: "inline-flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
         }}>
-          <Icon style={{ fontSize: 16, color: "#fff" }} />
+          <Icon style={{ fontSize: "var(--fs-16)", color: "#fff" }} />
         </span>
       </div>
       <div style={{ marginTop: "auto" }}>
-        <div style={{ fontSize: 36, fontWeight: 300, color: valueColor, lineHeight: 1.05, letterSpacing: "-0.02em" }}>{value}</div>
-        {sub && <div style={{ fontSize: 12, color: "var(--muted-foreground)", marginTop: 8 }}>{sub}</div>}
+        <div style={{ fontSize: "var(--fs-36)", fontWeight: 300, color: valueColor, lineHeight: 1.05, letterSpacing: "-0.02em" }}>{value}</div>
+        {sub && <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)", marginTop: 8 }}>{sub}</div>}
       </div>
       {children}
     </div>

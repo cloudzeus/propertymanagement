@@ -67,15 +67,15 @@ export function HeatingReadingsPanel({ buildingId, period, rows, heatingMeterUni
     <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 8, boxShadow: "0 1px 2px rgba(0,0,0,0.06)" }}>
       {/* header: period + meter unit */}
       <div style={{ padding: "13px 16px", borderBottom: "1px solid var(--border)", display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
-        <span style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 14, fontWeight: 700, color: "var(--foreground)" }}>
+        <span style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: "var(--fs-14)", fontWeight: 700, color: "var(--foreground)" }}>
           <RiFireLine style={{ color: "#dc2626" }} /> Ενδείξεις θέρμανσης
         </span>
-        <label style={{ display: "inline-flex", alignItems: "center", gap: 8, fontSize: 13, color: "var(--foreground)" }}>
+        <label style={{ display: "inline-flex", alignItems: "center", gap: 8, fontSize: "var(--fs-13)", color: "var(--foreground)" }}>
           Περίοδος
           <input type="month" value={period} onChange={(e) => { if (e.target.value) changePeriod(e.target.value); }} style={inputStyle} />
         </label>
         {can.editMillesimes ? (
-          <label style={{ display: "inline-flex", alignItems: "center", gap: 8, fontSize: 13, color: "var(--foreground)" }}>
+          <label style={{ display: "inline-flex", alignItems: "center", gap: 8, fontSize: "var(--fs-13)", color: "var(--foreground)" }}>
             Μονάδα μέτρησης
             <input
               defaultValue={heatingMeterUnit ?? ""}
@@ -85,14 +85,14 @@ export function HeatingReadingsPanel({ buildingId, period, rows, heatingMeterUni
             />
           </label>
         ) : (
-          <span style={{ fontSize: 13, color: "var(--foreground)" }}>Μονάδα μέτρησης: <b>{heatingMeterUnit ?? "—"}</b></span>
+          <span style={{ fontSize: "var(--fs-13)", color: "var(--foreground)" }}>Μονάδα μέτρησης: <b>{heatingMeterUnit ?? "—"}</b></span>
         )}
         {isPending && <RiLoaderLine style={{ animation: "spin 1s linear infinite", color: "var(--muted-foreground)" }} />}
       </div>
 
-      <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
+      <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "var(--fs-13)" }}>
         <thead>
-          <tr style={{ textAlign: "left", color: "var(--muted-foreground)", fontSize: 11 }}>
+          <tr style={{ textAlign: "left", color: "var(--muted-foreground)", fontSize: "var(--fs-11)" }}>
             <th style={th}>Μονάδα</th>
             <th style={{ ...th, textAlign: "right" }}>Προηγ.</th>
             <th style={{ ...th, textAlign: "right" }}>Τρέχουσα</th>
@@ -161,5 +161,5 @@ export function HeatingReadingsPanel({ buildingId, period, rows, heatingMeterUni
 
 const th: React.CSSProperties = { padding: "8px 12px" };
 const td: React.CSSProperties = { padding: "6px 12px", color: "var(--foreground)" };
-const inputStyle: React.CSSProperties = { border: "1px solid var(--border)", borderRadius: 6, padding: "5px 8px", fontSize: 13, background: "var(--card)", color: "var(--foreground)" };
-const btn: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 6, border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)", borderRadius: 6, padding: "7px 13px", fontSize: 13, fontWeight: 600, cursor: "pointer" };
+const inputStyle: React.CSSProperties = { border: "1px solid var(--border)", borderRadius: 6, padding: "5px 8px", fontSize: "var(--fs-13)", background: "var(--card)", color: "var(--foreground)" };
+const btn: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 6, border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)", borderRadius: 6, padding: "7px 13px", fontSize: "var(--fs-13)", fontWeight: 600, cursor: "pointer" };

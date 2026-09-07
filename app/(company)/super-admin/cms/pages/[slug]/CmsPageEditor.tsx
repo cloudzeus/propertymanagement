@@ -39,7 +39,7 @@ const selectStyle: React.CSSProperties = {
   padding: "8px 12px",
   border: "1px solid var(--border)",
   borderRadius: 6,
-  fontSize: 13,
+  fontSize: "var(--fs-13)",
   color: "var(--foreground)",
   background: "var(--bg-canvas)",
   outline: "none",

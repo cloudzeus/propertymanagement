@@ -27,7 +27,7 @@ function relChip(rel: string) {
   const owner = rel.includes("Ιδιοκτήτης");
   const bg = owner ? "var(--color-blue-soft)" : "var(--color-green-soft)";
   const fg = owner ? "var(--color-blue)" : "var(--color-green)";
-  return <span style={{ fontSize: 11, fontWeight: 700, padding: "2px 8px", borderRadius: 9999, background: bg, color: fg }}>{rel}</span>;
+  return <span style={{ fontSize: "var(--fs-11)", fontWeight: 700, padding: "2px 8px", borderRadius: 9999, background: bg, color: fg }}>{rel}</span>;
 }
 
 export function PeoplePanel({ people, can }: { people: Person[]; can: BuildingCaps }) {
@@ -38,25 +38,25 @@ export function PeoplePanel({ people, can }: { people: Person[]; can: BuildingCa
       id: "name", header: "Όνομα", sortKey: "name", width: 220, accessor: (p) => p.name ?? p.email,
       cell: (p) => (
         <div style={{ display: "flex", alignItems: "center", gap: 8, minWidth: 0 }}>
-          <div style={{ width: 26, height: 26, borderRadius: "50%", flexShrink: 0, background: "var(--color-primary)18", color: "var(--color-primary)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, fontWeight: 700 }}>
+          <div style={{ width: 26, height: 26, borderRadius: "50%", flexShrink: 0, background: "var(--color-primary)18", color: "var(--color-primary)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "var(--fs-11)", fontWeight: 700 }}>
             {(p.name ?? p.email)[0]?.toUpperCase()}
           </div>
-          <span style={{ fontSize: 13, fontWeight: 600, color: "var(--foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{p.name ?? "—"}</span>
+          <span style={{ fontSize: "var(--fs-13)", fontWeight: 600, color: "var(--foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{p.name ?? "—"}</span>
         </div>
       ),
     },
     { id: "email", header: "Email", sortKey: "email", width: 220, accessor: (p) => p.email,
-      cell: (p) => <span style={{ fontSize: 12, color: "var(--muted-foreground)" }}>{p.email}</span> },
+      cell: (p) => <span style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>{p.email}</span> },
     { id: "phone", header: "Τηλέφωνο", width: 130, accessor: (p) => p.phone ?? "",
-      cell: (p) => <span style={{ fontSize: 12, color: "var(--foreground)" }}>{p.phone ?? "—"}</span> },
+      cell: (p) => <span style={{ fontSize: "var(--fs-12)", color: "var(--foreground)" }}>{p.phone ?? "—"}</span> },
     { id: "mobile", header: "Κινητό", width: 130, accessor: (p) => p.mobile ?? "",
-      cell: (p) => <span style={{ fontSize: 12, color: "var(--foreground)" }}>{p.mobile ?? "—"}</span> },
+      cell: (p) => <span style={{ fontSize: "var(--fs-12)", color: "var(--foreground)" }}>{p.mobile ?? "—"}</span> },
     {
       id: "relation", header: "Ιδιότητα", width: 150, accessor: (p) => p.relation,
       cell: (p) => relChip(REL_LABEL[p.relation] ?? p.relation),
     },
     { id: "units", header: "Μονάδες", width: 90, accessor: (p) => new Set(p.unitsHere.map((u) => u.unitId)).size,
-      cell: (p) => <span style={{ fontSize: 13, color: "var(--foreground)" }}>{new Set(p.unitsHere.map((u) => u.unitId)).size}</span> },
+      cell: (p) => <span style={{ fontSize: "var(--fs-13)", color: "var(--foreground)" }}>{new Set(p.unitsHere.map((u) => u.unitId)).size}</span> },
   ];
 
   const getRowActions = (_p: Person): RowAction<Person>[] => [
@@ -94,8 +94,8 @@ function EditPersonModal({ person, onClose, onDone }: { person: Person; onClose:
   return (
     <Modal open onClose={onClose} title={`Επεξεργασία — ${person.name ?? person.email}`} width={460}
       footer={<>
-        <button onClick={onClose} style={{ padding: "7px 16px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: 13, color: "var(--foreground)" }}>Ακύρωση</button>
-        <button onClick={save} disabled={isPending} style={{ padding: "7px 16px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: "pointer", fontSize: 13, fontWeight: 600, display: "flex", alignItems: "center", gap: 6 }}>{isPending ? <RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> : <RiCheckLine />} Αποθήκευση</button>
+        <button onClick={onClose} style={{ padding: "7px 16px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: "var(--fs-13)", color: "var(--foreground)" }}>Ακύρωση</button>
+        <button onClick={save} disabled={isPending} style={{ padding: "7px 16px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: "pointer", fontSize: "var(--fs-13)", fontWeight: 600, display: "flex", alignItems: "center", gap: 6 }}>{isPending ? <RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> : <RiCheckLine />} Αποθήκευση</button>
       </>}>
       <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
         <FormField label="Ονοματεπώνυμο"><FieldInput value={form.name} onChange={f("name")} /></FormField>
@@ -103,7 +103,7 @@ function EditPersonModal({ person, onClose, onDone }: { person: Person; onClose:
           <FormField label="Τηλέφωνο"><FieldInput value={form.phone} onChange={f("phone")} /></FormField>
           <FormField label="Κινητό"><FieldInput value={form.mobile} onChange={f("mobile")} /></FormField>
         </div>
-        <p style={{ fontSize: 11, color: "var(--muted-foreground)", margin: 0 }}>Το email δεν αλλάζει εδώ (είναι το username εισόδου).</p>
+        <p style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)", margin: 0 }}>Το email δεν αλλάζει εδώ (είναι το username εισόδου).</p>
       </div>
       <style>{`@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}`}</style>
     </Modal>
@@ -116,23 +116,23 @@ function PersonExpanded({ person, canEdit }: { person: Person; canEdit: boolean 
     <div style={{ display: "grid", gridTemplateColumns: "260px 1fr", gap: 18, padding: "4px 6px 8px" }}>
       {/* contact card */}
       <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 8, padding: 14 }}>
-        <div style={{ fontSize: 11, fontWeight: 700, color: "var(--muted-foreground)", textTransform: "uppercase", letterSpacing: ".05em", marginBottom: 10 }}>Στοιχεία επικοινωνίας</div>
+        <div style={{ fontSize: "var(--fs-11)", fontWeight: 700, color: "var(--muted-foreground)", textTransform: "uppercase", letterSpacing: ".05em", marginBottom: 10 }}>Στοιχεία επικοινωνίας</div>
         <Kv icon={<RiMailLine />} v={person.email} />
         <Kv icon={<RiPhoneLine />} v={person.phone ?? "—"} />
         <Kv icon={<RiSmartphoneLine />} v={person.mobile ?? "—"} />
         <div style={{ marginTop: 10, display: "flex", gap: 6, flexWrap: "wrap" }}>
           {relChip(REL_LABEL[person.relation] ?? person.relation)}
-          <span style={{ fontSize: 11, fontWeight: 700, padding: "2px 8px", borderRadius: 9999, background: "var(--bg-canvas)", color: "var(--muted-foreground)", border: "1px solid var(--border)" }}>{person.role}</span>
-          <span style={{ fontSize: 11, fontWeight: 700, padding: "2px 8px", borderRadius: 9999, background: person.status === "ACTIVE" ? "var(--color-green-soft)" : "var(--bg-canvas)", color: person.status === "ACTIVE" ? "var(--color-green)" : "var(--muted-foreground)" }}>{person.status}</span>
+          <span style={{ fontSize: "var(--fs-11)", fontWeight: 700, padding: "2px 8px", borderRadius: 9999, background: "var(--bg-canvas)", color: "var(--muted-foreground)", border: "1px solid var(--border)" }}>{person.role}</span>
+          <span style={{ fontSize: "var(--fs-11)", fontWeight: 700, padding: "2px 8px", borderRadius: 9999, background: person.status === "ACTIVE" ? "var(--color-green-soft)" : "var(--bg-canvas)", color: person.status === "ACTIVE" ? "var(--color-green)" : "var(--muted-foreground)" }}>{person.status}</span>
         </div>
       </div>
 
       {/* units */}
       <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
         <div>
-          <div style={{ fontSize: 11, fontWeight: 700, color: "var(--muted-foreground)", textTransform: "uppercase", letterSpacing: ".05em", marginBottom: 6, display: "flex", alignItems: "center", gap: 6 }}><RiHome4Line /> Μονάδες σε αυτό το κτήριο</div>
-          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
-            <thead><tr style={{ textAlign: "left", color: "var(--muted-foreground)", fontSize: 11 }}>
+          <div style={{ fontSize: "var(--fs-11)", fontWeight: 700, color: "var(--muted-foreground)", textTransform: "uppercase", letterSpacing: ".05em", marginBottom: 6, display: "flex", alignItems: "center", gap: 6 }}><RiHome4Line /> Μονάδες σε αυτό το κτήριο</div>
+          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "var(--fs-13)" }}>
+            <thead><tr style={{ textAlign: "left", color: "var(--muted-foreground)", fontSize: "var(--fs-11)" }}>
               <th style={th}>Μονάδα</th><th style={th}>Τύπος</th><th style={th}>Όροφος</th><th style={{ ...th, textAlign: "right" }}>τ.μ.</th><th style={{ ...th, textAlign: "right" }}>‰</th><th style={th}>Ιδιότητα</th><th style={th}>Από</th><th style={th}>Έως</th><th style={th}></th>
             </tr></thead>
             <tbody>
@@ -148,7 +148,7 @@ function PersonExpanded({ person, canEdit }: { person: Person; canEdit: boolean 
                   <td style={td}>{fmtDate(u.to) ?? <span style={{ color: "var(--color-green)", fontWeight: 700 }}>Τρέχον</span>}</td>
                   <td style={{ ...td, textAlign: "right" }}>
                     {canEdit && (
-                      <button onClick={() => setEditUnit(u)} title="Επεξεργασία ημερομηνιών" style={{ display: "inline-flex", alignItems: "center", gap: 4, border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)", borderRadius: 4, padding: "4px 8px", fontSize: 11, fontWeight: 600, cursor: "pointer" }}>
+                      <button onClick={() => setEditUnit(u)} title="Επεξεργασία ημερομηνιών" style={{ display: "inline-flex", alignItems: "center", gap: 4, border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)", borderRadius: 4, padding: "4px 8px", fontSize: "var(--fs-11)", fontWeight: 600, cursor: "pointer" }}>
                         <RiCalendarEventLine /> Ημ/νίες
                       </button>
                     )}
@@ -162,10 +162,10 @@ function PersonExpanded({ person, canEdit }: { person: Person; canEdit: boolean 
 
         {person.unitsElsewhere.length > 0 && (
           <div>
-            <div style={{ fontSize: 11, fontWeight: 700, color: "var(--muted-foreground)", textTransform: "uppercase", letterSpacing: ".05em", marginBottom: 6, display: "flex", alignItems: "center", gap: 6 }}><RiMapPin2Line /> Άλλες μονάδες (εκτός κτηρίου)</div>
+            <div style={{ fontSize: "var(--fs-11)", fontWeight: 700, color: "var(--muted-foreground)", textTransform: "uppercase", letterSpacing: ".05em", marginBottom: 6, display: "flex", alignItems: "center", gap: 6 }}><RiMapPin2Line /> Άλλες μονάδες (εκτός κτηρίου)</div>
             <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
               {person.unitsElsewhere.map((u, i) => (
-                <div key={i} style={{ fontSize: 12, color: "var(--muted-foreground)" }}>
+                <div key={i} style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>
                   <b style={{ color: "var(--foreground)" }}>{u.unitNumber}</b> · {u.building} ({u.property}) — {u.rel}
                 </div>
               ))}
@@ -196,10 +196,10 @@ function DatesModal({ person, unit, onClose }: { person: Person; unit: PUnit; on
   return (
     <Modal open onClose={onClose} title={`Ημερομηνίες — ${unit.unitNumber} (${unit.rel})`} width={420}
       footer={<>
-        <button onClick={onClose} style={{ padding: "7px 16px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: 13, color: "var(--foreground)" }}>Ακύρωση</button>
-        <button onClick={save} disabled={isPending} style={{ padding: "7px 16px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: "pointer", fontSize: 13, fontWeight: 600, display: "flex", alignItems: "center", gap: 6 }}>{isPending ? <RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> : <RiCheckLine />} Αποθήκευση</button>
+        <button onClick={onClose} style={{ padding: "7px 16px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: "var(--fs-13)", color: "var(--foreground)" }}>Ακύρωση</button>
+        <button onClick={save} disabled={isPending} style={{ padding: "7px 16px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: "pointer", fontSize: "var(--fs-13)", fontWeight: 600, display: "flex", alignItems: "center", gap: 6 }}>{isPending ? <RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> : <RiCheckLine />} Αποθήκευση</button>
       </>}>
-      {error && <div style={{ padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: 12, marginBottom: 12 }}>{error}</div>}
+      {error && <div style={{ padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: "var(--fs-12)", marginBottom: 12 }}>{error}</div>}
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
         <FormField label="Από" required><FieldInput type="date" value={from} onChange={setFrom} /></FormField>
         <FormField label="Έως (κενό = τρέχον)"><FieldInput type="date" value={to} onChange={setTo} /></FormField>
@@ -211,7 +211,7 @@ function DatesModal({ person, unit, onClose }: { person: Person; unit: PUnit; on
 
 function Kv({ icon, v }: { icon: React.ReactNode; v: string }) {
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: "var(--foreground)", padding: "3px 0" }}>
+    <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: "var(--fs-13)", color: "var(--foreground)", padding: "3px 0" }}>
       <span style={{ color: "var(--muted-foreground)", display: "inline-flex" }}>{icon}</span> {v}
     </div>
   );

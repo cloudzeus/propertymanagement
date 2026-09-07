@@ -35,12 +35,12 @@ export function AuditDrawer({ buildingId, onGoToTab }: { buildingId: string; onG
               <b>Έλεγχος καταχωρήσεων</b>
               <button onClick={() => setOpen(false)} aria-label="Κλείσιμο"><RiCloseLine /></button>
             </div>
-            <div style={{ padding: "10px 14px", borderBottom: "1px solid var(--border)", display: "flex", gap: 14, fontSize: 12 }}>
+            <div style={{ padding: "10px 14px", borderBottom: "1px solid var(--border)", display: "flex", gap: 14, fontSize: "var(--fs-12)" }}>
               {(Object.keys(SEV) as (keyof typeof SEV)[]).map((s) => (
                 <span key={s} style={{ color: SEV[s].color, fontWeight: 700 }}>● {counts(s)} {SEV[s].label}</span>
               ))}
             </div>
-            <div style={{ flex: 1, overflowY: "auto", fontSize: 13 }}>
+            <div style={{ flex: 1, overflowY: "auto", fontSize: "var(--fs-13)" }}>
               {pending && <div style={{ padding: 16, color: "#888" }}>Έλεγχος…</div>}
               {!pending && findings && findings.length === 0 && (
                 <div style={{ padding: 20, color: "#0a8", display: "flex", gap: 8, alignItems: "center" }}><RiCheckboxCircleLine /> Όλα εντάξει — καμία ένδειξη προβλήματος.</div>
@@ -51,8 +51,8 @@ export function AuditDrawer({ buildingId, onGoToTab }: { buildingId: string; onG
                   return (
                     <div key={sev + i} style={{ padding: "10px 14px", borderBottom: "1px solid var(--border)" }}>
                       <div style={{ color: S.color, fontWeight: 600, display: "flex", gap: 6, alignItems: "center" }}><S.icon /> {f.title}</div>
-                      <div style={{ color: "var(--muted-foreground, #777)", fontSize: 12, margin: "3px 0" }}>{f.detail}</div>
-                      {onGoToTab && <button onClick={() => { onGoToTab(f.tab); setOpen(false); }} style={{ color: "#0a7", fontSize: 12, background: "none", border: "none", padding: 0, cursor: "pointer" }}>→ Διόρθωση</button>}
+                      <div style={{ color: "var(--muted-foreground, #777)", fontSize: "var(--fs-12)", margin: "3px 0" }}>{f.detail}</div>
+                      {onGoToTab && <button onClick={() => { onGoToTab(f.tab); setOpen(false); }} style={{ color: "#0a7", fontSize: "var(--fs-12)", background: "none", border: "none", padding: 0, cursor: "pointer" }}>→ Διόρθωση</button>}
                     </div>
                   );
                 }),

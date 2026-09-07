@@ -42,7 +42,7 @@ function truncate(s: string, n = 80): string {
 function Badge({ label, color }: { label: string; color: string }) {
   return (
     <span style={{
-      fontSize: 11, fontWeight: 600, padding: "2px 8px", borderRadius: 20,
+      fontSize: "var(--fs-11)", fontWeight: 600, padding: "2px 8px", borderRadius: 20,
       background: `color-mix(in srgb, ${color} 12%, transparent)`, color,
     }}>{label}</span>
   );
@@ -113,7 +113,7 @@ export function FaqClient({ initial }: { initial: Faq[] }) {
       id: "question", header: "Ερώτηση", sortKey: "question", width: 360,
       accessor: (f) => f.i18n?.question?.el ?? f.question,
       cell: (f) => (
-        <span style={{ fontSize: 13, fontWeight: 600, color: "var(--foreground)" }}>
+        <span style={{ fontSize: "var(--fs-13)", fontWeight: 600, color: "var(--foreground)" }}>
           {truncate(f.i18n?.question?.el ?? f.question ?? "(χωρίς τίτλο)")}
         </span>
       ),
@@ -121,12 +121,12 @@ export function FaqClient({ initial }: { initial: Faq[] }) {
     {
       id: "category", header: "Κατηγορία", sortKey: "category", width: 140,
       accessor: (f) => f.category ?? "",
-      cell: (f) => <span style={{ fontSize: 13, color: "var(--muted-foreground)" }}>{f.category ?? "—"}</span>,
+      cell: (f) => <span style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }}>{f.category ?? "—"}</span>,
     },
     {
       id: "order", header: "Σειρά", sortKey: "order", width: 80,
       accessor: (f) => f.order,
-      cell: (f) => <span style={{ fontSize: 13, color: "var(--muted-foreground)" }}>{f.order}</span>,
+      cell: (f) => <span style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }}>{f.order}</span>,
     },
     {
       id: "published", header: "Κατάσταση", sortKey: "published", width: 130,
@@ -142,7 +142,7 @@ export function FaqClient({ initial }: { initial: Faq[] }) {
     { label: "Διαγραφή", icon: <RiDeleteBinLine />, danger: true, onClick: handleDelete },
   ];
 
-  const labelCheck: React.CSSProperties = { display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: "var(--foreground)", cursor: "pointer" };
+  const labelCheck: React.CSSProperties = { display: "flex", alignItems: "center", gap: 8, fontSize: "var(--fs-13)", color: "var(--foreground)", cursor: "pointer" };
 
   return (
     <CmsPage icon={<RiQuestionLine />} title="FAQ" subtitle="Διαχείριση συχνών ερωτήσεων">
@@ -172,15 +172,15 @@ export function FaqClient({ initial }: { initial: Faq[] }) {
         width={560}
         footer={
           <>
-            <button onClick={() => setOpen(false)} style={{ padding: "7px 16px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: 13, color: "var(--foreground)" }}>Ακύρωση</button>
-            <button onClick={handleSave} disabled={isPending} style={{ padding: "7px 16px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: isPending ? "wait" : "pointer", fontSize: 13, fontWeight: 600, display: "flex", alignItems: "center", gap: 6 }}>
+            <button onClick={() => setOpen(false)} style={{ padding: "7px 16px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: "var(--fs-13)", color: "var(--foreground)" }}>Ακύρωση</button>
+            <button onClick={handleSave} disabled={isPending} style={{ padding: "7px 16px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: isPending ? "wait" : "pointer", fontSize: "var(--fs-13)", fontWeight: 600, display: "flex", alignItems: "center", gap: 6 }}>
               {isPending ? <RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> : <RiCheckLine />}
               Αποθήκευση
             </button>
           </>
         }
       >
-        {error && <div style={{ padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: 12, border: "1px solid #fca5a530", marginBottom: 14 }}>{error}</div>}
+        {error && <div style={{ padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: "var(--fs-12)", border: "1px solid #fca5a530", marginBottom: 14 }}>{error}</div>}
 
         <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
           <LocaleTabs value={locale} onChange={setLocale} />

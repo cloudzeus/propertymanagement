@@ -105,17 +105,17 @@ export default async function CustomerDetailPage({ params }: { params: Promise<{
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-      <Link href="/super-admin/customers" style={{ fontSize: 12, color: "var(--muted-foreground)", display: "flex", alignItems: "center", gap: 4, textDecoration: "none", width: "fit-content" }}>
+      <Link href="/super-admin/customers" style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)", display: "flex", alignItems: "center", gap: 4, textDecoration: "none", width: "fit-content" }}>
         <RiArrowLeftLine /> Πίσω στους Πελάτες
       </Link>
 
       {/* ── Header ─────────────────────────────────────────────── */}
       <div style={{ ...cardStyle, display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
         <div style={{ width: 52, height: 52, borderRadius: 12, flexShrink: 0, background: "var(--color-primary)18", display: "flex", alignItems: "center", justifyContent: "center" }}>
-          <RiContactsLine style={{ fontSize: 26, color: "var(--color-primary)" }} />
+          <RiContactsLine style={{ fontSize: "var(--fs-26)", color: "var(--color-primary)" }} />
         </div>
         <div style={{ minWidth: 200 }}>
-          <h1 style={{ fontSize: 22, fontWeight: 700, color: "var(--foreground)", margin: 0, display: "flex", alignItems: "center", gap: 10 }}>
+          <h1 style={{ fontSize: "var(--fs-22)", fontWeight: 700, color: "var(--foreground)", margin: 0, display: "flex", alignItems: "center", gap: 10 }}>
             {customer.name}
             {customer.isActive ? (
               <span style={{ ...pill, background: "#15803D15", color: "#15803D" }}><RiCheckboxCircleLine /> Ενεργός</span>
@@ -123,7 +123,7 @@ export default async function CustomerDetailPage({ params }: { params: Promise<{
               <span style={{ ...pill, background: "#B91C1C15", color: "#B91C1C" }}><RiCloseCircleLine /> Ανενεργός</span>
             )}
           </h1>
-          <p style={{ fontSize: 12, color: "var(--muted-foreground)", marginTop: 4, display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+          <p style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)", marginTop: 4, display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
             <span style={{ ...pill, background: customer.type === "COMPANY" ? "#8764B818" : "#0078D418", color: customer.type === "COMPANY" ? "#8764B8" : "#0078D4" }}>
               {TYPE_LABEL[customer.type] ?? customer.type}
             </span>
@@ -142,8 +142,8 @@ export default async function CustomerDetailPage({ params }: { params: Promise<{
             { label: "Οφειλές", val: eur(outstanding), color: outstanding > 0 ? "#B91C1C" : "#15803D" },
           ].map((s, i) => (
             <div key={s.label} style={{ textAlign: "center", padding: "0 18px", borderLeft: i > 0 ? "1px solid var(--border)" : "none" }}>
-              <div style={{ fontSize: 19, fontWeight: 700, color: s.color ?? "var(--foreground)", fontVariantNumeric: "tabular-nums" }}>{s.val}</div>
-              <div style={{ fontSize: 11, color: "var(--muted-foreground)", whiteSpace: "nowrap" }}>{s.label}</div>
+              <div style={{ fontSize: "var(--fs-19)", fontWeight: 700, color: s.color ?? "var(--foreground)", fontVariantNumeric: "tabular-nums" }}>{s.val}</div>
+              <div style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)", whiteSpace: "nowrap" }}>{s.label}</div>
             </div>
           ))}
         </div>
@@ -156,7 +156,7 @@ export default async function CustomerDetailPage({ params }: { params: Promise<{
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <div style={cardStyle}>
             <h3 style={cardTitle}>Στοιχεία</h3>
-            <div style={{ display: "grid", gridTemplateColumns: "auto 1fr", gap: "7px 14px", fontSize: 13 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "auto 1fr", gap: "7px 14px", fontSize: "var(--fs-13)" }}>
               {rows.map(([k, v]) => (
                 <div key={k} style={{ display: "contents" }}>
                   <span style={{ color: "var(--muted-foreground)" }}>{k}</span>
@@ -165,16 +165,16 @@ export default async function CustomerDetailPage({ params }: { params: Promise<{
               ))}
             </div>
             <h3 style={{ ...cardTitle, marginTop: 16 }}>Διεύθυνση</h3>
-            <p style={{ fontSize: 13, color: "var(--foreground)", margin: 0 }}>{addr || "—"}</p>
+            <p style={{ fontSize: "var(--fs-13)", color: "var(--foreground)", margin: 0 }}>{addr || "—"}</p>
             {customer.lat != null && customer.lng != null && (
-              <p style={{ fontSize: 12, color: "#16a34a", marginTop: 6, display: "flex", alignItems: "center", gap: 5 }}>
+              <p style={{ fontSize: "var(--fs-12)", color: "#16a34a", marginTop: 6, display: "flex", alignItems: "center", gap: 5 }}>
                 <RiMapPin2Line /> {customer.lat.toFixed(6)}, {customer.lng.toFixed(6)}
               </p>
             )}
             {customer.remarks && (
               <>
                 <h3 style={{ ...cardTitle, marginTop: 16 }}>Παρατηρήσεις</h3>
-                <p style={{ fontSize: 13, color: "var(--muted-foreground)", margin: 0 }}>{customer.remarks}</p>
+                <p style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)", margin: 0 }}>{customer.remarks}</p>
               </>
             )}
           </div>
@@ -185,13 +185,13 @@ export default async function CustomerDetailPage({ params }: { params: Promise<{
             {wallet ? (
               <>
                 <div style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
-                  <span style={{ fontSize: 24, fontWeight: 700, color: Number(wallet.balanceEur) > 0 ? "var(--foreground)" : "#B91C1C", fontVariantNumeric: "tabular-nums" }}>
+                  <span style={{ fontSize: "var(--fs-24)", fontWeight: 700, color: Number(wallet.balanceEur) > 0 ? "var(--foreground)" : "#B91C1C", fontVariantNumeric: "tabular-nums" }}>
                     {eur(Number(wallet.balanceEur))}
                   </span>
-                  <span style={{ fontSize: 11, color: "var(--muted-foreground)" }}>υπόλοιπο</span>
+                  <span style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)" }}>υπόλοιπο</span>
                 </div>
                 {customer.meteredPlan && (
-                  <p style={{ fontSize: 12, color: "var(--muted-foreground)", margin: "8px 0 0", display: "flex", alignItems: "center", gap: 5 }}>
+                  <p style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)", margin: "8px 0 0", display: "flex", alignItems: "center", gap: 5 }}>
                     <RiFlashlightLine />
                     Μηνιαίο όριο {eur(Number(customer.meteredPlan.monthlyAllowanceEur))}
                     {customer.meteredPlan.rollover ? " · με μεταφορά" : ""}
@@ -201,7 +201,7 @@ export default async function CustomerDetailPage({ params }: { params: Promise<{
                 {walletTxns && walletTxns.length > 0 && (
                   <div style={{ marginTop: 12, borderTop: "1px solid var(--border)", paddingTop: 10 }}>
                     {walletTxns.map((t) => (
-                      <div key={t.id} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 12, padding: "4px 0" }}>
+                      <div key={t.id} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: "var(--fs-12)", padding: "4px 0" }}>
                         <RiTimeLine style={{ color: "var(--muted-foreground)", flexShrink: 0 }} />
                         <span style={{ color: "var(--muted-foreground)", flexShrink: 0 }}>{dt(t.createdAt)}</span>
                         <span style={{ color: "var(--foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{t.description}</span>
@@ -214,7 +214,7 @@ export default async function CustomerDetailPage({ params }: { params: Promise<{
                 )}
               </>
             ) : (
-              <p style={{ fontSize: 13, color: "var(--muted-foreground)", margin: 0 }}>Δεν έχει δημιουργηθεί πορτοφόλι.</p>
+              <p style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)", margin: 0 }}>Δεν έχει δημιουργηθεί πορτοφόλι.</p>
             )}
           </div>
         </div>
@@ -224,25 +224,25 @@ export default async function CustomerDetailPage({ params }: { params: Promise<{
           <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 12 }}>
             <h3 style={{ ...cardTitle, margin: 0, display: "flex", alignItems: "center", gap: 6 }}><RiStackLine /> Συνδρομές &amp; Υπηρεσίες</h3>
             {monthlyEstimate > 0 && (
-              <span style={{ fontSize: 12, color: "var(--muted-foreground)" }}>
+              <span style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>
                 ~<strong style={{ color: "var(--foreground)" }}>{eur(monthlyEstimate)}</strong>/μήνα
               </span>
             )}
           </div>
           {subscriptions.length === 0 ? (
-            <p style={{ fontSize: 13, color: "var(--muted-foreground)", margin: 0 }}>Δεν υπάρχουν ενεργοποιημένες υπηρεσίες.</p>
+            <p style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)", margin: 0 }}>Δεν υπάρχουν ενεργοποιημένες υπηρεσίες.</p>
           ) : (
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               {subscriptions.map((s) => (
                 <div key={s.id} style={{ border: "1px solid var(--border)", borderRadius: 8, padding: "10px 12px", opacity: s.active ? 1 : 0.6 }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                    <span style={{ fontSize: 13, fontWeight: 600, color: "var(--foreground)" }}>{s.service.name}</span>
+                    <span style={{ fontSize: "var(--fs-13)", fontWeight: 600, color: "var(--foreground)" }}>{s.service.name}</span>
                     {s.service.isCore && <span style={{ ...pill, background: "var(--color-primary)15", color: "var(--color-primary)" }}>CORE</span>}
                     <span style={{ marginLeft: "auto", ...pill, background: s.active ? "#15803D15" : "#6B728015", color: s.active ? "#15803D" : "#6B7280" }}>
                       {s.active ? "Ενεργή" : "Ανενεργή"}
                     </span>
                   </div>
-                  <div style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 12, color: "var(--muted-foreground)", marginTop: 5, flexWrap: "wrap" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 10, fontSize: "var(--fs-12)", color: "var(--muted-foreground)", marginTop: 5, flexWrap: "wrap" }}>
                     <span>{s.propertyName}</span>
                     <span>·</span>
                     <span style={{ fontVariantNumeric: "tabular-nums" }}>
@@ -263,20 +263,20 @@ export default async function CustomerDetailPage({ params }: { params: Promise<{
         <div style={cardStyle}>
           <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 12 }}>
             <h3 style={{ ...cardTitle, margin: 0, display: "flex", alignItems: "center", gap: 6 }}><RiBankCardLine /> Τιμολόγια &amp; Πληρωμές</h3>
-            <span style={{ fontSize: 12, color: "var(--muted-foreground)" }}>
+            <span style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>
               Εξοφλημένα <strong style={{ color: "#15803D" }}>{eur(paidTotal)}</strong>
             </span>
           </div>
           {invoices.length === 0 ? (
-            <p style={{ fontSize: 13, color: "var(--muted-foreground)", margin: 0 }}>Δεν έχουν εκδοθεί τιμολόγια.</p>
+            <p style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)", margin: 0 }}>Δεν έχουν εκδοθεί τιμολόγια.</p>
           ) : (
             <div style={{ display: "flex", flexDirection: "column" }}>
               {invoices.map((inv, i) => {
                 const st = INVOICE_STATUS[inv.status] ?? INVOICE_STATUS.PENDING;
                 return (
-                  <div key={inv.id} style={{ display: "flex", alignItems: "center", gap: 10, padding: "9px 0", borderTop: i > 0 ? "1px solid var(--border)" : "none", fontSize: 13 }}>
+                  <div key={inv.id} style={{ display: "flex", alignItems: "center", gap: 10, padding: "9px 0", borderTop: i > 0 ? "1px solid var(--border)" : "none", fontSize: "var(--fs-13)" }}>
                     <span style={{ fontFamily: "monospace", color: "var(--foreground)", fontWeight: 600, flexShrink: 0 }}>{inv.period}</span>
-                    <span style={{ fontSize: 11, color: "var(--muted-foreground)" }}>
+                    <span style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)" }}>
                       {inv.lines.length} γραμμ{inv.lines.length === 1 ? "ή" : "ές"}
                       {inv.status === "PAID" && inv.paidAt ? ` · ${dt(inv.paidAt)}` : inv.dueDate ? ` · έως ${dt(inv.dueDate)}` : ""}
                     </span>
@@ -293,15 +293,15 @@ export default async function CustomerDetailPage({ params }: { params: Promise<{
       {/* ── Ιδιοκτησίες ────────────────────────────────────────── */}
       <div>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
-          <h3 style={{ fontSize: 15, fontWeight: 700, color: "var(--foreground)", margin: 0 }}>Ιδιοκτησίες</h3>
-          <Link href="/super-admin/properties" style={{ display: "flex", alignItems: "center", gap: 6, padding: "7px 14px", borderRadius: 6, fontSize: 12, fontWeight: 600, background: "var(--color-primary)", color: "#fff", textDecoration: "none" }}>
+          <h3 style={{ fontSize: "var(--fs-15)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}>Ιδιοκτησίες</h3>
+          <Link href="/super-admin/properties" style={{ display: "flex", alignItems: "center", gap: 6, padding: "7px 14px", borderRadius: 6, fontSize: "var(--fs-12)", fontWeight: 600, background: "var(--color-primary)", color: "#fff", textDecoration: "none" }}>
             <RiAddLine /> Νέα Ιδιοκτησία
           </Link>
         </div>
         {customer.properties.length === 0 ? (
           <div style={{ ...cardStyle, textAlign: "center", color: "var(--muted-foreground)", padding: "36px" }}>
-            <RiCommunityLine style={{ fontSize: 32, opacity: 0.4, display: "block", margin: "0 auto 10px" }} />
-            <p style={{ fontSize: 13, margin: 0 }}>Δεν υπάρχουν ιδιοκτησίες για αυτόν τον πελάτη.</p>
+            <RiCommunityLine style={{ fontSize: "var(--fs-32)", opacity: 0.4, display: "block", margin: "0 auto 10px" }} />
+            <p style={{ fontSize: "var(--fs-13)", margin: 0 }}>Δεν υπάρχουν ιδιοκτησίες για αυτόν τον πελάτη.</p>
           </div>
         ) : (
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 14 }}>
@@ -312,15 +312,15 @@ export default async function CustomerDetailPage({ params }: { params: Promise<{
                 <Link key={p.id} href={`/super-admin/properties/${p.id}`} style={{ ...cardStyle, textDecoration: "none", display: "block" }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
                     <RiCommunityLine style={{ color: "var(--color-primary)" }} />
-                    <span style={{ fontSize: 15, fontWeight: 700, color: "var(--foreground)" }}>{p.name}</span>
+                    <span style={{ fontSize: "var(--fs-15)", fontWeight: 700, color: "var(--foreground)" }}>{p.name}</span>
                     <RiArrowRightSLine style={{ marginLeft: "auto", color: "var(--muted-foreground)" }} />
                   </div>
                   {(p.address || p.city) && (
-                    <p style={{ fontSize: 12, color: "var(--muted-foreground)", margin: "0 0 10px" }}>
+                    <p style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)", margin: "0 0 10px" }}>
                       {[p.address, p.city].filter(Boolean).join(", ")}
                     </p>
                   )}
-                  <div style={{ display: "flex", gap: 14, fontSize: 12, color: "var(--muted-foreground)" }}>
+                  <div style={{ display: "flex", gap: 14, fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>
                     <span><strong style={{ color: "var(--foreground)" }}>{p._count.buildings}</strong> κτήρια</span>
                     <span><strong style={{ color: "var(--foreground)" }}>{units}</strong> μονάδες</span>
                     <span><strong style={{ color: "var(--foreground)" }}>{activeServices}</strong> υπηρεσίες</span>
@@ -336,5 +336,5 @@ export default async function CustomerDetailPage({ params }: { params: Promise<{
 }
 
 const cardStyle: React.CSSProperties = { background: "var(--card)", border: "1px solid var(--border)", borderRadius: 8, padding: "16px 18px" };
-const cardTitle: React.CSSProperties = { fontSize: 12, fontWeight: 700, color: "var(--muted-foreground)", textTransform: "uppercase", letterSpacing: "0.05em", margin: "0 0 12px" };
-const pill: React.CSSProperties = { fontSize: 11, fontWeight: 600, padding: "2px 8px", borderRadius: 20, display: "inline-flex", alignItems: "center", gap: 4 };
+const cardTitle: React.CSSProperties = { fontSize: "var(--fs-12)", fontWeight: 700, color: "var(--muted-foreground)", textTransform: "uppercase", letterSpacing: "0.05em", margin: "0 0 12px" };
+const pill: React.CSSProperties = { fontSize: "var(--fs-11)", fontWeight: 600, padding: "2px 8px", borderRadius: 20, display: "inline-flex", alignItems: "center", gap: 4 };

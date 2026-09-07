@@ -84,8 +84,8 @@ export function FormGroup({ title, hint, cols = 1, children }: {
 }) {
   return (
     <div style={{ border: "1px solid var(--border)", borderRadius: "var(--radius)", background: "var(--card)", padding: 16 }}>
-      <div style={{ fontWeight: 700, fontSize: 13.5, color: "var(--foreground)" }}>{title}</div>
-      {hint && <div style={{ fontSize: 12.5, color: "var(--muted-foreground)", marginTop: 2 }}>{hint}</div>}
+      <div style={{ fontWeight: 700, fontSize: "var(--fs-13-5)", color: "var(--foreground)" }}>{title}</div>
+      {hint && <div style={{ fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)", marginTop: 2 }}>{hint}</div>}
       <div style={{ display: "grid", gridTemplateColumns: cols === 2 ? "1fr 1fr" : "1fr", gap: 14, marginTop: 14 }}>
         {children}
       </div>

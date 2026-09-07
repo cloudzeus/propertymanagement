@@ -65,13 +65,13 @@ export default async function PropertyDetailPage({ params }: Props) {
             color: "var(--muted-foreground)", textDecoration: "none",
           }}
         >
-          <RiArrowLeftLine style={{ fontSize: 16 }} />
+          <RiArrowLeftLine style={{ fontSize: "var(--fs-16)" }} />
         </Link>
         <div>
-          <h1 style={{ fontSize: 20, fontWeight: 700, color: "var(--foreground)", margin: 0 }}>
+          <h1 style={{ fontSize: "var(--fs-20)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}>
             {property.name}
           </h1>
-          <p style={{ fontSize: 12, color: "var(--muted-foreground)", marginTop: 2 }}>
+          <p style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)", marginTop: 2 }}>
             {property.address}, {property.city} {property.postalCode} · {property.country}
           </p>
         </div>
@@ -79,12 +79,12 @@ export default async function PropertyDetailPage({ params }: Props) {
           href={`/admin/properties/${id}/edit`}
           style={{
             marginLeft: "auto", display: "flex", alignItems: "center", gap: 6,
-            padding: "7px 14px", borderRadius: 6, fontSize: 13, fontWeight: 600,
+            padding: "7px 14px", borderRadius: 6, fontSize: "var(--fs-13)", fontWeight: 600,
             border: "1px solid var(--border)", background: "var(--card)",
             color: "var(--foreground)", textDecoration: "none",
           }}
         >
-          <RiPencilLine style={{ fontSize: 14 }} />
+          <RiPencilLine style={{ fontSize: "var(--fs-14)" }} />
           Επεξεργασία
         </Link>
       </div>
@@ -102,9 +102,9 @@ export default async function PropertyDetailPage({ params }: Props) {
             borderRadius: 8, padding: "14px 16px",
             display: "flex", flexDirection: "column", gap: 4,
           }}>
-            <Icon style={{ fontSize: 18, color: "var(--color-primary)" }} />
-            <span style={{ fontSize: 22, fontWeight: 700, color: "var(--foreground)" }}>{value}</span>
-            <span style={{ fontSize: 12, color: "var(--muted-foreground)" }}>{label}</span>
+            <Icon style={{ fontSize: "var(--fs-18)", color: "var(--color-primary)" }} />
+            <span style={{ fontSize: "var(--fs-22)", fontWeight: 700, color: "var(--foreground)" }}>{value}</span>
+            <span style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>{label}</span>
           </div>
         ))}
       </div>
@@ -117,8 +117,8 @@ export default async function PropertyDetailPage({ params }: Props) {
           borderRadius: 10, padding: 20, display: "flex", flexDirection: "column", gap: 16,
         }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-            <RiMapPin2Line style={{ fontSize: 18, color: "var(--color-primary)" }} />
-            <h2 style={{ fontSize: 15, fontWeight: 700, color: "var(--foreground)", margin: 0 }}>
+            <RiMapPin2Line style={{ fontSize: "var(--fs-18)", color: "var(--color-primary)" }} />
+            <h2 style={{ fontSize: "var(--fs-15)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}>
               Τοποθεσία στον χάρτη
             </h2>
           </div>
@@ -137,17 +137,17 @@ export default async function PropertyDetailPage({ params }: Props) {
             background: "var(--card)", border: "1px solid var(--border)",
             borderRadius: 10, padding: 16,
           }}>
-            <h3 style={{ fontSize: 13, fontWeight: 700, color: "var(--foreground)", margin: "0 0 12px" }}>
+            <h3 style={{ fontSize: "var(--fs-13)", fontWeight: 700, color: "var(--foreground)", margin: "0 0 12px" }}>
               Πρόσφατα αιτήματα
             </h3>
             {property.maintenanceRequests.length === 0 ? (
-              <p style={{ fontSize: 12, color: "var(--muted-foreground)" }}>Κανένα αίτημα</p>
+              <p style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>Κανένα αίτημα</p>
             ) : (
               <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                 {property.maintenanceRequests.map((req) => (
                   <div key={req.id} style={{
                     padding: "8px 10px", borderRadius: 6,
-                    background: "var(--bg-canvas)", fontSize: 12,
+                    background: "var(--bg-canvas)", fontSize: "var(--fs-12)",
                   }}>
                     <div style={{ fontWeight: 600, color: "var(--foreground)" }}>{req.title}</div>
                     <div style={{ color: "var(--muted-foreground)", marginTop: 2 }}>
@@ -164,17 +164,17 @@ export default async function PropertyDetailPage({ params }: Props) {
             background: "var(--card)", border: "1px solid var(--border)",
             borderRadius: 10, padding: 16,
           }}>
-            <h3 style={{ fontSize: 13, fontWeight: 700, color: "var(--foreground)", margin: "0 0 12px" }}>
+            <h3 style={{ fontSize: "var(--fs-13)", fontWeight: 700, color: "var(--foreground)", margin: "0 0 12px" }}>
               Ανακοινώσεις
             </h3>
             {property.announcements.length === 0 ? (
-              <p style={{ fontSize: 12, color: "var(--muted-foreground)" }}>Καμία ανακοίνωση</p>
+              <p style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>Καμία ανακοίνωση</p>
             ) : (
               <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                 {property.announcements.map((ann) => (
                   <div key={ann.id} style={{
                     padding: "8px 10px", borderRadius: 6,
-                    background: "var(--bg-canvas)", fontSize: 12,
+                    background: "var(--bg-canvas)", fontSize: "var(--fs-12)",
                   }}>
                     <div style={{ fontWeight: 600, color: "var(--foreground)" }}>{ann.title}</div>
                     <div style={{ color: "var(--muted-foreground)", marginTop: 2 }}>
@@ -191,16 +191,16 @@ export default async function PropertyDetailPage({ params }: Props) {
             background: "var(--card)", border: "1px solid var(--border)",
             borderRadius: 10, padding: 16,
           }}>
-            <h3 style={{ fontSize: 13, fontWeight: 700, color: "var(--foreground)", margin: "0 0 12px" }}>
+            <h3 style={{ fontSize: "var(--fs-13)", fontWeight: 700, color: "var(--foreground)", margin: "0 0 12px" }}>
               Διαμερίσματα {property._count.units > 10 && `(+${property._count.units - 10} ακόμα)`}
             </h3>
             {property.units.length === 0 ? (
-              <p style={{ fontSize: 12, color: "var(--muted-foreground)" }}>Κανένα διαμέρισμα</p>
+              <p style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>Κανένα διαμέρισμα</p>
             ) : (
               <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
                 {property.units.map((unit) => (
                   <div key={unit.id} style={{
-                    padding: "4px 8px", borderRadius: 4, fontSize: 11, fontWeight: 600,
+                    padding: "4px 8px", borderRadius: 4, fontSize: "var(--fs-11)", fontWeight: 600,
                     background: unit.residentId ? "#16a34a18" : "var(--bg-canvas)",
                     color: unit.residentId ? "#16a34a" : "var(--muted-foreground)",
                     border: `1px solid ${unit.residentId ? "#16a34a30" : "var(--border)"}`,

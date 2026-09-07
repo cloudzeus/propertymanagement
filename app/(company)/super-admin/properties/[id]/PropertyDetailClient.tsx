@@ -37,16 +37,16 @@ export function PropertyDetailClient({
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-      <Link href="/super-admin/properties" style={{ fontSize: 12, color: "var(--muted-foreground)", display: "flex", alignItems: "center", gap: 4, textDecoration: "none" }}>
+      <Link href="/super-admin/properties" style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)", display: "flex", alignItems: "center", gap: 4, textDecoration: "none" }}>
         <RiArrowLeftLine /> Πίσω στις Ιδιοκτησίες
       </Link>
 
       <div>
         <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
-          <h1 style={{ fontSize: 22, fontWeight: 700, color: "var(--foreground)", margin: 0 }}>{property.name}</h1>
+          <h1 style={{ fontSize: "var(--fs-22)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}>{property.name}</h1>
           <ManagedBadge managed={property.managed} />
         </div>
-        <p style={{ fontSize: 13, color: "var(--muted-foreground)", marginTop: 4 }}>
+        <p style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)", marginTop: 4 }}>
           Πελάτης: {property.customerName} · {counts.buildings} κτήρια · {counts.units} μονάδες · {counts.commonAreas} κοιν. χώροι
         </p>
       </div>
@@ -54,7 +54,7 @@ export function PropertyDetailClient({
       <div style={{ display: "flex", gap: 4, padding: 4, background: "var(--bg-canvas)", borderRadius: 6, border: "1px solid var(--border)", width: "fit-content" }}>
         {([["buildings", "Κτήρια & Μονάδες"], ["package", "Πακέτο Υπηρεσιών"], ["viva", "Viva πληρωμές"]] as const).map(([k, label]) => (
           <button key={k} onClick={() => setTab(k)} style={{
-            padding: "6px 16px", borderRadius: 4, fontSize: 13, fontWeight: 600, border: "none", cursor: "pointer",
+            padding: "6px 16px", borderRadius: 4, fontSize: "var(--fs-13)", fontWeight: 600, border: "none", cursor: "pointer",
             background: tab === k ? "var(--color-primary)" : "transparent", color: tab === k ? "#fff" : "var(--muted-foreground)",
           }}>{label}</button>
         ))}
@@ -68,7 +68,7 @@ export function PropertyDetailClient({
         <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
           <PackageTab propertyId={property.id} catalog={catalog} ps={ps} setPs={setPs} counts={counts} />
           <div>
-            <h2 style={{ fontSize: 15, fontWeight: 700, color: "var(--foreground)", margin: "0 0 10px" }}>Πακέτα & πληρωμή</h2>
+            <h2 style={{ fontSize: "var(--fs-15)", fontWeight: 700, color: "var(--foreground)", margin: "0 0 10px" }}>Πακέτα & πληρωμή</h2>
             <PropertyPackages propertyId={property.id} providerConfigured={providerConfigured} />
           </div>
         </div>
@@ -135,11 +135,11 @@ function PackageTab({ propertyId, catalog, ps, setPs, counts }: {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
       <div style={{ ...card, padding: "14px 16px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-        <span style={{ fontSize: 13, color: "var(--muted-foreground)" }}>Εκτιμώμενη μηνιαία χρέωση (εκτός μετρούμενων)</span>
-        <span style={{ fontSize: 20, fontWeight: 700, color: "var(--color-primary)" }}>€ {monthlyTotal.toFixed(2)} / μήνα</span>
+        <span style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }}>Εκτιμώμενη μηνιαία χρέωση (εκτός μετρούμενων)</span>
+        <span style={{ fontSize: "var(--fs-20)", fontWeight: 700, color: "var(--color-primary)" }}>€ {monthlyTotal.toFixed(2)} / μήνα</span>
       </div>
 
-      {catalog.length === 0 && <div style={{ ...card, padding: 30, textAlign: "center", color: "var(--muted-foreground)", fontSize: 13 }}>Δεν υπάρχουν ενεργές υπηρεσίες στον κατάλογο.</div>}
+      {catalog.length === 0 && <div style={{ ...card, padding: 30, textAlign: "center", color: "var(--muted-foreground)", fontSize: "var(--fs-13)" }}>Δεν υπάρχουν ενεργές υπηρεσίες στον κατάλογο.</div>}
 
       <div style={card}>
         {catalog.map((s, i) => {
@@ -148,15 +148,15 @@ function PackageTab({ propertyId, catalog, ps, setPs, counts }: {
           return (
             <div key={s.id} style={{ display: "flex", alignItems: "center", gap: 14, padding: "14px 16px", borderBottom: i < catalog.length - 1 ? "1px solid var(--border)" : "none" }}>
               <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ fontSize: 14, fontWeight: 600, color: "var(--foreground)", display: "flex", alignItems: "center", gap: 8 }}>
+                <div style={{ fontSize: "var(--fs-14)", fontWeight: 600, color: "var(--foreground)", display: "flex", alignItems: "center", gap: 8 }}>
                   {s.name}
-                  <span style={{ fontSize: 10, fontWeight: 700, padding: "1px 6px", borderRadius: 10, background: s.isCore ? "#0078D418" : "#8764B818", color: s.isCore ? "#0078D4" : "#8764B8" }}>{s.isCore ? "CORE" : "MODULE"}</span>
+                  <span style={{ fontSize: "var(--fs-10)", fontWeight: 700, padding: "1px 6px", borderRadius: 10, background: s.isCore ? "#0078D418" : "#8764B818", color: s.isCore ? "#0078D4" : "#8764B8" }}>{s.isCore ? "CORE" : "MODULE"}</span>
                 </div>
-                <div style={{ fontSize: 12, color: "var(--muted-foreground)", marginTop: 2 }}>
+                <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)", marginTop: 2 }}>
                   € {s.price.toFixed(2)} {PRICING_LABEL[s.pricingModel]} · εκτίμηση: <strong style={{ color: "var(--foreground)" }}>{monthlyEstimate(s)}</strong>
                 </div>
                 {s.pricingModel === "METERED_PREPAID" && (
-                  <div style={{ fontSize: 12, color: "var(--muted-foreground)", marginTop: 6, display: "flex", alignItems: "center", gap: 8 }}>
+                  <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)", marginTop: 6, display: "flex", alignItems: "center", gap: 8 }}>
                     Υπόλοιπο προαγοράς: <strong style={{ color: "var(--foreground)" }}>{((cur?.prepaidPersonMinutes ?? 0) / 60).toFixed(1)} ώρες-ατόμου</strong>
                     <PrepaidAdder onAdd={(h) => addPrepaid(s, h * 60)} />
                   </div>
@@ -176,7 +176,7 @@ function PrepaidAdder({ onAdd }: { onAdd: (hours: number) => void }) {
   return (
     <span style={{ display: "inline-flex", gap: 4, alignItems: "center" }}>
       <input value={hours} onChange={(e) => setHours(e.target.value)} type="number" placeholder="ώρες-ατόμου"
-        style={{ width: 110, height: 26, padding: "0 8px", fontSize: 12, border: "1px solid var(--border)", borderRadius: 4, background: "var(--card)", color: "var(--foreground)" }} />
+        style={{ width: 110, height: 26, padding: "0 8px", fontSize: "var(--fs-12)", border: "1px solid var(--border)", borderRadius: 4, background: "var(--card)", color: "var(--foreground)" }} />
       <button onClick={() => { const h = parseFloat(hours); if (h > 0) { onAdd(h); setHours(""); } }} style={smallBtn}><RiAddLine /> Προσθήκη</button>
     </span>
   );
@@ -194,18 +194,18 @@ function Toggle({ on, onChange }: { on: boolean; onChange: (v: boolean) => void 
 }
 
 function Badge({ children }: { children: React.ReactNode }) {
-  return <span style={{ fontSize: 11, fontWeight: 600, padding: "2px 8px", borderRadius: 12, background: "var(--bg-canvas)", border: "1px solid var(--border)", color: "var(--muted-foreground)" }}>{children}</span>;
+  return <span style={{ fontSize: "var(--fs-11)", fontWeight: 600, padding: "2px 8px", borderRadius: 12, background: "var(--bg-canvas)", border: "1px solid var(--border)", color: "var(--muted-foreground)" }}>{children}</span>;
 }
 
 // ─── shared styles ─────────────────────────────────────────────────────────────
 const yesNo = [{ value: "false", label: "Όχι" }, { value: "true", label: "Ναι" }];
 const card: React.CSSProperties = { background: "var(--card)", border: "1px solid var(--border)", borderRadius: 8, overflow: "hidden" };
-const primaryBtn: React.CSSProperties = { display: "flex", alignItems: "center", gap: 6, padding: "8px 16px", borderRadius: 6, fontSize: 13, fontWeight: 600, background: "var(--color-primary)", color: "#fff", border: "none", cursor: "pointer", width: "fit-content" };
-const smallBtn: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 4, padding: "4px 8px", borderRadius: 5, fontSize: 11, fontWeight: 600, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", color: "var(--foreground)" };
-const iconBtn: React.CSSProperties = { background: "none", border: "1px solid var(--border)", borderRadius: 6, cursor: "pointer", color: "var(--color-primary)", fontSize: 15, display: "flex", padding: 6 };
-const iconBtnSm: React.CSSProperties = { background: "none", border: "none", cursor: "pointer", color: "var(--color-primary)", fontSize: 14, padding: 3 };
-const th: React.CSSProperties = { textAlign: "left", padding: "6px 8px", fontSize: 11, fontWeight: 600, color: "var(--muted-foreground)", textTransform: "uppercase" };
-const td: React.CSSProperties = { padding: "7px 8px", fontSize: 13, color: "var(--foreground)" };
-const cancelBtn: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: 13, color: "var(--foreground)" };
-const saveBtn: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: "pointer", fontSize: 13, fontWeight: 600, display: "flex", alignItems: "center", gap: 6 };
-const errBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: 12, border: "1px solid #fca5a530", marginBottom: 14 };
+const primaryBtn: React.CSSProperties = { display: "flex", alignItems: "center", gap: 6, padding: "8px 16px", borderRadius: 6, fontSize: "var(--fs-13)", fontWeight: 600, background: "var(--color-primary)", color: "#fff", border: "none", cursor: "pointer", width: "fit-content" };
+const smallBtn: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 4, padding: "4px 8px", borderRadius: 5, fontSize: "var(--fs-11)", fontWeight: 600, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", color: "var(--foreground)" };
+const iconBtn: React.CSSProperties = { background: "none", border: "1px solid var(--border)", borderRadius: 6, cursor: "pointer", color: "var(--color-primary)", fontSize: "var(--fs-15)", display: "flex", padding: 6 };
+const iconBtnSm: React.CSSProperties = { background: "none", border: "none", cursor: "pointer", color: "var(--color-primary)", fontSize: "var(--fs-14)", padding: 3 };
+const th: React.CSSProperties = { textAlign: "left", padding: "6px 8px", fontSize: "var(--fs-11)", fontWeight: 600, color: "var(--muted-foreground)", textTransform: "uppercase" };
+const td: React.CSSProperties = { padding: "7px 8px", fontSize: "var(--fs-13)", color: "var(--foreground)" };
+const cancelBtn: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: "var(--fs-13)", color: "var(--foreground)" };
+const saveBtn: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: "pointer", fontSize: "var(--fs-13)", fontWeight: 600, display: "flex", alignItems: "center", gap: 6 };
+const errBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: "var(--fs-12)", border: "1px solid #fca5a530", marginBottom: 14 };

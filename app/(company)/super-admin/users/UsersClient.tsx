@@ -145,13 +145,13 @@ export function UsersClient({
             width: 32, height: 32, borderRadius: 8, flexShrink: 0,
             background: "#DEECF9", border: "1px solid #A3CEEE",
             display: "flex", alignItems: "center", justifyContent: "center",
-            fontSize: 13, fontWeight: 700, color: "#005A9E",
+            fontSize: "var(--fs-13)", fontWeight: 700, color: "#005A9E",
           }}>
             {(u.name || u.email || "?").charAt(0).toUpperCase()}
           </div>
           <div style={{ minWidth: 0 }}>
-            <div style={{ fontSize: 13, fontWeight: 600, color: "var(--foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{u.name || "—"}</div>
-            <div style={{ fontSize: 12, color: "var(--muted-foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{u.email}</div>
+            <div style={{ fontSize: "var(--fs-13)", fontWeight: 600, color: "var(--foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{u.name || "—"}</div>
+            <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{u.email}</div>
           </div>
         </div>
       ),
@@ -161,15 +161,15 @@ export function UsersClient({
       accessor: (u) => (u.customers ?? []).map((c) => c.name).join(", "),
       cell: (u) => {
         const customers = u.customers ?? [];
-        if (customers.length === 0) return <span style={{ fontSize: 12, color: "var(--muted-foreground)" }}>Προσωπικό εταιρείας</span>;
+        if (customers.length === 0) return <span style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>Προσωπικό εταιρείας</span>;
         const shown = customers.slice(0, 2);
         const extra = customers.length - shown.length;
         return (
           <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }} title={customers.map((c) => c.name).join("\n")}>
             {shown.map((c) => (
-              <span key={c.id} style={{ fontSize: 12, fontWeight: 600, padding: "2px 8px", borderRadius: 6, background: "#8764B818", color: "#8764B8", maxWidth: 180, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{c.name}</span>
+              <span key={c.id} style={{ fontSize: "var(--fs-12)", fontWeight: 600, padding: "2px 8px", borderRadius: 6, background: "#8764B818", color: "#8764B8", maxWidth: 180, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{c.name}</span>
             ))}
-            {extra > 0 && <span style={{ fontSize: 11, fontWeight: 700, padding: "2px 8px", borderRadius: 6, background: "#8764B818", color: "#8764B8" }}>+{extra}</span>}
+            {extra > 0 && <span style={{ fontSize: "var(--fs-11)", fontWeight: 700, padding: "2px 8px", borderRadius: 6, background: "#8764B818", color: "#8764B8" }}>+{extra}</span>}
           </div>
         );
       },
@@ -179,15 +179,15 @@ export function UsersClient({
       accessor: (u) => (u.customers ?? []).flatMap((c) => c.places).join(", "),
       cell: (u) => {
         const places = Array.from(new Set((u.customers ?? []).flatMap((c) => c.places)));
-        if (places.length === 0) return <span style={{ fontSize: 12, color: "var(--muted-foreground)" }}>—</span>;
+        if (places.length === 0) return <span style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>—</span>;
         const shown = places.slice(0, 2);
         const extra = places.length - shown.length;
         return (
           <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }} title={places.join("\n")}>
             {shown.map((p, i) => (
-              <span key={i} style={{ fontSize: 11, fontWeight: 500, padding: "2px 8px", borderRadius: 6, background: "var(--bg-canvas)", border: "1px solid var(--border)", color: "var(--foreground)", maxWidth: 200, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{p}</span>
+              <span key={i} style={{ fontSize: "var(--fs-11)", fontWeight: 500, padding: "2px 8px", borderRadius: 6, background: "var(--bg-canvas)", border: "1px solid var(--border)", color: "var(--foreground)", maxWidth: 200, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{p}</span>
             ))}
-            {extra > 0 && <span style={{ fontSize: 11, fontWeight: 600, padding: "2px 8px", borderRadius: 6, background: "var(--color-primary)18", color: "var(--color-primary)" }}>+{extra}</span>}
+            {extra > 0 && <span style={{ fontSize: "var(--fs-11)", fontWeight: 600, padding: "2px 8px", borderRadius: 6, background: "var(--color-primary)18", color: "var(--color-primary)" }}>+{extra}</span>}
           </div>
         );
       },
@@ -197,7 +197,7 @@ export function UsersClient({
       accessor: (u) => ROLE_LABEL[u.role] ?? u.role,
       cell: (u) => {
         const c = ROLE_COLOR[u.role] || "#707070";
-        return <span style={{ fontSize: 11, fontWeight: 600, padding: "2px 8px", borderRadius: 20, background: `${c}18`, color: c }}>{ROLE_LABEL[u.role] ?? u.role}</span>;
+        return <span style={{ fontSize: "var(--fs-11)", fontWeight: 600, padding: "2px 8px", borderRadius: 20, background: `${c}18`, color: c }}>{ROLE_LABEL[u.role] ?? u.role}</span>;
       },
     },
     {
@@ -205,7 +205,7 @@ export function UsersClient({
       accessor: (u) => STATUS_LABEL[u.status] ?? u.status,
       cell: (u) => (
         <span style={{
-          fontSize: 11, fontWeight: 600, padding: "2px 8px", borderRadius: 20,
+          fontSize: "var(--fs-11)", fontWeight: 600, padding: "2px 8px", borderRadius: 20,
           background: u.status === "ACTIVE" ? "#107C1018" : "#70707018",
           color: u.status === "ACTIVE" ? "#107C10" : "#707070",
         }}>{STATUS_LABEL[u.status] ?? u.status}</span>
@@ -214,7 +214,7 @@ export function UsersClient({
     {
       id: "lastLogin", header: "Τελευταία Σύνδεση", sortKey: "lastLoginAt", width: 150, defaultVisible: false,
       accessor: (u) => (u.lastLoginAt ? new Date(u.lastLoginAt).getTime() : 0),
-      cell: (u) => <span style={{ fontSize: 12, color: "var(--muted-foreground)" }}>{u.lastLoginAt ? new Date(u.lastLoginAt).toLocaleDateString("el-GR") : "—"}</span>,
+      cell: (u) => <span style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>{u.lastLoginAt ? new Date(u.lastLoginAt).toLocaleDateString("el-GR") : "—"}</span>,
     },
   ];
 
@@ -229,22 +229,22 @@ export function UsersClient({
   const renderExpanded = (u: User) => {
     const customers = u.customers ?? [];
     if (customers.length === 0) {
-      return <div style={{ padding: "12px 16px", fontSize: 13, color: "var(--muted-foreground)" }}>Χρήστης προσωπικού — δεν συμμετέχει σε πελάτες/ακίνητα.</div>;
+      return <div style={{ padding: "12px 16px", fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }}>Χρήστης προσωπικού — δεν συμμετέχει σε πελάτες/ακίνητα.</div>;
     }
     return (
       <div style={{ padding: "12px 16px", display: "flex", flexDirection: "column", gap: 12 }}>
         {customers.map((c) => (
           <div key={c.id} style={{ display: "flex", flexDirection: "column", gap: 8, padding: "12px 14px", background: "var(--bg-canvas)", borderRadius: 8, border: "1px solid var(--border)" }}>
             <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
-              <span style={{ fontSize: 13, fontWeight: 700, color: "var(--foreground)" }}>{c.name}</span>
+              <span style={{ fontSize: "var(--fs-13)", fontWeight: 700, color: "var(--foreground)" }}>{c.name}</span>
               {c.roles.map((r) => {
                 const col = PLACE_ROLE_COLOR[r] || "#707070";
-                return <span key={r} style={{ fontSize: 11, fontWeight: 600, padding: "2px 8px", borderRadius: 20, background: `${col}18`, color: col }}>{r}</span>;
+                return <span key={r} style={{ fontSize: "var(--fs-11)", fontWeight: 600, padding: "2px 8px", borderRadius: 20, background: `${col}18`, color: col }}>{r}</span>;
               })}
             </div>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
               {c.places.map((p, i) => (
-                <span key={i} style={{ fontSize: 12, padding: "3px 10px", borderRadius: 6, background: "var(--card)", border: "1px solid var(--border)", color: "var(--foreground)" }}>{p}</span>
+                <span key={i} style={{ fontSize: "var(--fs-12)", padding: "3px 10px", borderRadius: 6, background: "var(--card)", border: "1px solid var(--border)", color: "var(--foreground)" }}>{p}</span>
               ))}
             </div>
           </div>
@@ -256,8 +256,8 @@ export function UsersClient({
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
       <div>
-        <h1 style={{ fontSize: 22, fontWeight: 700, color: "var(--foreground)", margin: 0 }}>Χρήστες</h1>
-        <p style={{ fontSize: 13, color: "var(--muted-foreground)", marginTop: 4 }}>{data.length} χρήστες στο σύστημα</p>
+        <h1 style={{ fontSize: "var(--fs-22)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}>Χρήστες</h1>
+        <p style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)", marginTop: 4 }}>{data.length} χρήστες στο σύστημα</p>
       </div>
 
       <DataTable
@@ -282,15 +282,15 @@ export function UsersClient({
         width={560}
         footer={
           <>
-            <button onClick={() => setOpen(false)} style={{ padding: "7px 16px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: 13, color: "var(--foreground)" }}>Ακύρωση</button>
-            <button onClick={handleSave} disabled={isPending} style={{ padding: "7px 16px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: isPending ? "wait" : "pointer", fontSize: 13, fontWeight: 600, display: "flex", alignItems: "center", gap: 6 }}>
+            <button onClick={() => setOpen(false)} style={{ padding: "7px 16px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: "var(--fs-13)", color: "var(--foreground)" }}>Ακύρωση</button>
+            <button onClick={handleSave} disabled={isPending} style={{ padding: "7px 16px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: isPending ? "wait" : "pointer", fontSize: "var(--fs-13)", fontWeight: 600, display: "flex", alignItems: "center", gap: 6 }}>
               {isPending ? <RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> : <RiCheckLine />}
               Αποθήκευση
             </button>
           </>
         }
       >
-        {error && <div style={{ padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: 12, border: "1px solid #fca5a530", marginBottom: 14 }}>{error}</div>}
+        {error && <div style={{ padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: "var(--fs-12)", border: "1px solid #fca5a530", marginBottom: 14 }}>{error}</div>}
 
         <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>

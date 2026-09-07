@@ -119,7 +119,7 @@ export function SeoEditor({ slug, initial }: Props) {
         <CmsField label="Οδηγία (προαιρετικό)">
           <CmsInput value={brief} onChange={(e) => setBrief(e.target.value)} placeholder="π.χ. έμφαση σε κοινόχρηστα & Αθήνα" />
         </CmsField>
-        {aiError && <p style={{ color: "var(--destructive)", fontSize: 13, margin: 0 }}>{aiError}</p>}
+        {aiError && <p style={{ color: "var(--destructive)", fontSize: "var(--fs-13)", margin: 0 }}>{aiError}</p>}
         <div>
           <CmsButton variant="secondary" loading={aiBusy} disabled={aiBusy} onClick={runAiSeo} icon={<RiSparkling2Line size={15} />}>
             {aiBusy ? "Δημιουργία…" : "Δημιουργία SEO"}
@@ -130,7 +130,7 @@ export function SeoEditor({ slug, initial }: Props) {
       <CmsField label="Τίτλος (title)">
         <CmsInput value={cur.title ?? ""} onChange={(e) => set("title", e.target.value)} />
       </CmsField>
-      <div style={{ fontSize: 11, marginTop: -8, color: (cur.title ?? "").length > 60 ? "var(--color-warning)" : "var(--muted-foreground)" }}>
+      <div style={{ fontSize: "var(--fs-11)", marginTop: -8, color: (cur.title ?? "").length > 60 ? "var(--color-warning)" : "var(--muted-foreground)" }}>
         {(cur.title ?? "").length}/60
       </div>
 
@@ -141,7 +141,7 @@ export function SeoEditor({ slug, initial }: Props) {
           onChange={(e) => set("description", e.target.value)}
         />
       </CmsField>
-      <div style={{ fontSize: 11, marginTop: -8, color: (cur.description ?? "").length > 155 ? "var(--color-warning)" : "var(--muted-foreground)" }}>
+      <div style={{ fontSize: "var(--fs-11)", marginTop: -8, color: (cur.description ?? "").length > 155 ? "var(--color-warning)" : "var(--muted-foreground)" }}>
         {(cur.description ?? "").length}/155
       </div>
 

@@ -266,7 +266,7 @@ export function SidebarNav({ role, menu, customerBuildings, userName, userEmail,
           fullLogo
             /* eslint-disable-next-line @next/next/no-img-element */
             ? <img src={fullLogo} alt={companyName} style={{ height: 28, width: "auto", maxWidth: 160, objectFit: "contain", objectPosition: "left" }} />
-            : <span style={{ fontSize: 15, fontWeight: 700, color: "var(--primary)", letterSpacing: "-0.01em", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+            : <span style={{ fontSize: "var(--fs-15)", fontWeight: 700, color: "var(--primary)", letterSpacing: "-0.01em", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
                 {companyName}
               </span>
         )}
@@ -274,7 +274,7 @@ export function SidebarNav({ role, menu, customerBuildings, userName, userEmail,
           squareLogo
             /* eslint-disable-next-line @next/next/no-img-element */
             ? <img src={squareLogo} alt={companyName} style={{ height: 28, width: 28, objectFit: "contain", margin: "0 auto" }} />
-            : <span style={{ fontSize: 18, fontWeight: 800, color: "var(--primary)", margin: "0 auto" }}>
+            : <span style={{ fontSize: "var(--fs-18)", fontWeight: 800, color: "var(--primary)", margin: "0 auto" }}>
                 {companyName.charAt(0)}
               </span>
         )}
@@ -346,7 +346,7 @@ export function SidebarNav({ role, menu, customerBuildings, userName, userEmail,
                 </span>
                 <span style={{
                   flex: 1, textAlign: "left",
-                  fontSize: 11, fontWeight: 700, letterSpacing: "0.06em",
+                  fontSize: "var(--fs-11)", fontWeight: 700, letterSpacing: "0.06em",
                   color: anyActive ? group.color : "#707070",
                   whiteSpace: "nowrap", overflow: "hidden", fontFamily: "var(--font-sans)",
                   textTransform: "uppercase",
@@ -379,7 +379,7 @@ export function SidebarNav({ role, menu, customerBuildings, userName, userEmail,
                         color: active ? item.color : "#292929",
                         background: active ? `${item.color}12` : "transparent",
                         textDecoration: "none",
-                        fontSize: 13, fontWeight: active ? 600 : 400,
+                        fontSize: "var(--fs-13)", fontWeight: active ? 600 : 400,
                         fontFamily: "var(--font-sans)",
                         transition: "background 120ms, color 120ms",
                         whiteSpace: "nowrap", overflow: "hidden",
@@ -419,7 +419,7 @@ export function SidebarNav({ role, menu, customerBuildings, userName, userEmail,
         ) : (
           <div style={{ marginTop: 6 }}>
             <div style={{
-              padding: "5px 8px", fontSize: 11, fontWeight: 700, letterSpacing: "0.06em",
+              padding: "5px 8px", fontSize: "var(--fs-11)", fontWeight: 700, letterSpacing: "0.06em",
               color: "#707070", textTransform: "uppercase", fontFamily: "var(--font-sans)",
             }}>
               Τα κτήριά μου
@@ -451,7 +451,7 @@ export function SidebarNav({ role, menu, customerBuildings, userName, userEmail,
                     </span>
                     <span style={{
                       flex: 1, textAlign: "left",
-                      fontSize: 12.5, fontWeight: 600,
+                      fontSize: "var(--fs-12-5)", fontWeight: 600,
                       color: bldgActive ? BUILDING_COLOR : "#292929",
                       whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
                       fontFamily: "var(--font-sans)",
@@ -485,7 +485,7 @@ export function SidebarNav({ role, menu, customerBuildings, userName, userEmail,
                             color: active ? BUILDING_COLOR : "#292929",
                             background: active ? `${BUILDING_COLOR}12` : "transparent",
                             textDecoration: "none",
-                            fontSize: 13, fontWeight: active ? 600 : 400,
+                            fontSize: "var(--fs-13)", fontWeight: active ? 600 : 400,
                             fontFamily: "var(--font-sans)",
                             transition: "background 120ms, color 120ms",
                             whiteSpace: "nowrap", overflow: "hidden",
@@ -521,7 +521,7 @@ export function SidebarNav({ role, menu, customerBuildings, userName, userEmail,
           background: "var(--card)", border: "1px solid var(--border)",
           color: "#005A9E",
           display: "flex", alignItems: "center", justifyContent: "center",
-          fontSize: 13, fontWeight: 700, flexShrink: 0,
+          fontSize: "var(--fs-13)", fontWeight: 700, flexShrink: 0,
         }}>
           {initials}
         </div>
@@ -529,10 +529,10 @@ export function SidebarNav({ role, menu, customerBuildings, userName, userEmail,
         {!collapsed && (
           <>
             <div style={{ flex: 1, minWidth: 0 }}>
-              <p style={{ fontSize: 13, fontWeight: 600, color: "var(--foreground)", margin: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+              <p style={{ fontSize: "var(--fs-13)", fontWeight: 600, color: "var(--foreground)", margin: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                 {userName || userEmail}
               </p>
-              <p style={{ fontSize: 10, color: "var(--muted-foreground)", margin: 0, textTransform: "uppercase", letterSpacing: "0.05em", whiteSpace: "nowrap" }}>
+              <p style={{ fontSize: "var(--fs-10)", color: "var(--muted-foreground)", margin: 0, textTransform: "uppercase", letterSpacing: "0.05em", whiteSpace: "nowrap" }}>
                 {roleLabel}
               </p>
             </div>

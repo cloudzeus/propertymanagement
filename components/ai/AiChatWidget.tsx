@@ -40,7 +40,7 @@ export function AiChatWidget({
 
   if (!open) {
     return (
-      <button onClick={() => setOpen(true)} style={{ position: "fixed", right: 20, bottom: 20, zIndex: 60, width: 56, height: 56, borderRadius: "50%", background: "#0a7", color: "#fff", border: "none", boxShadow: "0 8px 24px rgba(0,0,0,.2)", fontSize: 24, cursor: "pointer" }} aria-label="Άνοιγμα βοηθού">
+      <button onClick={() => setOpen(true)} style={{ position: "fixed", right: 20, bottom: 20, zIndex: 60, width: 56, height: 56, borderRadius: "50%", background: "#0a7", color: "#fff", border: "none", boxShadow: "0 8px 24px rgba(0,0,0,.2)", fontSize: "var(--fs-24)", cursor: "pointer" }} aria-label="Άνοιγμα βοηθού">
         <RiRobot2Line />
       </button>
     );
@@ -53,7 +53,7 @@ export function AiChatWidget({
         <button onClick={() => setOpen(false)} aria-label="Κλείσιμο" style={{ background: "none", border: "none", color: "#fff", cursor: "pointer" }}><RiCloseLine /></button>
       </div>
 
-      <div ref={scrollRef} onScroll={onScroll} style={{ flex: 1, overflowY: "auto", padding: 10, fontSize: 13, lineHeight: 1.5, background: "#fafafa", position: "relative" }}>
+      <div ref={scrollRef} onScroll={onScroll} style={{ flex: 1, overflowY: "auto", padding: 10, fontSize: "var(--fs-13)", lineHeight: 1.5, background: "#fafafa", position: "relative" }}>
         {messages.length === 0 && greeting && <div style={{ marginBottom: 8 }}><Bubble role="assistant">{greeting}</Bubble></div>}
         {messages.map((m) => (
           <div key={m.id} style={{ marginBottom: 8, textAlign: m.role === "user" ? "right" : "left" }}>
@@ -65,25 +65,25 @@ export function AiChatWidget({
         {showTyping && <div style={{ marginBottom: 8 }}><Bubble role="assistant"><Dots /></Bubble></div>}
         {badges.length > 0 && (
           <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginTop: 4 }}>
-            {badges.map((b) => <span key={b.id} style={{ background: "#ecfdf5", color: "#0a7", borderRadius: 8, padding: "3px 8px", fontSize: 11, display: "inline-flex", alignItems: "center", gap: 3 }}><RiCheckLine /> {b.label}</span>)}
+            {badges.map((b) => <span key={b.id} style={{ background: "#ecfdf5", color: "#0a7", borderRadius: 8, padding: "3px 8px", fontSize: "var(--fs-11)", display: "inline-flex", alignItems: "center", gap: 3 }}><RiCheckLine /> {b.label}</span>)}
           </div>
         )}
         {error && (
-          <div style={{ marginTop: 8, color: "#c00", fontSize: 12 }}>
+          <div style={{ marginTop: 8, color: "#c00", fontSize: "var(--fs-12)" }}>
             {error} <button onClick={retry} style={{ color: "#0a7", background: "none", border: "none", cursor: "pointer" }}>Ξανά</button>
           </div>
         )}
       </div>
 
       {!atBottom && (
-        <button onClick={() => { const el = scrollRef.current; if (el) el.scrollTop = el.scrollHeight; setAtBottom(true); }} style={{ position: "absolute", right: 14, bottom: 70, background: "#0a7", color: "#fff", border: "none", borderRadius: 14, padding: "4px 10px", fontSize: 11, cursor: "pointer" }}>
+        <button onClick={() => { const el = scrollRef.current; if (el) el.scrollTop = el.scrollHeight; setAtBottom(true); }} style={{ position: "absolute", right: 14, bottom: 70, background: "#0a7", color: "#fff", border: "none", borderRadius: 14, padding: "4px 10px", fontSize: "var(--fs-11)", cursor: "pointer" }}>
           <RiArrowDownLine /> νέο μήνυμα
         </button>
       )}
 
       {messages.length === 0 && quickReplies.length > 0 && (
         <div style={{ display: "flex", gap: 6, flexWrap: "wrap", padding: "0 10px 8px" }}>
-          {quickReplies.map((q) => <button key={q} onClick={() => send(q)} style={{ border: "1px solid #0a7", color: "#0a7", background: "none", borderRadius: 14, padding: "4px 10px", fontSize: 12, cursor: "pointer" }}>{q}</button>)}
+          {quickReplies.map((q) => <button key={q} onClick={() => send(q)} style={{ border: "1px solid #0a7", color: "#0a7", background: "none", borderRadius: 14, padding: "4px 10px", fontSize: "var(--fs-12)", cursor: "pointer" }}>{q}</button>)}
         </div>
       )}
 
@@ -124,7 +124,7 @@ function AssistantBubble({ content, onSelect }: { content: string; onSelect: (s:
       {options.length > 0 && (
         <span style={{ display: "flex", gap: 6, flexWrap: "wrap", marginTop: 6 }}>
           {options.map((o, i) => (
-            <button key={i} onClick={() => onSelect(o)} style={{ border: "1px solid #0a7", color: "#0a7", background: "#f0fdf9", borderRadius: 14, padding: "3px 10px", fontSize: 12, cursor: "pointer" }}>{o}</button>
+            <button key={i} onClick={() => onSelect(o)} style={{ border: "1px solid #0a7", color: "#0a7", background: "#f0fdf9", borderRadius: 14, padding: "3px 10px", fontSize: "var(--fs-12)", cursor: "pointer" }}>{o}</button>
           ))}
         </span>
       )}

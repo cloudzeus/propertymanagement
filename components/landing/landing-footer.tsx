@@ -73,20 +73,20 @@ export async function LandingFooter() {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/orithon/orithon-symbol-black.png" alt="Orithon" width={24} height={24} className="h-6 w-6 object-contain" />
               <span
-                className="text-[19px] font-semibold text-[var(--txt)]"
+                className="text-[length:var(--fs-19)] font-semibold text-[var(--txt)]"
                 style={{ fontFamily: "var(--font-display)", letterSpacing: "0.16em", paddingLeft: ".06em" }}
               >
                 ORITHON
               </span>
             </div>
-            <p className="mt-4 text-[14px] leading-[1.6] text-[var(--mut)]">{tagline}</p>
+            <p className="mt-4 text-[length:var(--fs-14)] leading-[1.6] text-[var(--mut)]">{tagline}</p>
           </div>
 
           {/* Link columns */}
           <div className="flex flex-wrap gap-10 lg:gap-[60px]">
             {columns.map((col) => (
               <div key={col.title}>
-                <div className="u-caps mb-4 text-[12px] font-bold tracking-[.08em] text-[var(--mut2)]">
+                <div className="u-caps mb-4 text-[length:var(--fs-12)] font-bold tracking-[.08em] text-[var(--mut2)]">
                   {col.title}
                 </div>
                 <ul>
@@ -94,7 +94,7 @@ export async function LandingFooter() {
                     <li key={link.href + link.label}>
                       <Link
                         href={link.href}
-                        className="block py-1.5 text-[14px] text-[var(--mut)] transition-colors hover:text-[var(--txt)]"
+                        className="block py-1.5 text-[length:var(--fs-14)] text-[var(--mut)] transition-colors hover:text-[var(--txt)]"
                       >
                         {link.label}
                       </Link>
@@ -106,7 +106,7 @@ export async function LandingFooter() {
           </div>
         </div>
 
-        <div className="mt-[46px] flex flex-wrap items-center justify-between gap-3 border-t border-[var(--line2)] pt-6 text-[13px] text-[var(--mut2)]">
+        <div className="mt-[46px] flex flex-wrap items-center justify-between gap-3 border-t border-[var(--line2)] pt-6 text-[length:var(--fs-13)] text-[var(--mut2)]">
           <p>{copyright}</p>
           <p>{PLACE[locale]}</p>
         </div>

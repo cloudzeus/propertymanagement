@@ -45,10 +45,10 @@ export default async function ManagerBuildingsPage({
       <div style={{ display: "flex", justifyContent: "center", paddingTop: 60 }}>
         <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 12, padding: "40px 48px", textAlign: "center", maxWidth: 480 }}>
           <div style={{ width: 56, height: 56, borderRadius: 12, margin: "0 auto 14px", background: "var(--color-primary)18", color: "var(--color-primary)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <RiCommunityLine style={{ fontSize: 30 }} />
+            <RiCommunityLine style={{ fontSize: "var(--fs-30)" }} />
           </div>
-          <div style={{ fontSize: 17, fontWeight: 700, color: "var(--foreground)" }}>Δεν σας έχει ανατεθεί κάποιο κτήριο ακόμη.</div>
-          <p style={{ margin: "8px 0 0", fontSize: 13, color: "var(--muted-foreground)" }}>
+          <div style={{ fontSize: "var(--fs-17)", fontWeight: 700, color: "var(--foreground)" }}>Δεν σας έχει ανατεθεί κάποιο κτήριο ακόμη.</div>
+          <p style={{ margin: "8px 0 0", fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }}>
             Επικοινωνήστε με την εταιρεία διαχείρισης για να συνδεθεί το κτήριό σας με τον λογαριασμό σας.
           </p>
         </div>
@@ -108,8 +108,8 @@ export default async function ManagerBuildingsPage({
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
       <div>
-        <h1 style={{ margin: 0, fontSize: 24, fontWeight: 800, color: "var(--foreground)" }}>Τα κτήριά μου</h1>
-        <p style={{ margin: "4px 0 0", fontSize: 13, color: "var(--muted-foreground)" }}>
+        <h1 style={{ margin: 0, fontSize: "var(--fs-24)", fontWeight: 800, color: "var(--foreground)" }}>Τα κτήριά μου</h1>
+        <p style={{ margin: "4px 0 0", fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }}>
           {isOccupant
             ? "Επιλέξτε κτήριο για να δείτε τα κοινόχρηστα, τις ανακοινώσεις και τα έγγραφά του."
             : "Επιλέξτε κτήριο για να δείτε τον πλήρη πίνακα διαχείρισης."}
@@ -129,18 +129,18 @@ export default async function ManagerBuildingsPage({
             }}>
               <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                 <div style={{ width: 44, height: 44, borderRadius: 8, flexShrink: 0, background: "var(--color-primary)18", color: "var(--color-primary)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                  <RiBuildingLine style={{ fontSize: 24 }} />
+                  <RiBuildingLine style={{ fontSize: "var(--fs-24)" }} />
                 </div>
                 <div style={{ minWidth: 0, flex: 1 }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-                    <span style={{ fontSize: 16, fontWeight: 800, color: "var(--foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{b.name}</span>
+                    <span style={{ fontSize: "var(--fs-16)", fontWeight: 800, color: "var(--foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{b.name}</span>
                     <ManagedBadge managed={b.property.managed} size="sm" />
                   </div>
-                  <div style={{ fontSize: 12, color: "var(--muted-foreground)", display: "flex", alignItems: "center", gap: 4, marginTop: 2 }}>
+                  <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)", display: "flex", alignItems: "center", gap: 4, marginTop: 2 }}>
                     <RiMapPinLine style={{ flexShrink: 0 }} /> {[b.address, b.city].filter(Boolean).join(", ") || "—"}
                   </div>
                 </div>
-                <RiArrowRightSLine style={{ color: "var(--muted-foreground)", flexShrink: 0, fontSize: 20 }} />
+                <RiArrowRightSLine style={{ color: "var(--muted-foreground)", flexShrink: 0, fontSize: "var(--fs-20)" }} />
               </div>
 
               {isOccupant ? (
@@ -156,7 +156,7 @@ export default async function ManagerBuildingsPage({
                   </div>
 
                   <div style={{ marginTop: 12 }}>
-                    <div style={{ display: "flex", justifyContent: "space-between", fontSize: 11, fontWeight: 600, color: "var(--muted-foreground)", marginBottom: 4 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", fontSize: "var(--fs-11)", fontWeight: 600, color: "var(--muted-foreground)", marginBottom: 4 }}>
                       <span>Είσπραξη μήνα</span>
                       <span>{s.total > 0 ? `${pct}%` : "—"}</span>
                     </div>
@@ -178,10 +178,10 @@ export default async function ManagerBuildingsPage({
 function CardStat({ icon: Icon, label, value, color }: { icon: React.ElementType; label: string; value: string; color?: string }) {
   return (
     <div style={{ border: "1px solid var(--border)", borderRadius: 8, padding: "8px 10px", background: "var(--bg-canvas)" }}>
-      <div style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 10, color: "var(--muted-foreground)", fontWeight: 600 }}>
-        <Icon style={{ fontSize: 13 }} /> {label}
+      <div style={{ display: "flex", alignItems: "center", gap: 4, fontSize: "var(--fs-10)", color: "var(--muted-foreground)", fontWeight: 600 }}>
+        <Icon style={{ fontSize: "var(--fs-13)" }} /> {label}
       </div>
-      <div style={{ fontSize: 15, fontWeight: 800, marginTop: 2, color: color ?? "var(--foreground)", whiteSpace: "nowrap" }}>{value}</div>
+      <div style={{ fontSize: "var(--fs-15)", fontWeight: 800, marginTop: 2, color: color ?? "var(--foreground)", whiteSpace: "nowrap" }}>{value}</div>
     </div>
   );
 }

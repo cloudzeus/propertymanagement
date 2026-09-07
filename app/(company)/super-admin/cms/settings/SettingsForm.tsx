@@ -227,7 +227,7 @@ export function SettingsForm({ initial }: { initial: Initial }) {
             alignItems: "center",
             gap: 8,
             marginBottom: 18,
-            fontSize: 13,
+            fontSize: "var(--fs-13)",
             fontWeight: 600,
             color: "var(--foreground)",
             cursor: "pointer",
@@ -285,7 +285,7 @@ export function SettingsForm({ initial }: { initial: Initial }) {
             color: "var(--color-danger)",
             borderRadius: "var(--radius)",
             padding: "12px 16px",
-            fontSize: 13,
+            fontSize: "var(--fs-13)",
           }}
         >
           {error}

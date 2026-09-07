@@ -81,10 +81,10 @@ export default async function SupportTicketsPage() {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
       <div>
-        <h1 style={{ fontSize: 22, fontWeight: 700, color: "var(--foreground)", margin: 0, display: "flex", alignItems: "center", gap: 10 }}>
+        <h1 style={{ fontSize: "var(--fs-22)", fontWeight: 700, color: "var(--foreground)", margin: 0, display: "flex", alignItems: "center", gap: 10 }}>
           <RiCustomerService2Line style={{ color: "var(--color-primary)" }} /> Αιτήματα Υποστήριξης
         </h1>
-        <p style={{ fontSize: 13, color: "var(--muted-foreground)", marginTop: 4 }}>
+        <p style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)", marginTop: 4 }}>
           Η πορεία των αιτημάτων της ομάδας προς την υποστήριξη DGsmart
         </p>
       </div>
@@ -93,8 +93,8 @@ export default async function SupportTicketsPage() {
 
       <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius)", padding: 24 }}>
         {tickets.length === 0 ? (
-          <div style={{ padding: "32px 0", textAlign: "center", color: "var(--muted-foreground)", fontSize: 13 }}>
-            <RiCustomerService2Line style={{ fontSize: 32, opacity: 0.4, display: "block", margin: "0 auto 8px" }} />
+          <div style={{ padding: "32px 0", textAlign: "center", color: "var(--muted-foreground)", fontSize: "var(--fs-13)" }}>
+            <RiCustomerService2Line style={{ fontSize: "var(--fs-32)", opacity: 0.4, display: "block", margin: "0 auto 8px" }} />
             Δεν έχουν υποβληθεί αιτήματα ακόμη
           </div>
         ) : (
@@ -118,12 +118,12 @@ export default async function SupportTicketsPage() {
                     padding: "12px 14px", background: "var(--bg-canvas)", borderRadius: 6, textDecoration: "none",
                   }}
                 >
-                  <Icon style={{ fontSize: 18, color, flexShrink: 0 }} />
+                  <Icon style={{ fontSize: "var(--fs-18)", color, flexShrink: 0 }} />
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontSize: 14, fontWeight: 500, color: "var(--foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                    <div style={{ fontSize: "var(--fs-14)", fontWeight: 500, color: "var(--foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                       {t.subject}
                     </div>
-                    <div style={{ fontSize: 12, color: "var(--muted-foreground)", display: "flex", gap: 8, flexWrap: "wrap" }}>
+                    <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)", display: "flex", gap: 8, flexWrap: "wrap" }}>
                       <span style={{ fontWeight: 600 }}>{t.code}</span>
                       <span>{t.createdBy?.name ?? t.createdBy?.email ?? "—"}</span>
                       <span>{new Date(t.createdAt).toLocaleDateString("el-GR", { day: "2-digit", month: "2-digit", year: "numeric" })}</span>
@@ -132,12 +132,12 @@ export default async function SupportTicketsPage() {
                     </div>
                   </div>
                   <span style={{
-                    fontSize: 11, fontWeight: 600, padding: "3px 10px", borderRadius: 20, flexShrink: 0,
+                    fontSize: "var(--fs-11)", fontWeight: 600, padding: "3px 10px", borderRadius: 20, flexShrink: 0,
                     background: `color-mix(in srgb, ${color} 12%, transparent)`, color,
                   }}>
                     {label}
                   </span>
-                  <RiExternalLinkLine style={{ fontSize: 15, color: "var(--muted-foreground)", flexShrink: 0 }} />
+                  <RiExternalLinkLine style={{ fontSize: "var(--fs-15)", color: "var(--muted-foreground)", flexShrink: 0 }} />
                 </a>
               );
             })}
@@ -145,7 +145,7 @@ export default async function SupportTicketsPage() {
         )}
       </div>
 
-      <Link href="/staff" style={{ fontSize: 13, color: "var(--color-primary)", textDecoration: "none" }}>
+      <Link href="/staff" style={{ fontSize: "var(--fs-13)", color: "var(--color-primary)", textDecoration: "none" }}>
         ← Πίσω στο dashboard
       </Link>
     </div>

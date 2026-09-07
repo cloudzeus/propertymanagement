@@ -306,7 +306,7 @@ export function DataTable<T extends { id: string }>({
               style={{
                 width: "100%", height: 30, paddingLeft: 28,
                 paddingRight: searchInput ? 28 : 10,
-                border: "1px solid var(--border)", borderRadius: "var(--radius-sm)", fontSize: 12,
+                border: "1px solid var(--border)", borderRadius: "var(--radius-sm)", fontSize: "var(--fs-12)",
                 outline: "none", fontFamily: "inherit", color: "var(--foreground)",
                 background: "var(--muted)", boxSizing: "border-box",
               }}
@@ -335,7 +335,7 @@ export function DataTable<T extends { id: string }>({
                 height: 30, padding: "0 10px", borderRadius: "var(--radius-sm)",
                 border: "1px solid var(--border)",
                 background: showColMenu ? "var(--muted)" : "var(--card)",
-                fontSize: 11, cursor: "pointer", fontFamily: "inherit",
+                fontSize: "var(--fs-11)", cursor: "pointer", fontFamily: "inherit",
                 color: "var(--muted-foreground)",
                 display: "flex", alignItems: "center", gap: 5,
               }}
@@ -353,7 +353,7 @@ export function DataTable<T extends { id: string }>({
                   <button key={c.id} onClick={() => toggleCol(c.id)} style={{
                     display: "flex", alignItems: "center", gap: 9, width: "100%",
                     padding: "6px 12px", border: "none", background: "transparent",
-                    cursor: "pointer", fontSize: 12, fontFamily: "inherit",
+                    cursor: "pointer", fontSize: "var(--fs-12)", fontFamily: "inherit",
                     color: "var(--foreground)", textAlign: "left",
                   }}
                     onMouseEnter={(e) => (e.currentTarget.style.background = "var(--muted)")}
@@ -384,7 +384,7 @@ export function DataTable<T extends { id: string }>({
               height: 30, padding: "0 12px", borderRadius: 4,
               border: "1px solid var(--primary)",
               background: "var(--primary)", color: "var(--primary-foreground)",
-              fontSize: 11, fontWeight: 600, cursor: "pointer", fontFamily: "inherit",
+              fontSize: "var(--fs-11)", fontWeight: 600, cursor: "pointer", fontFamily: "inherit",
               display: "flex", alignItems: "center", gap: 5,
             }}
               onMouseEnter={(e) => { e.currentTarget.style.opacity = "0.88"; }}
@@ -402,7 +402,7 @@ export function DataTable<T extends { id: string }>({
             background: `color-mix(in oklch, var(--primary) 8%, var(--card))`,
             borderBottom: "1px solid var(--border)",
           }}>
-            <span style={{ fontSize: 12, color: "var(--foreground)", fontWeight: 500 }}>
+            <span style={{ fontSize: "var(--fs-12)", color: "var(--foreground)", fontWeight: 500 }}>
               {selected.size} επιλεγμένα
             </span>
             {batchActions.map((a, i) => (
@@ -411,7 +411,7 @@ export function DataTable<T extends { id: string }>({
                 borderColor: a.danger ? `color-mix(in oklch, var(--destructive) 40%, transparent)` : "var(--border)",
                 background:  a.danger ? `color-mix(in oklch, var(--destructive) 10%, var(--card))` : "var(--card)",
                 color: a.danger ? "var(--destructive)" : "var(--foreground)",
-                fontSize: 11, cursor: "pointer", fontFamily: "inherit",
+                fontSize: "var(--fs-11)", cursor: "pointer", fontFamily: "inherit",
                 display: "flex", alignItems: "center", gap: 5, fontWeight: 500,
               }}>
                 {a.icon}{a.label}
@@ -420,7 +420,7 @@ export function DataTable<T extends { id: string }>({
             <button onClick={() => setSelected(new Set())} style={{
               height: 28, padding: "0 10px", borderRadius: 4,
               border: "1px solid var(--border)", background: "transparent",
-              color: "var(--muted-foreground)", fontSize: 11, cursor: "pointer",
+              color: "var(--muted-foreground)", fontSize: "var(--fs-11)", cursor: "pointer",
               fontFamily: "inherit", display: "flex", alignItems: "center", gap: 4,
             }}>
               <RiCloseCircleLine size={13} /> Εκκαθάριση
@@ -479,7 +479,7 @@ export function DataTable<T extends { id: string }>({
                     <tr>
                       <td colSpan={99} style={{
                         padding: "48px 16px", textAlign: "center",
-                        color: "var(--muted-foreground)", fontSize: 13, fontFamily: "inherit",
+                        color: "var(--muted-foreground)", fontSize: "var(--fs-13)", fontFamily: "inherit",
                       }}>
                         Δεν βρέθηκαν εγγραφές
                       </td>
@@ -519,7 +519,7 @@ export function DataTable<T extends { id: string }>({
           flexWrap: "wrap", gap: 8,
         }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-            <span style={{ fontSize: 11, color: "var(--muted-foreground)", fontFamily: "inherit" }}>
+            <span style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)", fontFamily: "inherit" }}>
               Γραμμές ανά σελίδα:
             </span>
             <select
@@ -527,7 +527,7 @@ export function DataTable<T extends { id: string }>({
               onChange={(e) => changePageSize(Number(e.target.value))}
               style={{
                 height: 26, padding: "0 6px", borderRadius: 4,
-                border: "1px solid var(--border)", fontSize: 11,
+                border: "1px solid var(--border)", fontSize: "var(--fs-11)",
                 fontFamily: "inherit", cursor: "pointer",
                 background: "var(--card)", color: "var(--foreground)",
               }}
@@ -537,7 +537,7 @@ export function DataTable<T extends { id: string }>({
           </div>
 
           <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
-            <span style={{ fontSize: 11, color: "var(--muted-foreground)", fontFamily: "inherit", marginRight: 6 }}>
+            <span style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)", fontFamily: "inherit", marginRight: 6 }}>
               {Math.min((effPage - 1) * effPageSize + 1, effTotal)}–{Math.min(effPage * effPageSize, effTotal)} από {effTotal}
             </span>
             <button
@@ -548,7 +548,7 @@ export function DataTable<T extends { id: string }>({
             </button>
             {buildPageWindow(effPage, totalPages).map((p, i) =>
               p === "…"
-                ? <span key={`e${i}`} style={{ width: 26, textAlign: "center", fontSize: 11, color: "var(--muted-foreground)" }}>…</span>
+                ? <span key={`e${i}`} style={{ width: 26, textAlign: "center", fontSize: "var(--fs-11)", color: "var(--muted-foreground)" }}>…</span>
                 : <button
                     key={p}
                     onClick={() => goPage(p as number)}
@@ -758,7 +758,7 @@ function SortableRow<T extends { id: string }>({
                     style={{
                       display: "flex", alignItems: "center", gap: 8, width: "100%",
                       padding: "7px 12px", border: "none", background: "transparent",
-                      cursor: "pointer", fontSize: 12, fontFamily: "inherit",
+                      cursor: "pointer", fontSize: "var(--fs-12)", fontFamily: "inherit",
                       color: a.danger ? "var(--destructive)" : "var(--foreground)",
                       textAlign: "left",
                     }}
@@ -787,7 +787,7 @@ function SortableRow<T extends { id: string }>({
             style={{
               paddingTop: 12, paddingBottom: 16, paddingRight: 16,
               paddingLeft: (onExpand !== undefined ? 36 : 0) + 40 + (showDrag ? 36 : 0) + 12,
-              fontSize: 12, color: "var(--muted-foreground)",
+              fontSize: "var(--fs-12)", color: "var(--muted-foreground)",
               borderLeft: "3px solid var(--primary)",
             }}
           >
@@ -812,13 +812,13 @@ function buildPageWindow(page: number, total: number): (number | "…")[] {
 
 const thStyle: React.CSSProperties = {
   padding: "0 12px", height: 34, textAlign: "left",
-  fontSize: 11, fontWeight: 600, textTransform: "uppercase",
+  fontSize: "var(--fs-11)", fontWeight: 600, textTransform: "uppercase",
   letterSpacing: "0.05em", color: "var(--muted-foreground)",
   whiteSpace: "nowrap", verticalAlign: "middle", fontFamily: "inherit",
 };
 
 const tdStyle: React.CSSProperties = {
-  padding: "0 12px", height: 40, fontSize: 13,
+  padding: "0 12px", height: 40, fontSize: "var(--fs-13)",
   color: "var(--foreground)", verticalAlign: "middle", fontFamily: "inherit",
 };
 
@@ -826,6 +826,6 @@ const pageBtnStyle: React.CSSProperties = {
   width: 26, height: 26, borderRadius: 4,
   border: "1px solid var(--border)",
   background: "transparent", cursor: "pointer",
-  fontSize: 11, fontFamily: "inherit", color: "var(--foreground)",
+  fontSize: "var(--fs-11)", fontFamily: "inherit", color: "var(--foreground)",
   display: "flex", alignItems: "center", justifyContent: "center",
 };

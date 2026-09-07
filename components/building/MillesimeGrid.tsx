@@ -102,7 +102,7 @@ export function MillesimeGrid({
       <div style={{ padding: "13px 16px", borderBottom: "1px solid var(--border)", display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
         {can.editMillesimes ? (
           <>
-            <label style={{ display: "inline-flex", alignItems: "center", gap: 8, fontSize: 13, color: "var(--foreground)" }}>
+            <label style={{ display: "inline-flex", alignItems: "center", gap: 8, fontSize: "var(--fs-13)", color: "var(--foreground)" }}>
               Επιβάρυνση ανελκυστήρα/όροφο (%)
               <input
                 type="number"
@@ -116,7 +116,7 @@ export function MillesimeGrid({
                 style={{ width: 70, ...inputStyle }}
               />
             </label>
-            <label style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 13, color: "var(--foreground)", cursor: "pointer" }}>
+            <label style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: "var(--fs-13)", color: "var(--foreground)", cursor: "pointer" }}>
               <input
                 type="checkbox"
                 checked={exempt}
@@ -126,18 +126,18 @@ export function MillesimeGrid({
             </label>
           </>
         ) : (
-          <span style={{ fontSize: 13, color: "var(--foreground)" }}>
+          <span style={{ fontSize: "var(--fs-13)", color: "var(--foreground)" }}>
             Επιβάρυνση ανελκυστήρα/όροφο: <b>{pct}%</b> · Εξαίρεση ισογείου: <b>{exempt ? "Ναι" : "Όχι"}</b>
           </span>
         )}
         {isPending && <RiLoaderLine style={{ animation: "spin 1s linear infinite", color: "var(--muted-foreground)" }} />}
       </div>
 
-      {error && <div style={{ margin: 12, padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: 12 }}>{error}</div>}
+      {error && <div style={{ margin: 12, padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: "var(--fs-12)" }}>{error}</div>}
 
-      <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
+      <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "var(--fs-13)" }}>
         <thead>
-          <tr style={{ textAlign: "left", color: "var(--muted-foreground)", fontSize: 11 }}>
+          <tr style={{ textAlign: "left", color: "var(--muted-foreground)", fontSize: "var(--fs-11)" }}>
             <th style={th}>Μονάδα</th>
             <th style={{ ...th, textAlign: "right" }}>Όροφος</th>
             <th style={{ ...th, textAlign: "right" }}>τ.μ.</th>
@@ -156,7 +156,7 @@ export function MillesimeGrid({
                 return (
                   <td key={s.key} style={{ ...td, textAlign: "right" }}>
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", gap: 4 }}>
-                      {manual && <RiLockLine style={{ color: "#b45309", fontSize: 13 }} title="Κλειδωμένο (χειροκίνητο)" />}
+                      {manual && <RiLockLine style={{ color: "#b45309", fontSize: "var(--fs-13)" }} title="Κλειδωμένο (χειροκίνητο)" />}
                       {can.editMillesimes ? (
                         <input
                           type="number"
@@ -211,6 +211,6 @@ export function MillesimeGrid({
 
 const th: React.CSSProperties = { padding: "8px 12px" };
 const td: React.CSSProperties = { padding: "6px 12px", color: "var(--foreground)" };
-const inputStyle: React.CSSProperties = { border: "1px solid var(--border)", borderRadius: 6, padding: "5px 8px", fontSize: 13, background: "var(--card)", color: "var(--foreground)" };
+const inputStyle: React.CSSProperties = { border: "1px solid var(--border)", borderRadius: 6, padding: "5px 8px", fontSize: "var(--fs-13)", background: "var(--card)", color: "var(--foreground)" };
 const iconBtn: React.CSSProperties = { display: "inline-flex", alignItems: "center", justifyContent: "center", border: "none", background: "transparent", color: "#b45309", cursor: "pointer", padding: 2 };
-const btn: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 6, border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)", borderRadius: 6, padding: "7px 13px", fontSize: 13, fontWeight: 600, cursor: "pointer" };
+const btn: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 6, border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)", borderRadius: 6, padding: "7px 13px", fontSize: "var(--fs-13)", fontWeight: 600, cursor: "pointer" };

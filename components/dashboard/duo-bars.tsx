@@ -10,7 +10,7 @@ export function DuoBars({ data, height = 120 }: { data: DuoPoint[]; height?: num
   const label = data.map((d) => `${MONTH_ABBR[Number(d.month.split("-")[1]) - 1]}: ιδιοκτήτης ${fmt(d.owner)}€, ένοικος ${fmt(d.tenant)}€`).join("· ");
   const all0 = data.every((d) => d.owner === 0 && d.tenant === 0);
   if (all0) {
-    return <p style={{ margin: 0, fontSize: 13, color: "var(--muted-foreground)" }}>Καμία χρέωση στο εξάμηνο.</p>;
+    return <p style={{ margin: 0, fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }}>Καμία χρέωση στο εξάμηνο.</p>;
   }
   const bar = (x: number, v: number, color: string) => {
     const h = Math.round((v / max) * height);
@@ -40,7 +40,7 @@ export function DuoBars({ data, height = 120 }: { data: DuoPoint[]; height?: num
           );
         })}
       </svg>
-      <div style={{ display: "flex", gap: 14, marginTop: 6, fontSize: 11, color: "var(--muted-foreground)" }}>
+      <div style={{ display: "flex", gap: 14, marginTop: 6, fontSize: "var(--fs-11)", color: "var(--muted-foreground)" }}>
         <span style={{ display: "inline-flex", alignItems: "center", gap: 5 }}>
           <span style={{ width: 10, height: 10, borderRadius: 3, background: "var(--color-primary)" }} /> Ως ιδιοκτήτης
         </span>

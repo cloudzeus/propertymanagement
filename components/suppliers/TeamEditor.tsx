@@ -31,23 +31,23 @@ export function TeamEditor({ supplierId, users, canEdit, selfId }: { supplierId:
     <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 8, overflow: "hidden" }}>
       <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "10px 14px", borderBottom: "1px solid var(--border)" }}>
         <RiUserLine style={{ color: "var(--color-primary)" }} />
-        <b style={{ fontSize: 13, flex: 1 }}>Ομάδα & λογαριασμοί <span style={{ color: "var(--muted-foreground)", fontWeight: 400 }}>({users.length})</span></b>
+        <b style={{ fontSize: "var(--fs-13)", flex: 1 }}>Ομάδα & λογαριασμοί <span style={{ color: "var(--muted-foreground)", fontWeight: 400 }}>({users.length})</span></b>
         {canEdit && <button onClick={() => setEditing("new")} style={smallBtn}><RiAddLine /> Νέος λογαριασμός</button>}
       </div>
       {err && <div style={errBox} role="alert">{err}</div>}
       {users.length === 0 ? (
-        <div style={{ padding: 22, textAlign: "center", fontSize: 12.5, color: "var(--muted-foreground)" }}>
+        <div style={{ padding: 22, textAlign: "center", fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)" }}>
           Κανένας λογαριασμός ακόμη. Ο πρώτος λογαριασμός με ρόλο «Διαχειριστής» θα μπορεί να διαχειρίζεται προφίλ, κατάλογο και ομάδα από το δικό του dashboard.
         </div>
       ) : (
-        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
-          <thead><tr style={{ textAlign: "left", color: "var(--muted-foreground)", fontSize: 11 }}>
+        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "var(--fs-13)" }}>
+          <thead><tr style={{ textAlign: "left", color: "var(--muted-foreground)", fontSize: "var(--fs-11)" }}>
             <th style={th}>Χρήστης</th><th style={th}>Ρόλος</th><th style={th}>Κατάσταση</th><th style={th}>Τελευταία σύνδεση</th>{canEdit && <th style={th}></th>}
           </tr></thead>
           <tbody>
             {users.map((u) => (
               <tr key={u.id} style={{ borderTop: "1px solid var(--border)", opacity: u.status === "ACTIVE" ? 1 : 0.6 }}>
-                <td style={td}><b>{u.name ?? "—"}</b>{u.id === selfId && <span style={{ marginLeft: 6, fontSize: 11, color: "var(--muted-foreground)" }}>(εσείς)</span>}<div style={{ fontSize: 11.5, color: "var(--muted-foreground)" }}>{u.email}{u.phone ? ` · ${u.phone}` : ""}</div></td>
+                <td style={td}><b>{u.name ?? "—"}</b>{u.id === selfId && <span style={{ marginLeft: 6, fontSize: "var(--fs-11)", color: "var(--muted-foreground)" }}>(εσείς)</span>}<div style={{ fontSize: "var(--fs-11-5)", color: "var(--muted-foreground)" }}>{u.email}{u.phone ? ` · ${u.phone}` : ""}</div></td>
                 <td style={td}>{u.isSupplierAdmin ? <span style={{ display: "inline-flex", alignItems: "center", gap: 4, color: "#107C10", fontWeight: 600 }}><RiShieldUserLine /> Διαχειριστής</span> : "Τεχνικός"}</td>
                 <td style={td}>{STATUS_LABEL[u.status] ?? u.status}</td>
                 <td style={{ ...td, color: "var(--muted-foreground)" }}>{fmt(u.lastLoginAt)}</td>
@@ -103,7 +103,7 @@ function UserModal({ supplierId, editing, isSelf, onClose, onDone }: { supplierI
         {editing && !isSelf && (
           <FormField label="Κατάσταση"><FieldSelect value={form.status} onChange={f("status")} options={Object.entries(STATUS_LABEL).map(([value, label]) => ({ value, label }))} /></FormField>
         )}
-        <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: "var(--foreground)", cursor: isSelf ? "not-allowed" : "pointer" }}>
+        <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: "var(--fs-13)", color: "var(--foreground)", cursor: isSelf ? "not-allowed" : "pointer" }}>
           <input type="checkbox" checked={isAdmin} disabled={isSelf} onChange={(e) => setIsAdmin(e.target.checked)} />
           Διαχειριστής συνεργάτη — επεξεργάζεται προφίλ, κατάλογο και ομάδα
         </label>
@@ -115,8 +115,8 @@ function UserModal({ supplierId, editing, isSelf, onClose, onDone }: { supplierI
 
 const th: React.CSSProperties = { padding: "8px 14px", fontWeight: 600 };
 const td: React.CSSProperties = { padding: "9px 14px", color: "var(--foreground)", verticalAlign: "top" };
-const smallBtn: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 5, border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)", borderRadius: 4, padding: "5px 10px", fontSize: 12, fontWeight: 600, cursor: "pointer" };
+const smallBtn: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 5, border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)", borderRadius: 4, padding: "5px 10px", fontSize: "var(--fs-12)", fontWeight: 600, cursor: "pointer" };
 const iconBtn: React.CSSProperties = { display: "inline-flex", alignItems: "center", border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)", borderRadius: 4, padding: 5, marginLeft: 6, cursor: "pointer" };
-const cancelBtn: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: 13, color: "var(--foreground)" };
-const saveBtn: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: "pointer", fontSize: 13, fontWeight: 600, display: "flex", alignItems: "center", gap: 6 };
-const errBox: React.CSSProperties = { margin: 10, padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: 12, border: "1px solid #fca5a530" };
+const cancelBtn: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: "var(--fs-13)", color: "var(--foreground)" };
+const saveBtn: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: "pointer", fontSize: "var(--fs-13)", fontWeight: 600, display: "flex", alignItems: "center", gap: 6 };
+const errBox: React.CSSProperties = { margin: 10, padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: "var(--fs-12)", border: "1px solid #fca5a530" };

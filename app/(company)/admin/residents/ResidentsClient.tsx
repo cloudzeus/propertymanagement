@@ -34,18 +34,18 @@ export function ResidentsClient({ rows, assignables, canCreate, canEdit, canDele
       id: "name", header: "Ιδιοκτησία", sortKey: "name", width: 260, accessor: (p) => p.name,
       cell: (p) => (
         <div style={{ display: "flex", alignItems: "center", gap: 10, minWidth: 0 }}>
-          <div style={{ width: 30, height: 30, borderRadius: 8, flexShrink: 0, background: "var(--color-primary)14", color: "var(--color-primary)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 15 }}>
+          <div style={{ width: 30, height: 30, borderRadius: 8, flexShrink: 0, background: "var(--color-primary)14", color: "var(--color-primary)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "var(--fs-15)" }}>
             <RiCommunityLine />
           </div>
           <div style={{ minWidth: 0 }}>
-            <div style={{ fontSize: 13, fontWeight: 600, color: "var(--foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{p.name}</div>
-            <div style={{ fontSize: 11, color: "var(--muted-foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{p.address || "—"}</div>
+            <div style={{ fontSize: "var(--fs-13)", fontWeight: 600, color: "var(--foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{p.name}</div>
+            <div style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{p.address || "—"}</div>
           </div>
         </div>
       ),
     },
     { id: "customer", header: "Πελάτης", sortKey: "customer", width: 180, accessor: (p) => p.customerName,
-      cell: (p) => <span style={{ fontSize: 12, color: "var(--foreground)" }}>{p.customerName}</span> },
+      cell: (p) => <span style={{ fontSize: "var(--fs-12)", color: "var(--foreground)" }}>{p.customerName}</span> },
     { id: "buildings", header: "Κτήρια", width: 90, accessor: (p) => p.buildingsCount,
       cell: (p) => <Count icon={<RiBuilding2Line />} n={p.buildingsCount} /> },
     { id: "units", header: "Μονάδες", width: 100, accessor: (p) => p.unitsCount,
@@ -56,8 +56,8 @@ export function ResidentsClient({ rows, assignables, canCreate, canEdit, canDele
       cell: (p) => <Chip n={p.residentsCount} of={p.unitsCount} tone="green" /> },
     { id: "vacant", header: "Κενές", width: 90, accessor: (p) => p.vacantCount,
       cell: (p) => p.vacantCount > 0
-        ? <span style={{ fontSize: 11, fontWeight: 700, padding: "2px 8px", borderRadius: 9999, background: "var(--color-orange-soft, #f9731618)", color: "var(--color-orange, #ea580c)" }}>{p.vacantCount}</span>
-        : <span style={{ fontSize: 12, color: "var(--muted-foreground)" }}>—</span> },
+        ? <span style={{ fontSize: "var(--fs-11)", fontWeight: 700, padding: "2px 8px", borderRadius: 9999, background: "var(--color-orange-soft, #f9731618)", color: "var(--color-orange, #ea580c)" }}>{p.vacantCount}</span>
+        : <span style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>—</span> },
   ];
 
   return (
@@ -104,7 +104,7 @@ function PropertyExpanded({ property, assignables, canCreate, canEdit, canDelete
   }
 
   if (property.buildings.length === 0) {
-    return <div style={{ padding: "12px 6px", fontSize: 13, color: "var(--muted-foreground)" }}>Δεν υπάρχουν κτήρια σε αυτή την ιδιοκτησία.</div>;
+    return <div style={{ padding: "12px 6px", fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }}>Δεν υπάρχουν κτήρια σε αυτή την ιδιοκτησία.</div>;
   }
 
   return (
@@ -112,17 +112,17 @@ function PropertyExpanded({ property, assignables, canCreate, canEdit, canDelete
       {property.buildings.map((b) => (
         <div key={b.id} style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 8, overflow: "hidden" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "9px 14px", borderBottom: "1px solid var(--border)", background: "var(--bg-canvas)" }}>
-            <RiBuilding2Line style={{ color: "var(--color-primary)", fontSize: 15 }} />
-            <span style={{ fontSize: 13, fontWeight: 700, color: "var(--foreground)" }}>{b.name}</span>
-            {b.address && <span style={{ fontSize: 11, color: "var(--muted-foreground)" }}>· {b.address}</span>}
-            <span style={{ marginLeft: "auto", fontSize: 11, color: "var(--muted-foreground)" }}>{b.units.length} μονάδες</span>
+            <RiBuilding2Line style={{ color: "var(--color-primary)", fontSize: "var(--fs-15)" }} />
+            <span style={{ fontSize: "var(--fs-13)", fontWeight: 700, color: "var(--foreground)" }}>{b.name}</span>
+            {b.address && <span style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)" }}>· {b.address}</span>}
+            <span style={{ marginLeft: "auto", fontSize: "var(--fs-11)", color: "var(--muted-foreground)" }}>{b.units.length} μονάδες</span>
           </div>
           {b.units.length === 0 ? (
-            <div style={{ padding: "10px 14px", fontSize: 12, color: "var(--muted-foreground)" }}>Χωρίς μονάδες.</div>
+            <div style={{ padding: "10px 14px", fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>Χωρίς μονάδες.</div>
           ) : (
-            <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
+            <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "var(--fs-13)" }}>
               <thead>
-                <tr style={{ textAlign: "left", color: "var(--muted-foreground)", fontSize: 11 }}>
+                <tr style={{ textAlign: "left", color: "var(--muted-foreground)", fontSize: "var(--fs-11)" }}>
                   <th style={{ ...th, width: 110 }}>Μονάδα</th>
                   <th style={{ ...th, width: 110 }}>Τύπος</th>
                   <th style={{ ...th, width: 70 }}>Όροφος</th>
@@ -178,7 +178,7 @@ function OccupantCell({ unit, role, occ, busy, canCreate, canEdit, canDelete, on
             <RiUserAddLine /> Προσθήκη
           </button>
         ) : (
-          <span style={{ fontSize: 12, color: "var(--muted-foreground)" }}>—</span>
+          <span style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>—</span>
         )}
       </td>
     );
@@ -187,12 +187,12 @@ function OccupantCell({ unit, role, occ, busy, canCreate, canEdit, canDelete, on
   return (
     <td style={td}>
       <div style={{ display: "flex", alignItems: "center", gap: 8, minWidth: 0 }}>
-        <div style={{ width: 24, height: 24, borderRadius: "50%", flexShrink: 0, background: `${role === "OWNER" ? "var(--color-blue-soft, #2563eb18)" : "var(--color-green-soft, #16a34a18)"}`, color: tone, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 10, fontWeight: 700 }}>
+        <div style={{ width: 24, height: 24, borderRadius: "50%", flexShrink: 0, background: `${role === "OWNER" ? "var(--color-blue-soft, #2563eb18)" : "var(--color-green-soft, #16a34a18)"}`, color: tone, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "var(--fs-10)", fontWeight: 700 }}>
           {(occ.name ?? occ.email)[0]?.toUpperCase()}
         </div>
         <div style={{ minWidth: 0 }}>
-          <div style={{ fontSize: 12.5, fontWeight: 600, color: "var(--foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{occ.name ?? occ.email}</div>
-          <div style={{ fontSize: 10.5, color: "var(--muted-foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+          <div style={{ fontSize: "var(--fs-12-5)", fontWeight: 600, color: "var(--foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{occ.name ?? occ.email}</div>
+          <div style={{ fontSize: "var(--fs-10-5)", color: "var(--muted-foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
             {occ.email}{occ.since ? ` · από ${fmtDate(occ.since)}` : ""}
           </div>
         </div>
@@ -316,7 +316,7 @@ function EditOccupantModal({ unit, role, occupant, onClose, onDone }: {
           <FormField label="Κινητό"><FieldInput value={form.mobile} onChange={f("mobile")} /></FormField>
         </div>
         <div style={{ borderTop: "1px solid var(--border)", paddingTop: 12 }}>
-          <div style={{ fontSize: 11, fontWeight: 700, color: "var(--muted-foreground)", textTransform: "uppercase", letterSpacing: ".05em", marginBottom: 8, display: "flex", alignItems: "center", gap: 6 }}>
+          <div style={{ fontSize: "var(--fs-11)", fontWeight: 700, color: "var(--muted-foreground)", textTransform: "uppercase", letterSpacing: ".05em", marginBottom: 8, display: "flex", alignItems: "center", gap: 6 }}>
             <RiCalendarEventLine /> Περίοδος στη μονάδα
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
@@ -324,7 +324,7 @@ function EditOccupantModal({ unit, role, occupant, onClose, onDone }: {
             <FormField label="Έως (κενό = τρέχον)"><FieldInput type="date" value={form.to} onChange={f("to")} /></FormField>
           </div>
         </div>
-        <p style={{ fontSize: 11, color: "var(--muted-foreground)", margin: 0 }}>Το email δεν αλλάζει εδώ (είναι το username εισόδου).</p>
+        <p style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)", margin: 0 }}>Το email δεν αλλάζει εδώ (είναι το username εισόδου).</p>
       </div>
       <style>{`@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}`}</style>
     </Modal>
@@ -335,7 +335,7 @@ function EditOccupantModal({ unit, role, occupant, onClose, onDone }: {
 
 function Count({ icon, n }: { icon: React.ReactNode; n: number }) {
   return (
-    <span style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 13, color: "var(--foreground)" }}>
+    <span style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: "var(--fs-13)", color: "var(--foreground)" }}>
       <span style={{ color: "var(--muted-foreground)", display: "inline-flex" }}>{icon}</span>{n}
     </span>
   );
@@ -344,13 +344,13 @@ function Count({ icon, n }: { icon: React.ReactNode; n: number }) {
 function Chip({ n, of, tone }: { n: number; of: number; tone: "blue" | "green" }) {
   const bg = tone === "blue" ? "var(--color-blue-soft, #2563eb18)" : "var(--color-green-soft, #16a34a18)";
   const fg = tone === "blue" ? "var(--color-blue, #2563eb)" : "var(--color-green, #16a34a)";
-  return <span style={{ fontSize: 11, fontWeight: 700, padding: "2px 8px", borderRadius: 9999, background: bg, color: fg }}>{n}/{of}</span>;
+  return <span style={{ fontSize: "var(--fs-11)", fontWeight: 700, padding: "2px 8px", borderRadius: 9999, background: bg, color: fg }}>{n}/{of}</span>;
 }
 
 function TabBtn({ active, onClick, children }: { active: boolean; onClick: () => void; children: React.ReactNode }) {
   return (
     <button onClick={onClick} style={{
-      padding: "6px 14px", borderRadius: 6, fontSize: 12.5, fontWeight: 600, cursor: "pointer",
+      padding: "6px 14px", borderRadius: 6, fontSize: "var(--fs-12-5)", fontWeight: 600, cursor: "pointer",
       border: `1px solid ${active ? "var(--color-primary)" : "var(--border)"}`,
       background: active ? "var(--color-primary)14" : "var(--card)",
       color: active ? "var(--color-primary)" : "var(--muted-foreground)",
@@ -360,8 +360,8 @@ function TabBtn({ active, onClick, children }: { active: boolean; onClick: () =>
 
 const th: React.CSSProperties = { padding: "7px 12px", fontWeight: 600 };
 const td: React.CSSProperties = { padding: "8px 12px", color: "var(--foreground)", verticalAlign: "middle" };
-const ghostBtn: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 5, border: "1px dashed var(--border)", background: "transparent", color: "var(--muted-foreground)", borderRadius: 6, padding: "5px 10px", fontSize: 11.5, fontWeight: 600, cursor: "pointer" };
-const iconBtn: React.CSSProperties = { display: "inline-flex", alignItems: "center", justifyContent: "center", width: 26, height: 26, border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)", borderRadius: 5, fontSize: 13, cursor: "pointer" };
-const cancelBtn: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: 13, color: "var(--foreground)" };
-const primaryBtn: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: "pointer", fontSize: 13, fontWeight: 600, display: "flex", alignItems: "center", gap: 6 };
-const errBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "#fee2e240", color: "#dc2626", fontSize: 12, marginBottom: 12 };
+const ghostBtn: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 5, border: "1px dashed var(--border)", background: "transparent", color: "var(--muted-foreground)", borderRadius: 6, padding: "5px 10px", fontSize: "var(--fs-11-5)", fontWeight: 600, cursor: "pointer" };
+const iconBtn: React.CSSProperties = { display: "inline-flex", alignItems: "center", justifyContent: "center", width: 26, height: 26, border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)", borderRadius: 5, fontSize: "var(--fs-13)", cursor: "pointer" };
+const cancelBtn: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: "var(--fs-13)", color: "var(--foreground)" };
+const primaryBtn: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: "pointer", fontSize: "var(--fs-13)", fontWeight: 600, display: "flex", alignItems: "center", gap: 6 };
+const errBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "#fee2e240", color: "#dc2626", fontSize: "var(--fs-12)", marginBottom: 12 };

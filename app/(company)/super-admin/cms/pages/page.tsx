@@ -66,8 +66,8 @@ export default async function CmsPagesHub() {
             >
               {e.icon}
             </div>
-            <div style={{ fontSize: 15, fontWeight: 600, color: "var(--foreground)" }}>{e.label}</div>
-            <div style={{ fontSize: 12, color: "var(--muted-foreground)" }}>{e.desc}</div>
+            <div style={{ fontSize: "var(--fs-15)", fontWeight: 600, color: "var(--foreground)" }}>{e.label}</div>
+            <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>{e.desc}</div>
           </Link>
         ))}
       </div>

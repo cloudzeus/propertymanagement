@@ -49,26 +49,26 @@ function CatalogTable({ supplierId, kind, items, canEdit }: { supplierId: string
     <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 8, overflow: "hidden" }}>
       <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "10px 14px", borderBottom: "1px solid var(--border)" }}>
         <Icon style={{ color: "var(--color-primary)" }} />
-        <b style={{ fontSize: 13, flex: 1 }}>{isService ? "Υπηρεσίες" : "Προϊόντα"} <span style={{ color: "var(--muted-foreground)", fontWeight: 400 }}>({items.length})</span></b>
+        <b style={{ fontSize: "var(--fs-13)", flex: 1 }}>{isService ? "Υπηρεσίες" : "Προϊόντα"} <span style={{ color: "var(--muted-foreground)", fontWeight: 400 }}>({items.length})</span></b>
         {canEdit && <button onClick={() => setEditing("new")} style={smallBtn}><RiAddLine /> Προσθήκη</button>}
       </div>
       {err && <div style={errBox} role="alert">{err}</div>}
       {items.length === 0 ? (
-        <div style={{ padding: 22, textAlign: "center", fontSize: 12.5, color: "var(--muted-foreground)" }}>
+        <div style={{ padding: 22, textAlign: "center", fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)" }}>
           {isService ? "Δεν έχουν δηλωθεί υπηρεσίες." : "Δεν έχουν δηλωθεί προϊόντα."}
         </div>
       ) : (
-        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
-          <thead><tr style={{ textAlign: "left", color: "var(--muted-foreground)", fontSize: 11 }}>
+        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "var(--fs-13)" }}>
+          <thead><tr style={{ textAlign: "left", color: "var(--muted-foreground)", fontSize: "var(--fs-11)" }}>
             <th style={th}>{isService ? "Υπηρεσία" : "Προϊόν"}</th><th style={th}>Μονάδα</th><th style={{ ...th, textAlign: "right" }}>Τιμή (καθ.)</th><th style={{ ...th, textAlign: "right" }}>ΦΠΑ</th>{canEdit && <th style={th}></th>}
           </tr></thead>
           <tbody>
             {items.map((it) => (
               <tr key={it.id} style={{ borderTop: "1px solid var(--border)", opacity: it.active ? 1 : 0.55 }}>
                 <td style={td}>
-                  <b>{it.name}</b>{!it.active && <RiEyeOffLine title="Ανενεργό" style={{ marginLeft: 6, fontSize: 12, color: "var(--muted-foreground)" }} />}
-                  {it.sku && <span style={{ marginLeft: 6, fontSize: 11, color: "var(--muted-foreground)" }}>{it.sku}</span>}
-                  {it.description && <div style={{ fontSize: 11.5, color: "var(--muted-foreground)" }}>{it.description}</div>}
+                  <b>{it.name}</b>{!it.active && <RiEyeOffLine title="Ανενεργό" style={{ marginLeft: 6, fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }} />}
+                  {it.sku && <span style={{ marginLeft: 6, fontSize: "var(--fs-11)", color: "var(--muted-foreground)" }}>{it.sku}</span>}
+                  {it.description && <div style={{ fontSize: "var(--fs-11-5)", color: "var(--muted-foreground)" }}>{it.description}</div>}
                 </td>
                 <td style={td}>{it.unit ?? "—"}</td>
                 <td style={{ ...td, textAlign: "right", fontVariantNumeric: "tabular-nums" }}>{formatPrice(it.price)}</td>
@@ -131,7 +131,7 @@ function ItemModal({ supplierId, kind, editing, onClose, onDone }: { supplierId:
           <FormField label="ΦΠΑ %"><FieldInput type="number" value={form.vatPct} onChange={f("vatPct")} /></FormField>
         </div>
         <FormField label="Περιγραφή"><FieldTextarea value={form.description} onChange={f("description")} rows={2} /></FormField>
-        <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: "var(--foreground)", cursor: "pointer" }}>
+        <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: "var(--fs-13)", color: "var(--foreground)", cursor: "pointer" }}>
           <input type="checkbox" checked={active} onChange={(e) => setActive(e.target.checked)} /> Ενεργό — εμφανίζεται στις προσφορές
         </label>
       </div>
@@ -142,8 +142,8 @@ function ItemModal({ supplierId, kind, editing, onClose, onDone }: { supplierId:
 
 const th: React.CSSProperties = { padding: "8px 14px", fontWeight: 600 };
 const td: React.CSSProperties = { padding: "9px 14px", color: "var(--foreground)", verticalAlign: "top" };
-const smallBtn: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 5, border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)", borderRadius: 4, padding: "5px 10px", fontSize: 12, fontWeight: 600, cursor: "pointer" };
+const smallBtn: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 5, border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)", borderRadius: 4, padding: "5px 10px", fontSize: "var(--fs-12)", fontWeight: 600, cursor: "pointer" };
 const iconBtn: React.CSSProperties = { display: "inline-flex", alignItems: "center", border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)", borderRadius: 4, padding: 5, marginLeft: 6, cursor: "pointer" };
-const cancelBtn: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: 13, color: "var(--foreground)" };
-const saveBtn: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: "pointer", fontSize: 13, fontWeight: 600, display: "flex", alignItems: "center", gap: 6 };
-const errBox: React.CSSProperties = { margin: 10, padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: 12, border: "1px solid #fca5a530" };
+const cancelBtn: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: "var(--fs-13)", color: "var(--foreground)" };
+const saveBtn: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: "pointer", fontSize: "var(--fs-13)", fontWeight: 600, display: "flex", alignItems: "center", gap: 6 };
+const errBox: React.CSSProperties = { margin: 10, padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: "var(--fs-12)", border: "1px solid #fca5a530" };

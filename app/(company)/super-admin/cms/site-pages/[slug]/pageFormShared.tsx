@@ -59,8 +59,8 @@ export function FormGroup({ title, hint, cols = 1, children }: {
 }) {
   return (
     <div style={{ border: "1px solid var(--border)", borderRadius: "var(--radius)", background: "var(--card)", padding: 16 }}>
-      <div style={{ fontWeight: 700, fontSize: 13.5, color: "var(--foreground)" }}>{title}</div>
-      {hint && <div style={{ fontSize: 12.5, color: "var(--muted-foreground)", marginTop: 2 }}>{hint}</div>}
+      <div style={{ fontWeight: 700, fontSize: "var(--fs-13-5)", color: "var(--foreground)" }}>{title}</div>
+      {hint && <div style={{ fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)", marginTop: 2 }}>{hint}</div>}
       <div style={{ display: "grid", gridTemplateColumns: cols === 2 ? "1fr 1fr" : "1fr", gap: 14, marginTop: 14 }}>
         {children}
       </div>
@@ -137,7 +137,7 @@ export function RowList<T extends Record<string, any>>({
   }
   const btn: React.CSSProperties = {
     border: "1px solid var(--border)", borderRadius: 6, background: "var(--card)",
-    padding: "3px 8px", fontSize: 12, cursor: "pointer", color: "var(--muted-foreground)",
+    padding: "3px 8px", fontSize: "var(--fs-12)", cursor: "pointer", color: "var(--muted-foreground)",
   };
 
   return (
@@ -155,7 +155,7 @@ export function RowList<T extends Record<string, any>>({
       <button
         type="button"
         onClick={() => onChange([...items, newItem()])}
-        style={{ ...btn, padding: "8px 12px", fontSize: 13, justifySelf: "start", color: "var(--foreground)" }}
+        style={{ ...btn, padding: "8px 12px", fontSize: "var(--fs-13)", justifySelf: "start", color: "var(--foreground)" }}
       >
         + {addLabel}
       </button>

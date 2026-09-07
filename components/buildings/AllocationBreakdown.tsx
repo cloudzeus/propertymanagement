@@ -37,15 +37,15 @@ export function AllocationBreakdown({ expenseId }: { expenseId: string }) {
     });
   }
 
-  if (error) return <div style={{ fontSize: 12, color: "var(--color-danger)" }}>{error}</div>;
-  if (!rows) return <div style={{ fontSize: 12, color: "var(--muted-foreground)", display: "flex", alignItems: "center", gap: 6 }}><RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> Φόρτωση ανάλυσης…</div>;
-  if (!rows.length) return <div style={{ fontSize: 12, color: "var(--muted-foreground)" }}>Δεν υπάρχει κατανομή (ελλιπή χιλιοστά μονάδων).</div>;
+  if (error) return <div style={{ fontSize: "var(--fs-12)", color: "var(--color-danger)" }}>{error}</div>;
+  if (!rows) return <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)", display: "flex", alignItems: "center", gap: 6 }}><RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> Φόρτωση ανάλυσης…</div>;
+  if (!rows.length) return <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>Δεν υπάρχει κατανομή (ελλιπή χιλιοστά μονάδων).</div>;
 
   return (
     <div style={{ gridColumn: "1 / -1" }}>
-      <div style={{ fontSize: 11.5, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".03em", color: "var(--muted-foreground)", marginBottom: 10 }}>Ανάλυση ανά μονάδα</div>
+      <div style={{ fontSize: "var(--fs-11-5)", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".03em", color: "var(--muted-foreground)", marginBottom: 10 }}>Ανάλυση ανά μονάδα</div>
       <div style={{ overflowX: "auto", border: "1px solid var(--border)", borderRadius: 8 }}>
-        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}>
+        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "var(--fs-12)" }}>
           <thead>
             <tr style={{ color: "var(--muted-foreground)", background: "var(--bg-canvas)" }}>
               <th style={{ ...c, borderBottom: "1px solid var(--border)" }} rowSpan={2}>Μονάδα</th>
@@ -91,7 +91,7 @@ function PayCell({ paid, method, disabled, onToggle }: { paid: boolean; method: 
     <select
       defaultValue=""
       onChange={(e) => { const v = e.target.value as PaymentMethod | ""; if (v) onToggle(true, v); }}
-      style={{ height: 26, fontSize: 11, padding: "0 4px", borderRadius: 5, border: "1px solid var(--border-strong)", background: "var(--bg-canvas)" }}
+      style={{ height: 26, fontSize: "var(--fs-11)", padding: "0 4px", borderRadius: 5, border: "1px solid var(--border-strong)", background: "var(--bg-canvas)" }}
     >
       <option value="">Μαρκάρισμα…</option>
       {METHODS.map((m) => <option key={m.value} value={m.value}>{m.label}</option>)}
@@ -99,6 +99,6 @@ function PayCell({ paid, method, disabled, onToggle }: { paid: boolean; method: 
   );
 }
 
-const c: React.CSSProperties = { padding: "7px 10px", verticalAlign: "middle", fontSize: 11.5 };
-const grp: React.CSSProperties = { padding: "6px 10px", textAlign: "center", fontSize: 10.5, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".03em" };
-const undoBtn: React.CSSProperties = { border: "none", background: "transparent", cursor: "pointer", color: "var(--muted-foreground)", fontSize: 13 };
+const c: React.CSSProperties = { padding: "7px 10px", verticalAlign: "middle", fontSize: "var(--fs-11-5)" };
+const grp: React.CSSProperties = { padding: "6px 10px", textAlign: "center", fontSize: "var(--fs-10-5)", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".03em" };
+const undoBtn: React.CSSProperties = { border: "none", background: "transparent", cursor: "pointer", color: "var(--muted-foreground)", fontSize: "var(--fs-13)" };

@@ -51,8 +51,8 @@ export async function ManagerHome({ companyId }: { companyId: string | undefined
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
       <div>
-        <h1 style={{ fontSize: 22, fontWeight: 700, color: "var(--foreground)", margin: 0 }}>Διαχείριση Ακινήτων</h1>
-        <p style={{ fontSize: 13, color: "var(--muted-foreground)", marginTop: 4 }}>Επισκόπηση και εκκρεμότητες</p>
+        <h1 style={{ fontSize: "var(--fs-22)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}>Διαχείριση Ακινήτων</h1>
+        <p style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)", marginTop: 4 }}>Επισκόπηση και εκκρεμότητες</p>
       </div>
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16 }}>
@@ -66,11 +66,11 @@ export async function ManagerHome({ companyId }: { companyId: string | undefined
           return (
             <Link key={card.label} href={card.href} style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius)", padding: "20px 24px", display: "flex", flexDirection: "column", gap: 8, textDecoration: "none" }}>
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                <span style={{ fontSize: 13, color: "var(--muted-foreground)", fontWeight: 500 }}>{card.label}</span>
-                <Icon style={{ fontSize: 20, color: card.color, opacity: 0.8 }} />
+                <span style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)", fontWeight: 500 }}>{card.label}</span>
+                <Icon style={{ fontSize: "var(--fs-20)", color: card.color, opacity: 0.8 }} />
               </div>
-              <span style={{ fontSize: 28, fontWeight: 700, color: "var(--foreground)", lineHeight: 1 }}>{card.value}</span>
-              <span style={{ fontSize: 12, color: "var(--muted-foreground)" }}>{card.sub}</span>
+              <span style={{ fontSize: "var(--fs-28)", fontWeight: 700, color: "var(--foreground)", lineHeight: 1 }}>{card.value}</span>
+              <span style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>{card.sub}</span>
             </Link>
           );
         })}
@@ -80,15 +80,15 @@ export async function ManagerHome({ companyId }: { companyId: string | undefined
         {/* Recent maintenance */}
         <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius)", padding: 24 }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
-            <h2 style={{ fontSize: 15, fontWeight: 600, color: "var(--foreground)", margin: 0 }}>Εκκρεμή Αιτήματα Συντήρησης</h2>
-            <Link href="/manager/maintenance" style={{ fontSize: 12, color: "var(--color-primary)", display: "flex", alignItems: "center", gap: 4, textDecoration: "none" }}>
+            <h2 style={{ fontSize: "var(--fs-15)", fontWeight: 600, color: "var(--foreground)", margin: 0 }}>Εκκρεμή Αιτήματα Συντήρησης</h2>
+            <Link href="/manager/maintenance" style={{ fontSize: "var(--fs-12)", color: "var(--color-primary)", display: "flex", alignItems: "center", gap: 4, textDecoration: "none" }}>
               Όλα <RiArrowRightLine />
             </Link>
           </div>
 
           {recentMaintenance.length === 0 ? (
-            <div style={{ padding: "32px 0", textAlign: "center", color: "var(--muted-foreground)", fontSize: 13 }}>
-              <RiToolsLine style={{ fontSize: 32, opacity: 0.4, marginBottom: 8, display: "block", margin: "0 auto 8px" }} />
+            <div style={{ padding: "32px 0", textAlign: "center", color: "var(--muted-foreground)", fontSize: "var(--fs-13)" }}>
+              <RiToolsLine style={{ fontSize: "var(--fs-32)", opacity: 0.4, marginBottom: 8, display: "block", margin: "0 auto 8px" }} />
               Δεν υπάρχουν εκκρεμή αιτήματα
             </div>
           ) : (
@@ -96,10 +96,10 @@ export async function ManagerHome({ companyId }: { companyId: string | undefined
               {recentMaintenance.map((req: any) => (
                 <div key={req.id} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 12px", background: "var(--bg-canvas)", borderRadius: 6 }}>
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontSize: 14, fontWeight: 500, color: "var(--foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{req.title}</div>
-                    <div style={{ fontSize: 12, color: "var(--muted-foreground)" }}>{req.status}</div>
+                    <div style={{ fontSize: "var(--fs-14)", fontWeight: 500, color: "var(--foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{req.title}</div>
+                    <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>{req.status}</div>
                   </div>
-                  <span style={{ fontSize: 11, fontWeight: 600, padding: "2px 8px", borderRadius: 20, flexShrink: 0, marginLeft: 12, background: `${PRIORITY_COLOR[req.priority] || "var(--muted-foreground)"}18`, color: PRIORITY_COLOR[req.priority] || "var(--muted-foreground)" }}>
+                  <span style={{ fontSize: "var(--fs-11)", fontWeight: 600, padding: "2px 8px", borderRadius: 20, flexShrink: 0, marginLeft: 12, background: `${PRIORITY_COLOR[req.priority] || "var(--muted-foreground)"}18`, color: PRIORITY_COLOR[req.priority] || "var(--muted-foreground)" }}>
                     {req.priority}
                   </span>
                 </div>
@@ -111,15 +111,15 @@ export async function ManagerHome({ companyId }: { companyId: string | undefined
         {/* Announcements + links */}
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius)", padding: 20 }}>
-            <h2 style={{ fontSize: 14, fontWeight: 600, color: "var(--foreground)", margin: "0 0 12px" }}>Ανακοινώσεις</h2>
-            <div style={{ fontSize: 32, fontWeight: 700, color: "var(--color-primary)" }}>{stats.activeAnnouncements}</div>
-            <div style={{ fontSize: 12, color: "var(--muted-foreground)", marginTop: 4 }}>Ενεργές</div>
-            <Link href="/manager/announcements" style={{ display: "flex", alignItems: "center", gap: 4, marginTop: 12, fontSize: 12, color: "var(--color-primary)", textDecoration: "none" }}>
+            <h2 style={{ fontSize: "var(--fs-14)", fontWeight: 600, color: "var(--foreground)", margin: "0 0 12px" }}>Ανακοινώσεις</h2>
+            <div style={{ fontSize: "var(--fs-32)", fontWeight: 700, color: "var(--color-primary)" }}>{stats.activeAnnouncements}</div>
+            <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)", marginTop: 4 }}>Ενεργές</div>
+            <Link href="/manager/announcements" style={{ display: "flex", alignItems: "center", gap: 4, marginTop: 12, fontSize: "var(--fs-12)", color: "var(--color-primary)", textDecoration: "none" }}>
               Διαχείριση <RiArrowRightLine />
             </Link>
           </div>
           <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius)", padding: 20 }}>
-            <h2 style={{ fontSize: 14, fontWeight: 600, color: "var(--foreground)", margin: "0 0 12px" }}>Γρήγορες Ενέργειες</h2>
+            <h2 style={{ fontSize: "var(--fs-14)", fontWeight: 600, color: "var(--foreground)", margin: "0 0 12px" }}>Γρήγορες Ενέργειες</h2>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               {[
                 { label: "Νέα Ανακοίνωση", href: "/manager/announcements", icon: RiNotification2Line },
@@ -127,8 +127,8 @@ export async function ManagerHome({ companyId }: { companyId: string | undefined
               ].map((link) => {
                 const Icon = link.icon;
                 return (
-                  <Link key={link.href} href={link.href} style={{ display: "flex", alignItems: "center", gap: 8, padding: "8px 10px", borderRadius: 6, background: "var(--bg-canvas)", textDecoration: "none", color: "var(--foreground)", fontSize: 13 }}>
-                    <Icon style={{ color: "var(--color-primary)", fontSize: 15 }} />
+                  <Link key={link.href} href={link.href} style={{ display: "flex", alignItems: "center", gap: 8, padding: "8px 10px", borderRadius: 6, background: "var(--bg-canvas)", textDecoration: "none", color: "var(--foreground)", fontSize: "var(--fs-13)" }}>
+                    <Icon style={{ color: "var(--color-primary)", fontSize: "var(--fs-15)" }} />
                     {link.label}
                   </Link>
                 );

@@ -12,10 +12,10 @@ type Rule = { id: string; propertyId: string | null; propertyName: string | null
 type PropertyOpt = { id: string; name: string };
 
 const card: React.CSSProperties = { background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius-lg)", padding: 18 };
-const btn: React.CSSProperties = { height: 32, padding: "0 12px", border: "1px solid var(--border)", background: "var(--paper)", borderRadius: "var(--radius-sm)", fontSize: 12.5, fontWeight: 600, cursor: "pointer", color: "var(--foreground)", display: "inline-flex", alignItems: "center", gap: 6 };
+const btn: React.CSSProperties = { height: 32, padding: "0 12px", border: "1px solid var(--border)", background: "var(--paper)", borderRadius: "var(--radius-sm)", fontSize: "var(--fs-12-5)", fontWeight: 600, cursor: "pointer", color: "var(--foreground)", display: "inline-flex", alignItems: "center", gap: 6 };
 const btnPrimary: React.CSSProperties = { ...btn, background: "var(--primary)", color: "var(--primary-foreground)", border: "none" };
-const th: React.CSSProperties = { textAlign: "left", fontSize: 11.5, fontWeight: 700, color: "var(--muted-foreground)", padding: "8px 10px", borderBottom: "1px solid var(--border)" };
-const td: React.CSSProperties = { fontSize: 13, color: "var(--foreground)", padding: "8px 10px", borderBottom: "1px solid var(--border)" };
+const th: React.CSSProperties = { textAlign: "left", fontSize: "var(--fs-11-5)", fontWeight: 700, color: "var(--muted-foreground)", padding: "8px 10px", borderBottom: "1px solid var(--border)" };
+const td: React.CSSProperties = { fontSize: "var(--fs-13)", color: "var(--foreground)", padding: "8px 10px", borderBottom: "1px solid var(--border)" };
 
 export function MaintenanceSettingsClient({ categories, rules, properties }: {
   categories: Category[]; rules: Rule[]; properties: PropertyOpt[];
@@ -45,16 +45,16 @@ export function MaintenanceSettingsClient({ categories, rules, properties }: {
 
   return (
     <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 18, maxWidth: 980 }}>
-      <Link href="/admin/maintenance" style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 13, color: "var(--muted-foreground)", textDecoration: "none" }}>
+      <Link href="/admin/maintenance" style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: "var(--fs-13)", color: "var(--muted-foreground)", textDecoration: "none" }}>
         <RiArrowLeftLine /> Πίσω στις βλάβες
       </Link>
-      <h1 style={{ fontSize: 22, fontWeight: 700, color: "var(--foreground)", margin: 0 }}>Ρυθμίσεις βλαβών</h1>
-      {error && <div style={{ color: "var(--destructive)", fontSize: 13 }}>{error}</div>}
+      <h1 style={{ fontSize: "var(--fs-22)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}>Ρυθμίσεις βλαβών</h1>
+      {error && <div style={{ color: "var(--destructive)", fontSize: "var(--fs-13)" }}>{error}</div>}
 
       {/* Categories */}
       <div style={card}>
         <div style={{ display: "flex", alignItems: "center", marginBottom: 12 }}>
-          <h2 style={{ fontSize: 14, fontWeight: 700, color: "var(--foreground)", margin: 0, flex: 1, display: "flex", alignItems: "center", gap: 6 }}>
+          <h2 style={{ fontSize: "var(--fs-14)", fontWeight: 700, color: "var(--foreground)", margin: 0, flex: 1, display: "flex", alignItems: "center", gap: 6 }}>
             <RiPriceTag3Line /> Κατηγορίες βλαβών
           </h2>
           <button style={btnPrimary} onClick={() => { setCatId(null); setCat({ name: "", slaHours: "", companyResponsible: false, active: true, sortOrder: "0" }); setCatOpen(true); }}>
@@ -85,14 +85,14 @@ export function MaintenanceSettingsClient({ categories, rules, properties }: {
       {/* Coverage rules */}
       <div style={card}>
         <div style={{ display: "flex", alignItems: "center", marginBottom: 8 }}>
-          <h2 style={{ fontSize: 14, fontWeight: 700, color: "var(--foreground)", margin: 0, flex: 1, display: "flex", alignItems: "center", gap: 6 }}>
+          <h2 style={{ fontSize: "var(--fs-14)", fontWeight: 700, color: "var(--foreground)", margin: 0, flex: 1, display: "flex", alignItems: "center", gap: 6 }}>
             <RiShieldCheckLine /> Κανόνες κάλυψης managed συμβολαίων
           </h2>
           <button style={btnPrimary} onClick={() => { setRuleId(null); setRule({ propertyId: "", categoryId: "", elementLabel: "", covered: true, quantityLimit: "", periodMonths: "", notes: "" }); setRuleOpen(true); }}>
             <RiAddLine /> Νέος κανόνας
           </button>
         </div>
-        <p style={{ fontSize: 12.5, color: "var(--muted-foreground)", marginTop: 0 }}>
+        <p style={{ fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)", marginTop: 0 }}>
           Ορίστε τι αναλαμβάνει η εταιρία σε managed ακίνητα: ανά κατηγορία ή/και ποσοτικά (όριο επιλύσεων ανά περίοδο).
           Κανόνας χωρίς ακίνητο ισχύει ως γενικός για όλα τα managed ακίνητα.
         </p>
@@ -133,11 +133,11 @@ export function MaintenanceSettingsClient({ categories, rules, properties }: {
             <FormField label="SLA (ώρες)" hint="Κενό = χωρίς SLA"><FieldInput type="number" value={cat.slaHours} onChange={(v) => setCat({ ...cat, slaHours: v })} /></FormField>
             <FormField label="Σειρά"><FieldInput type="number" value={cat.sortOrder} onChange={(v) => setCat({ ...cat, sortOrder: v })} /></FormField>
           </div>
-          <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: "var(--foreground)" }}>
+          <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: "var(--fs-13)", color: "var(--foreground)" }}>
             <input type="checkbox" checked={cat.companyResponsible} onChange={(e) => setCat({ ...cat, companyResponsible: e.target.checked })} />
             Καλύπτεται από την εταιρία σε managed ακίνητα (default)
           </label>
-          <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: "var(--foreground)" }}>
+          <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: "var(--fs-13)", color: "var(--foreground)" }}>
             <input type="checkbox" checked={cat.active} onChange={(e) => setCat({ ...cat, active: e.target.checked })} />
             Ενεργή
           </label>
@@ -166,7 +166,7 @@ export function MaintenanceSettingsClient({ categories, rules, properties }: {
           <FormField label="Στοιχείο εξοπλισμού (προαιρετικά)" hint="π.χ. Κοινόχρηστα φώτα">
             <FieldInput value={rule.elementLabel} onChange={(v) => setRule({ ...rule, elementLabel: v })} />
           </FormField>
-          <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: "var(--foreground)" }}>
+          <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: "var(--fs-13)", color: "var(--foreground)" }}>
             <input type="checkbox" checked={rule.covered} onChange={(e) => setRule({ ...rule, covered: e.target.checked })} />
             Η επίλυση καλύπτεται από την εταιρία
           </label>

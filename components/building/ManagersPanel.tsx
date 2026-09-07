@@ -46,16 +46,16 @@ export function ManagersPanel({ buildingId, can }: { buildingId: string; can: Bu
       cell: (m) => (
         <div style={{ display: "flex", alignItems: "center", gap: 8, minWidth: 0 }}>
           <div style={{ width: 26, height: 26, borderRadius: "50%", flexShrink: 0, background: "var(--color-primary)18", color: "var(--color-primary)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <RiUserStarLine style={{ fontSize: 14 }} />
+            <RiUserStarLine style={{ fontSize: "var(--fs-14)" }} />
           </div>
-          <span style={{ fontSize: 13, fontWeight: 600, color: "var(--foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{m.name ?? "—"}</span>
+          <span style={{ fontSize: "var(--fs-13)", fontWeight: 600, color: "var(--foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{m.name ?? "—"}</span>
         </div>
       ),
     },
-    { id: "email", header: "Email", sortKey: "email", width: 260, accessor: (m) => m.email, cell: (m) => <span style={{ fontSize: 12, color: "var(--muted-foreground)" }}>{m.email}</span> },
+    { id: "email", header: "Email", sortKey: "email", width: 260, accessor: (m) => m.email, cell: (m) => <span style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>{m.email}</span> },
     {
       id: "role", header: "Ρόλος", width: 150, accessor: (m) => ROLE_LABEL[m.role] ?? m.role,
-      cell: (m) => <span style={{ fontSize: 11, fontWeight: 700, padding: "2px 8px", borderRadius: 9999, background: "var(--bg-canvas)", color: "var(--muted-foreground)", border: "1px solid var(--border)" }}>{ROLE_LABEL[m.role] ?? m.role}</span>,
+      cell: (m) => <span style={{ fontSize: "var(--fs-11)", fontWeight: 700, padding: "2px 8px", borderRadius: 9999, background: "var(--bg-canvas)", color: "var(--muted-foreground)", border: "1px solid var(--border)" }}>{ROLE_LABEL[m.role] ?? m.role}</span>,
     },
   ];
 
@@ -64,7 +64,7 @@ export function ManagersPanel({ buildingId, can }: { buildingId: string; can: Bu
   ];
 
   if (loading) {
-    return <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 8, padding: 40, textAlign: "center", color: "var(--muted-foreground)", fontSize: 14 }}>Φόρτωση…</div>;
+    return <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 8, padding: 40, textAlign: "center", color: "var(--muted-foreground)", fontSize: "var(--fs-14)" }}>Φόρτωση…</div>;
   }
 
   return (
@@ -153,16 +153,16 @@ function AddManagerModal({ scope, managed, assignedIds, onClose, onDone }: { sco
               placeholder={managed ? "Αναζήτηση: ιδιοκτήτες/ένοικοι, πελάτης ή προσωπικό…" : "Αναζήτηση: ιδιοκτήτες/ένοικοι ή πελάτης…"}
               autoComplete="off"
               autoFocus
-              style={{ flex: 1, height: 38, padding: "0 12px", borderRadius: 6, border: "1px solid var(--border)", fontSize: 13, color: "var(--foreground)", background: "var(--card)", outline: "none", boxSizing: "border-box" }}
+              style={{ flex: 1, height: 38, padding: "0 12px", borderRadius: 6, border: "1px solid var(--border)", fontSize: "var(--fs-13)", color: "var(--foreground)", background: "var(--card)", outline: "none", boxSizing: "border-box" }}
             />
             <button type="button" onClick={() => { setError(null); setMode("create"); }} style={{ ...btn, ...btnPrimary, flexShrink: 0 }}>
               <RiUserAddLine /> Νέο άτομο
             </button>
           </div>
           <div style={{ border: "1px solid var(--border)", borderRadius: 6, maxHeight: 460, overflowY: "auto" }}>
-            {searching && visible.length === 0 && <div style={{ padding: "12px 14px", fontSize: 12, color: "var(--muted-foreground)" }}>Φόρτωση…</div>}
+            {searching && visible.length === 0 && <div style={{ padding: "12px 14px", fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>Φόρτωση…</div>}
             {!searching && visible.length === 0 && (
-              <div style={{ padding: "16px 14px", fontSize: 12, color: "var(--muted-foreground)", textAlign: "center" }}>
+              <div style={{ padding: "16px 14px", fontSize: "var(--fs-12)", color: "var(--muted-foreground)", textAlign: "center" }}>
                 Κανένας διαθέσιμος υποψήφιος.<br />
                 Πατήστε «Νέο άτομο» για να δημιουργήσετε νέο διαχειριστή.
               </div>
@@ -175,10 +175,10 @@ function AddManagerModal({ scope, managed, assignedIds, onClose, onDone }: { sco
                   onMouseEnter={(e) => (e.currentTarget.style.background = "var(--bg-canvas)")}
                   onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}>
                   <span style={{ flex: 1, minWidth: 0 }}>
-                    <span style={{ display: "block", fontSize: 13, fontWeight: 600, color: "var(--foreground)" }}>{c.name || c.email}</span>
-                    <span style={{ display: "block", fontSize: 11, color: "var(--muted-foreground)" }}>{c.email}</span>
+                    <span style={{ display: "block", fontSize: "var(--fs-13)", fontWeight: 600, color: "var(--foreground)" }}>{c.name || c.email}</span>
+                    <span style={{ display: "block", fontSize: "var(--fs-11)", color: "var(--muted-foreground)" }}>{c.email}</span>
                   </span>
-                  <span style={{ flexShrink: 0, fontSize: 10, fontWeight: 700, padding: "2px 6px", borderRadius: 4, background: `${b.color}18`, color: b.color }}>
+                  <span style={{ flexShrink: 0, fontSize: "var(--fs-10)", fontWeight: 700, padding: "2px 6px", borderRadius: 4, background: `${b.color}18`, color: b.color }}>
                     {b.label}
                   </span>
                 </button>
@@ -209,14 +209,14 @@ function AddManagerModal({ scope, managed, assignedIds, onClose, onDone }: { sco
   );
 }
 
-const fieldLabel: React.CSSProperties = { display: "flex", flexDirection: "column", gap: 4, fontSize: 12, fontWeight: 600, color: "var(--muted-foreground)" };
-const field: React.CSSProperties = { height: 38, padding: "0 12px", borderRadius: 6, border: "1px solid var(--border)", fontSize: 13, color: "var(--foreground)", background: "var(--card)", outline: "none", boxSizing: "border-box", width: "100%", fontWeight: 400 };
+const fieldLabel: React.CSSProperties = { display: "flex", flexDirection: "column", gap: 4, fontSize: "var(--fs-12)", fontWeight: 600, color: "var(--muted-foreground)" };
+const field: React.CSSProperties = { height: 38, padding: "0 12px", borderRadius: 6, border: "1px solid var(--border)", fontSize: "var(--fs-13)", color: "var(--foreground)", background: "var(--card)", outline: "none", boxSizing: "border-box", width: "100%", fontWeight: 400 };
 
 const btn: React.CSSProperties = {
   display: "inline-flex", alignItems: "center", gap: 6, border: "1px solid var(--border)",
   background: "var(--card)", color: "var(--foreground)", borderRadius: 6, padding: "7px 13px",
-  fontSize: 13, fontWeight: 600, cursor: "pointer",
+  fontSize: "var(--fs-13)", fontWeight: 600, cursor: "pointer",
 };
 const btnPrimary: React.CSSProperties = { background: "var(--color-primary)", color: "#fff", borderColor: "var(--color-primary)" };
-const btnCancel: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: 13, color: "var(--foreground)" };
-const errBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: 12, marginBottom: 12 };
+const btnCancel: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: "var(--fs-13)", color: "var(--foreground)" };
+const errBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: "var(--fs-12)", marginBottom: 12 };

@@ -116,13 +116,13 @@ export function AddressAutocomplete({ label, value, onChange, onResolved, placeh
   return (
     <div ref={boxRef} style={{ display: "flex", flexDirection: "column", gap: 4, position: "relative" }}>
       <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between" }}>
-        <label style={{ fontSize: 12, fontWeight: 600, color: "var(--foreground)" }}>{label}</label>
-        {s1 && <span style={{ fontSize: 10, color: "var(--muted-foreground)", fontFamily: "monospace" }}>{s1}</span>}
+        <label style={{ fontSize: "var(--fs-12)", fontWeight: 600, color: "var(--foreground)" }}>{label}</label>
+        {s1 && <span style={{ fontSize: "var(--fs-10)", color: "var(--muted-foreground)", fontFamily: "monospace" }}>{s1}</span>}
       </div>
       <div style={{ position: "relative" }}>
         <RiMapPin2Line style={{
           position: "absolute", left: 9, top: "50%", transform: "translateY(-50%)",
-          fontSize: 14, color: "var(--muted-foreground)", pointerEvents: "none",
+          fontSize: "var(--fs-14)", color: "var(--muted-foreground)", pointerEvents: "none",
         }} />
         <input
           type="text"
@@ -133,7 +133,7 @@ export function AddressAutocomplete({ label, value, onChange, onResolved, placeh
           autoComplete="off"
           style={{
             height: 34, padding: "0 30px 0 30px", borderRadius: 6,
-            border: "1px solid var(--border)", fontSize: 13,
+            border: "1px solid var(--border)", fontSize: "var(--fs-13)",
             color: "var(--foreground)", background: "var(--card)",
             outline: "none", boxSizing: "border-box", width: "100%",
           }}
@@ -141,12 +141,12 @@ export function AddressAutocomplete({ label, value, onChange, onResolved, placeh
         {(loading || resolving) && (
           <RiLoaderLine style={{
             position: "absolute", right: 9, top: "50%", transform: "translateY(-50%)",
-            fontSize: 14, color: "var(--muted-foreground)", animation: "spin 1s linear infinite",
+            fontSize: "var(--fs-14)", color: "var(--muted-foreground)", animation: "spin 1s linear infinite",
           }} />
         )}
       </div>
 
-      {error && <p style={{ fontSize: 11, color: "#dc2626", margin: 0 }}>{error}</p>}
+      {error && <p style={{ fontSize: "var(--fs-11)", color: "#dc2626", margin: 0 }}>{error}</p>}
 
       {open && predictions.length > 0 && (
         <div style={{
@@ -169,11 +169,11 @@ export function AddressAutocomplete({ label, value, onChange, onResolved, placeh
               onMouseEnter={(e) => (e.currentTarget.style.background = "var(--bg-canvas)")}
               onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
             >
-              <RiMapPin2Line style={{ fontSize: 14, color: "var(--color-primary)", flexShrink: 0, marginTop: 2 }} />
+              <RiMapPin2Line style={{ fontSize: "var(--fs-14)", color: "var(--color-primary)", flexShrink: 0, marginTop: 2 }} />
               <span style={{ display: "flex", flexDirection: "column", minWidth: 0 }}>
-                <span style={{ fontSize: 13, color: "var(--foreground)", fontWeight: 500 }}>{p.mainText}</span>
+                <span style={{ fontSize: "var(--fs-13)", color: "var(--foreground)", fontWeight: 500 }}>{p.mainText}</span>
                 {p.secondaryText && (
-                  <span style={{ fontSize: 11, color: "var(--muted-foreground)" }}>{p.secondaryText}</span>
+                  <span style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)" }}>{p.secondaryText}</span>
                 )}
               </span>
             </button>

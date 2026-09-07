@@ -9,13 +9,13 @@ export function HowSection({ data }: { data: HowData }) {
       <div className="mx-auto max-w-[1200px] px-5 sm:px-7 py-[84px] md:py-[108px]">
         <Reveal className="mb-12 max-w-[620px]">
           {data.kicker && (
-            <span className="text-[13px] font-bold uppercase tracking-[0.14em] text-[#8a8a7e]">{data.kicker}</span>
+            <span className="text-[length:var(--fs-13)] font-bold uppercase tracking-[0.14em] text-[#8a8a7e]">{data.kicker}</span>
           )}
-          <h2 className="mt-3.5 text-[32px] font-extrabold leading-[1.05] tracking-[-0.02em] text-[var(--foreground)] md:text-[46px]">
+          <h2 className="mt-3.5 text-[length:var(--fs-32)] font-extrabold leading-[1.05] tracking-[-0.02em] text-[var(--foreground)] md:text-[length:var(--fs-46)]">
             {data.heading}
           </h2>
           {data.subtitle && (
-            <p className="mt-4 text-[17px] leading-relaxed text-[#5b5c58]">{data.subtitle}</p>
+            <p className="mt-4 text-[length:var(--fs-17)] leading-relaxed text-[#5b5c58]">{data.subtitle}</p>
           )}
         </Reveal>
 
@@ -31,11 +31,11 @@ export function HowSection({ data }: { data: HowData }) {
               className="relative rounded-[18px] border bg-white p-7"
               style={{ borderColor: "rgba(27,28,26,.10)", boxShadow: "0 20px 44px -34px rgba(27,28,26,.28)" }}
             >
-              <div className="text-[40px] font-extrabold leading-none tracking-[-0.02em] text-[var(--accent)]">
+              <div className="text-[length:var(--fs-40)] font-extrabold leading-none tracking-[-0.02em] text-[var(--accent)]">
                 {String(i + 1).padStart(2, "0")}
               </div>
-              <div className="mb-2 mt-4 text-[19px] font-bold text-[var(--foreground)]">{s.title}</div>
-              <div className="text-[14.5px] leading-relaxed text-[#5b5c58]">{s.body}</div>
+              <div className="mb-2 mt-4 text-[length:var(--fs-19)] font-bold text-[var(--foreground)]">{s.title}</div>
+              <div className="text-[length:var(--fs-14-5)] leading-relaxed text-[#5b5c58]">{s.body}</div>
             </div>
           ))}
         </Reveal>

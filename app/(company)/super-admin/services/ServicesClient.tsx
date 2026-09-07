@@ -88,8 +88,8 @@ export function ServicesClient({ initial }: { initial: Service[] }) {
       accessor: (s) => `${s.name} ${s.code}`,
       cell: (s) => (
         <div>
-          <div style={{ fontSize: 13, fontWeight: 600, color: "var(--foreground)" }}>{s.name}</div>
-          <div style={{ fontSize: 11, color: "var(--muted-foreground)", fontFamily: "monospace" }}>{s.code}</div>
+          <div style={{ fontSize: "var(--fs-13)", fontWeight: 600, color: "var(--foreground)" }}>{s.name}</div>
+          <div style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)", fontFamily: "monospace" }}>{s.code}</div>
         </div>
       ),
     },
@@ -98,7 +98,7 @@ export function ServicesClient({ initial }: { initial: Service[] }) {
       accessor: (s) => (s.isCore ? "CORE" : "Module"),
       cell: (s) => (
         <span style={{
-          fontSize: 11, fontWeight: 600, padding: "2px 8px", borderRadius: 20,
+          fontSize: "var(--fs-11)", fontWeight: 600, padding: "2px 8px", borderRadius: 20,
           background: s.isCore ? "#0078D418" : "#8764B818", color: s.isCore ? "#0078D4" : "#8764B8",
         }}>{s.isCore ? "CORE" : "Module"}</span>
       ),
@@ -106,19 +106,19 @@ export function ServicesClient({ initial }: { initial: Service[] }) {
     {
       id: "pricing", header: "Χρέωση", sortKey: "pricingModel", width: 200,
       accessor: (s) => PRICING_LABEL[s.pricingModel] ?? s.pricingModel,
-      cell: (s) => <span style={{ fontSize: 12, color: "var(--muted-foreground)" }}>{PRICING_LABEL[s.pricingModel] ?? s.pricingModel}</span>,
+      cell: (s) => <span style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>{PRICING_LABEL[s.pricingModel] ?? s.pricingModel}</span>,
     },
     {
       id: "price", header: "Τιμή (€)", sortKey: "price", width: 110,
       accessor: (s) => s.price,
-      cell: (s) => <span style={{ fontSize: 13, fontWeight: 600, color: "var(--foreground)" }}>€ {s.price.toFixed(2)}</span>,
+      cell: (s) => <span style={{ fontSize: "var(--fs-13)", fontWeight: 600, color: "var(--foreground)" }}>€ {s.price.toFixed(2)}</span>,
     },
     {
       id: "active", header: "Κατάσταση", sortKey: "active", width: 110,
       accessor: (s) => (s.active ? "Ενεργή" : "Ανενεργή"),
       cell: (s) => (
         <span style={{
-          fontSize: 11, fontWeight: 600, padding: "2px 8px", borderRadius: 20,
+          fontSize: "var(--fs-11)", fontWeight: 600, padding: "2px 8px", borderRadius: 20,
           background: s.active ? "#107C1018" : "#70707018", color: s.active ? "#107C10" : "#707070",
         }}>{s.active ? "Ενεργή" : "Ανενεργή"}</span>
       ),
@@ -133,8 +133,8 @@ export function ServicesClient({ initial }: { initial: Service[] }) {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
       <div>
-        <h1 style={{ fontSize: 22, fontWeight: 700, color: "var(--foreground)", margin: 0 }}>Υπηρεσίες</h1>
-        <p style={{ fontSize: 13, color: "var(--muted-foreground)", marginTop: 4 }}>
+        <h1 style={{ fontSize: "var(--fs-22)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}>Υπηρεσίες</h1>
+        <p style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)", marginTop: 4 }}>
           Κατάλογος υπηρεσιών του παρόχου — {data.length} υπηρεσίες
         </p>
       </div>
@@ -160,15 +160,15 @@ export function ServicesClient({ initial }: { initial: Service[] }) {
         width={560}
         footer={
           <>
-            <button onClick={() => setOpen(false)} style={{ padding: "7px 16px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: 13, color: "var(--foreground)" }}>Ακύρωση</button>
-            <button onClick={handleSave} disabled={isPending} style={{ padding: "7px 16px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: isPending ? "wait" : "pointer", fontSize: 13, fontWeight: 600, display: "flex", alignItems: "center", gap: 6 }}>
+            <button onClick={() => setOpen(false)} style={{ padding: "7px 16px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: "var(--fs-13)", color: "var(--foreground)" }}>Ακύρωση</button>
+            <button onClick={handleSave} disabled={isPending} style={{ padding: "7px 16px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: isPending ? "wait" : "pointer", fontSize: "var(--fs-13)", fontWeight: 600, display: "flex", alignItems: "center", gap: 6 }}>
               {isPending ? <RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> : <RiCheckLine />}
               Αποθήκευση
             </button>
           </>
         }
       >
-        {error && <div style={{ padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: 12, border: "1px solid #fca5a530", marginBottom: 14 }}>{error}</div>}
+        {error && <div style={{ padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: "var(--fs-12)", border: "1px solid #fca5a530", marginBottom: 14 }}>{error}</div>}
 
         <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
           <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: 12 }}>

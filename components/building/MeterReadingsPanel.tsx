@@ -35,7 +35,7 @@ function fmtNum(n: number | null): string {
 export function MeterReadingsPanel({ rows }: { rows: MeterReadingDTO[] }) {
   if (rows.length === 0) {
     return (
-      <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 8, padding: 40, textAlign: "center", color: "var(--muted-foreground)", fontSize: 14 }}>
+      <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 8, padding: 40, textAlign: "center", color: "var(--muted-foreground)", fontSize: "var(--fs-14)" }}>
         Δεν υπάρχουν ενδείξεις μετρητών. Καταχωρούνται αυτόματα κατά την αναγνώριση λογαριασμών ΔΕΗ/νερού (OCR) στα Έξοδα.
       </div>
     );
@@ -44,7 +44,7 @@ export function MeterReadingsPanel({ rows }: { rows: MeterReadingDTO[] }) {
   return (
     <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 8, overflow: "hidden" }}>
       <div style={{ overflowX: "auto" }}>
-        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13, minWidth: 820 }}>
+        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "var(--fs-13)", minWidth: 820 }}>
           <thead>
             <tr style={{ background: "var(--bg-canvas)", textAlign: "left", color: "var(--muted-foreground)" }}>
               <Th>Τύπος</Th>
@@ -97,7 +97,7 @@ export function MeterReadingsPanel({ rows }: { rows: MeterReadingDTO[] }) {
 }
 
 function Th({ children, right }: { children: React.ReactNode; right?: boolean }) {
-  return <th style={{ padding: "10px 12px", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.04em", textAlign: right ? "right" : "left", whiteSpace: "nowrap" }}>{children}</th>;
+  return <th style={{ padding: "10px 12px", fontSize: "var(--fs-11)", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.04em", textAlign: right ? "right" : "left", whiteSpace: "nowrap" }}>{children}</th>;
 }
 function Td({ children, right, style }: { children: React.ReactNode; right?: boolean; style?: React.CSSProperties }) {
   return <td style={{ padding: "10px 12px", color: "var(--foreground)", textAlign: right ? "right" : "left", whiteSpace: "nowrap", ...style }}>{children}</td>;

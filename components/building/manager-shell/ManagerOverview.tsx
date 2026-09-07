@@ -48,7 +48,7 @@ export function ManagerOverview({ building, data, can, onNavigate }: {
       {/* Collections */}
       <Card title="Εξοφλημένα / Ανεξόφλητα (κοινόχρηστα)">
         {total === 0 ? (
-          <p style={{ margin: 0, fontSize: 13, color: "var(--muted-foreground)" }}>Δεν υπάρχουν κατανομές κοινοχρήστων ακόμη.</p>
+          <p style={{ margin: 0, fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }}>Δεν υπάρχουν κατανομές κοινοχρήστων ακόμη.</p>
         ) : (
           <div style={{ display: "flex", gap: 24, alignItems: "center", flexWrap: "wrap" }}>
             <Gauge value={data.paid} max={total} big={`${pct}%`} unit="εισπράχθηκαν" />
@@ -74,7 +74,7 @@ export function ManagerOverview({ building, data, can, onNavigate }: {
         {/* Open maintenance requests */}
         <Card title={`Ανοιχτά αιτήματα συντήρησης${data.openCount ? ` (${data.openCount})` : ""}`}>
           {data.openRequests.length === 0 ? (
-            <p style={{ margin: 0, fontSize: 13, color: "var(--muted-foreground)" }}>Δεν υπάρχουν ανοιχτά αιτήματα.</p>
+            <p style={{ margin: 0, fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }}>Δεν υπάρχουν ανοιχτά αιτήματα.</p>
           ) : (
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               {data.openRequests.map((r) => {
@@ -83,10 +83,10 @@ export function ManagerOverview({ building, data, can, onNavigate }: {
                   <div key={r.id} style={{ display: "flex", alignItems: "center", gap: 10, padding: "8px 10px", border: "1px solid var(--border)", borderRadius: 8 }}>
                     <RiToolsLine style={{ color: p.color, flexShrink: 0 }} />
                     <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ fontSize: 13, fontWeight: 600, color: "var(--foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{r.title}</div>
-                      <div style={{ fontSize: 11, color: "var(--muted-foreground)" }}>{REQ_STATUS[r.status] ?? r.status} · {fmtDay(r.createdAt)}</div>
+                      <div style={{ fontSize: "var(--fs-13)", fontWeight: 600, color: "var(--foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{r.title}</div>
+                      <div style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)" }}>{REQ_STATUS[r.status] ?? r.status} · {fmtDay(r.createdAt)}</div>
                     </div>
-                    <span style={{ flexShrink: 0, fontSize: 10, fontWeight: 700, padding: "2px 8px", borderRadius: 9999, background: `${p.color}18`, color: p.color }}>{p.label}</span>
+                    <span style={{ flexShrink: 0, fontSize: "var(--fs-10)", fontWeight: 700, padding: "2px 8px", borderRadius: 9999, background: `${p.color}18`, color: p.color }}>{p.label}</span>
                   </div>
                 );
               })}
@@ -98,14 +98,14 @@ export function ManagerOverview({ building, data, can, onNavigate }: {
         {/* Upcoming maintenance */}
         <Card title="Επερχόμενες συντηρήσεις">
           {data.upcomingTasks.length === 0 ? (
-            <p style={{ margin: 0, fontSize: 13, color: "var(--muted-foreground)" }}>Δεν υπάρχουν προγραμματισμένες εργασίες.</p>
+            <p style={{ margin: 0, fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }}>Δεν υπάρχουν προγραμματισμένες εργασίες.</p>
           ) : (
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               {data.upcomingTasks.map((t) => (
                 <div key={t.id} style={{ display: "flex", alignItems: "center", gap: 10, padding: "8px 10px", border: "1px solid var(--border)", borderRadius: 8 }}>
                   <RiCalendarTodoLine style={{ color: "var(--color-primary)", flexShrink: 0 }} />
-                  <div style={{ flex: 1, minWidth: 0, fontSize: 13, fontWeight: 600, color: "var(--foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{t.title}</div>
-                  <span style={{ flexShrink: 0, fontSize: 12, fontWeight: 700, color: "var(--muted-foreground)" }}>{fmtDay(t.nextDueDate)}</span>
+                  <div style={{ flex: 1, minWidth: 0, fontSize: "var(--fs-13)", fontWeight: 600, color: "var(--foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{t.title}</div>
+                  <span style={{ flexShrink: 0, fontSize: "var(--fs-12)", fontWeight: 700, color: "var(--muted-foreground)" }}>{fmtDay(t.nextDueDate)}</span>
                 </div>
               ))}
               <button onClick={() => onNavigate("maintenance", "calendar")} style={btn}><RiCalendarTodoLine /> Ημερολόγιο</button>
@@ -130,7 +130,7 @@ export function ManagerOverview({ building, data, can, onNavigate }: {
         </Card>
       )}
 
-      <p style={{ margin: 0, fontSize: 12, color: "var(--muted-foreground)" }}>
+      <p style={{ margin: 0, fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>
         Πελάτης: <b style={{ color: "var(--foreground)" }}>{building.customerName}</b> · Ιδιοκτησία:{" "}
         <b style={{ color: "var(--foreground)" }}>{building.propertyName}</b>
       </p>
@@ -141,8 +141,8 @@ export function ManagerOverview({ building, data, can, onNavigate }: {
 function Stat({ label, value, color }: { label: string; value: string; color: string }) {
   return (
     <div>
-      <div style={{ fontSize: 11, color: "var(--muted-foreground)", fontWeight: 600 }}>{label}</div>
-      <div style={{ fontSize: 22, fontWeight: 800, color }}>{value}</div>
+      <div style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)", fontWeight: 600 }}>{label}</div>
+      <div style={{ fontSize: "var(--fs-22)", fontWeight: 800, color }}>{value}</div>
     </div>
   );
 }
@@ -150,7 +150,7 @@ function Stat({ label, value, color }: { label: string; value: string; color: st
 function Card({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 8, boxShadow: "0 1px 2px rgba(0,0,0,0.06)" }}>
-      <div style={{ padding: "13px 16px", borderBottom: "1px solid var(--border)", fontSize: 14, fontWeight: 700, color: "var(--foreground)" }}>{title}</div>
+      <div style={{ padding: "13px 16px", borderBottom: "1px solid var(--border)", fontSize: "var(--fs-14)", fontWeight: 700, color: "var(--foreground)" }}>{title}</div>
       <div style={{ padding: 16 }}>{children}</div>
     </div>
   );
@@ -159,6 +159,6 @@ function Card({ title, children }: { title: string; children: React.ReactNode })
 const btn: React.CSSProperties = {
   display: "inline-flex", alignItems: "center", gap: 7, border: "1px solid var(--border)",
   background: "var(--card)", color: "var(--foreground)", borderRadius: 4, padding: "7px 13px",
-  fontSize: 13, fontWeight: 600, cursor: "pointer", textDecoration: "none",
+  fontSize: "var(--fs-13)", fontWeight: 600, cursor: "pointer", textDecoration: "none",
 };
 const btnPrimary: React.CSSProperties = { background: "var(--color-primary)", color: "#fff", borderColor: "var(--color-primary)" };

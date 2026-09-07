@@ -112,7 +112,7 @@ export function TranslationsEditor({ rows }: { rows: Row[] }) {
             borderRadius: 8,
           }}
         >
-          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
+          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "var(--fs-13)" }}>
             <thead style={{ position: "sticky", top: 0, background: "var(--muted)", zIndex: 1 }}>
               <tr>
                 <th style={th}>Κλειδί</th>
@@ -130,7 +130,7 @@ export function TranslationsEditor({ rows }: { rows: Row[] }) {
                       style={{
                         ...td,
                         fontFamily: "var(--font-mono, monospace)",
-                        fontSize: 11,
+                        fontSize: "var(--fs-11)",
                         color: "var(--muted-foreground)",
                         whiteSpace: "nowrap",
                       }}
@@ -170,7 +170,7 @@ export function TranslationsEditor({ rows }: { rows: Row[] }) {
 const th: React.CSSProperties = {
   textAlign: "left",
   padding: "8px 10px",
-  fontSize: 11,
+  fontSize: "var(--fs-11)",
   fontWeight: 700,
   textTransform: "uppercase",
   letterSpacing: "0.05em",

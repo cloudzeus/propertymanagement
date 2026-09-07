@@ -36,8 +36,8 @@ export default async function SitePagesIndex() {
                 }}
               >
                 <div>
-                  <div style={{ fontWeight: 700, fontSize: 14 }}>{meta.label}</div>
-                  <div style={{ fontSize: 12.5, color: "var(--muted-foreground)", marginTop: 3 }}>
+                  <div style={{ fontWeight: 700, fontSize: "var(--fs-14)" }}>{meta.label}</div>
+                  <div style={{ fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)", marginTop: 3 }}>
                     {meta.description}
                   </div>
                 </div>
@@ -45,7 +45,7 @@ export default async function SitePagesIndex() {
                   <Link
                     href={meta.path}
                     target="_blank"
-                    style={{ display: "inline-flex", alignItems: "center", gap: 5, fontSize: 12.5, color: "var(--muted-foreground)" }}
+                    style={{ display: "inline-flex", alignItems: "center", gap: 5, fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)" }}
                   >
                     <RiExternalLinkLine size={14} /> {meta.path}
                   </Link>
@@ -58,7 +58,7 @@ export default async function SitePagesIndex() {
                       background: "var(--primary)",
                       color: "var(--primary-foreground)",
                       padding: "8px 14px",
-                      fontSize: 13,
+                      fontSize: "var(--fs-13)",
                       fontWeight: 600,
                     }}
                   >
@@ -72,7 +72,7 @@ export default async function SitePagesIndex() {
       </CmsCard>
 
       <CmsCard title="Πού αλλάζει τι">
-        <ul style={{ margin: 0, paddingLeft: 18, fontSize: 13, color: "var(--muted-foreground)", lineHeight: 1.7 }}>
+        <ul style={{ margin: 0, paddingLeft: 18, fontSize: "var(--fs-13)", color: "var(--muted-foreground)", lineHeight: 1.7 }}>
           <li>Τα πακέτα τιμών (όνομα, τιμή, ελάχιστο ανά κτήριο, χαρακτηριστικά) → <Link href="/super-admin/cms/pricing" style={{ textDecoration: "underline" }}>CMS: Τιμές</Link>.</li>
           <li>Οι ερωτήσεις και οι απαντήσεις → <Link href="/super-admin/cms/faq" style={{ textDecoration: "underline" }}>CMS: FAQ</Link>.</li>
           <li>Τα άρθρα και οι συγγραφείς → <Link href="/super-admin/cms/articles" style={{ textDecoration: "underline" }}>CMS: Άρθρα</Link>.</li>

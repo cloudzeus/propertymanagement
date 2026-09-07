@@ -42,9 +42,9 @@ export function AssemblyWizard({ buildingId, onClose, onDone, onSimpleForm }: { 
               <FormField label="Ώρα">
                 <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
                   {TIMES.map((t) => (
-                    <button key={t} type="button" onClick={() => setTime(t)} style={{ padding: "9px 14px", borderRadius: 999, fontSize: 14, cursor: "pointer", border: `2px solid ${time === t ? "var(--color-primary)" : "var(--border)"}`, background: time === t ? "var(--color-primary)0f" : "var(--card)", color: "var(--foreground)", fontWeight: time === t ? 700 : 500 }}>{t}</button>
+                    <button key={t} type="button" onClick={() => setTime(t)} style={{ padding: "9px 14px", borderRadius: 999, fontSize: "var(--fs-14)", cursor: "pointer", border: `2px solid ${time === t ? "var(--color-primary)" : "var(--border)"}`, background: time === t ? "var(--color-primary)0f" : "var(--card)", color: "var(--foreground)", fontWeight: time === t ? 700 : 500 }}>{t}</button>
                   ))}
-                  <input type="time" value={time} onChange={(e) => setTime(e.target.value)} style={{ height: 38, padding: "0 10px", border: "1px solid var(--border)", borderRadius: 999, fontSize: 13, color: "var(--foreground)", background: "var(--card)" }} title="Άλλη ώρα" />
+                  <input type="time" value={time} onChange={(e) => setTime(e.target.value)} style={{ height: 38, padding: "0 10px", border: "1px solid var(--border)", borderRadius: 999, fontSize: "var(--fs-13)", color: "var(--foreground)", background: "var(--card)" }} title="Άλλη ώρα" />
                 </div>
               </FormField>
             </>

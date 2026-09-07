@@ -104,8 +104,8 @@ async function PreviewBody({ role, id }: { role: string; id?: string }) {
 function PickPrompt() {
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8, padding: "60px 0", color: "var(--muted-foreground)" }}>
-      <RiEyeLine style={{ fontSize: 32, opacity: 0.4 }} />
-      <span style={{ fontSize: 14 }}>Διάλεξε αντιπροσωπευτικό δείγμα για προεπισκόπηση</span>
+      <RiEyeLine style={{ fontSize: "var(--fs-32)", opacity: 0.4 }} />
+      <span style={{ fontSize: "var(--fs-14)" }}>Διάλεξε αντιπροσωπευτικό δείγμα για προεπισκόπηση</span>
     </div>
   );
 }
@@ -123,8 +123,8 @@ export default async function RolePreviewPage({ searchParams }: { searchParams: 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
       <div>
-        <h1 style={{ fontSize: 22, fontWeight: 700, color: "var(--foreground)", margin: 0 }}>Προεπισκόπηση ρόλων</h1>
-        <p style={{ fontSize: 13, color: "var(--muted-foreground)", marginTop: 4, display: "flex", alignItems: "center", gap: 6 }}>
+        <h1 style={{ fontSize: "var(--fs-22)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}>Προεπισκόπηση ρόλων</h1>
+        <p style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)", marginTop: 4, display: "flex", alignItems: "center", gap: 6 }}>
           <RiInformationLine /> Βλέπεις τι βλέπει ο κάθε ρόλος — read-only, χωρίς αλλαγή της ταυτότητάς σου (παραμένεις Super Admin).
         </p>
       </div>
@@ -138,7 +138,7 @@ export default async function RolePreviewPage({ searchParams }: { searchParams: 
               key={r.key}
               href={`/super-admin/preview?role=${r.key}`}
               style={{
-                padding: "8px 14px", borderRadius: 999, fontSize: 13, fontWeight: 600, textDecoration: "none",
+                padding: "8px 14px", borderRadius: 999, fontSize: "var(--fs-13)", fontWeight: 600, textDecoration: "none",
                 border: `1px solid ${activeTab ? "var(--color-primary)" : "var(--border)"}`,
                 background: activeTab ? "var(--color-primary)" : "var(--card)",
                 color: activeTab ? "#fff" : "var(--foreground)",
@@ -153,11 +153,11 @@ export default async function RolePreviewPage({ searchParams }: { searchParams: 
       {/* Representative picker */}
       {active.scope !== "none" && (
         <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius)", padding: "14px 16px" }}>
-          <div style={{ fontSize: 12, color: "var(--muted-foreground)", marginBottom: 10 }}>
+          <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)", marginBottom: 10 }}>
             Αντιπροσωπευτικό δείγμα ({active.note}):
           </div>
           {options.length === 0 ? (
-            <div style={{ fontSize: 13, color: "var(--muted-foreground)" }}>Δεν υπάρχουν διαθέσιμα δείγματα για αυτόν τον ρόλο.</div>
+            <div style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }}>Δεν υπάρχουν διαθέσιμα δείγματα για αυτόν τον ρόλο.</div>
           ) : (
             <div style={{ display: "flex", flexWrap: "wrap", gap: 8, maxHeight: 120, overflowY: "auto" }}>
               {options.map((o) => {
@@ -168,7 +168,7 @@ export default async function RolePreviewPage({ searchParams }: { searchParams: 
                     href={`/super-admin/preview?role=${active.key}&id=${o.id}`}
                     title={o.sub}
                     style={{
-                      padding: "6px 12px", borderRadius: 8, fontSize: 12.5, fontWeight: 600, textDecoration: "none",
+                      padding: "6px 12px", borderRadius: 8, fontSize: "var(--fs-12-5)", fontWeight: 600, textDecoration: "none",
                       border: `1px solid ${sel ? "var(--color-primary)" : "var(--border)"}`,
                       background: sel ? "color-mix(in srgb, var(--color-primary) 12%, transparent)" : "var(--bg-canvas)",
                       color: sel ? "var(--color-primary)" : "var(--foreground)",
@@ -187,8 +187,8 @@ export default async function RolePreviewPage({ searchParams }: { searchParams: 
       <div style={{ border: "1px solid var(--border)", borderRadius: "var(--radius)", overflow: "hidden", background: "var(--bg-canvas)" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "10px 16px", background: "var(--card)", borderBottom: "1px solid var(--border)" }}>
           <RiEyeLine style={{ color: "var(--color-primary)" }} />
-          <span style={{ fontSize: 13, fontWeight: 700, color: "var(--foreground)" }}>Προεπισκόπηση: {active.label}</span>
-          <span style={{ fontSize: 12, color: "var(--muted-foreground)" }}>· read-only · οι ενέργειες είναι ανενεργές</span>
+          <span style={{ fontSize: "var(--fs-13)", fontWeight: 700, color: "var(--foreground)" }}>Προεπισκόπηση: {active.label}</span>
+          <span style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>· read-only · οι ενέργειες είναι ανενεργές</span>
         </div>
         {/* Scroll lives on the OUTER (interactive) container so wheel + scrollbar work;
             `inert` sits on the inner wrapper to make the content non-interactive (no clicks/focus/navigation). */}

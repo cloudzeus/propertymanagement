@@ -302,7 +302,7 @@ export function MediaPicker({
                 padding: "40px 0",
                 textAlign: "center",
                 color: "var(--muted-foreground)",
-                fontSize: 13,
+                fontSize: "var(--fs-13)",
               }}
             >
               Δεν υπάρχουν αρχεία.
@@ -375,7 +375,7 @@ export function MediaPicker({
                     <div style={{ padding: "6px 8px" }}>
                       <div
                         style={{
-                          fontSize: 11,
+                          fontSize: "var(--fs-11)",
                           fontWeight: 600,
                           color: "var(--foreground)",
                           whiteSpace: "nowrap",

@@ -93,10 +93,10 @@ export default function CostsPage() {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
       <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-        <RiMoneyEuroCircleLine style={{ fontSize: 24, color: "var(--color-success)" }} />
+        <RiMoneyEuroCircleLine style={{ fontSize: "var(--fs-24)", color: "var(--color-success)" }} />
         <div>
-          <h1 style={{ fontSize: 22, fontWeight: 700, color: "var(--foreground)", margin: 0 }}>Κόστη API</h1>
-          <p style={{ fontSize: 13, color: "var(--muted-foreground)", marginTop: 4 }}>Χρήση και κόστη API υπηρεσιών</p>
+          <h1 style={{ fontSize: "var(--fs-22)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}>Κόστη API</h1>
+          <p style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)", marginTop: 4 }}>Χρήση και κόστη API υπηρεσιών</p>
         </div>
       </div>
 
@@ -104,7 +104,7 @@ export default function CostsPage() {
         <div style={{
           padding: 16, borderRadius: "var(--radius)",
           background: "#FEE7E618", border: "1px solid var(--color-danger)",
-          color: "var(--color-danger)", fontSize: 13,
+          color: "var(--color-danger)", fontSize: "var(--fs-13)",
         }}>
           {error}
         </div>
@@ -119,23 +119,23 @@ export default function CostsPage() {
             background: "var(--card)", border: "1px solid var(--border)",
             borderRadius: "var(--radius)", padding: "20px 24px",
           }}>
-            <div style={{ fontSize: 13, color: "var(--muted-foreground)", fontWeight: 500, marginBottom: 8 }}>{s.label}</div>
-            <div style={{ fontSize: 28, fontWeight: 700, color: "var(--foreground)" }}>{s.value}</div>
-            <div style={{ fontSize: 12, color: "var(--muted-foreground)", marginTop: 4 }}>{s.sub}</div>
+            <div style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)", fontWeight: 500, marginBottom: 8 }}>{s.label}</div>
+            <div style={{ fontSize: "var(--fs-28)", fontWeight: 700, color: "var(--foreground)" }}>{s.value}</div>
+            <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)", marginTop: 4 }}>{s.sub}</div>
           </div>
         ))}
       </div>
 
       <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius)", padding: 24 }}>
-        <h2 style={{ fontSize: 15, fontWeight: 600, color: "var(--foreground)", margin: "0 0 16px" }}>Ανάλυση ανά API (30 ημέρες)</h2>
+        <h2 style={{ fontSize: "var(--fs-15)", fontWeight: 600, color: "var(--foreground)", margin: "0 0 16px" }}>Ανάλυση ανά API (30 ημέρες)</h2>
 
         {loading ? (
-          <div style={{ padding: "24px 0", textAlign: "center", color: "var(--muted-foreground)", fontSize: 13 }}>
-            <RiRefreshLine style={{ fontSize: 24, display: "block", margin: "0 auto 8px", opacity: 0.5 }} />
+          <div style={{ padding: "24px 0", textAlign: "center", color: "var(--muted-foreground)", fontSize: "var(--fs-13)" }}>
+            <RiRefreshLine style={{ fontSize: "var(--fs-24)", display: "block", margin: "0 auto 8px", opacity: 0.5 }} />
             Φόρτωση δεδομένων...
           </div>
         ) : apiCosts.length === 0 ? (
-          <div style={{ padding: "24px 0", textAlign: "center", color: "var(--muted-foreground)", fontSize: 13 }}>
+          <div style={{ padding: "24px 0", textAlign: "center", color: "var(--muted-foreground)", fontSize: "var(--fs-13)" }}>
             Δεν υπάρχουν δεδομένα χρήσης API ακόμα
           </div>
         ) : (
@@ -150,18 +150,18 @@ export default function CostsPage() {
                 }}>
                   <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
                     <div>
-                      <div style={{ fontSize: 14, fontWeight: 600, color: "var(--foreground)" }}>
+                      <div style={{ fontSize: "var(--fs-14)", fontWeight: 600, color: "var(--foreground)" }}>
                         {config?.displayName || api.apiName}
                       </div>
-                      <div style={{ fontSize: 12, color: "var(--muted-foreground)" }}>{config?.costModel}</div>
+                      <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>{config?.costModel}</div>
                     </div>
                     <div style={{ textAlign: "right" }}>
-                      <div style={{ fontSize: 22, fontWeight: 700, color: "var(--foreground)" }}>€{api.totalCost.toFixed(2)}</div>
-                      <div style={{ fontSize: 12, color: "var(--muted-foreground)" }}>{percentage.toFixed(1)}% του συνόλου</div>
+                      <div style={{ fontSize: "var(--fs-22)", fontWeight: 700, color: "var(--foreground)" }}>€{api.totalCost.toFixed(2)}</div>
+                      <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>{percentage.toFixed(1)}% του συνόλου</div>
                     </div>
                   </div>
                   {config && (
-                    <div style={{ display: "flex", gap: 20, fontSize: 12, marginBottom: 10, flexWrap: "wrap", alignItems: "center" }}>
+                    <div style={{ display: "flex", gap: 20, fontSize: "var(--fs-12)", marginBottom: 10, flexWrap: "wrap", alignItems: "center" }}>
                       <span style={{ color: "var(--muted-foreground)" }}>
                         Πραγματικό: <strong style={{ color: "var(--foreground)" }}>€{api.totalCost.toFixed(2)}</strong>
                       </span>
@@ -173,7 +173,7 @@ export default function CostsPage() {
                       </span>
                       <button
                         onClick={() => { setEditing(api.apiName); setDraft({ basePrice: String(config.basePrice), freeQuota: String(config.freeQuota), markupPercent: String(config.markupPercent) }); }}
-                        style={{ marginLeft: "auto", fontSize: 12, padding: "4px 10px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", color: "var(--foreground)" }}
+                        style={{ marginLeft: "auto", fontSize: "var(--fs-12)", padding: "4px 10px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", color: "var(--foreground)" }}
                       >
                         Επεξεργασία
                       </button>
@@ -186,7 +186,7 @@ export default function CostsPage() {
                         { key: "freeQuota", label: "Δωρεάν όριο", step: "1" },
                         { key: "markupPercent", label: "Markup %", step: "1" },
                       ] as const).map((f) => (
-                        <label key={f.key} style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: 12, color: "var(--muted-foreground)" }}>
+                        <label key={f.key} style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>
                           {f.label}
                           <input
                             type="number" step={f.step} value={draft[f.key]}
@@ -206,7 +206,7 @@ export default function CostsPage() {
                   <div style={{ height: 6, background: "var(--border)", borderRadius: 3, overflow: "hidden", marginBottom: 10 }}>
                     <div style={{ height: "100%", width: `${Math.min(percentage, 100)}%`, background: "var(--color-primary)", borderRadius: 3 }} />
                   </div>
-                  <div style={{ display: "flex", gap: 24, fontSize: 12 }}>
+                  <div style={{ display: "flex", gap: 24, fontSize: "var(--fs-12)" }}>
                     {api.totalRequests > 0 && (
                       <div>
                         <div style={{ color: "var(--muted-foreground)" }}>Αιτήματα</div>
@@ -235,7 +235,7 @@ export default function CostsPage() {
 
       {monthlyCosts && monthlyCosts.summary.length > 0 && (
         <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius)", padding: 24 }}>
-          <h2 style={{ fontSize: 15, fontWeight: 600, color: "var(--foreground)", margin: "0 0 16px" }}>
+          <h2 style={{ fontSize: "var(--fs-15)", fontWeight: 600, color: "var(--foreground)", margin: "0 0 16px" }}>
             {new Date().toLocaleDateString("el-GR", { month: "long", year: "numeric" })} — Ανά Υπηρεσία
           </h2>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
@@ -245,12 +245,12 @@ export default function CostsPage() {
                 padding: "10px 14px", background: "var(--bg-canvas)", borderRadius: 6,
               }}>
                 <div>
-                  <div style={{ fontSize: 14, fontWeight: 500, color: "var(--foreground)" }}>{item.apiName}</div>
+                  <div style={{ fontSize: "var(--fs-14)", fontWeight: 500, color: "var(--foreground)" }}>{item.apiName}</div>
                   {item.requestCount > 0 && (
-                    <div style={{ fontSize: 12, color: "var(--muted-foreground)" }}>{item.requestCount} αιτήματα</div>
+                    <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>{item.requestCount} αιτήματα</div>
                   )}
                 </div>
-                <div style={{ fontSize: 15, fontWeight: 700, color: "var(--foreground)" }}>€{item.totalCost.toFixed(2)}</div>
+                <div style={{ fontSize: "var(--fs-15)", fontWeight: 700, color: "var(--foreground)" }}>€{item.totalCost.toFixed(2)}</div>
               </div>
             ))}
           </div>

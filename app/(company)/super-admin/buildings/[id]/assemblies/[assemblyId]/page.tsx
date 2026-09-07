@@ -58,12 +58,12 @@ export default async function AssemblyDetailPage({ params }: { params: Promise<{
       {/* Header */}
       <div style={cardStyle}>
         <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
-          <h1 style={{ fontSize: 22, fontWeight: 800, color: "var(--foreground)", margin: 0 }}>{assembly.title}</h1>
-          <span style={{ fontSize: 11, fontWeight: 700, padding: "3px 10px", borderRadius: 9999, background: "var(--bg-canvas)", color: "var(--muted-foreground)", border: "1px solid var(--border)" }}>
+          <h1 style={{ fontSize: "var(--fs-22)", fontWeight: 800, color: "var(--foreground)", margin: 0 }}>{assembly.title}</h1>
+          <span style={{ fontSize: "var(--fs-11)", fontWeight: 700, padding: "3px 10px", borderRadius: 9999, background: "var(--bg-canvas)", color: "var(--muted-foreground)", border: "1px solid var(--border)" }}>
             {STATUS_LABEL[assembly.status] ?? assembly.status}
           </span>
         </div>
-        <div style={{ fontSize: 13, color: "var(--muted-foreground)", marginTop: 6 }}>
+        <div style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)", marginTop: 6 }}>
           {assembly.scheduledAt.toLocaleString("el-GR")}
         </div>
       </div>
@@ -83,13 +83,13 @@ export default async function AssemblyDetailPage({ params }: { params: Promise<{
       {/* Original transcript (read-only, source of the MOM) */}
       {!!assembly.transcriptRaw && (
         <details style={cardStyle}>
-          <summary style={{ cursor: "pointer", fontSize: 15, fontWeight: 700, color: "var(--foreground)" }}>
+          <summary style={{ cursor: "pointer", fontSize: "var(--fs-15)", fontWeight: 700, color: "var(--foreground)" }}>
             Πρωτότυπη Μεταγραφή
           </summary>
-          <div style={{ fontSize: 11, color: "var(--muted-foreground)", margin: "6px 0 12px" }}>
+          <div style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)", margin: "6px 0 12px" }}>
             Το πρωτότυπο κείμενο της μεταγραφής (Deepgram). Διατηρείται αμετάβλητο· τα Πρακτικά παράγονται από αυτό μέσω DeepSeek.
           </div>
-          <pre style={{ whiteSpace: "pre-wrap", wordBreak: "break-word", fontSize: 13, lineHeight: 1.6, color: "var(--foreground)", margin: 0, fontFamily: "inherit" }}>
+          <pre style={{ whiteSpace: "pre-wrap", wordBreak: "break-word", fontSize: "var(--fs-13)", lineHeight: 1.6, color: "var(--foreground)", margin: 0, fontFamily: "inherit" }}>
             {assembly.transcriptRaw}
           </pre>
         </details>
@@ -98,13 +98,13 @@ export default async function AssemblyDetailPage({ params }: { params: Promise<{
       {/* Cost breakdown */}
       <div style={cardStyle}>
         <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 14 }}>
-          <h2 style={{ fontSize: 15, fontWeight: 700, color: "var(--foreground)", margin: 0 }}>Κόστος υπηρεσιών</h2>
-          <span style={{ fontSize: 18, fontWeight: 800, color: "var(--foreground)" }}>{cost.total.toFixed(2)} €</span>
+          <h2 style={{ fontSize: "var(--fs-15)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}>Κόστος υπηρεσιών</h2>
+          <span style={{ fontSize: "var(--fs-18)", fontWeight: 800, color: "var(--foreground)" }}>{cost.total.toFixed(2)} €</span>
         </div>
         {cost.byApi.length === 0 ? (
-          <div style={{ fontSize: 13, color: "var(--muted-foreground)" }}>Δεν υπάρχει καταγεγραμμένο κόστος ακόμη.</div>
+          <div style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }}>Δεν υπάρχει καταγεγραμμένο κόστος ακόμη.</div>
         ) : (
-          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
+          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "var(--fs-13)" }}>
             <thead>
               <tr style={{ textAlign: "left", color: "var(--muted-foreground)" }}>
                 <th style={{ padding: "6px 8px", fontWeight: 600 }}>Υπηρεσία</th>

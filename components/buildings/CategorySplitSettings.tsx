@@ -81,13 +81,13 @@ export function CategorySplitSettings({
   return (
     <div>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, marginBottom: 14, flexWrap: "wrap" }}>
-        <div style={{ fontSize: 13, color: "var(--muted-foreground)", display: "flex", alignItems: "center", gap: 6 }}>
+        <div style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)", display: "flex", alignItems: "center", gap: 6 }}>
           <RiPieChartLine /> Ρυθμίσεις κατανομής · {rows.length}
         </div>
       </div>
 
       {error && (
-        <div style={{ marginBottom: 12, padding: "8px 12px", borderRadius: 6, fontSize: 13, background: "color-mix(in srgb, var(--color-danger) 12%, transparent)", color: "var(--color-danger)", border: "1px solid var(--color-danger)" }}>
+        <div style={{ marginBottom: 12, padding: "8px 12px", borderRadius: 6, fontSize: "var(--fs-13)", background: "color-mix(in srgb, var(--color-danger) 12%, transparent)", color: "var(--color-danger)", border: "1px solid var(--color-danger)" }}>
           {error}
         </div>
       )}
@@ -126,9 +126,9 @@ export function CategorySplitSettings({
                             value={tenantPct}
                             disabled={isPending}
                             onChange={(e) => setTenantPct(clampPct(Number(e.target.value)))}
-                            style={{ width: 70, padding: "5px 8px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--bg-canvas)", color: "var(--foreground)", fontSize: 13 }}
+                            style={{ width: 70, padding: "5px 8px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--bg-canvas)", color: "var(--foreground)", fontSize: "var(--fs-13)" }}
                           />
-                          <span style={{ fontSize: 13, color: "var(--muted-foreground)" }}>
+                          <span style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }}>
                             % ενοικ. / {100 - t}% ιδιοκτ.
                           </span>
                         </span>
@@ -138,7 +138,7 @@ export function CategorySplitSettings({
                     </td>
                     <td style={td}>
                       <span style={{
-                        display: "inline-block", padding: "2px 8px", borderRadius: 999, fontSize: 11, fontWeight: 600,
+                        display: "inline-block", padding: "2px 8px", borderRadius: 999, fontSize: "var(--fs-11)", fontWeight: 600,
                         background: r.isOverridden ? "color-mix(in srgb, var(--color-primary) 12%, transparent)" : "var(--bg-canvas)",
                         color: r.isOverridden ? "var(--color-primary)" : "var(--muted-foreground)",
                         border: `1px solid ${r.isOverridden ? "var(--color-primary)" : "var(--border)"}`,
@@ -152,20 +152,20 @@ export function CategorySplitSettings({
                           {editing ? (
                             <>
                               <button onClick={() => save(r.category.id)} disabled={isPending} title="Αποθήκευση" style={iconBtn}>
-                                <RiSaveLine style={{ fontSize: 15 }} />
+                                <RiSaveLine style={{ fontSize: "var(--fs-15)" }} />
                               </button>
                               <button onClick={cancel} disabled={isPending} title="Άκυρο" style={iconBtn}>
-                                <RiCloseLine style={{ fontSize: 15 }} />
+                                <RiCloseLine style={{ fontSize: "var(--fs-15)" }} />
                               </button>
                             </>
                           ) : (
                             <>
                               <button onClick={() => startEdit(r)} disabled={isPending} title="Επεξεργασία" style={iconBtn}>
-                                <RiEditLine style={{ fontSize: 15 }} />
+                                <RiEditLine style={{ fontSize: "var(--fs-15)" }} />
                               </button>
                               {r.isOverridden && (
                                 <button onClick={() => reset(r.category.id)} disabled={isPending} title="Επαναφορά" style={{ ...iconBtn, color: "var(--color-danger)" }}>
-                                  <RiRefreshLine style={{ fontSize: 15 }} />
+                                  <RiRefreshLine style={{ fontSize: "var(--fs-15)" }} />
                                 </button>
                               )}
                             </>
@@ -184,6 +184,6 @@ export function CategorySplitSettings({
   );
 }
 
-const th: React.CSSProperties = { textAlign: "left", fontSize: 12, fontWeight: 600, color: "var(--muted-foreground)", padding: "10px 14px", borderBottom: "1px solid var(--border)" };
-const td: React.CSSProperties = { fontSize: 13, color: "var(--foreground)", padding: "12px 14px", borderBottom: "1px solid var(--border)" };
+const th: React.CSSProperties = { textAlign: "left", fontSize: "var(--fs-12)", fontWeight: 600, color: "var(--muted-foreground)", padding: "10px 14px", borderBottom: "1px solid var(--border)" };
+const td: React.CSSProperties = { fontSize: "var(--fs-13)", color: "var(--foreground)", padding: "12px 14px", borderBottom: "1px solid var(--border)" };
 const iconBtn: React.CSSProperties = { display: "inline-flex", alignItems: "center", justifyContent: "center", width: 30, height: 30, borderRadius: 6, border: "1px solid var(--border)", background: "var(--bg-canvas)", cursor: "pointer", color: "var(--foreground)" };

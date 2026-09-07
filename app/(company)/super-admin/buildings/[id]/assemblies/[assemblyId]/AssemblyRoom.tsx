@@ -86,13 +86,13 @@ export function AssemblyRoom({ assemblyId, isStaff }: { assemblyId: string; isSt
 
   if (error) {
     return (
-      <div style={{ ...cardStyle, color: "var(--muted-foreground)", fontSize: 13 }}>{error}</div>
+      <div style={{ ...cardStyle, color: "var(--muted-foreground)", fontSize: "var(--fs-13)" }}>{error}</div>
     );
   }
 
   if (joining || !callObject) {
     return (
-      <div style={{ ...cardStyle, display: "flex", alignItems: "center", gap: 10, color: "var(--muted-foreground)", fontSize: 13 }}>
+      <div style={{ ...cardStyle, display: "flex", alignItems: "center", gap: 10, color: "var(--muted-foreground)", fontSize: "var(--fs-13)" }}>
         <RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> Σύνδεση στη συνέλευση…
       </div>
     );
@@ -146,7 +146,7 @@ function RoomInner({ assemblyId, isStaff }: { assemblyId: string; isStaff: boole
     <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
       <div style={cardStyle}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12, marginBottom: 14 }}>
-          <h2 style={{ fontSize: 15, fontWeight: 700, color: "var(--foreground)", margin: 0, display: "flex", alignItems: "center", gap: 8 }}>
+          <h2 style={{ fontSize: "var(--fs-15)", fontWeight: 700, color: "var(--foreground)", margin: 0, display: "flex", alignItems: "center", gap: 8 }}>
             <RiMicLine /> Συμμετέχοντες ({participantIds.length})
           </h2>
           {isStaff && (
@@ -173,17 +173,17 @@ function RoomInner({ assemblyId, isStaff }: { assemblyId: string; isStaff: boole
       </div>
 
       <div style={cardStyle}>
-        <h2 style={{ fontSize: 15, fontWeight: 700, color: "var(--foreground)", margin: "0 0 12px" }}>
+        <h2 style={{ fontSize: "var(--fs-15)", fontWeight: 700, color: "var(--foreground)", margin: "0 0 12px" }}>
           Ζωντανή απομαγνητοφώνηση {isTranscribing ? "(σε εξέλιξη)" : ""}
         </h2>
         <div style={{ maxHeight: 320, overflowY: "auto", display: "flex", flexDirection: "column", gap: 8 }}>
           {transcriptions.length === 0 ? (
-            <div style={{ fontSize: 13, color: "var(--muted-foreground)" }}>
+            <div style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }}>
               {isStaff ? "Πατήστε «Έναρξη καταγραφής» για να ξεκινήσει η απομαγνητοφώνηση." : "Δεν υπάρχει ακόμη κείμενο."}
             </div>
           ) : (
             transcriptions.map((t, i) => (
-              <div key={`${t.session_id}-${t.timestamp}-${i}`} style={{ fontSize: 13, color: "var(--foreground)", lineHeight: 1.5 }}>
+              <div key={`${t.session_id}-${t.timestamp}-${i}`} style={{ fontSize: "var(--fs-13)", color: "var(--foreground)", lineHeight: 1.5 }}>
                 <strong style={{ color: "var(--muted-foreground)" }}>{t.user_name ?? "Ομιλητής"}:</strong> {t.text}
               </div>
             ))
@@ -223,7 +223,7 @@ function ParticipantTile({ sessionId, isLocal }: { sessionId: string; isLocal: b
           style={{ width: "100%", height: "100%", objectFit: "cover" }}
         />
       ) : (
-        <span style={{ fontSize: 13, color: "var(--muted-foreground)" }}>Κάμερα κλειστή</span>
+        <span style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }}>Κάμερα κλειστή</span>
       )}
       <div
         style={{
@@ -236,7 +236,7 @@ function ParticipantTile({ sessionId, isLocal }: { sessionId: string; isLocal: b
           padding: "3px 8px",
           borderRadius: 6,
           background: "rgba(0,0,0,0.55)",
-          fontSize: 12,
+          fontSize: "var(--fs-12)",
           color: "#fff",
         }}
       >
@@ -249,7 +249,7 @@ function ParticipantTile({ sessionId, isLocal }: { sessionId: string; isLocal: b
           }}
         />
         {name}
-        {isLocal && <span style={{ fontSize: 11, opacity: 0.8 }}>(εσείς)</span>}
+        {isLocal && <span style={{ fontSize: "var(--fs-11)", opacity: 0.8 }}>(εσείς)</span>}
       </div>
     </div>
   );
@@ -260,7 +260,7 @@ function btnStyle(disabled: boolean, danger = false): React.CSSProperties {
     display: "inline-flex",
     alignItems: "center",
     gap: 6,
-    fontSize: 13,
+    fontSize: "var(--fs-13)",
     fontWeight: 600,
     padding: "7px 12px",
     borderRadius: 8,

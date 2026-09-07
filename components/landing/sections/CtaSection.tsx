@@ -30,7 +30,7 @@ export function CtaSection({ data }: { data: CtaData }) {
       <Grain />
 
       <Reveal className="relative mx-auto max-w-[1200px] px-5 sm:px-7">
-        <h2 className="mx-auto max-w-[680px] text-[32px] font-extrabold leading-[1.05] tracking-[-0.02em] text-[var(--foreground)] md:text-[54px]">
+        <h2 className="mx-auto max-w-[680px] text-[length:var(--fs-32)] font-extrabold leading-[1.05] tracking-[-0.02em] text-[var(--foreground)] md:text-[length:var(--fs-54)]">
           {data.heading}
         </h2>
         {data.body && (
@@ -42,7 +42,7 @@ export function CtaSection({ data }: { data: CtaData }) {
           {data.cta?.label && (
             <Link
               href={data.cta.href}
-              className="inline-flex items-center justify-center rounded-[var(--radius-sm)] bg-[var(--primary)] px-7 py-3.5 text-[15px] font-bold text-[var(--primary-foreground)] shadow-[var(--shadow-btn)] transition hover:-translate-y-0.5 hover:brightness-[1.18]"
+              className="inline-flex items-center justify-center rounded-[var(--radius-sm)] bg-[var(--primary)] px-7 py-3.5 text-[length:var(--fs-15)] font-bold text-[var(--primary-foreground)] shadow-[var(--shadow-btn)] transition hover:-translate-y-0.5 hover:brightness-[1.18]"
             >
               {data.cta.label}
             </Link>
@@ -50,7 +50,7 @@ export function CtaSection({ data }: { data: CtaData }) {
           {data.secondaryCta?.label && (
             <Link
               href={data.secondaryCta.href}
-              className="inline-flex items-center justify-center rounded-[var(--radius-sm)] border bg-[var(--card)] px-7 py-3.5 text-[15px] font-semibold text-[var(--foreground)] transition hover:-translate-y-0.5 hover:shadow-[0_12px_26px_-16px_rgba(27,28,26,.3)]"
+              className="inline-flex items-center justify-center rounded-[var(--radius-sm)] border bg-[var(--card)] px-7 py-3.5 text-[length:var(--fs-15)] font-semibold text-[var(--foreground)] transition hover:-translate-y-0.5 hover:shadow-[0_12px_26px_-16px_rgba(27,28,26,.3)]"
               style={{ borderColor: "rgba(27,28,26,.12)" }}
             >
               {data.secondaryCta.label}

@@ -157,7 +157,7 @@ export default async function ArticlePage({
         <GlowBlob variant="header" />
         <Grain />
         <Wrap narrow={760} className="relative">
-          <nav className="mb-[26px] flex flex-wrap items-center gap-2 text-[13px] text-[var(--mut2)]">
+          <nav className="mb-[26px] flex flex-wrap items-center gap-2 text-[length:var(--fs-13)] text-[var(--mut2)]">
             <Link href="/blog" className="hover:text-[var(--txt)]">
               {content.article.breadcrumbRoot}
             </Link>
@@ -171,19 +171,19 @@ export default async function ArticlePage({
 
           {category ? <div><Tag>{category}</Tag></div> : null}
 
-          <h1 className="mt-5 text-[34px] font-extrabold leading-[1.02] tracking-[-.03em] sm:text-[44px] lg:text-[52px]">
+          <h1 className="mt-5 text-[length:var(--fs-34)] font-extrabold leading-[1.02] tracking-[-.03em] sm:text-[length:var(--fs-44)] lg:text-[length:var(--fs-52)]">
             {loc.title}
           </h1>
 
           {loc.excerpt ? (
-            <p className="mt-[18px] text-[19px] leading-[1.62] text-[var(--mut)]">{loc.excerpt}</p>
+            <p className="mt-[18px] text-[length:var(--fs-19)] leading-[1.62] text-[var(--mut)]">{loc.excerpt}</p>
           ) : null}
 
           <div className="mt-[30px] flex items-center gap-3.5">
             <Avatar size={46} src={avatar?.url} alt={a.author?.name ?? ""} />
             <div>
-              {a.author?.name ? <div className="text-[14.5px] font-bold">{a.author.name}</div> : null}
-              <div className="text-[12.5px] text-[var(--mut)]">
+              {a.author?.name ? <div className="text-[length:var(--fs-14-5)] font-bold">{a.author.name}</div> : null}
+              <div className="text-[length:var(--fs-12-5)] text-[var(--mut)]">
                 {[date, readTime].filter(Boolean).join(" · ")}
               </div>
             </div>
@@ -214,7 +214,7 @@ export default async function ArticlePage({
             )}
           </div>
           {featured?.title ? (
-            <p className="mt-3 text-center text-[12.5px] italic text-[var(--mut2)]">{featured.title}</p>
+            <p className="mt-3 text-center text-[length:var(--fs-12-5)] italic text-[var(--mut2)]">{featured.title}</p>
           ) : null}
         </Wrap>
       )}
@@ -234,9 +234,9 @@ export default async function ArticlePage({
             <Card radius={18} className="flex items-start gap-5 px-[30px] py-7">
               <Avatar size={62} src={avatar?.url} alt={a.author.name} />
               <div>
-                <div className="text-[16.5px] font-extrabold">{a.author.name}</div>
+                <div className="text-[length:var(--fs-16-5)] font-extrabold">{a.author.name}</div>
                 {a.author.bio ? (
-                  <p className="mt-3 text-[14px] leading-[1.6] text-[var(--mut)]">
+                  <p className="mt-3 text-[length:var(--fs-14)] leading-[1.6] text-[var(--mut)]">
                     {pickLocale(a.author.bio as any, locale) as string}
                   </p>
                 ) : null}
@@ -250,7 +250,7 @@ export default async function ArticlePage({
                 <Link
                   key={t}
                   href={`/blog?category=${encodeURIComponent(t)}`}
-                  className="inline-block rounded-full border border-[var(--line2)] bg-[var(--paper)] px-3 py-1.5 text-[12.5px] text-[var(--mut)] transition-colors hover:text-[var(--txt)]"
+                  className="inline-block rounded-full border border-[var(--line2)] bg-[var(--paper)] px-3 py-1.5 text-[length:var(--fs-12-5)] text-[var(--mut)] transition-colors hover:text-[var(--txt)]"
                 >
                   {t}
                 </Link>
@@ -267,7 +267,7 @@ export default async function ArticlePage({
             <div className="mb-8 flex flex-wrap items-end justify-between gap-5">
               <div>
                 <Kicker>{content.article.relatedKicker}</Kicker>
-                <h2 className="mt-3 text-[30px] font-extrabold leading-[1.05] tracking-[-.02em] sm:text-[36px]">
+                <h2 className="mt-3 text-[length:var(--fs-30)] font-extrabold leading-[1.05] tracking-[-.02em] sm:text-[length:var(--fs-36)]">
                   {content.article.relatedHeading}
                 </h2>
               </div>

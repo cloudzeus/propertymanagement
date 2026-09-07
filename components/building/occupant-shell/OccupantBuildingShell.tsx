@@ -74,7 +74,7 @@ const card: React.CSSProperties = {
   borderRadius: "var(--radius-lg)", boxShadow: "var(--shadow-card)", padding: 18,
 };
 const cardCaps: React.CSSProperties = {
-  fontSize: 11.5, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".04em", color: "var(--muted-foreground)",
+  fontSize: "var(--fs-11-5)", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".04em", color: "var(--muted-foreground)",
 };
 
 type Props = OccupantData & {
@@ -135,14 +135,14 @@ export function OccupantBuildingShell(props: Props) {
       <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 12, padding: "18px 20px", boxShadow: "0 1px 2px rgba(0,0,0,0.06)" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
           <div style={{ width: 54, height: 54, borderRadius: 8, background: "color-mix(in srgb, var(--color-primary) 9%, transparent)", color: "var(--color-primary)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <RiBuildingLine style={{ fontSize: 28 }} />
+            <RiBuildingLine style={{ fontSize: "var(--fs-28)" }} />
           </div>
           <div style={{ minWidth: 0 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
-              <div style={{ fontSize: 26, fontWeight: 800, lineHeight: 1.15, color: "var(--foreground)" }}>{building.name}</div>
+              <div style={{ fontSize: "var(--fs-26)", fontWeight: 800, lineHeight: 1.15, color: "var(--foreground)" }}>{building.name}</div>
               <ManagedBadge managed={isManaged} />
             </div>
-            <div style={{ fontSize: 13, color: "var(--muted-foreground)", display: "flex", alignItems: "center", gap: 10, marginTop: 4, flexWrap: "wrap" }}>
+            <div style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)", display: "flex", alignItems: "center", gap: 10, marginTop: 4, flexWrap: "wrap" }}>
               <span style={{ display: "inline-flex", alignItems: "center", gap: 4 }}><RiMapPinLine /> {building.postalCode || "—"}</span>
               {subParts.map((p, i) => (
                 <span key={i} style={{ display: "inline-flex", alignItems: "center", gap: 10 }}>
@@ -153,7 +153,7 @@ export function OccupantBuildingShell(props: Props) {
                 <span key={u.id} style={{
                   display: "inline-flex", alignItems: "center", gap: 5, padding: "2px 10px", borderRadius: 999,
                   background: "color-mix(in srgb, var(--color-accent) 16%, transparent)", color: "var(--foreground)",
-                  fontWeight: 700, fontSize: 12, whiteSpace: "nowrap",
+                  fontWeight: 700, fontSize: "var(--fs-12)", whiteSpace: "nowrap",
                 }}>
                   <RiHome4Line /> Η μονάδα μου: {u.unitNumber}
                 </span>
@@ -171,12 +171,12 @@ export function OccupantBuildingShell(props: Props) {
           return (
             <button key={s.key} onClick={() => navigate(s.key)} style={{
               display: "inline-flex", alignItems: "center", gap: 7, borderRadius: 9999,
-              padding: "10px 16px", minHeight: 40, fontSize: 13, fontWeight: 700, cursor: "pointer",
+              padding: "10px 16px", minHeight: 40, fontSize: "var(--fs-13)", fontWeight: 700, cursor: "pointer",
               border: `1px solid ${active ? "var(--color-primary)" : "var(--border)"}`,
               background: active ? "var(--color-primary)" : "var(--card)",
               color: active ? "#fff" : "var(--muted-foreground)",
             }}>
-              <Icon style={{ fontSize: 16 }} /> {s.label}
+              <Icon style={{ fontSize: "var(--fs-16)" }} /> {s.label}
             </button>
           );
         })}
@@ -301,10 +301,10 @@ function Overview({ buildingId, quickPay, myUnits, selectedMonth, statements, an
               <span style={cardCaps}>Συνολική οφειλή</span>
               <StatusChip tone={total > 0 ? "warning" : "success"}>{total > 0 ? "Εκκρεμεί" : "Εξοφλημένο"}</StatusChip>
             </div>
-            <div style={{ fontSize: 40, fontWeight: 800, fontVariantNumeric: "tabular-nums", lineHeight: 1.1, marginTop: 6, color: total > 0 ? "var(--color-warning)" : "var(--foreground)" }}>
+            <div style={{ fontSize: "var(--fs-40)", fontWeight: 800, fontVariantNumeric: "tabular-nums", lineHeight: 1.1, marginTop: 6, color: total > 0 ? "var(--color-warning)" : "var(--foreground)" }}>
               {eur(total)}
             </div>
-            <div style={{ fontSize: 13, color: "var(--muted-foreground)", marginTop: 6 }}>
+            <div style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)", marginTop: 6 }}>
               {myUnits.length} {myUnits.length === 1 ? "διαμέρισμα" : "διαμερίσματα"} · {monthLabel(selectedMonth)}
             </div>
           </div>
@@ -316,18 +316,18 @@ function Overview({ buildingId, quickPay, myUnits, selectedMonth, statements, an
               title={!enabled ? "Το Viva της ιδιοκτησίας δεν έχει ρυθμιστεί" : undefined}
               style={heroPayBtn(enabled)}
             >
-              <RiBankCardLine style={{ fontSize: 18 }} />
+              <RiBankCardLine style={{ fontSize: "var(--fs-18)" }} />
               {!enabled ? "Σύντομα διαθέσιμο" : busy === "all" ? "Μεταφορά…" : `Πληρωμή όλων ${eur(total)}`}
             </button>
           )}
         </div>
         {!enabled && total > 0 && (
-          <div style={{ fontSize: 12, color: "var(--muted-foreground)", marginTop: 12 }}>
+          <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)", marginTop: 12 }}>
             Οι online πληρωμές θα είναι σύντομα διαθέσιμες.
           </div>
         )}
         {payError && (
-          <div style={{ fontSize: 12.5, color: "var(--color-danger)", marginTop: 10 }}>{payError}</div>
+          <div style={{ fontSize: "var(--fs-12-5)", color: "var(--color-danger)", marginTop: 10 }}>{payError}</div>
         )}
       </div>
 
@@ -343,11 +343,11 @@ function Overview({ buildingId, quickPay, myUnits, selectedMonth, statements, an
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, flexWrap: "wrap" }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 10, minWidth: 0 }}>
                     <div style={{ width: 40, height: 40, borderRadius: 8, background: "color-mix(in srgb, var(--color-accent) 16%, transparent)", color: "var(--foreground)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                      <RiHome4Line style={{ fontSize: 20 }} />
+                      <RiHome4Line style={{ fontSize: "var(--fs-20)" }} />
                     </div>
                     <div style={{ minWidth: 0 }}>
-                      <div style={{ fontSize: 16, fontWeight: 800, color: "var(--foreground)" }}>Μονάδα {u.unitNumber}</div>
-                      <div style={{ fontSize: 12, color: "var(--muted-foreground)" }}>
+                      <div style={{ fontSize: "var(--fs-16)", fontWeight: 800, color: "var(--foreground)" }}>Μονάδα {u.unitNumber}</div>
+                      <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>
                         {[UNIT_TYPE[u.unitType] ?? u.unitType, floorLabel(u.floor), u.areaSqm != null ? `${u.areaSqm.toLocaleString("el-GR", { maximumFractionDigits: 1 })} μ²` : null]
                           .filter(Boolean).join(" · ")}
                       </div>
@@ -362,18 +362,18 @@ function Overview({ buildingId, quickPay, myUnits, selectedMonth, statements, an
                     <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 10, flexWrap: "wrap" }}>
                       <div>
                         <div style={cardCaps}>Οφειλή</div>
-                        <div style={{ fontSize: 26, fontWeight: 800, fontVariantNumeric: "tabular-nums", color: "var(--color-warning)", lineHeight: 1.15, marginTop: 2 }}>
+                        <div style={{ fontSize: "var(--fs-26)", fontWeight: 800, fontVariantNumeric: "tabular-nums", color: "var(--color-warning)", lineHeight: 1.15, marginTop: 2 }}>
                           {eur(out)}
                         </div>
                       </div>
                       <StatusChip tone="warning">Εκκρεμεί</StatusChip>
                     </div>
                   ) : (
-                    <div style={{ display: "inline-flex", alignItems: "center", gap: 6, color: "var(--color-success)", fontSize: 15, fontWeight: 700 }}>
-                      <RiCheckLine style={{ fontSize: 18 }} /> Εξοφλημένο
+                    <div style={{ display: "inline-flex", alignItems: "center", gap: 6, color: "var(--color-success)", fontSize: "var(--fs-15)", fontWeight: 700 }}>
+                      <RiCheckLine style={{ fontSize: "var(--fs-18)" }} /> Εξοφλημένο
                     </div>
                   )}
-                  <div style={{ fontSize: 12, color: "var(--muted-foreground)", marginTop: 8, fontVariantNumeric: "tabular-nums" }}>
+                  <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)", marginTop: 8, fontVariantNumeric: "tabular-nums" }}>
                     Τρέχων μήνας ({monthLabel(selectedMonth)}): {eur(share)}
                   </div>
                 </div>
@@ -388,7 +388,7 @@ function Overview({ buildingId, quickPay, myUnits, selectedMonth, statements, an
                 {/* actions */}
                 <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: "auto" }}>
                   <button type="button" onClick={() => goToNotice(u.id)} style={secondaryBtn}>
-                    <RiWallet3Line style={{ fontSize: 16 }} /> Ειδοποιητήριο
+                    <RiWallet3Line style={{ fontSize: "var(--fs-16)" }} /> Ειδοποιητήριο
                   </button>
                   {out > 0 && (
                     <button
@@ -398,7 +398,7 @@ function Overview({ buildingId, quickPay, myUnits, selectedMonth, statements, an
                       title={!enabled ? "Το Viva της ιδιοκτησίας δεν έχει ρυθμιστεί" : undefined}
                       style={unitPayBtn(enabled)}
                     >
-                      <RiBankCardLine style={{ fontSize: 16 }} />
+                      <RiBankCardLine style={{ fontSize: "var(--fs-16)" }} />
                       {!enabled ? "Σύντομα" : busy === u.id ? "Μεταφορά…" : `Πληρωμή ${eur(out)}`}
                     </button>
                   )}
@@ -414,10 +414,10 @@ function Overview({ buildingId, quickPay, myUnits, selectedMonth, statements, an
           <div style={cardCaps}>Γρήγορες ενέργειες</div>
           <div style={{ display: "flex", flexDirection: "column", gap: 8, marginTop: 10 }}>
             <Link href={requestsHref} style={quickAction}>
-              <RiToolsLine style={{ fontSize: 17 }} /> Δήλωση βλάβης
+              <RiToolsLine style={{ fontSize: "var(--fs-17)" }} /> Δήλωση βλάβης
             </Link>
             <button type="button" onClick={() => onNavigate("infra")} style={quickAction}>
-              <RiSettings3Line style={{ fontSize: 17 }} /> Εγκαταστάσεις & κλειδιά
+              <RiSettings3Line style={{ fontSize: "var(--fs-17)" }} /> Εγκαταστάσεις & κλειδιά
             </button>
           </div>
         </div>
@@ -426,13 +426,13 @@ function Overview({ buildingId, quickPay, myUnits, selectedMonth, statements, an
           <div style={cardCaps}>Επόμενη συνέλευση</div>
           {nextAssembly ? (
             <div style={{ marginTop: 10 }}>
-              <div style={{ fontSize: 14, fontWeight: 700, color: "var(--foreground)" }}>{nextAssembly.title}</div>
-              <div style={{ fontSize: 12.5, color: "var(--muted-foreground)", marginTop: 3, fontVariantNumeric: "tabular-nums" }}>
+              <div style={{ fontSize: "var(--fs-14)", fontWeight: 700, color: "var(--foreground)" }}>{nextAssembly.title}</div>
+              <div style={{ fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)", marginTop: 3, fontVariantNumeric: "tabular-nums" }}>
                 {fmtDateTime(nextAssembly.scheduledAt)}
               </div>
             </div>
           ) : (
-            <div style={{ fontSize: 13, color: "var(--muted-foreground)", marginTop: 10 }}>Δεν υπάρχει προγραμματισμένη συνέλευση.</div>
+            <div style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)", marginTop: 10 }}>Δεν υπάρχει προγραμματισμένη συνέλευση.</div>
           )}
           <button type="button" onClick={() => onNavigate("assemblies")} style={cardLink}>
             Όλες οι συνελεύσεις <RiArrowRightLine />
@@ -443,14 +443,14 @@ function Overview({ buildingId, quickPay, myUnits, selectedMonth, statements, an
           <div style={cardCaps}>Τελευταία ανακοίνωση</div>
           {latestAnn ? (
             <div style={{ marginTop: 10 }}>
-              <div style={{ fontSize: 14, fontWeight: 700, color: "var(--foreground)" }}>{latestAnn.title}</div>
-              <div style={{ fontSize: 12, color: "var(--muted-foreground)", marginTop: 3 }}>{fmtLongDate(latestAnn.createdAt)}</div>
-              <div style={{ fontSize: 12.5, color: "var(--muted-foreground)", marginTop: 6, lineHeight: 1.5 }}>
+              <div style={{ fontSize: "var(--fs-14)", fontWeight: 700, color: "var(--foreground)" }}>{latestAnn.title}</div>
+              <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)", marginTop: 3 }}>{fmtLongDate(latestAnn.createdAt)}</div>
+              <div style={{ fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)", marginTop: 6, lineHeight: 1.5 }}>
                 {stripHtml(latestAnn.content).slice(0, 150)}{stripHtml(latestAnn.content).length > 150 ? "…" : ""}
               </div>
             </div>
           ) : (
-            <div style={{ fontSize: 13, color: "var(--muted-foreground)", marginTop: 10 }}>Δεν υπάρχουν ενεργές ανακοινώσεις.</div>
+            <div style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)", marginTop: 10 }}>Δεν υπάρχουν ενεργές ανακοινώσεις.</div>
           )}
           <button type="button" onClick={() => onNavigate("ann")} style={cardLink}>
             Όλες οι ανακοινώσεις <RiArrowRightLine />
@@ -466,7 +466,7 @@ function MilleChip({ label, value }: { label: string; value: string }) {
   return (
     <span style={{
       display: "inline-flex", alignItems: "center", gap: 5, padding: "3px 9px", borderRadius: 999,
-      background: "var(--bg-canvas)", border: "1px solid var(--border)", fontSize: 11.5, color: "var(--muted-foreground)",
+      background: "var(--bg-canvas)", border: "1px solid var(--border)", fontSize: "var(--fs-11-5)", color: "var(--muted-foreground)",
     }}>
       {label} <span style={{ fontWeight: 700, fontVariantNumeric: "tabular-nums", color: "var(--foreground)" }}>{value}</span>
     </span>
@@ -476,7 +476,7 @@ function MilleChip({ label, value }: { label: string; value: string }) {
 const quickAction: React.CSSProperties = {
   display: "flex", alignItems: "center", gap: 9, padding: "11px 13px", minHeight: 40, borderRadius: 9,
   border: "1px solid var(--border)", background: "var(--bg-canvas)", color: "var(--foreground)",
-  fontSize: 13.5, fontWeight: 700, cursor: "pointer", textDecoration: "none", textAlign: "left", width: "100%",
+  fontSize: "var(--fs-13-5)", fontWeight: 700, cursor: "pointer", textDecoration: "none", textAlign: "left", width: "100%",
 };
 
 const heroPayBtn = (active: boolean): React.CSSProperties => ({
@@ -484,7 +484,7 @@ const heroPayBtn = (active: boolean): React.CSSProperties => ({
   borderRadius: 10, border: `1px solid ${active ? "var(--color-primary)" : "var(--border)"}`,
   background: active ? "var(--color-primary)" : "var(--bg-muted, var(--bg-canvas))",
   color: active ? "#fff" : "var(--muted-foreground)",
-  fontSize: 15, fontWeight: 800, fontVariantNumeric: "tabular-nums",
+  fontSize: "var(--fs-15)", fontWeight: 800, fontVariantNumeric: "tabular-nums",
   cursor: active ? "pointer" : "not-allowed", whiteSpace: "nowrap",
 });
 
@@ -493,19 +493,19 @@ const unitPayBtn = (active: boolean): React.CSSProperties => ({
   borderRadius: 9, flex: 1, border: `1px solid ${active ? "var(--color-primary)" : "var(--border)"}`,
   background: active ? "var(--color-primary)" : "var(--bg-muted, var(--bg-canvas))",
   color: active ? "#fff" : "var(--muted-foreground)",
-  fontSize: 13, fontWeight: 800, fontVariantNumeric: "tabular-nums",
+  fontSize: "var(--fs-13)", fontWeight: 800, fontVariantNumeric: "tabular-nums",
   cursor: active ? "pointer" : "not-allowed", whiteSpace: "nowrap",
 });
 
 const secondaryBtn: React.CSSProperties = {
   display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 7, padding: "10px 14px", minHeight: 40,
   borderRadius: 9, flex: 1, border: "1px solid var(--border)", background: "var(--bg-canvas)", color: "var(--foreground)",
-  fontSize: 13, fontWeight: 700, cursor: "pointer", whiteSpace: "nowrap",
+  fontSize: "var(--fs-13)", fontWeight: 700, cursor: "pointer", whiteSpace: "nowrap",
 };
 const cardLink: React.CSSProperties = {
   display: "inline-flex", alignItems: "center", gap: 5, marginTop: 12, padding: 0,
   border: "none", background: "transparent", color: "var(--muted-foreground)",
-  fontSize: 12, fontWeight: 600, cursor: "pointer",
+  fontSize: "var(--fs-12)", fontWeight: 600, cursor: "pointer",
 };
 
 /* ─── Έγγραφα ────────────────────────────────────────────────────────────── */
@@ -529,7 +529,7 @@ function ContactsSection({ contacts }: { contacts: OccupantData["contacts"] }) {
       {contacts.map((c) => (
         <div key={c.id} style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 12, padding: 16, display: "flex", flexDirection: "column", gap: 8 }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, flexWrap: "wrap" }}>
-            <div style={{ fontSize: 14, fontWeight: 700, color: "var(--foreground)" }}>{c.name}</div>
+            <div style={{ fontSize: "var(--fs-14)", fontWeight: 700, color: "var(--foreground)" }}>{c.name}</div>
             {c.category && <StatusChip tone="neutral">{c.category}</StatusChip>}
           </div>
           {c.phone && (
@@ -539,7 +539,7 @@ function ContactsSection({ contacts }: { contacts: OccupantData["contacts"] }) {
             <a href={`mailto:${c.email}`} style={contactRow}><RiMailLine style={{ color: "var(--muted-foreground)" }} /> {c.email}</a>
           )}
           {!c.phone && !c.email && (
-            <div style={{ fontSize: 12.5, color: "var(--muted-foreground)" }}>Χωρίς στοιχεία επικοινωνίας</div>
+            <div style={{ fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)" }}>Χωρίς στοιχεία επικοινωνίας</div>
           )}
         </div>
       ))}
@@ -548,7 +548,7 @@ function ContactsSection({ contacts }: { contacts: OccupantData["contacts"] }) {
 }
 
 const contactRow: React.CSSProperties = {
-  display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: "var(--foreground)",
+  display: "flex", alignItems: "center", gap: 8, fontSize: "var(--fs-13)", color: "var(--foreground)",
   textDecoration: "none", fontWeight: 500,
 };
 
@@ -571,15 +571,15 @@ function AnnouncementsSection({ announcements }: { announcements: OccupantData["
           )}
           <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 12, marginBottom: 8, flexWrap: "wrap" }}>
             <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-              <h2 style={{ fontSize: 16, fontWeight: 700, color: "var(--foreground)", margin: 0 }}>{a.title}</h2>
+              <h2 style={{ fontSize: "var(--fs-16)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}>{a.title}</h2>
               <StatusChip tone="neutral">{AUDIENCE[a.audience] ?? a.audience}</StatusChip>
             </div>
-            <span style={{ fontSize: 12, color: "var(--muted-foreground)", whiteSpace: "nowrap" }}>
+            <span style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)", whiteSpace: "nowrap" }}>
               {fmtLongDate(a.publishedAt ?? a.createdAt)}
             </span>
           </div>
           <div
-            style={{ fontSize: 13, lineHeight: 1.6, color: "var(--foreground)" }}
+            style={{ fontSize: "var(--fs-13)", lineHeight: 1.6, color: "var(--foreground)" }}
             dangerouslySetInnerHTML={{ __html: a.content }}
           />
         </div>

@@ -228,7 +228,7 @@ export function SectionEditor({ section }: Props) {
           <CmsTextarea
             mono
             rows={8}
-            style={{ fontSize: 12 }}
+            style={{ fontSize: "var(--fs-12)" }}
             value={itemsText[activeLocale]}
             onChange={(e) =>
               setItemsText((prev) => ({ ...prev, [activeLocale]: e.target.value }))
@@ -238,7 +238,7 @@ export function SectionEditor({ section }: Props) {
       )}
 
       {section.type === "FEATURES" && (
-        <details style={{ fontSize: 12, color: "var(--muted-foreground)" }}>
+        <details style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>
           <summary style={{ cursor: "pointer", fontWeight: 600 }}>
             Διαθέσιμα εικονίδια (icon)
           </summary>
@@ -270,7 +270,7 @@ export function SectionEditor({ section }: Props) {
       )}
 
       {error && (
-        <p style={{ fontSize: 13, color: "var(--color-danger)", margin: 0 }}>{error}</p>
+        <p style={{ fontSize: "var(--fs-13)", color: "var(--color-danger)", margin: 0 }}>{error}</p>
       )}
 
       <div style={{ display: "flex", alignItems: "center", gap: 12 }}>

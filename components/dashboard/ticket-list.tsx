@@ -25,9 +25,9 @@ export function TicketList({ tickets }: { tickets: TicketItem[] }) {
           padding: "10px 14px", background: "var(--bg-canvas)", borderRadius: 8,
         }}>
           <div style={{ minWidth: 0, flex: 1 }}>
-            <div style={{ fontSize: 14, fontWeight: 500, color: "var(--foreground)",
+            <div style={{ fontSize: "var(--fs-14)", fontWeight: 500, color: "var(--foreground)",
               overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{t.title}</div>
-            <div style={{ fontSize: 12, color: "var(--muted-foreground)" }}>
+            <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>
               {t.status === "IN_PROGRESS" ? "Σε εξέλιξη" : "Ανοιχτό"} · {ageLabel(t.createdAt)}
             </div>
           </div>

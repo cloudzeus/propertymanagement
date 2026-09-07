@@ -117,7 +117,7 @@ export function PropertiesClient({ initial, customers }: { initial: Property[]; 
     {
       id: "name", header: "Ιδιοκτησία", sortKey: "name", width: 220,
       accessor: (p) => p.name,
-      cell: (p) => <span style={{ fontSize: 13, fontWeight: 600, color: "var(--foreground)" }}>{p.name}</span>,
+      cell: (p) => <span style={{ fontSize: "var(--fs-13)", fontWeight: 600, color: "var(--foreground)" }}>{p.name}</span>,
     },
     {
       id: "managed", header: "Διαχείριση", sortKey: "managed", width: 130,
@@ -127,22 +127,22 @@ export function PropertiesClient({ initial, customers }: { initial: Property[]; 
     {
       id: "customer", header: "Πελάτης", sortKey: "customerName", width: 200,
       accessor: (p) => p.customerName,
-      cell: (p) => <span style={{ fontSize: 12, color: "var(--muted-foreground)" }}>{p.customerName}</span>,
+      cell: (p) => <span style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>{p.customerName}</span>,
     },
     {
       id: "buildings", header: "Κτήρια", sortKey: "buildingCount", width: 100,
       accessor: (p) => p.buildingCount,
-      cell: (p) => <span style={{ fontSize: 13, color: "var(--foreground)" }}>{p.buildingCount}</span>,
+      cell: (p) => <span style={{ fontSize: "var(--fs-13)", color: "var(--foreground)" }}>{p.buildingCount}</span>,
     },
     {
       id: "units", header: "Μονάδες", sortKey: "unitCount", width: 100,
       accessor: (p) => p.unitCount,
-      cell: (p) => <span style={{ fontSize: 13, color: "var(--foreground)" }}>{p.unitCount}</span>,
+      cell: (p) => <span style={{ fontSize: "var(--fs-13)", color: "var(--foreground)" }}>{p.unitCount}</span>,
     },
     {
       id: "services", header: "Υπηρεσίες", sortKey: "serviceCount", width: 110,
       accessor: (p) => p.serviceCount,
-      cell: (p) => <span style={{ fontSize: 13, color: "var(--foreground)" }}>{p.serviceCount}</span>,
+      cell: (p) => <span style={{ fontSize: "var(--fs-13)", color: "var(--foreground)" }}>{p.serviceCount}</span>,
     },
   ];
 
@@ -155,8 +155,8 @@ export function PropertiesClient({ initial, customers }: { initial: Property[]; 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
       <div>
-        <h1 style={{ fontSize: 22, fontWeight: 700, color: "var(--foreground)", margin: 0 }}>Ιδιοκτησίες</h1>
-        <p style={{ fontSize: 13, color: "var(--muted-foreground)", marginTop: 4 }}>{data.length} ιδιοκτησίες</p>
+        <h1 style={{ fontSize: "var(--fs-22)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}>Ιδιοκτησίες</h1>
+        <p style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)", marginTop: 4 }}>{data.length} ιδιοκτησίες</p>
       </div>
 
       <DataTable
@@ -188,15 +188,15 @@ export function PropertiesClient({ initial, customers }: { initial: Property[]; 
         width={520}
         footer={
           <>
-            <button onClick={() => setOpen(false)} style={{ padding: "7px 16px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: 13, color: "var(--foreground)" }}>Ακύρωση</button>
-            <button onClick={handleSave} disabled={isPending} style={{ padding: "7px 16px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: isPending ? "wait" : "pointer", fontSize: 13, fontWeight: 600, display: "flex", alignItems: "center", gap: 6 }}>
+            <button onClick={() => setOpen(false)} style={{ padding: "7px 16px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: "var(--fs-13)", color: "var(--foreground)" }}>Ακύρωση</button>
+            <button onClick={handleSave} disabled={isPending} style={{ padding: "7px 16px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: isPending ? "wait" : "pointer", fontSize: "var(--fs-13)", fontWeight: 600, display: "flex", alignItems: "center", gap: 6 }}>
               {isPending ? <RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> : <RiCheckLine />}
               Αποθήκευση
             </button>
           </>
         }
       >
-        {error && <div style={{ padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: 12, border: "1px solid #fca5a530", marginBottom: 14 }}>{error}</div>}
+        {error && <div style={{ padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: "var(--fs-12)", border: "1px solid #fca5a530", marginBottom: 14 }}>{error}</div>}
 
         <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
           <FormField label="Πελάτης" required>
@@ -210,7 +210,7 @@ export function PropertiesClient({ initial, customers }: { initial: Property[]; 
               <FieldInput value={form.address} onChange={f("address")} />
               <button type="button" onClick={handleGeocode} disabled={geoLoading || !form.address} title="Εύρεση στίγματος (geocoding)"
                 style={{ flexShrink: 0, width: 36, height: 36, borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)", cursor: geoLoading ? "wait" : "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                {geoLoading ? <RiLoaderLine style={{ fontSize: 15, animation: "spin 1s linear infinite" }} /> : <RiMapPin2Line style={{ fontSize: 15 }} />}
+                {geoLoading ? <RiLoaderLine style={{ fontSize: "var(--fs-15)", animation: "spin 1s linear infinite" }} /> : <RiMapPin2Line style={{ fontSize: "var(--fs-15)" }} />}
               </button>
             </div>
           </FormField>
@@ -220,17 +220,17 @@ export function PropertiesClient({ initial, customers }: { initial: Property[]; 
             <FormField label="Χώρα"><FieldInput value={form.country} onChange={f("country")} /></FormField>
           </div>
           {lat !== null && lng !== null && (
-            <div style={{ fontSize: 11, color: "#16a34a", display: "flex", alignItems: "center", gap: 5 }}>
-              <RiMapPin2Line style={{ fontSize: 13 }} /> Στίγμα: {lat.toFixed(6)}, {lng.toFixed(6)}
+            <div style={{ fontSize: "var(--fs-11)", color: "#16a34a", display: "flex", alignItems: "center", gap: 5 }}>
+              <RiMapPin2Line style={{ fontSize: "var(--fs-13)" }} /> Στίγμα: {lat.toFixed(6)}, {lng.toFixed(6)}
             </div>
           )}
           {!editing && (
             <div>
-              <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: "var(--foreground)", cursor: "pointer" }}>
+              <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: "var(--fs-13)", color: "var(--foreground)", cursor: "pointer" }}>
                 <input type="checkbox" checked={sameAddress} onChange={(e) => setSameAddress(e.target.checked)} style={{ width: 15, height: 15, accentColor: "var(--color-primary)" }} />
                 Το κτήριο έχει την ίδια διεύθυνση με την ιδιοκτησία
               </label>
-              <p style={{ fontSize: 11, color: "var(--muted-foreground)", margin: "4px 0 0" }}>
+              <p style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)", margin: "4px 0 0" }}>
                 Κάθε ιδιοκτησία ξεκινά με ένα κτήριο. {sameAddress ? "Θα πάρει τη διεύθυνση της ιδιοκτησίας." : "Θα ορίσετε τη διεύθυνσή του στη διαχείριση."}
               </p>
             </div>
@@ -238,7 +238,7 @@ export function PropertiesClient({ initial, customers }: { initial: Property[]; 
           <FormField label="Διαχείριση">
             <FieldSelect value={form.managed} onChange={f("managed")} options={[{ value: "true", label: "Διαχειρίζεται από την εταιρεία" }, { value: "false", label: "Αυτοδιαχείριστη" }]} />
           </FormField>
-          <p style={{ fontSize: 11, color: "var(--muted-foreground)", margin: "-8px 0 0" }}>
+          <p style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)", margin: "-8px 0 0" }}>
             {form.managed === "true"
               ? "Ο διαχειριστής θα πρέπει να είναι υπάλληλος της εταιρείας."
               : "Ως διαχειριστής μπορεί να οριστεί ιδιοκτήτης/ένοικος ή ο πελάτης."}
@@ -247,10 +247,10 @@ export function PropertiesClient({ initial, customers }: { initial: Property[]; 
           <FormField label="Σημειώσεις"><FieldTextarea value={form.notes} onChange={f("notes")} rows={2} /></FormField>
 
           <div style={{ borderTop: "1px solid var(--border)", paddingTop: 12 }}>
-            <div style={{ fontSize: 12, fontWeight: 700, color: "var(--muted-foreground)", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: 4 }}>
+            <div style={{ fontSize: "var(--fs-12)", fontWeight: 700, color: "var(--muted-foreground)", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: 4 }}>
               Viva κοινοχρήστων (προαιρετικό)
             </div>
-            <p style={{ fontSize: 11, color: "var(--muted-foreground)", margin: "0 0 10px" }}>
+            <p style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)", margin: "0 0 10px" }}>
               Ανεξάρτητος λογαριασμός Viva ανά ιδιοκτησία — οι ένοικοι πληρώνουν κοινόχρηστα σε αυτόν.
             </p>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 }}>

@@ -42,18 +42,18 @@ export function KpiCard({
   const body = (
     <>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-        <span style={{ fontSize: 13, color: "var(--muted-foreground)", fontWeight: 500 }}>{label}</span>
-        <Icon style={{ fontSize: 20, color: accent, opacity: 0.85 }} />
+        <span style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)", fontWeight: 500 }}>{label}</span>
+        <Icon style={{ fontSize: "var(--fs-20)", color: accent, opacity: 0.85 }} />
       </div>
       <div style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
-        <span style={{ fontSize: 28, fontWeight: 700, color: "var(--foreground)", lineHeight: 1 }}>{value}</span>
+        <span style={{ fontSize: "var(--fs-28)", fontWeight: 700, color: "var(--foreground)", lineHeight: 1 }}>{value}</span>
         {delta !== undefined && delta !== null && (
           <span
             style={{
               display: "inline-flex",
               alignItems: "center",
               gap: 2,
-              fontSize: 12,
+              fontSize: "var(--fs-12)",
               fontWeight: 700,
               color: delta >= 0 ? "var(--color-success)" : "var(--color-warning)",
             }}
@@ -63,7 +63,7 @@ export function KpiCard({
           </span>
         )}
       </div>
-      {sub && <span style={{ fontSize: 12, color: subColor || "var(--muted-foreground)" }}>{sub}</span>}
+      {sub && <span style={{ fontSize: "var(--fs-12)", color: subColor || "var(--muted-foreground)" }}>{sub}</span>}
     </>
   );
 
@@ -103,9 +103,9 @@ export function Panel({
   return (
     <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius)", padding: 24 }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
-        <h2 style={{ fontSize: 15, fontWeight: 600, color: "var(--foreground)", margin: 0 }}>{title}</h2>
+        <h2 style={{ fontSize: "var(--fs-15)", fontWeight: 600, color: "var(--foreground)", margin: 0 }}>{title}</h2>
         {href && (
-          <Link href={href} style={{ fontSize: 12, color: "var(--color-primary)", textDecoration: "none" }}>
+          <Link href={href} style={{ fontSize: "var(--fs-12)", color: "var(--color-primary)", textDecoration: "none" }}>
             {hrefLabel} →
           </Link>
         )}
@@ -136,8 +136,8 @@ export function RevenueBars({ trend, accent = "var(--color-primary)" }: { trend:
                 }}
               />
             </div>
-            <span style={{ fontSize: 11, color: "var(--muted-foreground)" }}>{monthLabel(t.month)}</span>
-            <span style={{ fontSize: 10, color: "var(--muted-foreground)", opacity: 0.7 }}>
+            <span style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)" }}>{monthLabel(t.month)}</span>
+            <span style={{ fontSize: "var(--fs-10)", color: "var(--muted-foreground)", opacity: 0.7 }}>
               {t.value >= 1000 ? `€${(t.value / 1000).toFixed(1)}k` : `€${Math.round(t.value)}`}
             </span>
           </div>
@@ -162,10 +162,10 @@ export function MiniStat({ label, value, icon: Icon, color }: { label: string; v
   return (
     <div style={{ background: "var(--bg-canvas)", borderRadius: 8, padding: "12px 14px", display: "flex", flexDirection: "column", gap: 6 }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-        <span style={{ fontSize: 12, color: "var(--muted-foreground)" }}>{label}</span>
-        <Icon style={{ fontSize: 16, color, opacity: 0.9 }} />
+        <span style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>{label}</span>
+        <Icon style={{ fontSize: "var(--fs-16)", color, opacity: 0.9 }} />
       </div>
-      <span style={{ fontSize: 22, fontWeight: 700, color: value > 0 ? color : "var(--foreground)", lineHeight: 1 }}>{value}</span>
+      <span style={{ fontSize: "var(--fs-22)", fontWeight: 700, color: value > 0 ? color : "var(--foreground)", lineHeight: 1 }}>{value}</span>
     </div>
   );
 }
@@ -174,8 +174,8 @@ export function MiniStat({ label, value, icon: Icon, color }: { label: string; v
 export function EmptyState({ icon: Icon, text }: { icon: IconType; text: string }) {
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", padding: "28px 0", color: "var(--muted-foreground)", gap: 8 }}>
-      <Icon style={{ fontSize: 30, opacity: 0.4 }} />
-      <span style={{ fontSize: 13 }}>{text}</span>
+      <Icon style={{ fontSize: "var(--fs-30)", opacity: 0.4 }} />
+      <span style={{ fontSize: "var(--fs-13)" }}>{text}</span>
     </div>
   );
 }
@@ -211,10 +211,10 @@ export function ManagedFaultsPanel({
           {summary.recent.map((f) => (
             <Link key={f.id} href={`${detailBase}/${f.id}`} style={{ ...rowStyle, textDecoration: "none" }}>
               <div style={{ minWidth: 0, display: "flex", flexDirection: "column", gap: 2 }}>
-                <div style={{ fontSize: 13, fontWeight: 600, color: "var(--foreground)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                <div style={{ fontSize: "var(--fs-13)", fontWeight: 600, color: "var(--foreground)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
                   {f.title}
                 </div>
-                <div style={{ fontSize: 12, color: "var(--muted-foreground)" }}>
+                <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>
                   {f.buildingName}
                   {f.reporterName ? ` · ${f.reporterName}` : ""} ·{" "}
                   <span style={{ color: f.reporterSide === "manager" ? "#0078D4" : "#8764B8" }}>
@@ -245,7 +245,7 @@ export function Pill({ label, color }: { label: string; color: string }) {
   return (
     <span
       style={{
-        fontSize: 11,
+        fontSize: "var(--fs-11)",
         fontWeight: 700,
         padding: "2px 8px",
         borderRadius: 9999,

@@ -111,7 +111,7 @@ export function PropertyPackages({ propertyId, providerConfigured }: { propertyI
     return (
       <div style={card}>
         <div style={alert("err")}>
-          <RiErrorWarningLine style={{ fontSize: 16, flexShrink: 0 }} />
+          <RiErrorWarningLine style={{ fontSize: "var(--fs-16)", flexShrink: 0 }} />
           {loadError === "Forbidden" ? "Δεν έχετε πρόσβαση στο πακέτο αυτής της ιδιοκτησίας." : loadError}
         </div>
       </div>
@@ -120,8 +120,8 @@ export function PropertyPackages({ propertyId, providerConfigured }: { propertyI
 
   if (!view) {
     return (
-      <div style={{ ...card, display: "flex", alignItems: "center", gap: 8, color: "var(--muted-foreground)", fontSize: 13 }}>
-        <RiLoader4Line style={{ fontSize: 16, animation: "ppspin 1s linear infinite" }} /> Φόρτωση…
+      <div style={{ ...card, display: "flex", alignItems: "center", gap: 8, color: "var(--muted-foreground)", fontSize: "var(--fs-13)" }}>
+        <RiLoader4Line style={{ fontSize: "var(--fs-16)", animation: "ppspin 1s linear infinite" }} /> Φόρτωση…
         <style>{"@keyframes ppspin{to{transform:rotate(360deg)}}"}</style>
       </div>
     );
@@ -134,11 +134,11 @@ export function PropertyPackages({ propertyId, providerConfigured }: { propertyI
       {/* header */}
       <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
         <div style={{ width: 38, height: 38, borderRadius: 8, background: "var(--color-primary)18", color: "var(--color-primary)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-          <RiPriceTag3Line style={{ fontSize: 20 }} />
+          <RiPriceTag3Line style={{ fontSize: "var(--fs-20)" }} />
         </div>
         <div>
-          <div style={{ fontSize: 15, fontWeight: 700, color: "var(--foreground)" }}>Πακέτο υπηρεσιών</div>
-          <div style={{ fontSize: 12, color: "var(--muted-foreground)" }}>
+          <div style={{ fontSize: "var(--fs-15)", fontWeight: 700, color: "var(--foreground)" }}>Πακέτο υπηρεσιών</div>
+          <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>
             {view.counts.buildings} κτήρια · {view.counts.units} μονάδες · {view.counts.commonAreas} κοιν. χώροι · περίοδος {view.period}
           </div>
         </div>
@@ -147,7 +147,7 @@ export function PropertyPackages({ propertyId, providerConfigured }: { propertyI
       {/* service list */}
       <div style={card}>
         {view.services.length === 0 && (
-          <div style={{ padding: 30, textAlign: "center", color: "var(--muted-foreground)", fontSize: 13 }}>
+          <div style={{ padding: 30, textAlign: "center", color: "var(--muted-foreground)", fontSize: "var(--fs-13)" }}>
             Δεν υπάρχουν ενεργές υπηρεσίες στον κατάλογο.
           </div>
         )}
@@ -157,17 +157,17 @@ export function PropertyPackages({ propertyId, providerConfigured }: { propertyI
           return (
             <div key={s.id} style={{ display: "flex", alignItems: "center", gap: 14, padding: "13px 16px", borderBottom: i < view.services.length - 1 ? "1px solid var(--border)" : "none" }}>
               <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ fontSize: 14, fontWeight: 600, color: "var(--foreground)", display: "flex", alignItems: "center", gap: 8 }}>
+                <div style={{ fontSize: "var(--fs-14)", fontWeight: 600, color: "var(--foreground)", display: "flex", alignItems: "center", gap: 8 }}>
                   {s.name}
-                  <span style={{ fontSize: 10, fontWeight: 700, padding: "1px 6px", borderRadius: 10, background: s.isCore ? "#0078D418" : "#8764B818", color: s.isCore ? "#0078D4" : "#8764B8" }}>{s.isCore ? "CORE" : "MODULE"}</span>
+                  <span style={{ fontSize: "var(--fs-10)", fontWeight: 700, padding: "1px 6px", borderRadius: 10, background: s.isCore ? "#0078D418" : "#8764B818", color: s.isCore ? "#0078D4" : "#8764B8" }}>{s.isCore ? "CORE" : "MODULE"}</span>
                 </div>
-                <div style={{ fontSize: 12, color: "var(--muted-foreground)", marginTop: 2, ...numFont }}>
+                <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)", marginTop: 2, ...numFont }}>
                   {eur(s.price)} {PRICING_LABEL[s.pricingModel]}
                   {qty != null && !metered && <> · {qty} × {eur(s.price)}</>}
                 </div>
               </div>
-              <div style={{ fontSize: 14, fontWeight: 700, color: "var(--foreground)", minWidth: 90, textAlign: "right", ...numFont }}>
-                {metered ? <span style={{ fontSize: 12, fontWeight: 500, color: "var(--muted-foreground)" }}>με χρήση</span> : eur(amount)}
+              <div style={{ fontSize: "var(--fs-14)", fontWeight: 700, color: "var(--foreground)", minWidth: 90, textAlign: "right", ...numFont }}>
+                {metered ? <span style={{ fontSize: "var(--fs-12)", fontWeight: 500, color: "var(--muted-foreground)" }}>με χρήση</span> : eur(amount)}
               </div>
               <Toggle on={s.enabled} onChange={(v) => toggle(s, v)} disabled={busy} />
             </div>
@@ -178,8 +178,8 @@ export function PropertyPackages({ propertyId, providerConfigured }: { propertyI
       {/* total + status + pay */}
       <div style={{ ...card, padding: "16px 18px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
         <div>
-          <div style={{ fontSize: 12, color: "var(--muted-foreground)" }}>Μηνιαίο σύνολο (εκτός μετρούμενων)</div>
-          <div style={{ fontSize: 24, fontWeight: 800, color: "var(--color-primary)", ...numFont }}>{eur(view.total)} <span style={{ fontSize: 13, fontWeight: 600, color: "var(--muted-foreground)" }}>/ μήνα</span></div>
+          <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>Μηνιαίο σύνολο (εκτός μετρούμενων)</div>
+          <div style={{ fontSize: "var(--fs-24)", fontWeight: 800, color: "var(--color-primary)", ...numFont }}>{eur(view.total)} <span style={{ fontSize: "var(--fs-13)", fontWeight: 600, color: "var(--muted-foreground)" }}>/ μήνα</span></div>
           {view.invoice && (
             <div style={{ marginTop: 6 }}>
               <StatusChip status={view.invoice.status} />
@@ -193,7 +193,7 @@ export function PropertyPackages({ propertyId, providerConfigured }: { propertyI
             disabled={!providerConfigured || paid || payPending || view.totalCents <= 0}
             style={{
               display: "inline-flex", alignItems: "center", gap: 8, padding: "10px 20px", borderRadius: 8,
-              border: "none", fontSize: 14, fontWeight: 700, color: "#fff",
+              border: "none", fontSize: "var(--fs-14)", fontWeight: 700, color: "#fff",
               background: (!providerConfigured || paid || view.totalCents <= 0) ? "var(--border-strong)" : "var(--color-primary)",
               cursor: (!providerConfigured || paid || payPending || view.totalCents <= 0) ? "default" : "pointer",
               opacity: payPending ? 0.7 : 1,
@@ -206,7 +206,7 @@ export function PropertyPackages({ propertyId, providerConfigured }: { propertyI
             {paid ? "Εξοφλημένο" : `Πληρωμή πακέτου ${eur(view.total)}`}
           </button>
           {!providerConfigured && (
-            <div style={{ fontSize: 11.5, color: "var(--muted-foreground)", display: "flex", alignItems: "center", gap: 4 }}>
+            <div style={{ fontSize: "var(--fs-11-5)", color: "var(--muted-foreground)", display: "flex", alignItems: "center", gap: 4 }}>
               <RiLockLine /> Το Viva του παρόχου δεν έχει ρυθμιστεί
             </div>
           )}
@@ -215,7 +215,7 @@ export function PropertyPackages({ propertyId, providerConfigured }: { propertyI
 
       {msg && (
         <div style={alert("err")}>
-          <RiErrorWarningLine style={{ fontSize: 16, flexShrink: 0 }} /> {msg.text}
+          <RiErrorWarningLine style={{ fontSize: "var(--fs-16)", flexShrink: 0 }} /> {msg.text}
         </div>
       )}
       <style>{"@keyframes ppspin{to{transform:rotate(360deg)}}"}</style>
@@ -229,7 +229,7 @@ function StatusChip({ status }: { status: string }) {
     : status === "CANCELLED" ? { bg: "var(--bg-canvas)", fg: "var(--muted-foreground)" }
     : { bg: "#d9770618", fg: "#d97706" };
   return (
-    <span style={{ display: "inline-flex", alignItems: "center", gap: 5, fontSize: 11.5, fontWeight: 700, padding: "3px 10px", borderRadius: 12, background: tone.bg, color: tone.fg }}>
+    <span style={{ display: "inline-flex", alignItems: "center", gap: 5, fontSize: "var(--fs-11-5)", fontWeight: 700, padding: "3px 10px", borderRadius: 12, background: tone.bg, color: tone.fg }}>
       {STATUS_LABEL[status] ?? status}
     </span>
   );
@@ -250,5 +250,5 @@ const card: React.CSSProperties = { background: "var(--card)", border: "1px soli
 
 function alert(kind: "err"): React.CSSProperties {
   const map = { err: { bg: "#dc262614", fg: "#dc2626", bd: "#dc262630" } }[kind];
-  return { display: "flex", alignItems: "center", gap: 8, padding: "10px 12px", borderRadius: 8, background: map.bg, color: map.fg, border: `1px solid ${map.bd}`, fontSize: 12.5, lineHeight: 1.4 };
+  return { display: "flex", alignItems: "center", gap: 8, padding: "10px 12px", borderRadius: 8, background: map.bg, color: map.fg, border: `1px solid ${map.bd}`, fontSize: "var(--fs-12-5)", lineHeight: 1.4 };
 }

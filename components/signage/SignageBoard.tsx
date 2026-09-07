@@ -79,18 +79,18 @@ export function SignageBoard({
       {/* ── Header: building · weather + clock ─────────────────────────── */}
       <header style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 32 }}>
         <div>
-          <div style={{ fontFamily: "var(--font-display)", fontSize: 40, fontWeight: 800, lineHeight: 1.1 }}>
+          <div style={{ fontFamily: "var(--font-display)", fontSize: "var(--fs-40)", fontWeight: 800, lineHeight: 1.1 }}>
             {data.building.name}
           </div>
-          <div style={{ fontSize: 22, color: MUTED, marginTop: 6 }}>
+          <div style={{ fontSize: "var(--fs-22)", color: MUTED, marginTop: 6 }}>
             {data.building.address}, {data.building.city}
           </div>
         </div>
         <div style={{ textAlign: "right" }}>
-          <div style={{ fontSize: 56, fontWeight: 800, lineHeight: 1, fontVariantNumeric: "tabular-nums" }}>
+          <div style={{ fontSize: "var(--fs-56)", fontWeight: 800, lineHeight: 1, fontVariantNumeric: "tabular-nums" }}>
             {now ? now.toLocaleTimeString("el-GR", { hour: "2-digit", minute: "2-digit" }) : "--:--"}
           </div>
-          <div style={{ fontSize: 22, color: MUTED, marginTop: 6 }}>
+          <div style={{ fontSize: "var(--fs-22)", color: MUTED, marginTop: 6 }}>
             {now ? now.toLocaleDateString("el-GR", { weekday: "long", day: "numeric", month: "long" }) : " "}
             {weather ? (
               <span style={{ marginLeft: 16, color: CREAM }}>
@@ -105,7 +105,7 @@ export function SignageBoard({
       {/* ── Main: rotating announcement + info column ───────────────────── */}
       <main style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: 32, minHeight: 0 }}>
         <section style={{ ...card, display: "flex", flexDirection: "column", overflow: "hidden" }}>
-          <div style={{ fontSize: 18, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase", color: AMBER }}>
+          <div style={{ fontSize: "var(--fs-18)", fontWeight: 700, letterSpacing: 2, textTransform: "uppercase", color: AMBER }}>
             Ανακοινώσεις
           </div>
           {ann ? (
@@ -118,15 +118,15 @@ export function SignageBoard({
                   style={{ maxHeight: 240, width: "100%", objectFit: "cover", borderRadius: 18, marginBottom: 20 }}
                 />
               ) : null}
-              <div style={{ fontSize: 34, fontWeight: 800, lineHeight: 1.2 }}>{ann.title}</div>
-              <div style={{ fontSize: 15, color: MUTED, marginTop: 6 }}>{fmtDay(ann.createdAt)}</div>
+              <div style={{ fontSize: "var(--fs-34)", fontWeight: 800, lineHeight: 1.2 }}>{ann.title}</div>
+              <div style={{ fontSize: "var(--fs-15)", color: MUTED, marginTop: 6 }}>{fmtDay(ann.createdAt)}</div>
               <div
-                style={{ fontSize: 22, lineHeight: 1.55, marginTop: 16, maxHeight: 340, overflow: "hidden" }}
+                style={{ fontSize: "var(--fs-22)", lineHeight: 1.55, marginTop: 16, maxHeight: 340, overflow: "hidden" }}
                 dangerouslySetInnerHTML={{ __html: ann.content }}
               />
             </div>
           ) : (
-            <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24, color: MUTED }}>
+            <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "var(--fs-24)", color: MUTED }}>
               Δεν υπάρχουν ενεργές ανακοινώσεις.
             </div>
           )}
@@ -149,15 +149,15 @@ export function SignageBoard({
 
         <aside style={{ display: "flex", flexDirection: "column", gap: 32, minHeight: 0 }}>
           <section style={card}>
-            <div style={{ fontSize: 18, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase", color: AMBER }}>
+            <div style={{ fontSize: "var(--fs-18)", fontWeight: 700, letterSpacing: 2, textTransform: "uppercase", color: AMBER }}>
               Επερχόμενες συντηρήσεις
             </div>
             {data.tasks.length ? (
               <div style={{ display: "flex", flexDirection: "column", gap: 14, marginTop: 18 }}>
                 {data.tasks.map((t) => (
                   <div key={t.id}>
-                    <div style={{ fontSize: 22, fontWeight: 600, lineHeight: 1.25 }}>{t.title}</div>
-                    <div style={{ fontSize: 17, color: MUTED }}>
+                    <div style={{ fontSize: "var(--fs-22)", fontWeight: 600, lineHeight: 1.25 }}>{t.title}</div>
+                    <div style={{ fontSize: "var(--fs-17)", color: MUTED }}>
                       {t.nextDueDate ? fmtDay(t.nextDueDate) : ""}
                       {t.vendor ? ` · ${t.vendor}` : ""}
                     </div>
@@ -165,28 +165,28 @@ export function SignageBoard({
                 ))}
               </div>
             ) : (
-              <div style={{ fontSize: 19, color: MUTED, marginTop: 14 }}>Καμία προγραμματισμένη εργασία.</div>
+              <div style={{ fontSize: "var(--fs-19)", color: MUTED, marginTop: 14 }}>Καμία προγραμματισμένη εργασία.</div>
             )}
           </section>
 
           {data.assembly ? (
             <section style={card}>
-              <div style={{ fontSize: 18, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase", color: AMBER }}>
+              <div style={{ fontSize: "var(--fs-18)", fontWeight: 700, letterSpacing: 2, textTransform: "uppercase", color: AMBER }}>
                 Επόμενη συνέλευση
               </div>
-              <div style={{ fontSize: 24, fontWeight: 700, marginTop: 14, lineHeight: 1.25 }}>{data.assembly.title}</div>
-              <div style={{ fontSize: 19, color: MUTED, marginTop: 6 }}>{fmtFull(data.assembly.scheduledAt)}</div>
+              <div style={{ fontSize: "var(--fs-24)", fontWeight: 700, marginTop: 14, lineHeight: 1.25 }}>{data.assembly.title}</div>
+              <div style={{ fontSize: "var(--fs-19)", color: MUTED, marginTop: 6 }}>{fmtFull(data.assembly.scheduledAt)}</div>
             </section>
           ) : null}
 
           {data.collection.pct !== null ? (
             <section style={{ ...card, textAlign: "center" }}>
-              <div style={{ fontSize: 18, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase", color: AMBER }}>
+              <div style={{ fontSize: "var(--fs-18)", fontWeight: 700, letterSpacing: 2, textTransform: "uppercase", color: AMBER }}>
                 Εισπράξεις μήνα
               </div>
-              <div style={{ fontSize: 88, fontWeight: 800, lineHeight: 1.05, marginTop: 8, color: CREAM }}>
+              <div style={{ fontSize: "var(--fs-88)", fontWeight: 800, lineHeight: 1.05, marginTop: 8, color: CREAM }}>
                 {data.collection.pct}
-                <span style={{ fontSize: 44, fontWeight: 700, color: MUTED }}>%</span>
+                <span style={{ fontSize: "var(--fs-44)", fontWeight: 700, color: MUTED }}>%</span>
               </div>
             </section>
           ) : null}
@@ -205,9 +205,9 @@ export function SignageBoard({
           >
             {(marquee ? [...data.contacts, ...data.contacts] : data.contacts).map((c, i) => (
               <div key={`${c.id}-${i}`} style={{ display: "flex", alignItems: "baseline", gap: 12, whiteSpace: "nowrap" }}>
-                <span style={{ fontSize: 20, fontWeight: 600 }}>{c.name}</span>
-                {c.category ? <span style={{ fontSize: 17, color: MUTED }}>· {c.category}</span> : null}
-                {c.phone ? <span style={{ fontSize: 26, fontWeight: 800, color: AMBER }}>{c.phone}</span> : null}
+                <span style={{ fontSize: "var(--fs-20)", fontWeight: 600 }}>{c.name}</span>
+                {c.category ? <span style={{ fontSize: "var(--fs-17)", color: MUTED }}>· {c.category}</span> : null}
+                {c.phone ? <span style={{ fontSize: "var(--fs-26)", fontWeight: 800, color: AMBER }}>{c.phone}</span> : null}
               </div>
             ))}
           </div>

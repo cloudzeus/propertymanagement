@@ -46,11 +46,11 @@ export default async function BrandSettingsPage() {
           background: "var(--color-purple)18",
           display: "flex", alignItems: "center", justifyContent: "center",
         }}>
-          <RiPaletteLine style={{ fontSize: 20, color: "var(--color-purple)" }} />
+          <RiPaletteLine style={{ fontSize: "var(--fs-20)", color: "var(--color-purple)" }} />
         </div>
         <div>
-          <h1 style={{ fontSize: 22, fontWeight: 700, color: "var(--foreground)", margin: 0 }}>Brand Settings</h1>
-          <p style={{ fontSize: 13, color: "var(--muted-foreground)", marginTop: 4 }}>
+          <h1 style={{ fontSize: "var(--fs-22)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}>Brand Settings</h1>
+          <p style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)", marginTop: 4 }}>
             Χρώματα, στοιχεία εταιρείας και εμφάνιση της εφαρμογής
           </p>
         </div>

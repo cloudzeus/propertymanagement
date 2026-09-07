@@ -14,10 +14,10 @@ export async function PricingSection({ data }: { data: PricingData }) {
       <div className="mx-auto max-w-[1200px] px-5 sm:px-7 py-[84px]">
         <div className="text-center mb-14">
           {data.heading && (
-            <h2 className="text-[32px] md:text-[46px] font-extrabold tracking-[-0.02em] text-[var(--foreground)]">{data.heading}</h2>
+            <h2 className="text-[length:var(--fs-32)] md:text-[length:var(--fs-46)] font-extrabold tracking-[-0.02em] text-[var(--foreground)]">{data.heading}</h2>
           )}
           {data.subtitle && (
-            <p className="mt-4 text-[19px] text-[var(--muted-foreground)] max-w-2xl mx-auto">{data.subtitle}</p>
+            <p className="mt-4 text-[length:var(--fs-19)] text-[var(--muted-foreground)] max-w-2xl mx-auto">{data.subtitle}</p>
           )}
         </div>
 

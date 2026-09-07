@@ -57,7 +57,7 @@ export function Modal({ open, onClose, title, children, width = 520, footer }: P
           borderBottom: "1px solid var(--border)",
           flexShrink: 0,
         }}>
-          <h2 style={{ fontSize: 15, fontWeight: 700, color: "var(--foreground)", margin: 0 }}>
+          <h2 style={{ fontSize: "var(--fs-15)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}>
             {title}
           </h2>
           <button
@@ -69,7 +69,7 @@ export function Modal({ open, onClose, title, children, width = 520, footer }: P
               cursor: "pointer", color: "var(--muted-foreground)",
             }}
           >
-            <RiCloseLine style={{ fontSize: 16 }} />
+            <RiCloseLine style={{ fontSize: "var(--fs-16)" }} />
           </button>
         </div>
 
@@ -106,12 +106,12 @@ export function FormField({
 }) {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
-      <label style={{ fontSize: 12, fontWeight: 600, color: "var(--foreground)" }}>
+      <label style={{ fontSize: "var(--fs-12)", fontWeight: 600, color: "var(--foreground)" }}>
         {label}
         {required && <span style={{ color: "var(--destructive)", marginLeft: 3 }}>*</span>}
       </label>
       {children}
-      {hint && <p style={{ fontSize: 11, color: "var(--muted-foreground)", margin: 0 }}>{hint}</p>}
+      {hint && <p style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)", margin: 0 }}>{hint}</p>}
     </div>
   );
 }
@@ -138,7 +138,7 @@ export function FieldInput({
       style={{
         width: "100%", height: 36, padding: "0 10px",
         border: "1px solid var(--border)", borderRadius: "var(--radius-sm)",
-        fontSize: 13, color: "var(--foreground)",
+        fontSize: "var(--fs-13)", color: "var(--foreground)",
         background: disabled ? "var(--paper)" : "var(--card)",
         outline: "none", boxSizing: "border-box",
       }}
@@ -164,7 +164,7 @@ export function FieldSelect({
       style={{
         width: "100%", height: 36, padding: "0 10px",
         border: "1px solid var(--border)", borderRadius: "var(--radius-sm)",
-        fontSize: 13, color: "var(--foreground)",
+        fontSize: "var(--fs-13)", color: "var(--foreground)",
         background: disabled ? "var(--paper)" : "var(--card)",
         outline: "none", boxSizing: "border-box",
       }}
@@ -195,7 +195,7 @@ export function FieldTextarea({
       style={{
         width: "100%", padding: "8px 10px",
         border: "1px solid var(--border)", borderRadius: "var(--radius-sm)",
-        fontSize: 13, color: "var(--foreground)",
+        fontSize: "var(--fs-13)", color: "var(--foreground)",
         background: "var(--card)", outline: "none",
         boxSizing: "border-box", resize: "vertical",
         fontFamily: "inherit",

@@ -49,10 +49,10 @@ export function GeocodePicker({ propertyId, address }: Props) {
         flexWrap: "wrap",
       }}>
         <div>
-          <p style={{ fontSize: 13, fontWeight: 600, color: "var(--foreground)", margin: 0 }}>
+          <p style={{ fontSize: "var(--fs-13)", fontWeight: 600, color: "var(--foreground)", margin: 0 }}>
             Αυτόματο Geocoding
           </p>
-          <p style={{ fontSize: 12, color: "var(--muted-foreground)", marginTop: 2 }}>
+          <p style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)", marginTop: 2 }}>
             Χρήση διεύθυνσης: <em>{address}</em>
           </p>
         </div>
@@ -62,14 +62,14 @@ export function GeocodePicker({ propertyId, address }: Props) {
           disabled={isPending}
           style={{
             display: "flex", alignItems: "center", gap: 6,
-            padding: "7px 14px", borderRadius: 6, fontSize: 13, fontWeight: 600,
+            padding: "7px 14px", borderRadius: 6, fontSize: "var(--fs-13)", fontWeight: 600,
             background: "var(--color-primary)", color: "#fff",
             border: "none", cursor: "pointer",
           }}
         >
           {isPending
-            ? <RiLoaderLine style={{ fontSize: 14, animation: "spin 1s linear infinite" }} />
-            : <RiMapPin2Line style={{ fontSize: 14 }} />
+            ? <RiLoaderLine style={{ fontSize: "var(--fs-14)", animation: "spin 1s linear infinite" }} />
+            : <RiMapPin2Line style={{ fontSize: "var(--fs-14)" }} />
           }
           Geocoding
         </button>
@@ -77,7 +77,7 @@ export function GeocodePicker({ propertyId, address }: Props) {
 
       {/* Manual picker */}
       <div>
-        <p style={{ fontSize: 12, color: "var(--muted-foreground)", margin: "0 0 8px" }}>
+        <p style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)", margin: "0 0 8px" }}>
           Ή τοποθετήστε το pin χειροκίνητα στον χάρτη:
         </p>
         <PropertyMapPicker
@@ -94,13 +94,13 @@ export function GeocodePicker({ propertyId, address }: Props) {
           disabled={isPending}
           style={{
             display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
-            padding: "9px 20px", borderRadius: 6, fontSize: 13, fontWeight: 600,
+            padding: "9px 20px", borderRadius: 6, fontSize: "var(--fs-13)", fontWeight: 600,
             background: "#16a34a", color: "#fff", border: "none", cursor: "pointer",
           }}
         >
           {isPending
-            ? <RiLoaderLine style={{ fontSize: 15, animation: "spin 1s linear infinite" }} />
-            : <RiSaveLine style={{ fontSize: 15 }} />
+            ? <RiLoaderLine style={{ fontSize: "var(--fs-15)", animation: "spin 1s linear infinite" }} />
+            : <RiSaveLine style={{ fontSize: "var(--fs-15)" }} />
           }
           Αποθήκευση θέσης ({lat.toFixed(5)}, {lng.toFixed(5)})
         </button>
@@ -108,7 +108,7 @@ export function GeocodePicker({ propertyId, address }: Props) {
 
       {message && (
         <p style={{
-          fontSize: 12, padding: "8px 12px", borderRadius: 6,
+          fontSize: "var(--fs-12)", padding: "8px 12px", borderRadius: 6,
           background: message.startsWith("Σφάλμα") ? "#fee2e218" : "#dcfce718",
           color: message.startsWith("Σφάλμα") ? "#dc2626" : "#16a34a",
           border: `1px solid ${message.startsWith("Σφάλμα") ? "#fca5a530" : "#86efac30"}`,

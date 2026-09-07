@@ -17,8 +17,8 @@ const PAYMENT_METHODS: { value: PaymentMethod; label: string }[] = [
   { value: "OTHER", label: "Άλλο" },
 ];
 
-const lbl: React.CSSProperties = { fontSize: 11, fontWeight: 600, color: "var(--muted-foreground)", marginBottom: 3, display: "block" };
-const inp: React.CSSProperties = { width: "100%", height: 34, padding: "0 10px", borderRadius: 6, border: "1px solid var(--border-strong)", background: "var(--bg-canvas)", fontSize: 13 };
+const lbl: React.CSSProperties = { fontSize: "var(--fs-11)", fontWeight: 600, color: "var(--muted-foreground)", marginBottom: 3, display: "block" };
+const inp: React.CSSProperties = { width: "100%", height: 34, padding: "0 10px", borderRadius: 6, border: "1px solid var(--border-strong)", background: "var(--bg-canvas)", fontSize: "var(--fs-13)" };
 
 export function ExpenseEditModal({
   open, onClose, expense, categories,
@@ -133,7 +133,7 @@ export function ExpenseEditModal({
   return (
     <Modal open={open} onClose={onClose} title="Επεξεργασία εξόδου" width={620}>
       <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-        {error && <div style={{ padding: 10, borderRadius: 6, background: "color-mix(in srgb, var(--color-danger) 12%, transparent)", border: "1px solid var(--color-danger)", color: "var(--color-danger)", fontSize: 12 }}>{error}</div>}
+        {error && <div style={{ padding: 10, borderRadius: 6, background: "color-mix(in srgb, var(--color-danger) 12%, transparent)", border: "1px solid var(--color-danger)", color: "var(--color-danger)", fontSize: "var(--fs-12)" }}>{error}</div>}
 
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
           <div>
@@ -158,7 +158,7 @@ export function ExpenseEditModal({
           <div>
             <label style={lbl}>Επιμερισμός — Ενοικιαστής %</label>
             <input type="number" min={0} max={100} value={f.tenantPct} onChange={(e) => set("tenantPct", Math.max(0, Math.min(100, Number(e.target.value))))} style={inp} />
-            <span style={{ fontSize: 11, color: "var(--muted-foreground)" }}>Ιδιοκτήτης: {ownerPct}%</span>
+            <span style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)" }}>Ιδιοκτήτης: {ownerPct}%</span>
           </div>
         </div>
 
@@ -166,7 +166,7 @@ export function ExpenseEditModal({
 
         {isUtility && (
           <fieldset style={{ border: "1px solid var(--border)", borderRadius: 8, padding: 10 }}>
-            <legend style={{ fontSize: 12, fontWeight: 600, padding: "0 6px" }}>Ένδειξη μετρητή</legend>
+            <legend style={{ fontSize: "var(--fs-12)", fontWeight: 600, padding: "0 6px" }}>Ένδειξη μετρητή</legend>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 8 }}>
               <div><label style={lbl}>Αρ. μετρητή</label><input value={meter.meterNumber} onChange={(e) => setM("meterNumber", e.target.value)} style={inp} /></div>
               <div><label style={lbl}>Μονάδα</label><input value={meter.unit} onChange={(e) => setM("unit", e.target.value)} style={inp} placeholder="kWh / m³" /></div>
@@ -181,8 +181,8 @@ export function ExpenseEditModal({
         )}
 
         <fieldset style={{ border: "1px solid var(--border)", borderRadius: 8, padding: 10 }}>
-          <legend style={{ fontSize: 12, fontWeight: 600, padding: "0 6px" }}>Πληρωμή</legend>
-          <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, marginBottom: 8 }}>
+          <legend style={{ fontSize: "var(--fs-12)", fontWeight: 600, padding: "0 6px" }}>Πληρωμή</legend>
+          <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: "var(--fs-13)", marginBottom: 8 }}>
             <input type="checkbox" checked={f.paid} onChange={(e) => set("paid", e.target.checked)} /> Πληρώθηκε
           </label>
           {f.paid && (
@@ -201,7 +201,7 @@ export function ExpenseEditModal({
             <button type="button" onClick={() => payRef.current?.click()} disabled={uploadingPay} style={btnGhost}>
               {uploadingPay ? <RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> : <RiUpload2Line />} Απόδειξη πληρωμής
             </button>
-            {payUrl && <a href={payUrl} target="_blank" rel="noreferrer" style={{ fontSize: 12, color: "var(--color-primary)", display: "inline-flex", alignItems: "center", gap: 4 }}><RiFileTextLine /> Προβολή</a>}
+            {payUrl && <a href={payUrl} target="_blank" rel="noreferrer" style={{ fontSize: "var(--fs-12)", color: "var(--color-primary)", display: "inline-flex", alignItems: "center", gap: 4 }}><RiFileTextLine /> Προβολή</a>}
             <input ref={payRef} type="file" accept="image/*,application/pdf" style={{ display: "none" }} onChange={(e) => handlePayFile(e.target.files?.[0])} />
           </div>
         </fieldset>
@@ -216,5 +216,5 @@ export function ExpenseEditModal({
   );
 }
 
-const btnPrimary: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 6, height: 34, padding: "0 16px", borderRadius: 6, border: "1px solid var(--color-primary)", background: "var(--color-primary)", color: "#fff", fontSize: 13, fontWeight: 600, cursor: "pointer" };
-const btnGhost: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 6, height: 34, padding: "0 12px", borderRadius: 6, border: "1px solid var(--border-strong)", background: "var(--bg-canvas)", color: "var(--foreground)", fontSize: 13, cursor: "pointer" };
+const btnPrimary: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 6, height: 34, padding: "0 16px", borderRadius: 6, border: "1px solid var(--color-primary)", background: "var(--color-primary)", color: "#fff", fontSize: "var(--fs-13)", fontWeight: 600, cursor: "pointer" };
+const btnGhost: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 6, height: 34, padding: "0 12px", borderRadius: 6, border: "1px solid var(--border-strong)", background: "var(--bg-canvas)", color: "var(--foreground)", fontSize: "var(--fs-13)", cursor: "pointer" };

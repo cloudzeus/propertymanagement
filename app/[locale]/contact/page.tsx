@@ -45,11 +45,11 @@ export default async function Page() {
                   <IconBadge size={38}>
                     <Icon size={15} />
                   </IconBadge>
-                  <div className="mt-4 text-[15.5px] font-bold">{card.title}</div>
-                  <p className="mt-1.5 text-[13.5px] leading-[1.55] text-[var(--mut)]">{card.body}</p>
+                  <div className="mt-4 text-[length:var(--fs-15-5)] font-bold">{card.title}</div>
+                  <p className="mt-1.5 text-[length:var(--fs-13-5)] leading-[1.55] text-[var(--mut)]">{card.body}</p>
                   <a
                     href={card.href}
-                    className="mt-3 inline-block text-[15px] font-bold text-[var(--accent)]"
+                    className="mt-3 inline-block text-[length:var(--fs-15)] font-bold text-[var(--accent)]"
                   >
                     {card.value}
                   </a>
@@ -58,12 +58,12 @@ export default async function Page() {
             })}
 
             <DarkPanel radius={18} className="px-[26px] py-6">
-              <div className="text-[15.5px] font-bold text-white">{content.hours.heading}</div>
+              <div className="text-[length:var(--fs-15-5)] font-bold text-white">{content.hours.heading}</div>
               <div className="mt-2">
                 {content.hours.rows.map((row) => (
                   <div
                     key={row.day}
-                    className="flex justify-between gap-4 border-b border-[rgba(255,255,255,.1)] py-[9px] text-[13.5px] last:border-b-0"
+                    className="flex justify-between gap-4 border-b border-[rgba(255,255,255,.1)] py-[9px] text-[length:var(--fs-13-5)] last:border-b-0"
                   >
                     <span className="text-[rgba(255,255,255,.6)]">{row.day}</span>
                     <span className="tnum font-bold">{row.hours}</span>
@@ -82,8 +82,8 @@ export default async function Page() {
                 <ImagePlaceholder label={office.city} src={office.imageUrl} />
               </div>
               <div className="px-6 pb-6 pt-[22px]">
-                <div className="text-[17px] font-extrabold">{office.city}</div>
-                <p className="mt-2 text-[13.5px] leading-[1.55] text-[var(--mut)]">{office.address}</p>
+                <div className="text-[length:var(--fs-17)] font-extrabold">{office.city}</div>
+                <p className="mt-2 text-[length:var(--fs-13-5)] leading-[1.55] text-[var(--mut)]">{office.address}</p>
               </div>
             </Card>
           ))}

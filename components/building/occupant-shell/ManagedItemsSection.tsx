@@ -38,13 +38,13 @@ export function ManagedItemsSection({ managedItems }: { managedItems: OccupantDa
                 <img src={m.photoUrl} alt={m.name} loading="lazy" style={{ width: "100%", aspectRatio: "4 / 3", objectFit: "cover", display: "block" }} />
               </button>
             ) : null}
-            <div style={{ fontSize: 14, fontWeight: 800, color: "var(--foreground)" }}>{m.name}</div>
+            <div style={{ fontSize: "var(--fs-14)", fontWeight: 800, color: "var(--foreground)" }}>{m.name}</div>
             {meta && (
-              <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12.5, color: "var(--muted-foreground)" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)" }}>
                 <RiMapPinLine style={{ flex: "none" }} /> <span>{meta}</span>
               </div>
             )}
-            <div style={{ fontSize: 12.5, color: "var(--muted-foreground)" }}>
+            <div style={{ fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)" }}>
               Ποσότητα: <span style={{ fontWeight: 700, color: "var(--foreground)", fontVariantNumeric: "tabular-nums" }}>{m.quantity.toLocaleString("el-GR")}</span>
             </div>
           </div>

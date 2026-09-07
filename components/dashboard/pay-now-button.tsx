@@ -6,9 +6,9 @@ export function PayNowButton({ amount, href = "/portal/payments" }: { amount: nu
     <a href={href} style={{
       display: "inline-flex", alignItems: "center", gap: 8, padding: "12px 20px",
       borderRadius: 999, background: "var(--color-primary)", color: "#fff",
-      fontSize: 14, fontWeight: 600, textDecoration: "none", boxShadow: "var(--shadow-btn)",
+      fontSize: "var(--fs-14)", fontWeight: 600, textDecoration: "none", boxShadow: "var(--shadow-btn)",
     }}>
-      <RiBankCardLine style={{ fontSize: 18 }} /> Πληρωμή τώρα · {formatEuro(amount)}
+      <RiBankCardLine style={{ fontSize: "var(--fs-18)" }} /> Πληρωμή τώρα · {formatEuro(amount)}
     </a>
   );
 }

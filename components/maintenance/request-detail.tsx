@@ -26,7 +26,7 @@ function StatusBadge({ status }: { status: string }) {
   return (
     <span style={{
       display: "inline-flex", alignItems: "center", gap: 6, padding: "3px 10px",
-      borderRadius: 999, fontSize: 12, fontWeight: 600, color, background: `${color}18`, border: `1px solid ${color}40`,
+      borderRadius: 999, fontSize: "var(--fs-12)", fontWeight: 600, color, background: `${color}18`, border: `1px solid ${color}40`,
     }}>
       {STATUS_LABELS[status as FaultStatus] ?? status}
     </span>
@@ -40,7 +40,7 @@ function SlaBadge({ slaDueAt, status }: { slaDueAt: string | null; status: strin
   const hoursLeft = Math.round((due - Date.now()) / 3600_000);
   return (
     <span style={{
-      display: "inline-flex", alignItems: "center", gap: 4, fontSize: 12, fontWeight: 600,
+      display: "inline-flex", alignItems: "center", gap: 4, fontSize: "var(--fs-12)", fontWeight: 600,
       color: overdue ? "#9f1239" : "#b45309",
     }}>
       <RiAlarmWarningLine />
@@ -53,10 +53,10 @@ const card: React.CSSProperties = {
   background: "var(--card)", border: "1px solid var(--border)",
   borderRadius: "var(--radius-lg)", padding: 18,
 };
-const h3: React.CSSProperties = { fontSize: 13, fontWeight: 700, color: "var(--foreground)", margin: "0 0 12px", display: "flex", alignItems: "center", gap: 6 };
+const h3: React.CSSProperties = { fontSize: "var(--fs-13)", fontWeight: 700, color: "var(--foreground)", margin: "0 0 12px", display: "flex", alignItems: "center", gap: 6 };
 const btn: React.CSSProperties = {
   height: 32, padding: "0 12px", border: "1px solid var(--border)", background: "var(--paper)",
-  borderRadius: "var(--radius-sm)", fontSize: 12.5, fontWeight: 600, cursor: "pointer", color: "var(--foreground)",
+  borderRadius: "var(--radius-sm)", fontSize: "var(--fs-12-5)", fontWeight: 600, cursor: "pointer", color: "var(--foreground)",
 };
 const btnPrimary: React.CSSProperties = { ...btn, background: "var(--primary)", color: "var(--primary-foreground)", border: "none" };
 
@@ -109,11 +109,11 @@ export function RequestDetail({ request, viewer, employees, suppliers = [], pref
       {/* Header */}
       <div style={card}>
         <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 10, marginBottom: 8 }}>
-          <h1 style={{ fontSize: 19, fontWeight: 700, color: "var(--foreground)", margin: 0, flex: 1 }}>{request.title}</h1>
+          <h1 style={{ fontSize: "var(--fs-19)", fontWeight: 700, color: "var(--foreground)", margin: 0, flex: 1 }}>{request.title}</h1>
           <StatusBadge status={request.status} />
           <SlaBadge slaDueAt={request.slaDueAt} status={request.status} />
         </div>
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 16, fontSize: 12.5, color: "var(--muted-foreground)" }}>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 16, fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)" }}>
           <span style={{ display: "inline-flex", alignItems: "center", gap: 4 }}><RiBuilding2Line /> {request.buildingName}{request.unitLabel ? ` · ${request.unitLabel}` : " · Κοινόχρηστος χώρος"}</span>
           <span style={{ display: "inline-flex", alignItems: "center", gap: 4 }}><RiUserLine /> Δήλωση: {request.reporterName ?? "—"}</span>
           <span style={{ display: "inline-flex", alignItems: "center", gap: 4 }}><RiTimeLine /> {fmt(request.createdAt)}</span>
@@ -124,7 +124,7 @@ export function RequestDetail({ request, viewer, employees, suppliers = [], pref
           {request.supplierName && viewer.role !== "COLLABORATOR" && <span style={{ display: "inline-flex", alignItems: "center", gap: 4 }}><RiTeamLine /> Συνεργάτης: {request.supplierName}</span>}
           {request.scheduledDate && <span style={{ display: "inline-flex", alignItems: "center", gap: 4 }}><RiCalendarCheckLine /> Ραντεβού: {fmt(request.scheduledDate)}</span>}
         </div>
-        <p style={{ fontSize: 13.5, color: "var(--foreground)", marginTop: 12, whiteSpace: "pre-wrap" }}>{request.description}</p>
+        <p style={{ fontSize: "var(--fs-13-5)", color: "var(--foreground)", marginTop: 12, whiteSpace: "pre-wrap" }}>{request.description}</p>
 
         {request.attachments.length > 0 && (
           <div style={{ marginTop: 10 }}>
@@ -144,7 +144,7 @@ export function RequestDetail({ request, viewer, employees, suppliers = [], pref
         )}
       </div>
 
-      {error && <div style={{ color: "var(--destructive)", fontSize: 13 }}>{error}</div>}
+      {error && <div style={{ color: "var(--destructive)", fontSize: "var(--fs-13)" }}>{error}</div>}
 
       {/* Actions: status change + assignment */}
       {(canChangeStatus || viewer.canAssign) && !closed && (
@@ -179,7 +179,7 @@ export function RequestDetail({ request, viewer, employees, suppliers = [], pref
           {viewer.canAssign && (
             <div style={{ marginTop: 14, paddingTop: 12, borderTop: "1px solid var(--border)" }}>
               <div style={{
-                display: "inline-flex", alignItems: "center", gap: 6, fontSize: 12, fontWeight: 600, padding: "3px 10px", borderRadius: 999, marginBottom: 10,
+                display: "inline-flex", alignItems: "center", gap: 6, fontSize: "var(--fs-12)", fontWeight: 600, padding: "3px 10px", borderRadius: 999, marginBottom: 10,
                 color: request.handledBy === "COMPANY" ? "#15803d" : "#b45309",
                 background: request.handledBy === "COMPANY" ? "#15803d14" : "#b4530914",
                 border: `1px solid ${request.handledBy === "COMPANY" ? "#15803d40" : "#b4530940"}`,
@@ -205,7 +205,7 @@ export function RequestDetail({ request, viewer, employees, suppliers = [], pref
                   {supplierSel ? "Ανάθεση" : "Αφαίρεση"}
                 </button>
               </div>
-              <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 12.5, color: "var(--foreground)", marginTop: 8, cursor: "pointer" }}>
+              <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: "var(--fs-12-5)", color: "var(--foreground)", marginTop: 8, cursor: "pointer" }}>
                 <input type="checkbox" checked={makePreferred} onChange={(e) => setMakePreferred(e.target.checked)} disabled={!supplierSel || supplierSel === preferredSupplierId} />
                 Ορισμός ως προτιμώμενου συνεργάτη για αυτό το κτήριο{request.categoryName ? ` (${request.categoryName})` : ""} — θα προτείνεται πρώτος σε επόμενες εργασίες
               </label>
@@ -221,9 +221,9 @@ export function RequestDetail({ request, viewer, employees, suppliers = [], pref
           <div style={{ display: "flex", alignItems: "center", gap: 4, marginBottom: 10 }}>
             {[1, 2, 3, 4, 5].map((n) => (
               <button key={n} type="button" onClick={() => setRatingScore(n)} aria-label={`${n} αστέρια`}
-                style={{ background: "none", border: "none", cursor: "pointer", fontSize: 26, lineHeight: 1, color: n <= ratingScore ? "#F2A23C" : "var(--border)", padding: 2 }}>★</button>
+                style={{ background: "none", border: "none", cursor: "pointer", fontSize: "var(--fs-26)", lineHeight: 1, color: n <= ratingScore ? "#F2A23C" : "var(--border)", padding: 2 }}>★</button>
             ))}
-            <span style={{ fontSize: 12.5, color: "var(--muted-foreground)", marginLeft: 8 }}>{ratingScore ? `${ratingScore}/5` : "Επιλέξτε 1–5"}</span>
+            <span style={{ fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)", marginLeft: 8 }}>{ratingScore ? `${ratingScore}/5` : "Επιλέξτε 1–5"}</span>
           </div>
           <div style={{ display: "flex", gap: 8, alignItems: "flex-start", maxWidth: 560 }}>
             <div style={{ flex: 1 }}><FieldInput value={ratingComment} onChange={setRatingComment} placeholder="Σχόλιο (προαιρετικά): ποιότητα, συνέπεια, επικοινωνία" /></div>
@@ -231,7 +231,7 @@ export function RequestDetail({ request, viewer, employees, suppliers = [], pref
               {request.supplierRating ? "Ενημέρωση" : "Αποθήκευση"}
             </button>
           </div>
-          <p style={{ fontSize: 12, color: "var(--muted-foreground)", margin: "8px 0 0" }}>Η αξιολόγηση επηρεάζει τη σειρά πρότασης του συνεργάτη σε επόμενες αναθέσεις.</p>
+          <p style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)", margin: "8px 0 0" }}>Η αξιολόγηση επηρεάζει τη σειρά πρότασης του συνεργάτη σε επόμενες αναθέσεις.</p>
         </div>
       )}
 
@@ -239,7 +239,7 @@ export function RequestDetail({ request, viewer, employees, suppliers = [], pref
       {request.restrictedAccess && !closed && (
         <div style={card}>
           <div style={h3}><RiCalendarCheckLine /> Ραντεβού πρόσβασης</div>
-          <p style={{ fontSize: 12.5, color: "var(--muted-foreground)", marginTop: 0 }}>
+          <p style={{ fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)", marginTop: 0 }}>
             Η βλάβη αφορά εξοπλισμό με περιορισμένη πρόσβαση. Κάθε πλευρά δηλώνει διαθέσιμα slots 30 λεπτών —
             η άλλη πλευρά επιλέγει ένα για να κλειστεί το ραντεβού.
             {request.estimatedMinutes ? ` Εκτιμώμενη διάρκεια εργασιών: ${request.estimatedMinutes}′.` : ""}
@@ -253,7 +253,7 @@ export function RequestDetail({ request, viewer, employees, suppliers = [], pref
                   <FieldInput value={estMinutes} onChange={setEstMinutes} type="number" placeholder="60" />
                 </FormField>
               </div>
-              <label style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12.5, height: 36, color: "var(--foreground)" }}>
+              <label style={{ display: "flex", alignItems: "center", gap: 6, fontSize: "var(--fs-12-5)", height: 36, color: "var(--foreground)" }}>
                 <input type="checkbox" checked={estPresence} onChange={(e) => setEstPresence(e.target.checked)} />
                 Παρουσία διαχειριστή
               </label>
@@ -288,11 +288,11 @@ export function RequestDetail({ request, viewer, employees, suppliers = [], pref
             <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
               {request.slots.filter((s) => s.status === "OPEN").map((s) => (
                 <div key={s.id} style={{
-                  display: "flex", alignItems: "center", gap: 10, fontSize: 13, color: "var(--foreground)",
+                  display: "flex", alignItems: "center", gap: 10, fontSize: "var(--fs-13)", color: "var(--foreground)",
                   border: "1px solid var(--border)", borderRadius: "var(--radius-sm)", padding: "6px 10px",
                 }}>
                   <span style={{ fontWeight: 600 }}>{fmt(s.startAt)}</span>
-                  <span style={{ color: "var(--muted-foreground)", fontSize: 12 }}>
+                  <span style={{ color: "var(--muted-foreground)", fontSize: "var(--fs-12)" }}>
                     {s.side === "COMPANY" ? "Εταιρία" : "Διαχειριστής"}{s.offeredByName ? ` · ${s.offeredByName}` : ""}
                   </span>
                   <span style={{ flex: 1 }} />
@@ -308,16 +308,16 @@ export function RequestDetail({ request, viewer, employees, suppliers = [], pref
               ))}
             </div>
           ) : (
-            <p style={{ fontSize: 12.5, color: "var(--muted-foreground)" }}>Δεν υπάρχουν ανοιχτά slots.</p>
+            <p style={{ fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)" }}>Δεν υπάρχουν ανοιχτά slots.</p>
           )}
 
           {request.appointments.length > 0 && (
             <div style={{ marginTop: 12 }}>
               {request.appointments.map((a) => (
-                <div key={a.id} style={{ fontSize: 13, color: "var(--foreground)", display: "flex", gap: 8, alignItems: "center" }}>
+                <div key={a.id} style={{ fontSize: "var(--fs-13)", color: "var(--foreground)", display: "flex", gap: 8, alignItems: "center" }}>
                   <RiCalendarCheckLine style={{ color: "#15803d" }} />
                   Ραντεβού: {fmt(a.startAt)} – {new Date(a.endAt).toLocaleTimeString("el-GR", { timeStyle: "short" })}
-                  {a.managerPresence && <span style={{ fontSize: 12, color: "var(--muted-foreground)" }}>(με παρουσία διαχειριστή)</span>}
+                  {a.managerPresence && <span style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>(με παρουσία διαχειριστή)</span>}
                 </div>
               ))}
             </div>
@@ -329,25 +329,25 @@ export function RequestDetail({ request, viewer, employees, suppliers = [], pref
       <div style={card}>
         <div style={h3}><RiChat3Line /> Επικοινωνία</div>
         <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 12 }}>
-          {visibleComments.length === 0 && <p style={{ fontSize: 12.5, color: "var(--muted-foreground)", margin: 0 }}>Δεν υπάρχουν μηνύματα.</p>}
+          {visibleComments.length === 0 && <p style={{ fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)", margin: 0 }}>Δεν υπάρχουν μηνύματα.</p>}
           {visibleComments.map((c) => (
             <div key={c.id} style={{
               border: "1px solid var(--border)", borderRadius: "var(--radius-sm)", padding: "8px 12px",
               background: c.internal ? "var(--paper)" : c.authorId === viewer.id ? "var(--accent, var(--paper))" : "var(--card)",
             }}>
-              <div style={{ display: "flex", gap: 8, fontSize: 11.5, color: "var(--muted-foreground)", marginBottom: 4 }}>
+              <div style={{ display: "flex", gap: 8, fontSize: "var(--fs-11-5)", color: "var(--muted-foreground)", marginBottom: 4 }}>
                 <strong style={{ color: "var(--foreground)" }}>{c.authorName ?? "—"}</strong>
                 <span>{fmt(c.createdAt)}</span>
                 {c.internal && <span style={{ color: "#b45309", fontWeight: 600 }}>Εσωτερικό</span>}
               </div>
-              <div style={{ fontSize: 13, color: "var(--foreground)", whiteSpace: "pre-wrap" }}>{c.body}</div>
+              <div style={{ fontSize: "var(--fs-13)", color: "var(--foreground)", whiteSpace: "pre-wrap" }}>{c.body}</div>
             </div>
           ))}
         </div>
         <FieldTextarea value={comment} onChange={setComment} rows={2} placeholder="Γράψτε μήνυμα…" />
         <div style={{ display: "flex", alignItems: "center", gap: 12, marginTop: 8 }}>
           {viewer.isStaff && (
-            <label style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12.5, color: "var(--foreground)" }}>
+            <label style={{ display: "flex", alignItems: "center", gap: 6, fontSize: "var(--fs-12-5)", color: "var(--foreground)" }}>
               <input type="checkbox" checked={internal} onChange={(e) => setInternal(e.target.checked)} />
               Εσωτερικό σχόλιο
             </label>
@@ -365,7 +365,7 @@ export function RequestDetail({ request, viewer, employees, suppliers = [], pref
         <div style={h3}><RiHistoryLine /> Ιστορικό καταστάσεων</div>
         <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
           {request.events.map((e) => (
-            <div key={e.id} style={{ display: "flex", gap: 10, fontSize: 12.5, color: "var(--muted-foreground)" }}>
+            <div key={e.id} style={{ display: "flex", gap: 10, fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)" }}>
               <span style={{ minWidth: 118 }}>{fmt(e.createdAt)}</span>
               <span style={{ color: "var(--foreground)", fontWeight: 600 }}>
                 {e.fromStatus ? `${STATUS_LABELS[e.fromStatus as FaultStatus] ?? e.fromStatus} → ` : ""}

@@ -165,8 +165,8 @@ export function CustomersClient({ initial, managers = [] }: { initial: Customer[
       accessor: (c) => `${c.name} ${c.afm ?? ""} ${c.email ?? ""}`,
       cell: (c) => (
         <div>
-          <div style={{ fontSize: 13, fontWeight: 600, color: "var(--foreground)" }}>{c.name}</div>
-          <div style={{ fontSize: 11, color: "var(--muted-foreground)" }}>{c.afm ? `ΑΦΜ ${c.afm}` : c.email ?? "—"}</div>
+          <div style={{ fontSize: "var(--fs-13)", fontWeight: 600, color: "var(--foreground)" }}>{c.name}</div>
+          <div style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)" }}>{c.afm ? `ΑΦΜ ${c.afm}` : c.email ?? "—"}</div>
         </div>
       ),
     },
@@ -175,7 +175,7 @@ export function CustomersClient({ initial, managers = [] }: { initial: Customer[
       accessor: (c) => TYPE_LABEL[c.type] ?? c.type,
       cell: (c) => (
         <span style={{
-          fontSize: 11, fontWeight: 600, padding: "2px 8px", borderRadius: 20,
+          fontSize: "var(--fs-11)", fontWeight: 600, padding: "2px 8px", borderRadius: 20,
           background: c.type === "COMPANY" ? "#8764B818" : "#0078D418", color: c.type === "COMPANY" ? "#8764B8" : "#0078D4",
         }}>{TYPE_LABEL[c.type] ?? c.type}</span>
       ),
@@ -183,33 +183,33 @@ export function CustomersClient({ initial, managers = [] }: { initial: Customer[
     {
       id: "contact", header: "Επικοινωνία", width: 200, defaultVisible: false,
       accessor: (c) => `${c.email ?? ""} ${c.phone ?? ""}`,
-      cell: (c) => <span style={{ fontSize: 12, color: "var(--muted-foreground)" }}>{c.phone ?? c.email ?? "—"}</span>,
+      cell: (c) => <span style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>{c.phone ?? c.email ?? "—"}</span>,
     },
     {
       id: "city", header: "Πόλη", sortKey: "city", width: 130,
       accessor: (c) => c.city ?? "",
-      cell: (c) => <span style={{ fontSize: 12, color: "var(--muted-foreground)" }}>{c.city ?? "—"}</span>,
+      cell: (c) => <span style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>{c.city ?? "—"}</span>,
     },
     {
       id: "code", header: "Κωδικός", sortKey: "code", width: 100, defaultVisible: false,
       accessor: (c) => c.code ?? "",
-      cell: (c) => <span style={{ fontSize: 12, color: "var(--muted-foreground)", fontFamily: "monospace" }}>{c.code ?? "—"}</span>,
+      cell: (c) => <span style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)", fontFamily: "monospace" }}>{c.code ?? "—"}</span>,
     },
     {
       id: "manager", header: "Manager", sortKey: "accountManagerName", width: 160,
       accessor: (c) => c.accountManagerName ?? "",
       cell: (c) => c.accountManagerName ? (
-        <span style={{ display: "inline-flex", alignItems: "center", gap: 5, fontSize: 12.5, fontWeight: 600, color: "var(--foreground)" }}>
+        <span style={{ display: "inline-flex", alignItems: "center", gap: 5, fontSize: "var(--fs-12-5)", fontWeight: 600, color: "var(--foreground)" }}>
           <RiUserStarLine style={{ color: "var(--color-primary)" }} /> {c.accountManagerName}
         </span>
       ) : (
-        <span style={{ fontSize: 12, color: "var(--muted-foreground)" }}>—</span>
+        <span style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>—</span>
       ),
     },
     {
       id: "properties", header: "Ιδιοκτησίες", sortKey: "propertyCount", width: 110,
       accessor: (c) => c.propertyCount,
-      cell: (c) => <span style={{ fontSize: 13, fontWeight: 600, color: "var(--foreground)" }}>{c.propertyCount}</span>,
+      cell: (c) => <span style={{ fontSize: "var(--fs-13)", fontWeight: 600, color: "var(--foreground)" }}>{c.propertyCount}</span>,
     },
   ];
 
@@ -226,14 +226,14 @@ export function CustomersClient({ initial, managers = [] }: { initial: Customer[
     return (
       <div style={{ padding: "10px 12px", background: "var(--bg-canvas)" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 6, paddingInline: 6 }}>
-          <span style={{ fontSize: 12, fontWeight: 700, color: "var(--muted-foreground)", textTransform: "uppercase", letterSpacing: "0.05em" }}>
+          <span style={{ fontSize: "var(--fs-12)", fontWeight: 700, color: "var(--muted-foreground)", textTransform: "uppercase", letterSpacing: "0.05em" }}>
             Ιδιοκτησίες ({c.properties.length})
           </span>
           <div style={{ display: "flex", gap: 10 }}>
-            <button onClick={() => setAddPropFor(c)} style={{ fontSize: 12, color: "var(--color-primary)", background: "none", border: "none", cursor: "pointer", fontWeight: 600, display: "flex", alignItems: "center", gap: 4 }}>
+            <button onClick={() => setAddPropFor(c)} style={{ fontSize: "var(--fs-12)", color: "var(--color-primary)", background: "none", border: "none", cursor: "pointer", fontWeight: 600, display: "flex", alignItems: "center", gap: 4 }}>
               <RiAddLine /> Ιδιοκτησία
             </button>
-            <Link href={`/super-admin/customers/${c.id}`} style={{ fontSize: 12, color: "var(--color-primary)", textDecoration: "none", fontWeight: 600 }}>
+            <Link href={`/super-admin/customers/${c.id}`} style={{ fontSize: "var(--fs-12)", color: "var(--color-primary)", textDecoration: "none", fontWeight: 600 }}>
               Αναλυτικά →
             </Link>
           </div>
@@ -246,8 +246,8 @@ export function CustomersClient({ initial, managers = [] }: { initial: Customer[
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
       <div>
-        <h1 style={{ fontSize: 22, fontWeight: 700, color: "var(--foreground)", margin: 0 }}>Πελάτες</h1>
-        <p style={{ fontSize: 13, color: "var(--muted-foreground)", marginTop: 4 }}>{data.length} πελάτες</p>
+        <h1 style={{ fontSize: "var(--fs-22)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}>Πελάτες</h1>
+        <p style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)", marginTop: 4 }}>{data.length} πελάτες</p>
       </div>
 
       <DataTable
@@ -272,16 +272,16 @@ export function CustomersClient({ initial, managers = [] }: { initial: Customer[
         width={600}
         footer={
           <>
-            <button onClick={() => setOpen(false)} style={{ padding: "7px 16px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: 13, color: "var(--foreground)" }}>Ακύρωση</button>
-            <button onClick={handleSave} disabled={isPending} style={{ padding: "7px 16px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: isPending ? "wait" : "pointer", fontSize: 13, fontWeight: 600, display: "flex", alignItems: "center", gap: 6 }}>
+            <button onClick={() => setOpen(false)} style={{ padding: "7px 16px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: "var(--fs-13)", color: "var(--foreground)" }}>Ακύρωση</button>
+            <button onClick={handleSave} disabled={isPending} style={{ padding: "7px 16px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: isPending ? "wait" : "pointer", fontSize: "var(--fs-13)", fontWeight: 600, display: "flex", alignItems: "center", gap: 6 }}>
               {isPending ? <RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> : <RiCheckLine />}
               Αποθήκευση
             </button>
           </>
         }
       >
-        {error && <div style={{ padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: 12, border: "1px solid #fca5a530", marginBottom: 14 }}>{error}</div>}
-        {info && <div style={{ padding: "8px 12px", borderRadius: 6, background: "#dcfce718", color: "#16a34a", fontSize: 12, border: "1px solid #86efac30", marginBottom: 14 }}>{info}</div>}
+        {error && <div style={{ padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: "var(--fs-12)", border: "1px solid #fca5a530", marginBottom: 14 }}>{error}</div>}
+        {info && <div style={{ padding: "8px 12px", borderRadius: 6, background: "#dcfce718", color: "#16a34a", fontSize: "var(--fs-12)", border: "1px solid #86efac30", marginBottom: 14 }}>{info}</div>}
 
         <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 2fr 1fr", gap: 12 }}>
@@ -302,7 +302,7 @@ export function CustomersClient({ initial, managers = [] }: { initial: Customer[
                 {form.type === "COMPANY" && (
                   <button type="button" onClick={handleAadeLookup} disabled={aadeLoading} title="Άντληση στοιχείων από ΑΑΔΕ"
                     style={{ flexShrink: 0, width: 36, height: 36, borderRadius: 6, border: "1px solid var(--color-primary)", background: "var(--color-primary)", color: "#fff", cursor: aadeLoading ? "wait" : "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    {aadeLoading ? <RiLoaderLine style={{ fontSize: 15, animation: "spin 1s linear infinite" }} /> : <RiSearchLine style={{ fontSize: 15 }} />}
+                    {aadeLoading ? <RiLoaderLine style={{ fontSize: "var(--fs-15)", animation: "spin 1s linear infinite" }} /> : <RiSearchLine style={{ fontSize: "var(--fs-15)" }} />}
                   </button>
                 )}
               </div>
@@ -323,7 +323,7 @@ export function CustomersClient({ initial, managers = [] }: { initial: Customer[
               <FieldInput value={form.address} onChange={f("address")} />
               <button type="button" onClick={handleGeocode} disabled={geoLoading || !form.address} title="Εύρεση στίγματος (geocoding)"
                 style={{ flexShrink: 0, width: 36, height: 36, borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)", cursor: geoLoading ? "wait" : "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                {geoLoading ? <RiLoaderLine style={{ fontSize: 15, animation: "spin 1s linear infinite" }} /> : <RiMapPin2Line style={{ fontSize: 15 }} />}
+                {geoLoading ? <RiLoaderLine style={{ fontSize: "var(--fs-15)", animation: "spin 1s linear infinite" }} /> : <RiMapPin2Line style={{ fontSize: "var(--fs-15)" }} />}
               </button>
             </div>
           </FormField>
@@ -334,17 +334,17 @@ export function CustomersClient({ initial, managers = [] }: { initial: Customer[
             <FormField label="Χώρα"><FieldInput value={form.country} onChange={f("country")} /></FormField>
           </div>
           {lat !== null && lng !== null && (
-            <div style={{ fontSize: 11, color: "#16a34a", display: "flex", alignItems: "center", gap: 5 }}>
-              <RiMapPin2Line style={{ fontSize: 13 }} /> Στίγμα: {lat.toFixed(6)}, {lng.toFixed(6)}
+            <div style={{ fontSize: "var(--fs-11)", color: "#16a34a", display: "flex", alignItems: "center", gap: 5 }}>
+              <RiMapPin2Line style={{ fontSize: "var(--fs-13)" }} /> Στίγμα: {lat.toFixed(6)}, {lng.toFixed(6)}
             </div>
           )}
 
           {!editing && (
             <div style={{ borderTop: "1px solid var(--border)", paddingTop: 12 }}>
-              <div style={{ fontSize: 12, fontWeight: 700, color: "var(--muted-foreground)", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: 4 }}>
+              <div style={{ fontSize: "var(--fs-12)", fontWeight: 700, color: "var(--muted-foreground)", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: 4 }}>
                 Λογαριασμός εισόδου (προαιρετικό)
               </div>
-              <p style={{ fontSize: 11, color: "var(--muted-foreground)", margin: "0 0 10px" }}>
+              <p style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)", margin: "0 0 10px" }}>
                 Δημιουργεί κωδικό εισόδου ώστε ο πελάτης να συνδέεται και να διαχειρίζεται τις ιδιοκτησίες του.
               </p>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
@@ -371,7 +371,7 @@ export function CustomersClient({ initial, managers = [] }: { initial: Customer[
         <Modal open onClose={() => setManagerFor(null)} title={`Υπεύθυνος manager — ${managerFor.name}`} width={440}
           footer={
             <>
-              <button onClick={() => setManagerFor(null)} style={{ height: 34, padding: "0 12px", border: "1px solid var(--border)", background: "var(--paper)", borderRadius: "var(--radius-sm)", fontSize: 13, cursor: "pointer", color: "var(--foreground)" }}>
+              <button onClick={() => setManagerFor(null)} style={{ height: 34, padding: "0 12px", border: "1px solid var(--border)", background: "var(--paper)", borderRadius: "var(--radius-sm)", fontSize: "var(--fs-13)", cursor: "pointer", color: "var(--foreground)" }}>
                 Άκυρο
               </button>
               <button
@@ -385,7 +385,7 @@ export function CustomersClient({ initial, managers = [] }: { initial: Customer[
                   setManagerFor(null);
                   router.refresh();
                 })}
-                style={{ height: 34, padding: "0 14px", border: "none", background: "var(--primary)", color: "var(--primary-foreground)", borderRadius: "var(--radius-sm)", fontSize: 13, fontWeight: 600, cursor: "pointer" }}
+                style={{ height: 34, padding: "0 14px", border: "none", background: "var(--primary)", color: "var(--primary-foreground)", borderRadius: "var(--radius-sm)", fontSize: "var(--fs-13)", fontWeight: 600, cursor: "pointer" }}
               >
                 {isPending ? "Αποθήκευση…" : "Αποθήκευση"}
               </button>
@@ -393,7 +393,7 @@ export function CustomersClient({ initial, managers = [] }: { initial: Customer[
           }
         >
           <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-            <p style={{ fontSize: 12.5, color: "var(--muted-foreground)", margin: 0 }}>
+            <p style={{ fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)", margin: 0 }}>
               Ο manager γίνεται υπεύθυνος για τον πελάτη και τα ακίνητά του (ειδοποιήσεις & βλάβες).
             </p>
             <FormField label="Manager">
@@ -401,7 +401,7 @@ export function CustomersClient({ initial, managers = [] }: { initial: Customer[
                 options={managers.map((m) => ({ value: m.id, label: m.name }))} />
             </FormField>
             {managers.length === 0 && (
-              <p style={{ fontSize: 12, color: "var(--destructive)", margin: 0 }}>Δεν υπάρχουν ενεργοί χρήστες με ρόλο MANAGER.</p>
+              <p style={{ fontSize: "var(--fs-12)", color: "var(--destructive)", margin: 0 }}>Δεν υπάρχουν ενεργοί χρήστες με ρόλο MANAGER.</p>
             )}
           </div>
         </Modal>

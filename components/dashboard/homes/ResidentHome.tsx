@@ -23,9 +23,9 @@ export async function ResidentHome({ userId, companyId, userName, previewMode = 
       <Link key="building" href={`/building/${unit.buildingId}`} style={{
         display: "inline-flex", alignItems: "center", gap: 8, padding: "12px 20px",
         borderRadius: 999, border: "1px solid var(--border-strong)", background: "var(--card)",
-        color: "var(--foreground)", fontSize: 14, fontWeight: 600, textDecoration: "none",
+        color: "var(--foreground)", fontSize: "var(--fs-14)", fontWeight: 600, textDecoration: "none",
       }}>
-        <RiBuildingLine style={{ fontSize: 18 }} /> Το κτήριό μου
+        <RiBuildingLine style={{ fontSize: "var(--fs-18)" }} /> Το κτήριό μου
       </Link>
     ) : null,
   ].filter(Boolean);
@@ -74,7 +74,7 @@ export async function ResidentHome({ userId, companyId, userName, previewMode = 
                 {announcements.map((ann) => (
                   <div key={ann.id} style={{ padding: "12px 14px", background: "var(--bg-canvas)", borderRadius: 8,
                     borderLeft: "3px solid var(--color-primary)" }}>
-                    <div style={{ fontSize: 14, fontWeight: 500, color: "var(--foreground)" }}>{ann.title}</div>
+                    <div style={{ fontSize: "var(--fs-14)", fontWeight: 500, color: "var(--foreground)" }}>{ann.title}</div>
                   </div>
                 ))}
               </div>

@@ -30,8 +30,8 @@ const FREQ_LABEL: Record<string, string> = {
   CUSTOM: "Μία φορά",
 };
 
-const cellText = { fontSize: 13, color: "var(--foreground)" } as const;
-const cellMuted = { fontSize: 12, color: "var(--muted-foreground)" } as const;
+const cellText = { fontSize: "var(--fs-13)", color: "var(--foreground)" } as const;
+const cellMuted = { fontSize: "var(--fs-12)", color: "var(--muted-foreground)" } as const;
 
 export function MaintenanceTab({
   rows,
@@ -52,7 +52,7 @@ export function MaintenanceTab({
     {
       id: "kind", header: "Τύπος", sortKey: "kind", width: 150,
       accessor: (r) => KIND_LABEL[r.kind] ?? r.kind,
-      cell: (r) => <span style={{ fontSize: 12, fontWeight: 600, color: "var(--foreground)" }}>{KIND_LABEL[r.kind] ?? r.kind}</span>,
+      cell: (r) => <span style={{ fontSize: "var(--fs-12)", fontWeight: 600, color: "var(--foreground)" }}>{KIND_LABEL[r.kind] ?? r.kind}</span>,
     },
     {
       id: "title", header: "Τίτλος", sortKey: "title", width: 220,
@@ -99,7 +99,7 @@ export function MaintenanceTab({
     {
       id: "kind", header: "Τύπος", sortKey: "kind", width: 150,
       accessor: (r) => KIND_LABEL[r.kind] ?? r.kind,
-      cell: (r) => <span style={{ fontSize: 12, fontWeight: 600, color: "var(--foreground)" }}>{KIND_LABEL[r.kind] ?? r.kind}</span>,
+      cell: (r) => <span style={{ fontSize: "var(--fs-12)", fontWeight: 600, color: "var(--foreground)" }}>{KIND_LABEL[r.kind] ?? r.kind}</span>,
     },
     {
       id: "title", header: "Τίτλος", sortKey: "title", width: 220,
@@ -119,7 +119,7 @@ export function MaintenanceTab({
     {
       id: "document", header: "Πιστοποιητικό", width: 180,
       cell: (r) => r.documentUrl ? (
-        <a href={r.documentUrl} target="_blank" rel="noopener" style={{ display: "inline-flex", alignItems: "center", gap: 6, color: "var(--color-primary)", fontSize: 12, fontWeight: 600, textDecoration: "none" }}>
+        <a href={r.documentUrl} target="_blank" rel="noopener" style={{ display: "inline-flex", alignItems: "center", gap: 6, color: "var(--color-primary)", fontSize: "var(--fs-12)", fontWeight: 600, textDecoration: "none" }}>
           <RiFileDownloadLine /> {r.documentName ?? "Άνοιγμα"}
         </a>
       ) : <span style={{ color: "var(--muted-foreground)" }}>—</span>,
@@ -130,7 +130,7 @@ export function MaintenanceTab({
     <div style={{ display: "flex", flexDirection: "column", gap: 28 }}>
       <section style={{ display: "flex", flexDirection: "column", gap: 12 }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <h3 style={{ fontSize: 15, fontWeight: 700, color: "var(--foreground)", margin: 0 }}>Προγραμματισμένες συντηρήσεις</h3>
+          <h3 style={{ fontSize: "var(--fs-15)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}>Προγραμματισμένες συντηρήσεις</h3>
           {can.manageMaintenance && <button onClick={() => setEditing("new")} style={addBtn}><RiAddLine /> Προσθήκη συντήρησης</button>}
         </div>
         <DataTable
@@ -148,7 +148,7 @@ export function MaintenanceTab({
       </section>
 
       <section style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-        <h3 style={{ fontSize: 15, fontWeight: 700, color: "var(--foreground)", margin: 0 }}>Ιστορικό συντηρήσεων</h3>
+        <h3 style={{ fontSize: "var(--fs-15)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}>Ιστορικό συντηρήσεων</h3>
         <DataTable
           data={rows}
           columns={historyCols}
@@ -186,10 +186,10 @@ export function MaintenanceTab({
 const rowBtn = {
   display: "inline-flex", alignItems: "center", gap: 4, padding: "4px 8px", borderRadius: 6,
   border: "1px solid var(--border)", background: "var(--bg-canvas)", color: "var(--foreground)",
-  fontSize: 12, fontWeight: 500, cursor: "pointer",
+  fontSize: "var(--fs-12)", fontWeight: 500, cursor: "pointer",
 } as const;
 
 const addBtn = {
   display: "inline-flex", alignItems: "center", gap: 6, padding: "8px 14px", borderRadius: 8,
-  border: "none", background: "var(--color-primary)", color: "#fff", fontSize: 13, fontWeight: 600, cursor: "pointer",
+  border: "none", background: "var(--color-primary)", color: "#fff", fontSize: "var(--fs-13)", fontWeight: 600, cursor: "pointer",
 } as const;

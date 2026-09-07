@@ -53,12 +53,12 @@ export function NotificationsBell() {
         width: 36, height: 36, borderRadius: "var(--radius-sm)", border: "1px solid var(--border)",
         background: "var(--card)", cursor: "pointer", color: "var(--foreground)",
       }}>
-        <RiNotification3Line style={{ fontSize: 17 }} />
+        <RiNotification3Line style={{ fontSize: "var(--fs-17)" }} />
         {unread > 0 && (
           <span style={{
             position: "absolute", top: -5, right: -5, minWidth: 17, height: 17, padding: "0 4px",
             borderRadius: 999, background: "var(--destructive, #b91c1c)", color: "#fff",
-            fontSize: 10.5, fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center",
+            fontSize: "var(--fs-10-5)", fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center",
           }}>
             {unread > 99 ? "99+" : unread}
           </span>
@@ -72,26 +72,26 @@ export function NotificationsBell() {
           boxShadow: "var(--shadow-card, 0 8px 24px rgba(0,0,0,.12))",
         }}>
           <div style={{ display: "flex", alignItems: "center", padding: "10px 14px", borderBottom: "1px solid var(--border)" }}>
-            <strong style={{ fontSize: 13, color: "var(--foreground)", flex: 1 }}>Ειδοποιήσεις</strong>
+            <strong style={{ fontSize: "var(--fs-13)", color: "var(--foreground)", flex: 1 }}>Ειδοποιήσεις</strong>
             {unread > 0 && (
               <button onClick={async () => { await markAllNotificationsRead(); load(); }} style={{
                 display: "inline-flex", alignItems: "center", gap: 4, border: "none", background: "none",
-                fontSize: 12, color: "var(--muted-foreground)", cursor: "pointer",
+                fontSize: "var(--fs-12)", color: "var(--muted-foreground)", cursor: "pointer",
               }}>
                 <RiCheckDoubleLine /> Όλα ως αναγνωσμένα
               </button>
             )}
           </div>
-          {items.length === 0 && <div style={{ padding: 16, fontSize: 13, color: "var(--muted-foreground)" }}>Δεν υπάρχουν ειδοποιήσεις.</div>}
+          {items.length === 0 && <div style={{ padding: 16, fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }}>Δεν υπάρχουν ειδοποιήσεις.</div>}
           {items.map((n) => (
             <button key={n.id} onClick={() => onItemClick(n)} style={{
               display: "block", width: "100%", textAlign: "left", padding: "10px 14px", cursor: "pointer",
               border: "none", borderBottom: "1px solid var(--border)",
               background: n.readAt ? "var(--card)" : "var(--paper)",
             }}>
-              <div style={{ fontSize: 13, fontWeight: n.readAt ? 500 : 700, color: "var(--foreground)" }}>{n.title}</div>
-              {n.body && <div style={{ fontSize: 12, color: "var(--muted-foreground)", marginTop: 2, overflow: "hidden", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical" }}>{n.body}</div>}
-              <div style={{ fontSize: 11, color: "var(--muted-foreground)", marginTop: 3 }}>{fmt(n.createdAt)}</div>
+              <div style={{ fontSize: "var(--fs-13)", fontWeight: n.readAt ? 500 : 700, color: "var(--foreground)" }}>{n.title}</div>
+              {n.body && <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)", marginTop: 2, overflow: "hidden", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical" }}>{n.body}</div>}
+              <div style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)", marginTop: 3 }}>{fmt(n.createdAt)}</div>
             </button>
           ))}
         </div>

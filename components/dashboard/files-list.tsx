@@ -41,7 +41,7 @@ export function FilesList({
           boxShadow: "var(--shadow-card)", padding: 20,
         }}>
           <div style={{
-            fontSize: 12, fontWeight: 700, color: "var(--muted-foreground)",
+            fontSize: "var(--fs-12)", fontWeight: 700, color: "var(--muted-foreground)",
             textTransform: "uppercase", letterSpacing: ".04em", marginBottom: 8,
           }}>
             {g.building}
@@ -54,14 +54,14 @@ export function FilesList({
                   display: "flex", alignItems: "center", gap: 10, padding: "10px 14px",
                   background: "var(--bg-canvas)", borderRadius: 8, textDecoration: "none",
                 }}>
-                  <Icon style={{ fontSize: 16, color: "var(--muted-foreground)", flexShrink: 0 }} />
+                  <Icon style={{ fontSize: "var(--fs-16)", color: "var(--muted-foreground)", flexShrink: 0 }} />
                   <span style={{
-                    flex: 1, minWidth: 0, fontSize: 13, fontWeight: 500, color: "var(--foreground)",
+                    flex: 1, minWidth: 0, fontSize: "var(--fs-13)", fontWeight: 500, color: "var(--foreground)",
                     overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
                   }}>
                     {f.name}
                   </span>
-                  <span style={{ fontSize: 11, color: "var(--muted-foreground)", whiteSpace: "nowrap" }}>{fmtSize(f.sizeBytes)}</span>
+                  <span style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)", whiteSpace: "nowrap" }}>{fmtSize(f.sizeBytes)}</span>
                   <RiDownload2Line style={{ color: "var(--muted-foreground)", flexShrink: 0 }} />
                 </a>
               );

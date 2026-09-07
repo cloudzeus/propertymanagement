@@ -56,7 +56,7 @@ export function RichTextEditor({ value, onChange, placeholder }: { value: string
       </div>
       <div style={{ position: "relative" }}>
         {isEmpty && !focused && (
-          <div style={{ position: "absolute", top: 10, left: 12, fontSize: 13, color: "var(--muted-foreground)", pointerEvents: "none" }}>{placeholder ?? "Γράψτε το κείμενο…"}</div>
+          <div style={{ position: "absolute", top: 10, left: 12, fontSize: "var(--fs-13)", color: "var(--muted-foreground)", pointerEvents: "none" }}>{placeholder ?? "Γράψτε το κείμενο…"}</div>
         )}
         <div
           ref={ref}
@@ -66,7 +66,7 @@ export function RichTextEditor({ value, onChange, placeholder }: { value: string
           onBlur={() => { setFocused(false); emit(); }}
           onFocus={() => setFocused(true)}
           className="rte-body"
-          style={{ minHeight: 140, maxHeight: 360, overflowY: "auto", padding: "10px 12px", fontSize: 13, lineHeight: 1.6, color: "var(--foreground)", outline: "none" }}
+          style={{ minHeight: 140, maxHeight: 360, overflowY: "auto", padding: "10px 12px", fontSize: "var(--fs-13)", lineHeight: 1.6, color: "var(--foreground)", outline: "none" }}
         />
       </div>
       <style>{`
@@ -85,7 +85,7 @@ function TBtn({ children, onClick, title }: { children: React.ReactNode; onClick
       type="button"
       title={title}
       onMouseDown={(e) => { e.preventDefault(); onClick(); }}
-      style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 28, height: 28, border: "none", background: "transparent", borderRadius: 5, cursor: "pointer", color: "var(--foreground)", fontSize: 16 }}
+      style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 28, height: 28, border: "none", background: "transparent", borderRadius: 5, cursor: "pointer", color: "var(--foreground)", fontSize: "var(--fs-16)" }}
       onMouseEnter={(e) => (e.currentTarget.style.background = "var(--border)")}
       onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
     >

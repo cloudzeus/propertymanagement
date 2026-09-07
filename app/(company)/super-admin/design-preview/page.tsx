@@ -16,7 +16,7 @@ export default function DesignPreviewPage() {
   return (
     <div style={{ padding: 40, maxWidth: 1100, margin: "0 auto", display: "flex", flexDirection: "column", gap: 40 }}>
       <div>
-        <h1 style={{ fontFamily: "var(--font-display)", fontSize: 48, fontWeight: 700, color: "var(--foreground)", margin: 0 }}>
+        <h1 style={{ fontFamily: "var(--font-display)", fontSize: "var(--fs-48)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}>
           Orithon
         </h1>
         <p style={{ color: "var(--muted-foreground)", marginTop: 4 }}>
@@ -30,7 +30,7 @@ export default function DesignPreviewPage() {
           {SWATCHES.map(([v, label]) => (
             <div key={v}>
               <div style={{ height: 56, borderRadius: "var(--radius-sm)", border: "1px solid var(--border)", background: `var(${v})` }} />
-              <div style={{ fontSize: 11, color: "var(--muted-foreground)", marginTop: 4 }}>{label}</div>
+              <div style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)", marginTop: 4 }}>{label}</div>
             </div>
           ))}
         </div>

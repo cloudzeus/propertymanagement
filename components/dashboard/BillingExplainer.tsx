@@ -10,8 +10,8 @@ function ParamChip({ label, value }: { label: string; value: string }) {
       display: "flex", flexDirection: "column", gap: 2, padding: "8px 12px",
       background: "var(--bg-canvas)", borderRadius: 10, minWidth: 0,
     }}>
-      <span style={{ fontSize: 11, color: "var(--muted-foreground)", fontWeight: 600 }}>{label}</span>
-      <span style={{ fontSize: 13, fontWeight: 600, color: "var(--foreground)", ...tnums }}>{value}</span>
+      <span style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)", fontWeight: 600 }}>{label}</span>
+      <span style={{ fontSize: "var(--fs-13)", fontWeight: 600, color: "var(--foreground)", ...tnums }}>{value}</span>
     </div>
   );
 }
@@ -49,26 +49,26 @@ export function BillingExplainer({ buildings }: { buildings: BillingExplainerBui
               display: "flex", alignItems: "center", gap: 10, cursor: "pointer",
               padding: 24, userSelect: "none",
             }}>
-              <RiScales3Line style={{ fontSize: 18, color: "var(--color-accent)", flexShrink: 0 }} />
-              <h2 style={{ fontSize: 15, fontWeight: 600, color: "var(--foreground)", margin: 0, flex: 1 }}>
+              <RiScales3Line style={{ fontSize: "var(--fs-18)", color: "var(--color-accent)", flexShrink: 0 }} />
+              <h2 style={{ fontSize: "var(--fs-15)", fontWeight: 600, color: "var(--foreground)", margin: 0, flex: 1 }}>
                 Πώς υπολογίζονται τα κοινόχρηστα — {b.buildingName}
               </h2>
-              <span style={{ fontSize: 12, color: "var(--muted-foreground)", whiteSpace: "nowrap" }}>Ανάλυση</span>
-              <RiArrowDownSLine className="billing-chevron" style={{ fontSize: 20, color: "var(--muted-foreground)", flexShrink: 0 }} />
+              <span style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)", whiteSpace: "nowrap" }}>Ανάλυση</span>
+              <RiArrowDownSLine className="billing-chevron" style={{ fontSize: "var(--fs-20)", color: "var(--muted-foreground)", flexShrink: 0 }} />
             </summary>
 
             <div style={{ padding: "0 24px 24px" }}>
               <p style={{
                 display: "flex", alignItems: "flex-start", gap: 6, margin: "0 0 18px",
-                fontSize: 13, color: "var(--muted-foreground)", lineHeight: 1.5,
+                fontSize: "var(--fs-13)", color: "var(--muted-foreground)", lineHeight: 1.5,
               }}>
-                <RiInformationLine style={{ fontSize: 15, flexShrink: 0, marginTop: 2 }} />
+                <RiInformationLine style={{ fontSize: "var(--fs-15)", flexShrink: 0, marginTop: 2 }} />
                 Οι δαπάνες κατανέμονται στα διαμερίσματα με βάση τα χιλιοστά ιδιοκτησίας ανά ομάδα.
               </p>
 
               {/* Παράμετροι κτηρίου */}
               <div style={{ marginBottom: 20 }}>
-                <h3 style={{ fontSize: 12, fontWeight: 700, color: "var(--foreground)", margin: "0 0 10px", textTransform: "uppercase", letterSpacing: "0.04em" }}>
+                <h3 style={{ fontSize: "var(--fs-12)", fontWeight: 700, color: "var(--foreground)", margin: "0 0 10px", textTransform: "uppercase", letterSpacing: "0.04em" }}>
                   Παράμετροι κτηρίου
                 </h3>
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(140px, 1fr))", gap: 8 }}>
@@ -86,25 +86,25 @@ export function BillingExplainer({ buildings }: { buildings: BillingExplainerBui
 
               {/* Κατανομή ανά κατηγορία δαπάνης */}
               <div style={{ marginBottom: 20 }}>
-                <h3 style={{ fontSize: 12, fontWeight: 700, color: "var(--foreground)", margin: "0 0 10px", textTransform: "uppercase", letterSpacing: "0.04em" }}>
+                <h3 style={{ fontSize: "var(--fs-12)", fontWeight: 700, color: "var(--foreground)", margin: "0 0 10px", textTransform: "uppercase", letterSpacing: "0.04em" }}>
                   Κατανομή ανά κατηγορία δαπάνης
                 </h3>
                 {b.categories.length === 0 ? (
-                  <p style={{ margin: 0, fontSize: 13, color: "var(--muted-foreground)" }}>
+                  <p style={{ margin: 0, fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }}>
                     Δεν έχουν οριστεί κατηγορίες δαπανών.
                   </p>
                 ) : (
                   <div style={{ overflowX: "auto" }}>
-                    <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13, tableLayout: "fixed" }}>
+                    <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "var(--fs-13)", tableLayout: "fixed" }}>
                       <thead>
                         <tr>
-                          <th style={{ width: "26%", textAlign: "left", padding: "6px 8px", fontSize: 11, fontWeight: 600, color: "var(--muted-foreground)", borderBottom: "1px solid var(--border)" }}>
+                          <th style={{ width: "26%", textAlign: "left", padding: "6px 8px", fontSize: "var(--fs-11)", fontWeight: 600, color: "var(--muted-foreground)", borderBottom: "1px solid var(--border)" }}>
                             Κατηγορία
                           </th>
-                          <th style={{ width: "24%", textAlign: "left", padding: "6px 8px", fontSize: 11, fontWeight: 600, color: "var(--muted-foreground)", borderBottom: "1px solid var(--border)" }}>
+                          <th style={{ width: "24%", textAlign: "left", padding: "6px 8px", fontSize: "var(--fs-11)", fontWeight: 600, color: "var(--muted-foreground)", borderBottom: "1px solid var(--border)" }}>
                             Βάση κατανομής
                           </th>
-                          <th style={{ textAlign: "left", padding: "6px 8px", fontSize: 11, fontWeight: 600, color: "var(--muted-foreground)", borderBottom: "1px solid var(--border)" }}>
+                          <th style={{ textAlign: "left", padding: "6px 8px", fontSize: "var(--fs-11)", fontWeight: 600, color: "var(--muted-foreground)", borderBottom: "1px solid var(--border)" }}>
                             Πώς μοιράζεται
                           </th>
                         </tr>
@@ -119,7 +119,7 @@ export function BillingExplainer({ buildings }: { buildings: BillingExplainerBui
                               <span style={{
                                 display: "inline-block", padding: "2px 8px", borderRadius: 999,
                                 background: "var(--bg-canvas)", border: "1px solid var(--border)",
-                                fontSize: 11, fontWeight: 600, color: "var(--foreground)", whiteSpace: "nowrap",
+                                fontSize: "var(--fs-11)", fontWeight: 600, color: "var(--foreground)", whiteSpace: "nowrap",
                               }}>
                                 {c.basisLabel}
                               </span>
@@ -137,16 +137,16 @@ export function BillingExplainer({ buildings }: { buildings: BillingExplainerBui
 
               {/* Τα χιλιοστά μου */}
               <div>
-                <h3 style={{ fontSize: 12, fontWeight: 700, color: "var(--foreground)", margin: "0 0 10px", textTransform: "uppercase", letterSpacing: "0.04em" }}>
+                <h3 style={{ fontSize: "var(--fs-12)", fontWeight: 700, color: "var(--foreground)", margin: "0 0 10px", textTransform: "uppercase", letterSpacing: "0.04em" }}>
                   Τα χιλιοστά μου
                 </h3>
                 <div style={{ overflowX: "auto" }}>
-                  <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
+                  <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "var(--fs-13)" }}>
                     <thead>
                       <tr>
                         {["Μονάδα", "Όροφος", "Εμβαδόν", "Γενικά ‰", "Ανελκυστήρα ‰", "Θέρμανσης ‰"].map((h, i) => (
                           <th key={h} style={{
-                            textAlign: i === 0 ? "left" : "right", padding: "6px 8px", fontSize: 11, fontWeight: 600,
+                            textAlign: i === 0 ? "left" : "right", padding: "6px 8px", fontSize: "var(--fs-11)", fontWeight: 600,
                             color: "var(--muted-foreground)", borderBottom: "1px solid var(--border)", whiteSpace: "nowrap",
                           }}>
                             {h}
@@ -159,7 +159,7 @@ export function BillingExplainer({ buildings }: { buildings: BillingExplainerBui
                         <tr key={u.unitNumber}>
                           <td style={{ padding: "8px", borderBottom: "1px solid var(--border)" }}>
                             <span style={{ display: "inline-flex", alignItems: "center", gap: 6, fontWeight: 700, color: "var(--foreground)" }}>
-                              <RiBuildingLine style={{ fontSize: 14, color: "var(--color-accent)", flexShrink: 0 }} />
+                              <RiBuildingLine style={{ fontSize: "var(--fs-14)", color: "var(--color-accent)", flexShrink: 0 }} />
                               Μονάδα {u.unitNumber}
                             </span>
                           </td>
@@ -183,7 +183,7 @@ export function BillingExplainer({ buildings }: { buildings: BillingExplainerBui
                     </tbody>
                   </table>
                 </div>
-                <p style={{ margin: "10px 2px 0", fontSize: 11, color: "var(--muted-foreground)", lineHeight: 1.45 }}>
+                <p style={{ margin: "10px 2px 0", fontSize: "var(--fs-11)", color: "var(--muted-foreground)", lineHeight: 1.45 }}>
                   Όπου εμφανίζεται «—», δεν έχει οριστεί ξεχωριστό σετ χιλιοστών για το κτήριο — η κατανομή γίνεται με τα γενικά χιλιοστά.
                 </p>
               </div>

@@ -225,7 +225,7 @@ export function ExpenseReviewForm({
         </div>
         <div style={{ flex: "0 0 auto" }}>
           <span style={{
-            display: "inline-block", padding: "3px 10px", borderRadius: 999, fontSize: 12, fontWeight: 700,
+            display: "inline-block", padding: "3px 10px", borderRadius: 999, fontSize: "var(--fs-12)", fontWeight: 700,
             color: confColor, background: `${confColor}18`, border: `1px solid ${confColor}44`,
           }}>
             Αξιοπιστία OCR: {conf}%
@@ -234,7 +234,7 @@ export function ExpenseReviewForm({
       </div>
 
       {error && (
-        <div style={{ padding: 10, borderRadius: 6, background: "#FEE7E618", border: "1px solid var(--color-danger)", color: "var(--color-danger)", fontSize: 12 }}>
+        <div style={{ padding: 10, borderRadius: 6, background: "#FEE7E618", border: "1px solid var(--color-danger)", color: "var(--color-danger)", fontSize: "var(--fs-12)" }}>
           {error}
         </div>
       )}
@@ -299,7 +299,7 @@ export function ExpenseReviewForm({
 
       {utilityType !== "NONE" && (
         <div style={{ border: "1px solid var(--border)", borderRadius: 8, padding: 12, display: "flex", flexDirection: "column", gap: 12 }}>
-          <div style={{ fontSize: 12, fontWeight: 700, color: "var(--foreground)" }}>Μέτρηση παροχής</div>
+          <div style={{ fontSize: "var(--fs-12)", fontWeight: 700, color: "var(--foreground)" }}>Μέτρηση παροχής</div>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
             <FormField label="Αρ. μετρητή">
               <FieldInput value={meterNumber} onChange={setMeterNumber} />
@@ -329,7 +329,7 @@ export function ExpenseReviewForm({
 
       {preview && preview.length > 0 && (
         <div style={{ border: "1px solid var(--border)", borderRadius: 8, overflow: "hidden" }}>
-          <div style={{ padding: "8px 12px", borderBottom: "1px solid var(--border)", fontSize: 12, fontWeight: 700, color: "var(--foreground)" }}>
+          <div style={{ padding: "8px 12px", borderBottom: "1px solid var(--border)", fontSize: "var(--fs-12)", fontWeight: 700, color: "var(--foreground)" }}>
             Προεπισκόπηση επιμερισμού
           </div>
           <table style={{ width: "100%", borderCollapse: "collapse" }}>
@@ -347,7 +347,7 @@ export function ExpenseReviewForm({
                   <td style={ptd}>
                     {r.unitId}
                     {r.missingWeight && (
-                      <span style={{ marginLeft: 6, padding: "1px 6px", borderRadius: 999, fontSize: 10, fontWeight: 700, color: "#d97706", background: "#d9770618", border: "1px solid #d9770644" }}>
+                      <span style={{ marginLeft: 6, padding: "1px 6px", borderRadius: 999, fontSize: "var(--fs-10)", fontWeight: 700, color: "#d97706", background: "#d9770618", border: "1px solid #d9770644" }}>
                         χωρίς χιλιοστά
                       </span>
                     )}
@@ -372,7 +372,7 @@ export function ExpenseReviewForm({
   );
 }
 
-const pth: React.CSSProperties = { textAlign: "left", fontSize: 11, fontWeight: 600, color: "var(--muted-foreground)", padding: "7px 12px", borderBottom: "1px solid var(--border)" };
-const ptd: React.CSSProperties = { fontSize: 12, color: "var(--foreground)", padding: "7px 12px", borderBottom: "1px solid var(--border)" };
-const btnGhost: React.CSSProperties = { height: 34, padding: "0 14px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--bg-canvas)", fontSize: 13, fontWeight: 600, cursor: "pointer", color: "var(--foreground)" };
-const btnPrimary: React.CSSProperties = { height: 34, padding: "0 14px", borderRadius: 6, border: "1px solid var(--color-primary)", background: "var(--color-primary)", color: "#fff", fontSize: 13, fontWeight: 600, cursor: "pointer" };
+const pth: React.CSSProperties = { textAlign: "left", fontSize: "var(--fs-11)", fontWeight: 600, color: "var(--muted-foreground)", padding: "7px 12px", borderBottom: "1px solid var(--border)" };
+const ptd: React.CSSProperties = { fontSize: "var(--fs-12)", color: "var(--foreground)", padding: "7px 12px", borderBottom: "1px solid var(--border)" };
+const btnGhost: React.CSSProperties = { height: 34, padding: "0 14px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--bg-canvas)", fontSize: "var(--fs-13)", fontWeight: 600, cursor: "pointer", color: "var(--foreground)" };
+const btnPrimary: React.CSSProperties = { height: 34, padding: "0 14px", borderRadius: 6, border: "1px solid var(--color-primary)", background: "var(--color-primary)", color: "#fff", fontSize: "var(--fs-13)", fontWeight: 600, cursor: "pointer" };

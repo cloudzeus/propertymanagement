@@ -22,7 +22,7 @@ export default async function PortalRequestDetailPage({ params }: { params: Prom
 
   return (
     <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 14, maxWidth: 920 }}>
-      <Link href={backHref} style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 13, color: "var(--muted-foreground)", textDecoration: "none" }}>
+      <Link href={backHref} style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: "var(--fs-13)", color: "var(--muted-foreground)", textDecoration: "none" }}>
         <RiArrowLeftLine /> Πίσω στα αιτήματα
       </Link>
       <RequestDetail

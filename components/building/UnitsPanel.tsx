@@ -27,12 +27,12 @@ const UNIT_TYPE_LABEL: Record<string, string> = { APARTMENT: "Διαμέρισμ
 const UNIT_TYPE_ICON: Record<string, React.ElementType> = { APARTMENT: RiHome4Line, SHOP: RiStore2Line, PARKING: RiCarLine, OTHER: RiBox3Line };
 
 function typeChip(type: string) {
-  return <span style={{ fontSize: 11, fontWeight: 700, padding: "2px 8px", borderRadius: 9999, background: "var(--bg-canvas)", color: "var(--muted-foreground)", border: "1px solid var(--border)" }}>{UNIT_TYPE_LABEL[type] ?? type}</span>;
+  return <span style={{ fontSize: "var(--fs-11)", fontWeight: 700, padding: "2px 8px", borderRadius: 9999, background: "var(--bg-canvas)", color: "var(--muted-foreground)", border: "1px solid var(--border)" }}>{UNIT_TYPE_LABEL[type] ?? type}</span>;
 }
 
 function occCell(o: TOccupant | null) {
-  if (!o) return <span style={{ fontSize: 12, color: "var(--muted-foreground)" }}>—</span>;
-  return <span style={{ fontSize: 12, color: "var(--foreground)" }}>{o.name ?? o.email}</span>;
+  if (!o) return <span style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>—</span>;
+  return <span style={{ fontSize: "var(--fs-12)", color: "var(--foreground)" }}>{o.name ?? o.email}</span>;
 }
 
 export function UnitsPanel({ buildingId, units, can }: { buildingId: string; units: Unit[]; can: BuildingCaps }) {
@@ -55,17 +55,17 @@ export function UnitsPanel({ buildingId, units, can }: { buildingId: string; uni
         return (
           <div style={{ display: "flex", alignItems: "center", gap: 8, minWidth: 0 }}>
             <div style={{ width: 26, height: 26, borderRadius: 7, flexShrink: 0, background: "var(--color-primary)18", color: "var(--color-primary)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <Icon style={{ fontSize: 15 }} />
+              <Icon style={{ fontSize: "var(--fs-15)" }} />
             </div>
-            <span style={{ fontSize: 13, fontWeight: 600, color: "var(--foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{u.unitNumber}</span>
+            <span style={{ fontSize: "var(--fs-13)", fontWeight: 600, color: "var(--foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{u.unitNumber}</span>
           </div>
         );
       },
     },
     { id: "unitType", header: "Τύπος", width: 120, accessor: (u) => UNIT_TYPE_LABEL[u.unitType] ?? u.unitType, cell: (u) => typeChip(u.unitType) },
-    { id: "floor", header: "Όροφος", width: 90, accessor: (u) => u.floor ?? -999, cell: (u) => <span style={{ fontSize: 13, color: "var(--foreground)" }}>{u.floor ?? "—"}</span> },
-    { id: "areaSqm", header: "τ.μ.", width: 90, accessor: (u) => u.areaSqm ?? 0, cell: (u) => <span style={{ fontSize: 13, color: "var(--foreground)" }}>{u.areaSqm ?? "—"}</span> },
-    { id: "millesimes", header: "Χιλιοστά", width: 100, accessor: (u) => u.millesimes ?? 0, cell: (u) => <span style={{ fontSize: 13, color: "var(--foreground)" }}>{u.millesimes != null ? `${u.millesimes}‰` : "—"}</span> },
+    { id: "floor", header: "Όροφος", width: 90, accessor: (u) => u.floor ?? -999, cell: (u) => <span style={{ fontSize: "var(--fs-13)", color: "var(--foreground)" }}>{u.floor ?? "—"}</span> },
+    { id: "areaSqm", header: "τ.μ.", width: 90, accessor: (u) => u.areaSqm ?? 0, cell: (u) => <span style={{ fontSize: "var(--fs-13)", color: "var(--foreground)" }}>{u.areaSqm ?? "—"}</span> },
+    { id: "millesimes", header: "Χιλιοστά", width: 100, accessor: (u) => u.millesimes ?? 0, cell: (u) => <span style={{ fontSize: "var(--fs-13)", color: "var(--foreground)" }}>{u.millesimes != null ? `${u.millesimes}‰` : "—"}</span> },
     { id: "owner", header: "Ιδιοκτήτης", width: 170, accessor: (u) => u.owner?.name ?? u.owner?.email ?? "", cell: (u) => occCell(u.owner) },
     { id: "resident", header: "Ένοικος", width: 170, accessor: (u) => u.resident?.name ?? u.resident?.email ?? "", cell: (u) => occCell(u.resident) },
   ];
@@ -95,7 +95,7 @@ export function UnitsPanel({ buildingId, units, can }: { buildingId: string; uni
         batchActions={can.editUnits ? batchActions : undefined}
         toolbar={
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-            <span style={{ fontSize: 12, color: "var(--muted-foreground)" }}>Σύνολο χιλιοστών: <b style={{ color: totalMil === 1000 ? "var(--color-green)" : "var(--foreground)" }}>{totalMil}‰</b></span>
+            <span style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>Σύνολο χιλιοστών: <b style={{ color: totalMil === 1000 ? "var(--color-green)" : "var(--foreground)" }}>{totalMil}‰</b></span>
             {can.editUnits && (
               <>
                 <button onClick={() => setRecalc(true)} style={btn}><RiCalculatorLine /> Υπολογισμός χιλιοστών</button>
@@ -153,14 +153,14 @@ function Slot({ unitId, customerId, role, label, current, onDone, onGuided }: { 
   function clear() { if (!confirm(`Αφαίρεση ${label.toLowerCase()};`)) return; startTransition(async () => { await clearOccupant(unitId, role); setOccupant(null); onDone(); }); }
   return (
     <div style={{ border: "1px solid var(--border)", borderRadius: 8, padding: 14 }}>
-      <div style={{ fontSize: 12, fontWeight: 700, color: "var(--muted-foreground)", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: 10, display: "flex", alignItems: "center", gap: 6 }}>
+      <div style={{ fontSize: "var(--fs-12)", fontWeight: 700, color: "var(--muted-foreground)", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: 10, display: "flex", alignItems: "center", gap: 6 }}>
         {role === "OWNER" ? <RiUserStarLine /> : <RiUserLine />} {label}
       </div>
       {occupant ? (
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontSize: 13, fontWeight: 600, color: "var(--foreground)" }}>{occupant.name || "—"}</div>
-            <div style={{ fontSize: 12, color: "var(--muted-foreground)" }}>{occupant.email}</div>
+            <div style={{ fontSize: "var(--fs-13)", fontWeight: 600, color: "var(--foreground)" }}>{occupant.name || "—"}</div>
+            <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>{occupant.email}</div>
           </div>
           <button onClick={clear} disabled={isPending} style={{ ...btnSmall, color: "#c50f1f" }}><RiCloseLine /> Αφαίρεση</button>
         </div>
@@ -229,7 +229,7 @@ function NewOccupantForm({ role, submitLabel, pending, error, onCancel, onSubmit
             </button>
             <FormField label="ΔΟΥ"><FieldInput value={form.doy} onChange={f("doy")} /></FormField>
           </div>
-          <div style={{ fontSize: 11, fontWeight: 700, color: "var(--muted-foreground)", textTransform: "uppercase", letterSpacing: "0.05em", marginTop: 4 }}>Πρόσωπο επικοινωνίας</div>
+          <div style={{ fontSize: "var(--fs-11)", fontWeight: 700, color: "var(--muted-foreground)", textTransform: "uppercase", letterSpacing: "0.05em", marginTop: 4 }}>Πρόσωπο επικοινωνίας</div>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
             <FormField label="Ονοματεπώνυμο"><FieldInput value={form.contactName} onChange={f("contactName")} /></FormField>
             <FormField label="Email επικοινωνίας"><FieldInput type="email" value={form.contactEmail} onChange={f("contactEmail")} /></FormField>
@@ -285,7 +285,7 @@ function BatchOccupantModal({ units, onClose, onDone }: { units: Unit[]; onClose
       <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
         {error && <div style={errBox}>{error}</div>}
 
-        <div style={{ fontSize: 12, color: "var(--muted-foreground)", display: "flex", flexWrap: "wrap", gap: 4 }}>
+        <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)", display: "flex", flexWrap: "wrap", gap: 4 }}>
           {units.map((u) => (
             <span key={u.id} style={{ padding: "2px 8px", borderRadius: 9999, background: "var(--bg-canvas)", border: "1px solid var(--border)", fontWeight: 600, color: "var(--foreground)" }}>{u.unitNumber}</span>
           ))}
@@ -316,7 +316,7 @@ function BatchOccupantModal({ units, onClose, onDone }: { units: Unit[]; onClose
               roles={CUSTOMER_ROLES}
               customerId={customerId}
             />
-            {isPending && <div style={{ fontSize: 12, color: "var(--muted-foreground)", display: "flex", alignItems: "center", gap: 6 }}><RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> Ανάθεση…</div>}
+            {isPending && <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)", display: "flex", alignItems: "center", gap: 6 }}><RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> Ανάθεση…</div>}
           </div>
         ) : (
           <NewOccupantForm role={role} submitLabel="Δημιουργία & ανάθεση" pending={isPending} error={null} onCancel={onClose} onSubmit={createNew} />
@@ -362,7 +362,7 @@ function UnitModal({ buildingId, editing, onClose, onDone }: { buildingId: strin
         <button onClick={onClose} style={btnCancel}>Ακύρωση</button>
         <button onClick={save} disabled={isPending} style={btnSave}>{isPending ? <RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> : <RiCheckLine />} Αποθήκευση</button>
       </>}>
-      {error && <div style={{ padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: 12, marginBottom: 12 }}>{error}</div>}
+      {error && <div style={{ padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: "var(--fs-12)", marginBottom: 12 }}>{error}</div>}
       <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
           <FormField label="Αριθμός" required><FieldInput value={form.unitNumber} onChange={f("unitNumber")} /></FormField>
@@ -404,13 +404,13 @@ function MillesimesModal({ units, buildingId, onClose, onDone }: { units: Unit[]
         <button onClick={onClose} style={btnCancel}>Ακύρωση</button>
         <button onClick={apply} disabled={isPending || !canApply} style={{ ...btnSave, opacity: canApply ? 1 : 0.5 }}>{isPending ? <RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> : <RiCheckLine />} Εφαρμογή</button>
       </>}>
-      {error && <div style={{ padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: 12, marginBottom: 12 }}>{error}</div>}
-      <p style={{ margin: "0 0 12px", fontSize: 12, color: "var(--muted-foreground)" }}>
+      {error && <div style={{ padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: "var(--fs-12)", marginBottom: 12 }}>{error}</div>}
+      <p style={{ margin: "0 0 12px", fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>
         Αναλογική κατανομή 1000‰ βάσει τετραγωνικών. Σύνολο τ.μ.: <b style={{ color: "var(--foreground)" }}>{totalSqm}</b> · Νέο σύνολο: <b style={{ color: "var(--foreground)" }}>{totalNew}‰</b>
         {missing > 0 && <> · <span style={{ color: "#dc2626" }}>{missing} μονάδες χωρίς τ.μ. (θα μηδενιστούν)</span></>}
       </p>
-      <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
-        <thead><tr style={{ textAlign: "left", color: "var(--muted-foreground)", fontSize: 11 }}>
+      <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "var(--fs-13)" }}>
+        <thead><tr style={{ textAlign: "left", color: "var(--muted-foreground)", fontSize: "var(--fs-11)" }}>
           <th style={{ padding: "6px 8px" }}>Μονάδα</th>
           <th style={{ padding: "6px 8px", textAlign: "right" }}>τ.μ.</th>
           <th style={{ padding: "6px 8px", textAlign: "right" }}>Τρέχον ‰</th>
@@ -439,13 +439,13 @@ function MillesimesModal({ units, buildingId, onClose, onDone }: { units: Unit[]
 const btn: React.CSSProperties = {
   display: "inline-flex", alignItems: "center", gap: 6, border: "1px solid var(--border)",
   background: "var(--card)", color: "var(--foreground)", borderRadius: 6, padding: "7px 13px",
-  fontSize: 13, fontWeight: 600, cursor: "pointer",
+  fontSize: "var(--fs-13)", fontWeight: 600, cursor: "pointer",
 };
 const btnPrimary: React.CSSProperties = { background: "var(--color-primary)", color: "#fff", borderColor: "var(--color-primary)" };
-const btnCancel: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: 13, color: "var(--foreground)" };
-const btnSave: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: "pointer", fontSize: 13, fontWeight: 600, display: "flex", alignItems: "center", gap: 6 };
-const btnSmall: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 5, border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)", borderRadius: 6, padding: "6px 11px", fontSize: 12, fontWeight: 600, cursor: "pointer" };
-const errBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: 12 };
-const warnBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "#fff7ed", border: "1px solid #fed7aa", color: "#b45309", fontSize: 12, fontWeight: 600 };
-const tab: React.CSSProperties = { flex: 1, padding: "8px 12px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", color: "var(--muted-foreground)", fontSize: 13, fontWeight: 600, cursor: "pointer" };
+const btnCancel: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: "var(--fs-13)", color: "var(--foreground)" };
+const btnSave: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: "pointer", fontSize: "var(--fs-13)", fontWeight: 600, display: "flex", alignItems: "center", gap: 6 };
+const btnSmall: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 5, border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)", borderRadius: 6, padding: "6px 11px", fontSize: "var(--fs-12)", fontWeight: 600, cursor: "pointer" };
+const errBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: "var(--fs-12)" };
+const warnBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "#fff7ed", border: "1px solid #fed7aa", color: "#b45309", fontSize: "var(--fs-12)", fontWeight: 600 };
+const tab: React.CSSProperties = { flex: 1, padding: "8px 12px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", color: "var(--muted-foreground)", fontSize: "var(--fs-13)", fontWeight: 600, cursor: "pointer" };
 const tabActive: React.CSSProperties = { ...tab, background: "var(--color-primary)", color: "#fff", borderColor: "var(--color-primary)" };

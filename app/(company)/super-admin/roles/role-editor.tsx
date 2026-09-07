@@ -191,8 +191,8 @@ export function RoleEditor({ roles, modules }: Props) {
     <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16 }}>
         <div>
-          <h1 style={{ fontSize: 22, fontWeight: 700, color: "var(--foreground)", margin: 0 }}>Ρόλοι & Δικαιώματα</h1>
-          <p style={{ fontSize: 13, color: "var(--muted-foreground)", marginTop: 4 }}>
+          <h1 style={{ fontSize: "var(--fs-22)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}>Ρόλοι & Δικαιώματα</h1>
+          <p style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)", marginTop: 4 }}>
             Επεξεργασία δικαιωμάτων ανά ρόλο και διαχείριση προσαρμοσμένων ρόλων
           </p>
         </div>
@@ -201,37 +201,37 @@ export function RoleEditor({ roles, modules }: Props) {
           style={{
             display: "flex", alignItems: "center", gap: 6, padding: "8px 14px",
             background: "#0078D4", color: "#fff", border: "none", borderRadius: "var(--radius)",
-            fontSize: 13, fontWeight: 600, cursor: "pointer",
+            fontSize: "var(--fs-13)", fontWeight: 600, cursor: "pointer",
           }}
         >
-          <RiAddLine style={{ fontSize: 16 }} /> Νέος ρόλος
+          <RiAddLine style={{ fontSize: "var(--fs-16)" }} /> Νέος ρόλος
         </button>
       </div>
 
       {showCreate && (
         <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius)", padding: 18 }}>
-          <h2 style={{ fontSize: 14, fontWeight: 600, color: "var(--foreground)", margin: "0 0 12px" }}>Δημιουργία προσαρμοσμένου ρόλου</h2>
+          <h2 style={{ fontSize: "var(--fs-14)", fontWeight: 600, color: "var(--foreground)", margin: "0 0 12px" }}>Δημιουργία προσαρμοσμένου ρόλου</h2>
           <div style={{ display: "flex", gap: 12, alignItems: "flex-end", flexWrap: "wrap" }}>
             <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-              <label style={{ fontSize: 12, color: "var(--muted-foreground)" }}>Όνομα ρόλου</label>
+              <label style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>Όνομα ρόλου</label>
               <input
                 value={newLabel}
                 onChange={(e) => setNewLabel(e.target.value)}
                 placeholder="π.χ. Βοηθός Διαχειριστή"
                 style={{
                   padding: "8px 10px", borderRadius: "var(--radius)", border: "1px solid var(--border)",
-                  background: "var(--bg-canvas)", color: "var(--foreground)", fontSize: 13, minWidth: 220,
+                  background: "var(--bg-canvas)", color: "var(--foreground)", fontSize: "var(--fs-13)", minWidth: 220,
                 }}
               />
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-              <label style={{ fontSize: 12, color: "var(--muted-foreground)" }}>Βασικός ρόλος</label>
+              <label style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>Βασικός ρόλος</label>
               <select
                 value={newBaseRole}
                 onChange={(e) => setNewBaseRole(e.target.value)}
                 style={{
                   padding: "8px 10px", borderRadius: "var(--radius)", border: "1px solid var(--border)",
-                  background: "var(--bg-canvas)", color: "var(--foreground)", fontSize: 13, minWidth: 200,
+                  background: "var(--bg-canvas)", color: "var(--foreground)", fontSize: "var(--fs-13)", minWidth: 200,
                 }}
               >
                 {USER_ROLES.map((r) => (
@@ -244,7 +244,7 @@ export function RoleEditor({ roles, modules }: Props) {
               disabled={isPending || !newLabel.trim()}
               style={{
                 padding: "8px 14px", background: "#107C10", color: "#fff", border: "none",
-                borderRadius: "var(--radius)", fontSize: 13, fontWeight: 600, cursor: "pointer",
+                borderRadius: "var(--radius)", fontSize: "var(--fs-13)", fontWeight: 600, cursor: "pointer",
                 opacity: isPending || !newLabel.trim() ? 0.6 : 1,
               }}
             >
@@ -254,7 +254,7 @@ export function RoleEditor({ roles, modules }: Props) {
               onClick={() => setShowCreate(false)}
               style={{
                 padding: "8px 14px", background: "transparent", color: "var(--muted-foreground)",
-                border: "1px solid var(--border)", borderRadius: "var(--radius)", fontSize: 13, cursor: "pointer",
+                border: "1px solid var(--border)", borderRadius: "var(--radius)", fontSize: "var(--fs-13)", cursor: "pointer",
               }}
             >
               Ακύρωση
@@ -278,18 +278,18 @@ export function RoleEditor({ roles, modules }: Props) {
                 borderRadius: "var(--radius)", cursor: "pointer",
               }}
             >
-              <RiShieldUserLine style={{ fontSize: 15, color: active ? "#0078D4" : "var(--muted-foreground)" }} />
-              <span style={{ fontSize: 13, fontWeight: 600, color: "var(--foreground)" }}>{r.label}</span>
+              <RiShieldUserLine style={{ fontSize: "var(--fs-15)", color: active ? "#0078D4" : "var(--muted-foreground)" }} />
+              <span style={{ fontSize: "var(--fs-13)", fontWeight: 600, color: "var(--foreground)" }}>{r.label}</span>
               {r.isSystem && (
                 <span style={{
-                  fontSize: 10, fontWeight: 600, color: "var(--muted-foreground)",
+                  fontSize: "var(--fs-10)", fontWeight: 600, color: "var(--muted-foreground)",
                   background: "var(--bg-canvas)", border: "1px solid var(--border)",
                   borderRadius: 4, padding: "1px 6px", textTransform: "uppercase",
                 }}>
                   system
                 </span>
               )}
-              <span style={{ fontSize: 11, color: "var(--muted-foreground)" }}>{r.userCount} χρήστες</span>
+              <span style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)" }}>{r.userCount} χρήστες</span>
             </button>
           );
         })}
@@ -299,8 +299,8 @@ export function RoleEditor({ roles, modules }: Props) {
         <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius)", overflow: "hidden" }}>
           <div style={{ padding: "16px 20px", borderBottom: "1px solid var(--border)", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 10 }}>
             <div>
-              <h2 style={{ fontSize: 15, fontWeight: 600, color: "var(--foreground)", margin: 0 }}>{activeRole.label}</h2>
-              <div style={{ fontSize: 11, color: "var(--muted-foreground)", marginTop: 2 }}>
+              <h2 style={{ fontSize: "var(--fs-15)", fontWeight: 600, color: "var(--foreground)", margin: 0 }}>{activeRole.label}</h2>
+              <div style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)", marginTop: 2 }}>
                 {SURFACE_LABELS[activeRole.surface] ?? activeRole.surface} · βασικός ρόλος: {ROLE_LABELS[activeRole.baseRole] ?? activeRole.baseRole}
               </div>
             </div>
@@ -312,10 +312,10 @@ export function RoleEditor({ roles, modules }: Props) {
                   style={{
                     display: "flex", alignItems: "center", gap: 6, padding: "7px 12px",
                     background: "transparent", color: "var(--foreground)", border: "1px solid var(--border)",
-                    borderRadius: "var(--radius)", fontSize: 13, cursor: "pointer", opacity: isPending ? 0.6 : 1,
+                    borderRadius: "var(--radius)", fontSize: "var(--fs-13)", cursor: "pointer", opacity: isPending ? 0.6 : 1,
                   }}
                 >
-                  <RiRefreshLine style={{ fontSize: 15 }} /> Επαναφορά προεπιλογών
+                  <RiRefreshLine style={{ fontSize: "var(--fs-15)" }} /> Επαναφορά προεπιλογών
                 </button>
               )}
               {!activeRole.isSystem && (
@@ -325,10 +325,10 @@ export function RoleEditor({ roles, modules }: Props) {
                   style={{
                     display: "flex", alignItems: "center", gap: 6, padding: "7px 12px",
                     background: "transparent", color: "#A4262C", border: "1px solid #A4262C55",
-                    borderRadius: "var(--radius)", fontSize: 13, cursor: "pointer", opacity: isPending ? 0.6 : 1,
+                    borderRadius: "var(--radius)", fontSize: "var(--fs-13)", cursor: "pointer", opacity: isPending ? 0.6 : 1,
                   }}
                 >
-                  <RiDeleteBinLine style={{ fontSize: 15 }} /> Διαγραφή ρόλου
+                  <RiDeleteBinLine style={{ fontSize: "var(--fs-15)" }} /> Διαγραφή ρόλου
                 </button>
               )}
               <button
@@ -337,11 +337,11 @@ export function RoleEditor({ roles, modules }: Props) {
                 style={{
                   display: "flex", alignItems: "center", gap: 6, padding: "7px 14px",
                   background: "#0078D4", color: "#fff", border: "none",
-                  borderRadius: "var(--radius)", fontSize: 13, fontWeight: 600, cursor: "pointer",
+                  borderRadius: "var(--radius)", fontSize: "var(--fs-13)", fontWeight: 600, cursor: "pointer",
                   opacity: isPending || isSuperAdmin ? 0.6 : 1,
                 }}
               >
-                <RiSaveLine style={{ fontSize: 15 }} /> Αποθήκευση
+                <RiSaveLine style={{ fontSize: "var(--fs-15)" }} /> Αποθήκευση
               </button>
             </div>
           </div>
@@ -350,9 +350,9 @@ export function RoleEditor({ roles, modules }: Props) {
             <div style={{
               display: "flex", alignItems: "center", gap: 8, padding: "10px 20px",
               background: "#A4262C10", borderBottom: "1px solid var(--border)",
-              fontSize: 12, color: "#A4262C", fontWeight: 500,
+              fontSize: "var(--fs-12)", color: "#A4262C", fontWeight: 500,
             }}>
-              <RiLockLine style={{ fontSize: 15 }} />
+              <RiLockLine style={{ fontSize: "var(--fs-15)" }} />
               Ο Super Admin έχει πάντα πλήρη πρόσβαση (κλειδωμένο).
             </div>
           )}
@@ -363,18 +363,18 @@ export function RoleEditor({ roles, modules }: Props) {
                 <div style={{
                   padding: "8px 20px", background: "var(--bg-canvas)",
                   borderBottom: "1px solid var(--border)", borderTop: "1px solid var(--border)",
-                  fontSize: 12, fontWeight: 700, color: "var(--muted-foreground)", textTransform: "uppercase", letterSpacing: "0.03em",
+                  fontSize: "var(--fs-12)", fontWeight: 700, color: "var(--muted-foreground)", textTransform: "uppercase", letterSpacing: "0.03em",
                 }}>
                   {SURFACE_LABELS[surface] ?? surface}
                 </div>
                 <table style={{ width: "100%", borderCollapse: "collapse" }}>
                   <thead>
                     <tr style={{ borderBottom: "1px solid var(--border)" }}>
-                      <th style={{ padding: "10px 20px", textAlign: "left", fontSize: 12, fontWeight: 600, color: "var(--muted-foreground)", minWidth: 200 }}>
+                      <th style={{ padding: "10px 20px", textAlign: "left", fontSize: "var(--fs-12)", fontWeight: 600, color: "var(--muted-foreground)", minWidth: 200 }}>
                         Λειτουργία
                       </th>
                       {ACTION_ORDER.map((a) => (
-                        <th key={a} style={{ padding: "10px 12px", textAlign: "center", fontSize: 11, fontWeight: 600, color: "var(--muted-foreground)" }}>
+                        <th key={a} style={{ padding: "10px 12px", textAlign: "center", fontSize: "var(--fs-11)", fontWeight: 600, color: "var(--muted-foreground)" }}>
                           {ACTION_LABELS[a]}
                         </th>
                       ))}
@@ -383,7 +383,7 @@ export function RoleEditor({ roles, modules }: Props) {
                   <tbody>
                     {mods.map((m, i) => (
                       <tr key={m.key} style={{ borderBottom: i < mods.length - 1 ? "1px solid var(--border)" : "none" }}>
-                        <td style={{ padding: "10px 20px", fontSize: 13, color: "var(--foreground)", fontWeight: 500 }}>{m.label}</td>
+                        <td style={{ padding: "10px 20px", fontSize: "var(--fs-13)", color: "var(--foreground)", fontWeight: 500 }}>{m.label}</td>
                         {ACTION_ORDER.map((a) => {
                           const supported = m.actions.includes(a);
                           const key = `${m.key}:${a}`;
@@ -410,7 +410,7 @@ export function RoleEditor({ roles, modules }: Props) {
               </div>
             ))}
             {relevantModules.length === 0 && (
-              <div style={{ padding: 24, textAlign: "center", fontSize: 13, color: "var(--muted-foreground)" }}>
+              <div style={{ padding: 24, textAlign: "center", fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }}>
                 Δεν υπάρχουν διαθέσιμες λειτουργίες για αυτό το surface.
               </div>
             )}
@@ -419,8 +419,8 @@ export function RoleEditor({ roles, modules }: Props) {
       )}
 
       {isSuperAdmin && (
-        <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12, color: "var(--muted-foreground)" }}>
-          <RiCheckLine style={{ fontSize: 14, color: "#107C10" }} />
+        <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>
+          <RiCheckLine style={{ fontSize: "var(--fs-14)", color: "#107C10" }} />
           Όλα τα δικαιώματα ενεργά για τον Super Admin.
         </div>
       )}

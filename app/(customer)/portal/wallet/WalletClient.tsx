@@ -56,7 +56,7 @@ export default function WalletClient() {
     <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
       <h1
         style={{
-          fontSize: 22,
+          fontSize: "var(--fs-22)",
           fontWeight: 700,
           display: "flex",
           alignItems: "center",
@@ -75,7 +75,7 @@ export default function WalletClient() {
             background: "#FEE7E618",
             border: "1px solid var(--color-danger)",
             color: "var(--color-danger)",
-            fontSize: 13,
+            fontSize: "var(--fs-13)",
           }}
         >
           Οι μονάδες AI εξαντλήθηκαν — αγοράστε για να συνεχίσετε.
@@ -83,7 +83,7 @@ export default function WalletClient() {
       )}
 
       {msg && (
-        <div style={{ color: "var(--muted-foreground)", fontSize: 13 }}>{msg}</div>
+        <div style={{ color: "var(--muted-foreground)", fontSize: "var(--fs-13)" }}>{msg}</div>
       )}
 
       <div
@@ -94,11 +94,11 @@ export default function WalletClient() {
           padding: "20px 24px",
         }}
       >
-        <div style={{ fontSize: 13, color: "var(--muted-foreground)" }}>Υπόλοιπο</div>
-        <div style={{ fontSize: 28, fontWeight: 700, color: "var(--foreground)" }}>
+        <div style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }}>Υπόλοιπο</div>
+        <div style={{ fontSize: "var(--fs-28)", fontWeight: 700, color: "var(--foreground)" }}>
           €{balance.toFixed(2)}
         </div>
-        <div style={{ fontSize: 12, color: "var(--muted-foreground)", marginTop: 4 }}>
+        <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)", marginTop: 4 }}>
           Μηνιαίο allowance: €{allowance.toFixed(2)}
         </div>
         <button
@@ -126,7 +126,7 @@ export default function WalletClient() {
           overflowX: "auto",
         }}
       >
-        <table style={{ width: "100%", fontSize: 13, borderCollapse: "collapse" }}>
+        <table style={{ width: "100%", fontSize: "var(--fs-13)", borderCollapse: "collapse" }}>
           <thead>
             <tr style={{ textAlign: "left", borderBottom: "1px solid var(--border)" }}>
               <th style={{ padding: 12 }}>Ημ/νία</th>

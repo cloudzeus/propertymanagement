@@ -8,13 +8,13 @@ import { btnClass } from "@/components/site/kit";
 type FormContent = ContactPageContent["form"];
 
 const FIELD =
-  "w-full rounded-[11px] border border-[var(--line)] bg-[var(--paper)] px-[15px] py-[13px] text-[14.5px] outline-none " +
+  "w-full rounded-[11px] border border-[var(--line)] bg-[var(--paper)] px-[15px] py-[13px] text-[length:var(--fs-14-5)] outline-none " +
   "transition-[border-color,box-shadow,background] duration-[180ms] " +
   "focus:border-[var(--accent)] focus:bg-white focus:shadow-[0_0_0_3px_rgba(242,162,60,.16)]";
 
 function Label({ children, required }: { children: React.ReactNode; required?: boolean }) {
   return (
-    <span className="mb-2 block text-[13px] font-bold">
+    <span className="mb-2 block text-[length:var(--fs-13)] font-bold">
       {children}
       {required ? <span className="text-[var(--accent)]"> *</span> : null}
     </span>
@@ -71,8 +71,8 @@ export function ContactForm({ content }: { content: FormContent }) {
             <path d="M20 6 9 17l-5-5" />
           </svg>
         </span>
-        <h2 className="text-[30px] font-extrabold tracking-[-.02em]">{content.success.heading}</h2>
-        <p className="mx-auto mb-7 mt-4 max-w-[400px] text-[16px] leading-[1.6] text-[var(--mut)]">
+        <h2 className="text-[length:var(--fs-30)] font-extrabold tracking-[-.02em]">{content.success.heading}</h2>
+        <p className="mx-auto mb-7 mt-4 max-w-[400px] text-[length:var(--fs-16)] leading-[1.6] text-[var(--mut)]">
           {content.success.body}
         </p>
         <button type="button" onClick={() => setStatus("idle")} className={btnClass("ghost")}>
@@ -87,8 +87,8 @@ export function ContactForm({ content }: { content: FormContent }) {
       onSubmit={onSubmit}
       className="rounded-[22px] border border-[var(--line)] bg-white px-6 py-7 shadow-[var(--shadow-card)] sm:px-[38px] sm:py-9"
     >
-      <h2 className="text-[21px] font-extrabold tracking-[-.015em]">{content.heading}</h2>
-      <p className="mb-7 mt-2.5 text-[14px] leading-[1.6] text-[var(--mut)]">{content.body}</p>
+      <h2 className="text-[length:var(--fs-21)] font-extrabold tracking-[-.015em]">{content.heading}</h2>
+      <p className="mb-7 mt-2.5 text-[length:var(--fs-14)] leading-[1.6] text-[var(--mut)]">{content.body}</p>
 
       <div className="mb-[18px] grid gap-4 min-[560px]:grid-cols-2">
         <label>
@@ -142,7 +142,7 @@ export function ContactForm({ content }: { content: FormContent }) {
         />
       </label>
 
-      <label className="mb-[22px] mt-1.5 flex cursor-pointer items-start gap-[11px] text-[13px] leading-[1.55] text-[var(--mut)]">
+      <label className="mb-[22px] mt-1.5 flex cursor-pointer items-start gap-[11px] text-[length:var(--fs-13)] leading-[1.55] text-[var(--mut)]">
         <input
           type="checkbox"
           required
@@ -163,12 +163,12 @@ export function ContactForm({ content }: { content: FormContent }) {
       </button>
 
       {status === "error" && (
-        <p role="alert" className="mt-3 text-center text-[13px] font-semibold text-[var(--color-danger)]">
+        <p role="alert" className="mt-3 text-center text-[length:var(--fs-13)] font-semibold text-[var(--color-danger)]">
           {content.errorMessage}
         </p>
       )}
 
-      <p className="mt-3.5 text-center text-[12px] text-[var(--mut2)]">{content.footnote}</p>
+      <p className="mt-3.5 text-center text-[length:var(--fs-12)] text-[var(--mut2)]">{content.footnote}</p>
     </form>
   );
 }

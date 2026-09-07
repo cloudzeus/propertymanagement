@@ -29,8 +29,8 @@ export function ShowcaseSection({ data }: { data: ShowcaseData }) {
               className="absolute left-0 top-10 w-[200px] rounded-2xl border bg-[var(--card)] px-[18px] py-4 shadow-[var(--shadow-card)] md:-left-[22px]"
               style={{ borderColor: "rgba(27,28,26,.12)" }}
             >
-              <div className="text-[30px] font-extrabold text-[var(--foreground)]">{data.stat1.value}</div>
-              <div className="text-[12.5px] text-[var(--muted-foreground)]">{data.stat1.label}</div>
+              <div className="text-[length:var(--fs-30)] font-extrabold text-[var(--foreground)]">{data.stat1.value}</div>
+              <div className="text-[length:var(--fs-12-5)] text-[var(--muted-foreground)]">{data.stat1.label}</div>
             </div>
           )}
           {data.stat2?.value && (
@@ -38,8 +38,8 @@ export function ShowcaseSection({ data }: { data: ShowcaseData }) {
               className="absolute bottom-12 right-0 w-[200px] rounded-2xl border bg-[var(--card)] px-[18px] py-4 shadow-[var(--shadow-card)] md:-right-[18px]"
               style={{ borderColor: "rgba(27,28,26,.12)" }}
             >
-              <div className="text-[30px] font-extrabold text-[var(--foreground)]">{data.stat2.value}</div>
-              <div className="text-[12.5px] text-[var(--muted-foreground)]">{data.stat2.label}</div>
+              <div className="text-[length:var(--fs-30)] font-extrabold text-[var(--foreground)]">{data.stat2.value}</div>
+              <div className="text-[length:var(--fs-12-5)] text-[var(--muted-foreground)]">{data.stat2.label}</div>
             </div>
           )}
         </Reveal>
@@ -47,15 +47,15 @@ export function ShowcaseSection({ data }: { data: ShowcaseData }) {
         {/* Copy */}
         <Reveal>
           {data.kicker && (
-            <span className="text-[13px] font-bold uppercase tracking-[0.14em] text-[var(--muted-foreground)]">
+            <span className="text-[length:var(--fs-13)] font-bold uppercase tracking-[0.14em] text-[var(--muted-foreground)]">
               {data.kicker}
             </span>
           )}
-          <h2 className="mb-2.5 mt-3.5 text-[32px] font-extrabold leading-[1.05] tracking-[-0.02em] text-[var(--foreground)] md:text-[46px]">
+          <h2 className="mb-2.5 mt-3.5 text-[length:var(--fs-32)] font-extrabold leading-[1.05] tracking-[-0.02em] text-[var(--foreground)] md:text-[length:var(--fs-46)]">
             {data.heading}
           </h2>
           {data.subtitle && (
-            <p className="mb-3.5 text-[17px] leading-relaxed text-[var(--muted-foreground)]">{data.subtitle}</p>
+            <p className="mb-3.5 text-[length:var(--fs-17)] leading-relaxed text-[var(--muted-foreground)]">{data.subtitle}</p>
           )}
           {(data.points ?? []).map((p, i) => (
             <div
@@ -64,9 +64,9 @@ export function ShowcaseSection({ data }: { data: ShowcaseData }) {
               style={{ borderColor: "rgba(27,28,26,.07)" }}
             >
               <div className="mt-0.5 h-[22px] w-[22px] flex-none rounded-[7px] bg-[var(--accent)]" />
-              <div className="text-[15.5px] text-[var(--foreground)]">
+              <div className="text-[length:var(--fs-15-5)] text-[var(--foreground)]">
                 {p.title}
-                {p.body && <span className="mt-0.5 block text-[13.5px] text-[var(--muted-foreground)]">{p.body}</span>}
+                {p.body && <span className="mt-0.5 block text-[length:var(--fs-13-5)] text-[var(--muted-foreground)]">{p.body}</span>}
               </div>
             </div>
           ))}

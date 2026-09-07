@@ -63,15 +63,15 @@ export function UserCombo({ selected, onSelect, placeholder = "Αναζήτησ�
             width: 24, height: 24, borderRadius: "50%", flexShrink: 0,
             background: "var(--color-primary)18", color: "var(--color-primary)",
             display: "flex", alignItems: "center", justifyContent: "center",
-            fontSize: 11, fontWeight: 700,
+            fontSize: "var(--fs-11)", fontWeight: 700,
           }}>
             {(selected.name ?? selected.email)[0]?.toUpperCase()}
           </div>
           <div style={{ minWidth: 0, flex: 1 }}>
-            <div style={{ fontSize: 13, fontWeight: 600, color: "var(--foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+            <div style={{ fontSize: "var(--fs-13)", fontWeight: 600, color: "var(--foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
               {selected.name ?? "—"}
             </div>
-            <div style={{ fontSize: 11, color: "var(--muted-foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+            <div style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
               {selected.email}
             </div>
           </div>
@@ -81,14 +81,14 @@ export function UserCombo({ selected, onSelect, placeholder = "Αναζήτησ�
             title="Αποσύνδεση"
             style={{ flexShrink: 0, border: "none", background: "transparent", cursor: "pointer", color: "var(--muted-foreground)", display: "flex", padding: 4 }}
           >
-            <RiCloseLine style={{ fontSize: 16 }} />
+            <RiCloseLine style={{ fontSize: "var(--fs-16)" }} />
           </button>
         </div>
       ) : (
         <div style={{ position: "relative" }}>
           <RiSearchLine style={{
             position: "absolute", left: 10, top: "50%", transform: "translateY(-50%)",
-            fontSize: 14, color: "var(--muted-foreground)", pointerEvents: "none",
+            fontSize: "var(--fs-14)", color: "var(--muted-foreground)", pointerEvents: "none",
           }} />
           <input
             type="text"
@@ -99,7 +99,7 @@ export function UserCombo({ selected, onSelect, placeholder = "Αναζήτησ�
             autoComplete="off"
             style={{
               height: 36, padding: "0 30px 0 32px", borderRadius: 6,
-              border: "1px solid var(--border)", fontSize: 13,
+              border: "1px solid var(--border)", fontSize: "var(--fs-13)",
               color: "var(--foreground)", background: "var(--card)",
               outline: "none", boxSizing: "border-box", width: "100%",
             }}
@@ -107,7 +107,7 @@ export function UserCombo({ selected, onSelect, placeholder = "Αναζήτησ�
           {loading && (
             <RiLoaderLine style={{
               position: "absolute", right: 10, top: "50%", transform: "translateY(-50%)",
-              fontSize: 14, color: "var(--muted-foreground)", animation: "spin 1s linear infinite",
+              fontSize: "var(--fs-14)", color: "var(--muted-foreground)", animation: "spin 1s linear infinite",
             }} />
           )}
         </div>
@@ -121,10 +121,10 @@ export function UserCombo({ selected, onSelect, placeholder = "Αναζήτησ�
           maxHeight: 260, overflowY: "auto",
         }}>
           {loading && results.length === 0 && (
-            <div style={{ padding: "12px 14px", fontSize: 12, color: "var(--muted-foreground)" }}>Φόρτωση…</div>
+            <div style={{ padding: "12px 14px", fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>Φόρτωση…</div>
           )}
           {!loading && results.length === 0 && (
-            <div style={{ padding: "12px 14px", fontSize: 12, color: "var(--muted-foreground)" }}>Δεν βρέθηκαν χρήστες</div>
+            <div style={{ padding: "12px 14px", fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>Δεν βρέθηκαν χρήστες</div>
           )}
           {results.map((u) => (
             <button
@@ -144,13 +144,13 @@ export function UserCombo({ selected, onSelect, placeholder = "Αναζήτησ�
                 width: 26, height: 26, borderRadius: "50%", flexShrink: 0,
                 background: "var(--color-primary)18", color: "var(--color-primary)",
                 display: "flex", alignItems: "center", justifyContent: "center",
-                fontSize: 11, fontWeight: 700,
+                fontSize: "var(--fs-11)", fontWeight: 700,
               }}>
-                <RiUserLine style={{ fontSize: 13 }} />
+                <RiUserLine style={{ fontSize: "var(--fs-13)" }} />
               </div>
               <div style={{ minWidth: 0 }}>
-                <div style={{ fontSize: 13, fontWeight: 500, color: "var(--foreground)" }}>{u.name ?? u.email}</div>
-                <div style={{ fontSize: 11, color: "var(--muted-foreground)" }}>{u.email} · {u.role}</div>
+                <div style={{ fontSize: "var(--fs-13)", fontWeight: 500, color: "var(--foreground)" }}>{u.name ?? u.email}</div>
+                <div style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)" }}>{u.email} · {u.role}</div>
               </div>
             </button>
           ))}

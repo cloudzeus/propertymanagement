@@ -52,7 +52,7 @@ export function CustomerTree({ properties }: { properties: TProperty[] }) {
   function act(fn: () => Promise<unknown>) { startTransition(async () => { await fn(); router.refresh(); }); }
 
   if (properties.length === 0) {
-    return <div style={{ padding: "12px 16px", fontSize: 12, color: "var(--muted-foreground)" }}>Δεν υπάρχουν ιδιοκτησίες.</div>;
+    return <div style={{ padding: "12px 16px", fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>Δεν υπάρχουν ιδιοκτησίες.</div>;
   }
 
   return (
@@ -102,7 +102,7 @@ export function BuildingsTree({ propertyId, buildings, depthBase = 0, showAddBui
         </div>
       )}
       {buildings.length === 0 && !showAddBuilding && (
-        <div style={{ paddingLeft: 10 + depthBase * 22, fontSize: 12, color: "var(--muted-foreground)" }}>Κανένα κτήριο.</div>
+        <div style={{ paddingLeft: 10 + depthBase * 22, fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>Κανένα κτήριο.</div>
       )}
       {buildings.map((b) => {
         const bOpen = open.has(b.id);
@@ -221,13 +221,13 @@ function Row({ depth, expandable, open, onToggle, icon, title, subtitle, extra, 
       onMouseEnter={(e) => { if (depth > 0) e.currentTarget.style.background = "var(--bg-canvas)"; }}
       onMouseLeave={(e) => { if (depth > 0) e.currentTarget.style.background = "transparent"; }}>
       <button onClick={onToggle} disabled={!expandable} style={{ width: 18, height: 18, border: "none", background: "transparent", cursor: expandable ? "pointer" : "default", color: "var(--muted-foreground)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-        {expandable && <RiArrowRightSLine style={{ fontSize: 16, transform: open ? "rotate(90deg)" : "none", transition: "transform .15s" }} />}
+        {expandable && <RiArrowRightSLine style={{ fontSize: "var(--fs-16)", transform: open ? "rotate(90deg)" : "none", transition: "transform .15s" }} />}
       </button>
-      <span style={{ flexShrink: 0, display: "flex", fontSize: 15 }}>{icon}</span>
+      <span style={{ flexShrink: 0, display: "flex", fontSize: "var(--fs-15)" }}>{icon}</span>
       <div style={{ minWidth: 0, flex: 1 }}>
-        <div style={{ fontSize: 13, fontWeight: 600, color: "var(--foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{title}</div>
-        {subtitle && <div style={{ fontSize: 11, color: "var(--muted-foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{subtitle}</div>}
-        {extra && <div style={{ fontSize: 10, color: "var(--muted-foreground)", opacity: 0.85, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", marginTop: 1 }}>{extra}</div>}
+        <div style={{ fontSize: "var(--fs-13)", fontWeight: 600, color: "var(--foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{title}</div>
+        {subtitle && <div style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{subtitle}</div>}
+        {extra && <div style={{ fontSize: "var(--fs-10)", color: "var(--muted-foreground)", opacity: 0.85, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", marginTop: 1 }}>{extra}</div>}
       </div>
       <Dropdown actions={actions} />
     </div>
@@ -245,14 +245,14 @@ function Dropdown({ actions }: { actions: Action[] }) {
   return (
     <div ref={ref} style={{ position: "relative", flexShrink: 0 }}>
       <button onClick={() => setOpen((v) => !v)} title="Ενέργειες" style={{ width: 28, height: 28, borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--muted-foreground)" }}>
-        <RiMoreFill style={{ fontSize: 16 }} />
+        <RiMoreFill style={{ fontSize: "var(--fs-16)" }} />
       </button>
       {open && (
         <div style={{ position: "absolute", top: "100%", right: 0, zIndex: 200, marginTop: 4, minWidth: 200, background: "var(--card)", border: "1px solid var(--border)", borderRadius: 6, boxShadow: "0 4px 16px rgba(0,0,0,.14)", overflow: "hidden" }}>
           {actions.map((a, i) => (
-            <button key={i} onClick={() => { setOpen(false); a.onClick(); }} style={{ display: "flex", alignItems: "center", gap: 8, width: "100%", padding: "8px 12px", border: "none", background: "transparent", cursor: "pointer", textAlign: "left", fontSize: 13, color: a.danger ? "#c50f1f" : "var(--foreground)" }}
+            <button key={i} onClick={() => { setOpen(false); a.onClick(); }} style={{ display: "flex", alignItems: "center", gap: 8, width: "100%", padding: "8px 12px", border: "none", background: "transparent", cursor: "pointer", textAlign: "left", fontSize: "var(--fs-13)", color: a.danger ? "#c50f1f" : "var(--foreground)" }}
               onMouseEnter={(e) => (e.currentTarget.style.background = "var(--bg-canvas)")} onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}>
-              <span style={{ display: "flex", fontSize: 15 }}>{a.icon}</span> {a.label}
+              <span style={{ display: "flex", fontSize: "var(--fs-15)" }}>{a.icon}</span> {a.label}
             </button>
           ))}
         </div>
@@ -262,10 +262,10 @@ function Dropdown({ actions }: { actions: Action[] }) {
 }
 
 // ─── Modals ────────────────────────────────────────────────────────────────────
-const cancelBtn: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: 13, color: "var(--foreground)" };
-const saveBtn: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: "pointer", fontSize: 13, fontWeight: 600, display: "flex", alignItems: "center", gap: 6 };
-const errBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: 12, border: "1px solid #fca5a530", marginBottom: 14 };
-const smallBtn: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 4, padding: "4px 8px", borderRadius: 5, fontSize: 11, fontWeight: 600, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", color: "var(--foreground)" };
+const cancelBtn: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: "var(--fs-13)", color: "var(--foreground)" };
+const saveBtn: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: "pointer", fontSize: "var(--fs-13)", fontWeight: 600, display: "flex", alignItems: "center", gap: 6 };
+const errBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: "var(--fs-12)", border: "1px solid #fca5a530", marginBottom: 14 };
+const smallBtn: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 4, padding: "4px 8px", borderRadius: 5, fontSize: "var(--fs-11)", fontWeight: 600, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", color: "var(--foreground)" };
 const yesNo = [{ value: "false", label: "Όχι" }, { value: "true", label: "Ναι" }];
 const spin = <style>{`@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}`}</style>;
 
@@ -316,7 +316,7 @@ function BuildingModal({ propertyId, editing, propertyAddress, onClose, onDone }
           <div />
         </div>
         {!editing && propertyAddress && (
-          <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: "var(--foreground)", cursor: "pointer" }}>
+          <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: "var(--fs-13)", color: "var(--foreground)", cursor: "pointer" }}>
             <input type="checkbox" checked={sameAddress} onChange={(e) => toggleSame(e.target.checked)} style={{ width: 15, height: 15, accentColor: "var(--color-primary)" }} />
             Ίδια διεύθυνση με την ιδιοκτησία
           </label>
@@ -324,7 +324,7 @@ function BuildingModal({ propertyId, editing, propertyAddress, onClose, onDone }
         <FormField label="Διεύθυνση" required>
           <div style={{ display: "flex", gap: 6 }}>
             <FieldInput value={form.address} onChange={f("address")} />
-            <button type="button" onClick={geocode} disabled={geoLoading || !form.address} title="Geocoding" style={{ flexShrink: 0, width: 36, height: 36, borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--foreground)" }}>{geoLoading ? <RiLoaderLine style={{ fontSize: 15, animation: "spin 1s linear infinite" }} /> : <RiMapPin2Line style={{ fontSize: 15 }} />}</button>
+            <button type="button" onClick={geocode} disabled={geoLoading || !form.address} title="Geocoding" style={{ flexShrink: 0, width: 36, height: 36, borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--foreground)" }}>{geoLoading ? <RiLoaderLine style={{ fontSize: "var(--fs-15)", animation: "spin 1s linear infinite" }} /> : <RiMapPin2Line style={{ fontSize: "var(--fs-15)" }} />}</button>
           </div>
         </FormField>
         <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr", gap: 12 }}>
@@ -332,7 +332,7 @@ function BuildingModal({ propertyId, editing, propertyAddress, onClose, onDone }
           <FormField label="Τ.Κ."><FieldInput value={form.postalCode} onChange={f("postalCode")} /></FormField>
           <FormField label="Χώρα"><FieldInput value={form.country} onChange={f("country")} /></FormField>
         </div>
-        {lat != null && lng != null && <div style={{ fontSize: 11, color: "#16a34a" }}><RiMapPin2Line style={{ fontSize: 12 }} /> {lat.toFixed(6)}, {lng.toFixed(6)}</div>}
+        {lat != null && lng != null && <div style={{ fontSize: "var(--fs-11)", color: "#16a34a" }}><RiMapPin2Line style={{ fontSize: "var(--fs-12)" }} /> {lat.toFixed(6)}, {lng.toFixed(6)}</div>}
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 }}>
           <FormField label="Ασανσέρ"><FieldSelect value={form.hasElevator} onChange={f("hasElevator")} options={yesNo} /></FormField>
           <FormField label="Καυστήρας"><FieldSelect value={form.hasBoiler} onChange={f("hasBoiler")} options={yesNo} /></FormField>
@@ -408,22 +408,22 @@ function MillesimesModal({ building, onClose, onDone }: { building: TBuilding; o
           {isPending ? <RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> : <RiCheckLine />} Εφαρμογή σε όλες
         </button>
       </>}>
-      {error && <div style={{ padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: 12, border: "1px solid #fca5a530", marginBottom: 12 }}>{error}</div>}
+      {error && <div style={{ padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: "var(--fs-12)", border: "1px solid #fca5a530", marginBottom: 12 }}>{error}</div>}
 
       {!canApply && (
-        <div style={{ padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: 12, marginBottom: 12 }}>
+        <div style={{ padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: "var(--fs-12)", marginBottom: 12 }}>
           Καμία μονάδα δεν έχει τετραγωνικά. Συμπληρώστε τ.μ. στις μονάδες πρώτα.
         </div>
       )}
       {missing > 0 && canApply && (
-        <div style={{ padding: "8px 12px", borderRadius: 6, background: "#fef9c318", color: "#a16207", fontSize: 12, border: "1px solid #fde04740", marginBottom: 12 }}>
+        <div style={{ padding: "8px 12px", borderRadius: 6, background: "#fef9c318", color: "#a16207", fontSize: "var(--fs-12)", border: "1px solid #fde04740", marginBottom: 12 }}>
           {missing} μονάδες χωρίς τ.μ. — τα χιλιοστά τους θα μηδενιστούν.
         </div>
       )}
 
-      <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
+      <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "var(--fs-13)" }}>
         <thead>
-          <tr style={{ textAlign: "left", color: "var(--muted-foreground)", fontSize: 11 }}>
+          <tr style={{ textAlign: "left", color: "var(--muted-foreground)", fontSize: "var(--fs-11)" }}>
             <th style={{ padding: "6px 8px" }}>Μονάδα</th>
             <th style={{ padding: "6px 8px", textAlign: "right" }}>τ.μ.</th>
             <th style={{ padding: "6px 8px", textAlign: "right" }}>Παλιά ‰</th>
@@ -503,19 +503,19 @@ function ManagersModal({ scope, title, onClose }: { scope: ManagerScope; title: 
 
       <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
         <div>
-          <div style={{ fontSize: 12, fontWeight: 700, color: "var(--muted-foreground)", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: 8 }}>Διαχειριστές</div>
+          <div style={{ fontSize: "var(--fs-12)", fontWeight: 700, color: "var(--muted-foreground)", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: 8 }}>Διαχειριστές</div>
           {loading ? (
-            <div style={{ fontSize: 12, color: "var(--muted-foreground)" }}>Φόρτωση…</div>
+            <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>Φόρτωση…</div>
           ) : managers.length === 0 ? (
-            <div style={{ fontSize: 12, color: "var(--muted-foreground)" }}>Δεν έχουν οριστεί διαχειριστές.</div>
+            <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>Δεν έχουν οριστεί διαχειριστές.</div>
           ) : (
             <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
               {managers.map((m) => (
                 <div key={m.assignmentId} style={{ display: "flex", alignItems: "center", gap: 10, border: "1px solid var(--border)", borderRadius: 8, padding: "8px 10px" }}>
                   <RiUserStarLine style={{ color: "var(--color-primary)", flexShrink: 0 }} />
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontSize: 13, fontWeight: 600, color: "var(--foreground)" }}>{m.name || "—"}</div>
-                    <div style={{ fontSize: 12, color: "var(--muted-foreground)" }}>{m.email}</div>
+                    <div style={{ fontSize: "var(--fs-13)", fontWeight: 600, color: "var(--foreground)" }}>{m.name || "—"}</div>
+                    <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>{m.email}</div>
                   </div>
                   <button onClick={() => remove(m.assignmentId)} disabled={isPending} style={{ ...smallBtn, color: "#c50f1f" }}><RiCloseLine /> Αφαίρεση</button>
                 </div>
@@ -525,7 +525,7 @@ function ManagersModal({ scope, title, onClose }: { scope: ManagerScope; title: 
         </div>
 
         <div style={{ position: "relative" }}>
-          <div style={{ fontSize: 12, fontWeight: 700, color: "var(--muted-foreground)", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: 8 }}>Προσθήκη διαχειριστή</div>
+          <div style={{ fontSize: "var(--fs-12)", fontWeight: 700, color: "var(--muted-foreground)", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: 8 }}>Προσθήκη διαχειριστή</div>
           <input
             type="text"
             value={query}
@@ -533,25 +533,25 @@ function ManagersModal({ scope, title, onClose }: { scope: ManagerScope; title: 
             onFocus={() => setOpen(true)}
             placeholder="Αναζήτηση: ιδιοκτήτες/ένοικοι, πελάτης ή προσωπικό…"
             autoComplete="off"
-            style={{ height: 36, padding: "0 10px", borderRadius: 6, border: "1px solid var(--border)", fontSize: 13, color: "var(--foreground)", background: "var(--card)", outline: "none", boxSizing: "border-box", width: "100%" }}
+            style={{ height: 36, padding: "0 10px", borderRadius: 6, border: "1px solid var(--border)", fontSize: "var(--fs-13)", color: "var(--foreground)", background: "var(--card)", outline: "none", boxSizing: "border-box", width: "100%" }}
           />
           {open && (
             <div style={{ position: "absolute", top: "100%", left: 0, right: 0, zIndex: 300, background: "var(--card)", border: "1px solid var(--border)", borderRadius: 6, marginTop: 4, boxShadow: "0 4px 16px rgba(0,0,0,.12)", maxHeight: 240, overflowY: "auto" }}>
-              {searching && visible.length === 0 && <div style={{ padding: "12px 14px", fontSize: 12, color: "var(--muted-foreground)" }}>Φόρτωση…</div>}
-              {!searching && visible.length === 0 && <div style={{ padding: "12px 14px", fontSize: 12, color: "var(--muted-foreground)" }}>Κανένας διαθέσιμος υποψήφιος</div>}
+              {searching && visible.length === 0 && <div style={{ padding: "12px 14px", fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>Φόρτωση…</div>}
+              {!searching && visible.length === 0 && <div style={{ padding: "12px 14px", fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>Κανένας διαθέσιμος υποψήφιος</div>}
               {visible.map((c) => (
                 <button key={c.id} type="button" onClick={() => add(c.id)} disabled={isPending}
                   style={{ display: "flex", alignItems: "center", gap: 8, width: "100%", padding: "9px 12px", border: "none", background: "transparent", cursor: "pointer", textAlign: "left", borderBottom: "1px solid var(--border)" }}
                   onMouseEnter={(e) => (e.currentTarget.style.background = "var(--bg-canvas)")}
                   onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}>
                   <span style={{ flex: 1, minWidth: 0 }}>
-                    <span style={{ display: "block", fontSize: 13, fontWeight: 600, color: "var(--foreground)" }}>{c.name || c.email}</span>
-                    <span style={{ display: "block", fontSize: 11, color: "var(--muted-foreground)" }}>{c.email}</span>
+                    <span style={{ display: "block", fontSize: "var(--fs-13)", fontWeight: 600, color: "var(--foreground)" }}>{c.name || c.email}</span>
+                    <span style={{ display: "block", fontSize: "var(--fs-11)", color: "var(--muted-foreground)" }}>{c.email}</span>
                   </span>
                   {(() => {
                     const badge = c.origin === "staff" ? { label: "Εταιρεία", color: "#0078D4" } : c.origin === "customer" ? { label: "Πελάτης", color: "#9333ea" } : { label: "Ένοικος/Ιδιοκτήτης", color: "#16a34a" };
                     return (
-                      <span style={{ flexShrink: 0, fontSize: 10, fontWeight: 700, padding: "2px 6px", borderRadius: 4, background: `${badge.color}18`, color: badge.color }}>
+                      <span style={{ flexShrink: 0, fontSize: "var(--fs-10)", fontWeight: 700, padding: "2px 6px", borderRadius: 4, background: `${badge.color}18`, color: badge.color }}>
                         {badge.label}
                       </span>
                     );
@@ -627,14 +627,14 @@ function Slot({ unitId, role, label, current, onDone }: { unitId: string; role: 
   function clear() { if (!confirm(`Αφαίρεση ${label.toLowerCase()};`)) return; startTransition(async () => { await clearOccupant(unitId, role); setOccupant(null); onDone(); }); }
   return (
     <div style={{ border: "1px solid var(--border)", borderRadius: 8, padding: 14 }}>
-      <div style={{ fontSize: 12, fontWeight: 700, color: "var(--muted-foreground)", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: 10, display: "flex", alignItems: "center", gap: 6 }}>
+      <div style={{ fontSize: "var(--fs-12)", fontWeight: 700, color: "var(--muted-foreground)", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: 10, display: "flex", alignItems: "center", gap: 6 }}>
         {role === "OWNER" ? <RiUserStarLine /> : <RiUserLine />} {label}
       </div>
       {occupant ? (
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontSize: 13, fontWeight: 600, color: "var(--foreground)" }}>{occupant.name || "—"}</div>
-            <div style={{ fontSize: 12, color: "var(--muted-foreground)" }}>{occupant.email}</div>
+            <div style={{ fontSize: "var(--fs-13)", fontWeight: 600, color: "var(--foreground)" }}>{occupant.name || "—"}</div>
+            <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>{occupant.email}</div>
           </div>
           <button onClick={clear} disabled={isPending} style={{ ...smallBtn, color: "#c50f1f" }}><RiCloseLine /> Αφαίρεση</button>
         </div>

@@ -119,7 +119,7 @@ export async function OwnerHome({ userId, userName, previewMode = false }: { use
                 const pill = {
                   display: "inline-flex", alignItems: "center", padding: "4px 10px", borderRadius: 999,
                   border: "1px solid var(--border)", background: "var(--card)",
-                  fontSize: 12, fontWeight: 600, color: "var(--foreground)", textDecoration: "none",
+                  fontSize: "var(--fs-12)", fontWeight: 600, color: "var(--foreground)", textDecoration: "none",
                   whiteSpace: "nowrap" as const,
                 };
                 return (
@@ -130,29 +130,29 @@ export async function OwnerHome({ userId, userName, previewMode = false }: { use
                 }}>
                   <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 8 }}>
                     <div style={{ minWidth: 0 }}>
-                      <div style={{ fontSize: 16, fontWeight: 700, color: "var(--foreground)" }}>{u.unitNumber}</div>
-                      <Link href={`/building/${u.buildingId}`} style={{ display: "block", fontSize: 12, color: "var(--muted-foreground)", marginTop: 2, textDecoration: "none" }}>
+                      <div style={{ fontSize: "var(--fs-16)", fontWeight: 700, color: "var(--foreground)" }}>{u.unitNumber}</div>
+                      <Link href={`/building/${u.buildingId}`} style={{ display: "block", fontSize: "var(--fs-12)", color: "var(--muted-foreground)", marginTop: 2, textDecoration: "none" }}>
                         {u.buildingName}
                       </Link>
                     </div>
                     <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 4, flexShrink: 0 }}>
                       <StatusChip tone={TENANCY[u.tenancy].tone}>{TENANCY[u.tenancy].label}</StatusChip>
-                      {u.tenantName && <span style={{ fontSize: 12, color: "var(--muted-foreground)", textAlign: "right" }}>{u.tenantName}</span>}
+                      {u.tenantName && <span style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)", textAlign: "right" }}>{u.tenantName}</span>}
                     </div>
                   </div>
-                  <div style={{ fontSize: 12, color: "var(--muted-foreground)" }}>
+                  <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>
                     Όροφος {u.floor ?? "—"} · {u.areaSqm ?? "—"} τ.μ. · {u.millesimes ?? "—"}‰
                   </div>
                   <div style={{ display: "flex", alignItems: "baseline", gap: 8, marginTop: 2 }}>
                     {u.unpaidOwner > 0 ? (
                       <>
-                        <span style={{ fontSize: 20, fontWeight: 700, color: "var(--color-warning)", lineHeight: 1, ...tnums }}>
+                        <span style={{ fontSize: "var(--fs-20)", fontWeight: 700, color: "var(--color-warning)", lineHeight: 1, ...tnums }}>
                           {formatEuro(u.unpaidOwner)}
                         </span>
-                        <span style={{ fontSize: 11, color: "var(--muted-foreground)" }}>ανεξόφλητα</span>
+                        <span style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)" }}>ανεξόφλητα</span>
                       </>
                     ) : (
-                      <span style={{ fontSize: 13, fontWeight: 600, color: "var(--color-success)" }}>Εξοφλημένο</span>
+                      <span style={{ fontSize: "var(--fs-13)", fontWeight: 600, color: "var(--color-success)" }}>Εξοφλημένο</span>
                     )}
                   </div>
                   <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginTop: 2 }}>
@@ -171,11 +171,11 @@ export async function OwnerHome({ userId, userName, previewMode = false }: { use
             <SectionCard title="Ανοιχτά αιτήματα συντήρησης" viewAllHref="/owner/requests">
               {tickets.length === 0 ? (
                 <div style={{ padding: "24px 0", textAlign: "center" }}>
-                  <RiToolsLine style={{ fontSize: 28, opacity: 0.35, display: "block", margin: "0 auto 8px", color: "var(--muted-foreground)" }} />
-                  <div style={{ fontSize: 13, color: "var(--muted-foreground)" }}>Κανένα ανοιχτό αίτημα</div>
+                  <RiToolsLine style={{ fontSize: "var(--fs-28)", opacity: 0.35, display: "block", margin: "0 auto 8px", color: "var(--muted-foreground)" }} />
+                  <div style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }}>Κανένα ανοιχτό αίτημα</div>
                   <Link href="/owner/requests" style={{
                     display: "inline-block", marginTop: 12, padding: "6px 14px", borderRadius: 999,
-                    border: "1px solid var(--border-strong)", fontSize: 12, fontWeight: 600,
+                    border: "1px solid var(--border-strong)", fontSize: "var(--fs-12)", fontWeight: 600,
                     color: "var(--foreground)", textDecoration: "none",
                   }}>
                     Δήλωση βλάβης
@@ -201,16 +201,16 @@ export async function OwnerHome({ userId, userName, previewMode = false }: { use
                         borderLeft: "3px solid var(--color-primary)",
                       }}>
                         <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 10 }}>
-                          <div style={{ fontSize: 14, fontWeight: 600, color: "var(--foreground)", minWidth: 0 }}>{ann.title}</div>
-                          <span style={{ fontSize: 11, color: "var(--muted-foreground)", whiteSpace: "nowrap", ...tnums }}>
+                          <div style={{ fontSize: "var(--fs-14)", fontWeight: 600, color: "var(--foreground)", minWidth: 0 }}>{ann.title}</div>
+                          <span style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)", whiteSpace: "nowrap", ...tnums }}>
                             {dateFmt.format(ann.createdAt)}
                           </span>
                         </div>
-                        <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 3, fontSize: 12, color: "var(--muted-foreground)" }}>
-                          <RiBuildingLine style={{ fontSize: 13, flexShrink: 0 }} /> {ann.building?.name ?? "—"}
+                        <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 3, fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>
+                          <RiBuildingLine style={{ fontSize: "var(--fs-13)", flexShrink: 0 }} /> {ann.building?.name ?? "—"}
                         </div>
                         {text && (
-                          <p style={{ margin: "6px 0 0", fontSize: 12, lineHeight: 1.45, color: "var(--muted-foreground)" }}>{text}</p>
+                          <p style={{ margin: "6px 0 0", fontSize: "var(--fs-12)", lineHeight: 1.45, color: "var(--muted-foreground)" }}>{text}</p>
                         )}
                       </div>
                     );
@@ -224,7 +224,7 @@ export async function OwnerHome({ userId, userName, previewMode = false }: { use
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <SectionCard title="Κατάσταση μονάδων">
             {portfolio.length === 0 ? (
-              <p style={{ margin: 0, fontSize: 13, color: "var(--muted-foreground)" }}>Καμία μονάδα.</p>
+              <p style={{ margin: 0, fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }}>Καμία μονάδα.</p>
             ) : (
               <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
                 <div style={{ display: "flex", height: 12, borderRadius: 999, overflow: "hidden", gap: 2 }}>
@@ -234,7 +234,7 @@ export async function OwnerHome({ userId, userName, previewMode = false }: { use
                 </div>
                 <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
                   {occSegments.map((s) => (
-                    <div key={s.label} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", fontSize: 12, color: "var(--muted-foreground)" }}>
+                    <div key={s.label} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>
                       <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
                         <span style={{ width: 10, height: 10, borderRadius: 3, background: s.color }} />
                         {s.label}
@@ -253,16 +253,16 @@ export async function OwnerHome({ userId, userName, previewMode = false }: { use
 
           {tenantSide && (
             <SectionCard title={tenantSide.selfOwned ? "Η κατοικία μου (ιδιοκατοίκηση)" : "Η κατοικία μου (ως ένοικος)"}>
-              <div style={{ fontSize: 13, color: "var(--muted-foreground)" }}>
+              <div style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }}>
                 {tenantSide.buildingName} · Μονάδα {tenantSide.unitNumber}
               </div>
               <div style={{
-                fontSize: 30, fontWeight: 300, lineHeight: 1.05, letterSpacing: "-0.02em", marginTop: 10,
+                fontSize: "var(--fs-30)", fontWeight: 300, lineHeight: 1.05, letterSpacing: "-0.02em", marginTop: 10,
                 color: tenantSide.unpaidTenant > 0 ? "var(--color-warning)" : "var(--foreground)", ...tnums,
               }}>
                 {formatEuro(tenantSide.unpaidTenant)}
               </div>
-              <div style={{ fontSize: 12, color: "var(--muted-foreground)", marginTop: 6 }}>
+              <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)", marginTop: 6 }}>
                 {tenantSide.selfOwned ? "Ανεξόφλητο μερίδιο ενοίκου" : "Ανεξόφλητα κοινόχρηστα"}
                 {tenantSide.latestMonth ? ` · τελευταίος μήνας ${monthLabel(tenantSide.latestMonth)}` : ""}
               </div>
@@ -270,14 +270,14 @@ export async function OwnerHome({ userId, userName, previewMode = false }: { use
                 <Link href="/portal/payments" style={{
                   display: "inline-flex", alignItems: "center", gap: 6, padding: "8px 16px",
                   borderRadius: 10, background: "var(--color-primary)", color: "#fff",
-                  fontSize: 13, fontWeight: 600, textDecoration: "none",
+                  fontSize: "var(--fs-13)", fontWeight: 600, textDecoration: "none",
                 }}>
                   <RiWallet3Line /> Πληρωμές ενοίκου
                 </Link>
                 <Link href={`/building/${tenantSide.buildingId}`} style={{
                   display: "inline-flex", alignItems: "center", gap: 6, padding: "8px 16px",
                   borderRadius: 10, border: "1px solid var(--border-strong)", color: "var(--foreground)",
-                  fontSize: 13, fontWeight: 600, textDecoration: "none",
+                  fontSize: "var(--fs-13)", fontWeight: 600, textDecoration: "none",
                 }}>
                   <RiBuildingLine /> Το κτήριό μου
                 </Link>

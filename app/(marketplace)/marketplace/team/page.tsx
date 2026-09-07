@@ -18,8 +18,8 @@ export default async function SupplierTeamPage() {
   return (
     <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 16, maxWidth: 1000 }}>
       <div>
-        <h1 style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 22, fontWeight: 700, color: "var(--foreground)", margin: 0 }}><RiGroupLine style={{ color: "var(--color-primary)" }} /> Ομάδα</h1>
-        <p style={{ margin: "4px 0 0", fontSize: 13, color: "var(--muted-foreground)" }}>
+        <h1 style={{ display: "flex", alignItems: "center", gap: 10, fontSize: "var(--fs-22)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}><RiGroupLine style={{ color: "var(--color-primary)" }} /> Ομάδα</h1>
+        <p style={{ margin: "4px 0 0", fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }}>
           Οι λογαριασμοί της επιχείρησής σας. Οι τεχνικοί βλέπουν τις αναθέσεις· οι διαχειριστές επεξεργάζονται επιπλέον προφίλ, κατάλογο και ομάδα.
         </p>
       </div>

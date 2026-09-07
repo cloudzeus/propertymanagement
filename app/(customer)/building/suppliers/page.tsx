@@ -23,8 +23,8 @@ export default async function PrivateSuppliersPage() {
     return (
       <div style={{ display: "flex", justifyContent: "center", paddingTop: 60 }}>
         <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 12, padding: "40px 48px", textAlign: "center", maxWidth: 480 }}>
-          <div style={{ fontSize: 17, fontWeight: 700, color: "var(--foreground)" }}>Ο λογαριασμός σας δεν έχει συνδεθεί με πελάτη.</div>
-          <p style={{ margin: "8px 0 0", fontSize: 13, color: "var(--muted-foreground)" }}>Επικοινωνήστε με την εταιρεία διαχείρισης.</p>
+          <div style={{ fontSize: "var(--fs-17)", fontWeight: 700, color: "var(--foreground)" }}>Ο λογαριασμός σας δεν έχει συνδεθεί με πελάτη.</div>
+          <p style={{ margin: "8px 0 0", fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }}>Επικοινωνήστε με την εταιρεία διαχείρισης.</p>
         </div>
       </div>
     );

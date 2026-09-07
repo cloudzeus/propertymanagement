@@ -101,9 +101,9 @@ export function PaymentsTable({ rows, payEnabledByBuilding = {}, managerName = n
         const addr = [src?.buildingAddress, src?.buildingCity].filter(Boolean).join(", ");
         return (
           <div style={{ minWidth: 0 }}>
-            <div style={{ fontSize: 13, color: "var(--foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{r.buildingName}</div>
+            <div style={{ fontSize: "var(--fs-13)", color: "var(--foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{r.buildingName}</div>
             {addr && (
-              <div style={{ fontSize: 11, color: "var(--muted-foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{addr}</div>
+              <div style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{addr}</div>
             )}
           </div>
         );
@@ -115,15 +115,15 @@ export function PaymentsTable({ rows, payEnabledByBuilding = {}, managerName = n
         const type = r.months[0]?.unitType;
         return (
           <div style={{ minWidth: 0 }}>
-            <div style={{ fontSize: 13, fontWeight: 600, color: "var(--foreground)" }}>{r.unitNumber}</div>
-            {type && <div style={{ fontSize: 11, color: "var(--muted-foreground)" }}>{UNIT_TYPE[type] ?? type}</div>}
+            <div style={{ fontSize: "var(--fs-13)", fontWeight: 600, color: "var(--foreground)" }}>{r.unitNumber}</div>
+            {type && <div style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)" }}>{UNIT_TYPE[type] ?? type}</div>}
           </div>
         );
       },
     },
     {
       id: "floor", header: "Όροφος", width: 100, accessor: (r) => r.floor ?? "",
-      cell: (r) => <span style={{ fontSize: 13, color: "var(--foreground)" }}>{floorLabel(r.floor)}</span>,
+      cell: (r) => <span style={{ fontSize: "var(--fs-13)", color: "var(--foreground)" }}>{floorLabel(r.floor)}</span>,
     },
     {
       id: "outstanding", header: "Συνολική οφειλή", sortKey: "outstanding", width: 160, accessor: (r) => r.outstanding,
@@ -146,7 +146,7 @@ export function PaymentsTable({ rows, payEnabledByBuilding = {}, managerName = n
             <button type="button" disabled title="Το Viva της ιδιοκτησίας δεν έχει ρυθμιστεί" style={{
               display: "inline-flex", alignItems: "center", gap: 6, borderRadius: 8, padding: "7px 14px",
               border: "1px solid var(--border)", background: "var(--card)", color: "var(--muted-foreground)",
-              fontSize: 13, fontWeight: 700, cursor: "not-allowed", whiteSpace: "nowrap",
+              fontSize: "var(--fs-13)", fontWeight: 700, cursor: "not-allowed", whiteSpace: "nowrap",
             }}>
               Σύντομα
             </button>
@@ -161,12 +161,12 @@ export function PaymentsTable({ rows, payEnabledByBuilding = {}, managerName = n
             style={{
               display: "inline-flex", alignItems: "center", gap: 6, borderRadius: 8, padding: "7px 14px",
               border: "1px solid transparent", background: "var(--color-primary)", color: "var(--primary-foreground)",
-              fontSize: 13, fontWeight: 700, cursor: loading ? "wait" : "pointer", whiteSpace: "nowrap", opacity: loading ? 0.7 : 1,
+              fontSize: "var(--fs-13)", fontWeight: 700, cursor: loading ? "wait" : "pointer", whiteSpace: "nowrap", opacity: loading ? 0.7 : 1,
             }}
           >
             {loading
-              ? <RiLoader4Line style={{ fontSize: 16, animation: "spin 1s linear infinite" }} />
-              : <RiBankCardLine style={{ fontSize: 16 }} />}
+              ? <RiLoader4Line style={{ fontSize: "var(--fs-16)", animation: "spin 1s linear infinite" }} />
+              : <RiBankCardLine style={{ fontSize: "var(--fs-16)" }} />}
             Πληρωμή {formatEuro(r.outstanding)}
           </button>
         );
@@ -195,7 +195,7 @@ export function PaymentsTable({ rows, payEnabledByBuilding = {}, managerName = n
 
   return (
     <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 18 }}>
-      <h1 style={{ fontSize: 22, fontWeight: 700, color: "var(--foreground)", margin: 0 }}>{title}</h1>
+      <h1 style={{ fontSize: "var(--fs-22)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}>{title}</h1>
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 16, maxWidth: 640 }} className="dash-grid">
         <StatTile
@@ -209,9 +209,9 @@ export function PaymentsTable({ rows, payEnabledByBuilding = {}, managerName = n
         <div style={{
           display: "flex", alignItems: "center", gap: 10, padding: "12px 16px", borderRadius: "var(--radius-lg)",
           border: "1px solid var(--color-warning)", background: "color-mix(in srgb, var(--color-warning) 10%, transparent)",
-          color: "var(--foreground)", fontSize: 13,
+          color: "var(--foreground)", fontSize: "var(--fs-13)",
         }} role="status">
-          <RiMoneyEuroCircleLine style={{ fontSize: 18, flexShrink: 0 }} />
+          <RiMoneyEuroCircleLine style={{ fontSize: "var(--fs-18)", flexShrink: 0 }} />
           {notice}
         </div>
       )}
@@ -219,9 +219,9 @@ export function PaymentsTable({ rows, payEnabledByBuilding = {}, managerName = n
       {unitRows.length === 0 && (
         <div style={{
           display: "flex", alignItems: "center", gap: 10, padding: "14px 16px", borderRadius: "var(--radius-lg)",
-          border: "1px solid var(--border)", background: "var(--card)", color: "var(--muted-foreground)", fontSize: 13,
+          border: "1px solid var(--border)", background: "var(--card)", color: "var(--muted-foreground)", fontSize: "var(--fs-13)",
         }}>
-          <RiMoneyEuroCircleLine style={{ fontSize: 18, flexShrink: 0 }} />
+          <RiMoneyEuroCircleLine style={{ fontSize: "var(--fs-18)", flexShrink: 0 }} />
           Δεν υπάρχουν εκδοθέντα κοινόχρηστα για τις μονάδες σας ακόμη. Μόλις εκδοθούν, θα εμφανιστούν εδώ ανά μονάδα.
         </div>
       )}
@@ -240,7 +240,7 @@ export function PaymentsTable({ rows, payEnabledByBuilding = {}, managerName = n
             {r.months.map((m) => (
               <section key={m.id} style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
-                  <h4 style={{ fontSize: 14, fontWeight: 700, color: "var(--foreground)", margin: 0 }}>{monthLabel(m.month)}</h4>
+                  <h4 style={{ fontSize: "var(--fs-14)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}>{monthLabel(m.month)}</h4>
                   <PaymentStatus r={m} />
                 </div>
                 <UnitStatementDocument
@@ -268,9 +268,9 @@ export function PaymentsTable({ rows, payEnabledByBuilding = {}, managerName = n
             <button type="button" onClick={() => window.print()} style={{
               display: "inline-flex", alignItems: "center", gap: 6, borderRadius: 6, padding: "8px 15px",
               border: "1px solid var(--border-strong)", background: "var(--card)", color: "var(--foreground)",
-              fontSize: 13, fontWeight: 700, cursor: "pointer",
+              fontSize: "var(--fs-13)", fontWeight: 700, cursor: "pointer",
             }}>
-              <RiPrinterLine style={{ fontSize: 16 }} /> Εκτύπωση
+              <RiPrinterLine style={{ fontSize: "var(--fs-16)" }} /> Εκτύπωση
             </button>
           </div>
         }
@@ -295,21 +295,21 @@ function ConsolidatedDocument({ month, rows, managerName }: {
   const totalPayable = rows.reduce((a, r) => a + r.myAmount, 0);
   const boxed: React.CSSProperties = { border: "1px solid var(--border-strong)", borderRadius: 10, overflow: "hidden", background: "var(--card)" };
   const th: React.CSSProperties = {
-    padding: "7px 12px", fontSize: 11.5, fontWeight: 700, textAlign: "left",
+    padding: "7px 12px", fontSize: "var(--fs-11-5)", fontWeight: 700, textAlign: "left",
     textTransform: "uppercase", letterSpacing: ".03em", color: "var(--muted-foreground)",
     borderBottom: "1px solid var(--border-strong)",
   };
-  const td: React.CSSProperties = { padding: "8px 12px", fontSize: 13, color: "var(--foreground)", borderBottom: "1px solid var(--border)" };
+  const td: React.CSSProperties = { padding: "8px 12px", fontSize: "var(--fs-13)", color: "var(--foreground)", borderBottom: "1px solid var(--border)" };
   const moneyCell: React.CSSProperties = { textAlign: "right", fontVariantNumeric: "tabular-nums", whiteSpace: "nowrap" };
   const grand: React.CSSProperties = { ...td, fontWeight: 800, borderBottom: "none", borderTop: "2px solid var(--border-strong)", background: "var(--bg-canvas)" };
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
       <div style={boxed} data-boxed>
-        <div style={{ padding: "10px 14px", textAlign: "center", fontSize: 15, fontWeight: 800, letterSpacing: ".06em", borderBottom: "1px solid var(--border-strong)", color: "var(--foreground)" }}>
+        <div style={{ padding: "10px 14px", textAlign: "center", fontSize: "var(--fs-15)", fontWeight: 800, letterSpacing: ".06em", borderBottom: "1px solid var(--border-strong)", color: "var(--foreground)" }}>
           ΣΥΝΟΛΙΚΟ ΕΙΔΟΠΟΙΗΤΗΡΙΟ ΚΟΙΝΟΧΡΗΣΤΩΝ
         </div>
-        <div style={{ padding: "9px 14px", fontSize: 13, color: "var(--muted-foreground)", display: "flex", justifyContent: "space-between", gap: 10, flexWrap: "wrap" }}>
+        <div style={{ padding: "9px 14px", fontSize: "var(--fs-13)", color: "var(--muted-foreground)", display: "flex", justifyContent: "space-between", gap: 10, flexWrap: "wrap" }}>
           <span>Μήνας: <b style={{ color: "var(--foreground)" }}>{monthLabel(month)}</b></span>
           <span>{rows.length} {rows.length === 1 ? "ακίνητο" : "ακίνητα"}</span>
         </div>
@@ -336,7 +336,7 @@ function ConsolidatedDocument({ month, rows, managerName }: {
                     <td style={td}>
                       <div style={{ fontWeight: 600 }}>{r.buildingName}</div>
                       {(r.buildingAddress || r.buildingCity) && (
-                        <div style={{ fontSize: 11, color: "var(--muted-foreground)" }}>{[r.buildingAddress, r.buildingCity].filter(Boolean).join(", ")}</div>
+                        <div style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)" }}>{[r.buildingAddress, r.buildingCity].filter(Boolean).join(", ")}</div>
                       )}
                     </td>
                     <td style={td}>{r.unitNumber}</td>
@@ -361,8 +361,8 @@ function ConsolidatedDocument({ month, rows, managerName }: {
       {managerName && (
         <div style={{ display: "flex", justifyContent: "flex-end", padding: "4px 4px 0" }}>
           <div style={{ textAlign: "center", minWidth: 200 }}>
-            <div style={{ borderTop: "1px solid var(--border-strong)", paddingTop: 6, fontSize: 12, color: "var(--muted-foreground)" }}>Ο/Η Διαχειριστής/τρια</div>
-            <div style={{ fontSize: 13, fontWeight: 700, color: "var(--foreground)", marginTop: 3 }}>{managerName}</div>
+            <div style={{ borderTop: "1px solid var(--border-strong)", paddingTop: 6, fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>Ο/Η Διαχειριστής/τρια</div>
+            <div style={{ fontSize: "var(--fs-13)", fontWeight: 700, color: "var(--foreground)", marginTop: 3 }}>{managerName}</div>
           </div>
         </div>
       )}

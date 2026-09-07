@@ -43,10 +43,10 @@ export function DistributionTab({
 
   return (
     <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 8, boxShadow: "0 1px 2px rgba(0,0,0,0.06)", overflow: "hidden" }}>
-      {isPending && <div style={{ padding: "8px 16px", fontSize: 12, color: "var(--muted-foreground)", display: "flex", alignItems: "center", gap: 6 }}><RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> Αποθήκευση…</div>}
-      <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
+      {isPending && <div style={{ padding: "8px 16px", fontSize: "var(--fs-12)", color: "var(--muted-foreground)", display: "flex", alignItems: "center", gap: 6 }}><RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> Αποθήκευση…</div>}
+      <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "var(--fs-13)" }}>
         <thead>
-          <tr style={{ textAlign: "left", color: "var(--muted-foreground)", fontSize: 11 }}>
+          <tr style={{ textAlign: "left", color: "var(--muted-foreground)", fontSize: "var(--fs-11)" }}>
             <th style={th}>Κατηγορία</th>
             <th style={th}>Default (νόμος)</th>
             <th style={th}>Μέθοδος</th>
@@ -83,7 +83,7 @@ export function DistributionTab({
                 <td style={td}>
                   {differs && (
                     <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
-                      <span style={{ fontSize: 11, fontWeight: 700, padding: "2px 8px", borderRadius: 9999, background: "#fffbeb", color: "#92400e", border: "1px solid #f59e0b" }}>κανονισμός</span>
+                      <span style={{ fontSize: "var(--fs-11)", fontWeight: 700, padding: "2px 8px", borderRadius: 9999, background: "#fffbeb", color: "#92400e", border: "1px solid #f59e0b" }}>κανονισμός</span>
                       {can.editDistribution && <button onClick={() => change(c.id, DEFAULT_SENTINEL)} style={linkBtn}>επαναφορά σε default</button>}
                     </span>
                   )}
@@ -100,4 +100,4 @@ export function DistributionTab({
 
 const th: React.CSSProperties = { padding: "8px 12px" };
 const td: React.CSSProperties = { padding: "8px 12px", color: "var(--foreground)" };
-const linkBtn: React.CSSProperties = { border: "none", background: "transparent", color: "var(--color-primary)", cursor: "pointer", fontSize: 12, textDecoration: "underline", padding: 0 };
+const linkBtn: React.CSSProperties = { border: "none", background: "transparent", color: "var(--color-primary)", cursor: "pointer", fontSize: "var(--fs-12)", textDecoration: "underline", padding: 0 };

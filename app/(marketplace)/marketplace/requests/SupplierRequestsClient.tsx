@@ -20,7 +20,7 @@ export function SupplierRequestsClient({ items }: { items: FaultListItem[] }) {
     { id: "title", header: "Εργασία", width: 260, accessor: (r) => r.title, sortKey: "title",
       cell: (r) => <Link href={`/marketplace/requests/${r.id}`} style={{ fontWeight: 600, color: "var(--foreground)", textDecoration: "none" }}>{r.title}</Link> },
     { id: "status", header: "Κατάσταση", width: 130, accessor: (r) => r.status, sortKey: "status",
-      cell: (r) => { const c = STATUS_COLORS[r.status as FaultStatus] ?? "#6b7280"; return <span style={{ padding: "2px 8px", borderRadius: 999, fontSize: 11.5, fontWeight: 600, color: c, background: `${c}18`, border: `1px solid ${c}40` }}>{STATUS_LABELS[r.status as FaultStatus] ?? r.status}</span>; } },
+      cell: (r) => { const c = STATUS_COLORS[r.status as FaultStatus] ?? "#6b7280"; return <span style={{ padding: "2px 8px", borderRadius: 999, fontSize: "var(--fs-11-5)", fontWeight: 600, color: c, background: `${c}18`, border: `1px solid ${c}40` }}>{STATUS_LABELS[r.status as FaultStatus] ?? r.status}</span>; } },
     { id: "priority", header: "Προτεραιότητα", width: 110, accessor: (r) => r.priority, cell: (r) => PRIORITY_LABELS[r.priority as keyof typeof PRIORITY_LABELS] ?? r.priority },
     { id: "category", header: "Κατηγορία", width: 140, accessor: (r) => r.categoryName ?? "", cell: (r) => r.categoryName ?? "—" },
     { id: "building", header: "Κτήριο", width: 240, accessor: (r) => r.buildingName, cell: (r) => <>{r.buildingName}{r.unitLabel ? ` · ${r.unitLabel}` : ""}</> },
@@ -31,14 +31,14 @@ export function SupplierRequestsClient({ items }: { items: FaultListItem[] }) {
   return (
     <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 18 }}>
       <div>
-        <h1 style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 22, fontWeight: 700, color: "var(--foreground)", margin: 0 }}><RiToolsLine style={{ color: "var(--color-primary)" }} /> Αναθέσεις</h1>
-        <p style={{ margin: "4px 0 0", fontSize: 13, color: "var(--muted-foreground)" }}>Εργασίες που σας ανέθεσε η εταιρεία διαχείρισης. Ενημερώνετε την κατάσταση και επικοινωνείτε από τη σελίδα κάθε εργασίας.</p>
+        <h1 style={{ display: "flex", alignItems: "center", gap: 10, fontSize: "var(--fs-22)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}><RiToolsLine style={{ color: "var(--color-primary)" }} /> Αναθέσεις</h1>
+        <p style={{ margin: "4px 0 0", fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }}>Εργασίες που σας ανέθεσε η εταιρεία διαχείρισης. Ενημερώνετε την κατάσταση και επικοινωνείτε από τη σελίδα κάθε εργασίας.</p>
       </div>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 12 }}>
         {[{ label: "Ανοιχτές", value: open }, { label: "Με ραντεβού", value: scheduled }, { label: "Ολοκληρωμένες", value: done }].map((k) => (
           <div key={k.label} style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius-lg)", padding: "14px 16px" }}>
-            <div style={{ fontSize: 12, color: "var(--muted-foreground)" }}>{k.label}</div>
-            <div style={{ fontSize: 24, fontWeight: 700, color: "var(--foreground)" }}>{k.value}</div>
+            <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>{k.label}</div>
+            <div style={{ fontSize: "var(--fs-24)", fontWeight: 700, color: "var(--foreground)" }}>{k.value}</div>
           </div>
         ))}
       </div>

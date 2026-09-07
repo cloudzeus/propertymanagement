@@ -31,10 +31,10 @@ export function ManagedItemTypesClient({ types }: { types: TypeRow[] }) {
     <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 12, flexWrap: "wrap" }}>
         <div>
-          <h1 style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 22, fontWeight: 800, margin: 0, color: "var(--foreground)" }}>
+          <h1 style={{ display: "flex", alignItems: "center", gap: 10, fontSize: "var(--fs-22)", fontWeight: 800, margin: 0, color: "var(--foreground)" }}>
             <RiListCheck2 style={{ color: "var(--color-primary)" }} /> Στοιχεία Διαχείρισης
           </h1>
-          <p style={{ margin: "4px 0 0", fontSize: 13, color: "var(--muted-foreground)" }}>
+          <p style={{ margin: "4px 0 0", fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }}>
             Ο κατάλογος με ό,τι διαχειρίζεται η εταιρεία (π.χ. «Αλλαγή λαμπτήρων»). Στα managed κτήρια επιλέγεις από εδώ και ορίζεις τοποθεσία, αριθμό και φωτογραφία.
           </p>
         </div>
@@ -44,25 +44,25 @@ export function ManagedItemTypesClient({ types }: { types: TypeRow[] }) {
       {rowError && <div style={errBox} role="alert">{rowError}</div>}
 
       {types.length === 0 ? (
-        <div onClick={() => setEditing("new")} style={{ border: "1.5px dashed var(--border-strong)", borderRadius: 8, padding: 40, textAlign: "center", color: "var(--muted-foreground)", cursor: "pointer", background: "var(--bg-canvas)", fontSize: 13 }}>
-          <RiListCheck2 style={{ fontSize: 26, display: "block", margin: "0 auto 8px" }} />
+        <div onClick={() => setEditing("new")} style={{ border: "1.5px dashed var(--border-strong)", borderRadius: 8, padding: 40, textAlign: "center", color: "var(--muted-foreground)", cursor: "pointer", background: "var(--bg-canvas)", fontSize: "var(--fs-13)" }}>
+          <RiListCheck2 style={{ fontSize: "var(--fs-26)", display: "block", margin: "0 auto 8px" }} />
           <div style={{ fontWeight: 600, color: "var(--foreground)", marginBottom: 3 }}>Ο κατάλογος είναι κενός</div>
           Πάτησε για να προσθέσεις το πρώτο στοιχείο — π.χ. «Αλλαγή λαμπτήρων», «Καθαρισμός κοινόχρηστων».
         </div>
       ) : (
         <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 8, overflow: "hidden" }}>
-          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
-            <thead><tr style={{ textAlign: "left", color: "var(--muted-foreground)", fontSize: 11 }}>
+          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "var(--fs-13)" }}>
+            <thead><tr style={{ textAlign: "left", color: "var(--muted-foreground)", fontSize: "var(--fs-11)" }}>
               <th style={th}>Στοιχείο</th><th style={th}>Κατάσταση</th><th style={{ ...th, textAlign: "right" }}>Χρήση σε κτήρια</th><th style={th}></th>
             </tr></thead>
             <tbody>
               {types.map((t) => (
                 <tr key={t.id} style={{ borderTop: "1px solid var(--border)", opacity: t.active ? 1 : 0.55 }}>
-                  <td style={td}><b>{t.name}</b>{t.notes && <div style={{ fontSize: 11, color: "var(--muted-foreground)" }}>{t.notes}</div>}</td>
+                  <td style={td}><b>{t.name}</b>{t.notes && <div style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)" }}>{t.notes}</div>}</td>
                   <td style={td}>
                     {t.active
                       ? <span style={{ ...chip, background: "#15803d18", color: "#15803d" }}>Ενεργό</span>
-                      : <span style={{ ...chip, background: "var(--bg-canvas)", color: "var(--muted-foreground)" }}><RiEyeOffLine style={{ fontSize: 11 }} /> Ανενεργό</span>}
+                      : <span style={{ ...chip, background: "var(--bg-canvas)", color: "var(--muted-foreground)" }}><RiEyeOffLine style={{ fontSize: "var(--fs-11)" }} /> Ανενεργό</span>}
                   </td>
                   <td style={{ ...td, textAlign: "right", fontVariantNumeric: "tabular-nums" }}>
                     <span style={{ display: "inline-flex", alignItems: "center", gap: 5 }}><RiBuildingLine style={{ color: "var(--muted-foreground)" }} /> {t.usage}</span>
@@ -115,7 +115,7 @@ function TypeModal({ editing, onClose, onDone }: { editing: TypeRow | null; onCl
         <FormField label="Σημειώσεις">
           <FieldTextarea value={form.notes} onChange={(v) => setForm((p) => ({ ...p, notes: v }))} rows={2} placeholder="π.χ. περιλαμβάνει λαμπτήρες LED" />
         </FormField>
-        <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: "var(--foreground)", cursor: "pointer" }}>
+        <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: "var(--fs-13)", color: "var(--foreground)", cursor: "pointer" }}>
           <input type="checkbox" checked={form.active} onChange={(e) => setForm((p) => ({ ...p, active: e.target.checked }))} />
           Ενεργό — διαθέσιμο για επιλογή στα κτήρια
         </label>
@@ -127,10 +127,10 @@ function TypeModal({ editing, onClose, onDone }: { editing: TypeRow | null; onCl
 
 const th: React.CSSProperties = { padding: "10px 16px", fontWeight: 600 };
 const td: React.CSSProperties = { padding: "11px 16px", color: "var(--foreground)" };
-const chip: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 4, fontSize: 11, fontWeight: 700, padding: "2px 8px", borderRadius: 9999 };
-const btn: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 7, border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)", borderRadius: 4, padding: "7px 13px", fontSize: 13, fontWeight: 600, cursor: "pointer" };
+const chip: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 4, fontSize: "var(--fs-11)", fontWeight: 700, padding: "2px 8px", borderRadius: 9999 };
+const btn: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 7, border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)", borderRadius: 4, padding: "7px 13px", fontSize: "var(--fs-13)", fontWeight: 600, cursor: "pointer" };
 const btnPrimary: React.CSSProperties = { background: "var(--color-primary)", color: "#fff", borderColor: "var(--color-primary)" };
 const iconBtn: React.CSSProperties = { display: "inline-flex", alignItems: "center", border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)", borderRadius: 4, padding: 6, marginLeft: 6, cursor: "pointer" };
-const cancelBtn: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: 13, color: "var(--foreground)" };
-const saveBtn: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: "pointer", fontSize: 13, fontWeight: 600, display: "flex", alignItems: "center", gap: 6 };
-const errBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: 12, border: "1px solid #fca5a530", marginBottom: 0 };
+const cancelBtn: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: "var(--fs-13)", color: "var(--foreground)" };
+const saveBtn: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: "pointer", fontSize: "var(--fs-13)", fontWeight: 600, display: "flex", alignItems: "center", gap: 6 };
+const errBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: "var(--fs-12)", border: "1px solid #fca5a530", marginBottom: 0 };

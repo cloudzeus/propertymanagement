@@ -165,10 +165,10 @@ function SliderRow({
     <div className={first ? "" : "border-t border-[var(--line2)] pt-[22px]"} style={{ paddingBottom: 22 }}>
       <div className="mb-4 flex items-end justify-between gap-4">
         <div>
-          <div className="text-[15.5px] font-bold">{question}</div>
-          <div className="mt-1 text-[12.5px] font-normal text-[var(--mut2)]">{hint}</div>
+          <div className="text-[length:var(--fs-15-5)] font-bold">{question}</div>
+          <div className="mt-1 text-[length:var(--fs-12-5)] font-normal text-[var(--mut2)]">{hint}</div>
         </div>
-        <div className="tnum whitespace-nowrap text-[22px] font-extrabold tracking-[-.02em]">{readout}</div>
+        <div className="tnum whitespace-nowrap text-[length:var(--fs-22)] font-extrabold tracking-[-.02em]">{readout}</div>
       </div>
       <input
         type="range"
@@ -181,7 +181,7 @@ function SliderRow({
         style={trackStyle(pct)}
         onChange={(e) => onChange(Number(e.target.value))}
       />
-      <div className="tnum mt-2 flex justify-between text-[11.5px] text-[var(--mut2)]">
+      <div className="tnum mt-2 flex justify-between text-[length:var(--fs-11-5)] text-[var(--mut2)]">
         {scale.map((s, i) => (
           <span key={i}>{s}</span>
         ))}
@@ -237,10 +237,10 @@ export function CostCalculator({
       <Wrap className="relative">
         <div className="mb-12" style={{ maxWidth: 660 }}>
           <Kicker>{copy?.kicker || t.kicker}</Kicker>
-          <h2 className="mt-[14px] text-[32px] font-extrabold leading-[1.05] tracking-[-.02em] sm:text-[40px] lg:text-[46px]">
+          <h2 className="mt-[14px] text-[length:var(--fs-32)] font-extrabold leading-[1.05] tracking-[-.02em] sm:text-[length:var(--fs-40)] lg:text-[length:var(--fs-46)]">
             {copy?.heading || t.heading}
           </h2>
-          <p className="mt-4 text-[17px] leading-[1.6] text-[var(--mut)]">{copy?.lead || t.lead}</p>
+          <p className="mt-4 text-[length:var(--fs-17)] leading-[1.6] text-[var(--mut)]">{copy?.lead || t.lead}</p>
         </div>
 
         <div className="grid items-start gap-[26px] lg:grid-cols-[1.12fr_.88fr]">
@@ -273,8 +273,8 @@ export function CostCalculator({
             {/* Plans */}
             <div className="border-t border-[var(--line2)] py-[22px]">
               <div className="mb-4">
-                <div className="text-[15.5px] font-bold">{t.q3}</div>
-                <div className="mt-1 text-[12.5px] text-[var(--mut2)]">{t.q3hint}</div>
+                <div className="text-[length:var(--fs-15-5)] font-bold">{t.q3}</div>
+                <div className="mt-1 text-[length:var(--fs-12-5)] text-[var(--mut2)]">{t.q3hint}</div>
               </div>
               <div className="grid gap-[10px] sm:grid-cols-3" role="radiogroup" aria-label={t.q3}>
                 {plans.map((p) => {
@@ -294,11 +294,11 @@ export function CostCalculator({
                         boxShadow: on ? "var(--shadow-amber-sm)" : "none",
                       }}
                     >
-                      <div className="text-[14.5px] font-bold">{planName(p.key)}</div>
-                      <div className="tnum mt-[9px] text-[19px] font-extrabold tracking-[-.02em]">
+                      <div className="text-[length:var(--fs-14-5)] font-bold">{planName(p.key)}</div>
+                      <div className="tnum mt-[9px] text-[length:var(--fs-19)] font-extrabold tracking-[-.02em]">
                         {formatEuro(p.rate, locale, 2)}
                       </div>
-                      <div className="mt-1 text-[10.5px] leading-[1.35] text-[var(--mut2)]">
+                      <div className="mt-1 text-[length:var(--fs-10-5)] leading-[1.35] text-[var(--mut2)]">
                         {planUnit(p.key)}
                       </div>
                     </button>
@@ -310,8 +310,8 @@ export function CostCalculator({
             {/* Add-ons */}
             <div className="border-t border-[var(--line2)] py-[22px]">
               <div className="mb-4">
-                <div className="text-[15.5px] font-bold">{t.q4}</div>
-                <div className="mt-1 text-[12.5px] text-[var(--mut2)]">{t.q4hint}</div>
+                <div className="text-[length:var(--fs-15-5)] font-bold">{t.q4}</div>
+                <div className="mt-1 text-[length:var(--fs-12-5)] text-[var(--mut2)]">{t.q4hint}</div>
               </div>
               <div className="grid gap-[10px] sm:grid-cols-2">
                 {addons.map((a) => {
@@ -351,8 +351,8 @@ export function CostCalculator({
                         )}
                       </span>
                       <span>
-                        <span className="block text-[14px] font-semibold">{addonName(a.key)}</span>
-                        <span className="tnum mt-0.5 block text-[11.5px] text-[var(--mut2)]">
+                        <span className="block text-[length:var(--fs-14)] font-semibold">{addonName(a.key)}</span>
+                        <span className="tnum mt-0.5 block text-[length:var(--fs-11-5)] text-[var(--mut2)]">
                           +{formatEuro(a.rate, locale, 2)} / {t.perAptUnit}
                         </span>
                       </span>
@@ -365,8 +365,8 @@ export function CostCalculator({
             {/* Billing cycle */}
             <div className="border-t border-[var(--line2)] pt-[22px]">
               <div className="mb-4">
-                <div className="text-[15.5px] font-bold">{t.q5}</div>
-                <div className="mt-1 text-[12.5px] text-[var(--mut2)]">{t.q5hint}</div>
+                <div className="text-[length:var(--fs-15-5)] font-bold">{t.q5}</div>
+                <div className="mt-1 text-[length:var(--fs-12-5)] text-[var(--mut2)]">{t.q5hint}</div>
               </div>
               <div className="flex gap-1.5 rounded-[12px] bg-[rgba(27,28,26,.05)] p-1">
                 {[
@@ -378,7 +378,7 @@ export function CostCalculator({
                     type="button"
                     onClick={seg.set}
                     aria-pressed={seg.on}
-                    className={`flex-1 rounded-[9px] px-[10px] py-[11px] text-[13.5px] transition-[background,box-shadow] duration-[180ms] ${
+                    className={`flex-1 rounded-[9px] px-[10px] py-[11px] text-[length:var(--fs-13-5)] transition-[background,box-shadow] duration-[180ms] ${
                       seg.on
                         ? "bg-white font-bold text-[var(--txt)] shadow-[var(--shadow-seg)]"
                         : "font-semibold text-[var(--mut)]"
@@ -395,18 +395,18 @@ export function CostCalculator({
           <div className="lg:sticky lg:top-[92px]">
             <div className="overflow-hidden rounded-[22px] shadow-[var(--shadow-card)]">
               <DarkPanel radius={0} className="px-8 pb-7 pt-8">
-                <div className="u-caps text-[11.5px] font-extrabold tracking-[.14em] text-[rgba(255,255,255,.5)]">
+                <div className="u-caps text-[length:var(--fs-11-5)] font-extrabold tracking-[.14em] text-[rgba(255,255,255,.5)]">
                   {t.estimate}
                 </div>
                 <div className="mt-4 flex items-start gap-1.5" aria-live="polite">
-                  <span className="tnum text-[52px] font-extrabold leading-[.9] tracking-[-.035em] text-[var(--accent)] sm:text-[62px]">
+                  <span className="tnum text-[length:var(--fs-52)] font-extrabold leading-[.9] tracking-[-.035em] text-[var(--accent)] sm:text-[length:var(--fs-62)]">
                     {formatEuro(r.perApartment, locale, 2)}
                   </span>
-                  <span className="pt-1.5 text-[12.5px] text-[rgba(255,255,255,.62)]" style={{ maxWidth: 96 }}>
+                  <span className="pt-1.5 text-[length:var(--fs-12-5)] text-[rgba(255,255,255,.62)]" style={{ maxWidth: 96 }}>
                     {t.perApartment}
                   </span>
                 </div>
-                <div className="tnum mt-[18px] text-[13px] text-[rgba(255,255,255,.55)]">
+                <div className="tnum mt-[18px] text-[length:var(--fs-13)] text-[rgba(255,255,255,.55)]">
                   {t.scope(buildings, r.totalApartments)}
                 </div>
               </DarkPanel>
@@ -427,24 +427,24 @@ export function CostCalculator({
                     key={row.label}
                     className="flex items-baseline justify-between gap-3.5 border-b border-[var(--line2)] py-[11px]"
                   >
-                    <span className="text-[13.5px] text-[var(--mut)]">{row.label}</span>
-                    <span className="tnum text-right text-[13.5px] font-bold">{row.value}</span>
+                    <span className="text-[length:var(--fs-13-5)] text-[var(--mut)]">{row.label}</span>
+                    <span className="tnum text-right text-[length:var(--fs-13-5)] font-bold">{row.value}</span>
                   </div>
                 ))}
 
                 <div className="flex items-baseline justify-between gap-3 pb-1 pt-5">
                   <div>
-                    <div className="text-[14.5px] font-bold">{t.totalLabel}</div>
-                    <div className="tnum mt-0.5 text-[12.5px] text-[var(--mut2)]">
+                    <div className="text-[length:var(--fs-14-5)] font-bold">{t.totalLabel}</div>
+                    <div className="tnum mt-0.5 text-[length:var(--fs-12-5)] text-[var(--mut2)]">
                       {formatEuro(r.yearlyTotal, locale, 0)} {t.perYear}
                     </div>
                   </div>
-                  <div className="tnum text-[30px] font-extrabold tracking-[-.025em]">
+                  <div className="tnum text-[length:var(--fs-30)] font-extrabold tracking-[-.025em]">
                     {formatEuro(r.monthly, locale, 0)}
                   </div>
                 </div>
 
-                <div className="panel-amber mt-[18px] flex gap-[9px] rounded-[11px] px-[13px] py-[11px] text-[12.5px] font-semibold">
+                <div className="panel-amber mt-[18px] flex gap-[9px] rounded-[11px] px-[13px] py-[11px] text-[length:var(--fs-12-5)] font-semibold">
                   <span aria-hidden>💡</span>
                   <span>{annual ? t.saveAnnual(saving) : t.saveSwitch(saving)}</span>
                 </div>
@@ -458,7 +458,7 @@ export function CostCalculator({
                   </Link>
                 </div>
 
-                <p className="mt-4 text-center text-[11.5px] text-[var(--mut2)]">
+                <p className="mt-4 text-center text-[length:var(--fs-11-5)] text-[var(--mut2)]">
                   {copy?.footnote || t.footnote}
                 </p>
               </div>

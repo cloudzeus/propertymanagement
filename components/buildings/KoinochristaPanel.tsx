@@ -59,7 +59,7 @@ export function KoinochristaPanel({ buildingId, can }: { buildingId: string; can
   const reload = () => listIssuances(buildingId).then(setIssuances).catch(() => {});
   useEffect(() => { listIssuances(buildingId).then(setIssuances).catch((e) => setError(e instanceof Error ? e.message : "Σφάλμα")); }, [buildingId]);
 
-  if (error) return <div style={{ fontSize: 13, color: "var(--color-danger)" }}>{error}</div>;
+  if (error) return <div style={{ fontSize: "var(--fs-13)", color: "var(--color-danger)" }}>{error}</div>;
   if (!issuances) return <Loading />;
 
   const grand = issuances.reduce((a, i) => ({ total: a.total + i.total, paid: a.paid + i.paid, due: a.due + i.due }), { total: 0, paid: 0, due: 0 });
@@ -71,11 +71,11 @@ export function KoinochristaPanel({ buildingId, can }: { buildingId: string; can
       <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 16, marginBottom: 20, flexWrap: "wrap" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
           <div style={{ display: "grid", placeItems: "center", width: 38, height: 38, borderRadius: 10, background: "color-mix(in srgb, var(--color-primary) 14%, transparent)", color: "var(--color-primary)" }}>
-            <RiWallet3Line style={{ fontSize: 20 }} />
+            <RiWallet3Line style={{ fontSize: "var(--fs-20)" }} />
           </div>
           <div>
-            <div style={{ fontSize: 16, fontWeight: 700, lineHeight: 1.2 }}>Κοινόχρηστα</div>
-            <div style={{ fontSize: 12, color: "var(--muted-foreground)" }}>Εκδόσεις, ανάλυση & εξόφληση ανά μήνα</div>
+            <div style={{ fontSize: "var(--fs-16)", fontWeight: 700, lineHeight: 1.2 }}>Κοινόχρηστα</div>
+            <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>Εκδόσεις, ανάλυση & εξόφληση ανά μήνα</div>
           </div>
         </div>
         {issuances.length > 0 && (
@@ -99,14 +99,14 @@ export function KoinochristaPanel({ buildingId, can }: { buildingId: string; can
               <div key={iss.month} className="kx-card" data-open={open}>
                 <button onClick={() => setOpenMonth(open ? null : iss.month)} className="kx-rowbtn">
                   <span style={{ display: "flex", alignItems: "center", gap: 12, minWidth: 0 }}>
-                    <span className="kx-chev">{open ? <RiArrowDownSLine style={{ fontSize: 18 }} /> : <RiArrowRightSLine style={{ fontSize: 18 }} />}</span>
+                    <span className="kx-chev">{open ? <RiArrowDownSLine style={{ fontSize: "var(--fs-18)" }} /> : <RiArrowRightSLine style={{ fontSize: "var(--fs-18)" }} />}</span>
                     <span style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 3 }}>
                       <span style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-                        <b style={{ fontSize: 15, letterSpacing: "-0.01em" }}>{monthLabel(iss.month)}</b>
+                        <b style={{ fontSize: "var(--fs-15)", letterSpacing: "-0.01em" }}>{monthLabel(iss.month)}</b>
                         {iss.issued && <span style={dotBadge("#16a34a")}><span style={dot("#16a34a")} /> Εκδόθηκε</span>}
                         {iss.unallocated > 0 && <span style={dotBadge("#f59e0b")} className="kx-num" title="Μερίδια χωρίς ανατεθειμένο ένοικο/ιδιοκτήτη"><span style={dot("#f59e0b")} /> Αδιάθετα {eur(iss.unallocated)}</span>}
                       </span>
-                      <span style={{ fontSize: 11.5, color: "var(--muted-foreground)" }}>{iss.expenseCount} έξοδα · {iss.personCount} πρόσωπα</span>
+                      <span style={{ fontSize: "var(--fs-11-5)", color: "var(--muted-foreground)" }}>{iss.expenseCount} έξοδα · {iss.personCount} πρόσωπα</span>
                     </span>
                   </span>
                   <span style={{ display: "flex", alignItems: "center", gap: 22 }}>
@@ -116,7 +116,7 @@ export function KoinochristaPanel({ buildingId, can }: { buildingId: string; can
                       <Mini label="Ανεξόφλητα" value={eur(iss.due)} color={iss.due > 0 ? "#b91c1c" : undefined} />
                     </span>
                     <span style={{ width: 132 }}>
-                      <span style={{ display: "flex", justifyContent: "space-between", fontSize: 10, color: "var(--muted-foreground)", marginBottom: 4, fontWeight: 600 }}>
+                      <span style={{ display: "flex", justifyContent: "space-between", fontSize: "var(--fs-10)", color: "var(--muted-foreground)", marginBottom: 4, fontWeight: 600 }}>
                         <span>Εξόφληση</span><span className="kx-num">{pct}%</span>
                       </span>
                       <span style={progressTrack}><span className="kx-fill" style={{ ...progressFill, width: `${pct}%`, background: fillColor }} /></span>
@@ -183,7 +183,7 @@ function IssuanceDetail({ buildingId, month, unallocated, onChanged, can }: { bu
                           <span style={avatar(p.due > 0)}>{initials(p.name)}</span>
                           <span style={{ minWidth: 0 }}>
                             <div style={{ fontWeight: 600 }}>{p.name}</div>
-                            <div style={{ fontSize: 11, color: "var(--muted-foreground)" }}>{p.email ?? "— χωρίς email —"}</div>
+                            <div style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)" }}>{p.email ?? "— χωρίς email —"}</div>
                           </span>
                         </span>
                       </td>
@@ -210,7 +210,7 @@ function IssuanceDetail({ buildingId, month, unallocated, onChanged, can }: { bu
                       <td style={td}>
                         <span style={{ display: "flex", alignItems: "center", gap: 10 }}>
                           <span style={avatar(true)}>!</span>
-                          <span><div style={{ fontWeight: 600 }}>Αδιάθετα</div><div style={{ fontSize: 11, color: "var(--muted-foreground)" }}>Μονάδες χωρίς ένοικο/ιδιοκτήτη</div></span>
+                          <span><div style={{ fontWeight: 600 }}>Αδιάθετα</div><div style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)" }}>Μονάδες χωρίς ένοικο/ιδιοκτήτη</div></span>
                         </span>
                       </td>
                       <td style={td}>—</td>
@@ -271,38 +271,38 @@ function Stat({ label, value, tone }: { label: string; value: string; tone?: "ok
   const color = tone === "ok" ? "#16a34a" : tone === "due" ? "#b91c1c" : "var(--foreground)";
   return (
     <div style={{ border: "1px solid var(--border-strong)", borderRadius: 10, padding: "8px 14px", background: "var(--card)", minWidth: 118 }}>
-      <div style={{ fontSize: 10.5, color: "var(--muted-foreground)", fontWeight: 600, textTransform: "uppercase", letterSpacing: ".03em" }}>{label}</div>
-      <div className="kx-num" style={{ fontSize: 17, fontWeight: 800, color, marginTop: 2 }}>{value}</div>
+      <div style={{ fontSize: "var(--fs-10-5)", color: "var(--muted-foreground)", fontWeight: 600, textTransform: "uppercase", letterSpacing: ".03em" }}>{label}</div>
+      <div className="kx-num" style={{ fontSize: "var(--fs-17)", fontWeight: 800, color, marginTop: 2 }}>{value}</div>
     </div>
   );
 }
 function Mini({ label, value, color }: { label: string; value: string; color?: string }) {
-  return <span style={{ textAlign: "right" }}><span style={{ display: "block", fontSize: 10, color: "var(--muted-foreground)", fontWeight: 600 }}>{label}</span><span className="kx-num" style={{ fontSize: 13, fontWeight: 700, color: color ?? "var(--foreground)" }}>{value}</span></span>;
+  return <span style={{ textAlign: "right" }}><span style={{ display: "block", fontSize: "var(--fs-10)", color: "var(--muted-foreground)", fontWeight: 600 }}>{label}</span><span className="kx-num" style={{ fontSize: "var(--fs-13)", fontWeight: 700, color: color ?? "var(--foreground)" }}>{value}</span></span>;
 }
 function Loading() {
-  return <div style={{ fontSize: 13, color: "var(--muted-foreground)", display: "flex", alignItems: "center", gap: 8, padding: 16 }}><RiLoaderLine style={{ animation: "kx-spin 1s linear infinite" }} /> Φόρτωση…</div>;
+  return <div style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)", display: "flex", alignItems: "center", gap: 8, padding: 16 }}><RiLoaderLine style={{ animation: "kx-spin 1s linear infinite" }} /> Φόρτωση…</div>;
 }
 function Empty({ icon: Icon, text }: { icon: React.ElementType; text: string }) {
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 10, padding: "32px 16px", color: "var(--muted-foreground)" }}>
-      <div style={{ display: "grid", placeItems: "center", width: 44, height: 44, borderRadius: 12, background: "var(--card)", border: "1px solid var(--border-strong)" }}><Icon style={{ fontSize: 22 }} /></div>
-      <div style={{ fontSize: 13 }}>{text}</div>
+      <div style={{ display: "grid", placeItems: "center", width: 44, height: 44, borderRadius: 12, background: "var(--card)", border: "1px solid var(--border-strong)" }}><Icon style={{ fontSize: "var(--fs-22)" }} /></div>
+      <div style={{ fontSize: "var(--fs-13)" }}>{text}</div>
     </div>
   );
 }
 
 const dot = (c: string): React.CSSProperties => ({ width: 6, height: 6, borderRadius: 999, background: c, display: "inline-block" });
-const dotBadge = (c: string): React.CSSProperties => ({ display: "inline-flex", alignItems: "center", gap: 5, padding: "2px 9px", borderRadius: 999, fontSize: 10.5, fontWeight: 700, color: c, background: `color-mix(in srgb, ${c} 12%, transparent)` });
+const dotBadge = (c: string): React.CSSProperties => ({ display: "inline-flex", alignItems: "center", gap: 5, padding: "2px 9px", borderRadius: 999, fontSize: "var(--fs-10-5)", fontWeight: 700, color: c, background: `color-mix(in srgb, ${c} 12%, transparent)` });
 const progressTrack: React.CSSProperties = { display: "block", height: 7, borderRadius: 999, background: "var(--border)", overflow: "hidden" };
 const progressFill: React.CSSProperties = { display: "block", height: "100%", borderRadius: 999 };
-const tbl: React.CSSProperties = { width: "100%", borderCollapse: "collapse", fontSize: 13 };
+const tbl: React.CSSProperties = { width: "100%", borderCollapse: "collapse", fontSize: "var(--fs-13)" };
 const trHead: React.CSSProperties = { textAlign: "left", color: "var(--muted-foreground)", borderBottom: "1px solid var(--border-strong)" };
 const trBody: React.CSSProperties = { borderBottom: "1px solid var(--border)" };
-const th: React.CSSProperties = { padding: "9px 10px", fontWeight: 600, fontSize: 11, textTransform: "uppercase", letterSpacing: ".02em" };
+const th: React.CSSProperties = { padding: "9px 10px", fontWeight: 600, fontSize: "var(--fs-11)", textTransform: "uppercase", letterSpacing: ".02em" };
 const td: React.CSSProperties = { padding: "9px 10px", verticalAlign: "middle" };
 const fixedMenu: React.CSSProperties = { position: "fixed", zIndex: 9999, minWidth: 184, background: "var(--card)", border: "1px solid var(--border-strong)", borderRadius: 10, boxShadow: "0 1px 2px rgba(0,0,0,.08),0 12px 28px rgba(0,0,0,.16)", padding: 5 };
-const link: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 4, color: "var(--color-primary)", textDecoration: "none", fontSize: 12, fontWeight: 600 };
-const avatar = (due: boolean): React.CSSProperties => ({ display: "grid", placeItems: "center", width: 32, height: 32, borderRadius: 999, flexShrink: 0, fontSize: 12, fontWeight: 700, color: due ? "#b91c1c" : "var(--color-primary)", background: due ? "color-mix(in srgb, #b91c1c 12%, transparent)" : "color-mix(in srgb, var(--color-primary) 12%, transparent)" });
-const chip: React.CSSProperties = { display: "inline-block", padding: "1px 8px", marginRight: 4, borderRadius: 6, fontSize: 11, fontWeight: 600, background: "var(--card)", border: "1px solid var(--border-strong)" };
-const catChip: React.CSSProperties = { display: "inline-block", padding: "2px 9px", borderRadius: 999, fontSize: 11.5, fontWeight: 600, background: "color-mix(in srgb, var(--color-primary) 9%, transparent)", color: "var(--color-primary)" };
-const duePill: React.CSSProperties = { display: "inline-block", padding: "2px 10px", borderRadius: 999, fontSize: 12.5, fontWeight: 700, color: "#b91c1c", background: "color-mix(in srgb, #b91c1c 11%, transparent)" };
+const link: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 4, color: "var(--color-primary)", textDecoration: "none", fontSize: "var(--fs-12)", fontWeight: 600 };
+const avatar = (due: boolean): React.CSSProperties => ({ display: "grid", placeItems: "center", width: 32, height: 32, borderRadius: 999, flexShrink: 0, fontSize: "var(--fs-12)", fontWeight: 700, color: due ? "#b91c1c" : "var(--color-primary)", background: due ? "color-mix(in srgb, #b91c1c 12%, transparent)" : "color-mix(in srgb, var(--color-primary) 12%, transparent)" });
+const chip: React.CSSProperties = { display: "inline-block", padding: "1px 8px", marginRight: 4, borderRadius: 6, fontSize: "var(--fs-11)", fontWeight: 600, background: "var(--card)", border: "1px solid var(--border-strong)" };
+const catChip: React.CSSProperties = { display: "inline-block", padding: "2px 9px", borderRadius: 999, fontSize: "var(--fs-11-5)", fontWeight: 600, background: "color-mix(in srgb, var(--color-primary) 9%, transparent)", color: "var(--color-primary)" };
+const duePill: React.CSSProperties = { display: "inline-block", padding: "2px 10px", borderRadius: 999, fontSize: "var(--fs-12-5)", fontWeight: 700, color: "#b91c1c", background: "color-mix(in srgb, #b91c1c 11%, transparent)" };

@@ -32,19 +32,19 @@ export function ImpersonationBanner({ name, role }: { name: string; role: string
     <div style={{
       position: "sticky", top: 0, zIndex: 50, background: bg, color: "#fff",
       padding: "7px 14px", display: "flex", justifyContent: "space-between", alignItems: "center",
-      fontSize: 13,
+      fontSize: "var(--fs-13)",
     }}>
       <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
         Βλέπεις ως <strong>{name}</strong>
         <span style={{
-          fontSize: 11, fontWeight: 600, padding: "2px 9px", borderRadius: 999,
+          fontSize: "var(--fs-11)", fontWeight: 600, padding: "2px 9px", borderRadius: 999,
           background: "rgba(255,255,255,.22)", color: "#fff", whiteSpace: "nowrap",
         }}>{roleLabel}</span>
       </span>
       <form action={stopImpersonation}>
         <button type="submit" style={{
           background: "rgba(255,255,255,.16)", border: "1px solid rgba(255,255,255,.35)",
-          color: "#fff", fontSize: 12, fontWeight: 600, padding: "4px 12px", borderRadius: 999,
+          color: "#fff", fontSize: "var(--fs-12)", fontWeight: 600, padding: "4px 12px", borderRadius: 999,
           cursor: "pointer",
         }}>Έξοδος</button>
       </form>

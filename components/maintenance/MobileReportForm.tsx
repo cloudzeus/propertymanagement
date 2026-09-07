@@ -74,8 +74,8 @@ export function MobileReportForm({ buildings, categories, detailBase }: {
   return (
     <div style={{ maxWidth: 520, margin: "0 auto", display: "flex", flexDirection: "column", gap: 14 }}>
       <div>
-        <div style={{ fontSize: 11.5, fontWeight: 700, letterSpacing: 0.5, textTransform: "uppercase", color: "var(--muted-foreground)" }}>Νέα βλάβη</div>
-        <h1 style={{ fontSize: 22, fontWeight: 800, margin: "2px 0 0", color: "var(--foreground)" }}>Τι συμβαίνει;</h1>
+        <div style={{ fontSize: "var(--fs-11-5)", fontWeight: 700, letterSpacing: 0.5, textTransform: "uppercase", color: "var(--muted-foreground)" }}>Νέα βλάβη</div>
+        <h1 style={{ fontSize: "var(--fs-22)", fontWeight: 800, margin: "2px 0 0", color: "var(--foreground)" }}>Τι συμβαίνει;</h1>
       </div>
 
       {error && <div style={errBox} role="alert">{error}</div>}
@@ -83,11 +83,11 @@ export function MobileReportForm({ buildings, categories, detailBase }: {
       {/* 1. Photo first — the camera opens directly on phones */}
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
         <button type="button" onClick={() => cameraRef.current?.click()} disabled={uploading} style={{ ...bigBtn, borderStyle: "dashed", borderColor: "var(--color-primary)", color: "var(--color-primary)" }}>
-          {uploading ? <RiLoaderLine style={{ fontSize: 26, animation: "spin 1s linear infinite" }} /> : <RiCameraLine style={{ fontSize: 26 }} />}
+          {uploading ? <RiLoaderLine style={{ fontSize: "var(--fs-26)", animation: "spin 1s linear infinite" }} /> : <RiCameraLine style={{ fontSize: "var(--fs-26)" }} />}
           <span>Τράβηξε φωτογραφία</span>
         </button>
         <button type="button" onClick={() => galleryRef.current?.click()} disabled={uploading} style={bigBtn}>
-          <RiImageAddLine style={{ fontSize: 26 }} /><span>Από τη συλλογή</span>
+          <RiImageAddLine style={{ fontSize: "var(--fs-26)" }} /><span>Από τη συλλογή</span>
         </button>
         <input ref={cameraRef} type="file" accept="image/*" capture="environment" hidden onChange={(e) => { onPick(e.target.files); e.target.value = ""; }} />
         <input ref={galleryRef} type="file" accept="image/*,video/*" multiple hidden onChange={(e) => { onPick(e.target.files); e.target.value = ""; }} />
@@ -133,7 +133,7 @@ export function MobileReportForm({ buildings, categories, detailBase }: {
       <Field label="Πόσο επείγει;">
         <div style={{ display: "grid", gridTemplateColumns: `repeat(${FAULT_PRIORITIES.length}, 1fr)`, gap: 4, background: "var(--paper)", padding: 4, borderRadius: 10 }}>
           {FAULT_PRIORITIES.map((p) => (
-            <button key={p} type="button" onClick={() => setPriority(p)} style={{ height: 40, border: "none", borderRadius: 8, cursor: "pointer", fontSize: 13, fontWeight: 600, background: priority === p ? "var(--card)" : "transparent", color: priority === p ? (p === "URGENT" ? "#c50f1f" : "var(--foreground)") : "var(--muted-foreground)", boxShadow: priority === p ? "0 1px 2px rgba(0,0,0,.12)" : "none" }}>
+            <button key={p} type="button" onClick={() => setPriority(p)} style={{ height: 40, border: "none", borderRadius: 8, cursor: "pointer", fontSize: "var(--fs-13)", fontWeight: 600, background: priority === p ? "var(--card)" : "transparent", color: priority === p ? (p === "URGENT" ? "#c50f1f" : "var(--foreground)") : "var(--muted-foreground)", boxShadow: priority === p ? "0 1px 2px rgba(0,0,0,.12)" : "none" }}>
               {PRIORITY_LABELS[p]}
             </button>
           ))}
@@ -145,7 +145,7 @@ export function MobileReportForm({ buildings, categories, detailBase }: {
       <Field label="Τίτλος (προαιρετικά)">
         <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Θα δημιουργηθεί αυτόματα αν το αφήσετε κενό" style={select} />
       </Field>
-      <label style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 14, color: "var(--foreground)", cursor: "pointer", padding: "4px 0" }}>
+      <label style={{ display: "flex", alignItems: "center", gap: 10, fontSize: "var(--fs-14)", color: "var(--foreground)", cursor: "pointer", padding: "4px 0" }}>
         <input type="checkbox" checked={restricted} onChange={(e) => setRestricted(e.target.checked)} style={{ width: 20, height: 20 }} />
         Χρειάζεται ραντεβού για πρόσβαση (κλειδωμένος χώρος/εξοπλισμός)
       </label>
@@ -153,7 +153,7 @@ export function MobileReportForm({ buildings, categories, detailBase }: {
       <button type="button" onClick={submit} disabled={busy || uploading} style={cta}>
         {busy ? <RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> : <RiSendPlaneLine />} Αποστολή στη διαχείριση
       </button>
-      <p style={{ display: "flex", gap: 6, alignItems: "flex-start", fontSize: 12, color: "var(--muted-foreground)", margin: 0 }}>
+      <p style={{ display: "flex", gap: 6, alignItems: "flex-start", fontSize: "var(--fs-12)", color: "var(--muted-foreground)", margin: 0 }}>
         <RiCheckboxCircleLine style={{ marginTop: 2, flexShrink: 0 }} /> Μετά την αποστολή θα δείτε αν η βλάβη καλύπτεται από τη σύμβαση διαχείρισης ή αν θα λάβετε προσφορά.
       </p>
       <style>{`@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}`}</style>
@@ -164,15 +164,15 @@ export function MobileReportForm({ buildings, categories, detailBase }: {
 function Field({ label, required, children }: { label: string; required?: boolean; children: React.ReactNode }) {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-      <label style={{ fontSize: 13, fontWeight: 600, color: "var(--foreground)" }}>{label}{required && <span style={{ color: "#c50f1f", marginLeft: 3 }}>*</span>}</label>
+      <label style={{ fontSize: "var(--fs-13)", fontWeight: 600, color: "var(--foreground)" }}>{label}{required && <span style={{ color: "#c50f1f", marginLeft: 3 }}>*</span>}</label>
       {children}
     </div>
   );
 }
 
-const select: React.CSSProperties = { width: "100%", height: 46, padding: "0 12px", border: "1px solid var(--border)", borderRadius: 10, fontSize: 15, color: "var(--foreground)", background: "var(--card)", boxSizing: "border-box" };
-const bigBtn: React.CSSProperties = { height: 92, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 6, border: "1px solid var(--border)", borderRadius: 12, background: "var(--card)", color: "var(--foreground)", fontSize: 13, fontWeight: 600, cursor: "pointer" };
-const chip: React.CSSProperties = { border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)", borderRadius: 999, padding: "9px 14px", fontSize: 14, cursor: "pointer" };
+const select: React.CSSProperties = { width: "100%", height: 46, padding: "0 12px", border: "1px solid var(--border)", borderRadius: 10, fontSize: "var(--fs-15)", color: "var(--foreground)", background: "var(--card)", boxSizing: "border-box" };
+const bigBtn: React.CSSProperties = { height: 92, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 6, border: "1px solid var(--border)", borderRadius: 12, background: "var(--card)", color: "var(--foreground)", fontSize: "var(--fs-13)", fontWeight: 600, cursor: "pointer" };
+const chip: React.CSSProperties = { border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)", borderRadius: 999, padding: "9px 14px", fontSize: "var(--fs-14)", cursor: "pointer" };
 const chipOn: React.CSSProperties = { background: "var(--color-primary)", borderColor: "var(--color-primary)", color: "#fff", fontWeight: 600 };
-const cta: React.CSSProperties = { height: 52, border: "none", borderRadius: 12, background: "var(--color-primary)", color: "#fff", fontSize: 16, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8, marginTop: 6 };
-const errBox: React.CSSProperties = { padding: "10px 12px", borderRadius: 8, background: "#fee2e218", color: "#dc2626", fontSize: 13, border: "1px solid #fca5a530" };
+const cta: React.CSSProperties = { height: 52, border: "none", borderRadius: 12, background: "var(--color-primary)", color: "#fff", fontSize: "var(--fs-16)", fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8, marginTop: 6 };
+const errBox: React.CSSProperties = { padding: "10px 12px", borderRadius: 8, background: "#fee2e218", color: "#dc2626", fontSize: "var(--fs-13)", border: "1px solid #fca5a530" };

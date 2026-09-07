@@ -38,9 +38,9 @@ export function CmsPage({
           {icon}
         </div>
         <div>
-          <div style={{ fontSize: 22, fontWeight: 700, color: "var(--foreground)" }}>{title}</div>
+          <div style={{ fontSize: "var(--fs-22)", fontWeight: 700, color: "var(--foreground)" }}>{title}</div>
           {subtitle && (
-            <div style={{ fontSize: 13, color: "var(--muted-foreground)", marginTop: 4 }}>{subtitle}</div>
+            <div style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)", marginTop: 4 }}>{subtitle}</div>
           )}
         </div>
       </div>
@@ -89,7 +89,7 @@ export function CmsCard({
             marginBottom: 18,
           }}
         >
-          {title && <h2 style={{ fontSize: 15, fontWeight: 600, color: "var(--foreground)", margin: 0 }}>{title}</h2>}
+          {title && <h2 style={{ fontSize: "var(--fs-15)", fontWeight: 600, color: "var(--foreground)", margin: 0 }}>{title}</h2>}
           {actions && <div style={{ display: "flex", alignItems: "center", gap: 8 }}>{actions}</div>}
         </div>
       )}
@@ -113,7 +113,7 @@ export function CmsField({
     <div>
       <label
         style={{
-          fontSize: 12,
+          fontSize: "var(--fs-12)",
           fontWeight: 600,
           color: "var(--muted-foreground)",
           display: "block",
@@ -123,7 +123,7 @@ export function CmsField({
         {label}
       </label>
       {children}
-      {hint && <div style={{ fontSize: 11, color: "var(--muted-foreground)", marginTop: 4 }}>{hint}</div>}
+      {hint && <div style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)", marginTop: 4 }}>{hint}</div>}
     </div>
   );
 }
@@ -135,7 +135,7 @@ const fieldStyle: React.CSSProperties = {
   padding: "8px 12px",
   border: "1px solid var(--border)",
   borderRadius: 6,
-  fontSize: 13,
+  fontSize: "var(--fs-13)",
   color: "var(--foreground)",
   background: "var(--bg-canvas)",
   outline: "none",
@@ -214,7 +214,7 @@ export function LocaleTabs({
             style={{
               padding: "6px 14px",
               borderRadius: 6,
-              fontSize: 13,
+              fontSize: "var(--fs-13)",
               fontWeight: 600,
               border: "none",
               cursor: "pointer",
@@ -265,7 +265,7 @@ export function CmsButton({
         gap: 6,
         padding: "9px 18px",
         borderRadius: 6,
-        fontSize: 13,
+        fontSize: "var(--fs-13)",
         fontWeight: 600,
         cursor: loading ? "not-allowed" : "pointer",
         opacity: loading ? 0.7 : 1,

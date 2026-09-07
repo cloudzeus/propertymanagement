@@ -69,8 +69,8 @@ function LogoTile({ slot, label, shape, bg, initialUrl }: { slot: LogoSlot; labe
   return (
     <div style={{ border: "1px solid var(--border)", borderRadius: 10, padding: 14, background: "var(--bg-canvas)", display: "flex", flexDirection: "column", gap: 10 }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-        <span style={{ fontSize: 12, fontWeight: 600, color: "var(--foreground)" }}>{label}</span>
-        <span style={{ fontSize: 10, color: "var(--muted-foreground)" }}>{shape === "square" ? "1:1" : "οριζόντιο"}</span>
+        <span style={{ fontSize: "var(--fs-12)", fontWeight: 600, color: "var(--foreground)" }}>{label}</span>
+        <span style={{ fontSize: "var(--fs-10)", color: "var(--muted-foreground)" }}>{shape === "square" ? "1:1" : "οριζόντιο"}</span>
       </div>
       <div style={{
         height: previewH, borderRadius: 8, background: previewBg,
@@ -81,18 +81,18 @@ function LogoTile({ slot, label, shape, bg, initialUrl }: { slot: LogoSlot; labe
           // eslint-disable-next-line @next/next/no-img-element
           <img src={url} alt={label} style={{ maxHeight: previewH - 20, maxWidth: "85%", objectFit: "contain" }} />
         ) : (
-          <span style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4, color: bg === "dark" ? "#6B6B6B" : "#B3B3B3", fontSize: 11 }}>
+          <span style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4, color: bg === "dark" ? "#6B6B6B" : "#B3B3B3", fontSize: "var(--fs-11)" }}>
             <RiImageLine size={22} /> Χωρίς λογότυπο
           </span>
         )}
       </div>
-      {err && <span style={{ fontSize: 11, color: "var(--color-danger)" }}>{err}</span>}
+      {err && <span style={{ fontSize: "var(--fs-11)", color: "var(--color-danger)" }}>{err}</span>}
       <div style={{ display: "flex", gap: 8 }}>
         <input ref={inputRef} type="file" accept="image/svg+xml,image/png,image/jpeg,image/webp" onChange={onPick} style={{ display: "none" }} />
         <button type="button" disabled={pending} onClick={() => inputRef.current?.click()} style={{
           flex: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
           padding: "7px 10px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)",
-          cursor: pending ? "not-allowed" : "pointer", fontSize: 12, fontWeight: 600, color: "var(--foreground)",
+          cursor: pending ? "not-allowed" : "pointer", fontSize: "var(--fs-12)", fontWeight: 600, color: "var(--foreground)",
         }}>
           <RiUploadCloud2Line size={14} /> {pending ? "..." : url ? "Αλλαγή" : "Ανέβασμα"}
         </button>
@@ -150,7 +150,7 @@ export function BrandForm({ settings, action }: Props) {
     <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 24 }}>
       {/* Company info */}
       <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius)", padding: 24 }}>
-        <h2 style={{ fontSize: 15, fontWeight: 600, color: "var(--foreground)", margin: "0 0 18px" }}>Στοιχεία Εταιρείας</h2>
+        <h2 style={{ fontSize: "var(--fs-15)", fontWeight: 600, color: "var(--foreground)", margin: "0 0 18px" }}>Στοιχεία Εταιρείας</h2>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
           {[
             { name: "companyName", label: "Όνομα Εταιρείας", type: "text", defaultValue: settings.companyName },
@@ -159,7 +159,7 @@ export function BrandForm({ settings, action }: Props) {
             { name: "contactPhone", label: "Τηλέφωνο",          type: "text",  defaultValue: settings.contactPhone ?? "" },
           ].map((field) => (
             <div key={field.name}>
-              <label style={{ fontSize: 12, fontWeight: 600, color: "var(--muted-foreground)", display: "block", marginBottom: 6, letterSpacing: "0.03em" }}>
+              <label style={{ fontSize: "var(--fs-12)", fontWeight: 600, color: "var(--muted-foreground)", display: "block", marginBottom: 6, letterSpacing: "0.03em" }}>
                 {field.label}
               </label>
               <input
@@ -169,14 +169,14 @@ export function BrandForm({ settings, action }: Props) {
                 style={{
                   width: "100%", padding: "8px 12px",
                   border: "1px solid var(--border)", borderRadius: 6,
-                  fontSize: 13, color: "var(--foreground)", background: "var(--bg-canvas)",
+                  fontSize: "var(--fs-13)", color: "var(--foreground)", background: "var(--bg-canvas)",
                   outline: "none", boxSizing: "border-box",
                 }}
               />
             </div>
           ))}
           <div style={{ gridColumn: "1 / -1" }}>
-            <label style={{ fontSize: 12, fontWeight: 600, color: "var(--muted-foreground)", display: "block", marginBottom: 6, letterSpacing: "0.03em" }}>
+            <label style={{ fontSize: "var(--fs-12)", fontWeight: 600, color: "var(--muted-foreground)", display: "block", marginBottom: 6, letterSpacing: "0.03em" }}>
               Διεύθυνση
             </label>
             <input
@@ -186,7 +186,7 @@ export function BrandForm({ settings, action }: Props) {
               style={{
                 width: "100%", padding: "8px 12px",
                 border: "1px solid var(--border)", borderRadius: 6,
-                fontSize: 13, color: "var(--foreground)", background: "var(--bg-canvas)",
+                fontSize: "var(--fs-13)", color: "var(--foreground)", background: "var(--bg-canvas)",
                 outline: "none", boxSizing: "border-box",
               }}
             />
@@ -196,8 +196,8 @@ export function BrandForm({ settings, action }: Props) {
 
       {/* Logos */}
       <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius)", padding: 24 }}>
-        <h2 style={{ fontSize: 15, fontWeight: 600, color: "var(--foreground)", margin: "0 0 6px" }}>Λογότυπα</h2>
-        <p style={{ fontSize: 12, color: "var(--muted-foreground)", margin: "0 0 18px" }}>
+        <h2 style={{ fontSize: "var(--fs-15)", fontWeight: 600, color: "var(--foreground)", margin: "0 0 6px" }}>Λογότυπα</h2>
+        <p style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)", margin: "0 0 18px" }}>
           Full (οριζόντιο) και Square (εικονίδιο), για light & dark mode. SVG αποθηκεύεται ως έχει· οποιαδήποτε άλλη μορφή μετατρέπεται αυτόματα σε WebP με διαφάνεια. Ανεβαίνουν αμέσως (ανεξάρτητα από την Αποθήκευση χρωμάτων).
         </p>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 16 }}>
@@ -209,8 +209,8 @@ export function BrandForm({ settings, action }: Props) {
 
       {/* Colors */}
       <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius)", padding: 24 }}>
-        <h2 style={{ fontSize: 15, fontWeight: 600, color: "var(--foreground)", margin: "0 0 6px" }}>Χρώματα Brand</h2>
-        <p style={{ fontSize: 12, color: "var(--muted-foreground)", margin: "0 0 18px" }}>
+        <h2 style={{ fontSize: "var(--fs-15)", fontWeight: 600, color: "var(--foreground)", margin: "0 0 6px" }}>Χρώματα Brand</h2>
+        <p style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)", margin: "0 0 18px" }}>
           Τα χρώματα εφαρμόζονται άμεσα σε όλη την εφαρμογή ως CSS variables.
         </p>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16 }}>
@@ -218,9 +218,9 @@ export function BrandForm({ settings, action }: Props) {
             const currentValue = (preview[key] ?? settings[key]) as string;
             return (
               <div key={key}>
-                <label style={{ fontSize: 12, fontWeight: 600, color: "var(--muted-foreground)", display: "block", marginBottom: 6 }}>
+                <label style={{ fontSize: "var(--fs-12)", fontWeight: 600, color: "var(--muted-foreground)", display: "block", marginBottom: 6 }}>
                   {label}
-                  <span style={{ fontSize: 10, fontFamily: "monospace", marginLeft: 4, color: "#A0A0A0" }}>{cssVar}</span>
+                  <span style={{ fontSize: "var(--fs-10)", fontFamily: "monospace", marginLeft: 4, color: "#A0A0A0" }}>{cssVar}</span>
                 </label>
                 <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                   <input
@@ -240,7 +240,7 @@ export function BrandForm({ settings, action }: Props) {
                     name={`${key}_text`}
                     style={{
                       flex: 1, padding: "8px 10px", border: "1px solid var(--border)",
-                      borderRadius: 6, fontSize: 12, fontFamily: "monospace",
+                      borderRadius: 6, fontSize: "var(--fs-12)", fontFamily: "monospace",
                       color: "var(--foreground)", background: "var(--bg-canvas)", outline: "none",
                     }}
                   />
@@ -257,7 +257,7 @@ export function BrandForm({ settings, action }: Props) {
 
       {/* Color preview */}
       <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius)", padding: 24 }}>
-        <h2 style={{ fontSize: 15, fontWeight: 600, color: "var(--foreground)", margin: "0 0 16px" }}>Προεπισκόπηση</h2>
+        <h2 style={{ fontSize: "var(--fs-15)", fontWeight: 600, color: "var(--foreground)", margin: "0 0 16px" }}>Προεπισκόπηση</h2>
         <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
           {COLOR_FIELDS.map(({ key, label }) => {
             const color = (preview[key] ?? settings[key]) as string;
@@ -268,8 +268,8 @@ export function BrandForm({ settings, action }: Props) {
                   background: color,
                   boxShadow: "0 2px 8px rgba(0,0,0,.12)",
                 }} />
-                <span style={{ fontSize: 11, color: "var(--muted-foreground)", textAlign: "center" }}>{label}</span>
-                <span style={{ fontSize: 10, fontFamily: "monospace", color: "#A0A0A0" }}>{color}</span>
+                <span style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)", textAlign: "center" }}>{label}</span>
+                <span style={{ fontSize: "var(--fs-10)", fontFamily: "monospace", color: "#A0A0A0" }}>{color}</span>
               </div>
             );
           })}
@@ -286,7 +286,7 @@ export function BrandForm({ settings, action }: Props) {
             padding: "10px 20px", borderRadius: "var(--radius)",
             background: saved ? "var(--color-success)" : "var(--color-primary)", color: "#fff",
             border: "none", cursor: isPending ? "not-allowed" : "pointer",
-            fontSize: 13, fontWeight: 600, opacity: isPending ? 0.7 : 1,
+            fontSize: "var(--fs-13)", fontWeight: 600, opacity: isPending ? 0.7 : 1,
             transition: "background 0.3s",
           }}
         >

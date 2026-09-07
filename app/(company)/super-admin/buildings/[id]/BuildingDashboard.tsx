@@ -92,7 +92,7 @@ export function BuildingDashboard({ building, kpis, units, files, people, contac
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
       {/* breadcrumb */}
-      <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 13, color: "var(--muted-foreground)" }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }}>
         <Link href="/super-admin/properties" style={{ color: "var(--muted-foreground)", textDecoration: "none" }}>Ιδιοκτησίες</Link>
         <RiArrowRightSLine />
         <Link href={`/super-admin/properties/${building.propertyId}`} style={{ color: "var(--muted-foreground)", textDecoration: "none" }}>{building.propertyName}</Link>
@@ -105,14 +105,14 @@ export function BuildingDashboard({ building, kpis, units, files, people, contac
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
             <div style={{ width: 54, height: 54, borderRadius: 8, background: "var(--color-primary)18", color: "var(--color-primary)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <RiBuildingLine style={{ fontSize: 28 }} />
+              <RiBuildingLine style={{ fontSize: "var(--fs-28)" }} />
             </div>
             <div>
               <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
-                <div style={{ fontSize: 26, fontWeight: 800, lineHeight: 1.15, color: "var(--foreground)" }}>{building.name}</div>
+                <div style={{ fontSize: "var(--fs-26)", fontWeight: 800, lineHeight: 1.15, color: "var(--foreground)" }}>{building.name}</div>
                 <ManagedBadge managed={building.propertyManaged} />
               </div>
-              <div style={{ fontSize: 13, color: "var(--muted-foreground)", display: "flex", alignItems: "center", gap: 10, marginTop: 3, flexWrap: "wrap" }}>
+              <div style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)", display: "flex", alignItems: "center", gap: 10, marginTop: 3, flexWrap: "wrap" }}>
                 <span style={{ display: "inline-flex", alignItems: "center", gap: 4 }}><RiMapPinLine /> {building.postalCode || "—"}</span>
                 {subParts.map((p, i) => (
                   <span key={i} style={{ display: "inline-flex", alignItems: "center", gap: 10 }}>
@@ -153,14 +153,14 @@ export function BuildingDashboard({ building, kpis, units, files, people, contac
           return (
             <button key={t.key} onClick={() => setTab(t.key)} style={{
               display: "inline-flex", alignItems: "center", gap: 7, borderRadius: 9999,
-              padding: "7px 13px", fontSize: 13, fontWeight: 600, cursor: "pointer",
+              padding: "7px 13px", fontSize: "var(--fs-13)", fontWeight: 600, cursor: "pointer",
               border: `1px solid ${active ? "var(--color-primary)" : "var(--border)"}`,
               background: active ? "var(--color-primary)" : "var(--card)",
               color: active ? "#fff" : "var(--muted-foreground)",
             }}>
-              <Icon style={{ fontSize: 16 }} /> {t.label}
+              <Icon style={{ fontSize: "var(--fs-16)" }} /> {t.label}
               {badge != null && (
-                <span style={{ fontSize: 10, fontWeight: 800, padding: "0 6px", borderRadius: 9999, background: active ? "rgba(255,255,255,.25)" : "var(--bg-canvas)", color: active ? "#fff" : "var(--muted-foreground)" }}>{badge}</span>
+                <span style={{ fontSize: "var(--fs-10)", fontWeight: 800, padding: "0 6px", borderRadius: 9999, background: active ? "rgba(255,255,255,.25)" : "var(--bg-canvas)", color: active ? "#fff" : "var(--muted-foreground)" }}>{badge}</span>
               )}
             </button>
           );
@@ -233,10 +233,10 @@ export function BuildingDashboard({ building, kpis, units, files, people, contac
 function Kpi({ icon: Icon, label, value }: { icon: React.ElementType; label: string; value: string }) {
   return (
     <div style={{ border: "1px solid var(--border)", borderRadius: 8, padding: "11px 13px", background: "var(--bg-canvas)" }}>
-      <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 11, color: "var(--muted-foreground)", fontWeight: 600 }}>
-        <Icon style={{ fontSize: 15 }} /> {label}
+      <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: "var(--fs-11)", color: "var(--muted-foreground)", fontWeight: 600 }}>
+        <Icon style={{ fontSize: "var(--fs-15)" }} /> {label}
       </div>
-      <div style={{ fontSize: 22, fontWeight: 800, marginTop: 3, color: "var(--foreground)" }}>{value}</div>
+      <div style={{ fontSize: "var(--fs-22)", fontWeight: 800, marginTop: 3, color: "var(--foreground)" }}>{value}</div>
     </div>
   );
 }
@@ -264,7 +264,7 @@ function Overview({ building, data, setTab }: { building: Building; data: Overvi
       {/* Paid / Unpaid */}
       <Card title="Εξοφλημένα / Ανεξόφλητα (κοινόχρηστα)">
         {total === 0 ? (
-          <p style={{ margin: 0, fontSize: 13, color: "var(--muted-foreground)" }}>Δεν υπάρχουν κατανομές κοινοχρήστων ακόμη.</p>
+          <p style={{ margin: 0, fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }}>Δεν υπάρχουν κατανομές κοινοχρήστων ακόμη.</p>
         ) : (
           <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
             <div style={{ display: "flex", gap: 24, flexWrap: "wrap" }}>
@@ -287,7 +287,7 @@ function Overview({ building, data, setTab }: { building: Building; data: Overvi
         {/* Open maintenance requests */}
         <Card title={`Ανοιχτά αιτήματα συντήρησης${data.openCount ? ` (${data.openCount})` : ""}`}>
           {data.openRequests.length === 0 ? (
-            <p style={{ margin: 0, fontSize: 13, color: "var(--muted-foreground)" }}>Δεν υπάρχουν ανοιχτά αιτήματα. 👍</p>
+            <p style={{ margin: 0, fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }}>Δεν υπάρχουν ανοιχτά αιτήματα. 👍</p>
           ) : (
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               {data.openRequests.map((r) => {
@@ -296,10 +296,10 @@ function Overview({ building, data, setTab }: { building: Building; data: Overvi
                   <div key={r.id} style={{ display: "flex", alignItems: "center", gap: 10, padding: "8px 10px", border: "1px solid var(--border)", borderRadius: 8 }}>
                     <RiToolsLine style={{ color: p.color, flexShrink: 0 }} />
                     <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ fontSize: 13, fontWeight: 600, color: "var(--foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{r.title}</div>
-                      <div style={{ fontSize: 11, color: "var(--muted-foreground)" }}>{REQ_STATUS[r.status] ?? r.status} · {fmtDay(r.createdAt)}</div>
+                      <div style={{ fontSize: "var(--fs-13)", fontWeight: 600, color: "var(--foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{r.title}</div>
+                      <div style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)" }}>{REQ_STATUS[r.status] ?? r.status} · {fmtDay(r.createdAt)}</div>
                     </div>
-                    <span style={{ flexShrink: 0, fontSize: 10, fontWeight: 700, padding: "2px 8px", borderRadius: 9999, background: `${p.color}18`, color: p.color }}>{p.label}</span>
+                    <span style={{ flexShrink: 0, fontSize: "var(--fs-10)", fontWeight: 700, padding: "2px 8px", borderRadius: 9999, background: `${p.color}18`, color: p.color }}>{p.label}</span>
                   </div>
                 );
               })}
@@ -311,14 +311,14 @@ function Overview({ building, data, setTab }: { building: Building; data: Overvi
         {/* Upcoming maintenance (recurring tasks) */}
         <Card title="Επερχόμενες συντηρήσεις">
           {data.upcomingTasks.length === 0 ? (
-            <p style={{ margin: 0, fontSize: 13, color: "var(--muted-foreground)" }}>Δεν υπάρχουν προγραμματισμένες εργασίες.</p>
+            <p style={{ margin: 0, fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }}>Δεν υπάρχουν προγραμματισμένες εργασίες.</p>
           ) : (
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               {data.upcomingTasks.map((t) => (
                 <div key={t.id} style={{ display: "flex", alignItems: "center", gap: 10, padding: "8px 10px", border: "1px solid var(--border)", borderRadius: 8 }}>
                   <RiCalendarTodoLine style={{ color: "var(--color-primary)", flexShrink: 0 }} />
-                  <div style={{ flex: 1, minWidth: 0, fontSize: 13, fontWeight: 600, color: "var(--foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{t.title}</div>
-                  <span style={{ flexShrink: 0, fontSize: 12, fontWeight: 700, color: "var(--muted-foreground)" }}>{fmtDay(t.nextDueDate)}</span>
+                  <div style={{ flex: 1, minWidth: 0, fontSize: "var(--fs-13)", fontWeight: 600, color: "var(--foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{t.title}</div>
+                  <span style={{ flexShrink: 0, fontSize: "var(--fs-12)", fontWeight: 700, color: "var(--muted-foreground)" }}>{fmtDay(t.nextDueDate)}</span>
                 </div>
               ))}
               <button onClick={() => setTab("calendar")} style={btn}><RiCalendarTodoLine /> Ημερολόγιο</button>
@@ -327,7 +327,7 @@ function Overview({ building, data, setTab }: { building: Building; data: Overvi
         </Card>
       </div>
 
-      <p style={{ margin: 0, fontSize: 12, color: "var(--muted-foreground)" }}>
+      <p style={{ margin: 0, fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>
         Πελάτης: <b style={{ color: "var(--foreground)" }}>{building.customerName}</b> · Ιδιοκτησία:{" "}
         <Link href={`/super-admin/properties/${building.propertyId}`} style={{ color: "var(--color-primary)" }}>{building.propertyName}</Link>
       </p>
@@ -338,8 +338,8 @@ function Overview({ building, data, setTab }: { building: Building; data: Overvi
 function Stat({ label, value, color }: { label: string; value: string; color: string }) {
   return (
     <div>
-      <div style={{ fontSize: 11, color: "var(--muted-foreground)", fontWeight: 600 }}>{label}</div>
-      <div style={{ fontSize: 22, fontWeight: 800, color }}>{value}</div>
+      <div style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)", fontWeight: 600 }}>{label}</div>
+      <div style={{ fontSize: "var(--fs-22)", fontWeight: 800, color }}>{value}</div>
     </div>
   );
 }
@@ -347,7 +347,7 @@ function Stat({ label, value, color }: { label: string; value: string; color: st
 function Card({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 8, boxShadow: "0 1px 2px rgba(0,0,0,0.06)" }}>
-      <div style={{ padding: "13px 16px", borderBottom: "1px solid var(--border)", fontSize: 14, fontWeight: 700, color: "var(--foreground)" }}>{title}</div>
+      <div style={{ padding: "13px 16px", borderBottom: "1px solid var(--border)", fontSize: "var(--fs-14)", fontWeight: 700, color: "var(--foreground)" }}>{title}</div>
       <div style={{ padding: 16 }}>{children}</div>
     </div>
   );
@@ -355,7 +355,7 @@ function Card({ title, children }: { title: string; children: React.ReactNode })
 
 function Placeholder({ label }: { label: string }) {
   return (
-    <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 8, padding: 40, textAlign: "center", color: "var(--muted-foreground)", fontSize: 14 }}>
+    <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 8, padding: 40, textAlign: "center", color: "var(--muted-foreground)", fontSize: "var(--fs-14)" }}>
       «{label}» — ενεργοποιείται σε επόμενη φάση.
     </div>
   );
@@ -364,6 +364,6 @@ function Placeholder({ label }: { label: string }) {
 const btn: React.CSSProperties = {
   display: "inline-flex", alignItems: "center", gap: 7, border: "1px solid var(--border)",
   background: "var(--card)", color: "var(--foreground)", borderRadius: 4, padding: "7px 13px",
-  fontSize: 13, fontWeight: 600, cursor: "pointer", textDecoration: "none",
+  fontSize: "var(--fs-13)", fontWeight: 600, cursor: "pointer", textDecoration: "none",
 };
 const btnPrimary: React.CSSProperties = { background: "var(--color-primary)", color: "#fff", borderColor: "var(--color-primary)" };

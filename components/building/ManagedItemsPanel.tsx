@@ -46,7 +46,7 @@ export function ManagedItemsPanel({ buildingId, items, itemTypes, floorOptions, 
   return (
     <div>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, marginBottom: 14, flexWrap: "wrap" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 14, fontSize: 13, color: "var(--muted-foreground)", flexWrap: "wrap" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 14, fontSize: "var(--fs-13)", color: "var(--muted-foreground)", flexWrap: "wrap" }}>
           <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}><RiShieldCheckLine style={{ color: "#15803d" }} /> {items.length} στοιχεία</span>
           {items.length > 0 && (
             <>
@@ -59,7 +59,7 @@ export function ManagedItemsPanel({ buildingId, items, itemTypes, floorOptions, 
       </div>
 
       {activeTypes.length === 0 && (
-        <div style={{ padding: "10px 14px", borderRadius: 8, border: "1px solid #CA5D0040", background: "#CA5D0010", color: "#CA5D00", fontSize: 13, marginBottom: 14, display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+        <div style={{ padding: "10px 14px", borderRadius: 8, border: "1px solid #CA5D0040", background: "#CA5D0010", color: "#CA5D00", fontSize: "var(--fs-13)", marginBottom: 14, display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
           Ο κατάλογος στοιχείων είναι κενός. Δημιούργησε πρώτα τη λίστα στα{" "}
           <Link href="/super-admin/managed-items" style={{ color: "#CA5D00", fontWeight: 700, display: "inline-flex", alignItems: "center", gap: 3 }}>Στοιχεία Διαχείρισης <RiExternalLinkLine /></Link>
         </div>
@@ -67,14 +67,14 @@ export function ManagedItemsPanel({ buildingId, items, itemTypes, floorOptions, 
 
       {items.length === 0 ? (
         <div onClick={() => can.manageManagedItems && activeTypes.length > 0 && setEditing("new")} style={{ border: "1.5px dashed var(--border-strong)", borderRadius: 8, padding: 36, textAlign: "center", color: "var(--muted-foreground)", cursor: can.manageManagedItems && activeTypes.length > 0 ? "pointer" : "default", background: "var(--bg-canvas)" }}>
-          <RiLightbulbLine style={{ fontSize: 26, display: "block", margin: "0 auto 8px" }} />
-          <div style={{ fontSize: 13, fontWeight: 600, color: "var(--foreground)", marginBottom: 3 }}>Δεν υπάρχουν διαχειριζόμενα στοιχεία</div>
+          <RiLightbulbLine style={{ fontSize: "var(--fs-26)", display: "block", margin: "0 auto 8px" }} />
+          <div style={{ fontSize: "var(--fs-13)", fontWeight: 600, color: "var(--foreground)", marginBottom: 3 }}>Δεν υπάρχουν διαχειριζόμενα στοιχεία</div>
           Επίλεξε από τον κατάλογο τι διαχειρίζεται η εταιρεία εδώ — π.χ. «Αλλαγή λαμπτήρων» στους κοινόχρηστους χώρους με αριθμό φωτιστικών.
         </div>
       ) : (
         <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 8, overflow: "hidden" }}>
-          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
-            <thead><tr style={{ textAlign: "left", color: "var(--muted-foreground)", fontSize: 11 }}>
+          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "var(--fs-13)" }}>
+            <thead><tr style={{ textAlign: "left", color: "var(--muted-foreground)", fontSize: "var(--fs-11)" }}>
               <th style={th}>Φώτο</th><th style={th}>Στοιχείο</th><th style={th}>Τοποθεσία</th><th style={th}>Συντήρηση</th><th style={th}>Όροφος</th><th style={{ ...th, textAlign: "right" }}>Ποσότητα</th><th style={th}></th>
             </tr></thead>
             <tbody>
@@ -90,12 +90,12 @@ export function ManagedItemsPanel({ buildingId, items, itemTypes, floorOptions, 
                       <div aria-hidden style={{ width: 40, height: 40, borderRadius: 6, border: "1px dashed var(--border-strong)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--border-strong)" }}><RiImageAddLine /></div>
                     )}
                   </td>
-                  <td style={td}><b>{i.itemTypeName}</b>{i.notes && <div style={{ fontSize: 11, color: "var(--muted-foreground)" }}>{i.notes}</div>}</td>
-                  <td style={td}><span style={chip}><RiMapPinLine style={{ fontSize: 12 }} /> {i.location}</span></td>
+                  <td style={td}><b>{i.itemTypeName}</b>{i.notes && <div style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)" }}>{i.notes}</div>}</td>
+                  <td style={td}><span style={chip}><RiMapPinLine style={{ fontSize: "var(--fs-12)" }} /> {i.location}</span></td>
                   <td style={td}>
                     {i.schedule ? (
                       <span style={{ ...chip, background: "var(--color-green-soft, #E4F0EA)", color: "var(--color-green, #22604A)" }}>
-                        <RiRepeatLine style={{ fontSize: 12 }} /> {FREQ_LABEL[i.schedule.frequency]}
+                        <RiRepeatLine style={{ fontSize: "var(--fs-12)" }} /> {FREQ_LABEL[i.schedule.frequency]}
                         {i.schedule.nextDueDate ? ` · ${new Date(i.schedule.nextDueDate).toLocaleDateString("el-GR")}` : ""}
                       </span>
                     ) : <span style={{ color: "var(--muted-foreground)" }}>—</span>}
@@ -258,7 +258,7 @@ function ManagedItemModal({ buildingId, itemTypes, floorOptions, commonAreas, ed
                 />
                 <button type="button" aria-label="Αφαίρεση φωτογραφίας" onClick={() => { setPhotoFile(null); setPhotoRemoved(true); }}
                   style={{ position: "absolute", top: -7, right: -7, width: 20, height: 20, borderRadius: "50%", border: "1px solid var(--border)", background: "var(--card)", color: "#c50f1f", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", padding: 0 }}>
-                  <RiCloseLine style={{ fontSize: 13 }} />
+                  <RiCloseLine style={{ fontSize: "var(--fs-13)" }} />
                 </button>
               </div>
             )}
@@ -271,7 +271,7 @@ function ManagedItemModal({ buildingId, itemTypes, floorOptions, commonAreas, ed
         </FormField>
         <FormField label="Σημειώσεις"><FieldTextarea value={form.notes} onChange={(v) => setForm((p) => ({ ...p, notes: v }))} rows={2} placeholder="π.χ. λαμπτήρες LED E27" /></FormField>
         <div style={{ borderTop: "1px solid var(--border)", paddingTop: 12, marginTop: 2 }}>
-          <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, fontWeight: 700, color: "var(--foreground)", cursor: "pointer" }}>
+          <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: "var(--fs-13)", fontWeight: 700, color: "var(--foreground)", cursor: "pointer" }}>
             <input type="checkbox" checked={sched.enabled} onChange={(e) => setSched((p) => ({ ...p, enabled: e.target.checked }))} />
             <RiCalendarLine style={{ color: "var(--muted-foreground)" }} /> Πρόγραμμα συντήρησης
           </label>
@@ -297,14 +297,14 @@ function ManagedItemModal({ buildingId, itemTypes, floorOptions, commonAreas, ed
   );
 }
 
-const inputStyle: React.CSSProperties = { width: "100%", height: 36, padding: "0 10px", border: "1px solid var(--border)", borderRadius: "var(--radius-sm)", fontSize: 13, color: "var(--foreground)", background: "var(--card)", outline: "none", boxSizing: "border-box" };
-const stepBtn: React.CSSProperties = { display: "inline-flex", alignItems: "center", justifyContent: "center", width: 36, height: 36, border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)", borderRadius: "var(--radius-sm)", cursor: "pointer", fontSize: 15 };
+const inputStyle: React.CSSProperties = { width: "100%", height: 36, padding: "0 10px", border: "1px solid var(--border)", borderRadius: "var(--radius-sm)", fontSize: "var(--fs-13)", color: "var(--foreground)", background: "var(--card)", outline: "none", boxSizing: "border-box" };
+const stepBtn: React.CSSProperties = { display: "inline-flex", alignItems: "center", justifyContent: "center", width: 36, height: 36, border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)", borderRadius: "var(--radius-sm)", cursor: "pointer", fontSize: "var(--fs-15)" };
 const th: React.CSSProperties = { padding: "10px 14px", fontWeight: 600 };
 const td: React.CSSProperties = { padding: "11px 14px", borderTop: "1px solid var(--border)", color: "var(--foreground)" };
-const chip: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 4, fontSize: 11, fontWeight: 700, padding: "2px 8px", borderRadius: 9999, background: "var(--color-blue-soft)", color: "var(--color-blue)" };
-const btn: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 7, border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)", borderRadius: 4, padding: "7px 13px", fontSize: 13, fontWeight: 600, cursor: "pointer" };
+const chip: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 4, fontSize: "var(--fs-11)", fontWeight: 700, padding: "2px 8px", borderRadius: 9999, background: "var(--color-blue-soft)", color: "var(--color-blue)" };
+const btn: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 7, border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)", borderRadius: 4, padding: "7px 13px", fontSize: "var(--fs-13)", fontWeight: 600, cursor: "pointer" };
 const btnPrimary: React.CSSProperties = { background: "var(--color-primary)", color: "#fff", borderColor: "var(--color-primary)" };
 const iconBtn: React.CSSProperties = { display: "inline-flex", alignItems: "center", border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)", borderRadius: 4, padding: 6, marginLeft: 6, cursor: "pointer" };
-const cancelBtn: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: 13, color: "var(--foreground)" };
-const saveBtn: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: "pointer", fontSize: 13, fontWeight: 600, display: "flex", alignItems: "center", gap: 6 };
-const errBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: 12, border: "1px solid #fca5a530", marginBottom: 12 };
+const cancelBtn: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: "var(--fs-13)", color: "var(--foreground)" };
+const saveBtn: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: "pointer", fontSize: "var(--fs-13)", fontWeight: 600, display: "flex", alignItems: "center", gap: 6 };
+const errBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: "var(--fs-12)", border: "1px solid #fca5a530", marginBottom: 12 };

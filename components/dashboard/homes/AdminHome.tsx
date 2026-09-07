@@ -57,8 +57,8 @@ export async function AdminHome({ companyId }: { companyId: string | undefined }
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
       <div>
-        <h1 style={{ fontSize: 22, fontWeight: 700, color: "var(--foreground)", margin: 0 }}>Πίνακας Διαχείρισης</h1>
-        <p style={{ fontSize: 13, color: "var(--muted-foreground)", marginTop: 4 }}>Λειτουργική εικόνα εταιρείας — βλάβες, εισπράξεις, λήξεις</p>
+        <h1 style={{ fontSize: "var(--fs-22)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}>Πίνακας Διαχείρισης</h1>
+        <p style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)", marginTop: 4 }}>Λειτουργική εικόνα εταιρείας — βλάβες, εισπράξεις, λήξεις</p>
       </div>
 
       {/* Primary operational KPIs */}
@@ -93,10 +93,10 @@ export async function AdminHome({ companyId }: { companyId: string | undefined }
               {expiring.slice(0, 10).map((e) => (
                 <div key={`${e.kind}-${e.id}`} style={rowStyle}>
                   <div style={{ minWidth: 0 }}>
-                    <div style={{ fontSize: 13, fontWeight: 600, color: "var(--foreground)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                    <div style={{ fontSize: "var(--fs-13)", fontWeight: 600, color: "var(--foreground)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
                       {e.kind === "addon" ? "Πρόσθετο" : "Συνδρομή"} · {e.label}
                     </div>
-                    <div style={{ fontSize: 12, color: "var(--muted-foreground)" }}>{formatEuro(e.amount)}/μ</div>
+                    <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>{formatEuro(e.amount)}/μ</div>
                   </div>
                   <Pill label={e.daysLeft <= 0 ? "Έληξε" : `${e.daysLeft}μ`} color={e.daysLeft <= 7 ? "var(--color-warning)" : "var(--color-primary)"} />
                 </div>
@@ -114,10 +114,10 @@ export async function AdminHome({ companyId }: { companyId: string | undefined }
             return (
               <Link key={link.href} href={link.href} style={{ display: "flex", alignItems: "center", gap: 10, padding: "12px 14px", borderRadius: 8, background: "var(--bg-canvas)", border: "1px solid var(--border)", textDecoration: "none", color: "var(--foreground)" }}>
                 <div style={{ width: 32, height: 32, borderRadius: 8, flexShrink: 0, background: `${link.color}18`, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                  <Icon style={{ fontSize: 16, color: link.color }} />
+                  <Icon style={{ fontSize: "var(--fs-16)", color: link.color }} />
                 </div>
-                <span style={{ fontSize: 13, fontWeight: 500 }}>{link.label}</span>
-                <RiArrowRightLine style={{ marginLeft: "auto", fontSize: 14, color: "var(--muted-foreground)" }} />
+                <span style={{ fontSize: "var(--fs-13)", fontWeight: 500 }}>{link.label}</span>
+                <RiArrowRightLine style={{ marginLeft: "auto", fontSize: "var(--fs-14)", color: "var(--muted-foreground)" }} />
               </Link>
             );
           })}

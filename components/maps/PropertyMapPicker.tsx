@@ -221,7 +221,7 @@ export function PropertyMapPicker({
           <div style={{ flex: 1, position: "relative" }}>
             <RiMapPin2Line style={{
               position: "absolute", left: 10, top: "50%", transform: "translateY(-50%)",
-              fontSize: 16, color: "var(--muted-foreground)",
+              fontSize: "var(--fs-16)", color: "var(--muted-foreground)",
             }} />
             <input
               type="text"
@@ -232,7 +232,7 @@ export function PropertyMapPicker({
               style={{
                 width: "100%", padding: "9px 12px 9px 34px",
                 border: "1px solid var(--border)", borderRadius: 6,
-                fontSize: 13, color: "var(--foreground)",
+                fontSize: "var(--fs-13)", color: "var(--foreground)",
                 background: "var(--bg-canvas)", outline: "none",
                 boxSizing: "border-box",
               }}
@@ -246,13 +246,13 @@ export function PropertyMapPicker({
               display: "flex", alignItems: "center", gap: 6,
               padding: "0 14px", borderRadius: 6,
               background: "var(--color-primary)", color: "#fff",
-              border: "none", cursor: "pointer", fontSize: 13, fontWeight: 600,
+              border: "none", cursor: "pointer", fontSize: "var(--fs-13)", fontWeight: 600,
               whiteSpace: "nowrap",
             }}
           >
             {searching
-              ? <RiLoaderLine style={{ fontSize: 15, animation: "spin 1s linear infinite" }} />
-              : <RiSearchLine style={{ fontSize: 15 }} />
+              ? <RiLoaderLine style={{ fontSize: "var(--fs-15)", animation: "spin 1s linear infinite" }} />
+              : <RiSearchLine style={{ fontSize: "var(--fs-15)" }} />
             }
             Geocoding
           </button>
@@ -280,10 +280,10 @@ export function PropertyMapPicker({
                 onMouseEnter={(e) => (e.currentTarget.style.background = "var(--bg-canvas)")}
                 onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
               >
-                <RiMapPin2Line style={{ fontSize: 15, color: "var(--color-primary)", flexShrink: 0, marginTop: 1 }} />
-                <span style={{ fontSize: 13, color: "var(--foreground)", lineHeight: 1.4 }}>{r.displayName}</span>
+                <RiMapPin2Line style={{ fontSize: "var(--fs-15)", color: "var(--color-primary)", flexShrink: 0, marginTop: 1 }} />
+                <span style={{ fontSize: "var(--fs-13)", color: "var(--foreground)", lineHeight: 1.4 }}>{r.displayName}</span>
                 {r.confidence !== undefined && (
-                  <span style={{ marginLeft: "auto", fontSize: 11, color: "var(--muted-foreground)", flexShrink: 0 }}>
+                  <span style={{ marginLeft: "auto", fontSize: "var(--fs-11)", color: "var(--muted-foreground)", flexShrink: 0 }}>
                     {Math.round(r.confidence * 100)}%
                   </span>
                 )}
@@ -308,8 +308,8 @@ export function PropertyMapPicker({
       />
 
       {/* Coordinates + reverse geocode result */}
-      <div style={{ display: "flex", alignItems: "center", gap: 12, fontSize: 12, color: "var(--muted-foreground)" }}>
-        <RiCrosshairLine style={{ fontSize: 14, flexShrink: 0 }} />
+      <div style={{ display: "flex", alignItems: "center", gap: 12, fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>
+        <RiCrosshairLine style={{ fontSize: "var(--fs-14)", flexShrink: 0 }} />
         {lat !== null && lng !== null ? (
           <span>
             <strong style={{ color: "var(--foreground)" }}>{lat.toFixed(6)}</strong>

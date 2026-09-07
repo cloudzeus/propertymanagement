@@ -44,13 +44,13 @@ export function ExclusionMatrix({
 
   return (
     <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 8, boxShadow: "0 1px 2px rgba(0,0,0,0.06)", overflow: "auto" }}>
-      <div style={{ padding: "10px 16px", borderBottom: "1px solid var(--border)", fontSize: 12, color: "var(--muted-foreground)", display: "flex", alignItems: "center", gap: 8 }}>
+      <div style={{ padding: "10px 16px", borderBottom: "1px solid var(--border)", fontSize: "var(--fs-12)", color: "var(--muted-foreground)", display: "flex", alignItems: "center", gap: 8 }}>
         Επιλεγμένο = η μονάδα συμμετέχει (πληρώνει) στην κατηγορία.
         {isPending && <RiLoaderLine style={{ animation: "spin 1s linear infinite" }} />}
       </div>
-      <table style={{ borderCollapse: "collapse", fontSize: 13 }}>
+      <table style={{ borderCollapse: "collapse", fontSize: "var(--fs-13)" }}>
         <thead>
-          <tr style={{ textAlign: "left", color: "var(--muted-foreground)", fontSize: 11 }}>
+          <tr style={{ textAlign: "left", color: "var(--muted-foreground)", fontSize: "var(--fs-11)" }}>
             <th style={{ ...th, position: "sticky", left: 0, background: "var(--card)" }}>Μονάδα</th>
             {categories.map((c) => (
               <th key={c.id} style={{ ...th, textAlign: "center", minWidth: 120 }}>
@@ -98,4 +98,4 @@ export function ExclusionMatrix({
 
 const th: React.CSSProperties = { padding: "8px 12px" };
 const td: React.CSSProperties = { padding: "6px 12px", color: "var(--foreground)" };
-const shopBtn: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 4, border: "1px solid var(--border)", background: "var(--card)", color: "var(--muted-foreground)", borderRadius: 6, padding: "3px 8px", fontSize: 11, fontWeight: 600, cursor: "pointer" };
+const shopBtn: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 4, border: "1px solid var(--border)", background: "var(--card)", color: "var(--muted-foreground)", borderRadius: 6, padding: "3px 8px", fontSize: "var(--fs-11)", fontWeight: 600, cursor: "pointer" };

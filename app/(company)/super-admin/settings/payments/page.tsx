@@ -24,11 +24,11 @@ export default async function PaymentsSettingsPage() {
             justifyContent: "center",
           }}
         >
-          <RiBankCardLine style={{ fontSize: 20, color: "var(--color-teal)" }} />
+          <RiBankCardLine style={{ fontSize: "var(--fs-20)", color: "var(--color-teal)" }} />
         </div>
         <div>
-          <h1 style={{ fontSize: 22, fontWeight: 700, color: "var(--foreground)", margin: 0 }}>Πληρωμές (Viva)</h1>
-          <p style={{ fontSize: 13, color: "var(--muted-foreground)", marginTop: 4 }}>
+          <h1 style={{ fontSize: "var(--fs-22)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}>Πληρωμές (Viva)</h1>
+          <p style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)", marginTop: 4 }}>
             Ρύθμιση του λογαριασμού Viva της πλατφόρμας για είσπραξη πληρωμών από χρήστες
           </p>
         </div>

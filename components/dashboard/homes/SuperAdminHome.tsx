@@ -100,8 +100,8 @@ export async function SuperAdminHome() {
               {expiring.slice(0, 12).map((e) => (
                 <div key={`${e.kind}-${e.id}`} style={rowStyle}>
                   <div style={{ minWidth: 0 }}>
-                    <div style={{ fontSize: 13, fontWeight: 600, color: "var(--foreground)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{e.companyName}</div>
-                    <div style={{ fontSize: 12, color: "var(--muted-foreground)" }}>
+                    <div style={{ fontSize: "var(--fs-13)", fontWeight: 600, color: "var(--foreground)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{e.companyName}</div>
+                    <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>
                       {e.kind === "addon" ? "Πρόσθετο" : "Συνδρομή"} · {e.label} · {formatEuro(e.amount)}/μ
                     </div>
                   </div>
@@ -126,8 +126,8 @@ export async function SuperAdminHome() {
               {recentCompanies.map((c) => (
                 <div key={c.id} style={rowStyle}>
                   <div style={{ minWidth: 0 }}>
-                    <div style={{ fontSize: 14, fontWeight: 500, color: "var(--foreground)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{c.name}</div>
-                    <div style={{ fontSize: 12, color: "var(--muted-foreground)" }}>{c.slug}</div>
+                    <div style={{ fontSize: "var(--fs-14)", fontWeight: 500, color: "var(--foreground)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{c.name}</div>
+                    <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>{c.slug}</div>
                   </div>
                   <Pill label={c.status} color={STATUS_COLOR[c.status] || "var(--muted-foreground)"} />
                 </div>
@@ -144,8 +144,8 @@ export async function SuperAdminHome() {
               {recentUsers.map((u) => (
                 <div key={u.id} style={rowStyle}>
                   <div style={{ minWidth: 0 }}>
-                    <div style={{ fontSize: 14, fontWeight: 500, color: "var(--foreground)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{u.name}</div>
-                    <div style={{ fontSize: 12, color: "var(--muted-foreground)" }}>{u.email}</div>
+                    <div style={{ fontSize: "var(--fs-14)", fontWeight: 500, color: "var(--foreground)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{u.name}</div>
+                    <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>{u.email}</div>
                   </div>
                   <Pill label={roleLabel((u as any).role)} color={roleColor((u as any).role)} />
                 </div>

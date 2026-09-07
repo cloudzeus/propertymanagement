@@ -38,16 +38,16 @@ const PAYABLE_CAPTION: Record<StatementWithPaid["role"], string> = {
 };
 
 const th: React.CSSProperties = {
-  padding: "7px 12px", fontSize: 11.5, fontWeight: 700, textAlign: "left",
+  padding: "7px 12px", fontSize: "var(--fs-11-5)", fontWeight: 700, textAlign: "left",
   textTransform: "uppercase", letterSpacing: ".03em", color: "var(--muted-foreground)",
   borderBottom: "1px solid var(--border-strong)",
 };
-const td: React.CSSProperties = { padding: "8px 12px", fontSize: 13, color: "var(--foreground)", borderBottom: "1px solid var(--border)" };
+const td: React.CSSProperties = { padding: "8px 12px", fontSize: "var(--fs-13)", color: "var(--foreground)", borderBottom: "1px solid var(--border)" };
 const money: React.CSSProperties = { textAlign: "right", fontVariantNumeric: "tabular-nums", whiteSpace: "nowrap" };
 /** The viewer's own share — emphasized in the primary colour so it reads as the key number. */
 const share: React.CSSProperties = { color: "var(--color-primary)", fontWeight: 700 };
 const groupRow: React.CSSProperties = {
-  padding: "8px 12px", fontSize: 12, fontWeight: 800, letterSpacing: ".04em",
+  padding: "8px 12px", fontSize: "var(--fs-12)", fontWeight: 800, letterSpacing: ".04em",
   textTransform: "uppercase", background: "var(--bg-canvas)", color: "var(--foreground)",
   borderBottom: "1px solid var(--border-strong)", borderTop: "1px solid var(--border-strong)",
 };
@@ -55,11 +55,11 @@ const subtotalRow: React.CSSProperties = { ...td, fontWeight: 800, background: "
 const grandRow: React.CSSProperties = { ...td, fontWeight: 800, borderBottom: "none", borderTop: "2px solid var(--border-strong)", background: "var(--bg-canvas)" };
 const boxed: React.CSSProperties = { border: "1px solid var(--border-strong)", borderRadius: 10, overflow: "hidden", background: "var(--card)" };
 const sectionTitle: React.CSSProperties = {
-  padding: "9px 12px", fontSize: 12.5, fontWeight: 800, letterSpacing: ".05em",
+  padding: "9px 12px", fontSize: "var(--fs-12-5)", fontWeight: 800, letterSpacing: ".05em",
   background: "var(--bg-canvas)", borderBottom: "1px solid var(--border-strong)", color: "var(--foreground)",
 };
-const headCellLabel: React.CSSProperties = { fontSize: 10.5, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".05em", color: "var(--muted-foreground)" };
-const headCellValue: React.CSSProperties = { fontSize: 13.5, fontWeight: 700, color: "var(--foreground)", marginTop: 2 };
+const headCellLabel: React.CSSProperties = { fontSize: "var(--fs-10-5)", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".05em", color: "var(--muted-foreground)" };
+const headCellValue: React.CSSProperties = { fontSize: "var(--fs-13-5)", fontWeight: 700, color: "var(--foreground)", marginTop: 2 };
 
 /**
  * The BODY of the classic per-apartment ειδοποιητήριο κοινοχρήστων, keyed off a
@@ -87,14 +87,14 @@ export function UnitStatementDocument({
     <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
       {/* notice header strip */}
       <div style={boxed} data-boxed>
-        <div style={{ padding: "10px 14px", textAlign: "center", fontSize: 15, fontWeight: 800, letterSpacing: ".06em", borderBottom: "1px solid var(--border-strong)", color: "var(--foreground)" }}>
+        <div style={{ padding: "10px 14px", textAlign: "center", fontSize: "var(--fs-15)", fontWeight: 800, letterSpacing: ".06em", borderBottom: "1px solid var(--border-strong)", color: "var(--foreground)" }}>
           ΕΙΔΟΠΟΙΗΤΗΡΙΟ ΚΟΙΝΟΧΡΗΣΤΩΝ
         </div>
         <div style={{ display: "flex", flexWrap: "wrap" }}>
           <div style={{ flex: "2 1 220px", padding: "10px 14px", borderRight: "1px solid var(--border)" }}>
             <div style={headCellLabel}>Πολυκατοικία</div>
             <div style={headCellValue}>{building.name}</div>
-            <div style={{ fontSize: 12, color: "var(--muted-foreground)", marginTop: 1 }}>
+            <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)", marginTop: 1 }}>
               {[building.address, building.city].filter(Boolean).join(", ") || "—"}
             </div>
           </div>
@@ -108,11 +108,11 @@ export function UnitStatementDocument({
               <span style={{ ...headCellValue, marginTop: 0 }}>{statement.unitNumber}</span>
               <StatusChip tone={statement.role === "RESIDENT" ? "info" : "accent"}>{roleLabel}</StatusChip>
             </div>
-            {unitLine && <div style={{ fontSize: 12, color: "var(--muted-foreground)", marginTop: 1 }}>{unitLine}</div>}
+            {unitLine && <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)", marginTop: 1 }}>{unitLine}</div>}
           </div>
           <div style={{ flex: "1 1 170px", padding: "10px 14px" }}>
             <div style={headCellLabel}>Χιλιοστά</div>
-            <div style={{ fontSize: 12, color: "var(--foreground)", marginTop: 3, lineHeight: 1.7 }}>
+            <div style={{ fontSize: "var(--fs-12)", color: "var(--foreground)", marginTop: 3, lineHeight: 1.7 }}>
               <div>Κανον.: <b style={{ fontVariantNumeric: "tabular-nums" }}>{mill(statement.millesimes)}</b></div>
               <div>Ανελκ.: <b style={{ fontVariantNumeric: "tabular-nums" }}>{mill(statement.millesimesElevator)}</b></div>
               <div>Θέρμ.: <b style={{ fontVariantNumeric: "tabular-nums" }}>{mill(statement.millesimesHeating)}</b></div>
@@ -122,8 +122,8 @@ export function UnitStatementDocument({
       </div>
 
       {statement.groups.length === 0 ? (
-        <div style={{ border: "1px dashed var(--border-strong)", borderRadius: 10, padding: "36px 20px", textAlign: "center", color: "var(--muted-foreground)", fontSize: 13, background: "var(--card)" }}>
-          <RiWallet3Line style={{ fontSize: 30, opacity: 0.35, display: "block", margin: "0 auto 8px" }} />
+        <div style={{ border: "1px dashed var(--border-strong)", borderRadius: 10, padding: "36px 20px", textAlign: "center", color: "var(--muted-foreground)", fontSize: "var(--fs-13)", background: "var(--card)" }}>
+          <RiWallet3Line style={{ fontSize: "var(--fs-30)", opacity: 0.35, display: "block", margin: "0 auto 8px" }} />
           {emptyMessage ?? `Δεν υπάρχουν εκδοθέντα κοινόχρηστα για το διαμέρισμα ${statement.unitNumber} τον μήνα «${monthLabel(month)}».`}
         </div>
       ) : (
@@ -199,14 +199,14 @@ export function UnitStatementDocument({
           <div style={boxed} data-boxed>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 14, padding: "14px 16px", background: "color-mix(in srgb, var(--color-primary) 8%, transparent)", flexWrap: "wrap" }}>
               <div>
-                <div style={{ fontSize: 11.5, fontWeight: 700, letterSpacing: ".05em", color: "var(--muted-foreground)" }}>ΠΛΗΡΩΤΕΟ ΠΟΣΟ</div>
-                <div style={{ fontSize: 32, fontWeight: 800, fontVariantNumeric: "tabular-nums", color: "var(--foreground)", lineHeight: 1.15 }}>{eur(statement.myPayable)}</div>
-                <div style={{ fontSize: 12.5, color: "var(--muted-foreground)", marginTop: 2 }}>{PAYABLE_CAPTION[statement.role]}</div>
+                <div style={{ fontSize: "var(--fs-11-5)", fontWeight: 700, letterSpacing: ".05em", color: "var(--muted-foreground)" }}>ΠΛΗΡΩΤΕΟ ΠΟΣΟ</div>
+                <div style={{ fontSize: "var(--fs-32)", fontWeight: 800, fontVariantNumeric: "tabular-nums", color: "var(--foreground)", lineHeight: 1.15 }}>{eur(statement.myPayable)}</div>
+                <div style={{ fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)", marginTop: 2 }}>{PAYABLE_CAPTION[statement.role]}</div>
                 {statement.role === "OWNER" && statement.myPayable === 0 && statement.tenantTotal > 0 && (
-                  <div style={{ fontSize: 12.5, fontWeight: 600, color: "var(--muted-foreground)", marginTop: 2 }}>Το σύνολο βαρύνει τον ένοικο</div>
+                  <div style={{ fontSize: "var(--fs-12-5)", fontWeight: 600, color: "var(--muted-foreground)", marginTop: 2 }}>Το σύνολο βαρύνει τον ένοικο</div>
                 )}
                 {statement.role === "BOTH" && (statement.ownerTotal > 0 || statement.tenantTotal > 0) && (
-                  <div style={{ fontSize: 12.5, color: "var(--muted-foreground)", display: "flex", gap: 14, marginTop: 4, flexWrap: "wrap" }}>
+                  <div style={{ fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)", display: "flex", gap: 14, marginTop: 4, flexWrap: "wrap" }}>
                     {statement.ownerTotal > 0 && (
                       <span>Μερίδιο ιδιοκτήτη: <b style={{ color: "var(--foreground)", fontVariantNumeric: "tabular-nums" }}>{eur(statement.ownerTotal)}</b></span>
                     )}
@@ -220,10 +220,10 @@ export function UnitStatementDocument({
             </div>
             <div style={{ display: "flex", justifyContent: "flex-end", padding: "16px 16px 20px", borderTop: "1px solid var(--border)" }}>
               <div style={{ textAlign: "center", minWidth: 200 }}>
-                <div style={{ borderTop: "1px solid var(--border-strong)", paddingTop: 6, fontSize: 12, color: "var(--muted-foreground)" }}>
+                <div style={{ borderTop: "1px solid var(--border-strong)", paddingTop: 6, fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>
                   Ο/Η Διαχειριστής/τρια
                 </div>
-                {managerName && <div style={{ fontSize: 13, fontWeight: 700, color: "var(--foreground)", marginTop: 3 }}>{managerName}</div>}
+                {managerName && <div style={{ fontSize: "var(--fs-13)", fontWeight: 700, color: "var(--foreground)", marginTop: 3 }}>{managerName}</div>}
               </div>
             </div>
           </div>
@@ -251,7 +251,7 @@ function GroupExpenseRows({ group }: { group: StatementWithPaid["groups"][number
             <td style={td}>
               <div style={{ fontWeight: 500 }}>{primary}</div>
               {hasDistinct && (
-                <div style={{ fontSize: 11.5, color: "var(--muted-foreground)", marginTop: 1 }}>{l.categoryName}</div>
+                <div style={{ fontSize: "var(--fs-11-5)", color: "var(--muted-foreground)", marginTop: 1 }}>{l.categoryName}</div>
               )}
             </td>
             <td style={{ ...td, ...money }}>{eur(l.amount)}</td>
@@ -270,7 +270,7 @@ function GroupExpenseRows({ group }: { group: StatementWithPaid["groups"][number
                     border: "1px solid var(--border)", background: "var(--card)", color: "var(--color-primary)",
                   }}
                 >
-                  <RiFileTextLine style={{ fontSize: 16 }} />
+                  <RiFileTextLine style={{ fontSize: "var(--fs-16)" }} />
                 </a>
               ) : (
                 <span style={{ color: "var(--muted-foreground)" }}>—</span>
@@ -292,7 +292,7 @@ function GroupExpenseRows({ group }: { group: StatementWithPaid["groups"][number
 function HeatingReadings({ rows }: { rows: NonNullable<OccupantData["heatingReadings"]> }) {
   return (
     <div style={{ borderTop: "1px dashed var(--border-strong)", padding: "10px 12px", background: "var(--bg-canvas)" }}>
-      <div style={{ fontSize: 11.5, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".03em", color: "var(--muted-foreground)", marginBottom: 6 }}>
+      <div style={{ fontSize: "var(--fs-11-5)", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".03em", color: "var(--muted-foreground)", marginBottom: 6 }}>
         Ενδείξεις θέρμανσης μονάδας
       </div>
       <div style={{ overflowX: "auto" }}>

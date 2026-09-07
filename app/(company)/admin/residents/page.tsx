@@ -94,8 +94,8 @@ export default async function AdminResidentsPage() {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
       <div>
-        <h1 style={{ fontSize: 22, fontWeight: 700, color: "var(--foreground)", margin: 0 }}>Ενοικιαστές &amp; Ιδιοκτήτες</h1>
-        <p style={{ fontSize: 13, color: "var(--muted-foreground)", marginTop: 4 }}>
+        <h1 style={{ fontSize: "var(--fs-22)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}>Ενοικιαστές &amp; Ιδιοκτήτες</h1>
+        <p style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)", marginTop: 4 }}>
           {rows.length} ιδιοκτησίες · {rows.reduce((s, r) => s + r.unitsCount, 0)} μονάδες · {rows.reduce((s, r) => s + r.residentsCount, 0)} ένοικοι · {rows.reduce((s, r) => s + r.ownersCount, 0)} ιδιοκτήτες
         </p>
       </div>

@@ -13,7 +13,7 @@ export function DashboardTabs({ map, children }: { map: React.ReactNode; childre
 
   const tabBtn = (active: boolean): React.CSSProperties => ({
     display: "inline-flex", alignItems: "center", gap: 6, padding: "8px 14px",
-    fontSize: 13, fontWeight: 600, cursor: "pointer", background: "transparent", border: "none",
+    fontSize: "var(--fs-13)", fontWeight: 600, cursor: "pointer", background: "transparent", border: "none",
     color: active ? "var(--foreground)" : "var(--muted-foreground)",
     borderBottom: active ? "2px solid var(--color-primary)" : "2px solid transparent",
   });

@@ -154,14 +154,14 @@ export function ExpenseCategoriesClient({ initial }: { initial: Category[] }) {
 
   const th: React.CSSProperties = {
     textAlign: "left",
-    fontSize: 12,
+    fontSize: "var(--fs-12)",
     fontWeight: 600,
     color: "var(--muted-foreground)",
     padding: "10px 14px",
     borderBottom: "1px solid var(--border)",
   };
   const td: React.CSSProperties = {
-    fontSize: 13,
+    fontSize: "var(--fs-13)",
     color: "var(--foreground)",
     padding: "12px 14px",
     borderBottom: "1px solid var(--border)",
@@ -184,12 +184,12 @@ export function ExpenseCategoriesClient({ initial }: { initial: Category[] }) {
     <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <RiPriceTag3Line style={{ fontSize: 24, color: "var(--color-primary)" }} />
+          <RiPriceTag3Line style={{ fontSize: "var(--fs-24)", color: "var(--color-primary)" }} />
           <div>
-            <h1 style={{ fontSize: 22, fontWeight: 700, color: "var(--foreground)", margin: 0 }}>
+            <h1 style={{ fontSize: "var(--fs-22)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}>
               Κατηγορίες Εξόδων
             </h1>
-            <p style={{ fontSize: 13, color: "var(--muted-foreground)", marginTop: 4 }}>
+            <p style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)", marginTop: 4 }}>
               Διαχείριση κατηγοριών και προεπιλεγμένου επιμερισμού ενοικιαστή/ιδιοκτήτη
             </p>
           </div>
@@ -201,10 +201,10 @@ export function ExpenseCategoriesClient({ initial }: { initial: Category[] }) {
             height: 36, padding: "0 14px", borderRadius: 6,
             border: "1px solid var(--color-primary)",
             background: "var(--color-primary)", color: "#fff",
-            fontSize: 13, fontWeight: 600, cursor: "pointer",
+            fontSize: "var(--fs-13)", fontWeight: 600, cursor: "pointer",
           }}
         >
-          <RiAddLine style={{ fontSize: 16 }} /> Προσθήκη κατηγορίας
+          <RiAddLine style={{ fontSize: "var(--fs-16)" }} /> Προσθήκη κατηγορίας
         </button>
       </div>
 
@@ -212,7 +212,7 @@ export function ExpenseCategoriesClient({ initial }: { initial: Category[] }) {
         <div style={{
           padding: 14, borderRadius: "var(--radius)",
           background: "#FEE7E618", border: "1px solid var(--color-danger)",
-          color: "var(--color-danger)", fontSize: 13,
+          color: "var(--color-danger)", fontSize: "var(--fs-13)",
         }}>
           {error}
         </div>
@@ -250,7 +250,7 @@ export function ExpenseCategoriesClient({ initial }: { initial: Category[] }) {
                   <td style={td}>
                     <span style={{
                       display: "inline-block", padding: "2px 8px", borderRadius: 999,
-                      fontSize: 11, fontWeight: 600,
+                      fontSize: "var(--fs-11)", fontWeight: 600,
                       background: c.active ? "#16a34a18" : "var(--bg-canvas)",
                       color: c.active ? "#16a34a" : "var(--muted-foreground)",
                       border: `1px solid ${c.active ? "#16a34a44" : "var(--border)"}`,
@@ -261,7 +261,7 @@ export function ExpenseCategoriesClient({ initial }: { initial: Category[] }) {
                   <td style={{ ...td, textAlign: "right" }}>
                     <div style={{ display: "inline-flex", gap: 6 }}>
                       <button style={iconBtn} onClick={() => openEdit(c)} title="Επεξεργασία" disabled={isPending}>
-                        <RiEdit2Line style={{ fontSize: 15 }} />
+                        <RiEdit2Line style={{ fontSize: "var(--fs-15)" }} />
                       </button>
                       <button
                         style={{ ...iconBtn, color: "var(--color-danger)" }}
@@ -269,7 +269,7 @@ export function ExpenseCategoriesClient({ initial }: { initial: Category[] }) {
                         title="Διαγραφή"
                         disabled={isPending}
                       >
-                        <RiDeleteBinLine style={{ fontSize: 15 }} />
+                        <RiDeleteBinLine style={{ fontSize: "var(--fs-15)" }} />
                       </button>
                     </div>
                   </td>
@@ -292,7 +292,7 @@ export function ExpenseCategoriesClient({ initial }: { initial: Category[] }) {
               style={{
                 height: 34, padding: "0 14px", borderRadius: 6,
                 border: "1px solid var(--border)", background: "var(--bg-canvas)",
-                fontSize: 13, fontWeight: 600, cursor: "pointer", color: "var(--foreground)",
+                fontSize: "var(--fs-13)", fontWeight: 600, cursor: "pointer", color: "var(--foreground)",
               }}
             >
               Άκυρο
@@ -304,7 +304,7 @@ export function ExpenseCategoriesClient({ initial }: { initial: Category[] }) {
                 height: 34, padding: "0 14px", borderRadius: 6,
                 border: "1px solid var(--color-primary)",
                 background: "var(--color-primary)", color: "#fff",
-                fontSize: 13, fontWeight: 600,
+                fontSize: "var(--fs-13)", fontWeight: 600,
                 cursor: isPending ? "not-allowed" : "pointer",
                 opacity: isPending ? 0.6 : 1,
               }}
@@ -319,7 +319,7 @@ export function ExpenseCategoriesClient({ initial }: { initial: Category[] }) {
             <div style={{
               padding: 10, borderRadius: 6,
               background: "#FEE7E618", border: "1px solid var(--color-danger)",
-              color: "var(--color-danger)", fontSize: 12,
+              color: "var(--color-danger)", fontSize: "var(--fs-12)",
             }}>
               {error}
             </div>
@@ -366,7 +366,7 @@ export function ExpenseCategoriesClient({ initial }: { initial: Category[] }) {
               onChange={(v) => setForm((f) => ({ ...f, sortOrder: v }))}
             />
           </FormField>
-          <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: "var(--foreground)" }}>
+          <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: "var(--fs-13)", color: "var(--foreground)" }}>
             <input
               type="checkbox"
               checked={form.active}

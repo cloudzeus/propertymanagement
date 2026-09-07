@@ -92,12 +92,12 @@ export function SupportTicketWidget({ userName }: { userName: string }) {
   }
 
   const input: React.CSSProperties = {
-    width: "100%", padding: "10px 12px", borderRadius: 8, fontSize: 14,
+    width: "100%", padding: "10px 12px", borderRadius: 8, fontSize: "var(--fs-14)",
     border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)",
     outline: "none", fontFamily: "inherit",
   };
   const label: React.CSSProperties = {
-    fontSize: 12, fontWeight: 600, color: "var(--muted-foreground)",
+    fontSize: "var(--fs-12)", fontWeight: 600, color: "var(--muted-foreground)",
     textTransform: "uppercase", letterSpacing: ".04em", display: "block", marginBottom: 6,
   };
 
@@ -108,23 +108,23 @@ export function SupportTicketWidget({ userName }: { userName: string }) {
         background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius)",
         padding: "20px 24px", display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap",
       }}>
-        <RiCustomerService2Line style={{ fontSize: 26, color: "var(--color-primary)", flexShrink: 0 }} />
+        <RiCustomerService2Line style={{ fontSize: "var(--fs-26)", color: "var(--color-primary)", flexShrink: 0 }} />
         <div style={{ flex: 1, minWidth: 220 }}>
-          <div style={{ fontSize: 15, fontWeight: 600, color: "var(--foreground)" }}>Υποστήριξη DGsmart</div>
-          <div style={{ fontSize: 13, color: "var(--muted-foreground)", marginTop: 2 }}>
+          <div style={{ fontSize: "var(--fs-15)", fontWeight: 600, color: "var(--foreground)" }}>Υποστήριξη DGsmart</div>
+          <div style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)", marginTop: 2 }}>
             Αντιμετωπίζετε πρόβλημα με την εφαρμογή; Στείλτε αίτημα στην ομάδα υποστήριξης.
           </div>
         </div>
         <a href="/staff/support" style={{
           padding: "9px 16px", borderRadius: 8, border: "1px solid var(--border)", cursor: "pointer",
-          background: "var(--card)", color: "var(--foreground)", fontSize: 13.5, fontWeight: 600,
+          background: "var(--card)", color: "var(--foreground)", fontSize: "var(--fs-13-5)", fontWeight: 600,
           flexShrink: 0, textDecoration: "none",
         }}>
           Τα αιτήματά μας
         </a>
         <button type="button" onClick={() => { reset(); setOpen(true); }} style={{
           padding: "9px 18px", borderRadius: 8, border: "none", cursor: "pointer",
-          background: "var(--color-primary)", color: "#fff", fontSize: 13.5, fontWeight: 600, flexShrink: 0,
+          background: "var(--color-primary)", color: "#fff", fontSize: "var(--fs-13-5)", fontWeight: 600, flexShrink: 0,
         }}>
           Νέο αίτημα
         </button>
@@ -155,8 +155,8 @@ export function SupportTicketWidget({ userName }: { userName: string }) {
             {/* Header */}
             <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12, padding: "20px 24px 14px", borderBottom: "1px solid var(--border)", flex: "none" }}>
               <div>
-                <div style={{ fontSize: 17, fontWeight: 700, color: "var(--foreground)" }}>Αίτημα υποστήριξης</div>
-                <div style={{ fontSize: 13, color: "var(--muted-foreground)", marginTop: 3 }}>
+                <div style={{ fontSize: "var(--fs-17)", fontWeight: 700, color: "var(--foreground)" }}>Αίτημα υποστήριξης</div>
+                <div style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)", marginTop: 3 }}>
                   Υποβάλλεται ως <b>{userName}</b> — θα λάβετε email επιβεβαίωσης με link παρακολούθησης.
                 </div>
               </div>
@@ -168,26 +168,26 @@ export function SupportTicketWidget({ userName }: { userName: string }) {
             {done ? (
               <div style={{ textAlign: "center", padding: "38px 26px 30px", overflowY: "auto" }}>
                 <RiCheckboxCircleLine size={50} style={{ color: "var(--color-success)" }} />
-                <div style={{ fontSize: 18, fontWeight: 700, marginTop: 12, color: "var(--foreground)" }}>
+                <div style={{ fontSize: "var(--fs-18)", fontWeight: 700, marginTop: 12, color: "var(--foreground)" }}>
                   {done.duplicate ? "Το αίτημα υπάρχει ήδη" : "Το αίτημα καταχωρήθηκε"}
                 </div>
-                <div style={{ fontSize: 15, fontWeight: 700, marginTop: 8, color: "var(--color-primary)" }}>{done.code}</div>
+                <div style={{ fontSize: "var(--fs-15)", fontWeight: 700, marginTop: 8, color: "var(--color-primary)" }}>{done.code}</div>
                 {typeof done.attachments === "number" && done.attachments > 0 && (
-                  <div style={{ fontSize: 13, color: "var(--muted-foreground)", marginTop: 6 }}>
+                  <div style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)", marginTop: 6 }}>
                     Επισυνάφθηκαν {done.attachments} {done.attachments === 1 ? "αρχείο" : "αρχεία"}.
                   </div>
                 )}
-                <div style={{ fontSize: 13, color: "var(--muted-foreground)", marginTop: 8 }}>
+                <div style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)", marginTop: 8 }}>
                   Θα λάβετε email με κάθε ενημέρωση της πορείας του.
                 </div>
                 <div style={{ display: "flex", gap: 10, justifyContent: "center", marginTop: 20 }}>
                   <a href={done.statusUrl} target="_blank" rel="noopener noreferrer" style={{
                     display: "inline-flex", alignItems: "center", gap: 6, padding: "10px 18px", borderRadius: 8,
-                    border: "1px solid var(--border)", color: "var(--foreground)", fontSize: 13.5, fontWeight: 600, textDecoration: "none",
+                    border: "1px solid var(--border)", color: "var(--foreground)", fontSize: "var(--fs-13-5)", fontWeight: 600, textDecoration: "none",
                   }}>
                     Παρακολούθηση <RiExternalLinkLine />
                   </a>
-                  <button type="button" onClick={() => setOpen(false)} style={{ padding: "10px 20px", borderRadius: 8, border: "none", background: "var(--color-primary)", color: "#fff", fontWeight: 600, fontSize: 13.5, cursor: "pointer" }}>
+                  <button type="button" onClick={() => setOpen(false)} style={{ padding: "10px 20px", borderRadius: 8, border: "none", background: "var(--color-primary)", color: "#fff", fontWeight: 600, fontSize: "var(--fs-13-5)", cursor: "pointer" }}>
                     Κλείσιμο
                   </button>
                 </div>
@@ -207,7 +207,7 @@ export function SupportTicketWidget({ userName }: { userName: string }) {
                     <label style={label} htmlFor="support-body">Περιγραφή</label>
                     <textarea id="support-body" required maxLength={5000} rows={6} value={body} onChange={(e) => setBody(e.target.value)}
                       placeholder="Περιγράψτε το πρόβλημα — τι κάνατε, τι περιμένατε, τι συνέβη…" style={{ ...input, resize: "vertical" }} />
-                    <div style={{ fontSize: 11.5, color: "var(--muted-foreground)", marginTop: 4, textAlign: "right" }}>{body.length}/5000</div>
+                    <div style={{ fontSize: "var(--fs-11-5)", color: "var(--muted-foreground)", marginTop: 4, textAlign: "right" }}>{body.length}/5000</div>
                   </div>
 
                   <div>
@@ -219,7 +219,7 @@ export function SupportTicketWidget({ userName }: { userName: string }) {
                         <span key={`${f.name}-${i}`} style={{
                           display: "inline-flex", alignItems: "center", gap: 6, padding: "6px 10px",
                           borderRadius: 20, background: "var(--bg-canvas)", border: "1px solid var(--border)",
-                          fontSize: 12.5, color: "var(--foreground)", maxWidth: 220,
+                          fontSize: "var(--fs-12-5)", color: "var(--foreground)", maxWidth: 220,
                         }}>
                           <RiAttachment2 style={{ flexShrink: 0 }} />
                           <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{f.name}</span>
@@ -233,13 +233,13 @@ export function SupportTicketWidget({ userName }: { userName: string }) {
                         <button type="button" onClick={() => fileInput.current?.click()} style={{
                           display: "inline-flex", alignItems: "center", gap: 6, padding: "7px 12px", borderRadius: 8,
                           border: "1px dashed var(--border)", background: "transparent", cursor: "pointer",
-                          fontSize: 12.5, color: "var(--muted-foreground)",
+                          fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)",
                         }}>
                           <RiAttachment2 /> Προσθήκη εικόνας
                         </button>
                       )}
                     </div>
-                    <div style={{ fontSize: 11.5, color: "var(--muted-foreground)", marginTop: 6 }}>
+                    <div style={{ fontSize: "var(--fs-11-5)", color: "var(--muted-foreground)", marginTop: 6 }}>
                       Έως {MAX_FILES} εικόνες (JPG/PNG/WebP), {MAX_FILE_MB}MB η καθεμία.
                     </div>
                   </div>
@@ -247,11 +247,11 @@ export function SupportTicketWidget({ userName }: { userName: string }) {
 
                 {/* Footer */}
                 <div style={{ padding: "14px 24px", borderTop: "1px solid var(--border)", flex: "none", display: "flex", alignItems: "center", gap: 12 }}>
-                  {error && <div style={{ fontSize: 12.5, color: "var(--color-danger)", flex: 1 }}>{error}</div>}
+                  {error && <div style={{ fontSize: "var(--fs-12-5)", color: "var(--color-danger)", flex: 1 }}>{error}</div>}
                   <button type="submit" disabled={!canSubmit} style={{
                     marginLeft: "auto", padding: "11px 24px", borderRadius: 8, border: "none",
                     background: canSubmit ? "var(--color-primary)" : "var(--muted-foreground)",
-                    color: "#fff", fontWeight: 600, fontSize: 14,
+                    color: "#fff", fontWeight: 600, fontSize: "var(--fs-14)",
                     cursor: canSubmit ? "pointer" : "not-allowed",
                     display: "inline-flex", alignItems: "center", gap: 8,
                   }}>

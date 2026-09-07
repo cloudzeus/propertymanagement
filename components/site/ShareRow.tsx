@@ -29,7 +29,7 @@ export function ShareRow({ label, title }: { label: string; title: string }) {
   ];
 
   return (
-    <div className="my-12 flex flex-wrap items-center gap-[11px] border-y border-[var(--line2)] py-7 text-[13.5px] text-[var(--mut)]">
+    <div className="my-12 flex flex-wrap items-center gap-[11px] border-y border-[var(--line2)] py-7 text-[length:var(--fs-13-5)] text-[var(--mut)]">
       <span>{label}</span>
       {buttons.map(({ kind, Icon, label: name }) => (
         <button

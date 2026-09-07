@@ -23,7 +23,7 @@ export default async function SupplierProfilePage() {
     <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 16, maxWidth: 1000 }}>
       <SupplierHeader supplier={full.supplier} categories={categories} canEdit={canEdit} />
       {!ctx.isSupplierAdmin && (
-        <div style={{ display: "flex", gap: 8, alignItems: "flex-start", fontSize: 12.5, color: "var(--muted-foreground)", background: "var(--card)", border: "1px solid var(--border)", borderRadius: 8, padding: "10px 14px" }}>
+        <div style={{ display: "flex", gap: 8, alignItems: "flex-start", fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)", background: "var(--card)", border: "1px solid var(--border)", borderRadius: 8, padding: "10px 14px" }}>
           <RiInformationLine style={{ marginTop: 2, flexShrink: 0 }} /> Μόνο ο διαχειριστής της επιχείρησής σας μπορεί να επεξεργαστεί το προφίλ, το ωράριο και τις ειδικότητες.
         </div>
       )}

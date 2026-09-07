@@ -56,23 +56,23 @@ export default function AnnouncementComposer({ buildings }: { buildings: B[] }) 
   return (
     <div style={{ padding: 24, display: "flex", flexDirection: "column", gap: 16, maxWidth: 720 }}>
       <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-        <RiMegaphoneLine style={{ fontSize: 20, color: "var(--color-primary)" }} />
-        <h1 style={{ fontSize: 18, fontWeight: 700, color: "var(--foreground)" }}>Νέα ανακοίνωση</h1>
+        <RiMegaphoneLine style={{ fontSize: "var(--fs-20)", color: "var(--color-primary)" }} />
+        <h1 style={{ fontSize: "var(--fs-18)", fontWeight: 700, color: "var(--foreground)" }}>Νέα ανακοίνωση</h1>
       </div>
 
       <div>
-        <label style={{ fontSize: 12, fontWeight: 600, color: "var(--muted-foreground)", display: "block", marginBottom: 6 }}>
+        <label style={{ fontSize: "var(--fs-12)", fontWeight: 600, color: "var(--muted-foreground)", display: "block", marginBottom: 6 }}>
           Κτίρια-παραλήπτες
         </label>
         <div style={{ border: "1px solid var(--border)", borderRadius: 8, padding: 12, maxHeight: 260, overflow: "auto" }}>
           {buildings.length === 0 && (
-            <p style={{ fontSize: 13, color: "var(--muted-foreground)" }}>Δεν βρέθηκαν κτίρια.</p>
+            <p style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }}>Δεν βρέθηκαν κτίρια.</p>
           )}
           {[...byProperty.entries()].map(([prop, bs]) => (
             <div key={prop} style={{ marginBottom: 8 }}>
-              <div style={{ fontSize: 12, fontWeight: 600, color: "var(--muted-foreground)" }}>{prop}</div>
+              <div style={{ fontSize: "var(--fs-12)", fontWeight: 600, color: "var(--muted-foreground)" }}>{prop}</div>
               {bs.map((b) => (
-                <label key={b.id} style={{ display: "flex", alignItems: "center", gap: 8, paddingLeft: 12, paddingTop: 4, paddingBottom: 4, fontSize: 13 }}>
+                <label key={b.id} style={{ display: "flex", alignItems: "center", gap: 8, paddingLeft: 12, paddingTop: 4, paddingBottom: 4, fontSize: "var(--fs-13)" }}>
                   <input
                     type="checkbox"
                     checked={selected.has(b.id)}
@@ -92,13 +92,13 @@ export default function AnnouncementComposer({ buildings }: { buildings: B[] }) 
       </div>
 
       <div>
-        <label style={{ fontSize: 12, fontWeight: 600, color: "var(--muted-foreground)", display: "block", marginBottom: 6 }}>
+        <label style={{ fontSize: "var(--fs-12)", fontWeight: 600, color: "var(--muted-foreground)", display: "block", marginBottom: 6 }}>
           Παραλήπτες
         </label>
         <select
           value={audience}
           onChange={(e) => setAudience(e.target.value as Audience)}
-          style={{ border: "1px solid var(--border)", borderRadius: 8, padding: "8px 10px", fontSize: 13, background: "var(--background)", color: "var(--foreground)" }}
+          style={{ border: "1px solid var(--border)", borderRadius: 8, padding: "8px 10px", fontSize: "var(--fs-13)", background: "var(--background)", color: "var(--foreground)" }}
         >
           {(Object.keys(AUDIENCE_LABEL) as Audience[])
             .filter((a) => a !== "CUSTOM")
@@ -112,24 +112,24 @@ export default function AnnouncementComposer({ buildings }: { buildings: B[] }) 
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         placeholder="Θέμα"
-        style={{ width: "100%", border: "1px solid var(--border)", borderRadius: 8, padding: "8px 12px", fontSize: 13, background: "var(--background)", color: "var(--foreground)" }}
+        style={{ width: "100%", border: "1px solid var(--border)", borderRadius: 8, padding: "8px 12px", fontSize: "var(--fs-13)", background: "var(--background)", color: "var(--foreground)" }}
       />
       <input
         value={subject}
         onChange={(e) => setSubject(e.target.value)}
         placeholder="Θέμα email (προαιρετικό)"
-        style={{ width: "100%", border: "1px solid var(--border)", borderRadius: 8, padding: "8px 12px", fontSize: 13, background: "var(--background)", color: "var(--foreground)" }}
+        style={{ width: "100%", border: "1px solid var(--border)", borderRadius: 8, padding: "8px 12px", fontSize: "var(--fs-13)", background: "var(--background)", color: "var(--foreground)" }}
       />
       <input
         value={preview}
         onChange={(e) => setPreview(e.target.value)}
         placeholder="Preview text (προαιρετικό)"
-        style={{ width: "100%", border: "1px solid var(--border)", borderRadius: 8, padding: "8px 12px", fontSize: 13, background: "var(--background)", color: "var(--foreground)" }}
+        style={{ width: "100%", border: "1px solid var(--border)", borderRadius: 8, padding: "8px 12px", fontSize: "var(--fs-13)", background: "var(--background)", color: "var(--foreground)" }}
       />
 
       <div>
         <RichTextEditor value={content} onChange={setContent} placeholder="Κείμενο ανακοίνωσης..." />
-        <p style={{ fontSize: 11, color: "var(--muted-foreground)", marginTop: 4 }}>
+        <p style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)", marginTop: 4 }}>
           Διαθέσιμα πεδία συγχώνευσης: {"{{name}} {{building}} {{property}} {{unit}}"}
         </p>
       </div>
@@ -144,7 +144,7 @@ export default function AnnouncementComposer({ buildings }: { buildings: B[] }) 
           border: "none",
           borderRadius: 8,
           padding: "8px 20px",
-          fontSize: 13,
+          fontSize: "var(--fs-13)",
           fontWeight: 600,
           cursor: busy || !selected.size || !title.trim() ? "not-allowed" : "pointer",
           opacity: busy || !selected.size || !title.trim() ? 0.5 : 1,
@@ -154,7 +154,7 @@ export default function AnnouncementComposer({ buildings }: { buildings: B[] }) 
       </button>
 
       {msg && (
-        <p style={{ fontSize: 13, color: error ? "var(--color-red, #c50f1f)" : "var(--color-green, #107c10)" }}>{msg}</p>
+        <p style={{ fontSize: "var(--fs-13)", color: error ? "var(--color-red, #c50f1f)" : "var(--color-green, #107c10)" }}>{msg}</p>
       )}
     </div>
   );

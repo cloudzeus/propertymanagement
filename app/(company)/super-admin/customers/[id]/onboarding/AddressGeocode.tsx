@@ -33,7 +33,7 @@ export function AddressGeocode({ address, onResolved }: { address?: string; onRe
   return (
     <div style={{ marginTop: 8, border: "1px solid var(--border)", borderRadius: 8, overflow: "hidden", maxWidth: 360 }}>
       <PropertyMap lat={res.lat} lng={res.lng} height={140} zoom={15} />
-      <div style={{ padding: 8, fontSize: 12, color: "var(--muted-foreground, #666)", display: "flex", alignItems: "center", gap: 4 }}>
+      <div style={{ padding: 8, fontSize: "var(--fs-12)", color: "var(--muted-foreground, #666)", display: "flex", alignItems: "center", gap: 4 }}>
         <RiMapPin2Line /> {res.city || res.displayName}{res.postalCode ? ` · ΤΚ ${res.postalCode}` : ""}
       </div>
     </div>

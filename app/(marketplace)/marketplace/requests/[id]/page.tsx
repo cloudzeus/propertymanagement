@@ -23,7 +23,7 @@ export default async function SupplierRequestPage({ params }: { params: Promise<
 
   return (
     <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 14, maxWidth: 920 }}>
-      <Link href="/marketplace/requests" style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 13, color: "var(--muted-foreground)", textDecoration: "none" }}>
+      <Link href="/marketplace/requests" style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: "var(--fs-13)", color: "var(--muted-foreground)", textDecoration: "none" }}>
         <RiArrowLeftLine /> Πίσω στις αναθέσεις
       </Link>
       <RequestDetail

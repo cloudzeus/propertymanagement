@@ -57,7 +57,7 @@ export function Lightbox({ state, onClose, onStep }: {
               alt={img.name || state.title}
               style={{ maxWidth: "92vw", maxHeight: "78dvh", objectFit: "contain", borderRadius: 10 }}
             />
-            <div style={{ color: "rgba(255,255,255,.88)", fontSize: 13, display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", justifyContent: "center" }}>
+            <div style={{ color: "rgba(255,255,255,.88)", fontSize: "var(--fs-13)", display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", justifyContent: "center" }}>
               <span style={{ fontWeight: 700 }}>{state.title}</span>
               {img.name && <span style={{ opacity: 0.7 }}>{img.name}</span>}
               <span style={{ opacity: 0.7, fontVariantNumeric: "tabular-nums" }}>{state.index + 1} / {state.images.length}</span>

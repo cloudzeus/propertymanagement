@@ -77,7 +77,7 @@ export function NewRequestButton({ buildings, categories, detailBase }: {
         style={{
           display: "inline-flex", alignItems: "center", gap: 6, height: 36, padding: "0 14px",
           background: "var(--primary)", color: "var(--primary-foreground)", border: "none",
-          borderRadius: "var(--radius-sm)", fontSize: 13, fontWeight: 600, cursor: "pointer",
+          borderRadius: "var(--radius-sm)", fontSize: "var(--fs-13)", fontWeight: 600, cursor: "pointer",
         }}
       >
         <RiAddLine /> Δήλωση βλάβης
@@ -94,7 +94,7 @@ export function NewRequestButton({ buildings, categories, detailBase }: {
         }
       >
         <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-          {error && <div style={{ color: "var(--destructive)", fontSize: 13 }}>{error}</div>}
+          {error && <div style={{ color: "var(--destructive)", fontSize: "var(--fs-13)" }}>{error}</div>}
 
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
             <FormField label="Κτήριο" required>
@@ -122,7 +122,7 @@ export function NewRequestButton({ buildings, categories, detailBase }: {
             <FieldTextarea value={description} onChange={setDescription} rows={4} placeholder="Περιγράψτε τη βλάβη…" />
           </FormField>
 
-          <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: "var(--foreground)", cursor: "pointer" }}>
+          <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: "var(--fs-13)", color: "var(--foreground)", cursor: "pointer" }}>
             <input type="checkbox" checked={restricted} onChange={(e) => setRestricted(e.target.checked)} />
             Αφορά εξοπλισμό με περιορισμένη πρόσβαση (θα χρειαστεί ραντεβού)
           </label>
@@ -132,7 +132,7 @@ export function NewRequestButton({ buildings, categories, detailBase }: {
               <label style={{
                 display: "inline-flex", alignItems: "center", gap: 8, padding: "8px 12px",
                 border: "1px dashed var(--border)", borderRadius: "var(--radius-sm)",
-                fontSize: 13, color: "var(--muted-foreground)", cursor: "pointer", width: "fit-content",
+                fontSize: "var(--fs-13)", color: "var(--muted-foreground)", cursor: "pointer", width: "fit-content",
               }}>
                 <RiImageAddLine /><RiVideoAddLine />
                 {uploading ? "Ανέβασμα…" : "Προσθήκη αρχείων"}
@@ -142,7 +142,7 @@ export function NewRequestButton({ buildings, categories, detailBase }: {
               {files.length > 0 && (
                 <ul style={{ margin: 0, padding: 0, listStyle: "none", display: "flex", flexDirection: "column", gap: 4 }}>
                   {files.map((f, i) => (
-                    <li key={i} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 12, color: "var(--foreground)" }}>
+                    <li key={i} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: "var(--fs-12)", color: "var(--foreground)" }}>
                       {f.attachment.kind === "VIDEO" ? <RiVideoAddLine /> : <RiImageAddLine />}
                       <span style={{ flex: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                         {f.name}
@@ -165,9 +165,9 @@ export function NewRequestButton({ buildings, categories, detailBase }: {
 
 const btnGhost: React.CSSProperties = {
   height: 34, padding: "0 12px", border: "1px solid var(--border)", background: "var(--paper)",
-  borderRadius: "var(--radius-sm)", fontSize: 13, cursor: "pointer", color: "var(--foreground)",
+  borderRadius: "var(--radius-sm)", fontSize: "var(--fs-13)", cursor: "pointer", color: "var(--foreground)",
 };
 const btnPrimary: React.CSSProperties = {
   height: 34, padding: "0 14px", border: "none", background: "var(--primary)",
-  color: "var(--primary-foreground)", borderRadius: "var(--radius-sm)", fontSize: 13, fontWeight: 600, cursor: "pointer",
+  color: "var(--primary-foreground)", borderRadius: "var(--radius-sm)", fontSize: "var(--fs-13)", fontWeight: 600, cursor: "pointer",
 };

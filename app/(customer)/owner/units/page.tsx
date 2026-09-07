@@ -27,7 +27,7 @@ export default async function OwnerUnitsPage() {
 
   return (
     <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 18, maxWidth: 980 }}>
-      <h1 style={{ fontSize: 22, fontWeight: 700, color: "var(--foreground)", margin: 0 }}>Οι μονάδες μου</h1>
+      <h1 style={{ fontSize: "var(--fs-22)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}>Οι μονάδες μου</h1>
 
       {buildings.length === 0 ? (
         <EmptyState icon={RiHome3Line} label="Δεν υπάρχουν καταχωρημένες μονάδες στο όνομά σας." />
@@ -42,23 +42,23 @@ export default async function OwnerUnitsPage() {
                     gap: 12, flexWrap: "wrap",
                   }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
-                      <span style={{ fontSize: 14, fontWeight: 600, color: "var(--foreground)" }}>Μονάδα {u.unitNumber}</span>
-                      <span style={{ fontSize: 12, color: "var(--muted-foreground)" }}>{u.floor != null ? `Όροφος ${u.floor}` : "—"}</span>
-                      <span style={{ fontSize: 12, color: "var(--muted-foreground)" }}>{u.areaSqm != null ? `${u.areaSqm} τ.μ.` : "—"}</span>
-                      <span style={{ fontSize: 12, color: "var(--muted-foreground)" }}>{u.millesimes != null ? `${u.millesimes}‰` : "—"}</span>
+                      <span style={{ fontSize: "var(--fs-14)", fontWeight: 600, color: "var(--foreground)" }}>Μονάδα {u.unitNumber}</span>
+                      <span style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>{u.floor != null ? `Όροφος ${u.floor}` : "—"}</span>
+                      <span style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>{u.areaSqm != null ? `${u.areaSqm} τ.μ.` : "—"}</span>
+                      <span style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>{u.millesimes != null ? `${u.millesimes}‰` : "—"}</span>
                     </div>
                     <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                      <span style={{ fontSize: 12, color: "var(--foreground)" }}>{u.resident?.name ?? u.resident?.email ?? "—"}</span>
+                      <span style={{ fontSize: "var(--fs-12)", color: "var(--foreground)" }}>{u.resident?.name ?? u.resident?.email ?? "—"}</span>
                       <StatusChip tone={u.residentId ? "success" : "warning"}>{u.residentId ? "Ενοικιασμένο" : "Κενό"}</StatusChip>
                     </div>
                   </summary>
 
                   <div style={{ marginTop: 12, paddingTop: 12, borderTop: "1px solid var(--border)" }}>
                     {u.occupancies.length === 0 ? (
-                      <div style={{ fontSize: 12, color: "var(--muted-foreground)" }}>Δεν υπάρχει ιστορικό χρήσης.</div>
+                      <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>Δεν υπάρχει ιστορικό χρήσης.</div>
                     ) : (
                       <div style={{ overflowX: "auto" }}>
-                        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}>
+                        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "var(--fs-12)" }}>
                           <thead>
                             <tr style={{ textAlign: "left", color: "var(--muted-foreground)" }}>
                               <th style={{ padding: "4px 8px", fontWeight: 600 }}>Ιδιότητα</th>

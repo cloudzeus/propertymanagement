@@ -27,7 +27,7 @@ export default async function OwnerAnnouncementsPage() {
 
   return (
     <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 18, maxWidth: 900 }}>
-      <h1 style={{ fontSize: 22, fontWeight: 700, color: "var(--foreground)", margin: 0 }}>Ανακοινώσεις</h1>
+      <h1 style={{ fontSize: "var(--fs-22)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}>Ανακοινώσεις</h1>
 
       {announcements.length === 0 ? (
         <EmptyState icon={RiNotification2Line} label="Δεν υπάρχουν ενεργές ανακοινώσεις." />
@@ -43,13 +43,13 @@ export default async function OwnerAnnouncementsPage() {
                 <img src={a.imageUrl} alt="" style={{ width: "100%", maxHeight: 220, objectFit: "cover", borderRadius: 10, marginBottom: 14 }} />
               )}
               <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 12, marginBottom: 8, flexWrap: "wrap" }}>
-                <h2 style={{ fontSize: 16, fontWeight: 700, color: "var(--foreground)", margin: 0 }}>{a.title}</h2>
-                <span style={{ fontSize: 12, color: "var(--muted-foreground)", whiteSpace: "nowrap" }}>
+                <h2 style={{ fontSize: "var(--fs-16)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}>{a.title}</h2>
+                <span style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)", whiteSpace: "nowrap" }}>
                   {a.building?.name ?? "Όλα τα κτήρια"} · {fmtDate(a.createdAt)}
                 </span>
               </div>
               <div
-                style={{ fontSize: 13, lineHeight: 1.6, color: "var(--foreground)", maxHeight: 400, overflow: "hidden" }}
+                style={{ fontSize: "var(--fs-13)", lineHeight: 1.6, color: "var(--foreground)", maxHeight: 400, overflow: "hidden" }}
                 dangerouslySetInnerHTML={{ __html: a.content }}
               />
             </div>

@@ -26,7 +26,7 @@ export default async function SitePageEditor({ params }: { params: Promise<{ slu
       title={`CMS — ${meta.label}`}
       subtitle={meta.description}
     >
-      <div style={{ marginBottom: 16, fontSize: 12.5 }}>
+      <div style={{ marginBottom: 16, fontSize: "var(--fs-12-5)" }}>
         <Link href="/super-admin/cms/site-pages" style={{ color: "var(--muted-foreground)" }}>
           ← Δημόσιες σελίδες
         </Link>

@@ -72,8 +72,8 @@ const BTN_BASE =
   "transition-[transform,box-shadow,filter] duration-[180ms] ease-[cubic-bezier(.2,.7,.3,1)]";
 
 const BTN_SIZE: Record<BtnSize, string> = {
-  md: "text-[15px] rounded-[12px] px-[22px] py-[14px]",
-  sm: "text-[14px] rounded-[10px] px-[17px] py-[10px]",
+  md: "text-[length:var(--fs-15)] rounded-[12px] px-[22px] py-[14px]",
+  sm: "text-[length:var(--fs-14)] rounded-[10px] px-[17px] py-[10px]",
 };
 
 const BTN_VARIANT: Record<BtnVariant, string> = {
@@ -117,7 +117,7 @@ export function BtnLink({
 /** Pill with a glowing amber dot. */
 export function Eyebrow({ children }: { children: ReactNode }) {
   return (
-    <span className="inline-flex items-center gap-[9px] rounded-full border border-[var(--line)] bg-white py-[7px] pl-[10px] pr-[15px] text-[13px] font-semibold shadow-[var(--shadow-ghost)]">
+    <span className="inline-flex items-center gap-[9px] rounded-full border border-[var(--line)] bg-white py-[7px] pl-[10px] pr-[15px] text-[length:var(--fs-13)] font-semibold shadow-[var(--shadow-ghost)]">
       <span
         aria-hidden
         className="h-[7px] w-[7px] shrink-0 rounded-full bg-[var(--accent)]"
@@ -130,14 +130,14 @@ export function Eyebrow({ children }: { children: ReactNode }) {
 
 export function Kicker({ children }: { children: ReactNode }) {
   return (
-    <div className="u-caps text-[13px] font-bold tracking-[.14em] text-[var(--mut2)]">{children}</div>
+    <div className="u-caps text-[length:var(--fs-13)] font-bold tracking-[.14em] text-[var(--mut2)]">{children}</div>
   );
 }
 
 /** News category tag — amber on light. */
 export function Tag({ children }: { children: ReactNode }) {
   return (
-    <span className="u-caps inline-flex rounded-full bg-[var(--accent)] px-[11px] py-[5px] text-[11px] font-extrabold tracking-[.1em] text-[#1b1c1a]">
+    <span className="u-caps inline-flex rounded-full bg-[var(--accent)] px-[11px] py-[5px] text-[length:var(--fs-11)] font-extrabold tracking-[.1em] text-[#1b1c1a]">
       {children}
     </span>
   );
@@ -146,7 +146,7 @@ export function Tag({ children }: { children: ReactNode }) {
 /** Quiet tag for post cards. */
 export function TagQuiet({ children }: { children: ReactNode }) {
   return (
-    <span className="u-caps inline-flex rounded-full border border-[var(--line2)] bg-[var(--paper)] px-[9px] py-[4px] text-[10.5px] font-extrabold tracking-[.1em] text-[var(--mut)]">
+    <span className="u-caps inline-flex rounded-full border border-[var(--line2)] bg-[var(--paper)] px-[9px] py-[4px] text-[length:var(--fs-10-5)] font-extrabold tracking-[.1em] text-[var(--mut)]">
       {children}
     </span>
   );
@@ -211,10 +211,10 @@ export function SectionHead({
   return (
     <div className={`mb-12 ${className}`} style={{ maxWidth: wide ? 660 : 620 }}>
       {kicker ? <Kicker>{kicker}</Kicker> : null}
-      <h2 className="mt-[14px] text-[32px] font-extrabold leading-[1.05] tracking-[-.02em] sm:text-[40px]">
+      <h2 className="mt-[14px] text-[length:var(--fs-32)] font-extrabold leading-[1.05] tracking-[-.02em] sm:text-[length:var(--fs-40)]">
         {heading}
       </h2>
-      {body ? <p className="mt-4 text-[17px] leading-[1.6] text-[var(--mut)]">{body}</p> : null}
+      {body ? <p className="mt-4 text-[length:var(--fs-17)] leading-[1.6] text-[var(--mut)]">{body}</p> : null}
     </div>
   );
 }
@@ -223,7 +223,7 @@ export function SectionHead({
 export function MetaRow({ items }: { items: (string | null | undefined)[] }) {
   const parts = items.filter(Boolean) as string[];
   return (
-    <div className="flex flex-wrap items-center gap-[10px] text-[12.5px] text-[var(--mut2)]">
+    <div className="flex flex-wrap items-center gap-[10px] text-[length:var(--fs-12-5)] text-[var(--mut2)]">
       {parts.map((p, i) => (
         <span key={i} className="flex items-center gap-[10px]">
           {i > 0 && <span aria-hidden className="h-[3px] w-[3px] rounded-full bg-[var(--mut2)]" />}
@@ -282,7 +282,7 @@ export function ImagePlaceholder({
       className={`flex h-full w-full items-center justify-center ${className}`}
       style={{ background: "linear-gradient(135deg,#EDEAE0,#E3E0D4)", ...style }}
     >
-      <span className="px-4 text-center text-[12.5px] font-semibold text-[rgba(27,28,26,.38)]">
+      <span className="px-4 text-center text-[length:var(--fs-12-5)] font-semibold text-[rgba(27,28,26,.38)]">
         {label}
       </span>
     </div>
@@ -364,13 +364,13 @@ export function PageHeader({
       <Wrap className="relative">
         <Eyebrow>{eyebrow}</Eyebrow>
         <h1
-          className="mt-[22px] text-[36px] font-extrabold leading-[1.02] tracking-[-.03em] sm:text-[46px] lg:text-[62px]"
+          className="mt-[22px] text-[length:var(--fs-36)] font-extrabold leading-[1.02] tracking-[-.03em] sm:text-[length:var(--fs-46)] lg:text-[length:var(--fs-62)]"
           style={{ maxWidth: titleMaxWidth }}
         >
           {title}
         </h1>
         {lead ? (
-          <p className="mt-[18px] max-w-[640px] text-[19px] leading-[1.62] text-[var(--mut)]">{lead}</p>
+          <p className="mt-[18px] max-w-[640px] text-[length:var(--fs-19)] leading-[1.62] text-[var(--mut)]">{lead}</p>
         ) : null}
         {children}
       </Wrap>

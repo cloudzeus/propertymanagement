@@ -68,7 +68,7 @@ export function PropertyVivaSetup({ propertyId }: { propertyId: string }) {
     return (
       <div style={card}>
         <div style={{ ...alert("err") }}>
-          <RiErrorWarningLine style={{ fontSize: 16, flexShrink: 0 }} />
+          <RiErrorWarningLine style={{ fontSize: "var(--fs-16)", flexShrink: 0 }} />
           {loadError === "Forbidden" ? "Δεν έχετε πρόσβαση στις ρυθμίσεις Viva αυτής της ιδιοκτησίας." : loadError}
         </div>
       </div>
@@ -77,8 +77,8 @@ export function PropertyVivaSetup({ propertyId }: { propertyId: string }) {
 
   if (!view) {
     return (
-      <div style={{ ...card, display: "flex", alignItems: "center", gap: 8, color: "var(--muted-foreground)", fontSize: 13 }}>
-        <RiLoader4Line style={{ fontSize: 16, animation: "pvspin 1s linear infinite" }} /> Φόρτωση…
+      <div style={{ ...card, display: "flex", alignItems: "center", gap: 8, color: "var(--muted-foreground)", fontSize: "var(--fs-13)" }}>
+        <RiLoader4Line style={{ fontSize: "var(--fs-16)", animation: "pvspin 1s linear infinite" }} /> Φόρτωση…
         <style>{"@keyframes pvspin{to{transform:rotate(360deg)}}"}</style>
       </div>
     );
@@ -88,11 +88,11 @@ export function PropertyVivaSetup({ propertyId }: { propertyId: string }) {
     <div style={card}>
       <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 4 }}>
         <div style={{ width: 38, height: 38, borderRadius: 8, background: "var(--color-primary)18", color: "var(--color-primary)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-          <RiBankCardLine style={{ fontSize: 20 }} />
+          <RiBankCardLine style={{ fontSize: "var(--fs-20)" }} />
         </div>
         <div>
-          <div style={{ fontSize: 15, fontWeight: 700, color: "var(--foreground)" }}>Viva πληρωμές</div>
-          <div style={{ fontSize: 12, color: "var(--muted-foreground)" }}>
+          <div style={{ fontSize: "var(--fs-15)", fontWeight: 700, color: "var(--foreground)" }}>Viva πληρωμές</div>
+          <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>
             Στοιχεία Viva της ιδιοκτησίας — τα κοινόχρηστα εισπράττονται στον δικό της λογαριασμό.
           </div>
         </div>
@@ -101,7 +101,7 @@ export function PropertyVivaSetup({ propertyId }: { propertyId: string }) {
       {/* Enable switch */}
       <label style={{ display: "flex", alignItems: "center", gap: 10, padding: "12px 0", borderBottom: "1px solid var(--border)", cursor: "pointer" }}>
         <Toggle on={enabled} onChange={setEnabled} />
-        <span style={{ fontSize: 13, fontWeight: 600, color: "var(--foreground)" }}>Ενεργό</span>
+        <span style={{ fontSize: "var(--fs-13)", fontWeight: 600, color: "var(--foreground)" }}>Ενεργό</span>
       </label>
 
       <Field label="Merchant ID">
@@ -117,7 +117,7 @@ export function PropertyVivaSetup({ propertyId }: { propertyId: string }) {
       <Field label="API Key">
         {view.hasApiKey && !editKey ? (
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <span style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 13, color: "var(--foreground)", fontFamily: "monospace" }}>
+            <span style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: "var(--fs-13)", color: "var(--foreground)", fontFamily: "monospace" }}>
               <RiLockPasswordLine style={{ color: "var(--muted-foreground)" }} /> {view.apiKeyMask}
             </span>
             <button type="button" onClick={() => { setEditKey(true); setApiKey(""); }} style={smallBtn}>
@@ -132,13 +132,13 @@ export function PropertyVivaSetup({ propertyId }: { propertyId: string }) {
 
       {/* Read-only status line */}
       <div style={{ ...alert("info"), marginTop: 14 }}>
-        <RiInformationLine style={{ fontSize: 16, flexShrink: 0 }} />
+        <RiInformationLine style={{ fontSize: "var(--fs-16)", flexShrink: 0 }} />
         Οι online πληρωμές ενεργοποιούνται όταν οριστούν τα στοιχεία, επαληθευτεί το Viva (sandbox) και ανοίξει ο γενικός διακόπτης.
       </div>
 
       {msg && (
         <div style={{ ...alert(msg.kind === "ok" ? "ok" : "err"), marginTop: 12 }}>
-          {msg.kind === "ok" ? <RiCheckLine style={{ fontSize: 16 }} /> : <RiErrorWarningLine style={{ fontSize: 16 }} />}
+          {msg.kind === "ok" ? <RiCheckLine style={{ fontSize: "var(--fs-16)" }} /> : <RiErrorWarningLine style={{ fontSize: "var(--fs-16)" }} />}
           {msg.text}
         </div>
       )}
@@ -157,7 +157,7 @@ export function PropertyVivaSetup({ propertyId }: { propertyId: string }) {
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div style={{ padding: "12px 0", borderBottom: "1px solid var(--border)" }}>
-      <div style={{ fontSize: 11, fontWeight: 600, color: "var(--muted-foreground)", textTransform: "uppercase", marginBottom: 6 }}>{label}</div>
+      <div style={{ fontSize: "var(--fs-11)", fontWeight: 600, color: "var(--muted-foreground)", textTransform: "uppercase", marginBottom: 6 }}>{label}</div>
       {children}
     </div>
   );
@@ -175,9 +175,9 @@ function Toggle({ on, onChange }: { on: boolean; onChange: (v: boolean) => void 
 }
 
 const card: React.CSSProperties = { background: "var(--card)", border: "1px solid var(--border)", borderRadius: 10, padding: "16px 18px" };
-const input: React.CSSProperties = { width: "100%", maxWidth: 360, height: 34, padding: "0 10px", fontSize: 13, border: "1px solid var(--border)", borderRadius: 6, background: "var(--bg-canvas)", color: "var(--foreground)" };
-const smallBtn: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 4, padding: "4px 10px", borderRadius: 5, fontSize: 12, fontWeight: 600, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", color: "var(--foreground)" };
-const saveBtn: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 6, padding: "8px 18px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", fontSize: 13, fontWeight: 600 };
+const input: React.CSSProperties = { width: "100%", maxWidth: 360, height: 34, padding: "0 10px", fontSize: "var(--fs-13)", border: "1px solid var(--border)", borderRadius: 6, background: "var(--bg-canvas)", color: "var(--foreground)" };
+const smallBtn: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 4, padding: "4px 10px", borderRadius: 5, fontSize: "var(--fs-12)", fontWeight: 600, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", color: "var(--foreground)" };
+const saveBtn: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 6, padding: "8px 18px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", fontSize: "var(--fs-13)", fontWeight: 600 };
 
 function alert(kind: "ok" | "err" | "info"): React.CSSProperties {
   const map = {
@@ -185,5 +185,5 @@ function alert(kind: "ok" | "err" | "info"): React.CSSProperties {
     err: { bg: "#dc262614", fg: "#dc2626", bd: "#dc262630" },
     info: { bg: "var(--bg-canvas)", fg: "var(--muted-foreground)", bd: "var(--border)" },
   }[kind];
-  return { display: "flex", alignItems: "center", gap: 8, padding: "10px 12px", borderRadius: 6, background: map.bg, color: map.fg, border: `1px solid ${map.bd}`, fontSize: 12.5, lineHeight: 1.4 };
+  return { display: "flex", alignItems: "center", gap: 8, padding: "10px 12px", borderRadius: 6, background: map.bg, color: map.fg, border: `1px solid ${map.bd}`, fontSize: "var(--fs-12-5)", lineHeight: 1.4 };
 }

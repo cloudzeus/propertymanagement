@@ -17,7 +17,7 @@ const monthLabel = (m: string) => {
   return s.charAt(0).toUpperCase() + s.slice(1);
 };
 
-const th: React.CSSProperties = { padding: "8px 10px", fontWeight: 600, fontSize: 12, textAlign: "left" };
+const th: React.CSSProperties = { padding: "8px 10px", fontWeight: 600, fontSize: "var(--fs-12)", textAlign: "left" };
 const td: React.CSSProperties = { padding: "9px 10px", verticalAlign: "middle" };
 const money: React.CSSProperties = { textAlign: "right", fontVariantNumeric: "tabular-nums", whiteSpace: "nowrap" };
 
@@ -40,12 +40,12 @@ export function ExpensesSection({ expensesByMonth }: {
 
   return (
     <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 12, padding: 18 }}>
-      <div style={{ fontSize: 13, color: "var(--muted-foreground)", display: "flex", alignItems: "center", gap: 6, marginBottom: 14 }}>
+      <div style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)", display: "flex", alignItems: "center", gap: 6, marginBottom: 14 }}>
         <RiMoneyEuroCircleLine /> Έξοδα κτηρίου · {totalCount}
       </div>
 
       {expensesByMonth.length === 0 ? (
-        <div style={{ padding: 28, textAlign: "center", color: "var(--muted-foreground)", fontSize: 13, border: "1px dashed var(--border-strong)", borderRadius: 8 }}>
+        <div style={{ padding: 28, textAlign: "center", color: "var(--muted-foreground)", fontSize: "var(--fs-13)", border: "1px dashed var(--border-strong)", borderRadius: 8 }}>
           Δεν έχουν καταχωρηθεί έξοδα.
         </div>
       ) : (
@@ -64,19 +64,19 @@ export function ExpensesSection({ expensesByMonth }: {
                     background: isOpen ? "var(--bg-canvas)" : "var(--card)", color: "var(--foreground)",
                   }}
                 >
-                  {isOpen ? <RiArrowDownSLine style={{ fontSize: 18, color: "var(--muted-foreground)", flexShrink: 0 }} /> : <RiArrowRightSLine style={{ fontSize: 18, color: "var(--muted-foreground)", flexShrink: 0 }} />}
-                  <span style={{ fontSize: 14, fontWeight: 700 }}>{monthLabel(block.month)}</span>
-                  <span style={{ fontSize: 12.5, color: "var(--muted-foreground)" }}>
+                  {isOpen ? <RiArrowDownSLine style={{ fontSize: "var(--fs-18)", color: "var(--muted-foreground)", flexShrink: 0 }} /> : <RiArrowRightSLine style={{ fontSize: "var(--fs-18)", color: "var(--muted-foreground)", flexShrink: 0 }} />}
+                  <span style={{ fontSize: "var(--fs-14)", fontWeight: 700 }}>{monthLabel(block.month)}</span>
+                  <span style={{ fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)" }}>
                     {block.count} {block.count === 1 ? "έξοδο" : "έξοδα"}
                   </span>
-                  <span style={{ marginLeft: "auto", fontSize: 15, fontWeight: 800, fontVariantNumeric: "tabular-nums", whiteSpace: "nowrap" }}>
+                  <span style={{ marginLeft: "auto", fontSize: "var(--fs-15)", fontWeight: 800, fontVariantNumeric: "tabular-nums", whiteSpace: "nowrap" }}>
                     {eur(block.total)}
                   </span>
                 </button>
 
                 {isOpen && (
                   <div style={{ overflowX: "auto", borderTop: "1px solid var(--border)" }}>
-                    <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
+                    <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "var(--fs-13)" }}>
                       <thead>
                         <tr style={{ color: "var(--muted-foreground)", borderBottom: "1px solid var(--border-strong)" }}>
                           <th style={th}>Ημ/νία</th>
@@ -151,7 +151,7 @@ function ExpenseModal({ expense, onClose }: { expense: ExpenseItem | null; onClo
               style={{
                 display: "inline-flex", alignItems: "center", gap: 6, borderRadius: 8, padding: "9px 15px",
                 border: "1px solid var(--border-strong)", background: "var(--card)", color: "var(--foreground)",
-                fontSize: 13, fontWeight: 700, textDecoration: "none",
+                fontSize: "var(--fs-13)", fontWeight: 700, textDecoration: "none",
               }}
             >
               <RiDownload2Line /> Λήψη
@@ -162,7 +162,7 @@ function ExpenseModal({ expense, onClose }: { expense: ExpenseItem | null; onClo
             onClick={onClose}
             style={{
               borderRadius: 8, padding: "9px 18px", border: "none", background: "var(--color-primary)",
-              color: "#fff", fontSize: 13, fontWeight: 700, cursor: "pointer",
+              color: "#fff", fontSize: "var(--fs-13)", fontWeight: 700, cursor: "pointer",
             }}
           >
             Κλείσιμο
@@ -194,12 +194,12 @@ function ExpenseModal({ expense, onClose }: { expense: ExpenseItem | null; onClo
 
           {/* receipt pane */}
           <div style={{ flex: "1.2 1 300px", minWidth: 0 }}>
-            <div style={{ fontSize: 10.5, color: "var(--muted-foreground)", fontWeight: 600, textTransform: "uppercase", letterSpacing: ".02em", marginBottom: 6 }}>
+            <div style={{ fontSize: "var(--fs-10-5)", color: "var(--muted-foreground)", fontWeight: 600, textTransform: "uppercase", letterSpacing: ".02em", marginBottom: 6 }}>
               Παραστατικό
             </div>
             {!e.receipt ? (
-              <div style={{ padding: "34px 16px", textAlign: "center", color: "var(--muted-foreground)", fontSize: 13, border: "1px dashed var(--border-strong)", borderRadius: 8 }}>
-                <RiFileTextLine style={{ fontSize: 26, opacity: 0.35, display: "block", margin: "0 auto 6px" }} />
+              <div style={{ padding: "34px 16px", textAlign: "center", color: "var(--muted-foreground)", fontSize: "var(--fs-13)", border: "1px dashed var(--border-strong)", borderRadius: 8 }}>
+                <RiFileTextLine style={{ fontSize: "var(--fs-26)", opacity: 0.35, display: "block", margin: "0 auto 6px" }} />
                 Δεν έχει επισυναφθεί παραστατικό.
               </div>
             ) : e.receipt.mimeType?.startsWith("image/") ? (
@@ -223,7 +223,7 @@ function ExpenseModal({ expense, onClose }: { expense: ExpenseItem | null; onClo
                 style={{
                   display: "flex", alignItems: "center", gap: 10, padding: "12px 14px",
                   background: "var(--bg-canvas)", borderRadius: 8, textDecoration: "none",
-                  color: "var(--foreground)", fontSize: 13, fontWeight: 600, border: "1px solid var(--border)",
+                  color: "var(--foreground)", fontSize: "var(--fs-13)", fontWeight: 600, border: "1px solid var(--border)",
                 }}
               >
                 <RiDownload2Line style={{ color: "var(--muted-foreground)" }} /> {e.receipt.name}
@@ -239,8 +239,8 @@ function ExpenseModal({ expense, onClose }: { expense: ExpenseItem | null; onClo
 function Field({ label, value, strong }: { label: string; value: string; strong?: boolean }) {
   return (
     <div>
-      <div style={{ fontSize: 10.5, color: "var(--muted-foreground)", fontWeight: 600, textTransform: "uppercase", letterSpacing: ".02em", marginBottom: 2 }}>{label}</div>
-      <div style={{ fontSize: 13, fontWeight: strong ? 700 : 500, fontVariantNumeric: "tabular-nums", color: "var(--foreground)", overflowWrap: "anywhere" }}>{value}</div>
+      <div style={{ fontSize: "var(--fs-10-5)", color: "var(--muted-foreground)", fontWeight: 600, textTransform: "uppercase", letterSpacing: ".02em", marginBottom: 2 }}>{label}</div>
+      <div style={{ fontSize: "var(--fs-13)", fontWeight: strong ? 700 : 500, fontVariantNumeric: "tabular-nums", color: "var(--foreground)", overflowWrap: "anywhere" }}>{value}</div>
     </div>
   );
 }

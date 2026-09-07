@@ -43,12 +43,12 @@ function dayLabel(ymd: string, locale: string): { top: string; bottom: string } 
 }
 
 const inputStyle: React.CSSProperties = {
-  width: "100%", padding: "11px 13px", borderRadius: 10, fontSize: 14.5,
+  width: "100%", padding: "11px 13px", borderRadius: 10, fontSize: "var(--fs-14-5)",
   border: "1px solid rgba(27,28,26,.16)", background: "#fff", color: "#1b1c1a", outline: "none",
 };
 
 const sectionLabel: React.CSSProperties = {
-  fontSize: 12, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".1em", color: "rgba(27,28,26,.45)",
+  fontSize: "var(--fs-12)", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".1em", color: "rgba(27,28,26,.45)",
 };
 
 export function DemoBookingModal({ open, onClose }: { open: boolean; onClose: () => void }) {
@@ -116,8 +116,8 @@ export function DemoBookingModal({ open, onClose }: { open: boolean; onClose: ()
         {/* Header — fixed */}
         <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12, padding: "24px 26px 16px", borderBottom: "1px solid rgba(27,28,26,.08)", flex: "none" }}>
           <div>
-            <div style={{ fontSize: 21, fontWeight: 800, letterSpacing: "-.02em", color: "#1b1c1a" }}>{t.title}</div>
-            <div style={{ fontSize: 13.5, color: "rgba(27,28,26,.62)", marginTop: 4, lineHeight: 1.5 }}>{t.sub}</div>
+            <div style={{ fontSize: "var(--fs-21)", fontWeight: 800, letterSpacing: "-.02em", color: "#1b1c1a" }}>{t.title}</div>
+            <div style={{ fontSize: "var(--fs-13-5)", color: "rgba(27,28,26,.62)", marginTop: 4, lineHeight: 1.5 }}>{t.sub}</div>
           </div>
           <button type="button" onClick={onClose} aria-label={t.close} style={{ border: "1px solid rgba(27,28,26,.14)", background: "#fff", borderRadius: 10, padding: 7, cursor: "pointer", color: "#1b1c1a", lineHeight: 0, flex: "none" }}>
             <RiCloseLine size={18} />
@@ -127,10 +127,10 @@ export function DemoBookingModal({ open, onClose }: { open: boolean; onClose: ()
         {done ? (
           <div style={{ textAlign: "center", padding: "42px 26px 34px", overflowY: "auto" }}>
             <RiCheckboxCircleLine size={54} style={{ color: "#2E7D5B" }} />
-            <div style={{ fontSize: 20, fontWeight: 800, marginTop: 12, color: "#1b1c1a" }}>{t.successTitle}</div>
-            <div style={{ fontSize: 15, fontWeight: 700, marginTop: 8, color: "#1b1c1a" }}>{done}</div>
-            <div style={{ fontSize: 13.5, color: "rgba(27,28,26,.62)", marginTop: 8 }}>{t.successBody}</div>
-            <button type="button" onClick={onClose} style={{ marginTop: 22, padding: "12px 26px", borderRadius: 12, border: "none", background: "#15161a", color: "#fff", fontWeight: 700, fontSize: 14.5, cursor: "pointer" }}>
+            <div style={{ fontSize: "var(--fs-20)", fontWeight: 800, marginTop: 12, color: "#1b1c1a" }}>{t.successTitle}</div>
+            <div style={{ fontSize: "var(--fs-15)", fontWeight: 700, marginTop: 8, color: "#1b1c1a" }}>{done}</div>
+            <div style={{ fontSize: "var(--fs-13-5)", color: "rgba(27,28,26,.62)", marginTop: 8 }}>{t.successBody}</div>
+            <button type="button" onClick={onClose} style={{ marginTop: 22, padding: "12px 26px", borderRadius: 12, border: "none", background: "#15161a", color: "#fff", fontWeight: 700, fontSize: "var(--fs-14-5)", cursor: "pointer" }}>
               {t.close}
             </button>
           </div>
@@ -141,9 +141,9 @@ export function DemoBookingModal({ open, onClose }: { open: boolean; onClose: ()
             {/* Day picker */}
             <div style={{ ...sectionLabel, margin: "0 0 9px" }}>{t.day}</div>
             {!days ? (
-              <div style={{ fontSize: 13.5, color: "rgba(27,28,26,.55)", display: "flex", alignItems: "center", gap: 8 }}><RiLoaderLine className="animate-spin" /> {t.loading}</div>
+              <div style={{ fontSize: "var(--fs-13-5)", color: "rgba(27,28,26,.55)", display: "flex", alignItems: "center", gap: 8 }}><RiLoaderLine className="animate-spin" /> {t.loading}</div>
             ) : days.length === 0 ? (
-              <div style={{ fontSize: 13.5, color: "rgba(27,28,26,.55)" }}>{t.none}</div>
+              <div style={{ fontSize: "var(--fs-13-5)", color: "rgba(27,28,26,.55)" }}>{t.none}</div>
             ) : (
               <div style={{ display: "flex", gap: 8, overflowX: "auto", paddingBottom: 4 }}>
                 {days.map((d, i) => {
@@ -154,8 +154,8 @@ export function DemoBookingModal({ open, onClose }: { open: boolean; onClose: ()
                       style={{ flex: "none", minWidth: 64, padding: "9px 10px", borderRadius: 12, cursor: "pointer", textAlign: "center",
                         border: on ? "1px solid #15161a" : "1px solid rgba(27,28,26,.14)",
                         background: on ? "#15161a" : "#fff", color: on ? "#fff" : "#1b1c1a" }}>
-                      <div style={{ fontSize: 11.5, opacity: .75 }}>{l.top}</div>
-                      <div style={{ fontSize: 14, fontWeight: 700 }}>{l.bottom}</div>
+                      <div style={{ fontSize: "var(--fs-11-5)", opacity: .75 }}>{l.top}</div>
+                      <div style={{ fontSize: "var(--fs-14)", fontWeight: 700 }}>{l.bottom}</div>
                     </button>
                   );
                 })}
@@ -171,7 +171,7 @@ export function DemoBookingModal({ open, onClose }: { open: boolean; onClose: ()
                     const on = slotIso === s.iso;
                     return (
                       <button key={s.iso} type="button" onClick={() => setSlotIso(s.iso)}
-                        style={{ padding: "9px 0", borderRadius: 10, fontSize: 13.5, fontWeight: 600, cursor: "pointer",
+                        style={{ padding: "9px 0", borderRadius: 10, fontSize: "var(--fs-13-5)", fontWeight: 600, cursor: "pointer",
                           border: on ? "1px solid #15161a" : "1px solid rgba(27,28,26,.14)",
                           background: on ? "#15161a" : "#fff", color: on ? "#fff" : "#1b1c1a" }}>
                         {s.time}
@@ -197,10 +197,10 @@ export function DemoBookingModal({ open, onClose }: { open: boolean; onClose: ()
 
           {/* Footer — fixed */}
           <div style={{ flex: "none", padding: "14px 26px calc(18px + env(safe-area-inset-bottom))", borderTop: "1px solid rgba(27,28,26,.08)", background: "rgba(255,255,255,.55)" }}>
-            {error && <div style={{ marginBottom: 10, fontSize: 13.5, color: "#C0392B" }}>{error}</div>}
+            {error && <div style={{ marginBottom: 10, fontSize: "var(--fs-13-5)", color: "#C0392B" }}>{error}</div>}
             <button type="button" disabled={!canSubmit} onClick={submit}
               style={{ width: "100%", padding: "14px 0", borderRadius: 12, border: "none", cursor: canSubmit ? "pointer" : "not-allowed",
-                background: canSubmit ? "#15161a" : "rgba(27,28,26,.25)", color: "#fff", fontWeight: 700, fontSize: 15,
+                background: canSubmit ? "#15161a" : "rgba(27,28,26,.25)", color: "#fff", fontWeight: 700, fontSize: "var(--fs-15)",
                 display: "flex", alignItems: "center", justifyContent: "center", gap: 9, transition: "background .15s ease",
                 boxShadow: canSubmit ? "0 14px 30px -16px rgba(21,22,26,.55)" : "none" }}>
               {pending ? <RiLoaderLine className="animate-spin" size={17} /> : <RiCalendarCheckLine size={17} />}

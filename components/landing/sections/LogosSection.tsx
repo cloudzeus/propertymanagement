@@ -9,7 +9,7 @@ export function LogosSection({ data }: { data: LogosData }) {
     <section className="border-y" style={{ borderColor: "rgba(27,28,26,.07)" }}>
       <div className="mx-auto max-w-[1200px] px-5 sm:px-7 py-10">
         {data.heading && (
-          <p className="mb-6 text-center text-[13px] font-bold uppercase tracking-[0.14em] text-[var(--muted-foreground)]">
+          <p className="mb-6 text-center text-[length:var(--fs-13)] font-bold uppercase tracking-[0.14em] text-[var(--muted-foreground)]">
             {data.heading}
           </p>
         )}
@@ -38,7 +38,7 @@ export function LogosSection({ data }: { data: LogosData }) {
               ) : (
                 <span
                   key={i}
-                  className="whitespace-nowrap text-[23px] text-[var(--muted-foreground)] opacity-70"
+                  className="whitespace-nowrap text-[length:var(--fs-23)] text-[var(--muted-foreground)] opacity-70"
                   style={{ fontFamily: "var(--font-display)" }}
                 >
                   {item.label}

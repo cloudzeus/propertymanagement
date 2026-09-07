@@ -37,10 +37,10 @@ export default async function AdminPropertiesPage() {
       {/* Header */}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         <div>
-          <h1 style={{ fontSize: 22, fontWeight: 700, color: "var(--foreground)", margin: 0 }}>
+          <h1 style={{ fontSize: "var(--fs-22)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}>
             Κτήρια
           </h1>
-          <p style={{ fontSize: 13, color: "var(--muted-foreground)", marginTop: 4 }}>
+          <p style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)", marginTop: 4 }}>
             {properties.length} κτήρια · {withGeo} με χάρτη · {withoutGeo} χωρίς γεωδεδομένα
           </p>
         </div>
@@ -50,10 +50,10 @@ export default async function AdminPropertiesPage() {
             display: "flex", alignItems: "center", gap: 6,
             padding: "8px 16px", borderRadius: 6,
             background: "var(--color-primary)", color: "#fff",
-            textDecoration: "none", fontSize: 13, fontWeight: 600,
+            textDecoration: "none", fontSize: "var(--fs-13)", fontWeight: 600,
           }}
         >
-          <RiAddLine style={{ fontSize: 16 }} />
+          <RiAddLine style={{ fontSize: "var(--fs-16)" }} />
           Νέο κτήριο
         </Link>
       </div>
@@ -65,9 +65,9 @@ export default async function AdminPropertiesPage() {
           border: "2px dashed var(--border)", borderRadius: 12,
           color: "var(--muted-foreground)",
         }}>
-          <RiBuildingLine style={{ fontSize: 40, marginBottom: 12, opacity: 0.4 }} />
-          <p style={{ fontSize: 15, fontWeight: 600 }}>Δεν υπάρχουν κτήρια</p>
-          <p style={{ fontSize: 13, marginTop: 4 }}>Προσθέστε το πρώτο κτήριο για να ξεκινήσετε</p>
+          <RiBuildingLine style={{ fontSize: "var(--fs-40)", marginBottom: 12, opacity: 0.4 }} />
+          <p style={{ fontSize: "var(--fs-15)", fontWeight: 600 }}>Δεν υπάρχουν κτήρια</p>
+          <p style={{ fontSize: "var(--fs-13)", marginTop: 4 }}>Προσθέστε το πρώτο κτήριο για να ξεκινήσετε</p>
         </div>
       ) : (
         <div style={{
@@ -123,18 +123,18 @@ function PropertyCard({ property }: { property: PropertyWithCount }) {
         position: "relative",
       }}>
         {!property.imageUrl && (
-          <RiBuildingLine style={{ fontSize: 48, color: "var(--color-primary)", opacity: 0.4 }} />
+          <RiBuildingLine style={{ fontSize: "var(--fs-48)", color: "var(--color-primary)", opacity: 0.4 }} />
         )}
         {/* Geo badge */}
         <div style={{
           position: "absolute", top: 10, right: 10,
           display: "flex", alignItems: "center", gap: 4,
-          padding: "3px 8px", borderRadius: 20, fontSize: 11, fontWeight: 600,
+          padding: "3px 8px", borderRadius: 20, fontSize: "var(--fs-11)", fontWeight: 600,
           background: hasGeo ? "#16a34a18" : "#6b728018",
           color: hasGeo ? "#16a34a" : "#6b7280",
           border: `1px solid ${hasGeo ? "#16a34a30" : "#6b728030"}`,
         }}>
-          {hasGeo ? <RiMapPin2Line style={{ fontSize: 12 }} /> : <RiMapPinLine style={{ fontSize: 12 }} />}
+          {hasGeo ? <RiMapPin2Line style={{ fontSize: "var(--fs-12)" }} /> : <RiMapPinLine style={{ fontSize: "var(--fs-12)" }} />}
           {hasGeo ? "Στον χάρτη" : "Χωρίς θέση"}
         </div>
       </div>
@@ -142,16 +142,16 @@ function PropertyCard({ property }: { property: PropertyWithCount }) {
       {/* Content */}
       <div style={{ padding: "14px 16px", flex: 1, display: "flex", flexDirection: "column", gap: 8 }}>
         <div>
-          <h3 style={{ fontSize: 15, fontWeight: 700, color: "var(--foreground)", margin: 0 }}>
+          <h3 style={{ fontSize: "var(--fs-15)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}>
             {property.name}
           </h3>
-          <p style={{ fontSize: 12, color: "var(--muted-foreground)", marginTop: 2 }}>
+          <p style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)", marginTop: 2 }}>
             {property.address}, {property.city} {property.postalCode}
           </p>
         </div>
 
         {/* Stats */}
-        <div style={{ display: "flex", gap: 16, fontSize: 12, color: "var(--muted-foreground)" }}>
+        <div style={{ display: "flex", gap: 16, fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>
           <span><strong style={{ color: "var(--foreground)" }}>{property._count.units}</strong> διαμερίσματα</span>
           <span><strong style={{ color: "var(--foreground)" }}>{property._count.maintenanceRequests}</strong> αιτήματα</span>
         </div>
@@ -162,11 +162,11 @@ function PropertyCard({ property }: { property: PropertyWithCount }) {
             href={`/admin/properties/${property.id}`}
             style={{
               flex: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
-              padding: "7px 12px", borderRadius: 6, fontSize: 12, fontWeight: 600,
+              padding: "7px 12px", borderRadius: 6, fontSize: "var(--fs-12)", fontWeight: 600,
               background: "var(--color-primary)", color: "#fff", textDecoration: "none",
             }}
           >
-            <RiEyeLine style={{ fontSize: 14 }} />
+            <RiEyeLine style={{ fontSize: "var(--fs-14)" }} />
             Προβολή
           </Link>
 

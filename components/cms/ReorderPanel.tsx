@@ -47,7 +47,7 @@ export function ReorderPanel({
               borderRadius: "var(--radius)",
               background: "var(--card)",
               padding: "10px 12px",
-              fontSize: 13,
+              fontSize: "var(--fs-13)",
               fontWeight: 600,
               color: "var(--foreground)",
             }}

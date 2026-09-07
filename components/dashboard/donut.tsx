@@ -13,7 +13,7 @@ export function Donut({
           fill="var(--foreground)">{Math.round(pct * 100)}%</text>
         <text x="52" y="68" textAnchor="middle" fontSize="10" fill="var(--muted-foreground)">{value}/{total}</text>
       </svg>
-      <span style={{ fontSize: 13, color: "var(--muted-foreground)" }}>{label}</span>
+      <span style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }}>{label}</span>
     </div>
   );
 }

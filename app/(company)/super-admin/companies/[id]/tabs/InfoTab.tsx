@@ -17,8 +17,8 @@ type GeoResult = { lat: number; lng: number; displayName: string; confidence?: n
 function SectionHeader({ icon: Icon, title }: { icon: React.ElementType; title: string }) {
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 14, paddingTop: 8 }}>
-      <Icon style={{ fontSize: 15, color: "var(--color-primary)" }} />
-      <h3 style={{ fontSize: 11, fontWeight: 700, color: "var(--muted-foreground)", margin: 0, textTransform: "uppercase", letterSpacing: "0.06em" }}>
+      <Icon style={{ fontSize: "var(--fs-15)", color: "var(--color-primary)" }} />
+      <h3 style={{ fontSize: "var(--fs-11)", fontWeight: 700, color: "var(--muted-foreground)", margin: 0, textTransform: "uppercase", letterSpacing: "0.06em" }}>
         {title}
       </h3>
       <div style={{ flex: 1, height: 1, background: "var(--border)" }} />
@@ -37,8 +37,8 @@ function FInput({
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
       <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between" }}>
-        <label style={{ fontSize: 12, fontWeight: 600, color: "var(--foreground)" }}>{label}</label>
-        {s1 && <span style={{ fontSize: 10, color: "var(--muted-foreground)", fontFamily: "monospace" }}>{s1}</span>}
+        <label style={{ fontSize: "var(--fs-12)", fontWeight: 600, color: "var(--foreground)" }}>{label}</label>
+        {s1 && <span style={{ fontSize: "var(--fs-10)", color: "var(--muted-foreground)", fontFamily: "monospace" }}>{s1}</span>}
       </div>
       <div style={{ display: "flex", gap: 6 }}>
         <input
@@ -48,7 +48,7 @@ function FInput({
           placeholder={placeholder}
           style={{
             height: 34, padding: "0 10px", borderRadius: 6,
-            border: "1px solid var(--border)", fontSize: 13,
+            border: "1px solid var(--border)", fontSize: "var(--fs-13)",
             color: "var(--foreground)", background: "var(--card)",
             outline: "none", boxSizing: "border-box", width: "100%",
           }}
@@ -66,11 +66,11 @@ function FInput({
               display: "flex", alignItems: "center", justifyContent: "center",
             }}
           >
-            <ActionIcon style={{ fontSize: 15, ...(action.loading ? { animation: "spin 1s linear infinite" } : {}) }} />
+            <ActionIcon style={{ fontSize: "var(--fs-15)", ...(action.loading ? { animation: "spin 1s linear infinite" } : {}) }} />
           </button>
         )}
       </div>
-      {hint && <p style={{ fontSize: 11, color: "var(--muted-foreground)", margin: 0 }}>{hint}</p>}
+      {hint && <p style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)", margin: 0 }}>{hint}</p>}
     </div>
   );
 }
@@ -88,15 +88,15 @@ function FSelect({
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
       <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between" }}>
-        <label style={{ fontSize: 12, fontWeight: 600, color: "var(--foreground)" }}>{label}</label>
-        {s1 && <span style={{ fontSize: 10, color: "var(--muted-foreground)", fontFamily: "monospace" }}>{s1}</span>}
+        <label style={{ fontSize: "var(--fs-12)", fontWeight: 600, color: "var(--foreground)" }}>{label}</label>
+        {s1 && <span style={{ fontSize: "var(--fs-10)", color: "var(--muted-foreground)", fontFamily: "monospace" }}>{s1}</span>}
       </div>
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
         style={{
           height: 34, padding: "0 10px", borderRadius: 6,
-          border: "1px solid var(--border)", fontSize: 13,
+          border: "1px solid var(--border)", fontSize: "var(--fs-13)",
           color: "var(--foreground)", background: "var(--card)",
           outline: "none", boxSizing: "border-box", width: "100%",
         }}
@@ -330,7 +330,7 @@ export function InfoTab({ company }: { company: Company }) {
       <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", gap: 10, paddingTop: 8 }}>
         {msg && (
           <span style={{
-            fontSize: 12, padding: "5px 12px", borderRadius: 6,
+            fontSize: "var(--fs-12)", padding: "5px 12px", borderRadius: 6,
             background: msg.type === "ok" ? "#dcfce718" : "#fee2e218",
             color: msg.type === "ok" ? "#16a34a" : "#dc2626",
             border: `1px solid ${msg.type === "ok" ? "#86efac30" : "#fca5a530"}`,
@@ -338,7 +338,7 @@ export function InfoTab({ company }: { company: Company }) {
         )}
         <button onClick={handleSave} disabled={isPending} style={{
           display: "flex", alignItems: "center", gap: 6,
-          padding: "7px 18px", borderRadius: 6, fontSize: 13, fontWeight: 600,
+          padding: "7px 18px", borderRadius: 6, fontSize: "var(--fs-13)", fontWeight: 600,
           background: "var(--color-primary)", color: "#fff",
           border: "none", cursor: isPending ? "wait" : "pointer",
         }}>
@@ -403,11 +403,11 @@ export function InfoTab({ company }: { company: Company }) {
         {/* Map */}
         <div style={{ background: "var(--bg-canvas)", border: "1px solid var(--border)", borderRadius: 8, padding: 14 }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
-            <span style={{ fontSize: 12, fontWeight: 600, color: hasGeo ? "#16a34a" : "var(--muted-foreground)", display: "flex", alignItems: "center", gap: 5 }}>
-              <RiMapPin2Line style={{ fontSize: 14 }} />
+            <span style={{ fontSize: "var(--fs-12)", fontWeight: 600, color: hasGeo ? "#16a34a" : "var(--muted-foreground)", display: "flex", alignItems: "center", gap: 5 }}>
+              <RiMapPin2Line style={{ fontSize: "var(--fs-14)" }} />
               {hasGeo ? `${lat?.toFixed(6)}, ${lng?.toFixed(6)}` : "Χωρίς γεωδεδομένα"}
             </span>
-            <span style={{ fontSize: 11, color: "var(--muted-foreground)" }}>
+            <span style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)" }}>
               Το στίγμα προκύπτει από το πεδίο «Διεύθυνση» — σύρετε την πινέζα για χειροκίνητη διόρθωση
             </span>
           </div>
@@ -432,10 +432,10 @@ export function InfoTab({ company }: { company: Company }) {
                   onMouseEnter={(e) => (e.currentTarget.style.background = "var(--bg-canvas)")}
                   onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
                 >
-                  <RiMapPin2Line style={{ fontSize: 15, color: "var(--color-primary)", flexShrink: 0, marginTop: 1 }} />
-                  <span style={{ fontSize: 13, color: "var(--foreground)", lineHeight: 1.4 }}>{r.displayName}</span>
+                  <RiMapPin2Line style={{ fontSize: "var(--fs-15)", color: "var(--color-primary)", flexShrink: 0, marginTop: 1 }} />
+                  <span style={{ fontSize: "var(--fs-13)", color: "var(--foreground)", lineHeight: 1.4 }}>{r.displayName}</span>
                   {r.confidence !== undefined && (
-                    <span style={{ marginLeft: "auto", fontSize: 11, color: "var(--muted-foreground)", flexShrink: 0 }}>
+                    <span style={{ marginLeft: "auto", fontSize: "var(--fs-11)", color: "var(--muted-foreground)", flexShrink: 0 }}>
                       {Math.round(r.confidence * 100)}%
                     </span>
                   )}

@@ -101,14 +101,14 @@ export function BuildingManagerShell(props: Props) {
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
             <div style={{ width: 54, height: 54, borderRadius: 8, background: "var(--color-primary)18", color: "var(--color-primary)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <RiBuildingLine style={{ fontSize: 28 }} />
+              <RiBuildingLine style={{ fontSize: "var(--fs-28)" }} />
             </div>
             <div>
               <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
-                <div style={{ fontSize: 26, fontWeight: 800, lineHeight: 1.15, color: "var(--foreground)" }}>{building.name}</div>
+                <div style={{ fontSize: "var(--fs-26)", fontWeight: 800, lineHeight: 1.15, color: "var(--foreground)" }}>{building.name}</div>
                 <ManagedBadge managed={building.propertyManaged} />
               </div>
-              <div style={{ fontSize: 13, color: "var(--muted-foreground)", display: "flex", alignItems: "center", gap: 10, marginTop: 3, flexWrap: "wrap" }}>
+              <div style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)", display: "flex", alignItems: "center", gap: 10, marginTop: 3, flexWrap: "wrap" }}>
                 <span style={{ display: "inline-flex", alignItems: "center", gap: 4 }}><RiMapPinLine /> {building.postalCode || "—"}</span>
                 {subParts.map((p, i) => (
                   <span key={i} style={{ display: "inline-flex", alignItems: "center", gap: 10 }}>
@@ -126,7 +126,7 @@ export function BuildingManagerShell(props: Props) {
                 aria-label="Επιλογή κτηρίου"
                 style={{
                   border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)",
-                  borderRadius: 6, padding: "7px 10px", fontSize: 13, fontWeight: 600, cursor: "pointer",
+                  borderRadius: 6, padding: "7px 10px", fontSize: "var(--fs-13)", fontWeight: 600, cursor: "pointer",
                 }}
               >
                 {siblings.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}
@@ -168,12 +168,12 @@ export function BuildingManagerShell(props: Props) {
           return (
             <button key={s.key} onClick={() => navigate(s.key)} style={{
               display: "inline-flex", alignItems: "center", gap: 7, borderRadius: 9999,
-              padding: "8px 15px", fontSize: 13, fontWeight: 700, cursor: "pointer",
+              padding: "8px 15px", fontSize: "var(--fs-13)", fontWeight: 700, cursor: "pointer",
               border: `1px solid ${active ? "var(--color-primary)" : "var(--border)"}`,
               background: active ? "var(--color-primary)" : "var(--card)",
               color: active ? "#fff" : "var(--muted-foreground)",
             }}>
-              <Icon style={{ fontSize: 16 }} /> {s.label}
+              <Icon style={{ fontSize: "var(--fs-16)" }} /> {s.label}
             </button>
           );
         })}
@@ -186,7 +186,7 @@ export function BuildingManagerShell(props: Props) {
             const active = tab === t.key;
             return (
               <button key={t.key} onClick={() => navigate(section, t.key)} style={{
-                borderRadius: 6, padding: "5px 11px", fontSize: 12.5, fontWeight: 600, cursor: "pointer",
+                borderRadius: 6, padding: "5px 11px", fontSize: "var(--fs-12-5)", fontWeight: 600, cursor: "pointer",
                 border: "1px solid transparent",
                 borderBottom: `2px solid ${active ? "var(--color-primary)" : "transparent"}`,
                 background: active ? "var(--color-primary)12" : "transparent",
@@ -276,17 +276,17 @@ export function BuildingManagerShell(props: Props) {
 function Kpi({ icon: Icon, label, value }: { icon: React.ElementType; label: string; value: string }) {
   return (
     <div style={{ border: "1px solid var(--border)", borderRadius: 8, padding: "11px 13px", background: "var(--bg-canvas)" }}>
-      <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 11, color: "var(--muted-foreground)", fontWeight: 600 }}>
-        <Icon style={{ fontSize: 15 }} /> {label}
+      <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: "var(--fs-11)", color: "var(--muted-foreground)", fontWeight: 600 }}>
+        <Icon style={{ fontSize: "var(--fs-15)" }} /> {label}
       </div>
-      <div style={{ fontSize: 22, fontWeight: 800, marginTop: 3, color: "var(--foreground)" }}>{value}</div>
+      <div style={{ fontSize: "var(--fs-22)", fontWeight: 800, marginTop: 3, color: "var(--foreground)" }}>{value}</div>
     </div>
   );
 }
 
 function Placeholder({ label }: { label: string }) {
   return (
-    <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 8, padding: 40, textAlign: "center", color: "var(--muted-foreground)", fontSize: 14 }}>
+    <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 8, padding: 40, textAlign: "center", color: "var(--muted-foreground)", fontSize: "var(--fs-14)" }}>
       «{label}» — ενεργοποιείται σε επόμενη φάση.
     </div>
   );

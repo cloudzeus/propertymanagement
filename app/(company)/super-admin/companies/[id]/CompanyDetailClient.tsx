@@ -49,18 +49,18 @@ export function CompanyDetailClient({ company, departments, positions, employees
                 borderBottom: active ? "2px solid var(--color-primary)" : "2px solid transparent",
                 background: "transparent",
                 cursor: "pointer",
-                fontSize: 13,
+                fontSize: "var(--fs-13)",
                 fontWeight: active ? 700 : 500,
                 color: active ? "var(--color-primary)" : "var(--muted-foreground)",
                 transition: "all 120ms",
                 marginBottom: -1,
               }}
             >
-              <Icon style={{ fontSize: 15 }} />
+              <Icon style={{ fontSize: "var(--fs-15)" }} />
               {label}
               {id === "departments" && departments.length > 0 && (
                 <span style={{
-                  fontSize: 10, fontWeight: 700, padding: "1px 5px", borderRadius: 10,
+                  fontSize: "var(--fs-10)", fontWeight: 700, padding: "1px 5px", borderRadius: 10,
                   background: active ? "var(--color-primary)22" : "var(--muted)",
                   color: active ? "var(--color-primary)" : "var(--muted-foreground)",
                 }}>
@@ -69,7 +69,7 @@ export function CompanyDetailClient({ company, departments, positions, employees
               )}
               {id === "positions" && positions.length > 0 && (
                 <span style={{
-                  fontSize: 10, fontWeight: 700, padding: "1px 5px", borderRadius: 10,
+                  fontSize: "var(--fs-10)", fontWeight: 700, padding: "1px 5px", borderRadius: 10,
                   background: active ? "var(--color-primary)22" : "var(--muted)",
                   color: active ? "var(--color-primary)" : "var(--muted-foreground)",
                 }}>
@@ -78,7 +78,7 @@ export function CompanyDetailClient({ company, departments, positions, employees
               )}
               {id === "employees" && employees.length > 0 && (
                 <span style={{
-                  fontSize: 10, fontWeight: 700, padding: "1px 5px", borderRadius: 10,
+                  fontSize: "var(--fs-10)", fontWeight: 700, padding: "1px 5px", borderRadius: 10,
                   background: active ? "var(--color-primary)22" : "var(--muted)",
                   color: active ? "var(--color-primary)" : "var(--muted-foreground)",
                 }}>

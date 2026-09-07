@@ -24,14 +24,14 @@ export function GeocodeButton({ propertyId }: { propertyId: string }) {
       title="Αυτόματο geocoding από τη διεύθυνση"
       style={{
         display: "flex", alignItems: "center", gap: 6,
-        padding: "7px 12px", borderRadius: 6, fontSize: 12, fontWeight: 600,
+        padding: "7px 12px", borderRadius: 6, fontSize: "var(--fs-12)", fontWeight: 600,
         border: "1px solid var(--border)", background: "var(--bg-canvas)",
         cursor: isPending ? "wait" : "pointer", color: "var(--foreground)", whiteSpace: "nowrap",
       }}
     >
       {isPending
-        ? <RiLoaderLine style={{ fontSize: 14, animation: "spin 1s linear infinite" }} />
-        : <RiMapPin2Line style={{ fontSize: 14 }} />
+        ? <RiLoaderLine style={{ fontSize: "var(--fs-14)", animation: "spin 1s linear infinite" }} />
+        : <RiMapPin2Line style={{ fontSize: "var(--fs-14)" }} />
       }
       Geocode
       <style>{`@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}`}</style>

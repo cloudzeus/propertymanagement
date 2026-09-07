@@ -71,7 +71,7 @@ export function LandingHeaderClient({ nav }: { nav?: NavData | null }) {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/orithon/orithon-symbol-black.png" alt="Orithon" width={27} height={27} className="h-[27px] w-[27px] object-contain" />
           <span
-            className="text-[21px] font-semibold text-[var(--txt)]"
+            className="text-[length:var(--fs-21)] font-semibold text-[var(--txt)]"
             /* padding-left optically corrects the tracking on the first letter */
             style={{ fontFamily: 'var(--font-display)', letterSpacing: '0.16em', paddingLeft: '.06em' }}
           >
@@ -88,7 +88,7 @@ export function LandingHeaderClient({ nav }: { nav?: NavData | null }) {
                 key={link.href + link.label}
                 href={link.href}
                 aria-current={active ? 'page' : undefined}
-                className={`whitespace-nowrap text-[14.5px] transition-colors ${
+                className={`whitespace-nowrap text-[length:var(--fs-14-5)] transition-colors ${
                   active ? 'font-bold text-[var(--txt)]' : 'text-[var(--mut)] hover:text-[var(--txt)]'
                 }`}
                 /* inset so the underline never shifts layout */
@@ -106,7 +106,7 @@ export function LandingHeaderClient({ nav }: { nav?: NavData | null }) {
           {session?.user ? (
             <Link
               href={homePathForRole((session.user as any).role)}
-              className="inline-flex items-center rounded-[10px] bg-[var(--ink-chip)] px-[17px] py-[10px] text-[14px] font-bold text-white shadow-[var(--shadow-btn)] transition-[transform,filter] duration-[180ms] hover:-translate-y-0.5 hover:brightness-[1.18]"
+              className="inline-flex items-center rounded-[10px] bg-[var(--ink-chip)] px-[17px] py-[10px] text-[length:var(--fs-14)] font-bold text-white shadow-[var(--shadow-btn)] transition-[transform,filter] duration-[180ms] hover:-translate-y-0.5 hover:brightness-[1.18]"
             >
               {nav?.mineLabel || t.mine}
             </Link>
@@ -114,13 +114,13 @@ export function LandingHeaderClient({ nav }: { nav?: NavData | null }) {
             <>
               <Link
                 href="/login"
-                className="hidden text-[14.5px] text-[var(--mut)] transition-colors hover:text-[var(--txt)] sm:inline"
+                className="hidden text-[length:var(--fs-14-5)] text-[var(--mut)] transition-colors hover:text-[var(--txt)] sm:inline"
               >
                 {nav?.loginLabel || t.login}
               </Link>
               <Link
                 href={demoHref}
-                className="inline-flex items-center rounded-[10px] bg-[var(--ink-chip)] px-[17px] py-[10px] text-[14px] font-bold text-white shadow-[var(--shadow-btn)] transition-[transform,filter] duration-[180ms] hover:-translate-y-0.5 hover:brightness-[1.18]"
+                className="inline-flex items-center rounded-[10px] bg-[var(--ink-chip)] px-[17px] py-[10px] text-[length:var(--fs-14)] font-bold text-white shadow-[var(--shadow-btn)] transition-[transform,filter] duration-[180ms] hover:-translate-y-0.5 hover:brightness-[1.18]"
               >
                 {nav?.demoLabel || t.demo}
               </Link>
@@ -149,7 +149,7 @@ export function LandingHeaderClient({ nav }: { nav?: NavData | null }) {
                   key={link.href + link.label}
                   href={link.href}
                   onClick={() => setOpen(false)}
-                  className={`flex min-h-[44px] items-center rounded-[11px] px-3 text-[15px] ${
+                  className={`flex min-h-[44px] items-center rounded-[11px] px-3 text-[length:var(--fs-15)] ${
                     active ? 'bg-white font-bold text-[var(--txt)]' : 'text-[var(--mut)]'
                   }`}
                 >
@@ -161,7 +161,7 @@ export function LandingHeaderClient({ nav }: { nav?: NavData | null }) {
               <Link
                 href="/login"
                 onClick={() => setOpen(false)}
-                className="flex min-h-[44px] items-center rounded-[11px] px-3 text-[15px] text-[var(--mut)] sm:hidden"
+                className="flex min-h-[44px] items-center rounded-[11px] px-3 text-[length:var(--fs-15)] text-[var(--mut)] sm:hidden"
               >
                 {nav?.loginLabel || t.login}
               </Link>

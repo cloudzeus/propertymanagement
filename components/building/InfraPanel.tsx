@@ -51,7 +51,7 @@ export function InfraPanel({ buildingId, points, floorOptions, can }: { building
   return (
     <div>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
-        <div style={{ fontSize: 13, color: "var(--muted-foreground)" }}>Φωτο/βίντεο, όροφος, κλείδωμα, πρόσβαση & κάτοχος κλειδιού</div>
+        <div style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }}>Φωτο/βίντεο, όροφος, κλείδωμα, πρόσβαση & κάτοχος κλειδιού</div>
         {can.manageInfra && <button onClick={() => setEditing("new")} style={{ ...btn, ...btnPrimary }}><RiAddLine /> Νέο σημείο</button>}
       </div>
 
@@ -65,22 +65,22 @@ export function InfraPanel({ buildingId, points, floorOptions, can }: { building
                 {cover ? (cover.type === "VIDEO"
                   ? <video src={cover.url} style={{ width: "100%", height: "100%", objectFit: "cover" }} muted />
                   : <img src={cover.url} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />)
-                  : <Icon style={{ fontSize: 38 }} />}
+                  : <Icon style={{ fontSize: "var(--fs-38)" }} />}
                 {p.floorLabel && <span style={{ position: "absolute", top: 8, left: 8, ...chipGrey }}>{p.floorLabel}</span>}
                 {p.media.length > 1 && <span style={{ position: "absolute", bottom: 8, right: 8, ...chipGrey }}>+{p.media.length - 1}</span>}
               </div>
               <div style={{ padding: "12px 14px" }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8 }}>
-                  <b style={{ fontSize: 14 }}>{p.name}</b>
+                  <b style={{ fontSize: "var(--fs-14)" }}>{p.name}</b>
                   <span style={p.locked ? chipOrange : chipGreen}>{p.locked ? <RiLockLine /> : <RiLockUnlockLine />} {p.locked ? "Κλειδωμένο" : "Ελεύθερο"}</span>
                 </div>
-                <div style={{ fontSize: 11, color: "var(--muted-foreground)", marginTop: 2 }}>{TYPE_LABEL[p.type] ?? p.type}</div>
+                <div style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)", marginTop: 2 }}>{TYPE_LABEL[p.type] ?? p.type}</div>
                 <div style={{ marginTop: 8 }}>
                   {p.location && <Kv icon={<RiMapPin2Line />} v={p.location} />}
                   {p.keyHolderName && <Kv icon={<RiKey2Line />} v={p.keyHolderName} />}
                   {p.access.length > 0 && (
                     <div style={{ display: "flex", gap: 5, flexWrap: "wrap", marginTop: 6, alignItems: "center" }}>
-                      <RiGroupLine style={{ color: "var(--muted-foreground)", fontSize: 14 }} />
+                      <RiGroupLine style={{ color: "var(--muted-foreground)", fontSize: "var(--fs-14)" }} />
                       {p.access.map((a) => <span key={a.id} style={pill}>{nm(a)}</span>)}
                     </div>
                   )}
@@ -100,7 +100,7 @@ export function InfraPanel({ buildingId, points, floorOptions, can }: { building
 
         {can.manageInfra && (
           <div onClick={() => setEditing("new")} style={{ border: "1.5px dashed var(--border-strong)", borderRadius: 8, minHeight: 260, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", color: "var(--muted-foreground)", textAlign: "center" }}>
-            <div><RiAddLine style={{ fontSize: 22 }} /><div style={{ marginTop: 6 }}>Νέο σημείο</div></div>
+            <div><RiAddLine style={{ fontSize: "var(--fs-22)" }} /><div style={{ marginTop: 6 }}>Νέο σημείο</div></div>
           </div>
         )}
       </div>
@@ -120,7 +120,7 @@ function MediaStrip({ media, canDelete, onDone }: { media: MediaRow[]; canDelete
       {media.map((m) => (
         <div key={m.id} style={{ position: "relative", width: 56, height: 44, borderRadius: 4, overflow: "hidden", border: "1px solid var(--border)" }}>
           {m.type === "VIDEO" ? <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", background: "var(--bg-canvas)", color: "var(--muted-foreground)" }}><RiVideoLine /></div> : <img src={m.url} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />}
-          {canDelete && <button onClick={() => del(m.id)} disabled={isPending} title="Διαγραφή" style={{ position: "absolute", top: 1, right: 1, width: 16, height: 16, borderRadius: "50%", border: "none", background: "rgba(0,0,0,.6)", color: "#fff", cursor: "pointer", fontSize: 9, display: "flex", alignItems: "center", justifyContent: "center" }}>×</button>}
+          {canDelete && <button onClick={() => del(m.id)} disabled={isPending} title="Διαγραφή" style={{ position: "absolute", top: 1, right: 1, width: 16, height: 16, borderRadius: "50%", border: "none", background: "rgba(0,0,0,.6)", color: "#fff", cursor: "pointer", fontSize: "var(--fs-9)", display: "flex", alignItems: "center", justifyContent: "center" }}>×</button>}
         </div>
       ))}
     </div>
@@ -185,26 +185,26 @@ function PeoplePicker({ buildingId, multi, selected, onChange, placeholder }: {
       <div style={{ display: "flex", flexWrap: "wrap", gap: 5, alignItems: "center", border: "1px solid var(--border)", borderRadius: 6, padding: "5px 8px", minHeight: 36, background: "var(--card)" }}>
         {selected.map((s) => (
           <span key={s.id} style={{ ...pill, display: "inline-flex", alignItems: "center", gap: 4 }}>
-            {nm(s)}<button onClick={() => removeOne(s.id)} style={{ border: "none", background: "transparent", cursor: "pointer", color: "var(--color-primary)", display: "inline-flex", padding: 0 }}><RiCloseLine style={{ fontSize: 13 }} /></button>
+            {nm(s)}<button onClick={() => removeOne(s.id)} style={{ border: "none", background: "transparent", cursor: "pointer", color: "var(--color-primary)", display: "inline-flex", padding: 0 }}><RiCloseLine style={{ fontSize: "var(--fs-13)" }} /></button>
           </span>
         ))}
         {(multi || selected.length === 0) && (
           <input value={q} onFocus={() => setOpen(true)} onChange={(e) => { setQ(e.target.value); setOpen(true); }} placeholder={selected.length ? "" : placeholder}
-            style={{ flex: 1, minWidth: 100, border: "none", outline: "none", background: "transparent", fontSize: 13, color: "var(--foreground)" }} />
+            style={{ flex: 1, minWidth: 100, border: "none", outline: "none", background: "transparent", fontSize: "var(--fs-13)", color: "var(--foreground)" }} />
         )}
       </div>
       {open && (
         <div style={{ position: "absolute", top: "100%", left: 0, right: 0, zIndex: 400, background: "var(--card)", border: "1px solid var(--border)", borderRadius: 6, marginTop: 4, boxShadow: "0 4px 16px rgba(0,0,0,.12)", maxHeight: 240, overflowY: "auto" }}>
-          {loading && res.length === 0 && <div style={{ padding: "10px 12px", fontSize: 12, color: "var(--muted-foreground)" }}>Φόρτωση…</div>}
-          {!loading && res.length === 0 && <div style={{ padding: "10px 12px", fontSize: 12, color: "var(--muted-foreground)" }}>Κανένας</div>}
+          {loading && res.length === 0 && <div style={{ padding: "10px 12px", fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>Φόρτωση…</div>}
+          {!loading && res.length === 0 && <div style={{ padding: "10px 12px", fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>Κανένας</div>}
           {res.filter((u) => !ids.has(u.id)).map((u) => (
             <button key={u.id} type="button" onClick={() => add(u)} style={{ display: "flex", alignItems: "center", gap: 8, width: "100%", padding: "8px 12px", border: "none", background: "transparent", cursor: "pointer", textAlign: "left", borderBottom: "1px solid var(--border)" }}
               onMouseEnter={(e) => (e.currentTarget.style.background = "var(--bg-canvas)")} onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}>
               <span style={{ flex: 1, minWidth: 0 }}>
-                <span style={{ display: "block", fontSize: 13, fontWeight: 600 }}>{u.name || u.email}</span>
-                <span style={{ display: "block", fontSize: 11, color: "var(--muted-foreground)" }}>{u.email}</span>
+                <span style={{ display: "block", fontSize: "var(--fs-13)", fontWeight: 600 }}>{u.name || u.email}</span>
+                <span style={{ display: "block", fontSize: "var(--fs-11)", color: "var(--muted-foreground)" }}>{u.email}</span>
               </span>
-              <span style={{ fontSize: 10, fontWeight: 700, padding: "2px 6px", borderRadius: 9999, background: "var(--bg-canvas)", color: "var(--muted-foreground)" }}>
+              <span style={{ fontSize: "var(--fs-10)", fontWeight: 700, padding: "2px 6px", borderRadius: 9999, background: "var(--bg-canvas)", color: "var(--muted-foreground)" }}>
                 {u.origin === "occupant" ? "Ένοικος/Ιδ." : u.origin === "manager" ? "Διαχειριστής" : "Εταιρεία"}
               </span>
             </button>
@@ -262,7 +262,7 @@ function InfraModal({ buildingId, floorOptions, editing, onClose, onDone }: { bu
       {editing && (
         <div style={{ display: "flex", gap: 2, borderBottom: "1px solid var(--border)", marginBottom: 14 }}>
           {([["info", "Στοιχεία"], ["media", `Φωτο/Βίντεο (${media.length})`]] as const).map(([k, lbl]) => (
-            <button key={k} onClick={() => setTab(k)} style={{ border: "none", background: "transparent", padding: "8px 14px", fontSize: 13, fontWeight: 600, cursor: "pointer", color: tab === k ? "var(--color-primary)" : "var(--muted-foreground)", borderBottom: `2px solid ${tab === k ? "var(--color-primary)" : "transparent"}` }}>{lbl}</button>
+            <button key={k} onClick={() => setTab(k)} style={{ border: "none", background: "transparent", padding: "8px 14px", fontSize: "var(--fs-13)", fontWeight: 600, cursor: "pointer", color: tab === k ? "var(--color-primary)" : "var(--muted-foreground)", borderBottom: `2px solid ${tab === k ? "var(--color-primary)" : "transparent"}` }}>{lbl}</button>
           ))}
         </div>
       )}
@@ -272,13 +272,13 @@ function InfraModal({ buildingId, floorOptions, editing, onClose, onDone }: { bu
           <button onClick={() => mediaInput.current?.click()} disabled={isPending} style={{ ...saveBtn, marginBottom: 14 }}>{isPending ? <RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> : <RiImageAddLine />} Προσθήκη φωτο/βίντεο</button>
           <input ref={mediaInput} type="file" accept="image/*,video/*" multiple style={{ display: "none" }} onChange={(e) => pickMedia(e.target.files)} />
           {media.length === 0 ? (
-            <div style={{ color: "var(--muted-foreground)", fontSize: 13, textAlign: "center", padding: 24 }}>Δεν υπάρχουν αρχεία.</div>
+            <div style={{ color: "var(--muted-foreground)", fontSize: "var(--fs-13)", textAlign: "center", padding: 24 }}>Δεν υπάρχουν αρχεία.</div>
           ) : (
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(110px,1fr))", gap: 10 }}>
               {media.map((m) => (
                 <div key={m.id} style={{ position: "relative", borderRadius: 6, overflow: "hidden", border: "1px solid var(--border)", height: 90 }}>
                   {m.type === "VIDEO" ? <video src={m.url} style={{ width: "100%", height: "100%", objectFit: "cover" }} muted /> : <img src={m.url} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />}
-                  <button onClick={() => delMedia(m.id)} disabled={isPending} title="Διαγραφή" style={{ position: "absolute", top: 3, right: 3, width: 20, height: 20, borderRadius: "50%", border: "none", background: "rgba(0,0,0,.6)", color: "#fff", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}><RiDeleteBinLine style={{ fontSize: 12 }} /></button>
+                  <button onClick={() => delMedia(m.id)} disabled={isPending} title="Διαγραφή" style={{ position: "absolute", top: 3, right: 3, width: 20, height: 20, borderRadius: "50%", border: "none", background: "rgba(0,0,0,.6)", color: "#fff", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}><RiDeleteBinLine style={{ fontSize: "var(--fs-12)" }} /></button>
                 </div>
               ))}
             </div>
@@ -294,13 +294,13 @@ function InfraModal({ buildingId, floorOptions, editing, onClose, onDone }: { bu
           <FormField label="Όροφος"><FieldSelect value={form.floorLabel} onChange={(v) => f("floorLabel")(v)} options={floorSelectOpts} /></FormField>
           <FormField label="Θέση"><FieldInput value={form.location} onChange={f("location")} placeholder="π.χ. Κολώνα εισόδου" /></FormField>
         </div>
-        <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: "var(--foreground)", cursor: "pointer" }}>
+        <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: "var(--fs-13)", color: "var(--foreground)", cursor: "pointer" }}>
           <input type="checkbox" checked={form.locked} onChange={(e) => setForm((p) => ({ ...p, locked: e.target.checked }))} style={{ width: 15, height: 15, accentColor: "var(--color-primary)" }} /> Κλειδωμένο
         </label>
         <FormField label="Κάτοχος κλειδιού"><PeoplePicker buildingId={buildingId} selected={keyHolder} onChange={setKeyHolder} placeholder="Αναζήτηση προσώπου…" /></FormField>
         <FormField label="Πρόσβαση (ποιοι)"><PeoplePicker buildingId={buildingId} multi selected={access} onChange={setAccess} placeholder="Πρόσθεσε πρόσωπα…" /></FormField>
         <FormField label="Σημειώσεις"><FieldTextarea value={form.notes} onChange={f("notes")} rows={2} /></FormField>
-        {!editing && <p style={{ fontSize: 11, color: "var(--muted-foreground)", margin: 0 }}>Φωτο/βίντεο προστίθενται μετά τη δημιουργία, από την καρτέλα «Φωτο/Βίντεο» (εικόνες → WebP ≤1920px).</p>}
+        {!editing && <p style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)", margin: 0 }}>Φωτο/βίντεο προστίθενται μετά τη δημιουργία, από την καρτέλα «Φωτο/Βίντεο» (εικόνες → WebP ≤1920px).</p>}
       </div>
       )}
       <style>{`@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}`}</style>
@@ -309,16 +309,16 @@ function InfraModal({ buildingId, floorOptions, editing, onClose, onDone }: { bu
 }
 
 function Kv({ icon, v }: { icon: React.ReactNode; v: string }) {
-  return <div style={{ display: "flex", gap: 6, fontSize: 12, color: "var(--foreground)", padding: "2px 0", alignItems: "flex-start" }}><span style={{ color: "var(--muted-foreground)", display: "inline-flex", marginTop: 1 }}>{icon}</span> {v}</div>;
+  return <div style={{ display: "flex", gap: 6, fontSize: "var(--fs-12)", color: "var(--foreground)", padding: "2px 0", alignItems: "flex-start" }}><span style={{ color: "var(--muted-foreground)", display: "inline-flex", marginTop: 1 }}>{icon}</span> {v}</div>;
 }
 
-const btn: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 7, border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)", borderRadius: 4, padding: "7px 13px", fontSize: 13, fontWeight: 600, cursor: "pointer" };
+const btn: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 7, border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)", borderRadius: 4, padding: "7px 13px", fontSize: "var(--fs-13)", fontWeight: 600, cursor: "pointer" };
 const btnPrimary: React.CSSProperties = { background: "var(--color-primary)", color: "#fff", borderColor: "var(--color-primary)" };
 const iconBtn: React.CSSProperties = { display: "inline-flex", alignItems: "center", border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)", borderRadius: 4, padding: 6, cursor: "pointer" };
-const pill: React.CSSProperties = { fontSize: 11, fontWeight: 700, padding: "2px 8px", borderRadius: 9999, background: "var(--color-primary-soft)", color: "var(--color-primary)" };
-const chipGrey: React.CSSProperties = { fontSize: 11, fontWeight: 700, padding: "2px 8px", borderRadius: 9999, background: "var(--card)", color: "var(--muted-foreground)", border: "1px solid var(--border)" };
-const chipOrange: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 4, fontSize: 11, fontWeight: 700, padding: "2px 8px", borderRadius: 9999, background: "var(--color-orange-soft)", color: "var(--color-orange)" };
-const chipGreen: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 4, fontSize: 11, fontWeight: 700, padding: "2px 8px", borderRadius: 9999, background: "var(--color-green-soft)", color: "var(--color-green)" };
-const cancelBtn: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: 13, color: "var(--foreground)" };
-const saveBtn: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: "pointer", fontSize: 13, fontWeight: 600, display: "flex", alignItems: "center", gap: 6 };
-const errBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: 12, border: "1px solid #fca5a530", marginBottom: 12 };
+const pill: React.CSSProperties = { fontSize: "var(--fs-11)", fontWeight: 700, padding: "2px 8px", borderRadius: 9999, background: "var(--color-primary-soft)", color: "var(--color-primary)" };
+const chipGrey: React.CSSProperties = { fontSize: "var(--fs-11)", fontWeight: 700, padding: "2px 8px", borderRadius: 9999, background: "var(--card)", color: "var(--muted-foreground)", border: "1px solid var(--border)" };
+const chipOrange: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 4, fontSize: "var(--fs-11)", fontWeight: 700, padding: "2px 8px", borderRadius: 9999, background: "var(--color-orange-soft)", color: "var(--color-orange)" };
+const chipGreen: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 4, fontSize: "var(--fs-11)", fontWeight: 700, padding: "2px 8px", borderRadius: 9999, background: "var(--color-green-soft)", color: "var(--color-green)" };
+const cancelBtn: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: "var(--fs-13)", color: "var(--foreground)" };
+const saveBtn: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: "pointer", fontSize: "var(--fs-13)", fontWeight: 600, display: "flex", alignItems: "center", gap: 6 };
+const errBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: "var(--fs-12)", border: "1px solid #fca5a530", marginBottom: 12 };

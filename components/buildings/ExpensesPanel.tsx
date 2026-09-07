@@ -76,7 +76,7 @@ export function ExpensesPanel({
   return (
     <div>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 14, gap: 10, flexWrap: "wrap" }}>
-        <div style={{ fontSize: 13, color: "var(--muted-foreground)", display: "flex", alignItems: "center", gap: 6 }}>
+        <div style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)", display: "flex", alignItems: "center", gap: 6 }}>
           <RiMoneyEuroCircleLine /> Έξοδα · {expenses.length}
         </div>
         {can.manageExpenses && (
@@ -92,12 +92,12 @@ export function ExpensesPanel({
       </div>
 
       {expenses.length === 0 ? (
-        <div style={{ padding: 28, textAlign: "center", color: "var(--muted-foreground)", fontSize: 13, border: "1px dashed var(--border-strong)", borderRadius: 8 }}>
+        <div style={{ padding: 28, textAlign: "center", color: "var(--muted-foreground)", fontSize: "var(--fs-13)", border: "1px dashed var(--border-strong)", borderRadius: 8 }}>
           Δεν υπάρχουν καταχωρημένα έξοδα.
         </div>
       ) : (
         <div style={{ overflowX: "auto" }}>
-          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
+          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "var(--fs-13)" }}>
             <thead>
               <tr style={{ textAlign: "left", color: "var(--muted-foreground)", borderBottom: "1px solid var(--border-strong)" }}>
                 <th style={th}>{can.manageExpenses && <input type="checkbox" checked={allSelected} onChange={toggleAll} title="Επιλογή όλων" />}</th>
@@ -195,21 +195,21 @@ export function ExpensesPanel({
 function Detail({ label, value, strong }: { label: string; value: string; strong?: boolean }) {
   return (
     <div>
-      <div style={{ fontSize: 10.5, color: "var(--muted-foreground)", fontWeight: 600, textTransform: "uppercase", letterSpacing: ".02em", marginBottom: 2 }}>{label}</div>
-      <div style={{ fontSize: 13, fontWeight: strong ? 700 : 500, fontVariantNumeric: "tabular-nums" }}>{value}</div>
+      <div style={{ fontSize: "var(--fs-10-5)", color: "var(--muted-foreground)", fontWeight: 600, textTransform: "uppercase", letterSpacing: ".02em", marginBottom: 2 }}>{label}</div>
+      <div style={{ fontSize: "var(--fs-13)", fontWeight: strong ? 700 : 500, fontVariantNumeric: "tabular-nums" }}>{value}</div>
     </div>
   );
 }
 
-const th: React.CSSProperties = { padding: "8px 10px", fontWeight: 600, fontSize: 12 };
+const th: React.CSSProperties = { padding: "8px 10px", fontWeight: 600, fontSize: "var(--fs-12)" };
 const td: React.CSSProperties = { padding: "8px 10px", verticalAlign: "middle" };
-const badge: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 3, padding: "1px 8px", borderRadius: 999, border: "1px solid", fontSize: 11, fontWeight: 600 };
-const iconBtn: React.CSSProperties = { display: "inline-flex", alignItems: "center", justifyContent: "center", width: 28, height: 28, borderRadius: 6, border: "none", background: "transparent", cursor: "pointer", color: "var(--foreground)", fontSize: 16 };
+const badge: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 3, padding: "1px 8px", borderRadius: 999, border: "1px solid", fontSize: "var(--fs-11)", fontWeight: 600 };
+const iconBtn: React.CSSProperties = { display: "inline-flex", alignItems: "center", justifyContent: "center", width: 28, height: 28, borderRadius: 6, border: "none", background: "transparent", cursor: "pointer", color: "var(--foreground)", fontSize: "var(--fs-16)" };
 const menu: React.CSSProperties = { position: "absolute", right: 8, top: 36, zIndex: 41, minWidth: 190, background: "var(--card)", border: "1px solid var(--border-strong)", borderRadius: 8, boxShadow: "0 8px 24px rgba(0,0,0,0.14)", padding: 4, display: "flex", flexDirection: "column" };
-const menuItem: React.CSSProperties = { display: "flex", alignItems: "center", gap: 8, padding: "8px 10px", borderRadius: 6, border: "none", background: "transparent", cursor: "pointer", fontSize: 13, color: "var(--foreground)", textAlign: "left", width: "100%", textDecoration: "none" };
+const menuItem: React.CSSProperties = { display: "flex", alignItems: "center", gap: 8, padding: "8px 10px", borderRadius: 6, border: "none", background: "transparent", cursor: "pointer", fontSize: "var(--fs-13)", color: "var(--foreground)", textAlign: "left", width: "100%", textDecoration: "none" };
 const detailContainer: React.CSSProperties = { display: "flex", flexDirection: "column", gap: 12, padding: 16, background: "var(--bg-canvas)", borderBottom: "1px solid var(--border)" };
 const sectionCard: React.CSSProperties = { background: "var(--card)", border: "1px solid var(--border)", borderRadius: 10, padding: 14 };
-const sectionTitle: React.CSSProperties = { fontSize: 11.5, fontWeight: 700, textTransform: "uppercase", letterSpacing: ".03em", color: "var(--muted-foreground)", marginBottom: 12 };
+const sectionTitle: React.CSSProperties = { fontSize: "var(--fs-11-5)", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".03em", color: "var(--muted-foreground)", marginBottom: 12 };
 const detailGrid: React.CSSProperties = { display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(170px, 1fr))", gap: "14px 18px" };
-const btnIssue: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 6, height: 36, padding: "0 14px", borderRadius: 6, border: "1px solid #16a34a", background: "#16a34a", color: "#fff", fontSize: 13, fontWeight: 600, cursor: "pointer" };
-const linkBtn: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 5, fontSize: 12, color: "var(--color-primary)", textDecoration: "none" };
+const btnIssue: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 6, height: 36, padding: "0 14px", borderRadius: 6, border: "1px solid #16a34a", background: "#16a34a", color: "#fff", fontSize: "var(--fs-13)", fontWeight: 600, cursor: "pointer" };
+const linkBtn: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 5, fontSize: "var(--fs-12)", color: "var(--color-primary)", textDecoration: "none" };

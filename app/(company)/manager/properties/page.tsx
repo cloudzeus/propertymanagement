@@ -38,10 +38,10 @@ export default async function ManagerPropertiesPage() {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
       <div>
-        <h1 style={{ fontSize: 22, fontWeight: 700, color: "var(--foreground)", margin: 0 }}>
+        <h1 style={{ fontSize: "var(--fs-22)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}>
           Τα κτήριά μου
         </h1>
-        <p style={{ fontSize: 13, color: "var(--muted-foreground)", marginTop: 4 }}>
+        <p style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)", marginTop: 4 }}>
           {properties.length} κτήρια · {withGeo} με χάρτη
         </p>
       </div>
@@ -52,9 +52,9 @@ export default async function ManagerPropertiesPage() {
           border: "2px dashed var(--border)", borderRadius: 12,
           color: "var(--muted-foreground)",
         }}>
-          <RiBuildingLine style={{ fontSize: 40, marginBottom: 12, opacity: 0.4 }} />
-          <p style={{ fontSize: 15, fontWeight: 600 }}>Δεν έχετε αναθεθεί κτήρια</p>
-          <p style={{ fontSize: 13, marginTop: 4 }}>Ζητήστε από τον διαχειριστή να σας αναθέσει κτήριο</p>
+          <RiBuildingLine style={{ fontSize: "var(--fs-40)", marginBottom: 12, opacity: 0.4 }} />
+          <p style={{ fontSize: "var(--fs-15)", fontWeight: 600 }}>Δεν έχετε αναθεθεί κτήρια</p>
+          <p style={{ fontSize: "var(--fs-13)", marginTop: 4 }}>Ζητήστε από τον διαχειριστή να σας αναθέσει κτήριο</p>
         </div>
       ) : (
         <div style={{
@@ -78,29 +78,29 @@ export default async function ManagerPropertiesPage() {
                   position: "relative",
                 }}>
                   {!property.imageUrl && (
-                    <RiBuildingLine style={{ fontSize: 40, color: "var(--color-primary)", opacity: 0.4 }} />
+                    <RiBuildingLine style={{ fontSize: "var(--fs-40)", color: "var(--color-primary)", opacity: 0.4 }} />
                   )}
                   <div style={{
                     position: "absolute", top: 10, right: 10,
                     display: "flex", alignItems: "center", gap: 4,
-                    padding: "3px 8px", borderRadius: 20, fontSize: 11, fontWeight: 600,
+                    padding: "3px 8px", borderRadius: 20, fontSize: "var(--fs-11)", fontWeight: 600,
                     background: hasGeo ? "#16a34a18" : "#6b728018",
                     color: hasGeo ? "#16a34a" : "#6b7280",
                     border: `1px solid ${hasGeo ? "#16a34a30" : "#6b728030"}`,
                   }}>
-                    {hasGeo ? <RiMapPin2Line style={{ fontSize: 12 }} /> : <RiMapPinLine style={{ fontSize: 12 }} />}
+                    {hasGeo ? <RiMapPin2Line style={{ fontSize: "var(--fs-12)" }} /> : <RiMapPinLine style={{ fontSize: "var(--fs-12)" }} />}
                     {hasGeo ? "Στον χάρτη" : "Χωρίς θέση"}
                   </div>
                 </div>
 
                 <div style={{ padding: "14px 16px", display: "flex", flexDirection: "column", gap: 8 }}>
-                  <h3 style={{ fontSize: 14, fontWeight: 700, color: "var(--foreground)", margin: 0 }}>
+                  <h3 style={{ fontSize: "var(--fs-14)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}>
                     {property.name}
                   </h3>
-                  <p style={{ fontSize: 12, color: "var(--muted-foreground)" }}>
+                  <p style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>
                     {property.address}, {property.city}
                   </p>
-                  <div style={{ display: "flex", gap: 12, fontSize: 12, color: "var(--muted-foreground)" }}>
+                  <div style={{ display: "flex", gap: 12, fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>
                     <span><strong style={{ color: "var(--foreground)" }}>{property._count.units}</strong> διαμ.</span>
                     <span><strong style={{ color: "var(--foreground)" }}>{property._count.maintenanceRequests}</strong> αιτήματα</span>
                   </div>
@@ -110,11 +110,11 @@ export default async function ManagerPropertiesPage() {
                       href={`/manager/properties/${property.id}`}
                       style={{
                         flex: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
-                        padding: "6px 12px", borderRadius: 6, fontSize: 12, fontWeight: 600,
+                        padding: "6px 12px", borderRadius: 6, fontSize: "var(--fs-12)", fontWeight: 600,
                         background: "var(--color-primary)", color: "#fff", textDecoration: "none",
                       }}
                     >
-                      <RiEyeLine style={{ fontSize: 14 }} />
+                      <RiEyeLine style={{ fontSize: "var(--fs-14)" }} />
                       Προβολή
                     </Link>
                     {!hasGeo && <GeocodeButton propertyId={property.id} />}

@@ -19,7 +19,7 @@ export default async function ServiceCatalogPage() {
 
   return (
     <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 14, maxWidth: 1000 }}>
-      <Link href="/super-admin/suppliers" style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 13, color: "var(--muted-foreground)", textDecoration: "none" }}>
+      <Link href="/super-admin/suppliers" style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: "var(--fs-13)", color: "var(--muted-foreground)", textDecoration: "none" }}>
         <RiArrowLeftLine /> Πίσω στο μητρώο
       </Link>
       <CatalogAdminClient

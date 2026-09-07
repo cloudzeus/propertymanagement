@@ -183,13 +183,13 @@ export function EmployeesTab({
             width: 30, height: 30, borderRadius: "50%", flexShrink: 0,
             background: "var(--color-primary)18",
             display: "flex", alignItems: "center", justifyContent: "center",
-            fontSize: 11, fontWeight: 700, color: "var(--color-primary)",
+            fontSize: "var(--fs-11)", fontWeight: 700, color: "var(--color-primary)",
           }}>
             {r.firstName[0]}{r.lastName[0]}
           </div>
           <div>
-            <div style={{ fontSize: 13, fontWeight: 600, color: "var(--foreground)" }}>{r.firstName} {r.lastName}</div>
-            {r.employeeCode && <div style={{ fontSize: 11, color: "var(--muted-foreground)" }}>#{r.employeeCode}</div>}
+            <div style={{ fontSize: "var(--fs-13)", fontWeight: 600, color: "var(--foreground)" }}>{r.firstName} {r.lastName}</div>
+            {r.employeeCode && <div style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)" }}>#{r.employeeCode}</div>}
           </div>
         </div>
       ),
@@ -201,7 +201,7 @@ export function EmployeesTab({
       cell: (r) => {
         const s = STATUS_CONFIG[r.status];
         return (
-          <span style={{ fontSize: 11, fontWeight: 600, padding: "2px 8px", borderRadius: 20, background: `${s.color}18`, color: s.color }}>
+          <span style={{ fontSize: "var(--fs-11)", fontWeight: 600, padding: "2px 8px", borderRadius: 20, background: `${s.color}18`, color: s.color }}>
             {s.label}
           </span>
         );
@@ -211,33 +211,33 @@ export function EmployeesTab({
       id: "department",
       header: "Τμήμα",
       width: 160,
-      cell: (r) => <span style={{ fontSize: 12, color: "var(--muted-foreground)" }}>{r.department?.name ?? "—"}</span>,
+      cell: (r) => <span style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>{r.department?.name ?? "—"}</span>,
     },
     {
       id: "position",
       header: "Θέση",
       width: 180,
-      cell: (r) => <span style={{ fontSize: 12, color: "var(--muted-foreground)" }}>{r.jobPosition?.title ?? "—"}</span>,
+      cell: (r) => <span style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>{r.jobPosition?.title ?? "—"}</span>,
     },
     {
       id: "email",
       header: "Email",
       width: 200,
-      cell: (r) => <span style={{ fontSize: 12, color: "var(--muted-foreground)" }}>{r.email ?? "—"}</span>,
+      cell: (r) => <span style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>{r.email ?? "—"}</span>,
     },
     {
       id: "phone",
       header: "Τηλέφωνο",
       width: 130,
       defaultVisible: false,
-      cell: (r) => <span style={{ fontSize: 12, color: "var(--muted-foreground)" }}>{r.phone ?? r.mobile ?? "—"}</span>,
+      cell: (r) => <span style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>{r.phone ?? r.mobile ?? "—"}</span>,
     },
     {
       id: "hireDate",
       header: "Ημ. Πρόσληψης",
       width: 130,
       defaultVisible: false,
-      cell: (r) => <span style={{ fontSize: 12, color: "var(--muted-foreground)" }}>{r.hireDate ? new Date(r.hireDate).toLocaleDateString("el-GR") : "—"}</span>,
+      cell: (r) => <span style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>{r.hireDate ? new Date(r.hireDate).toLocaleDateString("el-GR") : "—"}</span>,
     },
   ];
 
@@ -247,7 +247,7 @@ export function EmployeesTab({
   ];
 
   const tabStyle = (active: boolean) => ({
-    padding: "6px 14px", borderRadius: 4, fontSize: 12, fontWeight: 600,
+    padding: "6px 14px", borderRadius: 4, fontSize: "var(--fs-12)", fontWeight: 600,
     border: "none", cursor: "pointer",
     background: active ? "var(--color-primary)" : "transparent",
     color: active ? "#fff" : "var(--muted-foreground)",
@@ -265,7 +265,7 @@ export function EmployeesTab({
         storageKey="company-employees"
         searchPlaceholder="Αναζήτηση υπαλλήλου…"
         expandedContent={(r) => (
-          <div style={{ padding: "14px 16px", background: "var(--bg-canvas)", display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 16, fontSize: 12 }}>
+          <div style={{ padding: "14px 16px", background: "var(--bg-canvas)", display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 16, fontSize: "var(--fs-12)" }}>
             <div>
               <p style={{ fontWeight: 600, color: "var(--foreground)", margin: "0 0 4px" }}>Στοιχεία επικοινωνίας</p>
               <p style={{ color: "var(--muted-foreground)", margin: "2px 0" }}>Email: {r.email ?? "—"}</p>
@@ -297,8 +297,8 @@ export function EmployeesTab({
         width={620}
         footer={
           <>
-            <button onClick={() => setModalOpen(false)} style={{ padding: "7px 16px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: 13, color: "var(--foreground)" }}>Ακύρωση</button>
-            <button onClick={handleSave} disabled={isPending} style={{ padding: "7px 16px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: isPending ? "wait" : "pointer", fontSize: 13, fontWeight: 600, display: "flex", alignItems: "center", gap: 6 }}>
+            <button onClick={() => setModalOpen(false)} style={{ padding: "7px 16px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: "var(--fs-13)", color: "var(--foreground)" }}>Ακύρωση</button>
+            <button onClick={handleSave} disabled={isPending} style={{ padding: "7px 16px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: isPending ? "wait" : "pointer", fontSize: "var(--fs-13)", fontWeight: 600, display: "flex", alignItems: "center", gap: 6 }}>
               {isPending ? <RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> : <RiCheckLine />}
               Αποθήκευση
             </button>
@@ -314,7 +314,7 @@ export function EmployeesTab({
           ))}
         </div>
 
-        {error && <div style={{ padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: 12, border: "1px solid #fca5a530", marginBottom: 12 }}>{error}</div>}
+        {error && <div style={{ padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: "var(--fs-12)", border: "1px solid #fca5a530", marginBottom: 12 }}>{error}</div>}
 
         {modalTab === "personal" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>

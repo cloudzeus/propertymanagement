@@ -36,7 +36,7 @@ const longFmt = new Intl.DateTimeFormat("el-GR", { weekday: "long", day: "numeri
 function StatusPill({ status }: { status: string }) {
   const s = STATUS[status] ?? STATUS.PENDING;
   return (
-    <span style={{ display: "inline-flex", alignItems: "center", gap: 5, fontSize: 11, fontWeight: 700, padding: "3px 9px", borderRadius: 999, background: s.bg, color: s.fg, whiteSpace: "nowrap" }}>
+    <span style={{ display: "inline-flex", alignItems: "center", gap: 5, fontSize: "var(--fs-11)", fontWeight: 700, padding: "3px 9px", borderRadius: 999, background: s.bg, color: s.fg, whiteSpace: "nowrap" }}>
       <span aria-hidden style={{ width: 6, height: 6, borderRadius: "50%", background: s.bar }} />
       {s.label}
     </span>
@@ -106,8 +106,8 @@ export function DemoCalendarClient({ events: allEvents, today }: { events: DemoE
       {/* Page header */}
       <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", flexWrap: "wrap", gap: 14 }}>
         <div>
-          <h1 style={{ margin: 0, fontSize: 22, fontWeight: 800, letterSpacing: "-.01em", color: "var(--foreground)" }}>Ημερολόγιο ραντεβού</h1>
-          <p style={{ margin: "4px 0 0", fontSize: 13.5, color: "var(--muted-foreground)" }}>
+          <h1 style={{ margin: 0, fontSize: "var(--fs-22)", fontWeight: 800, letterSpacing: "-.01em", color: "var(--foreground)" }}>Ημερολόγιο ραντεβού</h1>
+          <p style={{ margin: "4px 0 0", fontSize: "var(--fs-13-5)", color: "var(--muted-foreground)" }}>
             Κρατήσεις demo από τη σελίδα — κάθε κράτηση στέλνει email και πρόσκληση ημερολογίου (.ics) στο προσωπικό.
           </p>
         </div>
@@ -115,7 +115,7 @@ export function DemoCalendarClient({ events: allEvents, today }: { events: DemoE
           <div role="tablist" aria-label="Φίλτρο τύπου" style={{ display: "inline-flex", gap: 4, background: "var(--paper, #FBFAF5)", border: "1px solid var(--border)", borderRadius: 999, padding: 3 }}>
             {([["all", "Όλα"], ["demo", "Ραντεβού"], ["maintenance", "Συντηρήσεις"]] as const).map(([k, label]) => (
               <button key={k} onClick={() => setKindFilter(k)} className="dcal-btn"
-                style={{ border: "none", borderRadius: 999, padding: "5px 12px", fontSize: 12.5, fontWeight: 700, cursor: "pointer",
+                style={{ border: "none", borderRadius: 999, padding: "5px 12px", fontSize: "var(--fs-12-5)", fontWeight: 700, cursor: "pointer",
                   background: kindFilter === k ? "var(--foreground)" : "transparent", color: kindFilter === k ? "#fff" : "var(--muted-foreground)" }}>
                 {label}
               </button>
@@ -123,12 +123,12 @@ export function DemoCalendarClient({ events: allEvents, today }: { events: DemoE
           </div>
           {!isCurrentMonth && (
             <button type="button" className="dcal-btn" onClick={() => setCursor(new Date(now.getFullYear(), now.getMonth(), 1))}
-              style={{ ...navBtn, padding: "7px 12px", fontSize: 13, fontWeight: 600, lineHeight: 1.2 }}>
+              style={{ ...navBtn, padding: "7px 12px", fontSize: "var(--fs-13)", fontWeight: 600, lineHeight: 1.2 }}>
               Σήμερα
             </button>
           )}
           <button type="button" className="dcal-btn" aria-label="Προηγούμενος μήνας" onClick={() => setCursor(new Date(cursor.getFullYear(), cursor.getMonth() - 1, 1))} style={navBtn}><RiArrowLeftSLine size={18} /></button>
-          <span style={{ minWidth: 168, textAlign: "center", fontWeight: 700, fontSize: 15, color: "var(--foreground)", fontVariantNumeric: "tabular-nums" }}>
+          <span style={{ minWidth: 168, textAlign: "center", fontWeight: 700, fontSize: "var(--fs-15)", color: "var(--foreground)", fontVariantNumeric: "tabular-nums" }}>
             {MONTHS[cursor.getMonth()]} {cursor.getFullYear()}
           </span>
           <button type="button" className="dcal-btn" aria-label="Επόμενος μήνας" onClick={() => setCursor(new Date(cursor.getFullYear(), cursor.getMonth() + 1, 1))} style={navBtn}><RiArrowRightSLine size={18} /></button>
@@ -147,8 +147,8 @@ export function DemoCalendarClient({ events: allEvents, today }: { events: DemoE
               <s.icon size={18} />
             </span>
             <div>
-              <div style={{ fontSize: 20, fontWeight: 800, lineHeight: 1.1, color: "var(--foreground)", fontVariantNumeric: "tabular-nums" }}>{s.value}</div>
-              <div style={{ fontSize: 12, color: "var(--muted-foreground)", marginTop: 1 }}>{s.label}</div>
+              <div style={{ fontSize: "var(--fs-20)", fontWeight: 800, lineHeight: 1.1, color: "var(--foreground)", fontVariantNumeric: "tabular-nums" }}>{s.value}</div>
+              <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)", marginTop: 1 }}>{s.label}</div>
             </div>
           </div>
         ))}
@@ -159,7 +159,7 @@ export function DemoCalendarClient({ events: allEvents, today }: { events: DemoE
         <div style={{ border: "1px solid var(--border)", borderRadius: "var(--radius)", background: "var(--card)", overflow: "hidden" }}>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(7,1fr)" }}>
             {WD.map((w, i) => (
-              <div key={w} style={{ padding: "10px 0", textAlign: "center", fontSize: 11.5, fontWeight: 700, letterSpacing: ".04em", textTransform: "uppercase", color: i >= 5 ? "rgba(27,28,26,.35)" : "var(--muted-foreground)", borderBottom: "1px solid var(--border)", background: "var(--paper, #FBFAF5)" }}>{w}</div>
+              <div key={w} style={{ padding: "10px 0", textAlign: "center", fontSize: "var(--fs-11-5)", fontWeight: 700, letterSpacing: ".04em", textTransform: "uppercase", color: i >= 5 ? "rgba(27,28,26,.35)" : "var(--muted-foreground)", borderBottom: "1px solid var(--border)", background: "var(--paper, #FBFAF5)" }}>{w}</div>
             ))}
             {cells.map((d, i) => {
               const inMonth = d.getMonth() === cursor.getMonth();
@@ -179,7 +179,7 @@ export function DemoCalendarClient({ events: allEvents, today }: { events: DemoE
                   }}>
                   <div style={{ display: "flex", justifyContent: "flex-end" }}>
                     <span style={{
-                      fontSize: 12, fontWeight: isToday ? 800 : 500, fontVariantNumeric: "tabular-nums",
+                      fontSize: "var(--fs-12)", fontWeight: isToday ? 800 : 500, fontVariantNumeric: "tabular-nums",
                       color: isToday ? "#fff" : inMonth ? "var(--foreground)" : "rgba(27,28,26,.35)",
                       display: "inline-flex", alignItems: "center", justifyContent: "center",
                       width: 23, height: 23, borderRadius: "50%",
@@ -194,7 +194,7 @@ export function DemoCalendarClient({ events: allEvents, today }: { events: DemoE
                           title={`${timeFmt.format(new Date(e.scheduledAt))} — ${e.name} (${s.label})`}
                           style={{
                             display: "flex", alignItems: "center", gap: 5, textAlign: "left",
-                            fontSize: 11, fontWeight: 600, padding: "3px 7px 3px 6px", borderRadius: 6,
+                            fontSize: "var(--fs-11)", fontWeight: 600, padding: "3px 7px 3px 6px", borderRadius: 6,
                             border: "none", borderLeft: `3px solid ${s.bar}`,
                             background: s.bg, color: s.fg,
                             overflow: "hidden", whiteSpace: "nowrap",
@@ -202,7 +202,7 @@ export function DemoCalendarClient({ events: allEvents, today }: { events: DemoE
                           }}>
                           <span style={{ display: "inline-flex", alignItems: "center", flex: "none" }}>
                             {e.kind === "maintenance"
-                              ? <RiToolsLine style={{ fontSize: 12 }} aria-hidden />
+                              ? <RiToolsLine style={{ fontSize: "var(--fs-12)" }} aria-hidden />
                               : <span style={{ fontVariantNumeric: "tabular-nums" }}>{timeFmt.format(new Date(e.scheduledAt))}</span>}
                           </span>
                           <span style={{ overflow: "hidden", textOverflow: "ellipsis" }}>{e.name}</span>
@@ -211,7 +211,7 @@ export function DemoCalendarClient({ events: allEvents, today }: { events: DemoE
                     })}
                     {extra > 0 && (
                       <button type="button" className="dcal-chip" onClick={() => setDayFocus(startOfDay(d))}
-                        style={{ border: "none", background: "transparent", textAlign: "left", fontSize: 11, fontWeight: 700, color: "var(--muted-foreground)", padding: "1px 7px" }}>
+                        style={{ border: "none", background: "transparent", textAlign: "left", fontSize: "var(--fs-11)", fontWeight: 700, color: "var(--muted-foreground)", padding: "1px 7px" }}>
                         +{extra} ακόμη
                       </button>
                     )}
@@ -223,7 +223,7 @@ export function DemoCalendarClient({ events: allEvents, today }: { events: DemoE
           {/* Legend */}
           <div style={{ display: "flex", flexWrap: "wrap", gap: 12, padding: "10px 14px", borderTop: "1px solid var(--border)", background: "var(--paper, #FBFAF5)" }}>
             {Object.entries(STATUS).map(([k, s]) => (
-              <span key={k} style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 11.5, color: "var(--muted-foreground)" }}>
+              <span key={k} style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: "var(--fs-11-5)", color: "var(--muted-foreground)" }}>
                 <span aria-hidden style={{ width: 8, height: 8, borderRadius: 3, background: s.bar }} /> {s.label}
               </span>
             ))}
@@ -232,16 +232,16 @@ export function DemoCalendarClient({ events: allEvents, today }: { events: DemoE
 
         {/* Upcoming list */}
         <div style={{ border: "1px solid var(--border)", borderRadius: "var(--radius)", background: "var(--card)", padding: 16 }}>
-          <div style={{ fontWeight: 700, fontSize: 14, color: "var(--foreground)", display: "flex", alignItems: "center", gap: 7 }}>
+          <div style={{ fontWeight: 700, fontSize: "var(--fs-14)", color: "var(--foreground)", display: "flex", alignItems: "center", gap: 7 }}>
             <RiCalendarEventLine style={{ color: "var(--muted-foreground)" }} /> Επερχόμενα
-            <span style={{ marginLeft: "auto", fontSize: 11.5, fontWeight: 700, background: "var(--paper, #FBFAF5)", border: "1px solid var(--border)", borderRadius: 999, padding: "1px 9px", color: "var(--muted-foreground)", fontVariantNumeric: "tabular-nums" }}>{upcoming.length}</span>
+            <span style={{ marginLeft: "auto", fontSize: "var(--fs-11-5)", fontWeight: 700, background: "var(--paper, #FBFAF5)", border: "1px solid var(--border)", borderRadius: 999, padding: "1px 9px", color: "var(--muted-foreground)", fontVariantNumeric: "tabular-nums" }}>{upcoming.length}</span>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 8, marginTop: 12 }}>
             {upcoming.length === 0 && (
               <div style={{ textAlign: "center", padding: "26px 8px", color: "var(--muted-foreground)" }}>
                 <RiVideoChatLine size={26} style={{ opacity: .5 }} />
-                <div style={{ fontSize: 13, marginTop: 8 }}>Κανένα προγραμματισμένο demo.</div>
-                <div style={{ fontSize: 12, marginTop: 3, opacity: .8 }}>Οι νέες κρατήσεις από τη σελίδα θα εμφανιστούν εδώ.</div>
+                <div style={{ fontSize: "var(--fs-13)", marginTop: 8 }}>Κανένα προγραμματισμένο demo.</div>
+                <div style={{ fontSize: "var(--fs-12)", marginTop: 3, opacity: .8 }}>Οι νέες κρατήσεις από τη σελίδα θα εμφανιστούν εδώ.</div>
               </div>
             )}
             {upcoming.map((e) => {
@@ -250,12 +250,12 @@ export function DemoCalendarClient({ events: allEvents, today }: { events: DemoE
                 <button key={e.id} type="button" className="dcal-card" onClick={() => setSelected(e)}
                   style={{ display: "flex", gap: 11, alignItems: "center", textAlign: "left", border: "1px solid var(--border)", borderRadius: 10, background: "var(--card)", padding: "9px 11px" }}>
                   <span style={{ flex: "none", width: 42, textAlign: "center", border: "1px solid var(--border)", borderRadius: 9, background: "var(--paper, #FBFAF5)", padding: "5px 0" }}>
-                    <span style={{ display: "block", fontSize: 16, fontWeight: 800, lineHeight: 1.1, color: "var(--foreground)", fontVariantNumeric: "tabular-nums" }}>{d.getDate()}</span>
-                    <span style={{ display: "block", fontSize: 10, fontWeight: 700, textTransform: "uppercase", color: "var(--muted-foreground)" }}>{MONTHS_SHORT[d.getMonth()]}</span>
+                    <span style={{ display: "block", fontSize: "var(--fs-16)", fontWeight: 800, lineHeight: 1.1, color: "var(--foreground)", fontVariantNumeric: "tabular-nums" }}>{d.getDate()}</span>
+                    <span style={{ display: "block", fontSize: "var(--fs-10)", fontWeight: 700, textTransform: "uppercase", color: "var(--muted-foreground)" }}>{MONTHS_SHORT[d.getMonth()]}</span>
                   </span>
                   <span style={{ minWidth: 0, flex: 1 }}>
-                    <span style={{ display: "block", fontWeight: 700, fontSize: 13.5, color: "var(--foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{e.name}</span>
-                    <span style={{ display: "block", fontSize: 12, color: "var(--muted-foreground)", marginTop: 2, fontVariantNumeric: "tabular-nums" }}>
+                    <span style={{ display: "block", fontWeight: 700, fontSize: "var(--fs-13-5)", color: "var(--foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{e.name}</span>
+                    <span style={{ display: "block", fontSize: "var(--fs-12)", color: "var(--muted-foreground)", marginTop: 2, fontVariantNumeric: "tabular-nums" }}>
                       {timeFmt.format(d)} · {e.durationMin}′{e.company ? ` · ${e.company}` : ""}
                     </span>
                   </span>
@@ -270,15 +270,15 @@ export function DemoCalendarClient({ events: allEvents, today }: { events: DemoE
       {/* Day-overflow popup */}
       {dayFocus && (
         <Overlay onClose={() => setDayFocus(null)}>
-          <div style={{ fontSize: 16, fontWeight: 800, color: "var(--foreground)" }}>
+          <div style={{ fontSize: "var(--fs-16)", fontWeight: 800, color: "var(--foreground)" }}>
             {new Intl.DateTimeFormat("el-GR", { weekday: "long", day: "numeric", month: "long" }).format(dayFocus)}
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 8, marginTop: 14 }}>
             {(byDay.get(dayFocus.toDateString()) ?? []).map((e) => (
               <button key={e.id} type="button" className="dcal-card" onClick={() => { setDayFocus(null); setSelected(e); }}
                 style={{ display: "flex", alignItems: "center", gap: 10, textAlign: "left", border: "1px solid var(--border)", borderRadius: 10, background: "var(--card)", padding: "9px 11px" }}>
-                <span style={{ fontVariantNumeric: "tabular-nums", fontWeight: 700, fontSize: 13, color: "var(--foreground)" }}>{timeFmt.format(new Date(e.scheduledAt))}</span>
-                <span style={{ flex: 1, minWidth: 0, fontSize: 13.5, fontWeight: 600, color: "var(--foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{e.name}</span>
+                <span style={{ fontVariantNumeric: "tabular-nums", fontWeight: 700, fontSize: "var(--fs-13)", color: "var(--foreground)" }}>{timeFmt.format(new Date(e.scheduledAt))}</span>
+                <span style={{ flex: 1, minWidth: 0, fontSize: "var(--fs-13-5)", fontWeight: 600, color: "var(--foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{e.name}</span>
                 <StatusPill status={e.status} />
               </button>
             ))}
@@ -294,17 +294,17 @@ export function DemoCalendarClient({ events: allEvents, today }: { events: DemoE
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 10 }}>
             <div style={{ minWidth: 0 }}>
               <div style={{ display: "flex", alignItems: "center", gap: 9, flexWrap: "wrap" }}>
-                <span style={{ fontSize: 17, fontWeight: 800, color: "var(--foreground)" }}>{selected.name}</span>
+                <span style={{ fontSize: "var(--fs-17)", fontWeight: 800, color: "var(--foreground)" }}>{selected.name}</span>
                 <StatusPill status={selected.status} />
               </div>
-              <div style={{ fontSize: 13, color: "var(--muted-foreground)", marginTop: 4, fontVariantNumeric: "tabular-nums" }}>
+              <div style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)", marginTop: 4, fontVariantNumeric: "tabular-nums" }}>
                 {longFmt.format(new Date(selected.scheduledAt))} · {selected.durationMin}′
               </div>
             </div>
             <button type="button" className="dcal-btn" aria-label="Κλείσιμο" onClick={() => setSelected(null)} style={{ ...navBtn, padding: 6 }}><RiCloseLine size={16} /></button>
           </div>
 
-          <div style={{ display: "flex", flexDirection: "column", gap: 9, marginTop: 16, fontSize: 13.5, color: "var(--foreground)" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 9, marginTop: 16, fontSize: "var(--fs-13-5)", color: "var(--foreground)" }}>
             <div style={rowStyle}><RiMailLine style={iconStyle} aria-hidden /> <span style={{ overflowWrap: "anywhere" }}>{selected.email}</span></div>
             {selected.phone && <div style={rowStyle}><RiPhoneLine style={iconStyle} aria-hidden /> {selected.phone}</div>}
             {selected.company && <div style={rowStyle}><RiBuilding2Line style={iconStyle} aria-hidden /> {selected.company}</div>}
@@ -318,12 +318,12 @@ export function DemoCalendarClient({ events: allEvents, today }: { events: DemoE
 
           <div style={{ display: "flex", gap: 8, marginTop: 18 }}>
             <a href={`mailto:${selected.email}`} className="dcal-btn"
-              style={{ flex: 1, display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 7, padding: "10px 0", borderRadius: 10, background: "var(--primary, #15161a)", color: "#fff", fontWeight: 700, fontSize: 13.5, textDecoration: "none" }}>
+              style={{ flex: 1, display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 7, padding: "10px 0", borderRadius: 10, background: "var(--primary, #15161a)", color: "#fff", fontWeight: 700, fontSize: "var(--fs-13-5)", textDecoration: "none" }}>
               <RiMailLine size={15} /> Απάντηση με email
             </a>
             {selected.phone && (
               <a href={`tel:${selected.phone}`} className="dcal-btn"
-                style={{ flex: 1, display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 7, padding: "10px 0", borderRadius: 10, border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)", fontWeight: 700, fontSize: 13.5, textDecoration: "none" }}>
+                style={{ flex: 1, display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 7, padding: "10px 0", borderRadius: 10, border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)", fontWeight: 700, fontSize: "var(--fs-13-5)", textDecoration: "none" }}>
                 <RiPhoneLine size={15} /> Κλήση
               </a>
             )}
@@ -357,18 +357,18 @@ function MaintenanceEventModal({ event, onClose }: { event: DemoEvent; onClose: 
             <RiToolsLine />
           </span>
           <div>
-            <div style={{ fontSize: 16, fontWeight: 800, color: "var(--foreground)" }}>{event.name}</div>
-            <div style={{ fontSize: 12.5, color: "var(--muted-foreground)" }}>{longFmt.format(d)}</div>
+            <div style={{ fontSize: "var(--fs-16)", fontWeight: 800, color: "var(--foreground)" }}>{event.name}</div>
+            <div style={{ fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)" }}>{longFmt.format(d)}</div>
           </div>
-          <button onClick={onClose} aria-label="Κλείσιμο" style={{ marginLeft: "auto", border: "none", background: "transparent", cursor: "pointer", color: "var(--muted-foreground)" }}><RiCloseLine style={{ fontSize: 20 }} /></button>
+          <button onClick={onClose} aria-label="Κλείσιμο" style={{ marginLeft: "auto", border: "none", background: "transparent", cursor: "pointer", color: "var(--muted-foreground)" }}><RiCloseLine style={{ fontSize: "var(--fs-20)" }} /></button>
         </div>
-        <div style={{ display: "flex", flexDirection: "column", gap: 8, fontSize: 13.5, color: "var(--foreground)" }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 8, fontSize: "var(--fs-13-5)", color: "var(--foreground)" }}>
           {event.buildingName && <div style={{ display: "flex", alignItems: "center", gap: 8 }}><RiBuilding2Line style={{ color: "var(--muted-foreground)" }} /> {event.buildingName}</div>}
           {event.itemName && <div style={{ display: "flex", alignItems: "center", gap: 8 }}><RiToolsLine style={{ color: "var(--muted-foreground)" }} /> {event.itemName}</div>}
           <div><StatusPill status={event.status} /></div>
         </div>
         {event.buildingId && (
-          <a href={`/super-admin/buildings/${event.buildingId}`} style={{ display: "inline-flex", alignItems: "center", gap: 6, marginTop: 14, fontSize: 13, fontWeight: 700, color: "var(--color-primary)", textDecoration: "none" }}>
+          <a href={`/super-admin/buildings/${event.buildingId}`} style={{ display: "inline-flex", alignItems: "center", gap: 6, marginTop: 14, fontSize: "var(--fs-13)", fontWeight: 700, color: "var(--color-primary)", textDecoration: "none" }}>
             Άνοιγμα κτηρίου <RiArrowRightSLine />
           </a>
         )}

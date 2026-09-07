@@ -18,7 +18,7 @@ function Card({ item, detailBase, dragging = false }: { item: FaultListItem; det
   return (
     <div style={{
       background: "var(--card)", border: `1px solid ${overdue ? "#9f123960" : "var(--border)"}`,
-      borderRadius: "var(--radius-sm)", padding: "8px 10px", fontSize: 12.5,
+      borderRadius: "var(--radius-sm)", padding: "8px 10px", fontSize: "var(--fs-12-5)",
       boxShadow: dragging ? "0 8px 20px rgba(0,0,0,.18)" : "0 1px 2px rgba(0,0,0,.05)",
       cursor: "grab", display: "flex", flexDirection: "column", gap: 4,
     }}>
@@ -26,10 +26,10 @@ function Card({ item, detailBase, dragging = false }: { item: FaultListItem; det
         style={{ fontWeight: 600, color: "var(--foreground)", textDecoration: "none", lineHeight: 1.3 }}>
         {item.title}
       </Link>
-      <span style={{ display: "inline-flex", alignItems: "center", gap: 4, color: "var(--muted-foreground)", fontSize: 11.5 }}>
+      <span style={{ display: "inline-flex", alignItems: "center", gap: 4, color: "var(--muted-foreground)", fontSize: "var(--fs-11-5)" }}>
         <RiBuilding2Line /> {item.buildingName}{item.unitLabel ? ` · ${item.unitLabel}` : ""}
       </span>
-      <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 11 }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: "var(--fs-11)" }}>
         <span style={{ fontWeight: 700, color: prColor }}>{PRIORITY_LABELS[pr] ?? item.priority}</span>
         {item.assigneeName && (
           <span style={{ display: "inline-flex", alignItems: "center", gap: 3, color: "var(--muted-foreground)" }}>
@@ -67,8 +67,8 @@ function Column({ status, items, detailBase }: { status: FaultStatus; items: Fau
     }}>
       <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
         <span style={{ width: 8, height: 8, borderRadius: "50%", background: color }} />
-        <span style={{ fontSize: 12, fontWeight: 700, color: "var(--foreground)" }}>{STATUS_LABELS[status]}</span>
-        <span style={{ fontSize: 11, fontWeight: 700, color: "var(--muted-foreground)", marginLeft: "auto" }}>{items.length}</span>
+        <span style={{ fontSize: "var(--fs-12)", fontWeight: 700, color: "var(--foreground)" }}>{STATUS_LABELS[status]}</span>
+        <span style={{ fontSize: "var(--fs-11)", fontWeight: 700, color: "var(--muted-foreground)", marginLeft: "auto" }}>{items.length}</span>
       </div>
       <div style={{ display: "flex", flexDirection: "column", gap: 8, minHeight: 40 }}>
         {items.map((i) => <DraggableCard key={i.id} item={i} detailBase={detailBase} />)}
@@ -108,7 +108,7 @@ export function MaintenanceKanban({ items: initial, detailBase }: { items: Fault
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-      {error && <div style={{ fontSize: 12.5, color: "var(--destructive)" }}>{error}</div>}
+      {error && <div style={{ fontSize: "var(--fs-12-5)", color: "var(--destructive)" }}>{error}</div>}
       <DndContext sensors={sensors} onDragStart={(e: DragStartEvent) => setActiveId(String(e.active.id))} onDragEnd={onDragEnd} onDragCancel={() => setActiveId(null)}>
         <div style={{ display: "flex", gap: 10, overflowX: "auto", paddingBottom: 4 }}>
           {COLUMNS.map((s) => (

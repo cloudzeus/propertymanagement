@@ -16,13 +16,13 @@ const card: React.CSSProperties = {
   borderRadius: "var(--radius-lg)", boxShadow: "var(--shadow-card)", padding: 18,
 };
 const blockHead: React.CSSProperties = {
-  display: "flex", alignItems: "center", gap: 8, fontSize: 14, fontWeight: 800, color: "var(--foreground)", marginBottom: 12,
+  display: "flex", alignItems: "center", gap: 8, fontSize: "var(--fs-14)", fontWeight: 800, color: "var(--foreground)", marginBottom: 12,
 };
 const rowBox: React.CSSProperties = {
   display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12,
   padding: "11px 13px", borderRadius: 10, border: "1px solid var(--border)", background: "var(--bg-canvas)", flexWrap: "wrap",
 };
-const emptyInline: React.CSSProperties = { fontSize: 13, color: "var(--muted-foreground)", padding: "6px 2px" };
+const emptyInline: React.CSSProperties = { fontSize: "var(--fs-13)", color: "var(--muted-foreground)", padding: "6px 2px" };
 
 /** Read-only maintenance: upcoming recurring tasks + the completed-work history. */
 export function MaintenanceSection({ tasks, maintenanceHistory }: {
@@ -41,13 +41,13 @@ export function MaintenanceSection({ tasks, maintenanceHistory }: {
             {tasks.map((t) => (
               <div key={t.id} style={rowBox}>
                 <div style={{ minWidth: 0 }}>
-                  <div style={{ fontSize: 13.5, fontWeight: 700, color: "var(--foreground)" }}>{t.title}</div>
-                  <div style={{ fontSize: 12, color: "var(--muted-foreground)", marginTop: 2 }}>
+                  <div style={{ fontSize: "var(--fs-13-5)", fontWeight: 700, color: "var(--foreground)" }}>{t.title}</div>
+                  <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)", marginTop: 2 }}>
                     {[FREQ_LABEL[t.frequency] ?? t.frequency, t.vendor].filter(Boolean).join(" · ")}
                   </div>
                 </div>
                 <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                  <span style={{ fontSize: 12.5, color: "var(--muted-foreground)", fontVariantNumeric: "tabular-nums", whiteSpace: "nowrap" }}>{fmtDate(t.nextDueDate)}</span>
+                  <span style={{ fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)", fontVariantNumeric: "tabular-nums", whiteSpace: "nowrap" }}>{fmtDate(t.nextDueDate)}</span>
                   <StatusChip tone="info">{FREQ_LABEL[t.frequency] ?? t.frequency}</StatusChip>
                 </div>
               </div>
@@ -66,13 +66,13 @@ export function MaintenanceSection({ tasks, maintenanceHistory }: {
             {maintenanceHistory.map((l) => (
               <div key={l.id} style={{ ...rowBox, alignItems: "flex-start" }}>
                 <div style={{ minWidth: 0 }}>
-                  <div style={{ fontSize: 13.5, fontWeight: 700, color: "var(--foreground)" }}>{l.taskTitle}</div>
-                  {l.notes && <div style={{ fontSize: 12.5, color: "var(--muted-foreground)", marginTop: 3, lineHeight: 1.5 }}>{l.notes}</div>}
+                  <div style={{ fontSize: "var(--fs-13-5)", fontWeight: 700, color: "var(--foreground)" }}>{l.taskTitle}</div>
+                  {l.notes && <div style={{ fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)", marginTop: 3, lineHeight: 1.5 }}>{l.notes}</div>}
                 </div>
                 <div style={{ display: "flex", alignItems: "center", gap: 10, flex: "none" }}>
-                  <span style={{ fontSize: 12.5, color: "var(--muted-foreground)", fontVariantNumeric: "tabular-nums", whiteSpace: "nowrap" }}>{fmtDate(l.performedAt)}</span>
+                  <span style={{ fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)", fontVariantNumeric: "tabular-nums", whiteSpace: "nowrap" }}>{fmtDate(l.performedAt)}</span>
                   {l.certificateUrl && (
-                    <a href={l.certificateUrl} target="_blank" rel="noopener noreferrer" style={{ display: "inline-flex", alignItems: "center", gap: 5, fontSize: 12.5, fontWeight: 700, color: "var(--color-primary)", textDecoration: "none", whiteSpace: "nowrap" }}>
+                    <a href={l.certificateUrl} target="_blank" rel="noopener noreferrer" style={{ display: "inline-flex", alignItems: "center", gap: 5, fontSize: "var(--fs-12-5)", fontWeight: 700, color: "var(--color-primary)", textDecoration: "none", whiteSpace: "nowrap" }}>
                       <RiFileTextLine /> Πιστοποιητικό
                     </a>
                   )}

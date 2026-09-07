@@ -17,11 +17,11 @@ const period = (from: string | null, to: string | null) => {
 const reading = (n: number | null) => (n == null ? "—" : n.toLocaleString("el-GR", { maximumFractionDigits: 3 }));
 
 const th: React.CSSProperties = {
-  textAlign: "left", padding: "10px 12px", fontSize: 11.5, fontWeight: 700, textTransform: "uppercase",
+  textAlign: "left", padding: "10px 12px", fontSize: "var(--fs-11-5)", fontWeight: 700, textTransform: "uppercase",
   letterSpacing: ".03em", color: "var(--muted-foreground)", whiteSpace: "nowrap", borderBottom: "1px solid var(--border)",
 };
 const td: React.CSSProperties = {
-  padding: "11px 12px", fontSize: 13, color: "var(--foreground)", borderBottom: "1px solid var(--border)",
+  padding: "11px 12px", fontSize: "var(--fs-13)", color: "var(--foreground)", borderBottom: "1px solid var(--border)",
 };
 const tdNum: React.CSSProperties = { ...td, fontVariantNumeric: "tabular-nums", whiteSpace: "nowrap", textAlign: "right" };
 

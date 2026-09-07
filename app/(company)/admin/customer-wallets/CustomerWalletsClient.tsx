@@ -77,18 +77,18 @@ export default function CustomerWalletsClient() {
     border: "1px solid var(--border)",
     background: "var(--bg-canvas)",
     color: "var(--foreground)",
-    fontSize: 13,
+    fontSize: "var(--fs-13)",
   };
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
       <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-        <RiWallet3Line style={{ fontSize: 24, color: "var(--color-success)" }} />
+        <RiWallet3Line style={{ fontSize: "var(--fs-24)", color: "var(--color-success)" }} />
         <div>
-          <h1 style={{ fontSize: 22, fontWeight: 700, color: "var(--foreground)", margin: 0 }}>
+          <h1 style={{ fontSize: "var(--fs-22)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}>
             Υπόλοιπα Πελατών
           </h1>
-          <p style={{ fontSize: 13, color: "var(--muted-foreground)", marginTop: 4 }}>
+          <p style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)", marginTop: 4 }}>
             Προπληρωμένο υπόλοιπο AI / API / video ανά πελάτη — χειροκίνητη πίστωση ή διόρθωση.
           </p>
         </div>
@@ -102,7 +102,7 @@ export default function CustomerWalletsClient() {
             background: "#FEE7E618",
             border: "1px solid var(--color-danger)",
             color: "var(--color-danger)",
-            fontSize: 13,
+            fontSize: "var(--fs-13)",
           }}
         >
           {error}
@@ -117,7 +117,7 @@ export default function CustomerWalletsClient() {
           overflowX: "auto",
         }}
       >
-        <table style={{ width: "100%", fontSize: 13, borderCollapse: "collapse" }}>
+        <table style={{ width: "100%", fontSize: "var(--fs-13)", borderCollapse: "collapse" }}>
           <thead>
             <tr style={{ textAlign: "left", borderBottom: "1px solid var(--border)" }}>
               <th style={th}>Πελάτης</th>
@@ -172,7 +172,7 @@ export default function CustomerWalletsClient() {
                         border: "1px solid var(--border)",
                         background: "var(--color-primary, #2563eb)",
                         color: "#fff",
-                        fontSize: 13,
+                        fontSize: "var(--fs-13)",
                         fontWeight: 500,
                         cursor: savingId === r.id ? "default" : "pointer",
                         opacity: savingId === r.id ? 0.6 : 1,

@@ -74,10 +74,10 @@ export function GuidedFlow({ title, steps, onClose, onFinish, finishLabel = "ÎŸÎ
         {steps.map((s, i) => {
           const state = i < step ? "done" : i === step ? "active" : "todo";
           return (
-            <li key={s.key} style={{ display: "flex", alignItems: "center", gap: 6, padding: "7px 8px", borderRadius: 8, fontSize: 12, fontWeight: 600, minWidth: 0,
+            <li key={s.key} style={{ display: "flex", alignItems: "center", gap: 6, padding: "7px 8px", borderRadius: 8, fontSize: "var(--fs-12)", fontWeight: 600, minWidth: 0,
               background: state === "active" ? "var(--color-primary)" : "var(--paper)",
               color: state === "active" ? "#fff" : state === "done" ? "var(--foreground)" : "var(--muted-foreground)" }}>
-              <span style={{ width: 20, height: 20, borderRadius: 999, flexShrink: 0, display: "inline-flex", alignItems: "center", justifyContent: "center", fontSize: 11,
+              <span style={{ width: 20, height: 20, borderRadius: 999, flexShrink: 0, display: "inline-flex", alignItems: "center", justifyContent: "center", fontSize: "var(--fs-11)",
                 background: state === "done" ? "#15803d" : "transparent", color: state === "done" ? "#fff" : "inherit", border: state === "done" ? "none" : "1px solid currentColor" }}>
                 {state === "done" ? <RiCheckLine /> : i + 1}
               </span>
@@ -87,9 +87,9 @@ export function GuidedFlow({ title, steps, onClose, onFinish, finishLabel = "ÎŸÎ
         })}
       </ol>
 
-      <div style={{ fontSize: 17, fontWeight: 800, color: "var(--foreground)", marginBottom: 6 }}>{step + 1}. {cur.title}</div>
+      <div style={{ fontSize: "var(--fs-17)", fontWeight: 800, color: "var(--foreground)", marginBottom: 6 }}>{step + 1}. {cur.title}</div>
       {cur.help && (
-        <div style={{ display: "flex", gap: 8, alignItems: "flex-start", fontSize: 13.5, lineHeight: 1.5, color: "var(--foreground)", background: "var(--paper)", borderRadius: 8, padding: "10px 12px", marginBottom: 14 }}>
+        <div style={{ display: "flex", gap: 8, alignItems: "flex-start", fontSize: "var(--fs-13-5)", lineHeight: 1.5, color: "var(--foreground)", background: "var(--paper)", borderRadius: 8, padding: "10px 12px", marginBottom: 14 }}>
           <RiInformationLine style={{ marginTop: 3, flexShrink: 0, color: "var(--color-primary)" }} />
           <div>{cur.help}</div>
         </div>
@@ -116,10 +116,10 @@ export function ChoiceCards<T extends string>({ options, value, onChange, column
           <button key={o.value} type="button" role="radio" aria-checked={on} onClick={() => onChange(o.value)}
             style={{ display: "flex", alignItems: "flex-start", gap: 10, textAlign: "left", padding: "12px 14px", borderRadius: 10, cursor: "pointer", minHeight: 58,
               border: `2px solid ${on ? "var(--color-primary)" : "var(--border)"}`, background: on ? "var(--color-primary)0f" : "var(--card)", color: "var(--foreground)" }}>
-            {Icon && <Icon style={{ fontSize: 22, flexShrink: 0, marginTop: 1, color: on ? "var(--color-primary)" : "var(--muted-foreground)" }} />}
+            {Icon && <Icon style={{ fontSize: "var(--fs-22)", flexShrink: 0, marginTop: 1, color: on ? "var(--color-primary)" : "var(--muted-foreground)" }} />}
             <span style={{ minWidth: 0 }}>
-              <span style={{ display: "block", fontSize: 14, fontWeight: 700 }}>{o.label}</span>
-              {o.description && <span style={{ display: "block", fontSize: 12.5, color: "var(--muted-foreground)", marginTop: 2, lineHeight: 1.4 }}>{o.description}</span>}
+              <span style={{ display: "block", fontSize: "var(--fs-14)", fontWeight: 700 }}>{o.label}</span>
+              {o.description && <span style={{ display: "block", fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)", marginTop: 2, lineHeight: 1.4 }}>{o.description}</span>}
             </span>
           </button>
         );
@@ -133,7 +133,7 @@ export function SummaryList({ rows }: { rows: [string, React.ReactNode][] }) {
   return (
     <div style={{ border: "1px solid var(--border)", borderRadius: 10, overflow: "hidden" }}>
       {rows.map(([k, v], i) => (
-        <div key={k} style={{ display: "grid", gridTemplateColumns: "160px 1fr", gap: 10, padding: "9px 14px", fontSize: 13.5, borderTop: i ? "1px solid var(--border)" : "none" }}>
+        <div key={k} style={{ display: "grid", gridTemplateColumns: "160px 1fr", gap: 10, padding: "9px 14px", fontSize: "var(--fs-13-5)", borderTop: i ? "1px solid var(--border)" : "none" }}>
           <span style={{ color: "var(--muted-foreground)" }}>{k}</span>
           <span style={{ color: "var(--foreground)", overflowWrap: "anywhere" }}>{v || "â€”"}</span>
         </div>
@@ -142,7 +142,7 @@ export function SummaryList({ rows }: { rows: [string, React.ReactNode][] }) {
   );
 }
 
-const linkBtn: React.CSSProperties = { background: "none", border: "none", color: "var(--muted-foreground)", fontSize: 12.5, cursor: "pointer", padding: 0, textDecoration: "underline" };
-const ghostBtn: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 6, padding: "9px 16px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: 13, color: "var(--foreground)" };
-const primaryBtn: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 6, padding: "9px 18px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: "pointer", fontSize: 13, fontWeight: 600 };
-const errBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: 12.5, border: "1px solid #fca5a530", marginBottom: 12 };
+const linkBtn: React.CSSProperties = { background: "none", border: "none", color: "var(--muted-foreground)", fontSize: "var(--fs-12-5)", cursor: "pointer", padding: 0, textDecoration: "underline" };
+const ghostBtn: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 6, padding: "9px 16px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: "var(--fs-13)", color: "var(--foreground)" };
+const primaryBtn: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 6, padding: "9px 18px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: "pointer", fontSize: "var(--fs-13)", fontWeight: 600 };
+const errBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: "var(--fs-12-5)", border: "1px solid #fca5a530", marginBottom: 12 };
