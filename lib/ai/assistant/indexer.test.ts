@@ -19,7 +19,10 @@ describe("indexWiki", () => {
     expect(r.keywordOnly).toBe(true);
     expect(r.chunks).toBe(1);
     expect(m.upsert).toHaveBeenCalledTimes(1);
-    expect(m.executeRaw).not.toHaveBeenCalled();
+    // The text changed but could not be embedded: the stale vector must not survive next to the new text.
+    expect(m.executeRaw).toHaveBeenCalledTimes(1);
+    const sql = (m.executeRaw.mock.calls[0]![0] as { sql: string }).sql;
+    expect(sql).toMatch(/SET "embedding" = NULL/);
   });
   it("writes vectors when embeddings succeed", async () => {
     m.embed.mockResolvedValue([[0.1, 0.2]]);

@@ -54,6 +54,9 @@ export async function indexWiki(): Promise<IndexResult> {
       if (vectors) {
         await db.$executeRaw(Prisma.sql`UPDATE "WikiChunk" SET "embedding" = ${toVectorLiteral(vectors[i])}::vector WHERE "id" = ${id}`);
         embedded++;
+      } else {
+        // The text changed but could not be embedded: drop the stale vector so vector search never ranks the old meaning.
+        await db.$executeRaw(Prisma.sql`UPDATE "WikiChunk" SET "embedding" = NULL WHERE "id" = ${id}`);
       }
     }
   }
