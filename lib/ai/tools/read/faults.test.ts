@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
 const { findMany, access } = vi.hoisted(() => ({ findMany: vi.fn(async (_q: any) => [] as unknown[]), access: vi.fn() }));
 vi.mock("@/lib/db", () => ({ db: { maintenanceRequest: { findMany } } }));
 vi.mock("@/lib/building-access", () => ({ getBuildingAccess: access }));
