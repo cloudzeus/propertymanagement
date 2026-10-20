@@ -21,7 +21,7 @@ export type AssistantCtx = {
 export type ToolResult = { ok: true; data: unknown; note?: string } | { ok: false; error: string };
 
 export type ReadTool<A> = {
-  name: string; description: string; kind: "read"; roles: readonly string[]; schema: z.ZodType<A>; label: string;
+  name: string; description: string; kind: "read"; roles: readonly string[]; requiredPerm?: string; schema: z.ZodType<A>; label: string;
   run(args: A, ctx: AssistantCtx): Promise<ToolResult>;
 };
 

@@ -13,10 +13,12 @@ vi.mock("@/lib/db", () => ({
 }));
 
 import { buildAssistantContext } from "./context";
+import type { EffectiveSession } from "@/lib/auth-effective";
+import type { UserRole } from "@/lib/prisma/enums";
 
-const eff = (role: string, extra: Partial<{ impersonatorId: string | null }> = {}) => ({
-  user: { id: "u1", role: role as any, roleId: null, companyId: null, customerId: "c1", name: "Μαρία", email: "m@x.gr" },
-  real: { id: extra.impersonatorId ?? "u1", role: (extra.impersonatorId ? "SUPER_ADMIN" : role) as any },
+const eff = (role: string, extra: Partial<{ impersonatorId: string | null }> = {}): EffectiveSession => ({
+  user: { id: "u1", role: role as UserRole, roleId: null, companyId: null, customerId: "c1", name: "Μαρία", email: "m@x.gr" },
+  real: { id: extra.impersonatorId ?? "u1", role: (extra.impersonatorId ? "SUPER_ADMIN" : role) as UserRole },
   impersonatorId: extra.impersonatorId ?? null,
 });
 
