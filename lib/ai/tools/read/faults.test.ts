@@ -37,4 +37,16 @@ describe("listFaults", () => {
     await listFaults.run({ buildingId: "b9", status: "OPEN" }, ctx("ADMIN", { occupantUnits: [] }));
     expect(findMany.mock.calls[1][0].where).toEqual({ buildingId: "b9", status: "OPEN" });
   });
+
+  it("gives a PROPERTY_ADMIN the managed buildings, own reports AND the common-area faults of buildings they merely occupy", async () => {
+    await listFaults.run({}, ctx("PROPERTY_ADMIN", { managerBuildingIds: ["bm"] }));
+    expect(findMany.mock.calls[0][0].where.OR).toEqual([{ buildingId: { in: ["bm"] } }, { reportedById: "u1" }, { buildingId: { in: ["b1"] }, unitId: null }]);
+  });
+  it("narrows a PROPERTY_ADMIN to one building only after the access check passes", async () => {
+    access.mockResolvedValue({ viewer: "manager", managed: true, can: {} });
+    await listFaults.run({ buildingId: "bm", status: "OPEN" }, ctx("PROPERTY_ADMIN", { managerBuildingIds: ["bm"] }));
+    expect(access).toHaveBeenCalledWith("u1", "bm");
+    expect(findMany.mock.calls[0][0].where).toMatchObject({ buildingId: "bm", status: "OPEN" });
+    expect(findMany.mock.calls[0][0].where.OR).toBeDefined();
+  });
 });

@@ -26,11 +26,13 @@ export const listFaults: ReadTool<z.infer<typeof schema>> = {
     } else if (role === "COLLABORATOR") {
       if (!ctx.scope.supplierId) return { ok: true, data: [] };
       where = { supplierId: ctx.scope.supplierId };
-    } else if (role === "PROPERTY_ADMIN") {
-      where = { OR: [{ buildingId: { in: ctx.scope.managerBuildingIds } }, { reportedById: ctx.user.id }] };
     } else {
+      // Managed buildings (managers only) + own reports + common-area faults of the buildings the user occupies.
       const myBuildings = [...new Set(ctx.scope.occupantUnits.map((u) => u.buildingId))];
-      where = { OR: [{ reportedById: ctx.user.id }, { buildingId: { in: myBuildings }, unitId: null }] };
+      const or: Record<string, unknown>[] = [];
+      if (role === "PROPERTY_ADMIN") or.push({ buildingId: { in: ctx.scope.managerBuildingIds } });
+      or.push({ reportedById: ctx.user.id }, { buildingId: { in: myBuildings }, unitId: null });
+      where = { OR: or };
     }
     if (args.buildingId) where.buildingId = args.buildingId;
     if (args.status) where.status = args.status;
