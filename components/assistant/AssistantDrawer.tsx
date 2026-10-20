@@ -37,7 +37,7 @@ export function AssistantDrawer({ surface }: { surface: "company" | "customer" |
   // Page-specific suggestions from the wiki article of the current route.
   useEffect(() => {
     let cancelled = false;
-    fetch(`/api/help/article?path=${encodeURIComponent(pathname)}&s=${encodeURIComponent(search?.get("s") ?? "")}`)
+    fetch(`/api/help/article?path=${encodeURIComponent(pathname)}&fields=prompts`)
       .then((r) => (r.ok ? r.json() : null))
       .then((j: { prompts?: string[] } | null) => { if (!cancelled) setPrompts(j?.prompts?.length ? j.prompts : DEFAULT_PROMPTS[surface]); })
       .catch(() => { if (!cancelled) setPrompts(DEFAULT_PROMPTS[surface]); });
