@@ -518,6 +518,8 @@ export type SupplierWhereInput = {
   expenses?: Prisma.BuildingExpenseListRelationFilter
   recurringTasks?: Prisma.RecurringTaskListRelationFilter
   contacts?: Prisma.ContactListRelationFilter
+  contactPeople?: Prisma.SupplierContactListRelationFilter
+  inviteLinks?: Prisma.SupplierInviteLinkListRelationFilter
   maintenanceRequests?: Prisma.MaintenanceRequestListRelationFilter
 }
 
@@ -574,6 +576,8 @@ export type SupplierOrderByWithRelationInput = {
   expenses?: Prisma.BuildingExpenseOrderByRelationAggregateInput
   recurringTasks?: Prisma.RecurringTaskOrderByRelationAggregateInput
   contacts?: Prisma.ContactOrderByRelationAggregateInput
+  contactPeople?: Prisma.SupplierContactOrderByRelationAggregateInput
+  inviteLinks?: Prisma.SupplierInviteLinkOrderByRelationAggregateInput
   maintenanceRequests?: Prisma.MaintenanceRequestOrderByRelationAggregateInput
 }
 
@@ -633,6 +637,8 @@ export type SupplierWhereUniqueInput = Prisma.AtLeast<{
   expenses?: Prisma.BuildingExpenseListRelationFilter
   recurringTasks?: Prisma.RecurringTaskListRelationFilter
   contacts?: Prisma.ContactListRelationFilter
+  contactPeople?: Prisma.SupplierContactListRelationFilter
+  inviteLinks?: Prisma.SupplierInviteLinkListRelationFilter
   maintenanceRequests?: Prisma.MaintenanceRequestListRelationFilter
 }, "id">
 
@@ -778,6 +784,8 @@ export type SupplierCreateInput = {
   expenses?: Prisma.BuildingExpenseCreateNestedManyWithoutSupplierInput
   recurringTasks?: Prisma.RecurringTaskCreateNestedManyWithoutSupplierInput
   contacts?: Prisma.ContactCreateNestedManyWithoutSupplierInput
+  contactPeople?: Prisma.SupplierContactCreateNestedManyWithoutSupplierInput
+  inviteLinks?: Prisma.SupplierInviteLinkCreateNestedManyWithoutSupplierInput
   maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutSupplierInput
 }
 
@@ -833,6 +841,8 @@ export type SupplierUncheckedCreateInput = {
   expenses?: Prisma.BuildingExpenseUncheckedCreateNestedManyWithoutSupplierInput
   recurringTasks?: Prisma.RecurringTaskUncheckedCreateNestedManyWithoutSupplierInput
   contacts?: Prisma.ContactUncheckedCreateNestedManyWithoutSupplierInput
+  contactPeople?: Prisma.SupplierContactUncheckedCreateNestedManyWithoutSupplierInput
+  inviteLinks?: Prisma.SupplierInviteLinkUncheckedCreateNestedManyWithoutSupplierInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutSupplierInput
 }
 
@@ -888,6 +898,8 @@ export type SupplierUpdateInput = {
   expenses?: Prisma.BuildingExpenseUpdateManyWithoutSupplierNestedInput
   recurringTasks?: Prisma.RecurringTaskUpdateManyWithoutSupplierNestedInput
   contacts?: Prisma.ContactUpdateManyWithoutSupplierNestedInput
+  contactPeople?: Prisma.SupplierContactUpdateManyWithoutSupplierNestedInput
+  inviteLinks?: Prisma.SupplierInviteLinkUpdateManyWithoutSupplierNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutSupplierNestedInput
 }
 
@@ -943,6 +955,8 @@ export type SupplierUncheckedUpdateInput = {
   expenses?: Prisma.BuildingExpenseUncheckedUpdateManyWithoutSupplierNestedInput
   recurringTasks?: Prisma.RecurringTaskUncheckedUpdateManyWithoutSupplierNestedInput
   contacts?: Prisma.ContactUncheckedUpdateManyWithoutSupplierNestedInput
+  contactPeople?: Prisma.SupplierContactUncheckedUpdateManyWithoutSupplierNestedInput
+  inviteLinks?: Prisma.SupplierInviteLinkUncheckedUpdateManyWithoutSupplierNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutSupplierNestedInput
 }
 
@@ -1469,6 +1483,34 @@ export type SupplierUpdateOneRequiredWithoutWorkOrdersNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.SupplierUpdateToOneWithWhereWithoutWorkOrdersInput, Prisma.SupplierUpdateWithoutWorkOrdersInput>, Prisma.SupplierUncheckedUpdateWithoutWorkOrdersInput>
 }
 
+export type SupplierCreateNestedOneWithoutContactPeopleInput = {
+  create?: Prisma.XOR<Prisma.SupplierCreateWithoutContactPeopleInput, Prisma.SupplierUncheckedCreateWithoutContactPeopleInput>
+  connectOrCreate?: Prisma.SupplierCreateOrConnectWithoutContactPeopleInput
+  connect?: Prisma.SupplierWhereUniqueInput
+}
+
+export type SupplierUpdateOneRequiredWithoutContactPeopleNestedInput = {
+  create?: Prisma.XOR<Prisma.SupplierCreateWithoutContactPeopleInput, Prisma.SupplierUncheckedCreateWithoutContactPeopleInput>
+  connectOrCreate?: Prisma.SupplierCreateOrConnectWithoutContactPeopleInput
+  upsert?: Prisma.SupplierUpsertWithoutContactPeopleInput
+  connect?: Prisma.SupplierWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.SupplierUpdateToOneWithWhereWithoutContactPeopleInput, Prisma.SupplierUpdateWithoutContactPeopleInput>, Prisma.SupplierUncheckedUpdateWithoutContactPeopleInput>
+}
+
+export type SupplierCreateNestedOneWithoutInviteLinksInput = {
+  create?: Prisma.XOR<Prisma.SupplierCreateWithoutInviteLinksInput, Prisma.SupplierUncheckedCreateWithoutInviteLinksInput>
+  connectOrCreate?: Prisma.SupplierCreateOrConnectWithoutInviteLinksInput
+  connect?: Prisma.SupplierWhereUniqueInput
+}
+
+export type SupplierUpdateOneRequiredWithoutInviteLinksNestedInput = {
+  create?: Prisma.XOR<Prisma.SupplierCreateWithoutInviteLinksInput, Prisma.SupplierUncheckedCreateWithoutInviteLinksInput>
+  connectOrCreate?: Prisma.SupplierCreateOrConnectWithoutInviteLinksInput
+  upsert?: Prisma.SupplierUpsertWithoutInviteLinksInput
+  connect?: Prisma.SupplierWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.SupplierUpdateToOneWithWhereWithoutInviteLinksInput, Prisma.SupplierUpdateWithoutInviteLinksInput>, Prisma.SupplierUncheckedUpdateWithoutInviteLinksInput>
+}
+
 export type SupplierCreateNestedOneWithoutInquiriesInput = {
   create?: Prisma.XOR<Prisma.SupplierCreateWithoutInquiriesInput, Prisma.SupplierUncheckedCreateWithoutInquiriesInput>
   connectOrCreate?: Prisma.SupplierCreateOrConnectWithoutInquiriesInput
@@ -1534,6 +1576,8 @@ export type SupplierCreateWithoutUsersInput = {
   expenses?: Prisma.BuildingExpenseCreateNestedManyWithoutSupplierInput
   recurringTasks?: Prisma.RecurringTaskCreateNestedManyWithoutSupplierInput
   contacts?: Prisma.ContactCreateNestedManyWithoutSupplierInput
+  contactPeople?: Prisma.SupplierContactCreateNestedManyWithoutSupplierInput
+  inviteLinks?: Prisma.SupplierInviteLinkCreateNestedManyWithoutSupplierInput
   maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutSupplierInput
 }
 
@@ -1588,6 +1632,8 @@ export type SupplierUncheckedCreateWithoutUsersInput = {
   expenses?: Prisma.BuildingExpenseUncheckedCreateNestedManyWithoutSupplierInput
   recurringTasks?: Prisma.RecurringTaskUncheckedCreateNestedManyWithoutSupplierInput
   contacts?: Prisma.ContactUncheckedCreateNestedManyWithoutSupplierInput
+  contactPeople?: Prisma.SupplierContactUncheckedCreateNestedManyWithoutSupplierInput
+  inviteLinks?: Prisma.SupplierInviteLinkUncheckedCreateNestedManyWithoutSupplierInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutSupplierInput
 }
 
@@ -1658,6 +1704,8 @@ export type SupplierUpdateWithoutUsersInput = {
   expenses?: Prisma.BuildingExpenseUpdateManyWithoutSupplierNestedInput
   recurringTasks?: Prisma.RecurringTaskUpdateManyWithoutSupplierNestedInput
   contacts?: Prisma.ContactUpdateManyWithoutSupplierNestedInput
+  contactPeople?: Prisma.SupplierContactUpdateManyWithoutSupplierNestedInput
+  inviteLinks?: Prisma.SupplierInviteLinkUpdateManyWithoutSupplierNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutSupplierNestedInput
 }
 
@@ -1712,6 +1760,8 @@ export type SupplierUncheckedUpdateWithoutUsersInput = {
   expenses?: Prisma.BuildingExpenseUncheckedUpdateManyWithoutSupplierNestedInput
   recurringTasks?: Prisma.RecurringTaskUncheckedUpdateManyWithoutSupplierNestedInput
   contacts?: Prisma.ContactUncheckedUpdateManyWithoutSupplierNestedInput
+  contactPeople?: Prisma.SupplierContactUncheckedUpdateManyWithoutSupplierNestedInput
+  inviteLinks?: Prisma.SupplierInviteLinkUncheckedUpdateManyWithoutSupplierNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutSupplierNestedInput
 }
 
@@ -1766,6 +1816,8 @@ export type SupplierCreateWithoutCustomerInput = {
   expenses?: Prisma.BuildingExpenseCreateNestedManyWithoutSupplierInput
   recurringTasks?: Prisma.RecurringTaskCreateNestedManyWithoutSupplierInput
   contacts?: Prisma.ContactCreateNestedManyWithoutSupplierInput
+  contactPeople?: Prisma.SupplierContactCreateNestedManyWithoutSupplierInput
+  inviteLinks?: Prisma.SupplierInviteLinkCreateNestedManyWithoutSupplierInput
   maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutSupplierInput
 }
 
@@ -1820,6 +1872,8 @@ export type SupplierUncheckedCreateWithoutCustomerInput = {
   expenses?: Prisma.BuildingExpenseUncheckedCreateNestedManyWithoutSupplierInput
   recurringTasks?: Prisma.RecurringTaskUncheckedCreateNestedManyWithoutSupplierInput
   contacts?: Prisma.ContactUncheckedCreateNestedManyWithoutSupplierInput
+  contactPeople?: Prisma.SupplierContactUncheckedCreateNestedManyWithoutSupplierInput
+  inviteLinks?: Prisma.SupplierInviteLinkUncheckedCreateNestedManyWithoutSupplierInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutSupplierInput
 }
 
@@ -1944,6 +1998,8 @@ export type SupplierCreateWithoutContactsInput = {
   products?: Prisma.SupplierProductCreateNestedManyWithoutSupplierInput
   expenses?: Prisma.BuildingExpenseCreateNestedManyWithoutSupplierInput
   recurringTasks?: Prisma.RecurringTaskCreateNestedManyWithoutSupplierInput
+  contactPeople?: Prisma.SupplierContactCreateNestedManyWithoutSupplierInput
+  inviteLinks?: Prisma.SupplierInviteLinkCreateNestedManyWithoutSupplierInput
   maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutSupplierInput
 }
 
@@ -1998,6 +2054,8 @@ export type SupplierUncheckedCreateWithoutContactsInput = {
   products?: Prisma.SupplierProductUncheckedCreateNestedManyWithoutSupplierInput
   expenses?: Prisma.BuildingExpenseUncheckedCreateNestedManyWithoutSupplierInput
   recurringTasks?: Prisma.RecurringTaskUncheckedCreateNestedManyWithoutSupplierInput
+  contactPeople?: Prisma.SupplierContactUncheckedCreateNestedManyWithoutSupplierInput
+  inviteLinks?: Prisma.SupplierInviteLinkUncheckedCreateNestedManyWithoutSupplierInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutSupplierInput
 }
 
@@ -2068,6 +2126,8 @@ export type SupplierUpdateWithoutContactsInput = {
   products?: Prisma.SupplierProductUpdateManyWithoutSupplierNestedInput
   expenses?: Prisma.BuildingExpenseUpdateManyWithoutSupplierNestedInput
   recurringTasks?: Prisma.RecurringTaskUpdateManyWithoutSupplierNestedInput
+  contactPeople?: Prisma.SupplierContactUpdateManyWithoutSupplierNestedInput
+  inviteLinks?: Prisma.SupplierInviteLinkUpdateManyWithoutSupplierNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutSupplierNestedInput
 }
 
@@ -2122,6 +2182,8 @@ export type SupplierUncheckedUpdateWithoutContactsInput = {
   products?: Prisma.SupplierProductUncheckedUpdateManyWithoutSupplierNestedInput
   expenses?: Prisma.BuildingExpenseUncheckedUpdateManyWithoutSupplierNestedInput
   recurringTasks?: Prisma.RecurringTaskUncheckedUpdateManyWithoutSupplierNestedInput
+  contactPeople?: Prisma.SupplierContactUncheckedUpdateManyWithoutSupplierNestedInput
+  inviteLinks?: Prisma.SupplierInviteLinkUncheckedUpdateManyWithoutSupplierNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutSupplierNestedInput
 }
 
@@ -2176,6 +2238,8 @@ export type SupplierCreateWithoutRecurringTasksInput = {
   products?: Prisma.SupplierProductCreateNestedManyWithoutSupplierInput
   expenses?: Prisma.BuildingExpenseCreateNestedManyWithoutSupplierInput
   contacts?: Prisma.ContactCreateNestedManyWithoutSupplierInput
+  contactPeople?: Prisma.SupplierContactCreateNestedManyWithoutSupplierInput
+  inviteLinks?: Prisma.SupplierInviteLinkCreateNestedManyWithoutSupplierInput
   maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutSupplierInput
 }
 
@@ -2230,6 +2294,8 @@ export type SupplierUncheckedCreateWithoutRecurringTasksInput = {
   products?: Prisma.SupplierProductUncheckedCreateNestedManyWithoutSupplierInput
   expenses?: Prisma.BuildingExpenseUncheckedCreateNestedManyWithoutSupplierInput
   contacts?: Prisma.ContactUncheckedCreateNestedManyWithoutSupplierInput
+  contactPeople?: Prisma.SupplierContactUncheckedCreateNestedManyWithoutSupplierInput
+  inviteLinks?: Prisma.SupplierInviteLinkUncheckedCreateNestedManyWithoutSupplierInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutSupplierInput
 }
 
@@ -2300,6 +2366,8 @@ export type SupplierUpdateWithoutRecurringTasksInput = {
   products?: Prisma.SupplierProductUpdateManyWithoutSupplierNestedInput
   expenses?: Prisma.BuildingExpenseUpdateManyWithoutSupplierNestedInput
   contacts?: Prisma.ContactUpdateManyWithoutSupplierNestedInput
+  contactPeople?: Prisma.SupplierContactUpdateManyWithoutSupplierNestedInput
+  inviteLinks?: Prisma.SupplierInviteLinkUpdateManyWithoutSupplierNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutSupplierNestedInput
 }
 
@@ -2354,6 +2422,8 @@ export type SupplierUncheckedUpdateWithoutRecurringTasksInput = {
   products?: Prisma.SupplierProductUncheckedUpdateManyWithoutSupplierNestedInput
   expenses?: Prisma.BuildingExpenseUncheckedUpdateManyWithoutSupplierNestedInput
   contacts?: Prisma.ContactUncheckedUpdateManyWithoutSupplierNestedInput
+  contactPeople?: Prisma.SupplierContactUncheckedUpdateManyWithoutSupplierNestedInput
+  inviteLinks?: Prisma.SupplierInviteLinkUncheckedUpdateManyWithoutSupplierNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutSupplierNestedInput
 }
 
@@ -2408,6 +2478,8 @@ export type SupplierCreateWithoutExpensesInput = {
   products?: Prisma.SupplierProductCreateNestedManyWithoutSupplierInput
   recurringTasks?: Prisma.RecurringTaskCreateNestedManyWithoutSupplierInput
   contacts?: Prisma.ContactCreateNestedManyWithoutSupplierInput
+  contactPeople?: Prisma.SupplierContactCreateNestedManyWithoutSupplierInput
+  inviteLinks?: Prisma.SupplierInviteLinkCreateNestedManyWithoutSupplierInput
   maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutSupplierInput
 }
 
@@ -2462,6 +2534,8 @@ export type SupplierUncheckedCreateWithoutExpensesInput = {
   products?: Prisma.SupplierProductUncheckedCreateNestedManyWithoutSupplierInput
   recurringTasks?: Prisma.RecurringTaskUncheckedCreateNestedManyWithoutSupplierInput
   contacts?: Prisma.ContactUncheckedCreateNestedManyWithoutSupplierInput
+  contactPeople?: Prisma.SupplierContactUncheckedCreateNestedManyWithoutSupplierInput
+  inviteLinks?: Prisma.SupplierInviteLinkUncheckedCreateNestedManyWithoutSupplierInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutSupplierInput
 }
 
@@ -2532,6 +2606,8 @@ export type SupplierUpdateWithoutExpensesInput = {
   products?: Prisma.SupplierProductUpdateManyWithoutSupplierNestedInput
   recurringTasks?: Prisma.RecurringTaskUpdateManyWithoutSupplierNestedInput
   contacts?: Prisma.ContactUpdateManyWithoutSupplierNestedInput
+  contactPeople?: Prisma.SupplierContactUpdateManyWithoutSupplierNestedInput
+  inviteLinks?: Prisma.SupplierInviteLinkUpdateManyWithoutSupplierNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutSupplierNestedInput
 }
 
@@ -2586,6 +2662,8 @@ export type SupplierUncheckedUpdateWithoutExpensesInput = {
   products?: Prisma.SupplierProductUncheckedUpdateManyWithoutSupplierNestedInput
   recurringTasks?: Prisma.RecurringTaskUncheckedUpdateManyWithoutSupplierNestedInput
   contacts?: Prisma.ContactUncheckedUpdateManyWithoutSupplierNestedInput
+  contactPeople?: Prisma.SupplierContactUncheckedUpdateManyWithoutSupplierNestedInput
+  inviteLinks?: Prisma.SupplierInviteLinkUncheckedUpdateManyWithoutSupplierNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutSupplierNestedInput
 }
 
@@ -2641,6 +2719,8 @@ export type SupplierCreateWithoutMaintenanceRequestsInput = {
   expenses?: Prisma.BuildingExpenseCreateNestedManyWithoutSupplierInput
   recurringTasks?: Prisma.RecurringTaskCreateNestedManyWithoutSupplierInput
   contacts?: Prisma.ContactCreateNestedManyWithoutSupplierInput
+  contactPeople?: Prisma.SupplierContactCreateNestedManyWithoutSupplierInput
+  inviteLinks?: Prisma.SupplierInviteLinkCreateNestedManyWithoutSupplierInput
 }
 
 export type SupplierUncheckedCreateWithoutMaintenanceRequestsInput = {
@@ -2695,6 +2775,8 @@ export type SupplierUncheckedCreateWithoutMaintenanceRequestsInput = {
   expenses?: Prisma.BuildingExpenseUncheckedCreateNestedManyWithoutSupplierInput
   recurringTasks?: Prisma.RecurringTaskUncheckedCreateNestedManyWithoutSupplierInput
   contacts?: Prisma.ContactUncheckedCreateNestedManyWithoutSupplierInput
+  contactPeople?: Prisma.SupplierContactUncheckedCreateNestedManyWithoutSupplierInput
+  inviteLinks?: Prisma.SupplierInviteLinkUncheckedCreateNestedManyWithoutSupplierInput
 }
 
 export type SupplierCreateOrConnectWithoutMaintenanceRequestsInput = {
@@ -2765,6 +2847,8 @@ export type SupplierUpdateWithoutMaintenanceRequestsInput = {
   expenses?: Prisma.BuildingExpenseUpdateManyWithoutSupplierNestedInput
   recurringTasks?: Prisma.RecurringTaskUpdateManyWithoutSupplierNestedInput
   contacts?: Prisma.ContactUpdateManyWithoutSupplierNestedInput
+  contactPeople?: Prisma.SupplierContactUpdateManyWithoutSupplierNestedInput
+  inviteLinks?: Prisma.SupplierInviteLinkUpdateManyWithoutSupplierNestedInput
 }
 
 export type SupplierUncheckedUpdateWithoutMaintenanceRequestsInput = {
@@ -2819,6 +2903,8 @@ export type SupplierUncheckedUpdateWithoutMaintenanceRequestsInput = {
   expenses?: Prisma.BuildingExpenseUncheckedUpdateManyWithoutSupplierNestedInput
   recurringTasks?: Prisma.RecurringTaskUncheckedUpdateManyWithoutSupplierNestedInput
   contacts?: Prisma.ContactUncheckedUpdateManyWithoutSupplierNestedInput
+  contactPeople?: Prisma.SupplierContactUncheckedUpdateManyWithoutSupplierNestedInput
+  inviteLinks?: Prisma.SupplierInviteLinkUncheckedUpdateManyWithoutSupplierNestedInput
 }
 
 export type SupplierCreateWithoutRatingsInput = {
@@ -2872,6 +2958,8 @@ export type SupplierCreateWithoutRatingsInput = {
   expenses?: Prisma.BuildingExpenseCreateNestedManyWithoutSupplierInput
   recurringTasks?: Prisma.RecurringTaskCreateNestedManyWithoutSupplierInput
   contacts?: Prisma.ContactCreateNestedManyWithoutSupplierInput
+  contactPeople?: Prisma.SupplierContactCreateNestedManyWithoutSupplierInput
+  inviteLinks?: Prisma.SupplierInviteLinkCreateNestedManyWithoutSupplierInput
   maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutSupplierInput
 }
 
@@ -2926,6 +3014,8 @@ export type SupplierUncheckedCreateWithoutRatingsInput = {
   expenses?: Prisma.BuildingExpenseUncheckedCreateNestedManyWithoutSupplierInput
   recurringTasks?: Prisma.RecurringTaskUncheckedCreateNestedManyWithoutSupplierInput
   contacts?: Prisma.ContactUncheckedCreateNestedManyWithoutSupplierInput
+  contactPeople?: Prisma.SupplierContactUncheckedCreateNestedManyWithoutSupplierInput
+  inviteLinks?: Prisma.SupplierInviteLinkUncheckedCreateNestedManyWithoutSupplierInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutSupplierInput
 }
 
@@ -2996,6 +3086,8 @@ export type SupplierUpdateWithoutRatingsInput = {
   expenses?: Prisma.BuildingExpenseUpdateManyWithoutSupplierNestedInput
   recurringTasks?: Prisma.RecurringTaskUpdateManyWithoutSupplierNestedInput
   contacts?: Prisma.ContactUpdateManyWithoutSupplierNestedInput
+  contactPeople?: Prisma.SupplierContactUpdateManyWithoutSupplierNestedInput
+  inviteLinks?: Prisma.SupplierInviteLinkUpdateManyWithoutSupplierNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutSupplierNestedInput
 }
 
@@ -3050,6 +3142,8 @@ export type SupplierUncheckedUpdateWithoutRatingsInput = {
   expenses?: Prisma.BuildingExpenseUncheckedUpdateManyWithoutSupplierNestedInput
   recurringTasks?: Prisma.RecurringTaskUncheckedUpdateManyWithoutSupplierNestedInput
   contacts?: Prisma.ContactUncheckedUpdateManyWithoutSupplierNestedInput
+  contactPeople?: Prisma.SupplierContactUncheckedUpdateManyWithoutSupplierNestedInput
+  inviteLinks?: Prisma.SupplierInviteLinkUncheckedUpdateManyWithoutSupplierNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutSupplierNestedInput
 }
 
@@ -3104,6 +3198,8 @@ export type SupplierCreateWithoutPreferredForInput = {
   expenses?: Prisma.BuildingExpenseCreateNestedManyWithoutSupplierInput
   recurringTasks?: Prisma.RecurringTaskCreateNestedManyWithoutSupplierInput
   contacts?: Prisma.ContactCreateNestedManyWithoutSupplierInput
+  contactPeople?: Prisma.SupplierContactCreateNestedManyWithoutSupplierInput
+  inviteLinks?: Prisma.SupplierInviteLinkCreateNestedManyWithoutSupplierInput
   maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutSupplierInput
 }
 
@@ -3158,6 +3254,8 @@ export type SupplierUncheckedCreateWithoutPreferredForInput = {
   expenses?: Prisma.BuildingExpenseUncheckedCreateNestedManyWithoutSupplierInput
   recurringTasks?: Prisma.RecurringTaskUncheckedCreateNestedManyWithoutSupplierInput
   contacts?: Prisma.ContactUncheckedCreateNestedManyWithoutSupplierInput
+  contactPeople?: Prisma.SupplierContactUncheckedCreateNestedManyWithoutSupplierInput
+  inviteLinks?: Prisma.SupplierInviteLinkUncheckedCreateNestedManyWithoutSupplierInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutSupplierInput
 }
 
@@ -3228,6 +3326,8 @@ export type SupplierUpdateWithoutPreferredForInput = {
   expenses?: Prisma.BuildingExpenseUpdateManyWithoutSupplierNestedInput
   recurringTasks?: Prisma.RecurringTaskUpdateManyWithoutSupplierNestedInput
   contacts?: Prisma.ContactUpdateManyWithoutSupplierNestedInput
+  contactPeople?: Prisma.SupplierContactUpdateManyWithoutSupplierNestedInput
+  inviteLinks?: Prisma.SupplierInviteLinkUpdateManyWithoutSupplierNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutSupplierNestedInput
 }
 
@@ -3282,6 +3382,8 @@ export type SupplierUncheckedUpdateWithoutPreferredForInput = {
   expenses?: Prisma.BuildingExpenseUncheckedUpdateManyWithoutSupplierNestedInput
   recurringTasks?: Prisma.RecurringTaskUncheckedUpdateManyWithoutSupplierNestedInput
   contacts?: Prisma.ContactUncheckedUpdateManyWithoutSupplierNestedInput
+  contactPeople?: Prisma.SupplierContactUncheckedUpdateManyWithoutSupplierNestedInput
+  inviteLinks?: Prisma.SupplierInviteLinkUncheckedUpdateManyWithoutSupplierNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutSupplierNestedInput
 }
 
@@ -3336,6 +3438,8 @@ export type SupplierCreateWithoutCategoriesInput = {
   expenses?: Prisma.BuildingExpenseCreateNestedManyWithoutSupplierInput
   recurringTasks?: Prisma.RecurringTaskCreateNestedManyWithoutSupplierInput
   contacts?: Prisma.ContactCreateNestedManyWithoutSupplierInput
+  contactPeople?: Prisma.SupplierContactCreateNestedManyWithoutSupplierInput
+  inviteLinks?: Prisma.SupplierInviteLinkCreateNestedManyWithoutSupplierInput
   maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutSupplierInput
 }
 
@@ -3390,6 +3494,8 @@ export type SupplierUncheckedCreateWithoutCategoriesInput = {
   expenses?: Prisma.BuildingExpenseUncheckedCreateNestedManyWithoutSupplierInput
   recurringTasks?: Prisma.RecurringTaskUncheckedCreateNestedManyWithoutSupplierInput
   contacts?: Prisma.ContactUncheckedCreateNestedManyWithoutSupplierInput
+  contactPeople?: Prisma.SupplierContactUncheckedCreateNestedManyWithoutSupplierInput
+  inviteLinks?: Prisma.SupplierInviteLinkUncheckedCreateNestedManyWithoutSupplierInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutSupplierInput
 }
 
@@ -3460,6 +3566,8 @@ export type SupplierUpdateWithoutCategoriesInput = {
   expenses?: Prisma.BuildingExpenseUpdateManyWithoutSupplierNestedInput
   recurringTasks?: Prisma.RecurringTaskUpdateManyWithoutSupplierNestedInput
   contacts?: Prisma.ContactUpdateManyWithoutSupplierNestedInput
+  contactPeople?: Prisma.SupplierContactUpdateManyWithoutSupplierNestedInput
+  inviteLinks?: Prisma.SupplierInviteLinkUpdateManyWithoutSupplierNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutSupplierNestedInput
 }
 
@@ -3514,6 +3622,8 @@ export type SupplierUncheckedUpdateWithoutCategoriesInput = {
   expenses?: Prisma.BuildingExpenseUncheckedUpdateManyWithoutSupplierNestedInput
   recurringTasks?: Prisma.RecurringTaskUncheckedUpdateManyWithoutSupplierNestedInput
   contacts?: Prisma.ContactUncheckedUpdateManyWithoutSupplierNestedInput
+  contactPeople?: Prisma.SupplierContactUncheckedUpdateManyWithoutSupplierNestedInput
+  inviteLinks?: Prisma.SupplierInviteLinkUncheckedUpdateManyWithoutSupplierNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutSupplierNestedInput
 }
 
@@ -3568,6 +3678,8 @@ export type SupplierCreateWithoutServicesInput = {
   expenses?: Prisma.BuildingExpenseCreateNestedManyWithoutSupplierInput
   recurringTasks?: Prisma.RecurringTaskCreateNestedManyWithoutSupplierInput
   contacts?: Prisma.ContactCreateNestedManyWithoutSupplierInput
+  contactPeople?: Prisma.SupplierContactCreateNestedManyWithoutSupplierInput
+  inviteLinks?: Prisma.SupplierInviteLinkCreateNestedManyWithoutSupplierInput
   maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutSupplierInput
 }
 
@@ -3622,6 +3734,8 @@ export type SupplierUncheckedCreateWithoutServicesInput = {
   expenses?: Prisma.BuildingExpenseUncheckedCreateNestedManyWithoutSupplierInput
   recurringTasks?: Prisma.RecurringTaskUncheckedCreateNestedManyWithoutSupplierInput
   contacts?: Prisma.ContactUncheckedCreateNestedManyWithoutSupplierInput
+  contactPeople?: Prisma.SupplierContactUncheckedCreateNestedManyWithoutSupplierInput
+  inviteLinks?: Prisma.SupplierInviteLinkUncheckedCreateNestedManyWithoutSupplierInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutSupplierInput
 }
 
@@ -3692,6 +3806,8 @@ export type SupplierUpdateWithoutServicesInput = {
   expenses?: Prisma.BuildingExpenseUpdateManyWithoutSupplierNestedInput
   recurringTasks?: Prisma.RecurringTaskUpdateManyWithoutSupplierNestedInput
   contacts?: Prisma.ContactUpdateManyWithoutSupplierNestedInput
+  contactPeople?: Prisma.SupplierContactUpdateManyWithoutSupplierNestedInput
+  inviteLinks?: Prisma.SupplierInviteLinkUpdateManyWithoutSupplierNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutSupplierNestedInput
 }
 
@@ -3746,6 +3862,8 @@ export type SupplierUncheckedUpdateWithoutServicesInput = {
   expenses?: Prisma.BuildingExpenseUncheckedUpdateManyWithoutSupplierNestedInput
   recurringTasks?: Prisma.RecurringTaskUncheckedUpdateManyWithoutSupplierNestedInput
   contacts?: Prisma.ContactUncheckedUpdateManyWithoutSupplierNestedInput
+  contactPeople?: Prisma.SupplierContactUncheckedUpdateManyWithoutSupplierNestedInput
+  inviteLinks?: Prisma.SupplierInviteLinkUncheckedUpdateManyWithoutSupplierNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutSupplierNestedInput
 }
 
@@ -3800,6 +3918,8 @@ export type SupplierCreateWithoutProductsInput = {
   expenses?: Prisma.BuildingExpenseCreateNestedManyWithoutSupplierInput
   recurringTasks?: Prisma.RecurringTaskCreateNestedManyWithoutSupplierInput
   contacts?: Prisma.ContactCreateNestedManyWithoutSupplierInput
+  contactPeople?: Prisma.SupplierContactCreateNestedManyWithoutSupplierInput
+  inviteLinks?: Prisma.SupplierInviteLinkCreateNestedManyWithoutSupplierInput
   maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutSupplierInput
 }
 
@@ -3854,6 +3974,8 @@ export type SupplierUncheckedCreateWithoutProductsInput = {
   expenses?: Prisma.BuildingExpenseUncheckedCreateNestedManyWithoutSupplierInput
   recurringTasks?: Prisma.RecurringTaskUncheckedCreateNestedManyWithoutSupplierInput
   contacts?: Prisma.ContactUncheckedCreateNestedManyWithoutSupplierInput
+  contactPeople?: Prisma.SupplierContactUncheckedCreateNestedManyWithoutSupplierInput
+  inviteLinks?: Prisma.SupplierInviteLinkUncheckedCreateNestedManyWithoutSupplierInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutSupplierInput
 }
 
@@ -3924,6 +4046,8 @@ export type SupplierUpdateWithoutProductsInput = {
   expenses?: Prisma.BuildingExpenseUpdateManyWithoutSupplierNestedInput
   recurringTasks?: Prisma.RecurringTaskUpdateManyWithoutSupplierNestedInput
   contacts?: Prisma.ContactUpdateManyWithoutSupplierNestedInput
+  contactPeople?: Prisma.SupplierContactUpdateManyWithoutSupplierNestedInput
+  inviteLinks?: Prisma.SupplierInviteLinkUpdateManyWithoutSupplierNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutSupplierNestedInput
 }
 
@@ -3978,6 +4102,8 @@ export type SupplierUncheckedUpdateWithoutProductsInput = {
   expenses?: Prisma.BuildingExpenseUncheckedUpdateManyWithoutSupplierNestedInput
   recurringTasks?: Prisma.RecurringTaskUncheckedUpdateManyWithoutSupplierNestedInput
   contacts?: Prisma.ContactUncheckedUpdateManyWithoutSupplierNestedInput
+  contactPeople?: Prisma.SupplierContactUncheckedUpdateManyWithoutSupplierNestedInput
+  inviteLinks?: Prisma.SupplierInviteLinkUncheckedUpdateManyWithoutSupplierNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutSupplierNestedInput
 }
 
@@ -4032,6 +4158,8 @@ export type SupplierCreateWithoutRfqInvitationsInput = {
   expenses?: Prisma.BuildingExpenseCreateNestedManyWithoutSupplierInput
   recurringTasks?: Prisma.RecurringTaskCreateNestedManyWithoutSupplierInput
   contacts?: Prisma.ContactCreateNestedManyWithoutSupplierInput
+  contactPeople?: Prisma.SupplierContactCreateNestedManyWithoutSupplierInput
+  inviteLinks?: Prisma.SupplierInviteLinkCreateNestedManyWithoutSupplierInput
   maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutSupplierInput
 }
 
@@ -4086,6 +4214,8 @@ export type SupplierUncheckedCreateWithoutRfqInvitationsInput = {
   expenses?: Prisma.BuildingExpenseUncheckedCreateNestedManyWithoutSupplierInput
   recurringTasks?: Prisma.RecurringTaskUncheckedCreateNestedManyWithoutSupplierInput
   contacts?: Prisma.ContactUncheckedCreateNestedManyWithoutSupplierInput
+  contactPeople?: Prisma.SupplierContactUncheckedCreateNestedManyWithoutSupplierInput
+  inviteLinks?: Prisma.SupplierInviteLinkUncheckedCreateNestedManyWithoutSupplierInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutSupplierInput
 }
 
@@ -4156,6 +4286,8 @@ export type SupplierUpdateWithoutRfqInvitationsInput = {
   expenses?: Prisma.BuildingExpenseUpdateManyWithoutSupplierNestedInput
   recurringTasks?: Prisma.RecurringTaskUpdateManyWithoutSupplierNestedInput
   contacts?: Prisma.ContactUpdateManyWithoutSupplierNestedInput
+  contactPeople?: Prisma.SupplierContactUpdateManyWithoutSupplierNestedInput
+  inviteLinks?: Prisma.SupplierInviteLinkUpdateManyWithoutSupplierNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutSupplierNestedInput
 }
 
@@ -4210,6 +4342,8 @@ export type SupplierUncheckedUpdateWithoutRfqInvitationsInput = {
   expenses?: Prisma.BuildingExpenseUncheckedUpdateManyWithoutSupplierNestedInput
   recurringTasks?: Prisma.RecurringTaskUncheckedUpdateManyWithoutSupplierNestedInput
   contacts?: Prisma.ContactUncheckedUpdateManyWithoutSupplierNestedInput
+  contactPeople?: Prisma.SupplierContactUncheckedUpdateManyWithoutSupplierNestedInput
+  inviteLinks?: Prisma.SupplierInviteLinkUncheckedUpdateManyWithoutSupplierNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutSupplierNestedInput
 }
 
@@ -4264,6 +4398,8 @@ export type SupplierCreateWithoutOffersInput = {
   expenses?: Prisma.BuildingExpenseCreateNestedManyWithoutSupplierInput
   recurringTasks?: Prisma.RecurringTaskCreateNestedManyWithoutSupplierInput
   contacts?: Prisma.ContactCreateNestedManyWithoutSupplierInput
+  contactPeople?: Prisma.SupplierContactCreateNestedManyWithoutSupplierInput
+  inviteLinks?: Prisma.SupplierInviteLinkCreateNestedManyWithoutSupplierInput
   maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutSupplierInput
 }
 
@@ -4318,6 +4454,8 @@ export type SupplierUncheckedCreateWithoutOffersInput = {
   expenses?: Prisma.BuildingExpenseUncheckedCreateNestedManyWithoutSupplierInput
   recurringTasks?: Prisma.RecurringTaskUncheckedCreateNestedManyWithoutSupplierInput
   contacts?: Prisma.ContactUncheckedCreateNestedManyWithoutSupplierInput
+  contactPeople?: Prisma.SupplierContactUncheckedCreateNestedManyWithoutSupplierInput
+  inviteLinks?: Prisma.SupplierInviteLinkUncheckedCreateNestedManyWithoutSupplierInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutSupplierInput
 }
 
@@ -4388,6 +4526,8 @@ export type SupplierUpdateWithoutOffersInput = {
   expenses?: Prisma.BuildingExpenseUpdateManyWithoutSupplierNestedInput
   recurringTasks?: Prisma.RecurringTaskUpdateManyWithoutSupplierNestedInput
   contacts?: Prisma.ContactUpdateManyWithoutSupplierNestedInput
+  contactPeople?: Prisma.SupplierContactUpdateManyWithoutSupplierNestedInput
+  inviteLinks?: Prisma.SupplierInviteLinkUpdateManyWithoutSupplierNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutSupplierNestedInput
 }
 
@@ -4442,6 +4582,8 @@ export type SupplierUncheckedUpdateWithoutOffersInput = {
   expenses?: Prisma.BuildingExpenseUncheckedUpdateManyWithoutSupplierNestedInput
   recurringTasks?: Prisma.RecurringTaskUncheckedUpdateManyWithoutSupplierNestedInput
   contacts?: Prisma.ContactUncheckedUpdateManyWithoutSupplierNestedInput
+  contactPeople?: Prisma.SupplierContactUncheckedUpdateManyWithoutSupplierNestedInput
+  inviteLinks?: Prisma.SupplierInviteLinkUncheckedUpdateManyWithoutSupplierNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutSupplierNestedInput
 }
 
@@ -4496,6 +4638,8 @@ export type SupplierCreateWithoutWorkOrdersInput = {
   expenses?: Prisma.BuildingExpenseCreateNestedManyWithoutSupplierInput
   recurringTasks?: Prisma.RecurringTaskCreateNestedManyWithoutSupplierInput
   contacts?: Prisma.ContactCreateNestedManyWithoutSupplierInput
+  contactPeople?: Prisma.SupplierContactCreateNestedManyWithoutSupplierInput
+  inviteLinks?: Prisma.SupplierInviteLinkCreateNestedManyWithoutSupplierInput
   maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutSupplierInput
 }
 
@@ -4550,6 +4694,8 @@ export type SupplierUncheckedCreateWithoutWorkOrdersInput = {
   expenses?: Prisma.BuildingExpenseUncheckedCreateNestedManyWithoutSupplierInput
   recurringTasks?: Prisma.RecurringTaskUncheckedCreateNestedManyWithoutSupplierInput
   contacts?: Prisma.ContactUncheckedCreateNestedManyWithoutSupplierInput
+  contactPeople?: Prisma.SupplierContactUncheckedCreateNestedManyWithoutSupplierInput
+  inviteLinks?: Prisma.SupplierInviteLinkUncheckedCreateNestedManyWithoutSupplierInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutSupplierInput
 }
 
@@ -4620,6 +4766,8 @@ export type SupplierUpdateWithoutWorkOrdersInput = {
   expenses?: Prisma.BuildingExpenseUpdateManyWithoutSupplierNestedInput
   recurringTasks?: Prisma.RecurringTaskUpdateManyWithoutSupplierNestedInput
   contacts?: Prisma.ContactUpdateManyWithoutSupplierNestedInput
+  contactPeople?: Prisma.SupplierContactUpdateManyWithoutSupplierNestedInput
+  inviteLinks?: Prisma.SupplierInviteLinkUpdateManyWithoutSupplierNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutSupplierNestedInput
 }
 
@@ -4674,6 +4822,488 @@ export type SupplierUncheckedUpdateWithoutWorkOrdersInput = {
   expenses?: Prisma.BuildingExpenseUncheckedUpdateManyWithoutSupplierNestedInput
   recurringTasks?: Prisma.RecurringTaskUncheckedUpdateManyWithoutSupplierNestedInput
   contacts?: Prisma.ContactUncheckedUpdateManyWithoutSupplierNestedInput
+  contactPeople?: Prisma.SupplierContactUncheckedUpdateManyWithoutSupplierNestedInput
+  inviteLinks?: Prisma.SupplierInviteLinkUncheckedUpdateManyWithoutSupplierNestedInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutSupplierNestedInput
+}
+
+export type SupplierCreateWithoutContactPeopleInput = {
+  id?: string
+  isPlatform?: boolean
+  sodType?: number
+  softoneTrdr?: number | null
+  code?: string | null
+  kind?: $Enums.SupplierKind
+  name: string
+  afm?: string | null
+  doy?: string | null
+  email?: string | null
+  phone?: string | null
+  phone2?: string | null
+  webpage?: string | null
+  address?: string | null
+  city?: string | null
+  district?: string | null
+  postalCode?: string | null
+  country?: string | null
+  isActive?: boolean
+  remarks?: string | null
+  contactName?: string | null
+  contactPhone?: string | null
+  contactEmail?: string | null
+  iban?: string | null
+  bank?: string | null
+  paymentTermsDays?: number | null
+  siteSurveyFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  siteSurveyFeeWaived?: boolean
+  workingHours?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  emergency24h?: boolean
+  lat?: number | null
+  lng?: number | null
+  ratingAvg?: number | null
+  ratingCount?: number
+  onboardedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  customer?: Prisma.CustomerCreateNestedOneWithoutSuppliersInput
+  users?: Prisma.UserCreateNestedManyWithoutSupplierInput
+  ratings?: Prisma.SupplierRatingCreateNestedManyWithoutSupplierInput
+  preferredFor?: Prisma.BuildingPreferredSupplierCreateNestedManyWithoutSupplierInput
+  rfqInvitations?: Prisma.RfqInvitationCreateNestedManyWithoutSupplierInput
+  offers?: Prisma.SupplierOfferCreateNestedManyWithoutSupplierInput
+  workOrders?: Prisma.WorkOrderCreateNestedManyWithoutSupplierInput
+  inquiries?: Prisma.SupplierInquiryCreateNestedManyWithoutSupplierInput
+  categories?: Prisma.SupplierCategoryCreateNestedManyWithoutSupplierInput
+  services?: Prisma.SupplierServiceCreateNestedManyWithoutSupplierInput
+  products?: Prisma.SupplierProductCreateNestedManyWithoutSupplierInput
+  expenses?: Prisma.BuildingExpenseCreateNestedManyWithoutSupplierInput
+  recurringTasks?: Prisma.RecurringTaskCreateNestedManyWithoutSupplierInput
+  contacts?: Prisma.ContactCreateNestedManyWithoutSupplierInput
+  inviteLinks?: Prisma.SupplierInviteLinkCreateNestedManyWithoutSupplierInput
+  maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutSupplierInput
+}
+
+export type SupplierUncheckedCreateWithoutContactPeopleInput = {
+  id?: string
+  customerId?: string | null
+  isPlatform?: boolean
+  sodType?: number
+  softoneTrdr?: number | null
+  code?: string | null
+  kind?: $Enums.SupplierKind
+  name: string
+  afm?: string | null
+  doy?: string | null
+  email?: string | null
+  phone?: string | null
+  phone2?: string | null
+  webpage?: string | null
+  address?: string | null
+  city?: string | null
+  district?: string | null
+  postalCode?: string | null
+  country?: string | null
+  isActive?: boolean
+  remarks?: string | null
+  contactName?: string | null
+  contactPhone?: string | null
+  contactEmail?: string | null
+  iban?: string | null
+  bank?: string | null
+  paymentTermsDays?: number | null
+  siteSurveyFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  siteSurveyFeeWaived?: boolean
+  workingHours?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  emergency24h?: boolean
+  lat?: number | null
+  lng?: number | null
+  ratingAvg?: number | null
+  ratingCount?: number
+  onboardedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutSupplierInput
+  ratings?: Prisma.SupplierRatingUncheckedCreateNestedManyWithoutSupplierInput
+  preferredFor?: Prisma.BuildingPreferredSupplierUncheckedCreateNestedManyWithoutSupplierInput
+  rfqInvitations?: Prisma.RfqInvitationUncheckedCreateNestedManyWithoutSupplierInput
+  offers?: Prisma.SupplierOfferUncheckedCreateNestedManyWithoutSupplierInput
+  workOrders?: Prisma.WorkOrderUncheckedCreateNestedManyWithoutSupplierInput
+  inquiries?: Prisma.SupplierInquiryUncheckedCreateNestedManyWithoutSupplierInput
+  categories?: Prisma.SupplierCategoryUncheckedCreateNestedManyWithoutSupplierInput
+  services?: Prisma.SupplierServiceUncheckedCreateNestedManyWithoutSupplierInput
+  products?: Prisma.SupplierProductUncheckedCreateNestedManyWithoutSupplierInput
+  expenses?: Prisma.BuildingExpenseUncheckedCreateNestedManyWithoutSupplierInput
+  recurringTasks?: Prisma.RecurringTaskUncheckedCreateNestedManyWithoutSupplierInput
+  contacts?: Prisma.ContactUncheckedCreateNestedManyWithoutSupplierInput
+  inviteLinks?: Prisma.SupplierInviteLinkUncheckedCreateNestedManyWithoutSupplierInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutSupplierInput
+}
+
+export type SupplierCreateOrConnectWithoutContactPeopleInput = {
+  where: Prisma.SupplierWhereUniqueInput
+  create: Prisma.XOR<Prisma.SupplierCreateWithoutContactPeopleInput, Prisma.SupplierUncheckedCreateWithoutContactPeopleInput>
+}
+
+export type SupplierUpsertWithoutContactPeopleInput = {
+  update: Prisma.XOR<Prisma.SupplierUpdateWithoutContactPeopleInput, Prisma.SupplierUncheckedUpdateWithoutContactPeopleInput>
+  create: Prisma.XOR<Prisma.SupplierCreateWithoutContactPeopleInput, Prisma.SupplierUncheckedCreateWithoutContactPeopleInput>
+  where?: Prisma.SupplierWhereInput
+}
+
+export type SupplierUpdateToOneWithWhereWithoutContactPeopleInput = {
+  where?: Prisma.SupplierWhereInput
+  data: Prisma.XOR<Prisma.SupplierUpdateWithoutContactPeopleInput, Prisma.SupplierUncheckedUpdateWithoutContactPeopleInput>
+}
+
+export type SupplierUpdateWithoutContactPeopleInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  isPlatform?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sodType?: Prisma.IntFieldUpdateOperationsInput | number
+  softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kind?: Prisma.EnumSupplierKindFieldUpdateOperationsInput | $Enums.SupplierKind
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  doy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  webpage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  district?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  iban?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bank?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentTermsDays?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  siteSurveyFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  siteSurveyFeeWaived?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  workingHours?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  emergency24h?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
+  onboardedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  customer?: Prisma.CustomerUpdateOneWithoutSuppliersNestedInput
+  users?: Prisma.UserUpdateManyWithoutSupplierNestedInput
+  ratings?: Prisma.SupplierRatingUpdateManyWithoutSupplierNestedInput
+  preferredFor?: Prisma.BuildingPreferredSupplierUpdateManyWithoutSupplierNestedInput
+  rfqInvitations?: Prisma.RfqInvitationUpdateManyWithoutSupplierNestedInput
+  offers?: Prisma.SupplierOfferUpdateManyWithoutSupplierNestedInput
+  workOrders?: Prisma.WorkOrderUpdateManyWithoutSupplierNestedInput
+  inquiries?: Prisma.SupplierInquiryUpdateManyWithoutSupplierNestedInput
+  categories?: Prisma.SupplierCategoryUpdateManyWithoutSupplierNestedInput
+  services?: Prisma.SupplierServiceUpdateManyWithoutSupplierNestedInput
+  products?: Prisma.SupplierProductUpdateManyWithoutSupplierNestedInput
+  expenses?: Prisma.BuildingExpenseUpdateManyWithoutSupplierNestedInput
+  recurringTasks?: Prisma.RecurringTaskUpdateManyWithoutSupplierNestedInput
+  contacts?: Prisma.ContactUpdateManyWithoutSupplierNestedInput
+  inviteLinks?: Prisma.SupplierInviteLinkUpdateManyWithoutSupplierNestedInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutSupplierNestedInput
+}
+
+export type SupplierUncheckedUpdateWithoutContactPeopleInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPlatform?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sodType?: Prisma.IntFieldUpdateOperationsInput | number
+  softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kind?: Prisma.EnumSupplierKindFieldUpdateOperationsInput | $Enums.SupplierKind
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  doy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  webpage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  district?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  iban?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bank?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentTermsDays?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  siteSurveyFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  siteSurveyFeeWaived?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  workingHours?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  emergency24h?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
+  onboardedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUncheckedUpdateManyWithoutSupplierNestedInput
+  ratings?: Prisma.SupplierRatingUncheckedUpdateManyWithoutSupplierNestedInput
+  preferredFor?: Prisma.BuildingPreferredSupplierUncheckedUpdateManyWithoutSupplierNestedInput
+  rfqInvitations?: Prisma.RfqInvitationUncheckedUpdateManyWithoutSupplierNestedInput
+  offers?: Prisma.SupplierOfferUncheckedUpdateManyWithoutSupplierNestedInput
+  workOrders?: Prisma.WorkOrderUncheckedUpdateManyWithoutSupplierNestedInput
+  inquiries?: Prisma.SupplierInquiryUncheckedUpdateManyWithoutSupplierNestedInput
+  categories?: Prisma.SupplierCategoryUncheckedUpdateManyWithoutSupplierNestedInput
+  services?: Prisma.SupplierServiceUncheckedUpdateManyWithoutSupplierNestedInput
+  products?: Prisma.SupplierProductUncheckedUpdateManyWithoutSupplierNestedInput
+  expenses?: Prisma.BuildingExpenseUncheckedUpdateManyWithoutSupplierNestedInput
+  recurringTasks?: Prisma.RecurringTaskUncheckedUpdateManyWithoutSupplierNestedInput
+  contacts?: Prisma.ContactUncheckedUpdateManyWithoutSupplierNestedInput
+  inviteLinks?: Prisma.SupplierInviteLinkUncheckedUpdateManyWithoutSupplierNestedInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutSupplierNestedInput
+}
+
+export type SupplierCreateWithoutInviteLinksInput = {
+  id?: string
+  isPlatform?: boolean
+  sodType?: number
+  softoneTrdr?: number | null
+  code?: string | null
+  kind?: $Enums.SupplierKind
+  name: string
+  afm?: string | null
+  doy?: string | null
+  email?: string | null
+  phone?: string | null
+  phone2?: string | null
+  webpage?: string | null
+  address?: string | null
+  city?: string | null
+  district?: string | null
+  postalCode?: string | null
+  country?: string | null
+  isActive?: boolean
+  remarks?: string | null
+  contactName?: string | null
+  contactPhone?: string | null
+  contactEmail?: string | null
+  iban?: string | null
+  bank?: string | null
+  paymentTermsDays?: number | null
+  siteSurveyFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  siteSurveyFeeWaived?: boolean
+  workingHours?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  emergency24h?: boolean
+  lat?: number | null
+  lng?: number | null
+  ratingAvg?: number | null
+  ratingCount?: number
+  onboardedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  customer?: Prisma.CustomerCreateNestedOneWithoutSuppliersInput
+  users?: Prisma.UserCreateNestedManyWithoutSupplierInput
+  ratings?: Prisma.SupplierRatingCreateNestedManyWithoutSupplierInput
+  preferredFor?: Prisma.BuildingPreferredSupplierCreateNestedManyWithoutSupplierInput
+  rfqInvitations?: Prisma.RfqInvitationCreateNestedManyWithoutSupplierInput
+  offers?: Prisma.SupplierOfferCreateNestedManyWithoutSupplierInput
+  workOrders?: Prisma.WorkOrderCreateNestedManyWithoutSupplierInput
+  inquiries?: Prisma.SupplierInquiryCreateNestedManyWithoutSupplierInput
+  categories?: Prisma.SupplierCategoryCreateNestedManyWithoutSupplierInput
+  services?: Prisma.SupplierServiceCreateNestedManyWithoutSupplierInput
+  products?: Prisma.SupplierProductCreateNestedManyWithoutSupplierInput
+  expenses?: Prisma.BuildingExpenseCreateNestedManyWithoutSupplierInput
+  recurringTasks?: Prisma.RecurringTaskCreateNestedManyWithoutSupplierInput
+  contacts?: Prisma.ContactCreateNestedManyWithoutSupplierInput
+  contactPeople?: Prisma.SupplierContactCreateNestedManyWithoutSupplierInput
+  maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutSupplierInput
+}
+
+export type SupplierUncheckedCreateWithoutInviteLinksInput = {
+  id?: string
+  customerId?: string | null
+  isPlatform?: boolean
+  sodType?: number
+  softoneTrdr?: number | null
+  code?: string | null
+  kind?: $Enums.SupplierKind
+  name: string
+  afm?: string | null
+  doy?: string | null
+  email?: string | null
+  phone?: string | null
+  phone2?: string | null
+  webpage?: string | null
+  address?: string | null
+  city?: string | null
+  district?: string | null
+  postalCode?: string | null
+  country?: string | null
+  isActive?: boolean
+  remarks?: string | null
+  contactName?: string | null
+  contactPhone?: string | null
+  contactEmail?: string | null
+  iban?: string | null
+  bank?: string | null
+  paymentTermsDays?: number | null
+  siteSurveyFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  siteSurveyFeeWaived?: boolean
+  workingHours?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  emergency24h?: boolean
+  lat?: number | null
+  lng?: number | null
+  ratingAvg?: number | null
+  ratingCount?: number
+  onboardedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutSupplierInput
+  ratings?: Prisma.SupplierRatingUncheckedCreateNestedManyWithoutSupplierInput
+  preferredFor?: Prisma.BuildingPreferredSupplierUncheckedCreateNestedManyWithoutSupplierInput
+  rfqInvitations?: Prisma.RfqInvitationUncheckedCreateNestedManyWithoutSupplierInput
+  offers?: Prisma.SupplierOfferUncheckedCreateNestedManyWithoutSupplierInput
+  workOrders?: Prisma.WorkOrderUncheckedCreateNestedManyWithoutSupplierInput
+  inquiries?: Prisma.SupplierInquiryUncheckedCreateNestedManyWithoutSupplierInput
+  categories?: Prisma.SupplierCategoryUncheckedCreateNestedManyWithoutSupplierInput
+  services?: Prisma.SupplierServiceUncheckedCreateNestedManyWithoutSupplierInput
+  products?: Prisma.SupplierProductUncheckedCreateNestedManyWithoutSupplierInput
+  expenses?: Prisma.BuildingExpenseUncheckedCreateNestedManyWithoutSupplierInput
+  recurringTasks?: Prisma.RecurringTaskUncheckedCreateNestedManyWithoutSupplierInput
+  contacts?: Prisma.ContactUncheckedCreateNestedManyWithoutSupplierInput
+  contactPeople?: Prisma.SupplierContactUncheckedCreateNestedManyWithoutSupplierInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutSupplierInput
+}
+
+export type SupplierCreateOrConnectWithoutInviteLinksInput = {
+  where: Prisma.SupplierWhereUniqueInput
+  create: Prisma.XOR<Prisma.SupplierCreateWithoutInviteLinksInput, Prisma.SupplierUncheckedCreateWithoutInviteLinksInput>
+}
+
+export type SupplierUpsertWithoutInviteLinksInput = {
+  update: Prisma.XOR<Prisma.SupplierUpdateWithoutInviteLinksInput, Prisma.SupplierUncheckedUpdateWithoutInviteLinksInput>
+  create: Prisma.XOR<Prisma.SupplierCreateWithoutInviteLinksInput, Prisma.SupplierUncheckedCreateWithoutInviteLinksInput>
+  where?: Prisma.SupplierWhereInput
+}
+
+export type SupplierUpdateToOneWithWhereWithoutInviteLinksInput = {
+  where?: Prisma.SupplierWhereInput
+  data: Prisma.XOR<Prisma.SupplierUpdateWithoutInviteLinksInput, Prisma.SupplierUncheckedUpdateWithoutInviteLinksInput>
+}
+
+export type SupplierUpdateWithoutInviteLinksInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  isPlatform?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sodType?: Prisma.IntFieldUpdateOperationsInput | number
+  softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kind?: Prisma.EnumSupplierKindFieldUpdateOperationsInput | $Enums.SupplierKind
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  doy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  webpage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  district?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  iban?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bank?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentTermsDays?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  siteSurveyFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  siteSurveyFeeWaived?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  workingHours?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  emergency24h?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
+  onboardedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  customer?: Prisma.CustomerUpdateOneWithoutSuppliersNestedInput
+  users?: Prisma.UserUpdateManyWithoutSupplierNestedInput
+  ratings?: Prisma.SupplierRatingUpdateManyWithoutSupplierNestedInput
+  preferredFor?: Prisma.BuildingPreferredSupplierUpdateManyWithoutSupplierNestedInput
+  rfqInvitations?: Prisma.RfqInvitationUpdateManyWithoutSupplierNestedInput
+  offers?: Prisma.SupplierOfferUpdateManyWithoutSupplierNestedInput
+  workOrders?: Prisma.WorkOrderUpdateManyWithoutSupplierNestedInput
+  inquiries?: Prisma.SupplierInquiryUpdateManyWithoutSupplierNestedInput
+  categories?: Prisma.SupplierCategoryUpdateManyWithoutSupplierNestedInput
+  services?: Prisma.SupplierServiceUpdateManyWithoutSupplierNestedInput
+  products?: Prisma.SupplierProductUpdateManyWithoutSupplierNestedInput
+  expenses?: Prisma.BuildingExpenseUpdateManyWithoutSupplierNestedInput
+  recurringTasks?: Prisma.RecurringTaskUpdateManyWithoutSupplierNestedInput
+  contacts?: Prisma.ContactUpdateManyWithoutSupplierNestedInput
+  contactPeople?: Prisma.SupplierContactUpdateManyWithoutSupplierNestedInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutSupplierNestedInput
+}
+
+export type SupplierUncheckedUpdateWithoutInviteLinksInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPlatform?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  sodType?: Prisma.IntFieldUpdateOperationsInput | number
+  softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  code?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  kind?: Prisma.EnumSupplierKindFieldUpdateOperationsInput | $Enums.SupplierKind
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  doy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  webpage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  district?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  postalCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  remarks?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  iban?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bank?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paymentTermsDays?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  siteSurveyFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  siteSurveyFeeWaived?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  workingHours?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  emergency24h?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
+  onboardedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUncheckedUpdateManyWithoutSupplierNestedInput
+  ratings?: Prisma.SupplierRatingUncheckedUpdateManyWithoutSupplierNestedInput
+  preferredFor?: Prisma.BuildingPreferredSupplierUncheckedUpdateManyWithoutSupplierNestedInput
+  rfqInvitations?: Prisma.RfqInvitationUncheckedUpdateManyWithoutSupplierNestedInput
+  offers?: Prisma.SupplierOfferUncheckedUpdateManyWithoutSupplierNestedInput
+  workOrders?: Prisma.WorkOrderUncheckedUpdateManyWithoutSupplierNestedInput
+  inquiries?: Prisma.SupplierInquiryUncheckedUpdateManyWithoutSupplierNestedInput
+  categories?: Prisma.SupplierCategoryUncheckedUpdateManyWithoutSupplierNestedInput
+  services?: Prisma.SupplierServiceUncheckedUpdateManyWithoutSupplierNestedInput
+  products?: Prisma.SupplierProductUncheckedUpdateManyWithoutSupplierNestedInput
+  expenses?: Prisma.BuildingExpenseUncheckedUpdateManyWithoutSupplierNestedInput
+  recurringTasks?: Prisma.RecurringTaskUncheckedUpdateManyWithoutSupplierNestedInput
+  contacts?: Prisma.ContactUncheckedUpdateManyWithoutSupplierNestedInput
+  contactPeople?: Prisma.SupplierContactUncheckedUpdateManyWithoutSupplierNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutSupplierNestedInput
 }
 
@@ -4728,6 +5358,8 @@ export type SupplierCreateWithoutInquiriesInput = {
   expenses?: Prisma.BuildingExpenseCreateNestedManyWithoutSupplierInput
   recurringTasks?: Prisma.RecurringTaskCreateNestedManyWithoutSupplierInput
   contacts?: Prisma.ContactCreateNestedManyWithoutSupplierInput
+  contactPeople?: Prisma.SupplierContactCreateNestedManyWithoutSupplierInput
+  inviteLinks?: Prisma.SupplierInviteLinkCreateNestedManyWithoutSupplierInput
   maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutSupplierInput
 }
 
@@ -4782,6 +5414,8 @@ export type SupplierUncheckedCreateWithoutInquiriesInput = {
   expenses?: Prisma.BuildingExpenseUncheckedCreateNestedManyWithoutSupplierInput
   recurringTasks?: Prisma.RecurringTaskUncheckedCreateNestedManyWithoutSupplierInput
   contacts?: Prisma.ContactUncheckedCreateNestedManyWithoutSupplierInput
+  contactPeople?: Prisma.SupplierContactUncheckedCreateNestedManyWithoutSupplierInput
+  inviteLinks?: Prisma.SupplierInviteLinkUncheckedCreateNestedManyWithoutSupplierInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutSupplierInput
 }
 
@@ -4852,6 +5486,8 @@ export type SupplierUpdateWithoutInquiriesInput = {
   expenses?: Prisma.BuildingExpenseUpdateManyWithoutSupplierNestedInput
   recurringTasks?: Prisma.RecurringTaskUpdateManyWithoutSupplierNestedInput
   contacts?: Prisma.ContactUpdateManyWithoutSupplierNestedInput
+  contactPeople?: Prisma.SupplierContactUpdateManyWithoutSupplierNestedInput
+  inviteLinks?: Prisma.SupplierInviteLinkUpdateManyWithoutSupplierNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutSupplierNestedInput
 }
 
@@ -4906,6 +5542,8 @@ export type SupplierUncheckedUpdateWithoutInquiriesInput = {
   expenses?: Prisma.BuildingExpenseUncheckedUpdateManyWithoutSupplierNestedInput
   recurringTasks?: Prisma.RecurringTaskUncheckedUpdateManyWithoutSupplierNestedInput
   contacts?: Prisma.ContactUncheckedUpdateManyWithoutSupplierNestedInput
+  contactPeople?: Prisma.SupplierContactUncheckedUpdateManyWithoutSupplierNestedInput
+  inviteLinks?: Prisma.SupplierInviteLinkUncheckedUpdateManyWithoutSupplierNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutSupplierNestedInput
 }
 
@@ -5000,6 +5638,8 @@ export type SupplierUpdateWithoutCustomerInput = {
   expenses?: Prisma.BuildingExpenseUpdateManyWithoutSupplierNestedInput
   recurringTasks?: Prisma.RecurringTaskUpdateManyWithoutSupplierNestedInput
   contacts?: Prisma.ContactUpdateManyWithoutSupplierNestedInput
+  contactPeople?: Prisma.SupplierContactUpdateManyWithoutSupplierNestedInput
+  inviteLinks?: Prisma.SupplierInviteLinkUpdateManyWithoutSupplierNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutSupplierNestedInput
 }
 
@@ -5054,6 +5694,8 @@ export type SupplierUncheckedUpdateWithoutCustomerInput = {
   expenses?: Prisma.BuildingExpenseUncheckedUpdateManyWithoutSupplierNestedInput
   recurringTasks?: Prisma.RecurringTaskUncheckedUpdateManyWithoutSupplierNestedInput
   contacts?: Prisma.ContactUncheckedUpdateManyWithoutSupplierNestedInput
+  contactPeople?: Prisma.SupplierContactUncheckedUpdateManyWithoutSupplierNestedInput
+  inviteLinks?: Prisma.SupplierInviteLinkUncheckedUpdateManyWithoutSupplierNestedInput
   maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutSupplierNestedInput
 }
 
@@ -5116,6 +5758,8 @@ export type SupplierCountOutputType = {
   expenses: number
   recurringTasks: number
   contacts: number
+  contactPeople: number
+  inviteLinks: number
   maintenanceRequests: number
 }
 
@@ -5133,6 +5777,8 @@ export type SupplierCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensio
   expenses?: boolean | SupplierCountOutputTypeCountExpensesArgs
   recurringTasks?: boolean | SupplierCountOutputTypeCountRecurringTasksArgs
   contacts?: boolean | SupplierCountOutputTypeCountContactsArgs
+  contactPeople?: boolean | SupplierCountOutputTypeCountContactPeopleArgs
+  inviteLinks?: boolean | SupplierCountOutputTypeCountInviteLinksArgs
   maintenanceRequests?: boolean | SupplierCountOutputTypeCountMaintenanceRequestsArgs
 }
 
@@ -5240,6 +5886,20 @@ export type SupplierCountOutputTypeCountContactsArgs<ExtArgs extends runtime.Typ
 /**
  * SupplierCountOutputType without action
  */
+export type SupplierCountOutputTypeCountContactPeopleArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SupplierContactWhereInput
+}
+
+/**
+ * SupplierCountOutputType without action
+ */
+export type SupplierCountOutputTypeCountInviteLinksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SupplierInviteLinkWhereInput
+}
+
+/**
+ * SupplierCountOutputType without action
+ */
 export type SupplierCountOutputTypeCountMaintenanceRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.MaintenanceRequestWhereInput
 }
@@ -5298,6 +5958,8 @@ export type SupplierSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   expenses?: boolean | Prisma.Supplier$expensesArgs<ExtArgs>
   recurringTasks?: boolean | Prisma.Supplier$recurringTasksArgs<ExtArgs>
   contacts?: boolean | Prisma.Supplier$contactsArgs<ExtArgs>
+  contactPeople?: boolean | Prisma.Supplier$contactPeopleArgs<ExtArgs>
+  inviteLinks?: boolean | Prisma.Supplier$inviteLinksArgs<ExtArgs>
   maintenanceRequests?: boolean | Prisma.Supplier$maintenanceRequestsArgs<ExtArgs>
   _count?: boolean | Prisma.SupplierCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["supplier"]>
@@ -5443,6 +6105,8 @@ export type SupplierInclude<ExtArgs extends runtime.Types.Extensions.InternalArg
   expenses?: boolean | Prisma.Supplier$expensesArgs<ExtArgs>
   recurringTasks?: boolean | Prisma.Supplier$recurringTasksArgs<ExtArgs>
   contacts?: boolean | Prisma.Supplier$contactsArgs<ExtArgs>
+  contactPeople?: boolean | Prisma.Supplier$contactPeopleArgs<ExtArgs>
+  inviteLinks?: boolean | Prisma.Supplier$inviteLinksArgs<ExtArgs>
   maintenanceRequests?: boolean | Prisma.Supplier$maintenanceRequestsArgs<ExtArgs>
   _count?: boolean | Prisma.SupplierCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -5470,6 +6134,8 @@ export type $SupplierPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     expenses: Prisma.$BuildingExpensePayload<ExtArgs>[]
     recurringTasks: Prisma.$RecurringTaskPayload<ExtArgs>[]
     contacts: Prisma.$ContactPayload<ExtArgs>[]
+    contactPeople: Prisma.$SupplierContactPayload<ExtArgs>[]
+    inviteLinks: Prisma.$SupplierInviteLinkPayload<ExtArgs>[]
     maintenanceRequests: Prisma.$MaintenanceRequestPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -5919,6 +6585,8 @@ export interface Prisma__SupplierClient<T, Null = never, ExtArgs extends runtime
   expenses<T extends Prisma.Supplier$expensesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Supplier$expensesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BuildingExpensePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   recurringTasks<T extends Prisma.Supplier$recurringTasksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Supplier$recurringTasksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RecurringTaskPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   contacts<T extends Prisma.Supplier$contactsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Supplier$contactsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ContactPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  contactPeople<T extends Prisma.Supplier$contactPeopleArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Supplier$contactPeopleArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SupplierContactPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  inviteLinks<T extends Prisma.Supplier$inviteLinksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Supplier$inviteLinksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SupplierInviteLinkPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   maintenanceRequests<T extends Prisma.Supplier$maintenanceRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Supplier$maintenanceRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MaintenanceRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -6716,6 +7384,54 @@ export type Supplier$contactsArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   distinct?: Prisma.ContactScalarFieldEnum | Prisma.ContactScalarFieldEnum[]
+}
+
+/**
+ * Supplier.contactPeople
+ */
+export type Supplier$contactPeopleArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SupplierContact
+   */
+  select?: Prisma.SupplierContactSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the SupplierContact
+   */
+  omit?: Prisma.SupplierContactOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SupplierContactInclude<ExtArgs> | null
+  where?: Prisma.SupplierContactWhereInput
+  orderBy?: Prisma.SupplierContactOrderByWithRelationInput | Prisma.SupplierContactOrderByWithRelationInput[]
+  cursor?: Prisma.SupplierContactWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SupplierContactScalarFieldEnum | Prisma.SupplierContactScalarFieldEnum[]
+}
+
+/**
+ * Supplier.inviteLinks
+ */
+export type Supplier$inviteLinksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SupplierInviteLink
+   */
+  select?: Prisma.SupplierInviteLinkSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the SupplierInviteLink
+   */
+  omit?: Prisma.SupplierInviteLinkOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SupplierInviteLinkInclude<ExtArgs> | null
+  where?: Prisma.SupplierInviteLinkWhereInput
+  orderBy?: Prisma.SupplierInviteLinkOrderByWithRelationInput | Prisma.SupplierInviteLinkOrderByWithRelationInput[]
+  cursor?: Prisma.SupplierInviteLinkWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SupplierInviteLinkScalarFieldEnum | Prisma.SupplierInviteLinkScalarFieldEnum[]
 }
 
 /**

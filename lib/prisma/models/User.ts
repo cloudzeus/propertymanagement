@@ -396,6 +396,7 @@ export type UserWhereInput = {
   notifications?: Prisma.NotificationListRelationFilter
   accountCustomers?: Prisma.CustomerListRelationFilter
   supplier?: Prisma.XOR<Prisma.SupplierNullableScalarRelationFilter, Prisma.SupplierWhereInput> | null
+  contact?: Prisma.XOR<Prisma.SupplierContactNullableScalarRelationFilter, Prisma.SupplierContactWhereInput> | null
   apiUsageLogs?: Prisma.APIUsageLogListRelationFilter
   managementAssignments?: Prisma.ManagementAssignmentListRelationFilter
   accounts?: Prisma.AccountListRelationFilter
@@ -455,6 +456,7 @@ export type UserOrderByWithRelationInput = {
   notifications?: Prisma.NotificationOrderByRelationAggregateInput
   accountCustomers?: Prisma.CustomerOrderByRelationAggregateInput
   supplier?: Prisma.SupplierOrderByWithRelationInput
+  contact?: Prisma.SupplierContactOrderByWithRelationInput
   apiUsageLogs?: Prisma.APIUsageLogOrderByRelationAggregateInput
   managementAssignments?: Prisma.ManagementAssignmentOrderByRelationAggregateInput
   accounts?: Prisma.AccountOrderByRelationAggregateInput
@@ -517,6 +519,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   notifications?: Prisma.NotificationListRelationFilter
   accountCustomers?: Prisma.CustomerListRelationFilter
   supplier?: Prisma.XOR<Prisma.SupplierNullableScalarRelationFilter, Prisma.SupplierWhereInput> | null
+  contact?: Prisma.XOR<Prisma.SupplierContactNullableScalarRelationFilter, Prisma.SupplierContactWhereInput> | null
   apiUsageLogs?: Prisma.APIUsageLogListRelationFilter
   managementAssignments?: Prisma.ManagementAssignmentListRelationFilter
   accounts?: Prisma.AccountListRelationFilter
@@ -633,6 +636,7 @@ export type UserCreateInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerCreateNestedManyWithoutAccountManagerInput
   supplier?: Prisma.SupplierCreateNestedOneWithoutUsersInput
+  contact?: Prisma.SupplierContactCreateNestedOneWithoutUserInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -687,6 +691,7 @@ export type UserUncheckedCreateInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedCreateNestedManyWithoutBookedByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerUncheckedCreateNestedManyWithoutAccountManagerInput
+  contact?: Prisma.SupplierContactUncheckedCreateNestedOneWithoutUserInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -741,6 +746,7 @@ export type UserUpdateInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUpdateManyWithoutAccountManagerNestedInput
   supplier?: Prisma.SupplierUpdateOneWithoutUsersNestedInput
+  contact?: Prisma.SupplierContactUpdateOneWithoutUserNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -795,6 +801,7 @@ export type UserUncheckedUpdateInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedUpdateManyWithoutBookedByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUncheckedUpdateManyWithoutAccountManagerNestedInput
+  contact?: Prisma.SupplierContactUncheckedUpdateOneWithoutUserNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -1616,6 +1623,22 @@ export type UserUncheckedUpdateManyWithoutSupplierNestedInput = {
   deleteMany?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[]
 }
 
+export type UserCreateNestedOneWithoutContactInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutContactInput, Prisma.UserUncheckedCreateWithoutContactInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutContactInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneWithoutContactNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutContactInput, Prisma.UserUncheckedCreateWithoutContactInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutContactInput
+  upsert?: Prisma.UserUpsertWithoutContactInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutContactInput, Prisma.UserUpdateWithoutContactInput>, Prisma.UserUncheckedUpdateWithoutContactInput>
+}
+
 export type UserCreateNestedOneWithoutAiConversationsInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutAiConversationsInput, Prisma.UserUncheckedCreateWithoutAiConversationsInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutAiConversationsInput
@@ -1692,6 +1715,7 @@ export type UserCreateWithoutAccountsInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerCreateNestedManyWithoutAccountManagerInput
   supplier?: Prisma.SupplierCreateNestedOneWithoutUsersInput
+  contact?: Prisma.SupplierContactCreateNestedOneWithoutUserInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
@@ -1745,6 +1769,7 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedCreateNestedManyWithoutBookedByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerUncheckedCreateNestedManyWithoutAccountManagerInput
+  contact?: Prisma.SupplierContactUncheckedCreateNestedOneWithoutUserInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
@@ -1814,6 +1839,7 @@ export type UserUpdateWithoutAccountsInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUpdateManyWithoutAccountManagerNestedInput
   supplier?: Prisma.SupplierUpdateOneWithoutUsersNestedInput
+  contact?: Prisma.SupplierContactUpdateOneWithoutUserNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
@@ -1867,6 +1893,7 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedUpdateManyWithoutBookedByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUncheckedUpdateManyWithoutAccountManagerNestedInput
+  contact?: Prisma.SupplierContactUncheckedUpdateOneWithoutUserNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
@@ -1920,6 +1947,7 @@ export type UserCreateWithoutSessionsInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerCreateNestedManyWithoutAccountManagerInput
   supplier?: Prisma.SupplierCreateNestedOneWithoutUsersInput
+  contact?: Prisma.SupplierContactCreateNestedOneWithoutUserInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -1973,6 +2001,7 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedCreateNestedManyWithoutBookedByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerUncheckedCreateNestedManyWithoutAccountManagerInput
+  contact?: Prisma.SupplierContactUncheckedCreateNestedOneWithoutUserInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -2042,6 +2071,7 @@ export type UserUpdateWithoutSessionsInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUpdateManyWithoutAccountManagerNestedInput
   supplier?: Prisma.SupplierUpdateOneWithoutUsersNestedInput
+  contact?: Prisma.SupplierContactUpdateOneWithoutUserNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -2095,6 +2125,7 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedUpdateManyWithoutBookedByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUncheckedUpdateManyWithoutAccountManagerNestedInput
+  contact?: Prisma.SupplierContactUncheckedUpdateOneWithoutUserNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -2147,6 +2178,7 @@ export type UserCreateWithoutCreatedCompaniesInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerCreateNestedManyWithoutAccountManagerInput
   supplier?: Prisma.SupplierCreateNestedOneWithoutUsersInput
+  contact?: Prisma.SupplierContactCreateNestedOneWithoutUserInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -2200,6 +2232,7 @@ export type UserUncheckedCreateWithoutCreatedCompaniesInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedCreateNestedManyWithoutBookedByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerUncheckedCreateNestedManyWithoutAccountManagerInput
+  contact?: Prisma.SupplierContactUncheckedCreateNestedOneWithoutUserInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -2258,6 +2291,7 @@ export type UserCreateWithoutCompanyInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerCreateNestedManyWithoutAccountManagerInput
   supplier?: Prisma.SupplierCreateNestedOneWithoutUsersInput
+  contact?: Prisma.SupplierContactCreateNestedOneWithoutUserInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -2311,6 +2345,7 @@ export type UserUncheckedCreateWithoutCompanyInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedCreateNestedManyWithoutBookedByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerUncheckedCreateNestedManyWithoutAccountManagerInput
+  contact?: Prisma.SupplierContactUncheckedCreateNestedOneWithoutUserInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -2385,6 +2420,7 @@ export type UserUpdateWithoutCreatedCompaniesInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUpdateManyWithoutAccountManagerNestedInput
   supplier?: Prisma.SupplierUpdateOneWithoutUsersNestedInput
+  contact?: Prisma.SupplierContactUpdateOneWithoutUserNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -2438,6 +2474,7 @@ export type UserUncheckedUpdateWithoutCreatedCompaniesInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedUpdateManyWithoutBookedByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUncheckedUpdateManyWithoutAccountManagerNestedInput
+  contact?: Prisma.SupplierContactUncheckedUpdateOneWithoutUserNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -2537,6 +2574,7 @@ export type UserCreateWithoutEmployeeLinksInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerCreateNestedManyWithoutAccountManagerInput
   supplier?: Prisma.SupplierCreateNestedOneWithoutUsersInput
+  contact?: Prisma.SupplierContactCreateNestedOneWithoutUserInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -2590,6 +2628,7 @@ export type UserUncheckedCreateWithoutEmployeeLinksInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedCreateNestedManyWithoutBookedByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerUncheckedCreateNestedManyWithoutAccountManagerInput
+  contact?: Prisma.SupplierContactUncheckedCreateNestedOneWithoutUserInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -2659,6 +2698,7 @@ export type UserUpdateWithoutEmployeeLinksInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUpdateManyWithoutAccountManagerNestedInput
   supplier?: Prisma.SupplierUpdateOneWithoutUsersNestedInput
+  contact?: Prisma.SupplierContactUpdateOneWithoutUserNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -2712,6 +2752,7 @@ export type UserUncheckedUpdateWithoutEmployeeLinksInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedUpdateManyWithoutBookedByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUncheckedUpdateManyWithoutAccountManagerNestedInput
+  contact?: Prisma.SupplierContactUncheckedUpdateOneWithoutUserNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -2765,6 +2806,7 @@ export type UserCreateWithoutAccountCustomersInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentCreateNestedManyWithoutBookedByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   supplier?: Prisma.SupplierCreateNestedOneWithoutUsersInput
+  contact?: Prisma.SupplierContactCreateNestedOneWithoutUserInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -2818,6 +2860,7 @@ export type UserUncheckedCreateWithoutAccountCustomersInput = {
   maintenanceSlots?: Prisma.MaintenanceSlotUncheckedCreateNestedManyWithoutOfferedByInput
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedCreateNestedManyWithoutBookedByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  contact?: Prisma.SupplierContactUncheckedCreateNestedOneWithoutUserInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -2876,6 +2919,7 @@ export type UserCreateWithoutCustomerInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerCreateNestedManyWithoutAccountManagerInput
   supplier?: Prisma.SupplierCreateNestedOneWithoutUsersInput
+  contact?: Prisma.SupplierContactCreateNestedOneWithoutUserInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -2929,6 +2973,7 @@ export type UserUncheckedCreateWithoutCustomerInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedCreateNestedManyWithoutBookedByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerUncheckedCreateNestedManyWithoutAccountManagerInput
+  contact?: Prisma.SupplierContactUncheckedCreateNestedOneWithoutUserInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -3003,6 +3048,7 @@ export type UserUpdateWithoutAccountCustomersInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUpdateManyWithoutBookedByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   supplier?: Prisma.SupplierUpdateOneWithoutUsersNestedInput
+  contact?: Prisma.SupplierContactUpdateOneWithoutUserNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -3056,6 +3102,7 @@ export type UserUncheckedUpdateWithoutAccountCustomersInput = {
   maintenanceSlots?: Prisma.MaintenanceSlotUncheckedUpdateManyWithoutOfferedByNestedInput
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedUpdateManyWithoutBookedByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  contact?: Prisma.SupplierContactUncheckedUpdateOneWithoutUserNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -3125,6 +3172,7 @@ export type UserCreateWithoutBuildingInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerCreateNestedManyWithoutAccountManagerInput
   supplier?: Prisma.SupplierCreateNestedOneWithoutUsersInput
+  contact?: Prisma.SupplierContactCreateNestedOneWithoutUserInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -3178,6 +3226,7 @@ export type UserUncheckedCreateWithoutBuildingInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedCreateNestedManyWithoutBookedByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerUncheckedCreateNestedManyWithoutAccountManagerInput
+  contact?: Prisma.SupplierContactUncheckedCreateNestedOneWithoutUserInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -3257,6 +3306,7 @@ export type UserCreateWithoutOccupanciesInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerCreateNestedManyWithoutAccountManagerInput
   supplier?: Prisma.SupplierCreateNestedOneWithoutUsersInput
+  contact?: Prisma.SupplierContactCreateNestedOneWithoutUserInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -3310,6 +3360,7 @@ export type UserUncheckedCreateWithoutOccupanciesInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedCreateNestedManyWithoutBookedByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerUncheckedCreateNestedManyWithoutAccountManagerInput
+  contact?: Prisma.SupplierContactUncheckedCreateNestedOneWithoutUserInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -3379,6 +3430,7 @@ export type UserUpdateWithoutOccupanciesInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUpdateManyWithoutAccountManagerNestedInput
   supplier?: Prisma.SupplierUpdateOneWithoutUsersNestedInput
+  contact?: Prisma.SupplierContactUpdateOneWithoutUserNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -3432,6 +3484,7 @@ export type UserUncheckedUpdateWithoutOccupanciesInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedUpdateManyWithoutBookedByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUncheckedUpdateManyWithoutAccountManagerNestedInput
+  contact?: Prisma.SupplierContactUncheckedUpdateOneWithoutUserNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -3485,6 +3538,7 @@ export type UserCreateWithoutInfraKeyOfInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerCreateNestedManyWithoutAccountManagerInput
   supplier?: Prisma.SupplierCreateNestedOneWithoutUsersInput
+  contact?: Prisma.SupplierContactCreateNestedOneWithoutUserInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -3538,6 +3592,7 @@ export type UserUncheckedCreateWithoutInfraKeyOfInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedCreateNestedManyWithoutBookedByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerUncheckedCreateNestedManyWithoutAccountManagerInput
+  contact?: Prisma.SupplierContactUncheckedCreateNestedOneWithoutUserInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -3607,6 +3662,7 @@ export type UserUpdateWithoutInfraKeyOfInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUpdateManyWithoutAccountManagerNestedInput
   supplier?: Prisma.SupplierUpdateOneWithoutUsersNestedInput
+  contact?: Prisma.SupplierContactUpdateOneWithoutUserNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -3660,6 +3716,7 @@ export type UserUncheckedUpdateWithoutInfraKeyOfInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedUpdateManyWithoutBookedByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUncheckedUpdateManyWithoutAccountManagerNestedInput
+  contact?: Prisma.SupplierContactUncheckedUpdateOneWithoutUserNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -3713,6 +3770,7 @@ export type UserCreateWithoutInfraAccessInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerCreateNestedManyWithoutAccountManagerInput
   supplier?: Prisma.SupplierCreateNestedOneWithoutUsersInput
+  contact?: Prisma.SupplierContactCreateNestedOneWithoutUserInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -3766,6 +3824,7 @@ export type UserUncheckedCreateWithoutInfraAccessInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedCreateNestedManyWithoutBookedByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerUncheckedCreateNestedManyWithoutAccountManagerInput
+  contact?: Prisma.SupplierContactUncheckedCreateNestedOneWithoutUserInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -3835,6 +3894,7 @@ export type UserUpdateWithoutInfraAccessInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUpdateManyWithoutAccountManagerNestedInput
   supplier?: Prisma.SupplierUpdateOneWithoutUsersNestedInput
+  contact?: Prisma.SupplierContactUpdateOneWithoutUserNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -3888,6 +3948,7 @@ export type UserUncheckedUpdateWithoutInfraAccessInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedUpdateManyWithoutBookedByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUncheckedUpdateManyWithoutAccountManagerNestedInput
+  contact?: Prisma.SupplierContactUncheckedUpdateOneWithoutUserNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -3941,6 +4002,7 @@ export type UserCreateWithoutPerformedMaintenanceInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerCreateNestedManyWithoutAccountManagerInput
   supplier?: Prisma.SupplierCreateNestedOneWithoutUsersInput
+  contact?: Prisma.SupplierContactCreateNestedOneWithoutUserInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -3994,6 +4056,7 @@ export type UserUncheckedCreateWithoutPerformedMaintenanceInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedCreateNestedManyWithoutBookedByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerUncheckedCreateNestedManyWithoutAccountManagerInput
+  contact?: Prisma.SupplierContactUncheckedCreateNestedOneWithoutUserInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -4063,6 +4126,7 @@ export type UserUpdateWithoutPerformedMaintenanceInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUpdateManyWithoutAccountManagerNestedInput
   supplier?: Prisma.SupplierUpdateOneWithoutUsersNestedInput
+  contact?: Prisma.SupplierContactUpdateOneWithoutUserNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -4116,6 +4180,7 @@ export type UserUncheckedUpdateWithoutPerformedMaintenanceInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedUpdateManyWithoutBookedByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUncheckedUpdateManyWithoutAccountManagerNestedInput
+  contact?: Prisma.SupplierContactUncheckedUpdateOneWithoutUserNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -4170,6 +4235,7 @@ export type UserCreateWithoutManagementAssignmentsInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerCreateNestedManyWithoutAccountManagerInput
   supplier?: Prisma.SupplierCreateNestedOneWithoutUsersInput
+  contact?: Prisma.SupplierContactCreateNestedOneWithoutUserInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
@@ -4223,6 +4289,7 @@ export type UserUncheckedCreateWithoutManagementAssignmentsInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedCreateNestedManyWithoutBookedByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerUncheckedCreateNestedManyWithoutAccountManagerInput
+  contact?: Prisma.SupplierContactUncheckedCreateNestedOneWithoutUserInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
@@ -4292,6 +4359,7 @@ export type UserUpdateWithoutManagementAssignmentsInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUpdateManyWithoutAccountManagerNestedInput
   supplier?: Prisma.SupplierUpdateOneWithoutUsersNestedInput
+  contact?: Prisma.SupplierContactUpdateOneWithoutUserNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
@@ -4345,6 +4413,7 @@ export type UserUncheckedUpdateWithoutManagementAssignmentsInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedUpdateManyWithoutBookedByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUncheckedUpdateManyWithoutAccountManagerNestedInput
+  contact?: Prisma.SupplierContactUncheckedUpdateOneWithoutUserNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
@@ -4397,6 +4466,7 @@ export type UserCreateWithoutOwnedUnitsInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerCreateNestedManyWithoutAccountManagerInput
   supplier?: Prisma.SupplierCreateNestedOneWithoutUsersInput
+  contact?: Prisma.SupplierContactCreateNestedOneWithoutUserInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -4450,6 +4520,7 @@ export type UserUncheckedCreateWithoutOwnedUnitsInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedCreateNestedManyWithoutBookedByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerUncheckedCreateNestedManyWithoutAccountManagerInput
+  contact?: Prisma.SupplierContactUncheckedCreateNestedOneWithoutUserInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -4508,6 +4579,7 @@ export type UserCreateWithoutResidentUnitsInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerCreateNestedManyWithoutAccountManagerInput
   supplier?: Prisma.SupplierCreateNestedOneWithoutUsersInput
+  contact?: Prisma.SupplierContactCreateNestedOneWithoutUserInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -4561,6 +4633,7 @@ export type UserUncheckedCreateWithoutResidentUnitsInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedCreateNestedManyWithoutBookedByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerUncheckedCreateNestedManyWithoutAccountManagerInput
+  contact?: Prisma.SupplierContactUncheckedCreateNestedOneWithoutUserInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -4630,6 +4703,7 @@ export type UserUpdateWithoutOwnedUnitsInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUpdateManyWithoutAccountManagerNestedInput
   supplier?: Prisma.SupplierUpdateOneWithoutUsersNestedInput
+  contact?: Prisma.SupplierContactUpdateOneWithoutUserNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -4683,6 +4757,7 @@ export type UserUncheckedUpdateWithoutOwnedUnitsInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedUpdateManyWithoutBookedByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUncheckedUpdateManyWithoutAccountManagerNestedInput
+  contact?: Prisma.SupplierContactUncheckedUpdateOneWithoutUserNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -4747,6 +4822,7 @@ export type UserUpdateWithoutResidentUnitsInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUpdateManyWithoutAccountManagerNestedInput
   supplier?: Prisma.SupplierUpdateOneWithoutUsersNestedInput
+  contact?: Prisma.SupplierContactUpdateOneWithoutUserNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -4800,6 +4876,7 @@ export type UserUncheckedUpdateWithoutResidentUnitsInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedUpdateManyWithoutBookedByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUncheckedUpdateManyWithoutAccountManagerNestedInput
+  contact?: Prisma.SupplierContactUncheckedUpdateOneWithoutUserNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -4853,6 +4930,7 @@ export type UserCreateWithoutCompanyRolesInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerCreateNestedManyWithoutAccountManagerInput
   supplier?: Prisma.SupplierCreateNestedOneWithoutUsersInput
+  contact?: Prisma.SupplierContactCreateNestedOneWithoutUserInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -4906,6 +4984,7 @@ export type UserUncheckedCreateWithoutCompanyRolesInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedCreateNestedManyWithoutBookedByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerUncheckedCreateNestedManyWithoutAccountManagerInput
+  contact?: Prisma.SupplierContactUncheckedCreateNestedOneWithoutUserInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -4975,6 +5054,7 @@ export type UserUpdateWithoutCompanyRolesInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUpdateManyWithoutAccountManagerNestedInput
   supplier?: Prisma.SupplierUpdateOneWithoutUsersNestedInput
+  contact?: Prisma.SupplierContactUpdateOneWithoutUserNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -5028,6 +5108,7 @@ export type UserUncheckedUpdateWithoutCompanyRolesInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedUpdateManyWithoutBookedByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUncheckedUpdateManyWithoutAccountManagerNestedInput
+  contact?: Prisma.SupplierContactUncheckedUpdateOneWithoutUserNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -5081,6 +5162,7 @@ export type UserCreateWithoutCreatedAnnouncementsInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerCreateNestedManyWithoutAccountManagerInput
   supplier?: Prisma.SupplierCreateNestedOneWithoutUsersInput
+  contact?: Prisma.SupplierContactCreateNestedOneWithoutUserInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -5134,6 +5216,7 @@ export type UserUncheckedCreateWithoutCreatedAnnouncementsInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedCreateNestedManyWithoutBookedByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerUncheckedCreateNestedManyWithoutAccountManagerInput
+  contact?: Prisma.SupplierContactUncheckedCreateNestedOneWithoutUserInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -5203,6 +5286,7 @@ export type UserUpdateWithoutCreatedAnnouncementsInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUpdateManyWithoutAccountManagerNestedInput
   supplier?: Prisma.SupplierUpdateOneWithoutUsersNestedInput
+  contact?: Prisma.SupplierContactUpdateOneWithoutUserNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -5256,6 +5340,7 @@ export type UserUncheckedUpdateWithoutCreatedAnnouncementsInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedUpdateManyWithoutBookedByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUncheckedUpdateManyWithoutAccountManagerNestedInput
+  contact?: Prisma.SupplierContactUncheckedUpdateOneWithoutUserNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -5309,6 +5394,7 @@ export type UserCreateWithoutAnnouncementAcksInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerCreateNestedManyWithoutAccountManagerInput
   supplier?: Prisma.SupplierCreateNestedOneWithoutUsersInput
+  contact?: Prisma.SupplierContactCreateNestedOneWithoutUserInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -5362,6 +5448,7 @@ export type UserUncheckedCreateWithoutAnnouncementAcksInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedCreateNestedManyWithoutBookedByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerUncheckedCreateNestedManyWithoutAccountManagerInput
+  contact?: Prisma.SupplierContactUncheckedCreateNestedOneWithoutUserInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -5431,6 +5518,7 @@ export type UserUpdateWithoutAnnouncementAcksInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUpdateManyWithoutAccountManagerNestedInput
   supplier?: Prisma.SupplierUpdateOneWithoutUsersNestedInput
+  contact?: Prisma.SupplierContactUpdateOneWithoutUserNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -5484,6 +5572,7 @@ export type UserUncheckedUpdateWithoutAnnouncementAcksInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedUpdateManyWithoutBookedByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUncheckedUpdateManyWithoutAccountManagerNestedInput
+  contact?: Prisma.SupplierContactUncheckedUpdateOneWithoutUserNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -5538,6 +5627,7 @@ export type UserCreateWithoutApiUsageLogsInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerCreateNestedManyWithoutAccountManagerInput
   supplier?: Prisma.SupplierCreateNestedOneWithoutUsersInput
+  contact?: Prisma.SupplierContactCreateNestedOneWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
@@ -5591,6 +5681,7 @@ export type UserUncheckedCreateWithoutApiUsageLogsInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedCreateNestedManyWithoutBookedByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerUncheckedCreateNestedManyWithoutAccountManagerInput
+  contact?: Prisma.SupplierContactUncheckedCreateNestedOneWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
@@ -5660,6 +5751,7 @@ export type UserUpdateWithoutApiUsageLogsInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUpdateManyWithoutAccountManagerNestedInput
   supplier?: Prisma.SupplierUpdateOneWithoutUsersNestedInput
+  contact?: Prisma.SupplierContactUpdateOneWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
@@ -5713,6 +5805,7 @@ export type UserUncheckedUpdateWithoutApiUsageLogsInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedUpdateManyWithoutBookedByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUncheckedUpdateManyWithoutAccountManagerNestedInput
+  contact?: Prisma.SupplierContactUncheckedUpdateOneWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
@@ -5765,6 +5858,7 @@ export type UserCreateWithoutReportedMaintenanceInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerCreateNestedManyWithoutAccountManagerInput
   supplier?: Prisma.SupplierCreateNestedOneWithoutUsersInput
+  contact?: Prisma.SupplierContactCreateNestedOneWithoutUserInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -5818,6 +5912,7 @@ export type UserUncheckedCreateWithoutReportedMaintenanceInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedCreateNestedManyWithoutBookedByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerUncheckedCreateNestedManyWithoutAccountManagerInput
+  contact?: Prisma.SupplierContactUncheckedCreateNestedOneWithoutUserInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -5876,6 +5971,7 @@ export type UserCreateWithoutAssignedMaintenanceInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerCreateNestedManyWithoutAccountManagerInput
   supplier?: Prisma.SupplierCreateNestedOneWithoutUsersInput
+  contact?: Prisma.SupplierContactCreateNestedOneWithoutUserInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -5929,6 +6025,7 @@ export type UserUncheckedCreateWithoutAssignedMaintenanceInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedCreateNestedManyWithoutBookedByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerUncheckedCreateNestedManyWithoutAccountManagerInput
+  contact?: Prisma.SupplierContactUncheckedCreateNestedOneWithoutUserInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -5998,6 +6095,7 @@ export type UserUpdateWithoutReportedMaintenanceInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUpdateManyWithoutAccountManagerNestedInput
   supplier?: Prisma.SupplierUpdateOneWithoutUsersNestedInput
+  contact?: Prisma.SupplierContactUpdateOneWithoutUserNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -6051,6 +6149,7 @@ export type UserUncheckedUpdateWithoutReportedMaintenanceInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedUpdateManyWithoutBookedByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUncheckedUpdateManyWithoutAccountManagerNestedInput
+  contact?: Prisma.SupplierContactUncheckedUpdateOneWithoutUserNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -6115,6 +6214,7 @@ export type UserUpdateWithoutAssignedMaintenanceInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUpdateManyWithoutAccountManagerNestedInput
   supplier?: Prisma.SupplierUpdateOneWithoutUsersNestedInput
+  contact?: Prisma.SupplierContactUpdateOneWithoutUserNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -6168,6 +6268,7 @@ export type UserUncheckedUpdateWithoutAssignedMaintenanceInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedUpdateManyWithoutBookedByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUncheckedUpdateManyWithoutAccountManagerNestedInput
+  contact?: Prisma.SupplierContactUncheckedUpdateOneWithoutUserNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -6221,6 +6322,7 @@ export type UserCreateWithoutMaintenanceStatusEventsInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerCreateNestedManyWithoutAccountManagerInput
   supplier?: Prisma.SupplierCreateNestedOneWithoutUsersInput
+  contact?: Prisma.SupplierContactCreateNestedOneWithoutUserInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -6274,6 +6376,7 @@ export type UserUncheckedCreateWithoutMaintenanceStatusEventsInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedCreateNestedManyWithoutBookedByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerUncheckedCreateNestedManyWithoutAccountManagerInput
+  contact?: Prisma.SupplierContactUncheckedCreateNestedOneWithoutUserInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -6343,6 +6446,7 @@ export type UserUpdateWithoutMaintenanceStatusEventsInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUpdateManyWithoutAccountManagerNestedInput
   supplier?: Prisma.SupplierUpdateOneWithoutUsersNestedInput
+  contact?: Prisma.SupplierContactUpdateOneWithoutUserNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -6396,6 +6500,7 @@ export type UserUncheckedUpdateWithoutMaintenanceStatusEventsInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedUpdateManyWithoutBookedByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUncheckedUpdateManyWithoutAccountManagerNestedInput
+  contact?: Prisma.SupplierContactUncheckedUpdateOneWithoutUserNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -6449,6 +6554,7 @@ export type UserCreateWithoutMaintenanceCommentsInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerCreateNestedManyWithoutAccountManagerInput
   supplier?: Prisma.SupplierCreateNestedOneWithoutUsersInput
+  contact?: Prisma.SupplierContactCreateNestedOneWithoutUserInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -6502,6 +6608,7 @@ export type UserUncheckedCreateWithoutMaintenanceCommentsInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedCreateNestedManyWithoutBookedByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerUncheckedCreateNestedManyWithoutAccountManagerInput
+  contact?: Prisma.SupplierContactUncheckedCreateNestedOneWithoutUserInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -6571,6 +6678,7 @@ export type UserUpdateWithoutMaintenanceCommentsInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUpdateManyWithoutAccountManagerNestedInput
   supplier?: Prisma.SupplierUpdateOneWithoutUsersNestedInput
+  contact?: Prisma.SupplierContactUpdateOneWithoutUserNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -6624,6 +6732,7 @@ export type UserUncheckedUpdateWithoutMaintenanceCommentsInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedUpdateManyWithoutBookedByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUncheckedUpdateManyWithoutAccountManagerNestedInput
+  contact?: Prisma.SupplierContactUncheckedUpdateOneWithoutUserNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -6677,6 +6786,7 @@ export type UserCreateWithoutMaintenanceSlotsInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerCreateNestedManyWithoutAccountManagerInput
   supplier?: Prisma.SupplierCreateNestedOneWithoutUsersInput
+  contact?: Prisma.SupplierContactCreateNestedOneWithoutUserInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -6730,6 +6840,7 @@ export type UserUncheckedCreateWithoutMaintenanceSlotsInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedCreateNestedManyWithoutBookedByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerUncheckedCreateNestedManyWithoutAccountManagerInput
+  contact?: Prisma.SupplierContactUncheckedCreateNestedOneWithoutUserInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -6799,6 +6910,7 @@ export type UserUpdateWithoutMaintenanceSlotsInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUpdateManyWithoutAccountManagerNestedInput
   supplier?: Prisma.SupplierUpdateOneWithoutUsersNestedInput
+  contact?: Prisma.SupplierContactUpdateOneWithoutUserNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -6852,6 +6964,7 @@ export type UserUncheckedUpdateWithoutMaintenanceSlotsInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedUpdateManyWithoutBookedByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUncheckedUpdateManyWithoutAccountManagerNestedInput
+  contact?: Prisma.SupplierContactUncheckedUpdateOneWithoutUserNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -6905,6 +7018,7 @@ export type UserCreateWithoutMaintenanceAppointmentsInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerCreateNestedManyWithoutAccountManagerInput
   supplier?: Prisma.SupplierCreateNestedOneWithoutUsersInput
+  contact?: Prisma.SupplierContactCreateNestedOneWithoutUserInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -6958,6 +7072,7 @@ export type UserUncheckedCreateWithoutMaintenanceAppointmentsInput = {
   maintenanceSlots?: Prisma.MaintenanceSlotUncheckedCreateNestedManyWithoutOfferedByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerUncheckedCreateNestedManyWithoutAccountManagerInput
+  contact?: Prisma.SupplierContactUncheckedCreateNestedOneWithoutUserInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -7027,6 +7142,7 @@ export type UserUpdateWithoutMaintenanceAppointmentsInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUpdateManyWithoutAccountManagerNestedInput
   supplier?: Prisma.SupplierUpdateOneWithoutUsersNestedInput
+  contact?: Prisma.SupplierContactUpdateOneWithoutUserNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -7080,6 +7196,7 @@ export type UserUncheckedUpdateWithoutMaintenanceAppointmentsInput = {
   maintenanceSlots?: Prisma.MaintenanceSlotUncheckedUpdateManyWithoutOfferedByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUncheckedUpdateManyWithoutAccountManagerNestedInput
+  contact?: Prisma.SupplierContactUncheckedUpdateOneWithoutUserNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -7133,6 +7250,7 @@ export type UserCreateWithoutNotificationsInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentCreateNestedManyWithoutBookedByInput
   accountCustomers?: Prisma.CustomerCreateNestedManyWithoutAccountManagerInput
   supplier?: Prisma.SupplierCreateNestedOneWithoutUsersInput
+  contact?: Prisma.SupplierContactCreateNestedOneWithoutUserInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -7186,6 +7304,7 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   maintenanceSlots?: Prisma.MaintenanceSlotUncheckedCreateNestedManyWithoutOfferedByInput
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedCreateNestedManyWithoutBookedByInput
   accountCustomers?: Prisma.CustomerUncheckedCreateNestedManyWithoutAccountManagerInput
+  contact?: Prisma.SupplierContactUncheckedCreateNestedOneWithoutUserInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -7255,6 +7374,7 @@ export type UserUpdateWithoutNotificationsInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUpdateManyWithoutBookedByNestedInput
   accountCustomers?: Prisma.CustomerUpdateManyWithoutAccountManagerNestedInput
   supplier?: Prisma.SupplierUpdateOneWithoutUsersNestedInput
+  contact?: Prisma.SupplierContactUpdateOneWithoutUserNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -7308,6 +7428,7 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   maintenanceSlots?: Prisma.MaintenanceSlotUncheckedUpdateManyWithoutOfferedByNestedInput
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedUpdateManyWithoutBookedByNestedInput
   accountCustomers?: Prisma.CustomerUncheckedUpdateManyWithoutAccountManagerNestedInput
+  contact?: Prisma.SupplierContactUncheckedUpdateOneWithoutUserNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -7361,6 +7482,7 @@ export type UserCreateWithoutCreatedRolesInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerCreateNestedManyWithoutAccountManagerInput
   supplier?: Prisma.SupplierCreateNestedOneWithoutUsersInput
+  contact?: Prisma.SupplierContactCreateNestedOneWithoutUserInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -7414,6 +7536,7 @@ export type UserUncheckedCreateWithoutCreatedRolesInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedCreateNestedManyWithoutBookedByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerUncheckedCreateNestedManyWithoutAccountManagerInput
+  contact?: Prisma.SupplierContactUncheckedCreateNestedOneWithoutUserInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -7472,6 +7595,7 @@ export type UserCreateWithoutAssignedRoleInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerCreateNestedManyWithoutAccountManagerInput
   supplier?: Prisma.SupplierCreateNestedOneWithoutUsersInput
+  contact?: Prisma.SupplierContactCreateNestedOneWithoutUserInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -7525,6 +7649,7 @@ export type UserUncheckedCreateWithoutAssignedRoleInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedCreateNestedManyWithoutBookedByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerUncheckedCreateNestedManyWithoutAccountManagerInput
+  contact?: Prisma.SupplierContactUncheckedCreateNestedOneWithoutUserInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -7599,6 +7724,7 @@ export type UserUpdateWithoutCreatedRolesInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUpdateManyWithoutAccountManagerNestedInput
   supplier?: Prisma.SupplierUpdateOneWithoutUsersNestedInput
+  contact?: Prisma.SupplierContactUpdateOneWithoutUserNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -7652,6 +7778,7 @@ export type UserUncheckedUpdateWithoutCreatedRolesInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedUpdateManyWithoutBookedByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUncheckedUpdateManyWithoutAccountManagerNestedInput
+  contact?: Prisma.SupplierContactUncheckedUpdateOneWithoutUserNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -7721,6 +7848,7 @@ export type UserCreateWithoutSupportTicketsInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerCreateNestedManyWithoutAccountManagerInput
   supplier?: Prisma.SupplierCreateNestedOneWithoutUsersInput
+  contact?: Prisma.SupplierContactCreateNestedOneWithoutUserInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -7774,6 +7902,7 @@ export type UserUncheckedCreateWithoutSupportTicketsInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedCreateNestedManyWithoutBookedByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerUncheckedCreateNestedManyWithoutAccountManagerInput
+  contact?: Prisma.SupplierContactUncheckedCreateNestedOneWithoutUserInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -7843,6 +7972,7 @@ export type UserUpdateWithoutSupportTicketsInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUpdateManyWithoutAccountManagerNestedInput
   supplier?: Prisma.SupplierUpdateOneWithoutUsersNestedInput
+  contact?: Prisma.SupplierContactUpdateOneWithoutUserNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -7896,6 +8026,7 @@ export type UserUncheckedUpdateWithoutSupportTicketsInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedUpdateManyWithoutBookedByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUncheckedUpdateManyWithoutAccountManagerNestedInput
+  contact?: Prisma.SupplierContactUncheckedUpdateOneWithoutUserNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -7949,6 +8080,7 @@ export type UserCreateWithoutSupplierInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentCreateNestedManyWithoutBookedByInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerCreateNestedManyWithoutAccountManagerInput
+  contact?: Prisma.SupplierContactCreateNestedOneWithoutUserInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -8002,6 +8134,7 @@ export type UserUncheckedCreateWithoutSupplierInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedCreateNestedManyWithoutBookedByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerUncheckedCreateNestedManyWithoutAccountManagerInput
+  contact?: Prisma.SupplierContactUncheckedCreateNestedOneWithoutUserInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -8032,6 +8165,238 @@ export type UserUpdateWithWhereUniqueWithoutSupplierInput = {
 export type UserUpdateManyWithWhereWithoutSupplierInput = {
   where: Prisma.UserScalarWhereInput
   data: Prisma.XOR<Prisma.UserUpdateManyMutationInput, Prisma.UserUncheckedUpdateManyWithoutSupplierInput>
+}
+
+export type UserCreateWithoutContactInput = {
+  id?: string
+  email: string
+  name?: string | null
+  phone?: string | null
+  mobile?: string | null
+  passwordHash?: string | null
+  role: $Enums.UserRole
+  status?: $Enums.UserStatus
+  isCompany?: boolean
+  afm?: string | null
+  doy?: string | null
+  contactName?: string | null
+  contactEmail?: string | null
+  contactPhone?: string | null
+  softoneTrdr?: number | null
+  isSupplierAdmin?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lastLoginAt?: Date | string | null
+  assignedRole?: Prisma.RoleCreateNestedOneWithoutUsersInput
+  createdRoles?: Prisma.RoleCreateNestedManyWithoutCreatedByInput
+  company?: Prisma.CompanyCreateNestedOneWithoutUsersInput
+  customer?: Prisma.CustomerCreateNestedOneWithoutUsersInput
+  building?: Prisma.BuildingCreateNestedOneWithoutUsersInput
+  ownedUnits?: Prisma.UnitCreateNestedManyWithoutOwnerInput
+  residentUnits?: Prisma.UnitCreateNestedManyWithoutResidentInput
+  occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
+  infraKeyOf?: Prisma.InfraPointCreateNestedManyWithoutKeyHolderUserInput
+  supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutCreatedByInput
+  aiConversations?: Prisma.AiConversationCreateNestedManyWithoutUserInput
+  aiActions?: Prisma.AiActionLogCreateNestedManyWithoutUserInput
+  infraAccess?: Prisma.InfraAccessCreateNestedManyWithoutUserInput
+  companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
+  createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
+  createdAnnouncements?: Prisma.AnnouncementCreateNestedManyWithoutCreatedByInput
+  announcementAcks?: Prisma.Announcement_UserCreateNestedManyWithoutUserInput
+  employeeLinks?: Prisma.EmployeeCreateNestedManyWithoutUserInput
+  reportedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutReportedByInput
+  assignedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutAssignedToInput
+  performedMaintenance?: Prisma.MaintenanceLogCreateNestedManyWithoutPerformedByInput
+  maintenanceStatusEvents?: Prisma.MaintenanceStatusEventCreateNestedManyWithoutByUserInput
+  maintenanceComments?: Prisma.MaintenanceCommentCreateNestedManyWithoutAuthorInput
+  maintenanceSlots?: Prisma.MaintenanceSlotCreateNestedManyWithoutOfferedByInput
+  maintenanceAppointments?: Prisma.MaintenanceAppointmentCreateNestedManyWithoutBookedByInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  accountCustomers?: Prisma.CustomerCreateNestedManyWithoutAccountManagerInput
+  supplier?: Prisma.SupplierCreateNestedOneWithoutUsersInput
+  apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
+  managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutContactInput = {
+  id?: string
+  email: string
+  name?: string | null
+  phone?: string | null
+  mobile?: string | null
+  passwordHash?: string | null
+  role: $Enums.UserRole
+  status?: $Enums.UserStatus
+  roleId?: string | null
+  isCompany?: boolean
+  afm?: string | null
+  doy?: string | null
+  contactName?: string | null
+  contactEmail?: string | null
+  contactPhone?: string | null
+  softoneTrdr?: number | null
+  companyId?: string | null
+  customerId?: string | null
+  buildingId?: string | null
+  supplierId?: string | null
+  isSupplierAdmin?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lastLoginAt?: Date | string | null
+  createdRoles?: Prisma.RoleUncheckedCreateNestedManyWithoutCreatedByInput
+  ownedUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutOwnerInput
+  residentUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutResidentInput
+  occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
+  infraKeyOf?: Prisma.InfraPointUncheckedCreateNestedManyWithoutKeyHolderUserInput
+  supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutCreatedByInput
+  aiConversations?: Prisma.AiConversationUncheckedCreateNestedManyWithoutUserInput
+  aiActions?: Prisma.AiActionLogUncheckedCreateNestedManyWithoutUserInput
+  infraAccess?: Prisma.InfraAccessUncheckedCreateNestedManyWithoutUserInput
+  companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
+  createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
+  createdAnnouncements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutCreatedByInput
+  announcementAcks?: Prisma.Announcement_UserUncheckedCreateNestedManyWithoutUserInput
+  employeeLinks?: Prisma.EmployeeUncheckedCreateNestedManyWithoutUserInput
+  reportedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutReportedByInput
+  assignedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutAssignedToInput
+  performedMaintenance?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutPerformedByInput
+  maintenanceStatusEvents?: Prisma.MaintenanceStatusEventUncheckedCreateNestedManyWithoutByUserInput
+  maintenanceComments?: Prisma.MaintenanceCommentUncheckedCreateNestedManyWithoutAuthorInput
+  maintenanceSlots?: Prisma.MaintenanceSlotUncheckedCreateNestedManyWithoutOfferedByInput
+  maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedCreateNestedManyWithoutBookedByInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  accountCustomers?: Prisma.CustomerUncheckedCreateNestedManyWithoutAccountManagerInput
+  apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutUserInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutContactInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutContactInput, Prisma.UserUncheckedCreateWithoutContactInput>
+}
+
+export type UserUpsertWithoutContactInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutContactInput, Prisma.UserUncheckedUpdateWithoutContactInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutContactInput, Prisma.UserUncheckedCreateWithoutContactInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutContactInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutContactInput, Prisma.UserUncheckedUpdateWithoutContactInput>
+}
+
+export type UserUpdateWithoutContactInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isCompany?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  doy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  assignedRole?: Prisma.RoleUpdateOneWithoutUsersNestedInput
+  createdRoles?: Prisma.RoleUpdateManyWithoutCreatedByNestedInput
+  company?: Prisma.CompanyUpdateOneWithoutUsersNestedInput
+  customer?: Prisma.CustomerUpdateOneWithoutUsersNestedInput
+  building?: Prisma.BuildingUpdateOneWithoutUsersNestedInput
+  ownedUnits?: Prisma.UnitUpdateManyWithoutOwnerNestedInput
+  residentUnits?: Prisma.UnitUpdateManyWithoutResidentNestedInput
+  occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
+  infraKeyOf?: Prisma.InfraPointUpdateManyWithoutKeyHolderUserNestedInput
+  supportTickets?: Prisma.SupportTicketUpdateManyWithoutCreatedByNestedInput
+  aiConversations?: Prisma.AiConversationUpdateManyWithoutUserNestedInput
+  aiActions?: Prisma.AiActionLogUpdateManyWithoutUserNestedInput
+  infraAccess?: Prisma.InfraAccessUpdateManyWithoutUserNestedInput
+  companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
+  createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
+  createdAnnouncements?: Prisma.AnnouncementUpdateManyWithoutCreatedByNestedInput
+  announcementAcks?: Prisma.Announcement_UserUpdateManyWithoutUserNestedInput
+  employeeLinks?: Prisma.EmployeeUpdateManyWithoutUserNestedInput
+  reportedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutReportedByNestedInput
+  assignedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutAssignedToNestedInput
+  performedMaintenance?: Prisma.MaintenanceLogUpdateManyWithoutPerformedByNestedInput
+  maintenanceStatusEvents?: Prisma.MaintenanceStatusEventUpdateManyWithoutByUserNestedInput
+  maintenanceComments?: Prisma.MaintenanceCommentUpdateManyWithoutAuthorNestedInput
+  maintenanceSlots?: Prisma.MaintenanceSlotUpdateManyWithoutOfferedByNestedInput
+  maintenanceAppointments?: Prisma.MaintenanceAppointmentUpdateManyWithoutBookedByNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  accountCustomers?: Prisma.CustomerUpdateManyWithoutAccountManagerNestedInput
+  supplier?: Prisma.SupplierUpdateOneWithoutUsersNestedInput
+  apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutContactInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  roleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isCompany?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  doy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdRoles?: Prisma.RoleUncheckedUpdateManyWithoutCreatedByNestedInput
+  ownedUnits?: Prisma.UnitUncheckedUpdateManyWithoutOwnerNestedInput
+  residentUnits?: Prisma.UnitUncheckedUpdateManyWithoutResidentNestedInput
+  occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
+  infraKeyOf?: Prisma.InfraPointUncheckedUpdateManyWithoutKeyHolderUserNestedInput
+  supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutCreatedByNestedInput
+  aiConversations?: Prisma.AiConversationUncheckedUpdateManyWithoutUserNestedInput
+  aiActions?: Prisma.AiActionLogUncheckedUpdateManyWithoutUserNestedInput
+  infraAccess?: Prisma.InfraAccessUncheckedUpdateManyWithoutUserNestedInput
+  companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
+  createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
+  createdAnnouncements?: Prisma.AnnouncementUncheckedUpdateManyWithoutCreatedByNestedInput
+  announcementAcks?: Prisma.Announcement_UserUncheckedUpdateManyWithoutUserNestedInput
+  employeeLinks?: Prisma.EmployeeUncheckedUpdateManyWithoutUserNestedInput
+  reportedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutReportedByNestedInput
+  assignedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutAssignedToNestedInput
+  performedMaintenance?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutPerformedByNestedInput
+  maintenanceStatusEvents?: Prisma.MaintenanceStatusEventUncheckedUpdateManyWithoutByUserNestedInput
+  maintenanceComments?: Prisma.MaintenanceCommentUncheckedUpdateManyWithoutAuthorNestedInput
+  maintenanceSlots?: Prisma.MaintenanceSlotUncheckedUpdateManyWithoutOfferedByNestedInput
+  maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedUpdateManyWithoutBookedByNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  accountCustomers?: Prisma.CustomerUncheckedUpdateManyWithoutAccountManagerNestedInput
+  apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutUserNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutAiConversationsInput = {
@@ -8081,6 +8446,7 @@ export type UserCreateWithoutAiConversationsInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerCreateNestedManyWithoutAccountManagerInput
   supplier?: Prisma.SupplierCreateNestedOneWithoutUsersInput
+  contact?: Prisma.SupplierContactCreateNestedOneWithoutUserInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -8134,6 +8500,7 @@ export type UserUncheckedCreateWithoutAiConversationsInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedCreateNestedManyWithoutBookedByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerUncheckedCreateNestedManyWithoutAccountManagerInput
+  contact?: Prisma.SupplierContactUncheckedCreateNestedOneWithoutUserInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -8203,6 +8570,7 @@ export type UserUpdateWithoutAiConversationsInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUpdateManyWithoutAccountManagerNestedInput
   supplier?: Prisma.SupplierUpdateOneWithoutUsersNestedInput
+  contact?: Prisma.SupplierContactUpdateOneWithoutUserNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -8256,6 +8624,7 @@ export type UserUncheckedUpdateWithoutAiConversationsInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedUpdateManyWithoutBookedByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUncheckedUpdateManyWithoutAccountManagerNestedInput
+  contact?: Prisma.SupplierContactUncheckedUpdateOneWithoutUserNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -8309,6 +8678,7 @@ export type UserCreateWithoutAiActionsInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerCreateNestedManyWithoutAccountManagerInput
   supplier?: Prisma.SupplierCreateNestedOneWithoutUsersInput
+  contact?: Prisma.SupplierContactCreateNestedOneWithoutUserInput
   apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -8362,6 +8732,7 @@ export type UserUncheckedCreateWithoutAiActionsInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedCreateNestedManyWithoutBookedByInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
   accountCustomers?: Prisma.CustomerUncheckedCreateNestedManyWithoutAccountManagerInput
+  contact?: Prisma.SupplierContactUncheckedCreateNestedOneWithoutUserInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutUserInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -8431,6 +8802,7 @@ export type UserUpdateWithoutAiActionsInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUpdateManyWithoutAccountManagerNestedInput
   supplier?: Prisma.SupplierUpdateOneWithoutUsersNestedInput
+  contact?: Prisma.SupplierContactUpdateOneWithoutUserNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -8484,6 +8856,7 @@ export type UserUncheckedUpdateWithoutAiActionsInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedUpdateManyWithoutBookedByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUncheckedUpdateManyWithoutAccountManagerNestedInput
+  contact?: Prisma.SupplierContactUncheckedUpdateOneWithoutUserNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -8563,6 +8936,7 @@ export type UserUpdateWithoutCompanyInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUpdateManyWithoutAccountManagerNestedInput
   supplier?: Prisma.SupplierUpdateOneWithoutUsersNestedInput
+  contact?: Prisma.SupplierContactUpdateOneWithoutUserNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -8616,6 +8990,7 @@ export type UserUncheckedUpdateWithoutCompanyInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedUpdateManyWithoutBookedByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUncheckedUpdateManyWithoutAccountManagerNestedInput
+  contact?: Prisma.SupplierContactUncheckedUpdateOneWithoutUserNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -8721,6 +9096,7 @@ export type UserUpdateWithoutCustomerInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUpdateManyWithoutAccountManagerNestedInput
   supplier?: Prisma.SupplierUpdateOneWithoutUsersNestedInput
+  contact?: Prisma.SupplierContactUpdateOneWithoutUserNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -8774,6 +9150,7 @@ export type UserUncheckedUpdateWithoutCustomerInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedUpdateManyWithoutBookedByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUncheckedUpdateManyWithoutAccountManagerNestedInput
+  contact?: Prisma.SupplierContactUncheckedUpdateOneWithoutUserNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -8879,6 +9256,7 @@ export type UserUpdateWithoutBuildingInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUpdateManyWithoutAccountManagerNestedInput
   supplier?: Prisma.SupplierUpdateOneWithoutUsersNestedInput
+  contact?: Prisma.SupplierContactUpdateOneWithoutUserNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -8932,6 +9310,7 @@ export type UserUncheckedUpdateWithoutBuildingInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedUpdateManyWithoutBookedByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUncheckedUpdateManyWithoutAccountManagerNestedInput
+  contact?: Prisma.SupplierContactUncheckedUpdateOneWithoutUserNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -9037,6 +9416,7 @@ export type UserUpdateWithoutAssignedRoleInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUpdateManyWithoutAccountManagerNestedInput
   supplier?: Prisma.SupplierUpdateOneWithoutUsersNestedInput
+  contact?: Prisma.SupplierContactUpdateOneWithoutUserNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -9090,6 +9470,7 @@ export type UserUncheckedUpdateWithoutAssignedRoleInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedUpdateManyWithoutBookedByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUncheckedUpdateManyWithoutAccountManagerNestedInput
+  contact?: Prisma.SupplierContactUncheckedUpdateOneWithoutUserNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -9195,6 +9576,7 @@ export type UserUpdateWithoutSupplierInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUpdateManyWithoutBookedByNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUpdateManyWithoutAccountManagerNestedInput
+  contact?: Prisma.SupplierContactUpdateOneWithoutUserNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -9248,6 +9630,7 @@ export type UserUncheckedUpdateWithoutSupplierInput = {
   maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedUpdateManyWithoutBookedByNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
   accountCustomers?: Prisma.CustomerUncheckedUpdateManyWithoutAccountManagerNestedInput
+  contact?: Prisma.SupplierContactUncheckedUpdateOneWithoutUserNestedInput
   apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutUserNestedInput
   managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -9598,6 +9981,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
   accountCustomers?: boolean | Prisma.User$accountCustomersArgs<ExtArgs>
   supplier?: boolean | Prisma.User$supplierArgs<ExtArgs>
+  contact?: boolean | Prisma.User$contactArgs<ExtArgs>
   apiUsageLogs?: boolean | Prisma.User$apiUsageLogsArgs<ExtArgs>
   managementAssignments?: boolean | Prisma.User$managementAssignmentsArgs<ExtArgs>
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
@@ -9726,6 +10110,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>
   accountCustomers?: boolean | Prisma.User$accountCustomersArgs<ExtArgs>
   supplier?: boolean | Prisma.User$supplierArgs<ExtArgs>
+  contact?: boolean | Prisma.User$contactArgs<ExtArgs>
   apiUsageLogs?: boolean | Prisma.User$apiUsageLogsArgs<ExtArgs>
   managementAssignments?: boolean | Prisma.User$managementAssignmentsArgs<ExtArgs>
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
@@ -9778,6 +10163,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     notifications: Prisma.$NotificationPayload<ExtArgs>[]
     accountCustomers: Prisma.$CustomerPayload<ExtArgs>[]
     supplier: Prisma.$SupplierPayload<ExtArgs> | null
+    contact: Prisma.$SupplierContactPayload<ExtArgs> | null
     apiUsageLogs: Prisma.$APIUsageLogPayload<ExtArgs>[]
     managementAssignments: Prisma.$ManagementAssignmentPayload<ExtArgs>[]
     accounts: Prisma.$AccountPayload<ExtArgs>[]
@@ -10230,6 +10616,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   notifications<T extends Prisma.User$notificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   accountCustomers<T extends Prisma.User$accountCustomersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$accountCustomersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CustomerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   supplier<T extends Prisma.User$supplierArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$supplierArgs<ExtArgs>>): Prisma.Prisma__SupplierClient<runtime.Types.Result.GetResult<Prisma.$SupplierPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  contact<T extends Prisma.User$contactArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$contactArgs<ExtArgs>>): Prisma.Prisma__SupplierContactClient<runtime.Types.Result.GetResult<Prisma.$SupplierContactPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   apiUsageLogs<T extends Prisma.User$apiUsageLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$apiUsageLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$APIUsageLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   managementAssignments<T extends Prisma.User$managementAssignmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$managementAssignmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ManagementAssignmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   accounts<T extends Prisma.User$accountsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -11332,6 +11719,25 @@ export type User$supplierArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    */
   include?: Prisma.SupplierInclude<ExtArgs> | null
   where?: Prisma.SupplierWhereInput
+}
+
+/**
+ * User.contact
+ */
+export type User$contactArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SupplierContact
+   */
+  select?: Prisma.SupplierContactSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the SupplierContact
+   */
+  omit?: Prisma.SupplierContactOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SupplierContactInclude<ExtArgs> | null
+  where?: Prisma.SupplierContactWhereInput
 }
 
 /**

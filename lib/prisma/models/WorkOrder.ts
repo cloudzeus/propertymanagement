@@ -79,6 +79,9 @@ export type WorkOrderMinAggregateOutputType = {
   customerDeclineReason: string | null
   supplierAcceptedAt: Date | null
   supplierAcceptedById: string | null
+  supplierAcceptedIp: string | null
+  supplierAcceptedUa: string | null
+  supplierAcceptedName: string | null
   scheduledAt: Date | null
   completedAt: Date | null
   completionNote: string | null
@@ -126,6 +129,9 @@ export type WorkOrderMaxAggregateOutputType = {
   customerDeclineReason: string | null
   supplierAcceptedAt: Date | null
   supplierAcceptedById: string | null
+  supplierAcceptedIp: string | null
+  supplierAcceptedUa: string | null
+  supplierAcceptedName: string | null
   scheduledAt: Date | null
   completedAt: Date | null
   completionNote: string | null
@@ -173,6 +179,9 @@ export type WorkOrderCountAggregateOutputType = {
   customerDeclineReason: number
   supplierAcceptedAt: number
   supplierAcceptedById: number
+  supplierAcceptedIp: number
+  supplierAcceptedUa: number
+  supplierAcceptedName: number
   scheduledAt: number
   completedAt: number
   completionNote: number
@@ -245,6 +254,9 @@ export type WorkOrderMinAggregateInputType = {
   customerDeclineReason?: true
   supplierAcceptedAt?: true
   supplierAcceptedById?: true
+  supplierAcceptedIp?: true
+  supplierAcceptedUa?: true
+  supplierAcceptedName?: true
   scheduledAt?: true
   completedAt?: true
   completionNote?: true
@@ -292,6 +304,9 @@ export type WorkOrderMaxAggregateInputType = {
   customerDeclineReason?: true
   supplierAcceptedAt?: true
   supplierAcceptedById?: true
+  supplierAcceptedIp?: true
+  supplierAcceptedUa?: true
+  supplierAcceptedName?: true
   scheduledAt?: true
   completedAt?: true
   completionNote?: true
@@ -339,6 +354,9 @@ export type WorkOrderCountAggregateInputType = {
   customerDeclineReason?: true
   supplierAcceptedAt?: true
   supplierAcceptedById?: true
+  supplierAcceptedIp?: true
+  supplierAcceptedUa?: true
+  supplierAcceptedName?: true
   scheduledAt?: true
   completedAt?: true
   completionNote?: true
@@ -474,6 +492,9 @@ export type WorkOrderGroupByOutputType = {
   customerDeclineReason: string | null
   supplierAcceptedAt: Date | null
   supplierAcceptedById: string | null
+  supplierAcceptedIp: string | null
+  supplierAcceptedUa: string | null
+  supplierAcceptedName: string | null
   scheduledAt: Date | null
   completedAt: Date | null
   completionNote: string | null
@@ -545,6 +566,9 @@ export type WorkOrderWhereInput = {
   customerDeclineReason?: Prisma.StringNullableFilter<"WorkOrder"> | string | null
   supplierAcceptedAt?: Prisma.DateTimeNullableFilter<"WorkOrder"> | Date | string | null
   supplierAcceptedById?: Prisma.StringNullableFilter<"WorkOrder"> | string | null
+  supplierAcceptedIp?: Prisma.StringNullableFilter<"WorkOrder"> | string | null
+  supplierAcceptedUa?: Prisma.StringNullableFilter<"WorkOrder"> | string | null
+  supplierAcceptedName?: Prisma.StringNullableFilter<"WorkOrder"> | string | null
   scheduledAt?: Prisma.DateTimeNullableFilter<"WorkOrder"> | Date | string | null
   completedAt?: Prisma.DateTimeNullableFilter<"WorkOrder"> | Date | string | null
   completionNote?: Prisma.StringNullableFilter<"WorkOrder"> | string | null
@@ -599,6 +623,9 @@ export type WorkOrderOrderByWithRelationInput = {
   customerDeclineReason?: Prisma.SortOrderInput | Prisma.SortOrder
   supplierAcceptedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   supplierAcceptedById?: Prisma.SortOrderInput | Prisma.SortOrder
+  supplierAcceptedIp?: Prisma.SortOrderInput | Prisma.SortOrder
+  supplierAcceptedUa?: Prisma.SortOrderInput | Prisma.SortOrder
+  supplierAcceptedName?: Prisma.SortOrderInput | Prisma.SortOrder
   scheduledAt?: Prisma.SortOrderInput | Prisma.SortOrder
   completedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   completionNote?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -656,6 +683,9 @@ export type WorkOrderWhereUniqueInput = Prisma.AtLeast<{
   customerDeclineReason?: Prisma.StringNullableFilter<"WorkOrder"> | string | null
   supplierAcceptedAt?: Prisma.DateTimeNullableFilter<"WorkOrder"> | Date | string | null
   supplierAcceptedById?: Prisma.StringNullableFilter<"WorkOrder"> | string | null
+  supplierAcceptedIp?: Prisma.StringNullableFilter<"WorkOrder"> | string | null
+  supplierAcceptedUa?: Prisma.StringNullableFilter<"WorkOrder"> | string | null
+  supplierAcceptedName?: Prisma.StringNullableFilter<"WorkOrder"> | string | null
   scheduledAt?: Prisma.DateTimeNullableFilter<"WorkOrder"> | Date | string | null
   completedAt?: Prisma.DateTimeNullableFilter<"WorkOrder"> | Date | string | null
   completionNote?: Prisma.StringNullableFilter<"WorkOrder"> | string | null
@@ -710,6 +740,9 @@ export type WorkOrderOrderByWithAggregationInput = {
   customerDeclineReason?: Prisma.SortOrderInput | Prisma.SortOrder
   supplierAcceptedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   supplierAcceptedById?: Prisma.SortOrderInput | Prisma.SortOrder
+  supplierAcceptedIp?: Prisma.SortOrderInput | Prisma.SortOrder
+  supplierAcceptedUa?: Prisma.SortOrderInput | Prisma.SortOrder
+  supplierAcceptedName?: Prisma.SortOrderInput | Prisma.SortOrder
   scheduledAt?: Prisma.SortOrderInput | Prisma.SortOrder
   completedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   completionNote?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -766,6 +799,9 @@ export type WorkOrderScalarWhereWithAggregatesInput = {
   customerDeclineReason?: Prisma.StringNullableWithAggregatesFilter<"WorkOrder"> | string | null
   supplierAcceptedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"WorkOrder"> | Date | string | null
   supplierAcceptedById?: Prisma.StringNullableWithAggregatesFilter<"WorkOrder"> | string | null
+  supplierAcceptedIp?: Prisma.StringNullableWithAggregatesFilter<"WorkOrder"> | string | null
+  supplierAcceptedUa?: Prisma.StringNullableWithAggregatesFilter<"WorkOrder"> | string | null
+  supplierAcceptedName?: Prisma.StringNullableWithAggregatesFilter<"WorkOrder"> | string | null
   scheduledAt?: Prisma.DateTimeNullableWithAggregatesFilter<"WorkOrder"> | Date | string | null
   completedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"WorkOrder"> | Date | string | null
   completionNote?: Prisma.StringNullableWithAggregatesFilter<"WorkOrder"> | string | null
@@ -808,6 +844,9 @@ export type WorkOrderCreateInput = {
   customerDeclineReason?: string | null
   supplierAcceptedAt?: Date | string | null
   supplierAcceptedById?: string | null
+  supplierAcceptedIp?: string | null
+  supplierAcceptedUa?: string | null
+  supplierAcceptedName?: string | null
   scheduledAt?: Date | string | null
   completedAt?: Date | string | null
   completionNote?: string | null
@@ -862,6 +901,9 @@ export type WorkOrderUncheckedCreateInput = {
   customerDeclineReason?: string | null
   supplierAcceptedAt?: Date | string | null
   supplierAcceptedById?: string | null
+  supplierAcceptedIp?: string | null
+  supplierAcceptedUa?: string | null
+  supplierAcceptedName?: string | null
   scheduledAt?: Date | string | null
   completedAt?: Date | string | null
   completionNote?: string | null
@@ -904,6 +946,9 @@ export type WorkOrderUpdateInput = {
   customerDeclineReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplierAcceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   supplierAcceptedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierAcceptedIp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierAcceptedUa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierAcceptedName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   scheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -958,6 +1003,9 @@ export type WorkOrderUncheckedUpdateInput = {
   customerDeclineReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplierAcceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   supplierAcceptedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierAcceptedIp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierAcceptedUa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierAcceptedName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   scheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1006,6 +1054,9 @@ export type WorkOrderCreateManyInput = {
   customerDeclineReason?: string | null
   supplierAcceptedAt?: Date | string | null
   supplierAcceptedById?: string | null
+  supplierAcceptedIp?: string | null
+  supplierAcceptedUa?: string | null
+  supplierAcceptedName?: string | null
   scheduledAt?: Date | string | null
   completedAt?: Date | string | null
   completionNote?: string | null
@@ -1048,6 +1099,9 @@ export type WorkOrderUpdateManyMutationInput = {
   customerDeclineReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplierAcceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   supplierAcceptedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierAcceptedIp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierAcceptedUa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierAcceptedName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   scheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1096,6 +1150,9 @@ export type WorkOrderUncheckedUpdateManyInput = {
   customerDeclineReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplierAcceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   supplierAcceptedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierAcceptedIp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierAcceptedUa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierAcceptedName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   scheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1159,6 +1216,9 @@ export type WorkOrderCountOrderByAggregateInput = {
   customerDeclineReason?: Prisma.SortOrder
   supplierAcceptedAt?: Prisma.SortOrder
   supplierAcceptedById?: Prisma.SortOrder
+  supplierAcceptedIp?: Prisma.SortOrder
+  supplierAcceptedUa?: Prisma.SortOrder
+  supplierAcceptedName?: Prisma.SortOrder
   scheduledAt?: Prisma.SortOrder
   completedAt?: Prisma.SortOrder
   completionNote?: Prisma.SortOrder
@@ -1218,6 +1278,9 @@ export type WorkOrderMaxOrderByAggregateInput = {
   customerDeclineReason?: Prisma.SortOrder
   supplierAcceptedAt?: Prisma.SortOrder
   supplierAcceptedById?: Prisma.SortOrder
+  supplierAcceptedIp?: Prisma.SortOrder
+  supplierAcceptedUa?: Prisma.SortOrder
+  supplierAcceptedName?: Prisma.SortOrder
   scheduledAt?: Prisma.SortOrder
   completedAt?: Prisma.SortOrder
   completionNote?: Prisma.SortOrder
@@ -1265,6 +1328,9 @@ export type WorkOrderMinOrderByAggregateInput = {
   customerDeclineReason?: Prisma.SortOrder
   supplierAcceptedAt?: Prisma.SortOrder
   supplierAcceptedById?: Prisma.SortOrder
+  supplierAcceptedIp?: Prisma.SortOrder
+  supplierAcceptedUa?: Prisma.SortOrder
+  supplierAcceptedName?: Prisma.SortOrder
   scheduledAt?: Prisma.SortOrder
   completedAt?: Prisma.SortOrder
   completionNote?: Prisma.SortOrder
@@ -1563,6 +1629,9 @@ export type WorkOrderCreateWithoutCustomerInput = {
   customerDeclineReason?: string | null
   supplierAcceptedAt?: Date | string | null
   supplierAcceptedById?: string | null
+  supplierAcceptedIp?: string | null
+  supplierAcceptedUa?: string | null
+  supplierAcceptedName?: string | null
   scheduledAt?: Date | string | null
   completedAt?: Date | string | null
   completionNote?: string | null
@@ -1615,6 +1684,9 @@ export type WorkOrderUncheckedCreateWithoutCustomerInput = {
   customerDeclineReason?: string | null
   supplierAcceptedAt?: Date | string | null
   supplierAcceptedById?: string | null
+  supplierAcceptedIp?: string | null
+  supplierAcceptedUa?: string | null
+  supplierAcceptedName?: string | null
   scheduledAt?: Date | string | null
   completedAt?: Date | string | null
   completionNote?: string | null
@@ -1692,6 +1764,9 @@ export type WorkOrderScalarWhereInput = {
   customerDeclineReason?: Prisma.StringNullableFilter<"WorkOrder"> | string | null
   supplierAcceptedAt?: Prisma.DateTimeNullableFilter<"WorkOrder"> | Date | string | null
   supplierAcceptedById?: Prisma.StringNullableFilter<"WorkOrder"> | string | null
+  supplierAcceptedIp?: Prisma.StringNullableFilter<"WorkOrder"> | string | null
+  supplierAcceptedUa?: Prisma.StringNullableFilter<"WorkOrder"> | string | null
+  supplierAcceptedName?: Prisma.StringNullableFilter<"WorkOrder"> | string | null
   scheduledAt?: Prisma.DateTimeNullableFilter<"WorkOrder"> | Date | string | null
   completedAt?: Prisma.DateTimeNullableFilter<"WorkOrder"> | Date | string | null
   completionNote?: Prisma.StringNullableFilter<"WorkOrder"> | string | null
@@ -1734,6 +1809,9 @@ export type WorkOrderCreateWithoutBuildingInput = {
   customerDeclineReason?: string | null
   supplierAcceptedAt?: Date | string | null
   supplierAcceptedById?: string | null
+  supplierAcceptedIp?: string | null
+  supplierAcceptedUa?: string | null
+  supplierAcceptedName?: string | null
   scheduledAt?: Date | string | null
   completedAt?: Date | string | null
   completionNote?: string | null
@@ -1786,6 +1864,9 @@ export type WorkOrderUncheckedCreateWithoutBuildingInput = {
   customerDeclineReason?: string | null
   supplierAcceptedAt?: Date | string | null
   supplierAcceptedById?: string | null
+  supplierAcceptedIp?: string | null
+  supplierAcceptedUa?: string | null
+  supplierAcceptedName?: string | null
   scheduledAt?: Date | string | null
   completedAt?: Date | string | null
   completionNote?: string | null
@@ -1854,6 +1935,9 @@ export type WorkOrderCreateWithoutMaintenanceRequestInput = {
   customerDeclineReason?: string | null
   supplierAcceptedAt?: Date | string | null
   supplierAcceptedById?: string | null
+  supplierAcceptedIp?: string | null
+  supplierAcceptedUa?: string | null
+  supplierAcceptedName?: string | null
   scheduledAt?: Date | string | null
   completedAt?: Date | string | null
   completionNote?: string | null
@@ -1906,6 +1990,9 @@ export type WorkOrderUncheckedCreateWithoutMaintenanceRequestInput = {
   customerDeclineReason?: string | null
   supplierAcceptedAt?: Date | string | null
   supplierAcceptedById?: string | null
+  supplierAcceptedIp?: string | null
+  supplierAcceptedUa?: string | null
+  supplierAcceptedName?: string | null
   scheduledAt?: Date | string | null
   completedAt?: Date | string | null
   completionNote?: string | null
@@ -1974,6 +2061,9 @@ export type WorkOrderCreateWithoutSupplierInput = {
   customerDeclineReason?: string | null
   supplierAcceptedAt?: Date | string | null
   supplierAcceptedById?: string | null
+  supplierAcceptedIp?: string | null
+  supplierAcceptedUa?: string | null
+  supplierAcceptedName?: string | null
   scheduledAt?: Date | string | null
   completedAt?: Date | string | null
   completionNote?: string | null
@@ -2026,6 +2116,9 @@ export type WorkOrderUncheckedCreateWithoutSupplierInput = {
   customerDeclineReason?: string | null
   supplierAcceptedAt?: Date | string | null
   supplierAcceptedById?: string | null
+  supplierAcceptedIp?: string | null
+  supplierAcceptedUa?: string | null
+  supplierAcceptedName?: string | null
   scheduledAt?: Date | string | null
   completedAt?: Date | string | null
   completionNote?: string | null
@@ -2094,6 +2187,9 @@ export type WorkOrderCreateWithoutRfqInput = {
   customerDeclineReason?: string | null
   supplierAcceptedAt?: Date | string | null
   supplierAcceptedById?: string | null
+  supplierAcceptedIp?: string | null
+  supplierAcceptedUa?: string | null
+  supplierAcceptedName?: string | null
   scheduledAt?: Date | string | null
   completedAt?: Date | string | null
   completionNote?: string | null
@@ -2146,6 +2242,9 @@ export type WorkOrderUncheckedCreateWithoutRfqInput = {
   customerDeclineReason?: string | null
   supplierAcceptedAt?: Date | string | null
   supplierAcceptedById?: string | null
+  supplierAcceptedIp?: string | null
+  supplierAcceptedUa?: string | null
+  supplierAcceptedName?: string | null
   scheduledAt?: Date | string | null
   completedAt?: Date | string | null
   completionNote?: string | null
@@ -2214,6 +2313,9 @@ export type WorkOrderCreateWithoutOfferInput = {
   customerDeclineReason?: string | null
   supplierAcceptedAt?: Date | string | null
   supplierAcceptedById?: string | null
+  supplierAcceptedIp?: string | null
+  supplierAcceptedUa?: string | null
+  supplierAcceptedName?: string | null
   scheduledAt?: Date | string | null
   completedAt?: Date | string | null
   completionNote?: string | null
@@ -2266,6 +2368,9 @@ export type WorkOrderUncheckedCreateWithoutOfferInput = {
   customerDeclineReason?: string | null
   supplierAcceptedAt?: Date | string | null
   supplierAcceptedById?: string | null
+  supplierAcceptedIp?: string | null
+  supplierAcceptedUa?: string | null
+  supplierAcceptedName?: string | null
   scheduledAt?: Date | string | null
   completedAt?: Date | string | null
   completionNote?: string | null
@@ -2324,6 +2429,9 @@ export type WorkOrderUpdateWithoutOfferInput = {
   customerDeclineReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplierAcceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   supplierAcceptedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierAcceptedIp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierAcceptedUa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierAcceptedName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   scheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2376,6 +2484,9 @@ export type WorkOrderUncheckedUpdateWithoutOfferInput = {
   customerDeclineReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplierAcceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   supplierAcceptedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierAcceptedIp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierAcceptedUa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierAcceptedName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   scheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2423,6 +2534,9 @@ export type WorkOrderCreateManyCustomerInput = {
   customerDeclineReason?: string | null
   supplierAcceptedAt?: Date | string | null
   supplierAcceptedById?: string | null
+  supplierAcceptedIp?: string | null
+  supplierAcceptedUa?: string | null
+  supplierAcceptedName?: string | null
   scheduledAt?: Date | string | null
   completedAt?: Date | string | null
   completionNote?: string | null
@@ -2465,6 +2579,9 @@ export type WorkOrderUpdateWithoutCustomerInput = {
   customerDeclineReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplierAcceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   supplierAcceptedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierAcceptedIp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierAcceptedUa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierAcceptedName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   scheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2517,6 +2634,9 @@ export type WorkOrderUncheckedUpdateWithoutCustomerInput = {
   customerDeclineReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplierAcceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   supplierAcceptedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierAcceptedIp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierAcceptedUa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierAcceptedName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   scheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2564,6 +2684,9 @@ export type WorkOrderUncheckedUpdateManyWithoutCustomerInput = {
   customerDeclineReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplierAcceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   supplierAcceptedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierAcceptedIp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierAcceptedUa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierAcceptedName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   scheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2611,6 +2734,9 @@ export type WorkOrderCreateManyBuildingInput = {
   customerDeclineReason?: string | null
   supplierAcceptedAt?: Date | string | null
   supplierAcceptedById?: string | null
+  supplierAcceptedIp?: string | null
+  supplierAcceptedUa?: string | null
+  supplierAcceptedName?: string | null
   scheduledAt?: Date | string | null
   completedAt?: Date | string | null
   completionNote?: string | null
@@ -2653,6 +2779,9 @@ export type WorkOrderUpdateWithoutBuildingInput = {
   customerDeclineReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplierAcceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   supplierAcceptedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierAcceptedIp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierAcceptedUa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierAcceptedName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   scheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2705,6 +2834,9 @@ export type WorkOrderUncheckedUpdateWithoutBuildingInput = {
   customerDeclineReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplierAcceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   supplierAcceptedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierAcceptedIp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierAcceptedUa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierAcceptedName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   scheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2752,6 +2884,9 @@ export type WorkOrderUncheckedUpdateManyWithoutBuildingInput = {
   customerDeclineReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplierAcceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   supplierAcceptedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierAcceptedIp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierAcceptedUa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierAcceptedName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   scheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2799,6 +2934,9 @@ export type WorkOrderCreateManyMaintenanceRequestInput = {
   customerDeclineReason?: string | null
   supplierAcceptedAt?: Date | string | null
   supplierAcceptedById?: string | null
+  supplierAcceptedIp?: string | null
+  supplierAcceptedUa?: string | null
+  supplierAcceptedName?: string | null
   scheduledAt?: Date | string | null
   completedAt?: Date | string | null
   completionNote?: string | null
@@ -2841,6 +2979,9 @@ export type WorkOrderUpdateWithoutMaintenanceRequestInput = {
   customerDeclineReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplierAcceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   supplierAcceptedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierAcceptedIp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierAcceptedUa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierAcceptedName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   scheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2893,6 +3034,9 @@ export type WorkOrderUncheckedUpdateWithoutMaintenanceRequestInput = {
   customerDeclineReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplierAcceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   supplierAcceptedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierAcceptedIp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierAcceptedUa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierAcceptedName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   scheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2940,6 +3084,9 @@ export type WorkOrderUncheckedUpdateManyWithoutMaintenanceRequestInput = {
   customerDeclineReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplierAcceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   supplierAcceptedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierAcceptedIp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierAcceptedUa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierAcceptedName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   scheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2987,6 +3134,9 @@ export type WorkOrderCreateManySupplierInput = {
   customerDeclineReason?: string | null
   supplierAcceptedAt?: Date | string | null
   supplierAcceptedById?: string | null
+  supplierAcceptedIp?: string | null
+  supplierAcceptedUa?: string | null
+  supplierAcceptedName?: string | null
   scheduledAt?: Date | string | null
   completedAt?: Date | string | null
   completionNote?: string | null
@@ -3029,6 +3179,9 @@ export type WorkOrderUpdateWithoutSupplierInput = {
   customerDeclineReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplierAcceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   supplierAcceptedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierAcceptedIp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierAcceptedUa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierAcceptedName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   scheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3081,6 +3234,9 @@ export type WorkOrderUncheckedUpdateWithoutSupplierInput = {
   customerDeclineReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplierAcceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   supplierAcceptedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierAcceptedIp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierAcceptedUa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierAcceptedName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   scheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3128,6 +3284,9 @@ export type WorkOrderUncheckedUpdateManyWithoutSupplierInput = {
   customerDeclineReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplierAcceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   supplierAcceptedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierAcceptedIp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierAcceptedUa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierAcceptedName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   scheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3175,6 +3334,9 @@ export type WorkOrderCreateManyRfqInput = {
   customerDeclineReason?: string | null
   supplierAcceptedAt?: Date | string | null
   supplierAcceptedById?: string | null
+  supplierAcceptedIp?: string | null
+  supplierAcceptedUa?: string | null
+  supplierAcceptedName?: string | null
   scheduledAt?: Date | string | null
   completedAt?: Date | string | null
   completionNote?: string | null
@@ -3217,6 +3379,9 @@ export type WorkOrderUpdateWithoutRfqInput = {
   customerDeclineReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplierAcceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   supplierAcceptedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierAcceptedIp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierAcceptedUa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierAcceptedName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   scheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3269,6 +3434,9 @@ export type WorkOrderUncheckedUpdateWithoutRfqInput = {
   customerDeclineReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplierAcceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   supplierAcceptedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierAcceptedIp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierAcceptedUa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierAcceptedName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   scheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3316,6 +3484,9 @@ export type WorkOrderUncheckedUpdateManyWithoutRfqInput = {
   customerDeclineReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   supplierAcceptedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   supplierAcceptedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierAcceptedIp?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierAcceptedUa?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierAcceptedName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   scheduledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   completionNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -3366,6 +3537,9 @@ export type WorkOrderSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   customerDeclineReason?: boolean
   supplierAcceptedAt?: boolean
   supplierAcceptedById?: boolean
+  supplierAcceptedIp?: boolean
+  supplierAcceptedUa?: boolean
+  supplierAcceptedName?: boolean
   scheduledAt?: boolean
   completedAt?: boolean
   completionNote?: boolean
@@ -3420,6 +3594,9 @@ export type WorkOrderSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   customerDeclineReason?: boolean
   supplierAcceptedAt?: boolean
   supplierAcceptedById?: boolean
+  supplierAcceptedIp?: boolean
+  supplierAcceptedUa?: boolean
+  supplierAcceptedName?: boolean
   scheduledAt?: boolean
   completedAt?: boolean
   completionNote?: boolean
@@ -3474,6 +3651,9 @@ export type WorkOrderSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   customerDeclineReason?: boolean
   supplierAcceptedAt?: boolean
   supplierAcceptedById?: boolean
+  supplierAcceptedIp?: boolean
+  supplierAcceptedUa?: boolean
+  supplierAcceptedName?: boolean
   scheduledAt?: boolean
   completedAt?: boolean
   completionNote?: boolean
@@ -3528,6 +3708,9 @@ export type WorkOrderSelectScalar = {
   customerDeclineReason?: boolean
   supplierAcceptedAt?: boolean
   supplierAcceptedById?: boolean
+  supplierAcceptedIp?: boolean
+  supplierAcceptedUa?: boolean
+  supplierAcceptedName?: boolean
   scheduledAt?: boolean
   completedAt?: boolean
   completionNote?: boolean
@@ -3545,7 +3728,7 @@ export type WorkOrderSelectScalar = {
   updatedAt?: boolean
 }
 
-export type WorkOrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "number" | "buildingId" | "customerId" | "supplierId" | "maintenanceRequestId" | "rfqId" | "offerId" | "title" | "description" | "covered" | "supplierPrice" | "customerPrice" | "vatPct" | "markupPct" | "surveyFee" | "surveyWaived" | "warrantyMonths" | "status" | "customerMessage" | "earliestDate" | "validUntil" | "customerAcceptedAt" | "customerAcceptedById" | "customerAcceptedIp" | "customerAcceptedUa" | "customerDeclinedAt" | "customerDeclineReason" | "supplierAcceptedAt" | "supplierAcceptedById" | "scheduledAt" | "completedAt" | "completionNote" | "completionMediaIds" | "customerConfirmedAt" | "customerConfirmedById" | "autoConfirmedAt" | "disputeNote" | "customerContractHtml" | "supplierContractHtml" | "softoneCntrA" | "softoneCntrB" | "createdById" | "createdAt" | "updatedAt", ExtArgs["result"]["workOrder"]>
+export type WorkOrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "number" | "buildingId" | "customerId" | "supplierId" | "maintenanceRequestId" | "rfqId" | "offerId" | "title" | "description" | "covered" | "supplierPrice" | "customerPrice" | "vatPct" | "markupPct" | "surveyFee" | "surveyWaived" | "warrantyMonths" | "status" | "customerMessage" | "earliestDate" | "validUntil" | "customerAcceptedAt" | "customerAcceptedById" | "customerAcceptedIp" | "customerAcceptedUa" | "customerDeclinedAt" | "customerDeclineReason" | "supplierAcceptedAt" | "supplierAcceptedById" | "supplierAcceptedIp" | "supplierAcceptedUa" | "supplierAcceptedName" | "scheduledAt" | "completedAt" | "completionNote" | "completionMediaIds" | "customerConfirmedAt" | "customerConfirmedById" | "autoConfirmedAt" | "disputeNote" | "customerContractHtml" | "supplierContractHtml" | "softoneCntrA" | "softoneCntrB" | "createdById" | "createdAt" | "updatedAt", ExtArgs["result"]["workOrder"]>
 export type WorkOrderInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
@@ -3612,6 +3795,9 @@ export type $WorkOrderPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     customerDeclineReason: string | null
     supplierAcceptedAt: Date | null
     supplierAcceptedById: string | null
+    supplierAcceptedIp: string | null
+    supplierAcceptedUa: string | null
+    supplierAcceptedName: string | null
     scheduledAt: Date | null
     completedAt: Date | null
     completionNote: string | null
@@ -4086,6 +4272,9 @@ export interface WorkOrderFieldRefs {
   readonly customerDeclineReason: Prisma.FieldRef<"WorkOrder", 'String'>
   readonly supplierAcceptedAt: Prisma.FieldRef<"WorkOrder", 'DateTime'>
   readonly supplierAcceptedById: Prisma.FieldRef<"WorkOrder", 'String'>
+  readonly supplierAcceptedIp: Prisma.FieldRef<"WorkOrder", 'String'>
+  readonly supplierAcceptedUa: Prisma.FieldRef<"WorkOrder", 'String'>
+  readonly supplierAcceptedName: Prisma.FieldRef<"WorkOrder", 'String'>
   readonly scheduledAt: Prisma.FieldRef<"WorkOrder", 'DateTime'>
   readonly completedAt: Prisma.FieldRef<"WorkOrder", 'DateTime'>
   readonly completionNote: Prisma.FieldRef<"WorkOrder", 'String'>

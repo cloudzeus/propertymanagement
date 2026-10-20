@@ -20,8 +20,18 @@ export type RfqInvitationModel = runtime.Types.Result.DefaultSelection<Prisma.$R
 
 export type AggregateRfqInvitation = {
   _count: RfqInvitationCountAggregateOutputType | null
+  _avg: RfqInvitationAvgAggregateOutputType | null
+  _sum: RfqInvitationSumAggregateOutputType | null
   _min: RfqInvitationMinAggregateOutputType | null
   _max: RfqInvitationMaxAggregateOutputType | null
+}
+
+export type RfqInvitationAvgAggregateOutputType = {
+  emailCount: number | null
+}
+
+export type RfqInvitationSumAggregateOutputType = {
+  emailCount: number | null
 }
 
 export type RfqInvitationMinAggregateOutputType = {
@@ -32,6 +42,8 @@ export type RfqInvitationMinAggregateOutputType = {
   sentAt: Date | null
   viewedAt: Date | null
   declineReason: string | null
+  lastEmailAt: Date | null
+  emailCount: number | null
 }
 
 export type RfqInvitationMaxAggregateOutputType = {
@@ -42,6 +54,8 @@ export type RfqInvitationMaxAggregateOutputType = {
   sentAt: Date | null
   viewedAt: Date | null
   declineReason: string | null
+  lastEmailAt: Date | null
+  emailCount: number | null
 }
 
 export type RfqInvitationCountAggregateOutputType = {
@@ -52,9 +66,19 @@ export type RfqInvitationCountAggregateOutputType = {
   sentAt: number
   viewedAt: number
   declineReason: number
+  lastEmailAt: number
+  emailCount: number
   _all: number
 }
 
+
+export type RfqInvitationAvgAggregateInputType = {
+  emailCount?: true
+}
+
+export type RfqInvitationSumAggregateInputType = {
+  emailCount?: true
+}
 
 export type RfqInvitationMinAggregateInputType = {
   id?: true
@@ -64,6 +88,8 @@ export type RfqInvitationMinAggregateInputType = {
   sentAt?: true
   viewedAt?: true
   declineReason?: true
+  lastEmailAt?: true
+  emailCount?: true
 }
 
 export type RfqInvitationMaxAggregateInputType = {
@@ -74,6 +100,8 @@ export type RfqInvitationMaxAggregateInputType = {
   sentAt?: true
   viewedAt?: true
   declineReason?: true
+  lastEmailAt?: true
+  emailCount?: true
 }
 
 export type RfqInvitationCountAggregateInputType = {
@@ -84,6 +112,8 @@ export type RfqInvitationCountAggregateInputType = {
   sentAt?: true
   viewedAt?: true
   declineReason?: true
+  lastEmailAt?: true
+  emailCount?: true
   _all?: true
 }
 
@@ -125,6 +155,18 @@ export type RfqInvitationAggregateArgs<ExtArgs extends runtime.Types.Extensions.
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: RfqInvitationAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: RfqInvitationSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: RfqInvitationMinAggregateInputType
@@ -155,6 +197,8 @@ export type RfqInvitationGroupByArgs<ExtArgs extends runtime.Types.Extensions.In
   take?: number
   skip?: number
   _count?: RfqInvitationCountAggregateInputType | true
+  _avg?: RfqInvitationAvgAggregateInputType
+  _sum?: RfqInvitationSumAggregateInputType
   _min?: RfqInvitationMinAggregateInputType
   _max?: RfqInvitationMaxAggregateInputType
 }
@@ -167,7 +211,11 @@ export type RfqInvitationGroupByOutputType = {
   sentAt: Date
   viewedAt: Date | null
   declineReason: string | null
+  lastEmailAt: Date | null
+  emailCount: number
   _count: RfqInvitationCountAggregateOutputType | null
+  _avg: RfqInvitationAvgAggregateOutputType | null
+  _sum: RfqInvitationSumAggregateOutputType | null
   _min: RfqInvitationMinAggregateOutputType | null
   _max: RfqInvitationMaxAggregateOutputType | null
 }
@@ -198,8 +246,11 @@ export type RfqInvitationWhereInput = {
   sentAt?: Prisma.DateTimeFilter<"RfqInvitation"> | Date | string
   viewedAt?: Prisma.DateTimeNullableFilter<"RfqInvitation"> | Date | string | null
   declineReason?: Prisma.StringNullableFilter<"RfqInvitation"> | string | null
+  lastEmailAt?: Prisma.DateTimeNullableFilter<"RfqInvitation"> | Date | string | null
+  emailCount?: Prisma.IntFilter<"RfqInvitation"> | number
   rfq?: Prisma.XOR<Prisma.ServiceRequestScalarRelationFilter, Prisma.ServiceRequestWhereInput>
   supplier?: Prisma.XOR<Prisma.SupplierScalarRelationFilter, Prisma.SupplierWhereInput>
+  links?: Prisma.SupplierInviteLinkListRelationFilter
 }
 
 export type RfqInvitationOrderByWithRelationInput = {
@@ -210,8 +261,11 @@ export type RfqInvitationOrderByWithRelationInput = {
   sentAt?: Prisma.SortOrder
   viewedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   declineReason?: Prisma.SortOrderInput | Prisma.SortOrder
+  lastEmailAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  emailCount?: Prisma.SortOrder
   rfq?: Prisma.ServiceRequestOrderByWithRelationInput
   supplier?: Prisma.SupplierOrderByWithRelationInput
+  links?: Prisma.SupplierInviteLinkOrderByRelationAggregateInput
 }
 
 export type RfqInvitationWhereUniqueInput = Prisma.AtLeast<{
@@ -226,8 +280,11 @@ export type RfqInvitationWhereUniqueInput = Prisma.AtLeast<{
   sentAt?: Prisma.DateTimeFilter<"RfqInvitation"> | Date | string
   viewedAt?: Prisma.DateTimeNullableFilter<"RfqInvitation"> | Date | string | null
   declineReason?: Prisma.StringNullableFilter<"RfqInvitation"> | string | null
+  lastEmailAt?: Prisma.DateTimeNullableFilter<"RfqInvitation"> | Date | string | null
+  emailCount?: Prisma.IntFilter<"RfqInvitation"> | number
   rfq?: Prisma.XOR<Prisma.ServiceRequestScalarRelationFilter, Prisma.ServiceRequestWhereInput>
   supplier?: Prisma.XOR<Prisma.SupplierScalarRelationFilter, Prisma.SupplierWhereInput>
+  links?: Prisma.SupplierInviteLinkListRelationFilter
 }, "id" | "rfqId_supplierId">
 
 export type RfqInvitationOrderByWithAggregationInput = {
@@ -238,9 +295,13 @@ export type RfqInvitationOrderByWithAggregationInput = {
   sentAt?: Prisma.SortOrder
   viewedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   declineReason?: Prisma.SortOrderInput | Prisma.SortOrder
+  lastEmailAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  emailCount?: Prisma.SortOrder
   _count?: Prisma.RfqInvitationCountOrderByAggregateInput
+  _avg?: Prisma.RfqInvitationAvgOrderByAggregateInput
   _max?: Prisma.RfqInvitationMaxOrderByAggregateInput
   _min?: Prisma.RfqInvitationMinOrderByAggregateInput
+  _sum?: Prisma.RfqInvitationSumOrderByAggregateInput
 }
 
 export type RfqInvitationScalarWhereWithAggregatesInput = {
@@ -254,6 +315,8 @@ export type RfqInvitationScalarWhereWithAggregatesInput = {
   sentAt?: Prisma.DateTimeWithAggregatesFilter<"RfqInvitation"> | Date | string
   viewedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"RfqInvitation"> | Date | string | null
   declineReason?: Prisma.StringNullableWithAggregatesFilter<"RfqInvitation"> | string | null
+  lastEmailAt?: Prisma.DateTimeNullableWithAggregatesFilter<"RfqInvitation"> | Date | string | null
+  emailCount?: Prisma.IntWithAggregatesFilter<"RfqInvitation"> | number
 }
 
 export type RfqInvitationCreateInput = {
@@ -262,8 +325,11 @@ export type RfqInvitationCreateInput = {
   sentAt?: Date | string
   viewedAt?: Date | string | null
   declineReason?: string | null
+  lastEmailAt?: Date | string | null
+  emailCount?: number
   rfq: Prisma.ServiceRequestCreateNestedOneWithoutInvitationsInput
   supplier: Prisma.SupplierCreateNestedOneWithoutRfqInvitationsInput
+  links?: Prisma.SupplierInviteLinkCreateNestedManyWithoutRfqInvitationInput
 }
 
 export type RfqInvitationUncheckedCreateInput = {
@@ -274,6 +340,9 @@ export type RfqInvitationUncheckedCreateInput = {
   sentAt?: Date | string
   viewedAt?: Date | string | null
   declineReason?: string | null
+  lastEmailAt?: Date | string | null
+  emailCount?: number
+  links?: Prisma.SupplierInviteLinkUncheckedCreateNestedManyWithoutRfqInvitationInput
 }
 
 export type RfqInvitationUpdateInput = {
@@ -282,8 +351,11 @@ export type RfqInvitationUpdateInput = {
   sentAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   viewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   declineReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastEmailAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  emailCount?: Prisma.IntFieldUpdateOperationsInput | number
   rfq?: Prisma.ServiceRequestUpdateOneRequiredWithoutInvitationsNestedInput
   supplier?: Prisma.SupplierUpdateOneRequiredWithoutRfqInvitationsNestedInput
+  links?: Prisma.SupplierInviteLinkUpdateManyWithoutRfqInvitationNestedInput
 }
 
 export type RfqInvitationUncheckedUpdateInput = {
@@ -294,6 +366,9 @@ export type RfqInvitationUncheckedUpdateInput = {
   sentAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   viewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   declineReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastEmailAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  emailCount?: Prisma.IntFieldUpdateOperationsInput | number
+  links?: Prisma.SupplierInviteLinkUncheckedUpdateManyWithoutRfqInvitationNestedInput
 }
 
 export type RfqInvitationCreateManyInput = {
@@ -304,6 +379,8 @@ export type RfqInvitationCreateManyInput = {
   sentAt?: Date | string
   viewedAt?: Date | string | null
   declineReason?: string | null
+  lastEmailAt?: Date | string | null
+  emailCount?: number
 }
 
 export type RfqInvitationUpdateManyMutationInput = {
@@ -312,6 +389,8 @@ export type RfqInvitationUpdateManyMutationInput = {
   sentAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   viewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   declineReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastEmailAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  emailCount?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type RfqInvitationUncheckedUpdateManyInput = {
@@ -322,6 +401,8 @@ export type RfqInvitationUncheckedUpdateManyInput = {
   sentAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   viewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   declineReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastEmailAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  emailCount?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type RfqInvitationListRelationFilter = {
@@ -347,6 +428,12 @@ export type RfqInvitationCountOrderByAggregateInput = {
   sentAt?: Prisma.SortOrder
   viewedAt?: Prisma.SortOrder
   declineReason?: Prisma.SortOrder
+  lastEmailAt?: Prisma.SortOrder
+  emailCount?: Prisma.SortOrder
+}
+
+export type RfqInvitationAvgOrderByAggregateInput = {
+  emailCount?: Prisma.SortOrder
 }
 
 export type RfqInvitationMaxOrderByAggregateInput = {
@@ -357,6 +444,8 @@ export type RfqInvitationMaxOrderByAggregateInput = {
   sentAt?: Prisma.SortOrder
   viewedAt?: Prisma.SortOrder
   declineReason?: Prisma.SortOrder
+  lastEmailAt?: Prisma.SortOrder
+  emailCount?: Prisma.SortOrder
 }
 
 export type RfqInvitationMinOrderByAggregateInput = {
@@ -367,6 +456,17 @@ export type RfqInvitationMinOrderByAggregateInput = {
   sentAt?: Prisma.SortOrder
   viewedAt?: Prisma.SortOrder
   declineReason?: Prisma.SortOrder
+  lastEmailAt?: Prisma.SortOrder
+  emailCount?: Prisma.SortOrder
+}
+
+export type RfqInvitationSumOrderByAggregateInput = {
+  emailCount?: Prisma.SortOrder
+}
+
+export type RfqInvitationNullableScalarRelationFilter = {
+  is?: Prisma.RfqInvitationWhereInput | null
+  isNot?: Prisma.RfqInvitationWhereInput | null
 }
 
 export type RfqInvitationCreateNestedManyWithoutSupplierInput = {
@@ -453,13 +553,32 @@ export type RfqInvitationUncheckedUpdateManyWithoutRfqNestedInput = {
   deleteMany?: Prisma.RfqInvitationScalarWhereInput | Prisma.RfqInvitationScalarWhereInput[]
 }
 
+export type RfqInvitationCreateNestedOneWithoutLinksInput = {
+  create?: Prisma.XOR<Prisma.RfqInvitationCreateWithoutLinksInput, Prisma.RfqInvitationUncheckedCreateWithoutLinksInput>
+  connectOrCreate?: Prisma.RfqInvitationCreateOrConnectWithoutLinksInput
+  connect?: Prisma.RfqInvitationWhereUniqueInput
+}
+
+export type RfqInvitationUpdateOneWithoutLinksNestedInput = {
+  create?: Prisma.XOR<Prisma.RfqInvitationCreateWithoutLinksInput, Prisma.RfqInvitationUncheckedCreateWithoutLinksInput>
+  connectOrCreate?: Prisma.RfqInvitationCreateOrConnectWithoutLinksInput
+  upsert?: Prisma.RfqInvitationUpsertWithoutLinksInput
+  disconnect?: Prisma.RfqInvitationWhereInput | boolean
+  delete?: Prisma.RfqInvitationWhereInput | boolean
+  connect?: Prisma.RfqInvitationWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.RfqInvitationUpdateToOneWithWhereWithoutLinksInput, Prisma.RfqInvitationUpdateWithoutLinksInput>, Prisma.RfqInvitationUncheckedUpdateWithoutLinksInput>
+}
+
 export type RfqInvitationCreateWithoutSupplierInput = {
   id?: string
   status?: string
   sentAt?: Date | string
   viewedAt?: Date | string | null
   declineReason?: string | null
+  lastEmailAt?: Date | string | null
+  emailCount?: number
   rfq: Prisma.ServiceRequestCreateNestedOneWithoutInvitationsInput
+  links?: Prisma.SupplierInviteLinkCreateNestedManyWithoutRfqInvitationInput
 }
 
 export type RfqInvitationUncheckedCreateWithoutSupplierInput = {
@@ -469,6 +588,9 @@ export type RfqInvitationUncheckedCreateWithoutSupplierInput = {
   sentAt?: Date | string
   viewedAt?: Date | string | null
   declineReason?: string | null
+  lastEmailAt?: Date | string | null
+  emailCount?: number
+  links?: Prisma.SupplierInviteLinkUncheckedCreateNestedManyWithoutRfqInvitationInput
 }
 
 export type RfqInvitationCreateOrConnectWithoutSupplierInput = {
@@ -508,6 +630,8 @@ export type RfqInvitationScalarWhereInput = {
   sentAt?: Prisma.DateTimeFilter<"RfqInvitation"> | Date | string
   viewedAt?: Prisma.DateTimeNullableFilter<"RfqInvitation"> | Date | string | null
   declineReason?: Prisma.StringNullableFilter<"RfqInvitation"> | string | null
+  lastEmailAt?: Prisma.DateTimeNullableFilter<"RfqInvitation"> | Date | string | null
+  emailCount?: Prisma.IntFilter<"RfqInvitation"> | number
 }
 
 export type RfqInvitationCreateWithoutRfqInput = {
@@ -516,7 +640,10 @@ export type RfqInvitationCreateWithoutRfqInput = {
   sentAt?: Date | string
   viewedAt?: Date | string | null
   declineReason?: string | null
+  lastEmailAt?: Date | string | null
+  emailCount?: number
   supplier: Prisma.SupplierCreateNestedOneWithoutRfqInvitationsInput
+  links?: Prisma.SupplierInviteLinkCreateNestedManyWithoutRfqInvitationInput
 }
 
 export type RfqInvitationUncheckedCreateWithoutRfqInput = {
@@ -526,6 +653,9 @@ export type RfqInvitationUncheckedCreateWithoutRfqInput = {
   sentAt?: Date | string
   viewedAt?: Date | string | null
   declineReason?: string | null
+  lastEmailAt?: Date | string | null
+  emailCount?: number
+  links?: Prisma.SupplierInviteLinkUncheckedCreateNestedManyWithoutRfqInvitationInput
 }
 
 export type RfqInvitationCreateOrConnectWithoutRfqInput = {
@@ -554,6 +684,70 @@ export type RfqInvitationUpdateManyWithWhereWithoutRfqInput = {
   data: Prisma.XOR<Prisma.RfqInvitationUpdateManyMutationInput, Prisma.RfqInvitationUncheckedUpdateManyWithoutRfqInput>
 }
 
+export type RfqInvitationCreateWithoutLinksInput = {
+  id?: string
+  status?: string
+  sentAt?: Date | string
+  viewedAt?: Date | string | null
+  declineReason?: string | null
+  lastEmailAt?: Date | string | null
+  emailCount?: number
+  rfq: Prisma.ServiceRequestCreateNestedOneWithoutInvitationsInput
+  supplier: Prisma.SupplierCreateNestedOneWithoutRfqInvitationsInput
+}
+
+export type RfqInvitationUncheckedCreateWithoutLinksInput = {
+  id?: string
+  rfqId: string
+  supplierId: string
+  status?: string
+  sentAt?: Date | string
+  viewedAt?: Date | string | null
+  declineReason?: string | null
+  lastEmailAt?: Date | string | null
+  emailCount?: number
+}
+
+export type RfqInvitationCreateOrConnectWithoutLinksInput = {
+  where: Prisma.RfqInvitationWhereUniqueInput
+  create: Prisma.XOR<Prisma.RfqInvitationCreateWithoutLinksInput, Prisma.RfqInvitationUncheckedCreateWithoutLinksInput>
+}
+
+export type RfqInvitationUpsertWithoutLinksInput = {
+  update: Prisma.XOR<Prisma.RfqInvitationUpdateWithoutLinksInput, Prisma.RfqInvitationUncheckedUpdateWithoutLinksInput>
+  create: Prisma.XOR<Prisma.RfqInvitationCreateWithoutLinksInput, Prisma.RfqInvitationUncheckedCreateWithoutLinksInput>
+  where?: Prisma.RfqInvitationWhereInput
+}
+
+export type RfqInvitationUpdateToOneWithWhereWithoutLinksInput = {
+  where?: Prisma.RfqInvitationWhereInput
+  data: Prisma.XOR<Prisma.RfqInvitationUpdateWithoutLinksInput, Prisma.RfqInvitationUncheckedUpdateWithoutLinksInput>
+}
+
+export type RfqInvitationUpdateWithoutLinksInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  sentAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  viewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  declineReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastEmailAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  emailCount?: Prisma.IntFieldUpdateOperationsInput | number
+  rfq?: Prisma.ServiceRequestUpdateOneRequiredWithoutInvitationsNestedInput
+  supplier?: Prisma.SupplierUpdateOneRequiredWithoutRfqInvitationsNestedInput
+}
+
+export type RfqInvitationUncheckedUpdateWithoutLinksInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  rfqId?: Prisma.StringFieldUpdateOperationsInput | string
+  supplierId?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  sentAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  viewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  declineReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastEmailAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  emailCount?: Prisma.IntFieldUpdateOperationsInput | number
+}
+
 export type RfqInvitationCreateManySupplierInput = {
   id?: string
   rfqId: string
@@ -561,6 +755,8 @@ export type RfqInvitationCreateManySupplierInput = {
   sentAt?: Date | string
   viewedAt?: Date | string | null
   declineReason?: string | null
+  lastEmailAt?: Date | string | null
+  emailCount?: number
 }
 
 export type RfqInvitationUpdateWithoutSupplierInput = {
@@ -569,7 +765,10 @@ export type RfqInvitationUpdateWithoutSupplierInput = {
   sentAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   viewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   declineReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastEmailAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  emailCount?: Prisma.IntFieldUpdateOperationsInput | number
   rfq?: Prisma.ServiceRequestUpdateOneRequiredWithoutInvitationsNestedInput
+  links?: Prisma.SupplierInviteLinkUpdateManyWithoutRfqInvitationNestedInput
 }
 
 export type RfqInvitationUncheckedUpdateWithoutSupplierInput = {
@@ -579,6 +778,9 @@ export type RfqInvitationUncheckedUpdateWithoutSupplierInput = {
   sentAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   viewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   declineReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastEmailAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  emailCount?: Prisma.IntFieldUpdateOperationsInput | number
+  links?: Prisma.SupplierInviteLinkUncheckedUpdateManyWithoutRfqInvitationNestedInput
 }
 
 export type RfqInvitationUncheckedUpdateManyWithoutSupplierInput = {
@@ -588,6 +790,8 @@ export type RfqInvitationUncheckedUpdateManyWithoutSupplierInput = {
   sentAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   viewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   declineReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastEmailAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  emailCount?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type RfqInvitationCreateManyRfqInput = {
@@ -597,6 +801,8 @@ export type RfqInvitationCreateManyRfqInput = {
   sentAt?: Date | string
   viewedAt?: Date | string | null
   declineReason?: string | null
+  lastEmailAt?: Date | string | null
+  emailCount?: number
 }
 
 export type RfqInvitationUpdateWithoutRfqInput = {
@@ -605,7 +811,10 @@ export type RfqInvitationUpdateWithoutRfqInput = {
   sentAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   viewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   declineReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastEmailAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  emailCount?: Prisma.IntFieldUpdateOperationsInput | number
   supplier?: Prisma.SupplierUpdateOneRequiredWithoutRfqInvitationsNestedInput
+  links?: Prisma.SupplierInviteLinkUpdateManyWithoutRfqInvitationNestedInput
 }
 
 export type RfqInvitationUncheckedUpdateWithoutRfqInput = {
@@ -615,6 +824,9 @@ export type RfqInvitationUncheckedUpdateWithoutRfqInput = {
   sentAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   viewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   declineReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastEmailAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  emailCount?: Prisma.IntFieldUpdateOperationsInput | number
+  links?: Prisma.SupplierInviteLinkUncheckedUpdateManyWithoutRfqInvitationNestedInput
 }
 
 export type RfqInvitationUncheckedUpdateManyWithoutRfqInput = {
@@ -624,8 +836,39 @@ export type RfqInvitationUncheckedUpdateManyWithoutRfqInput = {
   sentAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   viewedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   declineReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastEmailAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  emailCount?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
+
+/**
+ * Count Type RfqInvitationCountOutputType
+ */
+
+export type RfqInvitationCountOutputType = {
+  links: number
+}
+
+export type RfqInvitationCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  links?: boolean | RfqInvitationCountOutputTypeCountLinksArgs
+}
+
+/**
+ * RfqInvitationCountOutputType without action
+ */
+export type RfqInvitationCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the RfqInvitationCountOutputType
+   */
+  select?: Prisma.RfqInvitationCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * RfqInvitationCountOutputType without action
+ */
+export type RfqInvitationCountOutputTypeCountLinksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SupplierInviteLinkWhereInput
+}
 
 
 export type RfqInvitationSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -636,8 +879,12 @@ export type RfqInvitationSelect<ExtArgs extends runtime.Types.Extensions.Interna
   sentAt?: boolean
   viewedAt?: boolean
   declineReason?: boolean
+  lastEmailAt?: boolean
+  emailCount?: boolean
   rfq?: boolean | Prisma.ServiceRequestDefaultArgs<ExtArgs>
   supplier?: boolean | Prisma.SupplierDefaultArgs<ExtArgs>
+  links?: boolean | Prisma.RfqInvitation$linksArgs<ExtArgs>
+  _count?: boolean | Prisma.RfqInvitationCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["rfqInvitation"]>
 
 export type RfqInvitationSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -648,6 +895,8 @@ export type RfqInvitationSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   sentAt?: boolean
   viewedAt?: boolean
   declineReason?: boolean
+  lastEmailAt?: boolean
+  emailCount?: boolean
   rfq?: boolean | Prisma.ServiceRequestDefaultArgs<ExtArgs>
   supplier?: boolean | Prisma.SupplierDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["rfqInvitation"]>
@@ -660,6 +909,8 @@ export type RfqInvitationSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   sentAt?: boolean
   viewedAt?: boolean
   declineReason?: boolean
+  lastEmailAt?: boolean
+  emailCount?: boolean
   rfq?: boolean | Prisma.ServiceRequestDefaultArgs<ExtArgs>
   supplier?: boolean | Prisma.SupplierDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["rfqInvitation"]>
@@ -672,12 +923,16 @@ export type RfqInvitationSelectScalar = {
   sentAt?: boolean
   viewedAt?: boolean
   declineReason?: boolean
+  lastEmailAt?: boolean
+  emailCount?: boolean
 }
 
-export type RfqInvitationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "rfqId" | "supplierId" | "status" | "sentAt" | "viewedAt" | "declineReason", ExtArgs["result"]["rfqInvitation"]>
+export type RfqInvitationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "rfqId" | "supplierId" | "status" | "sentAt" | "viewedAt" | "declineReason" | "lastEmailAt" | "emailCount", ExtArgs["result"]["rfqInvitation"]>
 export type RfqInvitationInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   rfq?: boolean | Prisma.ServiceRequestDefaultArgs<ExtArgs>
   supplier?: boolean | Prisma.SupplierDefaultArgs<ExtArgs>
+  links?: boolean | Prisma.RfqInvitation$linksArgs<ExtArgs>
+  _count?: boolean | Prisma.RfqInvitationCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type RfqInvitationIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   rfq?: boolean | Prisma.ServiceRequestDefaultArgs<ExtArgs>
@@ -693,6 +948,7 @@ export type $RfqInvitationPayload<ExtArgs extends runtime.Types.Extensions.Inter
   objects: {
     rfq: Prisma.$ServiceRequestPayload<ExtArgs>
     supplier: Prisma.$SupplierPayload<ExtArgs>
+    links: Prisma.$SupplierInviteLinkPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -702,6 +958,8 @@ export type $RfqInvitationPayload<ExtArgs extends runtime.Types.Extensions.Inter
     sentAt: Date
     viewedAt: Date | null
     declineReason: string | null
+    lastEmailAt: Date | null
+    emailCount: number
   }, ExtArgs["result"]["rfqInvitation"]>
   composites: {}
 }
@@ -1098,6 +1356,7 @@ export interface Prisma__RfqInvitationClient<T, Null = never, ExtArgs extends ru
   readonly [Symbol.toStringTag]: "PrismaPromise"
   rfq<T extends Prisma.ServiceRequestDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ServiceRequestDefaultArgs<ExtArgs>>): Prisma.Prisma__ServiceRequestClient<runtime.Types.Result.GetResult<Prisma.$ServiceRequestPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   supplier<T extends Prisma.SupplierDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SupplierDefaultArgs<ExtArgs>>): Prisma.Prisma__SupplierClient<runtime.Types.Result.GetResult<Prisma.$SupplierPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  links<T extends Prisma.RfqInvitation$linksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.RfqInvitation$linksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SupplierInviteLinkPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1134,6 +1393,8 @@ export interface RfqInvitationFieldRefs {
   readonly sentAt: Prisma.FieldRef<"RfqInvitation", 'DateTime'>
   readonly viewedAt: Prisma.FieldRef<"RfqInvitation", 'DateTime'>
   readonly declineReason: Prisma.FieldRef<"RfqInvitation", 'String'>
+  readonly lastEmailAt: Prisma.FieldRef<"RfqInvitation", 'DateTime'>
+  readonly emailCount: Prisma.FieldRef<"RfqInvitation", 'Int'>
 }
     
 
@@ -1532,6 +1793,30 @@ export type RfqInvitationDeleteManyArgs<ExtArgs extends runtime.Types.Extensions
    * Limit how many RfqInvitations to delete.
    */
   limit?: number
+}
+
+/**
+ * RfqInvitation.links
+ */
+export type RfqInvitation$linksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SupplierInviteLink
+   */
+  select?: Prisma.SupplierInviteLinkSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the SupplierInviteLink
+   */
+  omit?: Prisma.SupplierInviteLinkOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SupplierInviteLinkInclude<ExtArgs> | null
+  where?: Prisma.SupplierInviteLinkWhereInput
+  orderBy?: Prisma.SupplierInviteLinkOrderByWithRelationInput | Prisma.SupplierInviteLinkOrderByWithRelationInput[]
+  cursor?: Prisma.SupplierInviteLinkWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SupplierInviteLinkScalarFieldEnum | Prisma.SupplierInviteLinkScalarFieldEnum[]
 }
 
 /**

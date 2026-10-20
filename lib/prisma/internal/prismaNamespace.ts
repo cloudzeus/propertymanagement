@@ -484,6 +484,8 @@ export const ModelName = {
   RfqInvitation: 'RfqInvitation',
   SupplierOffer: 'SupplierOffer',
   WorkOrder: 'WorkOrder',
+  SupplierContact: 'SupplierContact',
+  SupplierInviteLink: 'SupplierInviteLink',
   SupplierInquiry: 'SupplierInquiry',
   ContractTemplate: 'ContractTemplate',
   AiConversation: 'AiConversation',
@@ -505,7 +507,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "account" | "session" | "verificationToken" | "company" | "department" | "jobPosition" | "employee" | "subscription" | "addonFeature" | "customer" | "property" | "building" | "unitOccupancy" | "buildingFile" | "infraPoint" | "infraAccess" | "infraMedia" | "contact" | "recurringTask" | "maintenanceLog" | "buildingExpense" | "expenseCategory" | "buildingCategoryOverride" | "unitCategoryExclusion" | "unitHeatingReading" | "meterReading" | "expenseAllocation" | "unitPayment" | "managementAssignment" | "commonArea" | "managedItemType" | "managedItem" | "unit" | "service" | "propertyService" | "serviceInvoice" | "serviceInvoiceLine" | "userCompanyRole" | "announcement" | "announcementTarget" | "announcement_User" | "assembly" | "assemblyParticipant" | "processedWebhook" | "aPIUsageLog" | "aPICostConfig" | "wallet" | "walletTransaction" | "customerMeteredPlan" | "monthlyCostSummary" | "maintenanceRequest" | "maintenanceCategory" | "maintenanceCoverageRule" | "maintenanceAttachment" | "maintenanceStatusEvent" | "maintenanceComment" | "maintenanceSlot" | "maintenanceAppointment" | "notification" | "cMSPage" | "fAQ" | "pricingTier" | "contactMessage" | "newsletterSubscriber" | "softoneSettings" | "softoneSyncLog" | "softoneVat" | "softoneUnit" | "softoneIrsData" | "softoneSeries" | "softoneDistrict" | "softoneZip" | "cronRun" | "cookieConsent" | "appSettings" | "impersonationEvent" | "landingSection" | "marketingPage" | "pageSeo" | "uiMessage" | "mediaAsset" | "siteSettings" | "author" | "article" | "role" | "rolePermission" | "demoRequest" | "supportTicket" | "supplier" | "supplierRating" | "buildingPreferredSupplier" | "supplierCategory" | "serviceCatalogItem" | "supplierService" | "supplierProduct" | "serviceRequest" | "rfqInvitation" | "supplierOffer" | "workOrder" | "supplierInquiry" | "contractTemplate" | "aiConversation" | "aiMessage" | "aiActionLog" | "wikiChunk"
+    modelProps: "user" | "account" | "session" | "verificationToken" | "company" | "department" | "jobPosition" | "employee" | "subscription" | "addonFeature" | "customer" | "property" | "building" | "unitOccupancy" | "buildingFile" | "infraPoint" | "infraAccess" | "infraMedia" | "contact" | "recurringTask" | "maintenanceLog" | "buildingExpense" | "expenseCategory" | "buildingCategoryOverride" | "unitCategoryExclusion" | "unitHeatingReading" | "meterReading" | "expenseAllocation" | "unitPayment" | "managementAssignment" | "commonArea" | "managedItemType" | "managedItem" | "unit" | "service" | "propertyService" | "serviceInvoice" | "serviceInvoiceLine" | "userCompanyRole" | "announcement" | "announcementTarget" | "announcement_User" | "assembly" | "assemblyParticipant" | "processedWebhook" | "aPIUsageLog" | "aPICostConfig" | "wallet" | "walletTransaction" | "customerMeteredPlan" | "monthlyCostSummary" | "maintenanceRequest" | "maintenanceCategory" | "maintenanceCoverageRule" | "maintenanceAttachment" | "maintenanceStatusEvent" | "maintenanceComment" | "maintenanceSlot" | "maintenanceAppointment" | "notification" | "cMSPage" | "fAQ" | "pricingTier" | "contactMessage" | "newsletterSubscriber" | "softoneSettings" | "softoneSyncLog" | "softoneVat" | "softoneUnit" | "softoneIrsData" | "softoneSeries" | "softoneDistrict" | "softoneZip" | "cronRun" | "cookieConsent" | "appSettings" | "impersonationEvent" | "landingSection" | "marketingPage" | "pageSeo" | "uiMessage" | "mediaAsset" | "siteSettings" | "author" | "article" | "role" | "rolePermission" | "demoRequest" | "supportTicket" | "supplier" | "supplierRating" | "buildingPreferredSupplier" | "supplierCategory" | "serviceCatalogItem" | "supplierService" | "supplierProduct" | "serviceRequest" | "rfqInvitation" | "supplierOffer" | "workOrder" | "supplierContact" | "supplierInviteLink" | "supplierInquiry" | "contractTemplate" | "aiConversation" | "aiMessage" | "aiActionLog" | "wikiChunk"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -7909,6 +7911,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    SupplierContact: {
+      payload: Prisma.$SupplierContactPayload<ExtArgs>
+      fields: Prisma.SupplierContactFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.SupplierContactFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SupplierContactPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.SupplierContactFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SupplierContactPayload>
+        }
+        findFirst: {
+          args: Prisma.SupplierContactFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SupplierContactPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.SupplierContactFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SupplierContactPayload>
+        }
+        findMany: {
+          args: Prisma.SupplierContactFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SupplierContactPayload>[]
+        }
+        create: {
+          args: Prisma.SupplierContactCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SupplierContactPayload>
+        }
+        createMany: {
+          args: Prisma.SupplierContactCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.SupplierContactCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SupplierContactPayload>[]
+        }
+        delete: {
+          args: Prisma.SupplierContactDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SupplierContactPayload>
+        }
+        update: {
+          args: Prisma.SupplierContactUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SupplierContactPayload>
+        }
+        deleteMany: {
+          args: Prisma.SupplierContactDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.SupplierContactUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.SupplierContactUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SupplierContactPayload>[]
+        }
+        upsert: {
+          args: Prisma.SupplierContactUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SupplierContactPayload>
+        }
+        aggregate: {
+          args: Prisma.SupplierContactAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateSupplierContact>
+        }
+        groupBy: {
+          args: Prisma.SupplierContactGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SupplierContactGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.SupplierContactCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SupplierContactCountAggregateOutputType> | number
+        }
+      }
+    }
+    SupplierInviteLink: {
+      payload: Prisma.$SupplierInviteLinkPayload<ExtArgs>
+      fields: Prisma.SupplierInviteLinkFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.SupplierInviteLinkFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SupplierInviteLinkPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.SupplierInviteLinkFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SupplierInviteLinkPayload>
+        }
+        findFirst: {
+          args: Prisma.SupplierInviteLinkFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SupplierInviteLinkPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.SupplierInviteLinkFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SupplierInviteLinkPayload>
+        }
+        findMany: {
+          args: Prisma.SupplierInviteLinkFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SupplierInviteLinkPayload>[]
+        }
+        create: {
+          args: Prisma.SupplierInviteLinkCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SupplierInviteLinkPayload>
+        }
+        createMany: {
+          args: Prisma.SupplierInviteLinkCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.SupplierInviteLinkCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SupplierInviteLinkPayload>[]
+        }
+        delete: {
+          args: Prisma.SupplierInviteLinkDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SupplierInviteLinkPayload>
+        }
+        update: {
+          args: Prisma.SupplierInviteLinkUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SupplierInviteLinkPayload>
+        }
+        deleteMany: {
+          args: Prisma.SupplierInviteLinkDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.SupplierInviteLinkUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.SupplierInviteLinkUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SupplierInviteLinkPayload>[]
+        }
+        upsert: {
+          args: Prisma.SupplierInviteLinkUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SupplierInviteLinkPayload>
+        }
+        aggregate: {
+          args: Prisma.SupplierInviteLinkAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateSupplierInviteLink>
+        }
+        groupBy: {
+          args: Prisma.SupplierInviteLinkGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SupplierInviteLinkGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.SupplierInviteLinkCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SupplierInviteLinkCountAggregateOutputType> | number
+        }
+      }
+    }
     SupplierInquiry: {
       payload: Prisma.$SupplierInquiryPayload<ExtArgs>
       fields: Prisma.SupplierInquiryFieldRefs
@@ -10180,7 +10330,9 @@ export const RfqInvitationScalarFieldEnum = {
   status: 'status',
   sentAt: 'sentAt',
   viewedAt: 'viewedAt',
-  declineReason: 'declineReason'
+  declineReason: 'declineReason',
+  lastEmailAt: 'lastEmailAt',
+  emailCount: 'emailCount'
 } as const
 
 export type RfqInvitationScalarFieldEnum = (typeof RfqInvitationScalarFieldEnum)[keyof typeof RfqInvitationScalarFieldEnum]
@@ -10239,6 +10391,9 @@ export const WorkOrderScalarFieldEnum = {
   customerDeclineReason: 'customerDeclineReason',
   supplierAcceptedAt: 'supplierAcceptedAt',
   supplierAcceptedById: 'supplierAcceptedById',
+  supplierAcceptedIp: 'supplierAcceptedIp',
+  supplierAcceptedUa: 'supplierAcceptedUa',
+  supplierAcceptedName: 'supplierAcceptedName',
   scheduledAt: 'scheduledAt',
   completedAt: 'completedAt',
   completionNote: 'completionNote',
@@ -10257,6 +10412,47 @@ export const WorkOrderScalarFieldEnum = {
 } as const
 
 export type WorkOrderScalarFieldEnum = (typeof WorkOrderScalarFieldEnum)[keyof typeof WorkOrderScalarFieldEnum]
+
+
+export const SupplierContactScalarFieldEnum = {
+  id: 'id',
+  supplierId: 'supplierId',
+  name: 'name',
+  position: 'position',
+  phone: 'phone',
+  mobile: 'mobile',
+  email: 'email',
+  isPrimary: 'isPrimary',
+  receivesRfq: 'receivesRfq',
+  active: 'active',
+  notes: 'notes',
+  userId: 'userId',
+  createdById: 'createdById',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SupplierContactScalarFieldEnum = (typeof SupplierContactScalarFieldEnum)[keyof typeof SupplierContactScalarFieldEnum]
+
+
+export const SupplierInviteLinkScalarFieldEnum = {
+  id: 'id',
+  tokenHash: 'tokenHash',
+  kind: 'kind',
+  supplierId: 'supplierId',
+  email: 'email',
+  rfqInvitationId: 'rfqInvitationId',
+  contactId: 'contactId',
+  expiresAt: 'expiresAt',
+  sentAt: 'sentAt',
+  sentCount: 'sentCount',
+  openedAt: 'openedAt',
+  usedAt: 'usedAt',
+  revokedAt: 'revokedAt',
+  createdById: 'createdById'
+} as const
+
+export type SupplierInviteLinkScalarFieldEnum = (typeof SupplierInviteLinkScalarFieldEnum)[keyof typeof SupplierInviteLinkScalarFieldEnum]
 
 
 export const SupplierInquiryScalarFieldEnum = {
@@ -10998,6 +11194,20 @@ export type ListEnumWorkOrderStatusFieldRefInput<$PrismaModel> = FieldRefInputTy
 
 
 /**
+ * Reference to a field of type 'SupplierInviteKind'
+ */
+export type EnumSupplierInviteKindFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SupplierInviteKind'>
+    
+
+
+/**
+ * Reference to a field of type 'SupplierInviteKind[]'
+ */
+export type ListEnumSupplierInviteKindFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SupplierInviteKind[]'>
+    
+
+
+/**
  * Reference to a field of type 'SupplierInquiryKind'
  */
 export type EnumSupplierInquiryKindFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SupplierInquiryKind'>
@@ -11234,6 +11444,8 @@ export type GlobalOmitConfig = {
   rfqInvitation?: Prisma.RfqInvitationOmit
   supplierOffer?: Prisma.SupplierOfferOmit
   workOrder?: Prisma.WorkOrderOmit
+  supplierContact?: Prisma.SupplierContactOmit
+  supplierInviteLink?: Prisma.SupplierInviteLinkOmit
   supplierInquiry?: Prisma.SupplierInquiryOmit
   contractTemplate?: Prisma.ContractTemplateOmit
   aiConversation?: Prisma.AiConversationOmit

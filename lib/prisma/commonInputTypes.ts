@@ -1037,6 +1037,23 @@ export type EnumWorkOrderStatusWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumWorkOrderStatusFilter<$PrismaModel>
 }
 
+export type EnumSupplierInviteKindFilter<$PrismaModel = never> = {
+  equals?: $Enums.SupplierInviteKind | Prisma.EnumSupplierInviteKindFieldRefInput<$PrismaModel>
+  in?: $Enums.SupplierInviteKind[] | Prisma.ListEnumSupplierInviteKindFieldRefInput<$PrismaModel>
+  notIn?: $Enums.SupplierInviteKind[] | Prisma.ListEnumSupplierInviteKindFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumSupplierInviteKindFilter<$PrismaModel> | $Enums.SupplierInviteKind
+}
+
+export type EnumSupplierInviteKindWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.SupplierInviteKind | Prisma.EnumSupplierInviteKindFieldRefInput<$PrismaModel>
+  in?: $Enums.SupplierInviteKind[] | Prisma.ListEnumSupplierInviteKindFieldRefInput<$PrismaModel>
+  notIn?: $Enums.SupplierInviteKind[] | Prisma.ListEnumSupplierInviteKindFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumSupplierInviteKindWithAggregatesFilter<$PrismaModel> | $Enums.SupplierInviteKind
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumSupplierInviteKindFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumSupplierInviteKindFilter<$PrismaModel>
+}
+
 export type EnumSupplierInquiryKindFilter<$PrismaModel = never> = {
   equals?: $Enums.SupplierInquiryKind | Prisma.EnumSupplierInquiryKindFieldRefInput<$PrismaModel>
   in?: $Enums.SupplierInquiryKind[] | Prisma.ListEnumSupplierInquiryKindFieldRefInput<$PrismaModel>
@@ -2029,6 +2046,23 @@ export type NestedEnumWorkOrderStatusWithAggregatesFilter<$PrismaModel = never> 
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumWorkOrderStatusFilter<$PrismaModel>
   _max?: Prisma.NestedEnumWorkOrderStatusFilter<$PrismaModel>
+}
+
+export type NestedEnumSupplierInviteKindFilter<$PrismaModel = never> = {
+  equals?: $Enums.SupplierInviteKind | Prisma.EnumSupplierInviteKindFieldRefInput<$PrismaModel>
+  in?: $Enums.SupplierInviteKind[] | Prisma.ListEnumSupplierInviteKindFieldRefInput<$PrismaModel>
+  notIn?: $Enums.SupplierInviteKind[] | Prisma.ListEnumSupplierInviteKindFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumSupplierInviteKindFilter<$PrismaModel> | $Enums.SupplierInviteKind
+}
+
+export type NestedEnumSupplierInviteKindWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.SupplierInviteKind | Prisma.EnumSupplierInviteKindFieldRefInput<$PrismaModel>
+  in?: $Enums.SupplierInviteKind[] | Prisma.ListEnumSupplierInviteKindFieldRefInput<$PrismaModel>
+  notIn?: $Enums.SupplierInviteKind[] | Prisma.ListEnumSupplierInviteKindFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumSupplierInviteKindWithAggregatesFilter<$PrismaModel> | $Enums.SupplierInviteKind
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumSupplierInviteKindFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumSupplierInviteKindFilter<$PrismaModel>
 }
 
 export type NestedEnumSupplierInquiryKindFilter<$PrismaModel = never> = {

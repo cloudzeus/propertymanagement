@@ -151,6 +151,8 @@ export const ModelName = {
   RfqInvitation: 'RfqInvitation',
   SupplierOffer: 'SupplierOffer',
   WorkOrder: 'WorkOrder',
+  SupplierContact: 'SupplierContact',
+  SupplierInviteLink: 'SupplierInviteLink',
   SupplierInquiry: 'SupplierInquiry',
   ContractTemplate: 'ContractTemplate',
   AiConversation: 'AiConversation',
@@ -1963,7 +1965,9 @@ export const RfqInvitationScalarFieldEnum = {
   status: 'status',
   sentAt: 'sentAt',
   viewedAt: 'viewedAt',
-  declineReason: 'declineReason'
+  declineReason: 'declineReason',
+  lastEmailAt: 'lastEmailAt',
+  emailCount: 'emailCount'
 } as const
 
 export type RfqInvitationScalarFieldEnum = (typeof RfqInvitationScalarFieldEnum)[keyof typeof RfqInvitationScalarFieldEnum]
@@ -2022,6 +2026,9 @@ export const WorkOrderScalarFieldEnum = {
   customerDeclineReason: 'customerDeclineReason',
   supplierAcceptedAt: 'supplierAcceptedAt',
   supplierAcceptedById: 'supplierAcceptedById',
+  supplierAcceptedIp: 'supplierAcceptedIp',
+  supplierAcceptedUa: 'supplierAcceptedUa',
+  supplierAcceptedName: 'supplierAcceptedName',
   scheduledAt: 'scheduledAt',
   completedAt: 'completedAt',
   completionNote: 'completionNote',
@@ -2040,6 +2047,47 @@ export const WorkOrderScalarFieldEnum = {
 } as const
 
 export type WorkOrderScalarFieldEnum = (typeof WorkOrderScalarFieldEnum)[keyof typeof WorkOrderScalarFieldEnum]
+
+
+export const SupplierContactScalarFieldEnum = {
+  id: 'id',
+  supplierId: 'supplierId',
+  name: 'name',
+  position: 'position',
+  phone: 'phone',
+  mobile: 'mobile',
+  email: 'email',
+  isPrimary: 'isPrimary',
+  receivesRfq: 'receivesRfq',
+  active: 'active',
+  notes: 'notes',
+  userId: 'userId',
+  createdById: 'createdById',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SupplierContactScalarFieldEnum = (typeof SupplierContactScalarFieldEnum)[keyof typeof SupplierContactScalarFieldEnum]
+
+
+export const SupplierInviteLinkScalarFieldEnum = {
+  id: 'id',
+  tokenHash: 'tokenHash',
+  kind: 'kind',
+  supplierId: 'supplierId',
+  email: 'email',
+  rfqInvitationId: 'rfqInvitationId',
+  contactId: 'contactId',
+  expiresAt: 'expiresAt',
+  sentAt: 'sentAt',
+  sentCount: 'sentCount',
+  openedAt: 'openedAt',
+  usedAt: 'usedAt',
+  revokedAt: 'revokedAt',
+  createdById: 'createdById'
+} as const
+
+export type SupplierInviteLinkScalarFieldEnum = (typeof SupplierInviteLinkScalarFieldEnum)[keyof typeof SupplierInviteLinkScalarFieldEnum]
 
 
 export const SupplierInquiryScalarFieldEnum = {

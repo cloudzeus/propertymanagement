@@ -373,6 +373,14 @@ export const WorkOrderStatus = {
 export type WorkOrderStatus = (typeof WorkOrderStatus)[keyof typeof WorkOrderStatus]
 
 
+export const SupplierInviteKind = {
+  RFQ_INVITE: 'RFQ_INVITE',
+  CONTACT_ACTIVATION: 'CONTACT_ACTIVATION'
+} as const
+
+export type SupplierInviteKind = (typeof SupplierInviteKind)[keyof typeof SupplierInviteKind]
+
+
 export const SupplierInquiryKind = {
   OFFER: 'OFFER',
   APPOINTMENT: 'APPOINTMENT'

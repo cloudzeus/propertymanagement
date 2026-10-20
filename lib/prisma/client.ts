@@ -545,6 +545,16 @@ export type SupplierOffer = Prisma.SupplierOfferModel
  */
 export type WorkOrder = Prisma.WorkOrderModel
 /**
+ * Model SupplierContact
+ * 
+ */
+export type SupplierContact = Prisma.SupplierContactModel
+/**
+ * Model SupplierInviteLink
+ * 
+ */
+export type SupplierInviteLink = Prisma.SupplierInviteLinkModel
+/**
  * Model SupplierInquiry
  * 
  */
