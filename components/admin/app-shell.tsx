@@ -9,6 +9,9 @@ import { ImpersonationBanner } from "./impersonation-banner";
 import { NotificationsBell } from "@/components/maintenance/notifications-bell";
 import { getEffectivePermissions, buildMenu } from "@/lib/rbac/permissions";
 import { db } from "@/lib/db";
+import { AssistantDrawer } from "@/components/assistant/AssistantDrawer";
+import { HelpButton } from "@/components/help/HelpButton";
+import { surfaceForRole } from "@/lib/surfaces";
 
 const EXPENSE_ROLES = ["SUPER_ADMIN", "ADMIN", "MANAGER", "PROPERTY_ADMIN"];
 const OCCUPANT_ROLES = ["PROPERTY_OWNER", "PROPERTY_RESIDENT"];
@@ -88,6 +91,9 @@ export async function AppShell({ children, allowedRoles }: Props) {
         </main>
         {/* Context-aware quick menu (bottom-left of the content area) — replaces the old fixed "Νέο έξοδο" button. */}
         <QuickActions role={role} allowedHrefs={menu.flatMap((g) => g.items.map((i) => i.href))} expenseBuildings={expenseBuildings} />
+        {/* Role-aware AI assistant (bottom-right drawer) — reads are scoped per role, writes need in-chat confirmation. */}
+        <HelpButton />
+        <AssistantDrawer surface={surfaceForRole(role)} />
       </div>
     </div>
   );
