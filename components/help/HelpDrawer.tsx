@@ -7,7 +7,7 @@ import { RiCloseLine, RiBookOpenLine, RiRobot2Line, RiExternalLinkLine, RiQuesti
 import { Markdown } from "@/components/cms/Markdown";
 import { ASSISTANT_EVENT } from "@/components/assistant/AssistantDrawer";
 
-type Article = { slug: string; title: string; route: string; markdown: string; prompts: string[]; related: { slug: string; title: string }[]; hubHref: string; openInHub: string };
+type Article = { slug: string; title: string; route: string; markdown: string; prompts: string[]; related: { slug: string; title: string }[]; anchor: string | null; hubHref: string; openInHub: string };
 type Fallback = { title: string; hubHref: string; manualHref: string };
 type State = { kind: "loading" } | { kind: "article"; article: Article } | { kind: "fallback"; fallback: Fallback } | { kind: "error" };
 
@@ -43,8 +43,16 @@ export function HelpDrawer({ open, onClose }: { open: boolean; onClose: () => vo
     return () => document.removeEventListener("keydown", onKey);
   }, [open, onClose]);
 
+  // `?s=<tab>` → the article's matching section (anchor computed server-side from the article's `sections`).
+  const anchor = state.kind === "article" ? state.article.anchor : null;
+  useEffect(() => {
+    if (!open || !anchor) return;
+    const el = document.getElementById(anchor);
+    if (el) el.scrollIntoView({ block: "start" });
+  }, [open, anchor, key]);
+
   if (!open) return null;
-  const title = state.kind === "article" ? state.article.title : state.kind === "fallback" ? "Βοήθεια" : "Βοήθεια";
+  const title = state.kind === "article" ? state.article.title : "Βοήθεια";
   const askAssistant = (prompt: string) => { onClose(); window.dispatchEvent(new CustomEvent(ASSISTANT_EVENT, { detail: { prompt } })); };
 
   return (

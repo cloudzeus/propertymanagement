@@ -13,6 +13,8 @@ export type WikiArticleMeta = {
   summary: string;
   prompts: string[];
   related: string[];
+  /** Optional `"tabKey: Heading"` pairs so `?s=<tabKey>` scrolls the help drawer to that section. */
+  sections?: string[];
 };
 
 export const AREA_LABELS: Record<string, string> = {

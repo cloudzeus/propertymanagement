@@ -55,4 +55,9 @@ describe("toArticleMeta", () => {
     expect(toArticleMeta("a", { title: "t", route: "/marketplace/rfq" })!.surface).toBe("marketplace");
     expect(toArticleMeta("a", { title: "t", route: "/report" })!.surface).toBe("standalone");
   });
+  it("reads the optional sections list (tab key → heading) used for help anchors", () => {
+    const { meta } = parseFrontmatter(`---\ntitle: t\nroute: /building/[id]\nsections: ["koino: Κοινόχρηστα", "finance: Οικονομικά"]\n---\nbody`);
+    expect(toArticleMeta("a", meta)!.sections).toEqual(["koino: Κοινόχρηστα", "finance: Οικονομικά"]);
+    expect(toArticleMeta("a", { title: "t", route: "/x" })!.sections).toEqual([]);
+  });
 });

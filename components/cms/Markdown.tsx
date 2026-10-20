@@ -2,8 +2,14 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeSanitize from "rehype-sanitize";
 import { Mermaid } from "./Mermaid";
+import { headingId } from "@/lib/help/anchors";
+
+const textOf = (n: React.ReactNode): string => (typeof n === "string" || typeof n === "number" ? String(n) : Array.isArray(n) ? n.map(textOf).join("") : n && typeof n === "object" && "props" in n ? textOf((n as { props: { children?: React.ReactNode } }).props.children) : "");
+/** Headings get stable ids (see lib/help/anchors) so help links and the drawer can scroll to a section. */
+const heading = (Tag: "h2" | "h3" | "h4") => function Heading({ children }: { children?: React.ReactNode }) { return <Tag id={headingId(textOf(children))}>{children}</Tag>; };
 
 const components = {
+  h2: heading("h2"), h3: heading("h3"), h4: heading("h4"),
   code({ className, children, ...rest }: { className?: string; children?: React.ReactNode }) {
     if (className === "language-mermaid") return <Mermaid code={String(children ?? "").replace(/\n$/, "")} />;
     return <code className={className} {...rest}>{children}</code>;

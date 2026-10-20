@@ -54,5 +54,6 @@ export function toArticleMeta(slug: string, meta: Record<string, string | string
     summary: typeof meta.summary === "string" ? meta.summary : "",
     prompts: list(meta.prompts),
     related: list(meta.related),
+    sections: list(meta.sections),
   };
 }
