@@ -1,14 +1,22 @@
 import "server-only";
 import { db } from "@/lib/db";
 import type { Prisma } from "@/lib/prisma/client";
-import type { RfqDTO, OfferDTO, WorkOrderDTO } from "@/lib/rfq-shared";
+import { invitationState, type RfqDTO, type OfferDTO, type WorkOrderDTO, type RfqInvitationRowDTO, type InvitationRecipientDTO } from "@/lib/rfq-shared";
 
 const place = (...parts: (string | null | undefined)[]) => [...new Set(parts.filter(Boolean) as string[])].join(", ");
 const iso = (d: Date | null | undefined) => (d ? d.toISOString() : null);
 const num = (v: Prisma.Decimal | null | undefined) => (v == null ? null : Number(v));
 
+const linkSelect = { select: { email: true, sentAt: true, openedAt: true, expiresAt: true, revokedAt: true, usedAt: true }, where: { revokedAt: null }, orderBy: { sentAt: "desc" as const } };
+
+/** The company sees who was mailed, when, and whether they opened the link. */
+function recipientsOf(links: { email: string; sentAt: Date; openedAt: Date | null; expiresAt: Date }[]): InvitationRecipientDTO[] {
+  const seen = new Set<string>();
+  return links.filter((l) => (seen.has(l.email) ? false : (seen.add(l.email), true))).map((l) => ({ email: l.email, sentAt: l.sentAt.toISOString(), openedAt: iso(l.openedAt), expired: l.expiresAt.getTime() < Date.now() }));
+}
+
 export const rfqInclude = {
-  invitations: { include: { supplier: { select: { name: true } } }, orderBy: { sentAt: "asc" as const } },
+  invitations: { include: { supplier: { select: { name: true, email: true, contactEmail: true, _count: { select: { users: true, contactPeople: true } } } }, links: linkSelect }, orderBy: { sentAt: "asc" as const } },
   offers: { include: { supplier: { select: { name: true, ratingAvg: true, ratingCount: true } } }, orderBy: { createdAt: "asc" as const } },
 } satisfies Prisma.ServiceRequestInclude;
 
@@ -26,7 +34,14 @@ export function offerToDTO(o: RfqRow["offers"][number]): OfferDTO {
 export function rfqToDTO(r: RfqRow): RfqDTO {
   return {
     id: r.id, title: r.title, description: r.description, status: r.status, deadlineAt: iso(r.deadlineAt), surveyRequired: r.surveyRequired, notes: r.notes, createdAt: r.createdAt.toISOString(),
-    invitations: r.invitations.map((i) => ({ supplierId: i.supplierId, supplierName: i.supplier.name, status: i.status, viewedAt: iso(i.viewedAt), declineReason: i.declineReason })),
+    invitations: r.invitations.map((i) => {
+      const hasRecipient = !!(i.supplier.email || i.supplier.contactEmail || i.supplier._count.users || i.supplier._count.contactPeople);
+      return {
+        id: i.id, supplierId: i.supplierId, supplierName: i.supplier.name, status: i.status, viewedAt: iso(i.viewedAt), declineReason: i.declineReason,
+        emailCount: i.emailCount, lastEmailAt: iso(i.lastEmailAt), hasRecipient, recipients: recipientsOf(i.links),
+        state: invitationState({ status: i.status, viewedAt: iso(i.viewedAt), emailCount: i.emailCount, hasRecipient }, { status: r.status, deadlineAt: iso(r.deadlineAt) }),
+      };
+    }),
     offers: r.offers.map(offerToDTO),
   };
 }
@@ -111,3 +126,43 @@ export async function listSupplierWorkOrders(supplierId: string) {
   }));
 }
 export type SupplierWorkOrderDTO = Awaited<ReturnType<typeof listSupplierWorkOrders>>[number];
+
+/* ------------------------------------------------------------------ */
+/* /staff/rfq board                                                     */
+/* ------------------------------------------------------------------ */
+
+/** Every supplier invitation, newest first (one row per supplier × RFQ). */
+export async function listRfqInvitationRows(): Promise<RfqInvitationRowDTO[]> {
+  const rows = await db.rfqInvitation.findMany({
+    include: {
+      supplier: { select: { name: true, email: true, contactEmail: true, _count: { select: { users: true, contactPeople: true } } } },
+      links: linkSelect,
+      rfq: { select: { id: true, status: true, title: true, deadlineAt: true, surveyRequired: true, maintenanceRequestId: true, buildingId: true, building: { select: { name: true } }, offers: { select: { id: true, supplierId: true, amount: true, status: true } } } },
+    },
+    orderBy: { sentAt: "desc" },
+    take: 1000,
+  });
+  return rows.map((i) => {
+    const hasRecipient = !!(i.supplier.email || i.supplier.contactEmail || i.supplier._count.users || i.supplier._count.contactPeople);
+    const offer = i.rfq.offers.find((o) => o.supplierId === i.supplierId && o.status !== "WITHDRAWN") ?? null;
+    const rfq = { status: i.rfq.status, deadlineAt: iso(i.rfq.deadlineAt) };
+    return {
+      id: i.id, rfqId: i.rfq.id, rfqStatus: i.rfq.status, rfqTitle: i.rfq.title, deadlineAt: rfq.deadlineAt, surveyRequired: i.rfq.surveyRequired,
+      maintenanceRequestId: i.rfq.maintenanceRequestId, buildingName: i.rfq.building.name, buildingId: i.rfq.buildingId,
+      supplierId: i.supplierId, supplierName: i.supplier.name, status: i.status, sentAt: i.sentAt.toISOString(), viewedAt: iso(i.viewedAt), declineReason: i.declineReason,
+      emailCount: i.emailCount, lastEmailAt: iso(i.lastEmailAt), hasRecipient, recipients: recipientsOf(i.links),
+      offer: offer ? { id: offer.id, amount: Number(offer.amount), status: offer.status } : null,
+      state: invitationState({ status: i.status, viewedAt: iso(i.viewedAt), emailCount: i.emailCount, hasRecipient }, rfq),
+    };
+  });
+}
+
+/** Faults a company user may still send an RFQ for: open, not yet covered by an active work order. */
+export async function listOpenFaultsForRfq(): Promise<{ id: string; title: string; building: string; createdAt: string }[]> {
+  const rows = await db.maintenanceRequest.findMany({
+    where: { status: { in: ["OPEN", "ACKNOWLEDGED", "ON_HOLD"] }, workOrders: { none: { status: { notIn: ["DECLINED", "CANCELLED"] } } } },
+    orderBy: { createdAt: "desc" }, take: 300,
+    select: { id: true, title: true, createdAt: true, building: { select: { name: true, city: true } } },
+  });
+  return rows.map((r) => ({ id: r.id, title: r.title, building: place(r.building.name, r.building.city), createdAt: r.createdAt.toISOString() }));
+}

@@ -71,6 +71,7 @@ export async function runWorkOrdersJob(): Promise<Record<string, unknown>> {
   const stale = await db.serviceRequest.findMany({ where: { status: "OPEN", deadlineAt: { lt: grace }, offers: { none: {} } }, select: { id: true, title: true, maintenanceRequestId: true } });
   for (const r of stale) {
     await db.serviceRequest.update({ where: { id: r.id }, data: { status: "EXPIRED" } });
+    await db.rfqInvitation.updateMany({ where: { rfqId: r.id, status: "INVITED" }, data: { status: "EXPIRED" } });
     await notifyUsers(await companyStaffIds(), {
       type: "RFQ", title: `Έληξε χωρίς προσφορές: ${r.title}`, body: "Κανένας συνεργάτης δεν απάντησε μέχρι την προθεσμία. Στείλτε νέο αίτημα σε άλλους συνεργάτες.",
       href: r.maintenanceRequestId ? `/admin/maintenance/${r.maintenanceRequestId}` : "/admin/work-orders", requestId: r.maintenanceRequestId,

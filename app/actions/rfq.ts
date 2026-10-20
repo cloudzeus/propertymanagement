@@ -10,6 +10,9 @@ import { applyMarkup } from "@/lib/rfq-shared";
 import { renderContract } from "@/lib/contracts";
 import { publishBuildingEvent } from "@/lib/realtime/bus";
 import { STATUS_TRANSITIONS, type FaultStatus } from "@/lib/maintenance-shared";
+import { COMPANY_ROLES } from "@/lib/roles-constants";
+import { sendRfqInvitations } from "@/lib/rfq-send";
+import { listRfqCandidates } from "@/lib/rfq-candidates";
 
 /* ------------------------------------------------------------------ */
 /* Actors                                                              */
@@ -26,6 +29,8 @@ async function actor() {
   return { id: eff.user.id, role: eff.user.role as string, customerId: eff.user.customerId, supplierId: u?.supplierId ?? null, isSupplierAdmin: u?.isSupplierAdmin ?? false, perms: resolved.perms };
 }
 const isStaff = (a: { role: string }) => STAFF.includes(a.role);
+/** Any company role (SUPER_ADMIN/ADMIN/MANAGER/EMPLOYEE) — RFQ sending is gated by the `rfq` module, not by role tier. */
+const isCompany = (a: { role: string }) => (COMPANY_ROLES as readonly string[]).includes(a.role);
 
 /** PROPERTY_ADMIN who decides for this building (management assignment or the building's customer). */
 async function isDecider(a: { id: string; role: string }, buildingId: string) {
@@ -34,7 +39,7 @@ async function isDecider(a: { id: string; role: string }, buildingId: string) {
 }
 
 function revalidate(reqId?: string | null, buildingId?: string | null) {
-  revalidatePath("/admin/maintenance"); revalidatePath("/admin/work-orders");
+  revalidatePath("/admin/maintenance"); revalidatePath("/admin/work-orders"); revalidatePath("/staff/rfq");
   revalidatePath("/marketplace"); revalidatePath("/marketplace/rfq"); revalidatePath("/marketplace/work-orders");
   if (reqId) { revalidatePath(`/admin/maintenance/${reqId}`); revalidatePath(`/portal/maintenance/${reqId}`); revalidatePath(`/portal/requests/${reqId}`); }
   if (buildingId) { revalidatePath(`/building/${buildingId}`); publishBuildingEvent(buildingId, "maintenance"); }
@@ -54,7 +59,7 @@ export type CreateRfqInput = { maintenanceRequestId: string; supplierIds: string
 
 export async function createRfq(input: CreateRfqInput) {
   const a = await actor();
-  if (!isStaff(a) || !can(a.perms, "suppliers", "edit")) return { error: "Δεν επιτρέπεται" };
+  if (!isCompany(a) || !can(a.perms, "rfq", "create")) return { error: "Δεν επιτρέπεται" };
   const req = await db.maintenanceRequest.findUnique({ where: { id: input.maintenanceRequestId }, select: { id: true, title: true, description: true, buildingId: true, categoryId: true, building: { select: { name: true, address: true, city: true } } } });
   if (!req) return { error: "Δεν βρέθηκε η βλάβη" };
   const ids = [...new Set(input.supplierIds.filter(Boolean))];
@@ -72,6 +77,8 @@ export async function createRfq(input: CreateRfqInput) {
     select: { id: true },
   });
   await db.maintenanceStatusEvent.create({ data: { requestId: req.id, toStatus: "RFQ_SENT", byUserId: a.id, note: `Αίτημα προσφοράς σε ${ids.length} συνεργάτ${ids.length === 1 ? "η" : "ες"}` } });
+  // branded e-mail with a personal link to every recipient of each supplier
+  const mailed = await sendRfqInvitations(rfq.id, ids, a.id);
   const crew = (await Promise.all(ids.map(supplierUserIds))).flat();
   await notifyUsers(crew, {
     type: "RFQ", title: `Αίτημα προσφοράς: ${req.title}`,
@@ -79,12 +86,53 @@ export async function createRfq(input: CreateRfqInput) {
     href: `/marketplace/rfq/${rfq.id}`, requestId: req.id,
   });
   revalidate(req.id, req.buildingId);
-  return { id: rfq.id };
+  return { id: rfq.id, sent: mailed.sent, noEmail: mailed.noEmail };
+}
+
+/** Invite more registry suppliers to an RFQ that is still open (OPEN/OFFERED). */
+export async function addRfqSuppliers(rfqId: string, supplierIds: string[]) {
+  const a = await actor();
+  if (!isCompany(a) || !can(a.perms, "rfq", "create")) return { error: "Δεν επιτρέπεται" };
+  const rfq = await db.serviceRequest.findUnique({ where: { id: rfqId }, select: { id: true, status: true, title: true, maintenanceRequestId: true, buildingId: true, building: { select: { name: true, city: true } }, invitations: { select: { supplierId: true } } } });
+  if (!rfq) return { error: "Δεν βρέθηκε το αίτημα" };
+  if (!["OPEN", "OFFERED"].includes(rfq.status)) return { error: "Το αίτημα δεν δέχεται πλέον προσκλήσεις" };
+  const have = new Set(rfq.invitations.map((i) => i.supplierId));
+  const ids = [...new Set(supplierIds.filter((id) => id && !have.has(id)))];
+  if (ids.length === 0) return { error: "Επιλέξτε τουλάχιστον έναν νέο συνεργάτη" };
+  const ok = await db.supplier.findMany({ where: { id: { in: ids }, customerId: null, isPlatform: false, isActive: true }, select: { id: true } });
+  if (ok.length !== ids.length) return { error: "Κάποιος συνεργάτης δεν είναι στο μητρώο ή είναι ανενεργός" };
+  await db.rfqInvitation.createMany({ data: ids.map((supplierId) => ({ rfqId, supplierId })), skipDuplicates: true });
+  const mailed = await sendRfqInvitations(rfqId, ids, a.id);
+  const crew = (await Promise.all(ids.map(supplierUserIds))).flat();
+  await notifyUsers(crew, { type: "RFQ", title: `Αίτημα προσφοράς: ${rfq.title}`, body: `Η εταιρεία διαχείρισης ζητά προσφορά για εργασία στο κτήριο ${[rfq.building.name, rfq.building.city].filter(Boolean).join(", ")}.`, href: `/marketplace/rfq/${rfqId}`, requestId: rfq.maintenanceRequestId });
+  revalidate(rfq.maintenanceRequestId, rfq.buildingId);
+  return { ok: true as const, sent: mailed.sent, noEmail: mailed.noEmail };
+}
+
+/** Re-send the invitation e-mail (new personal links; the old ones stop working). */
+export async function resendRfqInvitation(invitationId: string) {
+  const a = await actor();
+  if (!isCompany(a) || !can(a.perms, "rfq", "edit")) return { error: "Δεν επιτρέπεται" };
+  const inv = await db.rfqInvitation.findUnique({ where: { id: invitationId }, select: { id: true, supplierId: true, status: true, rfq: { select: { id: true, status: true, maintenanceRequestId: true, buildingId: true } } } });
+  if (!inv) return { error: "Δεν βρέθηκε η πρόσκληση" };
+  if (!["OPEN", "OFFERED"].includes(inv.rfq.status)) return { error: "Το αίτημα δεν είναι πλέον ανοιχτό" };
+  if (inv.status !== "INVITED") return { error: "Ο συνεργάτης έχει ήδη απαντήσει" };
+  const mailed = await sendRfqInvitations(inv.rfq.id, [inv.supplierId], a.id);
+  if (mailed.sent === 0) return { error: "Ο συνεργάτης δεν έχει καμία διεύθυνση email — προσθέστε επαφή με email στην καρτέλα του." };
+  revalidate(inv.rfq.maintenanceRequestId, inv.rfq.buildingId);
+  return { ok: true as const, sent: mailed.sent };
+}
+
+/** Ranked candidates for the picker (used by /staff/rfq after choosing a fault). */
+export async function loadRfqCandidatesAction(maintenanceRequestId: string) {
+  const a = await actor();
+  if (!isCompany(a) || !can(a.perms, "rfq", "create")) return { error: "Δεν επιτρέπεται" };
+  return listRfqCandidates(maintenanceRequestId);
 }
 
 export async function cancelRfq(rfqId: string) {
   const a = await actor();
-  if (!isStaff(a)) return { error: "Δεν επιτρέπεται" };
+  if (!isCompany(a) || !can(a.perms, "rfq", "edit")) return { error: "Δεν επιτρέπεται" };
   const r = await db.serviceRequest.update({ where: { id: rfqId }, data: { status: "CANCELLED" }, select: { maintenanceRequestId: true, buildingId: true, invitations: { select: { supplierId: true } }, title: true } });
   const crew = (await Promise.all(r.invitations.map((i) => supplierUserIds(i.supplierId)))).flat();
   await notifyUsers(crew, { type: "RFQ", title: `Ακυρώθηκε το αίτημα προσφοράς: ${r.title}`, href: "/marketplace/rfq" });

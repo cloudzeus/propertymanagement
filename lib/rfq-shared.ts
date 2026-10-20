@@ -95,7 +95,10 @@ export type OfferDTO = {
 };
 export type RfqDTO = {
   id: string; title: string; description: string; status: string; deadlineAt: string | null; surveyRequired: boolean; notes: string | null; createdAt: string;
-  invitations: { supplierId: string; supplierName: string; status: string; viewedAt: string | null; declineReason: string | null }[];
+  invitations: {
+    id: string; supplierId: string; supplierName: string; status: string; viewedAt: string | null; declineReason: string | null;
+    emailCount: number; lastEmailAt: string | null; hasRecipient: boolean; recipients: InvitationRecipientDTO[]; state: InvitationState;
+  }[];
   offers: OfferDTO[];
 };
 export type WorkOrderDTO = {
