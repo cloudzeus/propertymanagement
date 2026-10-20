@@ -6,8 +6,25 @@ import { ACCESS_DENIED, type AssistantCtx } from "./types";
 export type Resolved = { id: string; name: string };
 const norm = (s: string) => s.toLowerCase().trim();
 
-/** Buildings reachable in the caller's scope (occupant + manager). Staff resolve by search instead. */
+/** Buildings where the collaborator's supplier has (had) a job — mirrors canReportInBuilding in app/actions/maintenance-requests. */
+async function collaboratorBuildings(ctx: AssistantCtx): Promise<Resolved[]> {
+  if (!ctx.scope.supplierId) return [];
+  const rows = await db.maintenanceRequest.findMany({ where: { supplierId: ctx.scope.supplierId }, distinct: ["buildingId"], select: { building: { select: { id: true, name: true } } } });
+  return rows.map((r) => r.building);
+}
+
+/** Can the caller reach this building id? Staff/managers/occupants via getBuildingAccess; collaborators via their supplier's jobs. */
+async function canReachBuilding(ctx: AssistantCtx, buildingId: string): Promise<boolean> {
+  if (ctx.user.role === "COLLABORATOR") {
+    if (!ctx.scope.supplierId) return false;
+    return !!(await db.maintenanceRequest.findFirst({ where: { buildingId, supplierId: ctx.scope.supplierId }, select: { id: true } }));
+  }
+  return !!(await getBuildingAccess(ctx.user.id, buildingId));
+}
+
+/** Buildings reachable in the caller's scope (occupant + manager, or the collaborator's job sites). Staff resolve by search instead. */
 export async function scopeBuildings(ctx: AssistantCtx): Promise<Resolved[]> {
+  if (ctx.user.role === "COLLABORATOR") return collaboratorBuildings(ctx);
   const map = new Map<string, string>();
   for (const u of ctx.scope.occupantUnits) map.set(u.buildingId, u.buildingName);
   const missing = ctx.scope.managerBuildingIds.filter((id) => !map.has(id));
@@ -20,8 +37,7 @@ export async function scopeBuildings(ctx: AssistantCtx): Promise<Resolved[]> {
 /** Resolve a building from an explicit id, a name, the page, or a single-building scope — always authorized. */
 export async function resolveBuilding(ctx: AssistantCtx, q: { buildingId?: string | null; buildingName?: string | null }): Promise<Resolved | { error: string }> {
   if (q.buildingId) {
-    const access = await getBuildingAccess(ctx.user.id, q.buildingId);
-    if (!access) return { error: ACCESS_DENIED };
+    if (!(await canReachBuilding(ctx, q.buildingId))) return { error: ACCESS_DENIED };
     const b = await db.building.findUnique({ where: { id: q.buildingId }, select: { id: true, name: true } });
     return b ?? { error: ACCESS_DENIED };
   }
