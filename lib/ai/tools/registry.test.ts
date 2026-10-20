@@ -15,6 +15,7 @@ vi.mock("@/lib/building/occupant-data", () => ({ getOccupantControlCenter: vi.fn
 import { vi } from "vitest";
 import { TOOLS, toolsForRole, toAgentTools, findTool } from "./registry";
 import type { AssistantTool } from "./types";
+import { TOOL_LABELS } from "./labels";
 
 describe("registry", () => {
   it("has unique names and object JSON schemas", () => {
@@ -23,6 +24,10 @@ describe("registry", () => {
     for (const t of toAgentTools(TOOLS)) expect((t.parameters as { type?: string }).type).toBe("object");
     expect(findTool("listFaults")?.kind).toBe("read");
     expect(findTool("nope")).toBeUndefined();
+  });
+  it("has a client-safe label for every tool, matching the tool's own label", () => {
+    for (const t of TOOLS) expect(TOOL_LABELS[t.name]).toBe(t.label);
+    expect(Object.keys(TOOL_LABELS).sort()).toEqual(TOOLS.map((t) => t.name).sort());
   });
   it("filters tools by role", () => {
     const resident = toolsForRole("PROPERTY_RESIDENT", new Set()).map((t) => t.name);

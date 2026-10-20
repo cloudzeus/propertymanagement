@@ -4,7 +4,7 @@ import { useState } from "react";
 import { RiRefreshLine, RiLoader4Line, RiBookOpenLine, RiShieldCheckLine } from "react-icons/ri";
 import { DataTable, type ColDef } from "@/components/ui/data-table";
 import { reindexWiki, type AiActionRow } from "@/app/actions/ai-assistant";
-import { TOOL_LABELS } from "@/lib/ai/tools/registry";
+import { TOOL_LABELS } from "@/lib/ai/tools/labels";
 
 const STATUS: Record<string, { label: string; color: string }> = {
   PROPOSED: { label: "Προτάθηκε", color: "#8a5a00" }, EXECUTING: { label: "Εκτελείται", color: "#0078D4" }, EXECUTED: { label: "Εκτελέστηκε", color: "#0f7b3e" },

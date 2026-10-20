@@ -43,4 +43,4 @@ export function findTool(name: string): AssistantTool | undefined {
   return TOOLS.find((t) => t.name === name);
 }
 
-export const TOOL_LABELS: Record<string, string> = Object.fromEntries(TOOLS.map((t) => [t.name, t.label]));
+export { TOOL_LABELS } from "./labels";
