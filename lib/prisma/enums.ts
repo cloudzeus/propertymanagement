@@ -318,6 +318,14 @@ export const SoftoneSyncStatus = {
 export type SoftoneSyncStatus = (typeof SoftoneSyncStatus)[keyof typeof SoftoneSyncStatus]
 
 
+export const SoftoneSyncDirection = {
+  PUSH: 'PUSH',
+  PULL: 'PULL'
+} as const
+
+export type SoftoneSyncDirection = (typeof SoftoneSyncDirection)[keyof typeof SoftoneSyncDirection]
+
+
 export const SupplierKind = {
   SERVICES: 'SERVICES',
   PRODUCTS: 'PRODUCTS',

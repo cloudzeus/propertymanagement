@@ -28,10 +28,12 @@ export type AggregateSoftoneSyncLog = {
 
 export type SoftoneSyncLogAvgAggregateOutputType = {
   softoneKey: number | null
+  durationMs: number | null
 }
 
 export type SoftoneSyncLogSumAggregateOutputType = {
   softoneKey: number | null
+  durationMs: number | null
 }
 
 export type SoftoneSyncLogMinAggregateOutputType = {
@@ -40,10 +42,13 @@ export type SoftoneSyncLogMinAggregateOutputType = {
   entityId: string | null
   object: string | null
   action: string | null
+  direction: $Enums.SoftoneSyncDirection | null
   status: $Enums.SoftoneSyncStatus | null
   softoneKey: number | null
   error: string | null
   byUserId: string | null
+  trigger: string | null
+  durationMs: number | null
   createdAt: Date | null
 }
 
@@ -53,10 +58,13 @@ export type SoftoneSyncLogMaxAggregateOutputType = {
   entityId: string | null
   object: string | null
   action: string | null
+  direction: $Enums.SoftoneSyncDirection | null
   status: $Enums.SoftoneSyncStatus | null
   softoneKey: number | null
   error: string | null
   byUserId: string | null
+  trigger: string | null
+  durationMs: number | null
   createdAt: Date | null
 }
 
@@ -66,12 +74,16 @@ export type SoftoneSyncLogCountAggregateOutputType = {
   entityId: number
   object: number
   action: number
+  direction: number
   status: number
   softoneKey: number
+  counts: number
   payload: number
   response: number
   error: number
   byUserId: number
+  trigger: number
+  durationMs: number
   createdAt: number
   _all: number
 }
@@ -79,10 +91,12 @@ export type SoftoneSyncLogCountAggregateOutputType = {
 
 export type SoftoneSyncLogAvgAggregateInputType = {
   softoneKey?: true
+  durationMs?: true
 }
 
 export type SoftoneSyncLogSumAggregateInputType = {
   softoneKey?: true
+  durationMs?: true
 }
 
 export type SoftoneSyncLogMinAggregateInputType = {
@@ -91,10 +105,13 @@ export type SoftoneSyncLogMinAggregateInputType = {
   entityId?: true
   object?: true
   action?: true
+  direction?: true
   status?: true
   softoneKey?: true
   error?: true
   byUserId?: true
+  trigger?: true
+  durationMs?: true
   createdAt?: true
 }
 
@@ -104,10 +121,13 @@ export type SoftoneSyncLogMaxAggregateInputType = {
   entityId?: true
   object?: true
   action?: true
+  direction?: true
   status?: true
   softoneKey?: true
   error?: true
   byUserId?: true
+  trigger?: true
+  durationMs?: true
   createdAt?: true
 }
 
@@ -117,12 +137,16 @@ export type SoftoneSyncLogCountAggregateInputType = {
   entityId?: true
   object?: true
   action?: true
+  direction?: true
   status?: true
   softoneKey?: true
+  counts?: true
   payload?: true
   response?: true
   error?: true
   byUserId?: true
+  trigger?: true
+  durationMs?: true
   createdAt?: true
   _all?: true
 }
@@ -219,12 +243,16 @@ export type SoftoneSyncLogGroupByOutputType = {
   entityId: string
   object: string
   action: string
+  direction: $Enums.SoftoneSyncDirection
   status: $Enums.SoftoneSyncStatus
   softoneKey: number | null
+  counts: runtime.JsonValue | null
   payload: runtime.JsonValue | null
   response: runtime.JsonValue | null
   error: string | null
   byUserId: string | null
+  trigger: string | null
+  durationMs: number | null
   createdAt: Date
   _count: SoftoneSyncLogCountAggregateOutputType | null
   _avg: SoftoneSyncLogAvgAggregateOutputType | null
@@ -257,12 +285,16 @@ export type SoftoneSyncLogWhereInput = {
   entityId?: Prisma.StringFilter<"SoftoneSyncLog"> | string
   object?: Prisma.StringFilter<"SoftoneSyncLog"> | string
   action?: Prisma.StringFilter<"SoftoneSyncLog"> | string
+  direction?: Prisma.EnumSoftoneSyncDirectionFilter<"SoftoneSyncLog"> | $Enums.SoftoneSyncDirection
   status?: Prisma.EnumSoftoneSyncStatusFilter<"SoftoneSyncLog"> | $Enums.SoftoneSyncStatus
   softoneKey?: Prisma.IntNullableFilter<"SoftoneSyncLog"> | number | null
+  counts?: Prisma.JsonNullableFilter<"SoftoneSyncLog">
   payload?: Prisma.JsonNullableFilter<"SoftoneSyncLog">
   response?: Prisma.JsonNullableFilter<"SoftoneSyncLog">
   error?: Prisma.StringNullableFilter<"SoftoneSyncLog"> | string | null
   byUserId?: Prisma.StringNullableFilter<"SoftoneSyncLog"> | string | null
+  trigger?: Prisma.StringNullableFilter<"SoftoneSyncLog"> | string | null
+  durationMs?: Prisma.IntNullableFilter<"SoftoneSyncLog"> | number | null
   createdAt?: Prisma.DateTimeFilter<"SoftoneSyncLog"> | Date | string
 }
 
@@ -272,12 +304,16 @@ export type SoftoneSyncLogOrderByWithRelationInput = {
   entityId?: Prisma.SortOrder
   object?: Prisma.SortOrder
   action?: Prisma.SortOrder
+  direction?: Prisma.SortOrder
   status?: Prisma.SortOrder
   softoneKey?: Prisma.SortOrderInput | Prisma.SortOrder
+  counts?: Prisma.SortOrderInput | Prisma.SortOrder
   payload?: Prisma.SortOrderInput | Prisma.SortOrder
   response?: Prisma.SortOrderInput | Prisma.SortOrder
   error?: Prisma.SortOrderInput | Prisma.SortOrder
   byUserId?: Prisma.SortOrderInput | Prisma.SortOrder
+  trigger?: Prisma.SortOrderInput | Prisma.SortOrder
+  durationMs?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -290,12 +326,16 @@ export type SoftoneSyncLogWhereUniqueInput = Prisma.AtLeast<{
   entityId?: Prisma.StringFilter<"SoftoneSyncLog"> | string
   object?: Prisma.StringFilter<"SoftoneSyncLog"> | string
   action?: Prisma.StringFilter<"SoftoneSyncLog"> | string
+  direction?: Prisma.EnumSoftoneSyncDirectionFilter<"SoftoneSyncLog"> | $Enums.SoftoneSyncDirection
   status?: Prisma.EnumSoftoneSyncStatusFilter<"SoftoneSyncLog"> | $Enums.SoftoneSyncStatus
   softoneKey?: Prisma.IntNullableFilter<"SoftoneSyncLog"> | number | null
+  counts?: Prisma.JsonNullableFilter<"SoftoneSyncLog">
   payload?: Prisma.JsonNullableFilter<"SoftoneSyncLog">
   response?: Prisma.JsonNullableFilter<"SoftoneSyncLog">
   error?: Prisma.StringNullableFilter<"SoftoneSyncLog"> | string | null
   byUserId?: Prisma.StringNullableFilter<"SoftoneSyncLog"> | string | null
+  trigger?: Prisma.StringNullableFilter<"SoftoneSyncLog"> | string | null
+  durationMs?: Prisma.IntNullableFilter<"SoftoneSyncLog"> | number | null
   createdAt?: Prisma.DateTimeFilter<"SoftoneSyncLog"> | Date | string
 }, "id">
 
@@ -305,12 +345,16 @@ export type SoftoneSyncLogOrderByWithAggregationInput = {
   entityId?: Prisma.SortOrder
   object?: Prisma.SortOrder
   action?: Prisma.SortOrder
+  direction?: Prisma.SortOrder
   status?: Prisma.SortOrder
   softoneKey?: Prisma.SortOrderInput | Prisma.SortOrder
+  counts?: Prisma.SortOrderInput | Prisma.SortOrder
   payload?: Prisma.SortOrderInput | Prisma.SortOrder
   response?: Prisma.SortOrderInput | Prisma.SortOrder
   error?: Prisma.SortOrderInput | Prisma.SortOrder
   byUserId?: Prisma.SortOrderInput | Prisma.SortOrder
+  trigger?: Prisma.SortOrderInput | Prisma.SortOrder
+  durationMs?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.SoftoneSyncLogCountOrderByAggregateInput
   _avg?: Prisma.SoftoneSyncLogAvgOrderByAggregateInput
@@ -328,12 +372,16 @@ export type SoftoneSyncLogScalarWhereWithAggregatesInput = {
   entityId?: Prisma.StringWithAggregatesFilter<"SoftoneSyncLog"> | string
   object?: Prisma.StringWithAggregatesFilter<"SoftoneSyncLog"> | string
   action?: Prisma.StringWithAggregatesFilter<"SoftoneSyncLog"> | string
+  direction?: Prisma.EnumSoftoneSyncDirectionWithAggregatesFilter<"SoftoneSyncLog"> | $Enums.SoftoneSyncDirection
   status?: Prisma.EnumSoftoneSyncStatusWithAggregatesFilter<"SoftoneSyncLog"> | $Enums.SoftoneSyncStatus
   softoneKey?: Prisma.IntNullableWithAggregatesFilter<"SoftoneSyncLog"> | number | null
+  counts?: Prisma.JsonNullableWithAggregatesFilter<"SoftoneSyncLog">
   payload?: Prisma.JsonNullableWithAggregatesFilter<"SoftoneSyncLog">
   response?: Prisma.JsonNullableWithAggregatesFilter<"SoftoneSyncLog">
   error?: Prisma.StringNullableWithAggregatesFilter<"SoftoneSyncLog"> | string | null
   byUserId?: Prisma.StringNullableWithAggregatesFilter<"SoftoneSyncLog"> | string | null
+  trigger?: Prisma.StringNullableWithAggregatesFilter<"SoftoneSyncLog"> | string | null
+  durationMs?: Prisma.IntNullableWithAggregatesFilter<"SoftoneSyncLog"> | number | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"SoftoneSyncLog"> | Date | string
 }
 
@@ -343,12 +391,16 @@ export type SoftoneSyncLogCreateInput = {
   entityId: string
   object: string
   action: string
+  direction?: $Enums.SoftoneSyncDirection
   status: $Enums.SoftoneSyncStatus
   softoneKey?: number | null
+  counts?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   payload?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   response?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   error?: string | null
   byUserId?: string | null
+  trigger?: string | null
+  durationMs?: number | null
   createdAt?: Date | string
 }
 
@@ -358,12 +410,16 @@ export type SoftoneSyncLogUncheckedCreateInput = {
   entityId: string
   object: string
   action: string
+  direction?: $Enums.SoftoneSyncDirection
   status: $Enums.SoftoneSyncStatus
   softoneKey?: number | null
+  counts?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   payload?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   response?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   error?: string | null
   byUserId?: string | null
+  trigger?: string | null
+  durationMs?: number | null
   createdAt?: Date | string
 }
 
@@ -373,12 +429,16 @@ export type SoftoneSyncLogUpdateInput = {
   entityId?: Prisma.StringFieldUpdateOperationsInput | string
   object?: Prisma.StringFieldUpdateOperationsInput | string
   action?: Prisma.StringFieldUpdateOperationsInput | string
+  direction?: Prisma.EnumSoftoneSyncDirectionFieldUpdateOperationsInput | $Enums.SoftoneSyncDirection
   status?: Prisma.EnumSoftoneSyncStatusFieldUpdateOperationsInput | $Enums.SoftoneSyncStatus
   softoneKey?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  counts?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   payload?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   response?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   error?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   byUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trigger?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  durationMs?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -388,12 +448,16 @@ export type SoftoneSyncLogUncheckedUpdateInput = {
   entityId?: Prisma.StringFieldUpdateOperationsInput | string
   object?: Prisma.StringFieldUpdateOperationsInput | string
   action?: Prisma.StringFieldUpdateOperationsInput | string
+  direction?: Prisma.EnumSoftoneSyncDirectionFieldUpdateOperationsInput | $Enums.SoftoneSyncDirection
   status?: Prisma.EnumSoftoneSyncStatusFieldUpdateOperationsInput | $Enums.SoftoneSyncStatus
   softoneKey?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  counts?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   payload?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   response?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   error?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   byUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trigger?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  durationMs?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -403,12 +467,16 @@ export type SoftoneSyncLogCreateManyInput = {
   entityId: string
   object: string
   action: string
+  direction?: $Enums.SoftoneSyncDirection
   status: $Enums.SoftoneSyncStatus
   softoneKey?: number | null
+  counts?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   payload?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   response?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   error?: string | null
   byUserId?: string | null
+  trigger?: string | null
+  durationMs?: number | null
   createdAt?: Date | string
 }
 
@@ -418,12 +486,16 @@ export type SoftoneSyncLogUpdateManyMutationInput = {
   entityId?: Prisma.StringFieldUpdateOperationsInput | string
   object?: Prisma.StringFieldUpdateOperationsInput | string
   action?: Prisma.StringFieldUpdateOperationsInput | string
+  direction?: Prisma.EnumSoftoneSyncDirectionFieldUpdateOperationsInput | $Enums.SoftoneSyncDirection
   status?: Prisma.EnumSoftoneSyncStatusFieldUpdateOperationsInput | $Enums.SoftoneSyncStatus
   softoneKey?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  counts?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   payload?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   response?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   error?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   byUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trigger?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  durationMs?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -433,12 +505,16 @@ export type SoftoneSyncLogUncheckedUpdateManyInput = {
   entityId?: Prisma.StringFieldUpdateOperationsInput | string
   object?: Prisma.StringFieldUpdateOperationsInput | string
   action?: Prisma.StringFieldUpdateOperationsInput | string
+  direction?: Prisma.EnumSoftoneSyncDirectionFieldUpdateOperationsInput | $Enums.SoftoneSyncDirection
   status?: Prisma.EnumSoftoneSyncStatusFieldUpdateOperationsInput | $Enums.SoftoneSyncStatus
   softoneKey?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  counts?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   payload?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   response?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   error?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   byUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  trigger?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  durationMs?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -448,17 +524,22 @@ export type SoftoneSyncLogCountOrderByAggregateInput = {
   entityId?: Prisma.SortOrder
   object?: Prisma.SortOrder
   action?: Prisma.SortOrder
+  direction?: Prisma.SortOrder
   status?: Prisma.SortOrder
   softoneKey?: Prisma.SortOrder
+  counts?: Prisma.SortOrder
   payload?: Prisma.SortOrder
   response?: Prisma.SortOrder
   error?: Prisma.SortOrder
   byUserId?: Prisma.SortOrder
+  trigger?: Prisma.SortOrder
+  durationMs?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
 export type SoftoneSyncLogAvgOrderByAggregateInput = {
   softoneKey?: Prisma.SortOrder
+  durationMs?: Prisma.SortOrder
 }
 
 export type SoftoneSyncLogMaxOrderByAggregateInput = {
@@ -467,10 +548,13 @@ export type SoftoneSyncLogMaxOrderByAggregateInput = {
   entityId?: Prisma.SortOrder
   object?: Prisma.SortOrder
   action?: Prisma.SortOrder
+  direction?: Prisma.SortOrder
   status?: Prisma.SortOrder
   softoneKey?: Prisma.SortOrder
   error?: Prisma.SortOrder
   byUserId?: Prisma.SortOrder
+  trigger?: Prisma.SortOrder
+  durationMs?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -480,15 +564,23 @@ export type SoftoneSyncLogMinOrderByAggregateInput = {
   entityId?: Prisma.SortOrder
   object?: Prisma.SortOrder
   action?: Prisma.SortOrder
+  direction?: Prisma.SortOrder
   status?: Prisma.SortOrder
   softoneKey?: Prisma.SortOrder
   error?: Prisma.SortOrder
   byUserId?: Prisma.SortOrder
+  trigger?: Prisma.SortOrder
+  durationMs?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
 export type SoftoneSyncLogSumOrderByAggregateInput = {
   softoneKey?: Prisma.SortOrder
+  durationMs?: Prisma.SortOrder
+}
+
+export type EnumSoftoneSyncDirectionFieldUpdateOperationsInput = {
+  set?: $Enums.SoftoneSyncDirection
 }
 
 export type EnumSoftoneSyncStatusFieldUpdateOperationsInput = {
@@ -503,12 +595,16 @@ export type SoftoneSyncLogSelect<ExtArgs extends runtime.Types.Extensions.Intern
   entityId?: boolean
   object?: boolean
   action?: boolean
+  direction?: boolean
   status?: boolean
   softoneKey?: boolean
+  counts?: boolean
   payload?: boolean
   response?: boolean
   error?: boolean
   byUserId?: boolean
+  trigger?: boolean
+  durationMs?: boolean
   createdAt?: boolean
 }, ExtArgs["result"]["softoneSyncLog"]>
 
@@ -518,12 +614,16 @@ export type SoftoneSyncLogSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   entityId?: boolean
   object?: boolean
   action?: boolean
+  direction?: boolean
   status?: boolean
   softoneKey?: boolean
+  counts?: boolean
   payload?: boolean
   response?: boolean
   error?: boolean
   byUserId?: boolean
+  trigger?: boolean
+  durationMs?: boolean
   createdAt?: boolean
 }, ExtArgs["result"]["softoneSyncLog"]>
 
@@ -533,12 +633,16 @@ export type SoftoneSyncLogSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   entityId?: boolean
   object?: boolean
   action?: boolean
+  direction?: boolean
   status?: boolean
   softoneKey?: boolean
+  counts?: boolean
   payload?: boolean
   response?: boolean
   error?: boolean
   byUserId?: boolean
+  trigger?: boolean
+  durationMs?: boolean
   createdAt?: boolean
 }, ExtArgs["result"]["softoneSyncLog"]>
 
@@ -548,16 +652,20 @@ export type SoftoneSyncLogSelectScalar = {
   entityId?: boolean
   object?: boolean
   action?: boolean
+  direction?: boolean
   status?: boolean
   softoneKey?: boolean
+  counts?: boolean
   payload?: boolean
   response?: boolean
   error?: boolean
   byUserId?: boolean
+  trigger?: boolean
+  durationMs?: boolean
   createdAt?: boolean
 }
 
-export type SoftoneSyncLogOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "entity" | "entityId" | "object" | "action" | "status" | "softoneKey" | "payload" | "response" | "error" | "byUserId" | "createdAt", ExtArgs["result"]["softoneSyncLog"]>
+export type SoftoneSyncLogOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "entity" | "entityId" | "object" | "action" | "direction" | "status" | "softoneKey" | "counts" | "payload" | "response" | "error" | "byUserId" | "trigger" | "durationMs" | "createdAt", ExtArgs["result"]["softoneSyncLog"]>
 
 export type $SoftoneSyncLogPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "SoftoneSyncLog"
@@ -568,12 +676,16 @@ export type $SoftoneSyncLogPayload<ExtArgs extends runtime.Types.Extensions.Inte
     entityId: string
     object: string
     action: string
+    direction: $Enums.SoftoneSyncDirection
     status: $Enums.SoftoneSyncStatus
     softoneKey: number | null
+    counts: runtime.JsonValue | null
     payload: runtime.JsonValue | null
     response: runtime.JsonValue | null
     error: string | null
     byUserId: string | null
+    trigger: string | null
+    durationMs: number | null
     createdAt: Date
   }, ExtArgs["result"]["softoneSyncLog"]>
   composites: {}
@@ -1003,12 +1115,16 @@ export interface SoftoneSyncLogFieldRefs {
   readonly entityId: Prisma.FieldRef<"SoftoneSyncLog", 'String'>
   readonly object: Prisma.FieldRef<"SoftoneSyncLog", 'String'>
   readonly action: Prisma.FieldRef<"SoftoneSyncLog", 'String'>
+  readonly direction: Prisma.FieldRef<"SoftoneSyncLog", 'SoftoneSyncDirection'>
   readonly status: Prisma.FieldRef<"SoftoneSyncLog", 'SoftoneSyncStatus'>
   readonly softoneKey: Prisma.FieldRef<"SoftoneSyncLog", 'Int'>
+  readonly counts: Prisma.FieldRef<"SoftoneSyncLog", 'Json'>
   readonly payload: Prisma.FieldRef<"SoftoneSyncLog", 'Json'>
   readonly response: Prisma.FieldRef<"SoftoneSyncLog", 'Json'>
   readonly error: Prisma.FieldRef<"SoftoneSyncLog", 'String'>
   readonly byUserId: Prisma.FieldRef<"SoftoneSyncLog", 'String'>
+  readonly trigger: Prisma.FieldRef<"SoftoneSyncLog", 'String'>
+  readonly durationMs: Prisma.FieldRef<"SoftoneSyncLog", 'Int'>
   readonly createdAt: Prisma.FieldRef<"SoftoneSyncLog", 'DateTime'>
 }
     

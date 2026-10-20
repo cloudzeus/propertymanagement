@@ -353,6 +353,36 @@ export type SoftoneSettings = Prisma.SoftoneSettingsModel
  */
 export type SoftoneSyncLog = Prisma.SoftoneSyncLogModel
 /**
+ * Model SoftoneVat
+ * 
+ */
+export type SoftoneVat = Prisma.SoftoneVatModel
+/**
+ * Model SoftoneUnit
+ * 
+ */
+export type SoftoneUnit = Prisma.SoftoneUnitModel
+/**
+ * Model SoftoneIrsData
+ * 
+ */
+export type SoftoneIrsData = Prisma.SoftoneIrsDataModel
+/**
+ * Model SoftoneSeries
+ * 
+ */
+export type SoftoneSeries = Prisma.SoftoneSeriesModel
+/**
+ * Model SoftoneDistrict
+ * 
+ */
+export type SoftoneDistrict = Prisma.SoftoneDistrictModel
+/**
+ * Model SoftoneZip
+ * 
+ */
+export type SoftoneZip = Prisma.SoftoneZipModel
+/**
  * Model CronRun
  * 
  */
@@ -500,3 +530,23 @@ export type SupplierInquiry = Prisma.SupplierInquiryModel
  * 
  */
 export type ContractTemplate = Prisma.ContractTemplateModel
+/**
+ * Model AiConversation
+ * 
+ */
+export type AiConversation = Prisma.AiConversationModel
+/**
+ * Model AiMessage
+ * 
+ */
+export type AiMessage = Prisma.AiMessageModel
+/**
+ * Model AiActionLog
+ * 
+ */
+export type AiActionLog = Prisma.AiActionLogModel
+/**
+ * Model WikiChunk
+ * 
+ */
+export type WikiChunk = Prisma.WikiChunkModel

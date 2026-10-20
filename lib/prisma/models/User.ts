@@ -378,6 +378,8 @@ export type UserWhereInput = {
   occupancies?: Prisma.UnitOccupancyListRelationFilter
   infraKeyOf?: Prisma.InfraPointListRelationFilter
   supportTickets?: Prisma.SupportTicketListRelationFilter
+  aiConversations?: Prisma.AiConversationListRelationFilter
+  aiActions?: Prisma.AiActionLogListRelationFilter
   infraAccess?: Prisma.InfraAccessListRelationFilter
   companyRoles?: Prisma.UserCompanyRoleListRelationFilter
   createdCompanies?: Prisma.CompanyListRelationFilter
@@ -435,6 +437,8 @@ export type UserOrderByWithRelationInput = {
   occupancies?: Prisma.UnitOccupancyOrderByRelationAggregateInput
   infraKeyOf?: Prisma.InfraPointOrderByRelationAggregateInput
   supportTickets?: Prisma.SupportTicketOrderByRelationAggregateInput
+  aiConversations?: Prisma.AiConversationOrderByRelationAggregateInput
+  aiActions?: Prisma.AiActionLogOrderByRelationAggregateInput
   infraAccess?: Prisma.InfraAccessOrderByRelationAggregateInput
   companyRoles?: Prisma.UserCompanyRoleOrderByRelationAggregateInput
   createdCompanies?: Prisma.CompanyOrderByRelationAggregateInput
@@ -495,6 +499,8 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   occupancies?: Prisma.UnitOccupancyListRelationFilter
   infraKeyOf?: Prisma.InfraPointListRelationFilter
   supportTickets?: Prisma.SupportTicketListRelationFilter
+  aiConversations?: Prisma.AiConversationListRelationFilter
+  aiActions?: Prisma.AiActionLogListRelationFilter
   infraAccess?: Prisma.InfraAccessListRelationFilter
   companyRoles?: Prisma.UserCompanyRoleListRelationFilter
   createdCompanies?: Prisma.CompanyListRelationFilter
@@ -609,6 +615,8 @@ export type UserCreateInput = {
   occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
   infraKeyOf?: Prisma.InfraPointCreateNestedManyWithoutKeyHolderUserInput
   supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutCreatedByInput
+  aiConversations?: Prisma.AiConversationCreateNestedManyWithoutUserInput
+  aiActions?: Prisma.AiActionLogCreateNestedManyWithoutUserInput
   infraAccess?: Prisma.InfraAccessCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
@@ -662,6 +670,8 @@ export type UserUncheckedCreateInput = {
   occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
   infraKeyOf?: Prisma.InfraPointUncheckedCreateNestedManyWithoutKeyHolderUserInput
   supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutCreatedByInput
+  aiConversations?: Prisma.AiConversationUncheckedCreateNestedManyWithoutUserInput
+  aiActions?: Prisma.AiActionLogUncheckedCreateNestedManyWithoutUserInput
   infraAccess?: Prisma.InfraAccessUncheckedCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
@@ -713,6 +723,8 @@ export type UserUpdateInput = {
   occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
   infraKeyOf?: Prisma.InfraPointUpdateManyWithoutKeyHolderUserNestedInput
   supportTickets?: Prisma.SupportTicketUpdateManyWithoutCreatedByNestedInput
+  aiConversations?: Prisma.AiConversationUpdateManyWithoutUserNestedInput
+  aiActions?: Prisma.AiActionLogUpdateManyWithoutUserNestedInput
   infraAccess?: Prisma.InfraAccessUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
@@ -766,6 +778,8 @@ export type UserUncheckedUpdateInput = {
   occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
   infraKeyOf?: Prisma.InfraPointUncheckedUpdateManyWithoutKeyHolderUserNestedInput
   supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutCreatedByNestedInput
+  aiConversations?: Prisma.AiConversationUncheckedUpdateManyWithoutUserNestedInput
+  aiActions?: Prisma.AiActionLogUncheckedUpdateManyWithoutUserNestedInput
   infraAccess?: Prisma.InfraAccessUncheckedUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -1602,6 +1616,34 @@ export type UserUncheckedUpdateManyWithoutSupplierNestedInput = {
   deleteMany?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[]
 }
 
+export type UserCreateNestedOneWithoutAiConversationsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAiConversationsInput, Prisma.UserUncheckedCreateWithoutAiConversationsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAiConversationsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutAiConversationsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAiConversationsInput, Prisma.UserUncheckedCreateWithoutAiConversationsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAiConversationsInput
+  upsert?: Prisma.UserUpsertWithoutAiConversationsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAiConversationsInput, Prisma.UserUpdateWithoutAiConversationsInput>, Prisma.UserUncheckedUpdateWithoutAiConversationsInput>
+}
+
+export type UserCreateNestedOneWithoutAiActionsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAiActionsInput, Prisma.UserUncheckedCreateWithoutAiActionsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAiActionsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutAiActionsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAiActionsInput, Prisma.UserUncheckedCreateWithoutAiActionsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAiActionsInput
+  upsert?: Prisma.UserUpsertWithoutAiActionsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAiActionsInput, Prisma.UserUpdateWithoutAiActionsInput>, Prisma.UserUncheckedUpdateWithoutAiActionsInput>
+}
+
 export type UserCreateWithoutAccountsInput = {
   id?: string
   email: string
@@ -1632,6 +1674,8 @@ export type UserCreateWithoutAccountsInput = {
   occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
   infraKeyOf?: Prisma.InfraPointCreateNestedManyWithoutKeyHolderUserInput
   supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutCreatedByInput
+  aiConversations?: Prisma.AiConversationCreateNestedManyWithoutUserInput
+  aiActions?: Prisma.AiActionLogCreateNestedManyWithoutUserInput
   infraAccess?: Prisma.InfraAccessCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
@@ -1684,6 +1728,8 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
   infraKeyOf?: Prisma.InfraPointUncheckedCreateNestedManyWithoutKeyHolderUserInput
   supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutCreatedByInput
+  aiConversations?: Prisma.AiConversationUncheckedCreateNestedManyWithoutUserInput
+  aiActions?: Prisma.AiActionLogUncheckedCreateNestedManyWithoutUserInput
   infraAccess?: Prisma.InfraAccessUncheckedCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
@@ -1750,6 +1796,8 @@ export type UserUpdateWithoutAccountsInput = {
   occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
   infraKeyOf?: Prisma.InfraPointUpdateManyWithoutKeyHolderUserNestedInput
   supportTickets?: Prisma.SupportTicketUpdateManyWithoutCreatedByNestedInput
+  aiConversations?: Prisma.AiConversationUpdateManyWithoutUserNestedInput
+  aiActions?: Prisma.AiActionLogUpdateManyWithoutUserNestedInput
   infraAccess?: Prisma.InfraAccessUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
@@ -1802,6 +1850,8 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
   infraKeyOf?: Prisma.InfraPointUncheckedUpdateManyWithoutKeyHolderUserNestedInput
   supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutCreatedByNestedInput
+  aiConversations?: Prisma.AiConversationUncheckedUpdateManyWithoutUserNestedInput
+  aiActions?: Prisma.AiActionLogUncheckedUpdateManyWithoutUserNestedInput
   infraAccess?: Prisma.InfraAccessUncheckedUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -1852,6 +1902,8 @@ export type UserCreateWithoutSessionsInput = {
   occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
   infraKeyOf?: Prisma.InfraPointCreateNestedManyWithoutKeyHolderUserInput
   supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutCreatedByInput
+  aiConversations?: Prisma.AiConversationCreateNestedManyWithoutUserInput
+  aiActions?: Prisma.AiActionLogCreateNestedManyWithoutUserInput
   infraAccess?: Prisma.InfraAccessCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
@@ -1904,6 +1956,8 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
   infraKeyOf?: Prisma.InfraPointUncheckedCreateNestedManyWithoutKeyHolderUserInput
   supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutCreatedByInput
+  aiConversations?: Prisma.AiConversationUncheckedCreateNestedManyWithoutUserInput
+  aiActions?: Prisma.AiActionLogUncheckedCreateNestedManyWithoutUserInput
   infraAccess?: Prisma.InfraAccessUncheckedCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
@@ -1970,6 +2024,8 @@ export type UserUpdateWithoutSessionsInput = {
   occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
   infraKeyOf?: Prisma.InfraPointUpdateManyWithoutKeyHolderUserNestedInput
   supportTickets?: Prisma.SupportTicketUpdateManyWithoutCreatedByNestedInput
+  aiConversations?: Prisma.AiConversationUpdateManyWithoutUserNestedInput
+  aiActions?: Prisma.AiActionLogUpdateManyWithoutUserNestedInput
   infraAccess?: Prisma.InfraAccessUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
@@ -2022,6 +2078,8 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
   infraKeyOf?: Prisma.InfraPointUncheckedUpdateManyWithoutKeyHolderUserNestedInput
   supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutCreatedByNestedInput
+  aiConversations?: Prisma.AiConversationUncheckedUpdateManyWithoutUserNestedInput
+  aiActions?: Prisma.AiActionLogUncheckedUpdateManyWithoutUserNestedInput
   infraAccess?: Prisma.InfraAccessUncheckedUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -2072,6 +2130,8 @@ export type UserCreateWithoutCreatedCompaniesInput = {
   occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
   infraKeyOf?: Prisma.InfraPointCreateNestedManyWithoutKeyHolderUserInput
   supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutCreatedByInput
+  aiConversations?: Prisma.AiConversationCreateNestedManyWithoutUserInput
+  aiActions?: Prisma.AiActionLogCreateNestedManyWithoutUserInput
   infraAccess?: Prisma.InfraAccessCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
   createdAnnouncements?: Prisma.AnnouncementCreateNestedManyWithoutCreatedByInput
@@ -2124,6 +2184,8 @@ export type UserUncheckedCreateWithoutCreatedCompaniesInput = {
   occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
   infraKeyOf?: Prisma.InfraPointUncheckedCreateNestedManyWithoutKeyHolderUserInput
   supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutCreatedByInput
+  aiConversations?: Prisma.AiConversationUncheckedCreateNestedManyWithoutUserInput
+  aiActions?: Prisma.AiActionLogUncheckedCreateNestedManyWithoutUserInput
   infraAccess?: Prisma.InfraAccessUncheckedCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
   createdAnnouncements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutCreatedByInput
@@ -2178,6 +2240,8 @@ export type UserCreateWithoutCompanyInput = {
   occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
   infraKeyOf?: Prisma.InfraPointCreateNestedManyWithoutKeyHolderUserInput
   supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutCreatedByInput
+  aiConversations?: Prisma.AiConversationCreateNestedManyWithoutUserInput
+  aiActions?: Prisma.AiActionLogCreateNestedManyWithoutUserInput
   infraAccess?: Prisma.InfraAccessCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
@@ -2230,6 +2294,8 @@ export type UserUncheckedCreateWithoutCompanyInput = {
   occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
   infraKeyOf?: Prisma.InfraPointUncheckedCreateNestedManyWithoutKeyHolderUserInput
   supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutCreatedByInput
+  aiConversations?: Prisma.AiConversationUncheckedCreateNestedManyWithoutUserInput
+  aiActions?: Prisma.AiActionLogUncheckedCreateNestedManyWithoutUserInput
   infraAccess?: Prisma.InfraAccessUncheckedCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
@@ -2302,6 +2368,8 @@ export type UserUpdateWithoutCreatedCompaniesInput = {
   occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
   infraKeyOf?: Prisma.InfraPointUpdateManyWithoutKeyHolderUserNestedInput
   supportTickets?: Prisma.SupportTicketUpdateManyWithoutCreatedByNestedInput
+  aiConversations?: Prisma.AiConversationUpdateManyWithoutUserNestedInput
+  aiActions?: Prisma.AiActionLogUpdateManyWithoutUserNestedInput
   infraAccess?: Prisma.InfraAccessUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
   createdAnnouncements?: Prisma.AnnouncementUpdateManyWithoutCreatedByNestedInput
@@ -2354,6 +2422,8 @@ export type UserUncheckedUpdateWithoutCreatedCompaniesInput = {
   occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
   infraKeyOf?: Prisma.InfraPointUncheckedUpdateManyWithoutKeyHolderUserNestedInput
   supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutCreatedByNestedInput
+  aiConversations?: Prisma.AiConversationUncheckedUpdateManyWithoutUserNestedInput
+  aiActions?: Prisma.AiActionLogUncheckedUpdateManyWithoutUserNestedInput
   infraAccess?: Prisma.InfraAccessUncheckedUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
   createdAnnouncements?: Prisma.AnnouncementUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -2450,6 +2520,8 @@ export type UserCreateWithoutEmployeeLinksInput = {
   occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
   infraKeyOf?: Prisma.InfraPointCreateNestedManyWithoutKeyHolderUserInput
   supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutCreatedByInput
+  aiConversations?: Prisma.AiConversationCreateNestedManyWithoutUserInput
+  aiActions?: Prisma.AiActionLogCreateNestedManyWithoutUserInput
   infraAccess?: Prisma.InfraAccessCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
@@ -2502,6 +2574,8 @@ export type UserUncheckedCreateWithoutEmployeeLinksInput = {
   occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
   infraKeyOf?: Prisma.InfraPointUncheckedCreateNestedManyWithoutKeyHolderUserInput
   supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutCreatedByInput
+  aiConversations?: Prisma.AiConversationUncheckedCreateNestedManyWithoutUserInput
+  aiActions?: Prisma.AiActionLogUncheckedCreateNestedManyWithoutUserInput
   infraAccess?: Prisma.InfraAccessUncheckedCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
@@ -2568,6 +2642,8 @@ export type UserUpdateWithoutEmployeeLinksInput = {
   occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
   infraKeyOf?: Prisma.InfraPointUpdateManyWithoutKeyHolderUserNestedInput
   supportTickets?: Prisma.SupportTicketUpdateManyWithoutCreatedByNestedInput
+  aiConversations?: Prisma.AiConversationUpdateManyWithoutUserNestedInput
+  aiActions?: Prisma.AiActionLogUpdateManyWithoutUserNestedInput
   infraAccess?: Prisma.InfraAccessUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
@@ -2620,6 +2696,8 @@ export type UserUncheckedUpdateWithoutEmployeeLinksInput = {
   occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
   infraKeyOf?: Prisma.InfraPointUncheckedUpdateManyWithoutKeyHolderUserNestedInput
   supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutCreatedByNestedInput
+  aiConversations?: Prisma.AiConversationUncheckedUpdateManyWithoutUserNestedInput
+  aiActions?: Prisma.AiActionLogUncheckedUpdateManyWithoutUserNestedInput
   infraAccess?: Prisma.InfraAccessUncheckedUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -2670,6 +2748,8 @@ export type UserCreateWithoutAccountCustomersInput = {
   occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
   infraKeyOf?: Prisma.InfraPointCreateNestedManyWithoutKeyHolderUserInput
   supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutCreatedByInput
+  aiConversations?: Prisma.AiConversationCreateNestedManyWithoutUserInput
+  aiActions?: Prisma.AiActionLogCreateNestedManyWithoutUserInput
   infraAccess?: Prisma.InfraAccessCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
@@ -2722,6 +2802,8 @@ export type UserUncheckedCreateWithoutAccountCustomersInput = {
   occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
   infraKeyOf?: Prisma.InfraPointUncheckedCreateNestedManyWithoutKeyHolderUserInput
   supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutCreatedByInput
+  aiConversations?: Prisma.AiConversationUncheckedCreateNestedManyWithoutUserInput
+  aiActions?: Prisma.AiActionLogUncheckedCreateNestedManyWithoutUserInput
   infraAccess?: Prisma.InfraAccessUncheckedCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
@@ -2776,6 +2858,8 @@ export type UserCreateWithoutCustomerInput = {
   occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
   infraKeyOf?: Prisma.InfraPointCreateNestedManyWithoutKeyHolderUserInput
   supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutCreatedByInput
+  aiConversations?: Prisma.AiConversationCreateNestedManyWithoutUserInput
+  aiActions?: Prisma.AiActionLogCreateNestedManyWithoutUserInput
   infraAccess?: Prisma.InfraAccessCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
@@ -2828,6 +2912,8 @@ export type UserUncheckedCreateWithoutCustomerInput = {
   occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
   infraKeyOf?: Prisma.InfraPointUncheckedCreateNestedManyWithoutKeyHolderUserInput
   supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutCreatedByInput
+  aiConversations?: Prisma.AiConversationUncheckedCreateNestedManyWithoutUserInput
+  aiActions?: Prisma.AiActionLogUncheckedCreateNestedManyWithoutUserInput
   infraAccess?: Prisma.InfraAccessUncheckedCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
@@ -2900,6 +2986,8 @@ export type UserUpdateWithoutAccountCustomersInput = {
   occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
   infraKeyOf?: Prisma.InfraPointUpdateManyWithoutKeyHolderUserNestedInput
   supportTickets?: Prisma.SupportTicketUpdateManyWithoutCreatedByNestedInput
+  aiConversations?: Prisma.AiConversationUpdateManyWithoutUserNestedInput
+  aiActions?: Prisma.AiActionLogUpdateManyWithoutUserNestedInput
   infraAccess?: Prisma.InfraAccessUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
@@ -2952,6 +3040,8 @@ export type UserUncheckedUpdateWithoutAccountCustomersInput = {
   occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
   infraKeyOf?: Prisma.InfraPointUncheckedUpdateManyWithoutKeyHolderUserNestedInput
   supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutCreatedByNestedInput
+  aiConversations?: Prisma.AiConversationUncheckedUpdateManyWithoutUserNestedInput
+  aiActions?: Prisma.AiActionLogUncheckedUpdateManyWithoutUserNestedInput
   infraAccess?: Prisma.InfraAccessUncheckedUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -3017,6 +3107,8 @@ export type UserCreateWithoutBuildingInput = {
   occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
   infraKeyOf?: Prisma.InfraPointCreateNestedManyWithoutKeyHolderUserInput
   supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutCreatedByInput
+  aiConversations?: Prisma.AiConversationCreateNestedManyWithoutUserInput
+  aiActions?: Prisma.AiActionLogCreateNestedManyWithoutUserInput
   infraAccess?: Prisma.InfraAccessCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
@@ -3069,6 +3161,8 @@ export type UserUncheckedCreateWithoutBuildingInput = {
   occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
   infraKeyOf?: Prisma.InfraPointUncheckedCreateNestedManyWithoutKeyHolderUserInput
   supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutCreatedByInput
+  aiConversations?: Prisma.AiConversationUncheckedCreateNestedManyWithoutUserInput
+  aiActions?: Prisma.AiActionLogUncheckedCreateNestedManyWithoutUserInput
   infraAccess?: Prisma.InfraAccessUncheckedCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
@@ -3145,6 +3239,8 @@ export type UserCreateWithoutOccupanciesInput = {
   residentUnits?: Prisma.UnitCreateNestedManyWithoutResidentInput
   infraKeyOf?: Prisma.InfraPointCreateNestedManyWithoutKeyHolderUserInput
   supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutCreatedByInput
+  aiConversations?: Prisma.AiConversationCreateNestedManyWithoutUserInput
+  aiActions?: Prisma.AiActionLogCreateNestedManyWithoutUserInput
   infraAccess?: Prisma.InfraAccessCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
@@ -3197,6 +3293,8 @@ export type UserUncheckedCreateWithoutOccupanciesInput = {
   residentUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutResidentInput
   infraKeyOf?: Prisma.InfraPointUncheckedCreateNestedManyWithoutKeyHolderUserInput
   supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutCreatedByInput
+  aiConversations?: Prisma.AiConversationUncheckedCreateNestedManyWithoutUserInput
+  aiActions?: Prisma.AiActionLogUncheckedCreateNestedManyWithoutUserInput
   infraAccess?: Prisma.InfraAccessUncheckedCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
@@ -3263,6 +3361,8 @@ export type UserUpdateWithoutOccupanciesInput = {
   residentUnits?: Prisma.UnitUpdateManyWithoutResidentNestedInput
   infraKeyOf?: Prisma.InfraPointUpdateManyWithoutKeyHolderUserNestedInput
   supportTickets?: Prisma.SupportTicketUpdateManyWithoutCreatedByNestedInput
+  aiConversations?: Prisma.AiConversationUpdateManyWithoutUserNestedInput
+  aiActions?: Prisma.AiActionLogUpdateManyWithoutUserNestedInput
   infraAccess?: Prisma.InfraAccessUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
@@ -3315,6 +3415,8 @@ export type UserUncheckedUpdateWithoutOccupanciesInput = {
   residentUnits?: Prisma.UnitUncheckedUpdateManyWithoutResidentNestedInput
   infraKeyOf?: Prisma.InfraPointUncheckedUpdateManyWithoutKeyHolderUserNestedInput
   supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutCreatedByNestedInput
+  aiConversations?: Prisma.AiConversationUncheckedUpdateManyWithoutUserNestedInput
+  aiActions?: Prisma.AiActionLogUncheckedUpdateManyWithoutUserNestedInput
   infraAccess?: Prisma.InfraAccessUncheckedUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -3365,6 +3467,8 @@ export type UserCreateWithoutInfraKeyOfInput = {
   residentUnits?: Prisma.UnitCreateNestedManyWithoutResidentInput
   occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
   supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutCreatedByInput
+  aiConversations?: Prisma.AiConversationCreateNestedManyWithoutUserInput
+  aiActions?: Prisma.AiActionLogCreateNestedManyWithoutUserInput
   infraAccess?: Prisma.InfraAccessCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
@@ -3417,6 +3521,8 @@ export type UserUncheckedCreateWithoutInfraKeyOfInput = {
   residentUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutResidentInput
   occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
   supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutCreatedByInput
+  aiConversations?: Prisma.AiConversationUncheckedCreateNestedManyWithoutUserInput
+  aiActions?: Prisma.AiActionLogUncheckedCreateNestedManyWithoutUserInput
   infraAccess?: Prisma.InfraAccessUncheckedCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
@@ -3483,6 +3589,8 @@ export type UserUpdateWithoutInfraKeyOfInput = {
   residentUnits?: Prisma.UnitUpdateManyWithoutResidentNestedInput
   occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
   supportTickets?: Prisma.SupportTicketUpdateManyWithoutCreatedByNestedInput
+  aiConversations?: Prisma.AiConversationUpdateManyWithoutUserNestedInput
+  aiActions?: Prisma.AiActionLogUpdateManyWithoutUserNestedInput
   infraAccess?: Prisma.InfraAccessUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
@@ -3535,6 +3643,8 @@ export type UserUncheckedUpdateWithoutInfraKeyOfInput = {
   residentUnits?: Prisma.UnitUncheckedUpdateManyWithoutResidentNestedInput
   occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
   supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutCreatedByNestedInput
+  aiConversations?: Prisma.AiConversationUncheckedUpdateManyWithoutUserNestedInput
+  aiActions?: Prisma.AiActionLogUncheckedUpdateManyWithoutUserNestedInput
   infraAccess?: Prisma.InfraAccessUncheckedUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -3586,6 +3696,8 @@ export type UserCreateWithoutInfraAccessInput = {
   occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
   infraKeyOf?: Prisma.InfraPointCreateNestedManyWithoutKeyHolderUserInput
   supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutCreatedByInput
+  aiConversations?: Prisma.AiConversationCreateNestedManyWithoutUserInput
+  aiActions?: Prisma.AiActionLogCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
   createdAnnouncements?: Prisma.AnnouncementCreateNestedManyWithoutCreatedByInput
@@ -3638,6 +3750,8 @@ export type UserUncheckedCreateWithoutInfraAccessInput = {
   occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
   infraKeyOf?: Prisma.InfraPointUncheckedCreateNestedManyWithoutKeyHolderUserInput
   supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutCreatedByInput
+  aiConversations?: Prisma.AiConversationUncheckedCreateNestedManyWithoutUserInput
+  aiActions?: Prisma.AiActionLogUncheckedCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
   createdAnnouncements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutCreatedByInput
@@ -3704,6 +3818,8 @@ export type UserUpdateWithoutInfraAccessInput = {
   occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
   infraKeyOf?: Prisma.InfraPointUpdateManyWithoutKeyHolderUserNestedInput
   supportTickets?: Prisma.SupportTicketUpdateManyWithoutCreatedByNestedInput
+  aiConversations?: Prisma.AiConversationUpdateManyWithoutUserNestedInput
+  aiActions?: Prisma.AiActionLogUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
   createdAnnouncements?: Prisma.AnnouncementUpdateManyWithoutCreatedByNestedInput
@@ -3756,6 +3872,8 @@ export type UserUncheckedUpdateWithoutInfraAccessInput = {
   occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
   infraKeyOf?: Prisma.InfraPointUncheckedUpdateManyWithoutKeyHolderUserNestedInput
   supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutCreatedByNestedInput
+  aiConversations?: Prisma.AiConversationUncheckedUpdateManyWithoutUserNestedInput
+  aiActions?: Prisma.AiActionLogUncheckedUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
   createdAnnouncements?: Prisma.AnnouncementUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -3806,6 +3924,8 @@ export type UserCreateWithoutPerformedMaintenanceInput = {
   occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
   infraKeyOf?: Prisma.InfraPointCreateNestedManyWithoutKeyHolderUserInput
   supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutCreatedByInput
+  aiConversations?: Prisma.AiConversationCreateNestedManyWithoutUserInput
+  aiActions?: Prisma.AiActionLogCreateNestedManyWithoutUserInput
   infraAccess?: Prisma.InfraAccessCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
@@ -3858,6 +3978,8 @@ export type UserUncheckedCreateWithoutPerformedMaintenanceInput = {
   occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
   infraKeyOf?: Prisma.InfraPointUncheckedCreateNestedManyWithoutKeyHolderUserInput
   supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutCreatedByInput
+  aiConversations?: Prisma.AiConversationUncheckedCreateNestedManyWithoutUserInput
+  aiActions?: Prisma.AiActionLogUncheckedCreateNestedManyWithoutUserInput
   infraAccess?: Prisma.InfraAccessUncheckedCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
@@ -3924,6 +4046,8 @@ export type UserUpdateWithoutPerformedMaintenanceInput = {
   occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
   infraKeyOf?: Prisma.InfraPointUpdateManyWithoutKeyHolderUserNestedInput
   supportTickets?: Prisma.SupportTicketUpdateManyWithoutCreatedByNestedInput
+  aiConversations?: Prisma.AiConversationUpdateManyWithoutUserNestedInput
+  aiActions?: Prisma.AiActionLogUpdateManyWithoutUserNestedInput
   infraAccess?: Prisma.InfraAccessUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
@@ -3976,6 +4100,8 @@ export type UserUncheckedUpdateWithoutPerformedMaintenanceInput = {
   occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
   infraKeyOf?: Prisma.InfraPointUncheckedUpdateManyWithoutKeyHolderUserNestedInput
   supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutCreatedByNestedInput
+  aiConversations?: Prisma.AiConversationUncheckedUpdateManyWithoutUserNestedInput
+  aiActions?: Prisma.AiActionLogUncheckedUpdateManyWithoutUserNestedInput
   infraAccess?: Prisma.InfraAccessUncheckedUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -4026,6 +4152,8 @@ export type UserCreateWithoutManagementAssignmentsInput = {
   occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
   infraKeyOf?: Prisma.InfraPointCreateNestedManyWithoutKeyHolderUserInput
   supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutCreatedByInput
+  aiConversations?: Prisma.AiConversationCreateNestedManyWithoutUserInput
+  aiActions?: Prisma.AiActionLogCreateNestedManyWithoutUserInput
   infraAccess?: Prisma.InfraAccessCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
@@ -4078,6 +4206,8 @@ export type UserUncheckedCreateWithoutManagementAssignmentsInput = {
   occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
   infraKeyOf?: Prisma.InfraPointUncheckedCreateNestedManyWithoutKeyHolderUserInput
   supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutCreatedByInput
+  aiConversations?: Prisma.AiConversationUncheckedCreateNestedManyWithoutUserInput
+  aiActions?: Prisma.AiActionLogUncheckedCreateNestedManyWithoutUserInput
   infraAccess?: Prisma.InfraAccessUncheckedCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
@@ -4144,6 +4274,8 @@ export type UserUpdateWithoutManagementAssignmentsInput = {
   occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
   infraKeyOf?: Prisma.InfraPointUpdateManyWithoutKeyHolderUserNestedInput
   supportTickets?: Prisma.SupportTicketUpdateManyWithoutCreatedByNestedInput
+  aiConversations?: Prisma.AiConversationUpdateManyWithoutUserNestedInput
+  aiActions?: Prisma.AiActionLogUpdateManyWithoutUserNestedInput
   infraAccess?: Prisma.InfraAccessUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
@@ -4196,6 +4328,8 @@ export type UserUncheckedUpdateWithoutManagementAssignmentsInput = {
   occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
   infraKeyOf?: Prisma.InfraPointUncheckedUpdateManyWithoutKeyHolderUserNestedInput
   supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutCreatedByNestedInput
+  aiConversations?: Prisma.AiConversationUncheckedUpdateManyWithoutUserNestedInput
+  aiActions?: Prisma.AiActionLogUncheckedUpdateManyWithoutUserNestedInput
   infraAccess?: Prisma.InfraAccessUncheckedUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -4245,6 +4379,8 @@ export type UserCreateWithoutOwnedUnitsInput = {
   occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
   infraKeyOf?: Prisma.InfraPointCreateNestedManyWithoutKeyHolderUserInput
   supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutCreatedByInput
+  aiConversations?: Prisma.AiConversationCreateNestedManyWithoutUserInput
+  aiActions?: Prisma.AiActionLogCreateNestedManyWithoutUserInput
   infraAccess?: Prisma.InfraAccessCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
@@ -4297,6 +4433,8 @@ export type UserUncheckedCreateWithoutOwnedUnitsInput = {
   occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
   infraKeyOf?: Prisma.InfraPointUncheckedCreateNestedManyWithoutKeyHolderUserInput
   supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutCreatedByInput
+  aiConversations?: Prisma.AiConversationUncheckedCreateNestedManyWithoutUserInput
+  aiActions?: Prisma.AiActionLogUncheckedCreateNestedManyWithoutUserInput
   infraAccess?: Prisma.InfraAccessUncheckedCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
@@ -4352,6 +4490,8 @@ export type UserCreateWithoutResidentUnitsInput = {
   occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
   infraKeyOf?: Prisma.InfraPointCreateNestedManyWithoutKeyHolderUserInput
   supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutCreatedByInput
+  aiConversations?: Prisma.AiConversationCreateNestedManyWithoutUserInput
+  aiActions?: Prisma.AiActionLogCreateNestedManyWithoutUserInput
   infraAccess?: Prisma.InfraAccessCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
@@ -4404,6 +4544,8 @@ export type UserUncheckedCreateWithoutResidentUnitsInput = {
   occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
   infraKeyOf?: Prisma.InfraPointUncheckedCreateNestedManyWithoutKeyHolderUserInput
   supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutCreatedByInput
+  aiConversations?: Prisma.AiConversationUncheckedCreateNestedManyWithoutUserInput
+  aiActions?: Prisma.AiActionLogUncheckedCreateNestedManyWithoutUserInput
   infraAccess?: Prisma.InfraAccessUncheckedCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
@@ -4470,6 +4612,8 @@ export type UserUpdateWithoutOwnedUnitsInput = {
   occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
   infraKeyOf?: Prisma.InfraPointUpdateManyWithoutKeyHolderUserNestedInput
   supportTickets?: Prisma.SupportTicketUpdateManyWithoutCreatedByNestedInput
+  aiConversations?: Prisma.AiConversationUpdateManyWithoutUserNestedInput
+  aiActions?: Prisma.AiActionLogUpdateManyWithoutUserNestedInput
   infraAccess?: Prisma.InfraAccessUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
@@ -4522,6 +4666,8 @@ export type UserUncheckedUpdateWithoutOwnedUnitsInput = {
   occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
   infraKeyOf?: Prisma.InfraPointUncheckedUpdateManyWithoutKeyHolderUserNestedInput
   supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutCreatedByNestedInput
+  aiConversations?: Prisma.AiConversationUncheckedUpdateManyWithoutUserNestedInput
+  aiActions?: Prisma.AiActionLogUncheckedUpdateManyWithoutUserNestedInput
   infraAccess?: Prisma.InfraAccessUncheckedUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -4583,6 +4729,8 @@ export type UserUpdateWithoutResidentUnitsInput = {
   occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
   infraKeyOf?: Prisma.InfraPointUpdateManyWithoutKeyHolderUserNestedInput
   supportTickets?: Prisma.SupportTicketUpdateManyWithoutCreatedByNestedInput
+  aiConversations?: Prisma.AiConversationUpdateManyWithoutUserNestedInput
+  aiActions?: Prisma.AiActionLogUpdateManyWithoutUserNestedInput
   infraAccess?: Prisma.InfraAccessUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
@@ -4635,6 +4783,8 @@ export type UserUncheckedUpdateWithoutResidentUnitsInput = {
   occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
   infraKeyOf?: Prisma.InfraPointUncheckedUpdateManyWithoutKeyHolderUserNestedInput
   supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutCreatedByNestedInput
+  aiConversations?: Prisma.AiConversationUncheckedUpdateManyWithoutUserNestedInput
+  aiActions?: Prisma.AiActionLogUncheckedUpdateManyWithoutUserNestedInput
   infraAccess?: Prisma.InfraAccessUncheckedUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -4686,6 +4836,8 @@ export type UserCreateWithoutCompanyRolesInput = {
   occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
   infraKeyOf?: Prisma.InfraPointCreateNestedManyWithoutKeyHolderUserInput
   supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutCreatedByInput
+  aiConversations?: Prisma.AiConversationCreateNestedManyWithoutUserInput
+  aiActions?: Prisma.AiActionLogCreateNestedManyWithoutUserInput
   infraAccess?: Prisma.InfraAccessCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
   createdAnnouncements?: Prisma.AnnouncementCreateNestedManyWithoutCreatedByInput
@@ -4738,6 +4890,8 @@ export type UserUncheckedCreateWithoutCompanyRolesInput = {
   occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
   infraKeyOf?: Prisma.InfraPointUncheckedCreateNestedManyWithoutKeyHolderUserInput
   supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutCreatedByInput
+  aiConversations?: Prisma.AiConversationUncheckedCreateNestedManyWithoutUserInput
+  aiActions?: Prisma.AiActionLogUncheckedCreateNestedManyWithoutUserInput
   infraAccess?: Prisma.InfraAccessUncheckedCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
   createdAnnouncements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutCreatedByInput
@@ -4804,6 +4958,8 @@ export type UserUpdateWithoutCompanyRolesInput = {
   occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
   infraKeyOf?: Prisma.InfraPointUpdateManyWithoutKeyHolderUserNestedInput
   supportTickets?: Prisma.SupportTicketUpdateManyWithoutCreatedByNestedInput
+  aiConversations?: Prisma.AiConversationUpdateManyWithoutUserNestedInput
+  aiActions?: Prisma.AiActionLogUpdateManyWithoutUserNestedInput
   infraAccess?: Prisma.InfraAccessUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
   createdAnnouncements?: Prisma.AnnouncementUpdateManyWithoutCreatedByNestedInput
@@ -4856,6 +5012,8 @@ export type UserUncheckedUpdateWithoutCompanyRolesInput = {
   occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
   infraKeyOf?: Prisma.InfraPointUncheckedUpdateManyWithoutKeyHolderUserNestedInput
   supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutCreatedByNestedInput
+  aiConversations?: Prisma.AiConversationUncheckedUpdateManyWithoutUserNestedInput
+  aiActions?: Prisma.AiActionLogUncheckedUpdateManyWithoutUserNestedInput
   infraAccess?: Prisma.InfraAccessUncheckedUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
   createdAnnouncements?: Prisma.AnnouncementUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -4906,6 +5064,8 @@ export type UserCreateWithoutCreatedAnnouncementsInput = {
   occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
   infraKeyOf?: Prisma.InfraPointCreateNestedManyWithoutKeyHolderUserInput
   supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutCreatedByInput
+  aiConversations?: Prisma.AiConversationCreateNestedManyWithoutUserInput
+  aiActions?: Prisma.AiActionLogCreateNestedManyWithoutUserInput
   infraAccess?: Prisma.InfraAccessCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
@@ -4958,6 +5118,8 @@ export type UserUncheckedCreateWithoutCreatedAnnouncementsInput = {
   occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
   infraKeyOf?: Prisma.InfraPointUncheckedCreateNestedManyWithoutKeyHolderUserInput
   supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutCreatedByInput
+  aiConversations?: Prisma.AiConversationUncheckedCreateNestedManyWithoutUserInput
+  aiActions?: Prisma.AiActionLogUncheckedCreateNestedManyWithoutUserInput
   infraAccess?: Prisma.InfraAccessUncheckedCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
@@ -5024,6 +5186,8 @@ export type UserUpdateWithoutCreatedAnnouncementsInput = {
   occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
   infraKeyOf?: Prisma.InfraPointUpdateManyWithoutKeyHolderUserNestedInput
   supportTickets?: Prisma.SupportTicketUpdateManyWithoutCreatedByNestedInput
+  aiConversations?: Prisma.AiConversationUpdateManyWithoutUserNestedInput
+  aiActions?: Prisma.AiActionLogUpdateManyWithoutUserNestedInput
   infraAccess?: Prisma.InfraAccessUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
@@ -5076,6 +5240,8 @@ export type UserUncheckedUpdateWithoutCreatedAnnouncementsInput = {
   occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
   infraKeyOf?: Prisma.InfraPointUncheckedUpdateManyWithoutKeyHolderUserNestedInput
   supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutCreatedByNestedInput
+  aiConversations?: Prisma.AiConversationUncheckedUpdateManyWithoutUserNestedInput
+  aiActions?: Prisma.AiActionLogUncheckedUpdateManyWithoutUserNestedInput
   infraAccess?: Prisma.InfraAccessUncheckedUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -5126,6 +5292,8 @@ export type UserCreateWithoutAnnouncementAcksInput = {
   occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
   infraKeyOf?: Prisma.InfraPointCreateNestedManyWithoutKeyHolderUserInput
   supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutCreatedByInput
+  aiConversations?: Prisma.AiConversationCreateNestedManyWithoutUserInput
+  aiActions?: Prisma.AiActionLogCreateNestedManyWithoutUserInput
   infraAccess?: Prisma.InfraAccessCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
@@ -5178,6 +5346,8 @@ export type UserUncheckedCreateWithoutAnnouncementAcksInput = {
   occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
   infraKeyOf?: Prisma.InfraPointUncheckedCreateNestedManyWithoutKeyHolderUserInput
   supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutCreatedByInput
+  aiConversations?: Prisma.AiConversationUncheckedCreateNestedManyWithoutUserInput
+  aiActions?: Prisma.AiActionLogUncheckedCreateNestedManyWithoutUserInput
   infraAccess?: Prisma.InfraAccessUncheckedCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
@@ -5244,6 +5414,8 @@ export type UserUpdateWithoutAnnouncementAcksInput = {
   occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
   infraKeyOf?: Prisma.InfraPointUpdateManyWithoutKeyHolderUserNestedInput
   supportTickets?: Prisma.SupportTicketUpdateManyWithoutCreatedByNestedInput
+  aiConversations?: Prisma.AiConversationUpdateManyWithoutUserNestedInput
+  aiActions?: Prisma.AiActionLogUpdateManyWithoutUserNestedInput
   infraAccess?: Prisma.InfraAccessUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
@@ -5296,6 +5468,8 @@ export type UserUncheckedUpdateWithoutAnnouncementAcksInput = {
   occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
   infraKeyOf?: Prisma.InfraPointUncheckedUpdateManyWithoutKeyHolderUserNestedInput
   supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutCreatedByNestedInput
+  aiConversations?: Prisma.AiConversationUncheckedUpdateManyWithoutUserNestedInput
+  aiActions?: Prisma.AiActionLogUncheckedUpdateManyWithoutUserNestedInput
   infraAccess?: Prisma.InfraAccessUncheckedUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -5346,6 +5520,8 @@ export type UserCreateWithoutApiUsageLogsInput = {
   occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
   infraKeyOf?: Prisma.InfraPointCreateNestedManyWithoutKeyHolderUserInput
   supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutCreatedByInput
+  aiConversations?: Prisma.AiConversationCreateNestedManyWithoutUserInput
+  aiActions?: Prisma.AiActionLogCreateNestedManyWithoutUserInput
   infraAccess?: Prisma.InfraAccessCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
@@ -5398,6 +5574,8 @@ export type UserUncheckedCreateWithoutApiUsageLogsInput = {
   occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
   infraKeyOf?: Prisma.InfraPointUncheckedCreateNestedManyWithoutKeyHolderUserInput
   supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutCreatedByInput
+  aiConversations?: Prisma.AiConversationUncheckedCreateNestedManyWithoutUserInput
+  aiActions?: Prisma.AiActionLogUncheckedCreateNestedManyWithoutUserInput
   infraAccess?: Prisma.InfraAccessUncheckedCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
@@ -5464,6 +5642,8 @@ export type UserUpdateWithoutApiUsageLogsInput = {
   occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
   infraKeyOf?: Prisma.InfraPointUpdateManyWithoutKeyHolderUserNestedInput
   supportTickets?: Prisma.SupportTicketUpdateManyWithoutCreatedByNestedInput
+  aiConversations?: Prisma.AiConversationUpdateManyWithoutUserNestedInput
+  aiActions?: Prisma.AiActionLogUpdateManyWithoutUserNestedInput
   infraAccess?: Prisma.InfraAccessUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
@@ -5516,6 +5696,8 @@ export type UserUncheckedUpdateWithoutApiUsageLogsInput = {
   occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
   infraKeyOf?: Prisma.InfraPointUncheckedUpdateManyWithoutKeyHolderUserNestedInput
   supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutCreatedByNestedInput
+  aiConversations?: Prisma.AiConversationUncheckedUpdateManyWithoutUserNestedInput
+  aiActions?: Prisma.AiActionLogUncheckedUpdateManyWithoutUserNestedInput
   infraAccess?: Prisma.InfraAccessUncheckedUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -5566,6 +5748,8 @@ export type UserCreateWithoutReportedMaintenanceInput = {
   occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
   infraKeyOf?: Prisma.InfraPointCreateNestedManyWithoutKeyHolderUserInput
   supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutCreatedByInput
+  aiConversations?: Prisma.AiConversationCreateNestedManyWithoutUserInput
+  aiActions?: Prisma.AiActionLogCreateNestedManyWithoutUserInput
   infraAccess?: Prisma.InfraAccessCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
@@ -5618,6 +5802,8 @@ export type UserUncheckedCreateWithoutReportedMaintenanceInput = {
   occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
   infraKeyOf?: Prisma.InfraPointUncheckedCreateNestedManyWithoutKeyHolderUserInput
   supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutCreatedByInput
+  aiConversations?: Prisma.AiConversationUncheckedCreateNestedManyWithoutUserInput
+  aiActions?: Prisma.AiActionLogUncheckedCreateNestedManyWithoutUserInput
   infraAccess?: Prisma.InfraAccessUncheckedCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
@@ -5673,6 +5859,8 @@ export type UserCreateWithoutAssignedMaintenanceInput = {
   occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
   infraKeyOf?: Prisma.InfraPointCreateNestedManyWithoutKeyHolderUserInput
   supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutCreatedByInput
+  aiConversations?: Prisma.AiConversationCreateNestedManyWithoutUserInput
+  aiActions?: Prisma.AiActionLogCreateNestedManyWithoutUserInput
   infraAccess?: Prisma.InfraAccessCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
@@ -5725,6 +5913,8 @@ export type UserUncheckedCreateWithoutAssignedMaintenanceInput = {
   occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
   infraKeyOf?: Prisma.InfraPointUncheckedCreateNestedManyWithoutKeyHolderUserInput
   supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutCreatedByInput
+  aiConversations?: Prisma.AiConversationUncheckedCreateNestedManyWithoutUserInput
+  aiActions?: Prisma.AiActionLogUncheckedCreateNestedManyWithoutUserInput
   infraAccess?: Prisma.InfraAccessUncheckedCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
@@ -5791,6 +5981,8 @@ export type UserUpdateWithoutReportedMaintenanceInput = {
   occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
   infraKeyOf?: Prisma.InfraPointUpdateManyWithoutKeyHolderUserNestedInput
   supportTickets?: Prisma.SupportTicketUpdateManyWithoutCreatedByNestedInput
+  aiConversations?: Prisma.AiConversationUpdateManyWithoutUserNestedInput
+  aiActions?: Prisma.AiActionLogUpdateManyWithoutUserNestedInput
   infraAccess?: Prisma.InfraAccessUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
@@ -5843,6 +6035,8 @@ export type UserUncheckedUpdateWithoutReportedMaintenanceInput = {
   occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
   infraKeyOf?: Prisma.InfraPointUncheckedUpdateManyWithoutKeyHolderUserNestedInput
   supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutCreatedByNestedInput
+  aiConversations?: Prisma.AiConversationUncheckedUpdateManyWithoutUserNestedInput
+  aiActions?: Prisma.AiActionLogUncheckedUpdateManyWithoutUserNestedInput
   infraAccess?: Prisma.InfraAccessUncheckedUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -5904,6 +6098,8 @@ export type UserUpdateWithoutAssignedMaintenanceInput = {
   occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
   infraKeyOf?: Prisma.InfraPointUpdateManyWithoutKeyHolderUserNestedInput
   supportTickets?: Prisma.SupportTicketUpdateManyWithoutCreatedByNestedInput
+  aiConversations?: Prisma.AiConversationUpdateManyWithoutUserNestedInput
+  aiActions?: Prisma.AiActionLogUpdateManyWithoutUserNestedInput
   infraAccess?: Prisma.InfraAccessUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
@@ -5956,6 +6152,8 @@ export type UserUncheckedUpdateWithoutAssignedMaintenanceInput = {
   occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
   infraKeyOf?: Prisma.InfraPointUncheckedUpdateManyWithoutKeyHolderUserNestedInput
   supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutCreatedByNestedInput
+  aiConversations?: Prisma.AiConversationUncheckedUpdateManyWithoutUserNestedInput
+  aiActions?: Prisma.AiActionLogUncheckedUpdateManyWithoutUserNestedInput
   infraAccess?: Prisma.InfraAccessUncheckedUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -6006,6 +6204,8 @@ export type UserCreateWithoutMaintenanceStatusEventsInput = {
   occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
   infraKeyOf?: Prisma.InfraPointCreateNestedManyWithoutKeyHolderUserInput
   supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutCreatedByInput
+  aiConversations?: Prisma.AiConversationCreateNestedManyWithoutUserInput
+  aiActions?: Prisma.AiActionLogCreateNestedManyWithoutUserInput
   infraAccess?: Prisma.InfraAccessCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
@@ -6058,6 +6258,8 @@ export type UserUncheckedCreateWithoutMaintenanceStatusEventsInput = {
   occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
   infraKeyOf?: Prisma.InfraPointUncheckedCreateNestedManyWithoutKeyHolderUserInput
   supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutCreatedByInput
+  aiConversations?: Prisma.AiConversationUncheckedCreateNestedManyWithoutUserInput
+  aiActions?: Prisma.AiActionLogUncheckedCreateNestedManyWithoutUserInput
   infraAccess?: Prisma.InfraAccessUncheckedCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
@@ -6124,6 +6326,8 @@ export type UserUpdateWithoutMaintenanceStatusEventsInput = {
   occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
   infraKeyOf?: Prisma.InfraPointUpdateManyWithoutKeyHolderUserNestedInput
   supportTickets?: Prisma.SupportTicketUpdateManyWithoutCreatedByNestedInput
+  aiConversations?: Prisma.AiConversationUpdateManyWithoutUserNestedInput
+  aiActions?: Prisma.AiActionLogUpdateManyWithoutUserNestedInput
   infraAccess?: Prisma.InfraAccessUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
@@ -6176,6 +6380,8 @@ export type UserUncheckedUpdateWithoutMaintenanceStatusEventsInput = {
   occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
   infraKeyOf?: Prisma.InfraPointUncheckedUpdateManyWithoutKeyHolderUserNestedInput
   supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutCreatedByNestedInput
+  aiConversations?: Prisma.AiConversationUncheckedUpdateManyWithoutUserNestedInput
+  aiActions?: Prisma.AiActionLogUncheckedUpdateManyWithoutUserNestedInput
   infraAccess?: Prisma.InfraAccessUncheckedUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -6226,6 +6432,8 @@ export type UserCreateWithoutMaintenanceCommentsInput = {
   occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
   infraKeyOf?: Prisma.InfraPointCreateNestedManyWithoutKeyHolderUserInput
   supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutCreatedByInput
+  aiConversations?: Prisma.AiConversationCreateNestedManyWithoutUserInput
+  aiActions?: Prisma.AiActionLogCreateNestedManyWithoutUserInput
   infraAccess?: Prisma.InfraAccessCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
@@ -6278,6 +6486,8 @@ export type UserUncheckedCreateWithoutMaintenanceCommentsInput = {
   occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
   infraKeyOf?: Prisma.InfraPointUncheckedCreateNestedManyWithoutKeyHolderUserInput
   supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutCreatedByInput
+  aiConversations?: Prisma.AiConversationUncheckedCreateNestedManyWithoutUserInput
+  aiActions?: Prisma.AiActionLogUncheckedCreateNestedManyWithoutUserInput
   infraAccess?: Prisma.InfraAccessUncheckedCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
@@ -6344,6 +6554,8 @@ export type UserUpdateWithoutMaintenanceCommentsInput = {
   occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
   infraKeyOf?: Prisma.InfraPointUpdateManyWithoutKeyHolderUserNestedInput
   supportTickets?: Prisma.SupportTicketUpdateManyWithoutCreatedByNestedInput
+  aiConversations?: Prisma.AiConversationUpdateManyWithoutUserNestedInput
+  aiActions?: Prisma.AiActionLogUpdateManyWithoutUserNestedInput
   infraAccess?: Prisma.InfraAccessUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
@@ -6396,6 +6608,8 @@ export type UserUncheckedUpdateWithoutMaintenanceCommentsInput = {
   occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
   infraKeyOf?: Prisma.InfraPointUncheckedUpdateManyWithoutKeyHolderUserNestedInput
   supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutCreatedByNestedInput
+  aiConversations?: Prisma.AiConversationUncheckedUpdateManyWithoutUserNestedInput
+  aiActions?: Prisma.AiActionLogUncheckedUpdateManyWithoutUserNestedInput
   infraAccess?: Prisma.InfraAccessUncheckedUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -6446,6 +6660,8 @@ export type UserCreateWithoutMaintenanceSlotsInput = {
   occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
   infraKeyOf?: Prisma.InfraPointCreateNestedManyWithoutKeyHolderUserInput
   supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutCreatedByInput
+  aiConversations?: Prisma.AiConversationCreateNestedManyWithoutUserInput
+  aiActions?: Prisma.AiActionLogCreateNestedManyWithoutUserInput
   infraAccess?: Prisma.InfraAccessCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
@@ -6498,6 +6714,8 @@ export type UserUncheckedCreateWithoutMaintenanceSlotsInput = {
   occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
   infraKeyOf?: Prisma.InfraPointUncheckedCreateNestedManyWithoutKeyHolderUserInput
   supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutCreatedByInput
+  aiConversations?: Prisma.AiConversationUncheckedCreateNestedManyWithoutUserInput
+  aiActions?: Prisma.AiActionLogUncheckedCreateNestedManyWithoutUserInput
   infraAccess?: Prisma.InfraAccessUncheckedCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
@@ -6564,6 +6782,8 @@ export type UserUpdateWithoutMaintenanceSlotsInput = {
   occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
   infraKeyOf?: Prisma.InfraPointUpdateManyWithoutKeyHolderUserNestedInput
   supportTickets?: Prisma.SupportTicketUpdateManyWithoutCreatedByNestedInput
+  aiConversations?: Prisma.AiConversationUpdateManyWithoutUserNestedInput
+  aiActions?: Prisma.AiActionLogUpdateManyWithoutUserNestedInput
   infraAccess?: Prisma.InfraAccessUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
@@ -6616,6 +6836,8 @@ export type UserUncheckedUpdateWithoutMaintenanceSlotsInput = {
   occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
   infraKeyOf?: Prisma.InfraPointUncheckedUpdateManyWithoutKeyHolderUserNestedInput
   supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutCreatedByNestedInput
+  aiConversations?: Prisma.AiConversationUncheckedUpdateManyWithoutUserNestedInput
+  aiActions?: Prisma.AiActionLogUncheckedUpdateManyWithoutUserNestedInput
   infraAccess?: Prisma.InfraAccessUncheckedUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -6666,6 +6888,8 @@ export type UserCreateWithoutMaintenanceAppointmentsInput = {
   occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
   infraKeyOf?: Prisma.InfraPointCreateNestedManyWithoutKeyHolderUserInput
   supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutCreatedByInput
+  aiConversations?: Prisma.AiConversationCreateNestedManyWithoutUserInput
+  aiActions?: Prisma.AiActionLogCreateNestedManyWithoutUserInput
   infraAccess?: Prisma.InfraAccessCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
@@ -6718,6 +6942,8 @@ export type UserUncheckedCreateWithoutMaintenanceAppointmentsInput = {
   occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
   infraKeyOf?: Prisma.InfraPointUncheckedCreateNestedManyWithoutKeyHolderUserInput
   supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutCreatedByInput
+  aiConversations?: Prisma.AiConversationUncheckedCreateNestedManyWithoutUserInput
+  aiActions?: Prisma.AiActionLogUncheckedCreateNestedManyWithoutUserInput
   infraAccess?: Prisma.InfraAccessUncheckedCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
@@ -6784,6 +7010,8 @@ export type UserUpdateWithoutMaintenanceAppointmentsInput = {
   occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
   infraKeyOf?: Prisma.InfraPointUpdateManyWithoutKeyHolderUserNestedInput
   supportTickets?: Prisma.SupportTicketUpdateManyWithoutCreatedByNestedInput
+  aiConversations?: Prisma.AiConversationUpdateManyWithoutUserNestedInput
+  aiActions?: Prisma.AiActionLogUpdateManyWithoutUserNestedInput
   infraAccess?: Prisma.InfraAccessUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
@@ -6836,6 +7064,8 @@ export type UserUncheckedUpdateWithoutMaintenanceAppointmentsInput = {
   occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
   infraKeyOf?: Prisma.InfraPointUncheckedUpdateManyWithoutKeyHolderUserNestedInput
   supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutCreatedByNestedInput
+  aiConversations?: Prisma.AiConversationUncheckedUpdateManyWithoutUserNestedInput
+  aiActions?: Prisma.AiActionLogUncheckedUpdateManyWithoutUserNestedInput
   infraAccess?: Prisma.InfraAccessUncheckedUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -6886,6 +7116,8 @@ export type UserCreateWithoutNotificationsInput = {
   occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
   infraKeyOf?: Prisma.InfraPointCreateNestedManyWithoutKeyHolderUserInput
   supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutCreatedByInput
+  aiConversations?: Prisma.AiConversationCreateNestedManyWithoutUserInput
+  aiActions?: Prisma.AiActionLogCreateNestedManyWithoutUserInput
   infraAccess?: Prisma.InfraAccessCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
@@ -6938,6 +7170,8 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
   infraKeyOf?: Prisma.InfraPointUncheckedCreateNestedManyWithoutKeyHolderUserInput
   supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutCreatedByInput
+  aiConversations?: Prisma.AiConversationUncheckedCreateNestedManyWithoutUserInput
+  aiActions?: Prisma.AiActionLogUncheckedCreateNestedManyWithoutUserInput
   infraAccess?: Prisma.InfraAccessUncheckedCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
@@ -7004,6 +7238,8 @@ export type UserUpdateWithoutNotificationsInput = {
   occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
   infraKeyOf?: Prisma.InfraPointUpdateManyWithoutKeyHolderUserNestedInput
   supportTickets?: Prisma.SupportTicketUpdateManyWithoutCreatedByNestedInput
+  aiConversations?: Prisma.AiConversationUpdateManyWithoutUserNestedInput
+  aiActions?: Prisma.AiActionLogUpdateManyWithoutUserNestedInput
   infraAccess?: Prisma.InfraAccessUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
@@ -7056,6 +7292,8 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
   infraKeyOf?: Prisma.InfraPointUncheckedUpdateManyWithoutKeyHolderUserNestedInput
   supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutCreatedByNestedInput
+  aiConversations?: Prisma.AiConversationUncheckedUpdateManyWithoutUserNestedInput
+  aiActions?: Prisma.AiActionLogUncheckedUpdateManyWithoutUserNestedInput
   infraAccess?: Prisma.InfraAccessUncheckedUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -7105,6 +7343,8 @@ export type UserCreateWithoutCreatedRolesInput = {
   occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
   infraKeyOf?: Prisma.InfraPointCreateNestedManyWithoutKeyHolderUserInput
   supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutCreatedByInput
+  aiConversations?: Prisma.AiConversationCreateNestedManyWithoutUserInput
+  aiActions?: Prisma.AiActionLogCreateNestedManyWithoutUserInput
   infraAccess?: Prisma.InfraAccessCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
@@ -7157,6 +7397,8 @@ export type UserUncheckedCreateWithoutCreatedRolesInput = {
   occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
   infraKeyOf?: Prisma.InfraPointUncheckedCreateNestedManyWithoutKeyHolderUserInput
   supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutCreatedByInput
+  aiConversations?: Prisma.AiConversationUncheckedCreateNestedManyWithoutUserInput
+  aiActions?: Prisma.AiActionLogUncheckedCreateNestedManyWithoutUserInput
   infraAccess?: Prisma.InfraAccessUncheckedCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
@@ -7212,6 +7454,8 @@ export type UserCreateWithoutAssignedRoleInput = {
   occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
   infraKeyOf?: Prisma.InfraPointCreateNestedManyWithoutKeyHolderUserInput
   supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutCreatedByInput
+  aiConversations?: Prisma.AiConversationCreateNestedManyWithoutUserInput
+  aiActions?: Prisma.AiActionLogCreateNestedManyWithoutUserInput
   infraAccess?: Prisma.InfraAccessCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
@@ -7264,6 +7508,8 @@ export type UserUncheckedCreateWithoutAssignedRoleInput = {
   occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
   infraKeyOf?: Prisma.InfraPointUncheckedCreateNestedManyWithoutKeyHolderUserInput
   supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutCreatedByInput
+  aiConversations?: Prisma.AiConversationUncheckedCreateNestedManyWithoutUserInput
+  aiActions?: Prisma.AiActionLogUncheckedCreateNestedManyWithoutUserInput
   infraAccess?: Prisma.InfraAccessUncheckedCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
@@ -7335,6 +7581,8 @@ export type UserUpdateWithoutCreatedRolesInput = {
   occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
   infraKeyOf?: Prisma.InfraPointUpdateManyWithoutKeyHolderUserNestedInput
   supportTickets?: Prisma.SupportTicketUpdateManyWithoutCreatedByNestedInput
+  aiConversations?: Prisma.AiConversationUpdateManyWithoutUserNestedInput
+  aiActions?: Prisma.AiActionLogUpdateManyWithoutUserNestedInput
   infraAccess?: Prisma.InfraAccessUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
@@ -7387,6 +7635,8 @@ export type UserUncheckedUpdateWithoutCreatedRolesInput = {
   occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
   infraKeyOf?: Prisma.InfraPointUncheckedUpdateManyWithoutKeyHolderUserNestedInput
   supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutCreatedByNestedInput
+  aiConversations?: Prisma.AiConversationUncheckedUpdateManyWithoutUserNestedInput
+  aiActions?: Prisma.AiActionLogUncheckedUpdateManyWithoutUserNestedInput
   infraAccess?: Prisma.InfraAccessUncheckedUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -7453,6 +7703,8 @@ export type UserCreateWithoutSupportTicketsInput = {
   residentUnits?: Prisma.UnitCreateNestedManyWithoutResidentInput
   occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
   infraKeyOf?: Prisma.InfraPointCreateNestedManyWithoutKeyHolderUserInput
+  aiConversations?: Prisma.AiConversationCreateNestedManyWithoutUserInput
+  aiActions?: Prisma.AiActionLogCreateNestedManyWithoutUserInput
   infraAccess?: Prisma.InfraAccessCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
@@ -7505,6 +7757,8 @@ export type UserUncheckedCreateWithoutSupportTicketsInput = {
   residentUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutResidentInput
   occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
   infraKeyOf?: Prisma.InfraPointUncheckedCreateNestedManyWithoutKeyHolderUserInput
+  aiConversations?: Prisma.AiConversationUncheckedCreateNestedManyWithoutUserInput
+  aiActions?: Prisma.AiActionLogUncheckedCreateNestedManyWithoutUserInput
   infraAccess?: Prisma.InfraAccessUncheckedCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
@@ -7571,6 +7825,8 @@ export type UserUpdateWithoutSupportTicketsInput = {
   residentUnits?: Prisma.UnitUpdateManyWithoutResidentNestedInput
   occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
   infraKeyOf?: Prisma.InfraPointUpdateManyWithoutKeyHolderUserNestedInput
+  aiConversations?: Prisma.AiConversationUpdateManyWithoutUserNestedInput
+  aiActions?: Prisma.AiActionLogUpdateManyWithoutUserNestedInput
   infraAccess?: Prisma.InfraAccessUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
@@ -7623,6 +7879,8 @@ export type UserUncheckedUpdateWithoutSupportTicketsInput = {
   residentUnits?: Prisma.UnitUncheckedUpdateManyWithoutResidentNestedInput
   occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
   infraKeyOf?: Prisma.InfraPointUncheckedUpdateManyWithoutKeyHolderUserNestedInput
+  aiConversations?: Prisma.AiConversationUncheckedUpdateManyWithoutUserNestedInput
+  aiActions?: Prisma.AiActionLogUncheckedUpdateManyWithoutUserNestedInput
   infraAccess?: Prisma.InfraAccessUncheckedUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -7674,6 +7932,8 @@ export type UserCreateWithoutSupplierInput = {
   occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
   infraKeyOf?: Prisma.InfraPointCreateNestedManyWithoutKeyHolderUserInput
   supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutCreatedByInput
+  aiConversations?: Prisma.AiConversationCreateNestedManyWithoutUserInput
+  aiActions?: Prisma.AiActionLogCreateNestedManyWithoutUserInput
   infraAccess?: Prisma.InfraAccessCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
@@ -7725,6 +7985,8 @@ export type UserUncheckedCreateWithoutSupplierInput = {
   occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
   infraKeyOf?: Prisma.InfraPointUncheckedCreateNestedManyWithoutKeyHolderUserInput
   supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutCreatedByInput
+  aiConversations?: Prisma.AiConversationUncheckedCreateNestedManyWithoutUserInput
+  aiActions?: Prisma.AiActionLogUncheckedCreateNestedManyWithoutUserInput
   infraAccess?: Prisma.InfraAccessUncheckedCreateNestedManyWithoutUserInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
   createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
@@ -7770,6 +8032,462 @@ export type UserUpdateWithWhereUniqueWithoutSupplierInput = {
 export type UserUpdateManyWithWhereWithoutSupplierInput = {
   where: Prisma.UserScalarWhereInput
   data: Prisma.XOR<Prisma.UserUpdateManyMutationInput, Prisma.UserUncheckedUpdateManyWithoutSupplierInput>
+}
+
+export type UserCreateWithoutAiConversationsInput = {
+  id?: string
+  email: string
+  name?: string | null
+  phone?: string | null
+  mobile?: string | null
+  passwordHash?: string | null
+  role: $Enums.UserRole
+  status?: $Enums.UserStatus
+  isCompany?: boolean
+  afm?: string | null
+  doy?: string | null
+  contactName?: string | null
+  contactEmail?: string | null
+  contactPhone?: string | null
+  softoneTrdr?: number | null
+  isSupplierAdmin?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lastLoginAt?: Date | string | null
+  assignedRole?: Prisma.RoleCreateNestedOneWithoutUsersInput
+  createdRoles?: Prisma.RoleCreateNestedManyWithoutCreatedByInput
+  company?: Prisma.CompanyCreateNestedOneWithoutUsersInput
+  customer?: Prisma.CustomerCreateNestedOneWithoutUsersInput
+  building?: Prisma.BuildingCreateNestedOneWithoutUsersInput
+  ownedUnits?: Prisma.UnitCreateNestedManyWithoutOwnerInput
+  residentUnits?: Prisma.UnitCreateNestedManyWithoutResidentInput
+  occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
+  infraKeyOf?: Prisma.InfraPointCreateNestedManyWithoutKeyHolderUserInput
+  supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutCreatedByInput
+  aiActions?: Prisma.AiActionLogCreateNestedManyWithoutUserInput
+  infraAccess?: Prisma.InfraAccessCreateNestedManyWithoutUserInput
+  companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
+  createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
+  createdAnnouncements?: Prisma.AnnouncementCreateNestedManyWithoutCreatedByInput
+  announcementAcks?: Prisma.Announcement_UserCreateNestedManyWithoutUserInput
+  employeeLinks?: Prisma.EmployeeCreateNestedManyWithoutUserInput
+  reportedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutReportedByInput
+  assignedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutAssignedToInput
+  performedMaintenance?: Prisma.MaintenanceLogCreateNestedManyWithoutPerformedByInput
+  maintenanceStatusEvents?: Prisma.MaintenanceStatusEventCreateNestedManyWithoutByUserInput
+  maintenanceComments?: Prisma.MaintenanceCommentCreateNestedManyWithoutAuthorInput
+  maintenanceSlots?: Prisma.MaintenanceSlotCreateNestedManyWithoutOfferedByInput
+  maintenanceAppointments?: Prisma.MaintenanceAppointmentCreateNestedManyWithoutBookedByInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  accountCustomers?: Prisma.CustomerCreateNestedManyWithoutAccountManagerInput
+  supplier?: Prisma.SupplierCreateNestedOneWithoutUsersInput
+  apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
+  managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutAiConversationsInput = {
+  id?: string
+  email: string
+  name?: string | null
+  phone?: string | null
+  mobile?: string | null
+  passwordHash?: string | null
+  role: $Enums.UserRole
+  status?: $Enums.UserStatus
+  roleId?: string | null
+  isCompany?: boolean
+  afm?: string | null
+  doy?: string | null
+  contactName?: string | null
+  contactEmail?: string | null
+  contactPhone?: string | null
+  softoneTrdr?: number | null
+  companyId?: string | null
+  customerId?: string | null
+  buildingId?: string | null
+  supplierId?: string | null
+  isSupplierAdmin?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lastLoginAt?: Date | string | null
+  createdRoles?: Prisma.RoleUncheckedCreateNestedManyWithoutCreatedByInput
+  ownedUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutOwnerInput
+  residentUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutResidentInput
+  occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
+  infraKeyOf?: Prisma.InfraPointUncheckedCreateNestedManyWithoutKeyHolderUserInput
+  supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutCreatedByInput
+  aiActions?: Prisma.AiActionLogUncheckedCreateNestedManyWithoutUserInput
+  infraAccess?: Prisma.InfraAccessUncheckedCreateNestedManyWithoutUserInput
+  companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
+  createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
+  createdAnnouncements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutCreatedByInput
+  announcementAcks?: Prisma.Announcement_UserUncheckedCreateNestedManyWithoutUserInput
+  employeeLinks?: Prisma.EmployeeUncheckedCreateNestedManyWithoutUserInput
+  reportedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutReportedByInput
+  assignedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutAssignedToInput
+  performedMaintenance?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutPerformedByInput
+  maintenanceStatusEvents?: Prisma.MaintenanceStatusEventUncheckedCreateNestedManyWithoutByUserInput
+  maintenanceComments?: Prisma.MaintenanceCommentUncheckedCreateNestedManyWithoutAuthorInput
+  maintenanceSlots?: Prisma.MaintenanceSlotUncheckedCreateNestedManyWithoutOfferedByInput
+  maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedCreateNestedManyWithoutBookedByInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  accountCustomers?: Prisma.CustomerUncheckedCreateNestedManyWithoutAccountManagerInput
+  apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutUserInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutAiConversationsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutAiConversationsInput, Prisma.UserUncheckedCreateWithoutAiConversationsInput>
+}
+
+export type UserUpsertWithoutAiConversationsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutAiConversationsInput, Prisma.UserUncheckedUpdateWithoutAiConversationsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutAiConversationsInput, Prisma.UserUncheckedCreateWithoutAiConversationsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutAiConversationsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutAiConversationsInput, Prisma.UserUncheckedUpdateWithoutAiConversationsInput>
+}
+
+export type UserUpdateWithoutAiConversationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isCompany?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  doy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  assignedRole?: Prisma.RoleUpdateOneWithoutUsersNestedInput
+  createdRoles?: Prisma.RoleUpdateManyWithoutCreatedByNestedInput
+  company?: Prisma.CompanyUpdateOneWithoutUsersNestedInput
+  customer?: Prisma.CustomerUpdateOneWithoutUsersNestedInput
+  building?: Prisma.BuildingUpdateOneWithoutUsersNestedInput
+  ownedUnits?: Prisma.UnitUpdateManyWithoutOwnerNestedInput
+  residentUnits?: Prisma.UnitUpdateManyWithoutResidentNestedInput
+  occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
+  infraKeyOf?: Prisma.InfraPointUpdateManyWithoutKeyHolderUserNestedInput
+  supportTickets?: Prisma.SupportTicketUpdateManyWithoutCreatedByNestedInput
+  aiActions?: Prisma.AiActionLogUpdateManyWithoutUserNestedInput
+  infraAccess?: Prisma.InfraAccessUpdateManyWithoutUserNestedInput
+  companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
+  createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
+  createdAnnouncements?: Prisma.AnnouncementUpdateManyWithoutCreatedByNestedInput
+  announcementAcks?: Prisma.Announcement_UserUpdateManyWithoutUserNestedInput
+  employeeLinks?: Prisma.EmployeeUpdateManyWithoutUserNestedInput
+  reportedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutReportedByNestedInput
+  assignedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutAssignedToNestedInput
+  performedMaintenance?: Prisma.MaintenanceLogUpdateManyWithoutPerformedByNestedInput
+  maintenanceStatusEvents?: Prisma.MaintenanceStatusEventUpdateManyWithoutByUserNestedInput
+  maintenanceComments?: Prisma.MaintenanceCommentUpdateManyWithoutAuthorNestedInput
+  maintenanceSlots?: Prisma.MaintenanceSlotUpdateManyWithoutOfferedByNestedInput
+  maintenanceAppointments?: Prisma.MaintenanceAppointmentUpdateManyWithoutBookedByNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  accountCustomers?: Prisma.CustomerUpdateManyWithoutAccountManagerNestedInput
+  supplier?: Prisma.SupplierUpdateOneWithoutUsersNestedInput
+  apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutAiConversationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  roleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isCompany?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  doy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdRoles?: Prisma.RoleUncheckedUpdateManyWithoutCreatedByNestedInput
+  ownedUnits?: Prisma.UnitUncheckedUpdateManyWithoutOwnerNestedInput
+  residentUnits?: Prisma.UnitUncheckedUpdateManyWithoutResidentNestedInput
+  occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
+  infraKeyOf?: Prisma.InfraPointUncheckedUpdateManyWithoutKeyHolderUserNestedInput
+  supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutCreatedByNestedInput
+  aiActions?: Prisma.AiActionLogUncheckedUpdateManyWithoutUserNestedInput
+  infraAccess?: Prisma.InfraAccessUncheckedUpdateManyWithoutUserNestedInput
+  companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
+  createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
+  createdAnnouncements?: Prisma.AnnouncementUncheckedUpdateManyWithoutCreatedByNestedInput
+  announcementAcks?: Prisma.Announcement_UserUncheckedUpdateManyWithoutUserNestedInput
+  employeeLinks?: Prisma.EmployeeUncheckedUpdateManyWithoutUserNestedInput
+  reportedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutReportedByNestedInput
+  assignedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutAssignedToNestedInput
+  performedMaintenance?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutPerformedByNestedInput
+  maintenanceStatusEvents?: Prisma.MaintenanceStatusEventUncheckedUpdateManyWithoutByUserNestedInput
+  maintenanceComments?: Prisma.MaintenanceCommentUncheckedUpdateManyWithoutAuthorNestedInput
+  maintenanceSlots?: Prisma.MaintenanceSlotUncheckedUpdateManyWithoutOfferedByNestedInput
+  maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedUpdateManyWithoutBookedByNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  accountCustomers?: Prisma.CustomerUncheckedUpdateManyWithoutAccountManagerNestedInput
+  apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutUserNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutAiActionsInput = {
+  id?: string
+  email: string
+  name?: string | null
+  phone?: string | null
+  mobile?: string | null
+  passwordHash?: string | null
+  role: $Enums.UserRole
+  status?: $Enums.UserStatus
+  isCompany?: boolean
+  afm?: string | null
+  doy?: string | null
+  contactName?: string | null
+  contactEmail?: string | null
+  contactPhone?: string | null
+  softoneTrdr?: number | null
+  isSupplierAdmin?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lastLoginAt?: Date | string | null
+  assignedRole?: Prisma.RoleCreateNestedOneWithoutUsersInput
+  createdRoles?: Prisma.RoleCreateNestedManyWithoutCreatedByInput
+  company?: Prisma.CompanyCreateNestedOneWithoutUsersInput
+  customer?: Prisma.CustomerCreateNestedOneWithoutUsersInput
+  building?: Prisma.BuildingCreateNestedOneWithoutUsersInput
+  ownedUnits?: Prisma.UnitCreateNestedManyWithoutOwnerInput
+  residentUnits?: Prisma.UnitCreateNestedManyWithoutResidentInput
+  occupancies?: Prisma.UnitOccupancyCreateNestedManyWithoutUserInput
+  infraKeyOf?: Prisma.InfraPointCreateNestedManyWithoutKeyHolderUserInput
+  supportTickets?: Prisma.SupportTicketCreateNestedManyWithoutCreatedByInput
+  aiConversations?: Prisma.AiConversationCreateNestedManyWithoutUserInput
+  infraAccess?: Prisma.InfraAccessCreateNestedManyWithoutUserInput
+  companyRoles?: Prisma.UserCompanyRoleCreateNestedManyWithoutUserInput
+  createdCompanies?: Prisma.CompanyCreateNestedManyWithoutCreatedByInput
+  createdAnnouncements?: Prisma.AnnouncementCreateNestedManyWithoutCreatedByInput
+  announcementAcks?: Prisma.Announcement_UserCreateNestedManyWithoutUserInput
+  employeeLinks?: Prisma.EmployeeCreateNestedManyWithoutUserInput
+  reportedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutReportedByInput
+  assignedMaintenance?: Prisma.MaintenanceRequestCreateNestedManyWithoutAssignedToInput
+  performedMaintenance?: Prisma.MaintenanceLogCreateNestedManyWithoutPerformedByInput
+  maintenanceStatusEvents?: Prisma.MaintenanceStatusEventCreateNestedManyWithoutByUserInput
+  maintenanceComments?: Prisma.MaintenanceCommentCreateNestedManyWithoutAuthorInput
+  maintenanceSlots?: Prisma.MaintenanceSlotCreateNestedManyWithoutOfferedByInput
+  maintenanceAppointments?: Prisma.MaintenanceAppointmentCreateNestedManyWithoutBookedByInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  accountCustomers?: Prisma.CustomerCreateNestedManyWithoutAccountManagerInput
+  supplier?: Prisma.SupplierCreateNestedOneWithoutUsersInput
+  apiUsageLogs?: Prisma.APIUsageLogCreateNestedManyWithoutUserInput
+  managementAssignments?: Prisma.ManagementAssignmentCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutAiActionsInput = {
+  id?: string
+  email: string
+  name?: string | null
+  phone?: string | null
+  mobile?: string | null
+  passwordHash?: string | null
+  role: $Enums.UserRole
+  status?: $Enums.UserStatus
+  roleId?: string | null
+  isCompany?: boolean
+  afm?: string | null
+  doy?: string | null
+  contactName?: string | null
+  contactEmail?: string | null
+  contactPhone?: string | null
+  softoneTrdr?: number | null
+  companyId?: string | null
+  customerId?: string | null
+  buildingId?: string | null
+  supplierId?: string | null
+  isSupplierAdmin?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lastLoginAt?: Date | string | null
+  createdRoles?: Prisma.RoleUncheckedCreateNestedManyWithoutCreatedByInput
+  ownedUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutOwnerInput
+  residentUnits?: Prisma.UnitUncheckedCreateNestedManyWithoutResidentInput
+  occupancies?: Prisma.UnitOccupancyUncheckedCreateNestedManyWithoutUserInput
+  infraKeyOf?: Prisma.InfraPointUncheckedCreateNestedManyWithoutKeyHolderUserInput
+  supportTickets?: Prisma.SupportTicketUncheckedCreateNestedManyWithoutCreatedByInput
+  aiConversations?: Prisma.AiConversationUncheckedCreateNestedManyWithoutUserInput
+  infraAccess?: Prisma.InfraAccessUncheckedCreateNestedManyWithoutUserInput
+  companyRoles?: Prisma.UserCompanyRoleUncheckedCreateNestedManyWithoutUserInput
+  createdCompanies?: Prisma.CompanyUncheckedCreateNestedManyWithoutCreatedByInput
+  createdAnnouncements?: Prisma.AnnouncementUncheckedCreateNestedManyWithoutCreatedByInput
+  announcementAcks?: Prisma.Announcement_UserUncheckedCreateNestedManyWithoutUserInput
+  employeeLinks?: Prisma.EmployeeUncheckedCreateNestedManyWithoutUserInput
+  reportedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutReportedByInput
+  assignedMaintenance?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutAssignedToInput
+  performedMaintenance?: Prisma.MaintenanceLogUncheckedCreateNestedManyWithoutPerformedByInput
+  maintenanceStatusEvents?: Prisma.MaintenanceStatusEventUncheckedCreateNestedManyWithoutByUserInput
+  maintenanceComments?: Prisma.MaintenanceCommentUncheckedCreateNestedManyWithoutAuthorInput
+  maintenanceSlots?: Prisma.MaintenanceSlotUncheckedCreateNestedManyWithoutOfferedByInput
+  maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedCreateNestedManyWithoutBookedByInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  accountCustomers?: Prisma.CustomerUncheckedCreateNestedManyWithoutAccountManagerInput
+  apiUsageLogs?: Prisma.APIUsageLogUncheckedCreateNestedManyWithoutUserInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutAiActionsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutAiActionsInput, Prisma.UserUncheckedCreateWithoutAiActionsInput>
+}
+
+export type UserUpsertWithoutAiActionsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutAiActionsInput, Prisma.UserUncheckedUpdateWithoutAiActionsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutAiActionsInput, Prisma.UserUncheckedCreateWithoutAiActionsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutAiActionsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutAiActionsInput, Prisma.UserUncheckedUpdateWithoutAiActionsInput>
+}
+
+export type UserUpdateWithoutAiActionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  isCompany?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  doy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  assignedRole?: Prisma.RoleUpdateOneWithoutUsersNestedInput
+  createdRoles?: Prisma.RoleUpdateManyWithoutCreatedByNestedInput
+  company?: Prisma.CompanyUpdateOneWithoutUsersNestedInput
+  customer?: Prisma.CustomerUpdateOneWithoutUsersNestedInput
+  building?: Prisma.BuildingUpdateOneWithoutUsersNestedInput
+  ownedUnits?: Prisma.UnitUpdateManyWithoutOwnerNestedInput
+  residentUnits?: Prisma.UnitUpdateManyWithoutResidentNestedInput
+  occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
+  infraKeyOf?: Prisma.InfraPointUpdateManyWithoutKeyHolderUserNestedInput
+  supportTickets?: Prisma.SupportTicketUpdateManyWithoutCreatedByNestedInput
+  aiConversations?: Prisma.AiConversationUpdateManyWithoutUserNestedInput
+  infraAccess?: Prisma.InfraAccessUpdateManyWithoutUserNestedInput
+  companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
+  createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
+  createdAnnouncements?: Prisma.AnnouncementUpdateManyWithoutCreatedByNestedInput
+  announcementAcks?: Prisma.Announcement_UserUpdateManyWithoutUserNestedInput
+  employeeLinks?: Prisma.EmployeeUpdateManyWithoutUserNestedInput
+  reportedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutReportedByNestedInput
+  assignedMaintenance?: Prisma.MaintenanceRequestUpdateManyWithoutAssignedToNestedInput
+  performedMaintenance?: Prisma.MaintenanceLogUpdateManyWithoutPerformedByNestedInput
+  maintenanceStatusEvents?: Prisma.MaintenanceStatusEventUpdateManyWithoutByUserNestedInput
+  maintenanceComments?: Prisma.MaintenanceCommentUpdateManyWithoutAuthorNestedInput
+  maintenanceSlots?: Prisma.MaintenanceSlotUpdateManyWithoutOfferedByNestedInput
+  maintenanceAppointments?: Prisma.MaintenanceAppointmentUpdateManyWithoutBookedByNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  accountCustomers?: Prisma.CustomerUpdateManyWithoutAccountManagerNestedInput
+  supplier?: Prisma.SupplierUpdateOneWithoutUsersNestedInput
+  apiUsageLogs?: Prisma.APIUsageLogUpdateManyWithoutUserNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutAiActionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mobile?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  roleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isCompany?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  afm?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  doy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softoneTrdr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supplierId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isSupplierAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdRoles?: Prisma.RoleUncheckedUpdateManyWithoutCreatedByNestedInput
+  ownedUnits?: Prisma.UnitUncheckedUpdateManyWithoutOwnerNestedInput
+  residentUnits?: Prisma.UnitUncheckedUpdateManyWithoutResidentNestedInput
+  occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
+  infraKeyOf?: Prisma.InfraPointUncheckedUpdateManyWithoutKeyHolderUserNestedInput
+  supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutCreatedByNestedInput
+  aiConversations?: Prisma.AiConversationUncheckedUpdateManyWithoutUserNestedInput
+  infraAccess?: Prisma.InfraAccessUncheckedUpdateManyWithoutUserNestedInput
+  companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
+  createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
+  createdAnnouncements?: Prisma.AnnouncementUncheckedUpdateManyWithoutCreatedByNestedInput
+  announcementAcks?: Prisma.Announcement_UserUncheckedUpdateManyWithoutUserNestedInput
+  employeeLinks?: Prisma.EmployeeUncheckedUpdateManyWithoutUserNestedInput
+  reportedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutReportedByNestedInput
+  assignedMaintenance?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutAssignedToNestedInput
+  performedMaintenance?: Prisma.MaintenanceLogUncheckedUpdateManyWithoutPerformedByNestedInput
+  maintenanceStatusEvents?: Prisma.MaintenanceStatusEventUncheckedUpdateManyWithoutByUserNestedInput
+  maintenanceComments?: Prisma.MaintenanceCommentUncheckedUpdateManyWithoutAuthorNestedInput
+  maintenanceSlots?: Prisma.MaintenanceSlotUncheckedUpdateManyWithoutOfferedByNestedInput
+  maintenanceAppointments?: Prisma.MaintenanceAppointmentUncheckedUpdateManyWithoutBookedByNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  accountCustomers?: Prisma.CustomerUncheckedUpdateManyWithoutAccountManagerNestedInput
+  apiUsageLogs?: Prisma.APIUsageLogUncheckedUpdateManyWithoutUserNestedInput
+  managementAssignments?: Prisma.ManagementAssignmentUncheckedUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyCompanyInput = {
@@ -7827,6 +8545,8 @@ export type UserUpdateWithoutCompanyInput = {
   occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
   infraKeyOf?: Prisma.InfraPointUpdateManyWithoutKeyHolderUserNestedInput
   supportTickets?: Prisma.SupportTicketUpdateManyWithoutCreatedByNestedInput
+  aiConversations?: Prisma.AiConversationUpdateManyWithoutUserNestedInput
+  aiActions?: Prisma.AiActionLogUpdateManyWithoutUserNestedInput
   infraAccess?: Prisma.InfraAccessUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
@@ -7879,6 +8599,8 @@ export type UserUncheckedUpdateWithoutCompanyInput = {
   occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
   infraKeyOf?: Prisma.InfraPointUncheckedUpdateManyWithoutKeyHolderUserNestedInput
   supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutCreatedByNestedInput
+  aiConversations?: Prisma.AiConversationUncheckedUpdateManyWithoutUserNestedInput
+  aiActions?: Prisma.AiActionLogUncheckedUpdateManyWithoutUserNestedInput
   infraAccess?: Prisma.InfraAccessUncheckedUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -7981,6 +8703,8 @@ export type UserUpdateWithoutCustomerInput = {
   occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
   infraKeyOf?: Prisma.InfraPointUpdateManyWithoutKeyHolderUserNestedInput
   supportTickets?: Prisma.SupportTicketUpdateManyWithoutCreatedByNestedInput
+  aiConversations?: Prisma.AiConversationUpdateManyWithoutUserNestedInput
+  aiActions?: Prisma.AiActionLogUpdateManyWithoutUserNestedInput
   infraAccess?: Prisma.InfraAccessUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
@@ -8033,6 +8757,8 @@ export type UserUncheckedUpdateWithoutCustomerInput = {
   occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
   infraKeyOf?: Prisma.InfraPointUncheckedUpdateManyWithoutKeyHolderUserNestedInput
   supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutCreatedByNestedInput
+  aiConversations?: Prisma.AiConversationUncheckedUpdateManyWithoutUserNestedInput
+  aiActions?: Prisma.AiActionLogUncheckedUpdateManyWithoutUserNestedInput
   infraAccess?: Prisma.InfraAccessUncheckedUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -8135,6 +8861,8 @@ export type UserUpdateWithoutBuildingInput = {
   occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
   infraKeyOf?: Prisma.InfraPointUpdateManyWithoutKeyHolderUserNestedInput
   supportTickets?: Prisma.SupportTicketUpdateManyWithoutCreatedByNestedInput
+  aiConversations?: Prisma.AiConversationUpdateManyWithoutUserNestedInput
+  aiActions?: Prisma.AiActionLogUpdateManyWithoutUserNestedInput
   infraAccess?: Prisma.InfraAccessUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
@@ -8187,6 +8915,8 @@ export type UserUncheckedUpdateWithoutBuildingInput = {
   occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
   infraKeyOf?: Prisma.InfraPointUncheckedUpdateManyWithoutKeyHolderUserNestedInput
   supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutCreatedByNestedInput
+  aiConversations?: Prisma.AiConversationUncheckedUpdateManyWithoutUserNestedInput
+  aiActions?: Prisma.AiActionLogUncheckedUpdateManyWithoutUserNestedInput
   infraAccess?: Prisma.InfraAccessUncheckedUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -8289,6 +9019,8 @@ export type UserUpdateWithoutAssignedRoleInput = {
   occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
   infraKeyOf?: Prisma.InfraPointUpdateManyWithoutKeyHolderUserNestedInput
   supportTickets?: Prisma.SupportTicketUpdateManyWithoutCreatedByNestedInput
+  aiConversations?: Prisma.AiConversationUpdateManyWithoutUserNestedInput
+  aiActions?: Prisma.AiActionLogUpdateManyWithoutUserNestedInput
   infraAccess?: Prisma.InfraAccessUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
@@ -8341,6 +9073,8 @@ export type UserUncheckedUpdateWithoutAssignedRoleInput = {
   occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
   infraKeyOf?: Prisma.InfraPointUncheckedUpdateManyWithoutKeyHolderUserNestedInput
   supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutCreatedByNestedInput
+  aiConversations?: Prisma.AiConversationUncheckedUpdateManyWithoutUserNestedInput
+  aiActions?: Prisma.AiActionLogUncheckedUpdateManyWithoutUserNestedInput
   infraAccess?: Prisma.InfraAccessUncheckedUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -8444,6 +9178,8 @@ export type UserUpdateWithoutSupplierInput = {
   occupancies?: Prisma.UnitOccupancyUpdateManyWithoutUserNestedInput
   infraKeyOf?: Prisma.InfraPointUpdateManyWithoutKeyHolderUserNestedInput
   supportTickets?: Prisma.SupportTicketUpdateManyWithoutCreatedByNestedInput
+  aiConversations?: Prisma.AiConversationUpdateManyWithoutUserNestedInput
+  aiActions?: Prisma.AiActionLogUpdateManyWithoutUserNestedInput
   infraAccess?: Prisma.InfraAccessUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUpdateManyWithoutCreatedByNestedInput
@@ -8495,6 +9231,8 @@ export type UserUncheckedUpdateWithoutSupplierInput = {
   occupancies?: Prisma.UnitOccupancyUncheckedUpdateManyWithoutUserNestedInput
   infraKeyOf?: Prisma.InfraPointUncheckedUpdateManyWithoutKeyHolderUserNestedInput
   supportTickets?: Prisma.SupportTicketUncheckedUpdateManyWithoutCreatedByNestedInput
+  aiConversations?: Prisma.AiConversationUncheckedUpdateManyWithoutUserNestedInput
+  aiActions?: Prisma.AiActionLogUncheckedUpdateManyWithoutUserNestedInput
   infraAccess?: Prisma.InfraAccessUncheckedUpdateManyWithoutUserNestedInput
   companyRoles?: Prisma.UserCompanyRoleUncheckedUpdateManyWithoutUserNestedInput
   createdCompanies?: Prisma.CompanyUncheckedUpdateManyWithoutCreatedByNestedInput
@@ -8554,6 +9292,8 @@ export type UserCountOutputType = {
   occupancies: number
   infraKeyOf: number
   supportTickets: number
+  aiConversations: number
+  aiActions: number
   infraAccess: number
   companyRoles: number
   createdCompanies: number
@@ -8582,6 +9322,8 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   occupancies?: boolean | UserCountOutputTypeCountOccupanciesArgs
   infraKeyOf?: boolean | UserCountOutputTypeCountInfraKeyOfArgs
   supportTickets?: boolean | UserCountOutputTypeCountSupportTicketsArgs
+  aiConversations?: boolean | UserCountOutputTypeCountAiConversationsArgs
+  aiActions?: boolean | UserCountOutputTypeCountAiActionsArgs
   infraAccess?: boolean | UserCountOutputTypeCountInfraAccessArgs
   companyRoles?: boolean | UserCountOutputTypeCountCompanyRolesArgs
   createdCompanies?: boolean | UserCountOutputTypeCountCreatedCompaniesArgs
@@ -8653,6 +9395,20 @@ export type UserCountOutputTypeCountInfraKeyOfArgs<ExtArgs extends runtime.Types
  */
 export type UserCountOutputTypeCountSupportTicketsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.SupportTicketWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountAiConversationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AiConversationWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountAiActionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AiActionLogWhereInput
 }
 
 /**
@@ -8824,6 +9580,8 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   occupancies?: boolean | Prisma.User$occupanciesArgs<ExtArgs>
   infraKeyOf?: boolean | Prisma.User$infraKeyOfArgs<ExtArgs>
   supportTickets?: boolean | Prisma.User$supportTicketsArgs<ExtArgs>
+  aiConversations?: boolean | Prisma.User$aiConversationsArgs<ExtArgs>
+  aiActions?: boolean | Prisma.User$aiActionsArgs<ExtArgs>
   infraAccess?: boolean | Prisma.User$infraAccessArgs<ExtArgs>
   companyRoles?: boolean | Prisma.User$companyRolesArgs<ExtArgs>
   createdCompanies?: boolean | Prisma.User$createdCompaniesArgs<ExtArgs>
@@ -8950,6 +9708,8 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   occupancies?: boolean | Prisma.User$occupanciesArgs<ExtArgs>
   infraKeyOf?: boolean | Prisma.User$infraKeyOfArgs<ExtArgs>
   supportTickets?: boolean | Prisma.User$supportTicketsArgs<ExtArgs>
+  aiConversations?: boolean | Prisma.User$aiConversationsArgs<ExtArgs>
+  aiActions?: boolean | Prisma.User$aiActionsArgs<ExtArgs>
   infraAccess?: boolean | Prisma.User$infraAccessArgs<ExtArgs>
   companyRoles?: boolean | Prisma.User$companyRolesArgs<ExtArgs>
   createdCompanies?: boolean | Prisma.User$createdCompaniesArgs<ExtArgs>
@@ -9000,6 +9760,8 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     occupancies: Prisma.$UnitOccupancyPayload<ExtArgs>[]
     infraKeyOf: Prisma.$InfraPointPayload<ExtArgs>[]
     supportTickets: Prisma.$SupportTicketPayload<ExtArgs>[]
+    aiConversations: Prisma.$AiConversationPayload<ExtArgs>[]
+    aiActions: Prisma.$AiActionLogPayload<ExtArgs>[]
     infraAccess: Prisma.$InfraAccessPayload<ExtArgs>[]
     companyRoles: Prisma.$UserCompanyRolePayload<ExtArgs>[]
     createdCompanies: Prisma.$CompanyPayload<ExtArgs>[]
@@ -9450,6 +10212,8 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   occupancies<T extends Prisma.User$occupanciesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$occupanciesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UnitOccupancyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   infraKeyOf<T extends Prisma.User$infraKeyOfArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$infraKeyOfArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InfraPointPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   supportTickets<T extends Prisma.User$supportTicketsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$supportTicketsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SupportTicketPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  aiConversations<T extends Prisma.User$aiConversationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$aiConversationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AiConversationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  aiActions<T extends Prisma.User$aiActionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$aiActionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AiActionLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   infraAccess<T extends Prisma.User$infraAccessArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$infraAccessArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InfraAccessPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   companyRoles<T extends Prisma.User$companyRolesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$companyRolesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserCompanyRolePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   createdCompanies<T extends Prisma.User$createdCompaniesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$createdCompaniesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -10141,6 +10905,54 @@ export type User$supportTicketsArgs<ExtArgs extends runtime.Types.Extensions.Int
   take?: number
   skip?: number
   distinct?: Prisma.SupportTicketScalarFieldEnum | Prisma.SupportTicketScalarFieldEnum[]
+}
+
+/**
+ * User.aiConversations
+ */
+export type User$aiConversationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AiConversation
+   */
+  select?: Prisma.AiConversationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the AiConversation
+   */
+  omit?: Prisma.AiConversationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AiConversationInclude<ExtArgs> | null
+  where?: Prisma.AiConversationWhereInput
+  orderBy?: Prisma.AiConversationOrderByWithRelationInput | Prisma.AiConversationOrderByWithRelationInput[]
+  cursor?: Prisma.AiConversationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AiConversationScalarFieldEnum | Prisma.AiConversationScalarFieldEnum[]
+}
+
+/**
+ * User.aiActions
+ */
+export type User$aiActionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AiActionLog
+   */
+  select?: Prisma.AiActionLogSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the AiActionLog
+   */
+  omit?: Prisma.AiActionLogOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AiActionLogInclude<ExtArgs> | null
+  where?: Prisma.AiActionLogWhereInput
+  orderBy?: Prisma.AiActionLogOrderByWithRelationInput | Prisma.AiActionLogOrderByWithRelationInput[]
+  cursor?: Prisma.AiActionLogWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AiActionLogScalarFieldEnum | Prisma.AiActionLogScalarFieldEnum[]
 }
 
 /**

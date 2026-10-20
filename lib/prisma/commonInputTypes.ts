@@ -884,11 +884,28 @@ export type BoolNullableWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedBoolNullableFilter<$PrismaModel>
 }
 
+export type EnumSoftoneSyncDirectionFilter<$PrismaModel = never> = {
+  equals?: $Enums.SoftoneSyncDirection | Prisma.EnumSoftoneSyncDirectionFieldRefInput<$PrismaModel>
+  in?: $Enums.SoftoneSyncDirection[] | Prisma.ListEnumSoftoneSyncDirectionFieldRefInput<$PrismaModel>
+  notIn?: $Enums.SoftoneSyncDirection[] | Prisma.ListEnumSoftoneSyncDirectionFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumSoftoneSyncDirectionFilter<$PrismaModel> | $Enums.SoftoneSyncDirection
+}
+
 export type EnumSoftoneSyncStatusFilter<$PrismaModel = never> = {
   equals?: $Enums.SoftoneSyncStatus | Prisma.EnumSoftoneSyncStatusFieldRefInput<$PrismaModel>
   in?: $Enums.SoftoneSyncStatus[] | Prisma.ListEnumSoftoneSyncStatusFieldRefInput<$PrismaModel>
   notIn?: $Enums.SoftoneSyncStatus[] | Prisma.ListEnumSoftoneSyncStatusFieldRefInput<$PrismaModel>
   not?: Prisma.NestedEnumSoftoneSyncStatusFilter<$PrismaModel> | $Enums.SoftoneSyncStatus
+}
+
+export type EnumSoftoneSyncDirectionWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.SoftoneSyncDirection | Prisma.EnumSoftoneSyncDirectionFieldRefInput<$PrismaModel>
+  in?: $Enums.SoftoneSyncDirection[] | Prisma.ListEnumSoftoneSyncDirectionFieldRefInput<$PrismaModel>
+  notIn?: $Enums.SoftoneSyncDirection[] | Prisma.ListEnumSoftoneSyncDirectionFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumSoftoneSyncDirectionWithAggregatesFilter<$PrismaModel> | $Enums.SoftoneSyncDirection
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumSoftoneSyncDirectionFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumSoftoneSyncDirectionFilter<$PrismaModel>
 }
 
 export type EnumSoftoneSyncStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -1888,11 +1905,28 @@ export type NestedBoolNullableWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedBoolNullableFilter<$PrismaModel>
 }
 
+export type NestedEnumSoftoneSyncDirectionFilter<$PrismaModel = never> = {
+  equals?: $Enums.SoftoneSyncDirection | Prisma.EnumSoftoneSyncDirectionFieldRefInput<$PrismaModel>
+  in?: $Enums.SoftoneSyncDirection[] | Prisma.ListEnumSoftoneSyncDirectionFieldRefInput<$PrismaModel>
+  notIn?: $Enums.SoftoneSyncDirection[] | Prisma.ListEnumSoftoneSyncDirectionFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumSoftoneSyncDirectionFilter<$PrismaModel> | $Enums.SoftoneSyncDirection
+}
+
 export type NestedEnumSoftoneSyncStatusFilter<$PrismaModel = never> = {
   equals?: $Enums.SoftoneSyncStatus | Prisma.EnumSoftoneSyncStatusFieldRefInput<$PrismaModel>
   in?: $Enums.SoftoneSyncStatus[] | Prisma.ListEnumSoftoneSyncStatusFieldRefInput<$PrismaModel>
   notIn?: $Enums.SoftoneSyncStatus[] | Prisma.ListEnumSoftoneSyncStatusFieldRefInput<$PrismaModel>
   not?: Prisma.NestedEnumSoftoneSyncStatusFilter<$PrismaModel> | $Enums.SoftoneSyncStatus
+}
+
+export type NestedEnumSoftoneSyncDirectionWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.SoftoneSyncDirection | Prisma.EnumSoftoneSyncDirectionFieldRefInput<$PrismaModel>
+  in?: $Enums.SoftoneSyncDirection[] | Prisma.ListEnumSoftoneSyncDirectionFieldRefInput<$PrismaModel>
+  notIn?: $Enums.SoftoneSyncDirection[] | Prisma.ListEnumSoftoneSyncDirectionFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumSoftoneSyncDirectionWithAggregatesFilter<$PrismaModel> | $Enums.SoftoneSyncDirection
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumSoftoneSyncDirectionFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumSoftoneSyncDirectionFilter<$PrismaModel>
 }
 
 export type NestedEnumSoftoneSyncStatusWithAggregatesFilter<$PrismaModel = never> = {

@@ -151,6 +151,8 @@ model User {
   occupancies         UnitOccupancy[] @relation("userOccupancies")
   infraKeyOf          InfraPoint[] @relation("infraKeyHolder")
   supportTickets      SupportTicket[] @relation("supportTickets")
+  aiConversations     AiConversation[] @relation("aiConversations")
+  aiActions           AiActionLog[]    @relation("aiActions")
   infraAccess         InfraAccess[] @relation("infraAccess")
 
   // Relationships for multi-role users
@@ -1972,8 +1974,20 @@ model NewsletterSubscriber {
 model SoftoneSettings {
   id                 String   @id @default("singleton")
   enabled            Boolean  @default(false)
+  // Web-service connection (DB-first, fallback to SOFTONE_* / S1_* env). The
+  // password is AES-256-GCM encrypted (lib/crypto/secrets) and never returned to clients.
+  serial             String?  // oncloud subdomain → https://<serial>.oncloud.gr/s1services
+  username           String?
+  passwordEnc        String?
+  appId              String?  // APPID (≥ 1000, Web & Mobile → Web Services)
+  module             Int?     // MODULE (0 = Εμπορικό)
+  refid              Int?     // REFID (user id in SoftOne)
   company            Int?     // COMPANY
   branch             Int?     // BRANCH
+  // Master-data pull (SoftOne → Orithon): daily job in lib/cron
+  syncEnabled        Boolean  @default(false)
+  syncHour           Int      @default(5)   // Europe/Athens hour after which the daily job may run
+  lastMasterSyncAt   DateTime?
   countryGr          Int?     // COUNTRY id για Ελλάδα
   currencyEur        Int?     // SOCURRENCY id για EUR
   vatMap             Json?    // { "24": <VAT id>, "13": ..., "6": ..., "0": ... }
@@ -2010,20 +2024,145 @@ enum SoftoneSyncStatus {
 // One row per sync attempt (or dry run): what we sent, what came back.
 model SoftoneSyncLog {
   id         String            @id @default(cuid())
-  entity     String            // customer | supplier | building | service | catalog-item | work-order | property-service | service-invoice | expense
-  entityId   String
-  object     String            // CUSTOMER | SUPPLIER | PRJC | SERVICE | ITEM | CNTR | SALDOC | PURDOC
-  action     String            // insert | update | read
+  entity     String            // push: customer | supplier | building | … · pull: vat | unit | irsdata | series | zip | district
+  entityId   String            // push: our record id · pull: "*" (whole table)
+  object     String            // CUSTOMER | SUPPLIER | PRJC | SERVICE | ITEM | CNTR | SALDOC | PURDOC · VAT | MTRUNIT | IRSDATA | SERIES | ZIP | $DISTRICT
+  action     String            // insert | update | read | pull
+  direction  SoftoneSyncDirection @default(PUSH)
   status     SoftoneSyncStatus
   softoneKey Int?
+  counts     Json?             // pull: { fetched, inserted, updated, unchanged, deactivated, errors }
   payload    Json?
   response   Json?
   error      String?           @db.Text
   byUserId   String?
+  trigger    String?           // manual | scheduler
+  durationMs Int?
   createdAt  DateTime          @default(now())
 
   @@index([entity, entityId])
+  @@index([direction, createdAt])
   @@index([createdAt])
+}
+
+enum SoftoneSyncDirection {
+  PUSH // Orithon → SoftOne (setData)
+  PULL // SoftOne → Orithon (master data)
+}
+
+// ── Master data pulled from SoftOne (read-only mirrors, keyed by the SoftOne id) ──
+// Common shape: s1Key (SoftOne primary key), code, name, isActive, raw (the SoftOne row
+// as returned by the browser), lastSyncedAt, source. Filled by lib/softone/sync/*.
+
+// VAT — Συντελεστές ΦΠΑ
+model SoftoneVat {
+  id           String   @id @default(cuid())
+  s1Key        Int      @unique
+  code         String?
+  name         String
+  percent      Decimal  @db.Decimal(6, 2)
+  myDataCode   Int?
+  isActive     Boolean  @default(true)
+  raw          Json?
+  source       String   @default("softone")
+  lastSyncedAt DateTime @default(now())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([isActive])
+}
+
+// MTRUNIT — Μονάδες μέτρησης
+model SoftoneUnit {
+  id           String   @id @default(cuid())
+  s1Key        Int      @unique
+  code         String?
+  shortcut     String?
+  name         String
+  qDecimals    Int?
+  myDataCode   Int?
+  isActive     Boolean  @default(true)
+  raw          Json?
+  source       String   @default("softone")
+  lastSyncedAt DateTime @default(now())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([isActive])
+}
+
+// IRSDATA — Δ.Ο.Υ.
+model SoftoneIrsData {
+  id           String   @id @default(cuid())
+  s1Key        Int      @unique
+  code         String?
+  name         String
+  city         String?
+  isActive     Boolean  @default(true)
+  raw          Json?
+  source       String   @default("softone")
+  lastSyncedAt DateTime @default(now())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([isActive])
+}
+
+// SERIES — Σειρές παραστατικών (με ροή SOSOURCE και τύπο παραστατικού TFPRMS)
+model SoftoneSeries {
+  id            String   @id @default(cuid())
+  s1Key         Int      @unique
+  code          String?
+  name          String
+  sosource      Int?     // ροή: 1351 πωλήσεις, 1251 αγορές, … (όπως τη δίνει το SoftOne)
+  sosourceLabel String?
+  fprms         Int?
+  tfprms        Int?     // τύπος παραστατικού (id)
+  tfprmsName    String?
+  branch        Int?
+  isActive      Boolean  @default(true)
+  raw           Json?
+  source        String   @default("softone")
+  lastSyncedAt  DateTime @default(now())
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([isActive])
+  @@index([sosource])
+}
+
+// $DISTRICT — Νομοί
+model SoftoneDistrict {
+  id           String   @id @default(cuid())
+  s1Key        Int      @unique
+  code         String?
+  name         String
+  country      Int?
+  isActive     Boolean  @default(true)
+  raw          Json?
+  source       String   @default("softone")
+  lastSyncedAt DateTime @default(now())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+// ZIP — Ταχυδρομικοί κώδικες (ΤΚ + περιοχή + νομός) — the closest thing SoftOne has to a city list
+model SoftoneZip {
+  id           String   @id @default(cuid())
+  s1Key        Int      @unique
+  code         String?  // ΤΚ
+  name         String   // περιοχή / πόλη (DISTRICTS)
+  district     Int?     // $DISTRICT id
+  country      Int?
+  isActive     Boolean  @default(true)
+  raw          Json?
+  source       String   @default("softone")
+  lastSyncedAt DateTime @default(now())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([code])
+  @@index([name])
 }
 
 // In-process scheduler log (lib/cron): one row per job execution, used both to
@@ -2741,4 +2880,77 @@ model ContractTemplate {
   updatedById String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+}
+
+// ── AI assistant (role-aware chat, confirmed actions, wiki RAG) ──────────────
+model AiConversation {
+  id            String   @id @default(cuid())
+  userId        String
+  user          User     @relation("aiConversations", fields: [userId], references: [id], onDelete: Cascade)
+  actorId       String?  // real user when a super-admin was in View-as
+  role          String
+  surface       String
+  title         String?
+  summary       String?  @db.Text
+  pagePath      String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  lastMessageAt DateTime @default(now())
+  messages      AiMessage[]
+  actions       AiActionLog[]
+
+  @@index([userId, lastMessageAt])
+}
+
+model AiMessage {
+  id             String   @id @default(cuid())
+  conversationId String
+  conversation   AiConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  role           String   // user | assistant | tool
+  content        String   @db.Text
+  toolCalls      Json?
+  toolName       String?
+  createdAt      DateTime @default(now())
+
+  @@index([conversationId, createdAt])
+}
+
+model AiActionLog {
+  id             String   @id @default(cuid())
+  conversationId String?
+  conversation   AiConversation? @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  userId         String
+  user           User     @relation("aiActions", fields: [userId], references: [id], onDelete: Cascade)
+  actorId        String?
+  toolName       String
+  argsJson       Json
+  previewJson    Json
+  resultJson     Json?
+  status         String   @default("PROPOSED") // PROPOSED | EXECUTING | EXECUTED | FAILED | CANCELLED | EXPIRED
+  error          String?
+  buildingId     String?
+  createdAt      DateTime @default(now())
+  expiresAt      DateTime
+  executedAt     DateTime?
+
+  @@index([userId, createdAt])
+  @@index([status, expiresAt])
+}
+
+model WikiChunk {
+  id        String   @id @default(cuid())
+  slug      String
+  title     String
+  heading   String?
+  anchor    String
+  route     String?
+  surface   String?
+  roles     String[]
+  content   String   @db.Text
+  hash      String
+  embedding Unsupported("vector(768)")?
+  updatedAt DateTime @updatedAt
+
+  @@unique([slug, anchor])
+  @@index([slug])
 }

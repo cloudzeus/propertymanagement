@@ -118,6 +118,12 @@ export const ModelName = {
   NewsletterSubscriber: 'NewsletterSubscriber',
   SoftoneSettings: 'SoftoneSettings',
   SoftoneSyncLog: 'SoftoneSyncLog',
+  SoftoneVat: 'SoftoneVat',
+  SoftoneUnit: 'SoftoneUnit',
+  SoftoneIrsData: 'SoftoneIrsData',
+  SoftoneSeries: 'SoftoneSeries',
+  SoftoneDistrict: 'SoftoneDistrict',
+  SoftoneZip: 'SoftoneZip',
   CronRun: 'CronRun',
   CookieConsent: 'CookieConsent',
   AppSettings: 'AppSettings',
@@ -146,7 +152,11 @@ export const ModelName = {
   SupplierOffer: 'SupplierOffer',
   WorkOrder: 'WorkOrder',
   SupplierInquiry: 'SupplierInquiry',
-  ContractTemplate: 'ContractTemplate'
+  ContractTemplate: 'ContractTemplate',
+  AiConversation: 'AiConversation',
+  AiMessage: 'AiMessage',
+  AiActionLog: 'AiActionLog',
+  WikiChunk: 'WikiChunk'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1356,8 +1366,17 @@ export type NewsletterSubscriberScalarFieldEnum = (typeof NewsletterSubscriberSc
 export const SoftoneSettingsScalarFieldEnum = {
   id: 'id',
   enabled: 'enabled',
+  serial: 'serial',
+  username: 'username',
+  passwordEnc: 'passwordEnc',
+  appId: 'appId',
+  module: 'module',
+  refid: 'refid',
   company: 'company',
   branch: 'branch',
+  syncEnabled: 'syncEnabled',
+  syncHour: 'syncHour',
+  lastMasterSyncAt: 'lastMasterSyncAt',
   countryGr: 'countryGr',
   currencyEur: 'currencyEur',
   vatMap: 'vatMap',
@@ -1392,16 +1411,131 @@ export const SoftoneSyncLogScalarFieldEnum = {
   entityId: 'entityId',
   object: 'object',
   action: 'action',
+  direction: 'direction',
   status: 'status',
   softoneKey: 'softoneKey',
+  counts: 'counts',
   payload: 'payload',
   response: 'response',
   error: 'error',
   byUserId: 'byUserId',
+  trigger: 'trigger',
+  durationMs: 'durationMs',
   createdAt: 'createdAt'
 } as const
 
 export type SoftoneSyncLogScalarFieldEnum = (typeof SoftoneSyncLogScalarFieldEnum)[keyof typeof SoftoneSyncLogScalarFieldEnum]
+
+
+export const SoftoneVatScalarFieldEnum = {
+  id: 'id',
+  s1Key: 's1Key',
+  code: 'code',
+  name: 'name',
+  percent: 'percent',
+  myDataCode: 'myDataCode',
+  isActive: 'isActive',
+  raw: 'raw',
+  source: 'source',
+  lastSyncedAt: 'lastSyncedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SoftoneVatScalarFieldEnum = (typeof SoftoneVatScalarFieldEnum)[keyof typeof SoftoneVatScalarFieldEnum]
+
+
+export const SoftoneUnitScalarFieldEnum = {
+  id: 'id',
+  s1Key: 's1Key',
+  code: 'code',
+  shortcut: 'shortcut',
+  name: 'name',
+  qDecimals: 'qDecimals',
+  myDataCode: 'myDataCode',
+  isActive: 'isActive',
+  raw: 'raw',
+  source: 'source',
+  lastSyncedAt: 'lastSyncedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SoftoneUnitScalarFieldEnum = (typeof SoftoneUnitScalarFieldEnum)[keyof typeof SoftoneUnitScalarFieldEnum]
+
+
+export const SoftoneIrsDataScalarFieldEnum = {
+  id: 'id',
+  s1Key: 's1Key',
+  code: 'code',
+  name: 'name',
+  city: 'city',
+  isActive: 'isActive',
+  raw: 'raw',
+  source: 'source',
+  lastSyncedAt: 'lastSyncedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SoftoneIrsDataScalarFieldEnum = (typeof SoftoneIrsDataScalarFieldEnum)[keyof typeof SoftoneIrsDataScalarFieldEnum]
+
+
+export const SoftoneSeriesScalarFieldEnum = {
+  id: 'id',
+  s1Key: 's1Key',
+  code: 'code',
+  name: 'name',
+  sosource: 'sosource',
+  sosourceLabel: 'sosourceLabel',
+  fprms: 'fprms',
+  tfprms: 'tfprms',
+  tfprmsName: 'tfprmsName',
+  branch: 'branch',
+  isActive: 'isActive',
+  raw: 'raw',
+  source: 'source',
+  lastSyncedAt: 'lastSyncedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SoftoneSeriesScalarFieldEnum = (typeof SoftoneSeriesScalarFieldEnum)[keyof typeof SoftoneSeriesScalarFieldEnum]
+
+
+export const SoftoneDistrictScalarFieldEnum = {
+  id: 'id',
+  s1Key: 's1Key',
+  code: 'code',
+  name: 'name',
+  country: 'country',
+  isActive: 'isActive',
+  raw: 'raw',
+  source: 'source',
+  lastSyncedAt: 'lastSyncedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SoftoneDistrictScalarFieldEnum = (typeof SoftoneDistrictScalarFieldEnum)[keyof typeof SoftoneDistrictScalarFieldEnum]
+
+
+export const SoftoneZipScalarFieldEnum = {
+  id: 'id',
+  s1Key: 's1Key',
+  code: 'code',
+  name: 'name',
+  district: 'district',
+  country: 'country',
+  isActive: 'isActive',
+  raw: 'raw',
+  source: 'source',
+  lastSyncedAt: 'lastSyncedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SoftoneZipScalarFieldEnum = (typeof SoftoneZipScalarFieldEnum)[keyof typeof SoftoneZipScalarFieldEnum]
 
 
 export const CronRunScalarFieldEnum = {
@@ -1941,6 +2075,73 @@ export const ContractTemplateScalarFieldEnum = {
 } as const
 
 export type ContractTemplateScalarFieldEnum = (typeof ContractTemplateScalarFieldEnum)[keyof typeof ContractTemplateScalarFieldEnum]
+
+
+export const AiConversationScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  actorId: 'actorId',
+  role: 'role',
+  surface: 'surface',
+  title: 'title',
+  summary: 'summary',
+  pagePath: 'pagePath',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  lastMessageAt: 'lastMessageAt'
+} as const
+
+export type AiConversationScalarFieldEnum = (typeof AiConversationScalarFieldEnum)[keyof typeof AiConversationScalarFieldEnum]
+
+
+export const AiMessageScalarFieldEnum = {
+  id: 'id',
+  conversationId: 'conversationId',
+  role: 'role',
+  content: 'content',
+  toolCalls: 'toolCalls',
+  toolName: 'toolName',
+  createdAt: 'createdAt'
+} as const
+
+export type AiMessageScalarFieldEnum = (typeof AiMessageScalarFieldEnum)[keyof typeof AiMessageScalarFieldEnum]
+
+
+export const AiActionLogScalarFieldEnum = {
+  id: 'id',
+  conversationId: 'conversationId',
+  userId: 'userId',
+  actorId: 'actorId',
+  toolName: 'toolName',
+  argsJson: 'argsJson',
+  previewJson: 'previewJson',
+  resultJson: 'resultJson',
+  status: 'status',
+  error: 'error',
+  buildingId: 'buildingId',
+  createdAt: 'createdAt',
+  expiresAt: 'expiresAt',
+  executedAt: 'executedAt'
+} as const
+
+export type AiActionLogScalarFieldEnum = (typeof AiActionLogScalarFieldEnum)[keyof typeof AiActionLogScalarFieldEnum]
+
+
+export const WikiChunkScalarFieldEnum = {
+  id: 'id',
+  slug: 'slug',
+  title: 'title',
+  heading: 'heading',
+  anchor: 'anchor',
+  route: 'route',
+  surface: 'surface',
+  roles: 'roles',
+  content: 'content',
+  hash: 'hash',
+  updatedAt: 'updatedAt'
+} as const
+
+export type WikiChunkScalarFieldEnum = (typeof WikiChunkScalarFieldEnum)[keyof typeof WikiChunkScalarFieldEnum]
 
 
 export const SortOrder = {

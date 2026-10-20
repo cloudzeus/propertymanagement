@@ -451,6 +451,12 @@ export const ModelName = {
   NewsletterSubscriber: 'NewsletterSubscriber',
   SoftoneSettings: 'SoftoneSettings',
   SoftoneSyncLog: 'SoftoneSyncLog',
+  SoftoneVat: 'SoftoneVat',
+  SoftoneUnit: 'SoftoneUnit',
+  SoftoneIrsData: 'SoftoneIrsData',
+  SoftoneSeries: 'SoftoneSeries',
+  SoftoneDistrict: 'SoftoneDistrict',
+  SoftoneZip: 'SoftoneZip',
   CronRun: 'CronRun',
   CookieConsent: 'CookieConsent',
   AppSettings: 'AppSettings',
@@ -479,7 +485,11 @@ export const ModelName = {
   SupplierOffer: 'SupplierOffer',
   WorkOrder: 'WorkOrder',
   SupplierInquiry: 'SupplierInquiry',
-  ContractTemplate: 'ContractTemplate'
+  ContractTemplate: 'ContractTemplate',
+  AiConversation: 'AiConversation',
+  AiMessage: 'AiMessage',
+  AiActionLog: 'AiActionLog',
+  WikiChunk: 'WikiChunk'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -495,7 +505,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "account" | "session" | "verificationToken" | "company" | "department" | "jobPosition" | "employee" | "subscription" | "addonFeature" | "customer" | "property" | "building" | "unitOccupancy" | "buildingFile" | "infraPoint" | "infraAccess" | "infraMedia" | "contact" | "recurringTask" | "maintenanceLog" | "buildingExpense" | "expenseCategory" | "buildingCategoryOverride" | "unitCategoryExclusion" | "unitHeatingReading" | "meterReading" | "expenseAllocation" | "unitPayment" | "managementAssignment" | "commonArea" | "managedItemType" | "managedItem" | "unit" | "service" | "propertyService" | "serviceInvoice" | "serviceInvoiceLine" | "userCompanyRole" | "announcement" | "announcementTarget" | "announcement_User" | "assembly" | "assemblyParticipant" | "processedWebhook" | "aPIUsageLog" | "aPICostConfig" | "wallet" | "walletTransaction" | "customerMeteredPlan" | "monthlyCostSummary" | "maintenanceRequest" | "maintenanceCategory" | "maintenanceCoverageRule" | "maintenanceAttachment" | "maintenanceStatusEvent" | "maintenanceComment" | "maintenanceSlot" | "maintenanceAppointment" | "notification" | "cMSPage" | "fAQ" | "pricingTier" | "contactMessage" | "newsletterSubscriber" | "softoneSettings" | "softoneSyncLog" | "cronRun" | "cookieConsent" | "appSettings" | "impersonationEvent" | "landingSection" | "marketingPage" | "pageSeo" | "uiMessage" | "mediaAsset" | "siteSettings" | "author" | "article" | "role" | "rolePermission" | "demoRequest" | "supportTicket" | "supplier" | "supplierRating" | "buildingPreferredSupplier" | "supplierCategory" | "serviceCatalogItem" | "supplierService" | "supplierProduct" | "serviceRequest" | "rfqInvitation" | "supplierOffer" | "workOrder" | "supplierInquiry" | "contractTemplate"
+    modelProps: "user" | "account" | "session" | "verificationToken" | "company" | "department" | "jobPosition" | "employee" | "subscription" | "addonFeature" | "customer" | "property" | "building" | "unitOccupancy" | "buildingFile" | "infraPoint" | "infraAccess" | "infraMedia" | "contact" | "recurringTask" | "maintenanceLog" | "buildingExpense" | "expenseCategory" | "buildingCategoryOverride" | "unitCategoryExclusion" | "unitHeatingReading" | "meterReading" | "expenseAllocation" | "unitPayment" | "managementAssignment" | "commonArea" | "managedItemType" | "managedItem" | "unit" | "service" | "propertyService" | "serviceInvoice" | "serviceInvoiceLine" | "userCompanyRole" | "announcement" | "announcementTarget" | "announcement_User" | "assembly" | "assemblyParticipant" | "processedWebhook" | "aPIUsageLog" | "aPICostConfig" | "wallet" | "walletTransaction" | "customerMeteredPlan" | "monthlyCostSummary" | "maintenanceRequest" | "maintenanceCategory" | "maintenanceCoverageRule" | "maintenanceAttachment" | "maintenanceStatusEvent" | "maintenanceComment" | "maintenanceSlot" | "maintenanceAppointment" | "notification" | "cMSPage" | "fAQ" | "pricingTier" | "contactMessage" | "newsletterSubscriber" | "softoneSettings" | "softoneSyncLog" | "softoneVat" | "softoneUnit" | "softoneIrsData" | "softoneSeries" | "softoneDistrict" | "softoneZip" | "cronRun" | "cookieConsent" | "appSettings" | "impersonationEvent" | "landingSection" | "marketingPage" | "pageSeo" | "uiMessage" | "mediaAsset" | "siteSettings" | "author" | "article" | "role" | "rolePermission" | "demoRequest" | "supportTicket" | "supplier" | "supplierRating" | "buildingPreferredSupplier" | "supplierCategory" | "serviceCatalogItem" | "supplierService" | "supplierProduct" | "serviceRequest" | "rfqInvitation" | "supplierOffer" | "workOrder" | "supplierInquiry" | "contractTemplate" | "aiConversation" | "aiMessage" | "aiActionLog" | "wikiChunk"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -5457,6 +5467,450 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    SoftoneVat: {
+      payload: Prisma.$SoftoneVatPayload<ExtArgs>
+      fields: Prisma.SoftoneVatFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.SoftoneVatFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneVatPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.SoftoneVatFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneVatPayload>
+        }
+        findFirst: {
+          args: Prisma.SoftoneVatFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneVatPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.SoftoneVatFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneVatPayload>
+        }
+        findMany: {
+          args: Prisma.SoftoneVatFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneVatPayload>[]
+        }
+        create: {
+          args: Prisma.SoftoneVatCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneVatPayload>
+        }
+        createMany: {
+          args: Prisma.SoftoneVatCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.SoftoneVatCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneVatPayload>[]
+        }
+        delete: {
+          args: Prisma.SoftoneVatDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneVatPayload>
+        }
+        update: {
+          args: Prisma.SoftoneVatUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneVatPayload>
+        }
+        deleteMany: {
+          args: Prisma.SoftoneVatDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.SoftoneVatUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.SoftoneVatUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneVatPayload>[]
+        }
+        upsert: {
+          args: Prisma.SoftoneVatUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneVatPayload>
+        }
+        aggregate: {
+          args: Prisma.SoftoneVatAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateSoftoneVat>
+        }
+        groupBy: {
+          args: Prisma.SoftoneVatGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SoftoneVatGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.SoftoneVatCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SoftoneVatCountAggregateOutputType> | number
+        }
+      }
+    }
+    SoftoneUnit: {
+      payload: Prisma.$SoftoneUnitPayload<ExtArgs>
+      fields: Prisma.SoftoneUnitFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.SoftoneUnitFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneUnitPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.SoftoneUnitFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneUnitPayload>
+        }
+        findFirst: {
+          args: Prisma.SoftoneUnitFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneUnitPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.SoftoneUnitFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneUnitPayload>
+        }
+        findMany: {
+          args: Prisma.SoftoneUnitFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneUnitPayload>[]
+        }
+        create: {
+          args: Prisma.SoftoneUnitCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneUnitPayload>
+        }
+        createMany: {
+          args: Prisma.SoftoneUnitCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.SoftoneUnitCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneUnitPayload>[]
+        }
+        delete: {
+          args: Prisma.SoftoneUnitDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneUnitPayload>
+        }
+        update: {
+          args: Prisma.SoftoneUnitUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneUnitPayload>
+        }
+        deleteMany: {
+          args: Prisma.SoftoneUnitDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.SoftoneUnitUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.SoftoneUnitUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneUnitPayload>[]
+        }
+        upsert: {
+          args: Prisma.SoftoneUnitUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneUnitPayload>
+        }
+        aggregate: {
+          args: Prisma.SoftoneUnitAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateSoftoneUnit>
+        }
+        groupBy: {
+          args: Prisma.SoftoneUnitGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SoftoneUnitGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.SoftoneUnitCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SoftoneUnitCountAggregateOutputType> | number
+        }
+      }
+    }
+    SoftoneIrsData: {
+      payload: Prisma.$SoftoneIrsDataPayload<ExtArgs>
+      fields: Prisma.SoftoneIrsDataFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.SoftoneIrsDataFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneIrsDataPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.SoftoneIrsDataFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneIrsDataPayload>
+        }
+        findFirst: {
+          args: Prisma.SoftoneIrsDataFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneIrsDataPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.SoftoneIrsDataFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneIrsDataPayload>
+        }
+        findMany: {
+          args: Prisma.SoftoneIrsDataFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneIrsDataPayload>[]
+        }
+        create: {
+          args: Prisma.SoftoneIrsDataCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneIrsDataPayload>
+        }
+        createMany: {
+          args: Prisma.SoftoneIrsDataCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.SoftoneIrsDataCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneIrsDataPayload>[]
+        }
+        delete: {
+          args: Prisma.SoftoneIrsDataDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneIrsDataPayload>
+        }
+        update: {
+          args: Prisma.SoftoneIrsDataUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneIrsDataPayload>
+        }
+        deleteMany: {
+          args: Prisma.SoftoneIrsDataDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.SoftoneIrsDataUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.SoftoneIrsDataUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneIrsDataPayload>[]
+        }
+        upsert: {
+          args: Prisma.SoftoneIrsDataUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneIrsDataPayload>
+        }
+        aggregate: {
+          args: Prisma.SoftoneIrsDataAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateSoftoneIrsData>
+        }
+        groupBy: {
+          args: Prisma.SoftoneIrsDataGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SoftoneIrsDataGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.SoftoneIrsDataCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SoftoneIrsDataCountAggregateOutputType> | number
+        }
+      }
+    }
+    SoftoneSeries: {
+      payload: Prisma.$SoftoneSeriesPayload<ExtArgs>
+      fields: Prisma.SoftoneSeriesFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.SoftoneSeriesFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneSeriesPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.SoftoneSeriesFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneSeriesPayload>
+        }
+        findFirst: {
+          args: Prisma.SoftoneSeriesFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneSeriesPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.SoftoneSeriesFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneSeriesPayload>
+        }
+        findMany: {
+          args: Prisma.SoftoneSeriesFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneSeriesPayload>[]
+        }
+        create: {
+          args: Prisma.SoftoneSeriesCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneSeriesPayload>
+        }
+        createMany: {
+          args: Prisma.SoftoneSeriesCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.SoftoneSeriesCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneSeriesPayload>[]
+        }
+        delete: {
+          args: Prisma.SoftoneSeriesDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneSeriesPayload>
+        }
+        update: {
+          args: Prisma.SoftoneSeriesUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneSeriesPayload>
+        }
+        deleteMany: {
+          args: Prisma.SoftoneSeriesDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.SoftoneSeriesUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.SoftoneSeriesUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneSeriesPayload>[]
+        }
+        upsert: {
+          args: Prisma.SoftoneSeriesUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneSeriesPayload>
+        }
+        aggregate: {
+          args: Prisma.SoftoneSeriesAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateSoftoneSeries>
+        }
+        groupBy: {
+          args: Prisma.SoftoneSeriesGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SoftoneSeriesGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.SoftoneSeriesCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SoftoneSeriesCountAggregateOutputType> | number
+        }
+      }
+    }
+    SoftoneDistrict: {
+      payload: Prisma.$SoftoneDistrictPayload<ExtArgs>
+      fields: Prisma.SoftoneDistrictFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.SoftoneDistrictFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneDistrictPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.SoftoneDistrictFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneDistrictPayload>
+        }
+        findFirst: {
+          args: Prisma.SoftoneDistrictFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneDistrictPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.SoftoneDistrictFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneDistrictPayload>
+        }
+        findMany: {
+          args: Prisma.SoftoneDistrictFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneDistrictPayload>[]
+        }
+        create: {
+          args: Prisma.SoftoneDistrictCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneDistrictPayload>
+        }
+        createMany: {
+          args: Prisma.SoftoneDistrictCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.SoftoneDistrictCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneDistrictPayload>[]
+        }
+        delete: {
+          args: Prisma.SoftoneDistrictDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneDistrictPayload>
+        }
+        update: {
+          args: Prisma.SoftoneDistrictUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneDistrictPayload>
+        }
+        deleteMany: {
+          args: Prisma.SoftoneDistrictDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.SoftoneDistrictUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.SoftoneDistrictUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneDistrictPayload>[]
+        }
+        upsert: {
+          args: Prisma.SoftoneDistrictUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneDistrictPayload>
+        }
+        aggregate: {
+          args: Prisma.SoftoneDistrictAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateSoftoneDistrict>
+        }
+        groupBy: {
+          args: Prisma.SoftoneDistrictGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SoftoneDistrictGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.SoftoneDistrictCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SoftoneDistrictCountAggregateOutputType> | number
+        }
+      }
+    }
+    SoftoneZip: {
+      payload: Prisma.$SoftoneZipPayload<ExtArgs>
+      fields: Prisma.SoftoneZipFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.SoftoneZipFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneZipPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.SoftoneZipFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneZipPayload>
+        }
+        findFirst: {
+          args: Prisma.SoftoneZipFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneZipPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.SoftoneZipFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneZipPayload>
+        }
+        findMany: {
+          args: Prisma.SoftoneZipFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneZipPayload>[]
+        }
+        create: {
+          args: Prisma.SoftoneZipCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneZipPayload>
+        }
+        createMany: {
+          args: Prisma.SoftoneZipCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.SoftoneZipCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneZipPayload>[]
+        }
+        delete: {
+          args: Prisma.SoftoneZipDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneZipPayload>
+        }
+        update: {
+          args: Prisma.SoftoneZipUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneZipPayload>
+        }
+        deleteMany: {
+          args: Prisma.SoftoneZipDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.SoftoneZipUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.SoftoneZipUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneZipPayload>[]
+        }
+        upsert: {
+          args: Prisma.SoftoneZipUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SoftoneZipPayload>
+        }
+        aggregate: {
+          args: Prisma.SoftoneZipAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateSoftoneZip>
+        }
+        groupBy: {
+          args: Prisma.SoftoneZipGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SoftoneZipGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.SoftoneZipCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SoftoneZipCountAggregateOutputType> | number
+        }
+      }
+    }
     CronRun: {
       payload: Prisma.$CronRunPayload<ExtArgs>
       fields: Prisma.CronRunFieldRefs
@@ -7603,6 +8057,302 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    AiConversation: {
+      payload: Prisma.$AiConversationPayload<ExtArgs>
+      fields: Prisma.AiConversationFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.AiConversationFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AiConversationPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.AiConversationFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AiConversationPayload>
+        }
+        findFirst: {
+          args: Prisma.AiConversationFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AiConversationPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.AiConversationFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AiConversationPayload>
+        }
+        findMany: {
+          args: Prisma.AiConversationFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AiConversationPayload>[]
+        }
+        create: {
+          args: Prisma.AiConversationCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AiConversationPayload>
+        }
+        createMany: {
+          args: Prisma.AiConversationCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.AiConversationCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AiConversationPayload>[]
+        }
+        delete: {
+          args: Prisma.AiConversationDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AiConversationPayload>
+        }
+        update: {
+          args: Prisma.AiConversationUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AiConversationPayload>
+        }
+        deleteMany: {
+          args: Prisma.AiConversationDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.AiConversationUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.AiConversationUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AiConversationPayload>[]
+        }
+        upsert: {
+          args: Prisma.AiConversationUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AiConversationPayload>
+        }
+        aggregate: {
+          args: Prisma.AiConversationAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAiConversation>
+        }
+        groupBy: {
+          args: Prisma.AiConversationGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AiConversationGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.AiConversationCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AiConversationCountAggregateOutputType> | number
+        }
+      }
+    }
+    AiMessage: {
+      payload: Prisma.$AiMessagePayload<ExtArgs>
+      fields: Prisma.AiMessageFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.AiMessageFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AiMessagePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.AiMessageFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AiMessagePayload>
+        }
+        findFirst: {
+          args: Prisma.AiMessageFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AiMessagePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.AiMessageFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AiMessagePayload>
+        }
+        findMany: {
+          args: Prisma.AiMessageFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AiMessagePayload>[]
+        }
+        create: {
+          args: Prisma.AiMessageCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AiMessagePayload>
+        }
+        createMany: {
+          args: Prisma.AiMessageCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.AiMessageCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AiMessagePayload>[]
+        }
+        delete: {
+          args: Prisma.AiMessageDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AiMessagePayload>
+        }
+        update: {
+          args: Prisma.AiMessageUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AiMessagePayload>
+        }
+        deleteMany: {
+          args: Prisma.AiMessageDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.AiMessageUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.AiMessageUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AiMessagePayload>[]
+        }
+        upsert: {
+          args: Prisma.AiMessageUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AiMessagePayload>
+        }
+        aggregate: {
+          args: Prisma.AiMessageAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAiMessage>
+        }
+        groupBy: {
+          args: Prisma.AiMessageGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AiMessageGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.AiMessageCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AiMessageCountAggregateOutputType> | number
+        }
+      }
+    }
+    AiActionLog: {
+      payload: Prisma.$AiActionLogPayload<ExtArgs>
+      fields: Prisma.AiActionLogFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.AiActionLogFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AiActionLogPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.AiActionLogFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AiActionLogPayload>
+        }
+        findFirst: {
+          args: Prisma.AiActionLogFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AiActionLogPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.AiActionLogFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AiActionLogPayload>
+        }
+        findMany: {
+          args: Prisma.AiActionLogFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AiActionLogPayload>[]
+        }
+        create: {
+          args: Prisma.AiActionLogCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AiActionLogPayload>
+        }
+        createMany: {
+          args: Prisma.AiActionLogCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.AiActionLogCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AiActionLogPayload>[]
+        }
+        delete: {
+          args: Prisma.AiActionLogDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AiActionLogPayload>
+        }
+        update: {
+          args: Prisma.AiActionLogUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AiActionLogPayload>
+        }
+        deleteMany: {
+          args: Prisma.AiActionLogDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.AiActionLogUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.AiActionLogUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AiActionLogPayload>[]
+        }
+        upsert: {
+          args: Prisma.AiActionLogUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AiActionLogPayload>
+        }
+        aggregate: {
+          args: Prisma.AiActionLogAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAiActionLog>
+        }
+        groupBy: {
+          args: Prisma.AiActionLogGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AiActionLogGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.AiActionLogCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AiActionLogCountAggregateOutputType> | number
+        }
+      }
+    }
+    WikiChunk: {
+      payload: Prisma.$WikiChunkPayload<ExtArgs>
+      fields: Prisma.WikiChunkFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.WikiChunkFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WikiChunkPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.WikiChunkFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WikiChunkPayload>
+        }
+        findFirst: {
+          args: Prisma.WikiChunkFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WikiChunkPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.WikiChunkFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WikiChunkPayload>
+        }
+        findMany: {
+          args: Prisma.WikiChunkFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WikiChunkPayload>[]
+        }
+        create: {
+          args: Prisma.WikiChunkCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WikiChunkPayload>
+        }
+        createMany: {
+          args: Prisma.WikiChunkCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.WikiChunkCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WikiChunkPayload>[]
+        }
+        delete: {
+          args: Prisma.WikiChunkDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WikiChunkPayload>
+        }
+        update: {
+          args: Prisma.WikiChunkUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WikiChunkPayload>
+        }
+        deleteMany: {
+          args: Prisma.WikiChunkDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.WikiChunkUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.WikiChunkUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WikiChunkPayload>[]
+        }
+        upsert: {
+          args: Prisma.WikiChunkUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$WikiChunkPayload>
+        }
+        aggregate: {
+          args: Prisma.WikiChunkAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateWikiChunk>
+        }
+        groupBy: {
+          args: Prisma.WikiChunkGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.WikiChunkGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.WikiChunkCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.WikiChunkCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -8833,8 +9583,17 @@ export type NewsletterSubscriberScalarFieldEnum = (typeof NewsletterSubscriberSc
 export const SoftoneSettingsScalarFieldEnum = {
   id: 'id',
   enabled: 'enabled',
+  serial: 'serial',
+  username: 'username',
+  passwordEnc: 'passwordEnc',
+  appId: 'appId',
+  module: 'module',
+  refid: 'refid',
   company: 'company',
   branch: 'branch',
+  syncEnabled: 'syncEnabled',
+  syncHour: 'syncHour',
+  lastMasterSyncAt: 'lastMasterSyncAt',
   countryGr: 'countryGr',
   currencyEur: 'currencyEur',
   vatMap: 'vatMap',
@@ -8869,16 +9628,131 @@ export const SoftoneSyncLogScalarFieldEnum = {
   entityId: 'entityId',
   object: 'object',
   action: 'action',
+  direction: 'direction',
   status: 'status',
   softoneKey: 'softoneKey',
+  counts: 'counts',
   payload: 'payload',
   response: 'response',
   error: 'error',
   byUserId: 'byUserId',
+  trigger: 'trigger',
+  durationMs: 'durationMs',
   createdAt: 'createdAt'
 } as const
 
 export type SoftoneSyncLogScalarFieldEnum = (typeof SoftoneSyncLogScalarFieldEnum)[keyof typeof SoftoneSyncLogScalarFieldEnum]
+
+
+export const SoftoneVatScalarFieldEnum = {
+  id: 'id',
+  s1Key: 's1Key',
+  code: 'code',
+  name: 'name',
+  percent: 'percent',
+  myDataCode: 'myDataCode',
+  isActive: 'isActive',
+  raw: 'raw',
+  source: 'source',
+  lastSyncedAt: 'lastSyncedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SoftoneVatScalarFieldEnum = (typeof SoftoneVatScalarFieldEnum)[keyof typeof SoftoneVatScalarFieldEnum]
+
+
+export const SoftoneUnitScalarFieldEnum = {
+  id: 'id',
+  s1Key: 's1Key',
+  code: 'code',
+  shortcut: 'shortcut',
+  name: 'name',
+  qDecimals: 'qDecimals',
+  myDataCode: 'myDataCode',
+  isActive: 'isActive',
+  raw: 'raw',
+  source: 'source',
+  lastSyncedAt: 'lastSyncedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SoftoneUnitScalarFieldEnum = (typeof SoftoneUnitScalarFieldEnum)[keyof typeof SoftoneUnitScalarFieldEnum]
+
+
+export const SoftoneIrsDataScalarFieldEnum = {
+  id: 'id',
+  s1Key: 's1Key',
+  code: 'code',
+  name: 'name',
+  city: 'city',
+  isActive: 'isActive',
+  raw: 'raw',
+  source: 'source',
+  lastSyncedAt: 'lastSyncedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SoftoneIrsDataScalarFieldEnum = (typeof SoftoneIrsDataScalarFieldEnum)[keyof typeof SoftoneIrsDataScalarFieldEnum]
+
+
+export const SoftoneSeriesScalarFieldEnum = {
+  id: 'id',
+  s1Key: 's1Key',
+  code: 'code',
+  name: 'name',
+  sosource: 'sosource',
+  sosourceLabel: 'sosourceLabel',
+  fprms: 'fprms',
+  tfprms: 'tfprms',
+  tfprmsName: 'tfprmsName',
+  branch: 'branch',
+  isActive: 'isActive',
+  raw: 'raw',
+  source: 'source',
+  lastSyncedAt: 'lastSyncedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SoftoneSeriesScalarFieldEnum = (typeof SoftoneSeriesScalarFieldEnum)[keyof typeof SoftoneSeriesScalarFieldEnum]
+
+
+export const SoftoneDistrictScalarFieldEnum = {
+  id: 'id',
+  s1Key: 's1Key',
+  code: 'code',
+  name: 'name',
+  country: 'country',
+  isActive: 'isActive',
+  raw: 'raw',
+  source: 'source',
+  lastSyncedAt: 'lastSyncedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SoftoneDistrictScalarFieldEnum = (typeof SoftoneDistrictScalarFieldEnum)[keyof typeof SoftoneDistrictScalarFieldEnum]
+
+
+export const SoftoneZipScalarFieldEnum = {
+  id: 'id',
+  s1Key: 's1Key',
+  code: 'code',
+  name: 'name',
+  district: 'district',
+  country: 'country',
+  isActive: 'isActive',
+  raw: 'raw',
+  source: 'source',
+  lastSyncedAt: 'lastSyncedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SoftoneZipScalarFieldEnum = (typeof SoftoneZipScalarFieldEnum)[keyof typeof SoftoneZipScalarFieldEnum]
 
 
 export const CronRunScalarFieldEnum = {
@@ -9418,6 +10292,73 @@ export const ContractTemplateScalarFieldEnum = {
 } as const
 
 export type ContractTemplateScalarFieldEnum = (typeof ContractTemplateScalarFieldEnum)[keyof typeof ContractTemplateScalarFieldEnum]
+
+
+export const AiConversationScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  actorId: 'actorId',
+  role: 'role',
+  surface: 'surface',
+  title: 'title',
+  summary: 'summary',
+  pagePath: 'pagePath',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  lastMessageAt: 'lastMessageAt'
+} as const
+
+export type AiConversationScalarFieldEnum = (typeof AiConversationScalarFieldEnum)[keyof typeof AiConversationScalarFieldEnum]
+
+
+export const AiMessageScalarFieldEnum = {
+  id: 'id',
+  conversationId: 'conversationId',
+  role: 'role',
+  content: 'content',
+  toolCalls: 'toolCalls',
+  toolName: 'toolName',
+  createdAt: 'createdAt'
+} as const
+
+export type AiMessageScalarFieldEnum = (typeof AiMessageScalarFieldEnum)[keyof typeof AiMessageScalarFieldEnum]
+
+
+export const AiActionLogScalarFieldEnum = {
+  id: 'id',
+  conversationId: 'conversationId',
+  userId: 'userId',
+  actorId: 'actorId',
+  toolName: 'toolName',
+  argsJson: 'argsJson',
+  previewJson: 'previewJson',
+  resultJson: 'resultJson',
+  status: 'status',
+  error: 'error',
+  buildingId: 'buildingId',
+  createdAt: 'createdAt',
+  expiresAt: 'expiresAt',
+  executedAt: 'executedAt'
+} as const
+
+export type AiActionLogScalarFieldEnum = (typeof AiActionLogScalarFieldEnum)[keyof typeof AiActionLogScalarFieldEnum]
+
+
+export const WikiChunkScalarFieldEnum = {
+  id: 'id',
+  slug: 'slug',
+  title: 'title',
+  heading: 'heading',
+  anchor: 'anchor',
+  route: 'route',
+  surface: 'surface',
+  roles: 'roles',
+  content: 'content',
+  hash: 'hash',
+  updatedAt: 'updatedAt'
+} as const
+
+export type WikiChunkScalarFieldEnum = (typeof WikiChunkScalarFieldEnum)[keyof typeof WikiChunkScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -9972,6 +10913,20 @@ export type ListEnumNewsletterStatusFieldRefInput<$PrismaModel> = FieldRefInputT
 
 
 /**
+ * Reference to a field of type 'SoftoneSyncDirection'
+ */
+export type EnumSoftoneSyncDirectionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SoftoneSyncDirection'>
+    
+
+
+/**
+ * Reference to a field of type 'SoftoneSyncDirection[]'
+ */
+export type ListEnumSoftoneSyncDirectionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SoftoneSyncDirection[]'>
+    
+
+
+/**
  * Reference to a field of type 'SoftoneSyncStatus'
  */
 export type EnumSoftoneSyncStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SoftoneSyncStatus'>
@@ -10245,6 +11200,12 @@ export type GlobalOmitConfig = {
   newsletterSubscriber?: Prisma.NewsletterSubscriberOmit
   softoneSettings?: Prisma.SoftoneSettingsOmit
   softoneSyncLog?: Prisma.SoftoneSyncLogOmit
+  softoneVat?: Prisma.SoftoneVatOmit
+  softoneUnit?: Prisma.SoftoneUnitOmit
+  softoneIrsData?: Prisma.SoftoneIrsDataOmit
+  softoneSeries?: Prisma.SoftoneSeriesOmit
+  softoneDistrict?: Prisma.SoftoneDistrictOmit
+  softoneZip?: Prisma.SoftoneZipOmit
   cronRun?: Prisma.CronRunOmit
   cookieConsent?: Prisma.CookieConsentOmit
   appSettings?: Prisma.AppSettingsOmit
@@ -10274,6 +11235,10 @@ export type GlobalOmitConfig = {
   workOrder?: Prisma.WorkOrderOmit
   supplierInquiry?: Prisma.SupplierInquiryOmit
   contractTemplate?: Prisma.ContractTemplateOmit
+  aiConversation?: Prisma.AiConversationOmit
+  aiMessage?: Prisma.AiMessageOmit
+  aiActionLog?: Prisma.AiActionLogOmit
+  wikiChunk?: Prisma.WikiChunkOmit
 }
 
 /* Types for Logging */

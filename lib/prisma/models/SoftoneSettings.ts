@@ -27,8 +27,11 @@ export type AggregateSoftoneSettings = {
 }
 
 export type SoftoneSettingsAvgAggregateOutputType = {
+  module: number | null
+  refid: number | null
   company: number | null
   branch: number | null
+  syncHour: number | null
   countryGr: number | null
   currencyEur: number | null
   paymentDefault: number | null
@@ -43,8 +46,11 @@ export type SoftoneSettingsAvgAggregateOutputType = {
 }
 
 export type SoftoneSettingsSumAggregateOutputType = {
+  module: number | null
+  refid: number | null
   company: number | null
   branch: number | null
+  syncHour: number | null
   countryGr: number | null
   currencyEur: number | null
   paymentDefault: number | null
@@ -61,8 +67,17 @@ export type SoftoneSettingsSumAggregateOutputType = {
 export type SoftoneSettingsMinAggregateOutputType = {
   id: string | null
   enabled: boolean | null
+  serial: string | null
+  username: string | null
+  passwordEnc: string | null
+  appId: string | null
+  module: number | null
+  refid: number | null
   company: number | null
   branch: number | null
+  syncEnabled: boolean | null
+  syncHour: number | null
+  lastMasterSyncAt: Date | null
   countryGr: number | null
   currencyEur: number | null
   paymentDefault: number | null
@@ -89,8 +104,17 @@ export type SoftoneSettingsMinAggregateOutputType = {
 export type SoftoneSettingsMaxAggregateOutputType = {
   id: string | null
   enabled: boolean | null
+  serial: string | null
+  username: string | null
+  passwordEnc: string | null
+  appId: string | null
+  module: number | null
+  refid: number | null
   company: number | null
   branch: number | null
+  syncEnabled: boolean | null
+  syncHour: number | null
+  lastMasterSyncAt: Date | null
   countryGr: number | null
   currencyEur: number | null
   paymentDefault: number | null
@@ -117,8 +141,17 @@ export type SoftoneSettingsMaxAggregateOutputType = {
 export type SoftoneSettingsCountAggregateOutputType = {
   id: number
   enabled: number
+  serial: number
+  username: number
+  passwordEnc: number
+  appId: number
+  module: number
+  refid: number
   company: number
   branch: number
+  syncEnabled: number
+  syncHour: number
+  lastMasterSyncAt: number
   countryGr: number
   currencyEur: number
   vatMap: number
@@ -147,8 +180,11 @@ export type SoftoneSettingsCountAggregateOutputType = {
 
 
 export type SoftoneSettingsAvgAggregateInputType = {
+  module?: true
+  refid?: true
   company?: true
   branch?: true
+  syncHour?: true
   countryGr?: true
   currencyEur?: true
   paymentDefault?: true
@@ -163,8 +199,11 @@ export type SoftoneSettingsAvgAggregateInputType = {
 }
 
 export type SoftoneSettingsSumAggregateInputType = {
+  module?: true
+  refid?: true
   company?: true
   branch?: true
+  syncHour?: true
   countryGr?: true
   currencyEur?: true
   paymentDefault?: true
@@ -181,8 +220,17 @@ export type SoftoneSettingsSumAggregateInputType = {
 export type SoftoneSettingsMinAggregateInputType = {
   id?: true
   enabled?: true
+  serial?: true
+  username?: true
+  passwordEnc?: true
+  appId?: true
+  module?: true
+  refid?: true
   company?: true
   branch?: true
+  syncEnabled?: true
+  syncHour?: true
+  lastMasterSyncAt?: true
   countryGr?: true
   currencyEur?: true
   paymentDefault?: true
@@ -209,8 +257,17 @@ export type SoftoneSettingsMinAggregateInputType = {
 export type SoftoneSettingsMaxAggregateInputType = {
   id?: true
   enabled?: true
+  serial?: true
+  username?: true
+  passwordEnc?: true
+  appId?: true
+  module?: true
+  refid?: true
   company?: true
   branch?: true
+  syncEnabled?: true
+  syncHour?: true
+  lastMasterSyncAt?: true
   countryGr?: true
   currencyEur?: true
   paymentDefault?: true
@@ -237,8 +294,17 @@ export type SoftoneSettingsMaxAggregateInputType = {
 export type SoftoneSettingsCountAggregateInputType = {
   id?: true
   enabled?: true
+  serial?: true
+  username?: true
+  passwordEnc?: true
+  appId?: true
+  module?: true
+  refid?: true
   company?: true
   branch?: true
+  syncEnabled?: true
+  syncHour?: true
+  lastMasterSyncAt?: true
   countryGr?: true
   currencyEur?: true
   vatMap?: true
@@ -354,8 +420,17 @@ export type SoftoneSettingsGroupByArgs<ExtArgs extends runtime.Types.Extensions.
 export type SoftoneSettingsGroupByOutputType = {
   id: string
   enabled: boolean
+  serial: string | null
+  username: string | null
+  passwordEnc: string | null
+  appId: string | null
+  module: number | null
+  refid: number | null
   company: number | null
   branch: number | null
+  syncEnabled: boolean
+  syncHour: number
+  lastMasterSyncAt: Date | null
   countryGr: number | null
   currencyEur: number | null
   vatMap: runtime.JsonValue | null
@@ -407,8 +482,17 @@ export type SoftoneSettingsWhereInput = {
   NOT?: Prisma.SoftoneSettingsWhereInput | Prisma.SoftoneSettingsWhereInput[]
   id?: Prisma.StringFilter<"SoftoneSettings"> | string
   enabled?: Prisma.BoolFilter<"SoftoneSettings"> | boolean
+  serial?: Prisma.StringNullableFilter<"SoftoneSettings"> | string | null
+  username?: Prisma.StringNullableFilter<"SoftoneSettings"> | string | null
+  passwordEnc?: Prisma.StringNullableFilter<"SoftoneSettings"> | string | null
+  appId?: Prisma.StringNullableFilter<"SoftoneSettings"> | string | null
+  module?: Prisma.IntNullableFilter<"SoftoneSettings"> | number | null
+  refid?: Prisma.IntNullableFilter<"SoftoneSettings"> | number | null
   company?: Prisma.IntNullableFilter<"SoftoneSettings"> | number | null
   branch?: Prisma.IntNullableFilter<"SoftoneSettings"> | number | null
+  syncEnabled?: Prisma.BoolFilter<"SoftoneSettings"> | boolean
+  syncHour?: Prisma.IntFilter<"SoftoneSettings"> | number
+  lastMasterSyncAt?: Prisma.DateTimeNullableFilter<"SoftoneSettings"> | Date | string | null
   countryGr?: Prisma.IntNullableFilter<"SoftoneSettings"> | number | null
   currencyEur?: Prisma.IntNullableFilter<"SoftoneSettings"> | number | null
   vatMap?: Prisma.JsonNullableFilter<"SoftoneSettings">
@@ -437,8 +521,17 @@ export type SoftoneSettingsWhereInput = {
 export type SoftoneSettingsOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   enabled?: Prisma.SortOrder
+  serial?: Prisma.SortOrderInput | Prisma.SortOrder
+  username?: Prisma.SortOrderInput | Prisma.SortOrder
+  passwordEnc?: Prisma.SortOrderInput | Prisma.SortOrder
+  appId?: Prisma.SortOrderInput | Prisma.SortOrder
+  module?: Prisma.SortOrderInput | Prisma.SortOrder
+  refid?: Prisma.SortOrderInput | Prisma.SortOrder
   company?: Prisma.SortOrderInput | Prisma.SortOrder
   branch?: Prisma.SortOrderInput | Prisma.SortOrder
+  syncEnabled?: Prisma.SortOrder
+  syncHour?: Prisma.SortOrder
+  lastMasterSyncAt?: Prisma.SortOrderInput | Prisma.SortOrder
   countryGr?: Prisma.SortOrderInput | Prisma.SortOrder
   currencyEur?: Prisma.SortOrderInput | Prisma.SortOrder
   vatMap?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -470,8 +563,17 @@ export type SoftoneSettingsWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.SoftoneSettingsWhereInput[]
   NOT?: Prisma.SoftoneSettingsWhereInput | Prisma.SoftoneSettingsWhereInput[]
   enabled?: Prisma.BoolFilter<"SoftoneSettings"> | boolean
+  serial?: Prisma.StringNullableFilter<"SoftoneSettings"> | string | null
+  username?: Prisma.StringNullableFilter<"SoftoneSettings"> | string | null
+  passwordEnc?: Prisma.StringNullableFilter<"SoftoneSettings"> | string | null
+  appId?: Prisma.StringNullableFilter<"SoftoneSettings"> | string | null
+  module?: Prisma.IntNullableFilter<"SoftoneSettings"> | number | null
+  refid?: Prisma.IntNullableFilter<"SoftoneSettings"> | number | null
   company?: Prisma.IntNullableFilter<"SoftoneSettings"> | number | null
   branch?: Prisma.IntNullableFilter<"SoftoneSettings"> | number | null
+  syncEnabled?: Prisma.BoolFilter<"SoftoneSettings"> | boolean
+  syncHour?: Prisma.IntFilter<"SoftoneSettings"> | number
+  lastMasterSyncAt?: Prisma.DateTimeNullableFilter<"SoftoneSettings"> | Date | string | null
   countryGr?: Prisma.IntNullableFilter<"SoftoneSettings"> | number | null
   currencyEur?: Prisma.IntNullableFilter<"SoftoneSettings"> | number | null
   vatMap?: Prisma.JsonNullableFilter<"SoftoneSettings">
@@ -500,8 +602,17 @@ export type SoftoneSettingsWhereUniqueInput = Prisma.AtLeast<{
 export type SoftoneSettingsOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   enabled?: Prisma.SortOrder
+  serial?: Prisma.SortOrderInput | Prisma.SortOrder
+  username?: Prisma.SortOrderInput | Prisma.SortOrder
+  passwordEnc?: Prisma.SortOrderInput | Prisma.SortOrder
+  appId?: Prisma.SortOrderInput | Prisma.SortOrder
+  module?: Prisma.SortOrderInput | Prisma.SortOrder
+  refid?: Prisma.SortOrderInput | Prisma.SortOrder
   company?: Prisma.SortOrderInput | Prisma.SortOrder
   branch?: Prisma.SortOrderInput | Prisma.SortOrder
+  syncEnabled?: Prisma.SortOrder
+  syncHour?: Prisma.SortOrder
+  lastMasterSyncAt?: Prisma.SortOrderInput | Prisma.SortOrder
   countryGr?: Prisma.SortOrderInput | Prisma.SortOrder
   currencyEur?: Prisma.SortOrderInput | Prisma.SortOrder
   vatMap?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -538,8 +649,17 @@ export type SoftoneSettingsScalarWhereWithAggregatesInput = {
   NOT?: Prisma.SoftoneSettingsScalarWhereWithAggregatesInput | Prisma.SoftoneSettingsScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"SoftoneSettings"> | string
   enabled?: Prisma.BoolWithAggregatesFilter<"SoftoneSettings"> | boolean
+  serial?: Prisma.StringNullableWithAggregatesFilter<"SoftoneSettings"> | string | null
+  username?: Prisma.StringNullableWithAggregatesFilter<"SoftoneSettings"> | string | null
+  passwordEnc?: Prisma.StringNullableWithAggregatesFilter<"SoftoneSettings"> | string | null
+  appId?: Prisma.StringNullableWithAggregatesFilter<"SoftoneSettings"> | string | null
+  module?: Prisma.IntNullableWithAggregatesFilter<"SoftoneSettings"> | number | null
+  refid?: Prisma.IntNullableWithAggregatesFilter<"SoftoneSettings"> | number | null
   company?: Prisma.IntNullableWithAggregatesFilter<"SoftoneSettings"> | number | null
   branch?: Prisma.IntNullableWithAggregatesFilter<"SoftoneSettings"> | number | null
+  syncEnabled?: Prisma.BoolWithAggregatesFilter<"SoftoneSettings"> | boolean
+  syncHour?: Prisma.IntWithAggregatesFilter<"SoftoneSettings"> | number
+  lastMasterSyncAt?: Prisma.DateTimeNullableWithAggregatesFilter<"SoftoneSettings"> | Date | string | null
   countryGr?: Prisma.IntNullableWithAggregatesFilter<"SoftoneSettings"> | number | null
   currencyEur?: Prisma.IntNullableWithAggregatesFilter<"SoftoneSettings"> | number | null
   vatMap?: Prisma.JsonNullableWithAggregatesFilter<"SoftoneSettings">
@@ -568,8 +688,17 @@ export type SoftoneSettingsScalarWhereWithAggregatesInput = {
 export type SoftoneSettingsCreateInput = {
   id?: string
   enabled?: boolean
+  serial?: string | null
+  username?: string | null
+  passwordEnc?: string | null
+  appId?: string | null
+  module?: number | null
+  refid?: number | null
   company?: number | null
   branch?: number | null
+  syncEnabled?: boolean
+  syncHour?: number
+  lastMasterSyncAt?: Date | string | null
   countryGr?: number | null
   currencyEur?: number | null
   vatMap?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -598,8 +727,17 @@ export type SoftoneSettingsCreateInput = {
 export type SoftoneSettingsUncheckedCreateInput = {
   id?: string
   enabled?: boolean
+  serial?: string | null
+  username?: string | null
+  passwordEnc?: string | null
+  appId?: string | null
+  module?: number | null
+  refid?: number | null
   company?: number | null
   branch?: number | null
+  syncEnabled?: boolean
+  syncHour?: number
+  lastMasterSyncAt?: Date | string | null
   countryGr?: number | null
   currencyEur?: number | null
   vatMap?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -628,8 +766,17 @@ export type SoftoneSettingsUncheckedCreateInput = {
 export type SoftoneSettingsUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  serial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordEnc?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  appId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  module?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  refid?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   company?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   branch?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  syncEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  syncHour?: Prisma.IntFieldUpdateOperationsInput | number
+  lastMasterSyncAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   countryGr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   currencyEur?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   vatMap?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -658,8 +805,17 @@ export type SoftoneSettingsUpdateInput = {
 export type SoftoneSettingsUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  serial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordEnc?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  appId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  module?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  refid?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   company?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   branch?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  syncEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  syncHour?: Prisma.IntFieldUpdateOperationsInput | number
+  lastMasterSyncAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   countryGr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   currencyEur?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   vatMap?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -688,8 +844,17 @@ export type SoftoneSettingsUncheckedUpdateInput = {
 export type SoftoneSettingsCreateManyInput = {
   id?: string
   enabled?: boolean
+  serial?: string | null
+  username?: string | null
+  passwordEnc?: string | null
+  appId?: string | null
+  module?: number | null
+  refid?: number | null
   company?: number | null
   branch?: number | null
+  syncEnabled?: boolean
+  syncHour?: number
+  lastMasterSyncAt?: Date | string | null
   countryGr?: number | null
   currencyEur?: number | null
   vatMap?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -718,8 +883,17 @@ export type SoftoneSettingsCreateManyInput = {
 export type SoftoneSettingsUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  serial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordEnc?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  appId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  module?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  refid?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   company?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   branch?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  syncEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  syncHour?: Prisma.IntFieldUpdateOperationsInput | number
+  lastMasterSyncAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   countryGr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   currencyEur?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   vatMap?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -748,8 +922,17 @@ export type SoftoneSettingsUpdateManyMutationInput = {
 export type SoftoneSettingsUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  serial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordEnc?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  appId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  module?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  refid?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   company?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   branch?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  syncEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  syncHour?: Prisma.IntFieldUpdateOperationsInput | number
+  lastMasterSyncAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   countryGr?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   currencyEur?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   vatMap?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
@@ -778,8 +961,17 @@ export type SoftoneSettingsUncheckedUpdateManyInput = {
 export type SoftoneSettingsCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   enabled?: Prisma.SortOrder
+  serial?: Prisma.SortOrder
+  username?: Prisma.SortOrder
+  passwordEnc?: Prisma.SortOrder
+  appId?: Prisma.SortOrder
+  module?: Prisma.SortOrder
+  refid?: Prisma.SortOrder
   company?: Prisma.SortOrder
   branch?: Prisma.SortOrder
+  syncEnabled?: Prisma.SortOrder
+  syncHour?: Prisma.SortOrder
+  lastMasterSyncAt?: Prisma.SortOrder
   countryGr?: Prisma.SortOrder
   currencyEur?: Prisma.SortOrder
   vatMap?: Prisma.SortOrder
@@ -806,8 +998,11 @@ export type SoftoneSettingsCountOrderByAggregateInput = {
 }
 
 export type SoftoneSettingsAvgOrderByAggregateInput = {
+  module?: Prisma.SortOrder
+  refid?: Prisma.SortOrder
   company?: Prisma.SortOrder
   branch?: Prisma.SortOrder
+  syncHour?: Prisma.SortOrder
   countryGr?: Prisma.SortOrder
   currencyEur?: Prisma.SortOrder
   paymentDefault?: Prisma.SortOrder
@@ -824,8 +1019,17 @@ export type SoftoneSettingsAvgOrderByAggregateInput = {
 export type SoftoneSettingsMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   enabled?: Prisma.SortOrder
+  serial?: Prisma.SortOrder
+  username?: Prisma.SortOrder
+  passwordEnc?: Prisma.SortOrder
+  appId?: Prisma.SortOrder
+  module?: Prisma.SortOrder
+  refid?: Prisma.SortOrder
   company?: Prisma.SortOrder
   branch?: Prisma.SortOrder
+  syncEnabled?: Prisma.SortOrder
+  syncHour?: Prisma.SortOrder
+  lastMasterSyncAt?: Prisma.SortOrder
   countryGr?: Prisma.SortOrder
   currencyEur?: Prisma.SortOrder
   paymentDefault?: Prisma.SortOrder
@@ -852,8 +1056,17 @@ export type SoftoneSettingsMaxOrderByAggregateInput = {
 export type SoftoneSettingsMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   enabled?: Prisma.SortOrder
+  serial?: Prisma.SortOrder
+  username?: Prisma.SortOrder
+  passwordEnc?: Prisma.SortOrder
+  appId?: Prisma.SortOrder
+  module?: Prisma.SortOrder
+  refid?: Prisma.SortOrder
   company?: Prisma.SortOrder
   branch?: Prisma.SortOrder
+  syncEnabled?: Prisma.SortOrder
+  syncHour?: Prisma.SortOrder
+  lastMasterSyncAt?: Prisma.SortOrder
   countryGr?: Prisma.SortOrder
   currencyEur?: Prisma.SortOrder
   paymentDefault?: Prisma.SortOrder
@@ -878,8 +1091,11 @@ export type SoftoneSettingsMinOrderByAggregateInput = {
 }
 
 export type SoftoneSettingsSumOrderByAggregateInput = {
+  module?: Prisma.SortOrder
+  refid?: Prisma.SortOrder
   company?: Prisma.SortOrder
   branch?: Prisma.SortOrder
+  syncHour?: Prisma.SortOrder
   countryGr?: Prisma.SortOrder
   currencyEur?: Prisma.SortOrder
   paymentDefault?: Prisma.SortOrder
@@ -902,8 +1118,17 @@ export type NullableBoolFieldUpdateOperationsInput = {
 export type SoftoneSettingsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   enabled?: boolean
+  serial?: boolean
+  username?: boolean
+  passwordEnc?: boolean
+  appId?: boolean
+  module?: boolean
+  refid?: boolean
   company?: boolean
   branch?: boolean
+  syncEnabled?: boolean
+  syncHour?: boolean
+  lastMasterSyncAt?: boolean
   countryGr?: boolean
   currencyEur?: boolean
   vatMap?: boolean
@@ -932,8 +1157,17 @@ export type SoftoneSettingsSelect<ExtArgs extends runtime.Types.Extensions.Inter
 export type SoftoneSettingsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   enabled?: boolean
+  serial?: boolean
+  username?: boolean
+  passwordEnc?: boolean
+  appId?: boolean
+  module?: boolean
+  refid?: boolean
   company?: boolean
   branch?: boolean
+  syncEnabled?: boolean
+  syncHour?: boolean
+  lastMasterSyncAt?: boolean
   countryGr?: boolean
   currencyEur?: boolean
   vatMap?: boolean
@@ -962,8 +1196,17 @@ export type SoftoneSettingsSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
 export type SoftoneSettingsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   enabled?: boolean
+  serial?: boolean
+  username?: boolean
+  passwordEnc?: boolean
+  appId?: boolean
+  module?: boolean
+  refid?: boolean
   company?: boolean
   branch?: boolean
+  syncEnabled?: boolean
+  syncHour?: boolean
+  lastMasterSyncAt?: boolean
   countryGr?: boolean
   currencyEur?: boolean
   vatMap?: boolean
@@ -992,8 +1235,17 @@ export type SoftoneSettingsSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
 export type SoftoneSettingsSelectScalar = {
   id?: boolean
   enabled?: boolean
+  serial?: boolean
+  username?: boolean
+  passwordEnc?: boolean
+  appId?: boolean
+  module?: boolean
+  refid?: boolean
   company?: boolean
   branch?: boolean
+  syncEnabled?: boolean
+  syncHour?: boolean
+  lastMasterSyncAt?: boolean
   countryGr?: boolean
   currencyEur?: boolean
   vatMap?: boolean
@@ -1019,7 +1271,7 @@ export type SoftoneSettingsSelectScalar = {
   updatedAt?: boolean
 }
 
-export type SoftoneSettingsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "enabled" | "company" | "branch" | "countryGr" | "currencyEur" | "vatMap" | "unitMap" | "paymentDefault" | "cntrTypeCustomer" | "cntrTypeSupplier" | "cntrTypeManaged" | "cntrType1Default" | "visitUnitMonths" | "seriesSales" | "seriesPurchase" | "prjType" | "codePrefixCustomer" | "codePrefixSupplier" | "codePrefixProject" | "codePrefixService" | "clientId" | "clientIdDate" | "lastPingAt" | "lastPingOk" | "lastPingMessage" | "updatedAt", ExtArgs["result"]["softoneSettings"]>
+export type SoftoneSettingsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "enabled" | "serial" | "username" | "passwordEnc" | "appId" | "module" | "refid" | "company" | "branch" | "syncEnabled" | "syncHour" | "lastMasterSyncAt" | "countryGr" | "currencyEur" | "vatMap" | "unitMap" | "paymentDefault" | "cntrTypeCustomer" | "cntrTypeSupplier" | "cntrTypeManaged" | "cntrType1Default" | "visitUnitMonths" | "seriesSales" | "seriesPurchase" | "prjType" | "codePrefixCustomer" | "codePrefixSupplier" | "codePrefixProject" | "codePrefixService" | "clientId" | "clientIdDate" | "lastPingAt" | "lastPingOk" | "lastPingMessage" | "updatedAt", ExtArgs["result"]["softoneSettings"]>
 
 export type $SoftoneSettingsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "SoftoneSettings"
@@ -1027,8 +1279,17 @@ export type $SoftoneSettingsPayload<ExtArgs extends runtime.Types.Extensions.Int
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     enabled: boolean
+    serial: string | null
+    username: string | null
+    passwordEnc: string | null
+    appId: string | null
+    module: number | null
+    refid: number | null
     company: number | null
     branch: number | null
+    syncEnabled: boolean
+    syncHour: number
+    lastMasterSyncAt: Date | null
     countryGr: number | null
     currencyEur: number | null
     vatMap: runtime.JsonValue | null
@@ -1477,8 +1738,17 @@ export interface Prisma__SoftoneSettingsClient<T, Null = never, ExtArgs extends 
 export interface SoftoneSettingsFieldRefs {
   readonly id: Prisma.FieldRef<"SoftoneSettings", 'String'>
   readonly enabled: Prisma.FieldRef<"SoftoneSettings", 'Boolean'>
+  readonly serial: Prisma.FieldRef<"SoftoneSettings", 'String'>
+  readonly username: Prisma.FieldRef<"SoftoneSettings", 'String'>
+  readonly passwordEnc: Prisma.FieldRef<"SoftoneSettings", 'String'>
+  readonly appId: Prisma.FieldRef<"SoftoneSettings", 'String'>
+  readonly module: Prisma.FieldRef<"SoftoneSettings", 'Int'>
+  readonly refid: Prisma.FieldRef<"SoftoneSettings", 'Int'>
   readonly company: Prisma.FieldRef<"SoftoneSettings", 'Int'>
   readonly branch: Prisma.FieldRef<"SoftoneSettings", 'Int'>
+  readonly syncEnabled: Prisma.FieldRef<"SoftoneSettings", 'Boolean'>
+  readonly syncHour: Prisma.FieldRef<"SoftoneSettings", 'Int'>
+  readonly lastMasterSyncAt: Prisma.FieldRef<"SoftoneSettings", 'DateTime'>
   readonly countryGr: Prisma.FieldRef<"SoftoneSettings", 'Int'>
   readonly currencyEur: Prisma.FieldRef<"SoftoneSettings", 'Int'>
   readonly vatMap: Prisma.FieldRef<"SoftoneSettings", 'Json'>
