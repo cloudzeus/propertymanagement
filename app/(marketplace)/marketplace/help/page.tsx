@@ -5,6 +5,7 @@ import { HelpCenter } from "@/components/help/HelpCenter";
 export const metadata = { title: "Βοήθεια & οδηγίες" };
 
 type SP = Record<string, string | string[] | undefined>;
+const str = (v: string | string[] | undefined) => (typeof v === "string" ? v : undefined);
 
 export default async function MarketplaceHelpPage({ searchParams }: { searchParams?: Promise<SP> }) {
   // Help stays reachable even before the first-login wizard is completed.
@@ -13,5 +14,5 @@ export default async function MarketplaceHelpPage({ searchParams }: { searchPara
     searchParams ?? Promise.resolve({} as SP),
     db.company.findFirst({ orderBy: { createdAt: "asc" }, select: { phone1: true, email: true } }),
   ]);
-  return <HelpCenter role="COLLABORATOR" base="/marketplace/help" requested={typeof sp.m === "string" ? sp.m : undefined} supportPhone={company?.phone1} supportEmail={company?.email} />;
+  return <HelpCenter role="COLLABORATOR" base="/marketplace/help" requested={str(sp.m)} article={str(sp.a)} q={str(sp.q)} supportPhone={company?.phone1} supportEmail={company?.email} />;
 }
