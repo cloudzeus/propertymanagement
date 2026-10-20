@@ -186,6 +186,7 @@ model User {
   supplierId          String?
   supplier            Supplier? @relation("supplierUsers", fields: [supplierId], references: [id], onDelete: SetNull)
   isSupplierAdmin     Boolean  @default(false)
+  contact             SupplierContact? @relation("contactUser")
 
   // API usage logs triggered by this user
   apiUsageLogs        APIUsageLog[]
@@ -2529,6 +2530,8 @@ model Supplier {
   expenses     BuildingExpense[]
   recurringTasks RecurringTask[]
   contacts     Contact[]
+  contactPeople SupplierContact[]
+  inviteLinks  SupplierInviteLink[]
   maintenanceRequests MaintenanceRequest[] @relation("maintenanceSupplier")
 
   createdAt    DateTime @default(now())
@@ -2718,10 +2721,14 @@ model RfqInvitation {
   rfq           ServiceRequest @relation(fields: [rfqId], references: [id], onDelete: Cascade)
   supplierId    String
   supplier      Supplier @relation(fields: [supplierId], references: [id], onDelete: Cascade)
-  status        String   @default("INVITED") // INVITED, OFFERED, DECLINED
+  status        String   @default("INVITED") // INVITED, OFFERED, DECLINED, EXPIRED
   sentAt        DateTime @default(now())
   viewedAt      DateTime?
   declineReason String?
+  // Branded e-mail with a personal link (lib/rfq-send.ts)
+  lastEmailAt   DateTime?
+  emailCount    Int      @default(0)
+  links         SupplierInviteLink[]
 
   @@unique([rfqId, supplierId])
   @@index([supplierId])
@@ -2796,6 +2803,9 @@ model WorkOrder {
   customerDeclineReason String?
   supplierAcceptedAt    DateTime?
   supplierAcceptedById  String?
+  supplierAcceptedIp    String?
+  supplierAcceptedUa    String?
+  supplierAcceptedName  String?  // ονοματεπώνυμο υπογράφοντα όπως το πληκτρολόγησε
 
   scheduledAt           DateTime?
 
@@ -2825,6 +2835,64 @@ model WorkOrder {
   @@index([supplierId])
   @@index([status])
   @@index([maintenanceRequestId])
+}
+
+// ── Supplier contacts (people at the supplier) with optional marketplace access ──
+// A contact may exist without a login (phone/position only). When it gets access,
+// `userId` points at the COLLABORATOR User (one User per email, app-wide).
+model SupplierContact {
+  id          String   @id @default(cuid())
+  supplierId  String
+  supplier    Supplier @relation(fields: [supplierId], references: [id], onDelete: Cascade)
+  name        String
+  position    String?  // θέση/ρόλος στην επιχείρηση
+  phone       String?
+  mobile      String?
+  email       String?  // lowercase· required for access
+  isPrimary   Boolean  @default(false) // ο υπεύθυνος — default RFQ recipient, supplier admin
+  receivesRfq Boolean  @default(true)  // παραλήπτης των e-mail προσκλήσεων RFQ
+  active      Boolean  @default(true)
+  notes       String?  @db.Text
+  userId      String?  @unique
+  user        User?    @relation("contactUser", fields: [userId], references: [id], onDelete: SetNull)
+  links       SupplierInviteLink[]
+  createdById String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([supplierId])
+  @@index([email])
+}
+
+enum SupplierInviteKind {
+  RFQ_INVITE
+  CONTACT_ACTIVATION
+}
+
+// One-time, signed e-mail links (lib/supplier-invites.ts). Only sha256(token) is
+// stored; the link is bound to a recipient e-mail; resend revokes earlier links.
+model SupplierInviteLink {
+  id              String   @id @default(cuid())
+  tokenHash       String   @unique
+  kind            SupplierInviteKind
+  supplierId      String
+  supplier        Supplier @relation(fields: [supplierId], references: [id], onDelete: Cascade)
+  email           String
+  rfqInvitationId String?
+  rfqInvitation   RfqInvitation? @relation(fields: [rfqInvitationId], references: [id], onDelete: Cascade)
+  contactId       String?
+  contact         SupplierContact? @relation(fields: [contactId], references: [id], onDelete: Cascade)
+  expiresAt       DateTime
+  sentAt          DateTime @default(now())
+  sentCount       Int      @default(1)
+  openedAt        DateTime?
+  usedAt          DateTime?
+  revokedAt       DateTime?
+  createdById     String?
+
+  @@index([rfqInvitationId])
+  @@index([contactId])
+  @@index([supplierId, email])
 }
 
 enum SupplierInquiryKind {

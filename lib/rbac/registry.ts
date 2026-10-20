@@ -30,6 +30,7 @@ export const RBAC_MODULES: readonly RbacModule[] = [
   { key: "report", label: "Δήλωση βλάβης", surface: "company", menu: { href: "/report", icon: "RiAlarmWarningLine", group: "operations" }, actions: [...VIEW] },
   // Φ2: RFQ → offers → back-to-back work orders (company side).
   { key: "work-orders", label: "Συμβάσεις έργου", surface: "company", menu: { href: "/admin/work-orders", icon: "RiFileTextLine", group: "operations" }, actions: [...CRUD] },
+  { key: "rfq", label: "Αιτήματα προσφοράς", surface: "company", menu: { href: "/staff/rfq", icon: "RiMoneyEuroCircleLine", group: "operations" }, actions: [...CRUD] },
   { key: "maintenance-program", label: "Ετήσιο πρόγραμμα συντηρήσεων", surface: "company", menu: { href: "/admin/maintenance-program", icon: "RiCalendarTodoLine", group: "operations" }, actions: [...CRUD] },
   { key: "settings-contracts", label: "Προσφορές & συμβάσεις", surface: "company", menu: { href: "/super-admin/settings/contracts", icon: "RiFileTextLine", group: "settings" }, actions: [...CRUD] },
   { key: "announcements", label: "Ανακοινώσεις", surface: "company", menu: { href: "/admin/announcements", icon: "RiNotification2Line", group: "operations" }, actions: [...CRUD] },
@@ -109,18 +110,18 @@ export const DEFAULT_PERMISSIONS: RoleDefaults = {
   SUPER_ADMIN: all(),
   ADMIN: [
     ...view("dashboard", "reports"),
-    ...crud("properties", "units", "users", "residents", "maintenance", "announcements", "calendar", "managed-items", "managed-buildings", "suppliers", "work-orders", "maintenance-program"),
+    ...crud("properties", "units", "users", "residents", "maintenance", "announcements", "calendar", "managed-items", "managed-buildings", "suppliers", "work-orders", "rfq", "maintenance-program"),
     ...crud("metered-plans", "customer-wallets"),
     ...view("api-costs"), ...crud("settings", "settings-payments", "settings-contracts", "cms-newsletter"), ...view("help", "report"),
     ...crud("softone-connection", "softone-params", "softone-sync"), ...view("softone-structure"),
   ],
   MANAGER: [
     ...view("dashboard", "calendar", "help", "report"),
-    ...crud("properties", "units", "maintenance", "announcements", "managed-items", "managed-buildings", "suppliers", "work-orders", "maintenance-program"),
+    ...crud("properties", "units", "maintenance", "announcements", "managed-items", "managed-buildings", "suppliers", "work-orders", "rfq", "maintenance-program"),
   ],
   EMPLOYEE: [
     ...view("mkt-dashboard", "mkt-calendar", "managed-buildings", "suppliers", "help", "report", "maintenance-program"), ...crud("mkt-tasks", "mkt-maintenance"),
-    ...crud("managed-items"), ...view("maintenance", "calendar"),
+    ...crud("managed-items", "rfq"), ...view("maintenance", "calendar"),
   ],
   PROPERTY_ADMIN: [
     ...view("customer-dashboard", "customer-help", "customer-report"),
