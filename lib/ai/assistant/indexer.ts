@@ -41,7 +41,13 @@ export async function indexWiki(): Promise<IndexResult> {
       deleted += (await db.wikiChunk.deleteMany({ where: { slug: src.slug, anchor: { in: plan.toDelete } } })).count;
     }
     if (!plan.toEmbed.length) continue;
-    const vectors = await embedTexts(plan.toEmbed.map((c) => c.content), "RETRIEVAL_DOCUMENT");
+    let vectors: number[][] | null = null;
+    try {
+      vectors = await embedTexts(plan.toEmbed.map((c) => c.content), "RETRIEVAL_DOCUMENT");
+    } catch (e) {
+      // Provider unavailable (no key, 403, network): keep indexing text so keyword search works; vectors come on the next run.
+      if (!keywordOnly) console.warn("[wiki-index] embeddings unavailable, indexing text only:", e instanceof Error ? e.message : e);
+    }
     if (!vectors) keywordOnly = true;
     for (let i = 0; i < plan.toEmbed.length; i++) {
       const id = await upsertChunk(plan.toEmbed[i]);
