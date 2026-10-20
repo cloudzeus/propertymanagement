@@ -62,6 +62,7 @@ export default auth((req: NextRequest & { auth: any }) => {
     "/register",
     "/forgot-password",
     "/reset-password",
+    "/invite", // supplier e-mail links (RFQ invitation / contact activation)
     "/api/auth",
   ];
 

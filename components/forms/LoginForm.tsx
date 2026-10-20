@@ -17,7 +17,8 @@ export function LoginForm() {
   const searchParams = useSearchParams();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [email, setEmail] = useState("");
+  // Supplier invite links land here with the invited address prefilled (?email=).
+  const [email, setEmail] = useState(searchParams.get("email") ?? "");
   const [password, setPassword] = useState("");
 
   async function onSubmit(e: React.FormEvent) {
