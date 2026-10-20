@@ -109,3 +109,80 @@ export type WorkOrderDTO = {
   /** company-only fields (null for customers) */
   supplierPrice: number | null; markupPct: number | null; supplierName: string | null; buildingName?: string; maintenanceRequestId?: string | null;
 };
+
+/* ------------------------------------------------------------------ */
+/* Invitation tracking (e-mail + personal link)                         */
+/* ------------------------------------------------------------------ */
+
+export type InvitationState = "NO_EMAIL" | "SENT" | "OPENED" | "OFFERED" | "DECLINED" | "EXPIRED";
+
+export const INVITATION_STATE_LABELS: Record<InvitationState, string> = {
+  NO_EMAIL: "Χωρίς email",
+  SENT: "Στάλθηκε",
+  OPENED: "Ανοίχτηκε",
+  OFFERED: "Προσφορά υποβλήθηκε",
+  DECLINED: "Απορρίφθηκε",
+  EXPIRED: "Έληξε",
+};
+
+export const INVITATION_STATE_COLORS: Record<InvitationState, string> = {
+  NO_EMAIL: "#9f1239",
+  SENT: "#6b7280",
+  OPENED: "#0369a1",
+  OFFERED: "#15803d",
+  DECLINED: "#b45309",
+  EXPIRED: "#6b7280",
+};
+
+/** Derived, display-level state of one supplier invitation (spec §5.4). */
+export function invitationState(
+  i: { status: string; viewedAt: string | null; emailCount: number; hasRecipient: boolean },
+  rfq: { status: string; deadlineAt: string | null },
+  now: Date = new Date(),
+): InvitationState {
+  if (i.status === "OFFERED") return "OFFERED";
+  if (i.status === "DECLINED") return "DECLINED";
+  if (i.status === "EXPIRED") return "EXPIRED";
+  if (["EXPIRED", "CANCELLED"].includes(rfq.status)) return "EXPIRED";
+  if (rfq.deadlineAt && new Date(rfq.deadlineAt).getTime() < now.getTime()) return "EXPIRED";
+  if (i.viewedAt) return "OPENED";
+  if (i.emailCount === 0 && !i.hasRecipient) return "NO_EMAIL";
+  return "SENT";
+}
+
+/** One recipient of an invitation e-mail, as the company sees it. */
+export type InvitationRecipientDTO = { email: string; sentAt: string; openedAt: string | null; expired: boolean };
+
+/** A row of the /staff/rfq board: one supplier invitation of one RFQ. */
+export type RfqInvitationRowDTO = {
+  id: string; rfqId: string; rfqStatus: string; rfqTitle: string; deadlineAt: string | null; surveyRequired: boolean;
+  maintenanceRequestId: string | null; buildingName: string; buildingId: string;
+  supplierId: string; supplierName: string; status: string; sentAt: string; viewedAt: string | null; declineReason: string | null;
+  emailCount: number; lastEmailAt: string | null; hasRecipient: boolean; recipients: InvitationRecipientDTO[];
+  offer: { id: string; amount: number; status: string } | null;
+  state: InvitationState;
+};
+
+/* ------------------------------------------------------------------ */
+/* Candidate suppliers for an RFQ (picker with filters)                 */
+/* ------------------------------------------------------------------ */
+
+export type RfqCandidateDTO = {
+  id: string; name: string; categories: string[]; categoryIds: string[];
+  distanceKm: number | null; ratingAvg: number | null; ratingCount: number;
+  score: number; reasons: string[]; hasAccounts: boolean; recipientEmail: string | null; emergency24h: boolean;
+};
+
+export type CandidateFilter = { q?: string; categoryId?: string | null; maxKm?: number | null; minRating?: number | null; withAccount?: boolean };
+
+export function filterCandidates(rows: RfqCandidateDTO[], f: CandidateFilter): RfqCandidateDTO[] {
+  const q = f.q?.trim().toLowerCase();
+  return rows.filter((r) => {
+    if (q && !r.name.toLowerCase().includes(q)) return false;
+    if (f.categoryId && !r.categoryIds.includes(f.categoryId)) return false;
+    if (f.maxKm != null && (r.distanceKm == null || r.distanceKm > f.maxKm)) return false;
+    if (f.minRating != null && (r.ratingAvg == null || r.ratingAvg < f.minRating)) return false;
+    if (f.withAccount && !r.hasAccounts) return false;
+    return true;
+  });
+}
