@@ -4,12 +4,13 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FormField, FieldInput, FieldTextarea } from "@/components/ui/modal";
-import { createRfq, cancelRfq, forwardOffer, scheduleWorkOrder } from "@/app/actions/rfq";
+import { createRfq, cancelRfq, forwardOffer, scheduleWorkOrder, resendRfqInvitation, addRfqSuppliers } from "@/app/actions/rfq";
 import {
-  RFQ_STATUS_LABELS, INVITATION_STATUS_LABELS, OFFER_STATUS_LABELS, WO_STATUS_LABELS, WO_STATUS_COLORS, eur, applyMarkup, withVat,
-  type RfqDTO, type OfferDTO, type WorkOrderDTO,
+  RFQ_STATUS_LABELS, INVITATION_STATE_LABELS, INVITATION_STATE_COLORS, OFFER_STATUS_LABELS, WO_STATUS_LABELS, WO_STATUS_COLORS, eur, applyMarkup, withVat,
+  type RfqDTO, type OfferDTO, type WorkOrderDTO, type RfqCandidateDTO,
 } from "@/lib/rfq-shared";
-import { RiMoneyEuroCircleLine, RiSendPlaneLine, RiFileTextLine, RiCalendarCheckLine, RiCloseLine, RiStarFill } from "react-icons/ri";
+import { SupplierPicker } from "@/components/suppliers/SupplierPicker";
+import { RiMoneyEuroCircleLine, RiSendPlaneLine, RiFileTextLine, RiCalendarCheckLine, RiCloseLine, RiStarFill, RiMailSendLine, RiUserAddLine } from "react-icons/ri";
 
 const fmt = (iso: string | null) => (iso ? new Date(iso).toLocaleString("el-GR", { dateStyle: "short", timeStyle: "short" }) : "—");
 const fmtD = (iso: string | null) => (iso ? new Date(iso).toLocaleDateString("el-GR") : "—");
@@ -18,18 +19,24 @@ const fmtD = (iso: string | null) => (iso ? new Date(iso).toLocaleDateString("el
  * Company-side offers panel on a fault: work orders, RFQs with their offers
  * (forward one with markup), and the "send RFQ" form. Only staff see this.
  */
-export function RfqPanel({ requestId, handledBy, rfqs, workOrders, defaults, suppliers }: {
+export type RfqPickerData = { candidates: RfqCandidateDTO[]; categories: { id: string; name: string }[]; defaultCategoryId: string | null };
+
+export function RfqPanel({ requestId, handledBy, rfqs, workOrders, defaults, picker, canCreate = true }: {
   requestId: string; handledBy: string; rfqs: RfqDTO[]; workOrders: WorkOrderDTO[];
-  defaults: { markupPct: number; warrantyMonths: number }; suppliers: { id: string; name: string }[];
+  defaults: { markupPct: number; warrantyMonths: number }; picker: RfqPickerData; canCreate?: boolean;
 }) {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
+  const [info, setInfo] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const [adding, setAdding] = useState<string | null>(null);
+  const [addSel, setAddSel] = useState<Set<string>>(new Set());
   async function run(fn: () => Promise<{ error?: string | null } | { ok?: boolean } | { id?: string }>) {
-    setBusy(true); setError(null);
+    setBusy(true); setError(null); setInfo(null);
     const res = await fn();
     setBusy(false);
     if (res && "error" in res && res.error) { setError(res.error); return false; }
+    if (res && "sent" in res) setInfo(sentMessage(res as { sent: number; noEmail?: string[] }, picker.candidates));
     router.refresh();
     return true;
   }
@@ -39,6 +46,7 @@ export function RfqPanel({ requestId, handledBy, rfqs, workOrders, defaults, sup
     <div style={card}>
       <div style={h3}><RiMoneyEuroCircleLine /> Προσφορές & σύμβαση έργου</div>
       {error && <div style={{ color: "var(--destructive)", fontSize: "var(--fs-13)", marginBottom: 10 }}>{error}</div>}
+      {info && <div style={{ color: "#15803d", fontSize: "var(--fs-13)", marginBottom: 10 }}>{info}</div>}
 
       {workOrders.map((w) => <WorkOrderRow key={w.id} w={w} busy={busy} run={run} />)}
 
@@ -50,15 +58,28 @@ export function RfqPanel({ requestId, handledBy, rfqs, workOrders, defaults, sup
             {r.deadlineAt && <span style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>προθεσμία {fmt(r.deadlineAt)}</span>}
             {r.surveyRequired && <span style={pill}>με αυτοψία</span>}
             <span style={{ flex: 1 }} />
+            {["OPEN", "OFFERED"].includes(r.status) && canCreate && <button disabled={busy} style={btn} onClick={() => { setAdding(adding === r.id ? null : r.id); setAddSel(new Set()); }}><RiUserAddLine /> Προσθήκη συνεργατών</button>}
             {["OPEN", "OFFERED"].includes(r.status) && <button disabled={busy} style={btn} onClick={() => confirm("Ακύρωση αιτήματος προσφοράς;") && run(() => cancelRfq(r.id))}><RiCloseLine /> Ακύρωση</button>}
           </div>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginTop: 8 }}>
-            {r.invitations.map((i) => (
-              <span key={i.supplierId} style={{ ...pill, background: i.status === "OFFERED" ? "#15803d14" : i.status === "DECLINED" ? "#9f123914" : "var(--paper)", color: i.status === "OFFERED" ? "#15803d" : i.status === "DECLINED" ? "#9f1239" : "var(--muted-foreground)" }} title={i.declineReason ?? (i.viewedAt ? `Το είδε ${fmt(i.viewedAt)}` : "Δεν το έχει ανοίξει")}>
-                {i.supplierName} · {INVITATION_STATUS_LABELS[i.status] ?? i.status}
-              </span>
-            ))}
+            {r.invitations.map((i) => {
+              const color = INVITATION_STATE_COLORS[i.state];
+              const who = i.recipients.length ? i.recipients.map((x) => `${x.email}${x.openedAt ? ` (άνοιξε ${fmt(x.openedAt)})` : ""}`).join(", ") : "Κανένας παραλήπτης email";
+              const canResend = ["OPEN", "OFFERED"].includes(r.status) && ["SENT", "OPENED", "NO_EMAIL"].includes(i.state);
+              return (
+                <span key={i.supplierId} style={{ ...pill, color, borderColor: `${color}55`, background: `${color}10` }} title={i.declineReason ?? `${who}${i.emailCount ? ` · ${i.emailCount}× email, τελευταίο ${fmt(i.lastEmailAt)}` : ""}`}>
+                  {i.supplierName} · {INVITATION_STATE_LABELS[i.state]}
+                  {canResend && <button type="button" disabled={busy} title="Αποστολή email ξανά" onClick={() => run(() => resendRfqInvitation(i.id))} style={{ border: "none", background: "none", color, cursor: "pointer", padding: 0, display: "inline-flex", marginLeft: 2 }}><RiMailSendLine /></button>}
+                </span>
+              );
+            })}
           </div>
+          {adding === r.id && (
+            <div style={{ marginTop: 10, paddingTop: 10, borderTop: "1px dashed var(--border)", display: "flex", flexDirection: "column", gap: 8 }}>
+              <SupplierPicker candidates={picker.candidates} categories={picker.categories} defaultCategoryId={picker.defaultCategoryId} selected={addSel} onChange={setAddSel} excludeIds={r.invitations.map((i) => i.supplierId)} />
+              <div><button style={btnPrimary} disabled={busy || addSel.size === 0} onClick={async () => { if (await run(() => addRfqSuppliers(r.id, [...addSel]))) { setAdding(null); setAddSel(new Set()); } }}><RiSendPlaneLine /> Αποστολή σε {addSel.size} επιπλέον</button></div>
+            </div>
+          )}
           {r.offers.length > 0 && (
             <div style={{ marginTop: 10, display: "flex", flexDirection: "column", gap: 8 }}>
               {r.offers.map((o) => <OfferRow key={o.id} o={o} rfqStatus={r.status} handledBy={handledBy} defaults={defaults} busy={busy} run={run} alreadyForwarded={workOrders.some((w) => w.status !== "DECLINED" && w.status !== "CANCELLED")} />)}
@@ -68,8 +89,8 @@ export function RfqPanel({ requestId, handledBy, rfqs, workOrders, defaults, sup
         </div>
       ))}
 
-      {active.length === 0 && workOrders.every((w) => ["DECLINED", "CANCELLED", "CONFIRMED"].includes(w.status)) && (
-        <NewRfqForm requestId={requestId} suppliers={suppliers} busy={busy} run={run} />
+      {canCreate && active.length === 0 && workOrders.every((w) => ["DECLINED", "CANCELLED", "CONFIRMED"].includes(w.status)) && (
+        <NewRfqForm requestId={requestId} picker={picker} busy={busy} run={run} />
       )}
     </div>
   );
@@ -156,7 +177,14 @@ function OfferRow({ o, rfqStatus, handledBy, defaults, busy, run, alreadyForward
   );
 }
 
-function NewRfqForm({ requestId, suppliers, busy, run }: { requestId: string; suppliers: { id: string; name: string }[]; busy: boolean; run: (fn: () => Promise<{ error?: string | null } | { id?: string }>) => Promise<boolean> }) {
+/** "Στάλθηκε σε 3 παραλήπτες · χωρίς email: Χ, Υ" after a send. */
+export function sentMessage(res: { sent: number; noEmail?: string[] }, candidates: RfqCandidateDTO[]): string {
+  const names = (res.noEmail ?? []).map((id) => candidates.find((c) => c.id === id)?.name ?? id);
+  const base = res.sent === 0 ? "Δεν στάλθηκε κανένα email." : `Στάλθηκε email σε ${res.sent} παραλήπτ${res.sent === 1 ? "η" : "ες"}.`;
+  return names.length ? `${base} Χωρίς διεύθυνση email: ${names.join(", ")} — προσθέστε επαφή με email στην καρτέλα τους.` : base;
+}
+
+function NewRfqForm({ requestId, picker, busy, run }: { requestId: string; picker: RfqPickerData; busy: boolean; run: (fn: () => Promise<{ error?: string | null } | { id?: string }>) => Promise<boolean> }) {
   const [sel, setSel] = useState<Set<string>>(new Set());
   const [deadline, setDeadline] = useState("");
   const [survey, setSurvey] = useState(false);
@@ -164,15 +192,8 @@ function NewRfqForm({ requestId, suppliers, busy, run }: { requestId: string; su
   return (
     <div style={{ borderTop: "1px dashed var(--border)", paddingTop: 12 }}>
       <div style={{ fontSize: "var(--fs-13)", fontWeight: 700, marginBottom: 6 }}>Νέο αίτημα προσφοράς σε συνεργάτες</div>
-      <p style={{ fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)", margin: "0 0 8px" }}>Η λίστα είναι ταξινομημένη κατά καταλληλότητα. Οι συνεργάτες απαντούν με τιμή και διαθεσιμότητα από το dashboard τους.</p>
-      <div style={{ display: "flex", flexDirection: "column", gap: 4, maxHeight: 220, overflowY: "auto", border: "1px solid var(--border)", borderRadius: 8, padding: 8 }}>
-        {suppliers.length === 0 && <span style={{ fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)" }}>Δεν υπάρχουν ενεργοί συνεργάτες στο μητρώο.</span>}
-        {suppliers.map((s) => (
-          <label key={s.id} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: "var(--fs-13)", cursor: "pointer", padding: "4px 2px" }}>
-            <input type="checkbox" checked={sel.has(s.id)} onChange={(e) => setSel((p) => { const n = new Set(p); if (e.target.checked) n.add(s.id); else n.delete(s.id); return n; })} /> {s.name}
-          </label>
-        ))}
-      </div>
+      <p style={{ fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)", margin: "0 0 8px" }}>Η λίστα είναι ταξινομημένη κατά καταλληλότητα. Κάθε συνεργάτης λαμβάνει email με προσωπικό link (14 ημέρες) και απαντά με τιμή και διαθεσιμότητα.</p>
+      <SupplierPicker candidates={picker.candidates} categories={picker.categories} defaultCategoryId={picker.defaultCategoryId} selected={sel} onChange={setSel} />
       <div style={{ display: "grid", gridTemplateColumns: "220px 1fr", gap: 10, marginTop: 10, alignItems: "end" }}>
         <FormField label="Προθεσμία απάντησης"><FieldInput type="datetime-local" value={deadline} onChange={setDeadline} /></FormField>
         <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: "var(--fs-13)", cursor: "pointer", paddingBottom: 8 }}>
