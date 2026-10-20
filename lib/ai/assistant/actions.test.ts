@@ -82,18 +82,45 @@ describe("review fixes", () => {
   });
 });
 
+/** A tiny in-memory AiActionLog row so the status machine (PROPOSED → EXECUTING → EXECUTED) drives the mocks, not call ordering. */
+function statefulRow(over: Record<string, unknown> = {}) {
+  const row: Record<string, unknown> = proposed(over);
+  m.logFindUnique.mockImplementation(async () => ({ ...row }));
+  m.logUpdateMany.mockImplementation(async ({ where, data }: { where: { id: string; status: string }; data: Record<string, unknown> }) => {
+    if (where.id !== row.id || where.status !== row.status) return { count: 0 };
+    Object.assign(row, data); return { count: 1 };
+  });
+  m.logUpdate.mockImplementation(async ({ data }: { data: Record<string, unknown> }) => { Object.assign(row, data); return { ...row }; });
+  return row;
+}
+
 describe("confirmAction", () => {
-  it("executes exactly once and records the result and a tool message", async () => {
-    m.logFindUnique.mockResolvedValue(proposed());
-    m.logUpdateMany.mockResolvedValueOnce({ count: 1 }).mockResolvedValueOnce({ count: 0 });
+  it("executes exactly once: a second confirm returns the stored result (state machine, not mock ordering)", async () => {
+    const row = statefulRow();
     const r1 = await confirmAction("act1", eff);
     expect(r1).toEqual({ ok: true, message: "Η βλάβη δηλώθηκε.", href: "/portal/requests/r1" });
     expect(tool.execute).toHaveBeenCalledTimes(1);
-    expect(m.logUpdate.mock.calls[0]![0] as object).toMatchObject({ where: { id: "act1" }, data: { status: "EXECUTED" } });
+    expect(row).toMatchObject({ status: "EXECUTED", resultJson: r1 });
     expect(m.msgCreate.mock.calls[0]![0] as object).toMatchObject({ data: { conversationId: "conv1", role: "tool", toolName: "createFaultReport" } });
     const r2 = await confirmAction("act1", eff);
-    expect(r2).toEqual({ ok: false, error: "Η ενέργεια εκτελείται ήδη." });
+    expect(r2).toEqual(r1);
     expect(tool.execute).toHaveBeenCalledTimes(1);
+  });
+  it("lets only one of two concurrent confirms claim the row; the loser is told it is already executing", async () => {
+    statefulRow();
+    const [a, b] = await Promise.all([confirmAction("act1", eff), confirmAction("act1", eff)]);
+    const results = [a, b];
+    expect(results.filter((r) => r.ok)).toHaveLength(1);
+    expect(results.find((r) => !r.ok)).toEqual({ ok: false, error: "Η ενέργεια εκτελείται ήδη." });
+    expect(tool.execute).toHaveBeenCalledTimes(1);
+  });
+  it("keeps the proposer's View-as actor on confirm when the confirmer is not impersonating, and records the confirmer's when they are", async () => {
+    const row = statefulRow({ actorId: "sa-proposer" });
+    await confirmAction("act1", eff);
+    expect(row.actorId).toBe("sa-proposer");
+    const row2 = statefulRow({ actorId: null });
+    await confirmAction("act1", { ...eff, impersonatorId: "sa-confirmer" });
+    expect(row2.actorId).toBe("sa-confirmer");
   });
   it("marks FAILED when the tool reports an error", async () => {
     m.logFindUnique.mockResolvedValue(proposed());
