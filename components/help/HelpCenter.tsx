@@ -1,8 +1,9 @@
 import Link from "next/link";
 import { Markdown } from "@/components/cms/Markdown";
 import { MANUALS, manualForRole, manualsForRole, loadManual, type ManualKey } from "@/lib/help";
-import { getArticle, listArticlesForRole, searchWikiArticles } from "@/lib/help/index";
+import { getArticle, listArticlesForRole, loadWikiIndex, searchWikiArticles } from "@/lib/help/index";
 import { openHref } from "@/lib/help/match";
+import { relatedArticles } from "@/lib/help/hub";
 import { WikiNav } from "./WikiNav";
 import { RiBookOpenLine, RiQuestionLine, RiPhoneLine, RiSearchLine, RiExternalLinkLine, RiCompass3Line } from "react-icons/ri";
 
@@ -23,6 +24,7 @@ export async function HelpCenter({ role, base, requested, article, q, firstBuild
     !article && !query ? loadManual(key) : Promise.resolve(""),
   ]);
   const mode: "search" | "article" | "manual" = query ? "search" : article ? "article" : "manual";
+  const related = picked?.meta.related.length ? relatedArticles(await loadWikiIndex(), picked.meta.related, role) : [];
 
   return (
     <div className="dash-page" style={{ display: "grid", gridTemplateColumns: "260px minmax(0, 1fr)", gap: 20, alignItems: "start" }}>
@@ -96,11 +98,11 @@ export async function HelpCenter({ role, base, requested, article, q, firstBuild
               <Link href={openHref(picked.meta.route, firstBuildingId)} style={btn}><RiExternalLinkLine /> Άνοιγμα σελίδας</Link>
             </div>
             <Markdown>{picked.markdown}</Markdown>
-            {picked.meta.related.length > 0 && (
+            {related.length > 0 && (
               <div style={{ marginTop: 20, paddingTop: 14, borderTop: "1px solid var(--border)" }}>
                 <div style={{ fontSize: "var(--fs-12)", fontWeight: 700, color: "var(--muted-foreground)", marginBottom: 8 }}>ΣΧΕΤΙΚΟΙ ΟΔΗΓΟΙ</div>
                 <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-                  {picked.meta.related.map((slug) => <Link key={slug} href={`${base}?a=${encodeURIComponent(slug)}`} style={btnGhost}>{slug}</Link>)}
+                  {related.map((r) => <Link key={r.slug} href={`${base}?a=${encodeURIComponent(r.slug)}`} style={btnGhost}>{r.title}</Link>)}
                 </div>
               </div>
             )}

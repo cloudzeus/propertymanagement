@@ -24,3 +24,13 @@ export function groupArticlesByArea(articles: WikiArticleMeta[], role: string): 
     .filter((area) => byArea.has(area))
     .map((area) => ({ area, label: AREA_LABELS[area] ?? area, articles: byArea.get(area)!.sort((x, y) => x.title.localeCompare(y.title, "el")) }));
 }
+
+/** Related slugs → `{ slug, title }` in the article's order, skipping unknown slugs and articles the role may not read. */
+export function relatedArticles(articles: WikiArticleMeta[], slugs: string[], role: string): { slug: string; title: string }[] {
+  const out: { slug: string; title: string }[] = [];
+  for (const slug of slugs) {
+    const a = articles.find((x) => x.slug === slug);
+    if (a && roleAllowed(a.roles, role)) out.push({ slug: a.slug, title: a.title });
+  }
+  return out;
+}

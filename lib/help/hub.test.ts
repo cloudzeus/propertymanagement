@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { hubHrefForRole, groupArticlesByArea } from "./hub";
+import { hubHrefForRole, groupArticlesByArea, relatedArticles } from "./hub";
 import type { WikiArticleMeta } from "./types";
 
 const art = (route: string, area: string, title: string, roles: string[] = []): WikiArticleMeta => ({
@@ -32,5 +32,13 @@ describe("groupArticlesByArea", () => {
   it("drops articles the role may not read", () => {
     const g = groupArticlesByArea(articles, "EMPLOYEE");
     expect(g.find((x) => x.area === "operations")!.articles.map((a) => a.title)).toEqual(["Ανακοινώσεις"]);
+  });
+});
+
+describe("relatedArticles", () => {
+  const articles = [art("/admin", "core", "Αρχική"), art("/admin/maintenance", "operations", "Βλάβες", ["ADMIN"]), art("/admin/costs", "financials", "Κόστη")];
+  it("resolves related slugs to titles in the given order, dropping unknown slugs and articles the role may not read", () => {
+    expect(relatedArticles(articles, ["admin-costs", "admin-maintenance", "nope", "admin"], "EMPLOYEE")).toEqual([{ slug: "admin-costs", title: "Κόστη" }, { slug: "admin", title: "Αρχική" }]);
+    expect(relatedArticles(articles, ["admin-maintenance"], "ADMIN")).toEqual([{ slug: "admin-maintenance", title: "Βλάβες" }]);
   });
 });
