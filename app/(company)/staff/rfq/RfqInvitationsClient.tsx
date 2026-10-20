@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { DataTable, type ColDef, type RowAction } from "@/components/ui/data-table";
 import { Modal, FormField, FieldInput, FieldSelect, FieldTextarea } from "@/components/ui/modal";
-import { SupplierPicker } from "@/components/suppliers/SupplierPicker";
+import { RfqSupplierPicker } from "@/components/suppliers/RfqSupplierPicker";
 import { sentMessage, type RfqPickerData } from "@/components/maintenance/rfq-panel";
 import { createRfq, cancelRfq, resendRfqInvitation, addRfqSuppliers, loadRfqCandidatesAction } from "@/app/actions/rfq";
 import { INVITATION_STATE_LABELS, INVITATION_STATE_COLORS, RFQ_STATUS_LABELS, OFFER_STATUS_LABELS, eur, type RfqInvitationRowDTO, type InvitationState } from "@/lib/rfq-shared";
@@ -164,7 +164,7 @@ function NewRfqModal({ faults, onClose, onDone }: { faults: Fault[]; onClose: ()
         {picker && (
           <>
             <FormField label="Συνεργάτες" required hint="Ταξινομημένοι κατά καταλληλότητα· κάθε παραλήπτης λαμβάνει email με προσωπικό link 14 ημερών.">
-              <SupplierPicker candidates={picker.candidates} categories={picker.categories} defaultCategoryId={picker.defaultCategoryId} selected={sel} onChange={setSel} />
+              <RfqSupplierPicker candidates={picker.candidates} categories={picker.categories} defaultCategoryId={picker.defaultCategoryId} selected={sel} onChange={setSel} />
             </FormField>
             <div style={{ display: "grid", gridTemplateColumns: "220px 1fr", gap: 10, alignItems: "end" }}>
               <FormField label="Προθεσμία απάντησης"><FieldInput type="datetime-local" value={deadline} onChange={setDeadline} /></FormField>
@@ -205,7 +205,7 @@ function AddSuppliersModal({ row, invitedIds, onClose, onDone }: { row: RfqInvit
         <button onClick={send} disabled={busy || sel.size === 0} style={saveBtn}>{busy ? <RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> : <RiCheckLine />} Αποστολή σε {sel.size} επιπλέον</button>
       </>}>
       {error && <div role="alert" style={errBox}>{error}</div>}
-      {picker ? <SupplierPicker candidates={picker.candidates} categories={picker.categories} defaultCategoryId={picker.defaultCategoryId} selected={sel} onChange={setSel} excludeIds={invitedIds} /> : <div style={{ fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)" }}>Φόρτωση συνεργατών…</div>}
+      {picker ? <RfqSupplierPicker candidates={picker.candidates} categories={picker.categories} defaultCategoryId={picker.defaultCategoryId} selected={sel} onChange={setSel} excludeIds={invitedIds} /> : <div style={{ fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)" }}>Φόρτωση συνεργατών…</div>}
     </Modal>
   );
 }

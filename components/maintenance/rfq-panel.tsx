@@ -9,7 +9,7 @@ import {
   RFQ_STATUS_LABELS, INVITATION_STATE_LABELS, INVITATION_STATE_COLORS, OFFER_STATUS_LABELS, WO_STATUS_LABELS, WO_STATUS_COLORS, eur, applyMarkup, withVat,
   type RfqDTO, type OfferDTO, type WorkOrderDTO, type RfqCandidateDTO,
 } from "@/lib/rfq-shared";
-import { SupplierPicker } from "@/components/suppliers/SupplierPicker";
+import { RfqSupplierPicker } from "@/components/suppliers/RfqSupplierPicker";
 import { RiMoneyEuroCircleLine, RiSendPlaneLine, RiFileTextLine, RiCalendarCheckLine, RiCloseLine, RiStarFill, RiMailSendLine, RiUserAddLine } from "react-icons/ri";
 
 const fmt = (iso: string | null) => (iso ? new Date(iso).toLocaleString("el-GR", { dateStyle: "short", timeStyle: "short" }) : "—");
@@ -76,7 +76,7 @@ export function RfqPanel({ requestId, handledBy, rfqs, workOrders, defaults, pic
           </div>
           {adding === r.id && (
             <div style={{ marginTop: 10, paddingTop: 10, borderTop: "1px dashed var(--border)", display: "flex", flexDirection: "column", gap: 8 }}>
-              <SupplierPicker candidates={picker.candidates} categories={picker.categories} defaultCategoryId={picker.defaultCategoryId} selected={addSel} onChange={setAddSel} excludeIds={r.invitations.map((i) => i.supplierId)} />
+              <RfqSupplierPicker candidates={picker.candidates} categories={picker.categories} defaultCategoryId={picker.defaultCategoryId} selected={addSel} onChange={setAddSel} excludeIds={r.invitations.map((i) => i.supplierId)} />
               <div><button style={btnPrimary} disabled={busy || addSel.size === 0} onClick={async () => { if (await run(() => addRfqSuppliers(r.id, [...addSel]))) { setAdding(null); setAddSel(new Set()); } }}><RiSendPlaneLine /> Αποστολή σε {addSel.size} επιπλέον</button></div>
             </div>
           )}
@@ -193,7 +193,7 @@ function NewRfqForm({ requestId, picker, busy, run }: { requestId: string; picke
     <div style={{ borderTop: "1px dashed var(--border)", paddingTop: 12 }}>
       <div style={{ fontSize: "var(--fs-13)", fontWeight: 700, marginBottom: 6 }}>Νέο αίτημα προσφοράς σε συνεργάτες</div>
       <p style={{ fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)", margin: "0 0 8px" }}>Η λίστα είναι ταξινομημένη κατά καταλληλότητα. Κάθε συνεργάτης λαμβάνει email με προσωπικό link (14 ημέρες) και απαντά με τιμή και διαθεσιμότητα.</p>
-      <SupplierPicker candidates={picker.candidates} categories={picker.categories} defaultCategoryId={picker.defaultCategoryId} selected={sel} onChange={setSel} />
+      <RfqSupplierPicker candidates={picker.candidates} categories={picker.categories} defaultCategoryId={picker.defaultCategoryId} selected={sel} onChange={setSel} />
       <div style={{ display: "grid", gridTemplateColumns: "220px 1fr", gap: 10, marginTop: 10, alignItems: "end" }}>
         <FormField label="Προθεσμία απάντησης"><FieldInput type="datetime-local" value={deadline} onChange={setDeadline} /></FormField>
         <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: "var(--fs-13)", cursor: "pointer", paddingBottom: 8 }}>
