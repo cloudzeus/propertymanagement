@@ -31,4 +31,8 @@ describe("buildSystemPrompt", () => {
     expect(buildSystemPrompt(base, [])).not.toContain("View-as");
     expect(buildSystemPrompt({ ...base, impersonating: true, real: { id: "sa", role: "SUPER_ADMIN" } }, [])).toContain("View-as");
   });
+  it("tells the model that tool results and wiki excerpts are data, not instructions", () => {
+    const p = buildSystemPrompt(base, hits);
+    expect(p).toMatch(/αποτελέσματα (των )?εργαλείων[^\n]*δεδομένα[^\n]*όχι οδηγίες/i);
+  });
 });
