@@ -74,7 +74,7 @@ export const DEFAULT_TEMPLATES: Record<ContractKey, { title: string; body: strin
 Ο Συνεργάτης δεν επικοινωνεί οικονομικούς όρους με τον τελικό πελάτη ούτε συμβάλλεται απευθείας μαζί του για το ίδιο αντικείμενο.
 
 ## 7. Αποδοχή
-Η σύμβαση συνάπτεται με την ηλεκτρονική αποδοχή της ανάθεσης από τον διαχειριστή του Συνεργάτη μέσα από την πλατφόρμα.
+Η σύμβαση συνάπτεται με την ηλεκτρονική αποδοχή της ανάθεσης από τον διαχειριστή του Συνεργάτη μέσα από την πλατφόρμα. Καταγράφονται ο υπογράφων ({{supplier.signatory}}), ημερομηνία/ώρα και διεύθυνση IP.
 
 {{acceptance_block}}`,
   },
@@ -115,7 +115,7 @@ export async function renderContract(key: ContractKey, woId: string): Promise<{ 
     getTemplate(key),
     db.workOrder.findUnique({
       where: { id: woId },
-      include: { building: { select: { name: true, address: true, city: true } }, customer: { select: { name: true, afm: true } }, supplier: { select: { name: true, afm: true, doy: true, paymentTermsDays: true } } },
+      include: { building: { select: { name: true, address: true, city: true } }, customer: { select: { name: true, afm: true } }, supplier: { select: { name: true, afm: true, doy: true, paymentTermsDays: true, email: true } } },
     }),
     db.company.findFirst({ orderBy: { createdAt: "asc" }, select: { name: true, afm: true } }),
     db.appSettings.findUnique({ where: { id: "singleton" }, select: { silentAcceptDays: true, warrantyMonths: true } }),
@@ -126,7 +126,9 @@ export async function renderContract(key: ContractKey, woId: string): Promise<{ 
   const survey = wo.surveyFee != null ? Number(wo.surveyFee) : null;
   const acceptedLine = key === "WO_CUSTOMER"
     ? (wo.customerAcceptedAt ? `**Αποδοχή Πελάτη:** ${fmtDT(wo.customerAcceptedAt)} · IP ${wo.customerAcceptedIp ?? "—"}` : "_Εκκρεμεί αποδοχή από τον Πελάτη._")
-    : (wo.supplierAcceptedAt ? `**Αποδοχή Συνεργάτη:** ${fmtDT(wo.supplierAcceptedAt)}` : "_Εκκρεμεί αποδοχή από τον Συνεργάτη._");
+    : (wo.supplierAcceptedAt
+        ? `**Αποδοχή Συνεργάτη:** ${wo.supplierAcceptedName ?? wo.supplier.name} · ${fmtDT(wo.supplierAcceptedAt)}${wo.supplierAcceptedIp ? ` · IP ${wo.supplierAcceptedIp}` : ""}`
+        : "_Εκκρεμεί αποδοχή από τον Συνεργάτη._");
   const vars: Record<string, string> = {
     "wo.number": wo.number,
     "wo.description": wo.description,
@@ -141,6 +143,7 @@ export async function renderContract(key: ContractKey, woId: string): Promise<{ 
     "supplier.afm": wo.supplier.afm ?? "—",
     "supplier.doy": wo.supplier.doy ?? "—",
     "supplier.paymentTermsDays": String(wo.supplier.paymentTermsDays ?? 30),
+    "supplier.signatory": wo.supplierAcceptedName ?? "—",
     "building.name": wo.building.name,
     "building.address": [wo.building.address, wo.building.city].filter(Boolean).join(", ") || "—",
     "price.net": wo.covered && key === "WO_CUSTOMER" ? "0,00 € (καλύπτεται από τη σύμβαση διαχείρισης)" : eur(net),

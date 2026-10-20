@@ -13,6 +13,10 @@ import { STATUS_TRANSITIONS, type FaultStatus } from "@/lib/maintenance-shared";
 import { COMPANY_ROLES } from "@/lib/roles-constants";
 import { sendRfqInvitations } from "@/lib/rfq-send";
 import { listRfqCandidates } from "@/lib/rfq-candidates";
+import { sendBrandedEmail } from "@/lib/mailgun";
+import { getEmailBrand } from "@/lib/email-brand";
+import { contractSignedStaffEmail, contractSignedSupplierEmail } from "@/lib/emails/supplier-invites";
+import { absoluteUrl } from "@/lib/email-template";
 
 /* ------------------------------------------------------------------ */
 /* Actors                                                              */
@@ -306,15 +310,42 @@ async function requireSupplierWo(woId: string, a: Awaited<ReturnType<typeof acto
   return wo;
 }
 
-export async function supplierAcceptWorkOrder(woId: string) {
+export type SupplierAcceptInput = { signatoryName: string; agreed: boolean };
+
+/**
+ * Electronic acceptance of contract B by the supplier's admin: typed full name +
+ * explicit consent; time, IP and user agent are recorded and frozen into the
+ * contract copy. The company is notified in-app and by e-mail; the signatory
+ * gets a link to the final copy.
+ */
+export async function supplierAcceptWorkOrder(woId: string, input: SupplierAcceptInput) {
   try {
     const a = await actor();
     const wo = await requireSupplierWo(woId, a);
     if (!a.isSupplierAdmin) return { error: "Μόνο ο διαχειριστής του συνεργάτη αποδέχεται αναθέσεις" };
     if (wo.supplierAcceptedAt) return { ok: true };
     if (wo.status !== "ACCEPTED") return { error: "Η ανάθεση δεν είναι ακόμη αποδεκτή από τον πελάτη" };
-    await db.workOrder.update({ where: { id: woId }, data: { supplierAcceptedAt: new Date(), supplierAcceptedById: a.id, supplierContractHtml: (await renderContract("WO_SUPPLIER", woId)).html } });
-    await notifyUsers(await companyStaffIds(), { type: "WORK_ORDER", title: `Ο συνεργάτης αποδέχθηκε την ανάθεση ${wo.number}`, href: wo.maintenanceRequestId ? `/admin/maintenance/${wo.maintenanceRequestId}` : "/admin/work-orders", requestId: wo.maintenanceRequestId });
+    const signatoryName = clean(input?.signatoryName);
+    if (!signatoryName || signatoryName.length < 3) return { error: "Γράψτε το ονοματεπώνυμο του υπογράφοντα" };
+    if (!input?.agreed) return { error: "Επιβεβαιώστε ότι διαβάσατε και αποδέχεστε τους όρους" };
+    const h = await headers();
+    const ip = (h.get("x-forwarded-for") ?? h.get("x-real-ip") ?? "").split(",")[0].trim() || null;
+    const ua = h.get("user-agent");
+    await db.workOrder.update({ where: { id: woId }, data: { supplierAcceptedAt: new Date(), supplierAcceptedById: a.id, supplierAcceptedIp: ip, supplierAcceptedUa: ua, supplierAcceptedName: signatoryName } });
+    // freeze with the acceptance block filled in
+    await db.workOrder.update({ where: { id: woId }, data: { supplierContractHtml: (await renderContract("WO_SUPPLIER", woId)).html } });
+    await notifyUsers(await companyStaffIds(), { type: "WORK_ORDER", title: `Ο συνεργάτης υπέγραψε τη σύμβαση ${wo.number}-B`, body: `Υπογράφων: ${signatoryName}`, href: `/admin/work-orders/${woId}/contract/supplier`, requestId: wo.maintenanceRequestId });
+    void (async () => {
+      const [brand, sup, staff, me] = await Promise.all([
+        getEmailBrand(),
+        db.supplier.findUnique({ where: { id: a.supplierId! }, select: { name: true } }),
+        db.user.findMany({ where: { id: { in: await companyStaffIds() } }, select: { email: true } }),
+        db.user.findUnique({ where: { id: a.id }, select: { email: true } }),
+      ]);
+      const staffMail = contractSignedStaffEmail({ brand, woNumber: wo.number, title: wo.title, supplierName: sup?.name ?? "", signatory: signatoryName, url: absoluteUrl(`/admin/work-orders/${woId}/contract/supplier`, brand) });
+      await Promise.allSettled(staff.filter((u) => u.email).map((u) => sendBrandedEmail(u.email, staffMail, ["contract-signed"])));
+      if (me?.email) await sendBrandedEmail(me.email, contractSignedSupplierEmail({ brand, woNumber: wo.number, title: wo.title, signatory: signatoryName, url: absoluteUrl(`/marketplace/work-orders/${woId}/contract`, brand) }), ["contract-signed"]);
+    })().catch((e) => console.error("[contract] signed e-mails failed", e));
     revalidate(wo.maintenanceRequestId, wo.buildingId);
     return { ok: true };
   } catch (e) { return { error: (e as Error).message }; }

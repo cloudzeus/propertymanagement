@@ -120,7 +120,7 @@ export async function listSupplierWorkOrders(supplierId: string) {
   return rows.map((w) => ({
     id: w.id, number: w.number, status: w.status, title: w.title, description: w.description,
     supplierPrice: Number(w.supplierPrice), vatPct: w.vatPct, surveyFee: num(w.surveyFee), surveyWaived: w.surveyWaived, warrantyMonths: w.warrantyMonths,
-    earliestDate: iso(w.earliestDate), scheduledAt: iso(w.scheduledAt), supplierAcceptedAt: iso(w.supplierAcceptedAt), completedAt: iso(w.completedAt), completionNote: w.completionNote,
+    earliestDate: iso(w.earliestDate), scheduledAt: iso(w.scheduledAt), supplierAcceptedAt: iso(w.supplierAcceptedAt), supplierAcceptedName: w.supplierAcceptedName, completedAt: iso(w.completedAt), completionNote: w.completionNote,
     completionMedia: (w.completionMediaIds as { url: string; kind: string }[] | null) ?? [], customerConfirmedAt: iso(w.customerConfirmedAt), disputeNote: w.disputeNote,
     building: place(w.building.name, w.building.address, w.building.city), maintenanceRequestId: w.maintenanceRequestId, createdAt: w.createdAt.toISOString(),
   }));

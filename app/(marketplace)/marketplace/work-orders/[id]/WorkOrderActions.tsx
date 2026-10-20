@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FormField, FieldInput, FieldTextarea } from "@/components/ui/modal";
-import { supplierAcceptWorkOrder, scheduleWorkOrder, startWorkOrder, completeWorkOrder } from "@/app/actions/rfq";
+import { scheduleWorkOrder, startWorkOrder, completeWorkOrder } from "@/app/actions/rfq";
 import { WO_STATUS_LABELS, WO_STATUS_COLORS, eur, withVat } from "@/lib/rfq-shared";
 import type { SupplierWorkOrderDTO } from "@/lib/rfq";
 import { RiFileTextLine, RiCheckLine, RiCalendarCheckLine, RiPlayLine, RiCameraLine, RiImageAddLine, RiCloseLine, RiLoaderLine, RiAlertLine, RiThumbUpLine, RiMapPin2Line } from "react-icons/ri";
@@ -57,6 +57,7 @@ export function WorkOrderActions({ wo, isAdmin }: { wo: SupplierWorkOrderDTO; is
           <span>Τιμή σας: <b style={{ color: "var(--foreground)" }}>{eur(wo.supplierPrice)}</b> + ΦΠΑ {wo.vatPct}% = {eur(withVat(wo.supplierPrice, wo.vatPct))}</span>
           {wo.warrantyMonths != null && <span>Εγγύηση {wo.warrantyMonths} μήνες</span>}
           {wo.scheduledAt && <span><RiCalendarCheckLine style={{ verticalAlign: "-2px" }} /> Ραντεβού {fmt(wo.scheduledAt)}</span>}
+          {wo.supplierAcceptedAt && <span>Υπογράφηκε {fmt(wo.supplierAcceptedAt)}{wo.supplierAcceptedName ? ` από ${wo.supplierAcceptedName}` : ""}</span>}
         </div>
         <p style={{ fontSize: "var(--fs-14)", marginTop: 12, whiteSpace: "pre-wrap" }}>{wo.description}</p>
         {wo.maintenanceRequestId && <Link href={`/marketplace/requests/${wo.maintenanceRequestId}`} style={{ fontSize: "var(--fs-12-5)", color: "var(--color-primary)" }}>Άνοιγμα της βλάβης (φωτογραφίες, επικοινωνία, ραντεβού πρόσβασης)</Link>}
@@ -68,8 +69,8 @@ export function WorkOrderActions({ wo, isAdmin }: { wo: SupplierWorkOrderDTO; is
       {wo.status === "ACCEPTED" && !wo.supplierAcceptedAt && (
         <div style={card}>
           <div style={h3}><RiCheckLine /> Αποδοχή ανάθεσης</div>
-          <p style={{ fontSize: "var(--fs-13-5)", margin: "0 0 10px" }}>Ο πελάτης αποδέχθηκε την προσφορά σας. Διαβάστε τη <Link href={`/marketplace/work-orders/${wo.id}/contract`}>σύμβαση Β</Link> και αποδεχθείτε την ανάθεση για να ξεκινήσει ο προγραμματισμός.</p>
-          {isAdmin ? <button disabled={busy} style={btnPrimary} onClick={() => run(() => supplierAcceptWorkOrder(wo.id))}><RiCheckLine /> Αποδέχομαι την ανάθεση και τους όρους</button> : <p style={{ fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)", margin: 0 }}>Μόνο ο διαχειριστής της επιχείρησής σας μπορεί να αποδεχθεί.</p>}
+          <p style={{ fontSize: "var(--fs-13-5)", margin: "0 0 10px" }}>Ο πελάτης αποδέχθηκε την προσφορά σας. Διαβάστε τη σύμβαση Β και υπογράψτε την ηλεκτρονικά (ονοματεπώνυμο + αποδοχή όρων· καταγράφονται ώρα και IP) για να ξεκινήσει ο προγραμματισμός.</p>
+          {isAdmin ? <Link href={`/marketplace/work-orders/${wo.id}/contract`} style={{ ...btnPrimary, textDecoration: "none" }}><RiFileTextLine /> Ανάγνωση & υπογραφή σύμβασης Β</Link> : <p style={{ fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)", margin: 0 }}>Μόνο ο διαχειριστής της επιχείρησής σας μπορεί να υπογράψει.</p>}
         </div>
       )}
 

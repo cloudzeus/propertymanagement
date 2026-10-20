@@ -7,7 +7,7 @@ import { saveOfferSettings, saveContractTemplate } from "@/app/actions/rfq";
 import { RiFileTextLine, RiCheckLine, RiLoaderLine, RiPercentLine } from "react-icons/ri";
 
 type Tpl = { title: string; body: string; version: number };
-const PLACEHOLDERS = ["wo.number", "wo.description", "wo.earliestDate", "wo.validUntil", "wo.warrantyMonths", "company.name", "company.afm", "customer.name", "customer.afm", "supplier.name", "supplier.afm", "supplier.doy", "supplier.paymentTermsDays", "building.name", "building.address", "price.net", "price.gross", "price.vatPct", "supplierPrice.net", "supplierPrice.gross", "silentDays", "covered_clause", "survey_clause", "acceptance_block"];
+const PLACEHOLDERS = ["wo.number", "wo.description", "wo.earliestDate", "wo.validUntil", "wo.warrantyMonths", "company.name", "company.afm", "customer.name", "customer.afm", "supplier.name", "supplier.afm", "supplier.doy", "supplier.paymentTermsDays", "supplier.signatory", "building.name", "building.address", "price.net", "price.gross", "price.vatPct", "supplierPrice.net", "supplierPrice.gross", "silentDays", "covered_clause", "survey_clause", "acceptance_block"];
 
 export function ContractsSettingsClient({ settings, templates }: { settings: { offerMarkupPct: number; warrantyMonths: number; silentAcceptDays: number }; templates: Record<"WO_CUSTOMER" | "WO_SUPPLIER", Tpl> }) {
   const router = useRouter();
