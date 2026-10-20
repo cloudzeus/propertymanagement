@@ -110,11 +110,11 @@ describe("runAssistantTurn", () => {
     expect(ev.at(-1)).toEqual({ type: "done" });
   });
   it("treats a cancelled stream (client went away) like an abort", async () => {
-    let cancel: (() => void) | undefined;
-    m.streamChat.mockImplementationOnce(async (o: { onToken?: (t: string) => void }) => { cancel?.(); return reply("", [{ id: "c1", name: "listFaults", args: "{}" }])(o); });
+    const client: { cancel?: () => void } = {};
+    m.streamChat.mockImplementationOnce(async (o: { onToken?: (t: string) => void }) => { client.cancel?.(); return reply("", [{ id: "c1", name: "listFaults", args: "{}" }])(o); });
     const stream = runAssistantTurn({ eff, ctx, conversationId: "c1", userText: "x" });
     const reader = stream.getReader();
-    cancel = () => { void reader.cancel(); };
+    client.cancel = () => { void reader.cancel(); };
     for (;;) { const { done } = await reader.read(); if (done) break; }
     await new Promise((r) => setTimeout(r, 10));
     expect(m.streamChat).toHaveBeenCalledTimes(1);
