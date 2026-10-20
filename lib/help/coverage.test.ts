@@ -55,4 +55,11 @@ describe("wiki coverage", () => {
     const broken = arts.flatMap((a) => (a.meta?.related ?? []).filter((r) => !slugs.has(r) && !r.startsWith("manual-")).map((r) => `${a.file}: ${r}`));
     expect(broken, `Broken related links: ${broken.join(", ")}`).toEqual([]);
   });
+  it("the occupant section of the building guide names every occupant tab (mirrors OccupantBuildingShell)", () => {
+    const md = readFileSync(path.join(PAGES, "building-detail.md"), "utf8");
+    const section = md.split(/^## Ως ιδιοκτήτης ή ένοικος\s*$/m)[1]?.split(/^## /m)[0] ?? "";
+    const tabs = ["Επισκόπηση", "Κοινόχρηστα", "Έξοδα", "Μονάδες", "Εγκαταστάσεις", "Συντηρήσεις", "Μετρητές", "Διαχ. στοιχεία", "Συνελεύσεις", "Έγγραφα", "Επαφές", "Ανακοινώσεις"];
+    const missing = tabs.filter((t) => !section.includes(`«${t}»`));
+    expect(missing, `Occupant tabs missing from building-detail.md: ${missing.join(", ")}`).toEqual([]);
+  });
 });
