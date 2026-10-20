@@ -2,7 +2,8 @@ import { env } from "@/lib/env";
 import { logAPIUsage } from "@/lib/api-costs";
 import type { AgentTool } from "@/lib/ai/agents";
 
-export type AgentMessage = { role: "system" | "user" | "assistant" | "tool"; content: string; tool_call_id?: string };
+export type AgentToolCall = { id: string; type: "function"; function: { name: string; arguments: string } };
+export type AgentMessage = { role: "system" | "user" | "assistant" | "tool"; content: string; tool_call_id?: string; tool_calls?: AgentToolCall[] };
 
 const ENDPOINT = "https://api.deepseek.com/v1/chat/completions";
 

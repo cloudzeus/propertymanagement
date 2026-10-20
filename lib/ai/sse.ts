@@ -1,6 +1,11 @@
+import type { ConfirmCard } from "@/lib/ai/assistant/actions-core";
+
 export type AgentEvent =
   | { type: "token"; delta: string }
   | { type: "tool"; id: string; name?: string; argsDelta: string }
+  | { type: "tool_status"; name: string; label: string; state: "running" | "done" | "error" }
+  | { type: "confirm"; card: ConfirmCard }
+  | { type: "meta"; conversationId: string; messageId: string }
   | { type: "done" }
   | { type: "error"; message: string };
 
@@ -39,10 +44,13 @@ export function parseAgentSse(chunk: string, state: SseState): { events: AgentEv
       else if (line.startsWith("data:")) dataRaw += line.slice(5).trim();
     }
     if (!ev) continue;
-    let data: any = {};
+    let data: Record<string, unknown> = {};
     if (dataRaw) { try { data = JSON.parse(dataRaw); } catch { continue; } }
     if (ev === "token") events.push({ type: "token", delta: String(data.delta ?? "") });
-    else if (ev === "tool") events.push({ type: "tool", id: String(data.id ?? ""), name: data.name, argsDelta: String(data.argsDelta ?? "") });
+    else if (ev === "tool") events.push({ type: "tool", id: String(data.id ?? ""), name: typeof data.name === "string" ? data.name : undefined, argsDelta: String(data.argsDelta ?? "") });
+    else if (ev === "tool_status") events.push({ type: "tool_status", name: String(data.name ?? ""), label: String(data.label ?? ""), state: (data.state === "done" || data.state === "error" ? data.state : "running") });
+    else if (ev === "confirm" && data.card) events.push({ type: "confirm", card: data.card as ConfirmCard });
+    else if (ev === "meta") events.push({ type: "meta", conversationId: String(data.conversationId ?? ""), messageId: String(data.messageId ?? "") });
     else if (ev === "done") events.push({ type: "done" });
     else if (ev === "error") events.push({ type: "error", message: String(data.message ?? "error") });
   }

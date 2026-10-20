@@ -47,3 +47,18 @@ describe("parseAgentSse", () => {
     expect(events).toEqual([{ type: "error", message: "boom" }]);
   });
 });
+
+describe("assistant events", () => {
+  it("parses tool_status, confirm and meta events", () => {
+    const text =
+      'event: tool_status\ndata: {"name":"listFaults","label":"Βλάβες","state":"running"}\n\n' +
+      'event: confirm\ndata: {"card":{"actionId":"a1","tool":"createFaultReport","title":"Δήλωση βλάβης","summaryLines":["x"],"warnings":[]}}\n\n' +
+      'event: meta\ndata: {"conversationId":"c1","messageId":"m1"}\n\n';
+    const { events } = parseAgentSse(text, fresh());
+    expect(events).toEqual([
+      { type: "tool_status", name: "listFaults", label: "Βλάβες", state: "running" },
+      { type: "confirm", card: { actionId: "a1", tool: "createFaultReport", title: "Δήλωση βλάβης", summaryLines: ["x"], warnings: [] } },
+      { type: "meta", conversationId: "c1", messageId: "m1" },
+    ]);
+  });
+});
