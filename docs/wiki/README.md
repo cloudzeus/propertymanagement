@@ -35,3 +35,33 @@
 - Χωρίς τεχνικούς όρους. Αν χρειάζεται ένας, εξηγείται σε παρένθεση την πρώτη φορά.
 
 - [Εκτυπωτικά (print system)](design/print.md)
+
+## Οδηγοί ανά σελίδα (`pages/`) — τροφοδοτούν το κουμπί «?» και τον βοηθό AI
+
+Κάθε σελίδα της εφαρμογής έχει **ένα** αρχείο `pages/<slug>.md` (slug = η διαδρομή με `-`, τα δυναμικά τμήματα
+`[id]`→`detail`, π.χ. `/admin/maintenance/[id]` → `admin-maintenance-detail.md`). Το test
+`lib/help/coverage.test.ts` αποτυγχάνει αν λείπει οδηγός για κάποια σελίδα ή αν ένας οδηγός δείχνει σε σελίδα που δεν υπάρχει.
+
+```md
+---
+title: Βλάβες & συντηρήσεις
+route: /admin/maintenance            # pattern· [id] για δυναμικά τμήματα
+roles: [SUPER_ADMIN, ADMIN]          # κενό [] = όλοι οι ρόλοι
+area: operations                     # core | management | operations | financials | settings | cms | assets | services | business | tasks
+summary: Μία πρόταση για τη λίστα και την αναζήτηση.
+prompts: ["Ποιες βλάβες είναι ανοιχτές;", "Δήλωσε βλάβη στο Χ"]   # προτεινόμενες ερωτήσεις στον βοηθό
+related: [admin-maintenance-detail]  # άλλα slugs
+---
+## Τι βλέπετε εδώ
+## Βήμα-βήμα
+:::roles PROPERTY_ADMIN
+(κείμενο που βλέπουν μόνο οι ρόλοι της λίστας)
+:::
+## Συχνές ερωτήσεις
+```
+
+- Το κουμπί «?» κάτω δεξιά βρίσκει τον οδηγό από τη διαδρομή (`lib/help/match.ts`), φιλτράρει τα `:::roles` και τον δείχνει σε drawer.
+- Ο κόμβος (`/staff/help`, `/portal/help`, `/marketplace/help`, ή `/help`) έχει αναζήτηση (`?q=`) και «Άνοιγμα σελίδας».
+- Ο βοηθός AI διαβάζει τους οδηγούς από τον πίνακα `WikiChunk`. Μετά από αλλαγές: «Επανευρετηρίαση wiki» στο
+  `/super-admin/ai-tools` ή `npx tsx --env-file=.env scripts/index-wiki.ts` (ενημερώνονται μόνο τα αλλαγμένα αποσπάσματα·
+  χωρίς κλειδί Gemini αποθηκεύονται χωρίς embeddings και η αναζήτηση γίνεται με λέξεις-κλειδιά).
