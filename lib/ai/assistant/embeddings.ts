@@ -16,8 +16,8 @@ export async function embedTexts(texts: string[], taskType: EmbedTaskType, meta:
   for (let i = 0; i < texts.length; i += BATCH) {
     const slice = texts.slice(i, i + BATCH);
     const approxTokens = Math.ceil(slice.reduce((s, t) => s + t.length, 0) / 4);
-    const res = await fetch(`${URL}?key=${env.GEMINI_API_KEY}`, {
-      method: "POST", headers: { "Content-Type": "application/json" }, cache: "no-store",
+    const res = await fetch(URL, {
+      method: "POST", headers: { "Content-Type": "application/json", "x-goog-api-key": env.GEMINI_API_KEY }, cache: "no-store",
       body: JSON.stringify({ requests: slice.map((text) => ({ model: `models/${EMBEDDING_MODEL}`, content: { parts: [{ text }] }, taskType, outputDimensionality: EMBEDDING_DIMS })) }),
     });
     if (!res.ok) {
