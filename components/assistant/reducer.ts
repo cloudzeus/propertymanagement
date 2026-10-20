@@ -13,6 +13,7 @@ export type ChatAction =
   | { type: "sse"; assistantId: string; event: AgentEvent }
   | { type: "confirm_result"; actionId: string; result: ExecuteResult }
   | { type: "cancelled"; actionId: string }
+  | { type: "cancel_result"; actionId: string; result: { ok: boolean; error?: string } }
   | { type: "load"; conversationId: string; messages: StoredMessage[] }
   | { type: "reset" }
   | { type: "fail"; message: string };
@@ -51,6 +52,9 @@ export function reduce(s: ChatState, a: ChatAction): ChatState {
       return patchConfirm(s, a.actionId, (c) => (a.result.ok ? { ...c, state: "executed", resultMessage: a.result.message, href: a.result.href } : { ...c, state: "failed", resultMessage: a.result.error }));
     case "cancelled":
       return patchConfirm(s, a.actionId, (c) => ({ ...c, state: "cancelled" }));
+    case "cancel_result":
+      // A refused cancel (expired, already executing, server error) must not leave the card pending nor claim it was cancelled.
+      return patchConfirm(s, a.actionId, (c) => (a.result.ok ? { ...c, state: "cancelled" } : { ...c, state: "failed", resultMessage: a.result.error ?? "Η ακύρωση δεν ολοκληρώθηκε." }));
     case "load":
       return { conversationId: a.conversationId, streaming: false, error: null, messages: a.messages.map((m) => ({ id: m.id, role: (m.role === "user" || m.role === "tool" ? m.role : "assistant") as AssistantMessage["role"], content: m.content, tools: [] })) };
     case "reset":

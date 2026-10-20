@@ -45,4 +45,14 @@ describe("assistant reducer", () => {
     expect(s.messages.map((m) => m.role)).toEqual(["user", "tool"]);
     expect(reduce(s, { type: "reset" })).toEqual(initialState);
   });
+  it("marks the card failed (not cancelled, not pending) when cancelling fails, and cancelled when it succeeds", () => {
+    let s: ChatState = reduce(initialState, { type: "start_turn", userText: "x", assistantId: "x1" });
+    s = reduce(s, { type: "sse", assistantId: "x1", event: { type: "confirm", card } });
+    const bad = reduce(s, { type: "cancel_result", actionId: "a1", result: { ok: false, error: "Η πρόταση έληξε" } });
+    expect(bad.messages[1].confirm).toMatchObject({ state: "failed", resultMessage: "Η πρόταση έληξε" });
+    const ok = reduce(s, { type: "cancel_result", actionId: "a1", result: { ok: true } });
+    expect(ok.messages[1].confirm?.state).toBe("cancelled");
+    const silent = reduce(s, { type: "cancel_result", actionId: "a1", result: { ok: false } });
+    expect(silent.messages[1].confirm).toMatchObject({ state: "failed", resultMessage: expect.stringMatching(/ακύρωση/i) });
+  });
 });

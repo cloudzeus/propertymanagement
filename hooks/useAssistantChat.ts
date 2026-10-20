@@ -54,14 +54,17 @@ export function useAssistantChat(opts: { page: { path: string; search: string } 
     }
   }, [input, state.streaming, state.conversationId]);
 
+  // A server action that throws (network, session gone) still resolves the card: it must never stay "pending".
   const confirm = useCallback(async (actionId: string) => {
-    const result = await confirmAiAction(actionId);
+    let result: Awaited<ReturnType<typeof confirmAiAction>>;
+    try { result = await confirmAiAction(actionId); } catch (e) { result = { ok: false, error: e instanceof Error ? e.message : "Η ενέργεια δεν ολοκληρώθηκε." }; }
     dispatch({ type: "confirm_result", actionId, result });
   }, []);
 
   const cancel = useCallback(async (actionId: string) => {
-    await cancelAiAction(actionId);
-    dispatch({ type: "cancelled", actionId });
+    let result: Awaited<ReturnType<typeof cancelAiAction>>;
+    try { result = await cancelAiAction(actionId); } catch (e) { result = { ok: false, error: e instanceof Error ? e.message : "Η ακύρωση δεν ολοκληρώθηκε." }; }
+    dispatch({ type: "cancel_result", actionId, result });
   }, []);
 
   const refreshConversations = useCallback(async () => { setConversations(await listMyConversations()); }, []);
