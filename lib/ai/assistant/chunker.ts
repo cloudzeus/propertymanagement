@@ -10,31 +10,29 @@ export const MAX_CHUNK_CHARS = 1200;
 
 const sha = (s: string) => createHash("sha256").update(s).digest("hex");
 export const slugifyHeading = (h: string) => h.toLowerCase().replace(/[^\p{L}\p{N}\s-]/gu, "").trim().replace(/\s+/g, "-") || "section";
-/** Split a section's text into segments: plain text (article roles) and `:::roles A,B` blocks (restricted roles). */
-function splitRoleBlocks(text: string): { roles: string[] | null; text: string }[] {
-  const out: { roles: string[] | null; text: string }[] = [];
-  let cur: { roles: string[] | null; text: string } = { roles: null, text: "" };
-  for (const line of text.split("\n")) {
-    const open = line.match(/^:::roles\s+(.+)$/i);
-    if (open && cur.roles === null) { out.push(cur); cur = { roles: open[1].split(/[\s,]+/).filter(Boolean).map((r) => r.toUpperCase()), text: "" }; continue; }
-    if (cur.roles !== null && /^:::\s*$/.test(line)) { out.push(cur); cur = { roles: null, text: "" }; continue; }
-    cur.text += line + "\n";
-  }
-  out.push(cur);
-  return out.filter((seg) => seg.text.trim());
-}
 
-/** Split an article into retrieval chunks: one per H2 (preamble = `intro`), long sections by H3 then paragraphs. */
-export function chunkMarkdown(md: string, meta: Meta): WikiChunkInput[] {
-  const sections: { heading: string | null; text: string }[] = [];
-  let cur: { heading: string | null; text: string } = { heading: null, text: "" };
+type Segment = { heading: string | null; roles: string[] | null; text: string };
+
+/** Walk the markdown once, tracking the current H2 heading and the open `:::roles` block (blocks may span several sections). */
+function segments(md: string): Segment[] {
+  const out: Segment[] = [];
+  let heading: string | null = null, roles: string[] | null = null;
+  let cur: Segment = { heading, roles, text: "" };
+  const flush = () => { if (cur.text.trim()) out.push(cur); cur = { heading, roles, text: "" }; };
   for (const line of md.split(/\r?\n/)) {
     const h2 = line.match(/^##\s+(.+)$/);
-    if (h2) { sections.push(cur); cur = { heading: h2[1].trim(), text: "" }; continue; }
+    if (h2) { heading = h2[1].trim(); flush(); continue; }
+    const open = line.match(/^:::roles\s+(.+)$/i);
+    if (open && roles === null) { roles = open[1].split(/[\s,]+/).filter(Boolean).map((r) => r.toUpperCase()); flush(); continue; }
+    if (roles !== null && /^:::\s*$/.test(line)) { roles = null; flush(); continue; }
     cur.text += line + "\n";
   }
-  sections.push(cur);
+  flush();
+  return out;
+}
 
+/** Split an article into retrieval chunks: one per H2 (preamble = `intro`), role blocks as their own chunks, long parts by H3 then paragraphs. */
+export function chunkMarkdown(md: string, meta: Meta): WikiChunkInput[] {
   const out: WikiChunkInput[] = [];
   const seen = new Map<string, number>();
   const push = (heading: string | null, text: string, roles: string[]) => {
@@ -45,15 +43,14 @@ export function chunkMarkdown(md: string, meta: Meta): WikiChunkInput[] {
     seen.set(base, n);
     const anchor = n === 1 ? base : `${base}-${n}`;
     const content = `${meta.title}${heading ? ` › ${heading}` : ""}\n\n${body}`;
-    out.push({ slug: meta.slug, title: meta.title, heading, anchor, route: meta.route, surface: meta.surface, roles, content, hash: sha(content) });
+    // The hash covers the audience too, so a roles-only change re-syncs the row.
+    out.push({ slug: meta.slug, title: meta.title, heading, anchor, route: meta.route, surface: meta.surface, roles, content, hash: sha(content + "\n" + roles.join(",")) });
   };
-  for (const s of sections) {
-    for (const seg of splitRoleBlocks(s.text)) {
-      // A role block narrows the article's audience: block ∩ article (or the block alone when the article is open to all).
-      const roles = seg.roles === null ? meta.roles : meta.roles.length ? seg.roles.filter((r) => meta.roles.includes(r)) : seg.roles;
-      if (seg.text.length <= MAX_CHUNK_CHARS) { push(s.heading, seg.text, roles); continue; }
-      for (const part of splitLong(seg.text)) push(s.heading, part, roles);
-    }
+  for (const seg of segments(md)) {
+    // A role block narrows the article's audience: block ∩ article (or the block alone when the article is open to all).
+    const roles = seg.roles === null ? meta.roles : meta.roles.length ? seg.roles.filter((r) => meta.roles.includes(r)) : seg.roles;
+    if (seg.text.length <= MAX_CHUNK_CHARS) { push(seg.heading, seg.text, roles); continue; }
+    for (const part of splitLong(seg.text)) push(seg.heading, part, roles);
   }
   return out;
 }

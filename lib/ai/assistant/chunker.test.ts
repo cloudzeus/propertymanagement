@@ -37,6 +37,21 @@ describe("chunkMarkdown", () => {
     expect(chunks.every((c) => !c.content.includes(":::"))).toBe(true);
     expect(new Set(chunks.map((c) => c.anchor)).size).toBe(chunks.length);
   });
+  it("keeps a role block that spans several H2 sections restricted in every section it covers", () => {
+    const md = "## Τι βλέπετε εδώ\nΓια όλους.\n:::roles PROPERTY_ADMIN\n## Επισκόπηση\nΜόνο διαχειριστές Α.\n## Οικονομικά\nΜόνο διαχειριστές Β.\n:::\n## Ως ένοικος\nΓια ενοίκους.\n";
+    const chunks = chunkMarkdown(md, { ...META, roles: ["PROPERTY_ADMIN", "PROPERTY_RESIDENT"] });
+    const byHeading = Object.fromEntries(chunks.map((c) => [c.heading, c.roles]));
+    expect(byHeading["Τι βλέπετε εδώ"]).toEqual(["PROPERTY_ADMIN", "PROPERTY_RESIDENT"]);
+    expect(byHeading["Επισκόπηση"]).toEqual(["PROPERTY_ADMIN"]);
+    expect(byHeading["Οικονομικά"]).toEqual(["PROPERTY_ADMIN"]);
+    expect(byHeading["Ως ένοικος"]).toEqual(["PROPERTY_ADMIN", "PROPERTY_RESIDENT"]);
+  });
+  it("changes the hash when only the roles change, so the index re-syncs", () => {
+    const md = "## Α\nΚείμενο.\n";
+    const a = chunkMarkdown(md, { ...META, roles: ["PROPERTY_OWNER"] })[0];
+    const b = chunkMarkdown(md, { ...META, roles: ["PROPERTY_ADMIN"] })[0];
+    expect(a.hash).not.toBe(b.hash);
+  });
   it("uses the block's roles when the article is open to everyone", () => {
     const chunks = chunkMarkdown("## Α\n:::roles SUPER_ADMIN, ADMIN\nΜόνο στελέχη.\n:::\n", { ...META, roles: [] });
     expect(chunks[0].roles).toEqual(["SUPER_ADMIN", "ADMIN"]);
