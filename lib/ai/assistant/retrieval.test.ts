@@ -37,4 +37,21 @@ describe("retrieveWiki", () => {
     expect(await retrieveWiki("ερώτηση δύο", "ADMIN")).toEqual([]);
     expect(m.findMany).toHaveBeenCalled();
   });
+
+  it("remembers an embedding failure for 5 minutes instead of calling Gemini on every turn", async () => {
+    vi.resetModules();
+    vi.useFakeTimers();
+    try {
+      vi.setSystemTime(new Date("2026-10-20T10:00:00Z"));
+      const { retrieveWiki: rw } = await import("./retrieval");
+      m.embed.mockRejectedValue(new Error("Gemini embeddings error 403"));
+      m.findMany.mockResolvedValue([]);
+      await rw("πρώτη ερώτηση", "ADMIN");
+      await rw("δεύτερη ερώτηση", "ADMIN");
+      expect(m.embed).toHaveBeenCalledTimes(1);
+      vi.setSystemTime(new Date("2026-10-20T10:05:01Z"));
+      await rw("τρίτη ερώτηση", "ADMIN");
+      expect(m.embed).toHaveBeenCalledTimes(2);
+    } finally { vi.useRealTimers(); }
+  });
 });

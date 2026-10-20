@@ -4,12 +4,15 @@ import type { WikiHit } from "@/lib/ai/tools/types";
 import { embedTexts, toVectorLiteral } from "./embeddings";
 
 let warnedFallback = false;
+/** After a vector-path failure (Gemini 403, missing pgvector…) skip embeddings for this long instead of failing on every turn. */
+export const EMBED_RETRY_MS = 5 * 60 * 1000;
+let vectorDisabledUntil = 0;
 
 /** Top wiki chunks for a question, role-filtered: pgvector cosine when embeddings work, else keyword AND-match. */
 export async function retrieveWiki(query: string, role: string, limit = 5, meta: { userId?: string; customerId?: string } = {}): Promise<WikiHit[]> {
   const q = query.trim();
   if (!q) return [];
-  try {
+  if (Date.now() >= vectorDisabledUntil) try {
     const vectors = await embedTexts([q], "RETRIEVAL_QUERY", meta);
     if (vectors && vectors[0]) {
       const vec = toVectorLiteral(vectors[0]);
@@ -22,6 +25,7 @@ export async function retrieveWiki(query: string, role: string, limit = 5, meta:
       return rows.map((r) => ({ slug: r.slug, title: r.title, heading: r.heading, route: r.route, content: r.content, score: Number(r.score) }));
     }
   } catch (e) {
+    vectorDisabledUntil = Date.now() + EMBED_RETRY_MS;
     if (!warnedFallback) { warnedFallback = true; console.warn("[assistant] vector retrieval unavailable, using keyword fallback:", e instanceof Error ? e.message : e); }
   }
   return keywordSearch(q, role, limit);
