@@ -4,7 +4,7 @@ import type { Prisma } from "@/lib/prisma/client";
 import { COMPANY_ROLES } from "@/lib/roles-constants";
 import {
   normalizeAfm, normalizeWorkingHours,
-  type SupplierDTO, type SupplierOption, type SupplierScope, type SupplierKind, type CatalogItemDTO, type SupplierUserDTO, type ServiceCatalogItemDTO,
+  type SupplierDTO, type SupplierOption, type SupplierScope, type SupplierKind, type CatalogItemDTO, type SupplierUserDTO, type ServiceCatalogItemDTO, type SupplierContactDTO,
 } from "@/lib/suppliers-shared";
 
 /* ------------------------------------------------------------------ */
@@ -163,6 +163,13 @@ export async function loadSupplierFull(id: string) {
       services: { orderBy: [{ sortOrder: "asc" }, { name: "asc" }] },
       products: { orderBy: [{ sortOrder: "asc" }, { name: "asc" }] },
       users: { orderBy: { name: "asc" }, select: { id: true, name: true, email: true, phone: true, status: true, isSupplierAdmin: true, lastLoginAt: true } },
+      contactPeople: {
+        orderBy: [{ isPrimary: "desc" }, { active: "desc" }, { name: "asc" }],
+        include: {
+          user: { select: { id: true, status: true, isSupplierAdmin: true, passwordHash: true, lastLoginAt: true } },
+          links: { where: { kind: "CONTACT_ACTIVATION", revokedAt: null, usedAt: null }, orderBy: { sentAt: "desc" }, take: 1, select: { sentAt: true, expiresAt: true, openedAt: true } },
+        },
+      },
     },
   });
   if (!row) return null;
@@ -171,5 +178,19 @@ export async function loadSupplierFull(id: string) {
     services: row.services.map(catalogToDTO),
     products: row.products.map(catalogToDTO),
     users: row.users.map(supplierUserToDTO),
+    contacts: row.contactPeople.map(supplierContactToDTO),
+  };
+}
+
+export function supplierContactToDTO(c: {
+  id: string; name: string; position: string | null; phone: string | null; mobile: string | null; email: string | null; isPrimary: boolean; receivesRfq: boolean; active: boolean; notes: string | null;
+  user: { id: string; status: string; isSupplierAdmin: boolean; passwordHash: string | null; lastLoginAt: Date | null } | null;
+  links: { sentAt: Date; expiresAt: Date; openedAt: Date | null }[];
+}): SupplierContactDTO {
+  const l = c.links[0];
+  return {
+    id: c.id, name: c.name, position: c.position, phone: c.phone, mobile: c.mobile, email: c.email, isPrimary: c.isPrimary, receivesRfq: c.receivesRfq, active: c.active, notes: c.notes,
+    user: c.user ? { id: c.user.id, status: c.user.status, isSupplierAdmin: c.user.isSupplierAdmin, hasPassword: !!c.user.passwordHash, lastLoginAt: c.user.lastLoginAt ? c.user.lastLoginAt.toISOString() : null } : null,
+    pendingInvite: l && (!c.user || !c.user.passwordHash) ? { sentAt: l.sentAt.toISOString(), expiresAt: l.expiresAt.toISOString(), openedAt: l.openedAt ? l.openedAt.toISOString() : null } : null,
   };
 }

@@ -6,7 +6,7 @@ import { getEffectiveSession } from "@/lib/auth-effective";
 import { loadSupplierFull } from "@/lib/suppliers";
 import { SupplierHeader } from "@/components/suppliers/SupplierHeader";
 import { CatalogEditor } from "@/components/suppliers/CatalogEditor";
-import { TeamEditor } from "@/components/suppliers/TeamEditor";
+import { ContactsEditor } from "@/components/suppliers/ContactsEditor";
 import { STATUS_LABELS, STATUS_COLORS, type FaultStatus } from "@/lib/maintenance-shared";
 import { RiArrowLeftLine, RiToolsLine, RiCalendarTodoLine, RiMoneyEuroCircleLine } from "react-icons/ri";
 
@@ -21,6 +21,8 @@ export default async function SupplierDetailPage({ params }: { params: Promise<{
   // Private (customer) rows are never reachable from the company surface.
   if (!full || full.supplier.scope === "private") notFound();
   const canEdit = can(resolved!.perms, "suppliers", "edit");
+  // Contacts (people + access) may also be managed by roles that only send RFQs (EMPLOYEE has rfq but not suppliers:edit).
+  const canContacts = canEdit || can(resolved!.perms, "rfq", "edit");
   const s = full.supplier;
 
   const [categories, requests, tasks, expenseAgg] = await Promise.all([
@@ -53,7 +55,7 @@ export default async function SupplierDetailPage({ params }: { params: Promise<{
       <CatalogEditor supplierId={s.id} kind={s.kind} services={full.services} products={full.products} canEdit={canEdit} />
 
       {s.scope === "company" && (
-        <TeamEditor supplierId={s.id} users={full.users} canEdit={canEdit} selfId={eff?.user.id ?? null} />
+        <ContactsEditor supplierId={s.id} contacts={full.contacts} canEdit={canContacts} selfUserId={eff?.user.id ?? null} storageKey="supplier-contacts" />
       )}
 
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, alignItems: "start" }}>

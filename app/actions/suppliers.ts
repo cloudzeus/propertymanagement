@@ -333,6 +333,13 @@ export async function updateSupplierUser(supplierId: string, userId: string, inp
       patch.isSupplierAdmin = input.isSupplierAdmin;
     }
     await db.user.update({ where: { id: userId }, data: patch });
+    // keep the linked contact card in step with the login
+    const mirror: Record<string, unknown> = {};
+    if (patch.name !== undefined) mirror.name = patch.name ?? "";
+    if (patch.phone !== undefined) mirror.phone = patch.phone;
+    if (patch.email !== undefined) mirror.email = patch.email;
+    if (patch.status !== undefined) mirror.active = patch.status === "ACTIVE";
+    if (Object.keys(mirror).length) await db.supplierContact.updateMany({ where: { userId }, data: mirror });
     revalidate(row);
     revalidatePath("/super-admin/users");
     return { ok: true };

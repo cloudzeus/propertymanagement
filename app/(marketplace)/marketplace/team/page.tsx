@@ -3,7 +3,7 @@ import { can } from "@/lib/rbac/permissions";
 import { requireCollaborator } from "@/lib/marketplace";
 import { UnlinkedNotice } from "@/components/marketplace/UnlinkedNotice";
 import { loadSupplierFull } from "@/lib/suppliers";
-import { TeamEditor } from "@/components/suppliers/TeamEditor";
+import { ContactsEditor } from "@/components/suppliers/ContactsEditor";
 import { RiGroupLine } from "react-icons/ri";
 
 export const metadata = { title: "Ομάδα" };
@@ -20,10 +20,10 @@ export default async function SupplierTeamPage() {
       <div>
         <h1 style={{ display: "flex", alignItems: "center", gap: 10, fontSize: "var(--fs-22)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}><RiGroupLine style={{ color: "var(--color-primary)" }} /> Ομάδα</h1>
         <p style={{ margin: "4px 0 0", fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }}>
-          Οι λογαριασμοί της επιχείρησής σας. Οι τεχνικοί βλέπουν τις αναθέσεις· οι διαχειριστές επεξεργάζονται επιπλέον προφίλ, κατάλογο και ομάδα.
+          Οι επαφές και οι λογαριασμοί της επιχείρησής σας. Οι τεχνικοί βλέπουν τις αναθέσεις· οι διαχειριστές επεξεργάζονται επιπλέον προφίλ, κατάλογο και ομάδα και υπογράφουν τις συμβάσεις. Νέος συνάδελφος: «Νέα επαφή» → «Πρόσκληση με link» — ορίζει μόνος του τον κωδικό.
         </p>
       </div>
-      <TeamEditor supplierId={full.supplier.id} users={full.users} canEdit={canEdit} selfId={ctx.userId} />
+      <ContactsEditor supplierId={full.supplier.id} contacts={full.contacts} canEdit={canEdit} selfUserId={ctx.userId} storageKey="marketplace-team" />
     </div>
   );
 }

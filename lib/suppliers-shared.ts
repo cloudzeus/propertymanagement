@@ -223,3 +223,23 @@ export function formatPrice(v: number | null | undefined): string {
   if (v == null) return "—";
   return `${v.toLocaleString("el-GR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €`;
 }
+
+/* ------------------------------------------------------------------ */
+/* Supplier contacts (people) with optional marketplace access          */
+/* ------------------------------------------------------------------ */
+
+export type SupplierContactDTO = {
+  id: string; name: string; position: string | null; phone: string | null; mobile: string | null; email: string | null;
+  isPrimary: boolean; receivesRfq: boolean; active: boolean; notes: string | null;
+  user: { id: string; status: string; isSupplierAdmin: boolean; hasPassword: boolean; lastLoginAt: string | null } | null;
+  pendingInvite: { sentAt: string; expiresAt: string; openedAt: string | null } | null;
+};
+
+export type SupplierContactInput = {
+  name: string; position?: string | null; phone?: string | null; mobile?: string | null; email?: string | null;
+  isPrimary?: boolean; receivesRfq?: boolean; notes?: string | null;
+  /** none = contact card only · invite = e-mail a set-password link · password = create the login now (hashed, never shown again) */
+  access: "none" | "invite" | "password";
+  password?: string | null;
+  isSupplierAdmin?: boolean;
+};
