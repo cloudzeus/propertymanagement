@@ -10,4 +10,12 @@ describe("RateLimiter", () => {
     expect(rl.allow("u2", t0 + 100)).toBe(true);
     expect(rl.allow("u1", t0 + 60_001)).toBe(true);
   });
+  it("evicts keys with no hits inside the window so memory does not grow with every user ever seen", () => {
+    const rl = new RateLimiter(5, 1_000);
+    rl.allow("u1", 0); rl.allow("u2", 10);
+    expect(rl.size).toBe(2);
+    rl.allow("u3", 5_000);
+    expect(rl.size).toBe(1);
+    expect(rl.allow("u1", 5_001)).toBe(true);
+  });
 });
