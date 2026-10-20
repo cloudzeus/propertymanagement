@@ -42,9 +42,9 @@ describe("invitationState", () => {
     // an offer that came in before the deadline stays OFFERED afterwards
     expect(invitationState({ ...base, status: "OFFERED" }, { status: "OFFERED", deadlineAt: "2026-10-19T12:00:00Z" }, now)).toBe("OFFERED");
   });
-  it("NO_EMAIL when nothing was ever sent and there is nobody to send to", () => {
+  it("NO_EMAIL when nothing was ever sent and there is nobody to send to; NOT_SENT when there is someone but no mail left", () => {
     expect(invitationState({ ...base, emailCount: 0, hasRecipient: false }, rfq, now)).toBe("NO_EMAIL");
-    expect(invitationState({ ...base, emailCount: 0, hasRecipient: true }, rfq, now)).toBe("SENT");
+    expect(invitationState({ ...base, emailCount: 0, hasRecipient: true }, rfq, now)).toBe("NOT_SENT");
   });
 });
 

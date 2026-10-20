@@ -11,7 +11,7 @@ import { inviteActivateLimiter, RATE_LIMIT_MESSAGE } from "@/lib/invite-rate-lim
 
 export type ActivateInput = { name: string; password: string; confirm: string; agreed: boolean };
 
-export const DEAD_LINK = "Ο σύνδεσμος δεν ισχύει πλέον — ζητήστε νέα πρόσκληση από την εταιρεία διαχείρισης.";
+const DEAD_LINK = "Ο σύνδεσμος δεν ισχύει πλέον — ζητήστε νέα πρόσκληση από την εταιρεία διαχείρισης.";
 
 /**
  * "Set your password" from an invite link: creates the COLLABORATOR login bound

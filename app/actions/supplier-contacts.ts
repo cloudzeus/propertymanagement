@@ -22,6 +22,8 @@ import type { SupplierContactInput } from "@/lib/suppliers-shared";
 const clean = (v?: string | null) => (v?.trim() ? v.trim() : null);
 const FOREIGN_ROLE = "Το email ανήκει ήδη σε λογαριασμό άλλου τύπου (π.χ. ιδιοκτήτη/διαχειριστή). Χρησιμοποιήστε άλλο email.";
 const OTHER_SUPPLIER = "Το email ανήκει σε λογαριασμό άλλου συνεργάτη.";
+// Outside parties (supplier admins) must not learn which addresses exist on the platform.
+const NEUTRAL = "Το email δεν μπορεί να χρησιμοποιηθεί για πρόσβαση — επικοινωνήστε με την εταιρεία διαχείρισης.";
 
 async function requireContactsEdit(supplierId: string) {
   const [eff, resolved] = await Promise.all([getEffectiveSession(), getEffectivePermissions()]);
@@ -36,7 +38,7 @@ async function requireContactsEdit(supplierId: string) {
     const me = await db.user.findUnique({ where: { id: eff.user.id }, select: { supplierId: true, isSupplierAdmin: true } });
     if (me?.supplierId !== supplierId || !me.isSupplierAdmin || !can(resolved.perms, "mkt-team", "edit")) throw new Error("Δεν επιτρέπεται");
   } else throw new Error("Δεν επιτρέπεται");
-  return { actorId: eff.user.id, supplier: row };
+  return { actorId: eff.user.id, supplier: row, external: role === "COLLABORATOR" };
 }
 
 function revalidate(supplierId: string) {
@@ -46,23 +48,25 @@ function revalidate(supplierId: string) {
 }
 
 /** The user (if any) that already owns this e-mail, classified against this supplier. */
-async function classifyEmail(email: string, supplierId: string): Promise<{ error: string } | { user: { id: string; passwordHash: string | null } | null }> {
+async function classifyEmail(email: string, supplierId: string, external: boolean): Promise<{ error: string } | { user: { id: string; passwordHash: string | null } | null }> {
   const u = await db.user.findUnique({ where: { email }, select: { id: true, role: true, supplierId: true, passwordHash: true } });
   if (!u) return { user: null };
-  if (u.role !== "COLLABORATOR") return { error: FOREIGN_ROLE };
-  if (u.supplierId !== supplierId) return { error: OTHER_SUPPLIER };
+  if (u.role !== "COLLABORATOR") return { error: external ? NEUTRAL : FOREIGN_ROLE };
+  if (u.supplierId !== supplierId) return { error: external ? NEUTRAL : OTHER_SUPPLIER };
   return { user: { id: u.id, passwordHash: u.passwordHash } };
 }
 
-async function sendContactInvite(supplier: { id: string; name: string }, contact: { id: string; name: string; email: string }, actorId: string) {
+async function sendContactInvite(supplier: { id: string; name: string }, contact: { id: string; name: string; email: string }, actorId: string): Promise<boolean> {
   const link = await issueInviteLink({ kind: "CONTACT_ACTIVATION", supplierId: supplier.id, email: contact.email, contactId: contact.id, createdById: actorId });
   const brand = await getEmailBrand();
-  await sendBrandedEmail(contact.email, contactInvitationEmail({ brand, supplierName: supplier.name, contactName: contact.name, url: link.url }), ["contact-invite"]);
+  const res = await sendBrandedEmail(contact.email, contactInvitationEmail({ brand, supplierName: supplier.name, contactName: contact.name, url: link.url }), ["contact-invite"]);
+  return !!res.success;
 }
+const SEND_FAILED = "Η επαφή αποθηκεύτηκε αλλά το email δεν στάλθηκε — δοκιμάστε «Αποστολή πρόσκλησης» σε λίγο.";
 
 export async function saveSupplierContact(supplierId: string, id: string | null, input: SupplierContactInput): Promise<{ id: string; invited?: boolean } | { error: string }> {
   try {
-    const { actorId, supplier } = await requireContactsEdit(supplierId);
+    const { actorId, supplier, external } = await requireContactsEdit(supplierId);
     const name = input.name?.trim();
     if (!name) return { error: "Το όνομα είναι υποχρεωτικό" };
     const email = clean(input.email)?.toLowerCase() ?? null;
@@ -76,7 +80,7 @@ export async function saveSupplierContact(supplierId: string, id: string | null,
     // One User per e-mail: decide up-front what this address may become.
     let linkUser: { id: string; passwordHash: string | null } | null = null;
     if (email && (access !== "none" || existing?.userId)) {
-      const c = await classifyEmail(email, supplierId);
+      const c = await classifyEmail(email, supplierId, external);
       if ("error" in c) return c;
       linkUser = c.user;
       if (existing?.userId && linkUser && linkUser.id !== existing.userId) return { error: "Η επαφή είναι ήδη δεμένη με άλλον λογαριασμό" };
@@ -121,8 +125,9 @@ export async function saveSupplierContact(supplierId: string, id: string | null,
 
     // Invite by link only when nobody owns the address yet (an existing login simply got linked).
     if (email && access === "invite" && !linkUser && !existing?.userId) {
-      await sendContactInvite(supplier, { id: contactId, name, email }, actorId);
-      invited = true;
+      invited = await sendContactInvite(supplier, { id: contactId, name, email }, actorId);
+      revalidate(supplierId);
+      if (!invited) return { error: SEND_FAILED };
     }
     revalidate(supplierId);
     return invited ? { id: contactId, invited: true } : { id: contactId };
@@ -161,7 +166,7 @@ export async function reactivateSupplierContact(supplierId: string, id: string) 
 /** New activation link (earlier ones stop working). Only for contacts without a working login. */
 export async function resendContactInvite(supplierId: string, id: string) {
   try {
-    const { actorId, supplier } = await requireContactsEdit(supplierId);
+    const { actorId, supplier, external } = await requireContactsEdit(supplierId);
     const c = await db.supplierContact.findFirst({ where: { id, supplierId }, select: { id: true, name: true, email: true, userId: true } });
     if (!c) return { error: "Δεν βρέθηκε" };
     if (!c.email) return { error: "Η επαφή δεν έχει email" };
@@ -169,11 +174,11 @@ export async function resendContactInvite(supplierId: string, id: string) {
       const u = await db.user.findUnique({ where: { id: c.userId }, select: { passwordHash: true } });
       if (u?.passwordHash) return { error: "Η επαφή έχει ήδη ενεργό λογαριασμό" };
     } else {
-      const cls = await classifyEmail(c.email, supplierId);
+      const cls = await classifyEmail(c.email, supplierId, external);
       if ("error" in cls) return cls;
       if (cls.user?.passwordHash) return { error: "Η επαφή έχει ήδη ενεργό λογαριασμό" };
     }
-    await sendContactInvite(supplier, { id: c.id, name: c.name, email: c.email }, actorId);
+    if (!(await sendContactInvite(supplier, { id: c.id, name: c.name, email: c.email }, actorId))) return { error: "Το email δεν στάλθηκε — δοκιμάστε ξανά σε λίγο." };
     await db.supplierContact.update({ where: { id }, data: { active: true } });
     revalidate(supplierId);
     return { ok: true as const };

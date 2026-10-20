@@ -8,7 +8,8 @@ import { sendNotificationEmail } from "@/lib/mailgun";
  * explicit list — used by the RFQ/offer/work-order flow where the audience is a
  * supplier's crew, the company's staff, or a building's managers.
  */
-export async function notifyUsers(userIds: string[], opts: { type: string; title: string; body?: string; href: string; requestId?: string | null; excludeUserId?: string | null }) {
+/** `email: false` = bell row only (the caller already sent a branded e-mail for the same event). */
+export async function notifyUsers(userIds: string[], opts: { type: string; title: string; body?: string; href: string; requestId?: string | null; excludeUserId?: string | null; email?: boolean }) {
   const ids = [...new Set(userIds.filter((id) => id && id !== opts.excludeUserId))];
   if (ids.length === 0) return;
   const users = await db.user.findMany({ where: { id: { in: ids }, status: "ACTIVE" }, select: { id: true, email: true } });
@@ -16,6 +17,7 @@ export async function notifyUsers(userIds: string[], opts: { type: string; title
   await db.notification.createMany({
     data: users.map((u) => ({ userId: u.id, type: opts.type, title: opts.title, body: opts.body ?? null, href: opts.href, requestId: opts.requestId ?? null })),
   });
+  if (opts.email === false) return;
   void Promise.allSettled(users.filter((u) => u.email).map((u) => sendNotificationEmail(u.email, opts.title, opts.body ?? opts.title, { href: opts.href })));
 }
 

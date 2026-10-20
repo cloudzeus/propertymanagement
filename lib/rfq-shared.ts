@@ -117,10 +117,11 @@ export type WorkOrderDTO = {
 /* Invitation tracking (e-mail + personal link)                         */
 /* ------------------------------------------------------------------ */
 
-export type InvitationState = "NO_EMAIL" | "SENT" | "OPENED" | "OFFERED" | "DECLINED" | "EXPIRED";
+export type InvitationState = "NO_EMAIL" | "NOT_SENT" | "SENT" | "OPENED" | "OFFERED" | "DECLINED" | "EXPIRED";
 
 export const INVITATION_STATE_LABELS: Record<InvitationState, string> = {
   NO_EMAIL: "Χωρίς email",
+  NOT_SENT: "Δεν στάλθηκε",
   SENT: "Στάλθηκε",
   OPENED: "Ανοίχτηκε",
   OFFERED: "Προσφορά υποβλήθηκε",
@@ -130,6 +131,7 @@ export const INVITATION_STATE_LABELS: Record<InvitationState, string> = {
 
 export const INVITATION_STATE_COLORS: Record<InvitationState, string> = {
   NO_EMAIL: "#9f1239",
+  NOT_SENT: "#b45309",
   SENT: "#6b7280",
   OPENED: "#0369a1",
   OFFERED: "#15803d",
@@ -149,7 +151,7 @@ export function invitationState(
   if (["EXPIRED", "CANCELLED"].includes(rfq.status)) return "EXPIRED";
   if (rfq.deadlineAt && new Date(rfq.deadlineAt).getTime() < now.getTime()) return "EXPIRED";
   if (i.viewedAt) return "OPENED";
-  if (i.emailCount === 0 && !i.hasRecipient) return "NO_EMAIL";
+  if (i.emailCount === 0) return i.hasRecipient ? "NOT_SENT" : "NO_EMAIL";
   return "SENT";
 }
 

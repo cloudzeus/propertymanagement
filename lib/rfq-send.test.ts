@@ -34,7 +34,7 @@ beforeEach(() => {
 describe("sendRfqInvitations", () => {
   it("issues one personal link and one e-mail per recipient and counts the send on the invitation", async () => {
     const r = await sendRfqInvitations("rfq1", ["s1", "s2"], "staff1");
-    expect(r).toEqual({ sent: 2, noEmail: ["s2"] });
+    expect(r).toEqual({ sent: 2, noEmail: ["s2"], failed: [] });
     expect(m.issue).toHaveBeenCalledTimes(2);
     expect(m.issue.mock.calls.map((c) => c[0])).toEqual([
       expect.objectContaining({ kind: "RFQ_INVITE", supplierId: "s1", email: "a@s1.gr", rfqInvitationId: "inv1", createdById: "staff1" }),
@@ -63,5 +63,16 @@ describe("sendRfqInvitations", () => {
     const htmlB = m.send.mock.calls[1][1].html;
     expect(htmlA).toMatch(/συνδεθείτε/i);
     expect(htmlB).toMatch(/κωδικό πρόσβασης/);
+  });
+    it("a Mailgun failure is not counted as sent and does not bump the counter", async () => {
+    m.send.mockResolvedValueOnce({ success: true }).mockResolvedValueOnce({ success: false });
+    const r = await sendRfqInvitations("rfq1", ["s1"], "staff1");
+    expect(r).toEqual({ sent: 1, noEmail: [], failed: ["b@s1.gr"] });
+    expect(m.invitations[0].emailCount).toBe(1);
+    m.send.mockResolvedValue({ success: false });
+    const r2 = await sendRfqInvitations("rfq1", ["s1"], "staff1");
+    expect(r2.sent).toBe(0);
+    expect(r2.failed).toEqual(["a@s1.gr", "b@s1.gr"]);
+    expect(m.invitations[0].emailCount).toBe(1);
   });
 });

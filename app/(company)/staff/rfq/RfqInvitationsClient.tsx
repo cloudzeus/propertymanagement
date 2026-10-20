@@ -13,7 +13,7 @@ import { RiMoneyEuroCircleLine, RiMailSendLine, RiUserAddLine, RiCloseLine, RiEy
 
 const fmt = (iso: string | null) => (iso ? new Date(iso).toLocaleString("el-GR", { dateStyle: "short", timeStyle: "short" }) : "—");
 const OPEN_RFQ = ["OPEN", "OFFERED"];
-const RESENDABLE: InvitationState[] = ["SENT", "OPENED", "NO_EMAIL"];
+const RESENDABLE: InvitationState[] = ["NOT_SENT", "SENT", "OPENED", "NO_EMAIL"];
 
 type Fault = { id: string; title: string; building: string; createdAt: string };
 
@@ -26,7 +26,7 @@ export function RfqInvitationsClient({ rows, faults, canCreate, canEdit, faultLi
   const [addTo, setAddTo] = useState<RfqInvitationRowDTO | null>(null);
 
   const counts = useMemo(() => {
-    const c: Record<InvitationState, number> = { NO_EMAIL: 0, SENT: 0, OPENED: 0, OFFERED: 0, DECLINED: 0, EXPIRED: 0 };
+    const c: Record<InvitationState, number> = { NO_EMAIL: 0, NOT_SENT: 0, SENT: 0, OPENED: 0, OFFERED: 0, DECLINED: 0, EXPIRED: 0 };
     for (const r of rows) c[r.state]++;
     return c;
   }, [rows]);
@@ -36,7 +36,7 @@ export function RfqInvitationsClient({ rows, faults, canCreate, canEdit, faultLi
     const res = await fn();
     setBusy(false);
     if ("error" in res && res.error) { setError(res.error); return false; }
-    if ("sent" in res && typeof res.sent === "number") setInfo(sentMessage({ sent: res.sent }, []));
+    if ("sent" in res && typeof res.sent === "number") setInfo(sentMessage({ sent: res.sent, failed: (res as { failed?: string[] }).failed }, []));
     router.refresh();
     return true;
   }
@@ -75,7 +75,7 @@ export function RfqInvitationsClient({ rows, faults, canCreate, canEdit, faultLi
         <p style={{ margin: "4px 0 0", fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }}>Κάθε γραμμή είναι μία πρόσκληση σε συνεργάτη. Το email περιέχει προσωπικό link 14 ημερών· εδώ βλέπετε αν στάλθηκε, αν ανοίχτηκε και τι απάντησε.</p>
       </div>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 12 }}>
-        {(["SENT", "OPENED", "OFFERED", "DECLINED", "EXPIRED", "NO_EMAIL"] as InvitationState[]).map((s) => (
+        {(["SENT", "OPENED", "OFFERED", "DECLINED", "EXPIRED", "NO_EMAIL", "NOT_SENT"] as InvitationState[]).filter((s) => s !== "NOT_SENT" || counts.NOT_SENT > 0).map((s) => (
           <div key={s} style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius-lg)", padding: "12px 16px" }}>
             <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>{INVITATION_STATE_LABELS[s]}</div>
             <div style={{ fontSize: "var(--fs-24)", fontWeight: 700, color: INVITATION_STATE_COLORS[s] }}>{counts[s]}</div>
@@ -147,7 +147,7 @@ function NewRfqModal({ faults, onClose, onDone }: { faults: Fault[]; onClose: ()
     const res = await createRfq({ maintenanceRequestId: faultId, supplierIds: [...sel], deadlineAt: deadline ? new Date(deadline).toISOString() : null, surveyRequired: survey, notes });
     setBusy(false);
     if ("error" in res && res.error) { setError(res.error); return; }
-    onDone(sentMessage(res as { sent: number; noEmail?: string[] }, picker?.candidates ?? []));
+    onDone(sentMessage(res as { sent: number; noEmail?: string[]; failed?: string[] }, picker?.candidates ?? []));
   }
   return (
     <Modal open onClose={onClose} width={760} title="Νέο αίτημα προσφοράς"

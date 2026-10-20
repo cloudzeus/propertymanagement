@@ -95,6 +95,15 @@ describe("saveSupplierContact", () => {
     m.users.push({ id: "oth", email: "maria@firm.gr", role: "COLLABORATOR", supplierId: "s9", passwordHash: "h", status: "ACTIVE", isSupplierAdmin: false });
     expect(await saveSupplierContact("s1", null, { ...base, access: "password", password: "Secret123!" })).toEqual({ error: "Το email ανήκει σε λογαριασμό άλλου συνεργάτη." });
   });
+  it("a supplier admin (outside party) gets one neutral message for any foreign e-mail — no account oracle", async () => {
+    m.actor.role = "COLLABORATOR"; m.actor.supplierId = "s1"; m.actor.isSupplierAdmin = true; m.actor.perms = new Set(["mkt-team:edit"]);
+    m.users.push({ id: "own", email: "maria@firm.gr", role: "PROPERTY_OWNER", supplierId: null, passwordHash: "h", status: "ACTIVE", isSupplierAdmin: false });
+    const neutral = { error: "Το email δεν μπορεί να χρησιμοποιηθεί για πρόσβαση — επικοινωνήστε με την εταιρεία διαχείρισης." };
+    expect(await saveSupplierContact("s1", null, { ...base, access: "invite" })).toEqual(neutral);
+    m.users[0] = { id: "oth", email: "maria@firm.gr", role: "COLLABORATOR", supplierId: "s9", passwordHash: "h", status: "ACTIVE", isSupplierAdmin: false };
+    expect(await saveSupplierContact("s1", null, { ...base, access: "invite" })).toEqual(neutral);
+    m.actor.role = "EMPLOYEE"; m.actor.supplierId = null; m.actor.isSupplierAdmin = false;
+  });
   it("e-mail of an existing same-supplier login just links the contact", async () => {
     m.users.push({ id: "same", email: "maria@firm.gr", role: "COLLABORATOR", supplierId: "s1", passwordHash: "h", status: "ACTIVE", isSupplierAdmin: false });
     expect(await saveSupplierContact("s1", null, { ...base, access: "invite" })).toEqual({ id: "c1" });

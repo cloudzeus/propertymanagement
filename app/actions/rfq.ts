@@ -66,6 +66,8 @@ export async function createRfq(input: CreateRfqInput) {
   if (!isCompany(a) || !can(a.perms, "rfq", "create")) return { error: "Δεν επιτρέπεται" };
   const req = await db.maintenanceRequest.findUnique({ where: { id: input.maintenanceRequestId }, select: { id: true, title: true, description: true, buildingId: true, categoryId: true, building: { select: { name: true, address: true, city: true } } } });
   if (!req) return { error: "Δεν βρέθηκε η βλάβη" };
+  const open = await db.serviceRequest.findFirst({ where: { maintenanceRequestId: req.id, status: { in: ["OPEN", "OFFERED"] } }, select: { id: true } });
+  if (open) return { error: "Υπάρχει ήδη ανοιχτό αίτημα προσφοράς για αυτή τη βλάβη — προσθέστε συνεργάτες σε αυτό ή ακυρώστε το." };
   const ids = [...new Set(input.supplierIds.filter(Boolean))];
   if (ids.length === 0) return { error: "Επιλέξτε τουλάχιστον έναν συνεργάτη" };
   const suppliers = await db.supplier.findMany({ where: { id: { in: ids }, customerId: null, isPlatform: false, isActive: true }, select: { id: true } });
@@ -87,10 +89,10 @@ export async function createRfq(input: CreateRfqInput) {
   await notifyUsers(crew, {
     type: "RFQ", title: `Αίτημα προσφοράς: ${req.title}`,
     body: `Η εταιρεία διαχείρισης ζητά προσφορά για εργασία στο κτήριο ${[req.building.name, req.building.city].filter(Boolean).join(", ")}${input.deadlineAt ? ` — απάντηση έως ${new Date(input.deadlineAt).toLocaleString("el-GR", { dateStyle: "short", timeStyle: "short" })}` : ""}.`,
-    href: `/marketplace/rfq/${rfq.id}`, requestId: req.id,
+    href: `/marketplace/rfq/${rfq.id}`, requestId: req.id, email: false,
   });
   revalidate(req.id, req.buildingId);
-  return { id: rfq.id, sent: mailed.sent, noEmail: mailed.noEmail };
+  return { id: rfq.id, sent: mailed.sent, noEmail: mailed.noEmail, failed: mailed.failed };
 }
 
 /** Invite more registry suppliers to an RFQ that is still open (OPEN/OFFERED). */
@@ -108,9 +110,9 @@ export async function addRfqSuppliers(rfqId: string, supplierIds: string[]) {
   await db.rfqInvitation.createMany({ data: ids.map((supplierId) => ({ rfqId, supplierId })), skipDuplicates: true });
   const mailed = await sendRfqInvitations(rfqId, ids, a.id);
   const crew = (await Promise.all(ids.map(supplierUserIds))).flat();
-  await notifyUsers(crew, { type: "RFQ", title: `Αίτημα προσφοράς: ${rfq.title}`, body: `Η εταιρεία διαχείρισης ζητά προσφορά για εργασία στο κτήριο ${[rfq.building.name, rfq.building.city].filter(Boolean).join(", ")}.`, href: `/marketplace/rfq/${rfqId}`, requestId: rfq.maintenanceRequestId });
+  await notifyUsers(crew, { type: "RFQ", title: `Αίτημα προσφοράς: ${rfq.title}`, body: `Η εταιρεία διαχείρισης ζητά προσφορά για εργασία στο κτήριο ${[rfq.building.name, rfq.building.city].filter(Boolean).join(", ")}.`, href: `/marketplace/rfq/${rfqId}`, requestId: rfq.maintenanceRequestId, email: false });
   revalidate(rfq.maintenanceRequestId, rfq.buildingId);
-  return { ok: true as const, sent: mailed.sent, noEmail: mailed.noEmail };
+  return { ok: true as const, sent: mailed.sent, noEmail: mailed.noEmail, failed: mailed.failed };
 }
 
 /** Re-send the invitation e-mail (new personal links; the old ones stop working). */
@@ -122,6 +124,7 @@ export async function resendRfqInvitation(invitationId: string) {
   if (!["OPEN", "OFFERED"].includes(inv.rfq.status)) return { error: "Το αίτημα δεν είναι πλέον ανοιχτό" };
   if (inv.status !== "INVITED") return { error: "Ο συνεργάτης έχει ήδη απαντήσει" };
   const mailed = await sendRfqInvitations(inv.rfq.id, [inv.supplierId], a.id);
+  if (mailed.sent === 0 && mailed.failed.length) return { error: `Η αποστολή απέτυχε (${mailed.failed.join(", ")}) — δοκιμάστε ξανά σε λίγο.` };
   if (mailed.sent === 0) return { error: "Ο συνεργάτης δεν έχει καμία διεύθυνση email — προσθέστε επαφή με email στην καρτέλα του." };
   revalidate(inv.rfq.maintenanceRequestId, inv.rfq.buildingId);
   return { ok: true as const, sent: mailed.sent };
@@ -334,12 +337,13 @@ export async function supplierAcceptWorkOrder(woId: string, input: SupplierAccep
     await db.workOrder.update({ where: { id: woId }, data: { supplierAcceptedAt: new Date(), supplierAcceptedById: a.id, supplierAcceptedIp: ip, supplierAcceptedUa: ua, supplierAcceptedName: signatoryName } });
     // freeze with the acceptance block filled in
     await db.workOrder.update({ where: { id: woId }, data: { supplierContractHtml: (await renderContract("WO_SUPPLIER", woId)).html } });
-    await notifyUsers(await companyStaffIds(), { type: "WORK_ORDER", title: `Ο συνεργάτης υπέγραψε τη σύμβαση ${wo.number}-B`, body: `Υπογράφων: ${signatoryName}`, href: `/admin/work-orders/${woId}/contract/supplier`, requestId: wo.maintenanceRequestId });
+    const staffIds = await companyStaffIds();
+    await notifyUsers(staffIds, { type: "WORK_ORDER", title: `Ο συνεργάτης υπέγραψε τη σύμβαση ${wo.number}-B`, body: `Υπογράφων: ${signatoryName}`, href: `/admin/work-orders/${woId}/contract/supplier`, requestId: wo.maintenanceRequestId, email: false });
     void (async () => {
       const [brand, sup, staff, me] = await Promise.all([
         getEmailBrand(),
         db.supplier.findUnique({ where: { id: a.supplierId! }, select: { name: true } }),
-        db.user.findMany({ where: { id: { in: await companyStaffIds() } }, select: { email: true } }),
+        db.user.findMany({ where: { id: { in: staffIds } }, select: { email: true } }),
         db.user.findUnique({ where: { id: a.id }, select: { email: true } }),
       ]);
       const staffMail = contractSignedStaffEmail({ brand, woNumber: wo.number, title: wo.title, supplierName: sup?.name ?? "", signatory: signatoryName, url: absoluteUrl(`/admin/work-orders/${woId}/contract/supplier`, brand) });

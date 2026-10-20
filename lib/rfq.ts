@@ -15,8 +15,11 @@ function recipientsOf(links: { email: string; sentAt: Date; openedAt: Date | nul
   return links.filter((l) => (seen.has(l.email) ? false : (seen.add(l.email), true))).map((l) => ({ email: l.email, sentAt: l.sentAt.toISOString(), openedAt: iso(l.openedAt), expired: l.expiresAt.getTime() < Date.now() }));
 }
 
+/** Same predicate as recipientsForSupplier (lib/rfq-candidates.ts): is there anyone an invitation e-mail could reach? */
+const supplierRecipientSelect = { select: { name: true, email: true, contactEmail: true, _count: { select: { users: { where: { role: "COLLABORATOR" as const, status: "ACTIVE" as const } }, contactPeople: { where: { active: true, receivesRfq: true, email: { not: null } } } } } } };
+
 export const rfqInclude = {
-  invitations: { include: { supplier: { select: { name: true, email: true, contactEmail: true, _count: { select: { users: true, contactPeople: true } } } }, links: linkSelect }, orderBy: { sentAt: "asc" as const } },
+  invitations: { include: { supplier: supplierRecipientSelect, links: linkSelect }, orderBy: { sentAt: "asc" as const } },
   offers: { include: { supplier: { select: { name: true, ratingAvg: true, ratingCount: true } } }, orderBy: { createdAt: "asc" as const } },
 } satisfies Prisma.ServiceRequestInclude;
 
@@ -135,7 +138,7 @@ export type SupplierWorkOrderDTO = Awaited<ReturnType<typeof listSupplierWorkOrd
 export async function listRfqInvitationRows(): Promise<RfqInvitationRowDTO[]> {
   const rows = await db.rfqInvitation.findMany({
     include: {
-      supplier: { select: { name: true, email: true, contactEmail: true, _count: { select: { users: true, contactPeople: true } } } },
+      supplier: supplierRecipientSelect,
       links: linkSelect,
       rfq: { select: { id: true, status: true, title: true, deadlineAt: true, surveyRequired: true, maintenanceRequestId: true, buildingId: true, building: { select: { name: true } }, offers: { select: { id: true, supplierId: true, amount: true, status: true } } } },
     },
@@ -160,7 +163,7 @@ export async function listRfqInvitationRows(): Promise<RfqInvitationRowDTO[]> {
 /** Faults a company user may still send an RFQ for: open, not yet covered by an active work order. */
 export async function listOpenFaultsForRfq(): Promise<{ id: string; title: string; building: string; createdAt: string }[]> {
   const rows = await db.maintenanceRequest.findMany({
-    where: { status: { in: ["OPEN", "ACKNOWLEDGED", "ON_HOLD"] }, workOrders: { none: { status: { notIn: ["DECLINED", "CANCELLED"] } } } },
+    where: { status: { in: ["OPEN", "ACKNOWLEDGED", "ON_HOLD"] }, workOrders: { none: { status: { notIn: ["DECLINED", "CANCELLED"] } } }, serviceRequests: { none: { status: { in: ["OPEN", "OFFERED"] } } } },
     orderBy: { createdAt: "desc" }, take: 300,
     select: { id: true, title: true, createdAt: true, building: { select: { name: true, city: true } } },
   });

@@ -36,7 +36,7 @@ export function RfqPanel({ requestId, handledBy, rfqs, workOrders, defaults, pic
     const res = await fn();
     setBusy(false);
     if (res && "error" in res && res.error) { setError(res.error); return false; }
-    if (res && "sent" in res) setInfo(sentMessage(res as { sent: number; noEmail?: string[] }, picker.candidates));
+    if (res && "sent" in res) setInfo(sentMessage(res as { sent: number; noEmail?: string[]; failed?: string[] }, picker.candidates));
     router.refresh();
     return true;
   }
@@ -65,7 +65,7 @@ export function RfqPanel({ requestId, handledBy, rfqs, workOrders, defaults, pic
             {r.invitations.map((i) => {
               const color = INVITATION_STATE_COLORS[i.state];
               const who = i.recipients.length ? i.recipients.map((x) => `${x.email}${x.openedAt ? ` (άνοιξε ${fmt(x.openedAt)})` : ""}`).join(", ") : "Κανένας παραλήπτης email";
-              const canResend = ["OPEN", "OFFERED"].includes(r.status) && ["SENT", "OPENED", "NO_EMAIL"].includes(i.state);
+              const canResend = ["OPEN", "OFFERED"].includes(r.status) && ["NOT_SENT", "SENT", "OPENED", "NO_EMAIL"].includes(i.state);
               return (
                 <span key={i.supplierId} style={{ ...pill, color, borderColor: `${color}55`, background: `${color}10` }} title={i.declineReason ?? `${who}${i.emailCount ? ` · ${i.emailCount}× email, τελευταίο ${fmt(i.lastEmailAt)}` : ""}`}>
                   {i.supplierName} · {INVITATION_STATE_LABELS[i.state]}
@@ -178,10 +178,12 @@ function OfferRow({ o, rfqStatus, handledBy, defaults, busy, run, alreadyForward
 }
 
 /** "Στάλθηκε σε 3 παραλήπτες · χωρίς email: Χ, Υ" after a send. */
-export function sentMessage(res: { sent: number; noEmail?: string[] }, candidates: RfqCandidateDTO[]): string {
+export function sentMessage(res: { sent: number; noEmail?: string[]; failed?: string[] }, candidates: RfqCandidateDTO[]): string {
   const names = (res.noEmail ?? []).map((id) => candidates.find((c) => c.id === id)?.name ?? id);
-  const base = res.sent === 0 ? "Δεν στάλθηκε κανένα email." : `Στάλθηκε email σε ${res.sent} παραλήπτ${res.sent === 1 ? "η" : "ες"}.`;
-  return names.length ? `${base} Χωρίς διεύθυνση email: ${names.join(", ")} — προσθέστε επαφή με email στην καρτέλα τους.` : base;
+  const parts = [res.sent === 0 ? "Δεν στάλθηκε κανένα email." : `Στάλθηκε email σε ${res.sent} παραλήπτ${res.sent === 1 ? "η" : "ες"}.`];
+  if (res.failed?.length) parts.push(`Απέτυχε η αποστολή σε: ${res.failed.join(", ")} — δοκιμάστε «Αποστολή ξανά».`);
+  if (names.length) parts.push(`Χωρίς διεύθυνση email: ${names.join(", ")} — προσθέστε επαφή με email στην καρτέλα τους.`);
+  return parts.join(" ");
 }
 
 function NewRfqForm({ requestId, picker, busy, run }: { requestId: string; picker: RfqPickerData; busy: boolean; run: (fn: () => Promise<{ error?: string | null } | { id?: string }>) => Promise<boolean> }) {
