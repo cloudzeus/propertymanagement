@@ -49,7 +49,8 @@ export async function runDueJobs(now = new Date()): Promise<string[]> {
   const ran: string[] = [];
   for (const job of CRON_JOBS) {
     const last = await db.cronRun.findFirst({ where: { job: job.key, ok: true }, orderBy: { startedAt: "desc" }, select: { startedAt: true } });
-    if (!isDue(job, last?.startedAt ?? null, now)) continue;
+    const schedule = job.resolveSchedule ? await job.resolveSchedule().catch(() => job.schedule) : job.schedule;
+    if (!isDue({ ...job, schedule }, last?.startedAt ?? null, now)) continue;
     const r = await runJob(job, "scheduler");
     if (r.ok) ran.push(job.key);
   }

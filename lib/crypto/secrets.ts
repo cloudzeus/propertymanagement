@@ -1,10 +1,11 @@
 import { createCipheriv, createDecipheriv, randomBytes } from "node:crypto";
 
+/** 32-byte key from SECRETS_ENCRYPTION_KEY — accepted as base64 (44 chars) or hex (64 chars). */
 function key(): Buffer {
-  const raw = process.env.SECRETS_ENCRYPTION_KEY;
+  const raw = (process.env.SECRETS_ENCRYPTION_KEY ?? "").trim();
   if (!raw) throw new Error("SECRETS_ENCRYPTION_KEY is not set");
-  const k = Buffer.from(raw, "base64");
-  if (k.length !== 32) throw new Error("SECRETS_ENCRYPTION_KEY must be 32 bytes (base64)");
+  const k = /^[0-9a-fA-F]{64}$/.test(raw) ? Buffer.from(raw, "hex") : Buffer.from(raw, "base64");
+  if (k.length !== 32) throw new Error("SECRETS_ENCRYPTION_KEY must be 32 bytes (base64 or hex)");
   return k;
 }
 

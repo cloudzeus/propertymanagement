@@ -2,7 +2,7 @@ import Link from "next/link";
 import { requirePermission, getEffectivePermissions, can } from "@/lib/rbac/permissions";
 import {
   RiSettingsLine, RiBuildingLine, RiPaletteLine, RiBankCardLine, RiFileTextLine, RiToolsLine, RiShieldUserLine, RiLinksLine,
-  RiMoneyDollarCircleLine, RiLayoutLine, RiMailCheckLine, RiTeamLine, RiPriceTag3Line, RiArrowRightSLine, RiTimerLine,
+  RiMoneyDollarCircleLine, RiLayoutLine, RiMailCheckLine, RiTeamLine, RiPriceTag3Line, RiArrowRightSLine, RiTimerLine, RiExchangeLine,
 } from "react-icons/ri";
 
 export const metadata = { title: "Ρυθμίσεις" };
@@ -36,7 +36,8 @@ export default async function SettingsPage() {
       title: "Πληρωμές & ενσωματώσεις",
       items: [
         { href: "/super-admin/settings/payments", label: "Πληρωμές (Viva)", desc: "Ο λογαριασμός εισπράξεων της εταιρείας.", icon: <RiBankCardLine />, mod: "settings-payments" },
-        { href: "/super-admin/integrations", label: "Ενσωματώσεις", desc: "SoftOne, Bunny CDN, Daily, χάρτες και άλλα κλειδιά.", icon: <RiLinksLine />, mod: "integrations" },
+        { href: "/super-admin/settings/softone", label: "Διασύνδεση SoftOne", desc: "Σύνδεση Web Services, έλεγχοι δομής, παράμετροι αντιστοίχισης, συγχρονισμός master data.", icon: <RiExchangeLine />, mod: "softone-connection" },
+        { href: "/super-admin/integrations", label: "Ενσωματώσεις", desc: "Bunny CDN, Daily, χάρτες και άλλα κλειδιά.", icon: <RiLinksLine />, mod: "integrations" },
         { href: "/super-admin/settings/costs", label: "Κόστη AI / API", desc: "Τι καταναλώνει η πλατφόρμα ανά υπηρεσία και πελάτη.", icon: <RiMoneyDollarCircleLine />, mod: "api-costs" },
         { href: "/super-admin/settings/cron", label: "Αυτόματες εργασίες", desc: "Σιωπηρή παραλαβή, υπενθυμίσεις συντηρήσεων, μηνιαίες πιστώσεις — τρέχουν μέσα από την εφαρμογή.", icon: <RiTimerLine />, mod: "settings" },
       ],

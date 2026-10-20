@@ -16,6 +16,13 @@ describe("secrets crypto", () => {
     const bad = enc.slice(0, -4) + (enc.endsWith("A") ? "B" : "A") + enc.slice(-3);
     expect(() => decryptSecret(bad)).toThrow();
   });
+  it("accepts a hex-encoded 32-byte key too", async () => {
+    const { encryptSecret, decryptSecret } = await import("./secrets");
+    const prev = process.env.SECRETS_ENCRYPTION_KEY;
+    process.env.SECRETS_ENCRYPTION_KEY = randomBytes(32).toString("hex");
+    try { expect(decryptSecret(encryptSecret("hex-key-works"))).toBe("hex-key-works"); }
+    finally { process.env.SECRETS_ENCRYPTION_KEY = prev; }
+  });
   it("masks", async () => {
     const { encryptSecret, maskSecret } = await import("./secrets");
     expect(maskSecret(encryptSecret("abcd1234"))).toMatch(/1234$/);

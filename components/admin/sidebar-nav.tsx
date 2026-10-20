@@ -43,6 +43,7 @@ import {
   RiTeamLine, RiTeamFill, RiTruckLine, RiTruckFill, RiStoreLine, RiStoreFill,
   RiMoneyEuroCircleFill, RiFileTextLine, RiFileTextFill, RiAlarmWarningLine, RiAlarmWarningFill,
   RiMailCheckLine, RiMailCheckFill, RiCalendarTodoFill,
+  RiPlugLine, RiPlugFill, RiNodeTree, RiListSettingsLine, RiListSettingsFill, RiRefreshLine, RiRefreshFill, RiExchangeLine, RiExchangeFill,
 } from "react-icons/ri";
 import type { MenuGroup } from "@/lib/rbac/permissions";
 import { usePhone } from "@/lib/use-media-query";
@@ -110,6 +111,11 @@ const ICONS: Record<string, { line: React.ElementType; fill: React.ElementType }
   RiAlarmWarningLine:       { line: RiAlarmWarningLine,       fill: RiAlarmWarningFill },
   RiMailCheckLine:          { line: RiMailCheckLine,          fill: RiMailCheckFill },
   RiCalendarTodoLine:       { line: RiCalendarTodoLine,       fill: RiCalendarTodoFill },
+  RiPlugLine:               { line: RiPlugLine,               fill: RiPlugFill },
+  RiNodeTree:               { line: RiNodeTree,               fill: RiNodeTree },
+  RiListSettingsLine:       { line: RiListSettingsLine,       fill: RiListSettingsFill },
+  RiRefreshLine:            { line: RiRefreshLine,            fill: RiRefreshFill },
+  RiExchangeLine:           { line: RiExchangeLine,           fill: RiExchangeFill },
 };
 const FALLBACK_ICON = { line: RiFileListLine, fill: RiFileListFill };
 
@@ -119,6 +125,7 @@ const GROUP_META: Record<string, { label: string; color: string; icon: React.Ele
   management:  { label: "Διαχείριση",      color: "#8764B8", icon: RiBuildingLine },
   financials:  { label: "Οικονομικά",      color: "#107C10", icon: RiMoneyDollarCircleLine },
   settings:    { label: "Ρυθμίσεις",       color: "#5C5C5C", icon: RiSettingsLine },
+  softone:     { label: "SoftOne",         color: "#0F6CBD", icon: RiExchangeLine },
   cms:         { label: "CMS",             color: "#8764b8", icon: RiLayoutLine },
   preview:     { label: "Προεπισκόπηση",   color: "#038387", icon: RiEyeLine },
   properties:  { label: "Ακίνητα",         color: "#8764B8", icon: RiBuildingLine },

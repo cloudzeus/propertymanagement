@@ -5,6 +5,7 @@ import { notifyUsers, supplierUserIds, companyStaffIds, buildingDeciderIds } fro
 import { pickReminderEmails, isReminderDue } from "@/lib/maintenance";
 import { sendNotificationEmail } from "@/lib/mailgun";
 import { runMonthlyAllowance } from "@/lib/wallet/allowance";
+import { pullAllMasterData } from "@/lib/softone/sync/engine";
 
 /**
  * Scheduled jobs. Each is a plain async function so it can run from the
@@ -17,8 +18,17 @@ export type CronJob = {
   description: string;
   /** "daily" runs once per calendar day after `hour` (Europe/Athens); "monthly" on day 1. */
   schedule: { kind: "daily" | "monthly"; hour: number };
+  /** Optional: read the schedule from settings at tick time (e.g. SoftoneSettings.syncHour). */
+  resolveSchedule?: () => Promise<{ kind: "daily" | "monthly"; hour: number }>;
   run: () => Promise<Record<string, unknown>>;
 };
+
+/** SoftOne master-data pull (ΦΠΑ, μονάδες, ΔΟΥ, σειρές, νομοί, ΤΚ). Skips when the integration/sync is off. */
+export async function runSoftoneMasterDataJob(): Promise<Record<string, unknown>> {
+  const r = await pullAllMasterData({ trigger: "scheduler" });
+  if (r.skipped) return { skipped: r.skipped };
+  return Object.fromEntries(r.results.map((x) => [x.entity, x.ok ? x.counts : { error: x.error }]));
+}
 
 /** Silent acceptance of completed work orders, decider reminder, RFQ expiry. */
 export async function runWorkOrdersJob(): Promise<Record<string, unknown>> {
@@ -100,4 +110,10 @@ export const CRON_JOBS: CronJob[] = [
   { key: "work-orders", label: "Συμβάσεις έργου", description: "Σιωπηρή παραλαβή μετά τις εργάσιμες της ρύθμισης, υπενθύμιση διαχειριστή μία μέρα πριν, λήξη αιτημάτων προσφοράς χωρίς προσφορές.", schedule: { kind: "daily", hour: 7 }, run: runWorkOrdersJob },
   { key: "maintenance-reminders", label: "Υπενθυμίσεις συντηρήσεων", description: "Email στους υπεύθυνους Ν ημέρες πριν από κάθε τακτική συντήρηση.", schedule: { kind: "daily", hour: 7 }, run: runMaintenanceRemindersJob },
   { key: "monthly-allowance", label: "Μηνιαία πίστωση πορτοφολιών", description: "Πιστώνει τη μηνιαία ποσόστωση των πακέτων χρεώσεων στα πορτοφόλια πελατών.", schedule: { kind: "monthly", hour: 6 }, run: async () => runMonthlyAllowance() },
+  {
+    key: "softone-master-data", label: "SoftOne — master data", description: "Τραβάει από το SoftOne συντελεστές ΦΠΑ, μονάδες μέτρησης, ΔΟΥ, σειρές παραστατικών, νομούς και ταχ. κώδικες. Τρέχει μόνο αν η διασύνδεση και ο αυτόματος συγχρονισμός είναι ενεργά και η δοκιμή σύνδεσης περνά.",
+    schedule: { kind: "daily", hour: 5 },
+    resolveSchedule: async () => ({ kind: "daily", hour: (await db.softoneSettings.findUnique({ where: { id: "singleton" }, select: { syncHour: true } }))?.syncHour ?? 5 }),
+    run: runSoftoneMasterDataJob,
+  },
 ];

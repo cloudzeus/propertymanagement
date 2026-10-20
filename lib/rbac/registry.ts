@@ -39,6 +39,11 @@ export const RBAC_MODULES: readonly RbacModule[] = [
   { key: "settings-brand", label: "Brand", surface: "company", menu: { href: "/super-admin/settings/brand", icon: "RiPaletteLine", group: "settings" }, actions: [...CRUD] },
   { key: "settings-payments", label: "Πληρωμές (Viva)", surface: "company", menu: { href: "/super-admin/settings/payments", icon: "RiBankCardLine", group: "settings" }, actions: [...CRUD] },
   { key: "settings", label: "Ρυθμίσεις", surface: "company", menu: { href: "/super-admin/settings", icon: "RiSettingsLine", group: "settings" }, actions: [...CRUD] },
+  // SoftOne ERP integration (Ρυθμίσεις → SoftOne): staff-only, 4 screens
+  { key: "softone-connection", label: "SoftOne: Σύνδεση", surface: "company", menu: { href: "/super-admin/settings/softone", icon: "RiPlugLine", group: "softone" }, actions: [...CRUD] },
+  { key: "softone-structure", label: "SoftOne: Δομή & έλεγχοι", surface: "company", menu: { href: "/super-admin/settings/softone/structure", icon: "RiNodeTree", group: "softone" }, actions: [...VIEW] },
+  { key: "softone-params", label: "SoftOne: Παράμετροι", surface: "company", menu: { href: "/super-admin/settings/softone/params", icon: "RiListSettingsLine", group: "softone" }, actions: [...CRUD] },
+  { key: "softone-sync", label: "SoftOne: Συγχρονισμός", surface: "company", menu: { href: "/super-admin/settings/softone/sync", icon: "RiRefreshLine", group: "softone" }, actions: [...CRUD] },
   { key: "cms-landing", label: "CMS: Αρχική", surface: "company", menu: { href: "/super-admin/cms/landing", icon: "RiLayoutLine", group: "cms" }, actions: [...CRUD] },
   { key: "cms-seo", label: "CMS: SEO", surface: "company", menu: { href: "/super-admin/cms/seo", icon: "RiSearchEyeLine", group: "cms" }, actions: [...CRUD] },
   { key: "cms-settings", label: "CMS: Ρυθμίσεις", surface: "company", menu: { href: "/super-admin/cms/settings", icon: "RiSettings3Line", group: "cms" }, actions: [...CRUD] },
@@ -107,6 +112,7 @@ export const DEFAULT_PERMISSIONS: RoleDefaults = {
     ...crud("properties", "units", "users", "residents", "maintenance", "announcements", "calendar", "managed-items", "managed-buildings", "suppliers", "work-orders", "maintenance-program"),
     ...crud("metered-plans", "customer-wallets"),
     ...view("api-costs"), ...crud("settings", "settings-payments", "settings-contracts", "cms-newsletter"), ...view("help", "report"),
+    ...crud("softone-connection", "softone-params", "softone-sync"), ...view("softone-structure"),
   ],
   MANAGER: [
     ...view("dashboard", "calendar", "help", "report"),
