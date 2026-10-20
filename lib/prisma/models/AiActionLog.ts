@@ -34,6 +34,7 @@ export type AiActionLogMinAggregateOutputType = {
   error: string | null
   buildingId: string | null
   createdAt: Date | null
+  updatedAt: Date | null
   expiresAt: Date | null
   executedAt: Date | null
 }
@@ -48,6 +49,7 @@ export type AiActionLogMaxAggregateOutputType = {
   error: string | null
   buildingId: string | null
   createdAt: Date | null
+  updatedAt: Date | null
   expiresAt: Date | null
   executedAt: Date | null
 }
@@ -65,6 +67,7 @@ export type AiActionLogCountAggregateOutputType = {
   error: number
   buildingId: number
   createdAt: number
+  updatedAt: number
   expiresAt: number
   executedAt: number
   _all: number
@@ -81,6 +84,7 @@ export type AiActionLogMinAggregateInputType = {
   error?: true
   buildingId?: true
   createdAt?: true
+  updatedAt?: true
   expiresAt?: true
   executedAt?: true
 }
@@ -95,6 +99,7 @@ export type AiActionLogMaxAggregateInputType = {
   error?: true
   buildingId?: true
   createdAt?: true
+  updatedAt?: true
   expiresAt?: true
   executedAt?: true
 }
@@ -112,6 +117,7 @@ export type AiActionLogCountAggregateInputType = {
   error?: true
   buildingId?: true
   createdAt?: true
+  updatedAt?: true
   expiresAt?: true
   executedAt?: true
   _all?: true
@@ -202,6 +208,7 @@ export type AiActionLogGroupByOutputType = {
   error: string | null
   buildingId: string | null
   createdAt: Date
+  updatedAt: Date
   expiresAt: Date
   executedAt: Date | null
   _count: AiActionLogCountAggregateOutputType | null
@@ -240,6 +247,7 @@ export type AiActionLogWhereInput = {
   error?: Prisma.StringNullableFilter<"AiActionLog"> | string | null
   buildingId?: Prisma.StringNullableFilter<"AiActionLog"> | string | null
   createdAt?: Prisma.DateTimeFilter<"AiActionLog"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"AiActionLog"> | Date | string
   expiresAt?: Prisma.DateTimeFilter<"AiActionLog"> | Date | string
   executedAt?: Prisma.DateTimeNullableFilter<"AiActionLog"> | Date | string | null
   conversation?: Prisma.XOR<Prisma.AiConversationNullableScalarRelationFilter, Prisma.AiConversationWhereInput> | null
@@ -259,6 +267,7 @@ export type AiActionLogOrderByWithRelationInput = {
   error?: Prisma.SortOrderInput | Prisma.SortOrder
   buildingId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   expiresAt?: Prisma.SortOrder
   executedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   conversation?: Prisma.AiConversationOrderByWithRelationInput
@@ -281,6 +290,7 @@ export type AiActionLogWhereUniqueInput = Prisma.AtLeast<{
   error?: Prisma.StringNullableFilter<"AiActionLog"> | string | null
   buildingId?: Prisma.StringNullableFilter<"AiActionLog"> | string | null
   createdAt?: Prisma.DateTimeFilter<"AiActionLog"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"AiActionLog"> | Date | string
   expiresAt?: Prisma.DateTimeFilter<"AiActionLog"> | Date | string
   executedAt?: Prisma.DateTimeNullableFilter<"AiActionLog"> | Date | string | null
   conversation?: Prisma.XOR<Prisma.AiConversationNullableScalarRelationFilter, Prisma.AiConversationWhereInput> | null
@@ -300,6 +310,7 @@ export type AiActionLogOrderByWithAggregationInput = {
   error?: Prisma.SortOrderInput | Prisma.SortOrder
   buildingId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   expiresAt?: Prisma.SortOrder
   executedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.AiActionLogCountOrderByAggregateInput
@@ -323,6 +334,7 @@ export type AiActionLogScalarWhereWithAggregatesInput = {
   error?: Prisma.StringNullableWithAggregatesFilter<"AiActionLog"> | string | null
   buildingId?: Prisma.StringNullableWithAggregatesFilter<"AiActionLog"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"AiActionLog"> | Date | string
+  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"AiActionLog"> | Date | string
   expiresAt?: Prisma.DateTimeWithAggregatesFilter<"AiActionLog"> | Date | string
   executedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"AiActionLog"> | Date | string | null
 }
@@ -338,6 +350,7 @@ export type AiActionLogCreateInput = {
   error?: string | null
   buildingId?: string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
   expiresAt: Date | string
   executedAt?: Date | string | null
   conversation?: Prisma.AiConversationCreateNestedOneWithoutActionsInput
@@ -357,6 +370,7 @@ export type AiActionLogUncheckedCreateInput = {
   error?: string | null
   buildingId?: string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
   expiresAt: Date | string
   executedAt?: Date | string | null
 }
@@ -372,6 +386,7 @@ export type AiActionLogUpdateInput = {
   error?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   executedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   conversation?: Prisma.AiConversationUpdateOneWithoutActionsNestedInput
@@ -391,6 +406,7 @@ export type AiActionLogUncheckedUpdateInput = {
   error?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   executedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -408,6 +424,7 @@ export type AiActionLogCreateManyInput = {
   error?: string | null
   buildingId?: string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
   expiresAt: Date | string
   executedAt?: Date | string | null
 }
@@ -423,6 +440,7 @@ export type AiActionLogUpdateManyMutationInput = {
   error?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   executedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -440,6 +458,7 @@ export type AiActionLogUncheckedUpdateManyInput = {
   error?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   executedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -467,6 +486,7 @@ export type AiActionLogCountOrderByAggregateInput = {
   error?: Prisma.SortOrder
   buildingId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   expiresAt?: Prisma.SortOrder
   executedAt?: Prisma.SortOrder
 }
@@ -481,6 +501,7 @@ export type AiActionLogMaxOrderByAggregateInput = {
   error?: Prisma.SortOrder
   buildingId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   expiresAt?: Prisma.SortOrder
   executedAt?: Prisma.SortOrder
 }
@@ -495,6 +516,7 @@ export type AiActionLogMinOrderByAggregateInput = {
   error?: Prisma.SortOrder
   buildingId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
   expiresAt?: Prisma.SortOrder
   executedAt?: Prisma.SortOrder
 }
@@ -594,6 +616,7 @@ export type AiActionLogCreateWithoutUserInput = {
   error?: string | null
   buildingId?: string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
   expiresAt: Date | string
   executedAt?: Date | string | null
   conversation?: Prisma.AiConversationCreateNestedOneWithoutActionsInput
@@ -611,6 +634,7 @@ export type AiActionLogUncheckedCreateWithoutUserInput = {
   error?: string | null
   buildingId?: string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
   expiresAt: Date | string
   executedAt?: Date | string | null
 }
@@ -657,6 +681,7 @@ export type AiActionLogScalarWhereInput = {
   error?: Prisma.StringNullableFilter<"AiActionLog"> | string | null
   buildingId?: Prisma.StringNullableFilter<"AiActionLog"> | string | null
   createdAt?: Prisma.DateTimeFilter<"AiActionLog"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"AiActionLog"> | Date | string
   expiresAt?: Prisma.DateTimeFilter<"AiActionLog"> | Date | string
   executedAt?: Prisma.DateTimeNullableFilter<"AiActionLog"> | Date | string | null
 }
@@ -672,6 +697,7 @@ export type AiActionLogCreateWithoutConversationInput = {
   error?: string | null
   buildingId?: string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
   expiresAt: Date | string
   executedAt?: Date | string | null
   user: Prisma.UserCreateNestedOneWithoutAiActionsInput
@@ -689,6 +715,7 @@ export type AiActionLogUncheckedCreateWithoutConversationInput = {
   error?: string | null
   buildingId?: string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
   expiresAt: Date | string
   executedAt?: Date | string | null
 }
@@ -731,6 +758,7 @@ export type AiActionLogCreateManyUserInput = {
   error?: string | null
   buildingId?: string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
   expiresAt: Date | string
   executedAt?: Date | string | null
 }
@@ -746,6 +774,7 @@ export type AiActionLogUpdateWithoutUserInput = {
   error?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   executedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   conversation?: Prisma.AiConversationUpdateOneWithoutActionsNestedInput
@@ -763,6 +792,7 @@ export type AiActionLogUncheckedUpdateWithoutUserInput = {
   error?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   executedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -779,6 +809,7 @@ export type AiActionLogUncheckedUpdateManyWithoutUserInput = {
   error?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   executedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -795,6 +826,7 @@ export type AiActionLogCreateManyConversationInput = {
   error?: string | null
   buildingId?: string | null
   createdAt?: Date | string
+  updatedAt?: Date | string
   expiresAt: Date | string
   executedAt?: Date | string | null
 }
@@ -810,6 +842,7 @@ export type AiActionLogUpdateWithoutConversationInput = {
   error?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   executedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   user?: Prisma.UserUpdateOneRequiredWithoutAiActionsNestedInput
@@ -827,6 +860,7 @@ export type AiActionLogUncheckedUpdateWithoutConversationInput = {
   error?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   executedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -843,6 +877,7 @@ export type AiActionLogUncheckedUpdateManyWithoutConversationInput = {
   error?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   buildingId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   executedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -862,6 +897,7 @@ export type AiActionLogSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   error?: boolean
   buildingId?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
   expiresAt?: boolean
   executedAt?: boolean
   conversation?: boolean | Prisma.AiActionLog$conversationArgs<ExtArgs>
@@ -881,6 +917,7 @@ export type AiActionLogSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   error?: boolean
   buildingId?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
   expiresAt?: boolean
   executedAt?: boolean
   conversation?: boolean | Prisma.AiActionLog$conversationArgs<ExtArgs>
@@ -900,6 +937,7 @@ export type AiActionLogSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   error?: boolean
   buildingId?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
   expiresAt?: boolean
   executedAt?: boolean
   conversation?: boolean | Prisma.AiActionLog$conversationArgs<ExtArgs>
@@ -919,11 +957,12 @@ export type AiActionLogSelectScalar = {
   error?: boolean
   buildingId?: boolean
   createdAt?: boolean
+  updatedAt?: boolean
   expiresAt?: boolean
   executedAt?: boolean
 }
 
-export type AiActionLogOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "conversationId" | "userId" | "actorId" | "toolName" | "argsJson" | "previewJson" | "resultJson" | "status" | "error" | "buildingId" | "createdAt" | "expiresAt" | "executedAt", ExtArgs["result"]["aiActionLog"]>
+export type AiActionLogOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "conversationId" | "userId" | "actorId" | "toolName" | "argsJson" | "previewJson" | "resultJson" | "status" | "error" | "buildingId" | "createdAt" | "updatedAt" | "expiresAt" | "executedAt", ExtArgs["result"]["aiActionLog"]>
 export type AiActionLogInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   conversation?: boolean | Prisma.AiActionLog$conversationArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -956,6 +995,7 @@ export type $AiActionLogPayload<ExtArgs extends runtime.Types.Extensions.Interna
     error: string | null
     buildingId: string | null
     createdAt: Date
+    updatedAt: Date
     expiresAt: Date
     executedAt: Date | null
   }, ExtArgs["result"]["aiActionLog"]>
@@ -1395,6 +1435,7 @@ export interface AiActionLogFieldRefs {
   readonly error: Prisma.FieldRef<"AiActionLog", 'String'>
   readonly buildingId: Prisma.FieldRef<"AiActionLog", 'String'>
   readonly createdAt: Prisma.FieldRef<"AiActionLog", 'DateTime'>
+  readonly updatedAt: Prisma.FieldRef<"AiActionLog", 'DateTime'>
   readonly expiresAt: Prisma.FieldRef<"AiActionLog", 'DateTime'>
   readonly executedAt: Prisma.FieldRef<"AiActionLog", 'DateTime'>
 }

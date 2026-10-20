@@ -61,18 +61,28 @@ export function runAssistantTurn(input: { eff: EffectiveSession; ctx: AssistantC
               }
             } else {
               if (proposed) { reply(JSON.stringify({ error: "Μία ενέργεια τη φορά — περίμενε την επιβεβαίωση της πρώτης." })); continue; }
-              const p = await proposeAction(ctx, tool as WriteTool<unknown>, args, conversationId);
-              if ("error" in p) { reply(JSON.stringify({ error: p.error })); continue; }
-              proposed = true;
-              emit("confirm", { card: p.card });
-              reply(JSON.stringify({ proposed: true, note: PROPOSAL_NOTE }));
+              try {
+                const p = await proposeAction(ctx, tool as WriteTool<unknown>, args, conversationId);
+                if ("error" in p) { reply(JSON.stringify({ error: p.error })); continue; }
+                proposed = true;
+                emit("confirm", { card: p.card });
+                reply(JSON.stringify({ proposed: true, note: PROPOSAL_NOTE }));
+              } catch (e) {
+                // A guard or lookup that throws inside preview is a tool error for the model, never a dead turn.
+                reply(JSON.stringify({ error: e instanceof Error ? e.message : "Σφάλμα εργαλείου" }));
+              }
             }
           }
           if (proposed) tools = [];
         }
+        // The model used every round on tool calls: one last text-only call so the user never gets an empty bubble.
+        if (!finalContent.trim()) {
+          const last = await streamChat({ system, messages, tools: [], ...meta, onToken: (delta) => emit("token", { delta }) });
+          finalContent += last.content;
+        }
 
         const saved = await appendMessage(conversationId, { role: "assistant", content: finalContent, toolCalls: transcriptCalls.length ? transcriptCalls : undefined });
-        await maybeSummarize(conversationId);
+        await maybeSummarize(conversationId, meta);
         emit("meta", { conversationId, messageId: saved.id });
       } catch (e) {
         const msg = e instanceof Error ? e.message : "Άγνωστο σφάλμα";

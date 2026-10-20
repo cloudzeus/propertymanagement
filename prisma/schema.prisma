@@ -2918,7 +2918,7 @@ model AiMessage {
 model AiActionLog {
   id             String   @id @default(cuid())
   conversationId String?
-  conversation   AiConversation? @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  conversation   AiConversation? @relation(fields: [conversationId], references: [id], onDelete: SetNull) // audit rows outlive the chat
   userId         String
   user           User     @relation("aiActions", fields: [userId], references: [id], onDelete: Cascade)
   actorId        String?
@@ -2930,6 +2930,7 @@ model AiActionLog {
   error          String?
   buildingId     String?
   createdAt      DateTime @default(now())
+  updatedAt      DateTime @default(now()) @updatedAt
   expiresAt      DateTime
   executedAt     DateTime?
 

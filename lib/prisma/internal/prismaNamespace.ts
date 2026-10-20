@@ -10337,6 +10337,7 @@ export const AiActionLogScalarFieldEnum = {
   error: 'error',
   buildingId: 'buildingId',
   createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
   expiresAt: 'expiresAt',
   executedAt: 'executedAt'
 } as const

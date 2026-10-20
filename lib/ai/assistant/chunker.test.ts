@@ -23,10 +23,23 @@ describe("chunkMarkdown", () => {
     expect(new Set(chunks.map((c) => c.anchor)).size).toBe(chunks.length);
     expect(chunks[1].anchor).toBe("μεγάλο-2");
   });
-  it("strips :::roles fences but keeps their text", () => {
-    const chunks = chunkMarkdown("## Α\n:::roles PROPERTY_ADMIN\nΜόνο εσείς.\n:::\n", META);
-    expect(chunks[0].content).toContain("Μόνο εσείς.");
-    expect(chunks[0].content).not.toContain(":::");
+  it("emits :::roles blocks as separate chunks restricted to the block's roles", () => {
+    const md = "## Α\nΓια όλους.\n:::roles PROPERTY_ADMIN\nΜόνο διαχειριστές.\n:::\nΚαι πάλι για όλους.\n";
+    const chunks = chunkMarkdown(md, { ...META, roles: ["PROPERTY_ADMIN", "PROPERTY_OWNER"] });
+    const shared = chunks.filter((c) => c.roles.includes("PROPERTY_OWNER"));
+    const mgr = chunks.filter((c) => !c.roles.includes("PROPERTY_OWNER"));
+    expect(shared.map((c) => c.content).join("\n")).toContain("Για όλους.");
+    expect(shared.map((c) => c.content).join("\n")).toContain("Και πάλι για όλους.");
+    expect(shared.map((c) => c.content).join("\n")).not.toContain("Μόνο διαχειριστές.");
+    expect(mgr).toHaveLength(1);
+    expect(mgr[0].roles).toEqual(["PROPERTY_ADMIN"]);
+    expect(mgr[0].content).toContain("Μόνο διαχειριστές.");
+    expect(chunks.every((c) => !c.content.includes(":::"))).toBe(true);
+    expect(new Set(chunks.map((c) => c.anchor)).size).toBe(chunks.length);
+  });
+  it("uses the block's roles when the article is open to everyone", () => {
+    const chunks = chunkMarkdown("## Α\n:::roles SUPER_ADMIN, ADMIN\nΜόνο στελέχη.\n:::\n", { ...META, roles: [] });
+    expect(chunks[0].roles).toEqual(["SUPER_ADMIN", "ADMIN"]);
   });
 });
 

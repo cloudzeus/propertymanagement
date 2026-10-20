@@ -1,7 +1,7 @@
 import { db } from "@/lib/db";
 import type { EffectiveSession } from "@/lib/auth-effective";
 import type { AgentMessage } from "@/lib/ai/agent";
-import { deepseekComplete } from "@/lib/ai";
+import { streamChat } from "@/lib/ai/deepseek";
 
 export const HISTORY_LIMIT = 20;
 const SUMMARY_EVERY = 10;
@@ -43,13 +43,16 @@ export async function loadHistory(conversationId: string, limit = HISTORY_LIMIT)
 }
 
 /** Every SUMMARY_EVERY messages, condense the conversation so long chats stay cheap. */
-export async function maybeSummarize(conversationId: string): Promise<void> {
+export async function maybeSummarize(conversationId: string, meta: { userId?: string; customerId?: string } = {}): Promise<void> {
   const count = await db.aiMessage.count({ where: { conversationId, role: { in: ["user", "assistant"] } } });
   if (count === 0 || count % SUMMARY_EVERY !== 0) return;
   const rows = await db.aiMessage.findMany({ where: { conversationId, role: { in: ["user", "assistant"] } }, orderBy: { createdAt: "asc" }, select: { role: true, content: true } });
   const transcript = rows.map((r) => `${r.role === "user" ? "Χρήστης" : "Βοηθός"}: ${r.content}`).join("\n").slice(-12000);
   try {
-    const summary = await deepseekComplete(`Συνόψισε σε έως 600 χαρακτήρες, στα ελληνικά, τα ουσιώδη της παρακάτω συζήτησης (τι ζήτησε ο χρήστης, τι απαντήθηκε, τι εκκρεμεί):\n\n${transcript}`);
+    const { content: summary } = await streamChat({
+      system: "Συνόψισε σε έως 600 χαρακτήρες, στα ελληνικά, τα ουσιώδη της συζήτησης (τι ζήτησε ο χρήστης, τι απαντήθηκε, τι εκκρεμεί). Μόνο η περίληψη.",
+      messages: [{ role: "user", content: transcript }], userId: meta.userId, customerId: meta.customerId,
+    });
     if (summary?.trim()) await db.aiConversation.update({ where: { id: conversationId }, data: { summary: summary.trim().slice(0, 600) } });
   } catch { /* summaries are best-effort */ }
 }

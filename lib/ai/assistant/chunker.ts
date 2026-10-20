@@ -10,7 +10,19 @@ export const MAX_CHUNK_CHARS = 1200;
 
 const sha = (s: string) => createHash("sha256").update(s).digest("hex");
 export const slugifyHeading = (h: string) => h.toLowerCase().replace(/[^\p{L}\p{N}\s-]/gu, "").trim().replace(/\s+/g, "-") || "section";
-const stripFences = (s: string) => s.replace(/^:::roles[^\n]*\n?/gim, "").replace(/^:::\s*$/gm, "");
+/** Split a section's text into segments: plain text (article roles) and `:::roles A,B` blocks (restricted roles). */
+function splitRoleBlocks(text: string): { roles: string[] | null; text: string }[] {
+  const out: { roles: string[] | null; text: string }[] = [];
+  let cur: { roles: string[] | null; text: string } = { roles: null, text: "" };
+  for (const line of text.split("\n")) {
+    const open = line.match(/^:::roles\s+(.+)$/i);
+    if (open && cur.roles === null) { out.push(cur); cur = { roles: open[1].split(/[\s,]+/).filter(Boolean).map((r) => r.toUpperCase()), text: "" }; continue; }
+    if (cur.roles !== null && /^:::\s*$/.test(line)) { out.push(cur); cur = { roles: null, text: "" }; continue; }
+    cur.text += line + "\n";
+  }
+  out.push(cur);
+  return out.filter((seg) => seg.text.trim());
+}
 
 /** Split an article into retrieval chunks: one per H2 (preamble = `intro`), long sections by H3 then paragraphs. */
 export function chunkMarkdown(md: string, meta: Meta): WikiChunkInput[] {
@@ -25,19 +37,23 @@ export function chunkMarkdown(md: string, meta: Meta): WikiChunkInput[] {
 
   const out: WikiChunkInput[] = [];
   const seen = new Map<string, number>();
-  const push = (heading: string | null, text: string) => {
-    const body = stripFences(text).trim();
+  const push = (heading: string | null, text: string, roles: string[]) => {
+    const body = text.trim();
     if (!body) return;
     const base = heading ? slugifyHeading(heading) : "intro";
     const n = (seen.get(base) ?? 0) + 1;
     seen.set(base, n);
     const anchor = n === 1 ? base : `${base}-${n}`;
     const content = `${meta.title}${heading ? ` › ${heading}` : ""}\n\n${body}`;
-    out.push({ slug: meta.slug, title: meta.title, heading, anchor, route: meta.route, surface: meta.surface, roles: meta.roles, content, hash: sha(content) });
+    out.push({ slug: meta.slug, title: meta.title, heading, anchor, route: meta.route, surface: meta.surface, roles, content, hash: sha(content) });
   };
   for (const s of sections) {
-    if (s.text.length <= MAX_CHUNK_CHARS) { push(s.heading, s.text); continue; }
-    for (const part of splitLong(s.text)) push(s.heading, part);
+    for (const seg of splitRoleBlocks(s.text)) {
+      // A role block narrows the article's audience: block ∩ article (or the block alone when the article is open to all).
+      const roles = seg.roles === null ? meta.roles : meta.roles.length ? seg.roles.filter((r) => meta.roles.includes(r)) : seg.roles;
+      if (seg.text.length <= MAX_CHUNK_CHARS) { push(s.heading, seg.text, roles); continue; }
+      for (const part of splitLong(seg.text)) push(s.heading, part, roles);
+    }
   }
   return out;
 }

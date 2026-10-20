@@ -32,7 +32,8 @@ export async function resolveBuilding(ctx: AssistantCtx, q: { buildingId?: strin
       : (await scopeBuildings(ctx)).filter((b) => norm(b.name).includes(needle));
     if (candidates.length === 1) return candidates[0];
     if (candidates.length > 1) return { error: `Βρήκα ${candidates.length} κτήρια: ${candidates.map((c) => c.name).join(", ")}. Ποιο εννοείτε;` };
-    if (ctx.scope.seesAllCustomers) return { error: `Δεν βρέθηκε κτήριο με όνομα «${q.buildingName}».` };
+    // A name that matches nothing never falls back to another building (that would answer about the wrong one).
+    return { error: `Δεν βρέθηκε κτήριο με όνομα «${q.buildingName}»${ctx.scope.seesAllCustomers ? "" : " στα κτήριά σας"}.` };
   }
   if (ctx.page.buildingId) return { id: ctx.page.buildingId, name: ctx.page.buildingName ?? "" };
   if (!ctx.scope.seesAllCustomers) {

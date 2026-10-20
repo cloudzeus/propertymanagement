@@ -19,7 +19,7 @@ const tool = {
 };
 vi.mock("@/lib/ai/tools/registry", () => ({ findTool: (n: string) => (n === "createFaultReport" ? tool : undefined), toolsForRole: () => [tool] }));
 
-import { proposeAction, confirmAction, cancelAction } from "./actions";
+import { proposeAction, confirmAction, cancelAction, expireStale } from "./actions";
 import type { AssistantCtx } from "@/lib/ai/tools/types";
 import type { EffectiveSession } from "@/lib/auth-effective";
 
@@ -28,7 +28,7 @@ const ctx = (over: Partial<AssistantCtx> = {}): AssistantCtx => ({
   surface: "customer", perms: new Set(), scope: { seesAllCustomers: false, managerBuildingIds: [], occupantUnits: [], supplierId: null }, page: { path: "/portal" }, now: new Date("2026-10-20T10:00:00Z"), ...over,
 });
 const eff: EffectiveSession = { user: { id: "u1", role: "PROPERTY_RESIDENT", roleId: null, companyId: null, customerId: "c1", name: "Μ", email: "e" }, real: { id: "u1", role: "PROPERTY_RESIDENT" }, impersonatorId: null };
-const proposed = (over: Record<string, unknown> = {}) => ({ id: "act1", userId: "u1", status: "PROPOSED", expiresAt: new Date(Date.now() + 60_000), toolName: "createFaultReport", argsJson: { title: "Διαρροή" }, conversationId: "conv1", ...over });
+const proposed = (over: Record<string, unknown> = {}) => ({ id: "act1", userId: "u1", status: "PROPOSED", expiresAt: new Date(Date.now() + 60_000), toolName: "createFaultReport", argsJson: { title: "Διαρροή" }, previewJson: { page: { path: "/building/b1", buildingId: "b1", tab: "maintenance" } }, conversationId: "conv1", ...over });
 
 beforeEach(() => { vi.clearAllMocks(); m.buildCtx.mockResolvedValue(ctx()); });
 
@@ -45,6 +45,40 @@ describe("proposeAction", () => {
     const data = m.logCreate.mock.calls[0]![0].data;
     expect(data).toMatchObject({ status: "PROPOSED", userId: "u1", actorId: "sa", toolName: "createFaultReport", buildingId: "b1", conversationId: "conv1" });
     expect((data.expiresAt as Date).getTime() - Date.now()).toBeGreaterThan(14 * 60 * 1000);
+  });
+});
+
+describe("review fixes", () => {
+  it("stores the authorized page context with the proposal", async () => {
+    await proposeAction(ctx({ page: { path: "/building/b1", buildingId: "b1", buildingName: "Ερμού", tab: "maintenance" } }), tool, { title: "Διαρροή" }, "conv1");
+    const data = m.logCreate.mock.calls[0]![0].data as { previewJson: { page?: unknown } };
+    expect(data.previewJson.page).toEqual({ path: "/building/b1", buildingId: "b1", tab: "maintenance" });
+  });
+  it("re-authorizes the proposal's page context on confirm (not just the conversation path)", async () => {
+    m.logFindUnique.mockResolvedValue(proposed());
+    m.logUpdateMany.mockResolvedValue({ count: 1 });
+    await confirmAction("act1", eff);
+    expect(m.buildCtx).toHaveBeenCalledWith(eff, { path: "/building/b1", buildingId: "b1", tab: "maintenance" });
+  });
+  it("marks the row FAILED when something throws after the EXECUTING claim", async () => {
+    m.logFindUnique.mockResolvedValue(proposed());
+    m.logUpdateMany.mockResolvedValue({ count: 1 });
+    tool.preview.mockRejectedValueOnce(new Error("Forbidden"));
+    const r = await confirmAction("act1", eff);
+    expect(r).toEqual({ ok: false, error: "Forbidden" });
+    expect(m.logUpdate.mock.calls[0]![0] as object).toMatchObject({ where: { id: "act1" }, data: { status: "FAILED", error: "Forbidden" } });
+  });
+  it("returns the stored result when an EXECUTED proposal is confirmed again", async () => {
+    m.logFindUnique.mockResolvedValue(proposed({ status: "EXECUTED", resultJson: { ok: true, message: "Η βλάβη δηλώθηκε.", href: "/portal/requests/r1" } }));
+    expect(await confirmAction("act1", eff)).toEqual({ ok: true, message: "Η βλάβη δηλώθηκε.", href: "/portal/requests/r1" });
+    expect(tool.execute).not.toHaveBeenCalled();
+  });
+  it("expireStale also fails EXECUTING rows stuck for more than 5 minutes", async () => {
+    m.logUpdateMany.mockResolvedValue({ count: 0 });
+    await expireStale();
+    const calls = m.logUpdateMany.mock.calls.map((c) => c[0] as { where: { status: string }; data: { status: string } });
+    expect(calls.some((c) => c.where.status === "PROPOSED" && c.data.status === "EXPIRED")).toBe(true);
+    expect(calls.some((c) => c.where.status === "EXECUTING" && c.data.status === "FAILED")).toBe(true);
   });
 });
 

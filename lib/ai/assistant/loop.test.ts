@@ -76,6 +76,23 @@ describe("runAssistantTurn", () => {
     expect(toolMsgs[1]).toContain("Μη έγκυρα ορίσματα");
     expect(ev.at(-1)).toEqual({ type: "done" });
   });
+  it("reports a throwing write preview back to the model instead of aborting the turn", async () => {
+    m.proposeAction.mockRejectedValueOnce(new Error("Forbidden"));
+    m.streamChat.mockImplementationOnce(reply("", [{ id: "c1", name: "createFaultReport", args: '{"title":"x"}' }])).mockImplementationOnce(reply("Δεν έχετε δικαίωμα."));
+    const ev = await collect(runAssistantTurn({ eff, ctx, conversationId: "c1", userText: "δήλωσε βλάβη" }));
+    expect(ev.find((e) => e.type === "error")).toBeUndefined();
+    const second = m.streamChat.mock.calls[1]![0] as { messages: { role: string; content: string }[] };
+    expect(second.messages.filter((x) => x.role === "tool").map((x) => x.content)[0]).toContain("Forbidden");
+    expect(m.appendMessage).toHaveBeenLastCalledWith("c1", expect.objectContaining({ role: "assistant", content: "Δεν έχετε δικαίωμα." }));
+  });
+  it("forces a text answer when the model keeps calling tools past MAX_ROUNDS", async () => {
+    for (let i = 0; i < 4; i++) m.streamChat.mockImplementationOnce(reply("", [{ id: `c${i}`, name: "listFaults", args: "{}" }]));
+    m.streamChat.mockImplementationOnce(reply("Συνοψίζω."));
+    await collect(runAssistantTurn({ eff, ctx, conversationId: "c1", userText: "x" }));
+    const last = m.streamChat.mock.calls.at(-1)![0] as { tools?: unknown[] };
+    expect(last.tools ?? []).toHaveLength(0);
+    expect(m.appendMessage).toHaveBeenLastCalledWith("c1", expect.objectContaining({ role: "assistant", content: "Συνοψίζω." }));
+  });
   it("emits error then done when the model call fails", async () => {
     m.streamChat.mockRejectedValueOnce(new Error("deepseek_unavailable"));
     const ev = await collect(runAssistantTurn({ eff, ctx, conversationId: "c1", userText: "x" }));
