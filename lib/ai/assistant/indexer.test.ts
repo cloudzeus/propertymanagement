@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
 const m = vi.hoisted(() => ({
-  embed: vi.fn(), upsert: vi.fn(async () => ({ id: "c1" })), findMany: vi.fn(async () => []), deleteMany: vi.fn(async () => ({ count: 0 })), executeRaw: vi.fn(async () => 1),
+  embed: vi.fn(), upsert: vi.fn(async () => ({ id: "c1" })), findMany: vi.fn(async () => []), deleteMany: vi.fn(async () => ({ count: 0 })), executeRaw: vi.fn(async (_q: unknown) => 1),
 }));
 vi.mock("@/lib/db", () => ({ db: { wikiChunk: { upsert: m.upsert, findMany: m.findMany, deleteMany: m.deleteMany }, $executeRaw: m.executeRaw } }));
 vi.mock("./embeddings", () => ({ embedTexts: m.embed, toVectorLiteral: (v: number[]) => `[${v.join(",")}]` }));

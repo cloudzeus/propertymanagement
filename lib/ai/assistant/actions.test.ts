@@ -4,7 +4,7 @@ import { z } from "zod";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const m = vi.hoisted(() => ({
   logCreate: vi.fn(async ({ data }: { data: Record<string, unknown> }) => ({ id: "act1", ...data })),
-  logFindUnique: vi.fn(), logUpdateMany: vi.fn(), logUpdate: vi.fn(async (_q: unknown) => ({})),
+  logFindUnique: vi.fn(), logUpdateMany: vi.fn(), logUpdate: vi.fn(async (_q: { where?: unknown; data: Record<string, unknown> }) => ({} as Record<string, unknown>)),
   msgCreate: vi.fn(async (_q: unknown) => ({ id: "m1" })), convUpdate: vi.fn(async () => ({})),
   buildCtx: vi.fn(),
 }));

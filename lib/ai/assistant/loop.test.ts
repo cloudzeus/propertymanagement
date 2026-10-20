@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { z } from "zod";
 
 const m = vi.hoisted(() => ({
-  streamChat: vi.fn(), retrieveWiki: vi.fn(async () => []), appendMessage: vi.fn(async () => ({ id: "m-id" })), loadHistory: vi.fn(async () => []),
+  streamChat: vi.fn(), retrieveWiki: vi.fn(async () => []), appendMessage: vi.fn(async (_id: string, _m: { role: string; content: string }) => ({ id: "m-id" })), loadHistory: vi.fn(async () => []),
   maybeSummarize: vi.fn(async () => {}), proposeAction: vi.fn(), expireStale: vi.fn(async () => 0), readRun: vi.fn(async () => ({ ok: true, data: [{ id: "f1" }] })),
 }));
 vi.mock("@/lib/ai/deepseek", () => ({ streamChat: m.streamChat }));
@@ -105,7 +105,7 @@ describe("runAssistantTurn", () => {
     const ev = await collect(runAssistantTurn({ eff, ctx, conversationId: "c1", userText: "x", signal: ac.signal }));
     expect(m.streamChat).toHaveBeenCalledTimes(1);
     expect(m.readRun).not.toHaveBeenCalled();
-    expect(m.appendMessage.mock.calls.some((c) => (c[1] as { role: string }).role === "assistant")).toBe(false);
+    expect(m.appendMessage.mock.calls.some((c) => c[1].role === "assistant")).toBe(false);
     expect(m.maybeSummarize).not.toHaveBeenCalled();
     expect(ev.at(-1)).toEqual({ type: "done" });
   });
@@ -119,6 +119,6 @@ describe("runAssistantTurn", () => {
     await new Promise((r) => setTimeout(r, 10));
     expect(m.streamChat).toHaveBeenCalledTimes(1);
     expect(m.readRun).not.toHaveBeenCalled();
-    expect(m.appendMessage.mock.calls.some((c) => (c[1] as { role: string }).role === "assistant")).toBe(false);
+    expect(m.appendMessage.mock.calls.some((c) => c[1].role === "assistant")).toBe(false);
   });
 });

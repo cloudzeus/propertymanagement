@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
-const m = vi.hoisted(() => ({ access: vi.fn(), bFindUnique: vi.fn(), bFindMany: vi.fn(async () => [] as unknown[]), canAccess: vi.fn(), mrFindMany: vi.fn(async () => [] as unknown[]), mrFindFirst: vi.fn(async () => null as unknown) }));
+const m = vi.hoisted(() => ({ access: vi.fn(), bFindUnique: vi.fn(), bFindMany: vi.fn(async () => [] as unknown[]), canAccess: vi.fn(), mrFindMany: vi.fn(async () => [] as unknown[]), mrFindFirst: vi.fn(async (_q: { where: { buildingId: string; supplierId: string } }) => null as { id: string } | null) }));
 vi.mock("@/lib/db", () => ({ db: { building: { findUnique: m.bFindUnique, findMany: m.bFindMany }, maintenanceRequest: { findUnique: vi.fn(), findMany: m.mrFindMany, findFirst: m.mrFindFirst } } }));
 vi.mock("@/lib/building-access", () => ({ getBuildingAccess: m.access }));
 vi.mock("@/lib/maintenance-requests", () => ({ canAccessRequest: m.canAccess }));

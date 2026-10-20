@@ -71,7 +71,8 @@ describe("createFaultReport", () => {
   it("prefers an exact category name over a broader contains match", async () => {
     m.catFindMany.mockResolvedValue([{ id: "c1", name: "Ηλεκτρολογικά" }, { id: "c2", name: "Ηλεκτρολογικά μονάδας" }]);
     const p = await createFaultReport.preview({ title: "Λάμπα", description: "Καμένη λάμπα", category: "Ηλεκτρολογικά" }, ctx("PROPERTY_RESIDENT"));
-    expect((p as { resolved: { categoryId: string } }).resolved.categoryId).toBe("c1");
+    if ("error" in p) throw new Error(p.error);
+    expect(p.resolved.categoryId).toBe("c1");
   });
   it("rejects an unknown category and lists the available ones", async () => {
     m.catFindMany.mockResolvedValue([{ id: "c1", name: "Υδραυλικά" }, { id: "c3", name: "Ανελκυστήρας" }]);
