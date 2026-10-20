@@ -34,7 +34,7 @@ async function collect(stream: ReadableStream<Uint8Array>): Promise<AgentEvent[]
 }
 const reply = (content: string, toolCalls: { id: string; name: string; args: string }[] = []) => async (o: { onToken?: (t: string) => void }) => { for (const ch of content.split("")) o.onToken?.(ch); return { content, toolCalls, usage: 10 }; };
 
-beforeEach(() => { vi.clearAllMocks(); m.loadHistory.mockResolvedValue([]); m.retrieveWiki.mockResolvedValue([]); });
+beforeEach(() => { vi.clearAllMocks(); m.streamChat.mockReset(); m.loadHistory.mockResolvedValue([]); m.retrieveWiki.mockResolvedValue([]); });
 
 describe("runAssistantTurn", () => {
   it("streams tokens, persists the assistant message and ends with meta + done", async () => {
@@ -97,5 +97,28 @@ describe("runAssistantTurn", () => {
     m.streamChat.mockRejectedValueOnce(new Error("deepseek_unavailable"));
     const ev = await collect(runAssistantTurn({ eff, ctx, conversationId: "c1", userText: "x" }));
     expect(ev).toEqual([{ type: "error", message: "Ο βοηθός δεν είναι διαθέσιμος αυτή τη στιγμή." }, { type: "done" }]);
+  });
+
+  it("stops after the current round when the request is aborted and persists no assistant message", async () => {
+    const ac = new AbortController();
+    m.streamChat.mockImplementationOnce(async (o: { onToken?: (t: string) => void }) => { ac.abort(); return reply("", [{ id: "c1", name: "listFaults", args: "{}" }])(o); });
+    const ev = await collect(runAssistantTurn({ eff, ctx, conversationId: "c1", userText: "x", signal: ac.signal }));
+    expect(m.streamChat).toHaveBeenCalledTimes(1);
+    expect(m.readRun).not.toHaveBeenCalled();
+    expect(m.appendMessage.mock.calls.some((c) => (c[1] as { role: string }).role === "assistant")).toBe(false);
+    expect(m.maybeSummarize).not.toHaveBeenCalled();
+    expect(ev.at(-1)).toEqual({ type: "done" });
+  });
+  it("treats a cancelled stream (client went away) like an abort", async () => {
+    let cancel: (() => void) | undefined;
+    m.streamChat.mockImplementationOnce(async (o: { onToken?: (t: string) => void }) => { cancel?.(); return reply("", [{ id: "c1", name: "listFaults", args: "{}" }])(o); });
+    const stream = runAssistantTurn({ eff, ctx, conversationId: "c1", userText: "x" });
+    const reader = stream.getReader();
+    cancel = () => { void reader.cancel(); };
+    for (;;) { const { done } = await reader.read(); if (done) break; }
+    await new Promise((r) => setTimeout(r, 10));
+    expect(m.streamChat).toHaveBeenCalledTimes(1);
+    expect(m.readRun).not.toHaveBeenCalled();
+    expect(m.appendMessage.mock.calls.some((c) => (c[1] as { role: string }).role === "assistant")).toBe(false);
   });
 });

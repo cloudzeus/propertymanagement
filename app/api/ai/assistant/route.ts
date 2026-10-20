@@ -32,7 +32,7 @@ export async function POST(request: Request) {
   const ctx = await buildAssistantContext(eff, page);
   const conv = await getOrCreateConversation(eff, { conversationId: body.conversationId, surface: ctx.surface, pagePath: page.path });
 
-  return new Response(runAssistantTurn({ eff, ctx, conversationId: conv.id, userText: message }), {
+  return new Response(runAssistantTurn({ eff, ctx, conversationId: conv.id, userText: message, signal: request.signal }), {
     headers: { "Content-Type": "text/event-stream; charset=utf-8", "Cache-Control": "no-cache, no-transform", Connection: "keep-alive" },
   });
 }

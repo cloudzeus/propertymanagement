@@ -15,11 +15,17 @@ const sse = (event: string, data: unknown) => enc.encode(`event: ${event}\ndata:
 const PROPOSAL_NOTE = "Η προεπισκόπηση εμφανίστηκε στον χρήστη· περίμενε την επιβεβαίωσή του — μην ξανακαλέσεις το εργαλείο. Κλείσε με μία σύντομη πρόταση.";
 
 /** One assistant turn as an SSE stream: tools run server-side; write tools become confirm cards (never executed here). */
-export function runAssistantTurn(input: { eff: EffectiveSession; ctx: AssistantCtx; conversationId: string; userText: string }): ReadableStream<Uint8Array> {
+export function runAssistantTurn(input: { eff: EffectiveSession; ctx: AssistantCtx; conversationId: string; userText: string; signal?: AbortSignal }): ReadableStream<Uint8Array> {
   const { ctx, conversationId, userText } = input;
+  // Aborted by the request signal (client disconnected) or by the stream being cancelled: finish the current round, persist nothing.
+  const abort = new AbortController();
+  if (input.signal?.aborted) abort.abort();
+  input.signal?.addEventListener("abort", () => abort.abort(), { once: true });
+  const aborted = () => abort.signal.aborted;
   return new ReadableStream<Uint8Array>({
+    cancel() { abort.abort(); },
     async start(controller) {
-      const emit = (event: string, data: unknown) => controller.enqueue(sse(event, data));
+      const emit = (event: string, data: unknown) => { try { controller.enqueue(sse(event, data)); } catch { /* reader gone */ } };
       try {
         await expireStale();
         await appendMessage(conversationId, { role: "user", content: userText });
@@ -32,10 +38,10 @@ export function runAssistantTurn(input: { eff: EffectiveSession; ctx: AssistantC
         const transcriptCalls: unknown[] = [];
         let finalContent = "";
 
-        for (let round = 0; round < MAX_ROUNDS; round++) {
+        for (let round = 0; round < MAX_ROUNDS && !aborted(); round++) {
           const res = await streamChat({ system, messages, tools, ...meta, onToken: (delta) => emit("token", { delta }) });
           finalContent += res.content;
-          if (!res.toolCalls.length) break;
+          if (!res.toolCalls.length || aborted()) break;
 
           messages.push({ role: "assistant", content: res.content, tool_calls: res.toolCalls.map((c) => ({ id: c.id, type: "function", function: { name: c.name, arguments: c.args } })) });
           let proposed = false;
@@ -75,6 +81,7 @@ export function runAssistantTurn(input: { eff: EffectiveSession; ctx: AssistantC
           }
           if (proposed) tools = [];
         }
+        if (aborted()) return;
         // The model used every round on tool calls: one last text-only call so the user never gets an empty bubble.
         if (!finalContent.trim()) {
           const last = await streamChat({ system, messages, tools: [], ...meta, onToken: (delta) => emit("token", { delta }) });
@@ -89,7 +96,7 @@ export function runAssistantTurn(input: { eff: EffectiveSession; ctx: AssistantC
         emit("error", { message: msg === "deepseek_unavailable" ? "Ο βοηθός δεν είναι διαθέσιμος αυτή τη στιγμή." : msg });
       } finally {
         emit("done", {});
-        controller.close();
+        try { controller.close(); } catch { /* already cancelled */ }
       }
     },
   });
