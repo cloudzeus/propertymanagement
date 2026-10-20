@@ -10,6 +10,7 @@ import { listAnnouncements } from "./read/announcements";
 import { getMyBalance } from "./read/my-balance";
 import { listExpenses } from "./read/expenses";
 import { listCalendarTasks } from "./read/calendar-tasks";
+import { searchWiki } from "./read/wiki-search";
 import { createFaultReport } from "./write/create-fault";
 import { createAnnouncement } from "./write/create-announcement";
 import { createBuildingExpense } from "./write/create-expense";
@@ -18,7 +19,7 @@ import { createRfq } from "./write/create-rfq";
 
 /** Every assistant tool. Order = order shown to the model. */
 export const TOOLS: AssistantTool[] = [
-  listMyBuildings, getBuildingOverview, listFaults, listAnnouncements, getMyBalance, listExpenses, listCalendarTasks,
+  listMyBuildings, getBuildingOverview, listFaults, listAnnouncements, getMyBalance, listExpenses, listCalendarTasks, searchWiki,
   createFaultReport, createAnnouncement, createBuildingExpense, createRecurringTask, createRfq,
 ];
 

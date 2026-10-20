@@ -26,7 +26,7 @@ describe("registry", () => {
   });
   it("filters tools by role", () => {
     const resident = toolsForRole("PROPERTY_RESIDENT", new Set()).map((t) => t.name);
-    expect(resident).toEqual(expect.arrayContaining(["listFaults", "getMyBalance", "listMyBuildings", "listAnnouncements"]));
+    expect(resident).toEqual(expect.arrayContaining(["listFaults", "getMyBalance", "listMyBuildings", "listAnnouncements", "searchWiki"]));
     expect(resident).not.toContain("listExpenses");
     expect(toolsForRole("COLLABORATOR", new Set()).map((t) => t.name)).not.toContain("getMyBalance");
   });
