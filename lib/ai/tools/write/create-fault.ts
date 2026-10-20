@@ -39,8 +39,14 @@ export const createFaultReport: WriteTool<z.infer<typeof schema>> = {
     }
     let categoryId: string | null = null, categoryName = "Γενικά";
     if (args.category?.trim()) {
-      const c = await db.maintenanceCategory.findFirst({ where: { active: true, name: { contains: args.category.trim(), mode: "insensitive" } }, select: { id: true, name: true } });
-      if (c) { categoryId = c.id; categoryName = c.name; }
+      // Exact name wins; otherwise a contains-match must be unique (same contract as create-expense), never a silent first hit.
+      const cats = await db.maintenanceCategory.findMany({ where: { active: true }, select: { id: true, name: true }, orderBy: { name: "asc" } });
+      const needle = norm(args.category);
+      const exact = cats.filter((c) => norm(c.name) === needle);
+      const hits = exact.length ? exact : cats.filter((c) => norm(c.name).includes(needle));
+      if (hits.length === 0) return { error: `Δεν βρέθηκε κατηγορία «${args.category.trim()}». Διαθέσιμες: ${cats.map((c) => c.name).join(", ")}` };
+      if (hits.length > 1) return { error: `Βρήκα ${hits.length} κατηγορίες: ${hits.map((c) => c.name).join(", ")}. Ποια εννοείτε;` };
+      categoryId = hits[0].id; categoryName = hits[0].name;
     }
     const priority: FaultPriority = args.priority ?? "NORMAL";
     const handledBy = await resolveResponsibility(b.id, categoryId);

@@ -3,7 +3,7 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 const m = vi.hoisted(() => ({
   resolveBuilding: vi.fn(), resolveRequest: vi.fn(), requireBuildingCap: vi.fn(), resolveResponsibility: vi.fn(async () => "COMPANY"),
   createMaintenanceRequest: vi.fn(), createAnnouncement: vi.fn(), listAnnouncementTargets: vi.fn(), createBuildingExpense: vi.fn(), getBuildingCategorySplits: vi.fn(), createRecurringTask: vi.fn(), createRfq: vi.fn(),
-  unitFindFirst: vi.fn(), catFindFirst: vi.fn(), supplierFindMany: vi.fn(),
+  unitFindFirst: vi.fn(), catFindMany: vi.fn(async () => [] as unknown[]), supplierFindMany: vi.fn(),
 }));
 vi.mock("@/lib/ai/tools/resolve", () => ({ resolveBuilding: m.resolveBuilding, resolveRequest: m.resolveRequest, hrefForFault: (_c: unknown, id: string) => `/x/${id}` }));
 vi.mock("@/lib/building-access", () => ({ requireBuildingCap: m.requireBuildingCap }));
@@ -14,7 +14,7 @@ vi.mock("@/app/actions/building-expenses", () => ({ createBuildingExpense: m.cre
 vi.mock("@/app/actions/expense-categories", () => ({ getBuildingCategorySplits: m.getBuildingCategorySplits }));
 vi.mock("@/app/actions/recurring-tasks", () => ({ createRecurringTask: m.createRecurringTask }));
 vi.mock("@/app/actions/rfq", () => ({ createRfq: m.createRfq }));
-vi.mock("@/lib/db", () => ({ db: { unit: { findFirst: m.unitFindFirst }, maintenanceCategory: { findFirst: m.catFindFirst }, supplier: { findMany: m.supplierFindMany } } }));
+vi.mock("@/lib/db", () => ({ db: { unit: { findFirst: m.unitFindFirst }, maintenanceCategory: { findMany: m.catFindMany }, supplier: { findMany: m.supplierFindMany } } }));
 
 import { createFaultReport } from "./create-fault";
 import { createAnnouncement } from "./create-announcement";
@@ -51,7 +51,7 @@ describe("createFaultReport", () => {
     expect(m.unitFindFirst).not.toHaveBeenCalled();
   });
   it("previews with resolved ids and who handles it, then executes through the action", async () => {
-    m.catFindFirst.mockResolvedValue({ id: "cat1", name: "Υδραυλικά" });
+    m.catFindMany.mockResolvedValue([{ id: "cat1", name: "Υδραυλικά" }, { id: "cat2", name: "Ηλεκτρολογικά" }]);
     const p = await createFaultReport.preview({ unitNumber: "Α1", title: "Διαρροή", description: "Τρέχει νερό", category: "υδραυλ", priority: "HIGH" }, ctx("PROPERTY_RESIDENT"));
     expect(p).not.toHaveProperty("error");
     const prev = p as { summaryLines: string[]; resolved: Record<string, unknown>; buildingId: string };
@@ -62,6 +62,21 @@ describe("createFaultReport", () => {
     const ex = await createFaultReport.execute(prev.resolved, ctx("PROPERTY_RESIDENT"));
     expect(m.createMaintenanceRequest).toHaveBeenCalledWith(expect.objectContaining({ buildingId: "b1", unitId: "un1", title: "Διαρροή" }));
     expect(ex).toEqual({ ok: true, message: "Η βλάβη δηλώθηκε.", href: "/x/req1" });
+  });
+  it("asks which category when the name matches several, listing them like create-expense", async () => {
+    m.catFindMany.mockResolvedValue([{ id: "c1", name: "Ηλεκτρολογικά κοινοχρήστων" }, { id: "c2", name: "Ηλεκτρολογικά μονάδας" }, { id: "c3", name: "Υδραυλικά" }]);
+    const r = await createFaultReport.preview({ title: "Λάμπα", description: "Καμένη λάμπα", category: "ηλεκτρ" }, ctx("PROPERTY_RESIDENT"));
+    expect(r).toEqual({ error: "Βρήκα 2 κατηγορίες: Ηλεκτρολογικά κοινοχρήστων, Ηλεκτρολογικά μονάδας. Ποια εννοείτε;" });
+  });
+  it("prefers an exact category name over a broader contains match", async () => {
+    m.catFindMany.mockResolvedValue([{ id: "c1", name: "Ηλεκτρολογικά" }, { id: "c2", name: "Ηλεκτρολογικά μονάδας" }]);
+    const p = await createFaultReport.preview({ title: "Λάμπα", description: "Καμένη λάμπα", category: "Ηλεκτρολογικά" }, ctx("PROPERTY_RESIDENT"));
+    expect((p as { resolved: { categoryId: string } }).resolved.categoryId).toBe("c1");
+  });
+  it("rejects an unknown category and lists the available ones", async () => {
+    m.catFindMany.mockResolvedValue([{ id: "c1", name: "Υδραυλικά" }, { id: "c3", name: "Ανελκυστήρας" }]);
+    const r = await createFaultReport.preview({ title: "Λάμπα", description: "Καμένη λάμπα", category: "Κηπουρική" }, ctx("PROPERTY_RESIDENT"));
+    expect(r).toEqual({ error: "Δεν βρέθηκε κατηγορία «Κηπουρική». Διαθέσιμες: Υδραυλικά, Ανελκυστήρας" });
   });
   it("maps an action error", async () => {
     m.createMaintenanceRequest.mockResolvedValue({ error: "Δεν έχετε πρόσβαση στο κτήριο" });
