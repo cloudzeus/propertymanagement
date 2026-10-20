@@ -201,6 +201,12 @@ export async function sendNotificationEmail(
   });
 }
 
+/** Send a pre-rendered branded mail (lib/emails/*) from the brand's name. Honours EMAIL_REDIRECT_TO. */
+export async function sendBrandedEmail(to: string, mail: { subject: string; html: string; text: string }, tags: string[]): Promise<EmailResponse> {
+  const brand = await getEmailBrand();
+  return sendEmail({ to, subject: mail.subject, html: mail.html, text: mail.text, from: brandedFrom(brand.name), tags });
+}
+
 /** Build a Mailgun `from` that keeps the verified domain but shows a brand name. */
 export function brandedFrom(senderName?: string | null): string {
   if (!senderName) return env.MAILGUN_FROM_EMAIL;
