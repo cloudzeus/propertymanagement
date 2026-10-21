@@ -1,15 +1,18 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { DataTable, type ColDef, type RowAction } from "@/components/ui/data-table";
 import { Modal, FormField, FieldInput, FieldSelect, FieldTextarea } from "@/components/ui/modal";
 import { RfqSupplierPicker } from "@/components/suppliers/RfqSupplierPicker";
 import { sentMessage, type RfqPickerData } from "@/components/maintenance/rfq-panel";
-import { createRfq, cancelRfq, resendRfqInvitation, addRfqSuppliers, loadRfqCandidatesAction } from "@/app/actions/rfq";
+import { createRfq, resendRfqInvitation, loadRfqCandidatesAction } from "@/app/actions/rfq";
+import { useWorkActions } from "@/components/work/useWorkActions";
+import { subjectFromRfqInvitationRow } from "@/lib/work/subjects";
+import type { WorkActionViewer } from "@/lib/work/scope";
 import { INVITATION_STATE_LABELS, INVITATION_STATE_COLORS, RFQ_STATUS_LABELS, OFFER_STATUS_LABELS, eur, type RfqInvitationRowDTO, type InvitationState } from "@/lib/rfq-shared";
-import { RiMoneyEuroCircleLine, RiMailSendLine, RiUserAddLine, RiCloseLine, RiEyeLine, RiSendPlaneLine, RiLoaderLine, RiCheckLine } from "react-icons/ri";
+import { RiMoneyEuroCircleLine, RiMailSendLine, RiSendPlaneLine, RiLoaderLine } from "react-icons/ri";
 
 const fmt = (iso: string | null) => (iso ? new Date(iso).toLocaleString("el-GR", { dateStyle: "short", timeStyle: "short" }) : "—");
 const OPEN_RFQ = ["OPEN", "OFFERED"];
@@ -17,13 +20,14 @@ const RESENDABLE: InvitationState[] = ["NOT_SENT", "SENT", "OPENED", "NO_EMAIL"]
 
 type Fault = { id: string; title: string; building: string; createdAt: string };
 
-export function RfqInvitationsClient({ rows, faults, canCreate, canEdit, faultLinks }: { rows: RfqInvitationRowDTO[]; faults: Fault[]; canCreate: boolean; canEdit: boolean; faultLinks: boolean }) {
+export function RfqInvitationsClient({ rows, faults, canCreate, canEdit, viewer }: { rows: RfqInvitationRowDTO[]; faults: Fault[]; canCreate: boolean; canEdit: boolean; viewer: WorkActionViewer }) {
   const router = useRouter();
+  const wa = useWorkActions({ viewer, where: "list" });
+  const faultLinks = viewer.canViewFault;
   const [error, setError] = useState<string | null>(null);
   const [info, setInfo] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [creating, setCreating] = useState(false);
-  const [addTo, setAddTo] = useState<RfqInvitationRowDTO | null>(null);
 
   const counts = useMemo(() => {
     const c: Record<InvitationState, number> = { NO_EMAIL: 0, NOT_SENT: 0, SENT: 0, OPENED: 0, OFFERED: 0, DECLINED: 0, EXPIRED: 0 };
@@ -59,13 +63,11 @@ export function RfqInvitationsClient({ rows, faults, canCreate, canEdit, faultLi
     { id: "offer", header: "Προσφορά", width: 150, accessor: (r) => r.offer?.amount ?? 0, cell: (r) => (r.offer ? <span style={{ fontVariantNumeric: "tabular-nums" }}>{eur(r.offer.amount)} <span style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)" }}>{OFFER_STATUS_LABELS[r.offer.status] ?? r.offer.status}</span></span> : r.declineReason ? <span style={{ fontSize: "var(--fs-11-5)", color: "var(--muted-foreground)" }}>{r.declineReason}</span> : "—") },
   ];
 
+  // «Αποστολή ξανά» belongs to the invitation (this row); everything else is the RFQ's shared action menu.
   const actions = (r: RfqInvitationRowDTO): RowAction<RfqInvitationRowDTO>[] => {
     const out: RowAction<RfqInvitationRowDTO>[] = [];
-    if (faultLinks && r.maintenanceRequestId) out.push({ label: "Άνοιγμα βλάβης", icon: <RiEyeLine />, onClick: () => router.push(`/admin/maintenance/${r.maintenanceRequestId}`) });
-    if (canEdit && OPEN_RFQ.includes(r.rfqStatus) && RESENDABLE.includes(r.state)) out.push({ label: "Αποστολή ξανά", icon: <RiMailSendLine />, onClick: () => void run(() => resendRfqInvitation(r.id)) });
-    if (canCreate && OPEN_RFQ.includes(r.rfqStatus) && r.maintenanceRequestId) out.push({ label: "Προσθήκη συνεργατών", icon: <RiUserAddLine />, onClick: () => setAddTo(r) });
-    if (canEdit && OPEN_RFQ.includes(r.rfqStatus)) out.push({ label: "Ακύρωση αιτήματος", icon: <RiCloseLine />, danger: true, onClick: () => { if (confirm(`Ακύρωση του αιτήματος «${r.rfqTitle}» για όλους τους συνεργάτες;`)) void run(() => cancelRfq(r.rfqId)); } });
-    return out;
+    if (canEdit && OPEN_RFQ.includes(r.rfqStatus) && RESENDABLE.includes(r.state)) out.push({ label: "Αποστολή ξανά", icon: <RiMailSendLine />, section: "offers", onClick: () => void run(() => resendRfqInvitation(r.id)) });
+    return [...out, ...wa.rowActions(subjectFromRfqInvitationRow(r))];
   };
 
   return (
@@ -91,7 +93,7 @@ export function RfqInvitationsClient({ rows, faults, canCreate, canEdit, faultLi
         expandedContent={(r) => <Recipients r={r} />}
       />
       {creating && <NewRfqModal faults={faults} onClose={() => setCreating(false)} onDone={(msg) => { setCreating(false); setInfo(msg); router.refresh(); }} />}
-      {addTo && <AddSuppliersModal row={addTo} invitedIds={rows.filter((x) => x.rfqId === addTo.rfqId).map((x) => x.supplierId)} onClose={() => setAddTo(null)} onDone={(msg) => { setAddTo(null); setInfo(msg); router.refresh(); }} />}
+      {wa.host}
       {busy && <div style={{ fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)" }}><RiLoaderLine style={{ animation: "spin 1s linear infinite", verticalAlign: "-2px" }} /> Αποστολή…</div>}
       <style>{`@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}`}</style>
     </div>
@@ -177,35 +179,6 @@ function NewRfqModal({ faults, onClose, onDone }: { faults: Fault[]; onClose: ()
         )}
       </div>
       <style>{`@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}`}</style>
-    </Modal>
-  );
-}
-
-function AddSuppliersModal({ row, invitedIds, onClose, onDone }: { row: RfqInvitationRowDTO; invitedIds: string[]; onClose: () => void; onDone: (msg: string) => void }) {
-  const [picker, setPicker] = useState<RfqPickerData | null>(null);
-  const [sel, setSel] = useState<Set<string>>(new Set());
-  const [error, setError] = useState<string | null>(null);
-  const [busy, setBusy] = useState(false);
-  useEffect(() => {
-    let alive = true;
-    void loadRfqCandidatesAction(row.maintenanceRequestId!).then((res) => { if (!alive) return; if ("error" in res) setError(res.error); else setPicker(res); });
-    return () => { alive = false; };
-  }, [row.maintenanceRequestId]);
-  async function send() {
-    setBusy(true); setError(null);
-    const res = await addRfqSuppliers(row.rfqId, [...sel]);
-    setBusy(false);
-    if ("error" in res && res.error) { setError(res.error); return; }
-    onDone(sentMessage(res as { sent: number; noEmail?: string[] }, picker?.candidates ?? []));
-  }
-  return (
-    <Modal open onClose={onClose} width={760} title={`Προσθήκη συνεργατών — ${row.rfqTitle}`}
-      footer={<>
-        <button onClick={onClose} style={cancelBtn}>Ακύρωση</button>
-        <button onClick={send} disabled={busy || sel.size === 0} style={saveBtn}>{busy ? <RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> : <RiCheckLine />} Αποστολή σε {sel.size} επιπλέον</button>
-      </>}>
-      {error && <div role="alert" style={errBox}>{error}</div>}
-      {picker ? <RfqSupplierPicker candidates={picker.candidates} categories={picker.categories} defaultCategoryId={picker.defaultCategoryId} selected={sel} onChange={setSel} excludeIds={invitedIds} /> : <div style={{ fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)" }}>Φόρτωση συνεργατών…</div>}
     </Modal>
   );
 }
