@@ -12,6 +12,15 @@ export interface RbacModule {
   actions: RbacAction[];       // which CRUD actions this module supports
 }
 
+/** Sidebar group definition (see MENU_GROUPS in registry.ts). `icon` is a react-icons/ri name. */
+export interface MenuGroupDef {
+  id: string;
+  label: string;
+  icon: string;
+  color: string;
+  defaultOpen: boolean;
+}
+
 /** Permission key format: "<moduleKey>:<action>" */
 export function permKey(moduleKey: string, action: RbacAction): string {
   return `${moduleKey}:${action}`;

@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { RBAC_MODULES, DEFAULT_PERMISSIONS } from "./registry";
+import { RBAC_MODULES, DEFAULT_PERMISSIONS, MENU_GROUPS } from "./registry";
 import { RBAC_ACTIONS, permKey } from "./types";
 
 describe("RBAC registry", () => {
@@ -25,5 +25,15 @@ describe("RBAC registry", () => {
   it("SUPER_ADMIN default includes every permission", () => {
     const all = RBAC_MODULES.flatMap((m) => m.actions.map((a) => permKey(m.key, a)));
     expect(new Set(DEFAULT_PERMISSIONS.SUPER_ADMIN)).toEqual(new Set(all));
+  });
+  it("every module with a menu references a declared MENU_GROUPS id", () => {
+    const ids = new Set(MENU_GROUPS.map((g) => g.id));
+    for (const m of RBAC_MODULES) if (m.menu) expect(ids.has(m.menu.group ?? "core"), `${m.key} → ${m.menu.group}`).toBe(true);
+  });
+  it("work:view and dashboard:view are default for all four company roles", () => {
+    for (const r of ["ADMIN", "MANAGER", "EMPLOYEE"] as const) {
+      expect(DEFAULT_PERMISSIONS[r]).toContain("work:view");
+      expect(DEFAULT_PERMISSIONS[r]).toContain("dashboard:view");
+    }
   });
 });
