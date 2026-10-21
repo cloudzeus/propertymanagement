@@ -2,7 +2,7 @@ import Link from "next/link";
 import { requirePermission, getEffectivePermissions, can } from "@/lib/rbac/permissions";
 import {
   RiSettingsLine, RiBuildingLine, RiPaletteLine, RiBankCardLine, RiFileTextLine, RiToolsLine, RiShieldUserLine, RiLinksLine,
-  RiMoneyDollarCircleLine, RiLayoutLine, RiMailCheckLine, RiTeamLine, RiPriceTag3Line, RiArrowRightSLine, RiTimerLine, RiExchangeLine,
+  RiMoneyDollarCircleLine, RiLayoutLine, RiMailCheckLine, RiTeamLine, RiPriceTag3Line, RiArrowRightSLine, RiTimerLine, RiExchangeLine, RiRoadMapLine,
 } from "react-icons/ri";
 
 export const metadata = { title: "Ρυθμίσεις" };
@@ -28,6 +28,7 @@ export default async function SettingsPage() {
       items: [
         { href: "/admin/maintenance/settings", label: "Βλάβες & συντηρήσεις", desc: "Κατηγορίες, SLA, κανόνες κάλυψης της σύμβασης διαχείρισης.", icon: <RiToolsLine />, mod: "maintenance" },
         { href: "/super-admin/settings/contracts", label: "Προσφορές & συμβάσεις έργου", desc: "Περιθώριο, εγγύηση, σιωπηρή παραλαβή, πρότυπα συμβάσεων Α/Β.", icon: <RiFileTextLine />, mod: "settings-contracts" },
+        { href: "/super-admin/settings/distance", label: "Σταθμός βάσης & ζώνες απόστασης", desc: "Η έδρα από την οποία μετράμε χιλιόμετρα, οι ζώνες και η χρέωση μετάβασης.", icon: <RiRoadMapLine />, mod: "settings-distance" },
         { href: "/super-admin/suppliers/catalog", label: "Κατάλογος υπηρεσιών συνεργατών", desc: "Οι υπηρεσίες που «ανοίγει» η εταιρεία στους συνεργάτες.", icon: <RiTeamLine />, mod: "suppliers" },
         { href: "/super-admin/services", label: "Υπηρεσίες & πακέτα", desc: "Τι πουλάει η εταιρεία στους πελάτες της.", icon: <RiPriceTag3Line />, mod: "services" },
       ],
