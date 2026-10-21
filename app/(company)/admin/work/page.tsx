@@ -1,6 +1,6 @@
-import { requirePermission } from "@/lib/rbac/permissions";
+import { requirePermission, getEffectivePermissions } from "@/lib/rbac/permissions";
 import { resolveWorkScope, loadWorkItems, countRecentSupportTickets, listAssignableEmployees } from "@/lib/work/queries";
-import { viewerFor } from "@/lib/work/scope";
+import { workActionViewer } from "@/lib/work/scope";
 import { parseFilters, filtersKey } from "@/lib/work/kpis";
 import { AutoRefresh } from "@/components/realtime/AutoRefresh";
 import { WorkCenterClient } from "./WorkCenterClient";
@@ -16,8 +16,8 @@ export const dynamic = "force-dynamic";
  */
 export default async function WorkCenterPage({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
   await requirePermission("work", "view");
-  const [scope, sp] = await Promise.all([resolveWorkScope(), searchParams]);
-  const viewer = viewerFor(scope.role, scope.userId);
+  const [scope, sp, resolved] = await Promise.all([resolveWorkScope(), searchParams, getEffectivePermissions()]);
+  const viewer = workActionViewer(scope.role, scope.userId, resolved?.perms ?? new Set());
   const now = new Date();
 
   const [items, supportCount, employees] = await Promise.all([

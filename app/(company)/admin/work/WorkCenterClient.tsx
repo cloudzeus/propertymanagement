@@ -3,23 +3,25 @@
 import Link from "next/link";
 import { useMemo, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { RiAlarmWarningLine, RiCalendarCheckLine, RiCalendarLine, RiUserUnfollowLine, RiEyeLine, RiArrowRightLine, RiUserAddLine, RiTaskLine, RiCustomerService2Line } from "react-icons/ri";
-import { DataTable, type ColDef, type RowAction, type BatchAction } from "@/components/ui/data-table";
+import { RiAlarmWarningLine, RiCalendarCheckLine, RiCalendarLine, RiUserUnfollowLine, RiEyeLine, RiTaskLine, RiCustomerService2Line } from "react-icons/ri";
+import { DataTable, type ColDef, type RowAction } from "@/components/ui/data-table";
 import { KpiCard } from "@/components/dashboard/kit";
-import { Modal, FieldSelect } from "@/components/ui/modal";
 import { SourcePill, StagePill, DuePill } from "@/components/work/pills";
+import { useWorkActions } from "@/components/work/useWorkActions";
 import { applyFilters, computeKpis, serializeFilters, type WorkFilters, type WorkQuickFilter } from "@/lib/work/kpis";
 import { STAGE_LABELS, type WorkItem } from "@/lib/work/types";
-import type { WorkViewer } from "@/lib/work/scope";
-import { STATUS_LABELS, STATUS_TRANSITIONS, PRIORITY_LABELS, type FaultStatus } from "@/lib/maintenance-shared";
-import { assignRequest, changeRequestStatus } from "@/app/actions/maintenance-requests";
+import type { WorkActionViewer } from "@/lib/work/scope";
+import { EMPTY_FLAGS } from "@/lib/work/actions";
+import { subjectFromWorkItem } from "@/lib/work/subjects";
+import { PRIORITY_LABELS } from "@/lib/maintenance-shared";
+import { assignRequest } from "@/app/actions/maintenance-requests";
 import { callAction } from "@/lib/work/client-actions";
 import { WorkFilterBar } from "./WorkFilterBar";
 
 type Props = {
   items: WorkItem[];
   filters: WorkFilters;
-  viewer: WorkViewer;
+  viewer: WorkActionViewer;
   employees: { id: string; name: string }[];
   buildings: { id: string; name: string }[];
   supportCount: number;
@@ -32,9 +34,8 @@ export function WorkCenterClient({ items, filters: initial, viewer, employees, b
   const router = useRouter();
   const [filters, setFilters] = useState<WorkFilters>(initial);
   const [message, setMessage] = useState<{ kind: "ok" | "error"; text: string } | null>(null);
-  const [assignTargets, setAssignTargets] = useState<string[] | null>(null); // fault ids awaiting an assignee
-  const [assignee, setAssignee] = useState("");
   const [pending, startTransition] = useTransition();
+  const wa = useWorkActions({ viewer, where: "list" });
 
   const now = useMemo(() => new Date(nowIso), [nowIso]);
   const kpis = useMemo(() => computeKpis(items, now), [items, now]);
@@ -48,15 +49,6 @@ export function WorkCenterClient({ items, filters: initial, viewer, employees, b
     router.replace(qs ? `/admin/work?${qs}` : "/admin/work");
   }
   const quick = (f: WorkQuickFilter) => update({ ...filters, f: filters.f === f ? undefined : f });
-
-  async function run(label: string, fn: () => Promise<{ ok?: boolean; error?: string }>) {
-    setMessage(null);
-    const res = await callAction(fn);
-    if ("error" in res && res.error) { setMessage({ kind: "error", text: res.error }); return false; }
-    setMessage({ kind: "ok", text: label });
-    startTransition(() => router.refresh());
-    return true;
-  }
 
   async function assign(faultIds: string[], userId: string | null) {
     let failed = 0;
@@ -97,34 +89,15 @@ export function WorkCenterClient({ items, filters: initial, viewer, employees, b
     { id: "updated", header: "Ενημερώθηκε", width: 140, defaultVisible: false, accessor: (r) => r.updatedAt, sortKey: "updatedAt", cell: (r) => fmt(r.updatedAt) },
   ];
 
-  function rowActions(r: WorkItem): RowAction<WorkItem>[] {
-    const actions: RowAction<WorkItem>[] = [{ label: "Προβολή", icon: <RiEyeLine />, onClick: () => router.push(r.href) }];
-    if (r.source !== "fault") return actions;
-    if (viewer.canManage) {
-      for (const t of STATUS_TRANSITIONS[r.rawStatus as FaultStatus] ?? []) {
-        actions.push({ label: `→ ${STATUS_LABELS[t]}`, icon: <RiArrowRightLine />, danger: t === "CANCELLED",
-          onClick: () => run(`Η βλάβη είναι «${STATUS_LABELS[t]}»`, () => changeRequestStatus(faultIdOf(r), t)) });
-      }
-    }
-    if (viewer.canAssign) actions.push({ label: "Ανάθεση σε…", icon: <RiUserAddLine />, onClick: () => { setAssignee(r.assigneeId ?? ""); setAssignTargets([faultIdOf(r)]); } });
-    return actions;
+  /** Programme/appointment rows have no action subject: keep a plain «Προβολή» (+ «Ραντεβού…» on appointments). */
+  function fallbackFor(r: WorkItem): RowAction<WorkItem>[] {
+    const view: RowAction<WorkItem> = { label: r.source === "appointment" ? "Άνοιγμα βλάβης" : "Προβολή", icon: <RiEyeLine />, section: "navigate", onClick: () => router.push(r.href) };
+    if (r.source !== "appointment") return [view];
+    const faultSubject = { kind: "fault" as const, id: r.sourceId, status: "SCHEDULED", handledBy: "COMPANY" as const, assigneeId: r.assigneeId, supplierId: null, flags: EMPTY_FLAGS };
+    return [{ label: "Ραντεβού…", icon: <RiCalendarCheckLine />, section: "schedule", primary: true, onClick: () => wa.open("appointment", faultSubject) }, view];
   }
-
-  const batchActions: BatchAction<WorkItem>[] = viewer.canAssign ? [
-    { label: "Ανάθεση επιλεγμένων", icon: <RiUserAddLine />, onClick: (rows) => {
-      const ids = rows.filter((w) => w.source === "fault").map(faultIdOf);
-      if (!ids.length) { setMessage({ kind: "error", text: "Η ανάθεση αφορά μόνο βλάβες" }); return; }
-      setAssignee(""); setAssignTargets(ids);
-    } },
-    { label: "→ Σε αξιολόγηση", icon: <RiArrowRightLine />, onClick: async (rows) => {
-      const ids = rows.filter((w) => w.source === "fault" && w.rawStatus === "OPEN").map(faultIdOf);
-      if (!ids.length) { setMessage({ kind: "error", text: "Καμία «Νέα» βλάβη στην επιλογή" }); return; }
-      let failed = 0;
-      for (const id of ids) { const r = await callAction(() => changeRequestStatus(id, "ACKNOWLEDGED")); if ("error" in r && r.error) failed++; }
-      setMessage(failed ? { kind: "error", text: `Απέτυχε για ${failed} από ${ids.length}` } : { kind: "ok", text: `${ids.length} βλάβες σε αξιολόγηση` });
-      startTransition(() => router.refresh());
-    } },
-  ] : [];
+  const rowActions = (r: WorkItem) => wa.rowActions(subjectFromWorkItem(r), fallbackFor(r));
+  const batchActions = wa.batchActions<WorkItem>((rows) => rows.map(subjectFromWorkItem));
 
   const kpiCards: { key: WorkQuickFilter; label: string; value: number; sub: string; icon: typeof RiAlarmWarningLine; accent: string }[] = [
     { key: "overdue", label: "Εκπρόθεσμα", value: kpis.overdue, sub: "Πέρασε η προθεσμία / SLA", icon: RiAlarmWarningLine, accent: "#d13438" },
@@ -191,19 +164,7 @@ export function WorkCenterClient({ items, filters: initial, viewer, employees, b
         )}
       />
 
-      <Modal open={assignTargets !== null} onClose={() => setAssignTargets(null)} title={assignTargets && assignTargets.length > 1 ? `Ανάθεση ${assignTargets.length} βλαβών` : "Ανάθεση βλάβης"} width={420}
-        footer={
-          <div style={{ display: "flex", gap: 8, justifyContent: "flex-end" }}>
-            <button type="button" onClick={() => setAssignTargets(null)} style={{ height: 36, padding: "0 14px", border: "1px solid var(--border)", borderRadius: "var(--radius-sm)", background: "var(--card)", cursor: "pointer", fontFamily: "inherit", fontSize: "var(--fs-13)" }}>Άκυρο</button>
-            <button type="button" disabled={pending} onClick={async () => { const ids = assignTargets ?? []; setAssignTargets(null); await assign(ids, assignee || null); }}
-              style={{ height: 36, padding: "0 14px", border: "none", borderRadius: "var(--radius-sm)", background: "var(--color-primary)", color: "#fff", cursor: "pointer", fontFamily: "inherit", fontSize: "var(--fs-13)", fontWeight: 600 }}>
-              Ανάθεση
-            </button>
-          </div>
-        }>
-        <FieldSelect value={assignee} onChange={setAssignee} options={employees.map((e) => ({ value: e.id, label: e.name }))} placeholder="— Χωρίς ανάθεση —" />
-        <p style={{ margin: "8px 0 0", fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>Ο υπάλληλος ειδοποιείται με email και στο καμπανάκι.</p>
-      </Modal>
+      {wa.host}
     </div>
   );
 }
