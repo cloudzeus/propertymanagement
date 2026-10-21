@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { customerIdsForScope, viewerFor } from "./scope";
+import { customerIdsForScope, viewerFor, workActionViewer } from "./scope";
 
 describe("customerIdsForScope", () => {
   it("restricts a MANAGER with account-managed customers to those customers", () => {
@@ -29,5 +29,18 @@ describe("viewerFor", () => {
   });
   it("non-company roles can neither assign nor manage", () => {
     expect(viewerFor("PROPERTY_ADMIN", "u")).toMatchObject({ canAssign: false, canManage: false });
+  });
+});
+
+describe("workActionViewer", () => {
+  it("derives rfq/forward/on-behalf caps from perms", () => {
+    const v = workActionViewer("MANAGER", "u", new Set(["rfq:create", "rfq:edit", "suppliers:edit", "maintenance:view"]));
+    expect(v).toMatchObject({ canAssign: true, canManage: true, canRfqCreate: true, canRfqEdit: true, canForward: true, canOnBehalf: true, canViewFault: true });
+    const e = workActionViewer("EMPLOYEE", "u", new Set(["rfq:create", "suppliers:view", "maintenance:view"]));
+    expect(e).toMatchObject({ canAssign: false, canManage: true, canRfqCreate: true, canRfqEdit: false, canForward: false, canOnBehalf: false, canViewFault: true });
+  });
+  it("gives nothing rfq-related to non-company roles, and no forward without suppliers:edit", () => {
+    expect(workActionViewer("PROPERTY_ADMIN", "u", new Set(["rfq:create"])).canRfqCreate).toBe(false);
+    expect(workActionViewer("ADMIN", "u", new Set(["rfq:create"])).canForward).toBe(false);
   });
 });
