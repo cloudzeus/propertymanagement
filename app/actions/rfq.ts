@@ -271,12 +271,32 @@ export async function forwardOffer(offerId: string, input: ForwardInput) {
 /* 4. Customer accepts / declines (click + IP/UA trail)                  */
 /* ------------------------------------------------------------------ */
 
-export async function respondWorkOrder(woId: string, accept: boolean, reason?: string | null) {
+/** Staff acting for the customer (phone/e-mail agreement) must say how the customer agreed; it goes to the fault's history. */
+export type OnBehalf = { onBehalfNote?: string | null };
+const ON_BEHALF_ERR = "Γράψτε πώς συμφώνησε ο πελάτης (τουλάχιστον 5 χαρακτήρες)";
+
+/** null = acting as the decider; string = the staff note; { error } = refused. */
+async function onBehalfNoteFor(a: { id: string; role: string }, buildingId: string, opts?: OnBehalf, refusal = "Μόνο ο διαχειριστής του κτηρίου μπορεί να απαντήσει"): Promise<string | null | { error: string }> {
+  if (await isDecider(a, buildingId)) return null;
+  if (!isStaff(a)) return { error: refusal };
+  const n = clean(opts?.onBehalfNote);
+  if (!n || n.length < 5) return { error: ON_BEHALF_ERR };
+  return n;
+}
+
+async function recordOnBehalf(a: { id: string }, wo: { number: string; maintenanceRequestId: string | null }, label: string, note: string, toStatus: string) {
+  if (!wo.maintenanceRequestId) return;
+  await db.maintenanceStatusEvent.create({ data: { requestId: wo.maintenanceRequestId, toStatus, byUserId: a.id, note: `Εκ μέρους πελάτη: ${note}` } });
+  await db.maintenanceComment.create({ data: { requestId: wo.maintenanceRequestId, authorId: a.id, internal: true, body: `${label} εκ μέρους πελάτη (${wo.number}): ${note}` } });
+}
+
+export async function respondWorkOrder(woId: string, accept: boolean, reason?: string | null, opts?: OnBehalf) {
   const a = await actor();
   const wo = await db.workOrder.findUnique({ where: { id: woId }, select: { id: true, number: true, title: true, status: true, buildingId: true, supplierId: true, maintenanceRequestId: true, validUntil: true } });
   if (!wo) return { error: "Δεν βρέθηκε" };
   if (wo.status !== "PENDING_CUSTOMER") return { error: "Η προσφορά δεν εκκρεμεί πλέον" };
-  if (!(await isDecider(a, wo.buildingId)) && !isStaff(a)) return { error: "Μόνο ο διαχειριστής του κτηρίου μπορεί να απαντήσει" };
+  const onBehalf = await onBehalfNoteFor(a, wo.buildingId, opts);
+  if (onBehalf && typeof onBehalf === "object") return onBehalf;
   if (accept && wo.validUntil && wo.validUntil < new Date()) return { error: "Η προσφορά έχει λήξει — ζητήστε νέα από την εταιρεία" };
 
   if (accept) {
@@ -300,6 +320,7 @@ export async function respondWorkOrder(woId: string, accept: boolean, reason?: s
     await db.serviceRequest.updateMany({ where: { workOrders: { some: { id: woId } } }, data: { status: "DECLINED" } });
     await notifyUsers(await companyStaffIds(), { type: "WORK_ORDER", title: `Ο πελάτης απέρριψε την προσφορά ${wo.number}`, body: clean(reason) ?? undefined, href: wo.maintenanceRequestId ? `/admin/maintenance/${wo.maintenanceRequestId}` : "/admin/work-orders", requestId: wo.maintenanceRequestId, excludeUserId: a.id });
   }
+  if (onBehalf) await recordOnBehalf(a, wo, accept ? "Αποδοχή προσφοράς" : "Απόρριψη προσφοράς", onBehalf, accept ? "ACCEPTED_ON_BEHALF" : "DECLINED_ON_BEHALF");
   revalidate(wo.maintenanceRequestId, wo.buildingId);
   return { ok: true };
 }
@@ -428,12 +449,13 @@ export async function completeWorkOrder(woId: string, input: CompletionInput) {
 /* 6. Customer confirms receipt or disputes                             */
 /* ------------------------------------------------------------------ */
 
-export async function confirmWorkOrder(woId: string, confirm: boolean, note?: string | null) {
+export async function confirmWorkOrder(woId: string, confirm: boolean, note?: string | null, opts?: OnBehalf) {
   const a = await actor();
   const wo = await db.workOrder.findUnique({ where: { id: woId }, select: { id: true, number: true, title: true, status: true, buildingId: true, supplierId: true, maintenanceRequestId: true } });
   if (!wo) return { error: "Δεν βρέθηκε" };
   if (wo.status !== "COMPLETED") return { error: "Η εργασία δεν έχει δηλωθεί ολοκληρωμένη" };
-  if (!(await isDecider(a, wo.buildingId)) && !isStaff(a)) return { error: "Μόνο ο διαχειριστής του κτηρίου επιβεβαιώνει την παραλαβή" };
+  const onBehalf = await onBehalfNoteFor(a, wo.buildingId, opts, "Μόνο ο διαχειριστής του κτηρίου επιβεβαιώνει την παραλαβή");
+  if (onBehalf && typeof onBehalf === "object") return onBehalf;
   if (confirm) {
     await db.workOrder.update({ where: { id: woId }, data: { status: "CONFIRMED", customerConfirmedAt: new Date(), customerConfirmedById: a.id } });
     if (wo.maintenanceRequestId) await db.maintenanceStatusEvent.create({ data: { requestId: wo.maintenanceRequestId, toStatus: "CONFIRMED", byUserId: a.id, note: `Επιβεβαίωση παραλαβής ${wo.number}` } });
@@ -449,6 +471,7 @@ export async function confirmWorkOrder(woId: string, confirm: boolean, note?: st
     });
     await notifyUsers([...(await supplierUserIds(wo.supplierId)), ...(await companyStaffIds())], { type: "WORK_ORDER", title: `Αμφισβήτηση παραλαβής ${wo.number}: ${wo.title}`, body: note.trim().slice(0, 300), href: `/marketplace/work-orders/${woId}`, requestId: wo.maintenanceRequestId, excludeUserId: a.id });
   }
+  if (onBehalf) await recordOnBehalf(a, wo, confirm ? "Επιβεβαίωση παραλαβής" : "Αμφισβήτηση παραλαβής", onBehalf, confirm ? "CONFIRMED_ON_BEHALF" : "DISPUTED_ON_BEHALF");
   revalidate(wo.maintenanceRequestId, wo.buildingId);
   return { ok: true };
 }

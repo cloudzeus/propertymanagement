@@ -415,6 +415,52 @@ export async function bookSlot(slotId: string) {
   return { ok: true };
 }
 
+/**
+ * Άμεσος ορισμός ραντεβού από την εταιρία (χωρίς slots): δημιουργεί το
+ * MaintenanceAppointment, κρατά τη διάρκεια ως εκτίμηση και προχωρά τη βλάβη
+ * σε SCHEDULED όταν το επιτρέπει ο πίνακας μεταβάσεων.
+ */
+export async function scheduleRequest(id: string, isoStart: string, durationMinutes?: number | null) {
+  const user = await requireUser();
+  const req = await db.maintenanceRequest.findUnique({
+    where: { id },
+    select: { id: true, title: true, status: true, buildingId: true, handledBy: true, reportedById: true, supplierId: true, estimatedMinutes: true, managerPresence: true, building: { select: { propertyId: true } } },
+  });
+  if (!req) return { error: "Δεν βρέθηκε" };
+  if (!(await canManageRequest(user, req))) return { error: "Δεν επιτρέπεται" };
+  if (["COMPLETED", "CANCELLED"].includes(req.status)) return { error: "Η βλάβη έχει κλείσει" };
+  const startAt = new Date(isoStart);
+  if (isNaN(startAt.getTime()) || startAt.getTime() <= Date.now()) return { error: "Η ημερομηνία πρέπει να είναι στο μέλλον" };
+  if (startAt.getMinutes() % 30 !== 0 || startAt.getSeconds() !== 0) return { error: "Η ώρα πρέπει να είναι σε όρια 30 λεπτών" };
+  const given = typeof durationMinutes === "number" && Number.isFinite(durationMinutes) && durationMinutes > 0 ? Math.max(30, Math.round(durationMinutes / 30) * 30) : null;
+  const duration = given ?? req.estimatedMinutes ?? 60;
+  const endAt = new Date(startAt.getTime() + duration * 60_000);
+  const when = startAt.toLocaleString("el-GR", { dateStyle: "short", timeStyle: "short", timeZone: "Europe/Athens" });
+  const toScheduled = STATUS_TRANSITIONS[req.status as FaultStatus]?.includes("SCHEDULED");
+
+  await db.$transaction([
+    db.maintenanceAppointment.create({ data: { requestId: id, startAt, endAt, managerPresence: req.managerPresence, bookedById: user.id } }),
+    db.maintenanceRequest.update({
+      where: { id },
+      data: {
+        scheduledDate: startAt,
+        estimatedMinutes: duration,
+        ...(toScheduled ? { status: "SCHEDULED" } : {}),
+        statusEvents: { create: { fromStatus: req.status, toStatus: toScheduled ? "SCHEDULED" : req.status, byUserId: user.id, note: `Ραντεβού ${when}` } },
+      },
+    }),
+  ]);
+  await notifyStakeholders({
+    requestId: id,
+    type: "MAINTENANCE_APPOINTMENT",
+    title: `Ραντεβού για τη βλάβη «${req.title}»`,
+    body: `Ορίστηκε ραντεβού: ${when} (διάρκεια ~${duration}').${req.managerPresence ? " Απαιτείται παρουσία διαχειριστή." : ""}`,
+    excludeUserId: user.id,
+  });
+  revalidateAll(id, req.buildingId);
+  return { ok: true };
+}
+
 /* ------------------------------------------------------------------ */
 /* Ρυθμίσεις: κατηγορίες & κανόνες κάλυψης (μόνο staff εταιρίας)        */
 /* ------------------------------------------------------------------ */
