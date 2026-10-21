@@ -4,7 +4,7 @@ import bcrypt from "bcryptjs";
 import { AuthError } from "next-auth";
 import { signIn } from "@/auth";
 import { db } from "@/lib/db";
-import { resolveInviteLink, markInviteUsed } from "@/lib/supplier-invites";
+import { resolveInviteLink } from "@/lib/supplier-invites";
 import { hashInviteToken } from "@/lib/supplier-invites-shared";
 import { inviteTarget } from "@/lib/supplier-invite-view";
 import { inviteActivateLimiter, RATE_LIMIT_MESSAGE } from "@/lib/invite-rate-limit";
@@ -36,7 +36,13 @@ export async function activateInvite(token: string, input: ActivateInput): Promi
   if (existing?.passwordHash) return { error: "Ο λογαριασμός υπάρχει ήδη — συνδεθείτε με τον κωδικό σας." };
 
   const passwordHash = await bcrypt.hash(input.password, 10);
-  await db.$transaction(async (tx) => {
+  const BURNED = Symbol("burned");
+  try {
+    await db.$transaction(async (tx) => {
+    // one-use: the burn is part of the same transaction as the account write, so two
+    // concurrent submits cannot both get through (the second finds usedAt already set)
+    const burn = await tx.supplierInviteLink.updateMany({ where: { id: link.id, usedAt: null, revokedAt: null }, data: { usedAt: new Date() } });
+    if (burn.count === 0) throw BURNED;
     const contact = link.contactId
       ? await tx.supplierContact.findUnique({ where: { id: link.contactId }, select: { id: true, isPrimary: true, phone: true, mobile: true, userId: true } })
       : await tx.supplierContact.findFirst({ where: { supplierId: link.supplierId, email }, select: { id: true, isPrimary: true, phone: true, mobile: true, userId: true } });
@@ -58,8 +64,11 @@ export async function activateInvite(token: string, input: ActivateInput): Promi
     }
     if (contact) await tx.supplierContact.update({ where: { id: contact.id }, data: { userId, active: true } });
     else await tx.supplierContact.create({ data: { supplierId: link.supplierId, email, name, userId, isPrimary: !existing && (await tx.user.count({ where: { supplierId: link.supplierId, role: "COLLABORATOR" } })) === 1 } });
-  });
-  await markInviteUsed(link.id);
+    });
+  } catch (e) {
+    if (e === BURNED) return { error: DEAD_LINK };
+    throw e;
+  }
 
   try {
     await signIn("credentials", { email, password: input.password, redirectTo: inviteTarget(link) });

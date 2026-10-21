@@ -26,7 +26,7 @@ vi.mock("@/lib/db", () => {
     supplier: { findUnique: vi.fn(async () => ({ ...m.supplierRow, name: "Ηλεκτρολόγοι ΑΕ" })) },
     user: {
       findUnique: vi.fn(async ({ where }: { where: { id?: string; email?: string } }) => m.users.find((u) => (where.id ? u.id === where.id : u.email === where.email)) ?? (where.id === m.actor.id ? { supplierId: m.actor.supplierId, isSupplierAdmin: m.actor.isSupplierAdmin } : null)),
-      count: vi.fn(async () => m.users.length),
+      count: vi.fn(async ({ where }: { where?: { supplierId?: string; isSupplierAdmin?: boolean; status?: string; id?: { not: string } } } = {}) => m.users.filter((u) => (!where?.supplierId || u.supplierId === where.supplierId) && (where?.isSupplierAdmin === undefined || u.isSupplierAdmin === where.isSupplierAdmin) && (!where?.status || u.status === where.status) && (!where?.id?.not || u.id !== where.id.not)).length),
       create: vi.fn(async ({ data }: { data: Record<string, unknown> }) => { const u = { id: `u${++m.seq}`, ...data } as typeof m.users[number]; m.users.push(u); m.userCreates.push(data); return u; }),
       update: vi.fn(async (q: { where: { id: string }; data: Record<string, unknown> }) => { m.userUpdates.push(q); const u = m.users.find((x) => x.id === q.where.id); if (u) Object.assign(u, q.data); return u; }),
     },
@@ -116,6 +116,31 @@ describe("saveSupplierContact", () => {
     await saveSupplierContact("s1", null, { ...base, isPrimary: true, access: "invite" });
     expect(m.contacts.find((c) => c.id === "c0")!.isPrimary).toBe(false);
     expect(m.users[0].isSupplierAdmin).toBe(true);
+  });
+});
+
+describe("admin consistency guards", () => {
+  it("the primary contact is always supplier admin even when the form says otherwise", async () => {
+    m.users.push({ id: "same", email: "maria@firm.gr", role: "COLLABORATOR", supplierId: "s1", passwordHash: "h", status: "ACTIVE", isSupplierAdmin: false });
+    await saveSupplierContact("s1", null, { ...base, isPrimary: true, isSupplierAdmin: false, access: "invite" });
+    expect(m.users[0].isSupplierAdmin).toBe(true);
+  });
+  it("a supplier admin cannot strip their own admin flag", async () => {
+    m.actor.role = "COLLABORATOR"; m.actor.id = "me"; m.actor.supplierId = "s1"; m.actor.isSupplierAdmin = true; m.actor.perms = new Set(["mkt-team:edit"]);
+    m.users.push({ id: "me", email: "maria@firm.gr", role: "COLLABORATOR", supplierId: "s1", passwordHash: "h", status: "ACTIVE", isSupplierAdmin: true });
+    m.contacts.push({ id: "c1", supplierId: "s1", name: "Μ", email: "maria@firm.gr", isPrimary: false, receivesRfq: true, active: true, userId: "me", phone: null, mobile: null, position: null, notes: null });
+    expect(await saveSupplierContact("s1", "c1", { ...base, isSupplierAdmin: false, access: "none" })).toEqual({ error: "Δεν μπορείτε να αφαιρέσετε τον δικό σας ρόλο διαχειριστή" });
+    expect(m.users[0].isSupplierAdmin).toBe(true);
+    m.actor.role = "EMPLOYEE"; m.actor.id = "staff1"; m.actor.supplierId = null; m.actor.isSupplierAdmin = false;
+  });
+  it("the last active admin cannot be demoted or deactivated", async () => {
+    m.users.push({ id: "u1", email: "maria@firm.gr", role: "COLLABORATOR", supplierId: "s1", passwordHash: "h", status: "ACTIVE", isSupplierAdmin: true });
+    m.contacts.push({ id: "c1", supplierId: "s1", name: "Μ", email: "maria@firm.gr", isPrimary: false, receivesRfq: true, active: true, userId: "u1", phone: null, mobile: null, position: null, notes: null });
+    const err = { error: "Ο συνεργάτης πρέπει να έχει τουλάχιστον έναν ενεργό διαχειριστή" };
+    expect(await saveSupplierContact("s1", "c1", { ...base, isSupplierAdmin: false, access: "none" })).toEqual(err);
+    expect(await deactivateSupplierContact("s1", "c1")).toEqual(err);
+    expect(m.users[0].isSupplierAdmin).toBe(true);
+    expect(m.contacts[0].active).toBe(true);
   });
 });
 

@@ -31,7 +31,7 @@ export function ActivateForm({ token, initialName }: { token: string; initialNam
       <FormField label="Επιβεβαίωση κωδικού" required><FieldInput type="password" value={confirm} onChange={setConfirm} required /></FormField>
       <label style={{ display: "flex", alignItems: "flex-start", gap: 8, fontSize: "var(--fs-12-5)", color: "var(--foreground)", cursor: "pointer" }}>
         <input type="checkbox" checked={agreed} onChange={(e) => setAgreed(e.target.checked)} style={{ marginTop: 3 }} />
-        <span>Αποδέχομαι τους <Link href="/el/terms" target="_blank" style={{ color: "var(--color-primary)" }}>όρους χρήσης</Link> και την <Link href="/el/privacy" target="_blank" style={{ color: "var(--color-primary)" }}>πολιτική απορρήτου</Link>.</span>
+        <span>Αποδέχομαι τους <Link href="/terms" target="_blank" style={{ color: "var(--color-primary)" }}>όρους χρήσης</Link> και την <Link href="/privacy" target="_blank" style={{ color: "var(--color-primary)" }}>πολιτική απορρήτου</Link>.</span>
       </label>
       <button type="submit" disabled={pending} style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 6, height: 42, border: "none", borderRadius: 999, background: "var(--primary)", color: "var(--primary-foreground)", fontSize: "var(--fs-14)", fontWeight: 700, cursor: "pointer" }}>
         {pending ? <RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> : <RiCheckLine />} Ενεργοποίηση & είσοδος

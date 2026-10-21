@@ -9,6 +9,7 @@ const m = vi.hoisted(() => ({
   contactUpdates: [] as { where: unknown; data: Record<string, unknown> }[],
   contactCreates: [] as Record<string, unknown>[],
   usersOfSupplier: 0,
+  burnCount: 1,
   contact: { id: "c1", isPrimary: false, name: "Μαρία", userId: null as string | null, phone: null as string | null, mobile: null as string | null },
 }));
 vi.mock("@/lib/supplier-invites", () => ({ resolveInviteLink: m.resolve, markInviteUsed: m.markUsed }));
@@ -26,6 +27,7 @@ vi.mock("@/lib/db", () => {
       create: vi.fn(async ({ data }: { data: Record<string, unknown> }) => { m.contactCreates.push(data); return { id: "cNew", ...data }; }),
     },
     role: { findUnique: vi.fn(async () => ({ id: "roleCollab" })) },
+    supplierInviteLink: { updateMany: vi.fn(async () => ({ count: m.burnCount })) },
   };
   return { db: { ...tx, user: { ...tx.user, findUnique: vi.fn(async () => m.user) }, $transaction: async (fn: (t: typeof tx) => Promise<unknown>) => fn(tx) } };
 });
@@ -37,7 +39,7 @@ const good = { name: "Μαρία Κωνσταντίνου", password: "Secret123
 
 let T = "t0";
 let n = 0;
-beforeEach(() => { T = `tok-${++n}`; vi.clearAllMocks(); m.user = null; m.created = []; m.updated = []; m.contactUpdates = []; m.contactCreates = []; m.usersOfSupplier = 0; m.contact = { id: "c1", isPrimary: false, name: "Μαρία", userId: null, phone: "210", mobile: null }; });
+beforeEach(() => { T = `tok-${++n}`; m.burnCount = 1; vi.clearAllMocks(); m.user = null; m.created = []; m.updated = []; m.contactUpdates = []; m.contactCreates = []; m.usersOfSupplier = 0; m.contact = { id: "c1", isPrimary: false, name: "Μαρία", userId: null, phone: "210", mobile: null }; });
 
 describe("activateInvite", () => {
   it("validates input before touching anything", async () => {
@@ -60,7 +62,7 @@ describe("activateInvite", () => {
     expect(u).toMatchObject({ email: "a@firm.gr", name: "Μαρία Κωνσταντίνου", role: "COLLABORATOR", roleId: "roleCollab", supplierId: "s1", isSupplierAdmin: true, status: "ACTIVE", phone: "210" });
     expect(await bcrypt.compare("Secret123!", u.passwordHash as string)).toBe(true);
     expect(m.contactUpdates[0]).toMatchObject({ where: { id: "c1" }, data: { userId: "newU" } });
-    expect(m.markUsed).toHaveBeenCalledWith("l1");
+    expect(m.markUsed).not.toHaveBeenCalled();
     expect(m.signIn).toHaveBeenCalledWith("credentials", { email: "a@firm.gr", password: "Secret123!", redirectTo: "/marketplace/rfq/rfq1" });
   });
   it("is not supplier admin when the supplier already has logins and the contact is not primary", async () => {
@@ -88,6 +90,13 @@ describe("activateInvite", () => {
     expect(m.created).toEqual([]);
     expect(m.updated[0]).toMatchObject({ where: { id: "u1" } });
     expect(await bcrypt.compare("Secret123!", m.updated[0].data.passwordHash as string)).toBe(true);
+  });
+  it("burns the link atomically: a concurrent second submit finds it used and creates nothing", async () => {
+    m.resolve.mockResolvedValueOnce(okLink());
+    m.burnCount = 0;
+    expect(await activateInvite(T, good)).toEqual({ error: "Ο σύνδεσμος δεν ισχύει πλέον — ζητήστε νέα πρόσκληση από την εταιρεία διαχείρισης." });
+    expect(m.created).toEqual([]);
+    expect(m.signIn).not.toHaveBeenCalled();
   });
   it("an e-mail of another role is refused", async () => {
     m.resolve.mockResolvedValueOnce(okLink());

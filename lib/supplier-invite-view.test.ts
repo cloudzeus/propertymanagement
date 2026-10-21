@@ -4,8 +4,10 @@ const m = vi.hoisted(() => ({
   resolve: vi.fn(),
   user: null as null | { id: string; role: string; supplierId: string | null; passwordHash: string | null; name: string | null },
   contact: null as null | { name: string },
+  session: null as null | { user: { id: string } },
 }));
 vi.mock("@/lib/supplier-invites", () => ({ resolveInviteLink: m.resolve }));
+vi.mock("@/lib/auth-effective", () => ({ getEffectiveSession: async () => m.session }));
 vi.mock("@/lib/db", () => ({
   db: {
     user: { findUnique: vi.fn(async () => m.user) },
@@ -17,7 +19,7 @@ import { inviteView } from "./supplier-invite-view";
 
 const okLink = (over: Record<string, unknown> = {}) => ({ status: "ok", supplierName: "Ηλεκτρολόγοι ΑΕ", link: { id: "l1", kind: "RFQ_INVITE", email: "a@firm.gr", supplierId: "s1", rfqId: "rfq1", contactId: "c1", expiresAt: new Date(Date.now() + 1000), ...over } });
 
-beforeEach(() => { vi.clearAllMocks(); m.user = null; m.contact = { name: "Μαρία Κ." }; });
+beforeEach(() => { vi.clearAllMocks(); m.user = null; m.contact = { name: "Μαρία Κ." }; m.session = null; });
 
 describe("inviteView", () => {
   it("maps invalid/expired/revoked/used links to their cards", async () => {
@@ -38,6 +40,12 @@ describe("inviteView", () => {
     m.resolve.mockResolvedValueOnce(okLink());
     m.user = { id: "u1", role: "COLLABORATOR", supplierId: "s1", passwordHash: "h", name: "Μ" };
     expect(await inviteView("t")).toEqual({ kind: "login", loginUrl: "/login?email=a%40firm.gr&callbackUrl=%2Fmarketplace%2Frfq%2Frfq1" });
+  });
+  it("the invited person already signed in → straight to the RFQ, no login detour", async () => {
+    m.resolve.mockResolvedValueOnce(okLink());
+    m.user = { id: "u1", role: "COLLABORATOR", supplierId: "s1", passwordHash: "h", name: "Μ" };
+    m.session = { user: { id: "u1" } };
+    expect(await inviteView("t")).toEqual({ kind: "login", loginUrl: "/marketplace/rfq/rfq1" });
   });
   it("same-supplier collaborator WITHOUT a password → activation form", async () => {
     m.resolve.mockResolvedValueOnce(okLink());

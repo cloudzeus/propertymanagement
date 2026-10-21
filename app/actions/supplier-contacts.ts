@@ -24,6 +24,14 @@ const FOREIGN_ROLE = "Το email ανήκει ήδη σε λογαριασμό �
 const OTHER_SUPPLIER = "Το email ανήκει σε λογαριασμό άλλου συνεργάτη.";
 // Outside parties (supplier admins) must not learn which addresses exist on the platform.
 const NEUTRAL = "Το email δεν μπορεί να χρησιμοποιηθεί για πρόσβαση — επικοινωνήστε με την εταιρεία διαχείρισης.";
+const SELF_DEMOTE = "Δεν μπορείτε να αφαιρέσετε τον δικό σας ρόλο διαχειριστή";
+const LAST_ADMIN = "Ο συνεργάτης πρέπει να έχει τουλάχιστον έναν ενεργό διαχειριστή";
+
+/** Would removing admin from (or deactivating) this user leave the supplier without any active admin? */
+async function isLastActiveAdmin(tx: { user: { count: (q: { where: Record<string, unknown> }) => Promise<number> } }, supplierId: string, userId: string): Promise<boolean> {
+  const others = await tx.user.count({ where: { supplierId, role: "COLLABORATOR", status: "ACTIVE", isSupplierAdmin: true, id: { not: userId } } });
+  return others === 0;
+}
 
 async function requireContactsEdit(supplierId: string) {
   const [eff, resolved] = await Promise.all([getEffectiveSession(), getEffectivePermissions()]);
@@ -116,8 +124,14 @@ export async function saveSupplierContact(supplierId: string, id: string | null,
       }
       if (userId) {
         const patch: Record<string, unknown> = { name, phone: data.phone, mobile: data.mobile };
-        if (input.isSupplierAdmin !== undefined || data.isPrimary) patch.isSupplierAdmin = input.isSupplierAdmin ?? true;
-        if (input.isSupplierAdmin === false && !data.isPrimary) patch.isSupplierAdmin = false;
+        // the primary contact is always admin; otherwise follow the form when it says something
+        if (data.isPrimary) patch.isSupplierAdmin = true;
+        else if (input.isSupplierAdmin !== undefined) patch.isSupplierAdmin = !!input.isSupplierAdmin;
+        if (patch.isSupplierAdmin === false) {
+          if (userId === actorId) throw new Error(SELF_DEMOTE);
+          const wasAdmin = (await tx.user.count({ where: { id: userId, isSupplierAdmin: true } })) > 0;
+          if (wasAdmin && (await isLastActiveAdmin(tx, supplierId, userId))) throw new Error(LAST_ADMIN);
+        }
         await tx.user.update({ where: { id: userId }, data: patch });
       }
       return row.id;
@@ -140,6 +154,10 @@ export async function deactivateSupplierContact(supplierId: string, id: string) 
     const c = await db.supplierContact.findFirst({ where: { id, supplierId }, select: { id: true, userId: true } });
     if (!c) return { error: "Δεν βρέθηκε" };
     await db.$transaction(async (tx) => {
+      if (c.userId) {
+        const isAdmin = (await tx.user.count({ where: { id: c.userId, isSupplierAdmin: true, status: "ACTIVE" } })) > 0;
+        if (isAdmin && (await isLastActiveAdmin(tx, supplierId, c.userId))) throw new Error(LAST_ADMIN);
+      }
       await tx.supplierContact.update({ where: { id }, data: { active: false } });
       if (c.userId) await tx.user.update({ where: { id: c.userId }, data: { status: "INACTIVE" } });
     });

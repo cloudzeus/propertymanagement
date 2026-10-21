@@ -1,6 +1,7 @@
 import "server-only";
 import { db } from "@/lib/db";
 import { resolveInviteLink } from "@/lib/supplier-invites";
+import { getEffectiveSession } from "@/lib/auth-effective";
 
 /** What /invite/[token] shows (spec §6). */
 export type InviteView =
@@ -20,7 +21,12 @@ export async function inviteView(token: string): Promise<InviteView> {
   const user = await db.user.findUnique({ where: { email: r.link.email }, select: { id: true, role: true, supplierId: true, passwordHash: true, name: true } });
   if (user) {
     if (user.role !== "COLLABORATOR" || user.supplierId !== r.link.supplierId) return { kind: "foreign" };
-    if (user.passwordHash) return { kind: "login", loginUrl: `/login?email=${encodeURIComponent(r.link.email)}&callbackUrl=${encodeURIComponent(target)}` };
+    if (user.passwordHash) {
+      // already signed in as that person → no login detour
+      const session = await getEffectiveSession().catch(() => null);
+      if (session?.user?.id === user.id) return { kind: "login", loginUrl: target };
+      return { kind: "login", loginUrl: `/login?email=${encodeURIComponent(r.link.email)}&callbackUrl=${encodeURIComponent(target)}` };
+    }
   }
   const contact = r.link.contactId
     ? await db.supplierContact.findUnique({ where: { id: r.link.contactId }, select: { name: true } })

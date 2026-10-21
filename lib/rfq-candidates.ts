@@ -61,11 +61,14 @@ export async function listRfqCandidates(maintenanceRequestId: string): Promise<{
  * lowercased, deduplicated (first occurrence keeps its userId/contactId).
  */
 export async function recipientsForSupplier(supplierId: string): Promise<{ email: string; userId: string | null; contactId: string | null }[]> {
-  const [users, contacts, sup] = await Promise.all([
+  const [users, contacts, optedOut, sup] = await Promise.all([
     db.user.findMany({ where: { supplierId, role: "COLLABORATOR", status: "ACTIVE" }, select: { id: true, email: true } }),
     db.supplierContact.findMany({ where: { supplierId, active: true, receivesRfq: true, email: { not: null } }, orderBy: [{ isPrimary: "desc" }, { createdAt: "asc" }], select: { id: true, email: true } }),
+    // a login whose contact card says «Λαμβάνει αιτήματα προσφοράς: Όχι» is skipped too
+    db.supplierContact.findMany({ where: { supplierId, receivesRfq: false, userId: { not: null } }, select: { userId: true } }),
     db.supplier.findUnique({ where: { id: supplierId }, select: { email: true, contactEmail: true } }),
   ]);
+  const skipUser = new Set(optedOut.map((c) => c.userId));
   const out: { email: string; userId: string | null; contactId: string | null }[] = [];
   const seen = new Set<string>();
   const add = (raw: string | null | undefined, userId: string | null, contactId: string | null) => {
@@ -74,7 +77,7 @@ export async function recipientsForSupplier(supplierId: string): Promise<{ email
     seen.add(email);
     out.push({ email, userId, contactId });
   };
-  for (const u of users) add(u.email, u.id, null);
+  for (const u of users) if (!skipUser.has(u.id)) add(u.email, u.id, null);
   for (const c of contacts) add(c.email, null, c.id);
   add(sup?.email, null, null);
   add(sup?.contactEmail, null, null);

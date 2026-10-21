@@ -120,9 +120,10 @@ export async function addRfqSuppliers(rfqId: string, supplierIds: string[]) {
 export async function resendRfqInvitation(invitationId: string) {
   const a = await actor();
   if (!isCompany(a) || !can(a.perms, "rfq", "edit")) return { error: "Δεν επιτρέπεται" };
-  const inv = await db.rfqInvitation.findUnique({ where: { id: invitationId }, select: { id: true, supplierId: true, status: true, rfq: { select: { id: true, status: true, maintenanceRequestId: true, buildingId: true } } } });
+  const inv = await db.rfqInvitation.findUnique({ where: { id: invitationId }, select: { id: true, supplierId: true, status: true, rfq: { select: { id: true, status: true, deadlineAt: true, maintenanceRequestId: true, buildingId: true } } } });
   if (!inv) return { error: "Δεν βρέθηκε η πρόσκληση" };
   if (!["OPEN", "OFFERED"].includes(inv.rfq.status)) return { error: "Το αίτημα δεν είναι πλέον ανοιχτό" };
+  if (inv.rfq.deadlineAt && inv.rfq.deadlineAt.getTime() < Date.now()) return { error: "Η προθεσμία του αιτήματος έχει περάσει — στείλτε νέο αίτημα προσφοράς." };
   if (inv.status !== "INVITED") return { error: "Ο συνεργάτης έχει ήδη απαντήσει" };
   const mailed = await sendRfqInvitations(inv.rfq.id, [inv.supplierId], a.id);
   if (mailed.sent === 0 && mailed.failed.length) return { error: `Η αποστολή απέτυχε (${mailed.failed.join(", ")}) — δοκιμάστε ξανά σε λίγο.` };
