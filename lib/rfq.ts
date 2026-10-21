@@ -140,7 +140,7 @@ export async function listRfqInvitationRows(): Promise<RfqInvitationRowDTO[]> {
     include: {
       supplier: supplierRecipientSelect,
       links: linkSelect,
-      rfq: { select: { id: true, status: true, title: true, deadlineAt: true, surveyRequired: true, maintenanceRequestId: true, buildingId: true, building: { select: { name: true } }, offers: { select: { id: true, supplierId: true, amount: true, status: true } } } },
+      rfq: { select: { id: true, status: true, title: true, deadlineAt: true, surveyRequired: true, maintenanceRequestId: true, buildingId: true, building: { select: { name: true } }, offers: { select: { id: true, supplierId: true, amount: true, status: true } }, workOrders: { where: { status: { notIn: ["DECLINED", "CANCELLED"] } }, select: { id: true } } } },
     },
     orderBy: { sentAt: "desc" },
     take: 1000,
@@ -156,6 +156,8 @@ export async function listRfqInvitationRows(): Promise<RfqInvitationRowDTO[]> {
       emailCount: i.emailCount, lastEmailAt: iso(i.lastEmailAt), hasRecipient, recipients: recipientsOf(i.links),
       offer: offer ? { id: offer.id, amount: Number(offer.amount), status: offer.status } : null,
       state: invitationState({ status: i.status, viewedAt: iso(i.viewedAt), emailCount: i.emailCount, hasRecipient }, rfq),
+      offersToForward: i.rfq.offers.filter((o) => o.status === "SUBMITTED").length,
+      hasLiveWorkOrder: i.rfq.workOrders.length > 0,
     };
   });
 }

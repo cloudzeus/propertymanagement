@@ -1,3 +1,4 @@
+import type { FaultFlags } from "@/lib/work/actions";
 /* Serializable DTOs shared between server pages and client maintenance components. */
 
 export type FaultListItem = {
@@ -14,6 +15,9 @@ export type FaultListItem = {
   /** Εξωτερικός συνεργάτης (μητρώο εταιρίας) στον οποίο ανατέθηκε — optional: not every list builds it. */
   supplierId?: string | null;
   supplierName?: string | null;
+  assigneeId?: string | null;
+  /** Action-menu facts (open RFQ, offers, live work order, appointments) — only staff lists build it. */
+  flags?: FaultFlags;
   slaDueAt: string | null;
   scheduledDate: string | null;
   createdAt: string;

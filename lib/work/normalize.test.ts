@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { faultToWorkItem, workOrderToWorkItem, rfqToWorkItem, programmeToWorkItem, appointmentToWorkItem } from "./normalize";
+import { faultToWorkItem, workOrderToWorkItem, rfqToWorkItem, programmeToWorkItem, appointmentToWorkItem, faultFlags } from "./normalize";
+import { EMPTY_FLAGS } from "./actions";
 
 const now = new Date("2026-10-20T10:00:00+03:00");
 const past = new Date("2026-10-19T09:00:00+03:00");
@@ -62,7 +63,7 @@ describe("workOrderToWorkItem", () => {
     expect(w.subtitle).toBe("WO-2026-0042");
     expect(w.supplierName).toBe("Υδραυλικός ΑΕ");
     expect(w.priority).toBeNull();
-    expect(w.href).toBe("/admin/maintenance/f1");
+    expect(w.href).toBe("/admin/work-orders/w1");
   });
   it("prefers scheduledAt over validUntil and maps COMPLETED to awaiting-confirmation", () => {
     const w = workOrderToWorkItem(wo({ status: "COMPLETED", scheduledAt: past }), now)!;
@@ -70,7 +71,7 @@ describe("workOrderToWorkItem", () => {
     expect(w.dueAt).toBe(past.toISOString());
   });
   it("links to the work-orders list when there is no fault", () => {
-    expect(workOrderToWorkItem(wo({ maintenanceRequestId: null }), now)!.href).toBe("/admin/work-orders");
+    expect(workOrderToWorkItem(wo({ maintenanceRequestId: null }), now)!.href).toBe("/admin/work-orders/w1");
   });
   it("drops CONFIRMED / DECLINED / CANCELLED", () => {
     for (const status of ["CONFIRMED", "DECLINED", "CANCELLED"]) expect(workOrderToWorkItem(wo({ status }), now)).toBeNull();
@@ -138,5 +139,30 @@ describe("appointmentToWorkItem", () => {
     expect(w.subtitle).toBe("09:00–09:30 · παρουσία διαχειριστή");
     expect(w.assigneeId).toBe("u1");
     expect(w.href).toBe("/admin/maintenance/f1");
+  });
+});
+
+describe("faultFlags", () => {
+  it("is empty when the row carries no relations", () => {
+    expect(faultFlags(fault())).toEqual(EMPTY_FLAGS);
+    expect(faultToWorkItem(fault(), now)!.flags).toEqual(EMPTY_FLAGS);
+  });
+  it("derives open RFQ, submitted offers, the live work order and appointments", () => {
+    const row = fault({
+      supplierId: "s1",
+      serviceRequests: [{ id: "r1", offers: [{ id: "o1" }, { id: "o2" }] }],
+      workOrders: [{ id: "w1", status: "PENDING_CUSTOMER" }],
+      _count: { appointments: 0 },
+    });
+    expect(faultFlags(row)).toEqual({ openRfqId: "r1", offersToForward: 2, liveWo: { id: "w1", status: "PENDING_CUSTOMER" }, hasAppointment: false });
+    expect(faultFlags(fault({ _count: { appointments: 2 } })).hasAppointment).toBe(true);
+    expect(faultToWorkItem(row, now)!.supplierId).toBe("s1");
+  });
+});
+
+describe("rfqToWorkItem flags", () => {
+  it("counts submitted offers and a live work order", () => {
+    expect(rfqToWorkItem(rfq({ offers: [{ id: "o1" }], workOrders: [{ id: "w1" }] }), now)!.rfq).toEqual({ offersToForward: 1, hasLiveWorkOrder: true });
+    expect(rfqToWorkItem(rfq(), now)!.rfq).toEqual({ offersToForward: 0, hasLiveWorkOrder: false });
   });
 });

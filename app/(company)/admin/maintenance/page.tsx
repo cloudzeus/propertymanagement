@@ -3,6 +3,7 @@ import { getEffectiveSession } from "@/lib/auth-effective";
 import { db } from "@/lib/db";
 import { MaintenanceListClient } from "./MaintenanceListClient";
 import type { FaultListItem } from "@/components/maintenance/types";
+import { faultFlags } from "@/lib/work/normalize";
 
 export const metadata = { title: "Βλάβες & Συντηρήσεις" };
 
@@ -30,6 +31,9 @@ export default async function MaintenancePage() {
       reportedBy: { select: { name: true, email: true } },
       assignedTo: { select: { name: true } },
       supplier: { select: { id: true, name: true } },
+      serviceRequests: { where: { status: { in: ["OPEN", "OFFERED"] } }, select: { id: true, offers: { where: { status: "SUBMITTED" }, select: { id: true } } } },
+      workOrders: { where: { status: { notIn: ["DECLINED", "CANCELLED"] } }, orderBy: { createdAt: "desc" }, take: 1, select: { id: true, status: true } },
+      _count: { select: { appointments: true } },
     },
   });
 
@@ -44,8 +48,10 @@ export default async function MaintenancePage() {
     unitLabel: r.unit ? `Μονάδα ${r.unit.unitNumber}` : null,
     reporterName: r.reportedBy?.name ?? r.reportedBy?.email ?? null,
     assigneeName: r.assignedTo?.name ?? null,
+    assigneeId: r.assignedToId,
     supplierId: r.supplier?.id ?? null,
     supplierName: r.supplier?.name ?? null,
+    flags: faultFlags(r),
     slaDueAt: r.slaDueAt?.toISOString() ?? null,
     scheduledDate: r.scheduledDate?.toISOString() ?? null,
     createdAt: r.createdAt.toISOString(),

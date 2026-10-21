@@ -250,6 +250,7 @@ export async function loadFaultDetail(id: string) {
     unitLabel: r.unit ? `Μονάδα ${r.unit.unitNumber}` : null,
     reporterName: r.reportedBy?.name ?? r.reportedBy?.email ?? null,
     assigneeName: r.assignedTo?.name ?? null,
+    assigneeId: r.assignedToId,
     supplierId: r.supplier?.id ?? null,
     supplierName: r.supplier?.name ?? null,
     supplierRating: r.supplierRating ? { score: r.supplierRating.score, comment: r.supplierRating.comment } : null,

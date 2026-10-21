@@ -3,6 +3,7 @@
  * the work center needs so tests can feed plain objects.
  */
 import { WORK_PRIORITIES, type WorkItem, type WorkPriority, type WorkStage } from "./types";
+import { EMPTY_FLAGS, type FaultFlags } from "./actions";
 
 export type FaultRow = {
   id: string; title: string; description: string; status: string; priority: string; handledBy: string;
@@ -11,6 +12,12 @@ export type FaultRow = {
   categoryRef?: { name: string } | null;
   assignedTo?: { id: string; name: string | null } | null;
   supplier?: { name: string } | null;
+  supplierId?: string | null;
+  /** open (OPEN/OFFERED) RFQs with their SUBMITTED offers */
+  serviceRequests?: { id: string; offers: { id: string }[] }[];
+  /** newest-first work orders whose status ∉ {DECLINED, CANCELLED} */
+  workOrders?: { id: string; status: string }[];
+  _count?: { appointments: number };
 };
 export type WorkOrderRow = {
   id: string; number: string; title: string; description: string; status: string;
@@ -21,6 +28,10 @@ export type WorkOrderRow = {
 export type RfqRow = {
   id: string; title: string; description: string; status: string; deadlineAt: Date | null; updatedAt: Date;
   buildingId: string; building: { name: string }; maintenanceRequestId: string | null; _count: { offers: number };
+  /** SUBMITTED offers */
+  offers?: { id: string }[];
+  /** work orders whose status ∉ {DECLINED, CANCELLED} */
+  workOrders?: { id: string }[];
 };
 export type ProgrammeRow = {
   id: string; title: string; notes: string | null; nextDueDate: Date | null; updatedAt: Date; buildingId: string;
@@ -42,6 +53,19 @@ const priorityOf = (p: string): WorkPriority => ((WORK_PRIORITIES as readonly st
 const plural = (n: number, one: string, many: string) => `${n} ${n === 1 ? one : many}`;
 const hhmm = (d: Date) => d.toLocaleTimeString("el-GR", { hour: "2-digit", minute: "2-digit", hour12: false, timeZone: "Europe/Athens" });
 
+/** Light per-row facts the action menu needs; relations are optional so older callers keep working. */
+export function faultFlags(r: Pick<FaultRow, "serviceRequests" | "workOrders" | "_count">): FaultFlags {
+  const rfq = r.serviceRequests?.[0];
+  const wo = r.workOrders?.[0];
+  if (!rfq && !wo && !r._count?.appointments) return EMPTY_FLAGS;
+  return {
+    openRfqId: rfq?.id ?? null,
+    offersToForward: (r.serviceRequests ?? []).reduce((n, q) => n + q.offers.length, 0),
+    liveWo: wo ? { id: wo.id, status: wo.status } : null,
+    hasAppointment: (r._count?.appointments ?? 0) > 0,
+  };
+}
+
 export function faultToWorkItem(r: FaultRow, now: Date): WorkItem | null {
   const stage = FAULT_STAGE[r.status];
   if (!stage) return null;
@@ -55,6 +79,7 @@ export function faultToWorkItem(r: FaultRow, now: Date): WorkItem | null {
     supplierName: r.supplier?.name ?? null,
     handledBy: r.handledBy === "COMPANY" ? "COMPANY" : "PROPERTY_ADMIN",
     href: `/admin/maintenance/${r.id}`, updatedAt: r.updatedAt.toISOString(), description: r.description || null,
+    supplierId: r.supplierId ?? null, flags: faultFlags(r),
   };
 }
 
@@ -69,7 +94,7 @@ export function workOrderToWorkItem(r: WorkOrderRow, now: Date): WorkItem | null
     stage, rawStatus: r.status, priority: null,
     dueAt: iso(due), overdue: isOverdue(due, now),
     assigneeId: null, assigneeName: null, supplierName: r.supplier.name, handledBy: null,
-    href: r.maintenanceRequestId ? `/admin/maintenance/${r.maintenanceRequestId}` : "/admin/work-orders",
+    href: `/admin/work-orders/${r.id}`, faultId: r.maintenanceRequestId,
     updatedAt: r.updatedAt.toISOString(), description: r.description || null,
   };
 }
@@ -84,8 +109,9 @@ export function rfqToWorkItem(r: RfqRow, now: Date): WorkItem | null {
     stage, rawStatus: r.status, priority: null,
     dueAt: iso(r.deadlineAt), overdue: isOverdue(r.deadlineAt, now),
     assigneeId: null, assigneeName: null, supplierName: null, handledBy: null,
-    href: r.maintenanceRequestId ? `/admin/maintenance/${r.maintenanceRequestId}` : "/admin/maintenance",
+    href: r.maintenanceRequestId ? `/admin/maintenance/${r.maintenanceRequestId}` : "/admin/maintenance", faultId: r.maintenanceRequestId,
     updatedAt: r.updatedAt.toISOString(), description: r.description || null,
+    rfq: { offersToForward: r.offers?.length ?? 0, hasLiveWorkOrder: (r.workOrders?.length ?? 0) > 0 },
   };
 }
 

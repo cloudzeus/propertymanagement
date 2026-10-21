@@ -166,6 +166,9 @@ export type RfqInvitationRowDTO = {
   emailCount: number; lastEmailAt: string | null; hasRecipient: boolean; recipients: InvitationRecipientDTO[];
   offer: { id: string; amount: number; status: string } | null;
   state: InvitationState;
+  /** SUBMITTED offers on the RFQ (any supplier) and whether a live work order already exists — for the action menu. */
+  offersToForward: number;
+  hasLiveWorkOrder: boolean;
 };
 
 /* ------------------------------------------------------------------ */

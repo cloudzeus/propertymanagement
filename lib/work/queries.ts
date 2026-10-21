@@ -41,6 +41,10 @@ export async function loadWorkItems(scope: WorkScope, now: Date = new Date()): P
         id: true, title: true, description: true, status: true, priority: true, handledBy: true, slaDueAt: true, updatedAt: true, buildingId: true,
         building: { select: { name: true, property: { select: { customer: { select: { name: true } } } } } },
         categoryRef: { select: { name: true } }, assignedTo: { select: { id: true, name: true } }, supplier: { select: { name: true } },
+        supplierId: true,
+        serviceRequests: { where: { status: { in: ["OPEN", "OFFERED"] } }, select: { id: true, offers: { where: { status: "SUBMITTED" }, select: { id: true } } } },
+        workOrders: { where: { status: { notIn: ["DECLINED", "CANCELLED"] } }, orderBy: { createdAt: "desc" }, take: 1, select: { id: true, status: true } },
+        _count: { select: { appointments: true } },
       },
     }),
     db.workOrder.findMany({
@@ -59,6 +63,8 @@ export async function loadWorkItems(scope: WorkScope, now: Date = new Date()): P
       select: {
         id: true, title: true, description: true, status: true, deadlineAt: true, updatedAt: true, buildingId: true,
         building: { select: { name: true } }, maintenanceRequestId: true, _count: { select: { offers: true } },
+        offers: { where: { status: "SUBMITTED" }, select: { id: true } },
+        workOrders: { where: { status: { notIn: ["DECLINED", "CANCELLED"] } }, select: { id: true } },
       },
     }),
     db.recurringTask.findMany({

@@ -2,6 +2,7 @@
  * Unified "work item" view-model for the company work center (/admin/work).
  * Client-safe: labels, colours and types only — no server imports.
  */
+import type { FaultFlags } from "./actions";
 export type WorkSource = "fault" | "work-order" | "rfq" | "programme" | "appointment";
 export type WorkStage =
   | "new" | "triage" | "scheduled" | "in-progress"
@@ -31,6 +32,14 @@ export type WorkItem = {
   href: string;
   updatedAt: string;
   description: string | null;
+  /** fault rows: assigned registry supplier */
+  supplierId?: string | null;
+  /** work-order / rfq rows: the fault they belong to */
+  faultId?: string | null;
+  /** fault rows: what the action menu needs (open RFQ, offers, live work order, appointments) */
+  flags?: FaultFlags;
+  /** rfq rows */
+  rfq?: { offersToForward: number; hasLiveWorkOrder: boolean };
 };
 
 export const WORK_SOURCES: readonly WorkSource[] = ["fault", "work-order", "rfq", "programme", "appointment"];
