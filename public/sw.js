@@ -17,6 +17,22 @@ const SELF_URL = new URL(self.location.href);
 const DEV = SELF_URL.searchParams.get("dev") === "1";
 const ORIGIN = SELF_URL.origin;
 
+/** Η cached /offline ανανεώνεται μία φορά ανά ζωή του SW (σε κάθε deploy αλλάζουν τα chunks που αναφέρει). */
+let offlineRefreshed = false;
+let offlineRefreshing = null;
+function refreshOffline() {
+  if (offlineRefreshed || offlineRefreshing) return offlineRefreshing || Promise.resolve();
+  offlineRefreshing = fetch(new Request(OFFLINE_URL, { cache: "reload" }))
+    .then((res) => {
+      if (!res.ok) return;
+      offlineRefreshed = true;
+      return caches.open(CACHE).then((cache) => cache.put(OFFLINE_URL, res));
+    })
+    .catch(() => {})
+    .then(() => { offlineRefreshing = null; });
+  return offlineRefreshing;
+}
+
 /** "navigate" | "static" | "bypass" — καθαρή συνάρτηση, ελέγχεται στο lib/pwa/sw.test.ts. */
 function routeFor(request, origin, dev) {
   if (request.method !== "GET") return "bypass";
@@ -51,6 +67,7 @@ self.addEventListener("fetch", (event) => {
   const request = event.request;
   const route = routeFor(request, ORIGIN, DEV);
   if (route === "navigate") {
+    if (!offlineRefreshed) event.waitUntil(refreshOffline());
     event.respondWith(
       fetch(request).catch(() =>
         caches.match(OFFLINE_URL).then(

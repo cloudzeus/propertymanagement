@@ -160,6 +160,26 @@ describe("sw.js fetch — navigations", () => {
     await sw.fetchEvent(nav("/admin/work"));
     for (const s of sw.stores.values()) expect(s.has(`${ORIGIN}/admin/work`)).toBe(false);
   });
+  it("refreshes the precached /offline once per SW lifetime after a successful navigation (tracks the current build)", async () => {
+    const sw = loadSw();
+    sw.openStore(sw.pwa.CACHE).set(`${ORIGIN}/offline`, new Response("OLD"));
+    sw.fetch.mockImplementation(async (req: Request) => new Response(req.url.endsWith("/offline") ? "NEW" : "page"));
+    await sw.fetchEvent(nav("/admin/work"));
+    await sw.fetchEvent(nav("/portal"));
+    await new Promise((r) => setTimeout(r, 0));
+    const offlineFetches = sw.fetch.mock.calls.filter(([req]) => (req as Request).url === `${ORIGIN}/offline`);
+    expect(offlineFetches).toHaveLength(1);
+    expect((offlineFetches[0][0] as Request).cache).toBe("reload");
+    expect(await (await sw.openStore(sw.pwa.CACHE).get(`${ORIGIN}/offline`))!.text()).toBe("NEW");
+  });
+  it("keeps the old /offline when the refresh fetch fails or is not ok", async () => {
+    const sw = loadSw();
+    sw.openStore(sw.pwa.CACHE).set(`${ORIGIN}/offline`, new Response("OLD"));
+    sw.fetch.mockImplementation(async (req: Request) => (req.url.endsWith("/offline") ? new Response("err", { status: 500 }) : new Response("page")));
+    await sw.fetchEvent(nav("/admin/work"));
+    await new Promise((r) => setTimeout(r, 0));
+    expect(await (await sw.openStore(sw.pwa.CACHE).get(`${ORIGIN}/offline`))!.text()).toBe("OLD");
+  });
   it("returns a 503 text response when /offline is not cached either", async () => {
     const sw = loadSw();
     sw.fetch.mockRejectedValue(new TypeError("Failed to fetch"));
