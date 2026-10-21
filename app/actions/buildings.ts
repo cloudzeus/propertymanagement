@@ -7,6 +7,7 @@ import { distributeWeights, elevatorWeight, type WeightInput } from "@/lib/mille
 import { ensureFolder, buildingFolder } from "@/lib/bunnycdn";
 import { requireBuildingCap } from "@/lib/building-access";
 import { publishBuildingEvent } from "@/lib/realtime/bus";
+import { touchBuildingDistance } from "@/lib/distance/buildings";
 
 async function requireSuperAdmin() {
   const session = await auth();
@@ -90,6 +91,7 @@ export async function createBuilding(propertyId: string, data: BuildingInput) {
     console.error("BunnyCDN folder creation failed for building", building.id, e);
   }
 
+  await touchBuildingDistance(building.id);
   revalidatePath(`/super-admin/properties/${propertyId}`);
   return { building };
 }
@@ -97,6 +99,7 @@ export async function createBuilding(propertyId: string, data: BuildingInput) {
 export async function updateBuilding(id: string, data: Partial<BuildingInput>) {
   await requireSuperAdmin();
   const building = await db.building.update({ where: { id }, data: buildingData(data) });
+  if (data.lat !== undefined || data.lng !== undefined) await touchBuildingDistance(id);
   revalidatePath(`/super-admin/properties/${building.propertyId}`);
   return { building };
 }

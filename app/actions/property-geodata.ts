@@ -4,6 +4,7 @@ import { auth } from "@/auth";
 import { db } from "@/lib/db";
 import { geocodeAddress } from "@/lib/geocoding";
 import { revalidatePath } from "next/cache";
+import { touchBuildingDistance } from "@/lib/distance/buildings";
 
 export async function geocodeProperty(propertyId: string) {
   const session = await auth();
@@ -24,6 +25,7 @@ export async function geocodeProperty(propertyId: string) {
     where: { id: propertyId },
     data: { lat, lng },
   });
+  await touchBuildingDistance(propertyId);
 
   revalidatePath("/admin/properties");
   revalidatePath(`/admin/properties/${propertyId}`);
@@ -45,6 +47,7 @@ export async function updatePropertyGeodata(
     where: { id: propertyId },
     data: { lat, lng },
   });
+  await touchBuildingDistance(propertyId);
 
   revalidatePath("/admin/properties");
   revalidatePath(`/admin/properties/${propertyId}`);

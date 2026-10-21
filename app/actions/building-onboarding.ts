@@ -6,6 +6,7 @@ import { revalidatePath } from "next/cache";
 import { buildingInfoSchema, setUnitsSchema } from "@/lib/ai/agents/building-onboarding";
 import { buildOnboardingPayload } from "./building-onboarding-payload";
 import { UnitType } from "@/lib/prisma/enums";
+import { touchBuildingDistance } from "@/lib/distance/buildings";
 
 async function requireSuperAdmin() {
   const session = await auth();
@@ -89,6 +90,7 @@ export async function createBuildingFromOnboarding(
     }
     return b.id;
   });
+  await touchBuildingDistance(buildingId);
 
   revalidatePath(`/super-admin/customers/${customerId}`);
   return { buildingId };

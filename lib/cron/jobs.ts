@@ -6,6 +6,7 @@ import { pickReminderEmails, isReminderDue } from "@/lib/maintenance";
 import { sendNotificationEmail } from "@/lib/mailgun";
 import { runMonthlyAllowance } from "@/lib/wallet/allowance";
 import { pullAllMasterData } from "@/lib/softone/sync/engine";
+import { recomputeStaleBuildings } from "@/lib/distance/buildings";
 
 /**
  * Scheduled jobs. Each is a plain async function so it can run from the
@@ -110,6 +111,7 @@ export async function runMaintenanceRemindersJob(): Promise<Record<string, unkno
 export const CRON_JOBS: CronJob[] = [
   { key: "work-orders", label: "Συμβάσεις έργου", description: "Σιωπηρή παραλαβή μετά τις εργάσιμες της ρύθμισης, υπενθύμιση διαχειριστή μία μέρα πριν, λήξη αιτημάτων προσφοράς χωρίς προσφορές.", schedule: { kind: "daily", hour: 7 }, run: runWorkOrdersJob },
   { key: "maintenance-reminders", label: "Υπενθυμίσεις συντηρήσεων", description: "Email στους υπεύθυνους Ν ημέρες πριν από κάθε τακτική συντήρηση.", schedule: { kind: "daily", hour: 7 }, run: runMaintenanceRemindersJob },
+  { key: "base-distances", label: "Αποστάσεις από τη βάση", description: "Μετρά την οδική απόσταση κάθε κτιρίου από την έδρα της εταιρείας (νέα κτίρια, αλλαγή έδρας, εκτιμήσεις προς επιβεβαίωση). Έως 300 κτίρια ανά εκτέλεση, 1 κλήση/δευτ. στο routing API.", schedule: { kind: "daily", hour: 3 }, run: () => recomputeStaleBuildings() },
   { key: "monthly-allowance", label: "Μηνιαία πίστωση πορτοφολιών", description: "Πιστώνει τη μηνιαία ποσόστωση των πακέτων χρεώσεων στα πορτοφόλια πελατών.", schedule: { kind: "monthly", hour: 6 }, run: async () => runMonthlyAllowance() },
   {
     key: "softone-master-data", label: "SoftOne — master data", description: "Τραβάει από το SoftOne συντελεστές ΦΠΑ, μονάδες μέτρησης, ΔΟΥ, σειρές παραστατικών, νομούς και ταχ. κώδικες. Τρέχει μόνο αν η διασύνδεση και ο αυτόματος συγχρονισμός είναι ενεργά και η δοκιμή σύνδεσης περνά.",

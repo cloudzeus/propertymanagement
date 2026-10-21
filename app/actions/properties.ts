@@ -4,6 +4,7 @@ import { auth } from "@/auth";
 import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import { ensureFolder, propertyFolder, buildingFolder } from "@/lib/bunnycdn";
+import { touchBuildingDistance } from "@/lib/distance/buildings";
 
 async function requireSuperAdmin() {
   const session = await auth();
@@ -88,6 +89,8 @@ export async function createProperty(data: PropertyInput) {
       lng: sameAddress ? property.lng : null,
     },
   });
+
+  if (building.lat != null && building.lng != null) await touchBuildingDistance(building.id);
 
   // Best-effort BunnyCDN folder setup (don't fail creation if storage is down).
   try {
