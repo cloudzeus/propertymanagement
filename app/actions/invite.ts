@@ -2,6 +2,7 @@
 
 import bcrypt from "bcryptjs";
 import { AuthError } from "next-auth";
+import { redirect } from "next/navigation";
 import { signIn } from "@/auth";
 import { db } from "@/lib/db";
 import { resolveInviteLink } from "@/lib/supplier-invites";
@@ -70,11 +71,14 @@ export async function activateInvite(token: string, input: ActivateInput): Promi
     throw e;
   }
 
+  // Sign in WITHOUT Auth.js' own redirect: it builds an absolute URL from AUTH_URL,
+  // which may not be the host the person is browsing (dev ports, proxies). The
+  // session cookie is set here; the relative Next redirect keeps the same origin.
   try {
-    await signIn("credentials", { email, password: input.password, redirectTo: inviteTarget(link) });
+    await signIn("credentials", { email, password: input.password, redirect: false });
   } catch (e) {
     if (e instanceof AuthError) return { error: "Ο λογαριασμός δημιουργήθηκε αλλά η σύνδεση απέτυχε — συνδεθείτε από τη σελίδα εισόδου." };
-    throw e; // NEXT_REDIRECT
+    throw e;
   }
-  return { error: "" };
+  redirect(inviteTarget(link));
 }

@@ -2,7 +2,8 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import bcrypt from "bcryptjs";
 
 const m = vi.hoisted(() => ({
-  resolve: vi.fn(), markUsed: vi.fn(async () => {}), signIn: vi.fn(async () => { throw new Error("NEXT_REDIRECT"); }),
+  resolve: vi.fn(), markUsed: vi.fn(async () => {}), signIn: vi.fn(async () => "http://localhost:3000/marketplace"),
+  redirect: vi.fn((to: string) => { throw new Error("NEXT_REDIRECT:" + to); }),
   user: null as null | { id: string; role: string; supplierId: string | null; passwordHash: string | null },
   created: [] as Record<string, unknown>[],
   updated: [] as { where: unknown; data: Record<string, unknown> }[],
@@ -14,6 +15,7 @@ const m = vi.hoisted(() => ({
 }));
 vi.mock("@/lib/supplier-invites", () => ({ resolveInviteLink: m.resolve, markInviteUsed: m.markUsed }));
 vi.mock("@/auth", () => ({ signIn: m.signIn }));
+vi.mock("next/navigation", () => ({ redirect: m.redirect }));
 vi.mock("@/lib/db", () => {
   const tx = {
     user: {
@@ -56,24 +58,26 @@ describe("activateInvite", () => {
   });
   it("creates the COLLABORATOR, links the contact, burns the link and signs in towards the RFQ", async () => {
     m.resolve.mockResolvedValueOnce(okLink());
-    await expect(activateInvite(T, good)).rejects.toThrow("NEXT_REDIRECT");
+    await expect(activateInvite(T, good)).rejects.toThrow(/NEXT_REDIRECT/);
     expect(m.created).toHaveLength(1);
     const u = m.created[0];
     expect(u).toMatchObject({ email: "a@firm.gr", name: "Μαρία Κωνσταντίνου", role: "COLLABORATOR", roleId: "roleCollab", supplierId: "s1", isSupplierAdmin: true, status: "ACTIVE", phone: "210" });
     expect(await bcrypt.compare("Secret123!", u.passwordHash as string)).toBe(true);
     expect(m.contactUpdates[0]).toMatchObject({ where: { id: "c1" }, data: { userId: "newU" } });
     expect(m.markUsed).not.toHaveBeenCalled();
-    expect(m.signIn).toHaveBeenCalledWith("credentials", { email: "a@firm.gr", password: "Secret123!", redirectTo: "/marketplace/rfq/rfq1" });
+    // sign in without Auth.js' absolute redirect (it would use AUTH_URL's origin), then a relative Next redirect
+    expect(m.signIn).toHaveBeenCalledWith("credentials", { email: "a@firm.gr", password: "Secret123!", redirect: false });
+    expect(m.redirect).toHaveBeenCalledWith("/marketplace/rfq/rfq1");
   });
   it("is not supplier admin when the supplier already has logins and the contact is not primary", async () => {
     m.resolve.mockResolvedValueOnce(okLink());
     m.usersOfSupplier = 2;
-    await expect(activateInvite(T, good)).rejects.toThrow("NEXT_REDIRECT");
+    await expect(activateInvite(T, good)).rejects.toThrow(/NEXT_REDIRECT/);
     expect(m.created[0]).toMatchObject({ isSupplierAdmin: false });
   });
   it("a link without a contact creates one for the new login", async () => {
     m.resolve.mockResolvedValueOnce(okLink({ contactId: null }));
-    await expect(activateInvite(T, good)).rejects.toThrow("NEXT_REDIRECT");
+    await expect(activateInvite(T, good)).rejects.toThrow(/NEXT_REDIRECT/);
     expect(m.contactCreates[0]).toMatchObject({ supplierId: "s1", email: "a@firm.gr", name: "Μαρία Κωνσταντίνου", userId: "newU" });
   });
   it("an existing login with a password is told to sign in instead; nothing is created", async () => {
@@ -86,7 +90,7 @@ describe("activateInvite", () => {
   it("an existing same-supplier login WITHOUT a password gets the password set (no second user)", async () => {
     m.resolve.mockResolvedValueOnce(okLink());
     m.user = { id: "u1", role: "COLLABORATOR", supplierId: "s1", passwordHash: null };
-    await expect(activateInvite(T, good)).rejects.toThrow("NEXT_REDIRECT");
+    await expect(activateInvite(T, good)).rejects.toThrow(/NEXT_REDIRECT/);
     expect(m.created).toEqual([]);
     expect(m.updated[0]).toMatchObject({ where: { id: "u1" } });
     expect(await bcrypt.compare("Secret123!", m.updated[0].data.passwordHash as string)).toBe(true);
