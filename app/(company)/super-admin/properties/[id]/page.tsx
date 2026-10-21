@@ -2,6 +2,9 @@ import { auth } from "@/auth";
 import { db } from "@/lib/db";
 import { redirect, notFound } from "next/navigation";
 import { PropertyDetailClient } from "./PropertyDetailClient";
+import { getDistanceZones, isStale } from "@/lib/distance/buildings";
+import { getBaseStation } from "@/lib/distance/base";
+import { describeBuildingDistance } from "@/lib/distance/zones";
 import { isProviderVivaConfigured } from "@/lib/payments/provider-viva";
 
 export const metadata = { title: "Ιδιοκτησία — Super Admin" };
@@ -35,8 +38,12 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
   });
   if (!property) notFound();
 
-  const catalog = await db.service.findMany({ where: { active: true }, orderBy: [{ isCore: "desc" }, { name: "asc" }] });
-  const providerConfigured = await isProviderVivaConfigured();
+  const [catalog, providerConfigured, zones, base] = await Promise.all([
+    db.service.findMany({ where: { active: true }, orderBy: [{ isCore: "desc" }, { name: "asc" }] }),
+    isProviderVivaConfigured(),
+    getDistanceZones(),
+    getBaseStation(),
+  ]);
 
   return (
     <PropertyDetailClient
@@ -49,6 +56,7 @@ export default async function PropertyDetailPage({ params }: { params: Promise<{
         id: b.id, name: b.name, address: b.address, city: b.city, postalCode: b.postalCode, country: b.country,
         floors: b.floors, basements: b.basements, hasElevator: b.hasElevator, hasBoiler: b.hasBoiler, hasFireSafety: b.hasFireSafety,
         technicalNotes: b.technicalNotes, lat: b.lat, lng: b.lng,
+        distance: describeBuildingDistance(b, zones), distanceStale: !!base && b.distanceKm != null && isStale(b, base.key),
         units: b.units.map((u) => ({
           id: u.id, unitNumber: u.unitNumber, unitType: u.unitType, floor: u.floor,
           areaSqm: u.areaSqm, millesimes: u.millesimes,

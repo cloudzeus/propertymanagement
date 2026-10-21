@@ -13,7 +13,7 @@ import {
 import { rateSupplier, setPreferredSupplier } from "@/app/actions/suppliers";
 import { FormField, FieldSelect, FieldTextarea, FieldInput } from "@/components/ui/modal";
 import {
-  RiTimeLine, RiUserLine, RiBuilding2Line, RiCalendarCheckLine, RiAlarmWarningLine,
+  RiTimeLine, RiUserLine, RiBuilding2Line, RiCalendarCheckLine, RiAlarmWarningLine, RiRoadMapLine,
   RiChat3Line, RiHistoryLine, RiAttachmentLine, RiDeleteBinLine, RiCheckLine, RiTeamLine,
 } from "react-icons/ri";
 import type { FaultDetail, Viewer, EmployeeOption } from "./types";
@@ -115,6 +115,7 @@ export function RequestDetail({ request, viewer, employees, suppliers = [], pref
         </div>
         <div style={{ display: "flex", flexWrap: "wrap", gap: 16, fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)" }}>
           <span style={{ display: "inline-flex", alignItems: "center", gap: 4 }}><RiBuilding2Line /> {request.buildingName}{request.unitLabel ? ` · ${request.unitLabel}` : " · Κοινόχρηστος χώρος"}</span>
+          {request.buildingDistance && <span style={{ display: "inline-flex", alignItems: "center", gap: 4 }} title="Απόσταση από τον σταθμό βάσης"><RiRoadMapLine /> {request.buildingDistance}</span>}
           <span style={{ display: "inline-flex", alignItems: "center", gap: 4 }}><RiUserLine /> Δήλωση: {request.reporterName ?? "—"}</span>
           <span style={{ display: "inline-flex", alignItems: "center", gap: 4 }}><RiTimeLine /> {fmt(request.createdAt)}</span>
           <span>Κατηγορία: {request.categoryName ?? "—"}</span>

@@ -32,6 +32,8 @@ export type FaultAppointment = { id: string; startAt: string; endAt: string; sta
 export type FaultDetail = FaultListItem & {
   description: string;
   buildingId?: string;
+  /** «23 km · περ. 35′ · Ζώνη Β» από τον σταθμό βάσης· null χωρίς απόσταση */
+  buildingDistance?: string | null;
   categoryId?: string | null;
   supplierRating?: { score: number; comment: string | null } | null;
   restrictedAccess: boolean;

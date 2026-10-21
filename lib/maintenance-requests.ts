@@ -1,4 +1,6 @@
 import { db } from "@/lib/db";
+import { getDistanceZones } from "@/lib/distance/buildings";
+import { describeBuildingDistance } from "@/lib/distance/zones";
 import { sendNotificationEmail } from "@/lib/mailgun";
 import type { FaultPriority } from "@/lib/maintenance-shared";
 
@@ -222,7 +224,7 @@ export async function loadFaultDetail(id: string) {
   const r = await db.maintenanceRequest.findUnique({
     where: { id },
     include: {
-      building: { select: { name: true } },
+      building: { select: { name: true, distanceKm: true, distanceMinutes: true, distanceMethod: true } },
       unit: { select: { unitNumber: true, floor: true } },
       categoryRef: { select: { name: true } },
       reportedBy: { select: { name: true, email: true } },
@@ -247,6 +249,7 @@ export async function loadFaultDetail(id: string) {
     handledBy: r.handledBy,
     categoryName: r.categoryRef?.name ?? r.category ?? null,
     buildingName: r.building.name,
+    buildingDistance: describeBuildingDistance(r.building, await getDistanceZones()),
     unitLabel: r.unit ? `Μονάδα ${r.unit.unitNumber}` : null,
     reporterName: r.reportedBy?.name ?? r.reportedBy?.email ?? null,
     assigneeName: r.assignedTo?.name ?? null,

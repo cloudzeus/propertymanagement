@@ -7,7 +7,8 @@ import { distributeWeights, elevatorWeight, type WeightInput } from "@/lib/mille
 import { ensureFolder, buildingFolder } from "@/lib/bunnycdn";
 import { requireBuildingCap } from "@/lib/building-access";
 import { publishBuildingEvent } from "@/lib/realtime/bus";
-import { touchBuildingDistance } from "@/lib/distance/buildings";
+import { touchBuildingDistance, recomputeBuildingDistance, getDistanceZones } from "@/lib/distance/buildings";
+import { describeBuildingDistance } from "@/lib/distance/zones";
 
 async function requireSuperAdmin() {
   const session = await auth();
@@ -94,6 +95,19 @@ export async function createBuilding(propertyId: string, data: BuildingInput) {
   await touchBuildingDistance(building.id);
   revalidatePath(`/super-admin/properties/${propertyId}`);
   return { building };
+}
+
+/** Re-measure one building from the base station (forces a fresh routing call). */
+export async function recomputeBuildingDistanceAction(buildingId: string): Promise<{ ok: true; label: string | null } | { error: string }> {
+  await requireSuperAdmin();
+  try {
+    const [r, zones] = await Promise.all([recomputeBuildingDistance(buildingId, { force: true }), getDistanceZones()]);
+    const b = await db.building.findUnique({ where: { id: buildingId }, select: { propertyId: true } });
+    if (b) revalidatePath(`/super-admin/properties/${b.propertyId}`);
+    return { ok: true, label: describeBuildingDistance(r, zones) };
+  } catch (e) {
+    return { error: (e as Error).message || "Αποτυχία υπολογισμού" };
+  }
 }
 
 export async function updateBuilding(id: string, data: Partial<BuildingInput>) {

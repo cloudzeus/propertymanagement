@@ -7,7 +7,7 @@ import {
   createBuilding, updateBuilding, deleteBuilding,
   createUnit, updateUnit, deleteUnit,
   createCommonArea, deleteCommonArea,
-  recalculateMillesimes,
+  recalculateMillesimes, recomputeBuildingDistanceAction,
 } from "@/app/actions/buildings";
 import { computeMillesimes } from "@/lib/millesimes";
 import { createOccupant, assignOccupant, clearOccupant } from "@/app/actions/unit-occupants";
@@ -22,13 +22,18 @@ import {
   RiArrowRightSLine, RiArrowUpSLine, RiArrowDownSLine, RiCommunityLine, RiBuildingLine, RiStairsLine, RiHome2Line,
   RiStore2Line, RiParkingBoxLine, RiBox3Line, RiDoorOpenLine, RiMoreFill,
   RiAddLine, RiPencilLine, RiDeleteBinLine, RiSettings3Line, RiUserStarLine, RiUserLine,
-  RiCheckLine, RiLoaderLine, RiCloseLine, RiMapPin2Line, RiCalculatorLine,
+  RiCheckLine, RiLoaderLine, RiCloseLine, RiMapPin2Line, RiCalculatorLine, RiRoadMapLine,
 } from "react-icons/ri";
 
 export type TOccupant = { id: string; name: string | null; email: string };
 export type TUnit = { id: string; unitNumber: string; unitType: string; floor: number | null; areaSqm: number | null; millesimes: number | null; owner: TOccupant | null; resident: TOccupant | null };
 export type TCommonArea = { id: string; name: string; type: string | null; floor: number | null };
-export type TBuilding = { id: string; name: string; address: string; city: string; postalCode: string; country: string; floors: number | null; basements: number | null; hasElevator: boolean; hasBoiler: boolean; hasFireSafety: boolean; technicalNotes: string | null; lat: number | null; lng: number | null; commonAreas: TCommonArea[]; units: TUnit[] };
+export type TBuilding = { id: string; name: string; address: string; city: string; postalCode: string; country: string; floors: number | null; basements: number | null; hasElevator: boolean; hasBoiler: boolean; hasFireSafety: boolean; technicalNotes: string | null; lat: number | null; lng: number | null; commonAreas: TCommonArea[]; units: TUnit[];
+  /** «23 km · περ. 35′ · Ζώνη Β» από τον σταθμό βάσης (lib/distance); null = χωρίς απόσταση */
+  distance?: string | null;
+  /** μετρήθηκε από παλιά έδρα ή είναι εκτίμηση → προς επανυπολογισμό */
+  distanceStale?: boolean;
+};
 export type TPropertyAddress = { address: string | null; city: string | null; postalCode: string | null; country: string | null; lat: number | null; lng: number | null };
 export type TProperty = TPropertyAddress & { id: string; name: string; buildingCount: number; unitCount: number; buildings: TBuilding[] };
 
@@ -116,6 +121,7 @@ export function BuildingsTree({ propertyId, buildings, depthBase = 0, showAddBui
           `${b.units.length} μονάδες`,
           bSqm > 0 ? `${bSqm} τ.μ.` : null,
           mgrNames ? `Διαχ.: ${mgrNames}` : null,
+          b.distance !== undefined ? (b.distance ? `${b.distance}${b.distanceStale ? " (προς επανυπολογισμό)" : ""}` : "χωρίς απόσταση από τη βάση") : null,
         ].filter(Boolean).join(" · ");
         return (
           <div key={b.id}>
@@ -130,6 +136,7 @@ export function BuildingsTree({ propertyId, buildings, depthBase = 0, showAddBui
                 { label: "Προσθήκη μονάδας", icon: <RiAddLine />, onClick: () => setModal({ kind: "unit", buildingId: b.id, editing: null }) },
                 { label: "Προσθήκη κοιν. χώρου", icon: <RiDoorOpenLine />, onClick: () => setModal({ kind: "commonArea", buildingId: b.id }) },
                 { label: "Υπολογισμός χιλιοστών", icon: <RiCalculatorLine />, onClick: () => setModal({ kind: "millesimes", building: b }) },
+                { label: "Επανυπολογισμός απόστασης", icon: <RiRoadMapLine />, onClick: () => act(() => recomputeBuildingDistanceAction(b.id)) },
                 { label: "Διαχειριστές κτηρίου", icon: <RiUserStarLine />, onClick: () => setModal({ kind: "managers", scope: { buildingId: b.id }, title: `Διαχειριστές — ${b.name}` }) },
                 { label: "Διαγραφή", icon: <RiDeleteBinLine />, danger: true, onClick: () => { if (confirm(`Διαγραφή κτηρίου «${b.name}»;`)) act(() => deleteBuilding(b.id)); } },
               ]} />
