@@ -83,9 +83,9 @@ const pill: React.CSSProperties = { display: "inline-flex", alignItems: "center"
 const chip: React.CSSProperties = { fontSize: "var(--fs-11)", fontWeight: 600, padding: "2px 7px", borderRadius: 9999, background: "var(--color-primary)14", color: "var(--color-primary)" };
 const btn: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 6, border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)", borderRadius: 4, padding: "7px 13px", fontSize: "var(--fs-13)", fontWeight: 600, cursor: "pointer" };
 
-/** « + ζώνες Β 10 € · Γ 25 €» — only the zones the supplier priced. */
+/** « + Ζώνη Β 10 € · Ζώνη Γ 25 €» — only the zones the supplier priced, by their Greek name. */
 function zoneSummary(fees: Record<string, number> | null, zones: DistanceZone[]): string {
   if (!fees) return "";
-  const parts = zones.filter((z) => Number(fees[z.code]) > 0).map((z) => `${z.code} ${Number(fees[z.code]).toLocaleString("el-GR", { maximumFractionDigits: 2 })} €`);
-  return parts.length ? ` + ζώνες ${parts.join(" · ")}` : "";
+  const parts = zones.filter((z) => Number(fees[z.code]) > 0).map((z) => `${z.label} ${Number(fees[z.code]).toLocaleString("el-GR", { maximumFractionDigits: 2 })} €`);
+  return parts.length ? ` + ${parts.join(" · ")}` : "";
 }

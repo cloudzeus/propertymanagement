@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useRef, useState, useTransition } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
@@ -9,7 +9,7 @@ import {
 import { PropertyMap } from "@/components/maps/PropertyMap";
 import { geocodeCompanyAddress } from "@/app/actions/company-profile";
 import { saveDistanceZones, recomputeAllDistances, type DistanceOverview } from "@/app/actions/distance-settings";
-import { MAX_ZONES, type DistanceZone } from "@/lib/distance/zones";
+import { MAX_ZONES, nextZoneCode, type DistanceZone } from "@/lib/distance/zones";
 
 const card: React.CSSProperties = { background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius-lg)", padding: 18, display: "flex", flexDirection: "column", gap: 12 };
 const h2: React.CSSProperties = { fontSize: "var(--fs-15)", fontWeight: 700, margin: 0, color: "var(--foreground)", display: "flex", alignItems: "center", gap: 8 };
@@ -20,9 +20,6 @@ const btnPrimary: React.CSSProperties = { ...btn, background: "var(--color-prima
 const th: React.CSSProperties = { textAlign: "left", fontSize: "var(--fs-11)", fontWeight: 700, letterSpacing: ".06em", textTransform: "uppercase", color: "var(--muted-foreground)", padding: "4px 6px" };
 const td: React.CSSProperties = { padding: "4px 6px", verticalAlign: "middle" };
 
-const GREEK = ["Α", "Β", "Γ", "Δ", "Ε", "Ζ", "Η", "Θ"];
-const LATIN = ["A", "B", "C", "D", "E", "F", "G", "H"];
-
 type Row = { code: string; label: string; maxKm: string; travelFee: string };
 const toRows = (z: DistanceZone[]): Row[] => z.map((x) => ({ code: x.code, label: x.label, maxKm: x.maxKm == null ? "" : String(x.maxKm), travelFee: String(x.travelFee) }));
 
@@ -31,6 +28,10 @@ const fmtDT = (iso: string | null) => (iso ? new Date(iso).toLocaleString("el-GR
 export function DistanceSettings({ overview, canEdit }: { overview: DistanceOverview; canEdit: boolean }) {
   const router = useRouter();
   const [rows, setRows] = useState<Row[]>(toRows(overview.zones));
+  // Every code that ever existed in the saved table or was added in this session:
+  // a removed code is never handed out again, because Service.zonePrices and
+  // Supplier.surveyZoneFees still key on it.
+  const takenCodes = useRef(new Set(overview.zones.map((z) => z.code)));
   const [error, setError] = useState<string | null>(null);
   const [saved, setSaved] = useState(false);
   const [geoMsg, setGeoMsg] = useState<string | null>(null);
@@ -40,13 +41,16 @@ export function DistanceSettings({ overview, canEdit }: { overview: DistanceOver
   const [recPending, startRec] = useTransition();
 
   const setRow = (i: number, patch: Partial<Row>) => setRows((p) => p.map((r, j) => (j === i ? { ...r, ...patch } : r)));
-  const removeRow = (i: number) => setRows((p) => p.filter((_, j) => j !== i));
+  const removeRow = (i: number) => setRows((p) => {
+    const r = p[i];
+    // A saved code may still be priced on services / supplier survey fees — those entries go orphaned.
+    if (overview.zones.some((z) => z.code === r.code) && !confirm(`Αφαίρεση της ζώνης «${r.label}» (${r.code});\n\nΟι τιμές υπηρεσιών «ανά ζώνη» και οι χρεώσεις αυτοψίας συνεργατών που έχουν οριστεί για αυτή τη ζώνη θα μείνουν ορφανές (δεν θα χρεώνονται). Ο κωδικός ${r.code} δεν θα ξαναχρησιμοποιηθεί.`)) return p;
+    return p.filter((_, j) => j !== i);
+  });
   const addRow = () => setRows((p) => {
     if (p.length >= MAX_ZONES) return p;
-    const used = new Set(p.map((r) => r.code));
-    const idx = LATIN.findIndex((c) => !used.has(c));
-    const code = idx >= 0 ? LATIN[idx] : `Z${p.length + 1}`;
-    const label = idx >= 0 ? `Ζώνη ${GREEK[idx]}` : `Ζώνη ${p.length + 1}`;
+    const { code, label } = nextZoneCode([...takenCodes.current, ...p.map((r) => r.code)]);
+    takenCodes.current.add(code);
     // insert before the open last zone
     return [...p.slice(0, -1), { code, label, maxKm: "", travelFee: "0" }, p[p.length - 1]];
   });
@@ -54,8 +58,9 @@ export function DistanceSettings({ overview, canEdit }: { overview: DistanceOver
   function save() {
     setError(null); setSaved(false);
     start(async () => {
-      const r = await saveDistanceZones(rows.map((x) => ({ code: x.code, label: x.label, maxKm: x.maxKm === "" ? null : Number(x.maxKm.replace(",", ".")), travelFee: Number(x.travelFee.replace(",", ".")) || 0 })));
-      if ("error" in r) setError(r.error); else { setSaved(true); router.refresh(); }
+      // Raw form strings: the server coerces and rejects garbage («abc» → σφάλμα), instead of silently saving 0.
+      const r = await saveDistanceZones(rows.map((x) => ({ code: x.code, label: x.label, maxKm: x.maxKm === "" ? null : x.maxKm, travelFee: x.travelFee })));
+      if ("error" in r) setError(r.error); else { setSaved(true); takenCodes.current = new Set([...takenCodes.current, ...rows.map((y) => y.code)]); router.refresh(); }
     });
   }
 
@@ -156,6 +161,7 @@ export function DistanceSettings({ overview, canEdit }: { overview: DistanceOver
           <span style={{ fontSize: "var(--fs-12-5)", padding: "4px 10px", borderRadius: 999, background: "var(--paper)", border: "1px solid var(--border)" }}>Χωρίς απόσταση: <b>{overview.missing}</b></span>
           <span style={{ fontSize: "var(--fs-12-5)", padding: "4px 10px", borderRadius: 999, background: "var(--paper)", border: "1px solid var(--border)" }}>Κατ&apos; εκτίμηση: <b>{overview.estimated}</b></span>
           <span style={{ fontSize: "var(--fs-12-5)", padding: "4px 10px", borderRadius: 999, background: "var(--paper)", border: "1px solid var(--border)" }}>Προς επανυπολογισμό: <b>{overview.stale}</b></span>
+          <span title="Κτήρια χωρίς συντεταγμένες — δεν μπορούν να μετρηθούν μέχρι να γεωκωδικοποιηθούν" style={{ fontSize: "var(--fs-12-5)", padding: "4px 10px", borderRadius: 999, background: "var(--paper)", border: "1px solid var(--border)" }}>Χωρίς στίγμα: <b>{overview.noCoords}</b></span>
         </div>
         <div style={muted}>{overview.total} κτήρια συνολικά · τελευταίος υπολογισμός: {fmtDT(overview.lastComputedAt)}</div>
         {canEdit && (

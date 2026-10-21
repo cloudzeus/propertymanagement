@@ -40,6 +40,7 @@ export function validateZones(zones: DistanceZone[]): string | null {
   if (!zones.length) return "Χρειάζεται τουλάχιστον μία ζώνη";
   if (zones.length > MAX_ZONES) return `Μέγιστο ${MAX_ZONES} ζώνες`;
   if (new Set(zones.map((z) => z.code.trim())).size !== zones.length || zones.some((z) => !z.code.trim())) return "Οι κωδικοί ζωνών πρέπει να είναι μοναδικοί";
+  if (zones.some((z) => typeof z.label !== "string" || !z.label.trim())) return "Κάθε ζώνη χρειάζεται όνομα";
   if (zones.some((z) => !isNum(z.travelFee) || z.travelFee < 0)) return "Τα ποσά πρέπει να είναι ≥ 0";
   const last = zones[zones.length - 1];
   if (last.maxKm !== null) return "Η τελευταία ζώνη πρέπει να είναι ανοιχτή (χωρίς όριο km)";
@@ -50,6 +51,24 @@ export function validateZones(zones: DistanceZone[]): string | null {
 }
 
 /** First zone with km <= maxKm (last zone catches the rest); null without a distance. */
+const GREEK_LETTERS = ["Α", "Β", "Γ", "Δ", "Ε", "Ζ", "Η", "Θ"];
+const LATIN_LETTERS = ["A", "B", "C", "D", "E", "F", "G", "H"];
+
+/**
+ * Next code/label for a new zone: the first Latin letter not in `taken`.
+ * `taken` must include every code that ever existed in the saved table (not
+ * only the current rows), so a removed code is never reused — Service.zonePrices
+ * and Supplier.surveyZoneFees still key on it.
+ */
+export function nextZoneCode(taken: Iterable<string>): { code: string; label: string } {
+  const used = new Set(taken);
+  const idx = LATIN_LETTERS.findIndex((c) => !used.has(c));
+  if (idx >= 0) return { code: LATIN_LETTERS[idx], label: `Ζώνη ${GREEK_LETTERS[idx]}` };
+  let n = used.size + 1;
+  while (used.has(`Z${n}`)) n++;
+  return { code: `Z${n}`, label: `Ζώνη ${n}` };
+}
+
 export function zoneForKm(zones: DistanceZone[], km: number | null | undefined): DistanceZone | null {
   if (!isNum(km)) return null;
   return zones.find((z) => z.maxKm === null || km <= z.maxKm) ?? null;

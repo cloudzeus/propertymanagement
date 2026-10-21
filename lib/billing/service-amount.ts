@@ -43,13 +43,19 @@ export function computePackageTotal(services: BillableService[], c: PropertyCoun
   total: number;
 } {
   const lines: PackageLine[] = services.map((s) => {
+    const amount = serviceLineAmount(s, c, zones);
+    // PER_ZONE is base + Σ zone amounts, not a multiple of one price: emit it as
+    // one line whose unit price IS the amount so qty × unitPrice always equals
+    // amount (invoice lines, SoftOne mapping); the breakdown lives in `detail`.
+    if (s.pricingModel === "PER_ZONE") {
+      return { serviceId: s.id, name: s.name, pricingModel: s.pricingModel, unitPrice: amount, qty: 1, amount, detail: summarizeZones(zones, c.buildingZones) };
+    }
     const qty = s.pricingModel === "PER_UNIT" ? c.units
-      : s.pricingModel === "PER_BUILDING" || s.pricingModel === "PER_ZONE" ? c.buildings
+      : s.pricingModel === "PER_BUILDING" ? c.buildings
       : s.pricingModel === "PER_COMMON_AREA" ? c.commonAreas
       : s.pricingModel === "FLAT" ? 1
       : 0;
-    const detail = s.pricingModel === "PER_ZONE" ? summarizeZones(zones, c.buildingZones) : null;
-    return { serviceId: s.id, name: s.name, pricingModel: s.pricingModel, unitPrice: s.price, qty, amount: serviceLineAmount(s, c, zones), detail };
+    return { serviceId: s.id, name: s.name, pricingModel: s.pricingModel, unitPrice: s.price, qty, amount, detail: null };
   });
   const total = lines.reduce((t, l) => t + l.amount, 0);
   return { lines, totalCents: Math.round(total * 100), total: round2(total) };

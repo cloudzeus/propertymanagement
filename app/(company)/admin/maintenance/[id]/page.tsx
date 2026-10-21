@@ -31,7 +31,7 @@ export default async function MaintenanceDetailPage({ params }: { params: Promis
         detail={detail}
         viewer={viewer}
         legacyViewer={{ id: userId, role, isStaff: true, canManage: true, canAssign: viewer.canAssign }}
-        rfqPanel={rfqPanel ? { rfqs: rfqPanel.rfqs, workOrders: rfqPanel.workOrders } : null}
+        rfqPanel={rfqPanel ? { rfqs: rfqPanel.rfqs, workOrders: rfqPanel.workOrders, zones: rfqPanel.zones } : null}
       />
     </div>
   );

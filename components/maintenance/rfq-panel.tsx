@@ -8,7 +8,7 @@ import {
   RFQ_STATUS_LABELS, INVITATION_STATE_LABELS, INVITATION_STATE_COLORS, OFFER_STATUS_LABELS, WO_STATUS_LABELS, WO_STATUS_COLORS, eur, withVat, sentMessage,
   type RfqDTO, type OfferDTO, type WorkOrderDTO, type RfqCandidateDTO,
 } from "@/lib/rfq-shared";
-import { formatDistance } from "@/lib/distance/zones";
+import { formatDistance, zoneLabel, type DistanceZone } from "@/lib/distance/zones";
 import { callAction } from "@/lib/work/client-actions";
 import { isLiveWorkOrder, type WorkDialog, type WorkSubject } from "@/lib/work/actions";
 import { subjectFromWorkOrderDTO } from "@/lib/work/subjects";
@@ -28,8 +28,10 @@ export type RfqPickerData = { candidates: RfqCandidateDTO[]; categories: { id: s
  * dialogs (`onOpen`), the same ones the list menus use. Only «Αποστολή ξανά»
  * stays inline because it belongs to a single invitation.
  */
-export function RfqPanel({ rfqs, workOrders, canCreate = true, canEdit = true, canForward = true, canOnBehalf = true, canSchedule = true, onOpen }: {
+export function RfqPanel({ rfqs, workOrders, zones, canCreate = true, canEdit = true, canForward = true, canOnBehalf = true, canSchedule = true, onOpen }: {
   rfqs: RfqDTO[]; workOrders: WorkOrderDTO[];
+  /** company zone table (loadRfqPanel) → Greek zone names on work-order rows; falls back to the raw code */
+  zones?: DistanceZone[];
   canCreate?: boolean; canEdit?: boolean; canForward?: boolean; canOnBehalf?: boolean; canSchedule?: boolean;
   /** Opens a shared dialog; work-order rows pass their own subject so the dialog acts on THAT contract. */
   onOpen: (dialog: WorkDialog, subject?: WorkSubject) => void;
@@ -60,7 +62,7 @@ export function RfqPanel({ rfqs, workOrders, canCreate = true, canEdit = true, c
       {error && <div role="alert" style={{ color: "var(--destructive)", fontSize: "var(--fs-13)", marginBottom: 10 }}>{error}</div>}
       {info && <div role="status" style={{ color: "#15803d", fontSize: "var(--fs-13)", marginBottom: 10 }}>{info}</div>}
 
-      {workOrders.map((w) => <WorkOrderRow key={w.id} w={w} canSchedule={canSchedule} canOnBehalf={canOnBehalf} onOpen={(d) => onOpen(d, subjectFromWorkOrderDTO(w))} />)}
+      {workOrders.map((w) => <WorkOrderRow key={w.id} w={w} zones={zones} canSchedule={canSchedule} canOnBehalf={canOnBehalf} onOpen={(d) => onOpen(d, subjectFromWorkOrderDTO(w))} />)}
 
       {rfqs.map((r) => {
         const open = ["OPEN", "OFFERED"].includes(r.status);
@@ -107,8 +109,9 @@ export function RfqPanel({ rfqs, workOrders, canCreate = true, canEdit = true, c
   );
 }
 
-function WorkOrderRow({ w, canSchedule, canOnBehalf, onOpen }: { w: WorkOrderDTO; canSchedule: boolean; canOnBehalf: boolean; onOpen: (d: WorkDialog) => void }) {
+function WorkOrderRow({ w, zones, canSchedule, canOnBehalf, onOpen }: { w: WorkOrderDTO; zones?: DistanceZone[]; canSchedule: boolean; canOnBehalf: boolean; onOpen: (d: WorkDialog) => void }) {
   const color = WO_STATUS_COLORS[w.status] ?? "#6b7280";
+  const travelZone = w.travelZone ? (zones ? zoneLabel(zones, w.travelZone) : `Ζώνη ${w.travelZone}`) : null;
   return (
     <div style={{ border: `1px solid ${color}55`, background: `${color}0a`, borderRadius: 10, padding: 14, marginBottom: 12 }}>
       <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
@@ -124,7 +127,7 @@ function WorkOrderRow({ w, canSchedule, canOnBehalf, onOpen }: { w: WorkOrderDTO
         <Kv k="Τιμή συνεργάτη" v={`${eur(w.supplierPrice)} + ΦΠΑ`} />
         <Kv k="Τιμή πελάτη" v={w.covered ? "0,00 € (καλύπτεται)" : `${eur(w.customerPrice)} + ΦΠΑ ${w.vatPct}% = ${eur(withVat(w.customerPrice, w.vatPct))}`} />
         <Kv k="Περιθώριο" v={w.markupPct != null ? `${w.markupPct}% · ${eur(w.customerPrice - (w.supplierPrice ?? 0) - (w.travelFee ?? 0))}` : "—"} />
-        <Kv k="Μετάβαση" v={w.travelFee != null && w.travelFee > 0 ? `${eur(w.travelFee)}${w.travelZone ? ` · Ζώνη ${w.travelZone}` : ""}${w.travelKm != null ? ` · ${w.travelKm} km` : ""}` : "—"} />
+        <Kv k="Μετάβαση" v={w.travelFee != null && w.travelFee > 0 ? `${eur(w.travelFee)}${travelZone ? ` · ${travelZone}` : ""}${w.travelKm != null ? ` · ${w.travelKm} km` : ""}` : "—"} />
         <Kv k="Αποδοχή πελάτη" v={w.customerAcceptedAt ? fmt(w.customerAcceptedAt) : w.customerDeclinedAt ? `Απόρριψη ${fmt(w.customerDeclinedAt)}${w.customerDeclineReason ? ` — ${w.customerDeclineReason}` : ""}` : "εκκρεμεί"} />
         <Kv k="Αποδοχή συνεργάτη" v={w.supplierAcceptedAt ? fmt(w.supplierAcceptedAt) : "εκκρεμεί"} />
         <Kv k="Ραντεβού" v={fmt(w.scheduledAt)} />

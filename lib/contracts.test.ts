@@ -55,6 +55,17 @@ describe("renderContract — travel clause", () => {
     expect(html).toContain("Ζώνη Β");
     expect(html).toContain("23 km");
   });
+  it("prefixes the km with «περ.» when the building's distance is only an estimate", async () => {
+    m.wo = { ...baseWo(), travelFee: 15, travelZone: "B", travelKm: 23, building: { ...baseWo().building, distanceMethod: "ESTIMATE" } };
+    const { html } = await renderContract("WO_CUSTOMER", "w1");
+    expect(html).toContain("περ. 23 km");
+  });
+  it("prints the km plainly for a road distance", async () => {
+    m.wo = { ...baseWo(), travelFee: 15, travelZone: "B", travelKm: 23, building: { ...baseWo().building, distanceMethod: "ROAD" } };
+    const { html } = await renderContract("WO_CUSTOMER", "w1");
+    expect(html).toContain(", 23 km");
+    expect(html).not.toContain("περ. 23 km");
+  });
   it("omits it when there is no fee", async () => {
     const { html } = await renderContract("WO_CUSTOMER", "w1");
     expect(html).not.toContain("χρέωση μετάβασης");

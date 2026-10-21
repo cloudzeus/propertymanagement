@@ -9,6 +9,7 @@ import { requireBuildingCap } from "@/lib/building-access";
 import { publishBuildingEvent } from "@/lib/realtime/bus";
 import { touchBuildingDistance, recomputeBuildingDistance, getDistanceZones } from "@/lib/distance/buildings";
 import { describeBuildingDistance } from "@/lib/distance/zones";
+import { getEffectivePermissions, can } from "@/lib/rbac/permissions";
 
 async function requireSuperAdmin() {
   const session = await auth();
@@ -99,8 +100,10 @@ export async function createBuilding(propertyId: string, data: BuildingInput) {
 
 /** Re-measure one building from the base station (forces a fresh routing call). */
 export async function recomputeBuildingDistanceAction(buildingId: string): Promise<{ ok: true; label: string | null } | { error: string }> {
-  await requireSuperAdmin();
   try {
+    // Any staff role that may edit properties (ADMIN/MANAGER too), not only SUPER_ADMIN.
+    const resolved = await getEffectivePermissions();
+    if (!resolved || !can(resolved.perms, "properties", "edit")) return { error: "Δεν επιτρέπεται" };
     const [r, zones] = await Promise.all([recomputeBuildingDistance(buildingId, { force: true }), getDistanceZones()]);
     const b = await db.building.findUnique({ where: { id: buildingId }, select: { propertyId: true } });
     if (b) revalidatePath(`/super-admin/properties/${b.propertyId}`);

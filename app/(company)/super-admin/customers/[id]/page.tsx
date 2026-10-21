@@ -2,6 +2,9 @@ import { auth } from "@/auth";
 import { db } from "@/lib/db";
 import { redirect, notFound } from "next/navigation";
 import Link from "next/link";
+import { getDistanceZones } from "@/lib/distance/buildings";
+import { zoneForKm } from "@/lib/distance/zones";
+import { serviceLineAmount, type PricingModel } from "@/lib/billing/service-amount";
 import {
   RiArrowLeftLine, RiContactsLine, RiCommunityLine, RiMapPin2Line, RiAddLine, RiArrowRightSLine,
   RiWalletLine, RiBankCardLine, RiStackLine, RiCheckboxCircleLine, RiCloseCircleLine,
@@ -25,6 +28,7 @@ const PRICING_LABEL: Record<string, string> = {
   PER_COMMON_AREA: "ανά κοινόχρηστο χώρο / μήνα",
   FLAT: "πάγιο / μήνα",
   METERED_PREPAID: "μετρούμενη (προπληρωμή)",
+  PER_ZONE: "ανά ζώνη απόστασης / μήνα",
 };
 
 const eur = (n: number) =>
@@ -52,10 +56,10 @@ export default async function CustomerDetailPage({ params }: { params: Promise<{
         orderBy: { name: "asc" },
         include: {
           _count: { select: { buildings: true } },
-          buildings: { select: { _count: { select: { units: true } } } },
+          buildings: { select: { distanceKm: true, _count: { select: { units: true, commonAreas: true } } } },
           services: {
             orderBy: { createdAt: "asc" },
-            include: { service: { select: { name: true, code: true, pricingModel: true, price: true, isCore: true } } },
+            include: { service: { select: { name: true, code: true, pricingModel: true, price: true, isCore: true, zonePrices: true } } },
           },
         },
       },
@@ -73,22 +77,22 @@ export default async function CustomerDetailPage({ params }: { params: Promise<{
     (s, p) => s + p.buildings.reduce((a, b) => a + b._count.units, 0), 0);
   const totalBuildings = customer.properties.reduce((s, p) => s + p._count.buildings, 0);
 
+  const zones = await getDistanceZones();
   const subscriptions = customer.properties.flatMap((p) => {
-    const unitsCount = p.buildings.reduce((a, b) => a + b._count.units, 0);
-    return p.services.map((ps) => ({
-      ...ps, propertyName: p.name, unitsCount, buildingsCount: p._count.buildings,
-    }));
+    // the same counts the payable package uses (lib/billing) — PER_ZONE needs each building's zone
+    const counts = {
+      units: p.buildings.reduce((a, b) => a + b._count.units, 0),
+      buildings: p._count.buildings,
+      commonAreas: p.buildings.reduce((a, b) => a + b._count.commonAreas, 0),
+      buildingZones: p.buildings.map((b) => zoneForKm(zones, b.distanceKm)?.code ?? null),
+    };
+    return p.services.map((ps) => ({ ...ps, propertyName: p.name, counts }));
   });
   const activeSubs = subscriptions.filter((s) => s.active);
-  const monthlyEstimate = activeSubs.reduce((sum, s) => {
-    const price = Number(s.service.price);
-    switch (s.service.pricingModel) {
-      case "PER_UNIT": return sum + price * s.unitsCount;
-      case "PER_BUILDING": return sum + price * s.buildingsCount;
-      case "FLAT": return sum + price;
-      default: return sum; // METERED_PREPAID / PER_COMMON_AREA (count not loaded)
-    }
-  }, 0);
+  const monthlyEstimate = activeSubs.reduce((sum, s) => sum + serviceLineAmount(
+    { id: s.serviceId, name: s.service.name, pricingModel: s.service.pricingModel as PricingModel, price: Number(s.service.price), zonePrices: (s.service.zonePrices as Record<string, number> | null) ?? null },
+    s.counts, zones,
+  ), 0);
 
   const invoices = customer.invoices;
   const outstanding = invoices

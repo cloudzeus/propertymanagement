@@ -17,7 +17,10 @@ export type DistanceOverview = {
   total: number;
   missing: number;
   estimated: number;
+  /** με στίγμα αλλά αμέτρητα / από παλιά έδρα / εκτίμηση — αυτά θα ξαναμετρηθούν */
   stale: number;
+  /** χωρίς lat/lng — δεν μπορούν να μετρηθούν μέχρι να γεωκωδικοποιηθούν */
+  noCoords: number;
   lastComputedAt: string | null;
 };
 
@@ -31,7 +34,10 @@ const num = (v: unknown): number => {
   return typeof v === "number" ? v : Number(String(v).replace(",", "."));
 };
 
-/** Form values may arrive as strings; coerce before validating. */
+/** What the settings form sends: numbers may still be the raw input strings. */
+export type DistanceZoneInput = { code: string; label: string; maxKm: string | number | null; travelFee: string | number };
+
+/** Form values may arrive as strings; coerce before validating (garbage → NaN → rejected by validateZones). */
 function coerceZones(raw: unknown): DistanceZone[] {
   if (!Array.isArray(raw)) return [];
   return raw.map((z, i, arr) => {
@@ -48,7 +54,7 @@ function coerceZones(raw: unknown): DistanceZone[] {
   });
 }
 
-export async function saveDistanceZones(raw: DistanceZone[]): Promise<{ ok: true } | { error: string }> {
+export async function saveDistanceZones(raw: DistanceZoneInput[]): Promise<{ ok: true } | { error: string }> {
   if (!(await allowed("edit"))) return { error: "Δεν επιτρέπεται" };
   const zones = coerceZones(raw);
   const err = validateZones(zones);
@@ -72,21 +78,23 @@ export async function loadDistanceOverview(): Promise<DistanceOverview> {
   const [base, zones, rows, company] = await Promise.all([
     getBaseStation(),
     getDistanceZones(),
-    db.building.findMany({ select: { distanceKm: true, distanceAt: true, distanceBaseKey: true, distanceMethod: true } }),
+    db.building.findMany({ select: { lat: true, lng: true, distanceKm: true, distanceAt: true, distanceBaseKey: true, distanceMethod: true } }),
     db.company.findFirst({ orderBy: { createdAt: "asc" }, select: { id: true } }),
   ]);
   const counts = new Map(zones.map((z) => [z.code, 0]));
-  let missing = 0, estimated = 0, stale = 0, last: Date | null = null;
+  let missing = 0, estimated = 0, stale = 0, noCoords = 0, last: Date | null = null;
   for (const b of rows) {
     const z = zoneForKm(zones, b.distanceKm);
     if (z) counts.set(z.code, (counts.get(z.code) ?? 0) + 1); else missing++;
     if (b.distanceMethod === "ESTIMATE") estimated++;
-    if (!base || isStale(b, base.key)) stale++;
+    // A building without coordinates can never be recomputed — it is «χωρίς στίγμα», not stale.
+    if (b.lat == null || b.lng == null) noCoords++;
+    else if (!base || isStale(b, base.key)) stale++;
     if (b.distanceAt && (!last || b.distanceAt > last)) last = b.distanceAt;
   }
   return {
     base, companyId: company?.id ?? null, zones,
     perZone: zones.map((z) => ({ code: z.code, label: z.label, count: counts.get(z.code) ?? 0 })),
-    total: rows.length, missing, estimated, stale, lastComputedAt: last ? last.toISOString() : null,
+    total: rows.length, missing, estimated, stale, noCoords, lastComputedAt: last ? last.toISOString() : null,
   };
 }

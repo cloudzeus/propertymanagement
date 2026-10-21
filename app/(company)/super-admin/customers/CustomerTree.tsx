@@ -31,7 +31,7 @@ export type TCommonArea = { id: string; name: string; type: string | null; floor
 export type TBuilding = { id: string; name: string; address: string; city: string; postalCode: string; country: string; floors: number | null; basements: number | null; hasElevator: boolean; hasBoiler: boolean; hasFireSafety: boolean; technicalNotes: string | null; lat: number | null; lng: number | null; commonAreas: TCommonArea[]; units: TUnit[];
   /** «23 km · περ. 35′ · Ζώνη Β» από τον σταθμό βάσης (lib/distance); null = χωρίς απόσταση */
   distance?: string | null;
-  /** μετρήθηκε από παλιά έδρα ή είναι εκτίμηση → προς επανυπολογισμό */
+  /** μετρήθηκε από παλιά έδρα → προς επανυπολογισμό (οι εκτιμήσεις το λένε ήδη στο distance) */
   distanceStale?: boolean;
 };
 export type TPropertyAddress = { address: string | null; city: string | null; postalCode: string | null; country: string | null; lat: number | null; lng: number | null };
@@ -136,7 +136,8 @@ export function BuildingsTree({ propertyId, buildings, depthBase = 0, showAddBui
                 { label: "Προσθήκη μονάδας", icon: <RiAddLine />, onClick: () => setModal({ kind: "unit", buildingId: b.id, editing: null }) },
                 { label: "Προσθήκη κοιν. χώρου", icon: <RiDoorOpenLine />, onClick: () => setModal({ kind: "commonArea", buildingId: b.id }) },
                 { label: "Υπολογισμός χιλιοστών", icon: <RiCalculatorLine />, onClick: () => setModal({ kind: "millesimes", building: b }) },
-                { label: "Επανυπολογισμός απόστασης", icon: <RiRoadMapLine />, onClick: () => act(() => recomputeBuildingDistanceAction(b.id)) },
+                // only where the page loaded distances (the property page); other trees have no base station context
+                ...(b.distance !== undefined ? [{ label: "Επανυπολογισμός απόστασης", icon: <RiRoadMapLine />, onClick: () => act(() => recomputeBuildingDistanceAction(b.id)) }] : []),
                 { label: "Διαχειριστές κτηρίου", icon: <RiUserStarLine />, onClick: () => setModal({ kind: "managers", scope: { buildingId: b.id }, title: `Διαχειριστές — ${b.name}` }) },
                 { label: "Διαγραφή", icon: <RiDeleteBinLine />, danger: true, onClick: () => { if (confirm(`Διαγραφή κτηρίου «${b.name}»;`)) act(() => deleteBuilding(b.id)); } },
               ]} />

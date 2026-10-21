@@ -11,10 +11,11 @@ import { PropertyPackages } from "@/components/property/PropertyPackages";
 
 const PRICING_LABEL: Record<string, string> = {
   PER_UNIT: "ανά μονάδα", PER_BUILDING: "ανά κτήριο", PER_COMMON_AREA: "ανά κοιν. χώρο",
-  FLAT: "σταθερή", METERED_PREPAID: "με μέτρηση",
+  FLAT: "σταθερή", METERED_PREPAID: "με μέτρηση", PER_ZONE: "ανά ζώνη απόστασης",
 };
 
-type CatalogService = { id: string; name: string; code: string; isCore: boolean; pricingModel: string; price: number };
+/** estimate/detail come from the server package lines (lib/billing) — PER_ZONE needs the zone table + building distances. */
+type CatalogService = { id: string; name: string; code: string; isCore: boolean; pricingModel: string; price: number; estimate: number; detail: string | null };
 type PS = { serviceId: string; active: boolean; prepaidPersonMinutes: number };
 
 export function PropertyDetailClient({
@@ -66,7 +67,7 @@ export function PropertyDetailClient({
         </div>
       ) : tab === "package" ? (
         <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-          <PackageTab propertyId={property.id} catalog={catalog} ps={ps} setPs={setPs} counts={counts} />
+          <PackageTab propertyId={property.id} catalog={catalog} ps={ps} setPs={setPs} />
           <div>
             <h2 style={{ fontSize: "var(--fs-15)", fontWeight: 700, color: "var(--foreground)", margin: "0 0 10px" }}>Πακέτα & πληρωμή</h2>
             <PropertyPackages propertyId={property.id} providerConfigured={providerConfigured} />
@@ -82,23 +83,15 @@ export function PropertyDetailClient({
 }
 
 // ─── Package tab ───────────────────────────────────────────────────────────────
-function PackageTab({ propertyId, catalog, ps, setPs, counts }: {
+function PackageTab({ propertyId, catalog, ps, setPs }: {
   propertyId: string; catalog: CatalogService[]; ps: PS[]; setPs: React.Dispatch<React.SetStateAction<PS[]>>;
-  counts: { buildings: number; units: number; commonAreas: number };
 }) {
   const [, startTransition] = useTransition();
   const psMap = useMemo(() => Object.fromEntries(ps.map((p) => [p.serviceId, p])), [ps]);
 
   function monthlyEstimate(s: CatalogService): string {
-    switch (s.pricingModel) {
-      case "PER_UNIT": return `€ ${(s.price * counts.units).toFixed(2)}`;
-      case "PER_BUILDING": return `€ ${(s.price * counts.buildings).toFixed(2)}`;
-      case "PER_COMMON_AREA": return `€ ${(s.price * counts.commonAreas).toFixed(2)}`;
-      case "FLAT": return `€ ${s.price.toFixed(2)}`;
-      case "METERED_PREPAID": return "με χρήση";
-      case "PER_ZONE": return `από € ${s.price.toFixed(2)} + ζώνες`;
-      default: return "—";
-    }
+    if (s.pricingModel === "METERED_PREPAID") return "με χρήση";
+    return `€ ${s.estimate.toFixed(2)}${s.pricingModel === "PER_ZONE" && s.detail ? ` (${s.detail})` : ""}`;
   }
 
   function toggle(s: CatalogService, enabled: boolean) {
@@ -123,15 +116,8 @@ function PackageTab({ propertyId, catalog, ps, setPs, counts }: {
     });
   }
 
-  const monthlyTotal = catalog.reduce((sum, s) => {
-    const on = psMap[s.id]?.active;
-    if (!on) return sum;
-    if (s.pricingModel === "PER_UNIT") return sum + s.price * counts.units;
-    if (s.pricingModel === "PER_BUILDING") return sum + s.price * counts.buildings;
-    if (s.pricingModel === "PER_COMMON_AREA") return sum + s.price * counts.commonAreas;
-    if (s.pricingModel === "FLAT") return sum + s.price;
-    return sum;
-  }, 0);
+  // server-computed per service (METERED_PREPAID = 0), so PER_ZONE counts too
+  const monthlyTotal = catalog.reduce((sum, s) => (psMap[s.id]?.active ? sum + s.estimate : sum), 0);
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>

@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { FieldTextarea } from "@/components/ui/modal";
 import { respondWorkOrder, confirmWorkOrder } from "@/app/actions/rfq";
 import { WO_STATUS_LABELS, WO_STATUS_COLORS, eur, withVat, type WorkOrderDTO } from "@/lib/rfq-shared";
+import { zoneLabel, type DistanceZone } from "@/lib/distance/zones";
 import { RiFileTextLine, RiCheckLine, RiCloseLine, RiShieldCheckLine, RiCalendarCheckLine, RiThumbUpLine, RiAlertLine } from "react-icons/ri";
 
 const fmt = (iso: string | null) => (iso ? new Date(iso).toLocaleString("el-GR", { dateStyle: "long", timeStyle: "short" }) : "—");
@@ -16,7 +17,7 @@ const fmtD = (iso: string | null) => (iso ? new Date(iso).toLocaleDateString("el
  * or decline, then progress, and finally the proof of repair to confirm or
  * dispute. Never shows supplier identity or price.
  */
-export function OfferCard({ workOrders, canDecide, companyName }: { workOrders: WorkOrderDTO[]; canDecide: boolean; companyName: string }) {
+export function OfferCard({ workOrders, canDecide, companyName, zones }: { workOrders: WorkOrderDTO[]; canDecide: boolean; companyName: string; /** company zone table → Greek zone names on the travel line */ zones: DistanceZone[] }) {
   const router = useRouter();
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -59,7 +60,7 @@ export function OfferCard({ workOrders, canDecide, companyName }: { workOrders: 
                     {w.validUntil && <span>Ισχύει έως {fmtD(w.validUntil)}</span>}
                     {w.warrantyMonths != null && <span>Εγγύηση {w.warrantyMonths} μήνες</span>}
                     {w.surveyFee != null && w.surveyFee > 0 && <span>Αυτοψία {eur(w.surveyFee)}{w.surveyWaived ? " (συμψηφίζεται)" : ""}</span>}
-                    {w.travelFee != null && w.travelFee > 0 && <span>Μετάβαση τεχνικού {eur(w.travelFee)}{w.travelZone ? ` (Ζώνη ${w.travelZone}${w.travelKm != null ? `, ${w.travelKm} km` : ""})` : ""} — περιλαμβάνεται στην καθαρή αξία</span>}
+                    {w.travelFee != null && w.travelFee > 0 && <span>Μετάβαση τεχνικού {eur(w.travelFee)}{w.travelZone ? ` (${zoneLabel(zones, w.travelZone)}${w.travelKm != null ? `, ${w.travelKm} km` : ""})` : ""} — περιλαμβάνεται στην καθαρή αξία</span>}
                   </div>
                 </div>
                 <div style={{ textAlign: "right", background: "var(--paper)", borderRadius: 10, padding: "10px 14px", minWidth: 180 }}>

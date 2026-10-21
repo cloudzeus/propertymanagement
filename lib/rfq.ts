@@ -3,7 +3,7 @@ import { db } from "@/lib/db";
 import type { Prisma } from "@/lib/prisma/client";
 import { invitationState, type RfqDTO, type OfferDTO, type WorkOrderDTO, type RfqInvitationRowDTO, type InvitationRecipientDTO, type RfqPanelDefaults } from "@/lib/rfq-shared";
 import { getDistanceZones } from "@/lib/distance/buildings";
-import { zoneForKm, zoneFee, zoneLabel } from "@/lib/distance/zones";
+import { zoneForKm, zoneFee, zoneLabel, type DistanceZone } from "@/lib/distance/zones";
 import { peekCachedDistance } from "@/lib/distance/cache";
 
 const place = (...parts: (string | null | undefined)[]) => [...new Set(parts.filter(Boolean) as string[])].join(", ");
@@ -86,7 +86,7 @@ export function workOrderToCustomerDTO(w: Parameters<typeof workOrderToCompanyDT
 export const woInclude = { supplier: { select: { name: true } }, building: { select: { name: true } } } satisfies Prisma.WorkOrderInclude;
 
 /** Everything the staff fault page needs for the offers panel. */
-export async function loadRfqPanel(maintenanceRequestId: string): Promise<{ rfqs: RfqDTO[]; workOrders: WorkOrderDTO[]; defaults: RfqPanelDefaults }> {
+export async function loadRfqPanel(maintenanceRequestId: string): Promise<{ rfqs: RfqDTO[]; workOrders: WorkOrderDTO[]; defaults: RfqPanelDefaults; zones: DistanceZone[] }> {
   const [rfqs, workOrders, settings, req, zones] = await Promise.all([
     db.serviceRequest.findMany({ where: { maintenanceRequestId }, include: rfqInclude, orderBy: { createdAt: "desc" } }),
     db.workOrder.findMany({ where: { maintenanceRequestId }, include: woInclude, orderBy: { createdAt: "desc" } }),
@@ -99,6 +99,7 @@ export async function loadRfqPanel(maintenanceRequestId: string): Promise<{ rfqs
   return {
     rfqs: await Promise.all(rfqs.map(async (r) => ({ ...rfqToDTO(r), offers: await offersWithDistance(r, b) }))),
     workOrders: workOrders.map(workOrderToCompanyDTO),
+    zones,
     defaults: {
       markupPct: Number(settings?.offerMarkupPct ?? 15), warrantyMonths: settings?.warrantyMonths ?? 6,
       building: {

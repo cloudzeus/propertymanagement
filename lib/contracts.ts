@@ -118,7 +118,7 @@ export async function renderContract(key: ContractKey, woId: string): Promise<{ 
     getTemplate(key),
     db.workOrder.findUnique({
       where: { id: woId },
-      include: { building: { select: { name: true, address: true, city: true } }, customer: { select: { name: true, afm: true } }, supplier: { select: { name: true, afm: true, doy: true, paymentTermsDays: true, email: true } } },
+      include: { building: { select: { name: true, address: true, city: true, distanceMethod: true } }, customer: { select: { name: true, afm: true } }, supplier: { select: { name: true, afm: true, doy: true, paymentTermsDays: true, email: true } } },
     }),
     db.company.findFirst({ orderBy: { createdAt: "asc" }, select: { name: true, afm: true } }),
     db.appSettings.findUnique({ where: { id: "singleton" }, select: { silentAcceptDays: true, warrantyMonths: true } }),
@@ -126,7 +126,10 @@ export async function renderContract(key: ContractKey, woId: string): Promise<{ 
   ]);
   if (!wo) throw new Error("Work order not found");
   const travel = wo.travelFee != null ? Number(wo.travelFee) : 0;
-  const travelKm = wo.travelKm != null ? wo.travelKm.toLocaleString("el-GR", { maximumFractionDigits: 1 }) : null;
+  // The WorkOrder stores km but not how they were measured; when the building's
+  // current distance is only an estimate, say so («περ.») rather than assert it.
+  const kmPrefix = wo.building.distanceMethod === "ESTIMATE" ? "περ. " : "";
+  const travelKm = wo.travelKm != null ? `${kmPrefix}${wo.travelKm.toLocaleString("el-GR", { maximumFractionDigits: 1 })}` : null;
   const net = key === "WO_CUSTOMER" ? Number(wo.customerPrice) : Number(wo.supplierPrice);
   const gross = Math.round(net * (1 + wo.vatPct / 100) * 100) / 100;
   const survey = wo.surveyFee != null ? Number(wo.surveyFee) : null;

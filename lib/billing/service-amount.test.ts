@@ -35,7 +35,8 @@ describe("PER_ZONE", () => {
   });
   it("labels the line with the per-zone breakdown", () => {
     const r = computePackageTotal([svc({ id: "z", pricingModel: "PER_ZONE", price: 10, zonePrices: { B: 15 } })], { ...counts, buildingZones: ["B", null] }, DEFAULT_ZONES);
-    expect(r.lines[0]).toMatchObject({ qty: 2, amount: 25, detail: "Ζώνη Β ×1, χωρίς ζώνη ×1" });
+    expect(r.lines[0]).toMatchObject({ qty: 1, unitPrice: 25, amount: 25, detail: "Ζώνη Β ×1, χωρίς ζώνη ×1" });
+    expect(r.lines[0].qty * r.lines[0].unitPrice).toBe(r.lines[0].amount);
     expect(r.totalCents).toBe(2500);
   });
 });

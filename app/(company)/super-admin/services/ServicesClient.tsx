@@ -120,7 +120,7 @@ export function ServicesClient({ initial, zones }: { initial: Service[]; zones: 
         <span style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>
           {PRICING_LABEL[s.pricingModel] ?? s.pricingModel}
           {s.pricingModel === "PER_ZONE" && s.zonePrices && (
-            <span style={{ display: "block", fontSize: "var(--fs-11)" }}>{zones.map((z) => `${z.code} ${eur(Number(s.zonePrices?.[z.code] ?? 0))}`).join(" · ")}</span>
+            <span style={{ display: "block", fontSize: "var(--fs-11)" }}>{zones.map((z) => `${z.label} ${eur(Number(s.zonePrices?.[z.code] ?? 0))}`).join(" · ")}</span>
           )}
         </span>
       ),

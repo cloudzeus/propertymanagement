@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { DEFAULT_ZONES, parseZones, validateZones, zoneForKm, zoneFee, zoneLabel, formatDistance, summarizeZones, describeBuildingDistance } from "./zones";
+import { DEFAULT_ZONES, parseZones, validateZones, zoneForKm, zoneFee, zoneLabel, formatDistance, summarizeZones, describeBuildingDistance, nextZoneCode } from "./zones";
 
 describe("parseZones", () => {
   it("falls back to defaults for null/invalid", () => {
@@ -24,6 +24,24 @@ describe("validateZones", () => {
     expect(validateZones([{ code: "A", label: "a", maxKm: Number.NaN, travelFee: 0 }, { code: "B", label: "b", maxKm: null, travelFee: 0 }])).toMatch(/km/);
     const nine = Array.from({ length: 9 }, (_, i) => ({ code: `Z${i}`, label: `z${i}`, maxKm: i < 8 ? (i + 1) * 10 : null, travelFee: 0 }));
     expect(validateZones(nine)).toMatch(/8/);
+  });
+  it("rejects an empty or blank label", () => {
+    expect(validateZones([{ code: "A", label: "", maxKm: 10, travelFee: 0 }, { code: "B", label: "b", maxKm: null, travelFee: 0 }])).toMatch(/όνομα/);
+    expect(validateZones([{ code: "A", label: "a", maxKm: 10, travelFee: 0 }, { code: "B", label: "   ", maxKm: null, travelFee: 0 }])).toMatch(/όνομα/);
+  });
+});
+
+describe("nextZoneCode", () => {
+  it("picks the first free Latin letter with its Greek label", () => {
+    expect(nextZoneCode(["A", "B", "D"])).toEqual({ code: "C", label: "Ζώνη Γ" });
+    expect(nextZoneCode([])).toEqual({ code: "A", label: "Ζώνη Α" });
+  });
+  it("never reuses a code that was taken, even after it was removed from the rows", () => {
+    // saved table had A,B,C,D; C was removed in the form → next must be E, not C
+    expect(nextZoneCode(["A", "B", "D", "C"])).toEqual({ code: "E", label: "Ζώνη Ε" });
+  });
+  it("falls back to a numbered code past the alphabet", () => {
+    expect(nextZoneCode(["A", "B", "C", "D", "E", "F", "G", "H"])).toEqual({ code: "Z9", label: "Ζώνη 9" });
   });
 });
 
