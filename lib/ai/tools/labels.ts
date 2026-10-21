@@ -7,6 +7,7 @@ export const TOOL_LABELS: Record<string, string> = {
   getMyBalance: "Τα κοινόχρηστά μου",
   listExpenses: "Δαπάνες κτηρίου",
   listCalendarTasks: "Πρόγραμμα συντηρήσεων",
+  listPendingWork: "Εκκρεμείς εργασίες",
   searchWiki: "Αναζήτηση στον οδηγό",
   createFaultReport: "Δήλωση βλάβης",
   createAnnouncement: "Ανακοίνωση",

@@ -11,6 +11,7 @@ vi.mock("@/app/actions/expense-categories", () => ({ getBuildingCategorySplits: 
 vi.mock("@/app/actions/recurring-tasks", () => ({ createRecurringTask: vi.fn() }));
 vi.mock("@/app/actions/rfq", () => ({ createRfq: vi.fn() }));
 vi.mock("@/lib/building/occupant-data", () => ({ getOccupantControlCenter: vi.fn() }));
+vi.mock("@/lib/work/queries", () => ({ loadWorkItems: vi.fn(), managedCustomerIds: vi.fn() }));
 
 import { vi } from "vitest";
 import { TOOLS, toolsForRole, toAgentTools, findTool } from "./registry";
@@ -40,5 +41,11 @@ describe("registry", () => {
     expect(toolsForRole("MANAGER", new Set(["suppliers:edit"]), [gated]).map((t) => t.name)).toContain("x");
     expect(toolsForRole("MANAGER", new Set(), [gated]).map((t) => t.name)).not.toContain("x");
     expect(toolsForRole("COLLABORATOR", new Set(["suppliers:edit"]), [gated]).map((t) => t.name)).not.toContain("x");
+  });
+  it("exposes listPendingWork to company roles with work:view only", () => {
+    expect(toolsForRole("ADMIN", new Set(["work:view"])).map((t) => t.name)).toContain("listPendingWork");
+    expect(toolsForRole("EMPLOYEE", new Set(["work:view"])).map((t) => t.name)).toContain("listPendingWork");
+    expect(toolsForRole("ADMIN", new Set()).map((t) => t.name)).not.toContain("listPendingWork");
+    expect(toolsForRole("PROPERTY_ADMIN", new Set(["work:view"])).map((t) => t.name)).not.toContain("listPendingWork");
   });
 });
