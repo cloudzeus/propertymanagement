@@ -5,6 +5,7 @@ import { DataTable, type ColDef, type RowAction } from "@/components/ui/data-tab
 import { Modal, FormField, FieldInput, FieldSelect, FieldTextarea } from "@/components/ui/modal";
 import { createService, updateService, deleteService } from "@/app/actions/services";
 import { RiCheckLine, RiLoaderLine, RiPencilLine, RiDeleteBinLine } from "react-icons/ri";
+import type { DistanceZone } from "@/lib/distance/zones";
 
 export const PRICING_MODELS = [
   { value: "PER_UNIT", label: "Ανά μονάδα / μήνα" },
@@ -12,6 +13,7 @@ export const PRICING_MODELS = [
   { value: "PER_COMMON_AREA", label: "Ανά κοινόχρηστο χώρο / μήνα" },
   { value: "FLAT", label: "Σταθερή / μήνα" },
   { value: "METERED_PREPAID", label: "Με μέτρηση + προαγορά" },
+  { value: "PER_ZONE", label: "Ανά ζώνη απόστασης / μήνα" },
 ] as const;
 
 const PRICING_LABEL: Record<string, string> = Object.fromEntries(PRICING_MODELS.map((p) => [p.value, p.label]));
@@ -25,24 +27,28 @@ type Service = {
   pricingModel: string;
   price: number;
   active: boolean;
+  zonePrices: Record<string, number> | null;
 };
 
 function initForm() {
   return { name: "", code: "", description: "", isCore: "false", pricingModel: "PER_UNIT", price: "", active: "true" };
 }
 
-export function ServicesClient({ initial }: { initial: Service[] }) {
+const eur = (n: number) => `${n.toLocaleString("el-GR", { minimumFractionDigits: 0, maximumFractionDigits: 2 })} €`;
+
+export function ServicesClient({ initial, zones }: { initial: Service[]; zones: DistanceZone[] }) {
   const [data, setData] = useState<Service[]>(initial);
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState<Service | null>(null);
   const [form, setForm] = useState(initForm());
+  const [zonePrices, setZonePrices] = useState<Record<string, string>>({});
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
 
   const f = (k: keyof ReturnType<typeof initForm>) => (v: string) => setForm((p) => ({ ...p, [k]: v }));
 
   function openAdd() {
-    setEditing(null); setForm(initForm()); setError(null); setOpen(true);
+    setEditing(null); setForm(initForm()); setZonePrices({}); setError(null); setOpen(true);
   }
   function openEdit(s: Service) {
     setEditing(s);
@@ -51,6 +57,7 @@ export function ServicesClient({ initial }: { initial: Service[] }) {
       isCore: String(s.isCore), pricingModel: s.pricingModel,
       price: String(s.price), active: String(s.active),
     });
+    setZonePrices(Object.fromEntries(Object.entries(s.zonePrices ?? {}).map(([k, v]) => [k, String(v)])));
     setError(null); setOpen(true);
   }
 
@@ -64,6 +71,9 @@ export function ServicesClient({ initial }: { initial: Service[] }) {
         name: form.name, code: form.code, description: form.description || null,
         isCore: form.isCore === "true", pricingModel: form.pricingModel as Service["pricingModel"] as any,
         price, active: form.active === "true",
+        zonePrices: form.pricingModel === "PER_ZONE"
+          ? Object.fromEntries(zones.map((z) => [z.code, parseFloat((zonePrices[z.code] ?? "0").replace(",", ".")) || 0]))
+          : null,
       };
       const res = editing ? await updateService(editing.id, payload) : await createService(payload);
       if ("error" in res && res.error) { setError(res.error); return; }
@@ -106,7 +116,14 @@ export function ServicesClient({ initial }: { initial: Service[] }) {
     {
       id: "pricing", header: "Χρέωση", sortKey: "pricingModel", width: 200,
       accessor: (s) => PRICING_LABEL[s.pricingModel] ?? s.pricingModel,
-      cell: (s) => <span style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>{PRICING_LABEL[s.pricingModel] ?? s.pricingModel}</span>,
+      cell: (s) => (
+        <span style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>
+          {PRICING_LABEL[s.pricingModel] ?? s.pricingModel}
+          {s.pricingModel === "PER_ZONE" && s.zonePrices && (
+            <span style={{ display: "block", fontSize: "var(--fs-11)" }}>{zones.map((z) => `${z.code} ${eur(Number(s.zonePrices?.[z.code] ?? 0))}`).join(" · ")}</span>
+          )}
+        </span>
+      ),
     },
     {
       id: "price", header: "Τιμή (€)", sortKey: "price", width: 110,
@@ -188,8 +205,21 @@ export function ServicesClient({ initial }: { initial: Service[] }) {
             <FormField label="Τρόπος χρέωσης" required>
               <FieldSelect value={form.pricingModel} onChange={f("pricingModel")} options={PRICING_MODELS.map((p) => ({ value: p.value, label: p.label }))} />
             </FormField>
-            <FormField label="Τιμή (€/μήνα)" required><FieldInput type="number" value={form.price} onChange={f("price")} placeholder="0.00" /></FormField>
+            <FormField label={form.pricingModel === "PER_ZONE" ? "Βασική τιμή (€/μήνα)" : "Τιμή (€/μήνα)"} required><FieldInput type="number" value={form.price} onChange={f("price")} placeholder="0.00" /></FormField>
           </div>
+          {form.pricingModel === "PER_ZONE" && (
+            <div style={{ border: "1px solid var(--border)", borderRadius: 8, padding: "10px 12px", display: "flex", flexDirection: "column", gap: 8 }}>
+              <div style={{ fontSize: "var(--fs-12)", fontWeight: 700, color: "var(--foreground)" }}>Ποσό ανά ζώνη (€/κτήριο/μήνα)</div>
+              <div style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)" }}>Μηνιαίο ποσό = βασική τιμή + το ποσό της ζώνης κάθε κτηρίου του ακινήτου. Κτήρια χωρίς απόσταση δεν προσθέτουν ποσό. Οι ζώνες ορίζονται στις Ρυθμίσεις → Σταθμός βάσης & ζώνες.</div>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(150px, 1fr))", gap: 8 }}>
+                {zones.map((z) => (
+                  <FormField key={z.code} label={`${z.label}${z.maxKm != null ? ` (έως ${z.maxKm} km)` : " (και άνω)"}`}>
+                    <FieldInput type="number" value={zonePrices[z.code] ?? ""} onChange={(v) => setZonePrices((p) => ({ ...p, [z.code]: v }))} placeholder="0.00" />
+                  </FormField>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
 
         <style>{`@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}`}</style>

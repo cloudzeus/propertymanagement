@@ -96,6 +96,7 @@ function PackageTab({ propertyId, catalog, ps, setPs, counts }: {
       case "PER_COMMON_AREA": return `€ ${(s.price * counts.commonAreas).toFixed(2)}`;
       case "FLAT": return `€ ${s.price.toFixed(2)}`;
       case "METERED_PREPAID": return "με χρήση";
+      case "PER_ZONE": return `από € ${s.price.toFixed(2)} + ζώνες`;
       default: return "—";
     }
   }

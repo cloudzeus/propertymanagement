@@ -15,10 +15,12 @@ type PkgService = {
   id: string; name: string; code: string; isCore: boolean;
   pricingModel: string; price: number; enabled: boolean;
 };
+type PkgLine = { serviceId: string; qty: number; amount: number; detail: string | null };
 type PkgView = {
   period: string;
   counts: { units: number; buildings: number; commonAreas: number };
   services: PkgService[];
+  lines: PkgLine[];
   total: number;
   totalCents: number;
   invoice: { status: string; paidAt: string | Date | null } | null;
@@ -26,17 +28,21 @@ type PkgView = {
 
 const PRICING_LABEL: Record<string, string> = {
   PER_UNIT: "ανά μονάδα", PER_BUILDING: "ανά κτήριο", PER_COMMON_AREA: "ανά κοιν. χώρο",
-  FLAT: "σταθερή", METERED_PREPAID: "με μέτρηση",
+  FLAT: "σταθερή", METERED_PREPAID: "με μέτρηση", PER_ZONE: "ανά ζώνη απόστασης",
 };
 
 const round2 = (n: number) => Math.round(n * 100) / 100;
-function lineFor(s: PkgService, c: PkgView["counts"]): { qty: number | null; amount: number } {
+/** Server-computed line when the service is enabled; a local preview otherwise (PER_ZONE needs the server's zones). */
+function lineFor(s: PkgService, c: PkgView["counts"], lines: PkgLine[]): { qty: number | null; amount: number; detail: string | null } {
+  const server = lines.find((l) => l.serviceId === s.id);
+  if (server) return { qty: server.qty, amount: server.amount, detail: server.detail };
   switch (s.pricingModel) {
-    case "PER_UNIT": return { qty: c.units, amount: round2(s.price * c.units) };
-    case "PER_BUILDING": return { qty: c.buildings, amount: round2(s.price * c.buildings) };
-    case "PER_COMMON_AREA": return { qty: c.commonAreas, amount: round2(s.price * c.commonAreas) };
-    case "FLAT": return { qty: 1, amount: round2(s.price) };
-    default: return { qty: null, amount: 0 };
+    case "PER_UNIT": return { qty: c.units, amount: round2(s.price * c.units), detail: null };
+    case "PER_BUILDING": return { qty: c.buildings, amount: round2(s.price * c.buildings), detail: null };
+    case "PER_COMMON_AREA": return { qty: c.commonAreas, amount: round2(s.price * c.commonAreas), detail: null };
+    case "FLAT": return { qty: 1, amount: round2(s.price), detail: null };
+    case "PER_ZONE": return { qty: c.buildings, amount: round2(s.price), detail: "από τη βασική τιμή· το ποσό ζώνης προστίθεται όταν ενεργοποιηθεί" };
+    default: return { qty: null, amount: 0, detail: null };
   }
 }
 
@@ -152,8 +158,9 @@ export function PropertyPackages({ propertyId, providerConfigured }: { propertyI
           </div>
         )}
         {view.services.map((s, i) => {
-          const { qty, amount } = lineFor(s, view.counts);
+          const { qty, amount, detail } = lineFor(s, view.counts, view.lines ?? []);
           const metered = s.pricingModel === "METERED_PREPAID";
+          const perZone = s.pricingModel === "PER_ZONE";
           return (
             <div key={s.id} style={{ display: "flex", alignItems: "center", gap: 14, padding: "13px 16px", borderBottom: i < view.services.length - 1 ? "1px solid var(--border)" : "none" }}>
               <div style={{ flex: 1, minWidth: 0 }}>
@@ -163,7 +170,8 @@ export function PropertyPackages({ propertyId, providerConfigured }: { propertyI
                 </div>
                 <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)", marginTop: 2, ...numFont }}>
                   {eur(s.price)} {PRICING_LABEL[s.pricingModel]}
-                  {qty != null && !metered && <> · {qty} × {eur(s.price)}</>}
+                  {qty != null && !metered && !perZone && <> · {qty} × {eur(s.price)}</>}
+                  {perZone && detail && <> · {detail}</>}
                 </div>
               </div>
               <div style={{ fontSize: "var(--fs-14)", fontWeight: 700, color: "var(--foreground)", minWidth: 90, textAlign: "right", ...numFont }}>

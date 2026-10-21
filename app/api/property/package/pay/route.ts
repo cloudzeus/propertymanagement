@@ -58,7 +58,7 @@ export async function POST(request: Request) {
   // Upsert the PENDING invoice from the server-computed package lines. On re-attempt
   // we refresh the amount + lines to the current package (the invoice is not PAID).
   const lineData = pkg.lines.map((l) => ({
-    description: l.name,
+    description: l.detail ? `${l.name} — ${l.detail}` : l.name,
     qty: l.qty,
     unitPrice: l.unitPrice,
     amount: l.amount,

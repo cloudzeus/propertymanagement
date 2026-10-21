@@ -154,7 +154,7 @@ export function DistanceSettings({ overview, canEdit }: { overview: DistanceOver
             <span key={z.code} style={{ fontSize: "var(--fs-12-5)", padding: "4px 10px", borderRadius: 999, background: "var(--paper)", border: "1px solid var(--border)" }}>{z.label}: <b>{z.count}</b></span>
           ))}
           <span style={{ fontSize: "var(--fs-12-5)", padding: "4px 10px", borderRadius: 999, background: "var(--paper)", border: "1px solid var(--border)" }}>Χωρίς απόσταση: <b>{overview.missing}</b></span>
-          <span style={{ fontSize: "var(--fs-12-5)", padding: "4px 10px", borderRadius: 999, background: "var(--paper)", border: "1px solid var(--border)" }}>Κατ' εκτίμηση: <b>{overview.estimated}</b></span>
+          <span style={{ fontSize: "var(--fs-12-5)", padding: "4px 10px", borderRadius: 999, background: "var(--paper)", border: "1px solid var(--border)" }}>Κατ&apos; εκτίμηση: <b>{overview.estimated}</b></span>
           <span style={{ fontSize: "var(--fs-12-5)", padding: "4px 10px", borderRadius: 999, background: "var(--paper)", border: "1px solid var(--border)" }}>Προς επανυπολογισμό: <b>{overview.stale}</b></span>
         </div>
         <div style={muted}>{overview.total} κτήρια συνολικά · τελευταίος υπολογισμός: {fmtDT(overview.lastComputedAt)}</div>

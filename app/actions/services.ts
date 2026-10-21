@@ -3,6 +3,7 @@
 import { auth } from "@/auth";
 import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
+import { Prisma } from "@/lib/prisma/client";
 
 async function requireSuperAdmin() {
   const session = await auth();
@@ -26,10 +27,23 @@ type ServiceInput = {
   code: string;
   description?: string | null;
   isCore: boolean;
-  pricingModel: "PER_UNIT" | "PER_BUILDING" | "PER_COMMON_AREA" | "FLAT" | "METERED_PREPAID";
+  pricingModel: "PER_UNIT" | "PER_BUILDING" | "PER_COMMON_AREA" | "FLAT" | "METERED_PREPAID" | "PER_ZONE";
   price: number;
   active: boolean;
+  /** PER_ZONE: €/κτήριο/μήνα ανά κωδικό ζώνης (lib/distance/zones). */
+  zonePrices?: Record<string, number> | null;
 };
+
+/** Keep only finite, non-negative amounts keyed by zone code. */
+function cleanZonePrices(v: Record<string, number> | null | undefined): Record<string, number> | null {
+  if (!v || typeof v !== "object") return null;
+  const out: Record<string, number> = {};
+  for (const [k, raw] of Object.entries(v)) {
+    const n = Number(String(raw).replace(",", "."));
+    if (k.trim() && Number.isFinite(n)) out[k.trim()] = Math.max(0, n);
+  }
+  return out;
+}
 
 export async function createService(data: ServiceInput) {
   await requireSuperAdmin();
@@ -49,6 +63,7 @@ export async function createService(data: ServiceInput) {
       pricingModel: data.pricingModel as any,
       price: data.price,
       active: data.active,
+      zonePrices: data.pricingModel === "PER_ZONE" ? cleanZonePrices(data.zonePrices) ?? {} : Prisma.DbNull,
     },
   });
   revalidatePath("/super-admin/services");
@@ -72,6 +87,9 @@ export async function updateService(id: string, data: Partial<ServiceInput>) {
       ...(data.pricingModel !== undefined ? { pricingModel: data.pricingModel as any } : {}),
       ...(data.price !== undefined ? { price: data.price } : {}),
       ...(data.active !== undefined ? { active: data.active } : {}),
+      ...(data.pricingModel !== undefined || data.zonePrices !== undefined
+        ? { zonePrices: data.pricingModel === "PER_ZONE" || (data.pricingModel === undefined && data.zonePrices) ? cleanZonePrices(data.zonePrices) ?? {} : Prisma.DbNull }
+        : {}),
     },
   });
   revalidatePath("/super-admin/services");
@@ -88,6 +106,6 @@ export async function deleteService(id: string) {
 }
 
 // Decimal → number for client serialization
-function serialize<T extends { price: unknown }>(s: T) {
-  return { ...s, price: Number(s.price) };
+function serialize<T extends { price: unknown; zonePrices?: unknown }>(s: T) {
+  return { ...s, price: Number(s.price), zonePrices: (s.zonePrices as Record<string, number> | null) ?? null };
 }

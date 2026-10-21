@@ -3,6 +3,7 @@ import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 import { requirePermission } from "@/lib/rbac/permissions";
 import { ServicesClient } from "./ServicesClient";
+import { getDistanceZones } from "@/lib/distance/buildings";
 
 export const metadata = { title: "Υπηρεσίες — Super Admin" };
 
@@ -13,13 +14,15 @@ export default async function ServicesPage() {
   const me = await db.user.findUnique({ where: { id: session.user.id as string }, select: { role: true } });
   if (me?.role !== "SUPER_ADMIN") redirect("/admin");
 
-  const services = await db.service.findMany({ orderBy: [{ isCore: "desc" }, { name: "asc" }] });
+  const [services, zones] = await Promise.all([db.service.findMany({ orderBy: [{ isCore: "desc" }, { name: "asc" }] }), getDistanceZones()]);
 
   return (
     <ServicesClient
+      zones={zones}
       initial={services.map((s) => ({
         id: s.id, name: s.name, code: s.code, description: s.description,
         isCore: s.isCore, pricingModel: s.pricingModel, price: Number(s.price), active: s.active,
+        zonePrices: (s.zonePrices as Record<string, number> | null) ?? null,
       }))}
     />
   );
