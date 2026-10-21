@@ -4,6 +4,8 @@ import {
   useState, useEffect, useRef, Fragment,
 } from "react";
 import { useMediaQuery } from "@/lib/use-media-query";
+import { ActionMenuList, pickPrimary, type MenuEntry } from "./action-menu";
+import { ActionSheet } from "./action-sheet";
 import { createPortal } from "react-dom";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import {
@@ -39,6 +41,10 @@ export type RowAction<T> = {
   icon?: React.ReactNode;
   onClick: (row: T) => void;
   danger?: boolean;
+  /** Grouping key — the dropdown draws a separator between sections (see components/ui/action-menu.tsx). */
+  section?: string;
+  /** Phone cards show primary actions as pills; the rest go to the «Ενέργειες» sheet. */
+  primary?: boolean;
 };
 
 export type BatchAction<T> = {
@@ -72,6 +78,10 @@ export type DataTableProps<T extends { id: string }> = {
 };
 
 const PAGE_SIZES = [10, 25, 50, 100];
+
+function toEntries<T>(actions: RowAction<T>[], row: T): MenuEntry[] {
+  return actions.map((a, i) => ({ key: `${i}:${a.label}`, label: a.label, icon: a.icon, danger: a.danger, section: a.section, primary: a.primary, onPick: () => a.onClick(row) }));
+}
 
 // ─── Main component ───────────────────────────────────────────────────────────
 export function DataTable<T extends { id: string }>({
@@ -468,11 +478,7 @@ export function DataTable<T extends { id: string }>({
                           {isExp ? "Λιγότερα" : "Λεπτομέρειες"}
                         </button>
                       )}
-                      {actions.map((a) => (
-                        <button key={a.label} onClick={() => a.onClick(row)} style={{ display: "inline-flex", alignItems: "center", gap: 5, minHeight: 36, padding: "0 12px", borderRadius: 999, border: "1px solid var(--border)", background: a.danger ? "color-mix(in oklab, var(--destructive) 10%, var(--card))" : "var(--card)", color: a.danger ? "var(--destructive)" : "var(--foreground)", fontSize: "var(--fs-12-5)", fontWeight: 600, cursor: "pointer" }}>
-                          {a.icon}{a.label}
-                        </button>
-                      ))}
+                      <PhoneActions entries={toEntries(actions, row)} title={first ? String(first.accessor?.(row) ?? "") || "Ενέργειες" : "Ενέργειες"} />
                     </div>
                   )}
                   {isExp && expandedContent && <div style={{ marginTop: 10 }}>{expandedContent(row)}</div>}
@@ -804,24 +810,7 @@ function SortableRow<T extends { id: string }>({
                 border: "1px solid var(--border)", borderRadius: 6,
                 boxShadow: "0 4px 12px rgba(0,0,0,0.12)", padding: "4px 0", minWidth: 170,
               }}>
-                {rowActions.map((a, i) => (
-                  <button
-                    key={i}
-                    onClick={() => { a.onClick(row); setMenuOpen(false); }}
-                    style={{
-                      display: "flex", alignItems: "center", gap: 8, width: "100%",
-                      padding: "7px 12px", border: "none", background: "transparent",
-                      cursor: "pointer", fontSize: "var(--fs-12)", fontFamily: "inherit",
-                      color: a.danger ? "var(--destructive)" : "var(--foreground)",
-                      textAlign: "left",
-                    }}
-                    onMouseEnter={(e) => (e.currentTarget.style.background = a.danger ? `color-mix(in oklch, var(--destructive) 8%, var(--card))` : "var(--muted)")}
-                    onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
-                  >
-                    {a.icon && <span style={{ flexShrink: 0 }}>{a.icon}</span>}
-                    {a.label}
-                  </button>
-                ))}
+                <ActionMenuList entries={toEntries(rowActions, row)} onPicked={() => setMenuOpen(false)} />
               </div>,
               document.body,
             )}
@@ -882,3 +871,30 @@ const pageBtnStyle: React.CSSProperties = {
   fontSize: "var(--fs-11)", fontFamily: "inherit", color: "var(--foreground)",
   display: "flex", alignItems: "center", justifyContent: "center",
 };
+
+// ─── Phone card actions: primary pills + «Ενέργειες» sheet ────────────────────
+const pill: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 5, minHeight: 36, padding: "0 12px", borderRadius: 999, border: "1px solid var(--border)", fontSize: "var(--fs-12-5)", fontWeight: 600, cursor: "pointer" };
+
+function PhoneActions({ entries, title }: { entries: MenuEntry[]; title: string }) {
+  const [open, setOpen] = useState(false);
+  const { pills, overflow } = pickPrimary(entries);
+  return (
+    <>
+      {pills.map((a) => (
+        <button key={a.key} type="button" onClick={a.onPick} style={{ ...pill, background: a.danger ? "color-mix(in oklab, var(--destructive) 10%, var(--card))" : "var(--card)", color: a.danger ? "var(--destructive)" : "var(--foreground)" }}>
+          {a.icon}{a.label}
+        </button>
+      ))}
+      {overflow.length > 0 && (
+        <>
+          <button type="button" onClick={() => setOpen(true)} style={{ ...pill, background: "var(--paper)", color: "var(--foreground)" }}>
+            <RiMoreLine size={14} /> Ενέργειες ({overflow.length})
+          </button>
+          <ActionSheet open={open} title={title} onClose={() => setOpen(false)}>
+            <ActionMenuList entries={overflow} onPicked={() => setOpen(false)} />
+          </ActionSheet>
+        </>
+      )}
+    </>
+  );
+}
