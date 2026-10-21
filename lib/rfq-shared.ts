@@ -194,3 +194,13 @@ export function filterCandidates(rows: RfqCandidateDTO[], f: CandidateFilter): R
     return true;
   });
 }
+
+/** "Στάλθηκε σε 3 παραλήπτες · χωρίς email: Χ, Υ" after a send. */
+export function sentMessage(res: { sent: number; noEmail?: string[]; failed?: string[] }, candidates: RfqCandidateDTO[]): string {
+  const names = (res.noEmail ?? []).map((id) => candidates.find((c) => c.id === id)?.name ?? id);
+  const parts = [res.sent === 0 ? "Δεν στάλθηκε κανένα email." : `Στάλθηκε email σε ${res.sent} παραλήπτ${res.sent === 1 ? "η" : "ες"}.`];
+  if (res.failed?.length) parts.push(`Απέτυχε η αποστολή σε: ${res.failed.join(", ")} — δοκιμάστε «Αποστολή ξανά».`);
+  if (names.length) parts.push(`Χωρίς διεύθυνση email: ${names.join(", ")} — προσθέστε επαφή με email στην καρτέλα τους.`);
+  return parts.join(" ");
+}
+

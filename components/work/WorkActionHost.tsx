@@ -20,16 +20,30 @@ import { StatusNoteDialog } from "./dialogs/StatusNoteDialog";
 import { CommentDialog } from "./dialogs/CommentDialog";
 import { RateSupplierDialog } from "./dialogs/RateSupplierDialog";
 import { CancelRfqDialog } from "./dialogs/CancelRfqDialog";
+import { AppointmentDialog } from "./dialogs/AppointmentDialog";
+import { CreateRfqDialog } from "./dialogs/CreateRfqDialog";
+import { AddRfqSuppliersDialog } from "./dialogs/AddRfqSuppliersDialog";
+import { ForwardOfferDialog } from "./dialogs/ForwardOfferDialog";
+import { WoRespondDialog } from "./dialogs/WoRespondDialog";
+import { WoScheduleDialog } from "./dialogs/WoScheduleDialog";
+import { WoConfirmDialog } from "./dialogs/WoConfirmDialog";
 
 export type OpenRequest = { dialog: WorkDialog; subject: WorkSubject; status?: FaultStatus; batchIds?: string[] };
 
-const DIALOGS: Partial<Record<WorkDialog, React.ComponentType<DialogProps>>> = {
+const DIALOGS: Record<WorkDialog, React.ComponentType<DialogProps>> = {
   "assign-employee": AssignEmployeeDialog,
   "assign-supplier": AssignSupplierDialog,
   "status-note": StatusNoteDialog,
   comment: CommentDialog,
   "rate-supplier": RateSupplierDialog,
   "cancel-rfq": CancelRfqDialog,
+  appointment: AppointmentDialog,
+  "create-rfq": CreateRfqDialog,
+  "add-rfq-suppliers": AddRfqSuppliersDialog,
+  "forward-offer": ForwardOfferDialog,
+  "wo-respond": WoRespondDialog,
+  "wo-schedule": WoScheduleDialog,
+  "wo-confirm": WoConfirmDialog,
 };
 
 export function WorkActionHost({ request, viewer, onDone, onClose }: { request: OpenRequest | null; viewer: WorkActionViewer; onDone: (message: string) => void; onClose: () => void }) {

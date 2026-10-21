@@ -9,6 +9,8 @@ import {
   RFQ_STATUS_LABELS, INVITATION_STATE_LABELS, INVITATION_STATE_COLORS, OFFER_STATUS_LABELS, WO_STATUS_LABELS, WO_STATUS_COLORS, eur, applyMarkup, withVat,
   type RfqDTO, type OfferDTO, type WorkOrderDTO, type RfqCandidateDTO,
 } from "@/lib/rfq-shared";
+import { sentMessage } from "@/lib/rfq-shared";
+export { sentMessage };
 import { RfqSupplierPicker } from "@/components/suppliers/RfqSupplierPicker";
 import { RiMoneyEuroCircleLine, RiSendPlaneLine, RiFileTextLine, RiCalendarCheckLine, RiCloseLine, RiStarFill, RiMailSendLine, RiUserAddLine } from "react-icons/ri";
 
@@ -175,15 +177,6 @@ function OfferRow({ o, rfqStatus, handledBy, defaults, busy, run, alreadyForward
       )}
     </div>
   );
-}
-
-/** "Στάλθηκε σε 3 παραλήπτες · χωρίς email: Χ, Υ" after a send. */
-export function sentMessage(res: { sent: number; noEmail?: string[]; failed?: string[] }, candidates: RfqCandidateDTO[]): string {
-  const names = (res.noEmail ?? []).map((id) => candidates.find((c) => c.id === id)?.name ?? id);
-  const parts = [res.sent === 0 ? "Δεν στάλθηκε κανένα email." : `Στάλθηκε email σε ${res.sent} παραλήπτ${res.sent === 1 ? "η" : "ες"}.`];
-  if (res.failed?.length) parts.push(`Απέτυχε η αποστολή σε: ${res.failed.join(", ")} — δοκιμάστε «Αποστολή ξανά».`);
-  if (names.length) parts.push(`Χωρίς διεύθυνση email: ${names.join(", ")} — προσθέστε επαφή με email στην καρτέλα τους.`);
-  return parts.join(" ");
 }
 
 function NewRfqForm({ requestId, picker, busy, run }: { requestId: string; picker: RfqPickerData; busy: boolean; run: (fn: () => Promise<{ error?: string | null } | { id?: string }>) => Promise<boolean> }) {
