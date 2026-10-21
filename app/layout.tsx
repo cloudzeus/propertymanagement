@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist_Mono, Commissioner, Cormorant_Garamond } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale } from "next-intl/server";
@@ -31,6 +31,13 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Property Management",
   description: "Professional property management system",
+  applicationName: "Orithon",
+  // PWA σε iOS: standalone + τίτλος/εικονίδιο στην αρχική οθόνη (apple-icon.png = file convention).
+  appleWebApp: { capable: true, statusBarStyle: "default", title: "Orithon" },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#F6F4EC", // κρεμ canvas, ίδιο με το manifest
 };
 
 export default async function RootLayout({
