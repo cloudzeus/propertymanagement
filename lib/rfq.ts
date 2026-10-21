@@ -1,7 +1,9 @@
 import "server-only";
 import { db } from "@/lib/db";
 import type { Prisma } from "@/lib/prisma/client";
-import { invitationState, type RfqDTO, type OfferDTO, type WorkOrderDTO, type RfqInvitationRowDTO, type InvitationRecipientDTO } from "@/lib/rfq-shared";
+import { invitationState, type RfqDTO, type OfferDTO, type WorkOrderDTO, type RfqInvitationRowDTO, type InvitationRecipientDTO, type RfqPanelDefaults } from "@/lib/rfq-shared";
+import { getDistanceZones } from "@/lib/distance/buildings";
+import { zoneForKm, zoneFee, zoneLabel } from "@/lib/distance/zones";
 
 const place = (...parts: (string | null | undefined)[]) => [...new Set(parts.filter(Boolean) as string[])].join(", ");
 const iso = (d: Date | null | undefined) => (d ? d.toISOString() : null);
@@ -54,6 +56,7 @@ export function workOrderToCompanyDTO(w: Prisma.WorkOrderGetPayload<{ include: {
   return {
     id: w.id, number: w.number, status: w.status, title: w.title, description: w.description, covered: w.covered,
     customerPrice: Number(w.customerPrice), vatPct: w.vatPct, surveyFee: num(w.surveyFee), surveyWaived: w.surveyWaived, warrantyMonths: w.warrantyMonths,
+    travelFee: num(w.travelFee), travelZone: w.travelZone ?? null, travelKm: w.travelKm ?? null,
     customerMessage: w.customerMessage, earliestDate: iso(w.earliestDate), validUntil: iso(w.validUntil),
     customerAcceptedAt: iso(w.customerAcceptedAt), customerDeclinedAt: iso(w.customerDeclinedAt), customerDeclineReason: w.customerDeclineReason,
     scheduledAt: iso(w.scheduledAt), createdAt: w.createdAt.toISOString(),
@@ -72,16 +75,27 @@ export function workOrderToCustomerDTO(w: Parameters<typeof workOrderToCompanyDT
 export const woInclude = { supplier: { select: { name: true } }, building: { select: { name: true } } } satisfies Prisma.WorkOrderInclude;
 
 /** Everything the staff fault page needs for the offers panel. */
-export async function loadRfqPanel(maintenanceRequestId: string) {
-  const [rfqs, workOrders, settings] = await Promise.all([
+export async function loadRfqPanel(maintenanceRequestId: string): Promise<{ rfqs: RfqDTO[]; workOrders: WorkOrderDTO[]; defaults: RfqPanelDefaults }> {
+  const [rfqs, workOrders, settings, req, zones] = await Promise.all([
     db.serviceRequest.findMany({ where: { maintenanceRequestId }, include: rfqInclude, orderBy: { createdAt: "desc" } }),
     db.workOrder.findMany({ where: { maintenanceRequestId }, include: woInclude, orderBy: { createdAt: "desc" } }),
     db.appSettings.findUnique({ where: { id: "singleton" }, select: { offerMarkupPct: true, warrantyMonths: true } }),
+    db.maintenanceRequest.findUnique({ where: { id: maintenanceRequestId }, select: { building: { select: { distanceKm: true, distanceMinutes: true, distanceMethod: true } } } }),
+    getDistanceZones(),
   ]);
+  const b = req?.building;
+  const zone = zoneForKm(zones, b?.distanceKm);
   return {
     rfqs: rfqs.map(rfqToDTO),
     workOrders: workOrders.map(workOrderToCompanyDTO),
-    defaults: { markupPct: Number(settings?.offerMarkupPct ?? 15), warrantyMonths: settings?.warrantyMonths ?? 6 },
+    defaults: {
+      markupPct: Number(settings?.offerMarkupPct ?? 15), warrantyMonths: settings?.warrantyMonths ?? 6,
+      building: {
+        distanceKm: b?.distanceKm ?? null, distanceMinutes: b?.distanceMinutes ?? null,
+        distanceMethod: b?.distanceMethod === "ESTIMATE" ? "ESTIMATE" : b?.distanceMethod === "ROAD" ? "ROAD" : null,
+        zoneCode: zone?.code ?? null, zoneLabel: zoneLabel(zones, zone?.code), travelFee: zoneFee(zones, zone?.code),
+      },
+    },
   };
 }
 

@@ -9,7 +9,8 @@ import {
   RFQ_STATUS_LABELS, INVITATION_STATE_LABELS, INVITATION_STATE_COLORS, OFFER_STATUS_LABELS, WO_STATUS_LABELS, WO_STATUS_COLORS, eur, applyMarkup, withVat,
   type RfqDTO, type OfferDTO, type WorkOrderDTO, type RfqCandidateDTO,
 } from "@/lib/rfq-shared";
-import { sentMessage } from "@/lib/rfq-shared";
+import { sentMessage, type RfqPanelDefaults } from "@/lib/rfq-shared";
+import { formatDistance } from "@/lib/distance/zones";
 export { sentMessage };
 import { RfqSupplierPicker } from "@/components/suppliers/RfqSupplierPicker";
 import { RiMoneyEuroCircleLine, RiSendPlaneLine, RiFileTextLine, RiCalendarCheckLine, RiCloseLine, RiStarFill, RiMailSendLine, RiUserAddLine } from "react-icons/ri";
@@ -21,11 +22,13 @@ const fmtD = (iso: string | null) => (iso ? new Date(iso).toLocaleDateString("el
  * Company-side offers panel on a fault: work orders, RFQs with their offers
  * (forward one with markup), and the "send RFQ" form. Only staff see this.
  */
+const round2 = (n: number) => Math.round(n * 100) / 100;
+
 export type RfqPickerData = { candidates: RfqCandidateDTO[]; categories: { id: string; name: string }[]; defaultCategoryId: string | null };
 
 export function RfqPanel({ requestId, handledBy, rfqs, workOrders, defaults, picker, canCreate = true }: {
   requestId: string; handledBy: string; rfqs: RfqDTO[]; workOrders: WorkOrderDTO[];
-  defaults: { markupPct: number; warrantyMonths: number }; picker: RfqPickerData; canCreate?: boolean;
+  defaults: RfqPanelDefaults; picker: RfqPickerData; canCreate?: boolean;
 }) {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
@@ -115,7 +118,8 @@ function WorkOrderRow({ w, busy, run }: { w: WorkOrderDTO; busy: boolean; run: (
         <Kv k="Συνεργάτης" v={w.supplierName ?? "—"} />
         <Kv k="Τιμή συνεργάτη" v={`${eur(w.supplierPrice)} + ΦΠΑ`} />
         <Kv k="Τιμή πελάτη" v={w.covered ? "0,00 € (καλύπτεται)" : `${eur(w.customerPrice)} + ΦΠΑ ${w.vatPct}% = ${eur(withVat(w.customerPrice, w.vatPct))}`} />
-        <Kv k="Περιθώριο" v={w.markupPct != null ? `${w.markupPct}% · ${eur(w.customerPrice - (w.supplierPrice ?? 0))}` : "—"} />
+        <Kv k="Περιθώριο" v={w.markupPct != null ? `${w.markupPct}% · ${eur(w.customerPrice - (w.supplierPrice ?? 0) - (w.travelFee ?? 0))}` : "—"} />
+        <Kv k="Μετάβαση" v={w.travelFee != null && w.travelFee > 0 ? `${eur(w.travelFee)}${w.travelZone ? ` · Ζώνη ${w.travelZone}` : ""}${w.travelKm != null ? ` · ${w.travelKm} km` : ""}` : "—"} />
         <Kv k="Αποδοχή πελάτη" v={w.customerAcceptedAt ? fmt(w.customerAcceptedAt) : w.customerDeclinedAt ? `Απόρριψη ${fmt(w.customerDeclinedAt)}${w.customerDeclineReason ? ` — ${w.customerDeclineReason}` : ""}` : "εκκρεμεί"} />
         <Kv k="Αποδοχή συνεργάτη" v={w.supplierAcceptedAt ? fmt(w.supplierAcceptedAt) : "εκκρεμεί"} />
         <Kv k="Ραντεβού" v={fmt(w.scheduledAt)} />
@@ -136,14 +140,18 @@ function WorkOrderRow({ w, busy, run }: { w: WorkOrderDTO; busy: boolean; run: (
   );
 }
 
-function OfferRow({ o, rfqStatus, handledBy, defaults, busy, run, alreadyForwarded }: { o: OfferDTO; rfqStatus: string; handledBy: string; defaults: { markupPct: number; warrantyMonths: number }; busy: boolean; run: (fn: () => Promise<{ error?: string | null } | { id?: string }>) => Promise<boolean>; alreadyForwarded: boolean }) {
+function OfferRow({ o, rfqStatus, handledBy, defaults, busy, run, alreadyForwarded }: { o: OfferDTO; rfqStatus: string; handledBy: string; defaults: RfqPanelDefaults; busy: boolean; run: (fn: () => Promise<{ error?: string | null } | { id?: string }>) => Promise<boolean>; alreadyForwarded: boolean }) {
   const [open, setOpen] = useState(false);
   const [markup, setMarkup] = useState(String(defaults.markupPct));
   const [covered, setCovered] = useState(handledBy === "COMPANY");
-  const [price, setPrice] = useState(String(applyMarkup(o.amount, defaults.markupPct)));
+  const [travel, setTravel] = useState(String(defaults.building.travelFee));
+  const [price, setPrice] = useState(String(round2(applyMarkup(o.amount, defaults.markupPct) + defaults.building.travelFee)));
   const [message, setMessage] = useState("");
   const canForward = o.status === "SUBMITTED" && ["OPEN", "OFFERED"].includes(rfqStatus) && !alreadyForwarded;
-  const setMk = (v: string) => { setMarkup(v); const m = Number(v); if (Number.isFinite(m)) setPrice(String(applyMarkup(o.amount, m))); };
+  const recalc = (mk: string, tr: string) => { const m = Number(mk), t = Number(tr); if (Number.isFinite(m)) setPrice(String(round2(applyMarkup(o.amount, m) + (Number.isFinite(t) ? Math.max(0, t) : 0)))); };
+  const setMk = (v: string) => { setMarkup(v); recalc(v, travel); };
+  const setTr = (v: string) => { setTravel(v); recalc(markup, v); };
+  const bd = defaults.building;
   return (
     <div style={{ border: "1px solid var(--border)", borderRadius: 8, padding: "10px 12px", background: o.status === "SELECTED" ? "#15803d0a" : "var(--card)" }}>
       <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", fontSize: "var(--fs-13)" }}>
@@ -163,16 +171,18 @@ function OfferRow({ o, rfqStatus, handledBy, defaults, busy, run, alreadyForward
             <input type="checkbox" checked={covered} onChange={(e) => setCovered(e.target.checked)} /> Καλύπτεται από τη σύμβαση διαχείρισης — χωρίς χρέωση/αποδοχή πελάτη, άμεση ανάθεση
           </label>
           {!covered && (
-            <div style={{ display: "grid", gridTemplateColumns: "120px 160px 1fr", gap: 10, alignItems: "end" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "120px 150px 160px 1fr", gap: 10, alignItems: "end" }}>
               <FormField label="Περιθώριο %"><FieldInput type="number" value={markup} onChange={setMk} /></FormField>
+              <FormField label={`Μετάβαση (καθ.) · ${bd.zoneLabel}`}><FieldInput type="number" value={travel} onChange={setTr} /></FormField>
               <FormField label="Τιμή πελάτη (καθ.)"><FieldInput type="number" value={price} onChange={setPrice} /></FormField>
               <div style={{ fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)", paddingBottom: 8 }}>
-                Ο πελάτης θα δει <b style={{ color: "var(--foreground)" }}>{eur(Number(price) || 0)} + ΦΠΑ = {eur(withVat(Number(price) || 0, o.vatPct))}</b> · κέρδος {eur((Number(price) || 0) - o.amount)}
+                Ο πελάτης θα δει <b style={{ color: "var(--foreground)" }}>{eur(Number(price) || 0)} + ΦΠΑ = {eur(withVat(Number(price) || 0, o.vatPct))}</b> · κέρδος {eur((Number(price) || 0) - o.amount - (Number(travel) || 0))}
+                <span style={{ display: "block" }}>Κτήριο: {formatDistance(bd.distanceKm, bd.distanceMinutes, bd.distanceMethod)}{bd.distanceKm == null ? " — χωρίς απόσταση, χωρίς χρέωση μετάβασης" : ` · ${bd.zoneLabel}`}</span>
               </div>
             </div>
           )}
           <FormField label="Μήνυμα προς τον πελάτη (προαιρετικά)"><FieldTextarea value={message} onChange={setMessage} rows={2} placeholder="π.χ. Περιλαμβάνει υλικά και εργασία· εγγύηση 6 μήνες." /></FormField>
-          <div><button style={btnPrimary} disabled={busy} onClick={() => run(() => forwardOffer(o.id, { markupPct: Number(markup), customerPrice: Number(price), message, covered, warrantyMonths: defaults.warrantyMonths }))}><RiSendPlaneLine /> {covered ? "Ανάθεση χωρίς χρέωση" : "Αποστολή προσφοράς στον πελάτη"}</button></div>
+          <div><button style={btnPrimary} disabled={busy} onClick={() => run(() => forwardOffer(o.id, { markupPct: Number(markup), customerPrice: Number(price), message, covered, warrantyMonths: defaults.warrantyMonths, travelFee: Number(travel) || 0 }))}><RiSendPlaneLine /> {covered ? "Ανάθεση χωρίς χρέωση" : "Αποστολή προσφοράς στον πελάτη"}</button></div>
         </div>
       )}
     </div>

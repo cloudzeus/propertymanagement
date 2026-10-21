@@ -1,6 +1,10 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
 const m = vi.hoisted(() => ({ wo: {} as Record<string, unknown> }));
+vi.mock("@/lib/distance/buildings", async () => {
+  const { DEFAULT_ZONES } = await import("@/lib/distance/zones");
+  return { getDistanceZones: async () => DEFAULT_ZONES };
+});
 vi.mock("@/lib/db", () => ({
   db: {
     contractTemplate: { findUnique: vi.fn(async () => null) },
@@ -39,5 +43,25 @@ describe("renderContract — supplier side acceptance block", () => {
     m.wo = { ...baseWo(), supplierAcceptedName: "Γιάννης Παπάς" };
     const { html } = await renderContract("WO_SUPPLIER", "w1");
     expect(html).toContain("Γιάννης Παπάς");
+  });
+});
+
+describe("renderContract — travel clause", () => {
+  it("renders the travel clause on the customer side when a fee exists", async () => {
+    m.wo = { ...baseWo(), travelFee: 15, travelZone: "B", travelKm: 23 };
+    const { html } = await renderContract("WO_CUSTOMER", "w1");
+    expect(html).toContain("χρέωση μετάβασης");
+    expect(html).toContain("15,00 €");
+    expect(html).toContain("Ζώνη Β");
+    expect(html).toContain("23 km");
+  });
+  it("omits it when there is no fee", async () => {
+    const { html } = await renderContract("WO_CUSTOMER", "w1");
+    expect(html).not.toContain("χρέωση μετάβασης");
+  });
+  it("never shows it on the supplier side", async () => {
+    m.wo = { ...baseWo(), travelFee: 15, travelZone: "B", travelKm: 23 };
+    const { html } = await renderContract("WO_SUPPLIER", "w1");
+    expect(html).not.toContain("χρέωση μετάβασης");
   });
 });

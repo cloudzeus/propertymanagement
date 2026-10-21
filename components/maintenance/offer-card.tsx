@@ -59,6 +59,7 @@ export function OfferCard({ workOrders, canDecide, companyName }: { workOrders: 
                     {w.validUntil && <span>Ισχύει έως {fmtD(w.validUntil)}</span>}
                     {w.warrantyMonths != null && <span>Εγγύηση {w.warrantyMonths} μήνες</span>}
                     {w.surveyFee != null && w.surveyFee > 0 && <span>Αυτοψία {eur(w.surveyFee)}{w.surveyWaived ? " (συμψηφίζεται)" : ""}</span>}
+                    {w.travelFee != null && w.travelFee > 0 && <span>Μετάβαση τεχνικού {eur(w.travelFee)}{w.travelZone ? ` (Ζώνη ${w.travelZone}${w.travelKm != null ? `, ${w.travelKm} km` : ""})` : ""} — περιλαμβάνεται στην καθαρή αξία</span>}
                   </div>
                 </div>
                 <div style={{ textAlign: "right", background: "var(--paper)", borderRadius: 10, padding: "10px 14px", minWidth: 180 }}>

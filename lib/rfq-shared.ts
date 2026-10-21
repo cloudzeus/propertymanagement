@@ -87,6 +87,11 @@ export function withVat(net: number, vatPct: number): number {
 }
 
 /** Serializable DTOs */
+export type RfqPanelDefaults = {
+  markupPct: number; warrantyMonths: number;
+  /** Το κτίριο της βλάβης ως προς τον σταθμό βάσης (για την προσυμπλήρωση της μετάβασης). */
+  building: { distanceKm: number | null; distanceMinutes: number | null; distanceMethod: "ROAD" | "ESTIMATE" | null; zoneCode: string | null; zoneLabel: string; travelFee: number };
+};
 export type OfferDTO = {
   id: string; supplierId: string; supplierName: string; amount: number; vatPct: number;
   surveyFee: number | null; surveyWaived: boolean; description: string | null; estimatedMinutes: number | null;
@@ -104,6 +109,8 @@ export type RfqDTO = {
 export type WorkOrderDTO = {
   id: string; number: string; status: string; title: string; description: string; covered: boolean;
   customerPrice: number; vatPct: number; surveyFee: number | null; surveyWaived: boolean; warrantyMonths: number | null;
+  /** Χρέωση μετάβασης (μέρος του customerPrice) και η ζώνη/km του κτιρίου τη στιγμή της προώθησης. */
+  travelFee: number | null; travelZone: string | null; travelKm: number | null;
   customerMessage: string | null; earliestDate: string | null; validUntil: string | null;
   customerAcceptedAt: string | null; customerDeclinedAt: string | null; customerDeclineReason: string | null; scheduledAt: string | null; createdAt: string;
   supplierAcceptedAt: string | null;

@@ -7,6 +7,8 @@ import { getEffectiveSession } from "@/lib/auth-effective";
 import { getEffectivePermissions, can } from "@/lib/rbac/permissions";
 import { notifyUsers, supplierUserIds, companyStaffIds, buildingDeciderIds } from "@/lib/notify";
 import { applyMarkup } from "@/lib/rfq-shared";
+import { getDistanceZones } from "@/lib/distance/buildings";
+import { zoneForKm, zoneFee } from "@/lib/distance/zones";
 import { renderContract } from "@/lib/contracts";
 import { publishBuildingEvent, publishCompanyEvent } from "@/lib/realtime/bus";
 import { STATUS_TRANSITIONS, type FaultStatus } from "@/lib/maintenance-shared";
@@ -210,12 +212,12 @@ export async function declineRfq(rfqId: string, reason?: string | null) {
 /* 3. Company picks an offer, adds markup, forwards → WorkOrder         */
 /* ------------------------------------------------------------------ */
 
-export type ForwardInput = { markupPct?: number | null; customerPrice?: number | null; message?: string | null; covered?: boolean; warrantyMonths?: number | null };
+export type ForwardInput = { markupPct?: number | null; customerPrice?: number | null; message?: string | null; covered?: boolean; warrantyMonths?: number | null; travelFee?: number | null };
 
 export async function forwardOffer(offerId: string, input: ForwardInput) {
   const a = await actor();
   if (!isStaff(a) || !can(a.perms, "suppliers", "edit")) return { error: "Δεν επιτρέπεται" };
-  const offer = await db.supplierOffer.findUnique({ where: { id: offerId }, include: { rfq: { include: { building: { select: { id: true, customerId: true, name: true } }, maintenanceRequest: { select: { id: true, status: true, handledBy: true } } } }, workOrder: { select: { id: true } } } });
+  const offer = await db.supplierOffer.findUnique({ where: { id: offerId }, include: { rfq: { include: { building: { select: { id: true, customerId: true, name: true, distanceKm: true } }, maintenanceRequest: { select: { id: true, status: true, handledBy: true } } } }, workOrder: { select: { id: true } } } });
   if (!offer) return { error: "Δεν βρέθηκε η προσφορά" };
   if (offer.workOrder) return { error: "Η προσφορά έχει ήδη προωθηθεί" };
   if (offer.status === "WITHDRAWN") return { error: "Η προσφορά έχει αποσυρθεί" };
@@ -223,7 +225,12 @@ export async function forwardOffer(offerId: string, input: ForwardInput) {
   const covered = !!input.covered;
   const markup = input.markupPct == null ? Number(settings?.offerMarkupPct ?? 15) : Math.max(0, Number(input.markupPct));
   const supplierPrice = Number(offer.amount);
-  const customerPrice = covered ? 0 : input.customerPrice != null && Number.isFinite(Number(input.customerPrice)) ? Math.max(0, Number(input.customerPrice)) : applyMarkup(supplierPrice, markup);
+  // Travel fee: the company's zone fee for the building's distance from the base (editable, 0 when covered).
+  const zones = await getDistanceZones();
+  const zone = zoneForKm(zones, offer.rfq.building.distanceKm);
+  const defaultTravel = zoneFee(zones, zone?.code);
+  const travelFee = covered ? 0 : Math.max(0, input.travelFee != null && Number.isFinite(Number(input.travelFee)) ? Number(input.travelFee) : defaultTravel);
+  const customerPrice = covered ? 0 : input.customerPrice != null && Number.isFinite(Number(input.customerPrice)) ? Math.max(0, Number(input.customerPrice)) : Math.round((applyMarkup(supplierPrice, markup) + travelFee) * 100) / 100;
   const req = offer.rfq.maintenanceRequest;
 
   const wo = await db.$transaction(async (tx) => {
@@ -235,6 +242,7 @@ export async function forwardOffer(offerId: string, input: ForwardInput) {
         title: offer.rfq.title, description: offer.description ? `${offer.rfq.description}\n\nΠεριγραφή προσφοράς: ${offer.description}` : offer.rfq.description,
         covered, supplierPrice, customerPrice, vatPct: offer.vatPct, markupPct: covered ? null : markup,
         surveyFee: offer.surveyFee, surveyWaived: offer.surveyWaived, warrantyMonths: input.warrantyMonths ?? settings?.warrantyMonths ?? 6,
+        travelFee, travelZone: zone?.code ?? null, travelKm: offer.rfq.building.distanceKm ?? null,
         status: covered ? "ACCEPTED" : "PENDING_CUSTOMER", customerMessage: clean(input.message),
         earliestDate: offer.earliestDate, validUntil: offer.validUntil, createdById: a.id,
         ...(covered ? { customerAcceptedAt: new Date(), customerAcceptedById: a.id } : {}),

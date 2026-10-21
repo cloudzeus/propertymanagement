@@ -1,5 +1,7 @@
 import "server-only";
 import { db } from "@/lib/db";
+import { getDistanceZones } from "@/lib/distance/buildings";
+import { zoneLabel } from "@/lib/distance/zones";
 import { eur } from "@/lib/rfq-shared";
 
 export type ContractKey = "WO_CUSTOMER" | "WO_SUPPLIER";
@@ -26,6 +28,7 @@ export const DEFAULT_TEMPLATES: Record<ContractKey, { title: string; body: strin
 ## 2. Τίμημα
 Συμφωνημένο τίμημα: **{{price.net}}** πλέον ΦΠΑ {{price.vatPct}}% = **{{price.gross}}**.
 {{survey_clause}}
+{{travel_clause}}
 Η πληρωμή γίνεται μετά την επιβεβαίωση παραλαβής (άρθρο 4), με τους τρόπους πληρωμής που διαθέτει η Εταιρεία.
 
 ## 3. Χρόνος εκτέλεσης
@@ -111,7 +114,7 @@ export function mdToHtml(md: string): string {
 
 /** Render one side of the contract for a work order. */
 export async function renderContract(key: ContractKey, woId: string): Promise<{ title: string; html: string; version: number }> {
-  const [tpl, wo, company, settings] = await Promise.all([
+  const [tpl, wo, company, settings, zones] = await Promise.all([
     getTemplate(key),
     db.workOrder.findUnique({
       where: { id: woId },
@@ -119,8 +122,11 @@ export async function renderContract(key: ContractKey, woId: string): Promise<{ 
     }),
     db.company.findFirst({ orderBy: { createdAt: "asc" }, select: { name: true, afm: true } }),
     db.appSettings.findUnique({ where: { id: "singleton" }, select: { silentAcceptDays: true, warrantyMonths: true } }),
+    getDistanceZones(),
   ]);
   if (!wo) throw new Error("Work order not found");
+  const travel = wo.travelFee != null ? Number(wo.travelFee) : 0;
+  const travelKm = wo.travelKm != null ? wo.travelKm.toLocaleString("el-GR", { maximumFractionDigits: 1 }) : null;
   const net = key === "WO_CUSTOMER" ? Number(wo.customerPrice) : Number(wo.supplierPrice);
   const gross = Math.round(net * (1 + wo.vatPct / 100) * 100) / 100;
   const survey = wo.surveyFee != null ? Number(wo.surveyFee) : null;
@@ -154,6 +160,7 @@ export async function renderContract(key: ContractKey, woId: string): Promise<{ 
     silentDays: String(settings?.silentAcceptDays ?? 5),
     covered_clause: wo.covered ? "Η εργασία **καλύπτεται από τη σύμβαση διαχείρισης** του κτηρίου· δεν προκύπτει πρόσθετη χρέωση για τον Πελάτη." : "",
     survey_clause: survey != null && survey > 0 ? `Χρέωση αυτοψίας: ${eur(survey)}${wo.surveyWaived ? " (συμψηφίζεται με το τίμημα εφόσον εκτελεστεί η εργασία)" : ""}.` : "",
+    travel_clause: key === "WO_CUSTOMER" && !wo.covered && travel > 0 ? `Στο τίμημα περιλαμβάνεται χρέωση μετάβασης **${eur(travel)}** (${zoneLabel(zones, wo.travelZone)}${travelKm ? `, ${travelKm} km` : ""}).` : "",
     acceptance_block: `---\n\n${acceptedLine}\n\n_Έκδοση προτύπου ${tpl.version} · Σύμβαση δημιουργήθηκε ${fmtDate(wo.createdAt)}_`,
   };
   const fill = (s: string) => s.replace(/\{\{\s*([\w.]+)\s*\}\}/g, (_, k) => vars[k] ?? "");
