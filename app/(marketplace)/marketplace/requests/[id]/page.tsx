@@ -29,7 +29,6 @@ export default async function SupplierRequestPage({ params }: { params: Promise<
       <RequestDetail
         request={{ ...detail, reporterName: null }}
         viewer={{ id: ctx.userId, role: "COLLABORATOR", isStaff: false, canManage: can(ctx.perms, "mkt-tasks", "edit"), canAssign: false }}
-        employees={[]}
       />
     </div>
   );

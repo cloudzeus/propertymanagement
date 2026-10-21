@@ -48,7 +48,7 @@ describe("loadWorkActionContext", () => {
     expect(ctx.suppliers).toEqual([{ id: "s1", name: "Σ" }]);
     expect(ctx.preferredSupplierId).toBe("s1");
     expect(ctx.picker.candidates).toHaveLength(1);
-    expect(ctx.defaults).toEqual({ markupPct: 15, warrantyMonths: 6 });
+    expect(ctx.defaults).toMatchObject({ markupPct: 15, warrantyMonths: 6 });
   });
   it("resolves a work order or an RFQ to its fault", async () => {
     const a = await loadWorkActionContext({ kind: "work-order", id: "w1" });

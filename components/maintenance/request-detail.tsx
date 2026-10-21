@@ -2,21 +2,15 @@
 
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
+import { STATUS_LABELS, STATUS_COLORS, PRIORITY_LABELS, HANDLER_LABELS, type FaultStatus } from "@/lib/maintenance-shared";
+import { addRequestComment, removeSlot, bookSlot } from "@/app/actions/maintenance-requests";
+import { FieldTextarea } from "@/components/ui/modal";
+import type { WorkDialog } from "@/lib/work/actions";
 import {
-  STATUS_LABELS, STATUS_COLORS, STATUS_TRANSITIONS, PRIORITY_LABELS, HANDLER_LABELS,
-  type FaultStatus,
-} from "@/lib/maintenance-shared";
-import {
-  changeRequestStatus, assignRequest, assignRequestSupplier, addRequestComment, setRequestEstimate,
-  offerSlots, removeSlot, bookSlot,
-} from "@/app/actions/maintenance-requests";
-import { rateSupplier, setPreferredSupplier } from "@/app/actions/suppliers";
-import { FormField, FieldSelect, FieldTextarea, FieldInput } from "@/components/ui/modal";
-import {
-  RiTimeLine, RiUserLine, RiBuilding2Line, RiCalendarCheckLine, RiAlarmWarningLine, RiRoadMapLine,
-  RiChat3Line, RiHistoryLine, RiAttachmentLine, RiDeleteBinLine, RiCheckLine, RiTeamLine,
+  RiTimeLine, RiUserLine, RiBuilding2Line, RiCalendarCheckLine, RiAlarmWarningLine,
+  RiChat3Line, RiHistoryLine, RiAttachmentLine, RiDeleteBinLine, RiTeamLine,
 } from "react-icons/ri";
-import type { FaultDetail, Viewer, EmployeeOption } from "./types";
+import type { FaultDetail, Viewer } from "./types";
 
 const fmt = (iso: string | null) =>
   iso ? new Date(iso).toLocaleString("el-GR", { dateStyle: "short", timeStyle: "short" }) : "—";
@@ -55,40 +49,35 @@ const card: React.CSSProperties = {
 };
 const h3: React.CSSProperties = { fontSize: "var(--fs-13)", fontWeight: 700, color: "var(--foreground)", margin: "0 0 12px", display: "flex", alignItems: "center", gap: 6 };
 const btn: React.CSSProperties = {
-  height: 32, padding: "0 12px", border: "1px solid var(--border)", background: "var(--paper)",
-  borderRadius: "var(--radius-sm)", fontSize: "var(--fs-12-5)", fontWeight: 600, cursor: "pointer", color: "var(--foreground)",
+  display: "inline-flex", alignItems: "center", gap: 6, height: 32, padding: "0 12px", border: "1px solid var(--border)", background: "var(--paper)",
+  borderRadius: "var(--radius-sm)", fontSize: "var(--fs-12-5)", fontWeight: 600, cursor: "pointer", color: "var(--foreground)", fontFamily: "inherit",
 };
 const btnPrimary: React.CSSProperties = { ...btn, background: "var(--primary)", color: "var(--primary-foreground)", border: "none" };
 
-export function RequestDetail({ request, viewer, employees, suppliers = [], preferredSupplierId = null }: {
+/**
+ * Fault page body shared by company staff, occupants (portal) and suppliers
+ * (marketplace). Staff mutations live in the «Ενέργειες» button / shared
+ * dialogs (`actions` + `onOpen`, company page only); the component itself keeps
+ * only what every viewer needs: facts, attachments, appointments, messages, history.
+ */
+export function RequestDetail({ request, viewer, actions, onOpen }: {
   request: FaultDetail;
   viewer: Viewer;
-  employees: EmployeeOption[];
-  /** Company-registry suppliers assignable to this fault, pre-ranked (staff only). */
-  suppliers?: EmployeeOption[];
-  preferredSupplierId?: string | null;
+  /** «Ενέργειες» button rendered in the header (company page). */
+  actions?: React.ReactNode;
+  /** Opens one of the shared work-action dialogs (company page). */
+  onOpen?: (dialog: WorkDialog) => void;
 }) {
-  const [makePreferred, setMakePreferred] = useState(false);
-  const [ratingScore, setRatingScore] = useState(request.supplierRating?.score ?? 0);
-  const [ratingComment, setRatingComment] = useState(request.supplierRating?.comment ?? "");
   const router = useRouter();
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [statusNote, setStatusNote] = useState("");
   const [comment, setComment] = useState("");
   const [internal, setInternal] = useState(false);
-  const [assignee, setAssignee] = useState("");
-  const [supplierSel, setSupplierSel] = useState(request.supplierId ?? "");
-  const [estMinutes, setEstMinutes] = useState(request.estimatedMinutes ? String(request.estimatedMinutes) : "");
-  const [estPresence, setEstPresence] = useState(request.managerPresence);
-  const [slotDate, setSlotDate] = useState("");
-  const [slotTime, setSlotTime] = useState("");
 
-  const transitions = STATUS_TRANSITIONS[request.status as FaultStatus] ?? [];
-  const canChangeStatus = viewer.canManage;
   // The assigned supplier acts on the company's side of the appointment flow.
   const mySide = viewer.isStaff || viewer.role === "COLLABORATOR" ? "COMPANY" : "MANAGER";
   const closed = ["COMPLETED", "CANCELLED"].includes(request.status);
+  const openSlots = request.slots.filter((s) => s.status === "OPEN");
 
   const visibleComments = useMemo(
     () => request.comments.filter((c) => !c.internal || viewer.isStaff),
@@ -109,13 +98,13 @@ export function RequestDetail({ request, viewer, employees, suppliers = [], pref
       {/* Header */}
       <div style={card}>
         <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 10, marginBottom: 8 }}>
-          <h1 style={{ fontSize: "var(--fs-19)", fontWeight: 700, color: "var(--foreground)", margin: 0, flex: 1 }}>{request.title}</h1>
+          <h1 style={{ fontSize: "var(--fs-19)", fontWeight: 700, color: "var(--foreground)", margin: 0, flex: 1, minWidth: 200 }}>{request.title}</h1>
           <StatusBadge status={request.status} />
           <SlaBadge slaDueAt={request.slaDueAt} status={request.status} />
+          {actions}
         </div>
         <div style={{ display: "flex", flexWrap: "wrap", gap: 16, fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)" }}>
           <span style={{ display: "inline-flex", alignItems: "center", gap: 4 }}><RiBuilding2Line /> {request.buildingName}{request.unitLabel ? ` · ${request.unitLabel}` : " · Κοινόχρηστος χώρος"}</span>
-          {request.buildingDistance && <span style={{ display: "inline-flex", alignItems: "center", gap: 4 }} title="Απόσταση από τον σταθμό βάσης"><RiRoadMapLine /> {request.buildingDistance}</span>}
           <span style={{ display: "inline-flex", alignItems: "center", gap: 4 }}><RiUserLine /> Δήλωση: {request.reporterName ?? "—"}</span>
           <span style={{ display: "inline-flex", alignItems: "center", gap: 4 }}><RiTimeLine /> {fmt(request.createdAt)}</span>
           <span>Κατηγορία: {request.categoryName ?? "—"}</span>
@@ -124,7 +113,20 @@ export function RequestDetail({ request, viewer, employees, suppliers = [], pref
           {request.assigneeName && <span>Ανατέθηκε: {request.assigneeName}</span>}
           {request.supplierName && viewer.role !== "COLLABORATOR" && <span style={{ display: "inline-flex", alignItems: "center", gap: 4 }}><RiTeamLine /> Συνεργάτης: {request.supplierName}</span>}
           {request.scheduledDate && <span style={{ display: "inline-flex", alignItems: "center", gap: 4 }}><RiCalendarCheckLine /> Ραντεβού: {fmt(request.scheduledDate)}</span>}
+          {request.restrictedAccess && <span>Περιορισμένη πρόσβαση</span>}
         </div>
+        {viewer.isStaff && onOpen && (
+          <div style={{
+            display: "inline-flex", alignItems: "center", gap: 6, fontSize: "var(--fs-12)", fontWeight: 600, padding: "3px 10px", borderRadius: 999, marginTop: 10,
+            color: request.handledBy === "COMPANY" ? "#15803d" : "#b45309",
+            background: request.handledBy === "COMPANY" ? "#15803d14" : "#b4530914",
+            border: `1px solid ${request.handledBy === "COMPANY" ? "#15803d40" : "#b4530940"}`,
+          }}>
+            {request.handledBy === "COMPANY"
+              ? "Καλύπτεται από τη σύμβαση διαχείρισης — άμεση ανάθεση, χωρίς προσφορά προς τον πελάτη"
+              : "Εκτός σύμβασης — απαιτείται προσφορά και αποδοχή από τον πελάτη"}
+          </div>
+        )}
         <p style={{ fontSize: "var(--fs-13-5)", color: "var(--foreground)", marginTop: 12, whiteSpace: "pre-wrap" }}>{request.description}</p>
 
         {request.attachments.length > 0 && (
@@ -145,149 +147,27 @@ export function RequestDetail({ request, viewer, employees, suppliers = [], pref
         )}
       </div>
 
-      {error && <div style={{ color: "var(--destructive)", fontSize: "var(--fs-13)" }}>{error}</div>}
+      {error && <div role="alert" style={{ color: "var(--destructive)", fontSize: "var(--fs-13)" }}>{error}</div>}
 
-      {/* Actions: status change + assignment */}
-      {(canChangeStatus || viewer.canAssign) && !closed && (
+      {/* Appointments: open slots (book / remove) + confirmed appointments. Offering slots and direct scheduling live in the «Ραντεβού…» dialog. */}
+      {(openSlots.length > 0 || request.appointments.length > 0 || (!closed && (request.restrictedAccess || !!onOpen))) && (
         <div style={card}>
-          <div style={h3}><RiCheckLine /> Ενέργειες</div>
-          {canChangeStatus && transitions.length > 0 && (
-            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-              <FieldInput value={statusNote} onChange={setStatusNote} placeholder="Σημείωση αλλαγής κατάστασης (προαιρετικά)" />
-              <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-                {transitions.map((s) => (
-                  <button key={s} disabled={busy} style={s === "COMPLETED" ? btnPrimary : btn}
-                    onClick={() => run(() => changeRequestStatus(request.id, s, statusNote))}>
-                    → {STATUS_LABELS[s]}
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
-          {viewer.canAssign && (
-            <div style={{ display: "flex", gap: 8, marginTop: 12, alignItems: "flex-end", maxWidth: 420 }}>
-              <div style={{ flex: 1 }}>
-                <FormField label="Ανάθεση σε υπάλληλο">
-                  <FieldSelect value={assignee} onChange={setAssignee} placeholder="Επιλέξτε υπάλληλο"
-                    options={employees.map((e) => ({ value: e.id, label: e.name }))} />
-                </FormField>
-              </div>
-              <button disabled={busy || !assignee} style={btn} onClick={() => run(() => assignRequest(request.id, assignee))}>
-                Ανάθεση
-              </button>
-            </div>
-          )}
-          {viewer.canAssign && (
-            <div style={{ marginTop: 14, paddingTop: 12, borderTop: "1px solid var(--border)" }}>
-              <div style={{
-                display: "inline-flex", alignItems: "center", gap: 6, fontSize: "var(--fs-12)", fontWeight: 600, padding: "3px 10px", borderRadius: 999, marginBottom: 10,
-                color: request.handledBy === "COMPANY" ? "#15803d" : "#b45309",
-                background: request.handledBy === "COMPANY" ? "#15803d14" : "#b4530914",
-                border: `1px solid ${request.handledBy === "COMPANY" ? "#15803d40" : "#b4530940"}`,
-              }}>
-                {request.handledBy === "COMPANY"
-                  ? "Καλύπτεται από τη σύμβαση διαχείρισης — άμεση ανάθεση, χωρίς προσφορά προς τον πελάτη"
-                  : "Εκτός σύμβασης — απαιτείται προσφορά και αποδοχή από τον πελάτη (Φάση 2)"}
-              </div>
-              <div style={{ display: "flex", gap: 8, alignItems: "flex-end", maxWidth: 560 }}>
-                <div style={{ flex: 1 }}>
-                  <FormField label="Ανάθεση σε εξωτερικό συνεργάτη" hint="Ταξινόμηση: προτιμώμενος · ίδιος με προηγούμενη · ειδικότητα · αξιολόγηση · απόσταση · 24/7">
-                    <FieldSelect value={supplierSel} onChange={setSupplierSel} placeholder="— Χωρίς συνεργάτη —"
-                      options={suppliers.map((s) => ({ value: s.id, label: s.name }))} />
-                  </FormField>
-                </div>
-                <button disabled={busy || supplierSel === (request.supplierId ?? "")} style={btn}
-                  onClick={() => run(async () => {
-                    const res = await assignRequestSupplier(request.id, supplierSel || null);
-                    if ("error" in res && res.error) return res;
-                    if (makePreferred && supplierSel && request.buildingId) return setPreferredSupplier(request.buildingId, request.categoryId ?? null, supplierSel);
-                    return res;
-                  })}>
-                  {supplierSel ? "Ανάθεση" : "Αφαίρεση"}
-                </button>
-              </div>
-              <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: "var(--fs-12-5)", color: "var(--foreground)", marginTop: 8, cursor: "pointer" }}>
-                <input type="checkbox" checked={makePreferred} onChange={(e) => setMakePreferred(e.target.checked)} disabled={!supplierSel || supplierSel === preferredSupplierId} />
-                Ορισμός ως προτιμώμενου συνεργάτη για αυτό το κτήριο{request.categoryName ? ` (${request.categoryName})` : ""} — θα προτείνεται πρώτος σε επόμενες εργασίες
-              </label>
-            </div>
-          )}
-        </div>
-      )}
-
-      {/* Supplier rating after completion (company staff) */}
-      {request.status === "COMPLETED" && viewer.canAssign && request.supplierId && (
-        <div style={card}>
-          <div style={h3}><RiTeamLine /> Αξιολόγηση συνεργάτη · {request.supplierName}</div>
-          <div style={{ display: "flex", alignItems: "center", gap: 4, marginBottom: 10 }}>
-            {[1, 2, 3, 4, 5].map((n) => (
-              <button key={n} type="button" onClick={() => setRatingScore(n)} aria-label={`${n} αστέρια`}
-                style={{ background: "none", border: "none", cursor: "pointer", fontSize: "var(--fs-26)", lineHeight: 1, color: n <= ratingScore ? "#F2A23C" : "var(--border)", padding: 2 }}>★</button>
-            ))}
-            <span style={{ fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)", marginLeft: 8 }}>{ratingScore ? `${ratingScore}/5` : "Επιλέξτε 1–5"}</span>
+          <div style={{ ...h3, flexWrap: "wrap" }}>
+            <RiCalendarCheckLine /> Ραντεβού
+            <span style={{ flex: 1 }} />
+            {onOpen && !closed && <button type="button" style={btn} onClick={() => onOpen("appointment")}><RiCalendarCheckLine /> Ραντεβού…</button>}
           </div>
-          <div style={{ display: "flex", gap: 8, alignItems: "flex-start", maxWidth: 560 }}>
-            <div style={{ flex: 1 }}><FieldInput value={ratingComment} onChange={setRatingComment} placeholder="Σχόλιο (προαιρετικά): ποιότητα, συνέπεια, επικοινωνία" /></div>
-            <button disabled={busy || !ratingScore} style={btnPrimary} onClick={() => run(() => rateSupplier(request.id, ratingScore, ratingComment))}>
-              {request.supplierRating ? "Ενημέρωση" : "Αποθήκευση"}
-            </button>
-          </div>
-          <p style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)", margin: "8px 0 0" }}>Η αξιολόγηση επηρεάζει τη σειρά πρότασης του συνεργάτη σε επόμενες αναθέσεις.</p>
-        </div>
-      )}
-
-      {/* Appointment scheduling (restricted access) */}
-      {request.restrictedAccess && !closed && (
-        <div style={card}>
-          <div style={h3}><RiCalendarCheckLine /> Ραντεβού πρόσβασης</div>
-          <p style={{ fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)", marginTop: 0 }}>
-            Η βλάβη αφορά εξοπλισμό με περιορισμένη πρόσβαση. Κάθε πλευρά δηλώνει διαθέσιμα slots 30 λεπτών —
-            η άλλη πλευρά επιλέγει ένα για να κλειστεί το ραντεβού.
-            {request.estimatedMinutes ? ` Εκτιμώμενη διάρκεια εργασιών: ${request.estimatedMinutes}′.` : ""}
-            {request.managerPresence ? " Απαιτείται παρουσία διαχειριστή." : ""}
-          </p>
-
-          {viewer.isStaff && (
-            <div style={{ display: "flex", gap: 8, alignItems: "flex-end", flexWrap: "wrap", marginBottom: 12 }}>
-              <div style={{ width: 140 }}>
-                <FormField label="Διάρκεια (λεπτά)">
-                  <FieldInput value={estMinutes} onChange={setEstMinutes} type="number" placeholder="60" />
-                </FormField>
-              </div>
-              <label style={{ display: "flex", alignItems: "center", gap: 6, fontSize: "var(--fs-12-5)", height: 36, color: "var(--foreground)" }}>
-                <input type="checkbox" checked={estPresence} onChange={(e) => setEstPresence(e.target.checked)} />
-                Παρουσία διαχειριστή
-              </label>
-              <button disabled={busy} style={btn}
-                onClick={() => run(() => setRequestEstimate(request.id, estMinutes ? Number(estMinutes) : null, estPresence))}>
-                Αποθήκευση εκτίμησης
-              </button>
-            </div>
+          {request.restrictedAccess && (
+            <p style={{ fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)", marginTop: 0 }}>
+              Η βλάβη αφορά εξοπλισμό με περιορισμένη πρόσβαση. Κάθε πλευρά δηλώνει διαθέσιμα slots 30 λεπτών — η άλλη πλευρά επιλέγει ένα για να κλειστεί το ραντεβού.
+              {request.estimatedMinutes ? ` Εκτιμώμενη διάρκεια εργασιών: ${request.estimatedMinutes}′.` : ""}
+              {request.managerPresence ? " Απαιτείται παρουσία διαχειριστή." : ""}
+            </p>
           )}
 
-          <div style={{ display: "flex", gap: 8, alignItems: "flex-end", flexWrap: "wrap", marginBottom: 12 }}>
-            <div style={{ width: 160 }}>
-              <FormField label="Ημερομηνία">
-                <FieldInput value={slotDate} onChange={setSlotDate} type="date" />
-              </FormField>
-            </div>
-            <div style={{ width: 120 }}>
-              <FormField label="Ώρα (30′)">
-                <FieldInput value={slotTime} onChange={setSlotTime} type="time" />
-              </FormField>
-            </div>
-            <button disabled={busy || !slotDate || !slotTime} style={btn}
-              onClick={async () => {
-                const iso = new Date(`${slotDate}T${slotTime}`).toISOString();
-                if (await run(() => offerSlots(request.id, [iso]))) { setSlotDate(""); setSlotTime(""); }
-              }}>
-              Δήλωση διαθεσιμότητας
-            </button>
-          </div>
-
-          {request.slots.filter((s) => s.status === "OPEN").length > 0 ? (
+          {openSlots.length > 0 ? (
             <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-              {request.slots.filter((s) => s.status === "OPEN").map((s) => (
+              {openSlots.map((s) => (
                 <div key={s.id} style={{
                   display: "flex", alignItems: "center", gap: 10, fontSize: "var(--fs-13)", color: "var(--foreground)",
                   border: "1px solid var(--border)", borderRadius: "var(--radius-sm)", padding: "6px 10px",
@@ -301,7 +181,7 @@ export function RequestDetail({ request, viewer, employees, suppliers = [], pref
                     <button disabled={busy} style={btnPrimary} onClick={() => run(() => bookSlot(s.id))}>Κλείσιμο ραντεβού</button>
                   )}
                   {s.side === mySide && (
-                    <button disabled={busy} style={{ ...btn, color: "var(--destructive)" }} onClick={() => run(() => removeSlot(s.id))}>
+                    <button disabled={busy} aria-label="Διαγραφή slot" style={{ ...btn, color: "var(--destructive)" }} onClick={() => run(() => removeSlot(s.id))}>
                       <RiDeleteBinLine />
                     </button>
                   )}
@@ -309,11 +189,11 @@ export function RequestDetail({ request, viewer, employees, suppliers = [], pref
               ))}
             </div>
           ) : (
-            <p style={{ fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)" }}>Δεν υπάρχουν ανοιχτά slots.</p>
+            request.appointments.length === 0 && <p style={{ fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)", margin: 0 }}>Δεν υπάρχει ραντεβού ούτε ανοιχτά slots.</p>
           )}
 
           {request.appointments.length > 0 && (
-            <div style={{ marginTop: 12 }}>
+            <div style={{ marginTop: openSlots.length ? 12 : 0 }}>
               {request.appointments.map((a) => (
                 <div key={a.id} style={{ fontSize: "var(--fs-13)", color: "var(--foreground)", display: "flex", gap: 8, alignItems: "center" }}>
                   <RiCalendarCheckLine style={{ color: "#15803d" }} />

@@ -3,111 +3,114 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { FormField, FieldInput, FieldTextarea } from "@/components/ui/modal";
-import { createRfq, cancelRfq, forwardOffer, scheduleWorkOrder, resendRfqInvitation, addRfqSuppliers } from "@/app/actions/rfq";
+import { resendRfqInvitation } from "@/app/actions/rfq";
 import {
-  RFQ_STATUS_LABELS, INVITATION_STATE_LABELS, INVITATION_STATE_COLORS, OFFER_STATUS_LABELS, WO_STATUS_LABELS, WO_STATUS_COLORS, eur, applyMarkup, withVat,
+  RFQ_STATUS_LABELS, INVITATION_STATE_LABELS, INVITATION_STATE_COLORS, OFFER_STATUS_LABELS, WO_STATUS_LABELS, WO_STATUS_COLORS, eur, withVat, sentMessage,
   type RfqDTO, type OfferDTO, type WorkOrderDTO, type RfqCandidateDTO,
 } from "@/lib/rfq-shared";
-import { sentMessage, type RfqPanelDefaults } from "@/lib/rfq-shared";
 import { formatDistance } from "@/lib/distance/zones";
+import { callAction } from "@/lib/work/client-actions";
+import type { WorkDialog } from "@/lib/work/actions";
+import { RiMoneyEuroCircleLine, RiSendPlaneLine, RiFileTextLine, RiCalendarCheckLine, RiCloseLine, RiStarFill, RiMailSendLine, RiUserAddLine, RiCheckDoubleLine, RiShieldCheckLine, RiEyeLine } from "react-icons/ri";
+
 export { sentMessage };
-import { RfqSupplierPicker } from "@/components/suppliers/RfqSupplierPicker";
-import { RiMoneyEuroCircleLine, RiSendPlaneLine, RiFileTextLine, RiCalendarCheckLine, RiCloseLine, RiStarFill, RiMailSendLine, RiUserAddLine } from "react-icons/ri";
 
 const fmt = (iso: string | null) => (iso ? new Date(iso).toLocaleString("el-GR", { dateStyle: "short", timeStyle: "short" }) : "—");
 const fmtD = (iso: string | null) => (iso ? new Date(iso).toLocaleDateString("el-GR") : "—");
 
-/**
- * Company-side offers panel on a fault: work orders, RFQs with their offers
- * (forward one with markup), and the "send RFQ" form. Only staff see this.
- */
-const round2 = (n: number) => Math.round(n * 100) / 100;
-
+/** Kept for the /staff/rfq board (NewRfqModal) which still loads candidates itself. */
 export type RfqPickerData = { candidates: RfqCandidateDTO[]; categories: { id: string; name: string }[]; defaultCategoryId: string | null };
 
-export function RfqPanel({ requestId, handledBy, rfqs, workOrders, defaults, picker, canCreate = true }: {
-  requestId: string; handledBy: string; rfqs: RfqDTO[]; workOrders: WorkOrderDTO[];
-  defaults: RfqPanelDefaults; picker: RfqPickerData; canCreate?: boolean;
+/**
+ * Company-side offers panel on a fault: work orders, RFQs with invitations and
+ * offers. Read-only lists — every write goes through the shared work-action
+ * dialogs (`onOpen`), the same ones the list menus use. Only «Αποστολή ξανά»
+ * stays inline because it belongs to a single invitation.
+ */
+export function RfqPanel({ rfqs, workOrders, canCreate = true, canEdit = true, canForward = true, canOnBehalf = true, onOpen }: {
+  rfqs: RfqDTO[]; workOrders: WorkOrderDTO[];
+  canCreate?: boolean; canEdit?: boolean; canForward?: boolean; canOnBehalf?: boolean;
+  onOpen: (dialog: WorkDialog) => void;
 }) {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const [info, setInfo] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
-  const [adding, setAdding] = useState<string | null>(null);
-  const [addSel, setAddSel] = useState<Set<string>>(new Set());
-  async function run(fn: () => Promise<{ error?: string | null } | { ok?: boolean } | { id?: string }>) {
+  async function resend(invitationId: string) {
     setBusy(true); setError(null); setInfo(null);
-    const res = await fn();
+    const res = await callAction(() => resendRfqInvitation(invitationId));
     setBusy(false);
-    if (res && "error" in res && res.error) { setError(res.error); return false; }
-    if (res && "sent" in res) setInfo(sentMessage(res as { sent: number; noEmail?: string[]; failed?: string[] }, picker.candidates));
+    if ("error" in res && res.error) { setError(res.error); return; }
+    if ("sent" in res) setInfo(sentMessage(res as { sent: number; noEmail?: string[]; failed?: string[] }, []));
     router.refresh();
-    return true;
   }
   const active = rfqs.filter((r) => !["CANCELLED", "EXPIRED", "DECLINED"].includes(r.status));
+  const liveWo = workOrders.find((w) => w.status !== "DECLINED" && w.status !== "CANCELLED") ?? null;
+  const canSendNew = canCreate && active.length === 0 && (!liveWo || liveWo.status === "CONFIRMED");
 
   return (
     <div style={card}>
-      <div style={h3}><RiMoneyEuroCircleLine /> Προσφορές & σύμβαση έργου</div>
-      {error && <div style={{ color: "var(--destructive)", fontSize: "var(--fs-13)", marginBottom: 10 }}>{error}</div>}
-      {info && <div style={{ color: "#15803d", fontSize: "var(--fs-13)", marginBottom: 10 }}>{info}</div>}
+      <div style={{ ...h3, flexWrap: "wrap" }}>
+        <RiMoneyEuroCircleLine /> Προσφορές & σύμβαση έργου
+        <span style={{ flex: 1 }} />
+        {canSendNew && <button type="button" style={btnPrimary} onClick={() => onOpen("create-rfq")}><RiSendPlaneLine /> Νέο αίτημα προσφοράς</button>}
+      </div>
+      {error && <div role="alert" style={{ color: "var(--destructive)", fontSize: "var(--fs-13)", marginBottom: 10 }}>{error}</div>}
+      {info && <div role="status" style={{ color: "#15803d", fontSize: "var(--fs-13)", marginBottom: 10 }}>{info}</div>}
 
-      {workOrders.map((w) => <WorkOrderRow key={w.id} w={w} busy={busy} run={run} />)}
+      {workOrders.map((w) => <WorkOrderRow key={w.id} w={w} canSchedule={canEdit} canOnBehalf={canOnBehalf} onOpen={onOpen} />)}
 
-      {rfqs.map((r) => (
-        <div key={r.id} style={{ border: "1px solid var(--border)", borderRadius: 10, padding: 14, marginBottom: 12, opacity: ["CANCELLED", "EXPIRED"].includes(r.status) ? 0.6 : 1 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-            <b style={{ fontSize: "var(--fs-13-5)" }}>Αίτημα προσφοράς · {fmt(r.createdAt)}</b>
-            <span style={pill}>{RFQ_STATUS_LABELS[r.status] ?? r.status}</span>
-            {r.deadlineAt && <span style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>προθεσμία {fmt(r.deadlineAt)}</span>}
-            {r.surveyRequired && <span style={pill}>με αυτοψία</span>}
-            <span style={{ flex: 1 }} />
-            {["OPEN", "OFFERED"].includes(r.status) && canCreate && <button disabled={busy} style={btn} onClick={() => { setAdding(adding === r.id ? null : r.id); setAddSel(new Set()); }}><RiUserAddLine /> Προσθήκη συνεργατών</button>}
-            {["OPEN", "OFFERED"].includes(r.status) && <button disabled={busy} style={btn} onClick={() => confirm("Ακύρωση αιτήματος προσφοράς;") && run(() => cancelRfq(r.id))}><RiCloseLine /> Ακύρωση</button>}
-          </div>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginTop: 8 }}>
-            {r.invitations.map((i) => {
-              const color = INVITATION_STATE_COLORS[i.state];
-              const who = i.recipients.length ? i.recipients.map((x) => `${x.email}${x.openedAt ? ` (άνοιξε ${fmt(x.openedAt)})` : ""}`).join(", ") : "Κανένας παραλήπτης email";
-              const canResend = ["OPEN", "OFFERED"].includes(r.status) && ["NOT_SENT", "SENT", "OPENED", "NO_EMAIL"].includes(i.state);
-              return (
-                <span key={i.supplierId} style={{ ...pill, color, borderColor: `${color}55`, background: `${color}10` }} title={i.declineReason ?? `${who}${i.emailCount ? ` · ${i.emailCount}× email, τελευταίο ${fmt(i.lastEmailAt)}` : ""}`}>
-                  {i.supplierName} · {INVITATION_STATE_LABELS[i.state]}
-                  {canResend && <button type="button" disabled={busy} title="Αποστολή email ξανά" onClick={() => run(() => resendRfqInvitation(i.id))} style={{ border: "none", background: "none", color, cursor: "pointer", padding: 0, display: "inline-flex", marginLeft: 2 }}><RiMailSendLine /></button>}
-                </span>
-              );
-            })}
-          </div>
-          {adding === r.id && (
-            <div style={{ marginTop: 10, paddingTop: 10, borderTop: "1px dashed var(--border)", display: "flex", flexDirection: "column", gap: 8 }}>
-              <RfqSupplierPicker candidates={picker.candidates} categories={picker.categories} defaultCategoryId={picker.defaultCategoryId} selected={addSel} onChange={setAddSel} excludeIds={r.invitations.map((i) => i.supplierId)} />
-              <div><button style={btnPrimary} disabled={busy || addSel.size === 0} onClick={async () => { if (await run(() => addRfqSuppliers(r.id, [...addSel]))) { setAdding(null); setAddSel(new Set()); } }}><RiSendPlaneLine /> Αποστολή σε {addSel.size} επιπλέον</button></div>
+      {rfqs.map((r) => {
+        const open = ["OPEN", "OFFERED"].includes(r.status);
+        return (
+          <div key={r.id} style={{ border: "1px solid var(--border)", borderRadius: 10, padding: 14, marginBottom: 12, opacity: ["CANCELLED", "EXPIRED"].includes(r.status) ? 0.6 : 1 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+              <b style={{ fontSize: "var(--fs-13-5)" }}>Αίτημα προσφοράς · {fmt(r.createdAt)}</b>
+              <span style={pill}>{RFQ_STATUS_LABELS[r.status] ?? r.status}</span>
+              {r.deadlineAt && <span style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>προθεσμία {fmt(r.deadlineAt)}</span>}
+              {r.surveyRequired && <span style={pill}>με αυτοψία</span>}
+              <span style={{ flex: 1 }} />
+              {open && canCreate && <button type="button" disabled={busy} style={btn} onClick={() => onOpen("add-rfq-suppliers")}><RiUserAddLine /> Προσθήκη συνεργατών</button>}
+              {open && canEdit && <button type="button" disabled={busy} style={btn} onClick={() => onOpen("cancel-rfq")}><RiCloseLine /> Ακύρωση</button>}
             </div>
-          )}
-          {r.offers.length > 0 && (
-            <div style={{ marginTop: 10, display: "flex", flexDirection: "column", gap: 8 }}>
-              {r.offers.map((o) => <OfferRow key={o.id} o={o} rfqStatus={r.status} handledBy={handledBy} defaults={defaults} busy={busy} run={run} alreadyForwarded={workOrders.some((w) => w.status !== "DECLINED" && w.status !== "CANCELLED")} />)}
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginTop: 8 }}>
+              {r.invitations.map((i) => {
+                const color = INVITATION_STATE_COLORS[i.state];
+                const who = i.recipients.length ? i.recipients.map((x) => `${x.email}${x.openedAt ? ` (άνοιξε ${fmt(x.openedAt)})` : ""}`).join(", ") : "Κανένας παραλήπτης email";
+                const canResend = canEdit && open && ["NOT_SENT", "SENT", "OPENED", "NO_EMAIL"].includes(i.state);
+                return (
+                  <span key={i.supplierId} style={{ ...pill, color, borderColor: `${color}55`, background: `${color}10` }} title={i.declineReason ?? `${who}${i.emailCount ? ` · ${i.emailCount}× email, τελευταίο ${fmt(i.lastEmailAt)}` : ""}`}>
+                    {i.supplierName} · {INVITATION_STATE_LABELS[i.state]}
+                    {canResend && <button type="button" disabled={busy} title="Αποστολή email ξανά" onClick={() => void resend(i.id)} style={{ border: "none", background: "none", color, cursor: "pointer", padding: 0, display: "inline-flex", marginLeft: 2 }}><RiMailSendLine /></button>}
+                  </span>
+                );
+              })}
             </div>
-          )}
-          {r.notes && <p style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)", margin: "8px 0 0" }}>Σημείωση: {r.notes}</p>}
-        </div>
-      ))}
+            {r.offers.length > 0 && (
+              <div style={{ marginTop: 10, display: "flex", flexDirection: "column", gap: 8 }}>
+                {r.offers.map((o) => <OfferRow key={o.id} o={o} canForward={canForward && open && o.status === "SUBMITTED" && !liveWo} onOpen={onOpen} />)}
+              </div>
+            )}
+            {r.notes && <p style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)", margin: "8px 0 0" }}>Σημείωση: {r.notes}</p>}
+          </div>
+        );
+      })}
 
-      {canCreate && active.length === 0 && workOrders.every((w) => ["DECLINED", "CANCELLED", "CONFIRMED"].includes(w.status)) && (
-        <NewRfqForm requestId={requestId} picker={picker} busy={busy} run={run} />
+      {workOrders.length === 0 && rfqs.length === 0 && (
+        <p style={{ fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)", margin: 0 }}>
+          Δεν έχει σταλεί αίτημα προσφοράς.{canSendNew ? " Πατήστε «Νέο αίτημα προσφοράς» ή «Ενέργειες → Αίτημα προσφοράς σε συνεργάτες…»." : ""}
+        </p>
       )}
     </div>
   );
 }
 
-function WorkOrderRow({ w, busy, run }: { w: WorkOrderDTO; busy: boolean; run: (fn: () => Promise<{ error?: string | null } | { ok?: boolean }>) => Promise<boolean> }) {
-  const [when, setWhen] = useState("");
+function WorkOrderRow({ w, canSchedule, canOnBehalf, onOpen }: { w: WorkOrderDTO; canSchedule: boolean; canOnBehalf: boolean; onOpen: (d: WorkDialog) => void }) {
   const color = WO_STATUS_COLORS[w.status] ?? "#6b7280";
   return (
     <div style={{ border: `1px solid ${color}55`, background: `${color}0a`, borderRadius: 10, padding: 14, marginBottom: 12 }}>
       <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-        <b style={{ fontSize: "var(--fs-14)" }}>{w.number}</b>
+        <Link href={`/admin/work-orders/${w.id}`} style={{ fontSize: "var(--fs-14)", fontWeight: 700, color: "var(--foreground)", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 4 }}><RiEyeLine /> {w.number}</Link>
         <span style={{ ...pill, color, borderColor: `${color}55` }}>{WO_STATUS_LABELS[w.status] ?? w.status}</span>
         {w.covered && <span style={pill}>καλύπτεται από σύμβαση</span>}
         <span style={{ flex: 1 }} />
@@ -125,12 +128,11 @@ function WorkOrderRow({ w, busy, run }: { w: WorkOrderDTO; busy: boolean; run: (
         <Kv k="Ραντεβού" v={fmt(w.scheduledAt)} />
         <Kv k="Παραλαβή" v={w.customerConfirmedAt ? `Επιβεβαιώθηκε ${fmt(w.customerConfirmedAt)}` : w.status === "DISPUTED" ? `Αμφισβήτηση: ${w.disputeNote}` : w.completedAt ? `Ολοκληρώθηκε ${fmt(w.completedAt)} — αναμένει πελάτη` : "—"} />
       </div>
-      {["ACCEPTED", "SCHEDULED"].includes(w.status) && (
-        <div style={{ display: "flex", gap: 8, alignItems: "flex-end", marginTop: 10, maxWidth: 420 }}>
-          <div style={{ flex: 1 }}><FormField label={w.scheduledAt ? "Αλλαγή ραντεβού" : "Ορισμός ημερομηνίας επισκευής"}><FieldInput type="datetime-local" value={when} onChange={setWhen} /></FormField></div>
-          <button disabled={busy || !when} style={btn} onClick={() => run(() => scheduleWorkOrder(w.id, new Date(when).toISOString()))}><RiCalendarCheckLine /> Ορισμός</button>
-        </div>
-      )}
+      <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 10 }}>
+        {canOnBehalf && w.status === "PENDING_CUSTOMER" && <button type="button" style={btn} onClick={() => onOpen("wo-respond")}><RiCheckDoubleLine /> Αποδοχή / απόρριψη εκ μέρους πελάτη…</button>}
+        {canSchedule && ["ACCEPTED", "SCHEDULED"].includes(w.status) && <button type="button" style={btn} onClick={() => onOpen("wo-schedule")}><RiCalendarCheckLine /> {w.scheduledAt ? "Αλλαγή ραντεβού έργου…" : "Προγραμματισμός έργου…"}</button>}
+        {canOnBehalf && w.status === "COMPLETED" && <button type="button" style={btn} onClick={() => onOpen("wo-confirm")}><RiShieldCheckLine /> Παραλαβή έργου εκ μέρους πελάτη…</button>}
+      </div>
       {w.completionMedia.length > 0 && (
         <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginTop: 10 }}>
           {w.completionMedia.map((m, i) => <a key={i} href={m.url} target="_blank" rel="noreferrer"><img src={m.url} alt="" style={{ width: 84, height: 64, objectFit: "cover", borderRadius: 6, border: "1px solid var(--border)" }} /></a>)}
@@ -140,18 +142,7 @@ function WorkOrderRow({ w, busy, run }: { w: WorkOrderDTO; busy: boolean; run: (
   );
 }
 
-function OfferRow({ o, rfqStatus, handledBy, defaults, busy, run, alreadyForwarded }: { o: OfferDTO; rfqStatus: string; handledBy: string; defaults: RfqPanelDefaults; busy: boolean; run: (fn: () => Promise<{ error?: string | null } | { id?: string }>) => Promise<boolean>; alreadyForwarded: boolean }) {
-  const [open, setOpen] = useState(false);
-  const [markup, setMarkup] = useState(String(defaults.markupPct));
-  const [covered, setCovered] = useState(handledBy === "COMPANY");
-  const [travel, setTravel] = useState(String(defaults.building.travelFee));
-  const [price, setPrice] = useState(String(round2(applyMarkup(o.amount, defaults.markupPct) + defaults.building.travelFee)));
-  const [message, setMessage] = useState("");
-  const canForward = o.status === "SUBMITTED" && ["OPEN", "OFFERED"].includes(rfqStatus) && !alreadyForwarded;
-  const recalc = (mk: string, tr: string) => { const m = Number(mk), t = Number(tr); if (Number.isFinite(m)) setPrice(String(round2(applyMarkup(o.amount, m) + (Number.isFinite(t) ? Math.max(0, t) : 0)))); };
-  const setMk = (v: string) => { setMarkup(v); recalc(v, travel); };
-  const setTr = (v: string) => { setTravel(v); recalc(markup, v); };
-  const bd = defaults.building;
+function OfferRow({ o, canForward, onOpen }: { o: OfferDTO; canForward: boolean; onOpen: (d: WorkDialog) => void }) {
   return (
     <div style={{ border: "1px solid var(--border)", borderRadius: 8, padding: "10px 12px", background: o.status === "SELECTED" ? "#15803d0a" : "var(--card)" }}>
       <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", fontSize: "var(--fs-13)" }}>
@@ -163,55 +154,9 @@ function OfferRow({ o, rfqStatus, handledBy, defaults, busy, run, alreadyForward
         <span style={{ color: "var(--muted-foreground)" }}>από {fmtD(o.earliestDate)} · ισχύει έως {fmtD(o.validUntil)}{o.estimatedMinutes ? ` · ~${o.estimatedMinutes}′` : ""}</span>
         <span style={pill}>{OFFER_STATUS_LABELS[o.status] ?? o.status}</span>
         <span style={{ flex: 1 }} />
-        {canForward && <button style={btnPrimary} disabled={busy} onClick={() => setOpen((v) => !v)}><RiSendPlaneLine /> Προώθηση στον πελάτη</button>}
+        {canForward && <button type="button" style={btnPrimary} onClick={() => onOpen("forward-offer")}><RiSendPlaneLine /> Προώθηση στον πελάτη…</button>}
       </div>
       {o.description && <p style={{ fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)", margin: "6px 0 0", whiteSpace: "pre-wrap" }}>{o.description}</p>}
-      {open && canForward && (
-        <div style={{ marginTop: 10, paddingTop: 10, borderTop: "1px dashed var(--border)", display: "flex", flexDirection: "column", gap: 10 }}>
-          <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: "var(--fs-13)", cursor: "pointer" }}>
-            <input type="checkbox" checked={covered} onChange={(e) => setCovered(e.target.checked)} /> Καλύπτεται από τη σύμβαση διαχείρισης — χωρίς χρέωση/αποδοχή πελάτη, άμεση ανάθεση
-          </label>
-          {!covered && (
-            <div style={{ display: "grid", gridTemplateColumns: "120px 150px 160px 1fr", gap: 10, alignItems: "end" }}>
-              <FormField label="Περιθώριο %"><FieldInput type="number" value={markup} onChange={setMk} /></FormField>
-              <FormField label={`Μετάβαση (καθ.) · ${bd.zoneLabel}`}><FieldInput type="number" value={travel} onChange={setTr} /></FormField>
-              <FormField label="Τιμή πελάτη (καθ.)"><FieldInput type="number" value={price} onChange={setPrice} /></FormField>
-              <div style={{ fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)", paddingBottom: 8 }}>
-                Ο πελάτης θα δει <b style={{ color: "var(--foreground)" }}>{eur(Number(price) || 0)} + ΦΠΑ = {eur(withVat(Number(price) || 0, o.vatPct))}</b> · κέρδος {eur((Number(price) || 0) - o.amount - (Number(travel) || 0))}
-                <span style={{ display: "block" }}>Κτήριο: {formatDistance(bd.distanceKm, bd.distanceMinutes, bd.distanceMethod)}{bd.distanceKm == null ? " — χωρίς απόσταση, χωρίς χρέωση μετάβασης" : ` · ${bd.zoneLabel}`}</span>
-              </div>
-            </div>
-          )}
-          <FormField label="Μήνυμα προς τον πελάτη (προαιρετικά)"><FieldTextarea value={message} onChange={setMessage} rows={2} placeholder="π.χ. Περιλαμβάνει υλικά και εργασία· εγγύηση 6 μήνες." /></FormField>
-          <div><button style={btnPrimary} disabled={busy} onClick={() => run(() => forwardOffer(o.id, { markupPct: Number(markup), customerPrice: Number(price), message, covered, warrantyMonths: defaults.warrantyMonths, travelFee: Number(travel) || 0 }))}><RiSendPlaneLine /> {covered ? "Ανάθεση χωρίς χρέωση" : "Αποστολή προσφοράς στον πελάτη"}</button></div>
-        </div>
-      )}
-    </div>
-  );
-}
-
-function NewRfqForm({ requestId, picker, busy, run }: { requestId: string; picker: RfqPickerData; busy: boolean; run: (fn: () => Promise<{ error?: string | null } | { id?: string }>) => Promise<boolean> }) {
-  const [sel, setSel] = useState<Set<string>>(new Set());
-  const [deadline, setDeadline] = useState("");
-  const [survey, setSurvey] = useState(false);
-  const [notes, setNotes] = useState("");
-  return (
-    <div style={{ borderTop: "1px dashed var(--border)", paddingTop: 12 }}>
-      <div style={{ fontSize: "var(--fs-13)", fontWeight: 700, marginBottom: 6 }}>Νέο αίτημα προσφοράς σε συνεργάτες</div>
-      <p style={{ fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)", margin: "0 0 8px" }}>Η λίστα είναι ταξινομημένη κατά καταλληλότητα. Κάθε συνεργάτης λαμβάνει email με προσωπικό link (14 ημέρες) και απαντά με τιμή και διαθεσιμότητα.</p>
-      <RfqSupplierPicker candidates={picker.candidates} categories={picker.categories} defaultCategoryId={picker.defaultCategoryId} selected={sel} onChange={setSel} />
-      <div style={{ display: "grid", gridTemplateColumns: "220px 1fr", gap: 10, marginTop: 10, alignItems: "end" }}>
-        <FormField label="Προθεσμία απάντησης"><FieldInput type="datetime-local" value={deadline} onChange={setDeadline} /></FormField>
-        <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: "var(--fs-13)", cursor: "pointer", paddingBottom: 8 }}>
-          <input type="checkbox" checked={survey} onChange={(e) => setSurvey(e.target.checked)} /> Ζητείται αυτοψία πριν την προσφορά
-        </label>
-      </div>
-      <FormField label="Σημείωση προς τους συνεργάτες (προαιρετικά)"><FieldTextarea value={notes} onChange={setNotes} rows={2} /></FormField>
-      <div style={{ marginTop: 8 }}>
-        <button style={btnPrimary} disabled={busy || sel.size === 0} onClick={() => run(() => createRfq({ maintenanceRequestId: requestId, supplierIds: [...sel], deadlineAt: deadline ? new Date(deadline).toISOString() : null, surveyRequired: survey, notes }))}>
-          <RiSendPlaneLine /> Αποστολή σε {sel.size} συνεργάτ{sel.size === 1 ? "η" : "ες"}
-        </button>
-      </div>
     </div>
   );
 }
@@ -223,6 +168,6 @@ function Kv({ k, v }: { k: string; v: string }) {
 const card: React.CSSProperties = { background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius-lg)", padding: 18 };
 const h3: React.CSSProperties = { fontSize: "var(--fs-13)", fontWeight: 700, color: "var(--foreground)", margin: "0 0 12px", display: "flex", alignItems: "center", gap: 6 };
 const pill: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 4, fontSize: "var(--fs-11)", fontWeight: 700, padding: "2px 8px", borderRadius: 999, border: "1px solid var(--border)", background: "var(--paper)", color: "var(--foreground)" };
-const btn: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 6, height: 32, padding: "0 12px", border: "1px solid var(--border)", background: "var(--paper)", borderRadius: "var(--radius-sm)", fontSize: "var(--fs-12-5)", fontWeight: 600, cursor: "pointer", color: "var(--foreground)" };
+const btn: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 6, minHeight: 32, padding: "0 12px", border: "1px solid var(--border)", background: "var(--paper)", borderRadius: "var(--radius-sm)", fontSize: "var(--fs-12-5)", fontWeight: 600, cursor: "pointer", color: "var(--foreground)", fontFamily: "inherit" };
 const btnPrimary: React.CSSProperties = { ...btn, background: "var(--primary)", color: "var(--primary-foreground)", border: "none" };
 const link: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 4, fontSize: "var(--fs-12)", color: "var(--color-primary)", textDecoration: "none" };

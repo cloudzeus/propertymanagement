@@ -49,7 +49,6 @@ export default async function PortalMaintenanceDetailPage({ params }: { params: 
       <RequestDetail
         request={detail}
         viewer={{ id: userId, role, isStaff: false, canManage, canAssign: false }}
-        employees={[]}
       />
     </div>
   );

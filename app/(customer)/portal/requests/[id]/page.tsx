@@ -28,7 +28,6 @@ export default async function PortalRequestDetailPage({ params }: { params: Prom
       <RequestDetail
         request={detail}
         viewer={{ id: userId, role, isStaff: false, canManage: false, canAssign: false }}
-        employees={[]}
       />
     </div>
   );

@@ -14,7 +14,7 @@ import { loadFaultDetail } from "@/lib/maintenance-requests";
 import { loadRfqPanel, woInclude, workOrderToCompanyDTO } from "@/lib/rfq";
 import { listRfqCandidates } from "@/lib/rfq-candidates";
 import { describeRank } from "@/lib/supplier-ranking";
-import type { RfqDTO, WorkOrderDTO, RfqCandidateDTO } from "@/lib/rfq-shared";
+import type { RfqDTO, WorkOrderDTO, RfqCandidateDTO, RfqPanelDefaults } from "@/lib/rfq-shared";
 import type { FaultDetail } from "@/components/maintenance/types";
 
 export type RfqPickerData = { candidates: RfqCandidateDTO[]; categories: { id: string; name: string }[]; defaultCategoryId: string | null };
@@ -31,8 +31,10 @@ export type WorkActionContext = {
   picker: RfqPickerData;
   rfqs: RfqDTO[];
   workOrders: WorkOrderDTO[];
-  defaults: { markupPct: number; warrantyMonths: number };
+  defaults: RfqPanelDefaults;
 };
+
+const NO_DEFAULTS: RfqPanelDefaults = { markupPct: 15, warrantyMonths: 6, building: { distanceKm: null, distanceMinutes: null, distanceMethod: null, zoneCode: null, zoneLabel: "", travelFee: 0 } };
 
 const ASSIGN_ROLES = ["SUPER_ADMIN", "ADMIN", "MANAGER"];
 const MODULE: Record<"fault" | "work-order" | "rfq", string> = { fault: "maintenance", "work-order": "work-orders", rfq: "rfq" };
@@ -102,6 +104,6 @@ export async function loadWorkActionContext(subject: { kind: "fault" | "work-ord
     picker: canRfqCreate ? picker : EMPTY_PICKER,
     rfqs: panel?.rfqs ?? [],
     workOrders: panel?.workOrders ?? (soleWorkOrder ? [soleWorkOrder] : []),
-    defaults: panel?.defaults ?? { markupPct: 15, warrantyMonths: 6 },
+    defaults: panel?.defaults ?? NO_DEFAULTS,
   };
 }
