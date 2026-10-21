@@ -13,7 +13,8 @@ type Ctx = { pathname: string; role: string; allowed: Set<string>; canExpense: b
 const A = {
   report: { key: "report", label: "Δήλωση βλάβης", icon: "RiAlarmWarningLine", href: "/report", hint: "Με φωτογραφία από το κινητό" },
   expense: { key: "expense", label: "Νέο έξοδο", icon: "RiMoneyEuroCircleLine", kind: "expense" as const, hint: "OCR τιμολογίου" },
-  faults: { key: "faults", label: "Βλάβες & συντηρήσεις", icon: "RiToolsLine", href: "/admin/maintenance" },
+  work: { key: "work", label: "Κέντρο εργασιών", icon: "RiTaskLine", href: "/admin/work", hint: "Όλες οι εκκρεμότητες" },
+  faults: { key: "faults", label: "Βλάβες & αιτήματα", icon: "RiToolsLine", href: "/admin/maintenance" },
   workOrders: { key: "work-orders", label: "Συμβάσεις έργου", icon: "RiFileTextLine", href: "/admin/work-orders" },
   programme: { key: "programme", label: "Ετήσιο πρόγραμμα", icon: "RiCalendarTodoLine", href: "/admin/maintenance-program" },
   calendar: { key: "calendar", label: "Ημερολόγιο", icon: "RiCalendarLine", href: "/staff/calendar" },
@@ -60,6 +61,7 @@ const STAFF = ["SUPER_ADMIN", "ADMIN", "MANAGER", "EMPLOYEE"];
 
 /** Section title shown at the top of the menu. */
 export function quickActionsTitle(pathname: string, role: string): string {
+  if (pathname.startsWith("/admin/work")) return "Κέντρο εργασιών";
   if (pathname.startsWith("/admin/maintenance-program")) return "Πρόγραμμα συντηρήσεων";
   if (pathname.startsWith("/admin/maintenance") || pathname.startsWith("/admin/work-orders")) return "Βλάβες & συμβάσεις";
   if (pathname.startsWith("/super-admin/suppliers")) return "Συνεργάτες";
@@ -82,9 +84,10 @@ export function resolveQuickActions(ctx: Ctx): QuickAction[] {
   let picks: QuickAction[];
 
   if (STAFF.includes(role)) {
-    if (p.startsWith("/admin/maintenance-program")) picks = [A.faults, A.workOrders, A.calendar, A.suppliers, A.report];
-    else if (p.startsWith("/admin/work-orders")) picks = [A.faults, A.contracts, A.suppliers, A.programme];
-    else if (p.startsWith("/admin/maintenance")) picks = [A.report, A.workOrders, A.programme, A.maintSettings, A.suppliers];
+    if (p.startsWith("/admin/work")) picks = [A.report, A.faults, A.workOrders, A.programme, A.calendar];
+    else if (p.startsWith("/admin/maintenance-program")) picks = [A.faults, A.workOrders, A.calendar, A.suppliers, A.report];
+    else if (p.startsWith("/admin/work-orders")) picks = [A.faults, A.work, A.contracts, A.suppliers, A.programme];
+    else if (p.startsWith("/admin/maintenance")) picks = [A.report, A.work, A.workOrders, A.programme, A.maintSettings];
     else if (p.startsWith("/super-admin/suppliers")) picks = [A.catalog, A.faults, A.workOrders, A.contracts];
     else if (p.startsWith("/super-admin/cms")) picks = [A.cmsArticles, A.cmsMedia, A.cmsLanding, A.cmsNewsletter];
     else if (p.startsWith("/super-admin/settings") || p.startsWith("/super-admin/roles") || p.startsWith("/super-admin/users")) picks = [A.users, A.roles, A.contracts, A.cron];
@@ -94,7 +97,7 @@ export function resolveQuickActions(ctx: Ctx): QuickAction[] {
     else if (p.startsWith("/staff/calendar")) picks = [A.programme, A.faults, A.report, A.announcement];
     else if (p.startsWith("/admin/announcements")) picks = [A.properties, A.calendar, A.report];
     else if (p.startsWith("/staff/help")) picks = [A.report, A.faults, A.calendar];
-    else picks = [A.report, A.expense, A.faults, A.printables, A.announcement]; // dashboards
+    else picks = [A.work, A.report, A.expense, A.faults, A.announcement]; // dashboards
   } else if (role === "PROPERTY_ADMIN") {
     if (p.startsWith("/building/suppliers")) picks = [A.report, A.myMaintenance, A.expense];
     else if (p.startsWith("/portal/maintenance") || p.includes("s=maintenance")) picks = [A.report, A.mySuppliers, A.expense, A.myAnnouncement];

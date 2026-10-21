@@ -58,9 +58,9 @@ export async function ManagerHome({ companyId }: { companyId: string | undefined
       <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16 }}>
         {[
           { label: "Ακίνητα", value: stats.totalProperties, sub: "Υπό διαχείριση", icon: RiBuildingLine, href: "/manager/properties", color: "#8764B8" },
-          { label: "Μονάδες", value: stats.totalUnits, sub: "Σύνολο", icon: RiHome3Line, href: "/manager/units", color: "#038387" },
-          { label: "Ανοιχτά Αιτήματα", value: stats.openMaintenance, sub: "Αναμένουν ανάθεση", icon: RiCheckboxCircleLine, href: "/manager/maintenance", color: "#CA5D00" },
-          { label: "Σε Εξέλιξη", value: stats.inProgressMaintenance, sub: "Εργασίες σε εξέλιξη", icon: RiTimeLine, href: "/manager/maintenance", color: "#0078D4" },
+          { label: "Μονάδες", value: stats.totalUnits, sub: "Σύνολο", icon: RiHome3Line, href: "/super-admin/units", color: "#038387" },
+          { label: "Ανοιχτά Αιτήματα", value: stats.openMaintenance, sub: "Αναμένουν ανάθεση", icon: RiCheckboxCircleLine, href: "/admin/maintenance", color: "#CA5D00" },
+          { label: "Σε Εξέλιξη", value: stats.inProgressMaintenance, sub: "Εργασίες σε εξέλιξη", icon: RiTimeLine, href: "/admin/maintenance", color: "#0078D4" },
         ].map((card) => {
           const Icon = card.icon;
           return (
@@ -81,7 +81,7 @@ export async function ManagerHome({ companyId }: { companyId: string | undefined
         <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius)", padding: 24 }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
             <h2 style={{ fontSize: "var(--fs-15)", fontWeight: 600, color: "var(--foreground)", margin: 0 }}>Εκκρεμή Αιτήματα Συντήρησης</h2>
-            <Link href="/manager/maintenance" style={{ fontSize: "var(--fs-12)", color: "var(--color-primary)", display: "flex", alignItems: "center", gap: 4, textDecoration: "none" }}>
+            <Link href="/admin/maintenance" style={{ fontSize: "var(--fs-12)", color: "var(--color-primary)", display: "flex", alignItems: "center", gap: 4, textDecoration: "none" }}>
               Όλα <RiArrowRightLine />
             </Link>
           </div>
@@ -114,7 +114,7 @@ export async function ManagerHome({ companyId }: { companyId: string | undefined
             <h2 style={{ fontSize: "var(--fs-14)", fontWeight: 600, color: "var(--foreground)", margin: "0 0 12px" }}>Ανακοινώσεις</h2>
             <div style={{ fontSize: "var(--fs-32)", fontWeight: 700, color: "var(--color-primary)" }}>{stats.activeAnnouncements}</div>
             <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)", marginTop: 4 }}>Ενεργές</div>
-            <Link href="/manager/announcements" style={{ display: "flex", alignItems: "center", gap: 4, marginTop: 12, fontSize: "var(--fs-12)", color: "var(--color-primary)", textDecoration: "none" }}>
+            <Link href="/admin/announcements" style={{ display: "flex", alignItems: "center", gap: 4, marginTop: 12, fontSize: "var(--fs-12)", color: "var(--color-primary)", textDecoration: "none" }}>
               Διαχείριση <RiArrowRightLine />
             </Link>
           </div>
@@ -122,8 +122,8 @@ export async function ManagerHome({ companyId }: { companyId: string | undefined
             <h2 style={{ fontSize: "var(--fs-14)", fontWeight: 600, color: "var(--foreground)", margin: "0 0 12px" }}>Γρήγορες Ενέργειες</h2>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               {[
-                { label: "Νέα Ανακοίνωση", href: "/manager/announcements", icon: RiNotification2Line },
-                { label: "Νέο Αίτημα", href: "/manager/maintenance", icon: RiToolsLine },
+                { label: "Νέα Ανακοίνωση", href: "/admin/announcements", icon: RiNotification2Line },
+                { label: "Νέο Αίτημα", href: "/admin/maintenance", icon: RiToolsLine },
               ].map((link) => {
                 const Icon = link.icon;
                 return (

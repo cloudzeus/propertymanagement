@@ -34,10 +34,10 @@ async function getAdminContext(companyId: string | undefined) {
 }
 
 const quickLinks = [
-  { label: "Ενοικιαστές", href: "/admin/residents", icon: RiUserLine, color: "#8764B8" },
+  { label: "Ένοικοι & ιδιοκτήτες", href: "/admin/residents", icon: RiUserLine, color: "#8764B8" },
   { label: "Ανακοινώσεις", href: "/admin/announcements", icon: RiNotification2Line, color: "#0078D4" },
-  { label: "Ημερολόγιο", href: "/admin/calendar", icon: RiCalendarLine, color: "#107C10" },
-  { label: "Αναφορές", href: "/admin/reports", icon: RiBuildingLine, color: "#CA5D00" },
+  { label: "Ημερολόγιο", href: "/staff/calendar", icon: RiCalendarLine, color: "#107C10" },
+  { label: "Αναφορές", href: "/super-admin/reports", icon: RiBuildingLine, color: "#CA5D00" },
 ];
 
 /**

@@ -60,9 +60,9 @@ export async function StaffHome({ userId, companyId }: { userId: string; company
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
         {[
-          { label: "Οι Εργασίες μου", value: stats.myTasks, sub: "Ανατεθειμένες", icon: RiFileListLine, href: "/staff/tasks", color: "#0078D4" },
-          { label: "Σε Εξέλιξη", value: stats.inProgress, sub: "Εκτελούνται τώρα", icon: RiTimeLine, href: "/staff/tasks", color: "#CA5D00" },
-          { label: "Ανοιχτά (Εταιρεία)", value: stats.openMaintenance, sub: "Αναμένουν ανάθεση", icon: RiToolsLine, href: "/staff/maintenance", color: "#8764B8" },
+          { label: "Οι Εργασίες μου", value: stats.myTasks, sub: "Ανατεθειμένες", icon: RiFileListLine, href: "/admin/work?mine=1", color: "#0078D4" },
+          { label: "Σε Εξέλιξη", value: stats.inProgress, sub: "Εκτελούνται τώρα", icon: RiTimeLine, href: "/admin/work?mine=1", color: "#CA5D00" },
+          { label: "Ανοιχτά (Εταιρεία)", value: stats.openMaintenance, sub: "Αναμένουν ανάθεση", icon: RiToolsLine, href: "/admin/maintenance", color: "#8764B8" },
         ].map((card) => {
           const Icon = card.icon;
           return (
@@ -81,7 +81,7 @@ export async function StaffHome({ userId, companyId }: { userId: string; company
       <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius)", padding: 24 }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
           <h2 style={{ fontSize: "var(--fs-15)", fontWeight: 600, color: "var(--foreground)", margin: 0 }}>Οι Εκκρεμείς Εργασίες μου</h2>
-          <Link href="/staff/tasks" style={{ fontSize: "var(--fs-12)", color: "var(--color-primary)", display: "flex", alignItems: "center", gap: 4, textDecoration: "none" }}>
+          <Link href="/admin/work?mine=1" style={{ fontSize: "var(--fs-12)", color: "var(--color-primary)", display: "flex", alignItems: "center", gap: 4, textDecoration: "none" }}>
             Όλες <RiArrowRightLine />
           </Link>
         </div>

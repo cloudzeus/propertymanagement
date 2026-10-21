@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
-import { resolveQuickActions } from "./quick-actions";
+import { resolveQuickActions, quickActionsTitle } from "./quick-actions";
 
-const allowed = new Set(["/admin/maintenance", "/admin/work-orders", "/admin/maintenance-program", "/super-admin/suppliers", "/admin/announcements", "/super-admin/onboarding", "/marketplace/rfq", "/marketplace/work-orders", "/marketplace/requests"]);
+const allowed = new Set(["/admin/maintenance", "/admin/work-orders", "/admin/maintenance-program", "/super-admin/suppliers", "/admin/announcements", "/super-admin/onboarding", "/marketplace/rfq", "/marketplace/work-orders", "/marketplace/requests", "/admin/work"]);
 
 describe("quick actions", () => {
   it("differs per page for staff", () => {
@@ -22,5 +22,13 @@ describe("quick actions", () => {
   });
   it("never returns more than five", () => {
     expect(resolveQuickActions({ pathname: "/super-admin", role: "SUPER_ADMIN", allowed, canExpense: true }).length).toBeLessThanOrEqual(5);
+  });
+  it("dashboards and fault pages offer the work center; the work center page offers faults/work orders/programme", () => {
+    const dash = resolveQuickActions({ pathname: "/admin", role: "ADMIN", allowed, canExpense: true }).map((a) => a.key);
+    expect(dash).toContain("work");
+    const work = resolveQuickActions({ pathname: "/admin/work", role: "EMPLOYEE", allowed, canExpense: false }).map((a) => a.key);
+    expect(work).not.toContain("work");
+    expect(work).toEqual(expect.arrayContaining(["report", "faults"]));
+    expect(quickActionsTitle("/admin/work", "ADMIN")).toBe("Κέντρο εργασιών");
   });
 });
