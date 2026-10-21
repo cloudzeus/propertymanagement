@@ -9,6 +9,7 @@ import {
   type SupplierDTO, type SupplierFormInput, type SupplierKind, type WorkingHours,
 } from "@/lib/suppliers-shared";
 import { RiCheckLine, RiLoaderLine } from "react-icons/ri";
+import type { DistanceZone } from "@/lib/distance/zones";
 
 export type CategoryOption = { id: string; name: string };
 
@@ -19,7 +20,7 @@ type Section = "basic" | "contact" | "address" | "specialties" | "payment" | "ho
  * the manager's private list (/building/suppliers) and the supplier's own
  * profile (/marketplace/profile). `scope` decides where a NEW row lands.
  */
-export function SupplierFormModal({ editing, scope, categories, onClose, onDone, hide = [] }: {
+export function SupplierFormModal({ editing, scope, categories, onClose, onDone, hide = [], zones = [] }: {
   editing: SupplierDTO | null;
   scope: "company" | "private";
   categories: CategoryOption[];
@@ -27,6 +28,8 @@ export function SupplierFormModal({ editing, scope, categories, onClose, onDone,
   onDone: () => void;
   /** sections not relevant for this caller (e.g. payment for private cards) */
   hide?: Section[];
+  /** Οι ζώνες απόστασης της εταιρείας — όταν δίνονται, εμφανίζεται ο πίνακας προσαύξησης αυτοψίας ανά ζώνη. */
+  zones?: DistanceZone[];
 }) {
   const [form, setForm] = useState({
     kind: (editing?.kind ?? "SERVICES") as SupplierKind,
@@ -39,6 +42,7 @@ export function SupplierFormModal({ editing, scope, categories, onClose, onDone,
     remarks: editing?.remarks ?? "",
   });
   const [surveyWaived, setSurveyWaived] = useState(editing?.siteSurveyFeeWaived ?? true);
+  const [zoneFees, setZoneFees] = useState<Record<string, string>>(Object.fromEntries(Object.entries(editing?.surveyZoneFees ?? {}).map(([k, v]) => [k, String(v)])));
   const [isActive, setIsActive] = useState(editing?.isActive ?? true);
   const [emergency24h, setEmergency24h] = useState(editing?.emergency24h ?? false);
   const [hours, setHours] = useState<WorkingHours>(editing?.workingHours ?? {});
@@ -57,6 +61,7 @@ export function SupplierFormModal({ editing, scope, categories, onClose, onDone,
       paymentTermsDays: form.paymentTermsDays.trim() ? Number(form.paymentTermsDays) : null,
       siteSurveyFee: form.siteSurveyFee.trim() ? Number(form.siteSurveyFee.replace(",", ".")) : null,
       siteSurveyFeeWaived: surveyWaived,
+      ...(zones.length ? { surveyZoneFees: Object.fromEntries(zones.map((z) => [z.code, Number((zoneFees[z.code] ?? "0").replace(",", ".")) || 0])) } : {}),
     };
     startTransition(async () => {
       const res = editing ? await updateSupplier(editing.id, payload) : await createSupplier(payload, scope);
@@ -141,6 +146,19 @@ export function SupplierFormModal({ editing, scope, categories, onClose, onDone,
                 <label style={chk}><input type="checkbox" checked={surveyWaived} onChange={(e) => setSurveyWaived(e.target.checked)} /> Η αυτοψία συμψηφίζεται αν ανατεθεί η εργασία</label>
               </div>
             </div>
+            {zones.length > 0 && (
+              <div style={{ marginTop: 10, border: "1px solid var(--border)", borderRadius: 8, padding: "10px 12px", display: "flex", flexDirection: "column", gap: 8 }}>
+                <div style={{ fontSize: "var(--fs-12)", fontWeight: 700, color: "var(--foreground)" }}>Προσαύξηση αυτοψίας ανά ζώνη απόστασης (€ καθ.)</div>
+                <div style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)" }}>Κενό = 0. Οι ζώνες είναι της εταιρείας διαχείρισης, μετρημένες από τη δική σας έδρα ως το κτήριο· η προσφορά προσυμπληρώνει αυτοψία = βασική + ποσό ζώνης.</div>
+                <div style={grid3}>
+                  {zones.map((z) => (
+                    <FormField key={z.code} label={`${z.label}${z.maxKm != null ? ` (έως ${z.maxKm} km)` : " (και άνω)"}`}>
+                      <FieldInput type="number" value={zoneFees[z.code] ?? ""} onChange={(v) => setZoneFees((p) => ({ ...p, [z.code]: v }))} placeholder="0" />
+                    </FormField>
+                  ))}
+                </div>
+              </div>
+            )}
           </Section>
         )}
 

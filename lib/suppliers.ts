@@ -110,6 +110,7 @@ export function supplierToDTO(r: SupplierRow): SupplierDTO {
     iban: r.iban, bank: r.bank, paymentTermsDays: r.paymentTermsDays,
     siteSurveyFee: r.siteSurveyFee != null ? Number(r.siteSurveyFee) : null,
     siteSurveyFeeWaived: r.siteSurveyFeeWaived,
+    surveyZoneFees: (r.surveyZoneFees as Record<string, number> | null) ?? null,
     workingHours: r.workingHours ? normalizeWorkingHours(r.workingHours) : null,
     emergency24h: r.emergency24h,
     lat: r.lat, lng: r.lng, ratingAvg: r.ratingAvg, ratingCount: r.ratingCount,

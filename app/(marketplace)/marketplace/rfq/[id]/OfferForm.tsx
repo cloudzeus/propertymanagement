@@ -15,7 +15,7 @@ const fmt = (iso: string | null) => (iso ? new Date(iso).toLocaleString("el-GR",
 const toInput = (iso: string | null) => (iso ? iso.slice(0, 10) : "");
 const plus = (days: number) => { const d = new Date(); d.setDate(d.getDate() + days); return d.toISOString().slice(0, 10); };
 
-export function OfferForm({ rfq, invitation, myOffer, defaults }: { rfq: Rfq; invitation: { status: string; declineReason: string | null }; myOffer: Offer; canOffer: boolean; defaults: { surveyFee: number | null; surveyWaived: boolean } }) {
+export function OfferForm({ rfq, invitation, myOffer, defaults }: { rfq: Rfq; invitation: { status: string; declineReason: string | null }; myOffer: Offer; canOffer: boolean; defaults: { surveyFee: number | null; surveyWaived: boolean; distance: { label: string; zoneLabel: string; zoneFee: number } | null } }) {
   const router = useRouter();
   const [amount, setAmount] = useState(myOffer ? String(myOffer.amount) : "");
   const [vat, setVat] = useState(String(myOffer?.vatPct ?? 24));
@@ -84,7 +84,7 @@ export function OfferForm({ rfq, invitation, myOffer, defaults }: { rfq: Rfq; in
               <FormField label="Εκτιμώμενη διάρκεια (λεπτά)"><FieldInput type="number" value={minutes} onChange={setMinutes} placeholder="π.χ. 120" /></FormField>
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "180px 1fr", gap: 10, alignItems: "end", background: "var(--paper)", borderRadius: 8, padding: "10px 12px" }}>
-              <FormField label="Χρέωση αυτοψίας (€)" hint="κενό = δωρεάν"><FieldInput type="number" value={survey} onChange={setSurvey} /></FormField>
+              <FormField label="Χρέωση αυτοψίας (€)" hint={defaults.distance ? `Απόσταση από την έδρα σας: ${defaults.distance.label} · ${defaults.distance.zoneLabel}${defaults.distance.zoneFee > 0 ? ` (+${eur(defaults.distance.zoneFee)})` : ""}` : "κενό = δωρεάν"}><FieldInput type="number" value={survey} onChange={setSurvey} /></FormField>
               <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: "var(--fs-13)", cursor: "pointer", paddingBottom: 8 }}><input type="checkbox" checked={surveyWaived} onChange={(e) => setSurveyWaived(e.target.checked)} /> Συμψηφίζεται αν μου ανατεθεί η εργασία</label>
             </div>
             <FormField label="Τι περιλαμβάνει η προσφορά" hint="Υλικά, εργασίες, εξαιρέσεις. Το βλέπει η εταιρεία διαχείρισης."><FieldTextarea value={description} onChange={setDescription} rows={3} placeholder="π.χ. Αντικατάσταση αυτόματου 16A, έλεγχος γραμμής, 2 ώρες εργασία. Δεν περιλαμβάνει μπογιάτισμα." /></FormField>

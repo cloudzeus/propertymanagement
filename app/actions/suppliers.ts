@@ -77,6 +77,17 @@ function normalizeForm(input: SupplierFormInput) {
   const terms = input.paymentTermsDays != null && Number.isFinite(Number(input.paymentTermsDays)) ? Math.max(0, Math.round(Number(input.paymentTermsDays))) : null;
   const surveyRaw: unknown = input.siteSurveyFee;
   const siteSurveyFee = surveyRaw == null || surveyRaw === "" || !Number.isFinite(Number(surveyRaw)) ? null : Math.max(0, Number(surveyRaw));
+  // Προσαύξηση αυτοψίας ανά ζώνη: κρατάμε μόνο πεπερασμένα, μη αρνητικά ποσά.
+  let surveyZoneFees: Record<string, number> | null | undefined;
+  if (input.surveyZoneFees === undefined) surveyZoneFees = undefined;
+  else if (input.surveyZoneFees === null) surveyZoneFees = null;
+  else {
+    surveyZoneFees = {};
+    for (const [k, v] of Object.entries(input.surveyZoneFees)) {
+      const n = Number(String(v ?? "").replace(",", "."));
+      if (k.trim() && Number.isFinite(n) && n > 0) surveyZoneFees[k.trim()] = n;
+    }
+  }
   return {
     data: {
       kind, name,
@@ -87,6 +98,7 @@ function normalizeForm(input: SupplierFormInput) {
       contactName: clean(input.contactName), contactPhone: clean(input.contactPhone), contactEmail: clean(input.contactEmail)?.toLowerCase() ?? null,
       iban: clean(input.iban)?.replace(/\s+/g, "").toUpperCase() ?? null, bank: clean(input.bank), paymentTermsDays: terms,
       siteSurveyFee, siteSurveyFeeWaived: input.siteSurveyFeeWaived ?? true,
+      surveyZoneFees,
       workingHours: input.workingHours === undefined ? undefined : (input.workingHours ? normalizeWorkingHours(input.workingHours) : null),
       emergency24h: input.emergency24h ?? false,
     },
@@ -123,6 +135,7 @@ export async function createSupplier(input: SupplierFormInput, scope: "company" 
     data: {
       ...n.data, customerId,
       workingHours: n.data.workingHours ?? undefined,
+      surveyZoneFees: n.data.surveyZoneFees ?? undefined,
       lat: geo?.lat ?? null, lng: geo?.lng ?? null,
       ...(n.categoryIds?.length ? { categories: { create: n.categoryIds.map((categoryId) => ({ categoryId })) } } : {}),
     },
@@ -150,12 +163,13 @@ export async function updateSupplier(id: string, input: SupplierFormInput) {
   const geo = addrChanged || prev?.lat == null ? await geocodeSupplierAddress(n.data) : null;
 
   await db.$transaction(async (tx) => {
-    const { workingHours, ...rest } = n.data;
+    const { workingHours, surveyZoneFees, ...rest } = n.data;
     await tx.supplier.update({
       where: { id },
       data: {
         ...rest,
         ...(workingHours === undefined ? {} : { workingHours: workingHours ?? Prisma.DbNull }),
+        ...(surveyZoneFees === undefined ? {} : { surveyZoneFees: surveyZoneFees ?? Prisma.DbNull }),
         ...(geo ? { lat: geo.lat, lng: geo.lng } : addrChanged ? { lat: null, lng: null } : {}),
       },
     });

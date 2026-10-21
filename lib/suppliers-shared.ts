@@ -125,6 +125,8 @@ export type SupplierDTO = {
   siteSurveyFee: number | null;
   /** Η αυτοψία συμψηφίζεται αν ανατεθεί η εργασία */
   siteSurveyFeeWaived: boolean;
+  /** Προσαύξηση αυτοψίας ανά ζώνη απόστασης (κωδικός ζώνης → €), από την έδρα του συνεργάτη */
+  surveyZoneFees: Record<string, number> | null;
   workingHours: WorkingHours | null;
   emergency24h: boolean;
   lat: number | null;
@@ -177,6 +179,8 @@ export type SupplierFormInput = {
   paymentTermsDays?: number | null;
   siteSurveyFee?: number | null;
   siteSurveyFeeWaived?: boolean;
+  /** undefined = άθικτο, null = καθαρισμός */
+  surveyZoneFees?: Record<string, number> | null;
   workingHours?: WorkingHours | null;
   emergency24h?: boolean;
   categoryIds?: string[];

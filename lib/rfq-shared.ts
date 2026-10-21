@@ -97,6 +97,8 @@ export type OfferDTO = {
   surveyFee: number | null; surveyWaived: boolean; description: string | null; estimatedMinutes: number | null;
   earliestDate: string | null; validUntil: string | null; status: string; createdAt: string;
   supplierRating: number | null; supplierRatingCount: number;
+  /** km από την έδρα του συνεργάτη ως το κτίριο (από το cache· null όταν δεν έχει μετρηθεί) */
+  supplierDistance?: { km: number; method: "ROAD" | "ESTIMATE" } | null;
 };
 export type RfqDTO = {
   id: string; title: string; description: string; status: string; deadlineAt: string | null; surveyRequired: boolean; notes: string | null; createdAt: string;

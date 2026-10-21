@@ -5,6 +5,8 @@ import { UnlinkedNotice } from "@/components/marketplace/UnlinkedNotice";
 import { loadSupplierRfq } from "@/lib/rfq";
 import { db } from "@/lib/db";
 import { OfferForm } from "./OfferForm";
+import { supplierToBuilding, surveyDefault } from "@/lib/distance/suppliers";
+import { formatDistance } from "@/lib/distance/zones";
 import { RiArrowLeftLine } from "react-icons/ri";
 
 export const metadata = { title: "Αίτημα προσφοράς" };
@@ -17,12 +19,18 @@ export default async function SupplierRfqPage({ params }: { params: Promise<{ id
   if (!data) notFound();
   // mark as seen (the company sees "το είδε")
   if (!data.invitation.viewedAt) await db.rfqInvitation.update({ where: { id: data.invitation.id }, data: { viewedAt: new Date() } }).catch(() => {});
-  const sup = await db.supplier.findUnique({ where: { id: ctx.supplierId }, select: { siteSurveyFee: true, siteSurveyFeeWaived: true } });
+  const [sup, dist] = await Promise.all([
+    db.supplier.findUnique({ where: { id: ctx.supplierId }, select: { siteSurveyFee: true, siteSurveyFeeWaived: true, surveyZoneFees: true } }),
+    supplierToBuilding(ctx.supplierId, data.rfq.buildingId),
+  ]);
+  const baseSurvey = sup?.siteSurveyFee != null ? Number(sup.siteSurveyFee) : null;
+  const surveyFee = surveyDefault(baseSurvey, sup?.surveyZoneFees as Record<string, number> | null, dist?.zone?.code ?? null);
+  const distance = dist ? { label: formatDistance(dist.km, dist.minutes, dist.method), zoneLabel: dist.zone?.label ?? "χωρίς ζώνη", zoneFee: dist.zoneFee } : null;
 
   return (
     <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 14, maxWidth: 860 }}>
       <Link href="/marketplace/rfq" style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: "var(--fs-13)", color: "var(--muted-foreground)", textDecoration: "none" }}><RiArrowLeftLine /> Πίσω στα αιτήματα</Link>
-      <OfferForm rfq={data.rfq} invitation={data.invitation} myOffer={data.myOffer} canOffer={ctx.isSupplierAdmin || true} defaults={{ surveyFee: sup?.siteSurveyFee != null ? Number(sup.siteSurveyFee) : null, surveyWaived: sup?.siteSurveyFeeWaived ?? true }} />
+      <OfferForm rfq={data.rfq} invitation={data.invitation} myOffer={data.myOffer} canOffer={ctx.isSupplierAdmin || true} defaults={{ surveyFee, surveyWaived: sup?.siteSurveyFeeWaived ?? true, distance }} />
     </div>
   );
 }

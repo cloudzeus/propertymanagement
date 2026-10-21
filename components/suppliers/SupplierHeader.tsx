@@ -8,13 +8,16 @@ import {
   RiPencilLine, RiPhoneLine, RiMailLine, RiMapPinLine, RiTimeLine, RiAlarmWarningLine, RiEyeOffLine,
   RiUserLine, RiBankLine, RiGlobalLine, RiSearchEyeLine,
 } from "react-icons/ri";
+import type { DistanceZone } from "@/lib/distance/zones";
 
 /** Supplier identity card + edit button; used by the company detail page and the marketplace profile. */
-export function SupplierHeader({ supplier, categories, canEdit, showScope }: {
+export function SupplierHeader({ supplier, categories, canEdit, showScope, zones = [] }: {
   supplier: SupplierDTO;
   categories: CategoryOption[];
   canEdit: boolean;
   showScope?: boolean;
+  /** company zone table → survey surcharge editor + summary */
+  zones?: DistanceZone[];
 }) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
@@ -51,13 +54,13 @@ export function SupplierHeader({ supplier, categories, canEdit, showScope }: {
         <Info icon={RiMapPinLine} label="Διεύθυνση" value={addr} />
         <Info icon={RiTimeLine} label="Ωράριο" value={formatHoursSummary(s.workingHours)} />
         <Info icon={RiBankLine} label="Πληρωμές" value={[s.iban, s.bank, s.paymentTermsDays != null ? `${s.paymentTermsDays} ημέρες` : null].filter(Boolean).join(" · ")} />
-        <Info icon={RiSearchEyeLine} label="Αυτοψία" value={s.siteSurveyFee != null ? `${s.siteSurveyFee.toLocaleString("el-GR", { minimumFractionDigits: 2 })} € ${s.siteSurveyFeeWaived ? "(συμψηφίζεται με την εργασία)" : "(χρεώνεται πάντα)"}` : "Δωρεάν"} />
+        <Info icon={RiSearchEyeLine} label="Αυτοψία" value={`${s.siteSurveyFee != null ? `${s.siteSurveyFee.toLocaleString("el-GR", { minimumFractionDigits: 2 })} € ${s.siteSurveyFeeWaived ? "(συμψηφίζεται με την εργασία)" : "(χρεώνεται πάντα)"}` : "Δωρεάν"}${zoneSummary(s.surveyZoneFees, zones)}`} />
         {s.webpage && <Info icon={RiGlobalLine} label="Ιστοσελίδα" value={s.webpage} />}
       </div>
       {s.remarks && <p style={{ margin: "12px 0 0", fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)", whiteSpace: "pre-wrap" }}>{s.remarks}</p>}
 
       {open && (
-        <SupplierFormModal editing={s} scope={s.scope === "private" ? "private" : "company"} categories={categories}
+        <SupplierFormModal editing={s} scope={s.scope === "private" ? "private" : "company"} categories={categories} zones={zones}
           onClose={() => setOpen(false)} onDone={() => { setOpen(false); router.refresh(); }} />
       )}
     </div>
@@ -79,3 +82,10 @@ function Info({ icon: Icon, label, value }: { icon: React.ElementType; label: st
 const pill: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 4, fontSize: "var(--fs-11-5)", fontWeight: 600, padding: "2px 9px", borderRadius: 9999, border: "1px solid var(--border)", background: "var(--bg-canvas)", color: "var(--foreground)" };
 const chip: React.CSSProperties = { fontSize: "var(--fs-11)", fontWeight: 600, padding: "2px 7px", borderRadius: 9999, background: "var(--color-primary)14", color: "var(--color-primary)" };
 const btn: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 6, border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)", borderRadius: 4, padding: "7px 13px", fontSize: "var(--fs-13)", fontWeight: 600, cursor: "pointer" };
+
+/** « + ζώνες Β 10 € · Γ 25 €» — only the zones the supplier priced. */
+function zoneSummary(fees: Record<string, number> | null, zones: DistanceZone[]): string {
+  if (!fees) return "";
+  const parts = zones.filter((z) => Number(fees[z.code]) > 0).map((z) => `${z.code} ${Number(fees[z.code]).toLocaleString("el-GR", { maximumFractionDigits: 2 })} €`);
+  return parts.length ? ` + ζώνες ${parts.join(" · ")}` : "";
+}

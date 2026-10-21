@@ -4,6 +4,7 @@ import type { Prisma } from "@/lib/prisma/client";
 import { invitationState, type RfqDTO, type OfferDTO, type WorkOrderDTO, type RfqInvitationRowDTO, type InvitationRecipientDTO, type RfqPanelDefaults } from "@/lib/rfq-shared";
 import { getDistanceZones } from "@/lib/distance/buildings";
 import { zoneForKm, zoneFee, zoneLabel } from "@/lib/distance/zones";
+import { peekCachedDistance } from "@/lib/distance/cache";
 
 const place = (...parts: (string | null | undefined)[]) => [...new Set(parts.filter(Boolean) as string[])].join(", ");
 const iso = (d: Date | null | undefined) => (d ? d.toISOString() : null);
@@ -22,18 +23,28 @@ const supplierRecipientSelect = { select: { name: true, email: true, contactEmai
 
 export const rfqInclude = {
   invitations: { include: { supplier: supplierRecipientSelect, links: linkSelect }, orderBy: { sentAt: "asc" as const } },
-  offers: { include: { supplier: { select: { name: true, ratingAvg: true, ratingCount: true } } }, orderBy: { createdAt: "asc" as const } },
+  offers: { include: { supplier: { select: { name: true, ratingAvg: true, ratingCount: true, lat: true, lng: true } } }, orderBy: { createdAt: "asc" as const } },
 } satisfies Prisma.ServiceRequestInclude;
 
 type RfqRow = Prisma.ServiceRequestGetPayload<{ include: typeof rfqInclude }>;
 
-export function offerToDTO(o: RfqRow["offers"][number]): OfferDTO {
+export function offerToDTO(o: RfqRow["offers"][number], supplierDistance: OfferDTO["supplierDistance"] = null): OfferDTO {
   return {
     id: o.id, supplierId: o.supplierId, supplierName: o.supplier.name, amount: Number(o.amount), vatPct: o.vatPct,
     surveyFee: num(o.surveyFee), surveyWaived: o.surveyWaived, description: o.description, estimatedMinutes: o.estimatedMinutes,
     earliestDate: iso(o.earliestDate), validUntil: iso(o.validUntil), status: o.status, createdAt: o.createdAt.toISOString(),
-    supplierRating: o.supplier.ratingAvg, supplierRatingCount: o.supplier.ratingCount,
+    supplierRating: o.supplier.ratingAvg, supplierRatingCount: o.supplier.ratingCount, supplierDistance,
   };
+}
+
+/** Supplier→building km per offer, from the cache only (no provider calls on page load). */
+async function offersWithDistance(r: RfqRow, building: { lat: number | null; lng: number | null } | null | undefined): Promise<OfferDTO[]> {
+  return Promise.all(r.offers.map(async (o) => {
+    const s = o.supplier;
+    if (!building || building.lat == null || building.lng == null || s.lat == null || s.lng == null) return offerToDTO(o);
+    const d = await peekCachedDistance({ lat: s.lat, lng: s.lng }, { lat: building.lat, lng: building.lng });
+    return offerToDTO(o, d ? { km: d.km, method: d.method } : null);
+  }));
 }
 
 export function rfqToDTO(r: RfqRow): RfqDTO {
@@ -47,7 +58,7 @@ export function rfqToDTO(r: RfqRow): RfqDTO {
         state: invitationState({ status: i.status, viewedAt: iso(i.viewedAt), emailCount: i.emailCount, hasRecipient }, { status: r.status, deadlineAt: iso(r.deadlineAt) }),
       };
     }),
-    offers: r.offers.map(offerToDTO),
+    offers: r.offers.map((o) => offerToDTO(o)),
   };
 }
 
@@ -80,13 +91,13 @@ export async function loadRfqPanel(maintenanceRequestId: string): Promise<{ rfqs
     db.serviceRequest.findMany({ where: { maintenanceRequestId }, include: rfqInclude, orderBy: { createdAt: "desc" } }),
     db.workOrder.findMany({ where: { maintenanceRequestId }, include: woInclude, orderBy: { createdAt: "desc" } }),
     db.appSettings.findUnique({ where: { id: "singleton" }, select: { offerMarkupPct: true, warrantyMonths: true } }),
-    db.maintenanceRequest.findUnique({ where: { id: maintenanceRequestId }, select: { building: { select: { distanceKm: true, distanceMinutes: true, distanceMethod: true } } } }),
+    db.maintenanceRequest.findUnique({ where: { id: maintenanceRequestId }, select: { building: { select: { lat: true, lng: true, distanceKm: true, distanceMinutes: true, distanceMethod: true } } } }),
     getDistanceZones(),
   ]);
   const b = req?.building;
   const zone = zoneForKm(zones, b?.distanceKm);
   return {
-    rfqs: rfqs.map(rfqToDTO),
+    rfqs: await Promise.all(rfqs.map(async (r) => ({ ...rfqToDTO(r), offers: await offersWithDistance(r, b) }))),
     workOrders: workOrders.map(workOrderToCompanyDTO),
     defaults: {
       markupPct: Number(settings?.offerMarkupPct ?? 15), warrantyMonths: settings?.warrantyMonths ?? 6,
@@ -126,7 +137,7 @@ export async function loadSupplierRfq(rfqId: string, supplierId: string) {
   const r = inv.rfq; const o = r.offers[0] ?? null;
   return {
     invitation: { id: inv.id, status: inv.status, viewedAt: iso(inv.viewedAt), declineReason: inv.declineReason },
-    rfq: { id: r.id, title: r.title, description: r.description, status: r.status, deadlineAt: iso(r.deadlineAt), surveyRequired: r.surveyRequired, building: place(r.building.name, r.building.address, r.building.city), category: r.category?.name ?? null, priority: r.maintenanceRequest?.priority ?? null, restrictedAccess: r.maintenanceRequest?.restrictedAccess ?? false, attachments: r.maintenanceRequest?.attachments ?? [] },
+    rfq: { id: r.id, title: r.title, description: r.description, status: r.status, deadlineAt: iso(r.deadlineAt), surveyRequired: r.surveyRequired, buildingId: r.buildingId, building: place(r.building.name, r.building.address, r.building.city), category: r.category?.name ?? null, priority: r.maintenanceRequest?.priority ?? null, restrictedAccess: r.maintenanceRequest?.restrictedAccess ?? false, attachments: r.maintenanceRequest?.attachments ?? [] },
     myOffer: o ? { id: o.id, amount: Number(o.amount), vatPct: o.vatPct, surveyFee: num(o.surveyFee), surveyWaived: o.surveyWaived, description: o.description, estimatedMinutes: o.estimatedMinutes, earliestDate: iso(o.earliestDate), validUntil: iso(o.validUntil), status: o.status } : null,
   };
 }
@@ -184,4 +195,29 @@ export async function listOpenFaultsForRfq(): Promise<{ id: string; title: strin
     select: { id: true, title: true, createdAt: true, building: { select: { name: true, city: true } } },
   });
   return rows.map((r) => ({ id: r.id, title: r.title, building: place(r.building.name, r.building.city), createdAt: r.createdAt.toISOString() }));
+}
+
+/* ------------------------------------------------------------------ */
+/* /admin/work-orders/[id]                                              */
+/* ------------------------------------------------------------------ */
+
+export type WorkOrderDetail = {
+  wo: WorkOrderDTO & { customerName: string; customerId: string; buildingId: string; faultTitle: string | null; faultStatus: string | null; offerRating: number | null };
+  /** Fault status events that mention this work order's number, newest first. */
+  events: { id: string; createdAt: string; toStatus: string; note: string | null; byName: string | null }[];
+};
+
+export async function loadWorkOrderDetail(id: string): Promise<WorkOrderDetail | null> {
+  const w = await db.workOrder.findUnique({
+    where: { id },
+    include: { ...woInclude, customer: { select: { name: true } }, maintenanceRequest: { select: { id: true, title: true, status: true } }, offer: { select: { supplier: { select: { ratingAvg: true } } } } },
+  });
+  if (!w) return null;
+  const events = w.maintenanceRequestId
+    ? await db.maintenanceStatusEvent.findMany({ where: { requestId: w.maintenanceRequestId, note: { contains: w.number } }, orderBy: { createdAt: "desc" }, include: { byUser: { select: { name: true } } } })
+    : [];
+  return {
+    wo: { ...workOrderToCompanyDTO(w), customerName: w.customer.name, customerId: w.customerId, buildingId: w.buildingId, faultTitle: w.maintenanceRequest?.title ?? null, faultStatus: w.maintenanceRequest?.status ?? null, offerRating: w.offer?.supplier.ratingAvg ?? null },
+    events: events.map((e) => ({ id: e.id, createdAt: e.createdAt.toISOString(), toStatus: e.toStatus, note: e.note, byName: e.byUser?.name ?? null })),
+  };
 }

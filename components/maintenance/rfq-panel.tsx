@@ -159,6 +159,7 @@ function OfferRow({ o, rfqStatus, handledBy, defaults, busy, run, alreadyForward
         {o.supplierRating != null && <span style={{ display: "inline-flex", alignItems: "center", gap: 3, color: "#b45309", fontSize: "var(--fs-12)" }}><RiStarFill /> {o.supplierRating.toFixed(1)} ({o.supplierRatingCount})</span>}
         <span style={{ fontWeight: 700 }}>{eur(o.amount)} <span style={{ fontWeight: 400, color: "var(--muted-foreground)" }}>+ ΦΠΑ {o.vatPct}%</span></span>
         {o.surveyFee != null && o.surveyFee > 0 && <span style={{ color: "var(--muted-foreground)" }}>αυτοψία {eur(o.surveyFee)}{o.surveyWaived ? " (συμψηφίζεται)" : ""}</span>}
+        {o.supplierDistance && <span style={{ color: "var(--muted-foreground)" }}>{formatDistance(o.supplierDistance.km, null, o.supplierDistance.method)} από την έδρα του</span>}
         <span style={{ color: "var(--muted-foreground)" }}>από {fmtD(o.earliestDate)} · ισχύει έως {fmtD(o.validUntil)}{o.estimatedMinutes ? ` · ~${o.estimatedMinutes}′` : ""}</span>
         <span style={pill}>{OFFER_STATUS_LABELS[o.status] ?? o.status}</span>
         <span style={{ flex: 1 }} />

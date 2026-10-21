@@ -4,6 +4,7 @@ import { db } from "@/lib/db";
 import { requirePermission, getEffectivePermissions, can } from "@/lib/rbac/permissions";
 import { getEffectiveSession } from "@/lib/auth-effective";
 import { loadSupplierFull } from "@/lib/suppliers";
+import { getDistanceZones } from "@/lib/distance/buildings";
 import { SupplierHeader } from "@/components/suppliers/SupplierHeader";
 import { CatalogEditor } from "@/components/suppliers/CatalogEditor";
 import { ContactsEditor } from "@/components/suppliers/ContactsEditor";
@@ -17,7 +18,7 @@ const fmt = (d: Date | null) => (d ? d.toLocaleDateString("el-GR") : "—");
 export default async function SupplierDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   await requirePermission("suppliers", "view");
-  const [resolved, eff, full] = await Promise.all([getEffectivePermissions(), getEffectiveSession(), loadSupplierFull(id)]);
+  const [resolved, eff, full, zones] = await Promise.all([getEffectivePermissions(), getEffectiveSession(), loadSupplierFull(id), getDistanceZones()]);
   // Private (customer) rows are never reachable from the company surface.
   if (!full || full.supplier.scope === "private") notFound();
   const canEdit = can(resolved!.perms, "suppliers", "edit");
@@ -44,7 +45,7 @@ export default async function SupplierDetailPage({ params }: { params: Promise<{
         <RiArrowLeftLine /> Πίσω στο μητρώο
       </Link>
 
-      <SupplierHeader supplier={s} categories={categories} canEdit={canEdit} />
+      <SupplierHeader supplier={s} categories={categories} canEdit={canEdit} zones={zones} />
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 12 }}>
         <Stat icon={RiToolsLine} label="Αναθέσεις βλαβών" value={String(requests.length)} />
