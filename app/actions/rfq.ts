@@ -296,7 +296,7 @@ async function onBehalfNoteFor(a: { id: string; role: string }, buildingId: stri
 
 async function recordOnBehalf(a: { id: string }, wo: { number: string; maintenanceRequestId: string | null }, label: string, note: string, toStatus: string) {
   if (!wo.maintenanceRequestId) return;
-  await db.maintenanceStatusEvent.create({ data: { requestId: wo.maintenanceRequestId, toStatus, byUserId: a.id, note: `Εκ μέρους πελάτη: ${note}` } });
+  await db.maintenanceStatusEvent.create({ data: { requestId: wo.maintenanceRequestId, toStatus, byUserId: a.id, note: `Εκ μέρους πελάτη (${wo.number}): ${note}` } });
   await db.maintenanceComment.create({ data: { requestId: wo.maintenanceRequestId, authorId: a.id, internal: true, body: `${label} εκ μέρους πελάτη (${wo.number}): ${note}` } });
 }
 

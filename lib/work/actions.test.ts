@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { resolveWorkActions, EMPTY_FLAGS, type WorkSubject, type FaultFlags } from "./actions";
+import { resolveWorkActions, isLiveWorkOrder, EMPTY_FLAGS, type WorkSubject, type FaultFlags } from "./actions";
 import { workActionViewer } from "./scope";
 
 const ALL = new Set(["rfq:create", "rfq:edit", "suppliers:edit", "maintenance:view"]);
@@ -76,6 +76,19 @@ describe("resolveWorkActions — fault", () => {
   });
   it("viewer without canForward never sees forward-offer even with offers", () => {
     expect(keys(fault({}, { openRfqId: "r1", offersToForward: 3 }), noForward)).not.toContain("forward-offer");
+  });
+  it("offers cancel-rfq on a fault with an open RFQ to viewers with rfq:edit only", () => {
+    const s = fault({}, { openRfqId: "r1" });
+    expect(find(s, "cancel-rfq")).toMatchObject({ kind: "dialog", dialog: "cancel-rfq", danger: true, section: "offers" });
+    expect(keys(s)).toEqual(["status:ACKNOWLEDGED", "status:SCHEDULED", "status:IN_PROGRESS", "status:CANCELLED", "assign-employee", "assign-supplier", "appointment", "add-rfq-suppliers", "cancel-rfq", "comment", "view"]);
+    expect(keys(s, emp)).not.toContain("cancel-rfq");
+    expect(keys(fault())).not.toContain("cancel-rfq");
+  });
+  it("a CONFIRMED work order is not live: forwarding a new offer is allowed again", () => {
+    expect(isLiveWorkOrder("CONFIRMED")).toBe(false);
+    expect(isLiveWorkOrder("DECLINED")).toBe(false);
+    expect(isLiveWorkOrder("PENDING_CUSTOMER")).toBe(true);
+    expect(keys(fault({}, { openRfqId: "r1", offersToForward: 1, liveWo: { id: "w0", status: "CONFIRMED" } }))).toContain("forward-offer");
   });
   it("labels switch to «Αλλαγή συνεργάτη…» when a supplier is set", () => {
     expect(find(fault({ supplierId: "s1" }), "assign-supplier").label).toBe("Αλλαγή συνεργάτη…");

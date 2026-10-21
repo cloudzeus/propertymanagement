@@ -2,11 +2,10 @@
  * Re-validate a dialog against freshly loaded context before showing it: a row
  * may be stale (another user forwarded the offer, the status moved on…).
  */
-import { EMPTY_FLAGS, resolveWorkActions, type WorkDialog, type WorkSubject } from "./actions";
+import { EMPTY_FLAGS, isLiveWorkOrder, resolveWorkActions, type WorkDialog, type WorkSubject } from "./actions";
 import type { WorkActionViewer } from "./scope";
 import type { WorkActionContext } from "@/app/actions/work-actions";
 
-const LIVE_WO = (status: string) => status !== "DECLINED" && status !== "CANCELLED";
 const OPEN_RFQ = (status: string) => status === "OPEN" || status === "OFFERED";
 
 export function dialogAvailable(dialog: WorkDialog, subject: WorkSubject, viewer: WorkActionViewer): boolean {
@@ -16,7 +15,7 @@ export function dialogAvailable(dialog: WorkDialog, subject: WorkSubject, viewer
 /** The subject as the context sees it now. Unknown ids are returned untouched. */
 export function subjectFromContext(subject: WorkSubject, ctx: WorkActionContext): WorkSubject {
   const openRfqs = ctx.rfqs.filter((r) => OPEN_RFQ(r.status));
-  const liveWo = ctx.workOrders.find((w) => LIVE_WO(w.status)) ?? null;
+  const liveWo = ctx.workOrders.find((w) => isLiveWorkOrder(w.status)) ?? null;
   const offersToForward = openRfqs.reduce((n, r) => n + r.offers.filter((o) => o.status === "SUBMITTED").length, 0);
 
   if (subject.kind === "fault") {

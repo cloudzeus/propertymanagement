@@ -3,12 +3,12 @@
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { STATUS_LABELS, STATUS_COLORS, PRIORITY_LABELS, HANDLER_LABELS, type FaultStatus } from "@/lib/maintenance-shared";
-import { addRequestComment, removeSlot, bookSlot } from "@/app/actions/maintenance-requests";
-import { FieldTextarea } from "@/components/ui/modal";
+import { addRequestComment, removeSlot, bookSlot, offerSlots } from "@/app/actions/maintenance-requests";
+import { FormField, FieldInput, FieldTextarea } from "@/components/ui/modal";
 import type { WorkDialog } from "@/lib/work/actions";
 import {
   RiTimeLine, RiUserLine, RiBuilding2Line, RiCalendarCheckLine, RiAlarmWarningLine,
-  RiChat3Line, RiHistoryLine, RiAttachmentLine, RiDeleteBinLine, RiTeamLine,
+  RiChat3Line, RiHistoryLine, RiAttachmentLine, RiDeleteBinLine, RiTeamLine, RiRoadMapLine,
 } from "react-icons/ri";
 import type { FaultDetail, Viewer } from "./types";
 
@@ -73,6 +73,9 @@ export function RequestDetail({ request, viewer, actions, onOpen }: {
   const [error, setError] = useState<string | null>(null);
   const [comment, setComment] = useState("");
   const [internal, setInternal] = useState(false);
+  // Occupant / supplier side: offering slots stays inline here (staff use the «Ραντεβού…» dialog).
+  const [slotDate, setSlotDate] = useState("");
+  const [slotTime, setSlotTime] = useState("");
 
   // The assigned supplier acts on the company's side of the appointment flow.
   const mySide = viewer.isStaff || viewer.role === "COLLABORATOR" ? "COMPANY" : "MANAGER";
@@ -114,6 +117,7 @@ export function RequestDetail({ request, viewer, actions, onOpen }: {
           {request.supplierName && viewer.role !== "COLLABORATOR" && <span style={{ display: "inline-flex", alignItems: "center", gap: 4 }}><RiTeamLine /> Συνεργάτης: {request.supplierName}</span>}
           {request.scheduledDate && <span style={{ display: "inline-flex", alignItems: "center", gap: 4 }}><RiCalendarCheckLine /> Ραντεβού: {fmt(request.scheduledDate)}</span>}
           {request.restrictedAccess && <span>Περιορισμένη πρόσβαση</span>}
+          {request.buildingDistance && <span style={{ display: "inline-flex", alignItems: "center", gap: 4 }} title="Απόσταση από τον σταθμό βάσης"><RiRoadMapLine /> {request.buildingDistance}</span>}
         </div>
         {viewer.isStaff && onOpen && (
           <div style={{
@@ -163,6 +167,20 @@ export function RequestDetail({ request, viewer, actions, onOpen }: {
               {request.estimatedMinutes ? ` Εκτιμώμενη διάρκεια εργασιών: ${request.estimatedMinutes}′.` : ""}
               {request.managerPresence ? " Απαιτείται παρουσία διαχειριστή." : ""}
             </p>
+          )}
+
+          {!onOpen && !closed && request.restrictedAccess && (
+            <div style={{ display: "flex", gap: 8, alignItems: "flex-end", flexWrap: "wrap", marginBottom: 12 }}>
+              <div style={{ width: 160 }}><FormField label="Ημερομηνία"><FieldInput value={slotDate} onChange={setSlotDate} type="date" /></FormField></div>
+              <div style={{ width: 120 }}><FormField label="Ώρα (30′)"><FieldInput value={slotTime} onChange={setSlotTime} type="time" /></FormField></div>
+              <button disabled={busy || !slotDate || !slotTime} style={btn}
+                onClick={async () => {
+                  const iso = new Date(`${slotDate}T${slotTime}`).toISOString();
+                  if (await run(() => offerSlots(request.id, [iso]))) { setSlotDate(""); setSlotTime(""); }
+                }}>
+                Δήλωση διαθεσιμότητας
+              </button>
+            </div>
           )}
 
           {openSlots.length > 0 ? (

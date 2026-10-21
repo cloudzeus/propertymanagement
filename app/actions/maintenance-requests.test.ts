@@ -78,6 +78,14 @@ describe("scheduleRequest", () => {
     await scheduleRequest("f1", future(30).toISOString(), 10);
     expect(m.updates[5].estimatedMinutes).toBe(30);
   });
+  it("stores the manager-presence flag on the appointment and the fault in the same update, with a single notification", async () => {
+    const start = future(30);
+    expect(await scheduleRequest("f1", start.toISOString(), 60, true)).toEqual({ ok: true });
+    expect(m.appointments[0]).toMatchObject({ managerPresence: true });
+    expect(m.updates[0]).toMatchObject({ managerPresence: true, estimatedMinutes: 60 });
+    expect(m.notify).toHaveBeenCalledTimes(1);
+    expect((m.notify.mock.calls[0] as unknown as [{ body: string }])[0].body).toContain("παρουσία διαχειριστή");
+  });
   it("refuses non-company roles that cannot manage the fault", async () => {
     m.actor = { id: "x", role: "PROPERTY_OWNER" };
     expect(await scheduleRequest("f1", future(30).toISOString())).toEqual({ error: "Δεν επιτρέπεται" });

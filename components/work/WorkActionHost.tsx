@@ -28,7 +28,8 @@ import { WoRespondDialog } from "./dialogs/WoRespondDialog";
 import { WoScheduleDialog } from "./dialogs/WoScheduleDialog";
 import { WoConfirmDialog } from "./dialogs/WoConfirmDialog";
 
-export type OpenRequest = { dialog: WorkDialog; subject: WorkSubject; status?: FaultStatus; batchIds?: string[] };
+/** `seq` changes on every open, so a re-open of the same dialog/subject never renders from the previous context. */
+export type OpenRequest = { seq: number; dialog: WorkDialog; subject: WorkSubject; status?: FaultStatus; batchIds?: string[] };
 
 const DIALOGS: Record<WorkDialog, React.ComponentType<DialogProps>> = {
   "assign-employee": AssignEmployeeDialog,
@@ -48,7 +49,7 @@ const DIALOGS: Record<WorkDialog, React.ComponentType<DialogProps>> = {
 
 export function WorkActionHost({ request, viewer, onDone, onClose }: { request: OpenRequest | null; viewer: WorkActionViewer; onDone: (message: string) => void; onClose: () => void }) {
   const [state, setState] = useState<{ key: string; ctx: WorkActionContext | null; error: string | null }>({ key: "", ctx: null, error: null });
-  const key = request ? `${request.dialog}:${request.subject.kind}:${request.subject.id}:${request.batchIds?.join(",") ?? ""}` : "";
+  const key = request ? `${request.seq}:${request.dialog}:${request.subject.kind}:${request.subject.id}:${request.batchIds?.join(",") ?? ""}` : "";
 
   useEffect(() => {
     if (!request) return;

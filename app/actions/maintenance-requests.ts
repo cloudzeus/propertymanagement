@@ -420,7 +420,7 @@ export async function bookSlot(slotId: string) {
  * MaintenanceAppointment, κρατά τη διάρκεια ως εκτίμηση και προχωρά τη βλάβη
  * σε SCHEDULED όταν το επιτρέπει ο πίνακας μεταβάσεων.
  */
-export async function scheduleRequest(id: string, isoStart: string, durationMinutes?: number | null) {
+export async function scheduleRequest(id: string, isoStart: string, durationMinutes?: number | null, managerPresence?: boolean | null) {
   const user = await requireUser();
   const req = await db.maintenanceRequest.findUnique({
     where: { id },
@@ -434,17 +434,19 @@ export async function scheduleRequest(id: string, isoStart: string, durationMinu
   if (startAt.getMinutes() % 30 !== 0 || startAt.getSeconds() !== 0) return { error: "Η ώρα πρέπει να είναι σε όρια 30 λεπτών" };
   const given = typeof durationMinutes === "number" && Number.isFinite(durationMinutes) && durationMinutes > 0 ? Math.max(30, Math.round(durationMinutes / 30) * 30) : null;
   const duration = given ?? req.estimatedMinutes ?? 60;
+  const presence = typeof managerPresence === "boolean" ? managerPresence : req.managerPresence;
   const endAt = new Date(startAt.getTime() + duration * 60_000);
   const when = startAt.toLocaleString("el-GR", { dateStyle: "short", timeStyle: "short", timeZone: "Europe/Athens" });
   const toScheduled = STATUS_TRANSITIONS[req.status as FaultStatus]?.includes("SCHEDULED");
 
   await db.$transaction([
-    db.maintenanceAppointment.create({ data: { requestId: id, startAt, endAt, managerPresence: req.managerPresence, bookedById: user.id } }),
+    db.maintenanceAppointment.create({ data: { requestId: id, startAt, endAt, managerPresence: presence, bookedById: user.id } }),
     db.maintenanceRequest.update({
       where: { id },
       data: {
         scheduledDate: startAt,
         estimatedMinutes: duration,
+        managerPresence: presence,
         ...(toScheduled ? { status: "SCHEDULED" } : {}),
         statusEvents: { create: { fromStatus: req.status, toStatus: toScheduled ? "SCHEDULED" : req.status, byUserId: user.id, note: `Ραντεβού ${when}` } },
       },
@@ -454,7 +456,7 @@ export async function scheduleRequest(id: string, isoStart: string, durationMinu
     requestId: id,
     type: "MAINTENANCE_APPOINTMENT",
     title: `Ραντεβού για τη βλάβη «${req.title}»`,
-    body: `Ορίστηκε ραντεβού: ${when} (διάρκεια ~${duration}').${req.managerPresence ? " Απαιτείται παρουσία διαχειριστή." : ""}`,
+    body: `Ορίστηκε ραντεβού: ${when} (διάρκεια ~${duration}').${presence ? " Απαιτείται παρουσία διαχειριστή." : ""}`,
     excludeUserId: user.id,
   });
   revalidateAll(id, req.buildingId);

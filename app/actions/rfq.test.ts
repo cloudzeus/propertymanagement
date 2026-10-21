@@ -133,7 +133,7 @@ describe("respondWorkOrder on the customer's behalf", () => {
   it("records the note as a status event and an internal comment when staff accept on behalf", async () => {
     expect(await respondWorkOrder("w1", true, null, { onBehalfNote: "τηλεφωνικά με κ. Παπαδόπουλο 21/10" })).toEqual({ ok: true });
     expect(m.woUpdates[0]).toMatchObject({ status: "ACCEPTED", customerAcceptedById: "staff1" });
-    expect(m.events.some((e) => String(e.note).includes("Εκ μέρους πελάτη: τηλεφωνικά με κ. Παπαδόπουλο 21/10"))).toBe(true);
+    expect(m.events.some((e) => String(e.note).includes("Εκ μέρους πελάτη (WO-2026-0007): τηλεφωνικά με κ. Παπαδόπουλο 21/10"))).toBe(true);
     expect(m.comments[0]).toMatchObject({ requestId: "f1", authorId: "staff1", internal: true });
     expect(String(m.comments[0].body)).toContain("Αποδοχή προσφοράς εκ μέρους πελάτη (WO-2026-0007)");
   });

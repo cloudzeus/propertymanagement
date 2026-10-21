@@ -42,6 +42,11 @@ describe("subjectFromContext", () => {
     expect(subjectFromContext({ kind: "rfq", id: "r1", status: "OPEN", faultId: "f1", offersToForward: 0, hasLiveWorkOrder: false }, ctx({ rfqs: [rfq("r1", "OFFERED", ["SUBMITTED"])], workOrders: [wo("w1", "ACCEPTED")] })))
       .toEqual({ kind: "rfq", id: "r1", status: "OFFERED", faultId: "f1", offersToForward: 1, hasLiveWorkOrder: true });
   });
+  it("does not treat a CONFIRMED work order as live", () => {
+    const fresh = subjectFromContext(fault(), ctx({ rfqs: [rfq("r1", "OFFERED", ["SUBMITTED"])], workOrders: [wo("w0", "CONFIRMED")] }));
+    expect(fresh.kind === "fault" && fresh.flags.liveWo).toBeNull();
+    expect(dialogAvailable("forward-offer", fresh, mgr)).toBe(true);
+  });
   it("leaves the subject untouched when the context does not know it", () => {
     const s: WorkSubject = { kind: "work-order", id: "w9", status: "ACCEPTED", faultId: null };
     expect(subjectFromContext(s, ctx())).toEqual(s);

@@ -3,7 +3,7 @@
  * the work center needs so tests can feed plain objects.
  */
 import { WORK_PRIORITIES, type WorkItem, type WorkPriority, type WorkStage } from "./types";
-import { EMPTY_FLAGS, type FaultFlags } from "./actions";
+import { EMPTY_FLAGS, isLiveWorkOrder, type FaultFlags } from "./actions";
 
 export type FaultRow = {
   id: string; title: string; description: string; status: string; priority: string; handledBy: string;
@@ -15,7 +15,7 @@ export type FaultRow = {
   supplierId?: string | null;
   /** open (OPEN/OFFERED) RFQs with their SUBMITTED offers */
   serviceRequests?: { id: string; offers: { id: string }[] }[];
-  /** newest-first work orders whose status ∉ {DECLINED, CANCELLED} */
+  /** newest-first work orders; only live ones (see isLiveWorkOrder) count */
   workOrders?: { id: string; status: string }[];
   _count?: { appointments: number };
 };
@@ -56,7 +56,7 @@ const hhmm = (d: Date) => d.toLocaleTimeString("el-GR", { hour: "2-digit", minut
 /** Light per-row facts the action menu needs; relations are optional so older callers keep working. */
 export function faultFlags(r: Pick<FaultRow, "serviceRequests" | "workOrders" | "_count">): FaultFlags {
   const rfq = r.serviceRequests?.[0];
-  const wo = r.workOrders?.[0];
+  const wo = r.workOrders?.find((w) => isLiveWorkOrder(w.status));
   if (!rfq && !wo && !r._count?.appointments) return EMPTY_FLAGS;
   return {
     openRfqId: rfq?.id ?? null,

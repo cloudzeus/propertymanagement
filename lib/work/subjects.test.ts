@@ -61,6 +61,9 @@ describe("subjectFromFaultDetail", () => {
     expect(s).toEqual({ kind: "fault", id: "f1", status: "ACKNOWLEDGED", handledBy: "PROPERTY_ADMIN", assigneeId: "e1", supplierId: "s1",
       flags: { openRfqId: "r1", offersToForward: 1, liveWo: { id: "w-ACCEPTED", status: "ACCEPTED" }, hasAppointment: true } });
   });
+  it("ignores confirmed/declined/cancelled work orders when looking for the live one", () => {
+    expect(subjectFromFaultDetail(detail(), { rfqs: [], workOrders: [woDto("CONFIRMED"), woDto("CANCELLED")] }).flags.liveWo).toBeNull();
+  });
   it("gives empty flags without panel data", () => {
     expect(subjectFromFaultDetail(detail(), null).flags).toEqual(EMPTY_FLAGS);
   });

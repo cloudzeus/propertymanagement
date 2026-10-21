@@ -156,6 +156,8 @@ describe("faultFlags", () => {
     });
     expect(faultFlags(row)).toEqual({ openRfqId: "r1", offersToForward: 2, liveWo: { id: "w1", status: "PENDING_CUSTOMER" }, hasAppointment: false });
     expect(faultFlags(fault({ _count: { appointments: 2 } })).hasAppointment).toBe(true);
+    expect(faultFlags(fault({ workOrders: [{ id: "w0", status: "CONFIRMED" }, { id: "w1", status: "ACCEPTED" }] })).liveWo).toEqual({ id: "w1", status: "ACCEPTED" });
+    expect(faultFlags(fault({ workOrders: [{ id: "w0", status: "CONFIRMED" }] })).liveWo).toBeNull();
     expect(faultToWorkItem(row, now)!.supplierId).toBe("s1");
   });
 });

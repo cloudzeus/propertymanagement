@@ -144,7 +144,7 @@ export async function loadSupplierRfq(rfqId: string, supplierId: string) {
 
 /** Supplier's work orders (their side: supplierPrice, no customer price). */
 export async function listSupplierWorkOrders(supplierId: string) {
-  const rows = await db.workOrder.findMany({ where: { supplierId, status: { notIn: ["DECLINED", "CANCELLED"] } }, include: { building: { select: { name: true, address: true, city: true } } }, orderBy: { createdAt: "desc" } });
+  const rows = await db.workOrder.findMany({ where: { supplierId, status: { notIn: ["DECLINED", "CANCELLED", "CONFIRMED"] } }, include: { building: { select: { name: true, address: true, city: true } } }, orderBy: { createdAt: "desc" } });
   return rows.map((w) => ({
     id: w.id, number: w.number, status: w.status, title: w.title, description: w.description,
     supplierPrice: Number(w.supplierPrice), vatPct: w.vatPct, surveyFee: num(w.surveyFee), surveyWaived: w.surveyWaived, warrantyMonths: w.warrantyMonths,
@@ -165,7 +165,7 @@ export async function listRfqInvitationRows(): Promise<RfqInvitationRowDTO[]> {
     include: {
       supplier: supplierRecipientSelect,
       links: linkSelect,
-      rfq: { select: { id: true, status: true, title: true, deadlineAt: true, surveyRequired: true, maintenanceRequestId: true, buildingId: true, building: { select: { name: true } }, offers: { select: { id: true, supplierId: true, amount: true, status: true } }, workOrders: { where: { status: { notIn: ["DECLINED", "CANCELLED"] } }, select: { id: true } } } },
+      rfq: { select: { id: true, status: true, title: true, deadlineAt: true, surveyRequired: true, maintenanceRequestId: true, buildingId: true, building: { select: { name: true } }, offers: { select: { id: true, supplierId: true, amount: true, status: true } }, workOrders: { where: { status: { notIn: ["DECLINED", "CANCELLED", "CONFIRMED"] } }, select: { id: true } } } },
     },
     orderBy: { sentAt: "desc" },
     take: 1000,
@@ -190,7 +190,7 @@ export async function listRfqInvitationRows(): Promise<RfqInvitationRowDTO[]> {
 /** Faults a company user may still send an RFQ for: open, not yet covered by an active work order. */
 export async function listOpenFaultsForRfq(): Promise<{ id: string; title: string; building: string; createdAt: string }[]> {
   const rows = await db.maintenanceRequest.findMany({
-    where: { status: { in: ["OPEN", "ACKNOWLEDGED", "ON_HOLD"] }, workOrders: { none: { status: { notIn: ["DECLINED", "CANCELLED"] } } }, serviceRequests: { none: { status: { in: ["OPEN", "OFFERED"] } } } },
+    where: { status: { in: ["OPEN", "ACKNOWLEDGED", "ON_HOLD"] }, workOrders: { none: { status: { notIn: ["DECLINED", "CANCELLED", "CONFIRMED"] } } }, serviceRequests: { none: { status: { in: ["OPEN", "OFFERED"] } } } },
     orderBy: { createdAt: "desc" }, take: 300,
     select: { id: true, title: true, createdAt: true, building: { select: { name: true, city: true } } },
   });

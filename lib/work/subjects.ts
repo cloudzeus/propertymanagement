@@ -1,10 +1,9 @@
 /** Pure converters: list/detail DTOs → the WorkSubject the action resolver reads. */
-import { EMPTY_FLAGS, type FaultFlags, type WorkSubject } from "./actions";
+import { EMPTY_FLAGS, isLiveWorkOrder, type FaultFlags, type WorkSubject } from "./actions";
 import type { WorkItem } from "./types";
 import type { FaultDetail, FaultListItem } from "@/components/maintenance/types";
 import type { RfqDTO, RfqInvitationRowDTO, WorkOrderDTO } from "@/lib/rfq-shared";
 
-const LIVE_WO = (status: string) => status !== "DECLINED" && status !== "CANCELLED";
 const OPEN_RFQ = (status: string) => status === "OPEN" || status === "OFFERED";
 
 export function subjectFromWorkItem(w: WorkItem): WorkSubject | null {
@@ -31,7 +30,7 @@ export function subjectFromFaultDetail(d: FaultDetail, rfq: { rfqs: RfqDTO[]; wo
   let flags: FaultFlags = { ...EMPTY_FLAGS, hasAppointment: d.appointments.length > 0 };
   if (rfq) {
     const open = rfq.rfqs.filter((r) => OPEN_RFQ(r.status));
-    const live = rfq.workOrders.find((w) => LIVE_WO(w.status)) ?? null;
+    const live = rfq.workOrders.find((w) => isLiveWorkOrder(w.status)) ?? null;
     flags = {
       ...flags,
       openRfqId: open[0]?.id ?? null,

@@ -10,7 +10,8 @@ import {
 } from "@/lib/rfq-shared";
 import { formatDistance } from "@/lib/distance/zones";
 import { callAction } from "@/lib/work/client-actions";
-import type { WorkDialog } from "@/lib/work/actions";
+import { isLiveWorkOrder, type WorkDialog, type WorkSubject } from "@/lib/work/actions";
+import { subjectFromWorkOrderDTO } from "@/lib/work/subjects";
 import { RiMoneyEuroCircleLine, RiSendPlaneLine, RiFileTextLine, RiCalendarCheckLine, RiCloseLine, RiStarFill, RiMailSendLine, RiUserAddLine, RiCheckDoubleLine, RiShieldCheckLine, RiEyeLine } from "react-icons/ri";
 
 export { sentMessage };
@@ -27,10 +28,11 @@ export type RfqPickerData = { candidates: RfqCandidateDTO[]; categories: { id: s
  * dialogs (`onOpen`), the same ones the list menus use. Only «Αποστολή ξανά»
  * stays inline because it belongs to a single invitation.
  */
-export function RfqPanel({ rfqs, workOrders, canCreate = true, canEdit = true, canForward = true, canOnBehalf = true, onOpen }: {
+export function RfqPanel({ rfqs, workOrders, canCreate = true, canEdit = true, canForward = true, canOnBehalf = true, canSchedule = true, onOpen }: {
   rfqs: RfqDTO[]; workOrders: WorkOrderDTO[];
-  canCreate?: boolean; canEdit?: boolean; canForward?: boolean; canOnBehalf?: boolean;
-  onOpen: (dialog: WorkDialog) => void;
+  canCreate?: boolean; canEdit?: boolean; canForward?: boolean; canOnBehalf?: boolean; canSchedule?: boolean;
+  /** Opens a shared dialog; work-order rows pass their own subject so the dialog acts on THAT contract. */
+  onOpen: (dialog: WorkDialog, subject?: WorkSubject) => void;
 }) {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
@@ -45,8 +47,8 @@ export function RfqPanel({ rfqs, workOrders, canCreate = true, canEdit = true, c
     router.refresh();
   }
   const active = rfqs.filter((r) => !["CANCELLED", "EXPIRED", "DECLINED"].includes(r.status));
-  const liveWo = workOrders.find((w) => w.status !== "DECLINED" && w.status !== "CANCELLED") ?? null;
-  const canSendNew = canCreate && active.length === 0 && (!liveWo || liveWo.status === "CONFIRMED");
+  const liveWo = workOrders.find((w) => isLiveWorkOrder(w.status)) ?? null;
+  const canSendNew = canCreate && active.length === 0 && !liveWo;
 
   return (
     <div style={card}>
@@ -58,7 +60,7 @@ export function RfqPanel({ rfqs, workOrders, canCreate = true, canEdit = true, c
       {error && <div role="alert" style={{ color: "var(--destructive)", fontSize: "var(--fs-13)", marginBottom: 10 }}>{error}</div>}
       {info && <div role="status" style={{ color: "#15803d", fontSize: "var(--fs-13)", marginBottom: 10 }}>{info}</div>}
 
-      {workOrders.map((w) => <WorkOrderRow key={w.id} w={w} canSchedule={canEdit} canOnBehalf={canOnBehalf} onOpen={onOpen} />)}
+      {workOrders.map((w) => <WorkOrderRow key={w.id} w={w} canSchedule={canSchedule} canOnBehalf={canOnBehalf} onOpen={(d) => onOpen(d, subjectFromWorkOrderDTO(w))} />)}
 
       {rfqs.map((r) => {
         const open = ["OPEN", "OFFERED"].includes(r.status);

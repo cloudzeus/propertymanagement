@@ -43,6 +43,9 @@ export type WorkAction =
 export const NOTE_STATUSES: readonly FaultStatus[] = ["COMPLETED", "ON_HOLD", "CANCELLED"];
 const CLOSED = ["COMPLETED", "CANCELLED"];
 const RFQ_OPEN = ["OPEN", "OFFERED"];
+/** A work order that still occupies the fault: not declined, cancelled or already confirmed/closed. ONE predicate for lists, subjects, guards and panels. */
+export const LIVE_WO_EXCLUDED = ["DECLINED", "CANCELLED", "CONFIRMED"] as const;
+export const isLiveWorkOrder = (status: string) => !(LIVE_WO_EXCLUDED as readonly string[]).includes(status);
 
 const dialog = (key: string, label: string, icon: string, section: WorkActionSection, d: WorkDialog, extra: Partial<Base> & { status?: FaultStatus } = {}): WorkAction =>
   ({ key, label, icon, section, kind: "dialog", dialog: d, ...extra });
@@ -81,11 +84,12 @@ function faultActions(s: Extract<WorkSubject, { kind: "fault" }>, v: WorkActionV
   }
   if (v.canManage && !closed) out.push(dialog("appointment", "Ραντεβού…", "RiCalendarCheckLine", "schedule", "appointment"));
 
-  const live = flags.liveWo;
-  const liveBlocksRfq = !!live && live.status !== "CONFIRMED";
-  if (v.canRfqCreate && !closed && !flags.openRfqId && !liveBlocksRfq) out.push(dialog("create-rfq", "Αίτημα προσφοράς σε συνεργάτες…", "RiMoneyEuroCircleLine", "offers", "create-rfq"));
+  // Stale rows may still carry a confirmed WO; the predicate decides, not the presence of the object.
+  const live = flags.liveWo && isLiveWorkOrder(flags.liveWo.status) ? flags.liveWo : null;
+  if (v.canRfqCreate && !closed && !flags.openRfqId && !live) out.push(dialog("create-rfq", "Αίτημα προσφοράς σε συνεργάτες…", "RiMoneyEuroCircleLine", "offers", "create-rfq"));
   if (v.canRfqCreate && flags.openRfqId) out.push(dialog("add-rfq-suppliers", "Προσθήκη συνεργατών στο αίτημα…", "RiUserAddLine", "offers", "add-rfq-suppliers"));
   if (v.canForward && flags.offersToForward > 0 && !live) out.push(dialog("forward-offer", "Προώθηση προσφοράς στον πελάτη…", "RiSendPlaneLine", "offers", "forward-offer", { primary: true }));
+  if (v.canRfqEdit && flags.openRfqId) out.push(dialog("cancel-rfq", "Ακύρωση αιτήματος προσφοράς", "RiCloseCircleLine", "offers", "cancel-rfq", { danger: true }));
   if (live) {
     if (v.canOnBehalf && live.status === "PENDING_CUSTOMER") out.push(dialog("wo-respond", "Αποδοχή / απόρριψη εκ μέρους πελάτη…", "RiCheckDoubleLine", "offers", "wo-respond"));
     if (v.canAssign && (live.status === "ACCEPTED" || live.status === "SCHEDULED")) {

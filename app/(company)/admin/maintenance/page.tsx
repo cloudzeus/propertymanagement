@@ -33,7 +33,7 @@ export default async function MaintenancePage() {
       assignedTo: { select: { name: true } },
       supplier: { select: { id: true, name: true } },
       serviceRequests: { where: { status: { in: ["OPEN", "OFFERED"] } }, select: { id: true, offers: { where: { status: "SUBMITTED" }, select: { id: true } } } },
-      workOrders: { where: { status: { notIn: ["DECLINED", "CANCELLED"] } }, orderBy: { createdAt: "desc" }, take: 1, select: { id: true, status: true } },
+      workOrders: { where: { status: { notIn: ["DECLINED", "CANCELLED", "CONFIRMED"] } }, orderBy: { createdAt: "desc" }, take: 1, select: { id: true, status: true } },
       _count: { select: { appointments: true } },
     },
   });

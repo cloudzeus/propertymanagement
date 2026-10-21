@@ -47,7 +47,7 @@ export function useWorkActions({ viewer, where }: { viewer: WorkActionViewer; wh
 
   const refresh = useCallback(() => startTransition(() => router.refresh()), [router]);
   const notify = useCallback((m: ToastMessage) => setMessage(m), []);
-  const open = useCallback((dialog: WorkDialog, subject: WorkSubject, opts?: { status?: FaultStatus; batchIds?: string[] }) => setRequest({ dialog, subject, ...opts }), []);
+  const open = useCallback((dialog: WorkDialog, subject: WorkSubject, opts?: { status?: FaultStatus; batchIds?: string[] }) => setRequest({ seq: Date.now(), dialog, subject, ...opts }), []);
 
   const runStatus = useCallback(async (subject: WorkSubject, status: FaultStatus) => {
     const res = await callAction(() => changeRequestStatus(subject.id, status));

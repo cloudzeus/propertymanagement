@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { RiCalendarCheckLine, RiDeleteBinLine } from "react-icons/ri";
 import { FormField, FieldInput, FieldSelect } from "@/components/ui/modal";
-import { scheduleRequest, setRequestEstimate, offerSlots, bookSlot, removeSlot } from "@/app/actions/maintenance-requests";
+import { scheduleRequest, offerSlots, bookSlot, removeSlot } from "@/app/actions/maintenance-requests";
 import { combineLocal, roundTo30, TIME_OPTIONS } from "@/lib/work/appointment";
 import { DialogFrame, useDialogRun, btn, btnPrimary, muted, checkRow, fmt, type DialogProps } from "./shared";
 
@@ -26,13 +26,8 @@ export function AppointmentDialog({ ctx, subject, onDone, onClose }: DialogProps
   const mins = roundTo30(Number(duration), f.estimatedMinutes ?? 60);
   const openSlots = f.slots.filter((s) => s.status === "OPEN");
 
-  const schedule = () => run(async () => {
-    if (mins !== (f.estimatedMinutes ?? null) || presence !== f.managerPresence) {
-      const est = await setRequestEstimate(subject.id, mins, presence);
-      if ("error" in est && est.error) return est;
-    }
-    return scheduleRequest(subject.id, iso!, mins);
-  }, `Ορίστηκε ραντεβού ${fmt(iso)}`);
+  // One server call: scheduleRequest stores duration + presence itself (one notification, one e-mail round).
+  const schedule = () => run(() => scheduleRequest(subject.id, iso!, mins, presence), `Ορίστηκε ραντεβού ${fmt(iso)}`);
 
   return (
     <DialogFrame title="Ραντεβού" width={600} error={error} busy={busy} onClose={onClose}
