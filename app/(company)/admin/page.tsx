@@ -9,11 +9,12 @@ import { SupportTicketSection } from "@/components/support/support-ticket-sectio
 export default async function AdminDashboard() {
   const session = await auth();
   const companyId = (session?.user as any)?.companyId as string | undefined;
+  const userId = (session?.user as { id?: string } | undefined)?.id;
   const { markers, missing } = await getPropertiesForMap();
 
   return (
     <DashboardTabs map={<PropertiesMap markers={markers} missing={missing} />}>
-      <AdminHome companyId={companyId} />
+      <AdminHome companyId={companyId} userId={userId} />
       <div style={{ marginTop: 24 }}>
         <MaintenanceKanbanSection />
       </div>

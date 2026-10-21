@@ -9,6 +9,7 @@ import {
 } from "@/lib/dashboard/platform";
 import { formatEuro } from "@/lib/dashboard/aggregations";
 import { KpiCard, Panel, RevenueBars, Pill, EmptyState, rowStyle, ManagedFaultsPanel } from "@/components/dashboard/kit";
+import { WorkSummaryStrip } from "@/components/dashboard/WorkSummaryStrip";
 import {
   RiHome3Line,
   RiToolsLine,
@@ -44,7 +45,7 @@ const quickLinks = [
  * Admin (company operations) dashboard content, scoped to `companyId`.
  * Rendered by the real /admin page and by the read-only role preview.
  */
-export async function AdminHome({ companyId }: { companyId: string | undefined }) {
+export async function AdminHome({ companyId, userId }: { companyId: string | undefined; userId?: string }) {
   const [ctx, managedBuildings, faults, revenue, outstanding, expiring] = await Promise.all([
     getAdminContext(companyId),
     getManagedBuildingsCount(companyId),
@@ -60,6 +61,8 @@ export async function AdminHome({ companyId }: { companyId: string | undefined }
         <h1 style={{ fontSize: "var(--fs-22)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}>Πίνακας Διαχείρισης</h1>
         <p style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)", marginTop: 4 }}>Λειτουργική εικόνα εταιρείας — βλάβες, εισπράξεις, λήξεις</p>
       </div>
+
+      <WorkSummaryStrip role="ADMIN" userId={userId} />
 
       {/* Primary operational KPIs */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16 }}>

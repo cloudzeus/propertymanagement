@@ -9,6 +9,7 @@ import {
   RiCheckboxCircleLine,
   RiTimeLine,
 } from "react-icons/ri";
+import { WorkSummaryStrip } from "@/components/dashboard/WorkSummaryStrip";
 
 async function getManagerStats(companyId: string | undefined) {
   const propWhere = companyId ? { companyId } : {};
@@ -42,7 +43,7 @@ const PRIORITY_COLOR: Record<string, string> = {
  * Manager (company) dashboard content, scoped to `companyId`.
  * Rendered by the real /manager page and by the read-only role preview.
  */
-export async function ManagerHome({ companyId }: { companyId: string | undefined }) {
+export async function ManagerHome({ companyId, userId }: { companyId: string | undefined; userId?: string }) {
   const [stats, recentMaintenance] = await Promise.all([
     getManagerStats(companyId),
     getRecentMaintenance(companyId),
@@ -54,6 +55,8 @@ export async function ManagerHome({ companyId }: { companyId: string | undefined
         <h1 style={{ fontSize: "var(--fs-22)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}>Διαχείριση Ακινήτων</h1>
         <p style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)", marginTop: 4 }}>Επισκόπηση και εκκρεμότητες</p>
       </div>
+
+      <WorkSummaryStrip role="MANAGER" userId={userId} />
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16 }}>
         {[

@@ -8,6 +8,7 @@ import {
   RiTimeLine,
   RiAlertLine,
 } from "react-icons/ri";
+import { WorkSummaryStrip } from "@/components/dashboard/WorkSummaryStrip";
 
 async function getStaffStats(userId: string, companyId: string | undefined) {
   const propWhere = companyId ? { companyId } : {};
@@ -57,6 +58,8 @@ export async function StaffHome({ userId, companyId }: { userId: string; company
         <h1 style={{ fontSize: "var(--fs-22)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}>Οι Εργασίες μου</h1>
         <p style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)", marginTop: 4 }}>Επισκόπηση ανατεθειμένων εργασιών</p>
       </div>
+
+      <WorkSummaryStrip role="EMPLOYEE" userId={userId} />
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
         {[
