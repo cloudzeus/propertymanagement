@@ -1,11 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { DataTable, type ColDef } from "@/components/ui/data-table";
+import { useWorkActions } from "@/components/work/useWorkActions";
+import { subjectFromFaultListItem } from "@/lib/work/subjects";
+import type { WorkActionViewer } from "@/lib/work/scope";
 import { NewRequestButton } from "@/components/maintenance/new-request-form";
 import { STATUS_LABELS, STATUS_COLORS, PRIORITY_LABELS, HANDLER_LABELS, type FaultStatus } from "@/lib/maintenance-shared";
-import { RiSettings3Line, RiEyeLine } from "react-icons/ri";
+import { RiSettings3Line } from "react-icons/ri";
 import type { FaultListItem, BuildingOption, CategoryOption } from "@/components/maintenance/types";
 
 const fmt = (iso: string | null) => (iso ? new Date(iso).toLocaleString("el-GR", { dateStyle: "short", timeStyle: "short" }) : "—");
@@ -19,13 +21,15 @@ function StatusPill({ status }: { status: string }) {
   );
 }
 
-export function MaintenanceListClient({ items, canEditSettings, buildings, categories }: {
+export function MaintenanceListClient({ items, viewer, canEditSettings, buildings, categories }: {
   items: FaultListItem[];
+  viewer: WorkActionViewer;
   canEditSettings: boolean;
   buildings: BuildingOption[];
   categories: CategoryOption[];
 }) {
-  const router = useRouter();
+  const wa = useWorkActions({ viewer, where: "list" });
+  const batchActions = wa.batchActions<FaultListItem>((rows) => rows.map(subjectFromFaultListItem));
 
   const open = items.filter((i) => !["COMPLETED", "CANCELLED"].includes(i.status)).length;
   const overdue = items.filter((i) => i.slaDueAt && new Date(i.slaDueAt) < new Date() && !["COMPLETED", "CANCELLED"].includes(i.status)).length;
@@ -90,8 +94,10 @@ export function MaintenanceListClient({ items, canEditSettings, buildings, categ
         clientSide
         storageKey="maintenance-list"
         searchPlaceholder="Αναζήτηση βλάβης…"
-        getRowActions={(r) => [{ label: "Προβολή", icon: <RiEyeLine />, onClick: () => router.push(`/admin/maintenance/${r.id}`) }]}
+        getRowActions={(r) => wa.rowActions(subjectFromFaultListItem(r))}
+        batchActions={batchActions.length ? batchActions : undefined}
       />
+      {wa.host}
     </div>
   );
 }

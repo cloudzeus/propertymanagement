@@ -1,4 +1,5 @@
-import { requirePermission } from "@/lib/rbac/permissions";
+import { requirePermission, getEffectivePermissions } from "@/lib/rbac/permissions";
+import { workActionViewer } from "@/lib/work/scope";
 import { getEffectiveSession } from "@/lib/auth-effective";
 import { db } from "@/lib/db";
 import { MaintenanceListClient } from "./MaintenanceListClient";
@@ -57,6 +58,9 @@ export default async function MaintenancePage() {
     createdAt: r.createdAt.toISOString(),
   }));
 
+  const resolved = await getEffectivePermissions();
+  const viewer = workActionViewer(role, userId, resolved?.perms ?? new Set());
+
   const [buildings, categories] = await Promise.all([
     db.building.findMany({
       orderBy: { name: "asc" },
@@ -68,6 +72,7 @@ export default async function MaintenancePage() {
   return (
     <MaintenanceListClient
       items={items}
+      viewer={viewer}
       canEditSettings={["SUPER_ADMIN", "ADMIN", "MANAGER"].includes(role)}
       buildings={buildings.map((b) => ({ id: b.id, name: b.name, units: b.units.map((u) => ({ id: u.id, label: `Μονάδα ${u.unitNumber}` })) }))}
       categories={categories}
