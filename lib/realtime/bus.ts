@@ -8,6 +8,13 @@ export type BuildingEventType =
 
 export type BuildingEvent = { type: BuildingEventType };
 
+/** Company-wide channel for staff screens that span every building (work center). */
+export type CompanyEventType = "work";
+export type CompanyEvent = { type: CompanyEventType };
+const COMPANY_CHANNEL = "company";
+/** Building event types that also change the company work center. */
+const WORK_RELEVANT: ReadonlySet<BuildingEventType> = new Set(["maintenance", "calendar"]);
+
 const g = globalThis as unknown as { __rtBus?: EventEmitter };
 const bus = (g.__rtBus ??= (() => {
   const e = new EventEmitter();
@@ -21,6 +28,21 @@ export function publishBuildingEvent(buildingId: string, type: BuildingEventType
   } catch {
     // Notifications must never break the mutation that triggered them.
   }
+  if (WORK_RELEVANT.has(type)) publishCompanyEvent("work");
+}
+
+export function publishCompanyEvent(type: CompanyEventType): void {
+  try {
+    bus.emit(COMPANY_CHANNEL, { type } satisfies CompanyEvent);
+  } catch {
+    // never break the caller
+  }
+}
+
+export function subscribeCompany(listener: (e: CompanyEvent) => void): () => void {
+  const safe = (e: CompanyEvent) => { try { listener(e); } catch {} };
+  bus.on(COMPANY_CHANNEL, safe);
+  return () => bus.off(COMPANY_CHANNEL, safe);
 }
 
 export function subscribeBuilding(buildingId: string, listener: (e: BuildingEvent) => void): () => void {

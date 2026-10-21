@@ -8,7 +8,7 @@ import { getEffectivePermissions, can } from "@/lib/rbac/permissions";
 import { notifyUsers, supplierUserIds, companyStaffIds, buildingDeciderIds } from "@/lib/notify";
 import { applyMarkup } from "@/lib/rfq-shared";
 import { renderContract } from "@/lib/contracts";
-import { publishBuildingEvent } from "@/lib/realtime/bus";
+import { publishBuildingEvent, publishCompanyEvent } from "@/lib/realtime/bus";
 import { STATUS_TRANSITIONS, type FaultStatus } from "@/lib/maintenance-shared";
 import { COMPANY_ROLES } from "@/lib/roles-constants";
 import { sendRfqInvitations } from "@/lib/rfq-send";
@@ -47,6 +47,7 @@ function revalidate(reqId?: string | null, buildingId?: string | null) {
   revalidatePath("/marketplace"); revalidatePath("/marketplace/rfq"); revalidatePath("/marketplace/work-orders");
   if (reqId) { revalidatePath(`/admin/maintenance/${reqId}`); revalidatePath(`/portal/maintenance/${reqId}`); revalidatePath(`/portal/requests/${reqId}`); }
   if (buildingId) { revalidatePath(`/building/${buildingId}`); publishBuildingEvent(buildingId, "maintenance"); }
+  else publishCompanyEvent("work"); // RFQ/WO changes without a building id still touch the work center
 }
 
 async function nextWorkOrderNumber(tx: Parameters<Parameters<typeof db.$transaction>[0]>[0]) {

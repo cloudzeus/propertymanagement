@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
 import { getEffectiveSession } from "@/lib/auth-effective";
 import { db } from "@/lib/db";
-import { subscribeBuilding } from "@/lib/realtime/bus";
+import { subscribeBuilding, subscribeCompany } from "@/lib/realtime/bus";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -34,10 +34,17 @@ async function canListen(userId: string, role: string, buildingId: string): Prom
 export async function GET(req: NextRequest) {
   const eff = await getEffectiveSession();
   if (!eff?.user?.id) return new Response("Unauthorized", { status: 401 });
+  const scope = req.nextUrl.searchParams.get("scope");
   const buildingId = req.nextUrl.searchParams.get("building");
-  if (!buildingId) return new Response("Missing building", { status: 400 });
-  const allowed = await canListen(eff.user.id as string, eff.user.role as string, buildingId);
-  if (!allowed) return new Response("Forbidden", { status: 403 });
+  // Company-wide channel (work center): staff only.
+  const companyWide = scope === "company";
+  if (companyWide) {
+    if (!STAFF.includes(eff.user.role as string)) return new Response("Forbidden", { status: 403 });
+  } else {
+    if (!buildingId) return new Response("Missing building", { status: 400 });
+    const allowed = await canListen(eff.user.id as string, eff.user.role as string, buildingId);
+    if (!allowed) return new Response("Forbidden", { status: 403 });
+  }
 
   const encoder = new TextEncoder();
   let cleanup: (() => void) | null = null;
@@ -47,7 +54,9 @@ export async function GET(req: NextRequest) {
         try { controller.enqueue(encoder.encode(text)); } catch {}
       };
       send(`: connected\n\n`);
-      const off = subscribeBuilding(buildingId, (e) => send(`data: ${JSON.stringify(e)}\n\n`));
+      const off = companyWide
+        ? subscribeCompany((e) => send(`data: ${JSON.stringify(e)}\n\n`))
+        : subscribeBuilding(buildingId!, (e) => send(`data: ${JSON.stringify(e)}\n\n`));
       const heartbeat = setInterval(() => send(`: hb\n\n`), 25000);
       const close = () => {
         clearInterval(heartbeat);

@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from "vitest";
-import { publishBuildingEvent, subscribeBuilding } from "./bus";
+import { publishBuildingEvent, subscribeBuilding, publishCompanyEvent, subscribeCompany } from "./bus";
 
 describe("realtime bus", () => {
   it("delivers events to subscribers of the same building only", () => {
@@ -22,5 +22,18 @@ describe("realtime bus", () => {
     const off = subscribeBuilding("b1", () => { throw new Error("boom"); });
     expect(() => publishBuildingEvent("b1", "announcement")).not.toThrow();
     off();
+  });
+  it("company channel: maintenance/calendar building events and explicit company events reach company subscribers", () => {
+    const fn = vi.fn();
+    const off = subscribeCompany(fn);
+    publishBuildingEvent("b1", "maintenance");
+    publishBuildingEvent("b1", "calendar");
+    publishBuildingEvent("b1", "file");
+    publishCompanyEvent("work");
+    expect(fn).toHaveBeenCalledTimes(3);
+    expect(fn).toHaveBeenCalledWith({ type: "work" });
+    off();
+    publishCompanyEvent("work");
+    expect(fn).toHaveBeenCalledTimes(3);
   });
 });
