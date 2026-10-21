@@ -45,6 +45,7 @@ import {
   RiMailCheckLine, RiMailCheckFill, RiCalendarTodoFill,
   RiPlugLine, RiPlugFill, RiNodeTree, RiListSettingsLine, RiListSettingsFill, RiRefreshLine, RiRefreshFill, RiExchangeLine, RiExchangeFill,
   RiTaskLine, RiTaskFill, RiBuilding2Line, RiBuilding2Fill, RiBankCardLine, RiBankCardFill,
+  RiRoadMapLine, RiRoadMapFill,
 } from "react-icons/ri";
 import type { MenuGroup } from "@/lib/rbac/permissions";
 import { usePhone } from "@/lib/use-media-query";
@@ -114,6 +115,7 @@ const ICONS: Record<string, { line: React.ElementType; fill: React.ElementType }
   RiAlarmWarningLine:       { line: RiAlarmWarningLine,       fill: RiAlarmWarningFill },
   RiMailCheckLine:          { line: RiMailCheckLine,          fill: RiMailCheckFill },
   RiCalendarTodoLine:       { line: RiCalendarTodoLine,       fill: RiCalendarTodoFill },
+  RiRoadMapLine:            { line: RiRoadMapLine,            fill: RiRoadMapFill },
   RiPlugLine:               { line: RiPlugLine,               fill: RiPlugFill },
   RiNodeTree:               { line: RiNodeTree,               fill: RiNodeTree },
   RiListSettingsLine:       { line: RiListSettingsLine,       fill: RiListSettingsFill },

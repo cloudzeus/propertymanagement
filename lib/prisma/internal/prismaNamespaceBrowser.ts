@@ -158,7 +158,8 @@ export const ModelName = {
   AiConversation: 'AiConversation',
   AiMessage: 'AiMessage',
   AiActionLog: 'AiActionLog',
-  WikiChunk: 'WikiChunk'
+  WikiChunk: 'WikiChunk',
+  DistanceCache: 'DistanceCache'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -482,6 +483,11 @@ export const BuildingScalarFieldEnum = {
   heatingMeterUnit: 'heatingMeterUnit',
   lat: 'lat',
   lng: 'lng',
+  distanceKm: 'distanceKm',
+  distanceMinutes: 'distanceMinutes',
+  distanceMethod: 'distanceMethod',
+  distanceAt: 'distanceAt',
+  distanceBaseKey: 'distanceBaseKey',
   dailyRoomName: 'dailyRoomName',
   softonePrjc: 'softonePrjc',
   createdAt: 'createdAt',
@@ -851,6 +857,7 @@ export const ServiceScalarFieldEnum = {
   price: 'price',
   active: 'active',
   softoneMtrl: 'softoneMtrl',
+  zonePrices: 'zonePrices',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -1602,6 +1609,7 @@ export const AppSettingsScalarFieldEnum = {
   offerMarkupPct: 'offerMarkupPct',
   warrantyMonths: 'warrantyMonths',
   silentAcceptDays: 'silentAcceptDays',
+  distanceZones: 'distanceZones',
   updatedAt: 'updatedAt',
   updatedById: 'updatedById'
 } as const
@@ -1842,6 +1850,7 @@ export const SupplierScalarFieldEnum = {
   emergency24h: 'emergency24h',
   lat: 'lat',
   lng: 'lng',
+  surveyZoneFees: 'surveyZoneFees',
   ratingAvg: 'ratingAvg',
   ratingCount: 'ratingCount',
   onboardedAt: 'onboardedAt',
@@ -2014,6 +2023,9 @@ export const WorkOrderScalarFieldEnum = {
   surveyFee: 'surveyFee',
   surveyWaived: 'surveyWaived',
   warrantyMonths: 'warrantyMonths',
+  travelFee: 'travelFee',
+  travelZone: 'travelZone',
+  travelKm: 'travelKm',
   status: 'status',
   customerMessage: 'customerMessage',
   earliestDate: 'earliestDate',
@@ -2191,6 +2203,24 @@ export const WikiChunkScalarFieldEnum = {
 } as const
 
 export type WikiChunkScalarFieldEnum = (typeof WikiChunkScalarFieldEnum)[keyof typeof WikiChunkScalarFieldEnum]
+
+
+export const DistanceCacheScalarFieldEnum = {
+  id: 'id',
+  fromLat4: 'fromLat4',
+  fromLng4: 'fromLng4',
+  toLat4: 'toLat4',
+  toLng4: 'toLng4',
+  km: 'km',
+  minutes: 'minutes',
+  method: 'method',
+  provider: 'provider',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DistanceCacheScalarFieldEnum = (typeof DistanceCacheScalarFieldEnum)[keyof typeof DistanceCacheScalarFieldEnum]
 
 
 export const SortOrder = {

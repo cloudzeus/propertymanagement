@@ -77,6 +77,7 @@ export type ServiceCountAggregateOutputType = {
   price: number
   active: number
   softoneMtrl: number
+  zonePrices: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -134,6 +135,7 @@ export type ServiceCountAggregateInputType = {
   price?: true
   active?: true
   softoneMtrl?: true
+  zonePrices?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -236,6 +238,7 @@ export type ServiceGroupByOutputType = {
   price: runtime.Decimal
   active: boolean
   softoneMtrl: number | null
+  zonePrices: runtime.JsonValue | null
   createdAt: Date
   updatedAt: Date
   _count: ServiceCountAggregateOutputType | null
@@ -274,6 +277,7 @@ export type ServiceWhereInput = {
   price?: Prisma.DecimalFilter<"Service"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   active?: Prisma.BoolFilter<"Service"> | boolean
   softoneMtrl?: Prisma.IntNullableFilter<"Service"> | number | null
+  zonePrices?: Prisma.JsonNullableFilter<"Service">
   createdAt?: Prisma.DateTimeFilter<"Service"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Service"> | Date | string
   company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
@@ -291,6 +295,7 @@ export type ServiceOrderByWithRelationInput = {
   price?: Prisma.SortOrder
   active?: Prisma.SortOrder
   softoneMtrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  zonePrices?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   company?: Prisma.CompanyOrderByWithRelationInput
@@ -311,6 +316,7 @@ export type ServiceWhereUniqueInput = Prisma.AtLeast<{
   price?: Prisma.DecimalFilter<"Service"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   active?: Prisma.BoolFilter<"Service"> | boolean
   softoneMtrl?: Prisma.IntNullableFilter<"Service"> | number | null
+  zonePrices?: Prisma.JsonNullableFilter<"Service">
   createdAt?: Prisma.DateTimeFilter<"Service"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Service"> | Date | string
   company?: Prisma.XOR<Prisma.CompanyScalarRelationFilter, Prisma.CompanyWhereInput>
@@ -328,6 +334,7 @@ export type ServiceOrderByWithAggregationInput = {
   price?: Prisma.SortOrder
   active?: Prisma.SortOrder
   softoneMtrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  zonePrices?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.ServiceCountOrderByAggregateInput
@@ -351,6 +358,7 @@ export type ServiceScalarWhereWithAggregatesInput = {
   price?: Prisma.DecimalWithAggregatesFilter<"Service"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   active?: Prisma.BoolWithAggregatesFilter<"Service"> | boolean
   softoneMtrl?: Prisma.IntNullableWithAggregatesFilter<"Service"> | number | null
+  zonePrices?: Prisma.JsonNullableWithAggregatesFilter<"Service">
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Service"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Service"> | Date | string
 }
@@ -365,6 +373,7 @@ export type ServiceCreateInput = {
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   active?: boolean
   softoneMtrl?: number | null
+  zonePrices?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutServicesInput
@@ -382,6 +391,7 @@ export type ServiceUncheckedCreateInput = {
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   active?: boolean
   softoneMtrl?: number | null
+  zonePrices?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
   propertyServices?: Prisma.PropertyServiceUncheckedCreateNestedManyWithoutServiceInput
@@ -397,6 +407,7 @@ export type ServiceUpdateInput = {
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   softoneMtrl?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  zonePrices?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutServicesNestedInput
@@ -414,6 +425,7 @@ export type ServiceUncheckedUpdateInput = {
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   softoneMtrl?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  zonePrices?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   propertyServices?: Prisma.PropertyServiceUncheckedUpdateManyWithoutServiceNestedInput
@@ -430,6 +442,7 @@ export type ServiceCreateManyInput = {
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   active?: boolean
   softoneMtrl?: number | null
+  zonePrices?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -444,6 +457,7 @@ export type ServiceUpdateManyMutationInput = {
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   softoneMtrl?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  zonePrices?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -459,6 +473,7 @@ export type ServiceUncheckedUpdateManyInput = {
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   softoneMtrl?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  zonePrices?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -484,6 +499,7 @@ export type ServiceCountOrderByAggregateInput = {
   price?: Prisma.SortOrder
   active?: Prisma.SortOrder
   softoneMtrl?: Prisma.SortOrder
+  zonePrices?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -603,6 +619,7 @@ export type ServiceCreateWithoutCompanyInput = {
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   active?: boolean
   softoneMtrl?: number | null
+  zonePrices?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
   propertyServices?: Prisma.PropertyServiceCreateNestedManyWithoutServiceInput
@@ -618,6 +635,7 @@ export type ServiceUncheckedCreateWithoutCompanyInput = {
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   active?: boolean
   softoneMtrl?: number | null
+  zonePrices?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
   propertyServices?: Prisma.PropertyServiceUncheckedCreateNestedManyWithoutServiceInput
@@ -663,6 +681,7 @@ export type ServiceScalarWhereInput = {
   price?: Prisma.DecimalFilter<"Service"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   active?: Prisma.BoolFilter<"Service"> | boolean
   softoneMtrl?: Prisma.IntNullableFilter<"Service"> | number | null
+  zonePrices?: Prisma.JsonNullableFilter<"Service">
   createdAt?: Prisma.DateTimeFilter<"Service"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Service"> | Date | string
 }
@@ -677,6 +696,7 @@ export type ServiceCreateWithoutPropertyServicesInput = {
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   active?: boolean
   softoneMtrl?: number | null
+  zonePrices?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
   company: Prisma.CompanyCreateNestedOneWithoutServicesInput
@@ -693,6 +713,7 @@ export type ServiceUncheckedCreateWithoutPropertyServicesInput = {
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   active?: boolean
   softoneMtrl?: number | null
+  zonePrices?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -723,6 +744,7 @@ export type ServiceUpdateWithoutPropertyServicesInput = {
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   softoneMtrl?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  zonePrices?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   company?: Prisma.CompanyUpdateOneRequiredWithoutServicesNestedInput
@@ -739,6 +761,7 @@ export type ServiceUncheckedUpdateWithoutPropertyServicesInput = {
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   softoneMtrl?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  zonePrices?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -753,6 +776,7 @@ export type ServiceCreateManyCompanyInput = {
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
   active?: boolean
   softoneMtrl?: number | null
+  zonePrices?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -767,6 +791,7 @@ export type ServiceUpdateWithoutCompanyInput = {
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   softoneMtrl?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  zonePrices?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   propertyServices?: Prisma.PropertyServiceUpdateManyWithoutServiceNestedInput
@@ -782,6 +807,7 @@ export type ServiceUncheckedUpdateWithoutCompanyInput = {
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   softoneMtrl?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  zonePrices?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   propertyServices?: Prisma.PropertyServiceUncheckedUpdateManyWithoutServiceNestedInput
@@ -797,6 +823,7 @@ export type ServiceUncheckedUpdateManyWithoutCompanyInput = {
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   softoneMtrl?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  zonePrices?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -843,6 +870,7 @@ export type ServiceSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   price?: boolean
   active?: boolean
   softoneMtrl?: boolean
+  zonePrices?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
@@ -861,6 +889,7 @@ export type ServiceSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   price?: boolean
   active?: boolean
   softoneMtrl?: boolean
+  zonePrices?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
@@ -877,6 +906,7 @@ export type ServiceSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   price?: boolean
   active?: boolean
   softoneMtrl?: boolean
+  zonePrices?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
@@ -893,11 +923,12 @@ export type ServiceSelectScalar = {
   price?: boolean
   active?: boolean
   softoneMtrl?: boolean
+  zonePrices?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type ServiceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "companyId" | "name" | "code" | "description" | "isCore" | "pricingModel" | "price" | "active" | "softoneMtrl" | "createdAt" | "updatedAt", ExtArgs["result"]["service"]>
+export type ServiceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "companyId" | "name" | "code" | "description" | "isCore" | "pricingModel" | "price" | "active" | "softoneMtrl" | "zonePrices" | "createdAt" | "updatedAt", ExtArgs["result"]["service"]>
 export type ServiceInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
   propertyServices?: boolean | Prisma.Service$propertyServicesArgs<ExtArgs>
@@ -927,6 +958,7 @@ export type $ServicePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     price: runtime.Decimal
     active: boolean
     softoneMtrl: number | null
+    zonePrices: runtime.JsonValue | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["service"]>
@@ -1364,6 +1396,7 @@ export interface ServiceFieldRefs {
   readonly price: Prisma.FieldRef<"Service", 'Decimal'>
   readonly active: Prisma.FieldRef<"Service", 'Boolean'>
   readonly softoneMtrl: Prisma.FieldRef<"Service", 'Int'>
+  readonly zonePrices: Prisma.FieldRef<"Service", 'Json'>
   readonly createdAt: Prisma.FieldRef<"Service", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Service", 'DateTime'>
 }

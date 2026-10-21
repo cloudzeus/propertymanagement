@@ -491,7 +491,8 @@ export const ModelName = {
   AiConversation: 'AiConversation',
   AiMessage: 'AiMessage',
   AiActionLog: 'AiActionLog',
-  WikiChunk: 'WikiChunk'
+  WikiChunk: 'WikiChunk',
+  DistanceCache: 'DistanceCache'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -507,7 +508,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "account" | "session" | "verificationToken" | "company" | "department" | "jobPosition" | "employee" | "subscription" | "addonFeature" | "customer" | "property" | "building" | "unitOccupancy" | "buildingFile" | "infraPoint" | "infraAccess" | "infraMedia" | "contact" | "recurringTask" | "maintenanceLog" | "buildingExpense" | "expenseCategory" | "buildingCategoryOverride" | "unitCategoryExclusion" | "unitHeatingReading" | "meterReading" | "expenseAllocation" | "unitPayment" | "managementAssignment" | "commonArea" | "managedItemType" | "managedItem" | "unit" | "service" | "propertyService" | "serviceInvoice" | "serviceInvoiceLine" | "userCompanyRole" | "announcement" | "announcementTarget" | "announcement_User" | "assembly" | "assemblyParticipant" | "processedWebhook" | "aPIUsageLog" | "aPICostConfig" | "wallet" | "walletTransaction" | "customerMeteredPlan" | "monthlyCostSummary" | "maintenanceRequest" | "maintenanceCategory" | "maintenanceCoverageRule" | "maintenanceAttachment" | "maintenanceStatusEvent" | "maintenanceComment" | "maintenanceSlot" | "maintenanceAppointment" | "notification" | "cMSPage" | "fAQ" | "pricingTier" | "contactMessage" | "newsletterSubscriber" | "softoneSettings" | "softoneSyncLog" | "softoneVat" | "softoneUnit" | "softoneIrsData" | "softoneSeries" | "softoneDistrict" | "softoneZip" | "cronRun" | "cookieConsent" | "appSettings" | "impersonationEvent" | "landingSection" | "marketingPage" | "pageSeo" | "uiMessage" | "mediaAsset" | "siteSettings" | "author" | "article" | "role" | "rolePermission" | "demoRequest" | "supportTicket" | "supplier" | "supplierRating" | "buildingPreferredSupplier" | "supplierCategory" | "serviceCatalogItem" | "supplierService" | "supplierProduct" | "serviceRequest" | "rfqInvitation" | "supplierOffer" | "workOrder" | "supplierContact" | "supplierInviteLink" | "supplierInquiry" | "contractTemplate" | "aiConversation" | "aiMessage" | "aiActionLog" | "wikiChunk"
+    modelProps: "user" | "account" | "session" | "verificationToken" | "company" | "department" | "jobPosition" | "employee" | "subscription" | "addonFeature" | "customer" | "property" | "building" | "unitOccupancy" | "buildingFile" | "infraPoint" | "infraAccess" | "infraMedia" | "contact" | "recurringTask" | "maintenanceLog" | "buildingExpense" | "expenseCategory" | "buildingCategoryOverride" | "unitCategoryExclusion" | "unitHeatingReading" | "meterReading" | "expenseAllocation" | "unitPayment" | "managementAssignment" | "commonArea" | "managedItemType" | "managedItem" | "unit" | "service" | "propertyService" | "serviceInvoice" | "serviceInvoiceLine" | "userCompanyRole" | "announcement" | "announcementTarget" | "announcement_User" | "assembly" | "assemblyParticipant" | "processedWebhook" | "aPIUsageLog" | "aPICostConfig" | "wallet" | "walletTransaction" | "customerMeteredPlan" | "monthlyCostSummary" | "maintenanceRequest" | "maintenanceCategory" | "maintenanceCoverageRule" | "maintenanceAttachment" | "maintenanceStatusEvent" | "maintenanceComment" | "maintenanceSlot" | "maintenanceAppointment" | "notification" | "cMSPage" | "fAQ" | "pricingTier" | "contactMessage" | "newsletterSubscriber" | "softoneSettings" | "softoneSyncLog" | "softoneVat" | "softoneUnit" | "softoneIrsData" | "softoneSeries" | "softoneDistrict" | "softoneZip" | "cronRun" | "cookieConsent" | "appSettings" | "impersonationEvent" | "landingSection" | "marketingPage" | "pageSeo" | "uiMessage" | "mediaAsset" | "siteSettings" | "author" | "article" | "role" | "rolePermission" | "demoRequest" | "supportTicket" | "supplier" | "supplierRating" | "buildingPreferredSupplier" | "supplierCategory" | "serviceCatalogItem" | "supplierService" | "supplierProduct" | "serviceRequest" | "rfqInvitation" | "supplierOffer" | "workOrder" | "supplierContact" | "supplierInviteLink" | "supplierInquiry" | "contractTemplate" | "aiConversation" | "aiMessage" | "aiActionLog" | "wikiChunk" | "distanceCache"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -8503,6 +8504,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    DistanceCache: {
+      payload: Prisma.$DistanceCachePayload<ExtArgs>
+      fields: Prisma.DistanceCacheFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.DistanceCacheFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DistanceCachePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.DistanceCacheFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DistanceCachePayload>
+        }
+        findFirst: {
+          args: Prisma.DistanceCacheFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DistanceCachePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.DistanceCacheFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DistanceCachePayload>
+        }
+        findMany: {
+          args: Prisma.DistanceCacheFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DistanceCachePayload>[]
+        }
+        create: {
+          args: Prisma.DistanceCacheCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DistanceCachePayload>
+        }
+        createMany: {
+          args: Prisma.DistanceCacheCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.DistanceCacheCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DistanceCachePayload>[]
+        }
+        delete: {
+          args: Prisma.DistanceCacheDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DistanceCachePayload>
+        }
+        update: {
+          args: Prisma.DistanceCacheUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DistanceCachePayload>
+        }
+        deleteMany: {
+          args: Prisma.DistanceCacheDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.DistanceCacheUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.DistanceCacheUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DistanceCachePayload>[]
+        }
+        upsert: {
+          args: Prisma.DistanceCacheUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DistanceCachePayload>
+        }
+        aggregate: {
+          args: Prisma.DistanceCacheAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateDistanceCache>
+        }
+        groupBy: {
+          args: Prisma.DistanceCacheGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DistanceCacheGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.DistanceCacheCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DistanceCacheCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -8847,6 +8922,11 @@ export const BuildingScalarFieldEnum = {
   heatingMeterUnit: 'heatingMeterUnit',
   lat: 'lat',
   lng: 'lng',
+  distanceKm: 'distanceKm',
+  distanceMinutes: 'distanceMinutes',
+  distanceMethod: 'distanceMethod',
+  distanceAt: 'distanceAt',
+  distanceBaseKey: 'distanceBaseKey',
   dailyRoomName: 'dailyRoomName',
   softonePrjc: 'softonePrjc',
   createdAt: 'createdAt',
@@ -9216,6 +9296,7 @@ export const ServiceScalarFieldEnum = {
   price: 'price',
   active: 'active',
   softoneMtrl: 'softoneMtrl',
+  zonePrices: 'zonePrices',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -9967,6 +10048,7 @@ export const AppSettingsScalarFieldEnum = {
   offerMarkupPct: 'offerMarkupPct',
   warrantyMonths: 'warrantyMonths',
   silentAcceptDays: 'silentAcceptDays',
+  distanceZones: 'distanceZones',
   updatedAt: 'updatedAt',
   updatedById: 'updatedById'
 } as const
@@ -10207,6 +10289,7 @@ export const SupplierScalarFieldEnum = {
   emergency24h: 'emergency24h',
   lat: 'lat',
   lng: 'lng',
+  surveyZoneFees: 'surveyZoneFees',
   ratingAvg: 'ratingAvg',
   ratingCount: 'ratingCount',
   onboardedAt: 'onboardedAt',
@@ -10379,6 +10462,9 @@ export const WorkOrderScalarFieldEnum = {
   surveyFee: 'surveyFee',
   surveyWaived: 'surveyWaived',
   warrantyMonths: 'warrantyMonths',
+  travelFee: 'travelFee',
+  travelZone: 'travelZone',
+  travelKm: 'travelKm',
   status: 'status',
   customerMessage: 'customerMessage',
   earliestDate: 'earliestDate',
@@ -10556,6 +10642,24 @@ export const WikiChunkScalarFieldEnum = {
 } as const
 
 export type WikiChunkScalarFieldEnum = (typeof WikiChunkScalarFieldEnum)[keyof typeof WikiChunkScalarFieldEnum]
+
+
+export const DistanceCacheScalarFieldEnum = {
+  id: 'id',
+  fromLat4: 'fromLat4',
+  fromLng4: 'fromLng4',
+  toLat4: 'toLat4',
+  toLng4: 'toLng4',
+  km: 'km',
+  minutes: 'minutes',
+  method: 'method',
+  provider: 'provider',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DistanceCacheScalarFieldEnum = (typeof DistanceCacheScalarFieldEnum)[keyof typeof DistanceCacheScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -11452,6 +11556,7 @@ export type GlobalOmitConfig = {
   aiMessage?: Prisma.AiMessageOmit
   aiActionLog?: Prisma.AiActionLogOmit
   wikiChunk?: Prisma.WikiChunkOmit
+  distanceCache?: Prisma.DistanceCacheOmit
 }
 
 /* Types for Logging */

@@ -162,6 +162,7 @@ export type SupplierCountAggregateOutputType = {
   emergency24h: number
   lat: number
   lng: number
+  surveyZoneFees: number
   ratingAvg: number
   ratingCount: number
   onboardedAt: number
@@ -307,6 +308,7 @@ export type SupplierCountAggregateInputType = {
   emergency24h?: true
   lat?: true
   lng?: true
+  surveyZoneFees?: true
   ratingAvg?: true
   ratingCount?: true
   onboardedAt?: true
@@ -435,6 +437,7 @@ export type SupplierGroupByOutputType = {
   emergency24h: boolean
   lat: number | null
   lng: number | null
+  surveyZoneFees: runtime.JsonValue | null
   ratingAvg: number | null
   ratingCount: number
   onboardedAt: Date | null
@@ -499,6 +502,7 @@ export type SupplierWhereInput = {
   emergency24h?: Prisma.BoolFilter<"Supplier"> | boolean
   lat?: Prisma.FloatNullableFilter<"Supplier"> | number | null
   lng?: Prisma.FloatNullableFilter<"Supplier"> | number | null
+  surveyZoneFees?: Prisma.JsonNullableFilter<"Supplier">
   ratingAvg?: Prisma.FloatNullableFilter<"Supplier"> | number | null
   ratingCount?: Prisma.IntFilter<"Supplier"> | number
   onboardedAt?: Prisma.DateTimeNullableFilter<"Supplier"> | Date | string | null
@@ -557,6 +561,7 @@ export type SupplierOrderByWithRelationInput = {
   emergency24h?: Prisma.SortOrder
   lat?: Prisma.SortOrderInput | Prisma.SortOrder
   lng?: Prisma.SortOrderInput | Prisma.SortOrder
+  surveyZoneFees?: Prisma.SortOrderInput | Prisma.SortOrder
   ratingAvg?: Prisma.SortOrderInput | Prisma.SortOrder
   ratingCount?: Prisma.SortOrder
   onboardedAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -618,6 +623,7 @@ export type SupplierWhereUniqueInput = Prisma.AtLeast<{
   emergency24h?: Prisma.BoolFilter<"Supplier"> | boolean
   lat?: Prisma.FloatNullableFilter<"Supplier"> | number | null
   lng?: Prisma.FloatNullableFilter<"Supplier"> | number | null
+  surveyZoneFees?: Prisma.JsonNullableFilter<"Supplier">
   ratingAvg?: Prisma.FloatNullableFilter<"Supplier"> | number | null
   ratingCount?: Prisma.IntFilter<"Supplier"> | number
   onboardedAt?: Prisma.DateTimeNullableFilter<"Supplier"> | Date | string | null
@@ -676,6 +682,7 @@ export type SupplierOrderByWithAggregationInput = {
   emergency24h?: Prisma.SortOrder
   lat?: Prisma.SortOrderInput | Prisma.SortOrder
   lng?: Prisma.SortOrderInput | Prisma.SortOrder
+  surveyZoneFees?: Prisma.SortOrderInput | Prisma.SortOrder
   ratingAvg?: Prisma.SortOrderInput | Prisma.SortOrder
   ratingCount?: Prisma.SortOrder
   onboardedAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -725,6 +732,7 @@ export type SupplierScalarWhereWithAggregatesInput = {
   emergency24h?: Prisma.BoolWithAggregatesFilter<"Supplier"> | boolean
   lat?: Prisma.FloatNullableWithAggregatesFilter<"Supplier"> | number | null
   lng?: Prisma.FloatNullableWithAggregatesFilter<"Supplier"> | number | null
+  surveyZoneFees?: Prisma.JsonNullableWithAggregatesFilter<"Supplier">
   ratingAvg?: Prisma.FloatNullableWithAggregatesFilter<"Supplier"> | number | null
   ratingCount?: Prisma.IntWithAggregatesFilter<"Supplier"> | number
   onboardedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Supplier"> | Date | string | null
@@ -765,6 +773,7 @@ export type SupplierCreateInput = {
   emergency24h?: boolean
   lat?: number | null
   lng?: number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: number | null
   ratingCount?: number
   onboardedAt?: Date | string | null
@@ -823,6 +832,7 @@ export type SupplierUncheckedCreateInput = {
   emergency24h?: boolean
   lat?: number | null
   lng?: number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: number | null
   ratingCount?: number
   onboardedAt?: Date | string | null
@@ -879,6 +889,7 @@ export type SupplierUpdateInput = {
   emergency24h?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   onboardedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -937,6 +948,7 @@ export type SupplierUncheckedUpdateInput = {
   emergency24h?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   onboardedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -994,6 +1006,7 @@ export type SupplierCreateManyInput = {
   emergency24h?: boolean
   lat?: number | null
   lng?: number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: number | null
   ratingCount?: number
   onboardedAt?: Date | string | null
@@ -1034,6 +1047,7 @@ export type SupplierUpdateManyMutationInput = {
   emergency24h?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   onboardedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1075,6 +1089,7 @@ export type SupplierUncheckedUpdateManyInput = {
   emergency24h?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   onboardedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1131,6 +1146,7 @@ export type SupplierCountOrderByAggregateInput = {
   emergency24h?: Prisma.SortOrder
   lat?: Prisma.SortOrder
   lng?: Prisma.SortOrder
+  surveyZoneFees?: Prisma.SortOrder
   ratingAvg?: Prisma.SortOrder
   ratingCount?: Prisma.SortOrder
   onboardedAt?: Prisma.SortOrder
@@ -1558,6 +1574,7 @@ export type SupplierCreateWithoutUsersInput = {
   emergency24h?: boolean
   lat?: number | null
   lng?: number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: number | null
   ratingCount?: number
   onboardedAt?: Date | string | null
@@ -1615,6 +1632,7 @@ export type SupplierUncheckedCreateWithoutUsersInput = {
   emergency24h?: boolean
   lat?: number | null
   lng?: number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: number | null
   ratingCount?: number
   onboardedAt?: Date | string | null
@@ -1686,6 +1704,7 @@ export type SupplierUpdateWithoutUsersInput = {
   emergency24h?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   onboardedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1743,6 +1762,7 @@ export type SupplierUncheckedUpdateWithoutUsersInput = {
   emergency24h?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   onboardedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1798,6 +1818,7 @@ export type SupplierCreateWithoutCustomerInput = {
   emergency24h?: boolean
   lat?: number | null
   lng?: number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: number | null
   ratingCount?: number
   onboardedAt?: Date | string | null
@@ -1854,6 +1875,7 @@ export type SupplierUncheckedCreateWithoutCustomerInput = {
   emergency24h?: boolean
   lat?: number | null
   lng?: number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: number | null
   ratingCount?: number
   onboardedAt?: Date | string | null
@@ -1940,6 +1962,7 @@ export type SupplierScalarWhereInput = {
   emergency24h?: Prisma.BoolFilter<"Supplier"> | boolean
   lat?: Prisma.FloatNullableFilter<"Supplier"> | number | null
   lng?: Prisma.FloatNullableFilter<"Supplier"> | number | null
+  surveyZoneFees?: Prisma.JsonNullableFilter<"Supplier">
   ratingAvg?: Prisma.FloatNullableFilter<"Supplier"> | number | null
   ratingCount?: Prisma.IntFilter<"Supplier"> | number
   onboardedAt?: Prisma.DateTimeNullableFilter<"Supplier"> | Date | string | null
@@ -1980,6 +2003,7 @@ export type SupplierCreateWithoutContactsInput = {
   emergency24h?: boolean
   lat?: number | null
   lng?: number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: number | null
   ratingCount?: number
   onboardedAt?: Date | string | null
@@ -2037,6 +2061,7 @@ export type SupplierUncheckedCreateWithoutContactsInput = {
   emergency24h?: boolean
   lat?: number | null
   lng?: number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: number | null
   ratingCount?: number
   onboardedAt?: Date | string | null
@@ -2108,6 +2133,7 @@ export type SupplierUpdateWithoutContactsInput = {
   emergency24h?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   onboardedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2165,6 +2191,7 @@ export type SupplierUncheckedUpdateWithoutContactsInput = {
   emergency24h?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   onboardedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2220,6 +2247,7 @@ export type SupplierCreateWithoutRecurringTasksInput = {
   emergency24h?: boolean
   lat?: number | null
   lng?: number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: number | null
   ratingCount?: number
   onboardedAt?: Date | string | null
@@ -2277,6 +2305,7 @@ export type SupplierUncheckedCreateWithoutRecurringTasksInput = {
   emergency24h?: boolean
   lat?: number | null
   lng?: number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: number | null
   ratingCount?: number
   onboardedAt?: Date | string | null
@@ -2348,6 +2377,7 @@ export type SupplierUpdateWithoutRecurringTasksInput = {
   emergency24h?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   onboardedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2405,6 +2435,7 @@ export type SupplierUncheckedUpdateWithoutRecurringTasksInput = {
   emergency24h?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   onboardedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2460,6 +2491,7 @@ export type SupplierCreateWithoutExpensesInput = {
   emergency24h?: boolean
   lat?: number | null
   lng?: number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: number | null
   ratingCount?: number
   onboardedAt?: Date | string | null
@@ -2517,6 +2549,7 @@ export type SupplierUncheckedCreateWithoutExpensesInput = {
   emergency24h?: boolean
   lat?: number | null
   lng?: number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: number | null
   ratingCount?: number
   onboardedAt?: Date | string | null
@@ -2588,6 +2621,7 @@ export type SupplierUpdateWithoutExpensesInput = {
   emergency24h?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   onboardedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2645,6 +2679,7 @@ export type SupplierUncheckedUpdateWithoutExpensesInput = {
   emergency24h?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   onboardedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2700,6 +2735,7 @@ export type SupplierCreateWithoutMaintenanceRequestsInput = {
   emergency24h?: boolean
   lat?: number | null
   lng?: number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: number | null
   ratingCount?: number
   onboardedAt?: Date | string | null
@@ -2757,6 +2793,7 @@ export type SupplierUncheckedCreateWithoutMaintenanceRequestsInput = {
   emergency24h?: boolean
   lat?: number | null
   lng?: number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: number | null
   ratingCount?: number
   onboardedAt?: Date | string | null
@@ -2828,6 +2865,7 @@ export type SupplierUpdateWithoutMaintenanceRequestsInput = {
   emergency24h?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   onboardedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2885,6 +2923,7 @@ export type SupplierUncheckedUpdateWithoutMaintenanceRequestsInput = {
   emergency24h?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   onboardedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2940,6 +2979,7 @@ export type SupplierCreateWithoutRatingsInput = {
   emergency24h?: boolean
   lat?: number | null
   lng?: number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: number | null
   ratingCount?: number
   onboardedAt?: Date | string | null
@@ -2997,6 +3037,7 @@ export type SupplierUncheckedCreateWithoutRatingsInput = {
   emergency24h?: boolean
   lat?: number | null
   lng?: number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: number | null
   ratingCount?: number
   onboardedAt?: Date | string | null
@@ -3068,6 +3109,7 @@ export type SupplierUpdateWithoutRatingsInput = {
   emergency24h?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   onboardedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3125,6 +3167,7 @@ export type SupplierUncheckedUpdateWithoutRatingsInput = {
   emergency24h?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   onboardedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3180,6 +3223,7 @@ export type SupplierCreateWithoutPreferredForInput = {
   emergency24h?: boolean
   lat?: number | null
   lng?: number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: number | null
   ratingCount?: number
   onboardedAt?: Date | string | null
@@ -3237,6 +3281,7 @@ export type SupplierUncheckedCreateWithoutPreferredForInput = {
   emergency24h?: boolean
   lat?: number | null
   lng?: number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: number | null
   ratingCount?: number
   onboardedAt?: Date | string | null
@@ -3308,6 +3353,7 @@ export type SupplierUpdateWithoutPreferredForInput = {
   emergency24h?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   onboardedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3365,6 +3411,7 @@ export type SupplierUncheckedUpdateWithoutPreferredForInput = {
   emergency24h?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   onboardedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3420,6 +3467,7 @@ export type SupplierCreateWithoutCategoriesInput = {
   emergency24h?: boolean
   lat?: number | null
   lng?: number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: number | null
   ratingCount?: number
   onboardedAt?: Date | string | null
@@ -3477,6 +3525,7 @@ export type SupplierUncheckedCreateWithoutCategoriesInput = {
   emergency24h?: boolean
   lat?: number | null
   lng?: number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: number | null
   ratingCount?: number
   onboardedAt?: Date | string | null
@@ -3548,6 +3597,7 @@ export type SupplierUpdateWithoutCategoriesInput = {
   emergency24h?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   onboardedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3605,6 +3655,7 @@ export type SupplierUncheckedUpdateWithoutCategoriesInput = {
   emergency24h?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   onboardedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3660,6 +3711,7 @@ export type SupplierCreateWithoutServicesInput = {
   emergency24h?: boolean
   lat?: number | null
   lng?: number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: number | null
   ratingCount?: number
   onboardedAt?: Date | string | null
@@ -3717,6 +3769,7 @@ export type SupplierUncheckedCreateWithoutServicesInput = {
   emergency24h?: boolean
   lat?: number | null
   lng?: number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: number | null
   ratingCount?: number
   onboardedAt?: Date | string | null
@@ -3788,6 +3841,7 @@ export type SupplierUpdateWithoutServicesInput = {
   emergency24h?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   onboardedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3845,6 +3899,7 @@ export type SupplierUncheckedUpdateWithoutServicesInput = {
   emergency24h?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   onboardedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3900,6 +3955,7 @@ export type SupplierCreateWithoutProductsInput = {
   emergency24h?: boolean
   lat?: number | null
   lng?: number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: number | null
   ratingCount?: number
   onboardedAt?: Date | string | null
@@ -3957,6 +4013,7 @@ export type SupplierUncheckedCreateWithoutProductsInput = {
   emergency24h?: boolean
   lat?: number | null
   lng?: number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: number | null
   ratingCount?: number
   onboardedAt?: Date | string | null
@@ -4028,6 +4085,7 @@ export type SupplierUpdateWithoutProductsInput = {
   emergency24h?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   onboardedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4085,6 +4143,7 @@ export type SupplierUncheckedUpdateWithoutProductsInput = {
   emergency24h?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   onboardedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4140,6 +4199,7 @@ export type SupplierCreateWithoutRfqInvitationsInput = {
   emergency24h?: boolean
   lat?: number | null
   lng?: number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: number | null
   ratingCount?: number
   onboardedAt?: Date | string | null
@@ -4197,6 +4257,7 @@ export type SupplierUncheckedCreateWithoutRfqInvitationsInput = {
   emergency24h?: boolean
   lat?: number | null
   lng?: number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: number | null
   ratingCount?: number
   onboardedAt?: Date | string | null
@@ -4268,6 +4329,7 @@ export type SupplierUpdateWithoutRfqInvitationsInput = {
   emergency24h?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   onboardedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4325,6 +4387,7 @@ export type SupplierUncheckedUpdateWithoutRfqInvitationsInput = {
   emergency24h?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   onboardedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4380,6 +4443,7 @@ export type SupplierCreateWithoutOffersInput = {
   emergency24h?: boolean
   lat?: number | null
   lng?: number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: number | null
   ratingCount?: number
   onboardedAt?: Date | string | null
@@ -4437,6 +4501,7 @@ export type SupplierUncheckedCreateWithoutOffersInput = {
   emergency24h?: boolean
   lat?: number | null
   lng?: number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: number | null
   ratingCount?: number
   onboardedAt?: Date | string | null
@@ -4508,6 +4573,7 @@ export type SupplierUpdateWithoutOffersInput = {
   emergency24h?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   onboardedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4565,6 +4631,7 @@ export type SupplierUncheckedUpdateWithoutOffersInput = {
   emergency24h?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   onboardedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4620,6 +4687,7 @@ export type SupplierCreateWithoutWorkOrdersInput = {
   emergency24h?: boolean
   lat?: number | null
   lng?: number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: number | null
   ratingCount?: number
   onboardedAt?: Date | string | null
@@ -4677,6 +4745,7 @@ export type SupplierUncheckedCreateWithoutWorkOrdersInput = {
   emergency24h?: boolean
   lat?: number | null
   lng?: number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: number | null
   ratingCount?: number
   onboardedAt?: Date | string | null
@@ -4748,6 +4817,7 @@ export type SupplierUpdateWithoutWorkOrdersInput = {
   emergency24h?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   onboardedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4805,6 +4875,7 @@ export type SupplierUncheckedUpdateWithoutWorkOrdersInput = {
   emergency24h?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   onboardedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4860,6 +4931,7 @@ export type SupplierCreateWithoutContactPeopleInput = {
   emergency24h?: boolean
   lat?: number | null
   lng?: number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: number | null
   ratingCount?: number
   onboardedAt?: Date | string | null
@@ -4917,6 +4989,7 @@ export type SupplierUncheckedCreateWithoutContactPeopleInput = {
   emergency24h?: boolean
   lat?: number | null
   lng?: number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: number | null
   ratingCount?: number
   onboardedAt?: Date | string | null
@@ -4988,6 +5061,7 @@ export type SupplierUpdateWithoutContactPeopleInput = {
   emergency24h?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   onboardedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -5045,6 +5119,7 @@ export type SupplierUncheckedUpdateWithoutContactPeopleInput = {
   emergency24h?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   onboardedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -5100,6 +5175,7 @@ export type SupplierCreateWithoutInviteLinksInput = {
   emergency24h?: boolean
   lat?: number | null
   lng?: number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: number | null
   ratingCount?: number
   onboardedAt?: Date | string | null
@@ -5157,6 +5233,7 @@ export type SupplierUncheckedCreateWithoutInviteLinksInput = {
   emergency24h?: boolean
   lat?: number | null
   lng?: number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: number | null
   ratingCount?: number
   onboardedAt?: Date | string | null
@@ -5228,6 +5305,7 @@ export type SupplierUpdateWithoutInviteLinksInput = {
   emergency24h?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   onboardedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -5285,6 +5363,7 @@ export type SupplierUncheckedUpdateWithoutInviteLinksInput = {
   emergency24h?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   onboardedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -5340,6 +5419,7 @@ export type SupplierCreateWithoutInquiriesInput = {
   emergency24h?: boolean
   lat?: number | null
   lng?: number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: number | null
   ratingCount?: number
   onboardedAt?: Date | string | null
@@ -5397,6 +5477,7 @@ export type SupplierUncheckedCreateWithoutInquiriesInput = {
   emergency24h?: boolean
   lat?: number | null
   lng?: number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: number | null
   ratingCount?: number
   onboardedAt?: Date | string | null
@@ -5468,6 +5549,7 @@ export type SupplierUpdateWithoutInquiriesInput = {
   emergency24h?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   onboardedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -5525,6 +5607,7 @@ export type SupplierUncheckedUpdateWithoutInquiriesInput = {
   emergency24h?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   onboardedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -5580,6 +5663,7 @@ export type SupplierCreateManyCustomerInput = {
   emergency24h?: boolean
   lat?: number | null
   lng?: number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: number | null
   ratingCount?: number
   onboardedAt?: Date | string | null
@@ -5620,6 +5704,7 @@ export type SupplierUpdateWithoutCustomerInput = {
   emergency24h?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   onboardedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -5676,6 +5761,7 @@ export type SupplierUncheckedUpdateWithoutCustomerInput = {
   emergency24h?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   onboardedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -5732,6 +5818,7 @@ export type SupplierUncheckedUpdateManyWithoutCustomerInput = {
   emergency24h?: Prisma.BoolFieldUpdateOperationsInput | boolean
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  surveyZoneFees?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   ratingAvg?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   ratingCount?: Prisma.IntFieldUpdateOperationsInput | number
   onboardedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -5939,6 +6026,7 @@ export type SupplierSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   emergency24h?: boolean
   lat?: boolean
   lng?: boolean
+  surveyZoneFees?: boolean
   ratingAvg?: boolean
   ratingCount?: boolean
   onboardedAt?: boolean
@@ -5998,6 +6086,7 @@ export type SupplierSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   emergency24h?: boolean
   lat?: boolean
   lng?: boolean
+  surveyZoneFees?: boolean
   ratingAvg?: boolean
   ratingCount?: boolean
   onboardedAt?: boolean
@@ -6040,6 +6129,7 @@ export type SupplierSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   emergency24h?: boolean
   lat?: boolean
   lng?: boolean
+  surveyZoneFees?: boolean
   ratingAvg?: boolean
   ratingCount?: boolean
   onboardedAt?: boolean
@@ -6082,6 +6172,7 @@ export type SupplierSelectScalar = {
   emergency24h?: boolean
   lat?: boolean
   lng?: boolean
+  surveyZoneFees?: boolean
   ratingAvg?: boolean
   ratingCount?: boolean
   onboardedAt?: boolean
@@ -6089,7 +6180,7 @@ export type SupplierSelectScalar = {
   updatedAt?: boolean
 }
 
-export type SupplierOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "customerId" | "isPlatform" | "sodType" | "softoneTrdr" | "code" | "kind" | "name" | "afm" | "doy" | "email" | "phone" | "phone2" | "webpage" | "address" | "city" | "district" | "postalCode" | "country" | "isActive" | "remarks" | "contactName" | "contactPhone" | "contactEmail" | "iban" | "bank" | "paymentTermsDays" | "siteSurveyFee" | "siteSurveyFeeWaived" | "workingHours" | "emergency24h" | "lat" | "lng" | "ratingAvg" | "ratingCount" | "onboardedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["supplier"]>
+export type SupplierOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "customerId" | "isPlatform" | "sodType" | "softoneTrdr" | "code" | "kind" | "name" | "afm" | "doy" | "email" | "phone" | "phone2" | "webpage" | "address" | "city" | "district" | "postalCode" | "country" | "isActive" | "remarks" | "contactName" | "contactPhone" | "contactEmail" | "iban" | "bank" | "paymentTermsDays" | "siteSurveyFee" | "siteSurveyFeeWaived" | "workingHours" | "emergency24h" | "lat" | "lng" | "surveyZoneFees" | "ratingAvg" | "ratingCount" | "onboardedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["supplier"]>
 export type SupplierInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   customer?: boolean | Prisma.Supplier$customerArgs<ExtArgs>
   users?: boolean | Prisma.Supplier$usersArgs<ExtArgs>
@@ -6172,6 +6263,7 @@ export type $SupplierPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     emergency24h: boolean
     lat: number | null
     lng: number | null
+    surveyZoneFees: runtime.JsonValue | null
     ratingAvg: number | null
     ratingCount: number
     onboardedAt: Date | null
@@ -6650,6 +6742,7 @@ export interface SupplierFieldRefs {
   readonly emergency24h: Prisma.FieldRef<"Supplier", 'Boolean'>
   readonly lat: Prisma.FieldRef<"Supplier", 'Float'>
   readonly lng: Prisma.FieldRef<"Supplier", 'Float'>
+  readonly surveyZoneFees: Prisma.FieldRef<"Supplier", 'Json'>
   readonly ratingAvg: Prisma.FieldRef<"Supplier", 'Float'>
   readonly ratingCount: Prisma.FieldRef<"Supplier", 'Int'>
   readonly onboardedAt: Prisma.FieldRef<"Supplier", 'DateTime'>

@@ -33,6 +33,8 @@ export type BuildingAvgAggregateOutputType = {
   elevatorSurchargePerFloor: number | null
   lat: number | null
   lng: number | null
+  distanceKm: number | null
+  distanceMinutes: number | null
   softonePrjc: number | null
 }
 
@@ -43,6 +45,8 @@ export type BuildingSumAggregateOutputType = {
   elevatorSurchargePerFloor: number | null
   lat: number | null
   lng: number | null
+  distanceKm: number | null
+  distanceMinutes: number | null
   softonePrjc: number | null
 }
 
@@ -69,6 +73,11 @@ export type BuildingMinAggregateOutputType = {
   heatingMeterUnit: string | null
   lat: number | null
   lng: number | null
+  distanceKm: number | null
+  distanceMinutes: number | null
+  distanceMethod: string | null
+  distanceAt: Date | null
+  distanceBaseKey: string | null
   dailyRoomName: string | null
   softonePrjc: number | null
   createdAt: Date | null
@@ -98,6 +107,11 @@ export type BuildingMaxAggregateOutputType = {
   heatingMeterUnit: string | null
   lat: number | null
   lng: number | null
+  distanceKm: number | null
+  distanceMinutes: number | null
+  distanceMethod: string | null
+  distanceAt: Date | null
+  distanceBaseKey: string | null
   dailyRoomName: string | null
   softonePrjc: number | null
   createdAt: Date | null
@@ -127,6 +141,11 @@ export type BuildingCountAggregateOutputType = {
   heatingMeterUnit: number
   lat: number
   lng: number
+  distanceKm: number
+  distanceMinutes: number
+  distanceMethod: number
+  distanceAt: number
+  distanceBaseKey: number
   dailyRoomName: number
   softonePrjc: number
   createdAt: number
@@ -142,6 +161,8 @@ export type BuildingAvgAggregateInputType = {
   elevatorSurchargePerFloor?: true
   lat?: true
   lng?: true
+  distanceKm?: true
+  distanceMinutes?: true
   softonePrjc?: true
 }
 
@@ -152,6 +173,8 @@ export type BuildingSumAggregateInputType = {
   elevatorSurchargePerFloor?: true
   lat?: true
   lng?: true
+  distanceKm?: true
+  distanceMinutes?: true
   softonePrjc?: true
 }
 
@@ -178,6 +201,11 @@ export type BuildingMinAggregateInputType = {
   heatingMeterUnit?: true
   lat?: true
   lng?: true
+  distanceKm?: true
+  distanceMinutes?: true
+  distanceMethod?: true
+  distanceAt?: true
+  distanceBaseKey?: true
   dailyRoomName?: true
   softonePrjc?: true
   createdAt?: true
@@ -207,6 +235,11 @@ export type BuildingMaxAggregateInputType = {
   heatingMeterUnit?: true
   lat?: true
   lng?: true
+  distanceKm?: true
+  distanceMinutes?: true
+  distanceMethod?: true
+  distanceAt?: true
+  distanceBaseKey?: true
   dailyRoomName?: true
   softonePrjc?: true
   createdAt?: true
@@ -236,6 +269,11 @@ export type BuildingCountAggregateInputType = {
   heatingMeterUnit?: true
   lat?: true
   lng?: true
+  distanceKm?: true
+  distanceMinutes?: true
+  distanceMethod?: true
+  distanceAt?: true
+  distanceBaseKey?: true
   dailyRoomName?: true
   softonePrjc?: true
   createdAt?: true
@@ -352,6 +390,11 @@ export type BuildingGroupByOutputType = {
   heatingMeterUnit: string | null
   lat: number | null
   lng: number | null
+  distanceKm: number | null
+  distanceMinutes: number | null
+  distanceMethod: string | null
+  distanceAt: Date | null
+  distanceBaseKey: string | null
   dailyRoomName: string | null
   softonePrjc: number | null
   createdAt: Date
@@ -404,6 +447,11 @@ export type BuildingWhereInput = {
   heatingMeterUnit?: Prisma.StringNullableFilter<"Building"> | string | null
   lat?: Prisma.FloatNullableFilter<"Building"> | number | null
   lng?: Prisma.FloatNullableFilter<"Building"> | number | null
+  distanceKm?: Prisma.FloatNullableFilter<"Building"> | number | null
+  distanceMinutes?: Prisma.IntNullableFilter<"Building"> | number | null
+  distanceMethod?: Prisma.StringNullableFilter<"Building"> | string | null
+  distanceAt?: Prisma.DateTimeNullableFilter<"Building"> | Date | string | null
+  distanceBaseKey?: Prisma.StringNullableFilter<"Building"> | string | null
   dailyRoomName?: Prisma.StringNullableFilter<"Building"> | string | null
   softonePrjc?: Prisma.IntNullableFilter<"Building"> | number | null
   createdAt?: Prisma.DateTimeFilter<"Building"> | Date | string
@@ -458,6 +506,11 @@ export type BuildingOrderByWithRelationInput = {
   heatingMeterUnit?: Prisma.SortOrderInput | Prisma.SortOrder
   lat?: Prisma.SortOrderInput | Prisma.SortOrder
   lng?: Prisma.SortOrderInput | Prisma.SortOrder
+  distanceKm?: Prisma.SortOrderInput | Prisma.SortOrder
+  distanceMinutes?: Prisma.SortOrderInput | Prisma.SortOrder
+  distanceMethod?: Prisma.SortOrderInput | Prisma.SortOrder
+  distanceAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  distanceBaseKey?: Prisma.SortOrderInput | Prisma.SortOrder
   dailyRoomName?: Prisma.SortOrderInput | Prisma.SortOrder
   softonePrjc?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -515,6 +568,11 @@ export type BuildingWhereUniqueInput = Prisma.AtLeast<{
   heatingMeterUnit?: Prisma.StringNullableFilter<"Building"> | string | null
   lat?: Prisma.FloatNullableFilter<"Building"> | number | null
   lng?: Prisma.FloatNullableFilter<"Building"> | number | null
+  distanceKm?: Prisma.FloatNullableFilter<"Building"> | number | null
+  distanceMinutes?: Prisma.IntNullableFilter<"Building"> | number | null
+  distanceMethod?: Prisma.StringNullableFilter<"Building"> | string | null
+  distanceAt?: Prisma.DateTimeNullableFilter<"Building"> | Date | string | null
+  distanceBaseKey?: Prisma.StringNullableFilter<"Building"> | string | null
   dailyRoomName?: Prisma.StringNullableFilter<"Building"> | string | null
   softonePrjc?: Prisma.IntNullableFilter<"Building"> | number | null
   createdAt?: Prisma.DateTimeFilter<"Building"> | Date | string
@@ -569,6 +627,11 @@ export type BuildingOrderByWithAggregationInput = {
   heatingMeterUnit?: Prisma.SortOrderInput | Prisma.SortOrder
   lat?: Prisma.SortOrderInput | Prisma.SortOrder
   lng?: Prisma.SortOrderInput | Prisma.SortOrder
+  distanceKm?: Prisma.SortOrderInput | Prisma.SortOrder
+  distanceMinutes?: Prisma.SortOrderInput | Prisma.SortOrder
+  distanceMethod?: Prisma.SortOrderInput | Prisma.SortOrder
+  distanceAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  distanceBaseKey?: Prisma.SortOrderInput | Prisma.SortOrder
   dailyRoomName?: Prisma.SortOrderInput | Prisma.SortOrder
   softonePrjc?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -606,6 +669,11 @@ export type BuildingScalarWhereWithAggregatesInput = {
   heatingMeterUnit?: Prisma.StringNullableWithAggregatesFilter<"Building"> | string | null
   lat?: Prisma.FloatNullableWithAggregatesFilter<"Building"> | number | null
   lng?: Prisma.FloatNullableWithAggregatesFilter<"Building"> | number | null
+  distanceKm?: Prisma.FloatNullableWithAggregatesFilter<"Building"> | number | null
+  distanceMinutes?: Prisma.IntNullableWithAggregatesFilter<"Building"> | number | null
+  distanceMethod?: Prisma.StringNullableWithAggregatesFilter<"Building"> | string | null
+  distanceAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Building"> | Date | string | null
+  distanceBaseKey?: Prisma.StringNullableWithAggregatesFilter<"Building"> | string | null
   dailyRoomName?: Prisma.StringNullableWithAggregatesFilter<"Building"> | string | null
   softonePrjc?: Prisma.IntNullableWithAggregatesFilter<"Building"> | number | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Building"> | Date | string
@@ -632,6 +700,11 @@ export type BuildingCreateInput = {
   heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
+  distanceKm?: number | null
+  distanceMinutes?: number | null
+  distanceMethod?: string | null
+  distanceAt?: Date | string | null
+  distanceBaseKey?: string | null
   dailyRoomName?: string | null
   softonePrjc?: number | null
   createdAt?: Date | string
@@ -686,6 +759,11 @@ export type BuildingUncheckedCreateInput = {
   heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
+  distanceKm?: number | null
+  distanceMinutes?: number | null
+  distanceMethod?: string | null
+  distanceAt?: Date | string | null
+  distanceBaseKey?: string | null
   dailyRoomName?: string | null
   softonePrjc?: number | null
   createdAt?: Date | string
@@ -734,6 +812,11 @@ export type BuildingUpdateInput = {
   heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  distanceBaseKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -788,6 +871,11 @@ export type BuildingUncheckedUpdateInput = {
   heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  distanceBaseKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -839,6 +927,11 @@ export type BuildingCreateManyInput = {
   heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
+  distanceKm?: number | null
+  distanceMinutes?: number | null
+  distanceMethod?: string | null
+  distanceAt?: Date | string | null
+  distanceBaseKey?: string | null
   dailyRoomName?: string | null
   softonePrjc?: number | null
   createdAt?: Date | string
@@ -865,6 +958,11 @@ export type BuildingUpdateManyMutationInput = {
   heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  distanceBaseKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -894,6 +992,11 @@ export type BuildingUncheckedUpdateManyInput = {
   heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  distanceBaseKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -938,6 +1041,11 @@ export type BuildingCountOrderByAggregateInput = {
   heatingMeterUnit?: Prisma.SortOrder
   lat?: Prisma.SortOrder
   lng?: Prisma.SortOrder
+  distanceKm?: Prisma.SortOrder
+  distanceMinutes?: Prisma.SortOrder
+  distanceMethod?: Prisma.SortOrder
+  distanceAt?: Prisma.SortOrder
+  distanceBaseKey?: Prisma.SortOrder
   dailyRoomName?: Prisma.SortOrder
   softonePrjc?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -951,6 +1059,8 @@ export type BuildingAvgOrderByAggregateInput = {
   elevatorSurchargePerFloor?: Prisma.SortOrder
   lat?: Prisma.SortOrder
   lng?: Prisma.SortOrder
+  distanceKm?: Prisma.SortOrder
+  distanceMinutes?: Prisma.SortOrder
   softonePrjc?: Prisma.SortOrder
 }
 
@@ -977,6 +1087,11 @@ export type BuildingMaxOrderByAggregateInput = {
   heatingMeterUnit?: Prisma.SortOrder
   lat?: Prisma.SortOrder
   lng?: Prisma.SortOrder
+  distanceKm?: Prisma.SortOrder
+  distanceMinutes?: Prisma.SortOrder
+  distanceMethod?: Prisma.SortOrder
+  distanceAt?: Prisma.SortOrder
+  distanceBaseKey?: Prisma.SortOrder
   dailyRoomName?: Prisma.SortOrder
   softonePrjc?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -1006,6 +1121,11 @@ export type BuildingMinOrderByAggregateInput = {
   heatingMeterUnit?: Prisma.SortOrder
   lat?: Prisma.SortOrder
   lng?: Prisma.SortOrder
+  distanceKm?: Prisma.SortOrder
+  distanceMinutes?: Prisma.SortOrder
+  distanceMethod?: Prisma.SortOrder
+  distanceAt?: Prisma.SortOrder
+  distanceBaseKey?: Prisma.SortOrder
   dailyRoomName?: Prisma.SortOrder
   softonePrjc?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -1019,6 +1139,8 @@ export type BuildingSumOrderByAggregateInput = {
   elevatorSurchargePerFloor?: Prisma.SortOrder
   lat?: Prisma.SortOrder
   lng?: Prisma.SortOrder
+  distanceKm?: Prisma.SortOrder
+  distanceMinutes?: Prisma.SortOrder
   softonePrjc?: Prisma.SortOrder
 }
 
@@ -1489,6 +1611,11 @@ export type BuildingCreateWithoutUsersInput = {
   heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
+  distanceKm?: number | null
+  distanceMinutes?: number | null
+  distanceMethod?: string | null
+  distanceAt?: Date | string | null
+  distanceBaseKey?: string | null
   dailyRoomName?: string | null
   softonePrjc?: number | null
   createdAt?: Date | string
@@ -1542,6 +1669,11 @@ export type BuildingUncheckedCreateWithoutUsersInput = {
   heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
+  distanceKm?: number | null
+  distanceMinutes?: number | null
+  distanceMethod?: string | null
+  distanceAt?: Date | string | null
+  distanceBaseKey?: string | null
   dailyRoomName?: string | null
   softonePrjc?: number | null
   createdAt?: Date | string
@@ -1605,6 +1737,11 @@ export type BuildingUpdateWithoutUsersInput = {
   heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  distanceBaseKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1658,6 +1795,11 @@ export type BuildingUncheckedUpdateWithoutUsersInput = {
   heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  distanceBaseKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1705,6 +1847,11 @@ export type BuildingCreateWithoutCompanyInput = {
   heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
+  distanceKm?: number | null
+  distanceMinutes?: number | null
+  distanceMethod?: string | null
+  distanceAt?: Date | string | null
+  distanceBaseKey?: string | null
   dailyRoomName?: string | null
   softonePrjc?: number | null
   createdAt?: Date | string
@@ -1757,6 +1904,11 @@ export type BuildingUncheckedCreateWithoutCompanyInput = {
   heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
+  distanceKm?: number | null
+  distanceMinutes?: number | null
+  distanceMethod?: string | null
+  distanceAt?: Date | string | null
+  distanceBaseKey?: string | null
   dailyRoomName?: string | null
   softonePrjc?: number | null
   createdAt?: Date | string
@@ -1837,6 +1989,11 @@ export type BuildingScalarWhereInput = {
   heatingMeterUnit?: Prisma.StringNullableFilter<"Building"> | string | null
   lat?: Prisma.FloatNullableFilter<"Building"> | number | null
   lng?: Prisma.FloatNullableFilter<"Building"> | number | null
+  distanceKm?: Prisma.FloatNullableFilter<"Building"> | number | null
+  distanceMinutes?: Prisma.IntNullableFilter<"Building"> | number | null
+  distanceMethod?: Prisma.StringNullableFilter<"Building"> | string | null
+  distanceAt?: Prisma.DateTimeNullableFilter<"Building"> | Date | string | null
+  distanceBaseKey?: Prisma.StringNullableFilter<"Building"> | string | null
   dailyRoomName?: Prisma.StringNullableFilter<"Building"> | string | null
   softonePrjc?: Prisma.IntNullableFilter<"Building"> | number | null
   createdAt?: Prisma.DateTimeFilter<"Building"> | Date | string
@@ -1863,6 +2020,11 @@ export type BuildingCreateWithoutAddonsInput = {
   heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
+  distanceKm?: number | null
+  distanceMinutes?: number | null
+  distanceMethod?: string | null
+  distanceAt?: Date | string | null
+  distanceBaseKey?: string | null
   dailyRoomName?: string | null
   softonePrjc?: number | null
   createdAt?: Date | string
@@ -1916,6 +2078,11 @@ export type BuildingUncheckedCreateWithoutAddonsInput = {
   heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
+  distanceKm?: number | null
+  distanceMinutes?: number | null
+  distanceMethod?: string | null
+  distanceAt?: Date | string | null
+  distanceBaseKey?: string | null
   dailyRoomName?: string | null
   softonePrjc?: number | null
   createdAt?: Date | string
@@ -1979,6 +2146,11 @@ export type BuildingUpdateWithoutAddonsInput = {
   heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  distanceBaseKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2032,6 +2204,11 @@ export type BuildingUncheckedUpdateWithoutAddonsInput = {
   heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  distanceBaseKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2079,6 +2256,11 @@ export type BuildingCreateWithoutCustomerInput = {
   heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
+  distanceKm?: number | null
+  distanceMinutes?: number | null
+  distanceMethod?: string | null
+  distanceAt?: Date | string | null
+  distanceBaseKey?: string | null
   dailyRoomName?: string | null
   softonePrjc?: number | null
   createdAt?: Date | string
@@ -2131,6 +2313,11 @@ export type BuildingUncheckedCreateWithoutCustomerInput = {
   heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
+  distanceKm?: number | null
+  distanceMinutes?: number | null
+  distanceMethod?: string | null
+  distanceAt?: Date | string | null
+  distanceBaseKey?: string | null
   dailyRoomName?: string | null
   softonePrjc?: number | null
   createdAt?: Date | string
@@ -2205,6 +2392,11 @@ export type BuildingCreateWithoutPropertyInput = {
   heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
+  distanceKm?: number | null
+  distanceMinutes?: number | null
+  distanceMethod?: string | null
+  distanceAt?: Date | string | null
+  distanceBaseKey?: string | null
   dailyRoomName?: string | null
   softonePrjc?: number | null
   createdAt?: Date | string
@@ -2257,6 +2449,11 @@ export type BuildingUncheckedCreateWithoutPropertyInput = {
   heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
+  distanceKm?: number | null
+  distanceMinutes?: number | null
+  distanceMethod?: string | null
+  distanceAt?: Date | string | null
+  distanceBaseKey?: string | null
   dailyRoomName?: string | null
   softonePrjc?: number | null
   createdAt?: Date | string
@@ -2331,6 +2528,11 @@ export type BuildingCreateWithoutFilesInput = {
   heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
+  distanceKm?: number | null
+  distanceMinutes?: number | null
+  distanceMethod?: string | null
+  distanceAt?: Date | string | null
+  distanceBaseKey?: string | null
   dailyRoomName?: string | null
   softonePrjc?: number | null
   createdAt?: Date | string
@@ -2384,6 +2586,11 @@ export type BuildingUncheckedCreateWithoutFilesInput = {
   heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
+  distanceKm?: number | null
+  distanceMinutes?: number | null
+  distanceMethod?: string | null
+  distanceAt?: Date | string | null
+  distanceBaseKey?: string | null
   dailyRoomName?: string | null
   softonePrjc?: number | null
   createdAt?: Date | string
@@ -2447,6 +2654,11 @@ export type BuildingUpdateWithoutFilesInput = {
   heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  distanceBaseKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2500,6 +2712,11 @@ export type BuildingUncheckedUpdateWithoutFilesInput = {
   heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  distanceBaseKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2547,6 +2764,11 @@ export type BuildingCreateWithoutInfraPointsInput = {
   heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
+  distanceKm?: number | null
+  distanceMinutes?: number | null
+  distanceMethod?: string | null
+  distanceAt?: Date | string | null
+  distanceBaseKey?: string | null
   dailyRoomName?: string | null
   softonePrjc?: number | null
   createdAt?: Date | string
@@ -2600,6 +2822,11 @@ export type BuildingUncheckedCreateWithoutInfraPointsInput = {
   heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
+  distanceKm?: number | null
+  distanceMinutes?: number | null
+  distanceMethod?: string | null
+  distanceAt?: Date | string | null
+  distanceBaseKey?: string | null
   dailyRoomName?: string | null
   softonePrjc?: number | null
   createdAt?: Date | string
@@ -2663,6 +2890,11 @@ export type BuildingUpdateWithoutInfraPointsInput = {
   heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  distanceBaseKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2716,6 +2948,11 @@ export type BuildingUncheckedUpdateWithoutInfraPointsInput = {
   heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  distanceBaseKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2763,6 +3000,11 @@ export type BuildingCreateWithoutContactsInput = {
   heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
+  distanceKm?: number | null
+  distanceMinutes?: number | null
+  distanceMethod?: string | null
+  distanceAt?: Date | string | null
+  distanceBaseKey?: string | null
   dailyRoomName?: string | null
   softonePrjc?: number | null
   createdAt?: Date | string
@@ -2816,6 +3058,11 @@ export type BuildingUncheckedCreateWithoutContactsInput = {
   heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
+  distanceKm?: number | null
+  distanceMinutes?: number | null
+  distanceMethod?: string | null
+  distanceAt?: Date | string | null
+  distanceBaseKey?: string | null
   dailyRoomName?: string | null
   softonePrjc?: number | null
   createdAt?: Date | string
@@ -2879,6 +3126,11 @@ export type BuildingUpdateWithoutContactsInput = {
   heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  distanceBaseKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2932,6 +3184,11 @@ export type BuildingUncheckedUpdateWithoutContactsInput = {
   heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  distanceBaseKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2979,6 +3236,11 @@ export type BuildingCreateWithoutRecurringTasksInput = {
   heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
+  distanceKm?: number | null
+  distanceMinutes?: number | null
+  distanceMethod?: string | null
+  distanceAt?: Date | string | null
+  distanceBaseKey?: string | null
   dailyRoomName?: string | null
   softonePrjc?: number | null
   createdAt?: Date | string
@@ -3032,6 +3294,11 @@ export type BuildingUncheckedCreateWithoutRecurringTasksInput = {
   heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
+  distanceKm?: number | null
+  distanceMinutes?: number | null
+  distanceMethod?: string | null
+  distanceAt?: Date | string | null
+  distanceBaseKey?: string | null
   dailyRoomName?: string | null
   softonePrjc?: number | null
   createdAt?: Date | string
@@ -3095,6 +3362,11 @@ export type BuildingUpdateWithoutRecurringTasksInput = {
   heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  distanceBaseKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3148,6 +3420,11 @@ export type BuildingUncheckedUpdateWithoutRecurringTasksInput = {
   heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  distanceBaseKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3195,6 +3472,11 @@ export type BuildingCreateWithoutMaintenanceLogsInput = {
   heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
+  distanceKm?: number | null
+  distanceMinutes?: number | null
+  distanceMethod?: string | null
+  distanceAt?: Date | string | null
+  distanceBaseKey?: string | null
   dailyRoomName?: string | null
   softonePrjc?: number | null
   createdAt?: Date | string
@@ -3248,6 +3530,11 @@ export type BuildingUncheckedCreateWithoutMaintenanceLogsInput = {
   heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
+  distanceKm?: number | null
+  distanceMinutes?: number | null
+  distanceMethod?: string | null
+  distanceAt?: Date | string | null
+  distanceBaseKey?: string | null
   dailyRoomName?: string | null
   softonePrjc?: number | null
   createdAt?: Date | string
@@ -3311,6 +3598,11 @@ export type BuildingUpdateWithoutMaintenanceLogsInput = {
   heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  distanceBaseKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3364,6 +3656,11 @@ export type BuildingUncheckedUpdateWithoutMaintenanceLogsInput = {
   heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  distanceBaseKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3411,6 +3708,11 @@ export type BuildingCreateWithoutExpensesInput = {
   heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
+  distanceKm?: number | null
+  distanceMinutes?: number | null
+  distanceMethod?: string | null
+  distanceAt?: Date | string | null
+  distanceBaseKey?: string | null
   dailyRoomName?: string | null
   softonePrjc?: number | null
   createdAt?: Date | string
@@ -3464,6 +3766,11 @@ export type BuildingUncheckedCreateWithoutExpensesInput = {
   heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
+  distanceKm?: number | null
+  distanceMinutes?: number | null
+  distanceMethod?: string | null
+  distanceAt?: Date | string | null
+  distanceBaseKey?: string | null
   dailyRoomName?: string | null
   softonePrjc?: number | null
   createdAt?: Date | string
@@ -3527,6 +3834,11 @@ export type BuildingUpdateWithoutExpensesInput = {
   heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  distanceBaseKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3580,6 +3892,11 @@ export type BuildingUncheckedUpdateWithoutExpensesInput = {
   heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  distanceBaseKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3627,6 +3944,11 @@ export type BuildingCreateWithoutCategoryOverridesInput = {
   heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
+  distanceKm?: number | null
+  distanceMinutes?: number | null
+  distanceMethod?: string | null
+  distanceAt?: Date | string | null
+  distanceBaseKey?: string | null
   dailyRoomName?: string | null
   softonePrjc?: number | null
   createdAt?: Date | string
@@ -3680,6 +4002,11 @@ export type BuildingUncheckedCreateWithoutCategoryOverridesInput = {
   heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
+  distanceKm?: number | null
+  distanceMinutes?: number | null
+  distanceMethod?: string | null
+  distanceAt?: Date | string | null
+  distanceBaseKey?: string | null
   dailyRoomName?: string | null
   softonePrjc?: number | null
   createdAt?: Date | string
@@ -3743,6 +4070,11 @@ export type BuildingUpdateWithoutCategoryOverridesInput = {
   heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  distanceBaseKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3796,6 +4128,11 @@ export type BuildingUncheckedUpdateWithoutCategoryOverridesInput = {
   heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  distanceBaseKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3843,6 +4180,11 @@ export type BuildingCreateWithoutHeatingReadingsInput = {
   heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
+  distanceKm?: number | null
+  distanceMinutes?: number | null
+  distanceMethod?: string | null
+  distanceAt?: Date | string | null
+  distanceBaseKey?: string | null
   dailyRoomName?: string | null
   softonePrjc?: number | null
   createdAt?: Date | string
@@ -3896,6 +4238,11 @@ export type BuildingUncheckedCreateWithoutHeatingReadingsInput = {
   heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
+  distanceKm?: number | null
+  distanceMinutes?: number | null
+  distanceMethod?: string | null
+  distanceAt?: Date | string | null
+  distanceBaseKey?: string | null
   dailyRoomName?: string | null
   softonePrjc?: number | null
   createdAt?: Date | string
@@ -3959,6 +4306,11 @@ export type BuildingUpdateWithoutHeatingReadingsInput = {
   heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  distanceBaseKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4012,6 +4364,11 @@ export type BuildingUncheckedUpdateWithoutHeatingReadingsInput = {
   heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  distanceBaseKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4059,6 +4416,11 @@ export type BuildingCreateWithoutMeterReadingsInput = {
   heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
+  distanceKm?: number | null
+  distanceMinutes?: number | null
+  distanceMethod?: string | null
+  distanceAt?: Date | string | null
+  distanceBaseKey?: string | null
   dailyRoomName?: string | null
   softonePrjc?: number | null
   createdAt?: Date | string
@@ -4112,6 +4474,11 @@ export type BuildingUncheckedCreateWithoutMeterReadingsInput = {
   heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
+  distanceKm?: number | null
+  distanceMinutes?: number | null
+  distanceMethod?: string | null
+  distanceAt?: Date | string | null
+  distanceBaseKey?: string | null
   dailyRoomName?: string | null
   softonePrjc?: number | null
   createdAt?: Date | string
@@ -4175,6 +4542,11 @@ export type BuildingUpdateWithoutMeterReadingsInput = {
   heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  distanceBaseKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4228,6 +4600,11 @@ export type BuildingUncheckedUpdateWithoutMeterReadingsInput = {
   heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  distanceBaseKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4275,6 +4652,11 @@ export type BuildingCreateWithoutManagementAssignmentsInput = {
   heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
+  distanceKm?: number | null
+  distanceMinutes?: number | null
+  distanceMethod?: string | null
+  distanceAt?: Date | string | null
+  distanceBaseKey?: string | null
   dailyRoomName?: string | null
   softonePrjc?: number | null
   createdAt?: Date | string
@@ -4328,6 +4710,11 @@ export type BuildingUncheckedCreateWithoutManagementAssignmentsInput = {
   heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
+  distanceKm?: number | null
+  distanceMinutes?: number | null
+  distanceMethod?: string | null
+  distanceAt?: Date | string | null
+  distanceBaseKey?: string | null
   dailyRoomName?: string | null
   softonePrjc?: number | null
   createdAt?: Date | string
@@ -4391,6 +4778,11 @@ export type BuildingUpdateWithoutManagementAssignmentsInput = {
   heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  distanceBaseKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4444,6 +4836,11 @@ export type BuildingUncheckedUpdateWithoutManagementAssignmentsInput = {
   heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  distanceBaseKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4491,6 +4888,11 @@ export type BuildingCreateWithoutCommonAreasInput = {
   heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
+  distanceKm?: number | null
+  distanceMinutes?: number | null
+  distanceMethod?: string | null
+  distanceAt?: Date | string | null
+  distanceBaseKey?: string | null
   dailyRoomName?: string | null
   softonePrjc?: number | null
   createdAt?: Date | string
@@ -4544,6 +4946,11 @@ export type BuildingUncheckedCreateWithoutCommonAreasInput = {
   heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
+  distanceKm?: number | null
+  distanceMinutes?: number | null
+  distanceMethod?: string | null
+  distanceAt?: Date | string | null
+  distanceBaseKey?: string | null
   dailyRoomName?: string | null
   softonePrjc?: number | null
   createdAt?: Date | string
@@ -4607,6 +5014,11 @@ export type BuildingUpdateWithoutCommonAreasInput = {
   heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  distanceBaseKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4660,6 +5072,11 @@ export type BuildingUncheckedUpdateWithoutCommonAreasInput = {
   heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  distanceBaseKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4707,6 +5124,11 @@ export type BuildingCreateWithoutManagedItemsInput = {
   heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
+  distanceKm?: number | null
+  distanceMinutes?: number | null
+  distanceMethod?: string | null
+  distanceAt?: Date | string | null
+  distanceBaseKey?: string | null
   dailyRoomName?: string | null
   softonePrjc?: number | null
   createdAt?: Date | string
@@ -4760,6 +5182,11 @@ export type BuildingUncheckedCreateWithoutManagedItemsInput = {
   heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
+  distanceKm?: number | null
+  distanceMinutes?: number | null
+  distanceMethod?: string | null
+  distanceAt?: Date | string | null
+  distanceBaseKey?: string | null
   dailyRoomName?: string | null
   softonePrjc?: number | null
   createdAt?: Date | string
@@ -4823,6 +5250,11 @@ export type BuildingUpdateWithoutManagedItemsInput = {
   heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  distanceBaseKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4876,6 +5308,11 @@ export type BuildingUncheckedUpdateWithoutManagedItemsInput = {
   heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  distanceBaseKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4923,6 +5360,11 @@ export type BuildingCreateWithoutUnitsInput = {
   heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
+  distanceKm?: number | null
+  distanceMinutes?: number | null
+  distanceMethod?: string | null
+  distanceAt?: Date | string | null
+  distanceBaseKey?: string | null
   dailyRoomName?: string | null
   softonePrjc?: number | null
   createdAt?: Date | string
@@ -4976,6 +5418,11 @@ export type BuildingUncheckedCreateWithoutUnitsInput = {
   heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
+  distanceKm?: number | null
+  distanceMinutes?: number | null
+  distanceMethod?: string | null
+  distanceAt?: Date | string | null
+  distanceBaseKey?: string | null
   dailyRoomName?: string | null
   softonePrjc?: number | null
   createdAt?: Date | string
@@ -5039,6 +5486,11 @@ export type BuildingUpdateWithoutUnitsInput = {
   heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  distanceBaseKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -5092,6 +5544,11 @@ export type BuildingUncheckedUpdateWithoutUnitsInput = {
   heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  distanceBaseKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -5139,6 +5596,11 @@ export type BuildingCreateWithoutAnnouncementsInput = {
   heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
+  distanceKm?: number | null
+  distanceMinutes?: number | null
+  distanceMethod?: string | null
+  distanceAt?: Date | string | null
+  distanceBaseKey?: string | null
   dailyRoomName?: string | null
   softonePrjc?: number | null
   createdAt?: Date | string
@@ -5192,6 +5654,11 @@ export type BuildingUncheckedCreateWithoutAnnouncementsInput = {
   heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
+  distanceKm?: number | null
+  distanceMinutes?: number | null
+  distanceMethod?: string | null
+  distanceAt?: Date | string | null
+  distanceBaseKey?: string | null
   dailyRoomName?: string | null
   softonePrjc?: number | null
   createdAt?: Date | string
@@ -5255,6 +5722,11 @@ export type BuildingUpdateWithoutAnnouncementsInput = {
   heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  distanceBaseKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -5308,6 +5780,11 @@ export type BuildingUncheckedUpdateWithoutAnnouncementsInput = {
   heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  distanceBaseKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -5355,6 +5832,11 @@ export type BuildingCreateWithoutAssembliesInput = {
   heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
+  distanceKm?: number | null
+  distanceMinutes?: number | null
+  distanceMethod?: string | null
+  distanceAt?: Date | string | null
+  distanceBaseKey?: string | null
   dailyRoomName?: string | null
   softonePrjc?: number | null
   createdAt?: Date | string
@@ -5408,6 +5890,11 @@ export type BuildingUncheckedCreateWithoutAssembliesInput = {
   heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
+  distanceKm?: number | null
+  distanceMinutes?: number | null
+  distanceMethod?: string | null
+  distanceAt?: Date | string | null
+  distanceBaseKey?: string | null
   dailyRoomName?: string | null
   softonePrjc?: number | null
   createdAt?: Date | string
@@ -5471,6 +5958,11 @@ export type BuildingUpdateWithoutAssembliesInput = {
   heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  distanceBaseKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -5524,6 +6016,11 @@ export type BuildingUncheckedUpdateWithoutAssembliesInput = {
   heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  distanceBaseKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -5571,6 +6068,11 @@ export type BuildingCreateWithoutMaintenanceRequestsInput = {
   heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
+  distanceKm?: number | null
+  distanceMinutes?: number | null
+  distanceMethod?: string | null
+  distanceAt?: Date | string | null
+  distanceBaseKey?: string | null
   dailyRoomName?: string | null
   softonePrjc?: number | null
   createdAt?: Date | string
@@ -5624,6 +6126,11 @@ export type BuildingUncheckedCreateWithoutMaintenanceRequestsInput = {
   heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
+  distanceKm?: number | null
+  distanceMinutes?: number | null
+  distanceMethod?: string | null
+  distanceAt?: Date | string | null
+  distanceBaseKey?: string | null
   dailyRoomName?: string | null
   softonePrjc?: number | null
   createdAt?: Date | string
@@ -5687,6 +6194,11 @@ export type BuildingUpdateWithoutMaintenanceRequestsInput = {
   heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  distanceBaseKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -5740,6 +6252,11 @@ export type BuildingUncheckedUpdateWithoutMaintenanceRequestsInput = {
   heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  distanceBaseKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -5787,6 +6304,11 @@ export type BuildingCreateWithoutPreferredSuppliersInput = {
   heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
+  distanceKm?: number | null
+  distanceMinutes?: number | null
+  distanceMethod?: string | null
+  distanceAt?: Date | string | null
+  distanceBaseKey?: string | null
   dailyRoomName?: string | null
   softonePrjc?: number | null
   createdAt?: Date | string
@@ -5840,6 +6362,11 @@ export type BuildingUncheckedCreateWithoutPreferredSuppliersInput = {
   heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
+  distanceKm?: number | null
+  distanceMinutes?: number | null
+  distanceMethod?: string | null
+  distanceAt?: Date | string | null
+  distanceBaseKey?: string | null
   dailyRoomName?: string | null
   softonePrjc?: number | null
   createdAt?: Date | string
@@ -5903,6 +6430,11 @@ export type BuildingUpdateWithoutPreferredSuppliersInput = {
   heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  distanceBaseKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -5956,6 +6488,11 @@ export type BuildingUncheckedUpdateWithoutPreferredSuppliersInput = {
   heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  distanceBaseKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -6003,6 +6540,11 @@ export type BuildingCreateWithoutServiceRequestsInput = {
   heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
+  distanceKm?: number | null
+  distanceMinutes?: number | null
+  distanceMethod?: string | null
+  distanceAt?: Date | string | null
+  distanceBaseKey?: string | null
   dailyRoomName?: string | null
   softonePrjc?: number | null
   createdAt?: Date | string
@@ -6056,6 +6598,11 @@ export type BuildingUncheckedCreateWithoutServiceRequestsInput = {
   heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
+  distanceKm?: number | null
+  distanceMinutes?: number | null
+  distanceMethod?: string | null
+  distanceAt?: Date | string | null
+  distanceBaseKey?: string | null
   dailyRoomName?: string | null
   softonePrjc?: number | null
   createdAt?: Date | string
@@ -6119,6 +6666,11 @@ export type BuildingUpdateWithoutServiceRequestsInput = {
   heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  distanceBaseKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -6172,6 +6724,11 @@ export type BuildingUncheckedUpdateWithoutServiceRequestsInput = {
   heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  distanceBaseKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -6219,6 +6776,11 @@ export type BuildingCreateWithoutWorkOrdersInput = {
   heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
+  distanceKm?: number | null
+  distanceMinutes?: number | null
+  distanceMethod?: string | null
+  distanceAt?: Date | string | null
+  distanceBaseKey?: string | null
   dailyRoomName?: string | null
   softonePrjc?: number | null
   createdAt?: Date | string
@@ -6272,6 +6834,11 @@ export type BuildingUncheckedCreateWithoutWorkOrdersInput = {
   heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
+  distanceKm?: number | null
+  distanceMinutes?: number | null
+  distanceMethod?: string | null
+  distanceAt?: Date | string | null
+  distanceBaseKey?: string | null
   dailyRoomName?: string | null
   softonePrjc?: number | null
   createdAt?: Date | string
@@ -6335,6 +6902,11 @@ export type BuildingUpdateWithoutWorkOrdersInput = {
   heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  distanceBaseKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -6388,6 +6960,11 @@ export type BuildingUncheckedUpdateWithoutWorkOrdersInput = {
   heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  distanceBaseKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -6435,6 +7012,11 @@ export type BuildingCreateWithoutSupplierInquiriesInput = {
   heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
+  distanceKm?: number | null
+  distanceMinutes?: number | null
+  distanceMethod?: string | null
+  distanceAt?: Date | string | null
+  distanceBaseKey?: string | null
   dailyRoomName?: string | null
   softonePrjc?: number | null
   createdAt?: Date | string
@@ -6488,6 +7070,11 @@ export type BuildingUncheckedCreateWithoutSupplierInquiriesInput = {
   heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
+  distanceKm?: number | null
+  distanceMinutes?: number | null
+  distanceMethod?: string | null
+  distanceAt?: Date | string | null
+  distanceBaseKey?: string | null
   dailyRoomName?: string | null
   softonePrjc?: number | null
   createdAt?: Date | string
@@ -6551,6 +7138,11 @@ export type BuildingUpdateWithoutSupplierInquiriesInput = {
   heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  distanceBaseKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -6604,6 +7196,11 @@ export type BuildingUncheckedUpdateWithoutSupplierInquiriesInput = {
   heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  distanceBaseKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -6653,6 +7250,11 @@ export type BuildingCreateManyCompanyInput = {
   heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
+  distanceKm?: number | null
+  distanceMinutes?: number | null
+  distanceMethod?: string | null
+  distanceAt?: Date | string | null
+  distanceBaseKey?: string | null
   dailyRoomName?: string | null
   softonePrjc?: number | null
   createdAt?: Date | string
@@ -6679,6 +7281,11 @@ export type BuildingUpdateWithoutCompanyInput = {
   heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  distanceBaseKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -6731,6 +7338,11 @@ export type BuildingUncheckedUpdateWithoutCompanyInput = {
   heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  distanceBaseKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -6781,6 +7393,11 @@ export type BuildingUncheckedUpdateManyWithoutCompanyInput = {
   heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  distanceBaseKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -6809,6 +7426,11 @@ export type BuildingCreateManyCustomerInput = {
   heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
+  distanceKm?: number | null
+  distanceMinutes?: number | null
+  distanceMethod?: string | null
+  distanceAt?: Date | string | null
+  distanceBaseKey?: string | null
   dailyRoomName?: string | null
   softonePrjc?: number | null
   createdAt?: Date | string
@@ -6835,6 +7457,11 @@ export type BuildingUpdateWithoutCustomerInput = {
   heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  distanceBaseKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -6887,6 +7514,11 @@ export type BuildingUncheckedUpdateWithoutCustomerInput = {
   heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  distanceBaseKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -6937,6 +7569,11 @@ export type BuildingUncheckedUpdateManyWithoutCustomerInput = {
   heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  distanceBaseKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -6965,6 +7602,11 @@ export type BuildingCreateManyPropertyInput = {
   heatingMeterUnit?: string | null
   lat?: number | null
   lng?: number | null
+  distanceKm?: number | null
+  distanceMinutes?: number | null
+  distanceMethod?: string | null
+  distanceAt?: Date | string | null
+  distanceBaseKey?: string | null
   dailyRoomName?: string | null
   softonePrjc?: number | null
   createdAt?: Date | string
@@ -6991,6 +7633,11 @@ export type BuildingUpdateWithoutPropertyInput = {
   heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  distanceBaseKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -7043,6 +7690,11 @@ export type BuildingUncheckedUpdateWithoutPropertyInput = {
   heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  distanceBaseKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -7093,6 +7745,11 @@ export type BuildingUncheckedUpdateManyWithoutPropertyInput = {
   heatingMeterUnit?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  distanceMinutes?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  distanceMethod?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  distanceAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  distanceBaseKey?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dailyRoomName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softonePrjc?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -7342,6 +7999,11 @@ export type BuildingSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   heatingMeterUnit?: boolean
   lat?: boolean
   lng?: boolean
+  distanceKm?: boolean
+  distanceMinutes?: boolean
+  distanceMethod?: boolean
+  distanceAt?: boolean
+  distanceBaseKey?: boolean
   dailyRoomName?: boolean
   softonePrjc?: boolean
   createdAt?: boolean
@@ -7397,6 +8059,11 @@ export type BuildingSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   heatingMeterUnit?: boolean
   lat?: boolean
   lng?: boolean
+  distanceKm?: boolean
+  distanceMinutes?: boolean
+  distanceMethod?: boolean
+  distanceAt?: boolean
+  distanceBaseKey?: boolean
   dailyRoomName?: boolean
   softonePrjc?: boolean
   createdAt?: boolean
@@ -7429,6 +8096,11 @@ export type BuildingSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   heatingMeterUnit?: boolean
   lat?: boolean
   lng?: boolean
+  distanceKm?: boolean
+  distanceMinutes?: boolean
+  distanceMethod?: boolean
+  distanceAt?: boolean
+  distanceBaseKey?: boolean
   dailyRoomName?: boolean
   softonePrjc?: boolean
   createdAt?: boolean
@@ -7461,13 +8133,18 @@ export type BuildingSelectScalar = {
   heatingMeterUnit?: boolean
   lat?: boolean
   lng?: boolean
+  distanceKm?: boolean
+  distanceMinutes?: boolean
+  distanceMethod?: boolean
+  distanceAt?: boolean
+  distanceBaseKey?: boolean
   dailyRoomName?: boolean
   softonePrjc?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type BuildingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "companyId" | "propertyId" | "customerId" | "name" | "address" | "city" | "postalCode" | "country" | "imageUrl" | "floors" | "basements" | "unitsCount" | "hasElevator" | "hasBoiler" | "hasFireSafety" | "technicalNotes" | "elevatorSurchargePerFloor" | "elevatorExemptGroundFloor" | "heatingMeterUnit" | "lat" | "lng" | "dailyRoomName" | "softonePrjc" | "createdAt" | "updatedAt", ExtArgs["result"]["building"]>
+export type BuildingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "companyId" | "propertyId" | "customerId" | "name" | "address" | "city" | "postalCode" | "country" | "imageUrl" | "floors" | "basements" | "unitsCount" | "hasElevator" | "hasBoiler" | "hasFireSafety" | "technicalNotes" | "elevatorSurchargePerFloor" | "elevatorExemptGroundFloor" | "heatingMeterUnit" | "lat" | "lng" | "distanceKm" | "distanceMinutes" | "distanceMethod" | "distanceAt" | "distanceBaseKey" | "dailyRoomName" | "softonePrjc" | "createdAt" | "updatedAt", ExtArgs["result"]["building"]>
 export type BuildingInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   company?: boolean | Prisma.CompanyDefaultArgs<ExtArgs>
   property?: boolean | Prisma.PropertyDefaultArgs<ExtArgs>
@@ -7559,6 +8236,11 @@ export type $BuildingPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     heatingMeterUnit: string | null
     lat: number | null
     lng: number | null
+    distanceKm: number | null
+    distanceMinutes: number | null
+    distanceMethod: string | null
+    distanceAt: Date | null
+    distanceBaseKey: string | null
     dailyRoomName: string | null
     softonePrjc: number | null
     createdAt: Date
@@ -8033,6 +8715,11 @@ export interface BuildingFieldRefs {
   readonly heatingMeterUnit: Prisma.FieldRef<"Building", 'String'>
   readonly lat: Prisma.FieldRef<"Building", 'Float'>
   readonly lng: Prisma.FieldRef<"Building", 'Float'>
+  readonly distanceKm: Prisma.FieldRef<"Building", 'Float'>
+  readonly distanceMinutes: Prisma.FieldRef<"Building", 'Int'>
+  readonly distanceMethod: Prisma.FieldRef<"Building", 'String'>
+  readonly distanceAt: Prisma.FieldRef<"Building", 'DateTime'>
+  readonly distanceBaseKey: Prisma.FieldRef<"Building", 'String'>
   readonly dailyRoomName: Prisma.FieldRef<"Building", 'String'>
   readonly softonePrjc: Prisma.FieldRef<"Building", 'Int'>
   readonly createdAt: Prisma.FieldRef<"Building", 'DateTime'>

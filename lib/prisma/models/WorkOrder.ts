@@ -33,6 +33,8 @@ export type WorkOrderAvgAggregateOutputType = {
   markupPct: runtime.Decimal | null
   surveyFee: runtime.Decimal | null
   warrantyMonths: number | null
+  travelFee: runtime.Decimal | null
+  travelKm: number | null
   softoneCntrA: number | null
   softoneCntrB: number | null
 }
@@ -44,6 +46,8 @@ export type WorkOrderSumAggregateOutputType = {
   markupPct: runtime.Decimal | null
   surveyFee: runtime.Decimal | null
   warrantyMonths: number | null
+  travelFee: runtime.Decimal | null
+  travelKm: number | null
   softoneCntrA: number | null
   softoneCntrB: number | null
 }
@@ -67,6 +71,9 @@ export type WorkOrderMinAggregateOutputType = {
   surveyFee: runtime.Decimal | null
   surveyWaived: boolean | null
   warrantyMonths: number | null
+  travelFee: runtime.Decimal | null
+  travelZone: string | null
+  travelKm: number | null
   status: $Enums.WorkOrderStatus | null
   customerMessage: string | null
   earliestDate: Date | null
@@ -117,6 +124,9 @@ export type WorkOrderMaxAggregateOutputType = {
   surveyFee: runtime.Decimal | null
   surveyWaived: boolean | null
   warrantyMonths: number | null
+  travelFee: runtime.Decimal | null
+  travelZone: string | null
+  travelKm: number | null
   status: $Enums.WorkOrderStatus | null
   customerMessage: string | null
   earliestDate: Date | null
@@ -167,6 +177,9 @@ export type WorkOrderCountAggregateOutputType = {
   surveyFee: number
   surveyWaived: number
   warrantyMonths: number
+  travelFee: number
+  travelZone: number
+  travelKm: number
   status: number
   customerMessage: number
   earliestDate: number
@@ -208,6 +221,8 @@ export type WorkOrderAvgAggregateInputType = {
   markupPct?: true
   surveyFee?: true
   warrantyMonths?: true
+  travelFee?: true
+  travelKm?: true
   softoneCntrA?: true
   softoneCntrB?: true
 }
@@ -219,6 +234,8 @@ export type WorkOrderSumAggregateInputType = {
   markupPct?: true
   surveyFee?: true
   warrantyMonths?: true
+  travelFee?: true
+  travelKm?: true
   softoneCntrA?: true
   softoneCntrB?: true
 }
@@ -242,6 +259,9 @@ export type WorkOrderMinAggregateInputType = {
   surveyFee?: true
   surveyWaived?: true
   warrantyMonths?: true
+  travelFee?: true
+  travelZone?: true
+  travelKm?: true
   status?: true
   customerMessage?: true
   earliestDate?: true
@@ -292,6 +312,9 @@ export type WorkOrderMaxAggregateInputType = {
   surveyFee?: true
   surveyWaived?: true
   warrantyMonths?: true
+  travelFee?: true
+  travelZone?: true
+  travelKm?: true
   status?: true
   customerMessage?: true
   earliestDate?: true
@@ -342,6 +365,9 @@ export type WorkOrderCountAggregateInputType = {
   surveyFee?: true
   surveyWaived?: true
   warrantyMonths?: true
+  travelFee?: true
+  travelZone?: true
+  travelKm?: true
   status?: true
   customerMessage?: true
   earliestDate?: true
@@ -480,6 +506,9 @@ export type WorkOrderGroupByOutputType = {
   surveyFee: runtime.Decimal | null
   surveyWaived: boolean
   warrantyMonths: number | null
+  travelFee: runtime.Decimal | null
+  travelZone: string | null
+  travelKm: number | null
   status: $Enums.WorkOrderStatus
   customerMessage: string | null
   earliestDate: Date | null
@@ -554,6 +583,9 @@ export type WorkOrderWhereInput = {
   surveyFee?: Prisma.DecimalNullableFilter<"WorkOrder"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   surveyWaived?: Prisma.BoolFilter<"WorkOrder"> | boolean
   warrantyMonths?: Prisma.IntNullableFilter<"WorkOrder"> | number | null
+  travelFee?: Prisma.DecimalNullableFilter<"WorkOrder"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  travelZone?: Prisma.StringNullableFilter<"WorkOrder"> | string | null
+  travelKm?: Prisma.FloatNullableFilter<"WorkOrder"> | number | null
   status?: Prisma.EnumWorkOrderStatusFilter<"WorkOrder"> | $Enums.WorkOrderStatus
   customerMessage?: Prisma.StringNullableFilter<"WorkOrder"> | string | null
   earliestDate?: Prisma.DateTimeNullableFilter<"WorkOrder"> | Date | string | null
@@ -611,6 +643,9 @@ export type WorkOrderOrderByWithRelationInput = {
   surveyFee?: Prisma.SortOrderInput | Prisma.SortOrder
   surveyWaived?: Prisma.SortOrder
   warrantyMonths?: Prisma.SortOrderInput | Prisma.SortOrder
+  travelFee?: Prisma.SortOrderInput | Prisma.SortOrder
+  travelZone?: Prisma.SortOrderInput | Prisma.SortOrder
+  travelKm?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   customerMessage?: Prisma.SortOrderInput | Prisma.SortOrder
   earliestDate?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -671,6 +706,9 @@ export type WorkOrderWhereUniqueInput = Prisma.AtLeast<{
   surveyFee?: Prisma.DecimalNullableFilter<"WorkOrder"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   surveyWaived?: Prisma.BoolFilter<"WorkOrder"> | boolean
   warrantyMonths?: Prisma.IntNullableFilter<"WorkOrder"> | number | null
+  travelFee?: Prisma.DecimalNullableFilter<"WorkOrder"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  travelZone?: Prisma.StringNullableFilter<"WorkOrder"> | string | null
+  travelKm?: Prisma.FloatNullableFilter<"WorkOrder"> | number | null
   status?: Prisma.EnumWorkOrderStatusFilter<"WorkOrder"> | $Enums.WorkOrderStatus
   customerMessage?: Prisma.StringNullableFilter<"WorkOrder"> | string | null
   earliestDate?: Prisma.DateTimeNullableFilter<"WorkOrder"> | Date | string | null
@@ -728,6 +766,9 @@ export type WorkOrderOrderByWithAggregationInput = {
   surveyFee?: Prisma.SortOrderInput | Prisma.SortOrder
   surveyWaived?: Prisma.SortOrder
   warrantyMonths?: Prisma.SortOrderInput | Prisma.SortOrder
+  travelFee?: Prisma.SortOrderInput | Prisma.SortOrder
+  travelZone?: Prisma.SortOrderInput | Prisma.SortOrder
+  travelKm?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   customerMessage?: Prisma.SortOrderInput | Prisma.SortOrder
   earliestDate?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -787,6 +828,9 @@ export type WorkOrderScalarWhereWithAggregatesInput = {
   surveyFee?: Prisma.DecimalNullableWithAggregatesFilter<"WorkOrder"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   surveyWaived?: Prisma.BoolWithAggregatesFilter<"WorkOrder"> | boolean
   warrantyMonths?: Prisma.IntNullableWithAggregatesFilter<"WorkOrder"> | number | null
+  travelFee?: Prisma.DecimalNullableWithAggregatesFilter<"WorkOrder"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  travelZone?: Prisma.StringNullableWithAggregatesFilter<"WorkOrder"> | string | null
+  travelKm?: Prisma.FloatNullableWithAggregatesFilter<"WorkOrder"> | number | null
   status?: Prisma.EnumWorkOrderStatusWithAggregatesFilter<"WorkOrder"> | $Enums.WorkOrderStatus
   customerMessage?: Prisma.StringNullableWithAggregatesFilter<"WorkOrder"> | string | null
   earliestDate?: Prisma.DateTimeNullableWithAggregatesFilter<"WorkOrder"> | Date | string | null
@@ -832,6 +876,9 @@ export type WorkOrderCreateInput = {
   surveyFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   surveyWaived?: boolean
   warrantyMonths?: number | null
+  travelFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  travelZone?: string | null
+  travelKm?: number | null
   status?: $Enums.WorkOrderStatus
   customerMessage?: string | null
   earliestDate?: Date | string | null
@@ -889,6 +936,9 @@ export type WorkOrderUncheckedCreateInput = {
   surveyFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   surveyWaived?: boolean
   warrantyMonths?: number | null
+  travelFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  travelZone?: string | null
+  travelKm?: number | null
   status?: $Enums.WorkOrderStatus
   customerMessage?: string | null
   earliestDate?: Date | string | null
@@ -934,6 +984,9 @@ export type WorkOrderUpdateInput = {
   surveyFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   surveyWaived?: Prisma.BoolFieldUpdateOperationsInput | boolean
   warrantyMonths?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  travelFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  travelZone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  travelKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
   customerMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   earliestDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -991,6 +1044,9 @@ export type WorkOrderUncheckedUpdateInput = {
   surveyFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   surveyWaived?: Prisma.BoolFieldUpdateOperationsInput | boolean
   warrantyMonths?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  travelFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  travelZone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  travelKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
   customerMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   earliestDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1042,6 +1098,9 @@ export type WorkOrderCreateManyInput = {
   surveyFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   surveyWaived?: boolean
   warrantyMonths?: number | null
+  travelFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  travelZone?: string | null
+  travelKm?: number | null
   status?: $Enums.WorkOrderStatus
   customerMessage?: string | null
   earliestDate?: Date | string | null
@@ -1087,6 +1146,9 @@ export type WorkOrderUpdateManyMutationInput = {
   surveyFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   surveyWaived?: Prisma.BoolFieldUpdateOperationsInput | boolean
   warrantyMonths?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  travelFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  travelZone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  travelKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
   customerMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   earliestDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1138,6 +1200,9 @@ export type WorkOrderUncheckedUpdateManyInput = {
   surveyFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   surveyWaived?: Prisma.BoolFieldUpdateOperationsInput | boolean
   warrantyMonths?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  travelFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  travelZone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  travelKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
   customerMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   earliestDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -1204,6 +1269,9 @@ export type WorkOrderCountOrderByAggregateInput = {
   surveyFee?: Prisma.SortOrder
   surveyWaived?: Prisma.SortOrder
   warrantyMonths?: Prisma.SortOrder
+  travelFee?: Prisma.SortOrder
+  travelZone?: Prisma.SortOrder
+  travelKm?: Prisma.SortOrder
   status?: Prisma.SortOrder
   customerMessage?: Prisma.SortOrder
   earliestDate?: Prisma.SortOrder
@@ -1243,6 +1311,8 @@ export type WorkOrderAvgOrderByAggregateInput = {
   markupPct?: Prisma.SortOrder
   surveyFee?: Prisma.SortOrder
   warrantyMonths?: Prisma.SortOrder
+  travelFee?: Prisma.SortOrder
+  travelKm?: Prisma.SortOrder
   softoneCntrA?: Prisma.SortOrder
   softoneCntrB?: Prisma.SortOrder
 }
@@ -1266,6 +1336,9 @@ export type WorkOrderMaxOrderByAggregateInput = {
   surveyFee?: Prisma.SortOrder
   surveyWaived?: Prisma.SortOrder
   warrantyMonths?: Prisma.SortOrder
+  travelFee?: Prisma.SortOrder
+  travelZone?: Prisma.SortOrder
+  travelKm?: Prisma.SortOrder
   status?: Prisma.SortOrder
   customerMessage?: Prisma.SortOrder
   earliestDate?: Prisma.SortOrder
@@ -1316,6 +1389,9 @@ export type WorkOrderMinOrderByAggregateInput = {
   surveyFee?: Prisma.SortOrder
   surveyWaived?: Prisma.SortOrder
   warrantyMonths?: Prisma.SortOrder
+  travelFee?: Prisma.SortOrder
+  travelZone?: Prisma.SortOrder
+  travelKm?: Prisma.SortOrder
   status?: Prisma.SortOrder
   customerMessage?: Prisma.SortOrder
   earliestDate?: Prisma.SortOrder
@@ -1354,6 +1430,8 @@ export type WorkOrderSumOrderByAggregateInput = {
   markupPct?: Prisma.SortOrder
   surveyFee?: Prisma.SortOrder
   warrantyMonths?: Prisma.SortOrder
+  travelFee?: Prisma.SortOrder
+  travelKm?: Prisma.SortOrder
   softoneCntrA?: Prisma.SortOrder
   softoneCntrB?: Prisma.SortOrder
 }
@@ -1617,6 +1695,9 @@ export type WorkOrderCreateWithoutCustomerInput = {
   surveyFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   surveyWaived?: boolean
   warrantyMonths?: number | null
+  travelFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  travelZone?: string | null
+  travelKm?: number | null
   status?: $Enums.WorkOrderStatus
   customerMessage?: string | null
   earliestDate?: Date | string | null
@@ -1672,6 +1753,9 @@ export type WorkOrderUncheckedCreateWithoutCustomerInput = {
   surveyFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   surveyWaived?: boolean
   warrantyMonths?: number | null
+  travelFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  travelZone?: string | null
+  travelKm?: number | null
   status?: $Enums.WorkOrderStatus
   customerMessage?: string | null
   earliestDate?: Date | string | null
@@ -1752,6 +1836,9 @@ export type WorkOrderScalarWhereInput = {
   surveyFee?: Prisma.DecimalNullableFilter<"WorkOrder"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   surveyWaived?: Prisma.BoolFilter<"WorkOrder"> | boolean
   warrantyMonths?: Prisma.IntNullableFilter<"WorkOrder"> | number | null
+  travelFee?: Prisma.DecimalNullableFilter<"WorkOrder"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  travelZone?: Prisma.StringNullableFilter<"WorkOrder"> | string | null
+  travelKm?: Prisma.FloatNullableFilter<"WorkOrder"> | number | null
   status?: Prisma.EnumWorkOrderStatusFilter<"WorkOrder"> | $Enums.WorkOrderStatus
   customerMessage?: Prisma.StringNullableFilter<"WorkOrder"> | string | null
   earliestDate?: Prisma.DateTimeNullableFilter<"WorkOrder"> | Date | string | null
@@ -1797,6 +1884,9 @@ export type WorkOrderCreateWithoutBuildingInput = {
   surveyFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   surveyWaived?: boolean
   warrantyMonths?: number | null
+  travelFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  travelZone?: string | null
+  travelKm?: number | null
   status?: $Enums.WorkOrderStatus
   customerMessage?: string | null
   earliestDate?: Date | string | null
@@ -1852,6 +1942,9 @@ export type WorkOrderUncheckedCreateWithoutBuildingInput = {
   surveyFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   surveyWaived?: boolean
   warrantyMonths?: number | null
+  travelFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  travelZone?: string | null
+  travelKm?: number | null
   status?: $Enums.WorkOrderStatus
   customerMessage?: string | null
   earliestDate?: Date | string | null
@@ -1923,6 +2016,9 @@ export type WorkOrderCreateWithoutMaintenanceRequestInput = {
   surveyFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   surveyWaived?: boolean
   warrantyMonths?: number | null
+  travelFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  travelZone?: string | null
+  travelKm?: number | null
   status?: $Enums.WorkOrderStatus
   customerMessage?: string | null
   earliestDate?: Date | string | null
@@ -1978,6 +2074,9 @@ export type WorkOrderUncheckedCreateWithoutMaintenanceRequestInput = {
   surveyFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   surveyWaived?: boolean
   warrantyMonths?: number | null
+  travelFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  travelZone?: string | null
+  travelKm?: number | null
   status?: $Enums.WorkOrderStatus
   customerMessage?: string | null
   earliestDate?: Date | string | null
@@ -2049,6 +2148,9 @@ export type WorkOrderCreateWithoutSupplierInput = {
   surveyFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   surveyWaived?: boolean
   warrantyMonths?: number | null
+  travelFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  travelZone?: string | null
+  travelKm?: number | null
   status?: $Enums.WorkOrderStatus
   customerMessage?: string | null
   earliestDate?: Date | string | null
@@ -2104,6 +2206,9 @@ export type WorkOrderUncheckedCreateWithoutSupplierInput = {
   surveyFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   surveyWaived?: boolean
   warrantyMonths?: number | null
+  travelFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  travelZone?: string | null
+  travelKm?: number | null
   status?: $Enums.WorkOrderStatus
   customerMessage?: string | null
   earliestDate?: Date | string | null
@@ -2175,6 +2280,9 @@ export type WorkOrderCreateWithoutRfqInput = {
   surveyFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   surveyWaived?: boolean
   warrantyMonths?: number | null
+  travelFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  travelZone?: string | null
+  travelKm?: number | null
   status?: $Enums.WorkOrderStatus
   customerMessage?: string | null
   earliestDate?: Date | string | null
@@ -2230,6 +2338,9 @@ export type WorkOrderUncheckedCreateWithoutRfqInput = {
   surveyFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   surveyWaived?: boolean
   warrantyMonths?: number | null
+  travelFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  travelZone?: string | null
+  travelKm?: number | null
   status?: $Enums.WorkOrderStatus
   customerMessage?: string | null
   earliestDate?: Date | string | null
@@ -2301,6 +2412,9 @@ export type WorkOrderCreateWithoutOfferInput = {
   surveyFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   surveyWaived?: boolean
   warrantyMonths?: number | null
+  travelFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  travelZone?: string | null
+  travelKm?: number | null
   status?: $Enums.WorkOrderStatus
   customerMessage?: string | null
   earliestDate?: Date | string | null
@@ -2356,6 +2470,9 @@ export type WorkOrderUncheckedCreateWithoutOfferInput = {
   surveyFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   surveyWaived?: boolean
   warrantyMonths?: number | null
+  travelFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  travelZone?: string | null
+  travelKm?: number | null
   status?: $Enums.WorkOrderStatus
   customerMessage?: string | null
   earliestDate?: Date | string | null
@@ -2417,6 +2534,9 @@ export type WorkOrderUpdateWithoutOfferInput = {
   surveyFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   surveyWaived?: Prisma.BoolFieldUpdateOperationsInput | boolean
   warrantyMonths?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  travelFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  travelZone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  travelKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
   customerMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   earliestDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2472,6 +2592,9 @@ export type WorkOrderUncheckedUpdateWithoutOfferInput = {
   surveyFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   surveyWaived?: Prisma.BoolFieldUpdateOperationsInput | boolean
   warrantyMonths?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  travelFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  travelZone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  travelKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
   customerMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   earliestDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2522,6 +2645,9 @@ export type WorkOrderCreateManyCustomerInput = {
   surveyFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   surveyWaived?: boolean
   warrantyMonths?: number | null
+  travelFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  travelZone?: string | null
+  travelKm?: number | null
   status?: $Enums.WorkOrderStatus
   customerMessage?: string | null
   earliestDate?: Date | string | null
@@ -2567,6 +2693,9 @@ export type WorkOrderUpdateWithoutCustomerInput = {
   surveyFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   surveyWaived?: Prisma.BoolFieldUpdateOperationsInput | boolean
   warrantyMonths?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  travelFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  travelZone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  travelKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
   customerMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   earliestDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2622,6 +2751,9 @@ export type WorkOrderUncheckedUpdateWithoutCustomerInput = {
   surveyFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   surveyWaived?: Prisma.BoolFieldUpdateOperationsInput | boolean
   warrantyMonths?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  travelFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  travelZone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  travelKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
   customerMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   earliestDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2672,6 +2804,9 @@ export type WorkOrderUncheckedUpdateManyWithoutCustomerInput = {
   surveyFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   surveyWaived?: Prisma.BoolFieldUpdateOperationsInput | boolean
   warrantyMonths?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  travelFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  travelZone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  travelKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
   customerMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   earliestDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2722,6 +2857,9 @@ export type WorkOrderCreateManyBuildingInput = {
   surveyFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   surveyWaived?: boolean
   warrantyMonths?: number | null
+  travelFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  travelZone?: string | null
+  travelKm?: number | null
   status?: $Enums.WorkOrderStatus
   customerMessage?: string | null
   earliestDate?: Date | string | null
@@ -2767,6 +2905,9 @@ export type WorkOrderUpdateWithoutBuildingInput = {
   surveyFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   surveyWaived?: Prisma.BoolFieldUpdateOperationsInput | boolean
   warrantyMonths?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  travelFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  travelZone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  travelKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
   customerMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   earliestDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2822,6 +2963,9 @@ export type WorkOrderUncheckedUpdateWithoutBuildingInput = {
   surveyFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   surveyWaived?: Prisma.BoolFieldUpdateOperationsInput | boolean
   warrantyMonths?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  travelFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  travelZone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  travelKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
   customerMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   earliestDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2872,6 +3016,9 @@ export type WorkOrderUncheckedUpdateManyWithoutBuildingInput = {
   surveyFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   surveyWaived?: Prisma.BoolFieldUpdateOperationsInput | boolean
   warrantyMonths?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  travelFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  travelZone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  travelKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
   customerMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   earliestDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -2922,6 +3069,9 @@ export type WorkOrderCreateManyMaintenanceRequestInput = {
   surveyFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   surveyWaived?: boolean
   warrantyMonths?: number | null
+  travelFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  travelZone?: string | null
+  travelKm?: number | null
   status?: $Enums.WorkOrderStatus
   customerMessage?: string | null
   earliestDate?: Date | string | null
@@ -2967,6 +3117,9 @@ export type WorkOrderUpdateWithoutMaintenanceRequestInput = {
   surveyFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   surveyWaived?: Prisma.BoolFieldUpdateOperationsInput | boolean
   warrantyMonths?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  travelFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  travelZone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  travelKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
   customerMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   earliestDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3022,6 +3175,9 @@ export type WorkOrderUncheckedUpdateWithoutMaintenanceRequestInput = {
   surveyFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   surveyWaived?: Prisma.BoolFieldUpdateOperationsInput | boolean
   warrantyMonths?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  travelFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  travelZone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  travelKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
   customerMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   earliestDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3072,6 +3228,9 @@ export type WorkOrderUncheckedUpdateManyWithoutMaintenanceRequestInput = {
   surveyFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   surveyWaived?: Prisma.BoolFieldUpdateOperationsInput | boolean
   warrantyMonths?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  travelFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  travelZone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  travelKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
   customerMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   earliestDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3122,6 +3281,9 @@ export type WorkOrderCreateManySupplierInput = {
   surveyFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   surveyWaived?: boolean
   warrantyMonths?: number | null
+  travelFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  travelZone?: string | null
+  travelKm?: number | null
   status?: $Enums.WorkOrderStatus
   customerMessage?: string | null
   earliestDate?: Date | string | null
@@ -3167,6 +3329,9 @@ export type WorkOrderUpdateWithoutSupplierInput = {
   surveyFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   surveyWaived?: Prisma.BoolFieldUpdateOperationsInput | boolean
   warrantyMonths?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  travelFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  travelZone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  travelKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
   customerMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   earliestDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3222,6 +3387,9 @@ export type WorkOrderUncheckedUpdateWithoutSupplierInput = {
   surveyFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   surveyWaived?: Prisma.BoolFieldUpdateOperationsInput | boolean
   warrantyMonths?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  travelFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  travelZone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  travelKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
   customerMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   earliestDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3272,6 +3440,9 @@ export type WorkOrderUncheckedUpdateManyWithoutSupplierInput = {
   surveyFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   surveyWaived?: Prisma.BoolFieldUpdateOperationsInput | boolean
   warrantyMonths?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  travelFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  travelZone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  travelKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
   customerMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   earliestDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3322,6 +3493,9 @@ export type WorkOrderCreateManyRfqInput = {
   surveyFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   surveyWaived?: boolean
   warrantyMonths?: number | null
+  travelFee?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  travelZone?: string | null
+  travelKm?: number | null
   status?: $Enums.WorkOrderStatus
   customerMessage?: string | null
   earliestDate?: Date | string | null
@@ -3367,6 +3541,9 @@ export type WorkOrderUpdateWithoutRfqInput = {
   surveyFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   surveyWaived?: Prisma.BoolFieldUpdateOperationsInput | boolean
   warrantyMonths?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  travelFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  travelZone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  travelKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
   customerMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   earliestDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3422,6 +3599,9 @@ export type WorkOrderUncheckedUpdateWithoutRfqInput = {
   surveyFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   surveyWaived?: Prisma.BoolFieldUpdateOperationsInput | boolean
   warrantyMonths?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  travelFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  travelZone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  travelKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
   customerMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   earliestDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3472,6 +3652,9 @@ export type WorkOrderUncheckedUpdateManyWithoutRfqInput = {
   surveyFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   surveyWaived?: Prisma.BoolFieldUpdateOperationsInput | boolean
   warrantyMonths?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  travelFee?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  travelZone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  travelKm?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   status?: Prisma.EnumWorkOrderStatusFieldUpdateOperationsInput | $Enums.WorkOrderStatus
   customerMessage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   earliestDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -3525,6 +3708,9 @@ export type WorkOrderSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   surveyFee?: boolean
   surveyWaived?: boolean
   warrantyMonths?: boolean
+  travelFee?: boolean
+  travelZone?: boolean
+  travelKm?: boolean
   status?: boolean
   customerMessage?: boolean
   earliestDate?: boolean
@@ -3582,6 +3768,9 @@ export type WorkOrderSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   surveyFee?: boolean
   surveyWaived?: boolean
   warrantyMonths?: boolean
+  travelFee?: boolean
+  travelZone?: boolean
+  travelKm?: boolean
   status?: boolean
   customerMessage?: boolean
   earliestDate?: boolean
@@ -3639,6 +3828,9 @@ export type WorkOrderSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   surveyFee?: boolean
   surveyWaived?: boolean
   warrantyMonths?: boolean
+  travelFee?: boolean
+  travelZone?: boolean
+  travelKm?: boolean
   status?: boolean
   customerMessage?: boolean
   earliestDate?: boolean
@@ -3696,6 +3888,9 @@ export type WorkOrderSelectScalar = {
   surveyFee?: boolean
   surveyWaived?: boolean
   warrantyMonths?: boolean
+  travelFee?: boolean
+  travelZone?: boolean
+  travelKm?: boolean
   status?: boolean
   customerMessage?: boolean
   earliestDate?: boolean
@@ -3728,7 +3923,7 @@ export type WorkOrderSelectScalar = {
   updatedAt?: boolean
 }
 
-export type WorkOrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "number" | "buildingId" | "customerId" | "supplierId" | "maintenanceRequestId" | "rfqId" | "offerId" | "title" | "description" | "covered" | "supplierPrice" | "customerPrice" | "vatPct" | "markupPct" | "surveyFee" | "surveyWaived" | "warrantyMonths" | "status" | "customerMessage" | "earliestDate" | "validUntil" | "customerAcceptedAt" | "customerAcceptedById" | "customerAcceptedIp" | "customerAcceptedUa" | "customerDeclinedAt" | "customerDeclineReason" | "supplierAcceptedAt" | "supplierAcceptedById" | "supplierAcceptedIp" | "supplierAcceptedUa" | "supplierAcceptedName" | "scheduledAt" | "completedAt" | "completionNote" | "completionMediaIds" | "customerConfirmedAt" | "customerConfirmedById" | "autoConfirmedAt" | "disputeNote" | "customerContractHtml" | "supplierContractHtml" | "softoneCntrA" | "softoneCntrB" | "createdById" | "createdAt" | "updatedAt", ExtArgs["result"]["workOrder"]>
+export type WorkOrderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "number" | "buildingId" | "customerId" | "supplierId" | "maintenanceRequestId" | "rfqId" | "offerId" | "title" | "description" | "covered" | "supplierPrice" | "customerPrice" | "vatPct" | "markupPct" | "surveyFee" | "surveyWaived" | "warrantyMonths" | "travelFee" | "travelZone" | "travelKm" | "status" | "customerMessage" | "earliestDate" | "validUntil" | "customerAcceptedAt" | "customerAcceptedById" | "customerAcceptedIp" | "customerAcceptedUa" | "customerDeclinedAt" | "customerDeclineReason" | "supplierAcceptedAt" | "supplierAcceptedById" | "supplierAcceptedIp" | "supplierAcceptedUa" | "supplierAcceptedName" | "scheduledAt" | "completedAt" | "completionNote" | "completionMediaIds" | "customerConfirmedAt" | "customerConfirmedById" | "autoConfirmedAt" | "disputeNote" | "customerContractHtml" | "supplierContractHtml" | "softoneCntrA" | "softoneCntrB" | "createdById" | "createdAt" | "updatedAt", ExtArgs["result"]["workOrder"]>
 export type WorkOrderInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   building?: boolean | Prisma.BuildingDefaultArgs<ExtArgs>
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
@@ -3783,6 +3978,9 @@ export type $WorkOrderPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     surveyFee: runtime.Decimal | null
     surveyWaived: boolean
     warrantyMonths: number | null
+    travelFee: runtime.Decimal | null
+    travelZone: string | null
+    travelKm: number | null
     status: $Enums.WorkOrderStatus
     customerMessage: string | null
     earliestDate: Date | null
@@ -4260,6 +4458,9 @@ export interface WorkOrderFieldRefs {
   readonly surveyFee: Prisma.FieldRef<"WorkOrder", 'Decimal'>
   readonly surveyWaived: Prisma.FieldRef<"WorkOrder", 'Boolean'>
   readonly warrantyMonths: Prisma.FieldRef<"WorkOrder", 'Int'>
+  readonly travelFee: Prisma.FieldRef<"WorkOrder", 'Decimal'>
+  readonly travelZone: Prisma.FieldRef<"WorkOrder", 'String'>
+  readonly travelKm: Prisma.FieldRef<"WorkOrder", 'Float'>
   readonly status: Prisma.FieldRef<"WorkOrder", 'WorkOrderStatus'>
   readonly customerMessage: Prisma.FieldRef<"WorkOrder", 'String'>
   readonly earliestDate: Prisma.FieldRef<"WorkOrder", 'DateTime'>

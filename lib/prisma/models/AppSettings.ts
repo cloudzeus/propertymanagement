@@ -136,6 +136,7 @@ export type AppSettingsCountAggregateOutputType = {
   offerMarkupPct: number
   warrantyMonths: number
   silentAcceptDays: number
+  distanceZones: number
   updatedAt: number
   updatedById: number
   _all: number
@@ -252,6 +253,7 @@ export type AppSettingsCountAggregateInputType = {
   offerMarkupPct?: true
   warrantyMonths?: true
   silentAcceptDays?: true
+  distanceZones?: true
   updatedAt?: true
   updatedById?: true
   _all?: true
@@ -373,6 +375,7 @@ export type AppSettingsGroupByOutputType = {
   offerMarkupPct: runtime.Decimal
   warrantyMonths: number
   silentAcceptDays: number
+  distanceZones: runtime.JsonValue | null
   updatedAt: Date
   updatedById: string | null
   _count: AppSettingsCountAggregateOutputType | null
@@ -430,6 +433,7 @@ export type AppSettingsWhereInput = {
   offerMarkupPct?: Prisma.DecimalFilter<"AppSettings"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   warrantyMonths?: Prisma.IntFilter<"AppSettings"> | number
   silentAcceptDays?: Prisma.IntFilter<"AppSettings"> | number
+  distanceZones?: Prisma.JsonNullableFilter<"AppSettings">
   updatedAt?: Prisma.DateTimeFilter<"AppSettings"> | Date | string
   updatedById?: Prisma.StringNullableFilter<"AppSettings"> | string | null
 }
@@ -464,6 +468,7 @@ export type AppSettingsOrderByWithRelationInput = {
   offerMarkupPct?: Prisma.SortOrder
   warrantyMonths?: Prisma.SortOrder
   silentAcceptDays?: Prisma.SortOrder
+  distanceZones?: Prisma.SortOrderInput | Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   updatedById?: Prisma.SortOrderInput | Prisma.SortOrder
 }
@@ -501,6 +506,7 @@ export type AppSettingsWhereUniqueInput = Prisma.AtLeast<{
   offerMarkupPct?: Prisma.DecimalFilter<"AppSettings"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   warrantyMonths?: Prisma.IntFilter<"AppSettings"> | number
   silentAcceptDays?: Prisma.IntFilter<"AppSettings"> | number
+  distanceZones?: Prisma.JsonNullableFilter<"AppSettings">
   updatedAt?: Prisma.DateTimeFilter<"AppSettings"> | Date | string
   updatedById?: Prisma.StringNullableFilter<"AppSettings"> | string | null
 }, "id">
@@ -535,6 +541,7 @@ export type AppSettingsOrderByWithAggregationInput = {
   offerMarkupPct?: Prisma.SortOrder
   warrantyMonths?: Prisma.SortOrder
   silentAcceptDays?: Prisma.SortOrder
+  distanceZones?: Prisma.SortOrderInput | Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   updatedById?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.AppSettingsCountOrderByAggregateInput
@@ -577,6 +584,7 @@ export type AppSettingsScalarWhereWithAggregatesInput = {
   offerMarkupPct?: Prisma.DecimalWithAggregatesFilter<"AppSettings"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   warrantyMonths?: Prisma.IntWithAggregatesFilter<"AppSettings"> | number
   silentAcceptDays?: Prisma.IntWithAggregatesFilter<"AppSettings"> | number
+  distanceZones?: Prisma.JsonNullableWithAggregatesFilter<"AppSettings">
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"AppSettings"> | Date | string
   updatedById?: Prisma.StringNullableWithAggregatesFilter<"AppSettings"> | string | null
 }
@@ -611,6 +619,7 @@ export type AppSettingsCreateInput = {
   offerMarkupPct?: runtime.Decimal | runtime.DecimalJsLike | number | string
   warrantyMonths?: number
   silentAcceptDays?: number
+  distanceZones?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Date | string
   updatedById?: string | null
 }
@@ -645,6 +654,7 @@ export type AppSettingsUncheckedCreateInput = {
   offerMarkupPct?: runtime.Decimal | runtime.DecimalJsLike | number | string
   warrantyMonths?: number
   silentAcceptDays?: number
+  distanceZones?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Date | string
   updatedById?: string | null
 }
@@ -679,6 +689,7 @@ export type AppSettingsUpdateInput = {
   offerMarkupPct?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   warrantyMonths?: Prisma.IntFieldUpdateOperationsInput | number
   silentAcceptDays?: Prisma.IntFieldUpdateOperationsInput | number
+  distanceZones?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -713,6 +724,7 @@ export type AppSettingsUncheckedUpdateInput = {
   offerMarkupPct?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   warrantyMonths?: Prisma.IntFieldUpdateOperationsInput | number
   silentAcceptDays?: Prisma.IntFieldUpdateOperationsInput | number
+  distanceZones?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -747,6 +759,7 @@ export type AppSettingsCreateManyInput = {
   offerMarkupPct?: runtime.Decimal | runtime.DecimalJsLike | number | string
   warrantyMonths?: number
   silentAcceptDays?: number
+  distanceZones?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Date | string
   updatedById?: string | null
 }
@@ -781,6 +794,7 @@ export type AppSettingsUpdateManyMutationInput = {
   offerMarkupPct?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   warrantyMonths?: Prisma.IntFieldUpdateOperationsInput | number
   silentAcceptDays?: Prisma.IntFieldUpdateOperationsInput | number
+  distanceZones?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -815,6 +829,7 @@ export type AppSettingsUncheckedUpdateManyInput = {
   offerMarkupPct?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   warrantyMonths?: Prisma.IntFieldUpdateOperationsInput | number
   silentAcceptDays?: Prisma.IntFieldUpdateOperationsInput | number
+  distanceZones?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
@@ -849,6 +864,7 @@ export type AppSettingsCountOrderByAggregateInput = {
   offerMarkupPct?: Prisma.SortOrder
   warrantyMonths?: Prisma.SortOrder
   silentAcceptDays?: Prisma.SortOrder
+  distanceZones?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   updatedById?: Prisma.SortOrder
 }
@@ -965,6 +981,7 @@ export type AppSettingsSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   offerMarkupPct?: boolean
   warrantyMonths?: boolean
   silentAcceptDays?: boolean
+  distanceZones?: boolean
   updatedAt?: boolean
   updatedById?: boolean
 }, ExtArgs["result"]["appSettings"]>
@@ -999,6 +1016,7 @@ export type AppSettingsSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   offerMarkupPct?: boolean
   warrantyMonths?: boolean
   silentAcceptDays?: boolean
+  distanceZones?: boolean
   updatedAt?: boolean
   updatedById?: boolean
 }, ExtArgs["result"]["appSettings"]>
@@ -1033,6 +1051,7 @@ export type AppSettingsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   offerMarkupPct?: boolean
   warrantyMonths?: boolean
   silentAcceptDays?: boolean
+  distanceZones?: boolean
   updatedAt?: boolean
   updatedById?: boolean
 }, ExtArgs["result"]["appSettings"]>
@@ -1067,11 +1086,12 @@ export type AppSettingsSelectScalar = {
   offerMarkupPct?: boolean
   warrantyMonths?: boolean
   silentAcceptDays?: boolean
+  distanceZones?: boolean
   updatedAt?: boolean
   updatedById?: boolean
 }
 
-export type AppSettingsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "companyName" | "logoUrl" | "logoSquareUrl" | "logoFullLight" | "logoFullDark" | "logoSquareLight" | "logoSquareDark" | "colorPrimary" | "colorPrimaryDk" | "colorAccent" | "colorSuccess" | "colorWarning" | "colorDanger" | "colorPurple" | "colorTeal" | "contactEmail" | "contactPhone" | "contactAddress" | "websiteUrl" | "providerVivaEnabled" | "providerVivaClientId" | "providerVivaClientSecretEnc" | "providerVivaMerchantId" | "providerVivaApiKeyEnc" | "providerVivaSourceCode" | "offerMarkupPct" | "warrantyMonths" | "silentAcceptDays" | "updatedAt" | "updatedById", ExtArgs["result"]["appSettings"]>
+export type AppSettingsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "companyName" | "logoUrl" | "logoSquareUrl" | "logoFullLight" | "logoFullDark" | "logoSquareLight" | "logoSquareDark" | "colorPrimary" | "colorPrimaryDk" | "colorAccent" | "colorSuccess" | "colorWarning" | "colorDanger" | "colorPurple" | "colorTeal" | "contactEmail" | "contactPhone" | "contactAddress" | "websiteUrl" | "providerVivaEnabled" | "providerVivaClientId" | "providerVivaClientSecretEnc" | "providerVivaMerchantId" | "providerVivaApiKeyEnc" | "providerVivaSourceCode" | "offerMarkupPct" | "warrantyMonths" | "silentAcceptDays" | "distanceZones" | "updatedAt" | "updatedById", ExtArgs["result"]["appSettings"]>
 
 export type $AppSettingsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "AppSettings"
@@ -1106,6 +1126,7 @@ export type $AppSettingsPayload<ExtArgs extends runtime.Types.Extensions.Interna
     offerMarkupPct: runtime.Decimal
     warrantyMonths: number
     silentAcceptDays: number
+    distanceZones: runtime.JsonValue | null
     updatedAt: Date
     updatedById: string | null
   }, ExtArgs["result"]["appSettings"]>
@@ -1560,6 +1581,7 @@ export interface AppSettingsFieldRefs {
   readonly offerMarkupPct: Prisma.FieldRef<"AppSettings", 'Decimal'>
   readonly warrantyMonths: Prisma.FieldRef<"AppSettings", 'Int'>
   readonly silentAcceptDays: Prisma.FieldRef<"AppSettings", 'Int'>
+  readonly distanceZones: Prisma.FieldRef<"AppSettings", 'Json'>
   readonly updatedAt: Prisma.FieldRef<"AppSettings", 'DateTime'>
   readonly updatedById: Prisma.FieldRef<"AppSettings", 'String'>
 }

@@ -560,3 +560,8 @@ export type AiActionLog = Prisma.AiActionLogModel
  * 
  */
 export type WikiChunk = Prisma.WikiChunkModel
+/**
+ * Model DistanceCache
+ * 
+ */
+export type DistanceCache = Prisma.DistanceCacheModel

@@ -46,6 +46,7 @@ export const RBAC_MODULES: readonly RbacModule[] = [
   { key: "settings-brand", label: "Brand", surface: "company", menu: { href: "/super-admin/settings/brand", icon: "RiPaletteLine", group: "settings" }, actions: [...CRUD] },
   { key: "settings-payments", label: "Πληρωμές (Viva)", surface: "company", menu: { href: "/super-admin/settings/payments", icon: "RiBankCardLine", group: "settings" }, actions: [...CRUD] },
   { key: "settings-contracts", label: "Προσφορές & συμβάσεις", surface: "company", menu: { href: "/super-admin/settings/contracts", icon: "RiFileTextLine", group: "settings" }, actions: [...CRUD] },
+  { key: "settings-distance", label: "Σταθμός βάσης & ζώνες", surface: "company", menu: { href: "/super-admin/settings/distance", icon: "RiRoadMapLine", group: "settings" }, actions: [...CRUD] },
   { key: "integrations", label: "Ενσωματώσεις", surface: "company", menu: { href: "/super-admin/integrations", icon: "RiLinksLine", group: "settings" }, actions: [...CRUD] },
   { key: "users", label: "Χρήστες", surface: "company", menu: { href: "/super-admin/users", icon: "RiGroupLine", group: "settings" }, actions: [...CRUD] },
   { key: "roles", label: "Ρόλοι", surface: "company", menu: { href: "/super-admin/roles", icon: "RiShieldUserLine", group: "settings" }, actions: [...CRUD] },
@@ -149,7 +150,7 @@ export const DEFAULT_PERMISSIONS: RoleDefaults = {
     ...view("dashboard", "work", "reports"),
     ...crud("properties", "units", "users", "residents", "maintenance", "announcements", "calendar", "managed-items", "managed-buildings", "suppliers", "work-orders", "rfq", "maintenance-program"),
     ...crud("metered-plans", "customer-wallets"),
-    ...view("api-costs"), ...crud("settings", "settings-payments", "settings-contracts", "cms-newsletter"), ...view("help", "report"),
+    ...view("api-costs"), ...crud("settings", "settings-payments", "settings-contracts", "settings-distance", "cms-newsletter"), ...view("help", "report"),
     ...crud("softone-connection", "softone-params", "softone-sync"), ...view("softone-structure"),
   ],
   MANAGER: [

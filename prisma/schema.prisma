@@ -70,6 +70,7 @@ enum ServicePricingModel {
   PER_COMMON_AREA  // × number of common areas
   FLAT             // fixed monthly amount
   METERED_PREPAID  // usage-based with prepaid balance (assemblies: minutes × participants)
+  PER_ZONE         // base price + amount per distance zone of each building (lib/distance)
 }
 
 // Status of a monthly service invoice to a Customer
@@ -685,6 +686,12 @@ model Building {
   // Geodata
   lat                   Float?
   lng                   Float?
+  // οδική απόσταση από τον σταθμό βάσης (lib/distance)
+  distanceKm            Float?
+  distanceMinutes       Int?
+  distanceMethod        String?   // ROAD | ESTIMATE
+  distanceAt            DateTime?
+  distanceBaseKey       String?   // base-station coordinate key the distance was measured from
 
   // Relations
   users                 User[]
@@ -1252,6 +1259,7 @@ model Service {
   active                Boolean  @default(true)
 
   softoneMtrl           Int?     // SoftOne SERVICE (MTRL, SODTYPE 52)
+  zonePrices            Json?    // PER_ZONE: { [zoneCode]: €/building/month }
   propertyServices      PropertyService[]
 
   createdAt             DateTime @default(now())
@@ -2245,6 +2253,9 @@ model AppSettings {
   warrantyMonths  Int      @default(6)
   silentAcceptDays Int     @default(5) // customer confirmation deemed given after N business days
 
+  // Distance zones from the base station (lib/distance/zones): DistanceZone[]; null = defaults
+  distanceZones   Json?
+
   updatedAt       DateTime @updatedAt
   updatedById     String?
 }
@@ -2509,6 +2520,8 @@ model Supplier {
   // Geodata (geocoded from the address) — proximity ranking vs. the building
   lat          Float?
   lng          Float?
+  // Προσαύξηση αυτοψίας ανά ζώνη απόστασης (από την έδρα του συνεργάτη): { [zoneCode]: € }
+  surveyZoneFees Json?
 
   // Rating aggregates (denormalised from SupplierRating on every new rating)
   ratingAvg    Float?
@@ -2788,6 +2801,10 @@ model WorkOrder {
   surveyFee             Decimal? @db.Decimal(10, 2)
   surveyWaived          Boolean  @default(true)
   warrantyMonths        Int?
+  // Χρέωση μετάβασης τεχνικού (ζώνη του κτιρίου από τον σταθμό βάσης)
+  travelFee             Decimal? @db.Decimal(10, 2)
+  travelZone            String?
+  travelKm              Float?
 
   status                WorkOrderStatus @default(PENDING_CUSTOMER)
   customerMessage       String?  @db.Text  // what the customer reads with the offer
@@ -3022,4 +3039,23 @@ model WikiChunk {
 
   @@unique([slug, anchor])
   @@index([slug])
+}
+
+// Cached routing results per coordinate pair (4-decimal keys). ROAD rows never
+// expire; ESTIMATE rows carry expiresAt so the API is retried later. See lib/distance/cache.ts.
+model DistanceCache {
+  id        String   @id @default(cuid())
+  fromLat4  Int
+  fromLng4  Int
+  toLat4    Int
+  toLng4    Int
+  km        Float
+  minutes   Int
+  method    String   // ROAD | ESTIMATE
+  provider  String   // osrm | ors | haversine
+  expiresAt DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([fromLat4, fromLng4, toLat4, toLng4])
 }

@@ -93,7 +93,8 @@ export const ServicePricingModel = {
   PER_BUILDING: 'PER_BUILDING',
   PER_COMMON_AREA: 'PER_COMMON_AREA',
   FLAT: 'FLAT',
-  METERED_PREPAID: 'METERED_PREPAID'
+  METERED_PREPAID: 'METERED_PREPAID',
+  PER_ZONE: 'PER_ZONE'
 } as const
 
 export type ServicePricingModel = (typeof ServicePricingModel)[keyof typeof ServicePricingModel]
