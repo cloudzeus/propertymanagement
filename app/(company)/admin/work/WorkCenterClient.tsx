@@ -13,6 +13,7 @@ import { STAGE_LABELS, type WorkItem } from "@/lib/work/types";
 import type { WorkViewer } from "@/lib/work/scope";
 import { STATUS_LABELS, STATUS_TRANSITIONS, PRIORITY_LABELS, type FaultStatus } from "@/lib/maintenance-shared";
 import { assignRequest, changeRequestStatus } from "@/app/actions/maintenance-requests";
+import { callAction } from "@/lib/work/client-actions";
 import { WorkFilterBar } from "./WorkFilterBar";
 
 type Props = {
@@ -48,10 +49,10 @@ export function WorkCenterClient({ items, filters: initial, viewer, employees, b
   }
   const quick = (f: WorkQuickFilter) => update({ ...filters, f: filters.f === f ? undefined : f });
 
-  async function run(label: string, fn: () => Promise<{ ok?: boolean; error?: string } | void>) {
+  async function run(label: string, fn: () => Promise<{ ok?: boolean; error?: string }>) {
     setMessage(null);
-    const res = await fn();
-    if (res && "error" in res && res.error) { setMessage({ kind: "error", text: res.error }); return false; }
+    const res = await callAction(fn);
+    if ("error" in res && res.error) { setMessage({ kind: "error", text: res.error }); return false; }
     setMessage({ kind: "ok", text: label });
     startTransition(() => router.refresh());
     return true;
@@ -59,7 +60,7 @@ export function WorkCenterClient({ items, filters: initial, viewer, employees, b
 
   async function assign(faultIds: string[], userId: string | null) {
     let failed = 0;
-    for (const id of faultIds) { const r = await assignRequest(id, userId); if ("error" in r && r.error) failed++; }
+    for (const id of faultIds) { const r = await callAction(() => assignRequest(id, userId)); if ("error" in r && r.error) failed++; }
     if (failed) setMessage({ kind: "error", text: `Η ανάθεση απέτυχε για ${failed} από ${faultIds.length}` });
     else setMessage({ kind: "ok", text: userId ? `Ανατέθηκε (${faultIds.length})` : "Η ανάθεση αφαιρέθηκε" });
     startTransition(() => router.refresh());
@@ -119,7 +120,7 @@ export function WorkCenterClient({ items, filters: initial, viewer, employees, b
       const ids = rows.filter((w) => w.source === "fault" && w.rawStatus === "OPEN").map(faultIdOf);
       if (!ids.length) { setMessage({ kind: "error", text: "Καμία «Νέα» βλάβη στην επιλογή" }); return; }
       let failed = 0;
-      for (const id of ids) { const r = await changeRequestStatus(id, "ACKNOWLEDGED"); if ("error" in r && r.error) failed++; }
+      for (const id of ids) { const r = await callAction(() => changeRequestStatus(id, "ACKNOWLEDGED")); if ("error" in r && r.error) failed++; }
       setMessage(failed ? { kind: "error", text: `Απέτυχε για ${failed} από ${ids.length}` } : { kind: "ok", text: `${ids.length} βλάβες σε αξιολόγηση` });
       startTransition(() => router.refresh());
     } },

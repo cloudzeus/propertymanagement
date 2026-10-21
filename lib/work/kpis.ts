@@ -124,6 +124,15 @@ export function parseFilters(params: ParamsLike): WorkFilters {
   return out;
 }
 
+/**
+ * Identity of the URL-visible filter state (incl. an explicit mine=off), used as
+ * the React key of the client so external navigation to a new URL remounts it.
+ */
+export function filtersKey(filters: WorkFilters): string {
+  const qs = serializeFilters(filters) || "all";
+  return filters.mine === false ? `${qs}|mine=0` : qs;
+}
+
 /** Query string without "?", stable key order. */
 export function serializeFilters(filters: WorkFilters): string {
   const p = new URLSearchParams();

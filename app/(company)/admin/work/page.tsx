@@ -1,7 +1,7 @@
 import { requirePermission } from "@/lib/rbac/permissions";
 import { resolveWorkScope, loadWorkItems, countRecentSupportTickets, listAssignableEmployees } from "@/lib/work/queries";
 import { viewerFor } from "@/lib/work/scope";
-import { parseFilters } from "@/lib/work/kpis";
+import { parseFilters, filtersKey } from "@/lib/work/kpis";
 import { AutoRefresh } from "@/components/realtime/AutoRefresh";
 import { WorkCenterClient } from "./WorkCenterClient";
 
@@ -35,7 +35,8 @@ export default async function WorkCenterPage({ searchParams }: { searchParams: P
 
   return (
     <>
-      <WorkCenterClient items={items} filters={filters} viewer={viewer} employees={employees} buildings={buildings} supportCount={supportCount} nowIso={now.toISOString()} />
+      {/* key = filter identity: navigating to a different /admin/work URL from outside the client (menu, FAB, home KPI, Back) remounts it with the new filters. */}
+      <WorkCenterClient key={filtersKey(filters)} items={items} filters={filters} viewer={viewer} employees={employees} buildings={buildings} supportCount={supportCount} nowIso={now.toISOString()} />
       <AutoRefresh scope="company" />
     </>
   );

@@ -9,6 +9,7 @@ import { faultToWorkItem, workOrderToWorkItem, rfqToWorkItem, programmeToWorkIte
 export type { WorkScope } from "./scope";
 
 const DAY = 24 * 3600_000;
+/** Per-source cap; each query is ordered most-urgent-first so a hit cap drops the least urgent rows. */
 const TAKE = 500;
 
 /** Customer ids a MANAGER is account manager of (null = no restriction). */
@@ -34,6 +35,7 @@ export async function loadWorkItems(scope: WorkScope, now: Date = new Date()): P
   const [faults, workOrders, rfqs, tasks, appointments] = await Promise.all([
     db.maintenanceRequest.findMany({
       where: { status: { notIn: ["COMPLETED", "CANCELLED"] }, building: buildingScope },
+      orderBy: [{ slaDueAt: { sort: "asc", nulls: "last" } }, { updatedAt: "desc" }],
       take: TAKE,
       select: {
         id: true, title: true, description: true, status: true, priority: true, handledBy: true, slaDueAt: true, updatedAt: true, buildingId: true,
@@ -43,6 +45,7 @@ export async function loadWorkItems(scope: WorkScope, now: Date = new Date()): P
     }),
     db.workOrder.findMany({
       where: { status: { notIn: ["CONFIRMED", "DECLINED", "CANCELLED"] }, building: buildingScope },
+      orderBy: [{ scheduledAt: { sort: "asc", nulls: "last" } }, { validUntil: { sort: "asc", nulls: "last" } }, { updatedAt: "desc" }],
       take: TAKE,
       select: {
         id: true, number: true, title: true, description: true, status: true, scheduledAt: true, validUntil: true, updatedAt: true, buildingId: true,
@@ -51,6 +54,7 @@ export async function loadWorkItems(scope: WorkScope, now: Date = new Date()): P
     }),
     db.serviceRequest.findMany({
       where: { status: { in: ["OPEN", "OFFERED", "FORWARDED"] }, building: buildingScope },
+      orderBy: [{ deadlineAt: { sort: "asc", nulls: "last" } }, { updatedAt: "desc" }],
       take: TAKE,
       select: {
         id: true, title: true, description: true, status: true, deadlineAt: true, updatedAt: true, buildingId: true,
@@ -59,6 +63,7 @@ export async function loadWorkItems(scope: WorkScope, now: Date = new Date()): P
     }),
     db.recurringTask.findMany({
       where: { active: true, nextDueDate: { not: null, lte: soon }, building: { ...buildingScope, property: { managed: true } } },
+      orderBy: [{ nextDueDate: "asc" }, { updatedAt: "desc" }],
       take: TAKE,
       select: {
         id: true, title: true, notes: true, nextDueDate: true, updatedAt: true, buildingId: true, vendor: true,
@@ -71,6 +76,7 @@ export async function loadWorkItems(scope: WorkScope, now: Date = new Date()): P
         startAt: { gte: new Date(now.getTime() - DAY), lte: new Date(now.getTime() + 14 * DAY) },
         request: { status: { notIn: ["COMPLETED", "CANCELLED"] }, building: buildingScope },
       },
+      orderBy: [{ startAt: "asc" }],
       take: TAKE,
       select: {
         id: true, startAt: true, endAt: true, managerPresence: true,

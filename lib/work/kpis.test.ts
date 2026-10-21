@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { athensDayKey, computeKpis, isUnassigned, isMine, applyFilters, parseFilters, serializeFilters } from "./kpis";
+import { athensDayKey, computeKpis, isUnassigned, isMine, applyFilters, parseFilters, serializeFilters, filtersKey } from "./kpis";
 import type { WorkItem } from "./types";
 
 // Tuesday 2026-10-20 10:00 Athens → week = Mon 19 … Sun 25
@@ -87,5 +87,15 @@ describe("parseFilters / serializeFilters", () => {
     expect(serializeFilters(f)).toBe("source=fault&priority=LOW&mine=1");
     expect(serializeFilters({})).toBe("");
     expect(serializeFilters({ f: "overdue", mine: false })).toBe("f=overdue");
+  });
+});
+
+describe("filtersKey", () => {
+  it("changes whenever the URL-visible filters change, including mine=off, so the client remounts", () => {
+    expect(filtersKey({})).toBe("all");
+    expect(filtersKey({ f: "overdue" })).toBe("f=overdue");
+    expect(filtersKey({ f: "overdue" })).not.toBe(filtersKey({ f: "today" }));
+    expect(filtersKey({ mine: false })).toBe("all|mine=0");
+    expect(filtersKey({ mine: true })).toBe("mine=1");
   });
 });
