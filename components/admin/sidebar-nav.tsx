@@ -44,6 +44,7 @@ import {
   RiMoneyEuroCircleFill, RiFileTextLine, RiFileTextFill, RiAlarmWarningLine, RiAlarmWarningFill,
   RiMailCheckLine, RiMailCheckFill, RiCalendarTodoFill,
   RiPlugLine, RiPlugFill, RiNodeTree, RiListSettingsLine, RiListSettingsFill, RiRefreshLine, RiRefreshFill, RiExchangeLine, RiExchangeFill,
+  RiTaskLine, RiTaskFill, RiBuilding2Line, RiBuilding2Fill, RiBankCardLine, RiBankCardFill,
 } from "react-icons/ri";
 import type { MenuGroup } from "@/lib/rbac/permissions";
 import { usePhone } from "@/lib/use-media-query";
@@ -66,6 +67,8 @@ type NavGroup = {
   label: string;
   icon: React.ElementType;
   color: string;
+  /** Registry default; the user's stored choice (localStorage) wins. */
+  defaultOpen: boolean;
   items: NavItem[];
 };
 
@@ -116,49 +119,25 @@ const ICONS: Record<string, { line: React.ElementType; fill: React.ElementType }
   RiListSettingsLine:       { line: RiListSettingsLine,       fill: RiListSettingsFill },
   RiRefreshLine:            { line: RiRefreshLine,            fill: RiRefreshFill },
   RiExchangeLine:           { line: RiExchangeLine,           fill: RiExchangeFill },
+  RiTaskLine:               { line: RiTaskLine,               fill: RiTaskFill },
+  RiBuilding2Line:          { line: RiBuilding2Line,          fill: RiBuilding2Fill },
+  RiBankCardLine:           { line: RiBankCardLine,           fill: RiBankCardFill },
 };
 const FALLBACK_ICON = { line: RiFileListLine, fill: RiFileListFill };
 
-// ─── Group metadata (label, color, icon) keyed by group id ────────────────────
-const GROUP_META: Record<string, { label: string; color: string; icon: React.ElementType }> = {
-  core:        { label: "Κεντρικό",        color: "#0078D4", icon: RiDashboardLine },
-  management:  { label: "Διαχείριση",      color: "#8764B8", icon: RiBuildingLine },
-  financials:  { label: "Οικονομικά",      color: "#107C10", icon: RiMoneyDollarCircleLine },
-  settings:    { label: "Ρυθμίσεις",       color: "#5C5C5C", icon: RiSettingsLine },
-  softone:     { label: "SoftOne",         color: "#0F6CBD", icon: RiExchangeLine },
-  cms:         { label: "CMS",             color: "#8764b8", icon: RiLayoutLine },
-  preview:     { label: "Προεπισκόπηση",   color: "#038387", icon: RiEyeLine },
-  properties:  { label: "Ακίνητα",         color: "#8764B8", icon: RiBuildingLine },
-  assets:      { label: "Τα ακίνητά μου",  color: "#8764B8", icon: RiHome3Line },
-  services:    { label: "Υπηρεσίες",       color: "#CA5D00", icon: RiToolsLine },
-  operations:  { label: "Εργασίες",        color: "#CA5D00", icon: RiToolsLine },
-  tasks:       { label: "Εργασίες",        color: "#CA5D00", icon: RiToolsLine },
-  business:    { label: "Η επιχείρησή μου", color: "#107C10", icon: RiStoreLine },
-  help:        { label: "Βοήθεια",         color: "#038387", icon: RiQuestionLine },
-};
-const FALLBACK_GROUP_META = { color: "#5C5C5C", icon: RiFileListLine };
-
+// ─── Group metadata comes from the RBAC registry (MENU_GROUPS) via buildMenu ──
 function menuToNavGroups(menu: MenuGroup[]): NavGroup[] {
-  return menu.map((g) => {
-    const meta = GROUP_META[g.id];
-    const color = meta?.color ?? FALLBACK_GROUP_META.color;
-    return {
-      id: g.id,
-      label: meta?.label ?? g.id,
-      icon: meta?.icon ?? FALLBACK_GROUP_META.icon,
-      color,
-      items: g.items.map((item) => {
-        const icons = ICONS[item.icon] ?? FALLBACK_ICON;
-        return {
-          label: item.label,
-          href: item.href,
-          icon: icons.line,
-          iconActive: icons.fill,
-          color,
-        };
-      }),
-    };
-  });
+  return menu.map((g) => ({
+    id: g.id,
+    label: g.label,
+    icon: ICONS[g.icon]?.line ?? FALLBACK_ICON.line,
+    color: g.color,
+    defaultOpen: g.defaultOpen,
+    items: g.items.map((item) => {
+      const icons = ICONS[item.icon] ?? FALLBACK_ICON;
+      return { label: item.label, href: item.href, icon: icons.line, iconActive: icons.fill, color: g.color };
+    }),
+  }));
 }
 
 // ─── Building control-center sections (owner/resident tree) ──────────────────
@@ -212,7 +191,7 @@ export function SidebarNav({ role, menu, customerBuildings, userName, userEmail,
   const collapsed = collapsedPref && !isPhone;
   const mobileOpen = mobileOpenFor === pathname; // navigating away closes the drawer
   const [openGroups,  setOpenGroups]  = useState<Record<string, boolean>>(
-    () => Object.fromEntries(navGroups.map((g) => [g.id, true])),
+    () => Object.fromEntries(navGroups.map((g) => [g.id, g.defaultOpen])),
   );
 
   useEffect(() => {
