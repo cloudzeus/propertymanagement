@@ -180,6 +180,7 @@ model User {
   maintenanceSlots        MaintenanceSlot[]        @relation("maintenanceSlots")
   maintenanceAppointments MaintenanceAppointment[] @relation("maintenanceAppointments")
   notifications           Notification[]           @relation("userNotifications")
+  pushSubscriptions       PushSubscription[]       @relation("userPushSubscriptions")
   accountCustomers        Customer[]               @relation("customerAccountManager")
 
   // Collaborator association: COLLABORATOR users belong to a Supplier (the
@@ -1846,6 +1847,22 @@ model MaintenanceAppointment {
 }
 
 // Γενικές in-app ειδοποιήσεις (καμπανάκι + dashboard)
+/// Web Push (PWA Φάση 2): μία γραμμή ανά συσκευή/browser του χρήστη. Το endpoint είναι
+/// μοναδικό — επανεγγραφή από άλλον λογαριασμό στην ίδια συσκευή ξαναδένει τη γραμμή σε αυτόν.
+model PushSubscription {
+  id         String    @id @default(cuid())
+  userId     String
+  user       User      @relation("userPushSubscriptions", fields: [userId], references: [id], onDelete: Cascade)
+  endpoint   String    @unique
+  p256dh     String
+  auth       String
+  userAgent  String?
+  createdAt  DateTime  @default(now())
+  lastUsedAt DateTime?
+
+  @@index([userId])
+}
+
 model Notification {
   id        String @id @default(cuid())
   userId    String

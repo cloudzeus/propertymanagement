@@ -110,6 +110,7 @@ export const ModelName = {
   MaintenanceComment: 'MaintenanceComment',
   MaintenanceSlot: 'MaintenanceSlot',
   MaintenanceAppointment: 'MaintenanceAppointment',
+  PushSubscription: 'PushSubscription',
   Notification: 'Notification',
   CMSPage: 'CMSPage',
   FAQ: 'FAQ',
@@ -1260,6 +1261,20 @@ export const MaintenanceAppointmentScalarFieldEnum = {
 } as const
 
 export type MaintenanceAppointmentScalarFieldEnum = (typeof MaintenanceAppointmentScalarFieldEnum)[keyof typeof MaintenanceAppointmentScalarFieldEnum]
+
+
+export const PushSubscriptionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  endpoint: 'endpoint',
+  p256dh: 'p256dh',
+  auth: 'auth',
+  userAgent: 'userAgent',
+  createdAt: 'createdAt',
+  lastUsedAt: 'lastUsedAt'
+} as const
+
+export type PushSubscriptionScalarFieldEnum = (typeof PushSubscriptionScalarFieldEnum)[keyof typeof PushSubscriptionScalarFieldEnum]
 
 
 export const NotificationScalarFieldEnum = {

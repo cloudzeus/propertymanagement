@@ -337,6 +337,12 @@ export type MaintenanceSlot = Prisma.MaintenanceSlotModel
  */
 export type MaintenanceAppointment = Prisma.MaintenanceAppointmentModel
 /**
+ * Model PushSubscription
+ * Web Push (PWA Φάση 2): μία γραμμή ανά συσκευή/browser του χρήστη. Το endpoint είναι
+ * μοναδικό — επανεγγραφή από άλλον λογαριασμό στην ίδια συσκευή ξαναδένει τη γραμμή σε αυτόν.
+ */
+export type PushSubscription = Prisma.PushSubscriptionModel
+/**
  * Model Notification
  * 
  */
