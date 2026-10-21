@@ -63,6 +63,7 @@ export default auth((req: NextRequest & { auth: any }) => {
     "/forgot-password",
     "/reset-password",
     "/invite", // supplier e-mail links (RFQ invitation / contact activation)
+    "/offline", // PWA: precached by the service worker — must never redirect to /login
     "/api/auth",
   ];
 

@@ -7,7 +7,7 @@ const ROOT = path.resolve(__dirname, "..", "..");
 const APP = path.join(ROOT, "app");
 const PAGES = path.join(ROOT, "docs", "wiki", "pages");
 /** Pages that only redirect (no UI of their own) need no guide. */
-const REDIRECT_ONLY = new Set(["/help"]);
+const REDIRECT_ONLY = new Set(["/help", "/home"]);
 
 /** Every app page route (route groups stripped), excluding public/auth/api/locale pages. */
 function appRoutes(): string[] {
