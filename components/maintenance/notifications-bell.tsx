@@ -5,12 +5,13 @@ import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
 import { RiNotification3Line, RiCheckDoubleLine } from "react-icons/ri";
 import { markNotificationRead, markAllNotificationsRead } from "@/app/actions/maintenance-requests";
+import { PushToggle } from "@/components/pwa/PushToggle";
 
 type Item = { id: string; type: string; title: string; body: string | null; href: string | null; readAt: string | null; createdAt: string };
 
 const fmt = (iso: string) => new Date(iso).toLocaleString("el-GR", { dateStyle: "short", timeStyle: "short" });
 
-/** Καμπανάκι ειδοποιήσεων — polling κάθε 60". */
+/** Καμπανάκι ειδοποιήσεων — polling κάθε 60"· υποσέλιδο: διακόπτης Web Push «Ειδοποιήσεις στο κινητό». */
 export function NotificationsBell() {
   const router = useRouter();
   const [items, setItems] = useState<Item[]>([]);
@@ -114,6 +115,7 @@ export function NotificationsBell() {
               <div style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)", marginTop: 3 }}>{fmt(n.createdAt)}</div>
             </button>
           ))}
+          <PushToggle />
         </div>,
         document.body,
       )}

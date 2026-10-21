@@ -50,7 +50,12 @@ function loadSw({ dev = false } = {}) {
   const self = {
     addEventListener: (type: string, fn: Listener) => { (listeners[type] ??= []).push(fn); },
     skipWaiting: vi.fn(async () => {}),
-    clients: { claim: vi.fn(async () => {}) },
+    clients: {
+      claim: vi.fn(async () => {}),
+      matchAll: vi.fn<(q?: unknown) => Promise<any[]>>(async () => []),
+      openWindow: vi.fn<(url: string) => Promise<unknown>>(async () => null),
+    },
+    registration: { showNotification: vi.fn<(title: string, opts: any) => Promise<void>>(async () => {}) },
     location: { href: `${ORIGIN}/sw.js${dev ? "?dev=1" : ""}` },
   };
   // Στον πραγματικό SW τα σχετικά URL λύνονται ως προς το self.location· στο Node όχι.
@@ -214,5 +219,55 @@ describe("sw.js fetch — static shell", () => {
     const sw = loadSw();
     expect(await sw.fetchEvent(new Request(ORIGIN + "/api/notifications"))).toBeUndefined();
     expect(sw.fetch).not.toHaveBeenCalled();
+  });
+});
+
+describe("sw.js push (Φάση 2)", () => {
+  it("is version v2", () => expect(loadSw().pwa.VERSION).toBe("v2"));
+  it("shows a notification from the JSON payload with icon, badge, tag and data.href", async () => {
+    const sw = loadSw();
+    const payload = { title: "Νέα προσφορά", body: "Ποσό 120 €", href: "/admin/work-orders", tag: "/admin/work-orders" };
+    await sw.fire("push", { data: { json: () => payload, text: () => JSON.stringify(payload) } });
+    expect(sw.self.registration.showNotification).toHaveBeenCalledTimes(1);
+    const [title, opts] = sw.self.registration.showNotification.mock.calls[0];
+    expect(title).toBe("Νέα προσφορά");
+    expect(opts).toMatchObject({ body: "Ποσό 120 €", icon: "/icons/icon-192.png", badge: "/icons/icon-192.png", tag: "/admin/work-orders", data: { href: "/admin/work-orders" } });
+  });
+  it("falls back to the raw text as title when the payload is not JSON (DevTools «Push»)", async () => {
+    const sw = loadSw();
+    await sw.fire("push", { data: { json: () => { throw new SyntaxError("x"); }, text: () => "hello" } });
+    const [title, opts] = sw.self.registration.showNotification.mock.calls[0];
+    expect(title).toBe("hello");
+    expect(opts.data.href).toBe("/home");
+  });
+  it("shows a generic notification when the push has no data at all", async () => {
+    const sw = loadSw();
+    await sw.fire("push", { data: null });
+    expect(sw.self.registration.showNotification.mock.calls[0][0]).toBe("Orithon");
+  });
+  it("notificationclick focuses an open same-origin window and navigates it to href", async () => {
+    const sw = loadSw();
+    const client = { url: `${ORIGIN}/portal`, focus: vi.fn(async () => client), navigate: vi.fn(async () => client) };
+    sw.self.clients.matchAll.mockResolvedValue([client]);
+    const notification = { close: vi.fn(), data: { href: "/portal/requests/1" } };
+    await sw.fire("notificationclick", { notification });
+    expect(notification.close).toHaveBeenCalled();
+    expect(client.focus).toHaveBeenCalled();
+    expect(client.navigate).toHaveBeenCalledWith(`${ORIGIN}/portal/requests/1`);
+    expect(sw.self.clients.openWindow).not.toHaveBeenCalled();
+  });
+  it("notificationclick opens a new window when none is open (and /home without href)", async () => {
+    const sw = loadSw();
+    sw.self.clients.matchAll.mockResolvedValue([]);
+    await sw.fire("notificationclick", { notification: { close: vi.fn(), data: {} } });
+    expect(sw.self.clients.openWindow).toHaveBeenCalledWith(`${ORIGIN}/home`);
+  });
+  it("notificationclick ignores a foreign-origin client", async () => {
+    const sw = loadSw();
+    const foreign = { url: "https://other.test/x", focus: vi.fn(), navigate: vi.fn() };
+    sw.self.clients.matchAll.mockResolvedValue([foreign]);
+    await sw.fire("notificationclick", { notification: { close: vi.fn(), data: { href: "/x" } } });
+    expect(foreign.focus).not.toHaveBeenCalled();
+    expect(sw.self.clients.openWindow).toHaveBeenCalledWith(`${ORIGIN}/x`);
   });
 });

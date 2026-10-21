@@ -1,4 +1,4 @@
-/* Orithon — service worker (PWA, Φάση 1: εγκατάσταση + offline κέλυφος).
+/* Orithon — service worker (PWA, Φάση 1: εγκατάσταση + offline κέλυφος · Φάση 2: Web Push).
  *
  * Κανόνες (δείτε docs/superpowers/specs/2026-10-21-pwa-design.md §3.4):
  *  - Σελίδες (navigate): ΠΑΝΤΑ δίκτυο· αν το δίκτυο αποτύχει → η προ-αποθηκευμένη /offline.
@@ -6,9 +6,11 @@
  *  - /_next/static/*, /icons/*, /apple-icon.png: cache-first (hashed, αμετάβλητα).
  *  - Ό,τι άλλο (API, RSC, /_next/image, SSE, CDN, POST): ο SW δεν παρεμβαίνει.
  *  - ?dev=1 (localhost): χωρίς static cache — τα dev chunks δεν είναι content-hashed (HMR).
+ *  - push: δείχνει ειδοποίηση από το JSON payload (lib/push/send.ts buildPushPayload).
+ *  - notificationclick: εστίαση ανοιχτού παραθύρου της εφαρμογής + πλοήγηση στο href, αλλιώς νέο παράθυρο.
  * Κάθε αλλαγή στο PRECACHE ή στους κανόνες → αύξηση του VERSION.
  */
-const VERSION = "v1";
+const VERSION = "v2";
 const CACHE = "orithon-shell-" + VERSION;
 const CACHE_PREFIX = "orithon-shell-";
 const OFFLINE_URL = "/offline";
@@ -101,6 +103,55 @@ self.addEventListener("message", (event) => {
   if (event.data && event.data.type === "SKIP_WAITING") self.skipWaiting();
 });
 
-// Φάση 2 (Web Push): εδώ μπαίνουν οι handlers 'push' και 'notificationclick'.
+// ---- Φάση 2: Web Push ---------------------------------------------------------
+const NOTIFICATION_ICON = "/icons/icon-192.png";
+const DEFAULT_HREF = "/home";
 
-self.__pwa = { routeFor, VERSION, CACHE, PRECACHE, DEV };
+/** Καθαρή: payload (JSON ή κείμενο ή τίποτα) → { title, options } για showNotification. */
+function notificationFor(data) {
+  let payload = null;
+  if (data) {
+    try { payload = data.json(); } catch (_) { payload = null; }
+    if (!payload || typeof payload !== "object") {
+      let text = "";
+      try { text = data.text(); } catch (_) { text = ""; }
+      payload = text ? { title: text } : null;
+    }
+  }
+  const title = (payload && payload.title) || "Orithon";
+  const href = (payload && typeof payload.href === "string" && payload.href) || DEFAULT_HREF;
+  const options = {
+    body: (payload && payload.body) || undefined,
+    icon: NOTIFICATION_ICON,
+    badge: NOTIFICATION_ICON,
+    tag: (payload && payload.tag) || href,
+    renotify: true,
+    data: { href },
+  };
+  return { title, options };
+}
+
+self.addEventListener("push", (event) => {
+  const n = notificationFor(event.data);
+  event.waitUntil(self.registration.showNotification(n.title, n.options));
+});
+
+self.addEventListener("notificationclick", (event) => {
+  event.notification.close();
+  const href = (event.notification.data && event.notification.data.href) || DEFAULT_HREF;
+  const target = new URL(href, ORIGIN).href;
+  event.waitUntil(
+    self.clients.matchAll({ type: "window", includeUncontrolled: true }).then((list) => {
+      const own = (list || []).find((c) => typeof c.url === "string" && new URL(c.url).origin === ORIGIN);
+      if (own) {
+        return Promise.resolve(own.focus ? own.focus() : own).then((c) => {
+          const client = c || own;
+          return client.navigate ? client.navigate(target) : client;
+        });
+      }
+      return self.clients.openWindow(target);
+    }),
+  );
+});
+
+self.__pwa = { routeFor, notificationFor, VERSION, CACHE, PRECACHE, DEV };
