@@ -18,8 +18,8 @@ export type WikiArticleMeta = {
 };
 
 export const AREA_LABELS: Record<string, string> = {
-  core: "Αρχική & επισκόπηση",
-  management: "Πελάτες, ακίνητα, κτήρια",
+  core: "Επισκόπηση & κέντρο εργασιών",
+  management: "Πελάτες & ακίνητα",
   operations: "Βλάβες, συντηρήσεις, ανακοινώσεις",
   financials: "Οικονομικά & τιμολόγηση",
   settings: "Ρυθμίσεις",
