@@ -175,7 +175,9 @@ type Props = {
 };
 
 const STORAGE_COLLAPSED = "dg-sidebar-collapsed";
-const STORAGE_GROUPS    = "dg-sidebar-groups";
+// v2: the 2026-10 regrouping ships new default open/closed states; a new key
+// applies them once to everyone, then the user's own toggles win again.
+const STORAGE_GROUPS    = "dg-sidebar-groups.v2";
 
 export function SidebarNav({ role, menu, customerBuildings, userName, userEmail, logoUrl, logoSquareUrl, companyName, onSignOut, bell }: Props) {
   const pathname   = usePathname();
@@ -201,7 +203,8 @@ export function SidebarNav({ role, menu, customerBuildings, userName, userEmail,
     // the user's explicit choice still wins once stored.
     else if (window.innerWidth < 1024) setCollapsedPref(true);
     const g = localStorage.getItem(STORAGE_GROUPS);
-    if (g) { try { setOpenGroups(JSON.parse(g)); } catch { /* ignore */ } }
+    // Overlay the stored choices on the registry defaults so a group added later keeps its own default.
+    if (g) { try { const stored = JSON.parse(g); setOpenGroups((prev) => ({ ...prev, ...stored })); } catch { /* ignore */ } }
   }, []);
 
   function toggleSidebar() {
