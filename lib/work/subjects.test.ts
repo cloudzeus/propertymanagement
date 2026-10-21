@@ -50,7 +50,7 @@ const woDto = (status: string): WorkOrderDTO => ({
   id: `w-${status}`, number: "WO-2026-0001", status, title: "", description: "", covered: false, customerPrice: 0, vatPct: 24, surveyFee: null, surveyWaived: true, warrantyMonths: null,
   customerMessage: null, earliestDate: null, validUntil: null, customerAcceptedAt: null, customerDeclinedAt: null, customerDeclineReason: null, scheduledAt: null, createdAt: "",
   supplierAcceptedAt: null, completedAt: null, completionNote: null, completionMedia: [], customerConfirmedAt: null, disputeNote: null, supplierPrice: null, markupPct: null, supplierName: null, maintenanceRequestId: "f1",
-});
+} as unknown as WorkOrderDTO);
 
 describe("subjectFromFaultDetail", () => {
   it("derives flags from the RFQ panel data and the appointments", () => {
