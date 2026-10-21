@@ -229,8 +229,10 @@ export async function forwardOffer(offerId: string, input: ForwardInput) {
   const zones = await getDistanceZones();
   const zone = zoneForKm(zones, offer.rfq.building.distanceKm);
   const defaultTravel = zoneFee(zones, zone?.code);
-  const travelFee = covered ? 0 : Math.max(0, input.travelFee != null && Number.isFinite(Number(input.travelFee)) ? Number(input.travelFee) : defaultTravel);
-  const customerPrice = covered ? 0 : input.customerPrice != null && Number.isFinite(Number(input.customerPrice)) ? Math.max(0, Number(input.customerPrice)) : Math.round((applyMarkup(supplierPrice, markup) + travelFee) * 100) / 100;
+  // A caller that sets the customer price itself without a travel fee gets 0 — never record a fee that is not in the price.
+  const manualPrice = input.customerPrice != null && Number.isFinite(Number(input.customerPrice));
+  const travelFee = covered ? 0 : Math.max(0, input.travelFee != null && Number.isFinite(Number(input.travelFee)) ? Number(input.travelFee) : manualPrice ? 0 : defaultTravel);
+  const customerPrice = covered ? 0 : manualPrice ? Math.max(0, Number(input.customerPrice)) : Math.round((applyMarkup(supplierPrice, markup) + travelFee) * 100) / 100;
   const req = offer.rfq.maintenanceRequest;
 
   const wo = await db.$transaction(async (tx) => {

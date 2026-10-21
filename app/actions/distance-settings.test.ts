@@ -54,9 +54,9 @@ describe("saveDistanceZones", () => {
 });
 
 describe("recomputeAllDistances", () => {
-  it("forces a recompute and returns the counts", async () => {
+  it("recomputes only stale buildings (cache hits cost nothing) and returns the counts", async () => {
     expect(await recomputeAllDistances()).toEqual({ ok: true, result: { scanned: 3, updated: 2, estimated: 1, skipped: 1 } });
-    expect(m.recompute).toHaveBeenCalledWith({ force: true, limit: 300 });
+    expect(m.recompute).toHaveBeenCalledWith({ force: false, limit: 300 });
   });
 });
 

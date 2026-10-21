@@ -76,6 +76,10 @@ describe("forwardOffer — travel fee", () => {
     await forwardOffer("o1", { markupPct: 10 });
     expect(m.woCreated[0]).toMatchObject({ customerPrice: 110, travelFee: 0, travelZone: null, travelKm: null });
   });
+  it("does not invent a fee when a manual price is given without a travel fee (work-center dialog)", async () => {
+    await forwardOffer("o1", { markupPct: 10, customerPrice: 110 });
+    expect(m.woCreated[0]).toMatchObject({ customerPrice: 110, travelFee: 0, travelZone: "B", travelKm: 23 });
+  });
   it("never goes negative", async () => {
     await forwardOffer("o1", { markupPct: 10, travelFee: -40 });
     expect(m.woCreated[0]).toMatchObject({ customerPrice: 110, travelFee: 0 });

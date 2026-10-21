@@ -61,7 +61,8 @@ export async function saveDistanceZones(raw: DistanceZone[]): Promise<{ ok: true
 
 export async function recomputeAllDistances(): Promise<{ ok: true; result: { scanned: number; updated: number; estimated: number; skipped: number } } | { error: string }> {
   if (!(await allowed("edit"))) return { error: "Δεν επιτρέπεται" };
-  const result = await recomputeStaleBuildings({ force: true, limit: 300 });
+  // Only stale rows (never measured, base moved, or estimates); ROAD cache hits cost no provider call.
+  const result = await recomputeStaleBuildings({ force: false, limit: 300 });
   revalidatePath("/super-admin/settings/distance");
   return { ok: true, result };
 }
