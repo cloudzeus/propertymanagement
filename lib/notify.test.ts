@@ -4,9 +4,9 @@ const m = vi.hoisted(() => ({ rows: [] as unknown[], mail: vi.fn(async () => ({ 
 vi.mock("@/lib/db", () => ({
   db: {
     user: { findMany: vi.fn(async () => [{ id: "u1", email: "a@x.gr" }, { id: "u2", email: "b@x.gr" }]) },
-    notification: { createMany: vi.fn(async ({ data }: { data: unknown[] }) => { m.rows.push(...data); return { count: data.length }; }) },
   },
 }));
+vi.mock("@/lib/notifications", () => ({ createNotifications: vi.fn(async (rows: unknown[]) => { m.rows.push(...rows); }) }));
 vi.mock("@/lib/mailgun", () => ({ sendNotificationEmail: m.mail }));
 
 import { notifyUsers } from "./notify";

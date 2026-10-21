@@ -2,6 +2,7 @@ import { db } from "@/lib/db";
 import { getDistanceZones } from "@/lib/distance/buildings";
 import { describeBuildingDistance } from "@/lib/distance/zones";
 import { sendNotificationEmail } from "@/lib/mailgun";
+import { createNotifications } from "@/lib/notifications";
 import type { FaultPriority } from "@/lib/maintenance-shared";
 
 export { FAULT_STATUSES, STATUS_LABELS, STATUS_TRANSITIONS, FAULT_PRIORITIES, PRIORITY_LABELS, HANDLER_LABELS } from "@/lib/maintenance-shared";
@@ -167,8 +168,8 @@ export async function notifyStakeholders(opts: {
     return `/portal/requests/${opts.requestId}`;
   };
 
-  await db.notification.createMany({
-    data: recipients.map((r) => ({
+  await createNotifications(
+    recipients.map((r) => ({
       userId: r.id,
       type: opts.type,
       title: opts.title,
@@ -176,7 +177,7 @@ export async function notifyStakeholders(opts: {
       href: hrefFor(r.id),
       requestId: opts.requestId,
     })),
-  });
+  );
 
   // Emails: best effort, χωρίς να ρίχνουν το action.
   void Promise.allSettled(

@@ -1,6 +1,7 @@
 import "server-only";
 import { db } from "@/lib/db";
 import { sendNotificationEmail } from "@/lib/mailgun";
+import { createNotifications } from "@/lib/notifications";
 
 /**
  * Notify specific users: in-app bell row + best-effort email. Unlike
@@ -14,9 +15,7 @@ export async function notifyUsers(userIds: string[], opts: { type: string; title
   if (ids.length === 0) return;
   const users = await db.user.findMany({ where: { id: { in: ids }, status: "ACTIVE" }, select: { id: true, email: true } });
   if (users.length === 0) return;
-  await db.notification.createMany({
-    data: users.map((u) => ({ userId: u.id, type: opts.type, title: opts.title, body: opts.body ?? null, href: opts.href, requestId: opts.requestId ?? null })),
-  });
+  await createNotifications(users.map((u) => ({ userId: u.id, type: opts.type, title: opts.title, body: opts.body ?? null, href: opts.href, requestId: opts.requestId ?? null })));
   if (opts.email === false) return;
   void Promise.allSettled(users.filter((u) => u.email).map((u) => sendNotificationEmail(u.email, opts.title, opts.body ?? opts.title, { href: opts.href })));
 }

@@ -2,6 +2,7 @@ import "server-only";
 import { db } from "@/lib/db";
 import { renderEmail, detailRows, escapeHtml } from "@/lib/email-template";
 import { sendEmailWithAttachments } from "@/lib/mailgun";
+import { createNotifications } from "@/lib/notifications";
 
 /** Booking window: business days, Athens time. */
 const TZ = "Europe/Athens";
@@ -204,15 +205,15 @@ export async function createDemoBooking(input: DemoBookingInput) {
           attachments: [icsAttachment],
         })
       : Promise.resolve({ success: true }),
-    db.notification.createMany({
-      data: staff.map((s) => ({
+    createNotifications(
+      staff.map((s) => ({
         userId: s.id,
         type: "DEMO_BOOKED",
         title: "Νέο ραντεβού demo",
         body: `${row.name}${row.company ? ` (${row.company})` : ""} — ${when.el}`,
         href: "/staff/calendar",
       })),
-    }),
+    ),
   ]);
   for (const r of results) if (r.status === "rejected") console.error("demo booking side-effect failed:", r.reason);
 
