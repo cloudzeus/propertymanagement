@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { getEffectiveSession } from "@/lib/auth-effective";
 import { homePathForRole } from "@/lib/surfaces";
 import type { UserRole } from "@/lib/prisma/enums";
+import { InstallBanner } from "@/components/pwa/InstallBanner";
 
 /**
  * Minimal, phone-first shell for the shared fault-report page: no sidebar,
@@ -20,7 +21,7 @@ export default async function ReportLayout({ children }: { children: React.React
         <span style={{ flex: 1, textAlign: "center", fontSize: "var(--fs-14)", fontWeight: 700, color: "var(--foreground)" }}>Δήλωση βλάβης</span>
         <span style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)", maxWidth: 140, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{eff.user.name ?? eff.user.email}</span>
       </header>
-      <main style={{ padding: "16px 14px 40px" }}>{children}</main>
+      <main style={{ padding: "16px 14px 40px" }}><InstallBanner />{children}</main>
     </div>
   );
 }

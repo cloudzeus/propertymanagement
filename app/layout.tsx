@@ -7,6 +7,7 @@ import { CookieConsent } from "@/components/CookieConsent";
 import { getAppSettings, buildBrandCss } from "@/lib/app-settings";
 import { getSiteSettings } from "@/lib/cms/site-settings";
 import { SiteTags } from "@/components/site/SiteTags";
+import { PwaRegistrar } from "@/components/pwa/PwaRegistrar";
 import "./globals.css";
 
 const commissioner = Commissioner({
@@ -77,6 +78,8 @@ export default async function RootLayout({
           pixel={site.facebookPixelId}
           extraHead={site.extraHeadHtml}
         />
+        {/* PWA: εγγραφή service worker σε κάθε σελίδα (offline σελίδα, εγκατάσταση). */}
+        <PwaRegistrar />
         <NextIntlClientProvider locale="el" messages={messages}>
           <SessionProvider>
             {children}

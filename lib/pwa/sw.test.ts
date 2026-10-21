@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any -- sandbox stubs for the service-worker globals */
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { readFileSync } from "node:fs";
 import path from "node:path";

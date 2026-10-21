@@ -12,6 +12,7 @@ import { db } from "@/lib/db";
 import { AssistantDrawer } from "@/components/assistant/AssistantDrawer";
 import { HelpButton } from "@/components/help/HelpButton";
 import { surfaceForRole } from "@/lib/surfaces";
+import { InstallBanner } from "@/components/pwa/InstallBanner";
 
 const EXPENSE_ROLES = ["SUPER_ADMIN", "ADMIN", "MANAGER", "PROPERTY_ADMIN"];
 const OCCUPANT_ROLES = ["PROPERTY_OWNER", "PROPERTY_RESIDENT"];
@@ -87,6 +88,8 @@ export async function AppShell({ children, allowedRoles }: Props) {
       <div className="app-content" style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0, overflow: "hidden", position: "relative" }}>
         {eff.impersonatorId && <ImpersonationBanner name={eff.user.name ?? eff.user.email ?? ""} role={role} />}
         <main className="app-main" style={{ flex: 1, overflowY: "auto", padding: 28, minWidth: 0, display: "flex", flexDirection: "column" }}>
+          {/* PWA: «Προσθήκη στην αρχική οθόνη» — μόνο σε κινητό, όταν δεν τρέχει εγκατεστημένο. */}
+          <InstallBanner />
           {children}
         </main>
         {/* Context-aware quick menu (bottom-left of the content area) — replaces the old fixed "Νέο έξοδο" button. */}
