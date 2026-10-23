@@ -10,6 +10,7 @@
  * quick-actions FAB use `buildingActionHref`.
  */
 import type { BuildingCaps } from "./building-caps";
+import type { WizardKey } from "./wizards/registry";
 
 export type BuildingActionGroup = "units" | "finance" | "maintenance" | "communication" | "readings" | "building";
 
@@ -53,12 +54,14 @@ export type BuildingAction = {
   basic?: boolean;
   /** Opens a page in a new tab instead of a modal (print hub). */
   external?: boolean;
+  /** Opens the guided wizard of lib/wizards/registry instead of the plain modal (the modal stays as «απλή φόρμα»). */
+  wizard?: WizardKey;
 };
 
 export const BUILDING_ACTIONS: readonly BuildingAction[] = [
   // ── Μονάδες & άτομα ──────────────────────────────────────────────────────
   { key: "unit-new", label: "Νέα μονάδα", icon: "RiHome4Line", group: "units", cap: "editUnits", basic: true, hint: "Διαμέρισμα, κατάστημα, πάρκινγκ" },
-  { key: "occupant-assign", label: "Ανάθεση ιδιοκτήτη / ενοίκου", icon: "RiUserStarLine", group: "units", cap: "editUnits", basic: true, hint: "Επιλέξτε μονάδα και πρόσωπο" },
+  { key: "occupant-assign", label: "Ανάθεση ιδιοκτήτη / ενοίκου", icon: "RiUserStarLine", group: "units", cap: "editUnits", basic: true, hint: "Επιλέξτε μονάδα και πρόσωπο", wizard: "occupant-assign" },
   { key: "contact-new", label: "Νέα επαφή", icon: "RiContactsBook3Line", group: "units", cap: "manageContacts", hint: "Συνεργεία, ανελκυστήρας, ΔΕΗ…" },
   { key: "manager-add", label: "Προσθήκη διαχειριστή", icon: "RiUserSettingsLine", group: "units", cap: "manageManagers" },
   // ── Οικονομικά ───────────────────────────────────────────────────────────
@@ -66,16 +69,16 @@ export const BUILDING_ACTIONS: readonly BuildingAction[] = [
   { key: "koino-issue", label: "Έκδοση κοινοχρήστων", icon: "RiWallet3Line", group: "finance", cap: "manageKoinochrista", basic: true, hint: "Συμπερίληψη δαπανών σε μήνα" },
   { key: "payment", label: "Είσπραξη / απόδειξη", icon: "RiSecurePaymentLine", group: "finance", cap: "managePayments", hint: "Καταχώρηση πληρωμής προσώπου" },
   { key: "statement", label: "Καρτέλα προσώπου", icon: "RiFileListLine", group: "finance", cap: "viewLedger", hint: "Χρεώσεις, πληρωμές, υπόλοιπο" },
-  { key: "millesimes-calc", label: "Υπολογισμός χιλιοστών", icon: "RiCalculatorLine", group: "finance", cap: "editMillesimes", hint: "Από τα τετραγωνικά" },
+  { key: "millesimes-calc", label: "Χιλιοστά βήμα-βήμα", icon: "RiCalculatorLine", group: "finance", cap: "editMillesimes", hint: "Γενικά, ανελκυστήρα, θέρμανσης — αυτόματα ή με κανονισμό", wizard: "millesimes-setup" },
   // ── Συντήρηση ────────────────────────────────────────────────────────────
   { key: "fault-new", label: "Δήλωση βλάβης", icon: "RiAlarmWarningLine", group: "maintenance", cap: "createRequests", basic: true },
   { key: "rfq-new", label: "Αίτημα προσφοράς σε συνεργάτες", icon: "RiTeamLine", group: "maintenance", cap: "manageMaintenance", needsWorkViewer: true, hint: "Για ανοιχτή βλάβη" },
   { key: "appointment", label: "Ραντεβού για βλάβη", icon: "RiCalendarCheckLine", group: "maintenance", cap: "manageMaintenance", needsWorkViewer: true },
-  { key: "task-new", label: "Προγραμματισμένη συντήρηση", icon: "RiCalendarTodoLine", group: "maintenance", cap: "manageCalendar", hint: "Επαναλαμβανόμενη εργασία" },
-  { key: "managed-item-new", label: "Νέο διαχειριζόμενο στοιχείο", icon: "RiListCheck2", group: "maintenance", cap: "manageManagedItems", managedOnly: true },
+  { key: "task-new", label: "Προγραμματισμένη συντήρηση", icon: "RiCalendarTodoLine", group: "maintenance", cap: "manageCalendar", hint: "Επαναλαμβανόμενη εργασία", wizard: "task-new" },
+  { key: "managed-item-new", label: "Νέος κοινόχρηστος χώρος & στοιχεία", icon: "RiListCheck2", group: "maintenance", cap: "manageManagedItems", managedOnly: true, hint: "Χώρος + τι φροντίζουμε εκεί", wizard: "common-area-new" },
   // ── Επικοινωνία ──────────────────────────────────────────────────────────
-  { key: "announcement-new", label: "Νέα ανακοίνωση", icon: "RiMegaphoneLine", group: "communication", cap: "manageAnnouncements", basic: true },
-  { key: "assembly-new", label: "Πρόσκληση συνέλευσης", icon: "RiGroupLine", group: "communication", cap: "manageAssemblies" },
+  { key: "announcement-new", label: "Νέα ανακοίνωση", icon: "RiMegaphoneLine", group: "communication", cap: "manageAnnouncements", basic: true, wizard: "announcement-new" },
+  { key: "assembly-new", label: "Πρόσκληση συνέλευσης", icon: "RiGroupLine", group: "communication", cap: "manageAssemblies", wizard: "assembly-new" },
   { key: "printables", label: "Εκτυπωτικά", icon: "RiPrinterLine", group: "communication", cap: "viewLedger", external: true, hint: "Ειδοποιητήρια, αποδείξεις, πρακτικά (νέα καρτέλα)" },
   // ── Μετρήσεις ────────────────────────────────────────────────────────────
   { key: "heating-readings", label: "Ενδείξεις θέρμανσης", icon: "RiFireLine", group: "readings", cap: "editMillesimes", meteredOnly: true },
@@ -90,6 +93,11 @@ export const BUILDING_ACTIONS: readonly BuildingAction[] = [
   { key: "split-settings", label: "Ποσοστά ενοικιαστή / ιδιοκτήτη", icon: "RiPercentLine", group: "building", cap: "editDistribution" },
   { key: "audit", label: "Έλεγχος καταχωρήσεων", icon: "RiStethoscopeLine", group: "building", cap: "viewAudit" },
 ];
+
+/** The guided wizard behind an action, if any (the host renders it instead of the plain modal). */
+export function wizardForAction(key: BuildingActionKey): WizardKey | null {
+  return getBuildingAction(key).wizard ?? null;
+}
 
 export type BuildingFlags = { managed: boolean; metered: boolean; hasWorkViewer?: boolean; superAdmin?: boolean };
 

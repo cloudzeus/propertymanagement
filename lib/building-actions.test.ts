@@ -1,9 +1,10 @@
 import { describe, it, expect } from "vitest";
 import {
   BUILDING_ACTIONS, GROUP_ORDER, basicBuildingActions, buildingActionHref, filterBuildingActions,
-  groupBuildingActions, isBuildingActionKey, resolveBuildingActions,
+  groupBuildingActions, isBuildingActionKey, resolveBuildingActions, wizardForAction,
 } from "./building-actions";
 import { capsForManager, capsForStaff, NO_CAPS, OCCUPANT_CAPS } from "./building-caps";
+import { WIZARDS, getWizard } from "./wizards/registry";
 
 const keys = (as: { key: string }[]) => as.map((a) => a.key);
 
@@ -81,5 +82,25 @@ describe("deep links", () => {
     expect(isBuildingActionKey("drop-tables")).toBe(false);
     expect(isBuildingActionKey(null)).toBe(false);
     expect(buildingActionHref("/super-admin/buildings/b1", "expense-new")).toBe("/super-admin/buildings/b1?action=expense-new");
+  });
+});
+
+describe("guided wizards", () => {
+  it("maps building actions to wizards", () => {
+    expect(wizardForAction("millesimes-calc")).toBe("millesimes-setup");
+    expect(wizardForAction("managed-item-new")).toBe("common-area-new");
+    expect(wizardForAction("task-new")).toBe("task-new");
+    expect(wizardForAction("announcement-new")).toBe("announcement-new");
+    expect(wizardForAction("assembly-new")).toBe("assembly-new");
+    expect(wizardForAction("occupant-assign")).toBe("occupant-assign");
+    expect(wizardForAction("unit-new")).toBeNull();
+  });
+  it("every wizard-mapped action's cap equals the wizard's cap", () => {
+    for (const a of BUILDING_ACTIONS) if (a.wizard) expect(getWizard(a.wizard).cap, a.key).toBe(a.cap);
+  });
+  it("every building-scope wizard is reachable from exactly one action", () => {
+    for (const w of WIZARDS.filter((x) => x.scope === "building")) {
+      expect(BUILDING_ACTIONS.filter((a) => a.wizard === w.key).length, w.key).toBe(1);
+    }
   });
 });
