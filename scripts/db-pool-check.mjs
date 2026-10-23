@@ -47,14 +47,15 @@ async function probe(label, url) {
   }
 }
 
-/** Server-side facts that matter for sizing (read-only; some rows need superuser and are skipped). */
+/** Server-side facts that matter for sizing (read-only). `reset_val` = the value the session started with
+ *  (server/db/role default), so this probe's own statement_timeout does not show up as a server setting. */
 async function serverFacts(url) {
   console.log(`\nPostgreSQL server facts (via ${redact(url)})`);
   const c = new pg.Client({ connectionString: url, application_name: "db-pool-check", connectionTimeoutMillis: 10_000, statement_timeout: 10_000 });
   try {
     await c.connect();
     const { rows: settings } = await c.query(
-      `SELECT name, setting FROM pg_settings WHERE name IN ('max_connections','superuser_reserved_connections','password_encryption',
+      `SELECT name, reset_val AS setting FROM pg_settings WHERE name IN ('max_connections','superuser_reserved_connections','password_encryption',
          'idle_in_transaction_session_timeout','statement_timeout','shared_buffers','work_mem') ORDER BY name`,
     );
     console.table(settings);
