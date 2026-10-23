@@ -6,7 +6,8 @@
  *
  * 1. DATABASE_URL (pooled) → connect, SELECT backend pid / server port / application_name
  * 2. DIRECT_URL  (direct) → same
- * 3. If DATABASE_URL is a pooler URL → connect to the `pgbouncer` admin database with the
+ * 3. Server facts for sizing: max_connections, password_encryption, pg_stat_activity summary
+ * 4. If DATABASE_URL is a pooler URL → connect to the `pgbouncer` admin database with the
  *    same credentials and run SHOW POOLS / SHOW STATS (needs the user in STATS_USERS).
  *
  * Nothing here writes. Exit code 1 when any step fails.
@@ -41,6 +42,39 @@ async function probe(label, url) {
     if (r2.pid !== r.pid) console.log(`  ↳ second query ran on a different backend (pid ${r2.pid}) — transaction pooling in effect`);
   } catch (e) {
     fail(`${label}: ${e.message}`);
+  } finally {
+    await c.end().catch(() => {});
+  }
+}
+
+/** Server-side facts that matter for sizing (read-only; some rows need superuser and are skipped). */
+async function serverFacts(url) {
+  console.log(`\nPostgreSQL server facts (via ${redact(url)})`);
+  const c = new pg.Client({ connectionString: url, application_name: "db-pool-check", connectionTimeoutMillis: 10_000, statement_timeout: 10_000 });
+  try {
+    await c.connect();
+    const { rows: settings } = await c.query(
+      `SELECT name, setting FROM pg_settings WHERE name IN ('max_connections','superuser_reserved_connections','password_encryption',
+         'idle_in_transaction_session_timeout','statement_timeout','shared_buffers','work_mem') ORDER BY name`,
+    );
+    console.table(settings);
+    const { rows: activity } = await c.query(
+      `SELECT coalesce(state,'(none)') AS state, count(*)::int AS n FROM pg_stat_activity
+       WHERE datname = current_database() GROUP BY 1 ORDER BY 2 DESC`,
+    );
+    console.log("  pg_stat_activity (this database)");
+    console.table(activity);
+    const { rows: apps } = await c.query(
+      `SELECT coalesce(nullif(application_name,''),'(none)') AS application_name, count(*)::int AS n FROM pg_stat_activity
+       WHERE datname = current_database() GROUP BY 1 ORDER BY 2 DESC LIMIT 10`,
+    );
+    console.table(apps);
+    const { rows: ext } = await c.query("SELECT extname, extversion FROM pg_extension ORDER BY 1");
+    console.log("  extensions: " + ext.map((e) => `${e.extname} ${e.extversion}`).join(", "));
+    const pe = settings.find((r) => r.name === "password_encryption")?.setting;
+    if (pe && pe !== "scram-sha-256") console.warn(`  ! password_encryption is "${pe}" — set AUTH_TYPE=${pe} in infra/pgbouncer/.env (compose default is scram-sha-256)`);
+  } catch (e) {
+    fail(`server facts: ${e.message}`);
   } finally {
     await c.end().catch(() => {});
   }
@@ -83,6 +117,7 @@ else if (isPooler(direct)) fail("DIRECT_URL points at the pooler; it must be the
 
 await probe("DATABASE_URL (app)", pooled);
 if (direct && direct !== pooled) await probe("DIRECT_URL (migrations)", direct);
+await serverFacts(direct || pooled);
 if (isPooler(pooled)) await adminConsole(pooled);
 
 console.log(failed ? "\nRESULT: FAILED" : "\nRESULT: OK");
