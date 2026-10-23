@@ -6,7 +6,9 @@ roles: [SUPER_ADMIN, ADMIN, MANAGER, PROPERTY_ADMIN]
 summary: Τι είναι το πακέτο μιας ιδιοκτησίας, πώς προκύπτει το μηνιαίο τιμολόγιο από τις υπηρεσίες και τις μονάδες, και τι σημαίνει η προαγορά ωρών για τις συνελεύσεις.
 prompts: ["Πώς ορίζω το πακέτο υπηρεσιών μιας ιδιοκτησίας;", "Από πού βγαίνει το μηνιαίο τιμολόγιο;", "Τι είναι οι ώρες-ατόμου στις συνελεύσεις;"]
 related: [super-admin-properties-detail, super-admin-services, guide-service, guide-property, super-admin-billing]
-minutes: 2
+video: https://propertymanagement.b-cdn.net/media/videos/Orithon-Guide-Package-16x9-0ca888d2d2.mp4
+videoPoster: https://propertymanagement.b-cdn.net/media/videos/Orithon-Guide-Package-16x9-poster-6ff1d7ed69.jpg
+minutes: 1
 ---
 ## Γιατί
 Το **πακέτο** είναι οι υπηρεσίες του καταλόγου που έχει επιλέξει ο πελάτης για μια ιδιοκτησία. Από αυτό προκύπτει **αυτόματα το μηνιαίο τιμολόγιο**: κάθε υπηρεσία μετρά κάτι (μονάδες, κτήρια, κοινόχρηστους χώρους, ζώνη απόστασης) και το ποσό ακολουθεί τα πραγματικά νούμερα της ιδιοκτησίας. Η **βασική υπηρεσία (CORE)** είναι πάντα μέσα· οι υπόλοιπες ενεργοποιούνται ανά ιδιοκτησία — δύο ιδιοκτησίες του ίδιου πελάτη μπορούν να έχουν διαφορετικά πακέτα.

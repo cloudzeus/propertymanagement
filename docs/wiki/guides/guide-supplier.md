@@ -6,7 +6,9 @@ roles: [SUPER_ADMIN, ADMIN, MANAGER]
 summary: Γιατί καταχωρίζουμε συνεργάτες με ειδικότητες και έδρα, πώς δουλεύει η αλυσίδα βλάβη → αίτημα προσφοράς → προσφορά → σύμβαση έργου, και τι σημαίνει η χρέωση αυτοψίας ανά ζώνη.
 prompts: ["Πώς προσθέτω συνεργάτη;", "Πώς στέλνω αίτημα προσφοράς σε συνεργάτες;", "Τι είναι η προσαύξηση αυτοψίας ανά ζώνη;"]
 related: [super-admin-suppliers, super-admin-suppliers-detail, staff-rfq, admin-work-orders, super-admin-settings-distance]
-minutes: 2
+video: https://propertymanagement.b-cdn.net/media/videos/Orithon-Guide-Supplier-16x9-6efad9d263.mp4
+videoPoster: https://propertymanagement.b-cdn.net/media/videos/Orithon-Guide-Supplier-16x9-poster-fc16691f8c.jpg
+minutes: 1
 ---
 ## Γιατί
 Οι **συνεργάτες** (συνεργεία και προμηθευτές) είναι αυτοί που εκτελούν τις εργασίες στα κτήρια. Με **ειδικότητες** (κατηγορίες βλαβών) προτείνονται αυτόματα στις σωστές βλάβες· με **έδρα** υπολογίζεται η απόσταση ως κάθε κτήριο και η **προσαύξηση αυτοψίας ανά ζώνη**· με **έκτακτα 24/7** έρχονται πρώτοι στα επείγοντα.

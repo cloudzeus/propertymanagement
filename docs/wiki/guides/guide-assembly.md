@@ -6,7 +6,9 @@ roles: [SUPER_ADMIN, ADMIN, MANAGER, PROPERTY_ADMIN]
 summary: Πώς οργανώνεται μια διαδικτυακή γενική συνέλευση μέσα από την εφαρμογή — πρόσκληση, απαρτία με χιλιοστά, πρακτικά — και τι σημαίνουν τα λεπτά-ατόμου.
 prompts: ["Πώς οργανώνω γενική συνέλευση;", "Πώς μετριέται η απαρτία;", "Τι είναι οι ώρες-ατόμου στις συνελεύσεις;"]
 related: [super-admin-buildings-detail-assemblies-assembly, super-admin-buildings-detail, building-detail, guide-announcement, guide-package]
-minutes: 2
+video: https://propertymanagement.b-cdn.net/media/videos/Orithon-Guide-Assembly-16x9-d6d0c5317c.mp4
+videoPoster: https://propertymanagement.b-cdn.net/media/videos/Orithon-Guide-Assembly-16x9-poster-29f3612828.jpg
+minutes: 1
 ---
 ## Γιατί
 Η **γενική συνέλευση** αποφασίζει για τα μεγάλα θέματα της πολυκατοικίας: απολογισμός, προϋπολογισμός, επισκευές, εκλογή διαχειριστή. Μέσα από την εφαρμογή γίνεται **διαδικτυακά**: οι συμμετέχοντες λαμβάνουν σύνδεσμο, η **απαρτία μετριέται με τα χιλιοστά** των παρόντων (πάνω από το μισό), και τα **πρακτικά γράφονται αυτόματα** από τη συζήτηση για έγκριση και εκτύπωση.

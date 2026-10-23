@@ -6,7 +6,9 @@ roles: [SUPER_ADMIN, ADMIN, MANAGER, PROPERTY_ADMIN]
 summary: Τι είναι τα τρία σετ χιλιοστών (γενικά, ανελκυστήρα, θέρμανσης), πότε υπολογίζονται βάσει νόμου και πότε από κανονισμό, και πώς μοιράζεται μια δαπάνη.
 prompts: ["Πώς ορίζω τα χιλιοστά του κτηρίου;", "Τι είναι τα χιλιοστά ανελκυστήρα;", "Πώς εφαρμόζω τον κανονισμό της πολυκατοικίας;", "Τι σημαίνει 70/30 στη θέρμανση;"]
 related: [super-admin-buildings-detail, building-detail, guide-building, guide-package]
-minutes: 2
+video: https://propertymanagement.b-cdn.net/media/videos/Orithon-Guide-Millesimes-16x9-76641b4ac8.mp4
+videoPoster: https://propertymanagement.b-cdn.net/media/videos/Orithon-Guide-Millesimes-16x9-poster-119c315066.jpg
+minutes: 1
 ---
 ## Γιατί
 Τα **χιλιοστά** είναι το ποσοστό (σε χιλιοστά του συνόλου) με το οποίο κάθε μονάδα συμμετέχει στα κοινόχρηστα. Δεν υπάρχει ένα μόνο σετ — υπάρχουν **τρία**, γιατί διαφορετικές δαπάνες μοιράζονται διαφορετικά:

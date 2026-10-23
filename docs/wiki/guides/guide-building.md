@@ -6,7 +6,9 @@ roles: [SUPER_ADMIN]
 summary: Πώς καταχωρίζετε ένα κτήριο με όλα τα διαμερίσματα και τα καταστήματά του σε δύο λεπτά, και γιατί τα τετραγωνικά και οι όροφοι είναι η βάση των κοινοχρήστων.
 prompts: ["Πώς προσθέτω κτήριο με όλες τις μονάδες μαζί;", "Τι χρειάζεται για να υπολογιστούν τα χιλιοστά;", "Τι σημαίνει αυτονομία με μετρητές;"]
 related: [super-admin-properties-detail, super-admin-buildings-detail, guide-property, guide-millesimes, super-admin-onboarding]
-minutes: 2
+video: https://propertymanagement.b-cdn.net/media/videos/Orithon-Guide-Building-16x9-db104010f5.mp4
+videoPoster: https://propertymanagement.b-cdn.net/media/videos/Orithon-Guide-Building-16x9-poster-0237327ee1.jpg
+minutes: 1
 ---
 ## Γιατί
 Το **κτήριο** είναι η πολυκατοικία: οι **μονάδες** του (διαμερίσματα, καταστήματα, πάρκινγκ) είναι αυτές που μοιράζονται τα κοινόχρηστα, δέχονται ενοίκους και ιδιοκτήτες, και δηλώνουν βλάβες. Δύο στοιχεία καθορίζουν πώς θα μοιραστεί κάθε ευρώ:

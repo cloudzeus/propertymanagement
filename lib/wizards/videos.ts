@@ -8,7 +8,20 @@
 import type { WizardVideo } from "@/components/wizards/HelpVideoPlayer";
 import { getWizard, type WizardKey } from "./registry";
 
-export const WIZARD_VIDEOS: Record<string, WizardVideo> = {};
+export const WIZARD_VIDEOS: Record<string, WizardVideo> = {
+  Announcement: { src: "https://propertymanagement.b-cdn.net/media/videos/Orithon-Guide-Announcement-16x9-0a68393618.mp4", poster: "https://propertymanagement.b-cdn.net/media/videos/Orithon-Guide-Announcement-16x9-poster-7c3f7ba9ee.jpg", seconds: 61, title: "Νέα ανακοίνωση" },
+  Assembly: { src: "https://propertymanagement.b-cdn.net/media/videos/Orithon-Guide-Assembly-16x9-d6d0c5317c.mp4", poster: "https://propertymanagement.b-cdn.net/media/videos/Orithon-Guide-Assembly-16x9-poster-29f3612828.jpg", seconds: 65, title: "Γενική συνέλευση" },
+  Building: { src: "https://propertymanagement.b-cdn.net/media/videos/Orithon-Guide-Building-16x9-db104010f5.mp4", poster: "https://propertymanagement.b-cdn.net/media/videos/Orithon-Guide-Building-16x9-poster-0237327ee1.jpg", seconds: 64, title: "Νέο κτήριο & μονάδες" },
+  CommonArea: { src: "https://propertymanagement.b-cdn.net/media/videos/Orithon-Guide-CommonArea-16x9-f428ab25b3.mp4", poster: "https://propertymanagement.b-cdn.net/media/videos/Orithon-Guide-CommonArea-16x9-poster-e2108128ca.jpg", seconds: 61, title: "Κοινόχρηστος χώρος & στοιχεία" },
+  Customer: { src: "https://propertymanagement.b-cdn.net/media/videos/Orithon-Guide-Customer-16x9-df05e487fa.mp4", poster: "https://propertymanagement.b-cdn.net/media/videos/Orithon-Guide-Customer-16x9-poster-d059649647.jpg", seconds: 61, title: "Νέος πελάτης" },
+  Millesimes: { src: "https://propertymanagement.b-cdn.net/media/videos/Orithon-Guide-Millesimes-16x9-76641b4ac8.mp4", poster: "https://propertymanagement.b-cdn.net/media/videos/Orithon-Guide-Millesimes-16x9-poster-119c315066.jpg", seconds: 65, title: "Χιλιοστά" },
+  Occupant: { src: "https://propertymanagement.b-cdn.net/media/videos/Orithon-Guide-Occupant-16x9-416539d256.mp4", poster: "https://propertymanagement.b-cdn.net/media/videos/Orithon-Guide-Occupant-16x9-poster-3619172c0d.jpg", seconds: 61, title: "Ιδιοκτήτης / ένοικος μονάδας" },
+  Package: { src: "https://propertymanagement.b-cdn.net/media/videos/Orithon-Guide-Package-16x9-0ca888d2d2.mp4", poster: "https://propertymanagement.b-cdn.net/media/videos/Orithon-Guide-Package-16x9-poster-6ff1d7ed69.jpg", seconds: 60, title: "Πακέτο ιδιοκτησίας" },
+  Property: { src: "https://propertymanagement.b-cdn.net/media/videos/Orithon-Guide-Property-16x9-f2cb922f51.mp4", poster: "https://propertymanagement.b-cdn.net/media/videos/Orithon-Guide-Property-16x9-poster-2792c97541.jpg", seconds: 61, title: "Νέα ιδιοκτησία" },
+  Service: { src: "https://propertymanagement.b-cdn.net/media/videos/Orithon-Guide-Service-16x9-e809065bec.mp4", poster: "https://propertymanagement.b-cdn.net/media/videos/Orithon-Guide-Service-16x9-poster-69d135a730.jpg", seconds: 65, title: "Νέα υπηρεσία καταλόγου" },
+  Supplier: { src: "https://propertymanagement.b-cdn.net/media/videos/Orithon-Guide-Supplier-16x9-6efad9d263.mp4", poster: "https://propertymanagement.b-cdn.net/media/videos/Orithon-Guide-Supplier-16x9-poster-fc16691f8c.jpg", seconds: 63, title: "Νέος συνεργάτης" },
+  Task: { src: "https://propertymanagement.b-cdn.net/media/videos/Orithon-Guide-Task-16x9-d64590beba.mp4", poster: "https://propertymanagement.b-cdn.net/media/videos/Orithon-Guide-Task-16x9-poster-525d1f3e97.jpg", seconds: 61, title: "Τακτική συντήρηση" },
+};
 
 export function videoForWizard(key: WizardKey): WizardVideo | null {
   return WIZARD_VIDEOS[getWizard(key).videoKey] ?? null;

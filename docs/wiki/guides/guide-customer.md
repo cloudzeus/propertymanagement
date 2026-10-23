@@ -6,7 +6,9 @@ roles: [SUPER_ADMIN]
 summary: Γιατί ο πελάτης είναι η ρίζα των πάντων (ιδιοκτησίες, κτήρια, τιμολόγια, πρόσβαση) και πώς τον καταχωρίζετε με τον οδηγό.
 prompts: ["Πώς δημιουργώ νέο πελάτη βήμα-βήμα;", "Τι διαφέρει ο πελάτης από τον ένοικο;", "Πώς δίνω πρόσβαση στον πελάτη στην εφαρμογή;"]
 related: [super-admin-customers, guide-property, super-admin-customers-detail]
-minutes: 2
+video: https://propertymanagement.b-cdn.net/media/videos/Orithon-Guide-Customer-16x9-df05e487fa.mp4
+videoPoster: https://propertymanagement.b-cdn.net/media/videos/Orithon-Guide-Customer-16x9-poster-d059649647.jpg
+minutes: 1
 ---
 ## Γιατί
 Ο **πελάτης** είναι αυτός που πληρώνει την εταιρεία διαχείρισης: ένας ιδιώτης ή μια εταιρεία στην οποία ανήκουν ένα ή περισσότερα ακίνητα. Από τον πελάτη «κρέμονται» όλα τα υπόλοιπα — οι ιδιοκτησίες, τα κτήρια, οι μονάδες, το πακέτο υπηρεσιών και τα μηνιαία τιμολόγια. Χωρίς πελάτη δεν μπορεί να καταχωριστεί ακίνητο.

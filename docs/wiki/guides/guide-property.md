@@ -6,7 +6,9 @@ roles: [SUPER_ADMIN]
 summary: Τι είναι η ιδιοκτησία (ένα ακίνητο, ένα ή περισσότερα κτήρια), γιατί το πακέτο υπηρεσιών ορίζεται εδώ, και πώς την καταχωρίζετε.
 prompts: ["Πώς δημιουργώ νέα ιδιοκτησία βήμα-βήμα;", "Τι διαφέρει η ιδιοκτησία από το κτήριο;", "Τι σημαίνει αυτοδιαχείριστη ιδιοκτησία;"]
 related: [super-admin-properties, guide-customer, guide-building, super-admin-properties-detail]
-minutes: 2
+video: https://propertymanagement.b-cdn.net/media/videos/Orithon-Guide-Property-16x9-f2cb922f51.mp4
+videoPoster: https://propertymanagement.b-cdn.net/media/videos/Orithon-Guide-Property-16x9-poster-2792c97541.jpg
+minutes: 1
 ---
 ## Γιατί
 Η **ιδιοκτησία** είναι το ακίνητο ενός πελάτη: μια πολυκατοικία, ή ένα συγκρότημα με περισσότερα κτήρια. Είναι το επίπεδο όπου ορίζεται **το πακέτο υπηρεσιών** και άρα η μηνιαία χρέωση του πελάτη — όχι ανά κτήριο. Κάθε ιδιοκτησία ξεκινά αυτόματα με ένα πρώτο κτήριο, ώστε να μπορείτε αμέσως να προσθέσετε μονάδες.

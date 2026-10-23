@@ -6,7 +6,9 @@ roles: [SUPER_ADMIN, ADMIN, MANAGER, PROPERTY_ADMIN]
 summary: Τι είναι οι κοινόχρηστοι χώροι και τα στοιχεία διαχείρισης, γιατί μετρούν στο πακέτο της ιδιοκτησίας, και πώς τα καταχωρίζετε μαζί.
 prompts: ["Πώς προσθέτω κοινόχρηστο χώρο;", "Τι είναι τα στοιχεία διαχείρισης;", "Γιατί άλλαξε η χρέωση όταν πρόσθεσα χώρο;"]
 related: [super-admin-managed-items, super-admin-buildings-detail, super-admin-managed-buildings, guide-building]
-minutes: 2
+video: https://propertymanagement.b-cdn.net/media/videos/Orithon-Guide-CommonArea-16x9-f428ab25b3.mp4
+videoPoster: https://propertymanagement.b-cdn.net/media/videos/Orithon-Guide-CommonArea-16x9-poster-e2108128ca.jpg
+minutes: 1
 ---
 ## Γιατί
 Οι **κοινόχρηστοι χώροι** είναι τα μέρη του κτηρίου που ανήκουν σε όλους: κλιμακοστάσιο, είσοδος, λεβητοστάσιο, ταράτσα, αυλή. Σε κάθε χώρο η εταιρεία διαχείρισης **φροντίζει συγκεκριμένα πράγματα** — τους λαμπτήρες, τους πυροσβεστήρες, τον καυστήρα. Αυτά είναι τα **στοιχεία διαχείρισης**: από τον κατάλογο της εταιρείας, με ποσότητα και τοποθεσία, ώστε να προγραμματίζονται συντηρήσεις και να φαίνεται στους ενοίκους τι περιλαμβάνει η διαχείριση.

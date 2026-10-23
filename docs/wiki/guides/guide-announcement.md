@@ -6,7 +6,9 @@ roles: [SUPER_ADMIN, ADMIN, MANAGER, EMPLOYEE, PROPERTY_ADMIN]
 summary: Πώς φτάνει μια ανακοίνωση στους ενοίκους (email, καμπανάκι, portal, πινακίδα), τι σημαίνει κάθε τύπος και πώς βλέπετε ποιος «έλαβε γνώση».
 prompts: ["Πώς στέλνω ανακοίνωση στους ενοίκους;", "Πώς βλέπω ποιος διάβασε την ανακοίνωση;", "Πώς στέλνω πρόσκληση για συνέλευση;"]
 related: [admin-announcements, announcements, super-admin-buildings-detail, signage, guide-assembly]
-minutes: 2
+video: https://propertymanagement.b-cdn.net/media/videos/Orithon-Guide-Announcement-16x9-0a68393618.mp4
+videoPoster: https://propertymanagement.b-cdn.net/media/videos/Orithon-Guide-Announcement-16x9-poster-7c3f7ba9ee.jpg
+minutes: 1
 ---
 ## Γιατί
 Η ανακοίνωση είναι ο επίσημος τρόπος επικοινωνίας με τους ενοίκους και τους ιδιοκτήτες: φεύγει **email με σύνδεσμο «Έλαβα γνώση»**, εμφανίζεται στο **καμπανάκι** και στο κινητό, στις ανακοινώσεις του **portal/owner** και στην **πινακίδα εισόδου**. Έτσι ξέρετε ποιος την είδε — χρήσιμο για διακοπές νερού, εργασίες συνεργείων, προσκλήσεις συνέλευσης και κοινόχρηστα.
