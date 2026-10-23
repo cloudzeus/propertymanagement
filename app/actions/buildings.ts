@@ -10,6 +10,8 @@ import { publishBuildingEvent } from "@/lib/realtime/bus";
 import { touchBuildingDistance, recomputeBuildingDistance, getDistanceZones } from "@/lib/distance/buildings";
 import { describeBuildingDistance } from "@/lib/distance/zones";
 import { getEffectivePermissions, can } from "@/lib/rbac/permissions";
+import { buildOnboardingPayload } from "./building-onboarding-payload";
+import { duplicateUnitNumbers } from "@/lib/wizards/units-generator";
 
 async function requireSuperAdmin() {
   const session = await auth();
@@ -96,6 +98,73 @@ export async function createBuilding(propertyId: string, data: BuildingInput) {
   await touchBuildingDistance(building.id);
   revalidatePath(`/super-admin/properties/${propertyId}`);
   return { building };
+}
+
+// ── Guided wizard: building + units + precomputed millesimes in one transaction ──
+export type BuildingWizardInput = BuildingInput & {
+  elevatorSurchargePerFloor?: number;
+  elevatorExemptGroundFloor?: boolean;
+  /** Common boiler → heating is a κοινόχρηστα expense (heating millesimes); false = individual heating (GAS). */
+  heatingShared?: boolean;
+};
+export type WizardUnitInput = { unitNumber: string; floor: number | null; areaSqm: number | null; unitType: "APARTMENT" | "SHOP" | "PARKING" | "OTHER" };
+
+/**
+ * Creates a building with all its units at once (the «Κτήριο & μονάδες» wizard).
+ * The three millesime sets are computed by the same pure builder the AI onboarding
+ * uses (`buildOnboardingPayload`), so the wizard's example step equals what is saved.
+ */
+export async function createBuildingWithUnits(propertyId: string, data: BuildingWizardInput, units: WizardUnitInput[]): Promise<{ buildingId: string } | { error: string }> {
+  await requireSuperAdmin();
+  if (!data.name.trim()) return { error: "Το όνομα κτηρίου είναι υποχρεωτικό" };
+  if (!data.address.trim()) return { error: "Η διεύθυνση είναι υποχρεωτική" };
+  const clean = units.map((u) => ({ ...u, unitNumber: u.unitNumber.trim() })).filter((u) => u.unitNumber);
+  if (clean.length === 0) return { error: "Προσθέστε τουλάχιστον μία μονάδα" };
+  const dup = duplicateUnitNumbers(clean);
+  if (dup.length) return { error: `Διπλοί αριθμοί μονάδων: ${dup.join(", ")}` };
+  if (clean.length > 500) return { error: "Μέγιστο 500 μονάδες ανά κτήριο" };
+
+  const { companyId, customerId } = await scopeOfProperty(propertyId);
+  const payload = buildOnboardingPayload({
+    building: {
+      hasElevator: data.hasElevator ?? false,
+      elevatorSurchargePerFloor: data.elevatorSurchargePerFloor ?? 0.1,
+      elevatorExemptGroundFloor: data.elevatorExemptGroundFloor ?? true,
+      heatingType: (data.heatingShared ?? true) ? "CENTRAL" : "GAS",
+    },
+    units: clean.map((u) => ({ unitNumber: u.unitNumber, floor: u.floor ?? undefined, areaSqm: u.areaSqm != null && u.areaSqm > 0 ? u.areaSqm : undefined, unitType: u.unitType })),
+  });
+
+  const buildingId = await db.$transaction(async (tx) => {
+    const b = await tx.building.create({
+      data: {
+        companyId, customerId, propertyId,
+        name: data.name.trim(), address: data.address.trim(),
+        city: data.city?.trim() ?? "", postalCode: data.postalCode?.trim() ?? "", country: data.country?.trim() || "Greece",
+        floors: data.floors ?? null, basements: data.basements ?? null,
+        hasElevator: data.hasElevator ?? false, hasBoiler: data.hasBoiler ?? false, hasFireSafety: data.hasFireSafety ?? false,
+        technicalNotes: s(data.technicalNotes), lat: data.lat ?? null, lng: data.lng ?? null,
+        elevatorSurchargePerFloor: payload.building.elevatorSurchargePerFloor,
+        elevatorExemptGroundFloor: payload.building.elevatorExemptGroundFloor,
+      },
+    });
+    await tx.unit.createMany({
+      data: payload.units.map((u) => ({
+        buildingId: b.id, customerId, unitNumber: u.unitNumber, unitType: u.unitType, floor: u.floor, areaSqm: u.areaSqm,
+        millesimes: u.millesimes, millesimesElevator: u.millesimesElevator, millesimesHeating: u.millesimesHeating,
+      })),
+    });
+    await tx.building.update({ where: { id: b.id }, data: { unitsCount: payload.units.length } });
+    return b.id;
+  });
+
+  try { await ensureFolder(buildingFolder(propertyId, buildingId)); } catch (e) { console.error("BunnyCDN folder creation failed for building", buildingId, e); }
+  await touchBuildingDistance(buildingId);
+  revalidatePath(`/super-admin/properties/${propertyId}`);
+  revalidatePath(`/super-admin/buildings/${buildingId}`);
+  revalidatePath("/super-admin/customers");
+  publishBuildingEvent(buildingId, "unit");
+  return { buildingId };
 }
 
 /** Re-measure one building from the base station (forces a fresh routing call). */

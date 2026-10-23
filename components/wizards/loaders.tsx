@@ -10,6 +10,8 @@ import { Modal } from "@/components/ui/modal";
 import { listCustomerOptions, listManagerOptions, peekNextCustomerCode } from "@/app/actions/customers";
 import { CustomerWizard } from "./CustomerWizard";
 import { PropertyWizard } from "./PropertyWizard";
+import { BuildingWizard } from "./BuildingWizard";
+import { getPropertyForBuildingWizard, listPropertyOptions, type PropertyForWizard } from "@/app/actions/properties";
 import type { WizardHostApi } from "./WizardHost";
 
 export function LoadingModal({ title, error, onClose }: { title: string; error?: string | null; onClose: () => void }) {
@@ -49,4 +51,34 @@ export function PropertyWizardLoader({ api }: { api: WizardHostApi }) {
   if (!customers) return <LoadingModal title="Νέα ιδιοκτησία βήμα-βήμα" error={error} onClose={api.onClose} />;
   const customer = api.ctx.customerId ? customers.find((c) => c.id === api.ctx.customerId) ?? null : null;
   return <PropertyWizard customer={customer} customers={customers} onClose={api.onClose} onDone={(p) => api.onDone(`Η ιδιοκτησία «${p.name}» δημιουργήθηκε.`)} />;
+}
+
+/** Building wizard for a known property (from the customer/property tree): fetches the property's address & customer first. */
+export function BuildingWizardForProperty({ propertyId, onClose, onDone, onSimpleForm }: { propertyId: string; onClose: () => void; onDone: (b: { id: string }) => void; onSimpleForm?: () => void }) {
+  const [property, setProperty] = useState<PropertyForWizard | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  useEffect(() => {
+    let cancelled = false;
+    getPropertyForBuildingWizard(propertyId)
+      .then((p) => { if (cancelled) return; if (p) setProperty(p); else setError("Η ιδιοκτησία δεν βρέθηκε."); })
+      .catch(() => { if (!cancelled) setError("Δεν ήταν δυνατή η φόρτωση της ιδιοκτησίας."); });
+    return () => { cancelled = true; };
+  }, [propertyId]);
+  if (!property) return <LoadingModal title="Νέο κτήριο με τις μονάδες του" error={error} onClose={onClose} />;
+  return <BuildingWizard property={property} onClose={onClose} onDone={onDone} onSimpleForm={onSimpleForm} />;
+}
+
+export function BuildingWizardLoader({ api }: { api: WizardHostApi }) {
+  const [state, setState] = useState<{ property: PropertyForWizard | null; properties: { id: string; name: string; customerName: string }[] } | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const propertyId = api.ctx.propertyId ?? null;
+  useEffect(() => {
+    let cancelled = false;
+    (propertyId ? getPropertyForBuildingWizard(propertyId).then((p) => ({ property: p, properties: [] })) : listPropertyOptions().then((properties) => ({ property: null, properties })))
+      .then((st) => { if (!cancelled) setState(st); })
+      .catch(() => { if (!cancelled) setError("Δεν ήταν δυνατή η φόρτωση των ιδιοκτησιών."); });
+    return () => { cancelled = true; };
+  }, [propertyId]);
+  if (!state) return <LoadingModal title="Νέο κτήριο με τις μονάδες του" error={error} onClose={api.onClose} />;
+  return <BuildingWizard property={state.property} properties={state.properties.map((p) => ({ id: p.id, name: `${p.name} — ${p.customerName}` }))} onClose={api.onClose} onDone={() => api.onDone("Το κτήριο και οι μονάδες του δημιουργήθηκαν.")} />;
 }

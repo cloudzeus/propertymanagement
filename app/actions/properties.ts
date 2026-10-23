@@ -57,6 +57,21 @@ function extraData(d: Partial<PropertyInput>) {
   };
 }
 
+export type PropertyForWizard = { id: string; name: string; address: string | null; city: string | null; postalCode: string | null; country: string | null; lat: number | null; lng: number | null; customerId: string };
+
+/** One property with what the building wizard pre-fills (read-only, super-admin). */
+export async function getPropertyForBuildingWizard(id: string): Promise<PropertyForWizard | null> {
+  await requireSuperAdmin();
+  return db.property.findUnique({ where: { id }, select: { id: true, name: true, address: true, city: true, postalCode: true, country: true, lat: true, lng: true, customerId: true } });
+}
+
+/** Properties for pickers (read-only, super-admin). */
+export async function listPropertyOptions(): Promise<{ id: string; name: string; customerName: string }[]> {
+  await requireSuperAdmin();
+  const rows = await db.property.findMany({ select: { id: true, name: true, customer: { select: { name: true } } }, orderBy: { name: "asc" } });
+  return rows.map((p) => ({ id: p.id, name: p.name, customerName: p.customer.name }));
+}
+
 export async function createProperty(data: PropertyInput) {
   await requireSuperAdmin();
   if (!data.customerId) return { error: "Επιλέξτε πελάτη" };

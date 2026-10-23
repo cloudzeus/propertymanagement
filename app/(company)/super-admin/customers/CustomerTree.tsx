@@ -14,6 +14,7 @@ import { createOccupant, assignOccupant, clearOccupant } from "@/app/actions/uni
 import { deleteProperty } from "@/app/actions/properties";
 import { UserCombo } from "@/components/ui/user-combo";
 import { BuildingModal } from "@/components/buildings/BuildingModal";
+import { BuildingWizardForProperty } from "@/components/wizards/loaders";
 import { basicBuildingActions, buildingActionHref } from "@/lib/building-actions";
 import { capsForStaff } from "@/lib/building-caps";
 import { BUILDING_ACTION_ICONS, FALLBACK_ICON } from "@/components/building/actions/icons";
@@ -45,7 +46,7 @@ const UNIT_TYPE_LABEL: Record<string, string> = { APARTMENT: "Διαμέρισμ
 const UNIT_TYPE_ICON: Record<string, React.ElementType> = { APARTMENT: RiHome2Line, SHOP: RiStore2Line, PARKING: RiParkingBoxLine, OTHER: RiBox3Line };
 
 type Modal_ =
-  | { kind: "building"; propertyId: string; editing: TBuilding | null }
+  | { kind: "building"; propertyId: string; editing: TBuilding | null; simple?: boolean }
   | { kind: "unit"; buildingId: string; editing: TUnit | null; defaultFloor?: number | null }
   | { kind: "commonArea"; buildingId: string; defaultFloor?: number | null }
   | { kind: "occupants"; unit: TUnit }
@@ -185,7 +186,10 @@ export function BuildingsTree({ propertyId, buildings, depthBase = 0, showAddBui
         );
       })}
 
-      {modal?.kind === "building" && <BuildingModal propertyId={modal.propertyId} editing={modal.editing} propertyAddress={propertyAddress} onClose={close} onDone={done} />}
+      {modal?.kind === "building" && (modal.editing || modal.simple) && <BuildingModal propertyId={modal.propertyId} editing={modal.editing} propertyAddress={propertyAddress} onClose={close} onDone={done} />}
+      {modal?.kind === "building" && !modal.editing && !modal.simple && (
+        <BuildingWizardForProperty propertyId={modal.propertyId} onClose={close} onDone={done} onSimpleForm={() => setModal({ kind: "building", propertyId: modal.propertyId, editing: null, simple: true })} />
+      )}
       {modal?.kind === "unit" && <UnitModal buildingId={modal.buildingId} editing={modal.editing} defaultFloor={modal.defaultFloor} onClose={close} onDone={done} />}
       {modal?.kind === "commonArea" && <CommonAreaModal buildingId={modal.buildingId} defaultFloor={modal.defaultFloor} onClose={close} onDone={done} />}
       {modal?.kind === "occupants" && <OccupantsModal unit={modal.unit} onClose={close} onDone={() => router.refresh()} />}
