@@ -109,7 +109,7 @@ export function OfferCard({ workOrders, canDecide, companyName, zones }: { workO
                   <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 10 }}>
                     {w.completionMedia.map((m, i) => m.kind === "VIDEO"
                       ? <video key={i} src={m.url} controls style={{ width: 200, borderRadius: 8, border: "1px solid var(--border)" }} />
-                      : <a key={i} href={m.url} target="_blank" rel="noreferrer"><img src={m.url} alt="" style={{ width: 120, height: 90, objectFit: "cover", borderRadius: 8, border: "1px solid var(--border)" }} /></a>)}
+                      : <a key={i} href={m.url} target="_blank" rel="noreferrer"><img src={m.url} alt="" style={{ width: "7.5rem", height: "5.625rem", objectFit: "cover", borderRadius: 8, border: "1px solid var(--border)" }} /></a>)}
                   </div>
                 )}
                 {w.status === "CONFIRMED" && <p style={{ margin: 0, fontSize: "var(--fs-13)", color: "var(--color-success)", fontWeight: 600 }}><RiThumbUpLine style={{ verticalAlign: "-2px" }} /> Παραλάβατε την εργασία {fmt(w.customerConfirmedAt)}.</p>}

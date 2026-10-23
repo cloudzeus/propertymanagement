@@ -84,7 +84,7 @@ export function ManagedItemsPanel({ buildingId, items, itemTypes, floorOptions, 
                     {i.photoUrl ? (
                       <a href={i.photoUrl} target="_blank" rel="noreferrer" title="Άνοιγμα φωτογραφίας">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img src={i.photoUrl} alt={i.itemTypeName} style={{ width: 40, height: 40, objectFit: "cover", borderRadius: 6, border: "1px solid var(--border)", display: "block" }} />
+                        <img src={i.photoUrl} alt={i.itemTypeName} style={{ width: "2.5rem", height: "2.5rem", objectFit: "cover", borderRadius: 6, border: "1px solid var(--border)", display: "block" }} />
                       </a>
                     ) : (
                       <div aria-hidden style={{ width: 40, height: 40, borderRadius: 6, border: "1px dashed var(--border-strong)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--border-strong)" }}><RiImageAddLine /></div>

@@ -140,7 +140,7 @@ function WorkOrderRow({ w, zones, canSchedule, canOnBehalf, onOpen }: { w: WorkO
       </div>
       {w.completionMedia.length > 0 && (
         <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginTop: 10 }}>
-          {w.completionMedia.map((m, i) => <a key={i} href={m.url} target="_blank" rel="noreferrer"><img src={m.url} alt="" style={{ width: 84, height: 64, objectFit: "cover", borderRadius: 6, border: "1px solid var(--border)" }} /></a>)}
+          {w.completionMedia.map((m, i) => <a key={i} href={m.url} target="_blank" rel="noreferrer"><img src={m.url} alt="" style={{ width: "5.25rem", height: "4rem", objectFit: "cover", borderRadius: 6, border: "1px solid var(--border)" }} /></a>)}
         </div>
       )}
     </div>

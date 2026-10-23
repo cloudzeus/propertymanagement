@@ -320,7 +320,7 @@ export function DataTable<T extends { id: string }>({
               onChange={(e) => handleSearch(e.target.value)}
               placeholder={searchPlaceholder}
               style={{
-                width: "100%", height: 30, paddingLeft: 28,
+                width: "100%", height: "2rem", paddingLeft: "1.75rem",
                 paddingRight: searchInput ? 28 : 10,
                 border: "1px solid var(--border)", borderRadius: "var(--radius-sm)", fontSize: "var(--fs-12)",
                 outline: "none", fontFamily: "inherit", color: "var(--foreground)",
@@ -348,7 +348,7 @@ export function DataTable<T extends { id: string }>({
             <button
               onClick={() => setShowColMenu((v) => !v)}
               style={{
-                height: 30, padding: "0 10px", borderRadius: "var(--radius-sm)",
+                height: "2rem", padding: "0 0.625rem", borderRadius: "var(--radius-sm)",
                 border: "1px solid var(--border)",
                 background: showColMenu ? "var(--muted)" : "var(--card)",
                 fontSize: "var(--fs-11)", cursor: "pointer", fontFamily: "inherit",
@@ -376,7 +376,7 @@ export function DataTable<T extends { id: string }>({
                     onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
                   >
                     <span style={{
-                      width: 15, height: 15, borderRadius: 3, border: "1.5px solid",
+                      width: "0.9375rem", height: "0.9375rem", borderRadius: 3, border: "1.5px solid",
                       borderColor: visibility[c.id] !== false ? "var(--primary)" : "var(--border)",
                       background:  visibility[c.id] !== false ? "var(--primary)" : "transparent",
                       display: "flex", alignItems: "center", justifyContent: "center",
@@ -397,7 +397,7 @@ export function DataTable<T extends { id: string }>({
           {/* Add new */}
           {onAddNew && (
             <button onClick={onAddNew} style={{
-              height: 30, padding: "0 12px", borderRadius: 4,
+              height: "2rem", padding: "0 0.75rem", borderRadius: 4,
               border: "1px solid var(--primary)",
               background: "var(--primary)", color: "var(--primary-foreground)",
               fontSize: "var(--fs-11)", fontWeight: 600, cursor: "pointer", fontFamily: "inherit",
@@ -423,7 +423,7 @@ export function DataTable<T extends { id: string }>({
             </span>
             {batchActions.map((a, i) => (
               <button key={i} onClick={() => a.onClick(selectedRows)} style={{
-                height: 28, padding: "0 10px", borderRadius: 4, border: "1px solid",
+                height: "1.875rem", padding: "0 0.625rem", borderRadius: 4, border: "1px solid",
                 borderColor: a.danger ? `color-mix(in oklch, var(--destructive) 40%, transparent)` : "var(--border)",
                 background:  a.danger ? `color-mix(in oklch, var(--destructive) 10%, var(--card))` : "var(--card)",
                 color: a.danger ? "var(--destructive)" : "var(--foreground)",
@@ -434,7 +434,7 @@ export function DataTable<T extends { id: string }>({
               </button>
             ))}
             <button onClick={() => setSelected(new Set())} style={{
-              height: 28, padding: "0 10px", borderRadius: 4,
+              height: "1.875rem", padding: "0 0.625rem", borderRadius: 4,
               border: "1px solid var(--border)", background: "transparent",
               color: "var(--muted-foreground)", fontSize: "var(--fs-11)", cursor: "pointer",
               fontFamily: "inherit", display: "flex", alignItems: "center", gap: 4,
@@ -458,7 +458,7 @@ export function DataTable<T extends { id: string }>({
               return (
                 <div key={row.id} style={{ background: "var(--card)", border: `1px solid ${isSel ? "var(--primary)" : "var(--border)"}`, borderRadius: 12, padding: "10px 12px", boxShadow: "0 1px 2px rgba(0,0,0,.04)" }}>
                   <div style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
-                    <input type="checkbox" checked={isSel} onChange={() => toggleSelect(row.id)} style={{ width: 18, height: 18, marginTop: 2, accentColor: "var(--primary)", flexShrink: 0 }} />
+                    <input type="checkbox" checked={isSel} onChange={() => toggleSelect(row.id)} style={{ width: "1.125rem", height: "1.125rem", marginTop: 2, accentColor: "var(--primary)", flexShrink: 0 }} />
                     <div style={{ flex: 1, minWidth: 0, fontSize: "var(--fs-14)", fontWeight: 600, color: "var(--foreground)", overflowWrap: "anywhere" }}>{first ? first.cell(row) : row.id}</div>
                   </div>
                   {rest.length > 0 && (
@@ -512,7 +512,7 @@ export function DataTable<T extends { id: string }>({
                       checked={allSelected}
                       ref={(el) => { if (el) el.indeterminate = someSelected; }}
                       onChange={toggleAll}
-                      style={{ width: 14, height: 14, cursor: "pointer", accentColor: "var(--primary)" }}
+                      style={{ width: "0.875rem", height: "0.875rem", cursor: "pointer", accentColor: "var(--primary)" }}
                     />
                   </th>
                   {hasDrag && <th style={thStyle} />}
@@ -572,7 +572,7 @@ export function DataTable<T extends { id: string }>({
         {/* ── Pagination footer ─────────────────────────────── */}
         <div style={{
           display: "flex", alignItems: "center", justifyContent: "space-between",
-          padding: "0 12px", height: 40,
+          padding: "0 0.75rem", height: "2.5rem",
           borderTop: "1px solid var(--border)",
           background: "var(--card)",
           flexWrap: "wrap", gap: 8, flexShrink: 0,
@@ -585,7 +585,7 @@ export function DataTable<T extends { id: string }>({
               value={effPageSize}
               onChange={(e) => changePageSize(Number(e.target.value))}
               style={{
-                height: 26, padding: "0 6px", borderRadius: 4,
+                height: "1.625rem", padding: "0 0.375rem", borderRadius: 4,
                 border: "1px solid var(--border)", fontSize: "var(--fs-11)",
                 fontFamily: "inherit", cursor: "pointer",
                 background: "var(--card)", color: "var(--foreground)",
@@ -764,7 +764,7 @@ function SortableRow<T extends { id: string }>({
             type="checkbox"
             checked={selected}
             onChange={onSelect}
-            style={{ width: 14, height: 14, cursor: "pointer", accentColor: "var(--primary)" }}
+            style={{ width: "0.875rem", height: "0.875rem", cursor: "pointer", accentColor: "var(--primary)" }}
           />
         </td>
 
@@ -792,7 +792,7 @@ function SortableRow<T extends { id: string }>({
               onClick={openMenu}
               style={{
                 display: "inline-flex", alignItems: "center", justifyContent: "center",
-                width: 26, height: 26, borderRadius: 4,
+                width: "1.625rem", height: "1.625rem", borderRadius: 4,
                 border: "1px solid var(--border)",
                 background: menuOpen ? "var(--muted)" : "transparent",
                 cursor: "pointer", color: "var(--muted-foreground)",
@@ -853,19 +853,19 @@ function buildPageWindow(page: number, total: number): (number | "…")[] {
 }
 
 const thStyle: React.CSSProperties = {
-  padding: "0 12px", height: 34, textAlign: "left",
+  padding: "0 0.75rem", height: "2.125rem", textAlign: "left",
   fontSize: "var(--fs-11)", fontWeight: 600, textTransform: "uppercase",
   letterSpacing: "0.05em", color: "var(--muted-foreground)",
   whiteSpace: "nowrap", verticalAlign: "middle", fontFamily: "inherit",
 };
 
 const tdStyle: React.CSSProperties = {
-  padding: "0 12px", height: 40, fontSize: "var(--fs-13)",
+  padding: "0 0.75rem", height: "2.5rem", fontSize: "var(--fs-13)",
   color: "var(--foreground)", verticalAlign: "middle", fontFamily: "inherit",
 };
 
 const pageBtnStyle: React.CSSProperties = {
-  width: 26, height: 26, borderRadius: 4,
+  width: "1.625rem", height: "1.625rem", borderRadius: 4,
   border: "1px solid var(--border)",
   background: "transparent", cursor: "pointer",
   fontSize: "var(--fs-11)", fontFamily: "inherit", color: "var(--foreground)",

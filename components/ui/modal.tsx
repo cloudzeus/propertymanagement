@@ -38,17 +38,18 @@ export function Modal({ open, onClose, title, children, width = 520, footer }: P
         position: "fixed", inset: 0, zIndex: 1000,
         background: "rgba(27,28,26,.42)",
         display: "flex", alignItems: "center", justifyContent: "center",
-        padding: 24,
+        padding: "1.5rem",
       }}
     >
       <div className="ui-modal" style={{
-        width: "100%", maxWidth: width,
+        // rem-based width (user rule 2026-10-23): scales with the root font size and never exceeds the viewport.
+        width: "100%", maxWidth: `min(${width / 16}rem, calc(100vw - 3rem))`,
         background: "var(--card)",
         border: "1px solid var(--border)",
         borderRadius: "var(--radius-lg)",
         boxShadow: "var(--shadow-card)",
         display: "flex", flexDirection: "column",
-        maxHeight: "calc(100vh - 48px)",
+        maxHeight: "calc(100dvh - 3rem)",
         overflow: "hidden",
       }}>
         {/* Header */}
@@ -65,7 +66,7 @@ export function Modal({ open, onClose, title, children, width = 520, footer }: P
             onClick={onClose}
             style={{
               display: "flex", alignItems: "center", justifyContent: "center",
-              width: 28, height: 28, borderRadius: "var(--radius-sm)",
+              width: "2rem", height: "2rem", borderRadius: "var(--radius-sm)",
               border: "1px solid var(--border)", background: "var(--paper)",
               cursor: "pointer", color: "var(--muted-foreground)",
             }}
@@ -137,7 +138,7 @@ export function FieldInput({
       required={required}
       disabled={disabled}
       style={{
-        width: "100%", height: 36, padding: "0 10px",
+        width: "100%", height: "2.5rem", padding: "0 0.625rem",
         border: "1px solid var(--border)", borderRadius: "var(--radius-sm)",
         fontSize: "var(--fs-13)", color: "var(--foreground)",
         background: disabled ? "var(--paper)" : "var(--card)",
@@ -163,7 +164,7 @@ export function FieldSelect({
       onChange={(e) => onChange(e.target.value)}
       disabled={disabled}
       style={{
-        width: "100%", height: 36, padding: "0 10px",
+        width: "100%", height: "2.5rem", padding: "0 0.625rem",
         border: "1px solid var(--border)", borderRadius: "var(--radius-sm)",
         fontSize: "var(--fs-13)", color: "var(--foreground)",
         background: disabled ? "var(--paper)" : "var(--card)",

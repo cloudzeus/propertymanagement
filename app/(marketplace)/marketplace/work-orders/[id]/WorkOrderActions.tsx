@@ -116,7 +116,7 @@ export function WorkOrderActions({ wo, isAdmin }: { wo: SupplierWorkOrderDTO; is
         <div style={card}>
           <div style={h3}>{wo.status === "CONFIRMED" ? <RiThumbUpLine /> : <RiCheckLine />} {wo.status === "CONFIRMED" ? "Παραλήφθηκε από τον πελάτη" : "Αναμένει επιβεβαίωση παραλαβής"}</div>
           <p style={{ fontSize: "var(--fs-13-5)", margin: "0 0 8px", whiteSpace: "pre-wrap" }}>{wo.completionNote}</p>
-          <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>{wo.completionMedia.map((m, i) => <a key={i} href={m.url} target="_blank" rel="noreferrer"><img src={m.url} alt="" style={{ width: 100, height: 76, objectFit: "cover", borderRadius: 8, border: "1px solid var(--border)" }} /></a>)}</div>
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>{wo.completionMedia.map((m, i) => <a key={i} href={m.url} target="_blank" rel="noreferrer"><img src={m.url} alt="" style={{ width: "6.25rem", height: "4.75rem", objectFit: "cover", borderRadius: 8, border: "1px solid var(--border)" }} /></a>)}</div>
           {wo.status === "CONFIRMED" && <p style={{ fontSize: "var(--fs-13)", color: "var(--color-success)", fontWeight: 600, margin: "10px 0 0" }}>Επιβεβαιώθηκε {fmt(wo.customerConfirmedAt)} — μπορείτε να εκδώσετε τιμολόγιο προς την εταιρεία διαχείρισης.</p>}
         </div>
       )}

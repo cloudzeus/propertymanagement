@@ -61,7 +61,7 @@ export function WorkOrderDetailClient({ detail, viewer }: { detail: WorkOrderDet
         {wo.completionNote && <p style={{ fontSize: "var(--fs-13)", color: "var(--foreground)", margin: "12px 0 0", whiteSpace: "pre-wrap" }}>Σημείωση ολοκλήρωσης: {wo.completionNote}</p>}
         {wo.completionMedia.length > 0 && (
           <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginTop: 10 }}>
-            {wo.completionMedia.map((m, i) => <a key={i} href={m.url} target="_blank" rel="noreferrer"><img src={m.url} alt="" style={{ width: 84, height: 64, objectFit: "cover", borderRadius: 6, border: "1px solid var(--border)" }} /></a>)}
+            {wo.completionMedia.map((m, i) => <a key={i} href={m.url} target="_blank" rel="noreferrer"><img src={m.url} alt="" style={{ width: "5.25rem", height: "4rem", objectFit: "cover", borderRadius: 6, border: "1px solid var(--border)" }} /></a>)}
           </div>
         )}
         <div style={{ display: "flex", flexWrap: "wrap", gap: 14, marginTop: 14, paddingTop: 12, borderTop: "1px solid var(--border)" }}>

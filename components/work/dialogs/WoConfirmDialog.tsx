@@ -25,7 +25,7 @@ export function WoConfirmDialog({ ctx, subject, onDone, onClose }: DialogProps) 
       {wo.completionNote && <p style={{ margin: 0, fontSize: "var(--fs-13)", color: "var(--foreground)", whiteSpace: "pre-wrap" }}>{wo.completionNote}</p>}
       {wo.completionMedia.length > 0 && (
         <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-          {wo.completionMedia.map((m, i) => <a key={i} href={m.url} target="_blank" rel="noreferrer"><img src={m.url} alt="" style={{ width: 84, height: 64, objectFit: "cover", borderRadius: 6, border: "1px solid var(--border)" }} /></a>)}
+          {wo.completionMedia.map((m, i) => <a key={i} href={m.url} target="_blank" rel="noreferrer"><img src={m.url} alt="" style={{ width: "5.25rem", height: "4rem", objectFit: "cover", borderRadius: 6, border: "1px solid var(--border)" }} /></a>)}
         </div>
       )}
       <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>

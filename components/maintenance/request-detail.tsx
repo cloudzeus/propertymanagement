@@ -142,7 +142,7 @@ export function RequestDetail({ request, viewer, actions, onOpen }: {
                   <video key={a.id} src={a.url} controls style={{ width: 220, borderRadius: "var(--radius-sm)", border: "1px solid var(--border)" }} />
                 ) : (
                   <a key={a.id} href={a.url} target="_blank" rel="noreferrer">
-                    <img src={a.url} alt="" style={{ width: 120, height: 90, objectFit: "cover", borderRadius: "var(--radius-sm)", border: "1px solid var(--border)" }} />
+                    <img src={a.url} alt="" style={{ width: "7.5rem", height: "5.625rem", objectFit: "cover", borderRadius: "var(--radius-sm)", border: "1px solid var(--border)" }} />
                   </a>
                 ),
               )}

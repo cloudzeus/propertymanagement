@@ -88,7 +88,7 @@ export function QuickActions({ role, allowedHrefs, expenseBuildings }: { role: s
 }
 
 const fab: React.CSSProperties = {
-  width: 52, height: 52, borderRadius: 999, border: "none", cursor: "pointer",
+  width: "3.25rem", height: "3.25rem", borderRadius: 999, border: "none", cursor: "pointer",
   background: "var(--color-primary)", color: "var(--color-accent)",
   display: "inline-flex", alignItems: "center", justifyContent: "center",
   boxShadow: "0 8px 24px rgba(21,22,26,.28)", transition: "transform 160ms ease",
@@ -103,6 +103,6 @@ const item: React.CSSProperties = {
   background: "transparent", cursor: "pointer", textDecoration: "none", width: "100%", minHeight: 44,
 };
 const iconWrap: React.CSSProperties = {
-  width: 34, height: 34, borderRadius: 10, background: "var(--paper)", color: "var(--color-primary)",
+  width: "2.125rem", height: "2.125rem", borderRadius: 10, background: "var(--paper)", color: "var(--color-primary)",
   display: "inline-flex", alignItems: "center", justifyContent: "center", fontSize: "var(--fs-17)", flexShrink: 0, border: "1px solid var(--border)",
 };

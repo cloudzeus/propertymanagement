@@ -59,7 +59,7 @@ export function OfferForm({ rfq, invitation, myOffer, defaults }: { rfq: Rfq; in
         <p style={{ fontSize: "var(--fs-14)", marginTop: 12, whiteSpace: "pre-wrap" }}>{rfq.description}</p>
         {rfq.attachments.length > 0 && (
           <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-            {rfq.attachments.map((a, i) => a.kind === "VIDEO" ? <video key={i} src={a.url} controls style={{ width: 200, borderRadius: 8 }} /> : <a key={i} href={a.url} target="_blank" rel="noreferrer"><img src={a.url} alt="" style={{ width: 120, height: 90, objectFit: "cover", borderRadius: 8, border: "1px solid var(--border)" }} /></a>)}
+            {rfq.attachments.map((a, i) => a.kind === "VIDEO" ? <video key={i} src={a.url} controls style={{ width: 200, borderRadius: 8 }} /> : <a key={i} href={a.url} target="_blank" rel="noreferrer"><img src={a.url} alt="" style={{ width: "7.5rem", height: "5.625rem", objectFit: "cover", borderRadius: 8, border: "1px solid var(--border)" }} /></a>)}
           </div>
         )}
       </div>

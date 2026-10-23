@@ -77,7 +77,7 @@ export default async function CompanySettingsPage() {
           display: "flex", alignItems: "center", justifyContent: "center",
         }}>
           {company.logoUrl
-            ? <img src={company.logoUrl} alt={company.name} style={{ width: 40, height: 40, borderRadius: 10, objectFit: "contain" }} />
+            ? <img src={company.logoUrl} alt={company.name} style={{ width: "2.5rem", height: "2.5rem", borderRadius: 10, objectFit: "contain" }} />
             : <RiBuildingLine style={{ fontSize: "var(--fs-20)", color: "var(--color-primary)" }} />
           }
         </div>
