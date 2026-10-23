@@ -42,3 +42,22 @@ describe("quick actions", () => {
     expect(resolveQuickActions({ pathname: "/super-admin/buildings", role: "SUPER_ADMIN", allowed, canExpense: true }).map((a) => a.key)).not.toContain("b-fault");
   });
 });
+
+describe("guided wizards in the FAB", () => {
+  const all = new Set([...allowed, "/super-admin/customers", "/super-admin/properties", "/super-admin/services"]);
+  it("customers page offers the customer wizard first", () => {
+    const r = resolveQuickActions({ pathname: "/super-admin/customers", role: "SUPER_ADMIN", allowed: all, canExpense: true });
+    expect(r[0].href).toBe("/super-admin/customers?wizard=customer-new");
+    expect(r.map((a) => a.key)).not.toContain("onboarding");
+  });
+  it("services and suppliers pages offer their wizards", () => {
+    const s = resolveQuickActions({ pathname: "/super-admin/services", role: "SUPER_ADMIN", allowed: all, canExpense: true });
+    expect(s[0].href).toBe("/super-admin/services?wizard=service-new");
+    const p = resolveQuickActions({ pathname: "/super-admin/suppliers", role: "ADMIN", allowed: all, canExpense: true });
+    expect(p[0].href).toBe("/super-admin/suppliers?wizard=supplier-new");
+  });
+  it("hides a wizard whose page the role may not open", () => {
+    const r = resolveQuickActions({ pathname: "/super-admin/properties", role: "ADMIN", allowed: new Set(["/super-admin/properties"]), canExpense: false });
+    expect(r.map((a) => a.href)).not.toContain("/super-admin/customers?wizard=customer-new");
+  });
+});

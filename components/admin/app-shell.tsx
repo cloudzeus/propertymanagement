@@ -11,6 +11,8 @@ import { getEffectivePermissions, buildMenu } from "@/lib/rbac/permissions";
 import { db } from "@/lib/db";
 import { AssistantDrawer } from "@/components/assistant/AssistantDrawer";
 import { HelpButton } from "@/components/help/HelpButton";
+import { WizardHost } from "@/components/wizards/WizardHost";
+import { allowedWizards } from "@/lib/wizards/registry";
 import { surfaceForRole } from "@/lib/surfaces";
 import { InstallBanner } from "@/components/pwa/InstallBanner";
 
@@ -94,6 +96,8 @@ export async function AppShell({ children, allowedRoles }: Props) {
         </main>
         {/* Context-aware quick menu (bottom-left of the content area) — replaces the old fixed "Νέο έξοδο" button. */}
         <QuickActions role={role} allowedHrefs={menu.flatMap((g) => g.items.map((i) => i.href))} expenseBuildings={expenseBuildings} />
+        {/* Guided wizards opened by `?wizard=<key>` deep links (lib/wizards/registry); building-scope ones live on the building page. */}
+        <WizardHost allowed={resolved ? allowedWizards(resolved.perms, role) : []} />
         {/* Role-aware AI assistant (bottom-right drawer) — reads are scoped per role, writes need in-chat confirmation. */}
         <HelpButton />
         <AssistantDrawer surface={surfaceForRole(role)} />

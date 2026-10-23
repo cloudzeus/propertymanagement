@@ -37,6 +37,10 @@ const A = {
   billing: { key: "billing", label: "Τιμολόγηση", icon: "RiFileListLine", href: "/super-admin/billing" },
   help: { key: "help", label: "Βοήθεια", icon: "RiQuestionLine", href: "/staff/help" },
   printables: { key: "printables", label: "Εκτυπωτικά", icon: "RiPrinterLine", href: "/print", hint: "Ειδοποιητήρια, αποδείξεις, προσκλήσεις" },
+  // guided wizards (lib/wizards/registry) — `?wizard=<key>` is consumed by WizardHost in the app shell
+  wizCustomer: { key: "wiz-customer", label: "Νέος πελάτης βήμα-βήμα", icon: "RiUserAddLine", href: "/super-admin/customers?wizard=customer-new", hint: "Με παράδειγμα και video" },
+  wizService: { key: "wiz-service", label: "Νέα υπηρεσία βήμα-βήμα", icon: "RiServiceLine", href: "/super-admin/services?wizard=service-new", hint: "Τιμολόγηση με παράδειγμα" },
+  wizSupplier: { key: "wiz-supplier", label: "Νέος συνεργάτης βήμα-βήμα", icon: "RiTeamLine", href: "/super-admin/suppliers?wizard=supplier-new" },
   // customer surface
   mySuppliers: { key: "my-suppliers", label: "Οι προμηθευτές μου", icon: "RiTruckLine", href: "/building/suppliers" },
   myMaintenance: { key: "my-maint", label: "Συντηρήσεις", icon: "RiToolsLine", href: "/building?s=maintenance" },
@@ -80,7 +84,7 @@ export function quickActionsTitle(pathname: string, role: string): string {
   if (pathname.startsWith("/super-admin/settings") || pathname.startsWith("/super-admin/roles") || pathname.startsWith("/super-admin/users")) return "Ρυθμίσεις";
   if (BUILDING_PAGE.test(pathname.split("?")[0])) return "Το κτήριο";
   if (pathname.startsWith("/super-admin/customers") || pathname.startsWith("/super-admin/properties") || pathname.startsWith("/super-admin/units") || pathname.startsWith("/super-admin/managed")) return "Πελάτες & ακίνητα";
-  if (pathname.startsWith("/super-admin/billing")) return "Οικονομικά";
+  if (pathname.startsWith("/super-admin/billing") || pathname.startsWith("/super-admin/services")) return "Οικονομικά";
   if (pathname.startsWith("/staff/calendar")) return "Ημερολόγιο";
   if (pathname.startsWith("/building/suppliers")) return "Προμηθευτές";
   if (pathname.startsWith("/building")) return "Το κτήριο";
@@ -102,10 +106,11 @@ export function resolveQuickActions(ctx: Ctx): QuickAction[] {
     else if (p.startsWith("/admin/maintenance-program")) picks = [A.faults, A.workOrders, A.calendar, A.suppliers, A.report];
     else if (p.startsWith("/admin/work-orders")) picks = [A.faults, A.work, A.contracts, A.suppliers, A.programme];
     else if (p.startsWith("/admin/maintenance")) picks = [A.report, A.work, A.workOrders, A.programme, A.maintSettings];
-    else if (p.startsWith("/super-admin/suppliers")) picks = [A.catalog, A.faults, A.workOrders, A.contracts];
+    else if (p.startsWith("/super-admin/suppliers")) picks = [A.wizSupplier, A.catalog, A.faults, A.workOrders, A.contracts];
+    else if (p.startsWith("/super-admin/services")) picks = [A.wizService, A.billing, A.customers, A.properties];
     else if (p.startsWith("/super-admin/cms")) picks = [A.cmsArticles, A.cmsMedia, A.cmsLanding, A.cmsNewsletter];
     else if (p.startsWith("/super-admin/settings") || p.startsWith("/super-admin/roles") || p.startsWith("/super-admin/users")) picks = [A.users, A.roles, A.contracts, A.cron];
-    else if (p.startsWith("/super-admin/customers") || p.startsWith("/super-admin/properties") || p.startsWith("/super-admin/units")) picks = [A.onboarding, A.expense, A.printables, A.managedBuildings, A.announcement];
+    else if (p.startsWith("/super-admin/customers") || p.startsWith("/super-admin/properties") || p.startsWith("/super-admin/units")) picks = [A.wizCustomer, A.expense, A.printables, A.managedBuildings, A.announcement];
     else if (p.startsWith("/super-admin/managed") || p.startsWith("/super-admin/buildings")) picks = [A.expense, A.printables, A.programme, A.report, A.announcement];
     else if (p.startsWith("/super-admin/billing")) picks = [A.customers, A.properties, A.billing];
     else if (p.startsWith("/staff/calendar")) picks = [A.programme, A.faults, A.report, A.announcement];
