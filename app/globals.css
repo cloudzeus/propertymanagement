@@ -236,6 +236,10 @@ body {
 
 /* ─── Scrollbar ───────────────────────────────────────────────────────────── */
 * { scrollbar-width: thin; scrollbar-color: var(--border-strong) transparent; }
+/* Sidebar nav: full height, groups are an accordion so it fits; if it still overflows on a short
+   screen it scrolls by wheel/touch without a visible bar. */
+.app-sidebar nav.sb-nav { scrollbar-width: none; }
+.app-sidebar nav.sb-nav::-webkit-scrollbar { display: none; }
 ::-webkit-scrollbar       { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }

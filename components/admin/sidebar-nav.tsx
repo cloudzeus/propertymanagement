@@ -177,9 +177,8 @@ type Props = {
 };
 
 const STORAGE_COLLAPSED = "dg-sidebar-collapsed";
-// v2: the 2026-10 regrouping ships new default open/closed states; a new key
-// applies them once to everyone, then the user's own toggles win again.
-const STORAGE_GROUPS    = "dg-sidebar-groups.v2";
+// 2026-10-23: groups are an ACCORDION (one open at a time) so the nav fits the
+// viewport without its own scrollbar — the active page's group opens on its own.
 
 export function SidebarNav({ role, menu, customerBuildings, userName, userEmail, logoUrl, logoSquareUrl, companyName, onSignOut, bell }: Props) {
   const pathname   = usePathname();
@@ -194,9 +193,8 @@ export function SidebarNav({ role, menu, customerBuildings, userName, userEmail,
   const [mobileOpenFor, setMobileOpenFor] = useState<string | null>(null);
   const collapsed = collapsedPref && !isPhone;
   const mobileOpen = mobileOpenFor === pathname; // navigating away closes the drawer
-  const [openGroups,  setOpenGroups]  = useState<Record<string, boolean>>(
-    () => Object.fromEntries(navGroups.map((g) => [g.id, g.defaultOpen])),
-  );
+  // Accordion state: `manual` is the user's toggle for the CURRENT pathname; otherwise the active page's group is open.
+  const [manual, setManual] = useState<{ for: string; id: string | null } | null>(null);
 
   useEffect(() => {
     const c = localStorage.getItem(STORAGE_COLLAPSED);
@@ -204,9 +202,6 @@ export function SidebarNav({ role, menu, customerBuildings, userName, userEmail,
     // Tablets: start as an icon rail so the content column gets the width;
     // the user's explicit choice still wins once stored.
     else if (window.innerWidth < 1024) setCollapsedPref(true);
-    const g = localStorage.getItem(STORAGE_GROUPS);
-    // Overlay the stored choices on the registry defaults so a group added later keeps its own default.
-    if (g) { try { const stored = JSON.parse(g); setOpenGroups((prev) => ({ ...prev, ...stored })); } catch { /* ignore */ } }
   }, []);
 
   function toggleSidebar() {
@@ -216,18 +211,16 @@ export function SidebarNav({ role, menu, customerBuildings, userName, userEmail,
     });
   }
 
-  function toggleGroup(id: string) {
-    setOpenGroups((prev) => {
-      const next = { ...prev, [id]: !prev[id] };
-      localStorage.setItem(STORAGE_GROUPS, JSON.stringify(next));
-      return next;
-    });
-  }
-
   function isActive(href: string): boolean {
     if (pathname === href) return true;
     if (href !== "/" && pathname.startsWith(href + "/")) return true;
     return false;
+  }
+
+  const activeGroupId = navGroups.find((g) => g.items.some((i) => isActive(i.href)))?.id ?? navGroups[0]?.id ?? null;
+  const openGroupId = manual && manual.for === pathname ? manual.id : activeGroupId;
+  function toggleGroup(id: string) {
+    setManual({ for: pathname, id: openGroupId === id ? null : id });
   }
 
   // ── Building-tree active state (pathname + ?s=) ──
@@ -248,12 +241,12 @@ export function SidebarNav({ role, menu, customerBuildings, userName, userEmail,
     <>
       {/* Phone top bar (CSS shows it only ≤767px) */}
       <header className="app-topbar">
-        <button onClick={() => setMobileOpenFor(mobileOpen ? null : pathname)} style={{ ...iconBtnStyle, width: 40, height: 40 }} aria-label="Μενού" aria-expanded={mobileOpen}>
-          <RiMenuLine size={20} />
+        <button onClick={() => setMobileOpenFor(mobileOpen ? null : pathname)} style={{ ...iconBtnStyle, width: "2.5rem", height: "2.5rem" }} aria-label="Μενού" aria-expanded={mobileOpen}>
+          <RiMenuLine size="1.25rem" />
         </button>
         {fullLogo
           /* eslint-disable-next-line @next/next/no-img-element */
-          ? <img src={fullLogo} alt={companyName} style={{ height: 24, width: "auto", maxWidth: 140, objectFit: "contain" }} />
+          ? <img src={fullLogo} alt={companyName} style={{ height: "1.5rem", width: "auto", maxWidth: "8.75rem", objectFit: "contain" }} />
           : <span style={{ fontSize: "var(--fs-15)", fontWeight: 700, color: "var(--primary)" }}>{companyName}</span>}
         <span style={{ marginLeft: "auto" }}>{isPhone ? bell : null}</span>
       </header>
@@ -276,7 +269,7 @@ export function SidebarNav({ role, menu, customerBuildings, userName, userEmail,
 
       {/* ── Logo row ─────────────────────────────────────────── */}
       <div style={{
-        height: 60,
+        height: "3.75rem",
         display: "flex", alignItems: "center", justifyContent: "space-between",
         padding: collapsed ? "0 14px" : "0 16px 0 20px",
         borderBottom: "1px solid var(--border)",
@@ -285,7 +278,7 @@ export function SidebarNav({ role, menu, customerBuildings, userName, userEmail,
         {!collapsed && (
           fullLogo
             /* eslint-disable-next-line @next/next/no-img-element */
-            ? <img src={fullLogo} alt={companyName} style={{ height: 28, width: "auto", maxWidth: 160, objectFit: "contain", objectPosition: "left" }} />
+            ? <img src={fullLogo} alt={companyName} style={{ height: "1.75rem", width: "auto", maxWidth: "10rem", objectFit: "contain", objectPosition: "left" }} />
             : <span style={{ fontSize: "var(--fs-15)", fontWeight: 700, color: "var(--primary)", letterSpacing: "-0.01em", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
                 {companyName}
               </span>
@@ -293,7 +286,7 @@ export function SidebarNav({ role, menu, customerBuildings, userName, userEmail,
         {collapsed && (
           squareLogo
             /* eslint-disable-next-line @next/next/no-img-element */
-            ? <img src={squareLogo} alt={companyName} style={{ height: 28, width: 28, objectFit: "contain", margin: "0 auto" }} />
+            ? <img src={squareLogo} alt={companyName} style={{ height: "1.75rem", width: "1.75rem", objectFit: "contain", margin: "0 auto" }} />
             : <span style={{ fontSize: "var(--fs-18)", fontWeight: 800, color: "var(--primary)", margin: "0 auto" }}>
                 {companyName.charAt(0)}
               </span>
@@ -302,7 +295,7 @@ export function SidebarNav({ role, menu, customerBuildings, userName, userEmail,
           <span style={{ display: "inline-flex", alignItems: "center", gap: 6, marginLeft: "auto" }}>
             {!isPhone && bell}
             <button onClick={toggleSidebar} style={iconBtnStyle} title="Σύμπτυξη">
-              <RiMenuFoldLine size={16} />
+              <RiMenuFoldLine size="1rem" />
             </button>
           </span>
         )}
@@ -311,20 +304,20 @@ export function SidebarNav({ role, menu, customerBuildings, userName, userEmail,
       {collapsed && (
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6, margin: "10px auto 4px" }}>
           <button onClick={toggleSidebar} style={{ ...iconBtnStyle, display: "flex" }} title="Ανάπτυξη">
-            <RiMenuUnfoldLine size={16} />
+            <RiMenuUnfoldLine size="1rem" />
           </button>
           {bell}
         </div>
       )}
 
       {/* ── Nav ──────────────────────────────────────────────── */}
-      <nav style={{
+      <nav className="sb-nav" style={{
         flex: 1, overflowY: "auto", overflowX: "hidden",
-        padding: collapsed ? "8px 8px" : "8px 10px",
-        display: "flex", flexDirection: "column", gap: 2,
+        padding: collapsed ? "6px 8px" : "6px 10px",
+        display: "flex", flexDirection: "column", gap: 1,
       }}>
         {navGroups.map((group) => {
-          const isOpen    = openGroups[group.id] ?? true;
+          const isOpen    = openGroupId === group.id;
           const anyActive = group.items.some((i) => isActive(i.href));
 
           if (collapsed) {
@@ -336,13 +329,13 @@ export function SidebarNav({ role, menu, customerBuildings, userName, userEmail,
                   return (
                     <Link key={item.href} href={item.href} title={item.label} style={{
                       display: "flex", alignItems: "center", justifyContent: "center",
-                      width: 40, height: 40, borderRadius: 8, margin: "0 auto 2px",
+                      width: "2.5rem", height: "2.5rem", borderRadius: 8, margin: "0 auto 2px",
                       color: active ? item.color : "var(--muted-foreground)",
                       background: active ? "var(--warning-soft)" : "transparent",
                       textDecoration: "none",
                       transition: "background 120ms, color 120ms",
                     }}>
-                      <Icon size={18} />
+                      <Icon size="1.125rem" />
                     </Link>
                   );
                 })}
@@ -351,12 +344,12 @@ export function SidebarNav({ role, menu, customerBuildings, userName, userEmail,
           }
 
           return (
-            <div key={group.id} style={{ marginBottom: 4 }}>
+            <div key={group.id} style={{ marginBottom: 2 }}>
               <button
                 onClick={() => toggleGroup(group.id)}
                 style={{
                   display: "flex", alignItems: "center", gap: 7,
-                  width: "100%", padding: "5px 8px",
+                  width: "100%", padding: "4px 8px", minHeight: "1.875rem",
                   border: "none", background: "transparent",
                   cursor: "pointer", borderRadius: 6, marginBottom: 2,
                 }}
@@ -364,11 +357,11 @@ export function SidebarNav({ role, menu, customerBuildings, userName, userEmail,
                 onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
               >
                 <span style={{
-                  width: 18, height: 18, borderRadius: 4,
+                  width: "1.125rem", height: "1.125rem", borderRadius: 4,
                   background: "var(--muted)",
                   display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
                 }}>
-                  <group.icon size={11} style={{ color: "var(--foreground)" }} />
+                  <group.icon size="0.6875rem" style={{ color: "var(--foreground)" }} />
                 </span>
                 <span style={{
                   flex: 1, textAlign: "left",
@@ -379,7 +372,7 @@ export function SidebarNav({ role, menu, customerBuildings, userName, userEmail,
                 }}>
                   {group.label}
                 </span>
-                <RiArrowDownSLine size={13} style={{
+                <RiArrowDownSLine size="0.8125rem" style={{
                   flexShrink: 0, color: "var(--border-strong)",
                   transform: isOpen ? "rotate(0deg)" : "rotate(-90deg)",
                   transition: "transform 200ms",
@@ -388,7 +381,7 @@ export function SidebarNav({ role, menu, customerBuildings, userName, userEmail,
 
               <div style={{
                 overflow: "hidden",
-                maxHeight: isOpen ? `${group.items.length * 38}px` : "0px",
+                maxHeight: isOpen ? `${group.items.length * 2.25}rem` : "0px",
                 transition: "max-height 220ms cubic-bezier(0.4,0,0.2,1)",
               }}>
                 {group.items.map((item) => {
@@ -400,7 +393,7 @@ export function SidebarNav({ role, menu, customerBuildings, userName, userEmail,
                       href={item.href}
                       style={{
                         display: "flex", alignItems: "center", gap: 9,
-                        padding: "6px 8px 6px 10px",
+                        padding: "0 8px 0 10px", minHeight: "2.125rem",
                         borderRadius: 6, marginBottom: 1,
                         color: active ? item.color : "var(--foreground)",
                         background: active ? "var(--warning-soft)" : "transparent",
@@ -414,7 +407,7 @@ export function SidebarNav({ role, menu, customerBuildings, userName, userEmail,
                       onMouseEnter={(e) => { if (!active) (e.currentTarget as HTMLAnchorElement).style.background = "var(--paper)"; }}
                       onMouseLeave={(e) => { if (!active) (e.currentTarget as HTMLAnchorElement).style.background = "transparent"; }}
                     >
-                      <Icon size={16} style={{ flexShrink: 0, color: active ? "var(--color-primary)" : "var(--muted-foreground)" }} />
+                      <Icon size="1rem" style={{ flexShrink: 0, color: active ? "var(--color-primary)" : "var(--muted-foreground)" }} />
                       <span style={{ overflow: "hidden", textOverflow: "ellipsis" }}>{item.label}</span>
                     </Link>
                   );
@@ -432,12 +425,12 @@ export function SidebarNav({ role, menu, customerBuildings, userName, userEmail,
               return (
                 <Link key={b.id} href={`/building/${b.id}`} title={b.name} style={{
                   display: "flex", alignItems: "center", justifyContent: "center",
-                  width: 40, height: 40, borderRadius: 8, margin: "0 auto 2px",
+                  width: "2.5rem", height: "2.5rem", borderRadius: 8, margin: "0 auto 2px",
                   color: active ? BUILDING_COLOR : "var(--muted-foreground)",
                   background: active ? "var(--warning-soft)" : "transparent",
                   textDecoration: "none", transition: "background 120ms, color 120ms",
                 }}>
-                  {active ? <RiBuildingFill size={18} /> : <RiBuildingLine size={18} />}
+                  {active ? <RiBuildingFill size="1.125rem" /> : <RiBuildingLine size="1.125rem" />}
                 </Link>
               );
             })}
@@ -454,7 +447,7 @@ export function SidebarNav({ role, menu, customerBuildings, userName, userEmail,
             {buildings.map((b) => {
               const groupId = `bldg-${b.id}`;
               const bldgActive = buildingActive(b.id);
-              const isOpen = openGroups[groupId] ?? bldgActive;
+              const isOpen = manual && manual.for === pathname ? manual.id === groupId : bldgActive;
               return (
                 <div key={b.id} style={{ marginBottom: 4 }}>
                   <button
@@ -469,11 +462,11 @@ export function SidebarNav({ role, menu, customerBuildings, userName, userEmail,
                     onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
                   >
                     <span style={{
-                      width: 18, height: 18, borderRadius: 4,
+                      width: "1.125rem", height: "1.125rem", borderRadius: 4,
                       background: "var(--muted)",
                       display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
                     }}>
-                      <RiBuildingLine size={11} style={{ color: "var(--foreground)" }} />
+                      <RiBuildingLine size="0.6875rem" style={{ color: "var(--foreground)" }} />
                     </span>
                     <span style={{
                       flex: 1, textAlign: "left",
@@ -484,7 +477,7 @@ export function SidebarNav({ role, menu, customerBuildings, userName, userEmail,
                     }}>
                       {b.name}
                     </span>
-                    <RiArrowDownSLine size={13} style={{
+                    <RiArrowDownSLine size="0.8125rem" style={{
                       flexShrink: 0, color: "var(--border-strong)",
                       transform: isOpen ? "rotate(0deg)" : "rotate(-90deg)",
                       transition: "transform 200ms",
@@ -493,7 +486,7 @@ export function SidebarNav({ role, menu, customerBuildings, userName, userEmail,
 
                   <div style={{
                     overflow: "hidden",
-                    maxHeight: isOpen ? `${BUILDING_SECTIONS.length * 42}px` : "0px",
+                    maxHeight: isOpen ? `${BUILDING_SECTIONS.length * 2.5}rem` : "0px",
                     transition: "max-height 220ms cubic-bezier(0.4,0,0.2,1)",
                   }}>
                     {BUILDING_SECTIONS.map((sec) => {
@@ -520,7 +513,7 @@ export function SidebarNav({ role, menu, customerBuildings, userName, userEmail,
                           onMouseEnter={(e) => { if (!active) (e.currentTarget as HTMLAnchorElement).style.background = "var(--paper)"; }}
                           onMouseLeave={(e) => { if (!active) (e.currentTarget as HTMLAnchorElement).style.background = "transparent"; }}
                         >
-                          <Icon size={16} style={{ flexShrink: 0, color: active ? "var(--color-primary)" : "var(--muted-foreground)" }} />
+                          <Icon size="1rem" style={{ flexShrink: 0, color: active ? "var(--color-primary)" : "var(--muted-foreground)" }} />
                           <span style={{ overflow: "hidden", textOverflow: "ellipsis" }}>{sec.label}</span>
                         </Link>
                       );
@@ -543,7 +536,7 @@ export function SidebarNav({ role, menu, customerBuildings, userName, userEmail,
         background: "var(--paper)",
       }}>
         <div style={{
-          width: 32, height: 32, borderRadius: 8,
+          width: "2rem", height: "2rem", borderRadius: 8,
           background: "var(--card)", border: "1px solid var(--border)",
           color: "var(--color-primary)",
           display: "flex", alignItems: "center", justifyContent: "center",
@@ -569,7 +562,7 @@ export function SidebarNav({ role, menu, customerBuildings, userName, userEmail,
               onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.color = "var(--destructive)"; (e.currentTarget as HTMLButtonElement).style.background = "color-mix(in oklab, var(--destructive) 10%, var(--card))"; }}
               onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.color = "var(--muted-foreground)"; (e.currentTarget as HTMLButtonElement).style.background = "var(--paper)"; }}
             >
-              <RiLogoutBoxRLine size={16} />
+              <RiLogoutBoxRLine size="1rem" />
             </button>
           </>
         )}
@@ -581,7 +574,7 @@ export function SidebarNav({ role, menu, customerBuildings, userName, userEmail,
 
 const iconBtnStyle: React.CSSProperties = {
   display: "flex", alignItems: "center", justifyContent: "center",
-  width: 30, height: 30, borderRadius: 6,
+  width: "1.875rem", height: "1.875rem", borderRadius: 6,
   border: "none", background: "var(--paper)", color: "var(--muted-foreground)",
   cursor: "pointer", transition: "background 120ms, color 120ms",
   flexShrink: 0,
