@@ -133,7 +133,7 @@ export function BuildingWizard({ property, properties = [], onClose, onDone, onS
             <FormField label="Τ.μ. ανά μονάδα (προεπιλογή)"><NumberField value={form.defaultArea} onChange={f("defaultArea")} unit="τ.μ." min={0} placeholder="κενό = αργότερα" /></FormField>
             <FormField label="Αρίθμηση"><FieldSelect value={form.numbering} onChange={(v) => setForm((p) => ({ ...p, numbering: v as Form["numbering"] }))} options={[{ value: "floor-letter", label: "1Α, 1Β, 2Α… (Κ1 καταστήματα)" }, { value: "sequential", label: "1, 2, 3…" }]} /></FormField>
           </div>
-          <button type="button" onClick={regenerate} style={{ alignSelf: "flex-start", minHeight: 44, padding: "8px 16px", borderRadius: 8, border: "none", background: "var(--color-primary)", color: "#fff", cursor: "pointer", fontSize: "var(--fs-13)", fontWeight: 700 }}>
+          <button type="button" onClick={regenerate} style={{ alignSelf: "flex-start", minHeight: 44, padding: "8px 16px", borderRadius: 8, border: "none", background: "var(--color-primary)", color: "var(--primary-foreground)", cursor: "pointer", fontSize: "var(--fs-13)", fontWeight: 700 }}>
             {form.units.length ? "Δημιουργία λίστας ξανά (αντικαθιστά τον πίνακα)" : "Δημιουργία λίστας μονάδων"}
           </button>
           {form.units.length > 0 && <UnitsGrid units={form.units} onChange={(units) => setForm((p) => ({ ...p, units }))} floors={floors} basements={basements} />}

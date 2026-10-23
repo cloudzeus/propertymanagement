@@ -80,7 +80,7 @@ export function SupplierWizard({ categories, zones, scope, onClose, onDone, onSi
                   <div role="group" style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
                     {categories.map((c) => { const on = form.categoryIds.includes(c.id); return (
                       <button key={c.id} type="button" role="checkbox" aria-checked={on} onClick={() => setForm((p) => ({ ...p, categoryIds: on ? p.categoryIds.filter((x) => x !== c.id) : [...p.categoryIds, c.id] }))}
-                        style={{ minHeight: 40, border: `1px solid ${on ? "var(--color-primary)" : "var(--border)"}`, background: on ? "var(--color-primary)" : "var(--card)", color: on ? "#fff" : "var(--foreground)", borderRadius: 9999, padding: "6px 14px", fontSize: "var(--fs-13)", fontWeight: on ? 700 : 500, cursor: "pointer" }}>{c.name}</button>
+                        style={{ minHeight: 40, border: `1px solid ${on ? "var(--color-primary)" : "var(--border)"}`, background: on ? "var(--color-primary)" : "var(--card)", color: on ? "var(--primary-foreground)" : "var(--foreground)", borderRadius: 9999, padding: "6px 14px", fontSize: "var(--fs-13)", fontWeight: on ? 700 : 500, cursor: "pointer" }}>{c.name}</button>
                     ); })}
                   </div>
                 </FormField>

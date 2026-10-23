@@ -130,7 +130,7 @@ export function PackageWizardLoader({ api }: { api: WizardHostApi }) {
   if (!options) return <LoadingModal title="Πακέτο υπηρεσιών ιδιοκτησίας" error={error} onClose={api.onClose} />;
   return (
     <Modal open onClose={api.onClose} title="Πακέτο υπηρεσιών ιδιοκτησίας" width={520}
-      footer={<button type="button" disabled={!pick} onClick={() => setPropertyId(pick)} style={{ minHeight: 40, padding: "9px 18px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: pick ? "pointer" : "default", opacity: pick ? 1 : 0.5, fontSize: "var(--fs-13)", fontWeight: 600 }}>Συνέχεια</button>}>
+      footer={<button type="button" disabled={!pick} onClick={() => setPropertyId(pick)} style={{ minHeight: 40, padding: "9px 18px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "var(--primary-foreground)", cursor: pick ? "pointer" : "default", opacity: pick ? 1 : 0.5, fontSize: "var(--fs-13)", fontWeight: 600 }}>Συνέχεια</button>}>
       <FormField label="Για ποια ιδιοκτησία;" required>
         <FieldSelect value={pick} onChange={setPick} placeholder="— Επιλογή ιδιοκτησίας —" options={options.map((o) => ({ value: o.id, label: `${o.name} — ${o.customerName}` }))} />
       </FormField>

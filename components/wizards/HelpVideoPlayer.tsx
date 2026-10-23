@@ -26,7 +26,7 @@ export function HelpVideoPlayer({ video, compact = false, autoOpen = false }: { 
       <div style={{ position: "relative", aspectRatio: "16 / 9", background: "#000", borderRadius: 10, overflow: "hidden" }}>
         <video src={video.src} poster={video.poster} controls playsInline muted autoPlay preload="metadata" title={video.title} style={{ width: "100%", height: "100%", display: "block" }} />
         {!compact && (
-          <button type="button" onClick={() => setOpen(false)} aria-label="Κλείσιμο video" style={{ position: "absolute", top: 8, right: 8, width: 32, height: 32, borderRadius: 999, border: "none", background: "rgba(0,0,0,.55)", color: "#fff", display: "grid", placeItems: "center", cursor: "pointer" }}><RiCloseLine /></button>
+          <button type="button" onClick={() => setOpen(false)} aria-label="Κλείσιμο video" style={{ position: "absolute", top: 8, right: 8, width: 32, height: 32, borderRadius: 999, border: "none", background: "rgba(0,0,0,.55)", color: "var(--primary-foreground)", display: "grid", placeItems: "center", cursor: "pointer" }}><RiCloseLine /></button>
         )}
       </div>
       <figcaption style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>{video.title}{len} · χωρίς ήχο, με κείμενο</figcaption>

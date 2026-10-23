@@ -119,7 +119,7 @@ export function CustomerWizard({ managers, nextCode, onClose, onDone, onSimpleFo
                     <FieldInput value={form.afm} onChange={f("afm")} placeholder="123456789" />
                     {form.type === "COMPANY" && (
                       <button type="button" onClick={aadeLookup} disabled={aade.loading} title="Άντληση στοιχείων από ΑΑΔΕ" aria-label="Άντληση στοιχείων από ΑΑΔΕ"
-                        style={{ flexShrink: 0, width: 44, height: 36, borderRadius: 6, border: "1px solid var(--color-primary)", background: "var(--color-primary)", color: "#fff", cursor: aade.loading ? "wait" : "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                        style={{ flexShrink: 0, width: 44, height: 36, borderRadius: 6, border: "1px solid var(--color-primary)", background: "var(--color-primary)", color: "var(--primary-foreground)", cursor: aade.loading ? "wait" : "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>
                         {aade.loading ? <RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> : <RiSearchLine />}
                       </button>
                     )}

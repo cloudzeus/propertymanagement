@@ -193,9 +193,9 @@ export function GuidedFlow<T extends object = Record<string, unknown>>({ title, 
                     <Tag type={state === "done" ? "button" : undefined} onClick={state === "done" ? () => goTo(i) : undefined}
                       style={{ width: "100%", display: "flex", alignItems: "center", gap: 6, padding: "7px 8px", borderRadius: 8, fontSize: "var(--fs-12)", fontWeight: 600, minWidth: 0, border: "none", cursor: state === "done" ? "pointer" : "default", font: "inherit",
                         background: state === "active" ? "var(--color-primary)" : "var(--paper)",
-                        color: state === "active" ? "#fff" : state === "done" ? "var(--foreground)" : "var(--muted-foreground)" }}>
+                        color: state === "active" ? "var(--primary-foreground)" : state === "done" ? "var(--foreground)" : "var(--muted-foreground)" }}>
                       <span style={{ width: 20, height: 20, borderRadius: 999, flexShrink: 0, display: "inline-flex", alignItems: "center", justifyContent: "center", fontSize: "var(--fs-11)",
-                        background: state === "done" ? "var(--color-success)" : "transparent", color: state === "done" ? "#fff" : "inherit", border: state === "done" ? "none" : "1px solid currentColor" }}>
+                        background: state === "done" ? "var(--color-success)" : "transparent", color: state === "done" ? "var(--primary-foreground)" : "inherit", border: state === "done" ? "none" : "1px solid currentColor" }}>
                         {state === "done" ? <RiCheckLine /> : i + 1}
                       </span>
                       <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{s.title}</span>
@@ -305,7 +305,7 @@ export function SummaryList({ rows }: { rows: [string, React.ReactNode][] }) {
 
 const linkBtn: React.CSSProperties = { background: "none", border: "none", color: "var(--muted-foreground)", fontSize: "var(--fs-12-5)", cursor: "pointer", padding: 0, textDecoration: "underline", font: "inherit" };
 const ghostBtn: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 6, minHeight: 40, padding: "9px 16px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: "var(--fs-13)", color: "var(--foreground)" };
-const primaryBtn: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 6, minHeight: 40, padding: "9px 18px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: "pointer", fontSize: "var(--fs-13)", fontWeight: 600 };
+const primaryBtn: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 6, minHeight: 40, padding: "9px 18px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "var(--primary-foreground)", cursor: "pointer", fontSize: "var(--fs-13)", fontWeight: 600 };
 const ghostSmall: React.CSSProperties = { ...ghostBtn, minHeight: 36, padding: "6px 12px", fontSize: "var(--fs-12-5)" };
 const primarySmall: React.CSSProperties = { ...primaryBtn, minHeight: 36, padding: "6px 12px", fontSize: "var(--fs-12-5)" };
 const errBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "var(--danger-soft)", color: "var(--color-danger)", fontSize: "var(--fs-12-5)", border: "1px solid color-mix(in srgb, var(--color-danger) 30%, transparent)", marginBottom: 12 };

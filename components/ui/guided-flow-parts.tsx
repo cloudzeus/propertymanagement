@@ -82,7 +82,7 @@ export type DoneNext = { label: string; onClick: () => void; icon?: string; hint
 export function DoneScreen({ title, lines = [], next = [], onClose }: { title: string; lines?: string[]; next?: DoneNext[]; onClose: () => void }) {
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", gap: 14, padding: "12px 0 4px" }}>
-      <div className="pop" style={{ width: 64, height: 64, borderRadius: 999, background: "var(--color-success)", color: "#fff", display: "grid", placeItems: "center", fontSize: "var(--fs-28)" }}><RiCheckLine /></div>
+      <div className="pop" style={{ width: 64, height: 64, borderRadius: 999, background: "var(--color-success)", color: "var(--primary-foreground)", display: "grid", placeItems: "center", fontSize: "var(--fs-28)" }}><RiCheckLine /></div>
       <div style={{ fontSize: "var(--fs-18)", fontWeight: 800, color: "var(--foreground)" }}>{title}</div>
       {lines.length > 0 && <ul style={{ margin: 0, padding: 0, listStyle: "none", color: "var(--muted-foreground)", fontSize: "var(--fs-13-5)", lineHeight: 1.6 }}>{lines.map((l, i) => <li key={i}>{l}</li>)}</ul>}
       {next.length > 0 && (
