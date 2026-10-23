@@ -59,6 +59,17 @@ const A = {
 
 const STAFF = ["SUPER_ADMIN", "ADMIN", "MANAGER", "EMPLOYEE"];
 
+/** On a building page the FAB deep-links into that page's «Ενέργειες» menu (`?action=<key>`, see lib/building-actions). */
+const BUILDING_PAGE = /^(\/super-admin\/buildings|\/building)\/[^/?]+$/;
+function buildingPageActions(base: string): QuickAction[] {
+  return [
+    { key: "b-fault", label: "Δήλωση βλάβης", icon: "RiAlarmWarningLine", href: `${base}?action=fault-new`, hint: "Σε αυτό το κτήριο" },
+    { key: "b-expense", label: "Νέα δαπάνη", icon: "RiMoneyEuroCircleLine", href: `${base}?action=expense-new`, hint: "Παραστατικό με OCR" },
+    { key: "b-koino", label: "Έκδοση κοινοχρήστων", icon: "RiWallet3Line", href: `${base}?action=koino-issue` },
+    { key: "b-announcement", label: "Νέα ανακοίνωση", icon: "RiNotification2Line", href: `${base}?action=announcement-new` },
+  ];
+}
+
 /** Section title shown at the top of the menu. */
 export function quickActionsTitle(pathname: string, role: string): string {
   if (pathname.startsWith("/admin/work")) return "Κέντρο εργασιών";
@@ -67,6 +78,7 @@ export function quickActionsTitle(pathname: string, role: string): string {
   if (pathname.startsWith("/super-admin/suppliers")) return "Συνεργάτες";
   if (pathname.startsWith("/super-admin/cms")) return "CMS";
   if (pathname.startsWith("/super-admin/settings") || pathname.startsWith("/super-admin/roles") || pathname.startsWith("/super-admin/users")) return "Ρυθμίσεις";
+  if (BUILDING_PAGE.test(pathname.split("?")[0])) return "Το κτήριο";
   if (pathname.startsWith("/super-admin/customers") || pathname.startsWith("/super-admin/properties") || pathname.startsWith("/super-admin/units") || pathname.startsWith("/super-admin/managed")) return "Πελάτες & ακίνητα";
   if (pathname.startsWith("/super-admin/billing")) return "Οικονομικά";
   if (pathname.startsWith("/staff/calendar")) return "Ημερολόγιο";
@@ -82,9 +94,11 @@ export function quickActionsTitle(pathname: string, role: string): string {
 export function resolveQuickActions(ctx: Ctx): QuickAction[] {
   const { pathname: p, role } = ctx;
   let picks: QuickAction[];
+  const path = p.split("?")[0];
 
   if (STAFF.includes(role)) {
-    if (p.startsWith("/admin/work")) picks = [A.report, A.faults, A.workOrders, A.programme, A.calendar];
+    if (BUILDING_PAGE.test(path)) picks = [...buildingPageActions(path), A.printables];
+    else if (p.startsWith("/admin/work")) picks = [A.report, A.faults, A.workOrders, A.programme, A.calendar];
     else if (p.startsWith("/admin/maintenance-program")) picks = [A.faults, A.workOrders, A.calendar, A.suppliers, A.report];
     else if (p.startsWith("/admin/work-orders")) picks = [A.faults, A.work, A.contracts, A.suppliers, A.programme];
     else if (p.startsWith("/admin/maintenance")) picks = [A.report, A.work, A.workOrders, A.programme, A.maintSettings];
@@ -99,7 +113,8 @@ export function resolveQuickActions(ctx: Ctx): QuickAction[] {
     else if (p.startsWith("/staff/help")) picks = [A.report, A.faults, A.calendar];
     else picks = [A.work, A.report, A.expense, A.faults, A.announcement]; // dashboards
   } else if (role === "PROPERTY_ADMIN") {
-    if (p.startsWith("/building/suppliers")) picks = [A.report, A.myMaintenance, A.expense];
+    if (BUILDING_PAGE.test(path)) picks = [...buildingPageActions(path), A.printables, A.mySuppliers];
+    else if (p.startsWith("/building/suppliers")) picks = [A.report, A.myMaintenance, A.expense];
     else if (p.startsWith("/portal/maintenance") || p.includes("s=maintenance")) picks = [A.report, A.mySuppliers, A.expense, A.myAnnouncement];
     else if (p.includes("s=finance") || p.includes("s=expenses")) picks = [A.expense, A.printables, A.report, A.myMaintenance];
     else picks = [A.report, A.expense, A.printables, A.myAnnouncement, A.mySuppliers];
@@ -125,7 +140,7 @@ export function resolveQuickActions(ctx: Ctx): QuickAction[] {
   // and never the page we are already on.
   const base = (h: string) => h.split("?")[0];
   return picks
-    .filter((a) => (a.kind === "expense" ? ctx.canExpense : a.href === "/report" || a.href === "/print" || ctx.allowed.has(a.href!) || ctx.allowed.has(base(a.href!)) || (a.key === "cron" && ctx.allowed.has("/super-admin/settings"))))
+    .filter((a) => (a.kind === "expense" ? ctx.canExpense : a.href === "/report" || a.href === "/print" || a.href!.includes("?action=") || ctx.allowed.has(a.href!) || ctx.allowed.has(base(a.href!)) || (a.key === "cron" && ctx.allowed.has("/super-admin/settings"))))
     .filter((a) => !a.href || base(a.href) !== p.split("?")[0] || a.href.includes("?"))
     .slice(0, 5);
 }

@@ -4,19 +4,52 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Modal, FormField, FieldInput, FieldSelect, FieldTextarea } from "@/components/ui/modal";
 import { createMaintenanceRequest, type AttachmentInput } from "@/app/actions/maintenance-requests";
-import { FAULT_PRIORITIES, PRIORITY_LABELS } from "@/lib/maintenance-shared";
+import { FAULT_PRIORITIES, PRIORITY_LABELS, type FaultPriority } from "@/lib/maintenance-shared";
 import { RiAddLine, RiCloseLine, RiImageAddLine, RiVideoAddLine } from "react-icons/ri";
 import type { BuildingOption, CategoryOption } from "./types";
 
 type Pending = { name: string; attachment: AttachmentInput };
 
+/** «Δήλωση βλάβης» button + modal (portal, manager shell, staff lists). */
 export function NewRequestButton({ buildings, categories, detailBase }: {
   buildings: BuildingOption[];
   categories: CategoryOption[];
   detailBase: string; // π.χ. "/portal/requests"
 }) {
-  const router = useRouter();
   const [open, setOpen] = useState(false);
+  return (
+    <>
+      <button
+        onClick={() => setOpen(true)}
+        style={{
+          display: "inline-flex", alignItems: "center", gap: 6, height: 36, padding: "0 14px",
+          background: "var(--primary)", color: "var(--primary-foreground)", border: "none",
+          borderRadius: "var(--radius-sm)", fontSize: "var(--fs-13)", fontWeight: 600, cursor: "pointer",
+        }}
+      >
+        <RiAddLine /> Δήλωση βλάβης
+      </button>
+      <NewRequestModal open={open} onClose={() => setOpen(false)} buildings={buildings} categories={categories} detailBase={detailBase} />
+    </>
+  );
+}
+
+/**
+ * The fault-report form itself. Also opened directly by the building page's
+ * «Ενέργειες» menu (one building, no button). After a successful submit it
+ * navigates to the fault's detail page under `detailBase`, unless `stay` is
+ * set — then it just calls `onCreated` and closes.
+ */
+export function NewRequestModal({ open, onClose, buildings, categories, detailBase, stay, onCreated }: {
+  open: boolean;
+  onClose: () => void;
+  buildings: BuildingOption[];
+  categories: CategoryOption[];
+  detailBase: string;
+  stay?: boolean;
+  onCreated?: (id: string) => void;
+}) {
+  const router = useRouter();
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -45,8 +78,8 @@ export function NewRequestButton({ buildings, categories, detailBase }: {
         if (!res.ok) throw new Error(json.error || "Αποτυχία ανεβάσματος");
         setFiles((prev) => [...prev, { name: file.name, attachment: json.attachment }]);
       }
-    } catch (e: any) {
-      setError(e.message);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Αποτυχία ανεβάσματος");
     } finally {
       setUploading(false);
     }
@@ -59,107 +92,96 @@ export function NewRequestButton({ buildings, categories, detailBase }: {
     setBusy(true);
     const res = await createMaintenanceRequest({
       buildingId, unitId: unitId || null, title, description,
-      categoryId: categoryId || null, priority: priority as any,
+      categoryId: categoryId || null, priority: priority as FaultPriority,
       restrictedAccess: restricted,
       attachments: files.map((f) => f.attachment),
     });
     setBusy(false);
     if ("error" in res && res.error) { setError(res.error); return; }
-    setOpen(false);
-    router.push(`${detailBase}/${(res as any).id}`);
+    const id = "id" in res && typeof res.id === "string" ? res.id : "";
+    onClose();
+    onCreated?.(id);
+    if (!stay) router.push(`${detailBase}/${id}`);
     router.refresh();
   }
 
   return (
-    <>
-      <button
-        onClick={() => setOpen(true)}
-        style={{
-          display: "inline-flex", alignItems: "center", gap: 6, height: 36, padding: "0 14px",
-          background: "var(--primary)", color: "var(--primary-foreground)", border: "none",
-          borderRadius: "var(--radius-sm)", fontSize: "var(--fs-13)", fontWeight: 600, cursor: "pointer",
-        }}
-      >
-        <RiAddLine /> Δήλωση βλάβης
-      </button>
+    <Modal open={open} onClose={onClose} title="Δήλωση βλάβης" width={620}
+      footer={
+        <>
+          <button onClick={onClose} style={btnGhost}>Άκυρο</button>
+          <button onClick={submit} disabled={busy || uploading} style={btnPrimary}>
+            {busy ? "Υποβολή…" : "Υποβολή"}
+          </button>
+        </>
+      }
+    >
+      <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+        {error && <div style={{ color: "var(--destructive)", fontSize: "var(--fs-13)" }}>{error}</div>}
 
-      <Modal open={open} onClose={() => setOpen(false)} title="Δήλωση βλάβης" width={620}
-        footer={
-          <>
-            <button onClick={() => setOpen(false)} style={btnGhost}>Άκυρο</button>
-            <button onClick={submit} disabled={busy || uploading} style={btnPrimary}>
-              {busy ? "Υποβολή…" : "Υποβολή"}
-            </button>
-          </>
-        }
-      >
-        <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-          {error && <div style={{ color: "var(--destructive)", fontSize: "var(--fs-13)" }}>{error}</div>}
-
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-            <FormField label="Κτήριο" required>
-              <FieldSelect value={buildingId} onChange={(v) => { setBuildingId(v); setUnitId(""); }}
-                placeholder="Επιλέξτε κτήριο" options={buildings.map((b) => ({ value: b.id, label: b.name }))} />
-            </FormField>
-            <FormField label="Μονάδα (προαιρετικά)">
-              <FieldSelect value={unitId} onChange={setUnitId} placeholder="Κοινόχρηστος χώρος"
-                options={(building?.units ?? []).map((u) => ({ value: u.id, label: u.label }))} />
-            </FormField>
-            <FormField label="Κατηγορία">
-              <FieldSelect value={categoryId} onChange={setCategoryId} placeholder="Επιλέξτε κατηγορία"
-                options={categories.map((c) => ({ value: c.id, label: c.name }))} />
-            </FormField>
-            <FormField label="Προτεραιότητα">
-              <FieldSelect value={priority} onChange={setPriority}
-                options={FAULT_PRIORITIES.map((p) => ({ value: p, label: PRIORITY_LABELS[p] }))} />
-            </FormField>
-          </div>
-
-          <FormField label="Τίτλος" required>
-            <FieldInput value={title} onChange={setTitle} placeholder="π.χ. Διαρροή νερού στο υπόγειο" />
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+          <FormField label="Κτήριο" required>
+            <FieldSelect value={buildingId} onChange={(v) => { setBuildingId(v); setUnitId(""); }}
+              placeholder="Επιλέξτε κτήριο" options={buildings.map((b) => ({ value: b.id, label: b.name }))} />
           </FormField>
-          <FormField label="Περιγραφή" required>
-            <FieldTextarea value={description} onChange={setDescription} rows={4} placeholder="Περιγράψτε τη βλάβη…" />
+          <FormField label="Μονάδα (προαιρετικά)">
+            <FieldSelect value={unitId} onChange={setUnitId} placeholder="Κοινόχρηστος χώρος"
+              options={(building?.units ?? []).map((u) => ({ value: u.id, label: u.label }))} />
           </FormField>
-
-          <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: "var(--fs-13)", color: "var(--foreground)", cursor: "pointer" }}>
-            <input type="checkbox" checked={restricted} onChange={(e) => setRestricted(e.target.checked)} />
-            Αφορά εξοπλισμό με περιορισμένη πρόσβαση (θα χρειαστεί ραντεβού)
-          </label>
-
-          <FormField label="Φωτογραφίες / Βίντεο" hint="Έως 25MB ανά φωτογραφία, 100MB ανά βίντεο">
-            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              <label style={{
-                display: "inline-flex", alignItems: "center", gap: 8, padding: "8px 12px",
-                border: "1px dashed var(--border)", borderRadius: "var(--radius-sm)",
-                fontSize: "var(--fs-13)", color: "var(--muted-foreground)", cursor: "pointer", width: "fit-content",
-              }}>
-                <RiImageAddLine /><RiVideoAddLine />
-                {uploading ? "Ανέβασμα…" : "Προσθήκη αρχείων"}
-                <input type="file" accept="image/*,video/*" multiple hidden disabled={uploading}
-                  onChange={(e) => { onPickFiles(e.target.files); e.target.value = ""; }} />
-              </label>
-              {files.length > 0 && (
-                <ul style={{ margin: 0, padding: 0, listStyle: "none", display: "flex", flexDirection: "column", gap: 4 }}>
-                  {files.map((f, i) => (
-                    <li key={i} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: "var(--fs-12)", color: "var(--foreground)" }}>
-                      {f.attachment.kind === "VIDEO" ? <RiVideoAddLine /> : <RiImageAddLine />}
-                      <span style={{ flex: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                        {f.name}
-                      </span>
-                      <button onClick={() => setFiles((prev) => prev.filter((_, j) => j !== i))}
-                        style={{ border: "none", background: "none", cursor: "pointer", color: "var(--muted-foreground)" }}>
-                        <RiCloseLine />
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
+          <FormField label="Κατηγορία">
+            <FieldSelect value={categoryId} onChange={setCategoryId} placeholder="Επιλέξτε κατηγορία"
+              options={categories.map((c) => ({ value: c.id, label: c.name }))} />
+          </FormField>
+          <FormField label="Προτεραιότητα">
+            <FieldSelect value={priority} onChange={setPriority}
+              options={FAULT_PRIORITIES.map((p) => ({ value: p, label: PRIORITY_LABELS[p] }))} />
           </FormField>
         </div>
-      </Modal>
-    </>
+
+        <FormField label="Τίτλος" required>
+          <FieldInput value={title} onChange={setTitle} placeholder="π.χ. Διαρροή νερού στο υπόγειο" />
+        </FormField>
+        <FormField label="Περιγραφή" required>
+          <FieldTextarea value={description} onChange={setDescription} rows={4} placeholder="Περιγράψτε τη βλάβη…" />
+        </FormField>
+
+        <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: "var(--fs-13)", color: "var(--foreground)", cursor: "pointer" }}>
+          <input type="checkbox" checked={restricted} onChange={(e) => setRestricted(e.target.checked)} />
+          Αφορά εξοπλισμό με περιορισμένη πρόσβαση (θα χρειαστεί ραντεβού)
+        </label>
+
+        <FormField label="Φωτογραφίες / Βίντεο" hint="Έως 25MB ανά φωτογραφία, 100MB ανά βίντεο">
+          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+            <label style={{
+              display: "inline-flex", alignItems: "center", gap: 8, padding: "8px 12px",
+              border: "1px dashed var(--border)", borderRadius: "var(--radius-sm)",
+              fontSize: "var(--fs-13)", color: "var(--muted-foreground)", cursor: "pointer", width: "fit-content",
+            }}>
+              <RiImageAddLine /><RiVideoAddLine />
+              {uploading ? "Ανέβασμα…" : "Προσθήκη αρχείων"}
+              <input type="file" accept="image/*,video/*" multiple hidden disabled={uploading}
+                onChange={(e) => { onPickFiles(e.target.files); e.target.value = ""; }} />
+            </label>
+            {files.length > 0 && (
+              <ul style={{ margin: 0, padding: 0, listStyle: "none", display: "flex", flexDirection: "column", gap: 4 }}>
+                {files.map((f, i) => (
+                  <li key={i} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: "var(--fs-12)", color: "var(--foreground)" }}>
+                    {f.attachment.kind === "VIDEO" ? <RiVideoAddLine /> : <RiImageAddLine />}
+                    <span style={{ flex: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                      {f.name}
+                    </span>
+                    <button onClick={() => setFiles((prev) => prev.filter((_, j) => j !== i))}
+                      style={{ border: "none", background: "none", cursor: "pointer", color: "var(--muted-foreground)" }}>
+                      <RiCloseLine />
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </FormField>
+      </div>
+    </Modal>
   );
 }
 

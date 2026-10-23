@@ -4,6 +4,8 @@ import { redirect, notFound } from "next/navigation";
 import { BuildingDashboard } from "./BuildingDashboard";
 import { getBuildingDashboardData } from "@/lib/building/dashboard-data";
 import { capsForStaff } from "@/lib/building-caps";
+import { getEffectivePermissions } from "@/lib/rbac/permissions";
+import { workActionViewer } from "@/lib/work/scope";
 
 export const metadata = { title: "Κτήριο — Super Admin" };
 
@@ -19,5 +21,7 @@ export default async function BuildingDashboardPage({ params, searchParams }: { 
   const data = await getBuildingDashboardData(id, { heatingPeriod: rawHeatingPeriod });
   if (!data) notFound();
 
-  return <BuildingDashboard {...data} can={capsForStaff()} />;
+  const resolved = await getEffectivePermissions();
+  const workViewer = workActionViewer("SUPER_ADMIN", session.user.id as string, resolved?.perms ?? new Set());
+  return <BuildingDashboard {...data} can={capsForStaff()} workViewer={workViewer} />;
 }

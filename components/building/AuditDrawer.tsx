@@ -11,8 +11,18 @@ const SEV = {
   info: { color: "#0a8", icon: RiInformationLine, label: "προτάσεις" },
 } as const;
 
-export function AuditDrawer({ buildingId, onGoToTab }: { buildingId: string; onGoToTab?: (tab: AuditTab) => void }) {
-  const [open, setOpen] = useState(false);
+/**
+ * Uncontrolled by default (renders its own «Έλεγχος καταχωρήσεων» button).
+ * Pass `open` + `onOpenChange` to drive it from elsewhere (the «Ενέργειες» menu);
+ * `hideTrigger` then drops the button.
+ */
+export function AuditDrawer({ buildingId, onGoToTab, open: openProp, onOpenChange, hideTrigger }: {
+  buildingId: string; onGoToTab?: (tab: AuditTab) => void;
+  open?: boolean; onOpenChange?: (open: boolean) => void; hideTrigger?: boolean;
+}) {
+  const [openState, setOpenState] = useState(false);
+  const open = openProp ?? openState;
+  const setOpen = (v: boolean) => { setOpenState(v); onOpenChange?.(v); };
   const [findings, setFindings] = useState<Finding[] | null>(null);
   const [pending, startTransition] = useTransition();
 
@@ -24,9 +34,11 @@ export function AuditDrawer({ buildingId, onGoToTab }: { buildingId: string; onG
 
   return (
     <>
-      <button onClick={() => setOpen(true)} style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
-        <RiStethoscopeLine /> Έλεγχος καταχωρήσεων
-      </button>
+      {!hideTrigger && (
+        <button onClick={() => setOpen(true)} style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+          <RiStethoscopeLine /> Έλεγχος καταχωρήσεων
+        </button>
+      )}
       {open && (
         <div style={{ position: "fixed", inset: 0, zIndex: 50 }}>
           <div onClick={() => setOpen(false)} style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,.25)" }} />

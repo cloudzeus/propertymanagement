@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import {
-  RiBuildingLine, RiMapPinLine, RiArrowRightSLine, RiEditLine, RiAddLine,
+  RiBuildingLine, RiMapPinLine, RiArrowRightSLine, RiEditLine,
   RiDashboardLine, RiHome4Line, RiGroupLine, RiUserStarLine, RiFolderLine,
   RiCalendarTodoLine, RiContactsBook3Line, RiSettings3Line, RiWallet3Line,
   RiBankCardLine, RiToolsLine, RiMegaphoneLine, RiScales3Line, RiMoneyEuroCircleLine,
@@ -34,6 +34,10 @@ import { ManagedItemsPanel, type ManagedItemRow, type ManagedItemTypeOption, typ
 import { AuditDrawer } from "@/components/building/AuditDrawer";
 import type { AuditTab } from "@/lib/buildings/audit";
 import type { BuildingCaps } from "@/lib/building-caps";
+import type { BuildingDashboardData } from "@/lib/building/dashboard-data";
+import type { WorkActionViewer } from "@/lib/work/scope";
+import { useBuildingActions } from "@/components/building/actions/useBuildingActions";
+import { BuildingActionsMenu } from "@/components/building/actions/BuildingActionsMenu";
 
 type Building = {
   id: string; name: string; address: string; city: string; postalCode: string;
@@ -79,8 +83,12 @@ const TABS: { key: TabKey; label: string; icon: React.ElementType; badge?: (k: K
   { key: "assemblies", label: "Συνελεύσεις", icon: RiGroupLine },
 ];
 
-export function BuildingDashboard({ building, kpis, units, files, people, contacts, infraPoints, floorOptions, tasks, expenses, categorySplits, today, millesimeUnits, exclusionUnits, expenseCategories, categoryOverrides, unitExclusions, usesMeteredHeating, heatingPeriod, heatingReadingRows, meterReadingRows, overview, maintenanceHistory, managedItems, managedItemTypes, commonAreas, can }: { building: Building; managedItems: ManagedItemRow[]; managedItemTypes: ManagedItemTypeOption[]; commonAreas: CommonAreaOption[]; kpis: Kpis; units: Unit[]; files: FileRow[]; people: Person[]; contacts: ContactRow[]; infraPoints: InfraRow[]; floorOptions: string[]; tasks: TaskRow[]; expenses: ExpenseRow[]; categorySplits: CategorySplit[]; today: string; millesimeUnits: MillesimeUnit[]; exclusionUnits: Array<{ id: string; unitNumber: string; unitType: string }>; expenseCategories: Array<{ id: string; name: string; defaultBasis: string }>; categoryOverrides: Array<{ categoryId: string; distributionBasis: string | null }>; unitExclusions: Array<{ unitId: string; categoryId: string }>; usesMeteredHeating: boolean; heatingPeriod: string; heatingReadingRows: HeatingReadingDTO[]; meterReadingRows: MeterReadingDTO[]; overview: OverviewData; maintenanceHistory: MaintenanceHistoryRow[]; can: BuildingCaps }) {
+export function BuildingDashboard(props: BuildingDashboardData & { can: BuildingCaps; workViewer?: WorkActionViewer | null }) {
+  const { building, kpis, units, files, people, contacts, infraPoints, floorOptions, tasks, expenses, categorySplits, today, millesimeUnits, exclusionUnits, expenseCategories, categoryOverrides, unitExclusions, usesMeteredHeating, heatingPeriod, heatingReadingRows, meterReadingRows, overview, maintenanceHistory, managedItems, managedItemTypes, commonAreas, can, workViewer } = props;
+  void ({} as { building: Building; managedItems: ManagedItemRow[]; managedItemTypes: ManagedItemTypeOption[]; commonAreas: CommonAreaOption[]; kpis: Kpis; units: Unit[]; files: FileRow[]; people: Person[]; contacts: ContactRow[]; infraPoints: InfraRow[]; floorOptions: string[]; tasks: TaskRow[]; expenses: ExpenseRow[]; categorySplits: CategorySplit[]; today: string; millesimeUnits: MillesimeUnit[]; exclusionUnits: Array<{ id: string; unitNumber: string; unitType: string }>; expenseCategories: Array<{ id: string; name: string; defaultBasis: string }>; categoryOverrides: Array<{ categoryId: string; distributionBasis: string | null }>; unitExclusions: Array<{ unitId: string; categoryId: string }>; usesMeteredHeating: boolean; heatingPeriod: string; heatingReadingRows: HeatingReadingDTO[]; meterReadingRows: MeterReadingDTO[]; overview: OverviewData; maintenanceHistory: MaintenanceHistoryRow[]; can: BuildingCaps });
   const [tab, setTab] = useState<TabKey>("overview");
+  const auditMap: Record<AuditTab, TabKey> = { units: "units", millesimes: "millesimes", distribution: "millesimes", exclusions: "millesimes", heating: "millesimes", info: "overview", customer: "overview" };
+  const ba = useBuildingActions({ data: props, can, workViewer: workViewer ?? null, superAdmin: true, faultDetailBase: "/admin/maintenance", onGoToTab: (t) => setTab(auditMap[t]) });
 
   const subParts = [
     [building.address, building.city].filter(Boolean).join(", ") || null,
@@ -130,7 +138,7 @@ export function BuildingDashboard({ building, kpis, units, files, people, contac
               }} />
             )}
             <Link href={`/super-admin/properties/${building.propertyId}`} style={btn}><RiEditLine /> Επεξεργασία</Link>
-            <button style={{ ...btn, ...btnPrimary }}><RiAddLine /> Ενέργεια</button>
+            <BuildingActionsMenu api={ba} />
           </div>
         </div>
 
@@ -143,6 +151,8 @@ export function BuildingDashboard({ building, kpis, units, files, people, contac
           <Kpi icon={RiContactsBook3Line} label="Επαφές" value={String(kpis.contacts)} />
         </div>
       </div>
+
+      {ba.host}
 
       {/* 2-row wrapping tabs */}
       <div style={{ display: "flex", flexWrap: "wrap", gap: 7 }}>

@@ -89,7 +89,7 @@ export function AnnouncementsPanel({ buildingId, can }: { buildingId: string; ca
         toolbar={can.manageAnnouncements ? <button onClick={() => setAdding(true)} style={{ ...btn, ...btnPrimary }}><RiAddLine /> Νέα ανακοίνωση</button> : undefined}
       />
       {adding && !simple && <AnnouncementWizard buildingId={buildingId} onClose={() => setAdding(false)} onDone={() => { setAdding(false); reload(); }} onSimpleForm={() => setSimple(true)} />}
-      {adding && simple && <CreateModal buildingId={buildingId} onClose={() => { setAdding(false); setSimple(false); }} onDone={() => { setAdding(false); setSimple(false); reload(); }} />}
+      {adding && simple && <AnnouncementFormModal buildingId={buildingId} onClose={() => { setAdding(false); setSimple(false); }} onDone={() => { setAdding(false); setSimple(false); reload(); }} />}
     </>
   );
 }
@@ -149,7 +149,7 @@ function AnnouncementExpanded({ a }: { a: AnnouncementRow }) {
   );
 }
 
-function CreateModal({ buildingId, onClose, onDone }: { buildingId: string; onClose: () => void; onDone: () => void }) {
+export function AnnouncementFormModal({ buildingId, onClose, onDone }: { buildingId: string; onClose: () => void; onDone: () => void }) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [publishedAt, setPublishedAt] = useState(new Date().toISOString().slice(0, 10));

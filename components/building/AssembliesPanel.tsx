@@ -72,13 +72,13 @@ export function AssembliesPanel({ buildingId, can, linkToDetail = true, showTest
         </> : undefined}
       />
       {adding && !simple && <AssemblyWizard buildingId={buildingId} onClose={() => setAdding(false)} onDone={() => { setAdding(false); reload(); }} onSimpleForm={() => setSimple(true)} />}
-      {adding && simple && <CreateModal buildingId={buildingId} onClose={() => { setAdding(false); setSimple(false); }} onDone={() => { setAdding(false); setSimple(false); reload(); }} />}
+      {adding && simple && <AssemblyFormModal buildingId={buildingId} onClose={() => { setAdding(false); setSimple(false); }} onDone={() => { setAdding(false); setSimple(false); reload(); }} />}
       {testing && <TestModal buildingId={buildingId} onClose={() => setTesting(false)} onDone={() => { setTesting(false); reload(); }} />}
     </>
   );
 }
 
-function CreateModal({ buildingId, onClose, onDone }: { buildingId: string; onClose: () => void; onDone: () => void }) {
+export function AssemblyFormModal({ buildingId, onClose, onDone }: { buildingId: string; onClose: () => void; onDone: () => void }) {
   const [title, setTitle] = useState("");
   const [scheduledAt, setScheduledAt] = useState("");
   const [error, setError] = useState<string | null>(null);

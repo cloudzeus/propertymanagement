@@ -119,7 +119,7 @@ export function UnitsPanel({ buildingId, units, can }: { buildingId: string; uni
   );
 }
 
-function OccupantsModal({ unit, onClose, onDone, onGuided }: { unit: Unit; onClose: () => void; onDone: () => void; onGuided?: (role: "OWNER" | "RESIDENT") => void }) {
+export function OccupantsModal({ unit, onClose, onDone, onGuided }: { unit: Unit; onClose: () => void; onDone: () => void; onGuided?: (role: "OWNER" | "RESIDENT") => void }) {
   return (
     <Modal open onClose={onClose} title={`Ιδιοκτήτης / Ένοικος — Μονάδα ${unit.unitNumber}`} width={520}
       footer={<button onClick={onClose} style={btnCancel}>Κλείσιμο</button>}>
@@ -327,7 +327,7 @@ function BatchOccupantModal({ units, onClose, onDone }: { units: Unit[]; onClose
   );
 }
 
-function UnitModal({ buildingId, editing, onClose, onDone }: { buildingId: string; editing: Unit | null; onClose: () => void; onDone: () => void }) {
+export function UnitModal({ buildingId, editing, onClose, onDone }: { buildingId: string; editing: Unit | null; onClose: () => void; onDone: () => void }) {
   const [form, setForm] = useState({
     unitNumber: editing?.unitNumber ?? "",
     unitType: editing?.unitType ?? "APARTMENT",
@@ -379,7 +379,7 @@ function UnitModal({ buildingId, editing, onClose, onDone }: { buildingId: strin
   );
 }
 
-function MillesimesModal({ units, buildingId, onClose, onDone }: { units: Unit[]; buildingId: string; onClose: () => void; onDone: () => void }) {
+export function MillesimesModal({ units, buildingId, onClose, onDone }: { units: Unit[]; buildingId: string; onClose: () => void; onDone: () => void }) {
   const computed = computeMillesimes(units.map((u) => ({ id: u.id, areaSqm: u.areaSqm })));
   const newById = Object.fromEntries(computed.map((c) => [c.id, c.millesimes]));
   const totalSqm = units.reduce((s, u) => s + (u.areaSqm ?? 0), 0);

@@ -13,6 +13,10 @@ import { computeMillesimes } from "@/lib/millesimes";
 import { createOccupant, assignOccupant, clearOccupant } from "@/app/actions/unit-occupants";
 import { deleteProperty } from "@/app/actions/properties";
 import { UserCombo } from "@/components/ui/user-combo";
+import { BuildingModal } from "@/components/buildings/BuildingModal";
+import { basicBuildingActions, buildingActionHref } from "@/lib/building-actions";
+import { capsForStaff } from "@/lib/building-caps";
+import { BUILDING_ACTION_ICONS, FALLBACK_ICON } from "@/components/building/actions/icons";
 import { CUSTOMER_ROLES } from "@/lib/roles-constants";
 import {
   listManagers, searchManagerCandidates, addManager, removeManager,
@@ -130,6 +134,8 @@ export function BuildingsTree({ propertyId, buildings, depthBase = 0, showAddBui
               title={b.name} subtitle={[b.address, b.city].filter(Boolean).join(", ") || "—"} extra={bStats}
               actions={[
                 { label: "Άνοιγμα (dashboard)", icon: <RiSettings3Line />, onClick: () => router.push(`/super-admin/buildings/${b.id}`) },
+                // Same registry as the building page's «Ενέργειες»: deep-links open the modal there straight away.
+                ...buildingRowActions.map((a) => { const Icon = BUILDING_ACTION_ICONS[a.icon] ?? FALLBACK_ICON; return { label: a.label, icon: <Icon />, onClick: () => router.push(buildingActionHref(`/super-admin/buildings/${b.id}`, a.key)) }; }),
                 { label: "Επεξεργασία", icon: <RiPencilLine />, onClick: () => setModal({ kind: "building", propertyId, editing: b }) },
                 { label: "Προσθήκη ορόφου", icon: <RiArrowUpSLine />, onClick: () => act(() => updateBuilding(b.id, { floors: (b.floors ?? 0) + 1 })) },
                 { label: "Προσθήκη υπογείου", icon: <RiArrowDownSLine />, onClick: () => act(() => updateBuilding(b.id, { basements: (b.basements ?? 0) + 1 })) },
@@ -275,83 +281,8 @@ const saveBtn: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, bor
 const errBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: "var(--fs-12)", border: "1px solid #fca5a530", marginBottom: 14 };
 const smallBtn: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 4, padding: "4px 8px", borderRadius: 5, fontSize: "var(--fs-11)", fontWeight: 600, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", color: "var(--foreground)" };
 const yesNo = [{ value: "false", label: "Όχι" }, { value: "true", label: "Ναι" }];
+const buildingRowActions = basicBuildingActions(capsForStaff(), { managed: true, metered: true });
 const spin = <style>{`@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}`}</style>;
-
-function BuildingModal({ propertyId, editing, propertyAddress, onClose, onDone }: { propertyId: string; editing: TBuilding | null; propertyAddress?: TPropertyAddress; onClose: () => void; onDone: () => void }) {
-  const [form, setForm] = useState({ name: editing?.name ?? "", address: editing?.address ?? "", city: editing?.city ?? "", postalCode: editing?.postalCode ?? "", country: editing?.country ?? "Ελλάδα", floors: editing?.floors != null ? String(editing.floors) : "", basements: editing?.basements != null ? String(editing.basements) : "", hasElevator: String(editing?.hasElevator ?? false), hasBoiler: String(editing?.hasBoiler ?? false), hasFireSafety: String(editing?.hasFireSafety ?? false), technicalNotes: editing?.technicalNotes ?? "" });
-  const [lat, setLat] = useState<number | null>(editing?.lat ?? null);
-  const [lng, setLng] = useState<number | null>(editing?.lng ?? null);
-  const [sameAddress, setSameAddress] = useState(false);
-  const [geoLoading, setGeoLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [isPending, startTransition] = useTransition();
-  const f = (k: keyof typeof form) => (v: string) => setForm((p) => ({ ...p, [k]: v }));
-
-  function toggleSame(checked: boolean) {
-    setSameAddress(checked);
-    if (checked && propertyAddress) {
-      setForm((p) => ({ ...p, address: propertyAddress.address ?? "", city: propertyAddress.city ?? "", postalCode: propertyAddress.postalCode ?? "", country: propertyAddress.country ?? "Ελλάδα" }));
-      setLat(propertyAddress.lat); setLng(propertyAddress.lng);
-    }
-  }
-  async function geocode() {
-    const q = [form.address, form.city, form.postalCode, form.country].map((s) => s.trim()).filter(Boolean).join(", ");
-    if (!form.address.trim()) { setError("Συμπληρώστε διεύθυνση"); return; }
-    setGeoLoading(true); setError(null);
-    try { const res = await fetch(`/api/geocode?address=${encodeURIComponent(q)}`); const d: { results?: { lat: number; lng: number; city?: string; postalCode?: string; country?: string }[] } = await res.json(); const r = d.results?.[0]; if (r) { setLat(r.lat); setLng(r.lng); setForm((p) => ({ ...p, city: r.city || p.city, postalCode: r.postalCode || p.postalCode, country: r.country || p.country })); } else setError("Δεν βρέθηκε στίγμα"); } catch { setError("Σφάλμα geocoding"); } finally { setGeoLoading(false); }
-  }
-  function save() {
-    if (!form.name.trim()) { setError("Το όνομα είναι υποχρεωτικό"); return; }
-    if (!form.address.trim()) { setError("Η διεύθυνση είναι υποχρεωτική"); return; }
-    startTransition(async () => {
-      const payload = { name: form.name, address: form.address, city: form.city, postalCode: form.postalCode, country: form.country, floors: form.floors ? parseInt(form.floors) : null, basements: form.basements ? parseInt(form.basements) : null, hasElevator: form.hasElevator === "true", hasBoiler: form.hasBoiler === "true", hasFireSafety: form.hasFireSafety === "true", technicalNotes: form.technicalNotes || null, lat, lng };
-      const res = editing ? await updateBuilding(editing.id, payload) : await createBuilding(propertyId, payload);
-      if ("error" in res && res.error) { setError(res.error); return; }
-      onDone();
-    });
-  }
-  return (
-    <Modal open onClose={onClose} title={editing ? `Επεξεργασία: ${editing.name}` : "Νέο Κτήριο"} width={560}
-      footer={<><button onClick={onClose} style={cancelBtn}>Ακύρωση</button><button onClick={save} disabled={isPending} style={saveBtn}>{isPending ? <RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> : <RiCheckLine />} Αποθήκευση</button></>}>
-      {error && <div style={errBox}>{error}</div>}
-      <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-        <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: 12 }}>
-          <FormField label="Όνομα κτηρίου" required><FieldInput value={form.name} onChange={f("name")} /></FormField>
-          <FormField label="Όροφοι"><FieldInput type="number" value={form.floors} onChange={f("floors")} /></FormField>
-        </div>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-          <FormField label="Υπόγεια"><FieldInput type="number" value={form.basements} onChange={f("basements")} /></FormField>
-          <div />
-        </div>
-        {!editing && propertyAddress && (
-          <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: "var(--fs-13)", color: "var(--foreground)", cursor: "pointer" }}>
-            <input type="checkbox" checked={sameAddress} onChange={(e) => toggleSame(e.target.checked)} style={{ width: 15, height: 15, accentColor: "var(--color-primary)" }} />
-            Ίδια διεύθυνση με την ιδιοκτησία
-          </label>
-        )}
-        <FormField label="Διεύθυνση" required>
-          <div style={{ display: "flex", gap: 6 }}>
-            <FieldInput value={form.address} onChange={f("address")} />
-            <button type="button" onClick={geocode} disabled={geoLoading || !form.address} title="Geocoding" style={{ flexShrink: 0, width: 36, height: 36, borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--foreground)" }}>{geoLoading ? <RiLoaderLine style={{ fontSize: "var(--fs-15)", animation: "spin 1s linear infinite" }} /> : <RiMapPin2Line style={{ fontSize: "var(--fs-15)" }} />}</button>
-          </div>
-        </FormField>
-        <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr", gap: 12 }}>
-          <FormField label="Πόλη"><FieldInput value={form.city} onChange={f("city")} /></FormField>
-          <FormField label="Τ.Κ."><FieldInput value={form.postalCode} onChange={f("postalCode")} /></FormField>
-          <FormField label="Χώρα"><FieldInput value={form.country} onChange={f("country")} /></FormField>
-        </div>
-        {lat != null && lng != null && <div style={{ fontSize: "var(--fs-11)", color: "#16a34a" }}><RiMapPin2Line style={{ fontSize: "var(--fs-12)" }} /> {lat.toFixed(6)}, {lng.toFixed(6)}</div>}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 }}>
-          <FormField label="Ασανσέρ"><FieldSelect value={form.hasElevator} onChange={f("hasElevator")} options={yesNo} /></FormField>
-          <FormField label="Καυστήρας"><FieldSelect value={form.hasBoiler} onChange={f("hasBoiler")} options={yesNo} /></FormField>
-          <FormField label="Πυρασφάλεια"><FieldSelect value={form.hasFireSafety} onChange={f("hasFireSafety")} options={yesNo} /></FormField>
-        </div>
-        <FormField label="Τεχνικές σημειώσεις"><FieldTextarea value={form.technicalNotes} onChange={f("technicalNotes")} rows={2} /></FormField>
-      </div>
-      {spin}
-    </Modal>
-  );
-}
 
 function UnitModal({ buildingId, editing, defaultFloor, onClose, onDone }: { buildingId: string; editing: TUnit | null; defaultFloor?: number | null; onClose: () => void; onDone: () => void }) {
   const [form, setForm] = useState({ unitNumber: editing?.unitNumber ?? "", unitType: editing?.unitType ?? "APARTMENT", floor: editing?.floor != null ? String(editing.floor) : (defaultFloor != null ? String(defaultFloor) : ""), areaSqm: editing?.areaSqm != null ? String(editing.areaSqm) : "", millesimes: editing?.millesimes != null ? String(editing.millesimes) : "" });

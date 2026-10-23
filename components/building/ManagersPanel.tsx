@@ -96,7 +96,7 @@ export function ManagersPanel({ buildingId, can }: { buildingId: string; can: Bu
   );
 }
 
-function AddManagerModal({ scope, managed, assignedIds, onClose, onDone }: { scope: { buildingId: string }; managed: boolean; assignedIds: Set<string>; onClose: () => void; onDone: () => void }) {
+export function AddManagerModal({ scope, managed, assignedIds, onClose, onDone }: { scope: { buildingId: string }; managed: boolean; assignedIds: Set<string>; onClose: () => void; onDone: () => void }) {
   const [mode, setMode] = useState<"pick" | "create">("pick");
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<ManagerCandidate[]>([]);

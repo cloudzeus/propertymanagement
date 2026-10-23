@@ -15,7 +15,7 @@ export type FileRow = {
   mimeType: string | null; sizeBytes: number | null; createdAt: string;
 };
 
-const CATS: { key: string; label: string; icon: React.ElementType }[] = [
+export const FILE_CATS: { key: string; label: string; icon: React.ElementType }[] = [
   { key: "ALL", label: "Όλα", icon: RiFolderLine },
   { key: "PLANS", label: "Σχέδια & Κατόψεις", icon: RiRulerLine },
   { key: "PHOTOS", label: "Φωτογραφίες", icon: RiImageLine },
@@ -23,6 +23,20 @@ const CATS: { key: string; label: string; icon: React.ElementType }[] = [
   { key: "CERTIFICATES", label: "Πιστοποιητικά", icon: RiShieldCheckLine },
   { key: "OTHER", label: "Λοιπά", icon: RiFolderLine },
 ];
+
+/** Resize images to WebP and upload each file into the building's folder; stops at the first error and returns it. */
+export async function uploadBuildingFiles(buildingId: string, category: string, fileList: FileList | File[]): Promise<string | null> {
+  for (const raw of Array.from(fileList)) {
+    const file = await toWebpResized(raw);
+    const fd = new FormData();
+    fd.set("buildingId", buildingId);
+    fd.set("category", category);
+    fd.set("file", file);
+    const res = await uploadBuildingFile(fd);
+    if (res && "error" in res && res.error) return res.error;
+  }
+  return null;
+}
 
 function fmtSize(b: number | null) {
   if (!b) return "";
@@ -56,15 +70,8 @@ export function FilesPanel({ buildingId, files, can }: { buildingId: string; fil
     if (!fileList || fileList.length === 0) return;
     setError(null);
     startTransition(async () => {
-      for (const raw of Array.from(fileList)) {
-        const file = await toWebpResized(raw);
-        const fd = new FormData();
-        fd.set("buildingId", buildingId);
-        fd.set("category", uploadCat);
-        fd.set("file", file);
-        const res = await uploadBuildingFile(fd);
-        if (res && "error" in res && res.error) { setError(res.error); break; }
-      }
+      const err = await uploadBuildingFiles(buildingId, uploadCat, fileList);
+      if (err) setError(err);
       if (inputRef.current) inputRef.current.value = "";
       router.refresh();
     });
@@ -83,7 +90,7 @@ export function FilesPanel({ buildingId, files, can }: { buildingId: string; fil
         {can.manageFiles && (
           <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
             <select value={uploadCat} onChange={(e) => setUploadCat(e.target.value)} style={selectStyle}>
-              {CATS.filter((c) => c.key !== "ALL").map((c) => <option key={c.key} value={c.key}>{c.label}</option>)}
+              {FILE_CATS.filter((c) => c.key !== "ALL").map((c) => <option key={c.key} value={c.key}>{c.label}</option>)}
             </select>
             <button onClick={() => inputRef.current?.click()} disabled={isPending} style={{ ...btn, ...btnPrimary }}>
               {isPending ? <RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> : <RiUploadCloud2Line />} Ανέβασμα
@@ -97,7 +104,7 @@ export function FilesPanel({ buildingId, files, can }: { buildingId: string; fil
 
       {/* category filters (wrap, never scroll) */}
       <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 16 }}>
-        {CATS.map((c) => {
+        {FILE_CATS.map((c) => {
           const Icon = c.icon;
           const active = cat === c.key;
           const count = c.key === "ALL" ? files.length : files.filter((f) => f.category === c.key).length;

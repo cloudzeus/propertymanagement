@@ -132,7 +132,7 @@ export function ManagedItemsPanel({ buildingId, items, itemTypes, floorOptions, 
   );
 }
 
-function ManagedItemModal({ buildingId, itemTypes, floorOptions, commonAreas, editing, onClose, onDone }: { buildingId: string; itemTypes: ManagedItemTypeOption[]; floorOptions: string[]; commonAreas: CommonAreaOption[]; editing: ManagedItemRow | null; onClose: () => void; onDone: () => void }) {
+export function ManagedItemModal({ buildingId, itemTypes, floorOptions, commonAreas, editing, onClose, onDone }: { buildingId: string; itemTypes: ManagedItemTypeOption[]; floorOptions: string[]; commonAreas: CommonAreaOption[]; editing: ManagedItemRow | null; onClose: () => void; onDone: () => void }) {
   const [form, setForm] = useState({
     itemTypeId: editing?.itemTypeId ?? "",
     location: editing?.location ?? "",

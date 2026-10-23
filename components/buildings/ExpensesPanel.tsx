@@ -8,9 +8,10 @@ import {
 } from "react-icons/ri";
 import { ExpenseOcrUpload } from "./ExpenseOcrUpload";
 import { ExpenseEditModal } from "./ExpenseEditModal";
+import { IssuanceModal } from "./IssuanceModal";
 import { AllocationBreakdown } from "./AllocationBreakdown";
 import { type CategorySplit } from "./ExpenseReviewForm";
-import { deleteBuildingExpense, includeExpensesInIssuance, type ExpenseRowDTO } from "@/app/actions/building-expenses";
+import { deleteBuildingExpense, type ExpenseRowDTO } from "@/app/actions/building-expenses";
 import type { BuildingCaps } from "@/lib/building-caps";
 
 export type ExpenseRow = ExpenseRowDTO;
@@ -38,6 +39,7 @@ export function ExpensesPanel({
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
   const [menuId, setMenuId] = useState<string | null>(null);
   const [editing, setEditing] = useState<ExpenseRow | null>(null);
+  const [issuing, setIssuing] = useState(false);
 
   const selectable = expenses.filter((e) => e.status !== "ISSUED");
   const allSelected = selectable.length > 0 && selectable.every((e) => selected.has(e.id));
@@ -58,21 +60,6 @@ export function ExpensesPanel({
     startTransition(async () => { try { await deleteBuildingExpense(id); router.refresh(); } catch (e) { alert(e instanceof Error ? e.message : "Σφάλμα"); } });
   }
 
-  function includeInIssuance() {
-    const ids = [...selected];
-    if (!ids.length) return;
-    const month = prompt("Μήνας έκδοσης κοινοχρήστων (YYYY-MM):", new Date().toISOString().slice(0, 7));
-    if (!month) return;
-    startTransition(async () => {
-      try {
-        const res = await includeExpensesInIssuance(buildingId, ids, month);
-        setSelected(new Set());
-        router.refresh();
-        alert(`${res.count} έξοδα συμπεριλήφθηκαν στην έκδοση ${month}.`);
-      } catch (e) { alert(e instanceof Error ? e.message : "Σφάλμα"); }
-    });
-  }
-
   return (
     <div>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 14, gap: 10, flexWrap: "wrap" }}>
@@ -82,7 +69,7 @@ export function ExpensesPanel({
         {can.manageExpenses && (
           <div style={{ display: "flex", gap: 8 }}>
             {selected.size > 0 && (
-              <button onClick={includeInIssuance} disabled={isPending} style={btnIssue}>
+              <button onClick={() => setIssuing(true)} disabled={isPending} style={btnIssue}>
                 <RiSecurePaymentLine /> Συμπερίληψη σε έκδοση ({selected.size})
               </button>
             )}
@@ -188,6 +175,10 @@ export function ExpensesPanel({
       )}
 
       {editing && <ExpenseEditModal open={!!editing} onClose={() => setEditing(null)} expense={editing} categories={categories} />}
+      {issuing && (
+        <IssuanceModal buildingId={buildingId} expenses={expenses} initialSelected={selected} onClose={() => setIssuing(false)}
+          onDone={({ count, month }) => { setIssuing(false); setSelected(new Set()); router.refresh(); alert(`${count} έξοδα συμπεριλήφθηκαν στην έκδοση ${month}.`); }} />
+      )}
     </div>
   );
 }

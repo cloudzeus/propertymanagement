@@ -31,4 +31,14 @@ describe("quick actions", () => {
     expect(work).toEqual(expect.arrayContaining(["report", "faults"]));
     expect(quickActionsTitle("/admin/work", "ADMIN")).toBe("Κέντρο εργασιών");
   });
+  it("building pages deep-link into the «Ενέργειες» menu of that building (?action=)", () => {
+    const res = resolveQuickActions({ pathname: "/super-admin/buildings/b1", role: "SUPER_ADMIN", allowed, canExpense: true });
+    expect(res.map((a) => a.key)).toEqual(["b-fault", "b-expense", "b-koino", "b-announcement", "printables"]);
+    expect(res[0].href).toBe("/super-admin/buildings/b1?action=fault-new");
+    expect(quickActionsTitle("/super-admin/buildings/b1", "SUPER_ADMIN")).toBe("Το κτήριο");
+    const mgr = resolveQuickActions({ pathname: "/building/b1?s=finance", role: "PROPERTY_ADMIN", allowed, canExpense: true });
+    expect(mgr[0].href).toBe("/building/b1?action=fault-new");
+    // the list page is not a building page
+    expect(resolveQuickActions({ pathname: "/super-admin/buildings", role: "SUPER_ADMIN", allowed, canExpense: true }).map((a) => a.key)).not.toContain("b-fault");
+  });
 });

@@ -70,7 +70,7 @@ export function ContactsPanel({ buildingId, contacts, can }: { buildingId: strin
   );
 }
 
-function ContactModal({ buildingId, editing, onClose, onDone }: { buildingId: string; editing: ContactRow | null; onClose: () => void; onDone: () => void }) {
+export function ContactModal({ buildingId, editing, onClose, onDone }: { buildingId: string; editing: ContactRow | null; onClose: () => void; onDone: () => void }) {
   const [form, setForm] = useState({ name: editing?.name ?? "", category: editing?.category ?? "", phone: editing?.phone ?? "", email: editing?.email ?? "", notes: editing?.notes ?? "" });
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();

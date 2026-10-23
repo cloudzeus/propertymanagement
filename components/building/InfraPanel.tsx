@@ -215,7 +215,7 @@ function PeoplePicker({ buildingId, multi, selected, onChange, placeholder }: {
   );
 }
 
-function InfraModal({ buildingId, floorOptions, editing, onClose, onDone }: { buildingId: string; floorOptions: string[]; editing: InfraRow | null; onClose: () => void; onDone: () => void }) {
+export function InfraModal({ buildingId, floorOptions, editing, onClose, onDone }: { buildingId: string; floorOptions: string[]; editing: InfraRow | null; onClose: () => void; onDone: () => void }) {
   const router = useRouter();
   const [tab, setTab] = useState<"info" | "media">("info");
   const [form, setForm] = useState({ name: editing?.name ?? "", type: (editing?.type ?? "OTHER") as InfraType, floorLabel: editing?.floorLabel ?? "", location: editing?.location ?? "", locked: editing?.locked ?? false, notes: editing?.notes ?? "" });

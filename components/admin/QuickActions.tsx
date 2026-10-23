@@ -6,7 +6,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 import {
   RiFlashlightLine, RiCloseLine, RiAlarmWarningLine, RiMoneyEuroCircleLine, RiToolsLine, RiFileTextLine, RiCalendarTodoLine, RiCalendarLine,
   RiNotification2Line, RiTeamLine, RiPriceTag3Line, RiContactsLine, RiCommunityLine, RiRobot2Line, RiGroupLine, RiShieldUserLine, RiSettings3Line,
-  RiBuilding2Line, RiLayoutLine, RiArticleLine, RiImage2Line, RiMailCheckLine, RiFileListLine, RiQuestionLine, RiTruckLine, RiMoneyDollarCircleLine, RiStoreLine, RiArrowRightSLine, RiTimerLine, RiTaskLine,
+  RiBuilding2Line, RiLayoutLine, RiArticleLine, RiImage2Line, RiMailCheckLine, RiFileListLine, RiQuestionLine, RiTruckLine, RiMoneyDollarCircleLine, RiStoreLine, RiArrowRightSLine, RiTimerLine, RiTaskLine, RiWallet3Line,
 } from "react-icons/ri";
 import { resolveQuickActions, quickActionsTitle, type QuickAction } from "@/lib/quick-actions";
 import { ExpenseQuickModal } from "@/components/buildings/GlobalExpenseButton";
@@ -15,7 +15,7 @@ import type { ManageableBuilding } from "@/app/actions/building-expenses";
 const ICONS: Record<string, React.ElementType> = {
   RiAlarmWarningLine, RiMoneyEuroCircleLine, RiToolsLine, RiFileTextLine, RiCalendarTodoLine, RiCalendarLine, RiNotification2Line, RiTeamLine, RiPriceTag3Line,
   RiContactsLine, RiCommunityLine, RiRobot2Line, RiGroupLine, RiShieldUserLine, RiSettings3Line, RiBuilding2Line, RiLayoutLine, RiArticleLine, RiImage2Line,
-  RiMailCheckLine, RiFileListLine, RiQuestionLine, RiTruckLine, RiMoneyDollarCircleLine, RiStoreLine, RiTimerLine, RiTaskLine,
+  RiMailCheckLine, RiFileListLine, RiQuestionLine, RiTruckLine, RiMoneyDollarCircleLine, RiStoreLine, RiTimerLine, RiTaskLine, RiWallet3Line,
 };
 
 /**

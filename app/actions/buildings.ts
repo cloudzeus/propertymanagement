@@ -276,3 +276,19 @@ export async function recalculateMillesimes(buildingId: string) {
   publishBuildingEvent(buildingId, "unit");
   return { updated };
 }
+
+/** Master data of one building for the «Στοιχεία κτηρίου» modal (super-admin only — `updateBuilding` is too). */
+export async function getBuildingForEdit(id: string) {
+  await requireSuperAdmin();
+  const b = await db.building.findUnique({
+    where: { id },
+    select: {
+      id: true, propertyId: true, name: true, address: true, city: true, postalCode: true, country: true,
+      floors: true, basements: true, hasElevator: true, hasBoiler: true, hasFireSafety: true, technicalNotes: true, lat: true, lng: true,
+      property: { select: { address: true, city: true, postalCode: true, country: true, lat: true, lng: true } },
+    },
+  });
+  if (!b) throw new Error("Building not found");
+  const { property, ...building } = b;
+  return { building, propertyAddress: property };
+}
