@@ -46,7 +46,7 @@ export function ForwardOfferDialog({ ctx, onDone, onClose }: DialogProps) {
               {offers.length > 1 && <input type="radio" name="offer" checked={o.id === offerId} onChange={() => pick(o)} />}
               <b>{o.supplierName}</b>
               <span style={{ fontWeight: 700 }}>{eur(o.amount)} <span style={{ fontWeight: 400, color: "var(--muted-foreground)" }}>+ ΦΠΑ {o.vatPct}%</span></span>
-              {o.supplierRating != null && <span style={{ display: "inline-flex", alignItems: "center", gap: 3, color: "#b45309", fontSize: "var(--fs-12)" }}><RiStarFill /> {o.supplierRating.toFixed(1)}</span>}
+              {o.supplierRating != null && <span style={{ display: "inline-flex", alignItems: "center", gap: 3, color: "var(--color-warning)", fontSize: "var(--fs-12)" }}><RiStarFill /> {o.supplierRating.toFixed(1)}</span>}
               <span style={muted}>από {fmtD(o.earliestDate)} · έως {fmtD(o.validUntil)}</span>
             </label>
           ))}

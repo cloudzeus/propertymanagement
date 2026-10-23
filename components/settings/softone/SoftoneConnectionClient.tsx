@@ -65,7 +65,7 @@ export function SoftoneConnectionClient({ initial }: { initial: SoftoneConnectio
       </div>
 
       {!initial.encryptionReady && (
-        <div style={{ display: "flex", gap: 8, alignItems: "flex-start", padding: "10px 14px", borderRadius: 8, background: "#CA5D0014", border: "1px solid #CA5D0040", color: "#CA5D00", fontSize: "var(--fs-12-5)" }}>
+        <div style={{ display: "flex", gap: 8, alignItems: "flex-start", padding: "10px 14px", borderRadius: 8, background: "color-mix(in srgb, var(--color-warning) 8%, transparent)", border: "1px solid color-mix(in srgb, var(--color-warning) 25%, transparent)", color: "var(--color-warning)", fontSize: "var(--fs-12-5)" }}>
           <RiShieldKeyholeLine style={{ marginTop: 2, flexShrink: 0 }} />
           <span>Δεν έχει οριστεί <code>SECRETS_ENCRYPTION_KEY</code> σε αυτόν τον server: η αποθήκευση κωδικού θα αποτύχει. Η «Δοκιμή σύνδεσης» δουλεύει κανονικά με τον κωδικό που πληκτρολογείτε.</span>
         </div>
@@ -146,10 +146,10 @@ export function SoftoneConnectionClient({ initial }: { initial: SoftoneConnectio
       </div>
 
       {(test || initial.lastPingAt) && (
-        <div style={{ ...S1_CARD, borderColor: test ? (test.ok ? "#2E7D5B60" : "#C0392B60") : "var(--border)" }}>
+        <div style={{ ...S1_CARD, borderColor: test ? (test.ok ? "color-mix(in srgb, var(--color-success) 38%, transparent)" : "color-mix(in srgb, var(--color-danger) 38%, transparent)") : "var(--border)" }}>
           {test ? (
             <>
-              <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: "var(--fs-14)", fontWeight: 700, color: test.ok ? "#2E7D5B" : "#C0392B" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: "var(--fs-14)", fontWeight: 700, color: test.ok ? "var(--color-success)" : "var(--color-danger)" }}>
                 {test.ok ? <RiCheckboxCircleLine /> : <RiCloseCircleLine />} {test.message}
               </div>
               {!test.ok && (
@@ -171,7 +171,7 @@ export function SoftoneConnectionClient({ initial }: { initial: SoftoneConnectio
                         {test.companies.map((c, i) => {
                           const sel = test.selected === c;
                           return (
-                            <tr key={i} style={{ background: sel ? "#2E7D5B14" : undefined }}>
+                            <tr key={i} style={{ background: sel ? "color-mix(in srgb, var(--color-success) 8%, transparent)" : undefined }}>
                               <td style={{ padding: "6px 10px" }}>{String(c.COMPANY ?? "")}</td><td style={{ padding: "6px 10px" }}>{String(c.COMPANYNAME ?? "")}</td>
                               <td style={{ padding: "6px 10px" }}>{String(c.BRANCH ?? "")}</td><td style={{ padding: "6px 10px" }}>{String(c.BRANCHNAME ?? "")}</td>
                               <td style={{ padding: "6px 10px" }}>{String(c.MODULE ?? "")}{c.MODULENAME ? ` · ${c.MODULENAME}` : ""}</td>
@@ -187,7 +187,7 @@ export function SoftoneConnectionClient({ initial }: { initial: SoftoneConnectio
             </>
           ) : (
             <div style={{ fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)", display: "flex", alignItems: "center", gap: 8 }}>
-              {initial.lastPingOk ? <RiCheckboxCircleLine style={{ color: "#2E7D5B" }} /> : <RiCloseCircleLine style={{ color: "#C0392B" }} />}
+              {initial.lastPingOk ? <RiCheckboxCircleLine style={{ color: "var(--color-success)" }} /> : <RiCloseCircleLine style={{ color: "var(--color-danger)" }} />}
               Τελευταία δοκιμή {fmtDate(initial.lastPingAt)}: {initial.lastPingMessage}
             </div>
           )}

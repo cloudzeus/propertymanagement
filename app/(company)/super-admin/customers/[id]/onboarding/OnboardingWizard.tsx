@@ -116,7 +116,7 @@ export function OnboardingWizard({ customerId, customerName, customers }: { cust
                 <option value="">— Επιλέξτε —</option>
                 {(Object.keys(HEATING_LABEL) as HeatingType[]).map((h) => <option key={h} value={h}>{HEATING_LABEL[h]}</option>)}
               </select>
-              {info.heatingType && <span className="mt-1 inline-block rounded bg-amber-50 px-1.5 py-0.5 text-[length:var(--fs-11)] font-medium text-amber-700">{method}</span>}
+              {info.heatingType && <span className="mt-1 inline-block rounded bg-[var(--warning-soft)] px-1.5 py-0.5 text-[length:var(--fs-11)] font-medium text-[var(--color-warning)]">{method}</span>}
             </div>
 
             <div className="sm:col-span-2">
@@ -199,7 +199,7 @@ export function OnboardingWizard({ customerId, customerName, customers }: { cust
                         <td className="text-right tabular-nums text-[var(--muted-foreground)]">{mil.g.get(String(i)) ?? "—"}</td>
                         <td className="text-right tabular-nums text-[var(--muted-foreground)]">{mil.e ? (mil.e.get(String(i)) ?? (missingArea ? "—" : 0)) : "—"}</td>
                         <td className="text-right">
-                          <button type="button" onClick={() => removeUnit(i)} aria-label="Διαγραφή" className="inline-flex h-7 w-7 items-center justify-center rounded text-[var(--muted-foreground)] transition-colors hover:bg-red-50 hover:text-red-600">
+                          <button type="button" onClick={() => removeUnit(i)} aria-label="Διαγραφή" className="inline-flex h-7 w-7 items-center justify-center rounded text-[var(--muted-foreground)] transition-colors hover:bg-[var(--danger-soft)] hover:text-[var(--color-danger)]">
                             <RiDeleteBinLine />
                           </button>
                         </td>
@@ -208,8 +208,8 @@ export function OnboardingWizard({ customerId, customerName, customers }: { cust
                   })}
                   <tr className="text-[length:var(--fs-13)] font-semibold">
                     <td className="pt-1" colSpan={4}>Σύνολο</td>
-                    <td className={`pt-1 text-right tabular-nums ${gSumOk ? "text-emerald-600" : "text-red-500"}`}>{Math.round(mil.gSum)}{gSumOk && <RiCheckLine className="ml-0.5 inline" />}</td>
-                    <td className={`pt-1 text-right tabular-nums ${!mil.e ? "text-[var(--muted-foreground)]" : eSumOk ? "text-emerald-600" : "text-red-500"}`}>{mil.e ? Math.round(mil.eSum) : "—"}</td>
+                    <td className={`pt-1 text-right tabular-nums ${gSumOk ? "text-[var(--color-success)]" : "text-[var(--color-danger)]"}`}>{Math.round(mil.gSum)}{gSumOk && <RiCheckLine className="ml-0.5 inline" />}</td>
+                    <td className={`pt-1 text-right tabular-nums ${!mil.e ? "text-[var(--muted-foreground)]" : eSumOk ? "text-[var(--color-success)]" : "text-[var(--color-danger)]"}`}>{mil.e ? Math.round(mil.eSum) : "—"}</td>
                     <td />
                   </tr>
                 </tbody>
@@ -218,7 +218,7 @@ export function OnboardingWizard({ customerId, customerName, customers }: { cust
           )}
         </section>
 
-        {err && <div className="mt-4 rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">{err}</div>}
+        {err && <div className="mt-4 rounded-md border border-red-200 bg-[var(--danger-soft)] px-3 py-2 text-sm text-[var(--color-danger)]">{err}</div>}
       </div>
 
       {/* Sticky footer action bar */}

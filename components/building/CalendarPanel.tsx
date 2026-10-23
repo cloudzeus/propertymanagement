@@ -247,7 +247,7 @@ export function TaskModal({ buildingId, editing, onClose, onComplete, onDone }: 
   return (
     <Modal open onClose={onClose} title={editing ? "Επεξεργασία εργασίας" : "Νέα επαναλαμβανόμενη εργασία"} width={500}
       footer={<>
-        {editing && <button onClick={del} disabled={isPending} style={{ ...cancelBtn, color: "#c50f1f", marginRight: "auto" }}><RiDeleteBinLine /> Διαγραφή</button>}
+        {editing && <button onClick={del} disabled={isPending} style={{ ...cancelBtn, color: "var(--color-danger)", marginRight: "auto" }}><RiDeleteBinLine /> Διαγραφή</button>}
         {editing && <button onClick={() => onComplete(editing)} disabled={isPending} style={cancelBtn}><RiCheckboxCircleLine /> Ολοκλήρωση</button>}
         <button onClick={onClose} style={cancelBtn}>Ακύρωση</button>
         <button onClick={save} disabled={isPending} style={saveBtn}>{isPending ? <RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> : <RiCheckLine />} Αποθήκευση</button>
@@ -314,4 +314,4 @@ const btnPrimary: React.CSSProperties = { background: "var(--color-primary)", co
 const iconBtn: React.CSSProperties = { display: "inline-flex", alignItems: "center", justifyContent: "center", width: 32, height: 32, border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)", borderRadius: 6, cursor: "pointer" };
 const cancelBtn: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 6, padding: "7px 14px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: "var(--fs-13)", color: "var(--foreground)" };
 const saveBtn: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: "pointer", fontSize: "var(--fs-13)", fontWeight: 600, display: "flex", alignItems: "center", gap: 6 };
-const errBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: "var(--fs-12)", marginBottom: 12 };
+const errBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "var(--danger-soft)", color: "var(--color-danger)", fontSize: "var(--fs-12)", marginBottom: 12 };

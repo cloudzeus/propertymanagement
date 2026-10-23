@@ -102,19 +102,19 @@ export function CookieConsent({ config, enabled }: { config: ConsentConfig; enab
   };
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-200 shadow-lg">
+    <div className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-[var(--border)] shadow-lg">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="py-6">
           {!showDetails ? (
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div className="flex-1">
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                <h3 className="text-lg font-semibold text-[var(--foreground)] mb-2">
                   {pickLocale(config.title, locale)}
                 </h3>
-                <p className="text-sm text-gray-600">{pickLocale(config.body, locale)}</p>
+                <p className="text-sm text-[var(--muted-foreground)]">{pickLocale(config.body, locale)}</p>
                 <button
                   onClick={() => setShowDetails(true)}
-                  className="mt-2 text-sm text-blue-600 hover:text-blue-700 font-medium"
+                  className="mt-2 text-sm text-[var(--color-info)] hover:text-[var(--color-info)] font-medium"
                 >
                   {tt('Μάθετε περισσότερα', 'Learn more')}
                 </button>
@@ -123,13 +123,13 @@ export function CookieConsent({ config, enabled }: { config: ConsentConfig; enab
               <div className="flex gap-3 whitespace-nowrap">
                 <button
                   onClick={handleRejectAll}
-                  className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
+                  className="px-4 py-2 text-sm font-medium text-[var(--muted-foreground)] bg-white border border-[var(--border)] rounded-md hover:bg-[var(--paper)]"
                 >
                   {tt('Απόρριψη όλων', 'Reject All')}
                 </button>
                 <button
                   onClick={handleAcceptAll}
-                  className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700"
+                  className="px-4 py-2 text-sm font-medium text-white bg-[var(--color-primary)] rounded-md hover:bg-[var(--color-primary)]"
                 >
                   {tt('Αποδοχή όλων', 'Accept All')}
                 </button>
@@ -137,7 +137,7 @@ export function CookieConsent({ config, enabled }: { config: ConsentConfig; enab
             </div>
           ) : (
             <div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">
+              <h3 className="text-lg font-semibold text-[var(--foreground)] mb-4">
                 {pickLocale(config.title, locale)}
               </h3>
 
@@ -148,7 +148,7 @@ export function CookieConsent({ config, enabled }: { config: ConsentConfig; enab
                   return (
                     <div
                       key={cat.key}
-                      className={`border rounded-lg p-4 ${cat.required ? 'bg-gray-50' : ''}`}
+                      className={`border rounded-lg p-4 ${cat.required ? 'bg-[var(--paper)]' : ''}`}
                     >
                       <div className="flex items-start gap-3">
                         <input
@@ -162,10 +162,10 @@ export function CookieConsent({ config, enabled }: { config: ConsentConfig; enab
                           className="mt-1.5 rounded"
                         />
                         <div className="flex-1">
-                          <h4 className="font-medium text-gray-900">
+                          <h4 className="font-medium text-[var(--foreground)]">
                             {pickLocale(cat.label, locale)}
                           </h4>
-                          <p className="text-sm text-gray-600 mt-1">
+                          <p className="text-sm text-[var(--muted-foreground)] mt-1">
                             {pickLocale(cat.description, locale)}
                           </p>
                         </div>
@@ -178,26 +178,26 @@ export function CookieConsent({ config, enabled }: { config: ConsentConfig; enab
               <div className="flex gap-3 justify-end">
                 <button
                   onClick={handleRejectAll}
-                  className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
+                  className="px-4 py-2 text-sm font-medium text-[var(--muted-foreground)] bg-white border border-[var(--border)] rounded-md hover:bg-[var(--paper)]"
                 >
                   {tt('Απόρριψη όλων', 'Reject All')}
                 </button>
                 <button
                   onClick={() => setShowDetails(false)}
-                  className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
+                  className="px-4 py-2 text-sm font-medium text-[var(--muted-foreground)] bg-white border border-[var(--border)] rounded-md hover:bg-[var(--paper)]"
                 >
                   {tt('Πίσω', 'Back')}
                 </button>
                 <button
                   onClick={handleSavePreferences}
-                  className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700"
+                  className="px-4 py-2 text-sm font-medium text-white bg-[var(--color-primary)] rounded-md hover:bg-[var(--color-primary)]"
                 >
                   {tt('Αποθήκευση προτιμήσεων', 'Save Preferences')}
                 </button>
               </div>
 
-              <div className="mt-4 pt-4 border-t text-xs text-gray-500 flex gap-4">
-                <Link href={config.policyLink} className="hover:text-gray-700">
+              <div className="mt-4 pt-4 border-t text-xs text-[var(--muted-foreground)] flex gap-4">
+                <Link href={config.policyLink} className="hover:text-[var(--muted-foreground)]">
                   {locale === 'el' ? 'Πολιτική Cookies' : 'Cookie Policy'}
                 </Link>
               </div>

@@ -56,7 +56,7 @@ export function ResidentsClient({ rows, assignables, canCreate, canEdit, canDele
       cell: (p) => <Chip n={p.residentsCount} of={p.unitsCount} tone="green" /> },
     { id: "vacant", header: "Κενές", width: 90, accessor: (p) => p.vacantCount,
       cell: (p) => p.vacantCount > 0
-        ? <span style={{ fontSize: "var(--fs-11)", fontWeight: 700, padding: "2px 8px", borderRadius: 9999, background: "var(--color-orange-soft, #f9731618)", color: "var(--color-orange, #ea580c)" }}>{p.vacantCount}</span>
+        ? <span style={{ fontSize: "var(--fs-11)", fontWeight: 700, padding: "2px 8px", borderRadius: 9999, background: "var(--color-orange-soft, color-mix(in srgb, var(--color-warning) 9%, transparent))", color: "var(--color-orange, var(--color-warning))" }}>{p.vacantCount}</span>
         : <span style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>—</span> },
   ];
 
@@ -183,11 +183,11 @@ function OccupantCell({ unit, role, occ, busy, canCreate, canEdit, canDelete, on
       </td>
     );
   }
-  const tone = role === "OWNER" ? "var(--color-blue, #2563eb)" : "var(--color-green, #16a34a)";
+  const tone = role === "OWNER" ? "var(--color-blue, var(--color-info))" : "var(--color-green, var(--color-success))";
   return (
     <td style={td}>
       <div style={{ display: "flex", alignItems: "center", gap: 8, minWidth: 0 }}>
-        <div style={{ width: 24, height: 24, borderRadius: "50%", flexShrink: 0, background: `${role === "OWNER" ? "var(--color-blue-soft, #2563eb18)" : "var(--color-green-soft, #16a34a18)"}`, color: tone, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "var(--fs-10)", fontWeight: 700 }}>
+        <div style={{ width: 24, height: 24, borderRadius: "50%", flexShrink: 0, background: `${role === "OWNER" ? "var(--color-blue-soft, color-mix(in srgb, var(--color-info) 9%, transparent))" : "var(--color-green-soft, color-mix(in srgb, var(--color-success) 9%, transparent))"}`, color: tone, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "var(--fs-10)", fontWeight: 700 }}>
           {(occ.name ?? occ.email)[0]?.toUpperCase()}
         </div>
         <div style={{ minWidth: 0 }}>
@@ -203,7 +203,7 @@ function OccupantCell({ unit, role, occ, busy, canCreate, canEdit, canDelete, on
             </button>
           )}
           {canDelete && (
-            <button onClick={() => onRemove(occ)} disabled={busy} style={{ ...iconBtn, color: "var(--color-destructive, #dc2626)" }} title="Αφαίρεση από τη μονάδα">
+            <button onClick={() => onRemove(occ)} disabled={busy} style={{ ...iconBtn, color: "var(--color-destructive, var(--color-danger))" }} title="Αφαίρεση από τη μονάδα">
               {busy ? <RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> : <RiUserUnfollowLine />}
             </button>
           )}
@@ -342,8 +342,8 @@ function Count({ icon, n }: { icon: React.ReactNode; n: number }) {
 }
 
 function Chip({ n, of, tone }: { n: number; of: number; tone: "blue" | "green" }) {
-  const bg = tone === "blue" ? "var(--color-blue-soft, #2563eb18)" : "var(--color-green-soft, #16a34a18)";
-  const fg = tone === "blue" ? "var(--color-blue, #2563eb)" : "var(--color-green, #16a34a)";
+  const bg = tone === "blue" ? "var(--color-blue-soft, color-mix(in srgb, var(--color-info) 9%, transparent))" : "var(--color-green-soft, color-mix(in srgb, var(--color-success) 9%, transparent))";
+  const fg = tone === "blue" ? "var(--color-blue, var(--color-info))" : "var(--color-green, var(--color-success))";
   return <span style={{ fontSize: "var(--fs-11)", fontWeight: 700, padding: "2px 8px", borderRadius: 9999, background: bg, color: fg }}>{n}/{of}</span>;
 }
 
@@ -364,4 +364,4 @@ const ghostBtn: React.CSSProperties = { display: "inline-flex", alignItems: "cen
 const iconBtn: React.CSSProperties = { display: "inline-flex", alignItems: "center", justifyContent: "center", width: 26, height: 26, border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)", borderRadius: 5, fontSize: "var(--fs-13)", cursor: "pointer" };
 const cancelBtn: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: "var(--fs-13)", color: "var(--foreground)" };
 const primaryBtn: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: "pointer", fontSize: "var(--fs-13)", fontWeight: 600, display: "flex", alignItems: "center", gap: 6 };
-const errBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "#fee2e240", color: "#dc2626", fontSize: "var(--fs-12)", marginBottom: 12 };
+const errBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "var(--danger-soft)", color: "var(--color-danger)", fontSize: "var(--fs-12)", marginBottom: 12 };

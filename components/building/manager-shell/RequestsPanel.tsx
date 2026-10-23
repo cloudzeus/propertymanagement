@@ -12,7 +12,7 @@ export type RequestRow = {
 };
 
 const PRIORITY_COLORS: Record<string, string> = {
-  URGENT: "#c50f1f", HIGH: "#CA5D00", NORMAL: "#0078D4", LOW: "#707070",
+  URGENT: "var(--color-danger)", HIGH: "var(--color-warning)", NORMAL: "var(--color-info)", LOW: "var(--muted-foreground)",
 };
 
 function fmtDay(iso: string | null): string {
@@ -51,7 +51,7 @@ export function RequestsPanel({ buildingId, buildingName, units, requests, categ
         ) : (
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             {requests.map((r) => {
-              const statusColor = STATUS_COLORS[r.status as FaultStatus] ?? "#6b7280";
+              const statusColor = STATUS_COLORS[r.status as FaultStatus] ?? "var(--muted-foreground)";
               const statusLabel = STATUS_LABELS[r.status as FaultStatus] ?? r.status;
               const prColor = PRIORITY_COLORS[r.priority] ?? PRIORITY_COLORS.NORMAL;
               const prLabel = PRIORITY_LABELS[r.priority as FaultPriority] ?? r.priority;
@@ -72,8 +72,8 @@ export function RequestsPanel({ buildingId, buildingName, units, requests, categ
                       {r.scheduledDate && <span>Προγραμματισμένο: {fmtDay(r.scheduledDate)}</span>}
                     </div>
                   </div>
-                  <span style={{ flexShrink: 0, fontSize: "var(--fs-10)", fontWeight: 700, padding: "2px 8px", borderRadius: 9999, background: `${prColor}18`, color: prColor }}>{prLabel}</span>
-                  <span style={{ flexShrink: 0, fontSize: "var(--fs-10)", fontWeight: 700, padding: "2px 8px", borderRadius: 9999, background: `${statusColor}18`, color: statusColor }}>{statusLabel}</span>
+                  <span style={{ flexShrink: 0, fontSize: "var(--fs-10)", fontWeight: 700, padding: "2px 8px", borderRadius: 9999, background: `color-mix(in srgb, ${prColor} 9%, transparent)`, color: prColor }}>{prLabel}</span>
+                  <span style={{ flexShrink: 0, fontSize: "var(--fs-10)", fontWeight: 700, padding: "2px 8px", borderRadius: 9999, background: `color-mix(in srgb, ${statusColor} 9%, transparent)`, color: statusColor }}>{statusLabel}</span>
                 </div>
               );
             })}

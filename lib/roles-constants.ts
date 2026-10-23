@@ -47,10 +47,10 @@ export const ROLE_LABELS: Record<string, string> = {
 
 /** Badge color per role (Fluent palette). */
 export const ROLE_COLORS: Record<string, string> = {
-  SUPER_ADMIN: "#A4262C", ADMIN: "#0078D4", MANAGER: "#8764B8", EMPLOYEE: "#CA5D00",
-  PROPERTY_ADMIN: "#038387", PROPERTY_OWNER: "#8764B8", PROPERTY_RESIDENT: "#0078D4",
-  PROPERTY_VIEWER: "#707070", COLLABORATOR: "#107C10",
+  SUPER_ADMIN: "var(--color-danger)", ADMIN: "var(--color-info)", MANAGER: "var(--color-purple)", EMPLOYEE: "var(--color-warning)",
+  PROPERTY_ADMIN: "var(--color-teal)", PROPERTY_OWNER: "var(--color-purple)", PROPERTY_RESIDENT: "var(--color-info)",
+  PROPERTY_VIEWER: "var(--muted-foreground)", COLLABORATOR: "var(--color-success)",
 };
 
 export const roleLabel = (role: string) => ROLE_LABELS[role] ?? role;
-export const roleColor = (role: string) => ROLE_COLORS[role] ?? "#707070";
+export const roleColor = (role: string) => ROLE_COLORS[role] ?? "var(--muted-foreground)";

@@ -143,9 +143,9 @@ export default async function ManagerPropertyDetailPage({ params }: Props) {
               {property.units.map((unit) => (
                 <div key={unit.id} style={{
                   padding: "3px 7px", borderRadius: 4, fontSize: "var(--fs-11)", fontWeight: 600,
-                  background: unit.residentId ? "#16a34a18" : "var(--bg-canvas)",
-                  color: unit.residentId ? "#16a34a" : "var(--muted-foreground)",
-                  border: `1px solid ${unit.residentId ? "#16a34a30" : "var(--border)"}`,
+                  background: unit.residentId ? "color-mix(in srgb, var(--color-success) 9%, transparent)" : "var(--bg-canvas)",
+                  color: unit.residentId ? "var(--color-success)" : "var(--muted-foreground)",
+                  border: `1px solid ${unit.residentId ? "color-mix(in srgb, var(--color-success) 19%, transparent)" : "var(--border)"}`,
                 }}>
                   {unit.unitNumber}
                 </div>

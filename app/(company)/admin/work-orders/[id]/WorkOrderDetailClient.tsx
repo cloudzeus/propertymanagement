@@ -19,7 +19,7 @@ const pill: React.CSSProperties = { display: "inline-flex", alignItems: "center"
 export function WorkOrderDetailClient({ detail, viewer }: { detail: WorkOrderDetail; viewer: WorkActionViewer }) {
   const { wo, events } = detail;
   const wa = useWorkActions({ viewer, where: "detail" });
-  const color = WO_STATUS_COLORS[wo.status] ?? "#6b7280";
+  const color = WO_STATUS_COLORS[wo.status] ?? "var(--muted-foreground)";
   const margin = wo.customerPrice - (wo.supplierPrice ?? 0);
 
   return (
@@ -31,14 +31,14 @@ export function WorkOrderDetailClient({ detail, viewer }: { detail: WorkOrderDet
       <div style={card}>
         <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 10, marginBottom: 8 }}>
           <h1 style={{ fontSize: "var(--fs-19)", fontWeight: 700, color: "var(--foreground)", margin: 0, flex: 1, minWidth: 200 }}>{wo.number} · {wo.title}</h1>
-          <span style={{ ...pill, color, borderColor: `${color}55`, background: `${color}10` }}>{WO_STATUS_LABELS[wo.status] ?? wo.status}</span>
+          <span style={{ ...pill, color, borderColor: `color-mix(in srgb, ${color} 33%, transparent)`, background: `color-mix(in srgb, ${color} 6%, transparent)` }}>{WO_STATUS_LABELS[wo.status] ?? wo.status}</span>
           {wo.covered && <span style={pill}>καλύπτεται από σύμβαση</span>}
           <ActionsButton subject={subjectFromWorkOrderDTO(wo)} api={wa} title={wo.number} />
         </div>
         <div style={{ display: "flex", flexWrap: "wrap", gap: 16, fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)" }}>
           <span>Κτήριο: {wo.buildingName}</span>
           <span>Πελάτης: {wo.customerName}</span>
-          <span>Συνεργάτης: {wo.supplierName ?? "—"}{wo.offerRating != null && <span style={{ display: "inline-flex", alignItems: "center", gap: 3, color: "#b45309", marginLeft: 6 }}><RiStarFill /> {wo.offerRating.toFixed(1)}</span>}</span>
+          <span>Συνεργάτης: {wo.supplierName ?? "—"}{wo.offerRating != null && <span style={{ display: "inline-flex", alignItems: "center", gap: 3, color: "var(--color-warning)", marginLeft: 6 }}><RiStarFill /> {wo.offerRating.toFixed(1)}</span>}</span>
           <span>Δημιουργία: {fmt(wo.createdAt)}</span>
         </div>
         {wo.description && <p style={{ fontSize: "var(--fs-13-5)", color: "var(--foreground)", marginTop: 12, whiteSpace: "pre-wrap" }}>{wo.description}</p>}

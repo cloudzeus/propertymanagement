@@ -80,7 +80,7 @@ export function SoftoneParamsClient({ initial, lookups }: { initial: SoftonePara
         <button type="button" disabled={!initial.configured || loadingEditor === editor} onClick={() => fetchLive(editor)} style={{ ...S1_BTN("ghost", !initial.configured), minHeight: 28, padding: "0 10px", fontSize: "var(--fs-11)" }}>
           {loadingEditor === editor ? <RiLoader4Line style={{ animation: "s1spin 1s linear infinite" }} /> : <RiDownloadCloud2Line />} Λίστα από SoftOne
         </button>
-        {l && !Array.isArray(l) && <span style={{ color: "#C0392B" }}>{l.error}</span>}
+        {l && !Array.isArray(l) && <span style={{ color: "var(--color-danger)" }}>{l.error}</span>}
         {l && Array.isArray(l) && <span>{l.length} εγγραφές</span>}
       </div>
     );
@@ -88,7 +88,7 @@ export function SoftoneParamsClient({ initial, lookups }: { initial: SoftonePara
 
   return (
     <form onSubmit={onSave} style={{ display: "flex", flexDirection: "column", gap: 20, maxWidth: 980 }}>
-      {!initial.configured && <div style={{ padding: "10px 14px", borderRadius: 8, background: "#CA5D0014", border: "1px solid #CA5D0040", color: "#CA5D00", fontSize: "var(--fs-12-5)" }}>Η σύνδεση SoftOne δεν είναι ενεργή: οι λίστες δεν μπορούν να φορτωθούν live. Μπορείτε να καταχωρίσετε τα ids χειροκίνητα.</div>}
+      {!initial.configured && <div style={{ padding: "10px 14px", borderRadius: 8, background: "color-mix(in srgb, var(--color-warning) 8%, transparent)", border: "1px solid color-mix(in srgb, var(--color-warning) 25%, transparent)", color: "var(--color-warning)", fontSize: "var(--fs-12-5)" }}>Η σύνδεση SoftOne δεν είναι ενεργή: οι λίστες δεν μπορούν να φορτωθούν live. Μπορείτε να καταχωρίσετε τα ids χειροκίνητα.</div>}
 
       <div style={S1_CARD}>
         <div>

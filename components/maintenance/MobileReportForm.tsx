@@ -133,7 +133,7 @@ export function MobileReportForm({ buildings, categories, detailBase }: {
       <Field label="Πόσο επείγει;">
         <div style={{ display: "grid", gridTemplateColumns: `repeat(${FAULT_PRIORITIES.length}, 1fr)`, gap: 4, background: "var(--paper)", padding: 4, borderRadius: 10 }}>
           {FAULT_PRIORITIES.map((p) => (
-            <button key={p} type="button" onClick={() => setPriority(p)} style={{ height: 40, border: "none", borderRadius: 8, cursor: "pointer", fontSize: "var(--fs-13)", fontWeight: 600, background: priority === p ? "var(--card)" : "transparent", color: priority === p ? (p === "URGENT" ? "#c50f1f" : "var(--foreground)") : "var(--muted-foreground)", boxShadow: priority === p ? "0 1px 2px rgba(0,0,0,.12)" : "none" }}>
+            <button key={p} type="button" onClick={() => setPriority(p)} style={{ height: 40, border: "none", borderRadius: 8, cursor: "pointer", fontSize: "var(--fs-13)", fontWeight: 600, background: priority === p ? "var(--card)" : "transparent", color: priority === p ? (p === "URGENT" ? "var(--color-danger)" : "var(--foreground)") : "var(--muted-foreground)", boxShadow: priority === p ? "0 1px 2px rgba(0,0,0,.12)" : "none" }}>
               {PRIORITY_LABELS[p]}
             </button>
           ))}
@@ -164,7 +164,7 @@ export function MobileReportForm({ buildings, categories, detailBase }: {
 function Field({ label, required, children }: { label: string; required?: boolean; children: React.ReactNode }) {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-      <label style={{ fontSize: "var(--fs-13)", fontWeight: 600, color: "var(--foreground)" }}>{label}{required && <span style={{ color: "#c50f1f", marginLeft: 3 }}>*</span>}</label>
+      <label style={{ fontSize: "var(--fs-13)", fontWeight: 600, color: "var(--foreground)" }}>{label}{required && <span style={{ color: "var(--color-danger)", marginLeft: 3 }}>*</span>}</label>
       {children}
     </div>
   );
@@ -175,4 +175,4 @@ const bigBtn: React.CSSProperties = { height: 92, display: "flex", flexDirection
 const chip: React.CSSProperties = { border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)", borderRadius: 999, padding: "9px 14px", fontSize: "var(--fs-14)", cursor: "pointer" };
 const chipOn: React.CSSProperties = { background: "var(--color-primary)", borderColor: "var(--color-primary)", color: "#fff", fontWeight: 600 };
 const cta: React.CSSProperties = { height: 52, border: "none", borderRadius: 12, background: "var(--color-primary)", color: "#fff", fontSize: "var(--fs-16)", fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8, marginTop: 6 };
-const errBox: React.CSSProperties = { padding: "10px 12px", borderRadius: 8, background: "#fee2e218", color: "#dc2626", fontSize: "var(--fs-13)", border: "1px solid #fca5a530" };
+const errBox: React.CSSProperties = { padding: "10px 12px", borderRadius: 8, background: "var(--danger-soft)", color: "var(--color-danger)", fontSize: "var(--fs-13)", border: "1px solid var(--danger-soft)" };

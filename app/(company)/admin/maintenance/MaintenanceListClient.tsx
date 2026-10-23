@@ -13,9 +13,9 @@ import type { FaultListItem, BuildingOption, CategoryOption } from "@/components
 const fmt = (iso: string | null) => (iso ? new Date(iso).toLocaleString("el-GR", { dateStyle: "short", timeStyle: "short" }) : "—");
 
 function StatusPill({ status }: { status: string }) {
-  const color = STATUS_COLORS[status as FaultStatus] ?? "#6b7280";
+  const color = STATUS_COLORS[status as FaultStatus] ?? "var(--muted-foreground)";
   return (
-    <span style={{ padding: "2px 8px", borderRadius: 999, fontSize: "var(--fs-11-5)", fontWeight: 600, color, background: `${color}18`, border: `1px solid ${color}40` }}>
+    <span style={{ padding: "2px 8px", borderRadius: 999, fontSize: "var(--fs-11-5)", fontWeight: 600, color, background: `color-mix(in srgb, ${color} 9%, transparent)`, border: `1px solid color-mix(in srgb, ${color} 25%, transparent)` }}>
       {STATUS_LABELS[status as FaultStatus] ?? status}
     </span>
   );
@@ -50,7 +50,7 @@ export function MaintenanceListClient({ items, viewer, canEditSettings, building
       cell: (r) => {
         if (!r.slaDueAt || ["COMPLETED", "CANCELLED"].includes(r.status)) return "—";
         const late = new Date(r.slaDueAt) < new Date();
-        return <span style={{ color: late ? "#9f1239" : "var(--foreground)", fontWeight: late ? 700 : 400 }}>{fmt(r.slaDueAt)}</span>;
+        return <span style={{ color: late ? "var(--color-danger)" : "var(--foreground)", fontWeight: late ? 700 : 400 }}>{fmt(r.slaDueAt)}</span>;
       } },
     { id: "created", header: "Δηλώθηκε", width: 140, accessor: (r) => r.createdAt, sortKey: "created", cell: (r) => fmt(r.createdAt) },
     { id: "reporter", header: "Από", width: 140, defaultVisible: false, accessor: (r) => r.reporterName ?? "", cell: (r) => r.reporterName ?? "—" },
@@ -80,7 +80,7 @@ export function MaintenanceListClient({ items, viewer, canEditSettings, building
         ].map((k) => (
           <div key={k.label} style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius-lg)", padding: "14px 16px" }}>
             <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>{k.label}</div>
-            <div style={{ fontSize: "var(--fs-24)", fontWeight: 700, color: (k as any).danger ? "#9f1239" : "var(--foreground)" }}>{k.value}</div>
+            <div style={{ fontSize: "var(--fs-24)", fontWeight: 700, color: (k as any).danger ? "var(--color-danger)" : "var(--foreground)" }}>{k.value}</div>
           </div>
         ))}
       </div>

@@ -8,12 +8,12 @@ const base: React.CSSProperties = {
 
 export function SourcePill({ source }: { source: WorkSource }) {
   const c = SOURCE_COLORS[source];
-  return <span style={{ ...base, color: c, background: `${c}14`, border: `1px solid ${c}40` }}>{SOURCE_LABELS[source]}</span>;
+  return <span style={{ ...base, color: c, background: `color-mix(in srgb, ${c} 8%, transparent)`, border: `1px solid color-mix(in srgb, ${c} 25%, transparent)` }}>{SOURCE_LABELS[source]}</span>;
 }
 
 export function StagePill({ stage }: { stage: WorkStage }) {
   const c = STAGE_COLORS[stage];
-  return <span style={{ ...base, color: c, background: `${c}18`, border: `1px solid ${c}40` }}>{STAGE_LABELS[stage]}</span>;
+  return <span style={{ ...base, color: c, background: `color-mix(in srgb, ${c} 9%, transparent)`, border: `1px solid color-mix(in srgb, ${c} 25%, transparent)` }}>{STAGE_LABELS[stage]}</span>;
 }
 
 const fmt = (iso: string) => new Date(iso).toLocaleString("el-GR", { dateStyle: "short", timeStyle: "short", timeZone: "Europe/Athens" });
@@ -22,7 +22,7 @@ const fmt = (iso: string) => new Date(iso).toLocaleString("el-GR", { dateStyle: 
 export function DuePill({ dueAt, overdue }: { dueAt: string | null; overdue: boolean }) {
   if (!dueAt) return <span style={{ color: "var(--muted-foreground)" }}>—</span>;
   return (
-    <span style={{ color: overdue ? "#9f1239" : "var(--foreground)", fontWeight: overdue ? 700 : 400, whiteSpace: "nowrap" }}>
+    <span style={{ color: overdue ? "var(--color-danger)" : "var(--foreground)", fontWeight: overdue ? 700 : 400, whiteSpace: "nowrap" }}>
       {fmt(dueAt)}{overdue ? " · εκπρόθεσμο" : ""}
     </span>
   );

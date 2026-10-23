@@ -89,7 +89,7 @@ export function InfraPanel({ buildingId, points, floorOptions, can }: { building
                   <div style={{ display: "flex", gap: 6, marginTop: 10 }}>
                     <MediaButton infraPointId={p.id} onDone={() => router.refresh()} />
                     <button onClick={() => setEditing(p)} style={iconBtn} title="Επεξεργασία"><RiPencilLine /></button>
-                    <button onClick={() => remove(p.id)} disabled={isPending} style={{ ...iconBtn, color: "#c50f1f" }} title="Διαγραφή"><RiDeleteBinLine /></button>
+                    <button onClick={() => remove(p.id)} disabled={isPending} style={{ ...iconBtn, color: "var(--color-danger)" }} title="Διαγραφή"><RiDeleteBinLine /></button>
                   </div>
                 )}
                 {p.media.length > 0 && <MediaStrip media={p.media} canDelete={can.manageInfra} onDone={() => router.refresh()} />}
@@ -321,4 +321,4 @@ const chipOrange: React.CSSProperties = { display: "inline-flex", alignItems: "c
 const chipGreen: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 4, fontSize: "var(--fs-11)", fontWeight: 700, padding: "2px 8px", borderRadius: 9999, background: "var(--color-green-soft)", color: "var(--color-green)" };
 const cancelBtn: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: "var(--fs-13)", color: "var(--foreground)" };
 const saveBtn: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: "pointer", fontSize: "var(--fs-13)", fontWeight: 600, display: "flex", alignItems: "center", gap: 6 };
-const errBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: "var(--fs-12)", border: "1px solid #fca5a530", marginBottom: 12 };
+const errBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "var(--danger-soft)", color: "var(--color-danger)", fontSize: "var(--fs-12)", border: "1px solid var(--danger-soft)", marginBottom: 12 };

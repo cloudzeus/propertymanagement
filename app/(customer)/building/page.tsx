@@ -151,8 +151,8 @@ export default async function ManagerBuildingsPage({
                 <>
                   <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 8, marginTop: 14 }}>
                     <CardStat icon={RiHome4Line} label="Μονάδες" value={String(b._count.units)} />
-                    <CardStat icon={RiMoneyEuroCircleLine} label="Ανεξόφλητα" value={formatEuro(s.unpaid)} color={s.unpaid > 0 ? "#c50f1f" : undefined} />
-                    <CardStat icon={RiToolsLine} label="Ανοιχτά αιτήματα" value={String(open)} color={open > 0 ? "#CA5D00" : undefined} />
+                    <CardStat icon={RiMoneyEuroCircleLine} label="Ανεξόφλητα" value={formatEuro(s.unpaid)} color={s.unpaid > 0 ? "var(--color-danger)" : undefined} />
+                    <CardStat icon={RiToolsLine} label="Ανοιχτά αιτήματα" value={String(open)} color={open > 0 ? "var(--color-warning)" : undefined} />
                   </div>
 
                   <div style={{ marginTop: 12 }}>
@@ -160,9 +160,9 @@ export default async function ManagerBuildingsPage({
                       <span>Είσπραξη μήνα</span>
                       <span>{s.total > 0 ? `${pct}%` : "—"}</span>
                     </div>
-                    <div style={{ height: 8, borderRadius: 9999, overflow: "hidden", display: "flex", background: s.total > 0 ? "#c50f1f22" : "var(--bg-canvas)" }}>
-                      {s.total > 0 && <div style={{ width: `${pct}%`, background: "#107C10" }} />}
-                      {s.total > 0 && <div style={{ flex: 1, background: "#c50f1f" }} />}
+                    <div style={{ height: 8, borderRadius: 9999, overflow: "hidden", display: "flex", background: s.total > 0 ? "color-mix(in srgb, var(--color-danger) 13%, transparent)" : "var(--bg-canvas)" }}>
+                      {s.total > 0 && <div style={{ width: `${pct}%`, background: "var(--color-success)" }} />}
+                      {s.total > 0 && <div style={{ flex: 1, background: "var(--color-danger)" }} />}
                     </div>
                   </div>
                 </>

@@ -181,8 +181,8 @@ const saveBtn: React.CSSProperties = { display: "inline-flex", alignItems: "cent
 
 function alert(kind: "ok" | "err" | "info"): React.CSSProperties {
   const map = {
-    ok: { bg: "#16a34a14", fg: "#16a34a", bd: "#16a34a30" },
-    err: { bg: "#dc262614", fg: "#dc2626", bd: "#dc262630" },
+    ok: { bg: "color-mix(in srgb, var(--color-success) 8%, transparent)", fg: "var(--color-success)", bd: "color-mix(in srgb, var(--color-success) 19%, transparent)" },
+    err: { bg: "color-mix(in srgb, var(--color-danger) 8%, transparent)", fg: "var(--color-danger)", bd: "color-mix(in srgb, var(--color-danger) 19%, transparent)" },
     info: { bg: "var(--bg-canvas)", fg: "var(--muted-foreground)", bd: "var(--border)" },
   }[kind];
   return { display: "flex", alignItems: "center", gap: 8, padding: "10px 12px", borderRadius: 6, background: map.bg, color: map.fg, border: `1px solid ${map.bd}`, fontSize: "var(--fs-12-5)", lineHeight: 1.4 };

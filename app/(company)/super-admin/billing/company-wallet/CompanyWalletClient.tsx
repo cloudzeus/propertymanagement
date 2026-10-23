@@ -54,13 +54,13 @@ export default function CompanyWalletClient() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-2">
+      <h1 className="text-3xl font-bold text-[var(--foreground)] flex items-center gap-2">
         <RiWallet3Line /> Πορτοφόλι εταιρείας
       </h1>
-      {error && <div className="text-red-600 text-sm">{error}</div>}
+      {error && <div className="text-[var(--color-danger)] text-sm">{error}</div>}
       <div className="bg-white rounded-lg shadow p-6">
-        <p className="text-gray-600">Wholesale credit balance</p>
-        <p className="text-3xl font-bold text-gray-900">€{balance.toFixed(2)}</p>
+        <p className="text-[var(--muted-foreground)]">Wholesale credit balance</p>
+        <p className="text-3xl font-bold text-[var(--foreground)]">€{balance.toFixed(2)}</p>
         <div className="mt-4 flex gap-2">
           <input
             className="border p-2 rounded"
@@ -70,7 +70,7 @@ export default function CompanyWalletClient() {
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
           />
-          <button onClick={credit} className="px-4 py-2 bg-blue-600 text-white rounded-lg">
+          <button onClick={credit} className="px-4 py-2 bg-[var(--color-primary)] text-white rounded-lg">
             Credit
           </button>
         </div>
@@ -91,7 +91,7 @@ export default function CompanyWalletClient() {
               <tr key={t.id} className="border-b">
                 <td className="p-3">{new Date(t.createdAt).toLocaleString()}</td>
                 <td>{t.type}</td>
-                <td className={t.amountEur < 0 ? "text-red-600" : "text-green-600"}>
+                <td className={t.amountEur < 0 ? "text-[var(--color-danger)]" : "text-[var(--color-success)]"}>
                   €{t.amountEur.toFixed(4)}
                 </td>
                 <td>€{t.balanceAfter.toFixed(4)}</td>
@@ -100,7 +100,7 @@ export default function CompanyWalletClient() {
             ))}
             {ledger.length === 0 && (
               <tr>
-                <td colSpan={5} className="p-4 text-gray-500">
+                <td colSpan={5} className="p-4 text-[var(--muted-foreground)]">
                   No transactions yet.
                 </td>
               </tr>

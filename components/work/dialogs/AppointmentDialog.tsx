@@ -79,7 +79,7 @@ export function AppointmentDialog({ ctx, subject, onDone, onClose }: DialogProps
         <div style={{ borderTop: "1px solid var(--border)", paddingTop: 10, display: "flex", flexDirection: "column", gap: 4 }}>
           {f.appointments.map((a) => (
             <div key={a.id} style={{ fontSize: "var(--fs-13)", color: "var(--foreground)", display: "flex", gap: 8, alignItems: "center" }}>
-              <RiCalendarCheckLine style={{ color: "#15803d" }} /> Ραντεβού: {fmt(a.startAt)} – {new Date(a.endAt).toLocaleTimeString("el-GR", { timeStyle: "short", timeZone: "Europe/Athens" })}
+              <RiCalendarCheckLine style={{ color: "var(--color-success)" }} /> Ραντεβού: {fmt(a.startAt)} – {new Date(a.endAt).toLocaleTimeString("el-GR", { timeStyle: "short", timeZone: "Europe/Athens" })}
               {a.managerPresence && <span style={muted}>(με παρουσία διαχειριστή)</span>}
             </div>
           ))}

@@ -20,7 +20,7 @@ const PUSH_ENTITIES: { key: PushEntityKey; label: string; object: string }[] = [
   { key: "customer", label: "Πελάτης", object: "CUSTOMER" }, { key: "supplier", label: "Συνεργάτης", object: "SUPPLIER" }, { key: "building", label: "Κτήριο", object: "PRJC" },
   { key: "service", label: "Υπηρεσία", object: "SERVICE" }, { key: "work-order", label: "Σύμβαση έργου", object: "CNTR ×2" }, { key: "property-service", label: "Πακέτο διαχείρισης", object: "CNTR" },
 ];
-const STATUS_ICON: Record<string, { icon: React.ElementType; color: string }> = { OK: { icon: RiCheckboxCircleLine, color: "#2E7D5B" }, ERROR: { icon: RiCloseCircleLine, color: "#C0392B" }, SKIPPED: { icon: RiSkipForwardLine, color: "#CA5D00" }, DRY_RUN: { icon: RiFlaskLine, color: "#0F6CBD" } };
+const STATUS_ICON: Record<string, { icon: React.ElementType; color: string }> = { OK: { icon: RiCheckboxCircleLine, color: "var(--color-success)" }, ERROR: { icon: RiCloseCircleLine, color: "var(--color-danger)" }, SKIPPED: { icon: RiSkipForwardLine, color: "var(--color-warning)" }, DRY_RUN: { icon: RiFlaskLine, color: "var(--color-info)" } };
 
 export function SoftoneSyncClient({ configured, status, entity, table, logs }: {
   configured: boolean; status: Status[]; entity: PullEntityKey;
@@ -54,13 +54,13 @@ export function SoftoneSyncClient({ configured, status, entity, table, logs }: {
     { id: "code", header: "Κωδικός", sortKey: "code", width: 120, cell: (r) => r.code ?? "—" },
     { id: "name", header: "Όνομα", sortKey: "name", width: 260, cell: (r) => r.name },
     ...extraKeys.filter((k) => !["sosource"].includes(k)).map((k): ColDef<MasterRow> => ({ id: k, header: EXTRA_LABELS[k] ?? k, width: 120, cell: (r) => { const v = r.extra[k]; return v == null || v === "" ? "—" : String(v); } })),
-    { id: "isActive", header: "Ενεργό", sortKey: "isActive", width: 90, cell: (r) => <span style={{ color: r.isActive ? "#2E7D5B" : "#C0392B", fontWeight: 600 }}>{r.isActive ? "Ναι" : "Όχι"}</span> },
+    { id: "isActive", header: "Ενεργό", sortKey: "isActive", width: 90, cell: (r) => <span style={{ color: r.isActive ? "var(--color-success)" : "var(--color-danger)", fontWeight: 600 }}>{r.isActive ? "Ναι" : "Όχι"}</span> },
     { id: "lastSyncedAt", header: "Συγχρονίστηκε", sortKey: "lastSyncedAt", width: 150, cell: (r) => fmtDate(r.lastSyncedAt) },
   ];
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-      {!configured && <div style={{ padding: "10px 14px", borderRadius: 8, background: "#CA5D0014", border: "1px solid #CA5D0040", color: "#CA5D00", fontSize: "var(--fs-12-5)" }}>Η σύνδεση SoftOne δεν είναι ενεργή — ο συγχρονισμός και το dry-run απαιτούν ενεργή σύνδεση (καρτέλα «Σύνδεση»).</div>}
+      {!configured && <div style={{ padding: "10px 14px", borderRadius: 8, background: "color-mix(in srgb, var(--color-warning) 8%, transparent)", border: "1px solid color-mix(in srgb, var(--color-warning) 25%, transparent)", color: "var(--color-warning)", fontSize: "var(--fs-12-5)" }}>Η σύνδεση SoftOne δεν είναι ενεργή — ο συγχρονισμός και το dry-run απαιτούν ενεργή σύνδεση (καρτέλα «Σύνδεση»).</div>}
 
       {/* Entity cards */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(230px, 1fr))", gap: 10 }}>
@@ -86,7 +86,7 @@ export function SoftoneSyncClient({ configured, status, entity, table, logs }: {
             <h2 style={{ fontSize: "var(--fs-15)", fontWeight: 600, margin: 0 }}>{cur.label} <span style={{ fontFamily: "monospace", fontWeight: 400, color: "var(--muted-foreground)" }}>({cur.object})</span></h2>
             <p style={{ fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)", margin: "4px 0 0" }}>{cur.description}</p>
             {cur.lastCounts && <p style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)", margin: "6px 0 0" }}>Τελευταίος επιτυχής {fmtDate(cur.lastOkAt)}: {cur.lastCounts.fetched} από SoftOne · +{cur.lastCounts.inserted} νέα · {cur.lastCounts.updated} ενημερώσεις · {cur.lastCounts.deactivated} απενεργοποιήσεις</p>}
-            {cur.lastStatus === "ERROR" && cur.lastError && <p style={{ fontSize: "var(--fs-12)", color: "#C0392B", margin: "6px 0 0" }}>Τελευταίο σφάλμα: {cur.lastError}</p>}
+            {cur.lastStatus === "ERROR" && cur.lastError && <p style={{ fontSize: "var(--fs-12)", color: "var(--color-danger)", margin: "6px 0 0" }}>Τελευταίο σφάλμα: {cur.lastError}</p>}
           </div>
           <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
             <button type="button" disabled={!configured || !!busy} onClick={() => run(entity, true, cur.label)} style={S1_BTN("ghost", !configured || !!busy)}>
@@ -121,7 +121,7 @@ export function SoftoneSyncClient({ configured, status, entity, table, logs }: {
             { id: "object", header: "Αντικείμενο", sortKey: "object", width: 110, accessor: (r) => r.object, cell: (r) => <span style={{ fontFamily: "monospace" }}>{r.object}</span> },
             { id: "action", header: "Ενέργεια", width: 90, accessor: (r) => r.action, cell: (r) => r.action },
             { id: "status", header: "Κατάσταση", sortKey: "status", width: 110, accessor: (r) => r.status, cell: (r) => { const S = STATUS_ICON[r.status]; return <span style={{ display: "inline-flex", alignItems: "center", gap: 4, color: S?.color, fontWeight: 600 }}>{S && <S.icon />} {r.status}</span>; } },
-            { id: "counts", header: "Πλήθη / μήνυμα", width: 320, accessor: (r) => r.error ?? "", cell: (r) => r.error ? <span style={{ color: "#C0392B" }}>{r.error.split("\n")[0].slice(0, 160)}</span> : r.counts ? <span style={{ color: "var(--muted-foreground)" }}>{r.counts.fetched} ληφθέντα · +{r.counts.inserted} · ~{r.counts.updated} · −{r.counts.deactivated}</span> : "—" },
+            { id: "counts", header: "Πλήθη / μήνυμα", width: 320, accessor: (r) => r.error ?? "", cell: (r) => r.error ? <span style={{ color: "var(--color-danger)" }}>{r.error.split("\n")[0].slice(0, 160)}</span> : r.counts ? <span style={{ color: "var(--muted-foreground)" }}>{r.counts.fetched} ληφθέντα · +{r.counts.inserted} · ~{r.counts.updated} · −{r.counts.deactivated}</span> : "—" },
             { id: "softoneKey", header: "S1 key", width: 80, accessor: (r) => r.softoneKey ?? "", cell: (r) => r.softoneKey ?? "—" },
             { id: "trigger", header: "Έναυσμα", width: 90, defaultVisible: false, accessor: (r) => r.trigger ?? "", cell: (r) => r.trigger === "scheduler" ? "αυτόματα" : r.trigger === "manual" ? "χειροκίνητα" : (r.trigger ?? "—") },
             { id: "durationMs", header: "Διάρκεια", width: 90, defaultVisible: false, accessor: (r) => r.durationMs ?? 0, cell: (r) => r.durationMs != null ? `${(r.durationMs / 1000).toFixed(1)}s` : "—" },
@@ -140,25 +140,25 @@ export function SoftoneSyncClient({ configured, status, entity, table, logs }: {
 
       {/* Result modal */}
       <Modal open={!!result} onClose={() => setResult(null)} title={result?.title ?? ""} width={760}>
-        {result?.skipped && <div style={{ display: "flex", gap: 8, alignItems: "flex-start", color: "#CA5D00", fontSize: "var(--fs-13)" }}><RiErrorWarningLine style={{ marginTop: 2 }} /> {result.skipped}</div>}
+        {result?.skipped && <div style={{ display: "flex", gap: 8, alignItems: "flex-start", color: "var(--color-warning)", fontSize: "var(--fs-13)" }}><RiErrorWarningLine style={{ marginTop: 2 }} /> {result.skipped}</div>}
         <div style={{ display: "flex", flexDirection: "column", gap: 14, maxHeight: "65vh", overflow: "auto" }}>
           {result?.results.map((r) => (
             <div key={r.entity} style={{ border: "1px solid var(--border)", borderRadius: 10, padding: 12, fontSize: "var(--fs-12-5)" }}>
               <div style={{ display: "flex", alignItems: "center", gap: 8, fontWeight: 700 }}>
-                {r.ok ? <RiCheckboxCircleLine style={{ color: "#2E7D5B" }} /> : <RiCloseCircleLine style={{ color: "#C0392B" }} />} {r.label} <span style={{ fontFamily: "monospace", fontWeight: 400, color: "var(--muted-foreground)" }}>{r.object}</span>
+                {r.ok ? <RiCheckboxCircleLine style={{ color: "var(--color-success)" }} /> : <RiCloseCircleLine style={{ color: "var(--color-danger)" }} />} {r.label} <span style={{ fontFamily: "monospace", fontWeight: 400, color: "var(--muted-foreground)" }}>{r.object}</span>
                 <span style={{ marginLeft: "auto", color: "var(--muted-foreground)", fontWeight: 400 }}>{(r.durationMs / 1000).toFixed(1)}s{r.dryRun ? " · dry-run (χωρίς εγγραφή)" : ""}</span>
               </div>
-              {r.error ? <div style={{ color: "#C0392B", marginTop: 6 }}>{r.error}</div> : (
+              {r.error ? <div style={{ color: "var(--color-danger)", marginTop: 6 }}>{r.error}</div> : (
                 <>
                   <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 8 }}>
-                    {[["Από SoftOne", r.counts.fetched, "#5C5C5C"], ["Νέα", r.counts.inserted, "#2E7D5B"], ["Ενημερώσεις", r.counts.updated, "#0F6CBD"], ["Αμετάβλητα", r.counts.unchanged, "#5C5C5C"], ["Απενεργοποιήσεις", r.counts.deactivated, "#CA5D00"], ["Χωρίς κλειδί", r.counts.skipped, "#C0392B"]].map(([l, n, c]) => (
-                      <span key={String(l)} style={{ padding: "3px 10px", borderRadius: 999, background: `${c}14`, color: String(c), fontWeight: 600 }}>{l}: {n}</span>
+                    {[["Από SoftOne", r.counts.fetched, "#5C5C5C"], ["Νέα", r.counts.inserted, "var(--color-success)"], ["Ενημερώσεις", r.counts.updated, "var(--color-info)"], ["Αμετάβλητα", r.counts.unchanged, "#5C5C5C"], ["Απενεργοποιήσεις", r.counts.deactivated, "var(--color-warning)"], ["Χωρίς κλειδί", r.counts.skipped, "var(--color-danger)"]].map(([l, n, c]) => (
+                      <span key={String(l)} style={{ padding: "3px 10px", borderRadius: 999, background: `color-mix(in srgb, ${c} 8%, transparent)`, color: String(c), fontWeight: 600 }}>{l}: {n}</span>
                     ))}
                   </div>
-                  {r.missingFields.length > 0 && <div style={{ color: "#CA5D00", marginTop: 6 }}>Στήλες που δεν επέστρεψε η λίστα του SoftOne: {r.missingFields.join(", ")} (διαθέσιμες: {r.fields.join(", ")})</div>}
-                  <PreviewList title="Νέα" items={r.preview.inserted} color="#2E7D5B" />
-                  <PreviewList title="Ενημερώσεις" items={r.preview.updated} color="#0F6CBD" />
-                  <PreviewList title="Απενεργοποιήσεις" items={r.preview.deactivated} color="#CA5D00" />
+                  {r.missingFields.length > 0 && <div style={{ color: "var(--color-warning)", marginTop: 6 }}>Στήλες που δεν επέστρεψε η λίστα του SoftOne: {r.missingFields.join(", ")} (διαθέσιμες: {r.fields.join(", ")})</div>}
+                  <PreviewList title="Νέα" items={r.preview.inserted} color="var(--color-success)" />
+                  <PreviewList title="Ενημερώσεις" items={r.preview.updated} color="var(--color-info)" />
+                  <PreviewList title="Απενεργοποιήσεις" items={r.preview.deactivated} color="var(--color-warning)" />
                 </>
               )}
             </div>
@@ -234,7 +234,7 @@ function PushDryRun({ configured }: { configured: boolean }) {
             {cands.map((c) => (
               <button key={c.id} type="button" onClick={() => preview(c.id)} style={{ textAlign: "left", padding: "8px 10px", borderRadius: 6, border: `1px solid ${picked === c.id ? "var(--color-primary)" : "var(--border)"}`, background: picked === c.id ? "var(--color-primary)10" : "var(--paper)", cursor: "pointer", fontSize: "var(--fs-12-5)", color: "var(--foreground)", fontFamily: "inherit", display: "flex", gap: 8, alignItems: "center", minHeight: 36 }}>
                 <span style={{ flex: 1, minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{c.label}</span>
-                <span style={{ fontSize: "var(--fs-11)", color: c.linked ? "#2E7D5B" : "var(--muted-foreground)" }}>{c.linked ? "συνδεδεμένο" : "νέο"}</span>
+                <span style={{ fontSize: "var(--fs-11)", color: c.linked ? "var(--color-success)" : "var(--muted-foreground)" }}>{c.linked ? "συνδεδεμένο" : "νέο"}</span>
               </button>
             ))}
             {cands.length === 0 && <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>Καμία εγγραφή.</div>}
@@ -242,15 +242,15 @@ function PushDryRun({ configured }: { configured: boolean }) {
         </div>
         <div style={{ minWidth: 0 }}>
           {loading && <div style={{ fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)" }}><RiLoader4Line style={{ animation: "s1spin 1s linear infinite" }} /> Υπολογισμός…</div>}
-          {res && !res.ok && <div style={{ color: "#C0392B", fontSize: "var(--fs-12-5)" }}>{res.error}</div>}
+          {res && !res.ok && <div style={{ color: "var(--color-danger)", fontSize: "var(--fs-12-5)" }}>{res.error}</div>}
           {res && res.ok && res.results.map((m, i) => (
             <div key={i} style={{ border: "1px solid var(--border)", borderRadius: 10, padding: 12, marginBottom: 10, fontSize: "var(--fs-12-5)" }}>
               <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
                 <strong>setData {m.object}</strong>
-                <span style={{ padding: "2px 8px", borderRadius: 999, background: m.action === "insert" ? "#2E7D5B14" : "#0F6CBD14", color: m.action === "insert" ? "#2E7D5B" : "#0F6CBD", fontWeight: 600 }}>{m.action === "insert" ? "εισαγωγή" : `ενημέρωση · key ${m.key}`}</span>
-                <span style={{ marginLeft: "auto", padding: "2px 8px", borderRadius: 999, background: m.missing.length ? "#C0392B14" : "#2E7D5B14", color: m.missing.length ? "#C0392B" : "#2E7D5B", fontWeight: 600 }}>{m.missing.length ? `${m.missing.length} εκκρεμότητες` : "έτοιμο"}</span>
+                <span style={{ padding: "2px 8px", borderRadius: 999, background: m.action === "insert" ? "color-mix(in srgb, var(--color-success) 8%, transparent)" : "color-mix(in srgb, var(--color-info) 8%, transparent)", color: m.action === "insert" ? "var(--color-success)" : "var(--color-info)", fontWeight: 600 }}>{m.action === "insert" ? "εισαγωγή" : `ενημέρωση · key ${m.key}`}</span>
+                <span style={{ marginLeft: "auto", padding: "2px 8px", borderRadius: 999, background: m.missing.length ? "color-mix(in srgb, var(--color-danger) 8%, transparent)" : "color-mix(in srgb, var(--color-success) 8%, transparent)", color: m.missing.length ? "var(--color-danger)" : "var(--color-success)", fontWeight: 600 }}>{m.missing.length ? `${m.missing.length} εκκρεμότητες` : "έτοιμο"}</span>
               </div>
-              {m.missing.length > 0 && <ul style={{ margin: "8px 0 0", paddingLeft: 18, color: "#C0392B" }}>{m.missing.map((x) => <li key={x}>{x}</li>)}</ul>}
+              {m.missing.length > 0 && <ul style={{ margin: "8px 0 0", paddingLeft: 18, color: "var(--color-danger)" }}>{m.missing.map((x) => <li key={x}>{x}</li>)}</ul>}
               {m.notes.length > 0 && <ul style={{ margin: "8px 0 0", paddingLeft: 18, color: "var(--muted-foreground)" }}>{m.notes.map((x) => <li key={x}>{x}</li>)}</ul>}
               <pre style={{ margin: "8px 0 0", padding: 10, background: "var(--paper)", borderRadius: 8, fontSize: "var(--fs-11)", whiteSpace: "pre-wrap", wordBreak: "break-all", maxHeight: 360, overflow: "auto" }}>{JSON.stringify({ service: "setData", OBJECT: m.object, ...(m.key != null ? { KEY: String(m.key) } : {}), data: m.data }, null, 2)}</pre>
             </div>

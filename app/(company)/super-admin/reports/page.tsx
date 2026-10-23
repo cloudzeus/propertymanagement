@@ -33,22 +33,22 @@ async function getReportData() {
 }
 
 const ROLE_COLOR: Record<string, string> = {
-  SUPER_ADMIN:       "#A4262C",
-  ADMIN:             "#0078D4",
-  MANAGER:           "#8764B8",
-  PROPERTY_ADMIN:    "#038387",
-  EMPLOYEE:          "#CA5D00",
-  COLLABORATOR:      "#107C10",
-  PROPERTY_OWNER:    "#8764B8",
-  PROPERTY_RESIDENT: "#0078D4",
-  PROPERTY_VIEWER:   "#707070",
+  SUPER_ADMIN:       "var(--color-danger)",
+  ADMIN:             "var(--color-info)",
+  MANAGER:           "var(--color-purple)",
+  PROPERTY_ADMIN:    "var(--color-teal)",
+  EMPLOYEE:          "var(--color-warning)",
+  COLLABORATOR:      "var(--color-success)",
+  PROPERTY_OWNER:    "var(--color-purple)",
+  PROPERTY_RESIDENT: "var(--color-info)",
+  PROPERTY_VIEWER:   "var(--muted-foreground)",
 };
 
 const STATUS_COLOR: Record<string, string> = {
-  ACTIVE:    "#107C10",
-  TRIAL:     "#0078D4",
-  SUSPENDED: "#CA5D00",
-  INACTIVE:  "#707070",
+  ACTIVE:    "var(--color-success)",
+  TRIAL:     "var(--color-info)",
+  SUSPENDED: "var(--color-warning)",
+  INACTIVE:  "var(--muted-foreground)",
 };
 
 export default async function ReportsPage() {
@@ -56,11 +56,11 @@ export default async function ReportsPage() {
   const data = await getReportData();
 
   const topStats = [
-    { label: "Εταιρείες", value: data.totalCompanies, icon: RiBuildingLine, color: "#8764B8" },
-    { label: "Χρήστες", value: data.totalUsers, icon: RiGroupLine, color: "#0078D4" },
-    { label: "Ακίνητα", value: data.totalProperties, icon: RiHome3Line, color: "#038387" },
-    { label: "Μονάδες", value: data.totalUnits, icon: RiHome3Line, color: "#107C10" },
-    { label: "Εκκρεμείς Εργασίες", value: data.openMaintenance, icon: RiToolsLine, color: "#CA5D00" },
+    { label: "Εταιρείες", value: data.totalCompanies, icon: RiBuildingLine, color: "var(--color-purple)" },
+    { label: "Χρήστες", value: data.totalUsers, icon: RiGroupLine, color: "var(--color-info)" },
+    { label: "Ακίνητα", value: data.totalProperties, icon: RiHome3Line, color: "var(--color-teal)" },
+    { label: "Μονάδες", value: data.totalUnits, icon: RiHome3Line, color: "var(--color-success)" },
+    { label: "Εκκρεμείς Εργασίες", value: data.openMaintenance, icon: RiToolsLine, color: "var(--color-warning)" },
   ];
 
   return (
@@ -98,7 +98,7 @@ export default async function ReportsPage() {
           <h2 style={{ fontSize: "var(--fs-15)", fontWeight: 600, color: "var(--foreground)", margin: "0 0 16px" }}>Χρήστες ανά Ρόλο</h2>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             {(data.usersByRole as any[]).map((row) => {
-              const color = ROLE_COLOR[row.role] || "#707070";
+              const color = ROLE_COLOR[row.role] || "var(--muted-foreground)";
               const pct = data.totalUsers > 0 ? Math.round((row._count.role / data.totalUsers) * 100) : 0;
               return (
                 <div key={row.role}>
@@ -120,7 +120,7 @@ export default async function ReportsPage() {
           <h2 style={{ fontSize: "var(--fs-15)", fontWeight: 600, color: "var(--foreground)", margin: "0 0 16px" }}>Εταιρείες ανά Κατάσταση</h2>
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             {(data.companiesByStatus as any[]).map((row) => {
-              const color = STATUS_COLOR[row.status] || "#707070";
+              const color = STATUS_COLOR[row.status] || "var(--muted-foreground)";
               const pct = data.totalCompanies > 0 ? Math.round((row._count.status / data.totalCompanies) * 100) : 0;
               return (
                 <div key={row.status} style={{

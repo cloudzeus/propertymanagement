@@ -14,7 +14,7 @@ export type InquiryDTO = {
 
 const fmt = (iso: string | null) => (iso ? new Date(iso).toLocaleString("el-GR", { dateStyle: "short", timeStyle: "short" }) : "—");
 const KIND: Record<string, string> = { OFFER: "Προσφορά", APPOINTMENT: "Ραντεβού" };
-const STATUS: Record<string, { label: string; color: string }> = { SENT: { label: "Στάλθηκε", color: "#CA5D00" }, ANSWERED: { label: "Απαντήθηκε", color: "#2E7D5B" }, CLOSED: { label: "Έκλεισε", color: "#6b7280" } };
+const STATUS: Record<string, { label: string; color: string }> = { SENT: { label: "Στάλθηκε", color: "var(--color-warning)" }, ANSWERED: { label: "Απαντήθηκε", color: "var(--color-success)" }, CLOSED: { label: "Έκλεισε", color: "var(--muted-foreground)" } };
 
 /** "Ask for offer / appointment" to one of the manager's own suppliers (email-only, no login). */
 export function InquiryModal({ supplier, kind, buildings, faults, onClose, onDone }: {
@@ -90,14 +90,14 @@ export function InquiryList({ inquiries, canEdit }: { inquiries: InquiryDTO[]; c
       <div style={{ fontSize: "var(--fs-13)", fontWeight: 700, margin: "0 0 8px", display: "flex", alignItems: "center", gap: 6 }}><RiMailSendLine /> Αιτήματα προς τους προμηθευτές μου</div>
       <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
         {inquiries.map((i) => {
-          const s = STATUS[i.status] ?? { label: i.status, color: "#6b7280" };
+          const s = STATUS[i.status] ?? { label: i.status, color: "var(--muted-foreground)" };
           return (
             <div key={i.id} style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 10, padding: "10px 14px" }}>
               <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", fontSize: "var(--fs-13)" }}>
                 {i.kind === "OFFER" ? <RiMoneyEuroCircleLine /> : <RiCalendarCheckLine />}
                 <b>{KIND[i.kind] ?? i.kind}</b> · {i.supplierName} · {i.buildingName}
                 {i.faultId && <Link href={`/portal/maintenance/${i.faultId}`} style={{ color: "var(--color-primary)" }}>{i.faultTitle}</Link>}
-                <span style={{ fontSize: "var(--fs-11)", fontWeight: 700, padding: "2px 8px", borderRadius: 999, color: s.color, background: `${s.color}18`, border: `1px solid ${s.color}40` }}>{s.label}</span>
+                <span style={{ fontSize: "var(--fs-11)", fontWeight: 700, padding: "2px 8px", borderRadius: 999, color: s.color, background: `color-mix(in srgb, ${s.color} 9%, transparent)`, border: `1px solid color-mix(in srgb, ${s.color} 25%, transparent)` }}>{s.label}</span>
                 <span style={{ flex: 1 }} />
                 <span style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>{fmt(i.createdAt)} → {i.sentTo}</span>
               </div>

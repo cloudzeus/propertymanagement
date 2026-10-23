@@ -59,12 +59,12 @@ export function MinutesEditor({ assemblyId, initialHtml, readonly }: { assemblyI
       </div>
 
       {sent && (
-        <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: "var(--fs-13)", fontWeight: 600, color: "#16a34a", marginBottom: 12 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: "var(--fs-13)", fontWeight: 600, color: "var(--color-success)", marginBottom: 12 }}>
           <RiCheckLine /> Τα πρακτικά εγκρίθηκαν και απεστάλησαν στους συμμετέχοντες.
         </div>
       )}
       {error && (
-        <div style={{ fontSize: "var(--fs-13)", color: "#dc2626", marginBottom: 12 }}>{error}</div>
+        <div style={{ fontSize: "var(--fs-13)", color: "var(--color-danger)", marginBottom: 12 }}>{error}</div>
       )}
 
       {readonly ? (

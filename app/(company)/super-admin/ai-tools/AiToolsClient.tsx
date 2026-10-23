@@ -47,16 +47,16 @@ export default function AiToolsClient() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-2"><RiRobot2Line /> AI Tools &amp; APIs</h1>
-          <p className="text-gray-600 mt-1">Define billable AI/API/video tools, base cost and markup.</p>
+          <h1 className="text-3xl font-bold text-[var(--foreground)] flex items-center gap-2"><RiRobot2Line /> AI Tools &amp; APIs</h1>
+          <p className="text-[var(--muted-foreground)] mt-1">Define billable AI/API/video tools, base cost and markup.</p>
         </div>
-        <button onClick={() => { setDraft({ ...EMPTY }); setError(null); }} className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg">
+        <button onClick={() => { setDraft({ ...EMPTY }); setError(null); }} className="inline-flex items-center gap-2 px-4 py-2 bg-[var(--color-primary)] text-white rounded-lg">
           <RiAddLine /> Add tool
         </button>
       </div>
 
-      {error && <div className="text-red-600 text-sm">{error}</div>}
-      {loading ? <p className="text-gray-600">Loading…</p> : (
+      {error && <div className="text-[var(--color-danger)] text-sm">{error}</div>}
+      {loading ? <p className="text-[var(--muted-foreground)]">Loading…</p> : (
         <div className="bg-white rounded-lg shadow overflow-x-auto">
           <table className="w-full text-sm">
             <thead><tr className="text-left border-b">
@@ -67,16 +67,16 @@ export default function AiToolsClient() {
               {tools.map((t) => (
                 <tr key={t.apiName} className="border-b">
                   <td className="p-3 font-medium">{t.displayName}</td>
-                  <td><code className="bg-gray-100 px-1 rounded text-xs">{t.apiName}</code></td><td>{t.category}</td><td>{t.costModel}</td>
+                  <td><code className="bg-[var(--paper)] px-1 rounded text-xs">{t.apiName}</code></td><td>{t.category}</td><td>{t.costModel}</td>
                   <td>€{t.basePrice}</td><td>{t.unitLabel}</td><td>{t.freeQuota}</td><td>{t.markupPercent}%</td>
                   <td>{t.enabled ? "✓" : "—"}</td>
                   <td className="whitespace-nowrap">
-                    <button className="text-blue-600 mr-3" onClick={() => { setDraft({ ...t }); setError(null); }}>Edit</button>
-                    <button className="text-red-600" onClick={() => remove(t.apiName)}>Delete</button>
+                    <button className="text-[var(--color-info)] mr-3" onClick={() => { setDraft({ ...t }); setError(null); }}>Edit</button>
+                    <button className="text-[var(--color-danger)]" onClick={() => remove(t.apiName)}>Delete</button>
                   </td>
                 </tr>
               ))}
-              {tools.length === 0 && <tr><td colSpan={10} className="p-4 text-gray-500">No tools yet.</td></tr>}
+              {tools.length === 0 && <tr><td colSpan={10} className="p-4 text-[var(--muted-foreground)]">No tools yet.</td></tr>}
             </tbody>
           </table>
         </div>
@@ -86,7 +86,7 @@ export default function AiToolsClient() {
         <div className="bg-white rounded-lg shadow p-6 space-y-3 max-w-2xl">
           <h2 className="text-lg font-semibold">{isEditing ? "Edit" : "New"} tool</h2>
           <div className="grid grid-cols-2 gap-3">
-            <label className="text-sm">apiName<input disabled={!!isEditing} className="border p-2 w-full rounded disabled:bg-gray-100" value={draft.apiName} onChange={(e) => setDraft({ ...draft, apiName: e.target.value })} /></label>
+            <label className="text-sm">apiName<input disabled={!!isEditing} className="border p-2 w-full rounded disabled:bg-[var(--paper)]" value={draft.apiName} onChange={(e) => setDraft({ ...draft, apiName: e.target.value })} /></label>
             <label className="text-sm">Display name<input className="border p-2 w-full rounded" value={draft.displayName} onChange={(e) => setDraft({ ...draft, displayName: e.target.value })} /></label>
             <label className="text-sm">Category
               <select className="border p-2 w-full rounded" value={draft.category} onChange={(e) => setDraft({ ...draft, category: e.target.value })}>
@@ -103,7 +103,7 @@ export default function AiToolsClient() {
             <label className="text-sm col-span-2">Documentation URL<input className="border p-2 w-full rounded" value={draft.documentationUrl ?? ""} onChange={(e) => setDraft({ ...draft, documentationUrl: e.target.value })} /></label>
           </div>
           <div className="flex gap-2">
-            <button onClick={save} className="px-4 py-2 bg-blue-600 text-white rounded-lg">Save</button>
+            <button onClick={save} className="px-4 py-2 bg-[var(--color-primary)] text-white rounded-lg">Save</button>
             <button onClick={() => setDraft(null)} className="px-4 py-2 border rounded-lg">Cancel</button>
           </div>
         </div>

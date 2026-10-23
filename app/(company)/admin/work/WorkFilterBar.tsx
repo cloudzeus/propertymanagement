@@ -23,7 +23,7 @@ function Chip({ label, color, active, onClick }: { label: string; color: string;
     <button type="button" onClick={onClick} aria-pressed={active} style={{
       height: 28, padding: "0 10px", borderRadius: 999, cursor: "pointer", fontFamily: "inherit",
       fontSize: "var(--fs-12)", fontWeight: 600, whiteSpace: "nowrap",
-      color: active ? "#fff" : color, background: active ? color : `${color}12`, border: `1px solid ${active ? color : `${color}40`}`,
+      color: active ? "#fff" : color, background: active ? color : `color-mix(in srgb, ${color} 7%, transparent)`, border: `1px solid ${active ? color : `color-mix(in srgb, ${color} 25%, transparent)`}`,
     }}>{label}</button>
   );
 }

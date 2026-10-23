@@ -22,7 +22,7 @@ export default async function SupplierWorkOrdersPage() {
       {items.length === 0 ? (
         <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 12, padding: 32, textAlign: "center", fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }}>Καμία σύμβαση έργου ακόμη.</div>
       ) : items.map((w) => {
-        const c = WO_STATUS_COLORS[w.status] ?? "#6b7280";
+        const c = WO_STATUS_COLORS[w.status] ?? "var(--muted-foreground)";
         const needs = w.status === "ACCEPTED" && !w.supplierAcceptedAt ? "Αποδεχθείτε την ανάθεση" : w.status === "ACCEPTED" ? "Ορίστε ραντεβού" : w.status === "SCHEDULED" ? "Ραντεβού " + fmt(w.scheduledAt) : w.status === "IN_PROGRESS" ? "Καταθέστε απόδειξη επισκευής" : w.status === "DISPUTED" ? "Αμφισβήτηση — δείτε το σχόλιο" : null;
         return (
           <Link key={w.id} href={`/marketplace/work-orders/${w.id}`} style={{ display: "flex", alignItems: "center", gap: 12, padding: "12px 16px", textDecoration: "none", background: "var(--card)", border: `1px solid ${needs ? c + "66" : "var(--border)"}`, borderRadius: "var(--radius-lg)" }}>
@@ -30,7 +30,7 @@ export default async function SupplierWorkOrdersPage() {
               <div style={{ fontSize: "var(--fs-14)", fontWeight: 600, color: "var(--foreground)" }}>{w.number} · {w.title}</div>
               <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>{w.building} · {eur(w.supplierPrice)} + ΦΠΑ{needs ? ` · ${needs}` : ""}</div>
             </div>
-            <span style={{ padding: "2px 8px", borderRadius: 999, fontSize: "var(--fs-11-5)", fontWeight: 600, color: c, background: `${c}18`, border: `1px solid ${c}40`, whiteSpace: "nowrap" }}>{WO_STATUS_LABELS[w.status] ?? w.status}</span>
+            <span style={{ padding: "2px 8px", borderRadius: 999, fontSize: "var(--fs-11-5)", fontWeight: 600, color: c, background: `color-mix(in srgb, ${c} 9%, transparent)`, border: `1px solid color-mix(in srgb, ${c} 25%, transparent)`, whiteSpace: "nowrap" }}>{WO_STATUS_LABELS[w.status] ?? w.status}</span>
             <RiArrowRightSLine style={{ color: "var(--muted-foreground)" }} />
           </Link>
         );

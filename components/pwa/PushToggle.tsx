@@ -131,7 +131,7 @@ export function PushToggle() {
       <RiSmartphoneLine style={{ fontSize: "var(--fs-17)", color: "var(--muted-foreground)", flexShrink: 0 }} aria-hidden />
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ fontSize: "var(--fs-13)", fontWeight: 600, color: "var(--foreground)" }}>Ειδοποιήσεις στο κινητό</div>
-        <div style={{ fontSize: "var(--fs-12)", color: error ? "var(--destructive, #b91c1c)" : "var(--muted-foreground)", marginTop: 2 }}>{text}</div>
+        <div style={{ fontSize: "var(--fs-12)", color: error ? "var(--destructive, var(--color-danger))" : "var(--muted-foreground)", marginTop: 2 }}>{text}</div>
       </div>
       <button
         type="button"

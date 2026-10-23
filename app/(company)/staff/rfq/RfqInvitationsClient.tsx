@@ -85,7 +85,7 @@ export function RfqInvitationsClient({ rows, faults, canCreate, canEdit, viewer 
         ))}
       </div>
       {error && <div role="alert" style={{ color: "var(--destructive)", fontSize: "var(--fs-13)" }}>{error}</div>}
-      {info && <div style={{ color: "#15803d", fontSize: "var(--fs-13)" }}>{info}</div>}
+      {info && <div style={{ color: "var(--color-success)", fontSize: "var(--fs-13)" }}>{info}</div>}
       <DataTable
         data={rows} columns={columns} totalRows={rows.length} page={1} pageSize={25} clientSide storageKey="staff-rfq" searchPlaceholder="Αναζήτηση συνεργάτη ή βλάβης…"
         getRowActions={actions}
@@ -102,7 +102,7 @@ export function RfqInvitationsClient({ rows, faults, canCreate, canEdit, viewer 
 
 function StateChip({ state }: { state: InvitationState }) {
   const c = INVITATION_STATE_COLORS[state];
-  return <span style={{ padding: "2px 8px", borderRadius: 999, fontSize: "var(--fs-11-5)", fontWeight: 600, color: c, background: `${c}18`, border: `1px solid ${c}40`, whiteSpace: "nowrap" }}>{INVITATION_STATE_LABELS[state]}</span>;
+  return <span style={{ padding: "2px 8px", borderRadius: 999, fontSize: "var(--fs-11-5)", fontWeight: 600, color: c, background: `color-mix(in srgb, ${c} 9%, transparent)`, border: `1px solid color-mix(in srgb, ${c} 25%, transparent)`, whiteSpace: "nowrap" }}>{INVITATION_STATE_LABELS[state]}</span>;
 }
 
 function Recipients({ r }: { r: RfqInvitationRowDTO }) {
@@ -114,8 +114,8 @@ function Recipients({ r }: { r: RfqInvitationRowDTO }) {
         <div key={x.email} style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
           <span style={{ fontWeight: 600 }}>{x.email}</span>
           <span style={{ color: "var(--muted-foreground)" }}>στάλθηκε {fmt(x.sentAt)}</span>
-          <span style={{ color: x.openedAt ? "#0369a1" : "var(--muted-foreground)" }}>{x.openedAt ? `άνοιξε ${fmt(x.openedAt)}` : "δεν το άνοιξε"}</span>
-          {x.expired && <span style={{ color: "#9f1239" }}>το link έληξε</span>}
+          <span style={{ color: x.openedAt ? "var(--color-info)" : "var(--muted-foreground)" }}>{x.openedAt ? `άνοιξε ${fmt(x.openedAt)}` : "δεν το άνοιξε"}</span>
+          {x.expired && <span style={{ color: "var(--color-danger)" }}>το link έληξε</span>}
         </div>
       ))}
     </div>
@@ -185,4 +185,4 @@ function NewRfqModal({ faults, onClose, onDone }: { faults: Fault[]; onClose: ()
 
 const cancelBtn: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: "var(--fs-13)", color: "var(--foreground)" };
 const saveBtn: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: "pointer", fontSize: "var(--fs-13)", fontWeight: 600, display: "flex", alignItems: "center", gap: 6 };
-const errBox: React.CSSProperties = { marginBottom: 10, padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: "var(--fs-12)", border: "1px solid #fca5a530" };
+const errBox: React.CSSProperties = { marginBottom: 10, padding: "8px 12px", borderRadius: 6, background: "var(--danger-soft)", color: "var(--color-danger)", fontSize: "var(--fs-12)", border: "1px solid var(--danger-soft)" };

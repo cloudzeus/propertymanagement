@@ -71,7 +71,7 @@ export function CustomerTree({ properties }: { properties: TProperty[] }) {
         return (
           <div key={p.id}>
             <Row depth={0} expandable open={pOpen} onToggle={() => toggle(p.id)}
-              icon={<RiCommunityLine style={{ color: "#8764B8" }} />}
+              icon={<RiCommunityLine style={{ color: "var(--color-purple)" }} />}
               title={p.name} subtitle={`${p.buildingCount} κτήρια · ${p.unitCount} μονάδες${p.city ? ` · ${p.city}` : ""}`}
               actions={[
                 { label: "Διαχείριση", icon: <RiSettings3Line />, onClick: () => router.push(`/super-admin/properties/${p.id}`) },
@@ -153,14 +153,14 @@ export function BuildingsTree({ propertyId, buildings, depthBase = 0, showAddBui
               return (
                 <div key={fid}>
                   <Row depth={depthBase + 1} expandable open={fOpen} onToggle={() => toggle(fid)}
-                    icon={<RiStairsLine style={{ color: "#CA5D00" }} />}
+                    icon={<RiStairsLine style={{ color: "var(--color-warning)" }} />}
                     title={fl.label} subtitle={[`${fl.units.length} μονάδες`, `${fl.areas.length} κοιν. χώροι`, (() => { const s = fl.units.reduce((a, u) => a + (u.areaSqm ?? 0), 0); return s > 0 ? `${s} τ.μ.` : null; })()].filter(Boolean).join(" · ")}
                     actions={[
                       { label: "Προσθήκη μονάδας", icon: <RiAddLine />, onClick: () => setModal({ kind: "unit", buildingId: b.id, editing: null, defaultFloor: fl.floor }) },
                       { label: "Προσθήκη κοιν. χώρου", icon: <RiDoorOpenLine />, onClick: () => setModal({ kind: "commonArea", buildingId: b.id, defaultFloor: fl.floor }) },
                     ]} />
                   {fOpen && fl.areas.map((a) => (
-                    <Row key={a.id} depth={depthBase + 2} icon={<RiDoorOpenLine style={{ color: "#707070" }} />}
+                    <Row key={a.id} depth={depthBase + 2} icon={<RiDoorOpenLine style={{ color: "var(--muted-foreground)" }} />}
                       title={a.name} subtitle={a.type || "Κοινόχρηστος χώρος"}
                       actions={[{ label: "Διαγραφή", icon: <RiDeleteBinLine />, danger: true, onClick: () => act(() => deleteCommonArea(a.id)) }]} />
                   ))}
@@ -168,7 +168,7 @@ export function BuildingsTree({ propertyId, buildings, depthBase = 0, showAddBui
                     const Icon = UNIT_TYPE_ICON[u.unitType] ?? RiBox3Line;
                     const occ = [u.owner && `Ιδ: ${u.owner.name || u.owner.email}`, u.resident && `Εν: ${u.resident.name || u.resident.email}`].filter(Boolean).join(" · ");
                     return (
-                      <Row key={u.id} depth={depthBase + 2} icon={<Icon style={{ color: "#0078D4" }} />}
+                      <Row key={u.id} depth={depthBase + 2} icon={<Icon style={{ color: "var(--color-info)" }} />}
                         title={`${u.unitNumber} · ${UNIT_TYPE_LABEL[u.unitType] ?? u.unitType}`}
                         subtitle={occ || [u.areaSqm && `${u.areaSqm} τ.μ.`, u.millesimes && `${u.millesimes}‰`].filter(Boolean).join(" · ") || "—"}
                         actions={[
@@ -264,7 +264,7 @@ function Dropdown({ actions }: { actions: Action[] }) {
       {open && (
         <div style={{ position: "absolute", top: "100%", right: 0, zIndex: 200, marginTop: 4, minWidth: 200, background: "var(--card)", border: "1px solid var(--border)", borderRadius: 6, boxShadow: "0 4px 16px rgba(0,0,0,.14)", overflow: "hidden" }}>
           {actions.map((a, i) => (
-            <button key={i} onClick={() => { setOpen(false); a.onClick(); }} style={{ display: "flex", alignItems: "center", gap: 8, width: "100%", padding: "8px 12px", border: "none", background: "transparent", cursor: "pointer", textAlign: "left", fontSize: "var(--fs-13)", color: a.danger ? "#c50f1f" : "var(--foreground)" }}
+            <button key={i} onClick={() => { setOpen(false); a.onClick(); }} style={{ display: "flex", alignItems: "center", gap: 8, width: "100%", padding: "8px 12px", border: "none", background: "transparent", cursor: "pointer", textAlign: "left", fontSize: "var(--fs-13)", color: a.danger ? "var(--color-danger)" : "var(--foreground)" }}
               onMouseEnter={(e) => (e.currentTarget.style.background = "var(--bg-canvas)")} onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}>
               <span style={{ display: "flex", fontSize: "var(--fs-15)" }}>{a.icon}</span> {a.label}
             </button>
@@ -278,7 +278,7 @@ function Dropdown({ actions }: { actions: Action[] }) {
 // ─── Modals ────────────────────────────────────────────────────────────────────
 const cancelBtn: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: "var(--fs-13)", color: "var(--foreground)" };
 const saveBtn: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: "pointer", fontSize: "var(--fs-13)", fontWeight: 600, display: "flex", alignItems: "center", gap: 6 };
-const errBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: "var(--fs-12)", border: "1px solid #fca5a530", marginBottom: 14 };
+const errBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "var(--danger-soft)", color: "var(--color-danger)", fontSize: "var(--fs-12)", border: "1px solid var(--danger-soft)", marginBottom: 14 };
 const smallBtn: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 4, padding: "4px 8px", borderRadius: 5, fontSize: "var(--fs-11)", fontWeight: 600, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", color: "var(--foreground)" };
 const yesNo = [{ value: "false", label: "Όχι" }, { value: "true", label: "Ναι" }];
 const buildingRowActions = basicBuildingActions(capsForStaff(), { managed: true, metered: true });
@@ -347,15 +347,15 @@ function MillesimesModal({ building, onClose, onDone }: { building: TBuilding; o
           {isPending ? <RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> : <RiCheckLine />} Εφαρμογή σε όλες
         </button>
       </>}>
-      {error && <div style={{ padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: "var(--fs-12)", border: "1px solid #fca5a530", marginBottom: 12 }}>{error}</div>}
+      {error && <div style={{ padding: "8px 12px", borderRadius: 6, background: "var(--danger-soft)", color: "var(--color-danger)", fontSize: "var(--fs-12)", border: "1px solid var(--danger-soft)", marginBottom: 12 }}>{error}</div>}
 
       {!canApply && (
-        <div style={{ padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: "var(--fs-12)", marginBottom: 12 }}>
+        <div style={{ padding: "8px 12px", borderRadius: 6, background: "var(--danger-soft)", color: "var(--color-danger)", fontSize: "var(--fs-12)", marginBottom: 12 }}>
           Καμία μονάδα δεν έχει τετραγωνικά. Συμπληρώστε τ.μ. στις μονάδες πρώτα.
         </div>
       )}
       {missing > 0 && canApply && (
-        <div style={{ padding: "8px 12px", borderRadius: 6, background: "#fef9c318", color: "#a16207", fontSize: "var(--fs-12)", border: "1px solid #fde04740", marginBottom: 12 }}>
+        <div style={{ padding: "8px 12px", borderRadius: 6, background: "#fef9c318", color: "var(--color-warning)", fontSize: "var(--fs-12)", border: "1px solid #fde04740", marginBottom: 12 }}>
           {missing} μονάδες χωρίς τ.μ. — τα χιλιοστά τους θα μηδενιστούν.
         </div>
       )}
@@ -456,7 +456,7 @@ function ManagersModal({ scope, title, onClose }: { scope: ManagerScope; title: 
                     <div style={{ fontSize: "var(--fs-13)", fontWeight: 600, color: "var(--foreground)" }}>{m.name || "—"}</div>
                     <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>{m.email}</div>
                   </div>
-                  <button onClick={() => remove(m.assignmentId)} disabled={isPending} style={{ ...smallBtn, color: "#c50f1f" }}><RiCloseLine /> Αφαίρεση</button>
+                  <button onClick={() => remove(m.assignmentId)} disabled={isPending} style={{ ...smallBtn, color: "var(--color-danger)" }}><RiCloseLine /> Αφαίρεση</button>
                 </div>
               ))}
             </div>
@@ -488,9 +488,9 @@ function ManagersModal({ scope, title, onClose }: { scope: ManagerScope; title: 
                     <span style={{ display: "block", fontSize: "var(--fs-11)", color: "var(--muted-foreground)" }}>{c.email}</span>
                   </span>
                   {(() => {
-                    const badge = c.origin === "staff" ? { label: "Εταιρεία", color: "#0078D4" } : c.origin === "customer" ? { label: "Πελάτης", color: "#9333ea" } : { label: "Ένοικος/Ιδιοκτήτης", color: "#16a34a" };
+                    const badge = c.origin === "staff" ? { label: "Εταιρεία", color: "var(--color-info)" } : c.origin === "customer" ? { label: "Πελάτης", color: "#9333ea" } : { label: "Ένοικος/Ιδιοκτήτης", color: "var(--color-success)" };
                     return (
-                      <span style={{ flexShrink: 0, fontSize: "var(--fs-10)", fontWeight: 700, padding: "2px 6px", borderRadius: 4, background: `${badge.color}18`, color: badge.color }}>
+                      <span style={{ flexShrink: 0, fontSize: "var(--fs-10)", fontWeight: 700, padding: "2px 6px", borderRadius: 4, background: `color-mix(in srgb, ${badge.color} 9%, transparent)`, color: badge.color }}>
                         {badge.label}
                       </span>
                     );
@@ -575,7 +575,7 @@ function Slot({ unitId, role, label, current, onDone }: { unitId: string; role: 
             <div style={{ fontSize: "var(--fs-13)", fontWeight: 600, color: "var(--foreground)" }}>{occupant.name || "—"}</div>
             <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>{occupant.email}</div>
           </div>
-          <button onClick={clear} disabled={isPending} style={{ ...smallBtn, color: "#c50f1f" }}><RiCloseLine /> Αφαίρεση</button>
+          <button onClick={clear} disabled={isPending} style={{ ...smallBtn, color: "var(--color-danger)" }}><RiCloseLine /> Αφαίρεση</button>
         </div>
       ) : adding ? (
         <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>

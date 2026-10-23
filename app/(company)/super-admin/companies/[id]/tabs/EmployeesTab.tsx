@@ -38,10 +38,10 @@ type Employee = {
 };
 
 const STATUS_CONFIG = {
-  ACTIVE:     { label: "Ενεργός",    color: "#16a34a" },
-  INACTIVE:   { label: "Ανενεργός",  color: "#6b7280" },
-  ON_LEAVE:   { label: "Άδεια",      color: "#ca5d00" },
-  TERMINATED: { label: "Απόλυση",    color: "#c50f1f" },
+  ACTIVE:     { label: "Ενεργός",    color: "var(--color-success)" },
+  INACTIVE:   { label: "Ανενεργός",  color: "var(--muted-foreground)" },
+  ON_LEAVE:   { label: "Άδεια",      color: "var(--color-warning)" },
+  TERMINATED: { label: "Απόλυση",    color: "var(--color-danger)" },
 };
 
 function initForm() {
@@ -201,7 +201,7 @@ export function EmployeesTab({
       cell: (r) => {
         const s = STATUS_CONFIG[r.status];
         return (
-          <span style={{ fontSize: "var(--fs-11)", fontWeight: 600, padding: "2px 8px", borderRadius: 20, background: `${s.color}18`, color: s.color }}>
+          <span style={{ fontSize: "var(--fs-11)", fontWeight: 600, padding: "2px 8px", borderRadius: 20, background: `color-mix(in srgb, ${s.color} 9%, transparent)`, color: s.color }}>
             {s.label}
           </span>
         );
@@ -314,7 +314,7 @@ export function EmployeesTab({
           ))}
         </div>
 
-        {error && <div style={{ padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: "var(--fs-12)", border: "1px solid #fca5a530", marginBottom: 12 }}>{error}</div>}
+        {error && <div style={{ padding: "8px 12px", borderRadius: 6, background: "var(--danger-soft)", color: "var(--color-danger)", fontSize: "var(--fs-12)", border: "1px solid var(--danger-soft)", marginBottom: 12 }}>{error}</div>}
 
         {modalTab === "personal" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>

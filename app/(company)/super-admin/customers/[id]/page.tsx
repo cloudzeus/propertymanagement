@@ -16,10 +16,10 @@ export const metadata = { title: "Καρτέλα Πελάτη — Super Admin" }
 const TYPE_LABEL: Record<string, string> = { INDIVIDUAL: "Ιδιώτης", COMPANY: "Εταιρεία" };
 
 const INVOICE_STATUS: Record<string, { label: string; color: string; bg: string }> = {
-  PENDING:   { label: "Εκκρεμεί",   color: "#B45309", bg: "#B4530915" },
-  PAID:      { label: "Εξοφλήθη",   color: "#15803D", bg: "#15803D15" },
-  OVERDUE:   { label: "Ληξιπρόθεσμο", color: "#B91C1C", bg: "#B91C1C15" },
-  CANCELLED: { label: "Ακυρώθηκε",  color: "#6B7280", bg: "#6B728015" },
+  PENDING:   { label: "Εκκρεμεί",   color: "var(--color-warning)", bg: "color-mix(in srgb, var(--color-warning) 8%, transparent)" },
+  PAID:      { label: "Εξοφλήθη",   color: "var(--color-success)", bg: "color-mix(in srgb, var(--color-success) 8%, transparent)" },
+  OVERDUE:   { label: "Ληξιπρόθεσμο", color: "var(--color-danger)", bg: "color-mix(in srgb, var(--color-danger) 8%, transparent)" },
+  CANCELLED: { label: "Ακυρώθηκε",  color: "var(--muted-foreground)", bg: "color-mix(in srgb, var(--muted-foreground) 8%, transparent)" },
 };
 
 const PRICING_LABEL: Record<string, string> = {
@@ -122,13 +122,13 @@ export default async function CustomerDetailPage({ params }: { params: Promise<{
           <h1 style={{ fontSize: "var(--fs-22)", fontWeight: 700, color: "var(--foreground)", margin: 0, display: "flex", alignItems: "center", gap: 10 }}>
             {customer.name}
             {customer.isActive ? (
-              <span style={{ ...pill, background: "#15803D15", color: "#15803D" }}><RiCheckboxCircleLine /> Ενεργός</span>
+              <span style={{ ...pill, background: "color-mix(in srgb, var(--color-success) 8%, transparent)", color: "var(--color-success)" }}><RiCheckboxCircleLine /> Ενεργός</span>
             ) : (
-              <span style={{ ...pill, background: "#B91C1C15", color: "#B91C1C" }}><RiCloseCircleLine /> Ανενεργός</span>
+              <span style={{ ...pill, background: "color-mix(in srgb, var(--color-danger) 8%, transparent)", color: "var(--color-danger)" }}><RiCloseCircleLine /> Ανενεργός</span>
             )}
           </h1>
           <p style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)", marginTop: 4, display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-            <span style={{ ...pill, background: customer.type === "COMPANY" ? "#8764B818" : "#0078D418", color: customer.type === "COMPANY" ? "#8764B8" : "#0078D4" }}>
+            <span style={{ ...pill, background: customer.type === "COMPANY" ? "color-mix(in srgb, var(--color-purple) 9%, transparent)" : "color-mix(in srgb, var(--color-info) 9%, transparent)", color: customer.type === "COMPANY" ? "var(--color-purple)" : "var(--color-info)" }}>
               {TYPE_LABEL[customer.type] ?? customer.type}
             </span>
             {customer.code && <span style={{ fontFamily: "monospace" }}>{customer.code}</span>}
@@ -143,7 +143,7 @@ export default async function CustomerDetailPage({ params }: { params: Promise<{
             { label: "Κτήρια", val: String(totalBuildings) },
             { label: "Μονάδες", val: String(totalUnits) },
             { label: "Ενεργές Συνδρομές", val: String(activeSubs.length) },
-            { label: "Οφειλές", val: eur(outstanding), color: outstanding > 0 ? "#B91C1C" : "#15803D" },
+            { label: "Οφειλές", val: eur(outstanding), color: outstanding > 0 ? "var(--color-danger)" : "var(--color-success)" },
           ].map((s, i) => (
             <div key={s.label} style={{ textAlign: "center", padding: "0 18px", borderLeft: i > 0 ? "1px solid var(--border)" : "none" }}>
               <div style={{ fontSize: "var(--fs-19)", fontWeight: 700, color: s.color ?? "var(--foreground)", fontVariantNumeric: "tabular-nums" }}>{s.val}</div>
@@ -171,7 +171,7 @@ export default async function CustomerDetailPage({ params }: { params: Promise<{
             <h3 style={{ ...cardTitle, marginTop: 16 }}>Διεύθυνση</h3>
             <p style={{ fontSize: "var(--fs-13)", color: "var(--foreground)", margin: 0 }}>{addr || "—"}</p>
             {customer.lat != null && customer.lng != null && (
-              <p style={{ fontSize: "var(--fs-12)", color: "#16a34a", marginTop: 6, display: "flex", alignItems: "center", gap: 5 }}>
+              <p style={{ fontSize: "var(--fs-12)", color: "var(--color-success)", marginTop: 6, display: "flex", alignItems: "center", gap: 5 }}>
                 <RiMapPin2Line /> {customer.lat.toFixed(6)}, {customer.lng.toFixed(6)}
               </p>
             )}
@@ -189,7 +189,7 @@ export default async function CustomerDetailPage({ params }: { params: Promise<{
             {wallet ? (
               <>
                 <div style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
-                  <span style={{ fontSize: "var(--fs-24)", fontWeight: 700, color: Number(wallet.balanceEur) > 0 ? "var(--foreground)" : "#B91C1C", fontVariantNumeric: "tabular-nums" }}>
+                  <span style={{ fontSize: "var(--fs-24)", fontWeight: 700, color: Number(wallet.balanceEur) > 0 ? "var(--foreground)" : "var(--color-danger)", fontVariantNumeric: "tabular-nums" }}>
                     {eur(Number(wallet.balanceEur))}
                   </span>
                   <span style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)" }}>υπόλοιπο</span>
@@ -209,7 +209,7 @@ export default async function CustomerDetailPage({ params }: { params: Promise<{
                         <RiTimeLine style={{ color: "var(--muted-foreground)", flexShrink: 0 }} />
                         <span style={{ color: "var(--muted-foreground)", flexShrink: 0 }}>{dt(t.createdAt)}</span>
                         <span style={{ color: "var(--foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{t.description}</span>
-                        <span style={{ marginLeft: "auto", fontWeight: 600, fontVariantNumeric: "tabular-nums", color: Number(t.amountEur) >= 0 ? "#15803D" : "#B91C1C", flexShrink: 0 }}>
+                        <span style={{ marginLeft: "auto", fontWeight: 600, fontVariantNumeric: "tabular-nums", color: Number(t.amountEur) >= 0 ? "var(--color-success)" : "var(--color-danger)", flexShrink: 0 }}>
                           {Number(t.amountEur) >= 0 ? "+" : ""}{eur(Number(t.amountEur))}
                         </span>
                       </div>
@@ -242,7 +242,7 @@ export default async function CustomerDetailPage({ params }: { params: Promise<{
                   <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                     <span style={{ fontSize: "var(--fs-13)", fontWeight: 600, color: "var(--foreground)" }}>{s.service.name}</span>
                     {s.service.isCore && <span style={{ ...pill, background: "var(--color-primary)15", color: "var(--color-primary)" }}>CORE</span>}
-                    <span style={{ marginLeft: "auto", ...pill, background: s.active ? "#15803D15" : "#6B728015", color: s.active ? "#15803D" : "#6B7280" }}>
+                    <span style={{ marginLeft: "auto", ...pill, background: s.active ? "color-mix(in srgb, var(--color-success) 8%, transparent)" : "color-mix(in srgb, var(--muted-foreground) 8%, transparent)", color: s.active ? "var(--color-success)" : "var(--muted-foreground)" }}>
                       {s.active ? "Ενεργή" : "Ανενεργή"}
                     </span>
                   </div>
@@ -268,7 +268,7 @@ export default async function CustomerDetailPage({ params }: { params: Promise<{
           <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 12 }}>
             <h3 style={{ ...cardTitle, margin: 0, display: "flex", alignItems: "center", gap: 6 }}><RiBankCardLine /> Τιμολόγια &amp; Πληρωμές</h3>
             <span style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>
-              Εξοφλημένα <strong style={{ color: "#15803D" }}>{eur(paidTotal)}</strong>
+              Εξοφλημένα <strong style={{ color: "var(--color-success)" }}>{eur(paidTotal)}</strong>
             </span>
           </div>
           {invoices.length === 0 ? (

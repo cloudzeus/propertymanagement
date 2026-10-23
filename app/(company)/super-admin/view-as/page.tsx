@@ -16,13 +16,13 @@ export default async function ViewAsPage() {
   return (
     <div className="p-8 max-w-2xl">
       <h1 className="text-2xl font-semibold mb-4">Προεπισκόπηση ως χρήστης</h1>
-      <p className="text-gray-600 mb-6">Διάλεξε χρήστη για να δεις την εφαρμογή με τα δεδομένα του. Έξοδος από το banner.</p>
+      <p className="text-[var(--muted-foreground)] mb-6">Διάλεξε χρήστη για να δεις την εφαρμογή με τα δεδομένα του. Έξοδος από το banner.</p>
       <ul className="divide-y">
         {users.map((u) => (
           <li key={u.id} className="flex items-center justify-between py-3">
-            <span>{u.name ?? u.email} <span className="text-gray-400">· {u.role}</span></span>
+            <span>{u.name ?? u.email} <span className="text-[var(--muted-foreground)]">· {u.role}</span></span>
             <form action={startImpersonation.bind(null, u.id)}>
-              <button type="submit" className="px-3 py-1 text-blue-600 border border-blue-600 rounded hover:bg-blue-50">View as</button>
+              <button type="submit" className="px-3 py-1 text-[var(--color-info)] border border-blue-600 rounded hover:bg-[var(--info-soft)]">View as</button>
             </form>
           </li>
         ))}

@@ -78,7 +78,7 @@ function Toggle({
         display: "inline-flex",
         alignItems: "center",
         justifyContent: checked ? "flex-end" : "flex-start",
-        background: checked ? "#0078D4" : "var(--border)",
+        background: checked ? "var(--color-info)" : "var(--border)",
         cursor: disabled ? "not-allowed" : "pointer",
         opacity: disabled ? 0.6 : 1,
         transition: "background 120ms ease",
@@ -200,7 +200,7 @@ export function RoleEditor({ roles, modules }: Props) {
           onClick={() => setShowCreate((v) => !v)}
           style={{
             display: "flex", alignItems: "center", gap: 6, padding: "8px 14px",
-            background: "#0078D4", color: "#fff", border: "none", borderRadius: "var(--radius)",
+            background: "var(--color-info)", color: "#fff", border: "none", borderRadius: "var(--radius)",
             fontSize: "var(--fs-13)", fontWeight: 600, cursor: "pointer",
           }}
         >
@@ -243,7 +243,7 @@ export function RoleEditor({ roles, modules }: Props) {
               onClick={handleCreate}
               disabled={isPending || !newLabel.trim()}
               style={{
-                padding: "8px 14px", background: "#107C10", color: "#fff", border: "none",
+                padding: "8px 14px", background: "var(--color-success)", color: "#fff", border: "none",
                 borderRadius: "var(--radius)", fontSize: "var(--fs-13)", fontWeight: 600, cursor: "pointer",
                 opacity: isPending || !newLabel.trim() ? 0.6 : 1,
               }}
@@ -274,11 +274,11 @@ export function RoleEditor({ roles, modules }: Props) {
               style={{
                 display: "flex", alignItems: "center", gap: 8, padding: "8px 14px",
                 background: active ? "var(--card)" : "transparent",
-                border: `1px solid ${active ? "#0078D4" : "var(--border)"}`,
+                border: `1px solid ${active ? "var(--color-info)" : "var(--border)"}`,
                 borderRadius: "var(--radius)", cursor: "pointer",
               }}
             >
-              <RiShieldUserLine style={{ fontSize: "var(--fs-15)", color: active ? "#0078D4" : "var(--muted-foreground)" }} />
+              <RiShieldUserLine style={{ fontSize: "var(--fs-15)", color: active ? "var(--color-info)" : "var(--muted-foreground)" }} />
               <span style={{ fontSize: "var(--fs-13)", fontWeight: 600, color: "var(--foreground)" }}>{r.label}</span>
               {r.isSystem && (
                 <span style={{
@@ -324,7 +324,7 @@ export function RoleEditor({ roles, modules }: Props) {
                   disabled={isPending}
                   style={{
                     display: "flex", alignItems: "center", gap: 6, padding: "7px 12px",
-                    background: "transparent", color: "#A4262C", border: "1px solid #A4262C55",
+                    background: "transparent", color: "var(--color-danger)", border: "1px solid color-mix(in srgb, var(--color-danger) 33%, transparent)",
                     borderRadius: "var(--radius)", fontSize: "var(--fs-13)", cursor: "pointer", opacity: isPending ? 0.6 : 1,
                   }}
                 >
@@ -336,7 +336,7 @@ export function RoleEditor({ roles, modules }: Props) {
                 disabled={isPending || isSuperAdmin}
                 style={{
                   display: "flex", alignItems: "center", gap: 6, padding: "7px 14px",
-                  background: "#0078D4", color: "#fff", border: "none",
+                  background: "var(--color-info)", color: "#fff", border: "none",
                   borderRadius: "var(--radius)", fontSize: "var(--fs-13)", fontWeight: 600, cursor: "pointer",
                   opacity: isPending || isSuperAdmin ? 0.6 : 1,
                 }}
@@ -349,8 +349,8 @@ export function RoleEditor({ roles, modules }: Props) {
           {isSuperAdmin && (
             <div style={{
               display: "flex", alignItems: "center", gap: 8, padding: "10px 20px",
-              background: "#A4262C10", borderBottom: "1px solid var(--border)",
-              fontSize: "var(--fs-12)", color: "#A4262C", fontWeight: 500,
+              background: "color-mix(in srgb, var(--color-danger) 6%, transparent)", borderBottom: "1px solid var(--border)",
+              fontSize: "var(--fs-12)", color: "var(--color-danger)", fontWeight: 500,
             }}>
               <RiLockLine style={{ fontSize: "var(--fs-15)" }} />
               Ο Super Admin έχει πάντα πλήρη πρόσβαση (κλειδωμένο).
@@ -420,7 +420,7 @@ export function RoleEditor({ roles, modules }: Props) {
 
       {isSuperAdmin && (
         <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>
-          <RiCheckLine style={{ fontSize: "var(--fs-14)", color: "#107C10" }} />
+          <RiCheckLine style={{ fontSize: "var(--fs-14)", color: "var(--color-success)" }} />
           Όλα τα δικαιώματα ενεργά για τον Super Admin.
         </div>
       )}

@@ -115,7 +115,7 @@ export function OnboardingWizard({ supplier, catalog, categories, existing, user
             <li key={s.key} style={{ display: "flex", alignItems: "center", gap: 8, padding: "10px 12px", borderRadius: 8, fontSize: "var(--fs-12-5)", fontWeight: 600,
               background: state === "active" ? "var(--color-primary)" : "var(--card)", color: state === "active" ? "#fff" : state === "done" ? "var(--foreground)" : "var(--muted-foreground)",
               border: "1px solid var(--border)" }}>
-              <span style={{ width: 22, height: 22, borderRadius: 999, display: "inline-flex", alignItems: "center", justifyContent: "center", background: state === "done" ? "#15803d" : "transparent", color: state === "done" ? "#fff" : "inherit", border: state === "done" ? "none" : "1px solid currentColor", fontSize: "var(--fs-11)" }}>
+              <span style={{ width: 22, height: 22, borderRadius: 999, display: "inline-flex", alignItems: "center", justifyContent: "center", background: state === "done" ? "var(--color-success)" : "transparent", color: state === "done" ? "#fff" : "inherit", border: state === "done" ? "none" : "1px solid currentColor", fontSize: "var(--fs-11)" }}>
                 {state === "done" ? <RiCheckLine /> : i + 1}
               </span>
               <Icon style={{ flexShrink: 0 }} /> <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{s.label}</span>
@@ -237,4 +237,4 @@ const grid3: React.CSSProperties = { display: "grid", gridTemplateColumns: "repe
 const smallInput: React.CSSProperties = { height: 32, padding: "0 8px", border: "1px solid var(--border)", borderRadius: "var(--radius-sm)", fontSize: "var(--fs-12-5)", color: "var(--foreground)", background: "var(--card)", width: "100%", boxSizing: "border-box" };
 const ghostBtn: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 6, padding: "9px 16px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: "var(--fs-13)", color: "var(--foreground)" };
 const primaryBtn: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 6, padding: "9px 18px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: "pointer", fontSize: "var(--fs-13)", fontWeight: 600 };
-const errBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: "var(--fs-12)", border: "1px solid #fca5a530" };
+const errBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "var(--danger-soft)", color: "var(--color-danger)", fontSize: "var(--fs-12)", border: "1px solid var(--danger-soft)" };

@@ -131,7 +131,7 @@ export function RevenueBars({ trend, accent = "var(--color-primary)" }: { trend:
                   width: "70%",
                   minWidth: 18,
                   height: `${Math.max(h, 2)}%`,
-                  background: `linear-gradient(180deg, ${accent}, ${accent}99)`,
+                  background: `linear-gradient(180deg, ${accent}, color-mix(in srgb, ${accent} 60%, transparent))`,
                   borderRadius: "4px 4px 0 0",
                 }}
               />
@@ -200,9 +200,9 @@ export function ManagedFaultsPanel({
       <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 12, marginBottom: 16 }}>
         <MiniStat label="Ενεργές" value={summary.open} icon={RiToolsLine} color="var(--color-primary)" />
         <MiniStat label="Επείγουσες" value={summary.urgent} icon={RiAlarmWarningLine} color="var(--color-warning)" />
-        <MiniStat label="Σε καθυστέρηση SLA" value={summary.slaBreached} icon={RiAlarmWarningLine} color="#d13438" />
-        <MiniStat label="Από διαχειριστές" value={summary.byManager} icon={RiUserStarLine} color="#0078D4" />
-        <MiniStat label="Από ενοίκους" value={summary.byOccupant} icon={RiUserLine} color="#8764B8" />
+        <MiniStat label="Σε καθυστέρηση SLA" value={summary.slaBreached} icon={RiAlarmWarningLine} color="var(--color-danger)" />
+        <MiniStat label="Από διαχειριστές" value={summary.byManager} icon={RiUserStarLine} color="var(--color-info)" />
+        <MiniStat label="Από ενοίκους" value={summary.byOccupant} icon={RiUserLine} color="var(--color-purple)" />
       </div>
       {summary.recent.length === 0 ? (
         <EmptyState icon={RiToolsLine} text="Δεν υπάρχουν ενεργές βλάβες σε managed ακίνητα" />
@@ -217,13 +217,13 @@ export function ManagedFaultsPanel({
                 <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>
                   {f.buildingName}
                   {f.reporterName ? ` · ${f.reporterName}` : ""} ·{" "}
-                  <span style={{ color: f.reporterSide === "manager" ? "#0078D4" : "#8764B8" }}>
+                  <span style={{ color: f.reporterSide === "manager" ? "var(--color-info)" : "var(--color-purple)" }}>
                     {f.reporterSide === "manager" ? "διαχειριστής" : "ένοικος"}
                   </span>
                 </div>
               </div>
               <div style={{ display: "flex", gap: 6, alignItems: "center", flexShrink: 0 }}>
-                {f.slaBreached && <Pill label="SLA" color="#d13438" />}
+                {f.slaBreached && <Pill label="SLA" color="var(--color-danger)" />}
                 {(f.priority === "URGENT" || f.priority === "HIGH") && (
                   <Pill label={PRIORITY_LABELS[f.priority as "HIGH" | "URGENT"]} color="var(--color-warning)" />
                 )}
@@ -249,7 +249,7 @@ export function Pill({ label, color }: { label: string; color: string }) {
         fontWeight: 700,
         padding: "2px 8px",
         borderRadius: 9999,
-        background: `${color}18`,
+        background: `color-mix(in srgb, ${color} 9%, transparent)`,
         color,
         whiteSpace: "nowrap",
       }}

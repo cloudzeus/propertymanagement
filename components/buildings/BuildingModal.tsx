@@ -21,7 +21,7 @@ const yesNo = [{ value: "false", label: "Όχι" }, { value: "true", label: "Ν�
 const spin = <style>{`@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}`}</style>;
 const cancelBtn: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: "var(--fs-13)", color: "var(--foreground)" };
 const saveBtn: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: "pointer", fontSize: "var(--fs-13)", fontWeight: 600, display: "flex", alignItems: "center", gap: 6 };
-const errBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: "var(--fs-12)", border: "1px solid #fca5a530", marginBottom: 14 };
+const errBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "var(--danger-soft)", color: "var(--color-danger)", fontSize: "var(--fs-12)", border: "1px solid var(--danger-soft)", marginBottom: 14 };
 
 export function BuildingModal({ propertyId, editing, propertyAddress, onClose, onDone }: { propertyId: string; editing: BuildingFormValues | null; propertyAddress?: PropertyAddress; onClose: () => void; onDone: () => void }) {
   const [form, setForm] = useState({ name: editing?.name ?? "", address: editing?.address ?? "", city: editing?.city ?? "", postalCode: editing?.postalCode ?? "", country: editing?.country ?? "Ελλάδα", floors: editing?.floors != null ? String(editing.floors) : "", basements: editing?.basements != null ? String(editing.basements) : "", hasElevator: String(editing?.hasElevator ?? false), hasBoiler: String(editing?.hasBoiler ?? false), hasFireSafety: String(editing?.hasFireSafety ?? false), technicalNotes: editing?.technicalNotes ?? "" });
@@ -86,7 +86,7 @@ export function BuildingModal({ propertyId, editing, propertyAddress, onClose, o
           <FormField label="Τ.Κ."><FieldInput value={form.postalCode} onChange={f("postalCode")} /></FormField>
           <FormField label="Χώρα"><FieldInput value={form.country} onChange={f("country")} /></FormField>
         </div>
-        {lat != null && lng != null && <div style={{ fontSize: "var(--fs-11)", color: "#16a34a" }}><RiMapPin2Line style={{ fontSize: "var(--fs-12)" }} /> {lat.toFixed(6)}, {lng.toFixed(6)}</div>}
+        {lat != null && lng != null && <div style={{ fontSize: "var(--fs-11)", color: "var(--color-success)" }}><RiMapPin2Line style={{ fontSize: "var(--fs-12)" }} /> {lat.toFixed(6)}, {lng.toFixed(6)}</div>}
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 }}>
           <FormField label="Ασανσέρ"><FieldSelect value={form.hasElevator} onChange={f("hasElevator")} options={yesNo} /></FormField>
           <FormField label="Καυστήρας"><FieldSelect value={form.hasBoiler} onChange={f("hasBoiler")} options={yesNo} /></FormField>

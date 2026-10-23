@@ -61,7 +61,7 @@ export function ManagedItemTypesClient({ types }: { types: TypeRow[] }) {
                   <td style={td}><b>{t.name}</b>{t.notes && <div style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)" }}>{t.notes}</div>}</td>
                   <td style={td}>
                     {t.active
-                      ? <span style={{ ...chip, background: "#15803d18", color: "#15803d" }}>Ενεργό</span>
+                      ? <span style={{ ...chip, background: "color-mix(in srgb, var(--color-success) 9%, transparent)", color: "var(--color-success)" }}>Ενεργό</span>
                       : <span style={{ ...chip, background: "var(--bg-canvas)", color: "var(--muted-foreground)" }}><RiEyeOffLine style={{ fontSize: "var(--fs-11)" }} /> Ανενεργό</span>}
                   </td>
                   <td style={{ ...td, textAlign: "right", fontVariantNumeric: "tabular-nums" }}>
@@ -69,7 +69,7 @@ export function ManagedItemTypesClient({ types }: { types: TypeRow[] }) {
                   </td>
                   <td style={{ ...td, textAlign: "right", whiteSpace: "nowrap" }}>
                     <button onClick={() => setEditing(t)} style={iconBtn} title="Επεξεργασία"><RiPencilLine /></button>
-                    <button onClick={() => remove(t)} disabled={isPending} style={{ ...iconBtn, color: "#c50f1f" }} title="Διαγραφή"><RiDeleteBinLine /></button>
+                    <button onClick={() => remove(t)} disabled={isPending} style={{ ...iconBtn, color: "var(--color-danger)" }} title="Διαγραφή"><RiDeleteBinLine /></button>
                   </td>
                 </tr>
               ))}
@@ -133,4 +133,4 @@ const btnPrimary: React.CSSProperties = { background: "var(--color-primary)", co
 const iconBtn: React.CSSProperties = { display: "inline-flex", alignItems: "center", border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)", borderRadius: 4, padding: 6, marginLeft: 6, cursor: "pointer" };
 const cancelBtn: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: "var(--fs-13)", color: "var(--foreground)" };
 const saveBtn: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: "pointer", fontSize: "var(--fs-13)", fontWeight: 600, display: "flex", alignItems: "center", gap: 6 };
-const errBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: "var(--fs-12)", border: "1px solid #fca5a530", marginBottom: 0 };
+const errBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "var(--danger-soft)", color: "var(--color-danger)", fontSize: "var(--fs-12)", border: "1px solid var(--danger-soft)", marginBottom: 0 };

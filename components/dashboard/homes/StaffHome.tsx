@@ -63,9 +63,9 @@ export async function StaffHome({ userId, companyId }: { userId: string; company
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
         {[
-          { label: "Οι Εργασίες μου", value: stats.myTasks, sub: "Ανατεθειμένες", icon: RiFileListLine, href: "/admin/work?mine=1", color: "#0078D4" },
-          { label: "Σε Εξέλιξη", value: stats.inProgress, sub: "Εκτελούνται τώρα", icon: RiTimeLine, href: "/admin/work?mine=1", color: "#CA5D00" },
-          { label: "Ανοιχτά (Εταιρεία)", value: stats.openMaintenance, sub: "Αναμένουν ανάθεση", icon: RiToolsLine, href: "/admin/maintenance", color: "#8764B8" },
+          { label: "Οι Εργασίες μου", value: stats.myTasks, sub: "Ανατεθειμένες", icon: RiFileListLine, href: "/admin/work?mine=1", color: "var(--color-info)" },
+          { label: "Σε Εξέλιξη", value: stats.inProgress, sub: "Εκτελούνται τώρα", icon: RiTimeLine, href: "/admin/work?mine=1", color: "var(--color-warning)" },
+          { label: "Ανοιχτά (Εταιρεία)", value: stats.openMaintenance, sub: "Αναμένουν ανάθεση", icon: RiToolsLine, href: "/admin/maintenance", color: "var(--color-purple)" },
         ].map((card) => {
           const Icon = card.icon;
           return (

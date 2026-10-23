@@ -72,7 +72,7 @@ export function PropertyMapPicker({
       if (markerRef.current) {
         markerRef.current.setLngLat([newLng, newLat]);
       } else {
-        markerRef.current = new maplibregl.Marker({ color: "#0078D4", draggable: true })
+        markerRef.current = new maplibregl.Marker({ color: "var(--color-info)", draggable: true })
           .setLngLat([newLng, newLat])
           .addTo(map);
 
@@ -116,7 +116,7 @@ export function PropertyMapPicker({
 
       map.on("load", () => {
         if (initialLat && initialLng) {
-          markerRef.current = new maplibregl.Marker({ color: "#0078D4", draggable: true })
+          markerRef.current = new maplibregl.Marker({ color: "var(--color-info)", draggable: true })
             .setLngLat([initialLng, initialLat])
             .addTo(map);
 
@@ -134,7 +134,7 @@ export function PropertyMapPicker({
       map.on("click", (e) => {
         const { lng: clickLng, lat: clickLat } = e.lngLat;
         if (!markerRef.current) {
-          markerRef.current = new maplibregl.Marker({ color: "#0078D4", draggable: true })
+          markerRef.current = new maplibregl.Marker({ color: "var(--color-info)", draggable: true })
             .setLngLat([clickLng, clickLat])
             .addTo(map);
 

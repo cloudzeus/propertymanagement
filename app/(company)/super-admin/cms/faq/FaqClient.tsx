@@ -180,7 +180,7 @@ export function FaqClient({ initial }: { initial: Faq[] }) {
           </>
         }
       >
-        {error && <div style={{ padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: "var(--fs-12)", border: "1px solid #fca5a530", marginBottom: 14 }}>{error}</div>}
+        {error && <div style={{ padding: "8px 12px", borderRadius: 6, background: "var(--danger-soft)", color: "var(--color-danger)", fontSize: "var(--fs-12)", border: "1px solid var(--danger-soft)", marginBottom: 14 }}>{error}</div>}
 
         <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
           <LocaleTabs value={locale} onChange={setLocale} />

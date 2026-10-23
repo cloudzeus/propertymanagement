@@ -20,9 +20,9 @@ export const ROLE_LABEL: Record<string, string> = {
 };
 
 const ROLE_COLOR: Record<string, string> = {
-  SUPER_ADMIN: "#A4262C", ADMIN: "#0078D4", MANAGER: "#8764B8",
-  PROPERTY_ADMIN: "#038387", EMPLOYEE: "#CA5D00", COLLABORATOR: "#107C10",
-  PROPERTY_OWNER: "#8764B8", PROPERTY_RESIDENT: "#0078D4", PROPERTY_VIEWER: "#707070",
+  SUPER_ADMIN: "var(--color-danger)", ADMIN: "var(--color-info)", MANAGER: "var(--color-purple)",
+  PROPERTY_ADMIN: "var(--color-teal)", EMPLOYEE: "var(--color-warning)", COLLABORATOR: "var(--color-success)",
+  PROPERTY_OWNER: "var(--color-purple)", PROPERTY_RESIDENT: "var(--color-info)", PROPERTY_VIEWER: "var(--muted-foreground)",
 };
 
 const STATUS_LABEL: Record<string, string> = {
@@ -167,9 +167,9 @@ export function UsersClient({
         return (
           <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }} title={customers.map((c) => c.name).join("\n")}>
             {shown.map((c) => (
-              <span key={c.id} style={{ fontSize: "var(--fs-12)", fontWeight: 600, padding: "2px 8px", borderRadius: 6, background: "#8764B818", color: "#8764B8", maxWidth: 180, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{c.name}</span>
+              <span key={c.id} style={{ fontSize: "var(--fs-12)", fontWeight: 600, padding: "2px 8px", borderRadius: 6, background: "color-mix(in srgb, var(--color-purple) 9%, transparent)", color: "var(--color-purple)", maxWidth: 180, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{c.name}</span>
             ))}
-            {extra > 0 && <span style={{ fontSize: "var(--fs-11)", fontWeight: 700, padding: "2px 8px", borderRadius: 6, background: "#8764B818", color: "#8764B8" }}>+{extra}</span>}
+            {extra > 0 && <span style={{ fontSize: "var(--fs-11)", fontWeight: 700, padding: "2px 8px", borderRadius: 6, background: "color-mix(in srgb, var(--color-purple) 9%, transparent)", color: "var(--color-purple)" }}>+{extra}</span>}
           </div>
         );
       },
@@ -196,8 +196,8 @@ export function UsersClient({
       id: "role", header: "Ρόλος", sortKey: "role", width: 150,
       accessor: (u) => ROLE_LABEL[u.role] ?? u.role,
       cell: (u) => {
-        const c = ROLE_COLOR[u.role] || "#707070";
-        return <span style={{ fontSize: "var(--fs-11)", fontWeight: 600, padding: "2px 8px", borderRadius: 20, background: `${c}18`, color: c }}>{ROLE_LABEL[u.role] ?? u.role}</span>;
+        const c = ROLE_COLOR[u.role] || "var(--muted-foreground)";
+        return <span style={{ fontSize: "var(--fs-11)", fontWeight: 600, padding: "2px 8px", borderRadius: 20, background: `color-mix(in srgb, ${c} 9%, transparent)`, color: c }}>{ROLE_LABEL[u.role] ?? u.role}</span>;
       },
     },
     {
@@ -206,8 +206,8 @@ export function UsersClient({
       cell: (u) => (
         <span style={{
           fontSize: "var(--fs-11)", fontWeight: 600, padding: "2px 8px", borderRadius: 20,
-          background: u.status === "ACTIVE" ? "#107C1018" : "#70707018",
-          color: u.status === "ACTIVE" ? "#107C10" : "#707070",
+          background: u.status === "ACTIVE" ? "color-mix(in srgb, var(--color-success) 9%, transparent)" : "color-mix(in srgb, var(--muted-foreground) 9%, transparent)",
+          color: u.status === "ACTIVE" ? "var(--color-success)" : "var(--muted-foreground)",
         }}>{STATUS_LABEL[u.status] ?? u.status}</span>
       ),
     },
@@ -225,7 +225,7 @@ export function UsersClient({
 
   // Per-customer breakdown — makes multi-customer participation (same email across
   // several πελάτες/ακίνητα) explicit: customer → role(s) → buildings/units.
-  const PLACE_ROLE_COLOR: Record<string, string> = { "Ιδιοκτήτης": "#8764B8", "Ένοικος": "#0078D4", "Διαχειριστής": "#038387" };
+  const PLACE_ROLE_COLOR: Record<string, string> = { "Ιδιοκτήτης": "var(--color-purple)", "Ένοικος": "var(--color-info)", "Διαχειριστής": "var(--color-teal)" };
   const renderExpanded = (u: User) => {
     const customers = u.customers ?? [];
     if (customers.length === 0) {
@@ -238,8 +238,8 @@ export function UsersClient({
             <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
               <span style={{ fontSize: "var(--fs-13)", fontWeight: 700, color: "var(--foreground)" }}>{c.name}</span>
               {c.roles.map((r) => {
-                const col = PLACE_ROLE_COLOR[r] || "#707070";
-                return <span key={r} style={{ fontSize: "var(--fs-11)", fontWeight: 600, padding: "2px 8px", borderRadius: 20, background: `${col}18`, color: col }}>{r}</span>;
+                const col = PLACE_ROLE_COLOR[r] || "var(--muted-foreground)";
+                return <span key={r} style={{ fontSize: "var(--fs-11)", fontWeight: 600, padding: "2px 8px", borderRadius: 20, background: `color-mix(in srgb, ${col} 9%, transparent)`, color: col }}>{r}</span>;
               })}
             </div>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
@@ -290,7 +290,7 @@ export function UsersClient({
           </>
         }
       >
-        {error && <div style={{ padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: "var(--fs-12)", border: "1px solid #fca5a530", marginBottom: 14 }}>{error}</div>}
+        {error && <div style={{ padding: "8px 12px", borderRadius: 6, background: "var(--danger-soft)", color: "var(--color-danger)", fontSize: "var(--fs-12)", border: "1px solid var(--danger-soft)", marginBottom: 14 }}>{error}</div>}
 
         <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>

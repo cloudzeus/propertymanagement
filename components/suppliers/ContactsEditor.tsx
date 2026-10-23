@@ -12,9 +12,9 @@ const fmt = (iso: string | null) => (iso ? new Date(iso).toLocaleString("el-GR",
 
 /** Access state of a contact as the company sees it. */
 export function accessChip(c: SupplierContactDTO): { label: string; color: string } {
-  if (c.user?.hasPassword) return c.user.status === "ACTIVE" ? { label: "Ενεργή πρόσβαση", color: "#15803d" } : { label: "Ανενεργή πρόσβαση", color: "#9f1239" };
-  if (c.pendingInvite) return new Date(c.pendingInvite.expiresAt).getTime() < Date.now() ? { label: "Πρόσκληση έληξε", color: "#9f1239" } : { label: `Πρόσκληση εστάλη ${fmt(c.pendingInvite.sentAt)}${c.pendingInvite.openedAt ? " · ανοίχτηκε" : ""}`, color: "#0369a1" };
-  return { label: "Χωρίς πρόσβαση", color: "#6b7280" };
+  if (c.user?.hasPassword) return c.user.status === "ACTIVE" ? { label: "Ενεργή πρόσβαση", color: "var(--color-success)" } : { label: "Ανενεργή πρόσβαση", color: "var(--color-danger)" };
+  if (c.pendingInvite) return new Date(c.pendingInvite.expiresAt).getTime() < Date.now() ? { label: "Πρόσκληση έληξε", color: "var(--color-danger)" } : { label: `Πρόσκληση εστάλη ${fmt(c.pendingInvite.sentAt)}${c.pendingInvite.openedAt ? " · ανοίχτηκε" : ""}`, color: "var(--color-info)" };
+  return { label: "Χωρίς πρόσβαση", color: "var(--muted-foreground)" };
 }
 
 /**
@@ -41,12 +41,12 @@ export function ContactsEditor({ supplierId, contacts, canEdit, selfUserId, stor
   }
 
   const columns: ColDef<SupplierContactDTO>[] = [
-    { id: "name", header: "Επαφή", width: 220, sortKey: "name", accessor: (r) => r.name, cell: (r) => <><b style={{ opacity: r.active ? 1 : 0.55 }}>{r.name}</b>{r.isPrimary && <span title="Υπεύθυνος επαφής" style={{ marginLeft: 6, color: "#b45309" }}><RiStarLine style={{ verticalAlign: "-2px" }} /></span>}{r.user?.id === selfUserId && <span style={{ marginLeft: 6, fontSize: "var(--fs-11)", color: "var(--muted-foreground)" }}>(εσείς)</span>}{r.position && <div style={{ fontSize: "var(--fs-11-5)", color: "var(--muted-foreground)" }}>{r.position}</div>}</> },
+    { id: "name", header: "Επαφή", width: 220, sortKey: "name", accessor: (r) => r.name, cell: (r) => <><b style={{ opacity: r.active ? 1 : 0.55 }}>{r.name}</b>{r.isPrimary && <span title="Υπεύθυνος επαφής" style={{ marginLeft: 6, color: "var(--color-warning)" }}><RiStarLine style={{ verticalAlign: "-2px" }} /></span>}{r.user?.id === selfUserId && <span style={{ marginLeft: 6, fontSize: "var(--fs-11)", color: "var(--muted-foreground)" }}>(εσείς)</span>}{r.position && <div style={{ fontSize: "var(--fs-11-5)", color: "var(--muted-foreground)" }}>{r.position}</div>}</> },
     { id: "phone", header: "Τηλέφωνο", width: 130, accessor: (r) => r.phone ?? "", cell: (r) => r.phone ?? "—" },
     { id: "mobile", header: "Κινητό", width: 130, accessor: (r) => r.mobile ?? "", cell: (r) => r.mobile ?? "—" },
     { id: "email", header: "Email", width: 220, accessor: (r) => r.email ?? "", cell: (r) => r.email ?? "—" },
-    { id: "access", header: "Πρόσβαση", width: 220, accessor: (r) => accessChip(r).label, cell: (r) => { const c = accessChip(r); return <span style={{ padding: "2px 8px", borderRadius: 999, fontSize: "var(--fs-11-5)", fontWeight: 600, color: c.color, background: `${c.color}18`, border: `1px solid ${c.color}40`, whiteSpace: "nowrap" }}>{c.label}</span>; } },
-    { id: "role", header: "Ρόλος", width: 130, accessor: (r) => (r.user ? (r.user.isSupplierAdmin ? "Διαχειριστής" : "Τεχνικός") : ""), cell: (r) => (r.user ? (r.user.isSupplierAdmin ? <span style={{ display: "inline-flex", alignItems: "center", gap: 4, color: "#107C10", fontWeight: 600 }}><RiShieldUserLine /> Διαχειριστής</span> : "Τεχνικός") : "—") },
+    { id: "access", header: "Πρόσβαση", width: 220, accessor: (r) => accessChip(r).label, cell: (r) => { const c = accessChip(r); return <span style={{ padding: "2px 8px", borderRadius: 999, fontSize: "var(--fs-11-5)", fontWeight: 600, color: c.color, background: `color-mix(in srgb, ${c.color} 9%, transparent)`, border: `1px solid color-mix(in srgb, ${c.color} 25%, transparent)`, whiteSpace: "nowrap" }}>{c.label}</span>; } },
+    { id: "role", header: "Ρόλος", width: 130, accessor: (r) => (r.user ? (r.user.isSupplierAdmin ? "Διαχειριστής" : "Τεχνικός") : ""), cell: (r) => (r.user ? (r.user.isSupplierAdmin ? <span style={{ display: "inline-flex", alignItems: "center", gap: 4, color: "var(--color-success)", fontWeight: 600 }}><RiShieldUserLine /> Διαχειριστής</span> : "Τεχνικός") : "—") },
     { id: "rfq", header: "Λαμβάνει RFQ", width: 110, accessor: (r) => (r.receivesRfq ? "ναι" : "όχι"), cell: (r) => (r.receivesRfq && r.email ? "Ναι" : "Όχι") },
     { id: "login", header: "Τελευταία σύνδεση", width: 150, accessor: (r) => r.user?.lastLoginAt ?? "", cell: (r) => (r.user ? fmt(r.user.lastLoginAt) : "—"), defaultVisible: false },
   ];
@@ -70,7 +70,7 @@ export function ContactsEditor({ supplierId, contacts, canEdit, selfUserId, stor
         {pending && <RiLoaderLine style={{ animation: "spin 1s linear infinite", color: "var(--muted-foreground)" }} />}
       </div>
       {err && <div role="alert" style={errBox}>{err}</div>}
-      {info && <div style={{ ...errBox, background: "#15803d14", color: "#15803d", border: "1px solid #15803d30" }}>{info}</div>}
+      {info && <div style={{ ...errBox, background: "color-mix(in srgb, var(--color-success) 8%, transparent)", color: "var(--color-success)", border: "1px solid color-mix(in srgb, var(--color-success) 19%, transparent)" }}>{info}</div>}
       <div style={{ padding: contacts.length ? 0 : 0 }}>
         <DataTable data={contacts} columns={columns} totalRows={contacts.length} page={1} pageSize={25} clientSide storageKey={storageKey} searchPlaceholder="Αναζήτηση επαφής…"
           getRowActions={actions} onAddNew={canEdit ? () => setEditing("new") : undefined} addNewLabel="Νέα επαφή" />
@@ -152,4 +152,4 @@ function ContactModal({ supplierId, editing, isSelf, onClose, onDone }: { suppli
 const radio: React.CSSProperties = { display: "flex", alignItems: "center", gap: 8, cursor: "pointer" };
 const cancelBtn: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: "var(--fs-13)", color: "var(--foreground)" };
 const saveBtn: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: "pointer", fontSize: "var(--fs-13)", fontWeight: 600, display: "flex", alignItems: "center", gap: 6 };
-const errBox: React.CSSProperties = { margin: 10, padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: "var(--fs-12)", border: "1px solid #fca5a530" };
+const errBox: React.CSSProperties = { margin: 10, padding: "8px 12px", borderRadius: 6, background: "var(--danger-soft)", color: "var(--color-danger)", fontSize: "var(--fs-12)", border: "1px solid var(--danger-soft)" };

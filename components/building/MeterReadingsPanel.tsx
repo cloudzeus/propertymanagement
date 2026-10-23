@@ -18,9 +18,9 @@ export type MeterReadingDTO = {
 };
 
 const META: Record<MeterReadingDTO["meterType"], { label: string; color: string; icon: React.ElementType }> = {
-  POWER: { label: "ΔΕΗ / Ρεύμα", color: "#CA5D00", icon: RiFlashlightLine },
-  WATER: { label: "Νερό", color: "#0078D4", icon: RiDropLine },
-  GAS: { label: "Αέριο", color: "#8764B8", icon: RiFireLine },
+  POWER: { label: "ΔΕΗ / Ρεύμα", color: "var(--color-warning)", icon: RiFlashlightLine },
+  WATER: { label: "Νερό", color: "var(--color-info)", icon: RiDropLine },
+  GAS: { label: "Αέριο", color: "var(--color-purple)", icon: RiFireLine },
 };
 
 function fmtDate(iso: string | null): string {

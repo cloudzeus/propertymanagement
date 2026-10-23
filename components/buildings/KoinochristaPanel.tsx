@@ -94,7 +94,7 @@ export function KoinochristaPanel({ buildingId, can }: { buildingId: string; can
           {issuances.map((iss) => {
             const open = openMonth === iss.month;
             const pct = iss.total > 0 ? Math.round((iss.paid / iss.total) * 100) : 0;
-            const fillColor = pct >= 100 ? "#16a34a" : pct >= 50 ? "var(--color-primary)" : "#f59e0b";
+            const fillColor = pct >= 100 ? "var(--color-success)" : pct >= 50 ? "var(--color-primary)" : "var(--color-warning)";
             return (
               <div key={iss.month} className="kx-card" data-open={open}>
                 <button onClick={() => setOpenMonth(open ? null : iss.month)} className="kx-rowbtn">
@@ -103,8 +103,8 @@ export function KoinochristaPanel({ buildingId, can }: { buildingId: string; can
                     <span style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 3 }}>
                       <span style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
                         <b style={{ fontSize: "var(--fs-15)", letterSpacing: "-0.01em" }}>{monthLabel(iss.month)}</b>
-                        {iss.issued && <span style={dotBadge("#16a34a")}><span style={dot("#16a34a")} /> Εκδόθηκε</span>}
-                        {iss.unallocated > 0 && <span style={dotBadge("#f59e0b")} className="kx-num" title="Μερίδια χωρίς ανατεθειμένο ένοικο/ιδιοκτήτη"><span style={dot("#f59e0b")} /> Αδιάθετα {eur(iss.unallocated)}</span>}
+                        {iss.issued && <span style={dotBadge("var(--color-success)")}><span style={dot("var(--color-success)")} /> Εκδόθηκε</span>}
+                        {iss.unallocated > 0 && <span style={dotBadge("var(--color-warning)")} className="kx-num" title="Μερίδια χωρίς ανατεθειμένο ένοικο/ιδιοκτήτη"><span style={dot("var(--color-warning)")} /> Αδιάθετα {eur(iss.unallocated)}</span>}
                       </span>
                       <span style={{ fontSize: "var(--fs-11-5)", color: "var(--muted-foreground)" }}>{iss.expenseCount} έξοδα · {iss.personCount} πρόσωπα</span>
                     </span>
@@ -112,8 +112,8 @@ export function KoinochristaPanel({ buildingId, can }: { buildingId: string; can
                   <span style={{ display: "flex", alignItems: "center", gap: 22 }}>
                     <span className="koino-stats" style={{ display: "none", gap: 20 }}>
                       <Mini label="Σύνολο" value={eur(iss.total)} />
-                      <Mini label="Πληρωμένα" value={eur(iss.paid)} color="#16a34a" />
-                      <Mini label="Ανεξόφλητα" value={eur(iss.due)} color={iss.due > 0 ? "#b91c1c" : undefined} />
+                      <Mini label="Πληρωμένα" value={eur(iss.paid)} color="var(--color-success)" />
+                      <Mini label="Ανεξόφλητα" value={eur(iss.due)} color={iss.due > 0 ? "var(--color-danger)" : undefined} />
                     </span>
                     <span style={{ width: 132 }}>
                       <span style={{ display: "flex", justifyContent: "space-between", fontSize: "var(--fs-10)", color: "var(--muted-foreground)", marginBottom: 4, fontWeight: 600 }}>
@@ -189,11 +189,11 @@ function IssuanceDetail({ buildingId, month, unallocated, onChanged, can }: { bu
                       </td>
                       <td style={td}>{p.units.length ? p.units.map((u) => <span key={u} style={chip}>{u}</span>) : "—"}</td>
                       <td style={{ ...td, textAlign: "right" }} className="kx-num">{eur(p.total)}</td>
-                      <td style={{ ...td, textAlign: "right", color: "#16a34a" }} className="kx-num">{eur(p.paid)}</td>
+                      <td style={{ ...td, textAlign: "right", color: "var(--color-success)" }} className="kx-num">{eur(p.paid)}</td>
                       <td style={{ ...td, textAlign: "right" }}>
                         {p.due > 0
                           ? <span style={duePill} className="kx-num">{eur(p.due)}</span>
-                          : <span style={{ color: "#16a34a", fontWeight: 700 }} className="kx-num">{eur(0)}</span>}
+                          : <span style={{ color: "var(--color-success)", fontWeight: 700 }} className="kx-num">{eur(0)}</span>}
                       </td>
                       <td style={{ ...td, textAlign: "right" }}>
                         <button
@@ -216,7 +216,7 @@ function IssuanceDetail({ buildingId, month, unallocated, onChanged, can }: { bu
                       <td style={td}>—</td>
                       <td style={{ ...td, textAlign: "right" }} className="kx-num">{eur(unallocated)}</td>
                       <td style={{ ...td, textAlign: "right" }} className="kx-num">—</td>
-                      <td style={{ ...td, textAlign: "right" }}><span style={{ ...duePill, color: "#b45309", background: "color-mix(in srgb, #f59e0b 14%, transparent)" }} className="kx-num">{eur(unallocated)}</span></td>
+                      <td style={{ ...td, textAlign: "right" }}><span style={{ ...duePill, color: "var(--color-warning)", background: "color-mix(in srgb, var(--color-warning) 14%, transparent)" }} className="kx-num">{eur(unallocated)}</span></td>
                       <td style={td} />
                     </tr>
                   )}
@@ -268,7 +268,7 @@ function IssuanceDetail({ buildingId, month, unallocated, onChanged, can }: { bu
 }
 
 function Stat({ label, value, tone }: { label: string; value: string; tone?: "ok" | "due" }) {
-  const color = tone === "ok" ? "#16a34a" : tone === "due" ? "#b91c1c" : "var(--foreground)";
+  const color = tone === "ok" ? "var(--color-success)" : tone === "due" ? "var(--color-danger)" : "var(--foreground)";
   return (
     <div style={{ border: "1px solid var(--border-strong)", borderRadius: 10, padding: "8px 14px", background: "var(--card)", minWidth: 118 }}>
       <div style={{ fontSize: "var(--fs-10-5)", color: "var(--muted-foreground)", fontWeight: 600, textTransform: "uppercase", letterSpacing: ".03em" }}>{label}</div>
@@ -302,7 +302,7 @@ const th: React.CSSProperties = { padding: "9px 10px", fontWeight: 600, fontSize
 const td: React.CSSProperties = { padding: "9px 10px", verticalAlign: "middle" };
 const fixedMenu: React.CSSProperties = { position: "fixed", zIndex: 9999, minWidth: 184, background: "var(--card)", border: "1px solid var(--border-strong)", borderRadius: 10, boxShadow: "0 1px 2px rgba(0,0,0,.08),0 12px 28px rgba(0,0,0,.16)", padding: 5 };
 const link: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 4, color: "var(--color-primary)", textDecoration: "none", fontSize: "var(--fs-12)", fontWeight: 600 };
-const avatar = (due: boolean): React.CSSProperties => ({ display: "grid", placeItems: "center", width: 32, height: 32, borderRadius: 999, flexShrink: 0, fontSize: "var(--fs-12)", fontWeight: 700, color: due ? "#b91c1c" : "var(--color-primary)", background: due ? "color-mix(in srgb, #b91c1c 12%, transparent)" : "color-mix(in srgb, var(--color-primary) 12%, transparent)" });
+const avatar = (due: boolean): React.CSSProperties => ({ display: "grid", placeItems: "center", width: 32, height: 32, borderRadius: 999, flexShrink: 0, fontSize: "var(--fs-12)", fontWeight: 700, color: due ? "var(--color-danger)" : "var(--color-primary)", background: due ? "color-mix(in srgb, var(--color-danger) 12%, transparent)" : "color-mix(in srgb, var(--color-primary) 12%, transparent)" });
 const chip: React.CSSProperties = { display: "inline-block", padding: "1px 8px", marginRight: 4, borderRadius: 6, fontSize: "var(--fs-11)", fontWeight: 600, background: "var(--card)", border: "1px solid var(--border-strong)" };
 const catChip: React.CSSProperties = { display: "inline-block", padding: "2px 9px", borderRadius: 999, fontSize: "var(--fs-11-5)", fontWeight: 600, background: "color-mix(in srgb, var(--color-primary) 9%, transparent)", color: "var(--color-primary)" };
-const duePill: React.CSSProperties = { display: "inline-block", padding: "2px 10px", borderRadius: 999, fontSize: "var(--fs-12-5)", fontWeight: 700, color: "#b91c1c", background: "color-mix(in srgb, #b91c1c 11%, transparent)" };
+const duePill: React.CSSProperties = { display: "inline-block", padding: "2px 10px", borderRadius: 999, fontSize: "var(--fs-12-5)", fontWeight: 700, color: "var(--color-danger)", background: "color-mix(in srgb, var(--color-danger) 11%, transparent)" };

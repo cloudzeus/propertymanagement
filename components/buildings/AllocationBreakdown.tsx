@@ -82,7 +82,7 @@ function PayCell({ paid, method, disabled, onToggle }: { paid: boolean; method: 
   if (paid) {
     return (
       <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
-        <span style={{ display: "inline-flex", alignItems: "center", gap: 2, color: "#16a34a", fontWeight: 600 }}><RiCheckLine /> {method ? (METHODS.find((m) => m.value === method)?.label ?? "Ναι") : "Ναι"}</span>
+        <span style={{ display: "inline-flex", alignItems: "center", gap: 2, color: "var(--color-success)", fontWeight: 600 }}><RiCheckLine /> {method ? (METHODS.find((m) => m.value === method)?.label ?? "Ναι") : "Ναι"}</span>
         <button onClick={() => onToggle(false, null)} style={undoBtn} title="Αναίρεση">↺</button>
       </span>
     );

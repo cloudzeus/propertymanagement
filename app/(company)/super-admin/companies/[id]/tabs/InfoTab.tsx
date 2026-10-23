@@ -331,9 +331,9 @@ export function InfoTab({ company }: { company: Company }) {
         {msg && (
           <span style={{
             fontSize: "var(--fs-12)", padding: "5px 12px", borderRadius: 6,
-            background: msg.type === "ok" ? "#dcfce718" : "#fee2e218",
-            color: msg.type === "ok" ? "#16a34a" : "#dc2626",
-            border: `1px solid ${msg.type === "ok" ? "#86efac30" : "#fca5a530"}`,
+            background: msg.type === "ok" ? "var(--success-soft)" : "var(--danger-soft)",
+            color: msg.type === "ok" ? "var(--color-success)" : "var(--color-danger)",
+            border: `1px solid ${msg.type === "ok" ? "var(--success-soft)" : "var(--danger-soft)"}`,
           }}>{msg.text}</span>
         )}
         <button onClick={handleSave} disabled={isPending} style={{
@@ -403,7 +403,7 @@ export function InfoTab({ company }: { company: Company }) {
         {/* Map */}
         <div style={{ background: "var(--bg-canvas)", border: "1px solid var(--border)", borderRadius: 8, padding: 14 }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
-            <span style={{ fontSize: "var(--fs-12)", fontWeight: 600, color: hasGeo ? "#16a34a" : "var(--muted-foreground)", display: "flex", alignItems: "center", gap: 5 }}>
+            <span style={{ fontSize: "var(--fs-12)", fontWeight: 600, color: hasGeo ? "var(--color-success)" : "var(--muted-foreground)", display: "flex", alignItems: "center", gap: 5 }}>
               <RiMapPin2Line style={{ fontSize: "var(--fs-14)" }} />
               {hasGeo ? `${lat?.toFixed(6)}, ${lng?.toFixed(6)}` : "Χωρίς γεωδεδομένα"}
             </span>

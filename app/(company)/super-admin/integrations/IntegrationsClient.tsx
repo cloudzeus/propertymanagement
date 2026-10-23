@@ -66,7 +66,7 @@ export function IntegrationsClient({ items }: { items: IntegrationItem[] }) {
               {t && !t.loading && (
                 <div style={{
                   display: "flex", alignItems: "center", gap: 8, fontSize: "var(--fs-12)", padding: "8px 10px", borderRadius: 6,
-                  background: t.ok ? "#16a34a14" : "#dc262614", color: t.ok ? "#15803d" : "#b91c1c",
+                  background: t.ok ? "color-mix(in srgb, var(--color-success) 8%, transparent)" : "color-mix(in srgb, var(--color-danger) 8%, transparent)", color: t.ok ? "var(--color-success)" : "var(--color-danger)",
                 }}>
                   {t.ok ? <RiCheckLine /> : <RiCloseLine />}
                   <span style={{ flex: 1, minWidth: 0 }}>{t.message}</span>
@@ -97,7 +97,7 @@ function StatusBadge({ configured }: { configured: boolean }) {
   return (
     <span style={{
       flexShrink: 0, fontSize: "var(--fs-11)", fontWeight: 700, padding: "3px 10px", borderRadius: 9999,
-      background: configured ? "#16a34a18" : "#71717118", color: configured ? "#15803d" : "#6b7280",
+      background: configured ? "color-mix(in srgb, var(--color-success) 9%, transparent)" : "#71717118", color: configured ? "var(--color-success)" : "var(--muted-foreground)",
     }}>
       {configured ? "Ρυθμισμένο" : "Μη ρυθμισμένο"}
     </span>
@@ -117,8 +117,8 @@ function ConfigureModal({ item, onClose }: { item: IntegrationItem; onClose: () 
             <div key={v} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "9px 12px", borderTop: i ? "1px solid var(--border)" : "none" }}>
               <code style={{ fontSize: "var(--fs-12)", color: "var(--foreground)" }}>{v}</code>
               {item.envPresent[v]
-                ? <span style={{ display: "inline-flex", alignItems: "center", gap: 4, fontSize: "var(--fs-11)", fontWeight: 700, color: "#15803d" }}><RiCheckLine /> Ορισμένο</span>
-                : <span style={{ display: "inline-flex", alignItems: "center", gap: 4, fontSize: "var(--fs-11)", fontWeight: 700, color: "#b91c1c" }}><RiCloseLine /> Λείπει</span>}
+                ? <span style={{ display: "inline-flex", alignItems: "center", gap: 4, fontSize: "var(--fs-11)", fontWeight: 700, color: "var(--color-success)" }}><RiCheckLine /> Ορισμένο</span>
+                : <span style={{ display: "inline-flex", alignItems: "center", gap: 4, fontSize: "var(--fs-11)", fontWeight: 700, color: "var(--color-danger)" }}><RiCloseLine /> Λείπει</span>}
             </div>
           ))}
         </div>

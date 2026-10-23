@@ -91,7 +91,7 @@ export function PositionsTab({
   }
 
   const levelColor: Record<string, string> = {
-    Junior: "#0078D4", Senior: "#8764B8", Manager: "#CA5D00", Director: "#C50F1F", Executive: "#107C10",
+    Junior: "var(--color-info)", Senior: "var(--color-purple)", Manager: "var(--color-warning)", Director: "var(--color-danger)", Executive: "var(--color-success)",
   };
 
   const columns: ColDef<JobPosition>[] = [
@@ -114,8 +114,8 @@ export function PositionsTab({
       cell: (r) => r.level ? (
         <span style={{
           fontSize: "var(--fs-11)", fontWeight: 600, padding: "2px 8px", borderRadius: 20,
-          background: `${levelColor[r.level] || "#6b7280"}18`,
-          color: levelColor[r.level] || "#6b7280",
+          background: `${levelColor[r.level] || "var(--muted-foreground)"}18`,
+          color: levelColor[r.level] || "var(--muted-foreground)",
         }}>{r.level}</span>
       ) : <span style={{ color: "var(--muted-foreground)", fontSize: "var(--fs-12)" }}>—</span>,
     },
@@ -138,8 +138,8 @@ export function PositionsTab({
       cell: (r) => (
         <span style={{
           fontSize: "var(--fs-11)", fontWeight: 600, padding: "2px 8px", borderRadius: 20,
-          background: r.isActive ? "#16a34a18" : "#6b728018",
-          color: r.isActive ? "#16a34a" : "#6b7280",
+          background: r.isActive ? "color-mix(in srgb, var(--color-success) 9%, transparent)" : "color-mix(in srgb, var(--muted-foreground) 9%, transparent)",
+          color: r.isActive ? "var(--color-success)" : "var(--muted-foreground)",
         }}>{r.isActive ? "Ενεργή" : "Ανενεργή"}</span>
       ),
     },
@@ -189,7 +189,7 @@ export function PositionsTab({
         }
       >
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-          {error && <div style={{ padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: "var(--fs-12)", border: "1px solid #fca5a530" }}>{error}</div>}
+          {error && <div style={{ padding: "8px 12px", borderRadius: 6, background: "var(--danger-soft)", color: "var(--color-danger)", fontSize: "var(--fs-12)", border: "1px solid var(--danger-soft)" }}>{error}</div>}
           <FormField label="Τίτλος θέσης" required>
             <FieldInput value={form.title} onChange={(v) => setForm((p) => ({ ...p, title: v }))} placeholder="π.χ. Υπεύθυνος Συντήρησης" />
           </FormField>

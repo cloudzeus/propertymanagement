@@ -60,10 +60,10 @@ export async function ManagerHome({ companyId, userId }: { companyId: string | u
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16 }}>
         {[
-          { label: "Ακίνητα", value: stats.totalProperties, sub: "Υπό διαχείριση", icon: RiBuildingLine, href: "/manager/properties", color: "#8764B8" },
-          { label: "Μονάδες", value: stats.totalUnits, sub: "Σύνολο", icon: RiHome3Line, href: "/super-admin/units", color: "#038387" },
-          { label: "Ανοιχτά Αιτήματα", value: stats.openMaintenance, sub: "Αναμένουν ανάθεση", icon: RiCheckboxCircleLine, href: "/admin/maintenance", color: "#CA5D00" },
-          { label: "Σε Εξέλιξη", value: stats.inProgressMaintenance, sub: "Εργασίες σε εξέλιξη", icon: RiTimeLine, href: "/admin/maintenance", color: "#0078D4" },
+          { label: "Ακίνητα", value: stats.totalProperties, sub: "Υπό διαχείριση", icon: RiBuildingLine, href: "/manager/properties", color: "var(--color-purple)" },
+          { label: "Μονάδες", value: stats.totalUnits, sub: "Σύνολο", icon: RiHome3Line, href: "/super-admin/units", color: "var(--color-teal)" },
+          { label: "Ανοιχτά Αιτήματα", value: stats.openMaintenance, sub: "Αναμένουν ανάθεση", icon: RiCheckboxCircleLine, href: "/admin/maintenance", color: "var(--color-warning)" },
+          { label: "Σε Εξέλιξη", value: stats.inProgressMaintenance, sub: "Εργασίες σε εξέλιξη", icon: RiTimeLine, href: "/admin/maintenance", color: "var(--color-info)" },
         ].map((card) => {
           const Icon = card.icon;
           return (

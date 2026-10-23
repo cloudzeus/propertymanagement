@@ -108,7 +108,7 @@ export default function WalletClient() {
             marginTop: 16,
             padding: "8px 16px",
             borderRadius: "var(--radius)",
-            background: "var(--color-primary, #2563eb)",
+            background: "var(--color-primary, var(--color-info))",
             color: "#fff",
             border: "none",
             cursor: buying ? "default" : "pointer",

@@ -82,7 +82,7 @@ export function ProgrammeClient({ year, buildingId, rows, buildings, caps }: {
         {[["Προγράμματα", stats.tasks], ["Επισκέψεις έτους", stats.occ], ["Ολοκληρωμένες", stats.done], ["Εκπρόθεσμες χωρίς εργασία", stats.overdue], ["Χωρίς συνεργάτη", stats.noSupplier]].map(([l, v]) => (
           <div key={String(l)} style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius-lg)", padding: "10px 14px" }}>
             <div style={{ fontSize: "var(--fs-11-5)", color: "var(--muted-foreground)" }}>{l}</div>
-            <div style={{ fontSize: "var(--fs-22)", fontWeight: 700, color: l === "Εκπρόθεσμες χωρίς εργασία" && Number(v) > 0 ? "#C0392B" : "var(--foreground)" }}>{v}</div>
+            <div style={{ fontSize: "var(--fs-22)", fontWeight: 700, color: l === "Εκπρόθεσμες χωρίς εργασία" && Number(v) > 0 ? "var(--color-danger)" : "var(--foreground)" }}>{v}</div>
           </div>
         ))}
       </div>
@@ -93,7 +93,7 @@ export function ProgrammeClient({ year, buildingId, rows, buildings, caps }: {
         <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Αναζήτηση…" style={{ ...sel, minWidth: 220 }} />
         <span style={{ flex: 1 }} />
         <span style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)", display: "inline-flex", gap: 12 }}>
-          <span><Dot color="var(--color-primary)" /> προγραμματισμένη</span><span><Dot color="#2E7D5B" /> έγινε</span><span><Dot color="#CA5D00" /> ανοιχτή εργασία</span><span><Dot color="#C0392B" /> εκπρόθεσμη</span>
+          <span><Dot color="var(--color-primary)" /> προγραμματισμένη</span><span><Dot color="var(--color-success)" /> έγινε</span><span><Dot color="var(--color-warning)" /> ανοιχτή εργασία</span><span><Dot color="var(--color-danger)" /> εκπρόθεσμη</span>
         </span>
       </div>
       {err && <div style={{ color: "var(--destructive)", fontSize: "var(--fs-13)" }}>{err}</div>}
@@ -137,12 +137,12 @@ export function ProgrammeClient({ year, buildingId, rows, buildings, caps }: {
                         {occ.map((o) => {
                           const d = new Date(o.date);
                           const state = o.requestStatus ? (DONE.includes(o.requestStatus) ? "done" : "open") : d < now ? "overdue" : "planned";
-                          const color = state === "done" ? "#2E7D5B" : state === "open" ? "#CA5D00" : state === "overdue" ? "#C0392B" : "var(--color-primary)";
+                          const color = state === "done" ? "var(--color-success)" : state === "open" ? "var(--color-warning)" : state === "overdue" ? "var(--color-danger)" : "var(--color-primary)";
                           const key = `${r.taskId}@${o.date}`;
                           const title = `${d.toLocaleDateString("el-GR")} — ${state === "done" ? "ολοκληρώθηκε" : state === "open" ? "ανοιχτή εργασία" : state === "overdue" ? "εκπρόθεσμη — άνοιγμα εργασίας" : "άνοιγμα εργασίας"}`;
-                          if (o.requestId) return <Link key={key} href={`/admin/maintenance/${o.requestId}`} title={title} style={{ ...dotBtn, color, borderColor: `${color}66`, background: `${color}14` }}>{state === "done" ? <RiCheckLine /> : <RiToolsLine />}</Link>;
+                          if (o.requestId) return <Link key={key} href={`/admin/maintenance/${o.requestId}`} title={title} style={{ ...dotBtn, color, borderColor: `color-mix(in srgb, ${color} 40%, transparent)`, background: `color-mix(in srgb, ${color} 8%, transparent)` }}>{state === "done" ? <RiCheckLine /> : <RiToolsLine />}</Link>;
                           return (
-                            <button key={key} disabled={!caps.create || busy === key} onClick={() => open(r.taskId, o.date)} title={title} style={{ ...dotBtn, color, borderColor: `${color}66`, background: "transparent", cursor: caps.create ? "pointer" : "default" }}>
+                            <button key={key} disabled={!caps.create || busy === key} onClick={() => open(r.taskId, o.date)} title={title} style={{ ...dotBtn, color, borderColor: `color-mix(in srgb, ${color} 40%, transparent)`, background: "transparent", cursor: caps.create ? "pointer" : "default" }}>
                               {busy === key ? <RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> : state === "overdue" ? <RiAlarmWarningLine /> : <span style={{ width: 8, height: 8, borderRadius: 999, background: color, display: "inline-block" }} />}
                             </button>
                           );

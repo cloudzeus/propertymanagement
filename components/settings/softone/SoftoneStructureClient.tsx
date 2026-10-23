@@ -8,10 +8,10 @@ import type { EntityMap } from "@/lib/softone/mapping";
 import { S1_CARD, S1_BTN, fmtDate } from "./SoftoneHeader";
 
 const KIND: Record<string, { label: string; color: string }> = {
-  direct: { label: "άμεσο", color: "#2E7D5B" }, derived: { label: "υπολογιζόμενο", color: "#0F6CBD" }, param: { label: "παράμετρος", color: "#8764B8" }, constant: { label: "σταθερά", color: "#5C5C5C" }, gap: { label: "εκκρεμεί", color: "#CA5D00" },
+  direct: { label: "άμεσο", color: "var(--color-success)" }, derived: { label: "υπολογιζόμενο", color: "var(--color-info)" }, param: { label: "παράμετρος", color: "var(--color-purple)" }, constant: { label: "σταθερά", color: "#5C5C5C" }, gap: { label: "εκκρεμεί", color: "var(--color-warning)" },
 };
 const STATUS: Record<CheckResult["status"], { icon: React.ElementType; color: string; label: string }> = {
-  ok: { icon: RiCheckboxCircleLine, color: "#2E7D5B", label: "ΟΚ" }, fail: { icon: RiCloseCircleLine, color: "#C0392B", label: "Αποτυχία" }, warn: { icon: RiErrorWarningLine, color: "#CA5D00", label: "Προσοχή" }, skip: { icon: RiSkipForwardLine, color: "#5C5C5C", label: "Παράλειψη" },
+  ok: { icon: RiCheckboxCircleLine, color: "var(--color-success)", label: "ΟΚ" }, fail: { icon: RiCloseCircleLine, color: "var(--color-danger)", label: "Αποτυχία" }, warn: { icon: RiErrorWarningLine, color: "var(--color-warning)", label: "Προσοχή" }, skip: { icon: RiSkipForwardLine, color: "#5C5C5C", label: "Παράλειψη" },
 };
 
 export function SoftoneStructureClient({ maps, lookups, configured, lastPing }: { maps: EntityMap[]; lookups: { key: string; editor: string; label: string }[]; configured: boolean; lastPing: { at: string | null; ok: boolean | null; message: string | null } }) {
@@ -38,7 +38,7 @@ export function SoftoneStructureClient({ maps, lookups, configured, lastPing }: 
             <p style={{ fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)", margin: "4px 0 0" }}>
               Μόνο αναγνώσεις (getObjects, getObjectTables, getTableFields, getSelectorData, getBrowserInfo): υπάρχουν τα αντικείμενα, τα πεδία και οι λίστες που απαιτεί η προδιαγραφή (§3, §7); Δεν αλλάζει τίποτα στο SoftOne.
             </p>
-            {!configured && <p style={{ fontSize: "var(--fs-12-5)", color: "#CA5D00", margin: "6px 0 0" }}>Η σύνδεση δεν είναι ρυθμισμένη/ενεργή — συμπληρώστε πρώτα την καρτέλα «Σύνδεση».</p>}
+            {!configured && <p style={{ fontSize: "var(--fs-12-5)", color: "var(--color-warning)", margin: "6px 0 0" }}>Η σύνδεση δεν είναι ρυθμισμένη/ενεργή — συμπληρώστε πρώτα την καρτέλα «Σύνδεση».</p>}
             {lastPing.at && <p style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)", margin: "6px 0 0" }}>Τελευταία δοκιμή σύνδεσης {fmtDate(lastPing.at)}: {lastPing.ok ? "ΟΚ" : "αποτυχία"} — {lastPing.message}</p>}
           </div>
           <button type="button" onClick={run} disabled={running || !configured} style={S1_BTN("primary", running || !configured)}>
@@ -48,9 +48,9 @@ export function SoftoneStructureClient({ maps, lookups, configured, lastPing }: 
         {res?.error && <div style={{ fontSize: "var(--fs-13)", color: "var(--color-danger)" }}><RiErrorWarningLine /> {res.error}</div>}
         {summary && !res?.error && (
           <div style={{ display: "flex", gap: 10, flexWrap: "wrap", fontSize: "var(--fs-12-5)" }}>
-            <span style={{ padding: "4px 10px", borderRadius: 999, background: "#2E7D5B14", color: "#2E7D5B", fontWeight: 600 }}>✓ {summary.ok}</span>
-            <span style={{ padding: "4px 10px", borderRadius: 999, background: "#CA5D0014", color: "#CA5D00", fontWeight: 600 }}>! {summary.warn}</span>
-            <span style={{ padding: "4px 10px", borderRadius: 999, background: "#C0392B14", color: "#C0392B", fontWeight: 600 }}>✗ {summary.fail}</span>
+            <span style={{ padding: "4px 10px", borderRadius: 999, background: "color-mix(in srgb, var(--color-success) 8%, transparent)", color: "var(--color-success)", fontWeight: 600 }}>✓ {summary.ok}</span>
+            <span style={{ padding: "4px 10px", borderRadius: 999, background: "color-mix(in srgb, var(--color-warning) 8%, transparent)", color: "var(--color-warning)", fontWeight: 600 }}>! {summary.warn}</span>
+            <span style={{ padding: "4px 10px", borderRadius: 999, background: "color-mix(in srgb, var(--color-danger) 8%, transparent)", color: "var(--color-danger)", fontWeight: 600 }}>✗ {summary.fail}</span>
             <span style={{ color: "var(--muted-foreground)", alignSelf: "center" }}>{fmtDate(res?.at)}{res?.version ? ` · SoftOne ${res.version}` : ""}</span>
           </div>
         )}
@@ -63,7 +63,7 @@ export function SoftoneStructureClient({ maps, lookups, configured, lastPing }: 
                   <Icon style={{ color: S.color, marginTop: 2 }} />
                   <div style={{ minWidth: 0 }}>
                     <div style={{ fontWeight: 600 }}>{r.label}{r.spec && <span style={{ fontWeight: 400, color: "var(--muted-foreground)" }}> · προδιαγραφή {r.spec}</span>}</div>
-                    <div style={{ color: r.status === "fail" ? "#C0392B" : "var(--muted-foreground)", wordBreak: "break-word" }}>{r.detail}</div>
+                    <div style={{ color: r.status === "fail" ? "var(--color-danger)" : "var(--muted-foreground)", wordBreak: "break-word" }}>{r.detail}</div>
                   </div>
                 </div>
               ); })}
@@ -122,7 +122,7 @@ function FieldTable({ title, fields }: { title: string; fields: EntityMap["field
         <tbody>
           {fields.map((f, i) => (
             <tr key={i} style={{ borderBottom: "1px solid var(--border)" }}>
-              <td style={{ padding: "5px 8px", fontFamily: "monospace", whiteSpace: "nowrap" }}>{f.s1}{f.required && <span style={{ color: "#C0392B" }}> *</span>}</td>
+              <td style={{ padding: "5px 8px", fontFamily: "monospace", whiteSpace: "nowrap" }}>{f.s1}{f.required && <span style={{ color: "var(--color-danger)" }}> *</span>}</td>
               <td style={{ padding: "5px 8px" }}>{f.ours}</td>
               <td style={{ padding: "5px 8px", whiteSpace: "nowrap" }}><span style={{ color: KIND[f.kind]?.color, fontWeight: 600 }}>{KIND[f.kind]?.label ?? f.kind}</span></td>
               <td style={{ padding: "5px 8px", color: "var(--muted-foreground)" }}>{f.note ?? ""}</td>

@@ -95,12 +95,12 @@ export function PrivateSuppliersClient({ suppliers, categories, caps, buildings,
                   <div style={{ fontSize: "var(--fs-15)", fontWeight: 800, color: "var(--foreground)", display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
                     {s.name}
                     {!s.isActive && <RiEyeOffLine title="Ανενεργός" style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }} />}
-                    {s.emergency24h && <RiAlarmWarningLine title="Έκτακτα 24/7" style={{ fontSize: "var(--fs-13)", color: "#c50f1f" }} />}
+                    {s.emergency24h && <RiAlarmWarningLine title="Έκτακτα 24/7" style={{ fontSize: "var(--fs-13)", color: "var(--color-danger)" }} />}
                   </div>
                   <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>{SUPPLIER_KIND_LABELS[s.kind]}{s.afm ? ` · ΑΦΜ ${s.afm}` : ""}</div>
                 </div>
                 {caps.edit && <button onClick={() => setEditing(s)} style={iconBtn} title="Επεξεργασία"><RiPencilLine /></button>}
-                {caps.delete && <button onClick={() => remove(s)} disabled={isPending} style={{ ...iconBtn, color: "#c50f1f" }} title="Διαγραφή"><RiDeleteBinLine /></button>}
+                {caps.delete && <button onClick={() => remove(s)} disabled={isPending} style={{ ...iconBtn, color: "var(--color-danger)" }} title="Διαγραφή"><RiDeleteBinLine /></button>}
               </div>
               {s.categoryNames.length > 0 && (
                 <div style={{ display: "flex", flexWrap: "wrap", gap: 4, marginTop: 8 }}>
@@ -153,4 +153,4 @@ const chip: React.CSSProperties = { fontSize: "var(--fs-11)", fontWeight: 600, p
 const btn: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 7, border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)", borderRadius: 4, padding: "7px 13px", fontSize: "var(--fs-13)", fontWeight: 600, cursor: "pointer" };
 const btnPrimary: React.CSSProperties = { background: "var(--color-primary)", color: "#fff", borderColor: "var(--color-primary)" };
 const iconBtn: React.CSSProperties = { display: "inline-flex", alignItems: "center", border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)", borderRadius: 4, padding: 6, cursor: "pointer", flexShrink: 0 };
-const errBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: "var(--fs-12)", border: "1px solid #fca5a530" };
+const errBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "var(--danger-soft)", color: "var(--color-danger)", fontSize: "var(--fs-12)", border: "1px solid var(--danger-soft)" };

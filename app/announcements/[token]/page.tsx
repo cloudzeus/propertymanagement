@@ -39,7 +39,7 @@ export default async function AcknowledgePage({ params }: { params: Promise<{ to
   if (!rec) {
     return (
       <Shell>
-        <RiErrorWarningLine style={{ fontSize: "var(--fs-48)", color: "#dc2626" }} />
+        <RiErrorWarningLine style={{ fontSize: "var(--fs-48)", color: "var(--color-danger)" }} />
         <h1 style={{ fontSize: "var(--fs-20)", fontWeight: 700, margin: "16px 0 6px" }}>Μη έγκυρος σύνδεσμος</h1>
         <p style={{ color: "#666", fontSize: "var(--fs-14)", margin: 0 }}>Ο σύνδεσμος επιβεβαίωσης δεν είναι έγκυρος ή έχει λήξει.</p>
       </Shell>
@@ -58,13 +58,13 @@ export default async function AcknowledgePage({ params }: { params: Promise<{ to
 
       {acked ? (
         <div style={{ marginTop: 24, display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}>
-          <RiCheckboxCircleFill style={{ fontSize: "var(--fs-44)", color: "#16a34a" }} />
-          <div style={{ fontSize: "var(--fs-15)", fontWeight: 700, color: "#16a34a" }}>Λάβατε γνώση</div>
+          <RiCheckboxCircleFill style={{ fontSize: "var(--fs-44)", color: "var(--color-success)" }} />
+          <div style={{ fontSize: "var(--fs-15)", fontWeight: 700, color: "var(--color-success)" }}>Λάβατε γνώση</div>
           <div style={{ fontSize: "var(--fs-12)", color: "#999" }}>Καταχωρήθηκε: {rec.acknowledgedAt!.toLocaleString("el-GR")}</div>
         </div>
       ) : (
         <form action={ackAction} style={{ marginTop: 24 }}>
-          <button type="submit" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#c50f1f", color: "#fff", border: "none", padding: "12px 32px", borderRadius: 8, fontSize: "var(--fs-15)", fontWeight: 700, cursor: "pointer" }}>
+          <button type="submit" style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "var(--color-danger)", color: "#fff", border: "none", padding: "12px 32px", borderRadius: 8, fontSize: "var(--fs-15)", fontWeight: 700, cursor: "pointer" }}>
             <RiCheckLine /> Έλαβα γνώση
           </button>
           <p style={{ fontSize: "var(--fs-12)", color: "#999", marginTop: 12 }}>Πατώντας το κουμπί επιβεβαιώνετε ότι λάβατε γνώση. Καταχωρείται η ημερομηνία/ώρα και η διεύθυνση IP σας.</p>

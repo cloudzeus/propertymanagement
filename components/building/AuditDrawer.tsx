@@ -6,8 +6,8 @@ import { auditBuildingEntries } from "@/app/actions/building-audit";
 import type { Finding, AuditTab } from "@/lib/buildings/audit";
 
 const SEV = {
-  error: { color: "#dc2626", icon: RiErrorWarningLine, label: "σφάλματα" },
-  warning: { color: "#f59e0b", icon: RiAlertLine, label: "προειδοποιήσεις" },
+  error: { color: "var(--color-danger)", icon: RiErrorWarningLine, label: "σφάλματα" },
+  warning: { color: "var(--color-warning)", icon: RiAlertLine, label: "προειδοποιήσεις" },
   info: { color: "#0a8", icon: RiInformationLine, label: "προτάσεις" },
 } as const;
 

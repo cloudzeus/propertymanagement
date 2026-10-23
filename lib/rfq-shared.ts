@@ -36,15 +36,15 @@ export const WO_STATUS_LABELS: Record<string, string> = {
 };
 
 export const WO_STATUS_COLORS: Record<string, string> = {
-  PENDING_CUSTOMER: "#b45309",
-  ACCEPTED: "#0369a1",
-  DECLINED: "#9f1239",
-  SCHEDULED: "#7c3aed",
-  IN_PROGRESS: "#1d4ed8",
-  COMPLETED: "#15803d",
-  CONFIRMED: "#15803d",
-  DISPUTED: "#9f1239",
-  CANCELLED: "#6b7280",
+  PENDING_CUSTOMER: "var(--color-warning)",
+  ACCEPTED: "var(--color-info)",
+  DECLINED: "var(--color-danger)",
+  SCHEDULED: "var(--color-purple)",
+  IN_PROGRESS: "var(--color-info)",
+  COMPLETED: "var(--color-success)",
+  CONFIRMED: "var(--color-success)",
+  DISPUTED: "var(--color-danger)",
+  CANCELLED: "var(--muted-foreground)",
 };
 
 export const eur = (n: number | null | undefined) =>
@@ -139,13 +139,13 @@ export const INVITATION_STATE_LABELS: Record<InvitationState, string> = {
 };
 
 export const INVITATION_STATE_COLORS: Record<InvitationState, string> = {
-  NO_EMAIL: "#9f1239",
-  NOT_SENT: "#b45309",
-  SENT: "#6b7280",
-  OPENED: "#0369a1",
-  OFFERED: "#15803d",
-  DECLINED: "#b45309",
-  EXPIRED: "#6b7280",
+  NO_EMAIL: "var(--color-danger)",
+  NOT_SENT: "var(--color-warning)",
+  SENT: "var(--muted-foreground)",
+  OPENED: "var(--color-info)",
+  OFFERED: "var(--color-success)",
+  DECLINED: "var(--color-warning)",
+  EXPIRED: "var(--muted-foreground)",
 };
 
 /** Derived, display-level state of one supplier invitation (spec §5.4). */

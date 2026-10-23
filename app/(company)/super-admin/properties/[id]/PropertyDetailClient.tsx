@@ -137,7 +137,7 @@ function PackageTab({ propertyId, catalog, ps, setPs }: {
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div style={{ fontSize: "var(--fs-14)", fontWeight: 600, color: "var(--foreground)", display: "flex", alignItems: "center", gap: 8 }}>
                   {s.name}
-                  <span style={{ fontSize: "var(--fs-10)", fontWeight: 700, padding: "1px 6px", borderRadius: 10, background: s.isCore ? "#0078D418" : "#8764B818", color: s.isCore ? "#0078D4" : "#8764B8" }}>{s.isCore ? "CORE" : "MODULE"}</span>
+                  <span style={{ fontSize: "var(--fs-10)", fontWeight: 700, padding: "1px 6px", borderRadius: 10, background: s.isCore ? "color-mix(in srgb, var(--color-info) 9%, transparent)" : "color-mix(in srgb, var(--color-purple) 9%, transparent)", color: s.isCore ? "var(--color-info)" : "var(--color-purple)" }}>{s.isCore ? "CORE" : "MODULE"}</span>
                 </div>
                 <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)", marginTop: 2 }}>
                   € {s.price.toFixed(2)} {PRICING_LABEL[s.pricingModel]} · εκτίμηση: <strong style={{ color: "var(--foreground)" }}>{monthlyEstimate(s)}</strong>
@@ -195,4 +195,4 @@ const th: React.CSSProperties = { textAlign: "left", padding: "6px 8px", fontSiz
 const td: React.CSSProperties = { padding: "7px 8px", fontSize: "var(--fs-13)", color: "var(--foreground)" };
 const cancelBtn: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: "var(--fs-13)", color: "var(--foreground)" };
 const saveBtn: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: "pointer", fontSize: "var(--fs-13)", fontWeight: 600, display: "flex", alignItems: "center", gap: 6 };
-const errBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: "var(--fs-12)", border: "1px solid #fca5a530", marginBottom: 14 };
+const errBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "var(--danger-soft)", color: "var(--color-danger)", fontSize: "var(--fs-12)", border: "1px solid var(--danger-soft)", marginBottom: 14 };

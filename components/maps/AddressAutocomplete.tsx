@@ -146,7 +146,7 @@ export function AddressAutocomplete({ label, value, onChange, onResolved, placeh
         )}
       </div>
 
-      {error && <p style={{ fontSize: "var(--fs-11)", color: "#dc2626", margin: 0 }}>{error}</p>}
+      {error && <p style={{ fontSize: "var(--fs-11)", color: "var(--color-danger)", margin: 0 }}>{error}</p>}
 
       {open && predictions.length > 0 && (
         <div style={{

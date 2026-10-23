@@ -62,8 +62,8 @@ export function PersonStatementModal({
         <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
           <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
             <Stat label="Σύνολο" value={eur(data.total)} />
-            <Stat label="Πληρωμένα" value={eur(data.paid)} color="#16a34a" />
-            <Stat label="Υπόλοιπο" value={eur(data.due)} color={data.due > 0 ? "#b91c1c" : undefined} />
+            <Stat label="Πληρωμένα" value={eur(data.paid)} color="var(--color-success)" />
+            <Stat label="Υπόλοιπο" value={eur(data.due)} color={data.due > 0 ? "var(--color-danger)" : undefined} />
             <div style={{ marginLeft: "auto", fontSize: "var(--fs-12)", color: "var(--muted-foreground)", alignSelf: "center" }}>{data.email ?? "— χωρίς email —"} · Μονάδες: {data.units.join(", ") || "—"}</div>
           </div>
 
@@ -90,7 +90,7 @@ export function PersonStatementModal({
                       <td style={{ ...td, textAlign: "right", fontWeight: 600, whiteSpace: "nowrap", fontVariantNumeric: "tabular-nums" }}>{eur(l.amount)}</td>
                       <td style={td}>
                         {l.paid
-                          ? <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}><span style={{ color: "#16a34a", fontWeight: 600, display: "inline-flex", alignItems: "center", gap: 2 }}><RiCheckLine /> {l.paymentMethod ? PM_LABEL[l.paymentMethod] ?? "Ναι" : "Πληρωμένο"}</span>{canPay && <button onClick={() => unpay(l)} disabled={pending} style={undoBtn} title="Αναίρεση">↺</button>}</span>
+                          ? <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}><span style={{ color: "var(--color-success)", fontWeight: 600, display: "inline-flex", alignItems: "center", gap: 2 }}><RiCheckLine /> {l.paymentMethod ? PM_LABEL[l.paymentMethod] ?? "Ναι" : "Πληρωμένο"}</span>{canPay && <button onClick={() => unpay(l)} disabled={pending} style={undoBtn} title="Αναίρεση">↺</button>}</span>
                           : <span style={{ color: "var(--muted-foreground)" }}>Ανεξόφλητο</span>}
                       </td>
                     </tr>
@@ -129,4 +129,4 @@ function Stat({ label, value, color }: { label: string; value: string; color?: s
 const th: React.CSSProperties = { padding: "7px 9px", fontWeight: 600, fontSize: "var(--fs-11)" };
 const td: React.CSSProperties = { padding: "7px 9px", verticalAlign: "middle" };
 const undoBtn: React.CSSProperties = { border: "none", background: "transparent", cursor: "pointer", color: "var(--muted-foreground)", fontSize: "var(--fs-13)" };
-const btnPay: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 6, height: 34, padding: "0 16px", borderRadius: 6, border: "1px solid #16a34a", background: "#16a34a", color: "#fff", fontSize: "var(--fs-13)", fontWeight: 600, cursor: "pointer" };
+const btnPay: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 6, height: 34, padding: "0 16px", borderRadius: 6, border: "1px solid var(--color-success)", background: "var(--color-success)", color: "#fff", fontSize: "var(--fs-13)", fontWeight: 600, cursor: "pointer" };

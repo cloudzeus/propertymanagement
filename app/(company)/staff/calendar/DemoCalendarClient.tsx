@@ -19,12 +19,12 @@ const MONTHS = ["Ιανουάριος", "Φεβρουάριος", "Μάρτιο�
 const MONTHS_SHORT = ["Ιαν", "Φεβ", "Μάρ", "Απρ", "Μάι", "Ιούν", "Ιούλ", "Αύγ", "Σεπ", "Οκτ", "Νοέ", "Δεκ"];
 
 const STATUS: Record<string, { label: string; bg: string; fg: string; bar: string }> = {
-  PENDING: { label: "Νέο", bg: "#FDF1DF", fg: "#9A5B00", bar: "#F2A23C" },
-  CONFIRMED: { label: "Επιβεβαιωμένο", bg: "#E4F0EA", fg: "#22604A", bar: "#2E7D5B" },
-  CANCELLED: { label: "Ακυρωμένο", bg: "#F0F0EE", fg: "#8a8a85", bar: "#b9b9b4" },
+  PENDING: { label: "Νέο", bg: "var(--warning-soft)", fg: "var(--color-warning)", bar: "var(--color-accent)" },
+  CONFIRMED: { label: "Επιβεβαιωμένο", bg: "var(--success-soft)", fg: "var(--color-success)", bar: "var(--color-success)" },
+  CANCELLED: { label: "Ακυρωμένο", bg: "var(--paper)", fg: "var(--muted-foreground)", bar: "#b9b9b4" },
   COMPLETED: { label: "Ολοκληρωμένο", bg: "#E5EDF8", fg: "#234E88", bar: "#3B6BB0" },
-  SCHEDULED: { label: "Προγραμματισμένη", bg: "#E4F0EA", fg: "#22604A", bar: "#2E7D5B" },
-  OVERDUE: { label: "Εκπρόθεσμη", bg: "#FBE4E4", fg: "#9A2B2B", bar: "#C0392B" },
+  SCHEDULED: { label: "Προγραμματισμένη", bg: "var(--success-soft)", fg: "var(--color-success)", bar: "var(--color-success)" },
+  OVERDUE: { label: "Εκπρόθεσμη", bg: "var(--danger-soft)", fg: "var(--color-danger)", bar: "var(--color-danger)" },
 };
 const MAX_CHIPS_PER_DAY = 3;
 
@@ -85,8 +85,8 @@ export function DemoCalendarClient({ events: allEvents, today }: { events: DemoE
     <div style={{ padding: "22px 24px 32px", maxWidth: 1240 }}>
       <style>{`
         .dcal-btn { transition: background .15s ease, border-color .15s ease, box-shadow .15s ease, transform .15s ease; cursor: pointer; }
-        .dcal-btn:hover { background: var(--paper, #FBFAF5); }
-        .dcal-btn:focus-visible, .dcal-chip:focus-visible, .dcal-card:focus-visible { outline: 2px solid var(--primary, #15161a); outline-offset: 2px; }
+        .dcal-btn:hover { background: var(--paper); }
+        .dcal-btn:focus-visible, .dcal-chip:focus-visible, .dcal-card:focus-visible { outline: 2px solid var(--primary, var(--color-primary)); outline-offset: 2px; }
         .dcal-chip { transition: filter .15s ease, transform .15s ease; cursor: pointer; }
         .dcal-chip:hover { filter: brightness(.96); }
         .dcal-chip:active { transform: scale(.98); }
@@ -112,7 +112,7 @@ export function DemoCalendarClient({ events: allEvents, today }: { events: DemoE
           </p>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <div role="tablist" aria-label="Φίλτρο τύπου" style={{ display: "inline-flex", gap: 4, background: "var(--paper, #FBFAF5)", border: "1px solid var(--border)", borderRadius: 999, padding: 3 }}>
+          <div role="tablist" aria-label="Φίλτρο τύπου" style={{ display: "inline-flex", gap: 4, background: "var(--paper)", border: "1px solid var(--border)", borderRadius: 999, padding: 3 }}>
             {([["all", "Όλα"], ["demo", "Ραντεβού"], ["maintenance", "Συντηρήσεις"]] as const).map(([k, label]) => (
               <button key={k} onClick={() => setKindFilter(k)} className="dcal-btn"
                 style={{ border: "none", borderRadius: 999, padding: "5px 12px", fontSize: "var(--fs-12-5)", fontWeight: 700, cursor: "pointer",
@@ -138,12 +138,12 @@ export function DemoCalendarClient({ events: allEvents, today }: { events: DemoE
       {/* Stat tiles */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(170px,1fr))", gap: 12, margin: "18px 0" }}>
         {[
-          { icon: RiCalendarEventLine, label: "Αυτόν τον μήνα", value: monthCount, tint: "#F2A23C" },
+          { icon: RiCalendarEventLine, label: "Αυτόν τον μήνα", value: monthCount, tint: "var(--color-accent)" },
           { icon: RiTimeLine, label: "Επόμενες 7 ημέρες", value: weekCount, tint: "#3B6BB0" },
-          { icon: RiUserSmileLine, label: "Νέα (εκκρεμή)", value: pendingCount, tint: "#2E7D5B" },
+          { icon: RiUserSmileLine, label: "Νέα (εκκρεμή)", value: pendingCount, tint: "var(--color-success)" },
         ].map((s) => (
           <div key={s.label} style={{ display: "flex", alignItems: "center", gap: 12, border: "1px solid var(--border)", borderRadius: "var(--radius)", background: "var(--card)", padding: "12px 14px" }}>
-            <span style={{ display: "flex", alignItems: "center", justifyContent: "center", width: 36, height: 36, borderRadius: 9, background: `${s.tint}1A`, color: s.tint, flex: "none" }}>
+            <span style={{ display: "flex", alignItems: "center", justifyContent: "center", width: 36, height: 36, borderRadius: 9, background: `color-mix(in srgb, ${s.tint} 10%, transparent)`, color: s.tint, flex: "none" }}>
               <s.icon size={18} />
             </span>
             <div>
@@ -159,7 +159,7 @@ export function DemoCalendarClient({ events: allEvents, today }: { events: DemoE
         <div style={{ border: "1px solid var(--border)", borderRadius: "var(--radius)", background: "var(--card)", overflow: "hidden" }}>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(7,1fr)" }}>
             {WD.map((w, i) => (
-              <div key={w} style={{ padding: "10px 0", textAlign: "center", fontSize: "var(--fs-11-5)", fontWeight: 700, letterSpacing: ".04em", textTransform: "uppercase", color: i >= 5 ? "rgba(27,28,26,.35)" : "var(--muted-foreground)", borderBottom: "1px solid var(--border)", background: "var(--paper, #FBFAF5)" }}>{w}</div>
+              <div key={w} style={{ padding: "10px 0", textAlign: "center", fontSize: "var(--fs-11-5)", fontWeight: 700, letterSpacing: ".04em", textTransform: "uppercase", color: i >= 5 ? "rgba(27,28,26,.35)" : "var(--muted-foreground)", borderBottom: "1px solid var(--border)", background: "var(--paper)" }}>{w}</div>
             ))}
             {cells.map((d, i) => {
               const inMonth = d.getMonth() === cursor.getMonth();
@@ -183,7 +183,7 @@ export function DemoCalendarClient({ events: allEvents, today }: { events: DemoE
                       color: isToday ? "#fff" : inMonth ? "var(--foreground)" : "rgba(27,28,26,.35)",
                       display: "inline-flex", alignItems: "center", justifyContent: "center",
                       width: 23, height: 23, borderRadius: "50%",
-                      background: isToday ? "var(--primary, #15161a)" : "transparent",
+                      background: isToday ? "var(--primary, var(--color-primary))" : "transparent",
                     }}>{d.getDate()}</span>
                   </div>
                   <div style={{ display: "flex", flexDirection: "column", gap: 3, marginTop: 3 }}>
@@ -221,7 +221,7 @@ export function DemoCalendarClient({ events: allEvents, today }: { events: DemoE
             })}
           </div>
           {/* Legend */}
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 12, padding: "10px 14px", borderTop: "1px solid var(--border)", background: "var(--paper, #FBFAF5)" }}>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 12, padding: "10px 14px", borderTop: "1px solid var(--border)", background: "var(--paper)" }}>
             {Object.entries(STATUS).map(([k, s]) => (
               <span key={k} style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: "var(--fs-11-5)", color: "var(--muted-foreground)" }}>
                 <span aria-hidden style={{ width: 8, height: 8, borderRadius: 3, background: s.bar }} /> {s.label}
@@ -234,7 +234,7 @@ export function DemoCalendarClient({ events: allEvents, today }: { events: DemoE
         <div style={{ border: "1px solid var(--border)", borderRadius: "var(--radius)", background: "var(--card)", padding: 16 }}>
           <div style={{ fontWeight: 700, fontSize: "var(--fs-14)", color: "var(--foreground)", display: "flex", alignItems: "center", gap: 7 }}>
             <RiCalendarEventLine style={{ color: "var(--muted-foreground)" }} /> Επερχόμενα
-            <span style={{ marginLeft: "auto", fontSize: "var(--fs-11-5)", fontWeight: 700, background: "var(--paper, #FBFAF5)", border: "1px solid var(--border)", borderRadius: 999, padding: "1px 9px", color: "var(--muted-foreground)", fontVariantNumeric: "tabular-nums" }}>{upcoming.length}</span>
+            <span style={{ marginLeft: "auto", fontSize: "var(--fs-11-5)", fontWeight: 700, background: "var(--paper)", border: "1px solid var(--border)", borderRadius: 999, padding: "1px 9px", color: "var(--muted-foreground)", fontVariantNumeric: "tabular-nums" }}>{upcoming.length}</span>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 8, marginTop: 12 }}>
             {upcoming.length === 0 && (
@@ -249,7 +249,7 @@ export function DemoCalendarClient({ events: allEvents, today }: { events: DemoE
               return (
                 <button key={e.id} type="button" className="dcal-card" onClick={() => setSelected(e)}
                   style={{ display: "flex", gap: 11, alignItems: "center", textAlign: "left", border: "1px solid var(--border)", borderRadius: 10, background: "var(--card)", padding: "9px 11px" }}>
-                  <span style={{ flex: "none", width: 42, textAlign: "center", border: "1px solid var(--border)", borderRadius: 9, background: "var(--paper, #FBFAF5)", padding: "5px 0" }}>
+                  <span style={{ flex: "none", width: 42, textAlign: "center", border: "1px solid var(--border)", borderRadius: 9, background: "var(--paper)", padding: "5px 0" }}>
                     <span style={{ display: "block", fontSize: "var(--fs-16)", fontWeight: 800, lineHeight: 1.1, color: "var(--foreground)", fontVariantNumeric: "tabular-nums" }}>{d.getDate()}</span>
                     <span style={{ display: "block", fontSize: "var(--fs-10)", fontWeight: 700, textTransform: "uppercase", color: "var(--muted-foreground)" }}>{MONTHS_SHORT[d.getMonth()]}</span>
                   </span>
@@ -309,7 +309,7 @@ export function DemoCalendarClient({ events: allEvents, today }: { events: DemoE
             {selected.phone && <div style={rowStyle}><RiPhoneLine style={iconStyle} aria-hidden /> {selected.phone}</div>}
             {selected.company && <div style={rowStyle}><RiBuilding2Line style={iconStyle} aria-hidden /> {selected.company}</div>}
             {selected.message && (
-              <div style={{ ...rowStyle, alignItems: "flex-start", background: "var(--paper, #FBFAF5)", border: "1px solid var(--border)", borderRadius: 10, padding: "10px 12px" }}>
+              <div style={{ ...rowStyle, alignItems: "flex-start", background: "var(--paper)", border: "1px solid var(--border)", borderRadius: 10, padding: "10px 12px" }}>
                 <RiChat1Line style={{ ...iconStyle, marginTop: 2 }} aria-hidden />
                 <span style={{ whiteSpace: "pre-wrap", lineHeight: 1.55 }}>{selected.message}</span>
               </div>
@@ -318,7 +318,7 @@ export function DemoCalendarClient({ events: allEvents, today }: { events: DemoE
 
           <div style={{ display: "flex", gap: 8, marginTop: 18 }}>
             <a href={`mailto:${selected.email}`} className="dcal-btn"
-              style={{ flex: 1, display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 7, padding: "10px 0", borderRadius: 10, background: "var(--primary, #15161a)", color: "#fff", fontWeight: 700, fontSize: "var(--fs-13-5)", textDecoration: "none" }}>
+              style={{ flex: 1, display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 7, padding: "10px 0", borderRadius: 10, background: "var(--primary, var(--color-primary))", color: "#fff", fontWeight: 700, fontSize: "var(--fs-13-5)", textDecoration: "none" }}>
               <RiMailLine size={15} /> Απάντηση με email
             </a>
             {selected.phone && (
@@ -353,7 +353,7 @@ function MaintenanceEventModal({ event, onClose }: { event: DemoEvent; onClose: 
     <div onClick={onClose} style={{ position: "fixed", inset: 0, background: "rgba(27,28,26,.34)", display: "flex", alignItems: "center", justifyContent: "center", padding: 20, zIndex: 60 }}>
       <div onClick={(e) => e.stopPropagation()} style={{ width: "min(440px, 96vw)", background: "var(--card)", border: "1px solid var(--border)", borderRadius: 14, padding: 20 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
-          <span style={{ display: "flex", alignItems: "center", justifyContent: "center", width: 38, height: 38, borderRadius: 10, background: event.overdue ? "#FBE4E4" : "#E4F0EA", color: event.overdue ? "#9A2B2B" : "#22604A" }}>
+          <span style={{ display: "flex", alignItems: "center", justifyContent: "center", width: 38, height: 38, borderRadius: 10, background: event.overdue ? "var(--danger-soft)" : "var(--success-soft)", color: event.overdue ? "var(--color-danger)" : "var(--color-success)" }}>
             <RiToolsLine />
           </span>
           <div>

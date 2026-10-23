@@ -60,7 +60,7 @@ export function RfqPanel({ rfqs, workOrders, zones, canCreate = true, canEdit = 
         {canSendNew && <button type="button" style={btnPrimary} onClick={() => onOpen("create-rfq")}><RiSendPlaneLine /> Νέο αίτημα προσφοράς</button>}
       </div>
       {error && <div role="alert" style={{ color: "var(--destructive)", fontSize: "var(--fs-13)", marginBottom: 10 }}>{error}</div>}
-      {info && <div role="status" style={{ color: "#15803d", fontSize: "var(--fs-13)", marginBottom: 10 }}>{info}</div>}
+      {info && <div role="status" style={{ color: "var(--color-success)", fontSize: "var(--fs-13)", marginBottom: 10 }}>{info}</div>}
 
       {workOrders.map((w) => <WorkOrderRow key={w.id} w={w} zones={zones} canSchedule={canSchedule} canOnBehalf={canOnBehalf} onOpen={(d) => onOpen(d, subjectFromWorkOrderDTO(w))} />)}
 
@@ -83,7 +83,7 @@ export function RfqPanel({ rfqs, workOrders, zones, canCreate = true, canEdit = 
                 const who = i.recipients.length ? i.recipients.map((x) => `${x.email}${x.openedAt ? ` (άνοιξε ${fmt(x.openedAt)})` : ""}`).join(", ") : "Κανένας παραλήπτης email";
                 const canResend = canEdit && open && ["NOT_SENT", "SENT", "OPENED", "NO_EMAIL"].includes(i.state);
                 return (
-                  <span key={i.supplierId} style={{ ...pill, color, borderColor: `${color}55`, background: `${color}10` }} title={i.declineReason ?? `${who}${i.emailCount ? ` · ${i.emailCount}× email, τελευταίο ${fmt(i.lastEmailAt)}` : ""}`}>
+                  <span key={i.supplierId} style={{ ...pill, color, borderColor: `color-mix(in srgb, ${color} 33%, transparent)`, background: `color-mix(in srgb, ${color} 6%, transparent)` }} title={i.declineReason ?? `${who}${i.emailCount ? ` · ${i.emailCount}× email, τελευταίο ${fmt(i.lastEmailAt)}` : ""}`}>
                     {i.supplierName} · {INVITATION_STATE_LABELS[i.state]}
                     {canResend && <button type="button" disabled={busy} title="Αποστολή email ξανά" onClick={() => void resend(i.id)} style={{ border: "none", background: "none", color, cursor: "pointer", padding: 0, display: "inline-flex", marginLeft: 2 }}><RiMailSendLine /></button>}
                   </span>
@@ -110,13 +110,13 @@ export function RfqPanel({ rfqs, workOrders, zones, canCreate = true, canEdit = 
 }
 
 function WorkOrderRow({ w, zones, canSchedule, canOnBehalf, onOpen }: { w: WorkOrderDTO; zones?: DistanceZone[]; canSchedule: boolean; canOnBehalf: boolean; onOpen: (d: WorkDialog) => void }) {
-  const color = WO_STATUS_COLORS[w.status] ?? "#6b7280";
+  const color = WO_STATUS_COLORS[w.status] ?? "var(--muted-foreground)";
   const travelZone = w.travelZone ? (zones ? zoneLabel(zones, w.travelZone) : `Ζώνη ${w.travelZone}`) : null;
   return (
-    <div style={{ border: `1px solid ${color}55`, background: `${color}0a`, borderRadius: 10, padding: 14, marginBottom: 12 }}>
+    <div style={{ border: `1px solid color-mix(in srgb, ${color} 33%, transparent)`, background: `color-mix(in srgb, ${color} 4%, transparent)`, borderRadius: 10, padding: 14, marginBottom: 12 }}>
       <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
         <Link href={`/admin/work-orders/${w.id}`} style={{ fontSize: "var(--fs-14)", fontWeight: 700, color: "var(--foreground)", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 4 }}><RiEyeLine /> {w.number}</Link>
-        <span style={{ ...pill, color, borderColor: `${color}55` }}>{WO_STATUS_LABELS[w.status] ?? w.status}</span>
+        <span style={{ ...pill, color, borderColor: `color-mix(in srgb, ${color} 33%, transparent)` }}>{WO_STATUS_LABELS[w.status] ?? w.status}</span>
         {w.covered && <span style={pill}>καλύπτεται από σύμβαση</span>}
         <span style={{ flex: 1 }} />
         <Link href={`/admin/work-orders/${w.id}/contract/customer`} style={link}><RiFileTextLine /> Σύμβαση Α (πελάτης)</Link>
@@ -149,10 +149,10 @@ function WorkOrderRow({ w, zones, canSchedule, canOnBehalf, onOpen }: { w: WorkO
 
 function OfferRow({ o, canForward, onOpen }: { o: OfferDTO; canForward: boolean; onOpen: (d: WorkDialog) => void }) {
   return (
-    <div style={{ border: "1px solid var(--border)", borderRadius: 8, padding: "10px 12px", background: o.status === "SELECTED" ? "#15803d0a" : "var(--card)" }}>
+    <div style={{ border: "1px solid var(--border)", borderRadius: 8, padding: "10px 12px", background: o.status === "SELECTED" ? "color-mix(in srgb, var(--color-success) 4%, transparent)" : "var(--card)" }}>
       <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", fontSize: "var(--fs-13)" }}>
         <b>{o.supplierName}</b>
-        {o.supplierRating != null && <span style={{ display: "inline-flex", alignItems: "center", gap: 3, color: "#b45309", fontSize: "var(--fs-12)" }}><RiStarFill /> {o.supplierRating.toFixed(1)} ({o.supplierRatingCount})</span>}
+        {o.supplierRating != null && <span style={{ display: "inline-flex", alignItems: "center", gap: 3, color: "var(--color-warning)", fontSize: "var(--fs-12)" }}><RiStarFill /> {o.supplierRating.toFixed(1)} ({o.supplierRatingCount})</span>}
         <span style={{ fontWeight: 700 }}>{eur(o.amount)} <span style={{ fontWeight: 400, color: "var(--muted-foreground)" }}>+ ΦΠΑ {o.vatPct}%</span></span>
         {o.surveyFee != null && o.surveyFee > 0 && <span style={{ color: "var(--muted-foreground)" }}>αυτοψία {eur(o.surveyFee)}{o.surveyWaived ? " (συμψηφίζεται)" : ""}</span>}
         {o.supplierDistance && <span style={{ color: "var(--muted-foreground)" }}>{formatDistance(o.supplierDistance.km, null, o.supplierDistance.method)} από την έδρα του</span>}

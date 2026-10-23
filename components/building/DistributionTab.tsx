@@ -83,7 +83,7 @@ export function DistributionTab({
                 <td style={td}>
                   {differs && (
                     <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
-                      <span style={{ fontSize: "var(--fs-11)", fontWeight: 700, padding: "2px 8px", borderRadius: 9999, background: "#fffbeb", color: "#92400e", border: "1px solid #f59e0b" }}>κανονισμός</span>
+                      <span style={{ fontSize: "var(--fs-11)", fontWeight: 700, padding: "2px 8px", borderRadius: 9999, background: "var(--warning-soft)", color: "#92400e", border: "1px solid var(--color-warning)" }}>κανονισμός</span>
                       {can.editDistribution && <button onClick={() => change(c.id, DEFAULT_SENTINEL)} style={linkBtn}>επαναφορά σε default</button>}
                     </span>
                   )}

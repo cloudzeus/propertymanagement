@@ -65,7 +65,7 @@ export function AiChatWidget({
         {showTyping && <div style={{ marginBottom: 8 }}><Bubble role="assistant"><Dots /></Bubble></div>}
         {badges.length > 0 && (
           <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginTop: 4 }}>
-            {badges.map((b) => <span key={b.id} style={{ background: "#ecfdf5", color: "#0a7", borderRadius: 8, padding: "3px 8px", fontSize: "var(--fs-11)", display: "inline-flex", alignItems: "center", gap: 3 }}><RiCheckLine /> {b.label}</span>)}
+            {badges.map((b) => <span key={b.id} style={{ background: "var(--success-soft)", color: "#0a7", borderRadius: 8, padding: "3px 8px", fontSize: "var(--fs-11)", display: "inline-flex", alignItems: "center", gap: 3 }}><RiCheckLine /> {b.label}</span>)}
           </div>
         )}
         {error && (

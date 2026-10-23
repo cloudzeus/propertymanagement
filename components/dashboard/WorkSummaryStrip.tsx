@@ -14,10 +14,10 @@ export async function WorkSummaryStrip({ role, userId }: { role: string; userId?
   const kpis = await loadWorkSummary(scope);
   const mine = role === "EMPLOYEE" ? "&mine=1" : "";
   const cards = [
-    { key: "overdue", label: "Εκπρόθεσμα", value: kpis.overdue, sub: "Πέρασε η προθεσμία / SLA", icon: RiAlarmWarningLine, accent: "#d13438" },
+    { key: "overdue", label: "Εκπρόθεσμα", value: kpis.overdue, sub: "Πέρασε η προθεσμία / SLA", icon: RiAlarmWarningLine, accent: "var(--color-danger)" },
     { key: "today", label: "Σήμερα", value: kpis.today, sub: "Με προθεσμία σήμερα", icon: RiCalendarCheckLine, accent: "var(--color-primary)" },
-    { key: "week", label: "Αυτή την εβδομάδα", value: kpis.week, sub: "Δευτέρα–Κυριακή", icon: RiCalendarLine, accent: "#8764B8" },
-    { key: "unassigned", label: "Χωρίς ανάθεση", value: kpis.unassigned, sub: "Βλάβες ευθύνης εταιρείας", icon: RiUserUnfollowLine, accent: "#CA5D00" },
+    { key: "week", label: "Αυτή την εβδομάδα", value: kpis.week, sub: "Δευτέρα–Κυριακή", icon: RiCalendarLine, accent: "var(--color-purple)" },
+    { key: "unassigned", label: "Χωρίς ανάθεση", value: kpis.unassigned, sub: "Βλάβες ευθύνης εταιρείας", icon: RiUserUnfollowLine, accent: "var(--color-warning)" },
   ];
   return (
     <section style={{ display: "flex", flexDirection: "column", gap: 10 }}>

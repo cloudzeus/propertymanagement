@@ -17,7 +17,7 @@ export function RateSupplierDialog({ ctx, subject, onDone, onClose }: DialogProp
       <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
         {[1, 2, 3, 4, 5].map((n) => (
           <button key={n} type="button" onClick={() => setScore(n)} aria-label={`${n} αστέρια`}
-            style={{ background: "none", border: "none", cursor: "pointer", fontSize: "var(--fs-26)", lineHeight: 1, color: n <= score ? "#F2A23C" : "var(--border)", padding: 2, display: "inline-flex" }}>
+            style={{ background: "none", border: "none", cursor: "pointer", fontSize: "var(--fs-26)", lineHeight: 1, color: n <= score ? "var(--color-accent)" : "var(--border)", padding: 2, display: "inline-flex" }}>
             {n <= score ? <RiStarFill /> : <RiStarLine />}
           </button>
         ))}

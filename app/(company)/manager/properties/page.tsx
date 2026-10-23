@@ -84,9 +84,9 @@ export default async function ManagerPropertiesPage() {
                     position: "absolute", top: 10, right: 10,
                     display: "flex", alignItems: "center", gap: 4,
                     padding: "3px 8px", borderRadius: 20, fontSize: "var(--fs-11)", fontWeight: 600,
-                    background: hasGeo ? "#16a34a18" : "#6b728018",
-                    color: hasGeo ? "#16a34a" : "#6b7280",
-                    border: `1px solid ${hasGeo ? "#16a34a30" : "#6b728030"}`,
+                    background: hasGeo ? "color-mix(in srgb, var(--color-success) 9%, transparent)" : "color-mix(in srgb, var(--muted-foreground) 9%, transparent)",
+                    color: hasGeo ? "var(--color-success)" : "var(--muted-foreground)",
+                    border: `1px solid ${hasGeo ? "color-mix(in srgb, var(--color-success) 19%, transparent)" : "color-mix(in srgb, var(--muted-foreground) 19%, transparent)"}`,
                   }}>
                     {hasGeo ? <RiMapPin2Line style={{ fontSize: "var(--fs-12)" }} /> : <RiMapPinLine style={{ fontSize: "var(--fs-12)" }} />}
                     {hasGeo ? "Στον χάρτη" : "Χωρίς θέση"}

@@ -46,6 +46,15 @@
   --accent-2:          var(--color-accent-2);
   --destructive:       var(--color-danger);
   --muted:             #EFEDE2;
+  /* Status palette (2026-10-23): ONE set of semantic colours for badges, chips, alerts and
+     status maps across every role surface — no Tailwind/Fluent hex in components. */
+  --color-info:        #2B86A8;   /* sky, darkened for 4.5:1 text contrast on white */
+  --success-soft:      color-mix(in srgb, var(--color-success) 12%, var(--card));
+  --warning-soft:      color-mix(in srgb, var(--color-warning) 12%, var(--card));
+  --danger-soft:       color-mix(in srgb, var(--color-danger) 11%, var(--card));
+  --info-soft:         color-mix(in srgb, var(--color-info) 12%, var(--card));
+  --purple-soft:       color-mix(in srgb, var(--color-purple) 12%, var(--card));
+  --neutral-soft:      var(--muted);
 
   /* Sidebar */
   --sidebar-bg:        #FFFFFF;
@@ -226,6 +235,7 @@ body {
 }
 
 /* ─── Scrollbar ───────────────────────────────────────────────────────────── */
+* { scrollbar-width: thin; scrollbar-color: var(--border-strong) transparent; }
 ::-webkit-scrollbar       { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
@@ -487,12 +497,9 @@ body {
 .app-main > .dash-page, .app-main > :not(.dash-page):only-child { flex: 1 0 auto; }
 .dash-page > :not(.dt-root) { flex-shrink: 0; }
 
-.dash-page {
-  background:
-    radial-gradient(90% 70% at 100% 0%, color-mix(in srgb, var(--color-accent-2) 12%, transparent), transparent 60%),
-    radial-gradient(90% 70% at 0% 100%, color-mix(in srgb, var(--color-accent) 9%, transparent), transparent 55%);
-  margin: -24px; padding: 24px; border-radius: 24px;
-}
+/* Flat cream canvas (2026-10-23): the amber/sky radial washes read as colour errors next to
+   white cards, so pages sit directly on --bg-canvas. */
+.dash-page { margin: -20px; padding: 20px; }
 
 /* Phones: form controls at ≥16px so iOS Safari does not zoom on focus,
    and buttons/labels stay readable and tappable. */

@@ -75,15 +75,15 @@ export async function SuperAdminHome() {
       <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16 }}>
         <KpiCard label="Έσοδα μήνα" value={formatEuro(revenue.monthTotal)} delta={revenue.deltaPct} sub={`MRR: ${formatEuro(revenue.mrr)}`} icon={RiMoneyEuroCircleLine} accent="var(--color-success)" href="/super-admin/billing" />
         <KpiCard label="Ανεξόφλητα" value={formatEuro(outstanding.amount)} sub={`${outstanding.count} τιμολόγια${outstanding.overdueCount ? ` · ${outstanding.overdueCount} ληξιπρόθεσμα` : ""}`} subColor={outstanding.overdueCount ? "var(--color-warning)" : undefined} icon={RiAlarmWarningLine} accent="var(--color-warning)" href="/super-admin/billing" />
-        <KpiCard label="Συνδρομές που λήγουν" value={expiring.length} sub="Επόμενες 30 ημέρες" icon={RiCalendarCloseLine} accent="#CA5D00" href="/super-admin/billing" />
+        <KpiCard label="Συνδρομές που λήγουν" value={expiring.length} sub="Επόμενες 30 ημέρες" icon={RiCalendarCloseLine} accent="var(--color-warning)" href="/super-admin/billing" />
         <KpiCard label="Ενεργές εταιρείες" value={ctx.activeCompanies} sub={`Σύνολο: ${ctx.totalCompanies}`} subColor="var(--color-success)" icon={RiBuildingLine} accent="var(--color-primary)" href="/super-admin/settings/company" />
       </div>
 
       {/* Context stats */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
-        <KpiCard label="Χρήστες" value={ctx.totalUsers} sub="Σε όλες τις εταιρείες" icon={RiGroupLine} accent="#0078D4" href="/super-admin/users" />
-        <KpiCard label="Managed κτήρια" value={managedBuildings} sub="Υπό ενεργή διαχείριση" icon={RiHome3Line} accent="#038387" href="/super-admin/properties" />
-        <KpiCard label="Κόστη API (μήνας)" value={`€${ctx.monthlyCosts.toFixed(2)}`} sub="Τρέχων μήνας" subColor={ctx.monthlyCosts > 50 ? "var(--color-warning)" : undefined} icon={RiCpuLine} accent="#8764B8" href="/super-admin/settings/costs" />
+        <KpiCard label="Χρήστες" value={ctx.totalUsers} sub="Σε όλες τις εταιρείες" icon={RiGroupLine} accent="var(--color-info)" href="/super-admin/users" />
+        <KpiCard label="Managed κτήρια" value={managedBuildings} sub="Υπό ενεργή διαχείριση" icon={RiHome3Line} accent="var(--color-teal)" href="/super-admin/properties" />
+        <KpiCard label="Κόστη API (μήνας)" value={`€${ctx.monthlyCosts.toFixed(2)}`} sub="Τρέχων μήνας" subColor={ctx.monthlyCosts > 50 ? "var(--color-warning)" : undefined} icon={RiCpuLine} accent="var(--color-purple)" href="/super-admin/settings/costs" />
       </div>
 
       {/* Revenue trend + expiring subscriptions */}

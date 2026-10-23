@@ -2,14 +2,14 @@ import { stopImpersonation } from "@/app/actions/impersonation";
 
 /** Distinct, palette-derived banner colour per impersonated role (white text on all). */
 const ROLE_COLOR: Record<string, string> = {
-  SUPER_ADMIN:       "#15161a", // ink
-  ADMIN:             "#6D28D9", // violet
+  SUPER_ADMIN:       "var(--color-primary)", // ink
+  ADMIN:             "var(--color-purple)", // violet
   MANAGER:           "#0E7490", // cyan
-  EMPLOYEE:          "#038387", // teal
-  PROPERTY_ADMIN:    "#2E7D5B", // green
-  PROPERTY_OWNER:    "#8764B8", // purple
+  EMPLOYEE:          "var(--color-teal)", // teal
+  PROPERTY_ADMIN:    "var(--color-success)", // green
+  PROPERTY_OWNER:    "var(--color-purple)", // purple
   PROPERTY_RESIDENT: "#1D6FB8", // blue
-  PROPERTY_VIEWER:   "#5b5c58", // grey
+  PROPERTY_VIEWER:   "var(--muted-foreground)", // grey
   COLLABORATOR:      "#B23A48", // rose
 };
 
@@ -26,7 +26,7 @@ const ROLE_LABEL: Record<string, string> = {
 };
 
 export function ImpersonationBanner({ name, role }: { name: string; role: string }) {
-  const bg = ROLE_COLOR[role] ?? "#15161a";
+  const bg = ROLE_COLOR[role] ?? "var(--color-primary)";
   const roleLabel = ROLE_LABEL[role] ?? role;
   return (
     <div style={{

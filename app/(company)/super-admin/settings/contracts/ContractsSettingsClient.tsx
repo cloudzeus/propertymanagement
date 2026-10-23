@@ -40,8 +40,8 @@ export function ContractsSettingsClient({ settings, templates }: { settings: { o
         <h1 style={{ display: "flex", alignItems: "center", gap: 10, fontSize: "var(--fs-22)", fontWeight: 800, margin: 0, color: "var(--foreground)" }}><RiFileTextLine style={{ color: "var(--color-primary)" }} /> Προσφορές & συμβάσεις έργου</h1>
         <p style={{ margin: "4px 0 0", fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }}>Προεπιλογές για τις προσφορές προς πελάτες και τα πρότυπα των δύο συμβάσεων (Α: πελάτης ↔ εταιρεία, Β: εταιρεία ↔ συνεργάτης).</p>
       </div>
-      {msg && <div style={{ padding: "8px 12px", borderRadius: 6, background: "#15803d14", color: "#15803d", fontSize: "var(--fs-13)" }}>{msg}</div>}
-      {err && <div style={{ padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: "var(--fs-13)" }}>{err}</div>}
+      {msg && <div style={{ padding: "8px 12px", borderRadius: 6, background: "color-mix(in srgb, var(--color-success) 8%, transparent)", color: "var(--color-success)", fontSize: "var(--fs-13)" }}>{msg}</div>}
+      {err && <div style={{ padding: "8px 12px", borderRadius: 6, background: "var(--danger-soft)", color: "var(--color-danger)", fontSize: "var(--fs-13)" }}>{err}</div>}
 
       <div style={card}>
         <div style={h3}><RiPercentLine /> Προεπιλογές προσφορών</div>

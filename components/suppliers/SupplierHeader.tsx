@@ -33,7 +33,7 @@ export function SupplierHeader({ supplier, categories, canEdit, showScope, zones
             <span style={pill}>{SUPPLIER_KIND_LABELS[s.kind]}</span>
             {showScope && <span style={pill}>{SCOPE_LABELS[s.scope]}</span>}
             {!s.isActive && <span style={{ ...pill, color: "var(--muted-foreground)" }}><RiEyeOffLine /> Ανενεργός</span>}
-            {s.emergency24h && <span style={{ ...pill, color: "#c50f1f", borderColor: "#c50f1f40" }}><RiAlarmWarningLine /> Έκτακτα 24/7</span>}
+            {s.emergency24h && <span style={{ ...pill, color: "var(--color-danger)", borderColor: "color-mix(in srgb, var(--color-danger) 25%, transparent)" }}><RiAlarmWarningLine /> Έκτακτα 24/7</span>}
           </div>
           <div style={{ fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)", marginTop: 4 }}>
             {[s.afm ? `ΑΦΜ ${s.afm}` : null, s.doy ? `ΔΟΥ ${s.doy}` : null, s.code ? `Κωδ. ${s.code}` : null].filter(Boolean).join(" · ") || "Χωρίς φορολογικά στοιχεία"}

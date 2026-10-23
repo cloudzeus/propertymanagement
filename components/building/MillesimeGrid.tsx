@@ -133,7 +133,7 @@ export function MillesimeGrid({
         {isPending && <RiLoaderLine style={{ animation: "spin 1s linear infinite", color: "var(--muted-foreground)" }} />}
       </div>
 
-      {error && <div style={{ margin: 12, padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: "var(--fs-12)" }}>{error}</div>}
+      {error && <div style={{ margin: 12, padding: "8px 12px", borderRadius: 6, background: "var(--danger-soft)", color: "var(--color-danger)", fontSize: "var(--fs-12)" }}>{error}</div>}
 
       <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "var(--fs-13)" }}>
         <thead>
@@ -156,14 +156,14 @@ export function MillesimeGrid({
                 return (
                   <td key={s.key} style={{ ...td, textAlign: "right" }}>
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", gap: 4 }}>
-                      {manual && <RiLockLine style={{ color: "#b45309", fontSize: "var(--fs-13)" }} title="Κλειδωμένο (χειροκίνητο)" />}
+                      {manual && <RiLockLine style={{ color: "var(--color-warning)", fontSize: "var(--fs-13)" }} title="Κλειδωμένο (χειροκίνητο)" />}
                       {can.editMillesimes ? (
                         <input
                           type="number"
                           defaultValue={value ?? ""}
                           key={`${s.key}-${value ?? ""}-${u[s.sourceField]}`}
                           onBlur={(e) => saveCell(u, s.key, e.target.value, value)}
-                          style={{ width: 72, textAlign: "right", ...inputStyle, ...(manual ? { background: "#fffbeb", borderColor: "#f59e0b", color: "#92400e" } : {}) }}
+                          style={{ width: 72, textAlign: "right", ...inputStyle, ...(manual ? { background: "var(--warning-soft)", borderColor: "var(--color-warning)", color: "#92400e" } : {}) }}
                         />
                       ) : (
                         <span>{value ?? "—"}</span>
@@ -187,7 +187,7 @@ export function MillesimeGrid({
               const ok = Math.round(t) === 1000;
               return (
                 <td key={i} style={{ ...td, textAlign: "right" }}>
-                  <span style={{ display: "inline-flex", alignItems: "center", justifyContent: "flex-end", gap: 4, color: ok ? "var(--color-green)" : "#dc2626" }}>
+                  <span style={{ display: "inline-flex", alignItems: "center", justifyContent: "flex-end", gap: 4, color: ok ? "var(--color-green)" : "var(--color-danger)" }}>
                     {ok && <RiCheckLine />}{Math.round(t * 100) / 100}
                   </span>
                 </td>
@@ -212,5 +212,5 @@ export function MillesimeGrid({
 const th: React.CSSProperties = { padding: "8px 12px" };
 const td: React.CSSProperties = { padding: "6px 12px", color: "var(--foreground)" };
 const inputStyle: React.CSSProperties = { border: "1px solid var(--border)", borderRadius: 6, padding: "5px 8px", fontSize: "var(--fs-13)", background: "var(--card)", color: "var(--foreground)" };
-const iconBtn: React.CSSProperties = { display: "inline-flex", alignItems: "center", justifyContent: "center", border: "none", background: "transparent", color: "#b45309", cursor: "pointer", padding: 2 };
+const iconBtn: React.CSSProperties = { display: "inline-flex", alignItems: "center", justifyContent: "center", border: "none", background: "transparent", color: "var(--color-warning)", cursor: "pointer", padding: 2 };
 const btn: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 6, border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)", borderRadius: 6, padding: "7px 13px", fontSize: "var(--fs-13)", fontWeight: 600, cursor: "pointer" };

@@ -5,9 +5,9 @@ import { useRouter } from "next/navigation";
 import type { SignageData } from "@/lib/signage/data";
 import { AutoRefresh } from "@/components/realtime/AutoRefresh";
 
-// Orithon token values on dark ink (#15161a): cream #F6F4EC text, amber #F2A23C accent.
-const CREAM = "#F6F4EC";
-const AMBER = "#F2A23C";
+// Orithon token values on dark ink (var(--color-primary)): cream var(--bg-canvas) text, amber var(--color-accent) accent.
+const CREAM = "var(--bg-canvas)";
+const AMBER = "var(--color-accent)";
 const MUTED = "rgba(246,244,236,.62)";
 const CARD_BG = "rgba(246,244,236,.06)";
 const CARD_BORDER = "1px solid rgba(246,244,236,.14)";

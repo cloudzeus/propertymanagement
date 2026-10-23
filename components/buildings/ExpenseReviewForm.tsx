@@ -157,7 +157,7 @@ export function ExpenseReviewForm({
   const isPdf = /\.pdf($|\?)/i.test(fileUrl);
 
   const conf = Math.round(extracted.confidence * 100);
-  const confColor = extracted.confidence >= 0.8 ? "#16a34a" : extracted.confidence >= 0.5 ? "#d97706" : "#dc2626";
+  const confColor = extracted.confidence >= 0.8 ? "var(--color-success)" : extracted.confidence >= 0.5 ? "var(--color-warning)" : "var(--color-danger)";
 
   async function submit() {
     setError(null);
@@ -226,7 +226,7 @@ export function ExpenseReviewForm({
         <div style={{ flex: "0 0 auto" }}>
           <span style={{
             display: "inline-block", padding: "3px 10px", borderRadius: 999, fontSize: "var(--fs-12)", fontWeight: 700,
-            color: confColor, background: `${confColor}18`, border: `1px solid ${confColor}44`,
+            color: confColor, background: `color-mix(in srgb, ${confColor} 9%, transparent)`, border: `1px solid color-mix(in srgb, ${confColor} 27%, transparent)`,
           }}>
             Αξιοπιστία OCR: {conf}%
           </span>
@@ -347,7 +347,7 @@ export function ExpenseReviewForm({
                   <td style={ptd}>
                     {r.unitId}
                     {r.missingWeight && (
-                      <span style={{ marginLeft: 6, padding: "1px 6px", borderRadius: 999, fontSize: "var(--fs-10)", fontWeight: 700, color: "#d97706", background: "#d9770618", border: "1px solid #d9770644" }}>
+                      <span style={{ marginLeft: 6, padding: "1px 6px", borderRadius: 999, fontSize: "var(--fs-10)", fontWeight: 700, color: "var(--color-warning)", background: "color-mix(in srgb, var(--color-warning) 9%, transparent)", border: "1px solid color-mix(in srgb, var(--color-warning) 27%, transparent)" }}>
                         χωρίς χιλιοστά
                       </span>
                     )}

@@ -7,8 +7,8 @@ import { reindexWiki, type AiActionRow } from "@/app/actions/ai-assistant";
 import { TOOL_LABELS } from "@/lib/ai/tools/labels";
 
 const STATUS: Record<string, { label: string; color: string }> = {
-  PROPOSED: { label: "Προτάθηκε", color: "#8a5a00" }, EXECUTING: { label: "Εκτελείται", color: "#0078D4" }, EXECUTED: { label: "Εκτελέστηκε", color: "#0f7b3e" },
-  FAILED: { label: "Απέτυχε", color: "#a4262c" }, CANCELLED: { label: "Ακυρώθηκε", color: "#707070" }, EXPIRED: { label: "Έληξε", color: "#707070" },
+  PROPOSED: { label: "Προτάθηκε", color: "#8a5a00" }, EXECUTING: { label: "Εκτελείται", color: "var(--color-info)" }, EXECUTED: { label: "Εκτελέστηκε", color: "#0f7b3e" },
+  FAILED: { label: "Απέτυχε", color: "var(--color-danger)" }, CANCELLED: { label: "Ακυρώθηκε", color: "var(--muted-foreground)" }, EXPIRED: { label: "Έληξε", color: "var(--muted-foreground)" },
 };
 const when = (iso: string | null) => (iso ? new Date(iso).toLocaleString("el-GR", { dateStyle: "short", timeStyle: "short" }) : "—");
 

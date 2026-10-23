@@ -20,7 +20,7 @@ export function SupplierRequestsClient({ items }: { items: FaultListItem[] }) {
     { id: "title", header: "Εργασία", width: 260, accessor: (r) => r.title, sortKey: "title",
       cell: (r) => <Link href={`/marketplace/requests/${r.id}`} style={{ fontWeight: 600, color: "var(--foreground)", textDecoration: "none" }}>{r.title}</Link> },
     { id: "status", header: "Κατάσταση", width: 130, accessor: (r) => r.status, sortKey: "status",
-      cell: (r) => { const c = STATUS_COLORS[r.status as FaultStatus] ?? "#6b7280"; return <span style={{ padding: "2px 8px", borderRadius: 999, fontSize: "var(--fs-11-5)", fontWeight: 600, color: c, background: `${c}18`, border: `1px solid ${c}40` }}>{STATUS_LABELS[r.status as FaultStatus] ?? r.status}</span>; } },
+      cell: (r) => { const c = STATUS_COLORS[r.status as FaultStatus] ?? "var(--muted-foreground)"; return <span style={{ padding: "2px 8px", borderRadius: 999, fontSize: "var(--fs-11-5)", fontWeight: 600, color: c, background: `color-mix(in srgb, ${c} 9%, transparent)`, border: `1px solid color-mix(in srgb, ${c} 25%, transparent)` }}>{STATUS_LABELS[r.status as FaultStatus] ?? r.status}</span>; } },
     { id: "priority", header: "Προτεραιότητα", width: 110, accessor: (r) => r.priority, cell: (r) => PRIORITY_LABELS[r.priority as keyof typeof PRIORITY_LABELS] ?? r.priority },
     { id: "category", header: "Κατηγορία", width: 140, accessor: (r) => r.categoryName ?? "", cell: (r) => r.categoryName ?? "—" },
     { id: "building", header: "Κτήριο", width: 240, accessor: (r) => r.buildingName, cell: (r) => <>{r.buildingName}{r.unitLabel ? ` · ${r.unitLabel}` : ""}</> },

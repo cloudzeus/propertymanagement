@@ -39,7 +39,7 @@ export function SuppliersClient({ suppliers, categories, caps }: {
         <div style={{ opacity: r.isActive ? 1 : 0.55 }}>
           <Link href={`/super-admin/suppliers/${r.id}`} style={{ fontWeight: 600, color: "var(--foreground)", textDecoration: "none" }}>{r.name}</Link>
           {!r.isActive && <RiEyeOffLine title="Ανενεργός" style={{ marginLeft: 6, fontSize: "var(--fs-12)", color: "var(--muted-foreground)", verticalAlign: "middle" }} />}
-          {r.emergency24h && <RiAlarmWarningLine title="Έκτακτα 24/7" style={{ marginLeft: 6, fontSize: "var(--fs-12)", color: "#c50f1f", verticalAlign: "middle" }} />}
+          {r.emergency24h && <RiAlarmWarningLine title="Έκτακτα 24/7" style={{ marginLeft: 6, fontSize: "var(--fs-12)", color: "var(--color-danger)", verticalAlign: "middle" }} />}
           <div style={{ fontSize: "var(--fs-11-5)", color: "var(--muted-foreground)" }}>{[r.afm ? `ΑΦΜ ${r.afm}` : null, r.code].filter(Boolean).join(" · ")}</div>
         </div>
       ) },
@@ -127,4 +127,4 @@ export function SuppliersClient({ suppliers, categories, caps }: {
 }
 
 const chip: React.CSSProperties = { fontSize: "var(--fs-11)", fontWeight: 600, padding: "2px 7px", borderRadius: 9999, background: "var(--bg-canvas)", border: "1px solid var(--border)", color: "var(--foreground)" };
-const errBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: "var(--fs-12)", border: "1px solid #fca5a530" };
+const errBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "var(--danger-soft)", color: "var(--color-danger)", fontSize: "var(--fs-12)", border: "1px solid var(--danger-soft)" };

@@ -19,7 +19,7 @@ export type ExpenseRow = ExpenseRowDTO;
 const STATUS: Record<string, { label: string; color: string }> = {
   DRAFT: { label: "Πρόχειρο", color: "var(--muted-foreground)" },
   CONFIRMED: { label: "Καταχωρημένο", color: "var(--color-primary)" },
-  ISSUED: { label: "Σε έκδοση", color: "#16a34a" },
+  ISSUED: { label: "Σε έκδοση", color: "var(--color-success)" },
 };
 const PM_LABEL: Record<string, string> = {
   CARD: "Κάρτα", CASH: "Μετρητά", VIVA: "Viva", BANK_TRANSFER: "Τραπεζική μεταφορά", CHECK: "Επιταγή", OTHER: "Άλλο",
@@ -113,7 +113,7 @@ export function ExpensesPanel({
                       <td style={{ ...td, textAlign: "right", fontWeight: 600 }}>{eur(e.amount)}</td>
                       <td style={td}>
                         {e.paid
-                          ? <span style={{ ...badge, color: "#16a34a", borderColor: "#16a34a" }}><RiCheckLine /> {e.paymentMethod ? PM_LABEL[e.paymentMethod] ?? "Ναι" : "Πληρωμένο"}</span>
+                          ? <span style={{ ...badge, color: "var(--color-success)", borderColor: "var(--color-success)" }}><RiCheckLine /> {e.paymentMethod ? PM_LABEL[e.paymentMethod] ?? "Ναι" : "Πληρωμένο"}</span>
                           : <span style={{ ...badge, color: "var(--muted-foreground)", borderColor: "var(--border-strong)" }}>Απλήρωτο</span>}
                       </td>
                       <td style={td}><span style={{ ...badge, color: st.color, borderColor: st.color }}>{st.label}{e.status === "ISSUED" && e.issuedMonth ? ` ${e.issuedMonth}` : ""}</span></td>
@@ -202,5 +202,5 @@ const detailContainer: React.CSSProperties = { display: "flex", flexDirection: "
 const sectionCard: React.CSSProperties = { background: "var(--card)", border: "1px solid var(--border)", borderRadius: 10, padding: 14 };
 const sectionTitle: React.CSSProperties = { fontSize: "var(--fs-11-5)", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".03em", color: "var(--muted-foreground)", marginBottom: 12 };
 const detailGrid: React.CSSProperties = { display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(170px, 1fr))", gap: "14px 18px" };
-const btnIssue: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 6, height: 36, padding: "0 14px", borderRadius: 6, border: "1px solid #16a34a", background: "#16a34a", color: "#fff", fontSize: "var(--fs-13)", fontWeight: 600, cursor: "pointer" };
+const btnIssue: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 6, height: 36, padding: "0 14px", borderRadius: 6, border: "1px solid var(--color-success)", background: "var(--color-success)", color: "#fff", fontSize: "var(--fs-13)", fontWeight: 600, cursor: "pointer" };
 const linkBtn: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 5, fontSize: "var(--fs-12)", color: "var(--color-primary)", textDecoration: "none" };

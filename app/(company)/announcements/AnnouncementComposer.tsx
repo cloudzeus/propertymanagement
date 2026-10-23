@@ -154,7 +154,7 @@ export default function AnnouncementComposer({ buildings }: { buildings: B[] }) 
       </button>
 
       {msg && (
-        <p style={{ fontSize: "var(--fs-13)", color: error ? "var(--color-red, #c50f1f)" : "var(--color-green, #107c10)" }}>{msg}</p>
+        <p style={{ fontSize: "var(--fs-13)", color: error ? "var(--color-red, var(--color-danger))" : "var(--color-green, var(--color-success))" }}>{msg}</p>
       )}
     </div>
   );

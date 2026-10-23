@@ -66,10 +66,10 @@ export function OfferForm({ rfq, invitation, myOffer, defaults }: { rfq: Rfq; in
 
       <div style={card}>
         <div style={{ fontSize: "var(--fs-13)", fontWeight: 700, marginBottom: 10 }}>{myOffer ? "Η προσφορά σας" : "Η προσφορά σας"}</div>
-        {done && <div style={{ padding: "8px 12px", borderRadius: 6, background: "#15803d14", color: "#15803d", fontSize: "var(--fs-13)", marginBottom: 10 }}><RiCheckLine style={{ verticalAlign: "-2px" }} /> {done}</div>}
+        {done && <div style={{ padding: "8px 12px", borderRadius: 6, background: "color-mix(in srgb, var(--color-success) 8%, transparent)", color: "var(--color-success)", fontSize: "var(--fs-13)", marginBottom: 10 }}><RiCheckLine style={{ verticalAlign: "-2px" }} /> {done}</div>}
         {error && <div style={{ color: "var(--destructive)", fontSize: "var(--fs-13)", marginBottom: 10 }}>{error}</div>}
         {invitation.status === "DECLINED" && <p style={{ margin: 0, fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }}>Δηλώσατε ότι δεν ενδιαφέρεστε{invitation.declineReason ? ` («${invitation.declineReason}»)` : ""}.</p>}
-        {myOffer && myOffer.status !== "SUBMITTED" && <p style={{ margin: "0 0 10px", fontSize: "var(--fs-13)", color: myOffer.status === "SELECTED" ? "#15803d" : "var(--muted-foreground)", fontWeight: 600 }}>{myOffer.status === "SELECTED" ? "Η προσφορά σας επιλέχθηκε — θα ενημερωθείτε για την ανάθεση." : myOffer.status === "REJECTED" ? "Επιλέχθηκε άλλη προσφορά αυτή τη φορά." : "Αποσύρθηκε."}</p>}
+        {myOffer && myOffer.status !== "SUBMITTED" && <p style={{ margin: "0 0 10px", fontSize: "var(--fs-13)", color: myOffer.status === "SELECTED" ? "var(--color-success)" : "var(--muted-foreground)", fontWeight: 600 }}>{myOffer.status === "SELECTED" ? "Η προσφορά σας επιλέχθηκε — θα ενημερωθείτε για την ανάθεση." : myOffer.status === "REJECTED" ? "Επιλέχθηκε άλλη προσφορά αυτή τη φορά." : "Αποσύρθηκε."}</p>}
         {open && (!myOffer || myOffer.status === "SUBMITTED") && !declining && (
           <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
             <p style={{ margin: 0, fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)" }}>Δώστε καθαρή τιμή για ολόκληρη την εργασία (υλικά + εργασία). Η εταιρεία διαχείρισης προσθέτει το δικό της περιθώριο προς τον πελάτη — δεν χρειάζεται να το υπολογίσετε εσείς.</p>

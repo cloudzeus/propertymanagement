@@ -33,7 +33,7 @@ export function CronClient({ jobs, schedulerEnabled }: { jobs: Job[]; schedulerE
           Τρέχουν μέσα από την εφαρμογή, χωρίς εξωτερικό cron. Ο χρονοπρογραμματιστής ελέγχει κάθε 5 λεπτά και εκτελεί ό,τι είναι ώρα του (ώρα Ελλάδας).
         </p>
       </div>
-      <div style={{ padding: "8px 12px", borderRadius: 8, fontSize: "var(--fs-13)", background: schedulerEnabled ? "#2E7D5B14" : "#CA5D0014", color: schedulerEnabled ? "#2E7D5B" : "#CA5D00", border: `1px solid ${schedulerEnabled ? "#2E7D5B40" : "#CA5D0040"}` }}>
+      <div style={{ padding: "8px 12px", borderRadius: 8, fontSize: "var(--fs-13)", background: schedulerEnabled ? "color-mix(in srgb, var(--color-success) 8%, transparent)" : "color-mix(in srgb, var(--color-warning) 8%, transparent)", color: schedulerEnabled ? "var(--color-success)" : "var(--color-warning)", border: `1px solid ${schedulerEnabled ? "color-mix(in srgb, var(--color-success) 25%, transparent)" : "color-mix(in srgb, var(--color-warning) 25%, transparent)"}` }}>
         {schedulerEnabled ? "Ο χρονοπρογραμματιστής είναι ενεργός σε αυτόν τον server." : "Ο χρονοπρογραμματιστής είναι ανενεργός εδώ (τρέχει μόνο σε production ή με CRON_IN_PROCESS=true). Μπορείτε να εκτελέσετε τις εργασίες χειροκίνητα."}
       </div>
       {msg && <div style={{ fontSize: "var(--fs-13)", padding: "8px 12px", borderRadius: 8, background: "var(--paper)", border: "1px solid var(--border)", wordBreak: "break-word" }}>{msg}</div>}
@@ -53,7 +53,7 @@ export function CronClient({ jobs, schedulerEnabled }: { jobs: Job[]; schedulerE
             {j.runs.length === 0 && <div style={{ fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)" }}>Δεν έχει τρέξει ακόμη.</div>}
             {j.runs.map((r) => (
               <div key={r.id} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: "var(--fs-12-5)", flexWrap: "wrap", padding: "6px 10px", background: "var(--paper)", borderRadius: 8 }}>
-                {r.ok === true ? <RiCheckLine style={{ color: "#2E7D5B" }} /> : r.ok === false ? <RiCloseLine style={{ color: "#C0392B" }} /> : <RiLoaderLine />}
+                {r.ok === true ? <RiCheckLine style={{ color: "var(--color-success)" }} /> : r.ok === false ? <RiCloseLine style={{ color: "var(--color-danger)" }} /> : <RiLoaderLine />}
                 <span>{fmt(r.startedAt)}</span>
                 <span style={{ color: "var(--muted-foreground)" }}>{TRIGGER[r.trigger] ?? r.trigger}</span>
                 <span style={{ color: "var(--muted-foreground)", wordBreak: "break-all" }}>{r.error ? r.error.split("\n")[0] : r.result ? JSON.stringify(r.result) : ""}</span>

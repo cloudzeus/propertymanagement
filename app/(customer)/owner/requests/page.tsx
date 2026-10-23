@@ -44,9 +44,9 @@ export default async function OwnerRequestsPage() {
       ) : (
         <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
           {requests.map((r) => {
-            const color = STATUS_COLORS[r.status as FaultStatus] ?? "#6b7280";
+            const color = STATUS_COLORS[r.status as FaultStatus] ?? "var(--muted-foreground)";
             const pr = r.priority as FaultPriority;
-            const prColor = pr === "URGENT" ? "#9f1239" : pr === "HIGH" ? "#b45309" : "var(--muted-foreground)";
+            const prColor = pr === "URGENT" ? "var(--color-danger)" : pr === "HIGH" ? "var(--color-warning)" : "var(--muted-foreground)";
             return (
               <Link key={r.id} href={`/portal/requests/${r.id}`} style={{
                 display: "flex", alignItems: "center", gap: 12, padding: "12px 16px", textDecoration: "none",
@@ -63,7 +63,7 @@ export default async function OwnerRequestsPage() {
                 </span>
                 <span style={{
                   padding: "3px 10px", borderRadius: 999, fontSize: "var(--fs-12)", fontWeight: 600, color,
-                  background: `${color}18`, border: `1px solid ${color}40`, whiteSpace: "nowrap",
+                  background: `color-mix(in srgb, ${color} 9%, transparent)`, border: `1px solid color-mix(in srgb, ${color} 25%, transparent)`, whiteSpace: "nowrap",
                 }}>
                   {STATUS_LABELS[r.status as FaultStatus] ?? r.status}
                 </span>

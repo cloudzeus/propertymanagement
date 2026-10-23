@@ -13,9 +13,9 @@ type Demo = { id: string; name: string; email: string; company: string | null; s
 
 const fmt = (iso: string | null) => (iso ? new Date(iso).toLocaleString("el-GR", { dateStyle: "short", timeStyle: "short" }) : "—");
 const SUB_STATUS: Record<string, { label: string; color: string }> = {
-  PENDING: { label: "Αναμένει επιβεβαίωση", color: "#CA5D00" },
-  CONFIRMED: { label: "Ενεργός", color: "#2E7D5B" },
-  UNSUBSCRIBED: { label: "Διαγράφηκε", color: "#6b7280" },
+  PENDING: { label: "Αναμένει επιβεβαίωση", color: "var(--color-warning)" },
+  CONFIRMED: { label: "Ενεργός", color: "var(--color-success)" },
+  UNSUBSCRIBED: { label: "Διαγράφηκε", color: "var(--muted-foreground)" },
 };
 const CONTACT_STATUS: Record<string, string> = { NEW: "Νέο", READ: "Διαβάστηκε", RESPONDED: "Απαντήθηκε", SPAM: "Spam" };
 
@@ -40,7 +40,7 @@ export function ConsentsClient({ subscribers, contacts, demos, caps }: { subscri
 
   const subCols: ColDef<Sub>[] = [
     { id: "email", header: "Email", width: 240, sortKey: "email", accessor: (r) => r.email, cell: (r) => <b>{r.email}</b> },
-    { id: "status", header: "Κατάσταση", width: 170, sortKey: "status", accessor: (r) => r.status, cell: (r) => { const s = SUB_STATUS[r.status] ?? { label: r.status, color: "#6b7280" }; return <span style={{ padding: "2px 8px", borderRadius: 999, fontSize: "var(--fs-11-5)", fontWeight: 600, color: s.color, background: `${s.color}18`, border: `1px solid ${s.color}40` }}>{s.label}</span>; } },
+    { id: "status", header: "Κατάσταση", width: 170, sortKey: "status", accessor: (r) => r.status, cell: (r) => { const s = SUB_STATUS[r.status] ?? { label: r.status, color: "var(--muted-foreground)" }; return <span style={{ padding: "2px 8px", borderRadius: 999, fontSize: "var(--fs-11-5)", fontWeight: 600, color: s.color, background: `color-mix(in srgb, ${s.color} 9%, transparent)`, border: `1px solid color-mix(in srgb, ${s.color} 25%, transparent)` }}>{s.label}</span>; } },
     { id: "consentedAt", header: "Συναίνεση", width: 140, sortKey: "consentedAt", accessor: (r) => r.consentedAt, cell: (r) => fmt(r.consentedAt) },
     { id: "confirmedAt", header: "Επιβεβαίωση", width: 140, accessor: (r) => r.confirmedAt ?? "", cell: (r) => fmt(r.confirmedAt) },
     { id: "unsubscribedAt", header: "Διαγραφή", width: 140, accessor: (r) => r.unsubscribedAt ?? "", cell: (r) => fmt(r.unsubscribedAt) },
@@ -60,7 +60,7 @@ export function ConsentsClient({ subscribers, contacts, demos, caps }: { subscri
     { id: "email", header: "Email", width: 220, accessor: (r) => r.email, cell: (r) => r.email },
     { id: "subject", header: "Θέμα", width: 200, accessor: (r) => r.subject, cell: (r) => r.subject },
     { id: "status", header: "Κατάσταση", width: 120, accessor: (r) => r.status, cell: (r) => CONTACT_STATUS[r.status] ?? r.status },
-    { id: "consent", header: "Συναίνεση", width: 150, accessor: (r) => r.consentedAt ?? "", cell: (r) => r.consentedAt ? <span style={{ color: "#2E7D5B", fontWeight: 600 }}>✓ {fmt(r.consentedAt)}</span> : <span style={{ color: "var(--muted-foreground)" }}>— (παλιά φόρμα)</span> },
+    { id: "consent", header: "Συναίνεση", width: 150, accessor: (r) => r.consentedAt ?? "", cell: (r) => r.consentedAt ? <span style={{ color: "var(--color-success)", fontWeight: 600 }}>✓ {fmt(r.consentedAt)}</span> : <span style={{ color: "var(--muted-foreground)" }}>— (παλιά φόρμα)</span> },
     { id: "message", header: "Μήνυμα", width: 360, accessor: (r) => r.message, cell: (r) => <span style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>{r.message.slice(0, 160)}{r.message.length > 160 ? "…" : ""}</span> },
     { id: "ip", header: "IP", width: 130, accessor: (r) => r.ipAddress ?? "", cell: (r) => r.ipAddress ?? "—", defaultVisible: false },
   ];
@@ -79,7 +79,7 @@ export function ConsentsClient({ subscribers, contacts, demos, caps }: { subscri
     { id: "email", header: "Email", width: 220, accessor: (r) => r.email, cell: (r) => r.email },
     { id: "company", header: "Εταιρεία", width: 160, accessor: (r) => r.company ?? "", cell: (r) => r.company ?? "—" },
     { id: "status", header: "Κατάσταση", width: 110, accessor: (r) => r.status, cell: (r) => r.status },
-    { id: "consent", header: "Συναίνεση", width: 150, accessor: (r) => r.consentedAt ?? "", cell: (r) => r.consentedAt ? <span style={{ color: "#2E7D5B", fontWeight: 600 }}>✓ {fmt(r.consentedAt)}</span> : <span style={{ color: "var(--muted-foreground)" }}>—</span> },
+    { id: "consent", header: "Συναίνεση", width: 150, accessor: (r) => r.consentedAt ?? "", cell: (r) => r.consentedAt ? <span style={{ color: "var(--color-success)", fontWeight: 600 }}>✓ {fmt(r.consentedAt)}</span> : <span style={{ color: "var(--muted-foreground)" }}>—</span> },
     { id: "created", header: "Κράτηση", width: 140, accessor: (r) => r.createdAt, cell: (r) => fmt(r.createdAt) },
   ];
 

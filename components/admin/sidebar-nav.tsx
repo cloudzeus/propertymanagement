@@ -133,11 +133,11 @@ function menuToNavGroups(menu: MenuGroup[]): NavGroup[] {
     id: g.id,
     label: g.label,
     icon: ICONS[g.icon]?.line ?? FALLBACK_ICON.line,
-    color: g.color,
+    color: "var(--color-primary)",
     defaultOpen: g.defaultOpen,
     items: g.items.map((item) => {
       const icons = ICONS[item.icon] ?? FALLBACK_ICON;
-      return { label: item.label, href: item.href, icon: icons.line, iconActive: icons.fill, color: g.color };
+      return { label: item.label, href: item.href, icon: icons.line, iconActive: icons.fill, color: "var(--color-primary)" };
     }),
   }));
 }
@@ -146,7 +146,7 @@ function menuToNavGroups(menu: MenuGroup[]): NavGroup[] {
 // Fixed sub-items of each «Τα κτήριά μου» building group. `s` is the ?s= query
 // key on /building/[id]; null = Επισκόπηση (no query). Icons mirror the pills in
 // OccupantBuildingShell for visual continuity.
-const BUILDING_COLOR = "#8764B8";
+const BUILDING_COLOR = "var(--color-primary)";
 const BUILDING_SECTIONS: { key: string; label: string; s: string | null; icon: React.ElementType }[] = [
   { key: "overview",    label: "Επισκόπηση",    s: null,          icon: RiDashboardLine },
   { key: "koino",       label: "Κοινόχρηστα",   s: "koino",       icon: RiWallet3Line },
@@ -337,8 +337,8 @@ export function SidebarNav({ role, menu, customerBuildings, userName, userEmail,
                     <Link key={item.href} href={item.href} title={item.label} style={{
                       display: "flex", alignItems: "center", justifyContent: "center",
                       width: 40, height: 40, borderRadius: 8, margin: "0 auto 2px",
-                      color: active ? item.color : "#8A8A8A",
-                      background: active ? `${item.color}14` : "transparent",
+                      color: active ? item.color : "var(--muted-foreground)",
+                      background: active ? "var(--warning-soft)" : "transparent",
                       textDecoration: "none",
                       transition: "background 120ms, color 120ms",
                     }}>
@@ -365,22 +365,22 @@ export function SidebarNav({ role, menu, customerBuildings, userName, userEmail,
               >
                 <span style={{
                   width: 18, height: 18, borderRadius: 4,
-                  background: `${group.color}18`,
+                  background: "var(--muted)",
                   display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
                 }}>
-                  <group.icon size={11} style={{ color: group.color }} />
+                  <group.icon size={11} style={{ color: "var(--foreground)" }} />
                 </span>
                 <span style={{
                   flex: 1, textAlign: "left",
                   fontSize: "var(--fs-11)", fontWeight: 700, letterSpacing: "0.06em",
-                  color: anyActive ? group.color : "#707070",
+                  color: anyActive ? "var(--foreground)" : "var(--muted-foreground)",
                   whiteSpace: "nowrap", overflow: "hidden", fontFamily: "var(--font-sans)",
                   textTransform: "uppercase",
                 }}>
                   {group.label}
                 </span>
                 <RiArrowDownSLine size={13} style={{
-                  flexShrink: 0, color: "#B3B3B3",
+                  flexShrink: 0, color: "var(--border-strong)",
                   transform: isOpen ? "rotate(0deg)" : "rotate(-90deg)",
                   transition: "transform 200ms",
                 }} />
@@ -402,19 +402,19 @@ export function SidebarNav({ role, menu, customerBuildings, userName, userEmail,
                         display: "flex", alignItems: "center", gap: 9,
                         padding: "6px 8px 6px 10px",
                         borderRadius: 6, marginBottom: 1,
-                        color: active ? item.color : "#292929",
-                        background: active ? `${item.color}12` : "transparent",
+                        color: active ? item.color : "var(--foreground)",
+                        background: active ? "var(--warning-soft)" : "transparent",
                         textDecoration: "none",
                         fontSize: "var(--fs-13)", fontWeight: active ? 600 : 400,
                         fontFamily: "var(--font-sans)",
                         transition: "background 120ms, color 120ms",
                         whiteSpace: "nowrap", overflow: "hidden",
-                        borderLeft: active ? `2px solid ${item.color}` : "2px solid transparent",
+                        borderLeft: active ? "2px solid var(--color-accent)" : "2px solid transparent",
                       }}
                       onMouseEnter={(e) => { if (!active) (e.currentTarget as HTMLAnchorElement).style.background = "var(--paper)"; }}
                       onMouseLeave={(e) => { if (!active) (e.currentTarget as HTMLAnchorElement).style.background = "transparent"; }}
                     >
-                      <Icon size={16} style={{ flexShrink: 0, color: item.color }} />
+                      <Icon size={16} style={{ flexShrink: 0, color: active ? "var(--color-primary)" : "var(--muted-foreground)" }} />
                       <span style={{ overflow: "hidden", textOverflow: "ellipsis" }}>{item.label}</span>
                     </Link>
                   );
@@ -433,8 +433,8 @@ export function SidebarNav({ role, menu, customerBuildings, userName, userEmail,
                 <Link key={b.id} href={`/building/${b.id}`} title={b.name} style={{
                   display: "flex", alignItems: "center", justifyContent: "center",
                   width: 40, height: 40, borderRadius: 8, margin: "0 auto 2px",
-                  color: active ? BUILDING_COLOR : "#8A8A8A",
-                  background: active ? `${BUILDING_COLOR}14` : "transparent",
+                  color: active ? BUILDING_COLOR : "var(--muted-foreground)",
+                  background: active ? "var(--warning-soft)" : "transparent",
                   textDecoration: "none", transition: "background 120ms, color 120ms",
                 }}>
                   {active ? <RiBuildingFill size={18} /> : <RiBuildingLine size={18} />}
@@ -446,7 +446,7 @@ export function SidebarNav({ role, menu, customerBuildings, userName, userEmail,
           <div style={{ marginTop: 6 }}>
             <div style={{
               padding: "5px 8px", fontSize: "var(--fs-11)", fontWeight: 700, letterSpacing: "0.06em",
-              color: "#707070", textTransform: "uppercase", fontFamily: "var(--font-sans)",
+              color: "var(--muted-foreground)", textTransform: "uppercase", fontFamily: "var(--font-sans)",
             }}>
               Τα κτήριά μου
             </div>
@@ -470,22 +470,22 @@ export function SidebarNav({ role, menu, customerBuildings, userName, userEmail,
                   >
                     <span style={{
                       width: 18, height: 18, borderRadius: 4,
-                      background: `${BUILDING_COLOR}18`,
+                      background: "var(--muted)",
                       display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
                     }}>
-                      <RiBuildingLine size={11} style={{ color: BUILDING_COLOR }} />
+                      <RiBuildingLine size={11} style={{ color: "var(--foreground)" }} />
                     </span>
                     <span style={{
                       flex: 1, textAlign: "left",
                       fontSize: "var(--fs-12-5)", fontWeight: 600,
-                      color: bldgActive ? BUILDING_COLOR : "#292929",
+                      color: bldgActive ? BUILDING_COLOR : "var(--foreground)",
                       whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
                       fontFamily: "var(--font-sans)",
                     }}>
                       {b.name}
                     </span>
                     <RiArrowDownSLine size={13} style={{
-                      flexShrink: 0, color: "#B3B3B3",
+                      flexShrink: 0, color: "var(--border-strong)",
                       transform: isOpen ? "rotate(0deg)" : "rotate(-90deg)",
                       transition: "transform 200ms",
                     }} />
@@ -508,19 +508,19 @@ export function SidebarNav({ role, menu, customerBuildings, userName, userEmail,
                             display: "flex", alignItems: "center", gap: 9,
                             padding: "6px 8px 6px 22px",
                             borderRadius: 6, marginBottom: 1, minHeight: 40, boxSizing: "border-box",
-                            color: active ? BUILDING_COLOR : "#292929",
-                            background: active ? `${BUILDING_COLOR}12` : "transparent",
+                            color: active ? BUILDING_COLOR : "var(--foreground)",
+                            background: active ? "var(--warning-soft)" : "transparent",
                             textDecoration: "none",
                             fontSize: "var(--fs-13)", fontWeight: active ? 600 : 400,
                             fontFamily: "var(--font-sans)",
                             transition: "background 120ms, color 120ms",
                             whiteSpace: "nowrap", overflow: "hidden",
-                            borderLeft: active ? `2px solid ${BUILDING_COLOR}` : "2px solid transparent",
+                            borderLeft: active ? "2px solid var(--color-accent)" : "2px solid transparent",
                           }}
                           onMouseEnter={(e) => { if (!active) (e.currentTarget as HTMLAnchorElement).style.background = "var(--paper)"; }}
                           onMouseLeave={(e) => { if (!active) (e.currentTarget as HTMLAnchorElement).style.background = "transparent"; }}
                         >
-                          <Icon size={16} style={{ flexShrink: 0, color: BUILDING_COLOR }} />
+                          <Icon size={16} style={{ flexShrink: 0, color: active ? "var(--color-primary)" : "var(--muted-foreground)" }} />
                           <span style={{ overflow: "hidden", textOverflow: "ellipsis" }}>{sec.label}</span>
                         </Link>
                       );
@@ -545,7 +545,7 @@ export function SidebarNav({ role, menu, customerBuildings, userName, userEmail,
         <div style={{
           width: 32, height: 32, borderRadius: 8,
           background: "var(--card)", border: "1px solid var(--border)",
-          color: "#005A9E",
+          color: "var(--color-primary)",
           display: "flex", alignItems: "center", justifyContent: "center",
           fontSize: "var(--fs-13)", fontWeight: 700, flexShrink: 0,
         }}>

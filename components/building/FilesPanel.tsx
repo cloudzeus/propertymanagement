@@ -50,7 +50,7 @@ function ext(name: string) {
 }
 function thumbColor(name: string): [string, string] {
   const e = ext(name);
-  if (e === "PDF") return ["#d1343815", "#d13438"];
+  if (e === "PDF") return ["color-mix(in srgb, var(--color-danger) 8%, transparent)", "var(--color-danger)"];
   if (["JPG", "JPEG", "PNG", "GIF", "WEBP"].includes(e)) return ["var(--color-blue-soft)", "var(--color-blue)"];
   if (["XLS", "XLSX", "CSV"].includes(e)) return ["var(--color-green-soft)", "var(--color-green)"];
   return ["var(--bg-canvas)", "var(--muted-foreground)"];
@@ -143,7 +143,7 @@ export function FilesPanel({ buildingId, files, can }: { buildingId: string; fil
                   <div style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)", marginTop: 2 }}>{fmtSize(f.sizeBytes)}</div>
                   <div style={{ display: "flex", gap: 6, marginTop: 8 }}>
                     <a href={f.url} target="_blank" rel="noreferrer" style={{ ...btnSm, textDecoration: "none" }}><RiDownload2Line /> Άνοιγμα</a>
-                    {can.manageFiles && <button onClick={() => remove(f.id)} disabled={isPending} style={{ ...btnSm, color: "#c50f1f" }}><RiDeleteBinLine /></button>}
+                    {can.manageFiles && <button onClick={() => remove(f.id)} disabled={isPending} style={{ ...btnSm, color: "var(--color-danger)" }}><RiDeleteBinLine /></button>}
                   </div>
                 </div>
               </div>
@@ -161,4 +161,4 @@ const btnPrimary: React.CSSProperties = { background: "var(--color-primary)", co
 const btnSm: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 5, border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)", borderRadius: 4, padding: "5px 9px", fontSize: "var(--fs-12)", fontWeight: 600, cursor: "pointer" };
 const selectStyle: React.CSSProperties = { height: 34, borderRadius: 4, border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)", fontSize: "var(--fs-13)", padding: "0 8px" };
 const dropzone: React.CSSProperties = { border: "1.5px dashed var(--border-strong)", borderRadius: 8, padding: 30, textAlign: "center", color: "var(--muted-foreground)", background: "var(--bg-canvas)", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", gap: 8 };
-const errBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: "var(--fs-12)", border: "1px solid #fca5a530", marginBottom: 12 };
+const errBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "var(--danger-soft)", color: "var(--color-danger)", fontSize: "var(--fs-12)", border: "1px solid var(--danger-soft)", marginBottom: 12 };

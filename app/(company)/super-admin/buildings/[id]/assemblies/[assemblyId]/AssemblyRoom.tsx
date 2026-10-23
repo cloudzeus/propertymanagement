@@ -245,7 +245,7 @@ function ParticipantTile({ sessionId, isLocal }: { sessionId: string; isLocal: b
             width: 8,
             height: 8,
             borderRadius: 9999,
-            background: p?.audio ? "#22c55e" : "rgba(255,255,255,0.4)",
+            background: p?.audio ? "var(--color-success)" : "rgba(255,255,255,0.4)",
           }}
         />
         {name}
@@ -266,8 +266,8 @@ function btnStyle(disabled: boolean, danger = false): React.CSSProperties {
     borderRadius: 8,
     cursor: disabled ? "default" : "pointer",
     opacity: disabled ? 0.6 : 1,
-    border: `1px solid ${danger ? "#dc2626" : "var(--border)"}`,
-    background: danger ? "#dc2626" : "var(--card)",
+    border: `1px solid ${danger ? "var(--color-danger)" : "var(--border)"}`,
+    background: danger ? "var(--color-danger)" : "var(--card)",
     color: danger ? "#fff" : "var(--foreground)",
   };
 }

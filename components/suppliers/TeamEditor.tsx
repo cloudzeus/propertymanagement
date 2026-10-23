@@ -48,13 +48,13 @@ export function TeamEditor({ supplierId, users, canEdit, selfId }: { supplierId:
             {users.map((u) => (
               <tr key={u.id} style={{ borderTop: "1px solid var(--border)", opacity: u.status === "ACTIVE" ? 1 : 0.6 }}>
                 <td style={td}><b>{u.name ?? "—"}</b>{u.id === selfId && <span style={{ marginLeft: 6, fontSize: "var(--fs-11)", color: "var(--muted-foreground)" }}>(εσείς)</span>}<div style={{ fontSize: "var(--fs-11-5)", color: "var(--muted-foreground)" }}>{u.email}{u.phone ? ` · ${u.phone}` : ""}</div></td>
-                <td style={td}>{u.isSupplierAdmin ? <span style={{ display: "inline-flex", alignItems: "center", gap: 4, color: "#107C10", fontWeight: 600 }}><RiShieldUserLine /> Διαχειριστής</span> : "Τεχνικός"}</td>
+                <td style={td}>{u.isSupplierAdmin ? <span style={{ display: "inline-flex", alignItems: "center", gap: 4, color: "var(--color-success)", fontWeight: 600 }}><RiShieldUserLine /> Διαχειριστής</span> : "Τεχνικός"}</td>
                 <td style={td}>{STATUS_LABEL[u.status] ?? u.status}</td>
                 <td style={{ ...td, color: "var(--muted-foreground)" }}>{fmt(u.lastLoginAt)}</td>
                 {canEdit && (
                   <td style={{ ...td, textAlign: "right", whiteSpace: "nowrap" }}>
                     <button onClick={() => setEditing(u)} style={iconBtn} title="Επεξεργασία"><RiPencilLine /></button>
-                    {u.id !== selfId && <button onClick={() => remove(u)} disabled={isPending} style={{ ...iconBtn, color: "#c50f1f" }} title="Διαγραφή"><RiDeleteBinLine /></button>}
+                    {u.id !== selfId && <button onClick={() => remove(u)} disabled={isPending} style={{ ...iconBtn, color: "var(--color-danger)" }} title="Διαγραφή"><RiDeleteBinLine /></button>}
                   </td>
                 )}
               </tr>
@@ -119,4 +119,4 @@ const smallBtn: React.CSSProperties = { display: "inline-flex", alignItems: "cen
 const iconBtn: React.CSSProperties = { display: "inline-flex", alignItems: "center", border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)", borderRadius: 4, padding: 5, marginLeft: 6, cursor: "pointer" };
 const cancelBtn: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: "var(--fs-13)", color: "var(--foreground)" };
 const saveBtn: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: "pointer", fontSize: "var(--fs-13)", fontWeight: 600, display: "flex", alignItems: "center", gap: 6 };
-const errBox: React.CSSProperties = { margin: 10, padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: "var(--fs-12)", border: "1px solid #fca5a530" };
+const errBox: React.CSSProperties = { margin: 10, padding: "8px 12px", borderRadius: 6, background: "var(--danger-soft)", color: "var(--color-danger)", fontSize: "var(--fs-12)", border: "1px solid var(--danger-soft)" };

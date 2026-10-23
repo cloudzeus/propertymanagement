@@ -166,7 +166,7 @@ export function PropertyPackages({ propertyId, providerConfigured }: { propertyI
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div style={{ fontSize: "var(--fs-14)", fontWeight: 600, color: "var(--foreground)", display: "flex", alignItems: "center", gap: 8 }}>
                   {s.name}
-                  <span style={{ fontSize: "var(--fs-10)", fontWeight: 700, padding: "1px 6px", borderRadius: 10, background: s.isCore ? "#0078D418" : "#8764B818", color: s.isCore ? "#0078D4" : "#8764B8" }}>{s.isCore ? "CORE" : "MODULE"}</span>
+                  <span style={{ fontSize: "var(--fs-10)", fontWeight: 700, padding: "1px 6px", borderRadius: 10, background: s.isCore ? "color-mix(in srgb, var(--color-info) 9%, transparent)" : "color-mix(in srgb, var(--color-purple) 9%, transparent)", color: s.isCore ? "var(--color-info)" : "var(--color-purple)" }}>{s.isCore ? "CORE" : "MODULE"}</span>
                 </div>
                 <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)", marginTop: 2, ...numFont }}>
                   {eur(s.price)} {PRICING_LABEL[s.pricingModel]}
@@ -232,10 +232,10 @@ export function PropertyPackages({ propertyId, providerConfigured }: { propertyI
 }
 
 function StatusChip({ status }: { status: string }) {
-  const tone = status === "PAID" ? { bg: "#16a34a18", fg: "#16a34a" }
-    : status === "OVERDUE" ? { bg: "#dc262618", fg: "#dc2626" }
+  const tone = status === "PAID" ? { bg: "color-mix(in srgb, var(--color-success) 9%, transparent)", fg: "var(--color-success)" }
+    : status === "OVERDUE" ? { bg: "color-mix(in srgb, var(--color-danger) 9%, transparent)", fg: "var(--color-danger)" }
     : status === "CANCELLED" ? { bg: "var(--bg-canvas)", fg: "var(--muted-foreground)" }
-    : { bg: "#d9770618", fg: "#d97706" };
+    : { bg: "color-mix(in srgb, var(--color-warning) 9%, transparent)", fg: "var(--color-warning)" };
   return (
     <span style={{ display: "inline-flex", alignItems: "center", gap: 5, fontSize: "var(--fs-11-5)", fontWeight: 700, padding: "3px 10px", borderRadius: 12, background: tone.bg, color: tone.fg }}>
       {STATUS_LABEL[status] ?? status}
@@ -257,6 +257,6 @@ function Toggle({ on, onChange, disabled }: { on: boolean; onChange: (v: boolean
 const card: React.CSSProperties = { background: "var(--card)", border: "1px solid var(--border)", borderRadius: 10, overflow: "hidden" };
 
 function alert(kind: "err"): React.CSSProperties {
-  const map = { err: { bg: "#dc262614", fg: "#dc2626", bd: "#dc262630" } }[kind];
+  const map = { err: { bg: "color-mix(in srgb, var(--color-danger) 8%, transparent)", fg: "var(--color-danger)", bd: "color-mix(in srgb, var(--color-danger) 19%, transparent)" } }[kind];
   return { display: "flex", alignItems: "center", gap: 8, padding: "10px 12px", borderRadius: 8, background: map.bg, color: map.fg, border: `1px solid ${map.bd}`, fontSize: "var(--fs-12-5)", lineHeight: 1.4 };
 }

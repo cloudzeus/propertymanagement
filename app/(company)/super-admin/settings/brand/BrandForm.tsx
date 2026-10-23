@@ -81,7 +81,7 @@ function LogoTile({ slot, label, shape, bg, initialUrl }: { slot: LogoSlot; labe
           // eslint-disable-next-line @next/next/no-img-element
           <img src={url} alt={label} style={{ maxHeight: previewH - 20, maxWidth: "85%", objectFit: "contain" }} />
         ) : (
-          <span style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4, color: bg === "dark" ? "#6B6B6B" : "#B3B3B3", fontSize: "var(--fs-11)" }}>
+          <span style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4, color: bg === "dark" ? "#6B6B6B" : "var(--border-strong)", fontSize: "var(--fs-11)" }}>
             <RiImageLine size={22} /> Χωρίς λογότυπο
           </span>
         )}

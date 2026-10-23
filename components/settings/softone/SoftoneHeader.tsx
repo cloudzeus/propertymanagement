@@ -17,8 +17,8 @@ export function SoftoneHeader({ title, subtitle }: { title: string; subtitle: st
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
       <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
-        <div style={{ width: 40, height: 40, borderRadius: 10, background: "#0F6CBD18", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-          <RiExchangeLine style={{ fontSize: "var(--fs-20)", color: "#0F6CBD" }} />
+        <div style={{ width: 40, height: 40, borderRadius: 10, background: "color-mix(in srgb, var(--color-info) 9%, transparent)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+          <RiExchangeLine style={{ fontSize: "var(--fs-20)", color: "var(--color-info)" }} />
         </div>
         <div style={{ flex: 1, minWidth: 220 }}>
           <h1 style={{ fontSize: "var(--fs-22)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}>{title}</h1>

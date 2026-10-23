@@ -42,7 +42,7 @@ export function PropertyMap({ lat, lng, name, zoom = 15, height = 360 }: Props) 
       map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right");
       map.addControl(new maplibregl.FullscreenControl(), "top-right");
 
-      marker = new maplibregl.Marker({ color: "#0078D4" })
+      marker = new maplibregl.Marker({ color: "var(--color-info)" })
         .setLngLat([lng, lat])
         .addTo(map);
 

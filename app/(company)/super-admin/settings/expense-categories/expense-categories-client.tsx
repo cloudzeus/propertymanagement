@@ -251,9 +251,9 @@ export function ExpenseCategoriesClient({ initial }: { initial: Category[] }) {
                     <span style={{
                       display: "inline-block", padding: "2px 8px", borderRadius: 999,
                       fontSize: "var(--fs-11)", fontWeight: 600,
-                      background: c.active ? "#16a34a18" : "var(--bg-canvas)",
-                      color: c.active ? "#16a34a" : "var(--muted-foreground)",
-                      border: `1px solid ${c.active ? "#16a34a44" : "var(--border)"}`,
+                      background: c.active ? "color-mix(in srgb, var(--color-success) 9%, transparent)" : "var(--bg-canvas)",
+                      color: c.active ? "var(--color-success)" : "var(--muted-foreground)",
+                      border: `1px solid ${c.active ? "color-mix(in srgb, var(--color-success) 27%, transparent)" : "var(--border)"}`,
                     }}>
                       {c.active ? "Ναι" : "Όχι"}
                     </span>

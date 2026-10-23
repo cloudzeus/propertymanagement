@@ -109,7 +109,7 @@ export function ServicesClient({ initial, zones }: { initial: Service[]; zones: 
       cell: (s) => (
         <span style={{
           fontSize: "var(--fs-11)", fontWeight: 600, padding: "2px 8px", borderRadius: 20,
-          background: s.isCore ? "#0078D418" : "#8764B818", color: s.isCore ? "#0078D4" : "#8764B8",
+          background: s.isCore ? "color-mix(in srgb, var(--color-info) 9%, transparent)" : "color-mix(in srgb, var(--color-purple) 9%, transparent)", color: s.isCore ? "var(--color-info)" : "var(--color-purple)",
         }}>{s.isCore ? "CORE" : "Module"}</span>
       ),
     },
@@ -136,7 +136,7 @@ export function ServicesClient({ initial, zones }: { initial: Service[]; zones: 
       cell: (s) => (
         <span style={{
           fontSize: "var(--fs-11)", fontWeight: 600, padding: "2px 8px", borderRadius: 20,
-          background: s.active ? "#107C1018" : "#70707018", color: s.active ? "#107C10" : "#707070",
+          background: s.active ? "color-mix(in srgb, var(--color-success) 9%, transparent)" : "color-mix(in srgb, var(--muted-foreground) 9%, transparent)", color: s.active ? "var(--color-success)" : "var(--muted-foreground)",
         }}>{s.active ? "Ενεργή" : "Ανενεργή"}</span>
       ),
     },
@@ -185,7 +185,7 @@ export function ServicesClient({ initial, zones }: { initial: Service[]; zones: 
           </>
         }
       >
-        {error && <div style={{ padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: "var(--fs-12)", border: "1px solid #fca5a530", marginBottom: 14 }}>{error}</div>}
+        {error && <div style={{ padding: "8px 12px", borderRadius: 6, background: "var(--danger-soft)", color: "var(--color-danger)", fontSize: "var(--fs-12)", border: "1px solid var(--danger-soft)", marginBottom: 14 }}>{error}</div>}
 
         <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
           <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: 12 }}>

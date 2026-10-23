@@ -114,8 +114,8 @@ export function DepartmentsTab({
       cell: (r) => (
         <span style={{
           fontSize: "var(--fs-11)", fontWeight: 600, padding: "2px 8px", borderRadius: 20,
-          background: r.isActive ? "#16a34a18" : "#6b728018",
-          color: r.isActive ? "#16a34a" : "#6b7280",
+          background: r.isActive ? "color-mix(in srgb, var(--color-success) 9%, transparent)" : "color-mix(in srgb, var(--muted-foreground) 9%, transparent)",
+          color: r.isActive ? "var(--color-success)" : "var(--muted-foreground)",
         }}>
           {r.isActive ? "Ενεργό" : "Ανενεργό"}
         </span>
@@ -195,7 +195,7 @@ export function DepartmentsTab({
       >
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           {error && (
-            <div style={{ padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: "var(--fs-12)", border: "1px solid #fca5a530" }}>
+            <div style={{ padding: "8px 12px", borderRadius: 6, background: "var(--danger-soft)", color: "var(--color-danger)", fontSize: "var(--fs-12)", border: "1px solid var(--danger-soft)" }}>
               {error}
             </div>
           )}

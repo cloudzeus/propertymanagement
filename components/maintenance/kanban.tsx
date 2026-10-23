@@ -14,10 +14,10 @@ const COLUMNS: FaultStatus[] = ["OPEN", "ACKNOWLEDGED", "SCHEDULED", "IN_PROGRES
 function Card({ item, detailBase, dragging = false }: { item: FaultListItem; detailBase: string; dragging?: boolean }) {
   const overdue = item.slaDueAt && new Date(item.slaDueAt) < new Date() && !["COMPLETED", "CANCELLED"].includes(item.status);
   const pr = item.priority as keyof typeof PRIORITY_LABELS;
-  const prColor = pr === "URGENT" ? "#9f1239" : pr === "HIGH" ? "#b45309" : "var(--muted-foreground)";
+  const prColor = pr === "URGENT" ? "var(--color-danger)" : pr === "HIGH" ? "var(--color-warning)" : "var(--muted-foreground)";
   return (
     <div style={{
-      background: "var(--card)", border: `1px solid ${overdue ? "#9f123960" : "var(--border)"}`,
+      background: "var(--card)", border: `1px solid ${overdue ? "color-mix(in srgb, var(--color-danger) 38%, transparent)" : "var(--border)"}`,
       borderRadius: "var(--radius-sm)", padding: "8px 10px", fontSize: "var(--fs-12-5)",
       boxShadow: dragging ? "0 8px 20px rgba(0,0,0,.18)" : "0 1px 2px rgba(0,0,0,.05)",
       cursor: "grab", display: "flex", flexDirection: "column", gap: 4,
@@ -37,7 +37,7 @@ function Card({ item, detailBase, dragging = false }: { item: FaultListItem; det
           </span>
         )}
         {overdue && (
-          <span style={{ display: "inline-flex", alignItems: "center", gap: 3, color: "#9f1239", fontWeight: 700 }}>
+          <span style={{ display: "inline-flex", alignItems: "center", gap: 3, color: "var(--color-danger)", fontWeight: 700 }}>
             <RiAlarmWarningLine /> SLA
           </span>
         )}
@@ -61,8 +61,8 @@ function Column({ status, items, detailBase }: { status: FaultStatus; items: Fau
   return (
     <div ref={setNodeRef} style={{
       flex: "1 1 0", minWidth: 210, display: "flex", flexDirection: "column", gap: 8,
-      background: isOver ? `${color}0d` : "var(--bg-canvas)",
-      border: `1px solid ${isOver ? `${color}55` : "var(--border)"}`,
+      background: isOver ? `color-mix(in srgb, ${color} 5%, transparent)` : "var(--bg-canvas)",
+      border: `1px solid ${isOver ? `color-mix(in srgb, ${color} 33%, transparent)` : "var(--border)"}`,
       borderRadius: "var(--radius-lg)", padding: 10, transition: "background .12s, border-color .12s",
     }}>
       <div style={{ display: "flex", alignItems: "center", gap: 6 }}>

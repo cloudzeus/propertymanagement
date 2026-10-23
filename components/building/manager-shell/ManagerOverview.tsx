@@ -13,8 +13,8 @@ type Building = BuildingDashboardData["building"];
 type OverviewData = BuildingDashboardData["overview"];
 
 const PRIORITY: Record<string, { label: string; color: string }> = {
-  URGENT: { label: "Επείγον", color: "#c50f1f" }, HIGH: { label: "Υψηλή", color: "#CA5D00" },
-  NORMAL: { label: "Κανονική", color: "#0078D4" }, LOW: { label: "Χαμηλή", color: "#707070" },
+  URGENT: { label: "Επείγον", color: "var(--color-danger)" }, HIGH: { label: "Υψηλή", color: "var(--color-warning)" },
+  NORMAL: { label: "Κανονική", color: "var(--color-info)" }, LOW: { label: "Χαμηλή", color: "var(--muted-foreground)" },
 };
 const REQ_STATUS: Record<string, string> = { OPEN: "Ανοιχτό", IN_PROGRESS: "Σε εξέλιξη" };
 
@@ -54,13 +54,13 @@ export function ManagerOverview({ building, data, can, onNavigate }: {
             <Gauge value={data.paid} max={total} big={`${pct}%`} unit="εισπράχθηκαν" />
             <div style={{ flex: 1, minWidth: 260, display: "flex", flexDirection: "column", gap: 12 }}>
               <div style={{ display: "flex", gap: 24, flexWrap: "wrap" }}>
-                <Stat label="Εξοφλημένα" value={eur(data.paid)} color="#107C10" />
-                <Stat label="Ανεξόφλητα" value={eur(data.unpaid)} color="#c50f1f" />
-                <Stat label="Ποσοστό είσπραξης" value={`${pct}%`} color="#0078D4" />
+                <Stat label="Εξοφλημένα" value={eur(data.paid)} color="var(--color-success)" />
+                <Stat label="Ανεξόφλητα" value={eur(data.unpaid)} color="var(--color-danger)" />
+                <Stat label="Ποσοστό είσπραξης" value={`${pct}%`} color="var(--color-info)" />
               </div>
-              <div style={{ height: 14, borderRadius: 9999, overflow: "hidden", display: "flex", background: "#c50f1f22" }}>
-                <div style={{ width: `${pct}%`, background: "#107C10" }} />
-                <div style={{ flex: 1, background: "#c50f1f" }} />
+              <div style={{ height: 14, borderRadius: 9999, overflow: "hidden", display: "flex", background: "color-mix(in srgb, var(--color-danger) 13%, transparent)" }}>
+                <div style={{ width: `${pct}%`, background: "var(--color-success)" }} />
+                <div style={{ flex: 1, background: "var(--color-danger)" }} />
               </div>
               <div>
                 <button onClick={() => onNavigate("finance", "koino")} style={{ ...btn, ...btnPrimary }}><RiBankCardLine /> Πληρωμές</button>
@@ -86,7 +86,7 @@ export function ManagerOverview({ building, data, can, onNavigate }: {
                       <div style={{ fontSize: "var(--fs-13)", fontWeight: 600, color: "var(--foreground)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{r.title}</div>
                       <div style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)" }}>{REQ_STATUS[r.status] ?? r.status} · {fmtDay(r.createdAt)}</div>
                     </div>
-                    <span style={{ flexShrink: 0, fontSize: "var(--fs-10)", fontWeight: 700, padding: "2px 8px", borderRadius: 9999, background: `${p.color}18`, color: p.color }}>{p.label}</span>
+                    <span style={{ flexShrink: 0, fontSize: "var(--fs-10)", fontWeight: 700, padding: "2px 8px", borderRadius: 9999, background: `color-mix(in srgb, ${p.color} 9%, transparent)`, color: p.color }}>{p.label}</span>
                   </div>
                 );
               })}

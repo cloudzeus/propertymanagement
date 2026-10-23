@@ -62,11 +62,11 @@ export default async function SupplierDetailPage({ params }: { params: Promise<{
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, alignItems: "start" }}>
         <Panel title="Πρόσφατες αναθέσεις" empty={requests.length === 0 ? "Καμία ανάθεση ακόμη. Η ανάθεση γίνεται από τη σελίδα της βλάβης." : undefined}>
           {requests.map((r) => {
-            const color = STATUS_COLORS[r.status as FaultStatus] ?? "#6b7280";
+            const color = STATUS_COLORS[r.status as FaultStatus] ?? "var(--muted-foreground)";
             return (
               <Link key={r.id} href={`/admin/maintenance/${r.id}`} style={row}>
                 <span style={{ flex: 1, minWidth: 0 }}><b style={{ display: "block", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{r.title}</b><span style={{ fontSize: "var(--fs-11-5)", color: "var(--muted-foreground)" }}>{r.building.name} · {fmt(r.createdAt)}</span></span>
-                <span style={{ fontSize: "var(--fs-11)", fontWeight: 600, color, background: `${color}18`, border: `1px solid ${color}40`, borderRadius: 999, padding: "2px 8px", flexShrink: 0 }}>{STATUS_LABELS[r.status as FaultStatus] ?? r.status}</span>
+                <span style={{ fontSize: "var(--fs-11)", fontWeight: 600, color, background: `color-mix(in srgb, ${color} 9%, transparent)`, border: `1px solid color-mix(in srgb, ${color} 25%, transparent)`, borderRadius: 999, padding: "2px 8px", flexShrink: 0 }}>{STATUS_LABELS[r.status as FaultStatus] ?? r.status}</span>
               </Link>
             );
           })}

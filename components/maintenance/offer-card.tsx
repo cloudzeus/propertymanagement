@@ -37,13 +37,13 @@ export function OfferCard({ workOrders, canDecide, companyName, zones }: { workO
   return (
     <>
       {workOrders.map((w) => {
-        const color = WO_STATUS_COLORS[w.status] ?? "#6b7280";
+        const color = WO_STATUS_COLORS[w.status] ?? "var(--muted-foreground)";
         const gross = withVat(w.customerPrice, w.vatPct);
         return (
-          <div key={w.id} style={{ background: "var(--card)", border: `1px solid ${color}66`, borderRadius: "var(--radius-lg)", padding: 18 }}>
+          <div key={w.id} style={{ background: "var(--card)", border: `1px solid color-mix(in srgb, ${color} 40%, transparent)`, borderRadius: "var(--radius-lg)", padding: 18 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", marginBottom: 8 }}>
               <span style={{ fontSize: "var(--fs-13)", fontWeight: 700, display: "inline-flex", alignItems: "center", gap: 6 }}><RiShieldCheckLine /> Προσφορά από {companyName} · {w.number}</span>
-              <span style={{ fontSize: "var(--fs-11)", fontWeight: 700, padding: "2px 8px", borderRadius: 999, color, background: `${color}18`, border: `1px solid ${color}40` }}>{WO_STATUS_LABELS[w.status] ?? w.status}</span>
+              <span style={{ fontSize: "var(--fs-11)", fontWeight: 700, padding: "2px 8px", borderRadius: 999, color, background: `color-mix(in srgb, ${color} 9%, transparent)`, border: `1px solid color-mix(in srgb, ${color} 25%, transparent)` }}>{WO_STATUS_LABELS[w.status] ?? w.status}</span>
               <span style={{ flex: 1 }} />
               <Link href={`/portal/work-orders/${w.id}/contract`} style={{ display: "inline-flex", alignItems: "center", gap: 4, fontSize: "var(--fs-12-5)", color: "var(--color-primary)", textDecoration: "none" }}><RiFileTextLine /> Σύμβαση έργου</Link>
             </div>
@@ -112,8 +112,8 @@ export function OfferCard({ workOrders, canDecide, companyName, zones }: { workO
                       : <a key={i} href={m.url} target="_blank" rel="noreferrer"><img src={m.url} alt="" style={{ width: 120, height: 90, objectFit: "cover", borderRadius: 8, border: "1px solid var(--border)" }} /></a>)}
                   </div>
                 )}
-                {w.status === "CONFIRMED" && <p style={{ margin: 0, fontSize: "var(--fs-13)", color: "#15803d", fontWeight: 600 }}><RiThumbUpLine style={{ verticalAlign: "-2px" }} /> Παραλάβατε την εργασία {fmt(w.customerConfirmedAt)}.</p>}
-                {w.status === "DISPUTED" && <p style={{ margin: 0, fontSize: "var(--fs-13)", color: "#9f1239" }}><RiAlertLine style={{ verticalAlign: "-2px" }} /> Αμφισβητήσατε την παραλαβή: {w.disputeNote}. Ο συνεργάτης θα επανέλθει.</p>}
+                {w.status === "CONFIRMED" && <p style={{ margin: 0, fontSize: "var(--fs-13)", color: "var(--color-success)", fontWeight: 600 }}><RiThumbUpLine style={{ verticalAlign: "-2px" }} /> Παραλάβατε την εργασία {fmt(w.customerConfirmedAt)}.</p>}
+                {w.status === "DISPUTED" && <p style={{ margin: 0, fontSize: "var(--fs-13)", color: "var(--color-danger)" }}><RiAlertLine style={{ verticalAlign: "-2px" }} /> Αμφισβητήσατε την παραλαβή: {w.disputeNote}. Ο συνεργάτης θα επανέλθει.</p>}
                 {w.status === "COMPLETED" && (canDecide ? (
                   showDispute === w.id ? (
                     <div style={{ display: "flex", flexDirection: "column", gap: 8, maxWidth: 520 }}>
@@ -141,4 +141,4 @@ export function OfferCard({ workOrders, canDecide, companyName, zones }: { workO
 
 const btn: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 6, height: 38, padding: "0 14px", border: "1px solid var(--border)", background: "var(--paper)", borderRadius: "var(--radius-sm)", fontSize: "var(--fs-13)", fontWeight: 600, cursor: "pointer", color: "var(--foreground)" };
 const btnPrimary: React.CSSProperties = { ...btn, background: "var(--primary)", color: "var(--primary-foreground)", border: "none" };
-const btnDanger: React.CSSProperties = { ...btn, background: "#9f1239", color: "#fff", border: "none" };
+const btnDanger: React.CSSProperties = { ...btn, background: "var(--color-danger)", color: "#fff", border: "none" };

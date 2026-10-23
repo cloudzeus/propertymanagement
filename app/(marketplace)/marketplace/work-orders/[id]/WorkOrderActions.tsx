@@ -21,7 +21,7 @@ export function WorkOrderActions({ wo, isAdmin }: { wo: SupplierWorkOrderDTO; is
   const [note, setNote] = useState("");
   const [media, setMedia] = useState<Media[]>([]);
   const [uploading, setUploading] = useState(false);
-  const c = WO_STATUS_COLORS[wo.status] ?? "#6b7280";
+  const c = WO_STATUS_COLORS[wo.status] ?? "var(--muted-foreground)";
 
   async function run(fn: () => Promise<{ error?: string | null } | { ok?: boolean }>) {
     setBusy(true); setError(null);
@@ -49,7 +49,7 @@ export function WorkOrderActions({ wo, isAdmin }: { wo: SupplierWorkOrderDTO; is
       <div style={card}>
         <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
           <h1 style={{ fontSize: "var(--fs-19)", fontWeight: 700, margin: 0, flex: 1 }}>{wo.number} · {wo.title}</h1>
-          <span style={{ padding: "2px 8px", borderRadius: 999, fontSize: "var(--fs-11-5)", fontWeight: 600, color: c, background: `${c}18`, border: `1px solid ${c}40` }}>{WO_STATUS_LABELS[wo.status] ?? wo.status}</span>
+          <span style={{ padding: "2px 8px", borderRadius: 999, fontSize: "var(--fs-11-5)", fontWeight: 600, color: c, background: `color-mix(in srgb, ${c} 9%, transparent)`, border: `1px solid color-mix(in srgb, ${c} 25%, transparent)` }}>{WO_STATUS_LABELS[wo.status] ?? wo.status}</span>
           <Link href={`/marketplace/work-orders/${wo.id}/contract`} style={{ display: "inline-flex", alignItems: "center", gap: 4, fontSize: "var(--fs-12-5)", color: "var(--color-primary)", textDecoration: "none" }}><RiFileTextLine /> Σύμβαση Β</Link>
         </div>
         <div style={{ display: "flex", flexWrap: "wrap", gap: 14, fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)", marginTop: 6 }}>
@@ -90,7 +90,7 @@ export function WorkOrderActions({ wo, isAdmin }: { wo: SupplierWorkOrderDTO; is
       {["IN_PROGRESS", "SCHEDULED", "DISPUTED"].includes(wo.status) && wo.supplierAcceptedAt && (
         <div style={card}>
           <div style={h3}><RiCameraLine /> Απόδειξη επισκευής</div>
-          {wo.status === "DISPUTED" && <div style={{ padding: "8px 12px", borderRadius: 6, background: "#9f123914", color: "#9f1239", fontSize: "var(--fs-13)", marginBottom: 10 }}><RiAlertLine style={{ verticalAlign: "-2px" }} /> Ο πελάτης αμφισβήτησε την παραλαβή: {wo.disputeNote}. Αποκαταστήστε και καταθέστε νέα απόδειξη.</div>}
+          {wo.status === "DISPUTED" && <div style={{ padding: "8px 12px", borderRadius: 6, background: "color-mix(in srgb, var(--color-danger) 8%, transparent)", color: "var(--color-danger)", fontSize: "var(--fs-13)", marginBottom: 10 }}><RiAlertLine style={{ verticalAlign: "-2px" }} /> Ο πελάτης αμφισβήτησε την παραλαβή: {wo.disputeNote}. Αποκαταστήστε και καταθέστε νέα απόδειξη.</div>}
           <p style={{ fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)", margin: "0 0 10px" }}>Φωτογραφίες «μετά» και σύντομη αναφορά. Χωρίς αυτά η εργασία δεν θεωρείται ολοκληρωμένη και δεν ξεκινά η πληρωμή.</p>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, maxWidth: 420 }}>
             <label style={bigBtn}><RiCameraLine style={{ fontSize: "var(--fs-22)" }} /> Φωτογραφία<input type="file" accept="image/*" capture="environment" hidden disabled={uploading} onChange={(e) => { onPick(e.target.files); e.target.value = ""; }} /></label>
@@ -117,7 +117,7 @@ export function WorkOrderActions({ wo, isAdmin }: { wo: SupplierWorkOrderDTO; is
           <div style={h3}>{wo.status === "CONFIRMED" ? <RiThumbUpLine /> : <RiCheckLine />} {wo.status === "CONFIRMED" ? "Παραλήφθηκε από τον πελάτη" : "Αναμένει επιβεβαίωση παραλαβής"}</div>
           <p style={{ fontSize: "var(--fs-13-5)", margin: "0 0 8px", whiteSpace: "pre-wrap" }}>{wo.completionNote}</p>
           <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>{wo.completionMedia.map((m, i) => <a key={i} href={m.url} target="_blank" rel="noreferrer"><img src={m.url} alt="" style={{ width: 100, height: 76, objectFit: "cover", borderRadius: 8, border: "1px solid var(--border)" }} /></a>)}</div>
-          {wo.status === "CONFIRMED" && <p style={{ fontSize: "var(--fs-13)", color: "#15803d", fontWeight: 600, margin: "10px 0 0" }}>Επιβεβαιώθηκε {fmt(wo.customerConfirmedAt)} — μπορείτε να εκδώσετε τιμολόγιο προς την εταιρεία διαχείρισης.</p>}
+          {wo.status === "CONFIRMED" && <p style={{ fontSize: "var(--fs-13)", color: "var(--color-success)", fontWeight: 600, margin: "10px 0 0" }}>Επιβεβαιώθηκε {fmt(wo.customerConfirmedAt)} — μπορείτε να εκδώσετε τιμολόγιο προς την εταιρεία διαχείρισης.</p>}
         </div>
       )}
       <style>{`@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}`}</style>

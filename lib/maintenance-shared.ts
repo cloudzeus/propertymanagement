@@ -15,13 +15,13 @@ export const STATUS_LABELS: Record<FaultStatus, string> = {
 
 /** Χρώμα badge ανά κατάσταση (tokens του dashboard). */
 export const STATUS_COLORS: Record<FaultStatus, string> = {
-  OPEN: "#b45309",
-  ACKNOWLEDGED: "#0369a1",
-  SCHEDULED: "#7c3aed",
-  IN_PROGRESS: "#1d4ed8",
-  ON_HOLD: "#6b7280",
-  COMPLETED: "#15803d",
-  CANCELLED: "#9f1239",
+  OPEN: "var(--color-warning)",
+  ACKNOWLEDGED: "var(--color-info)",
+  SCHEDULED: "var(--color-purple)",
+  IN_PROGRESS: "var(--color-info)",
+  ON_HOLD: "var(--muted-foreground)",
+  COMPLETED: "var(--color-success)",
+  CANCELLED: "var(--color-danger)",
 };
 
 /** Επιτρεπτές μεταβάσεις κατάστασης. */

@@ -55,11 +55,11 @@ export const SOURCE_LABELS: Record<WorkSource, string> = {
 };
 
 export const SOURCE_COLORS: Record<WorkSource, string> = {
-  fault: "#CA5D00",
-  "work-order": "#0F6CBD",
-  rfq: "#107C10",
-  programme: "#8764B8",
-  appointment: "#038387",
+  fault: "var(--color-warning)",
+  "work-order": "var(--color-info)",
+  rfq: "var(--color-success)",
+  programme: "var(--color-purple)",
+  appointment: "var(--color-teal)",
 };
 
 export const STAGE_LABELS: Record<WorkStage, string> = {
@@ -74,12 +74,12 @@ export const STAGE_LABELS: Record<WorkStage, string> = {
 };
 
 export const STAGE_COLORS: Record<WorkStage, string> = {
-  new: "#b45309",
-  triage: "#0369a1",
-  scheduled: "#7c3aed",
-  "in-progress": "#1d4ed8",
-  "waiting-customer": "#0f766e",
-  "awaiting-confirmation": "#a16207",
-  "on-hold": "#6b7280",
-  "overdue-programme": "#9f1239",
+  new: "var(--color-warning)",
+  triage: "var(--color-info)",
+  scheduled: "var(--color-purple)",
+  "in-progress": "var(--color-info)",
+  "waiting-customer": "var(--color-teal)",
+  "awaiting-confirmation": "var(--color-warning)",
+  "on-hold": "var(--muted-foreground)",
+  "overdue-programme": "var(--color-danger)",
 };

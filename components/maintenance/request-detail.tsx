@@ -16,11 +16,11 @@ const fmt = (iso: string | null) =>
   iso ? new Date(iso).toLocaleString("el-GR", { dateStyle: "short", timeStyle: "short" }) : "—";
 
 function StatusBadge({ status }: { status: string }) {
-  const color = STATUS_COLORS[status as FaultStatus] ?? "#6b7280";
+  const color = STATUS_COLORS[status as FaultStatus] ?? "var(--muted-foreground)";
   return (
     <span style={{
       display: "inline-flex", alignItems: "center", gap: 6, padding: "3px 10px",
-      borderRadius: 999, fontSize: "var(--fs-12)", fontWeight: 600, color, background: `${color}18`, border: `1px solid ${color}40`,
+      borderRadius: 999, fontSize: "var(--fs-12)", fontWeight: 600, color, background: `color-mix(in srgb, ${color} 9%, transparent)`, border: `1px solid color-mix(in srgb, ${color} 25%, transparent)`,
     }}>
       {STATUS_LABELS[status as FaultStatus] ?? status}
     </span>
@@ -35,7 +35,7 @@ function SlaBadge({ slaDueAt, status }: { slaDueAt: string | null; status: strin
   return (
     <span style={{
       display: "inline-flex", alignItems: "center", gap: 4, fontSize: "var(--fs-12)", fontWeight: 600,
-      color: overdue ? "#9f1239" : "#b45309",
+      color: overdue ? "var(--color-danger)" : "var(--color-warning)",
     }}>
       <RiAlarmWarningLine />
       {overdue ? `SLA εκτός ορίου (${fmt(slaDueAt)})` : `SLA: ${hoursLeft} ώρες (${fmt(slaDueAt)})`}
@@ -122,9 +122,9 @@ export function RequestDetail({ request, viewer, actions, onOpen }: {
         {viewer.isStaff && onOpen && (
           <div style={{
             display: "inline-flex", alignItems: "center", gap: 6, fontSize: "var(--fs-12)", fontWeight: 600, padding: "3px 10px", borderRadius: 999, marginTop: 10,
-            color: request.handledBy === "COMPANY" ? "#15803d" : "#b45309",
-            background: request.handledBy === "COMPANY" ? "#15803d14" : "#b4530914",
-            border: `1px solid ${request.handledBy === "COMPANY" ? "#15803d40" : "#b4530940"}`,
+            color: request.handledBy === "COMPANY" ? "var(--color-success)" : "var(--color-warning)",
+            background: request.handledBy === "COMPANY" ? "color-mix(in srgb, var(--color-success) 8%, transparent)" : "color-mix(in srgb, var(--color-warning) 8%, transparent)",
+            border: `1px solid ${request.handledBy === "COMPANY" ? "color-mix(in srgb, var(--color-success) 25%, transparent)" : "color-mix(in srgb, var(--color-warning) 25%, transparent)"}`,
           }}>
             {request.handledBy === "COMPANY"
               ? "Καλύπτεται από τη σύμβαση διαχείρισης — άμεση ανάθεση, χωρίς προσφορά προς τον πελάτη"
@@ -214,7 +214,7 @@ export function RequestDetail({ request, viewer, actions, onOpen }: {
             <div style={{ marginTop: openSlots.length ? 12 : 0 }}>
               {request.appointments.map((a) => (
                 <div key={a.id} style={{ fontSize: "var(--fs-13)", color: "var(--foreground)", display: "flex", gap: 8, alignItems: "center" }}>
-                  <RiCalendarCheckLine style={{ color: "#15803d" }} />
+                  <RiCalendarCheckLine style={{ color: "var(--color-success)" }} />
                   Ραντεβού: {fmt(a.startAt)} – {new Date(a.endAt).toLocaleTimeString("el-GR", { timeStyle: "short" })}
                   {a.managerPresence && <span style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>(με παρουσία διαχειριστή)</span>}
                 </div>
@@ -237,7 +237,7 @@ export function RequestDetail({ request, viewer, actions, onOpen }: {
               <div style={{ display: "flex", gap: 8, fontSize: "var(--fs-11-5)", color: "var(--muted-foreground)", marginBottom: 4 }}>
                 <strong style={{ color: "var(--foreground)" }}>{c.authorName ?? "—"}</strong>
                 <span>{fmt(c.createdAt)}</span>
-                {c.internal && <span style={{ color: "#b45309", fontWeight: 600 }}>Εσωτερικό</span>}
+                {c.internal && <span style={{ color: "var(--color-warning)", fontWeight: 600 }}>Εσωτερικό</span>}
               </div>
               <div style={{ fontSize: "var(--fs-13)", color: "var(--foreground)", whiteSpace: "pre-wrap" }}>{c.body}</div>
             </div>

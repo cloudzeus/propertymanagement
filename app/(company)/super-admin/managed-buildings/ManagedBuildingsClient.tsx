@@ -14,10 +14,10 @@ import {
 import type { ManagedBuildingRow, ObligationRow, RecentLogRow, ObligationStatus, BuildingDrilldown } from "@/lib/dashboard/managed-buildings";
 
 const STATUS_STYLE: Record<ObligationStatus, { label: string; bg: string; fg: string }> = {
-  overdue: { label: "Εκπρόθεσμη", bg: "#FBE4E4", fg: "#9A2B2B" },
-  "due-soon": { label: "Επικείμενη", bg: "#FDF1DF", fg: "#9A5B00" },
-  scheduled: { label: "Προγραμματισμένη", bg: "#E4F0EA", fg: "#22604A" },
-  none: { label: "—", bg: "#F0F0EE", fg: "#8a8a85" },
+  overdue: { label: "Εκπρόθεσμη", bg: "var(--danger-soft)", fg: "var(--color-danger)" },
+  "due-soon": { label: "Επικείμενη", bg: "var(--warning-soft)", fg: "var(--color-warning)" },
+  scheduled: { label: "Προγραμματισμένη", bg: "var(--success-soft)", fg: "var(--color-success)" },
+  none: { label: "—", bg: "var(--paper)", fg: "var(--muted-foreground)" },
 };
 
 function fmtDate(iso: string | null) { return iso ? new Date(iso).toLocaleDateString("el-GR") : "—"; }
@@ -43,7 +43,7 @@ export function ManagedBuildingsClient({ buildings, obligations, recent, itemTyp
     { id: "schedules", header: "Προγράμματα", accessor: (b) => b.scheduleCount, cell: (b) => <span style={{ fontVariantNumeric: "tabular-nums" }}>{b.scheduleCount}</span> },
     { id: "next", header: "Επόμενη υποχρέωση", accessor: (b) => b.nextDueDate ?? "", cell: (b) => fmtDate(b.nextDueDate) },
     { id: "overdue", header: "Εκπρόθεσμες", accessor: (b) => b.overdueCount, cell: (b) => b.overdueCount > 0
-      ? <span style={{ display: "inline-flex", alignItems: "center", gap: 4, fontWeight: 700, color: "#9A2B2B" }}><RiAlarmWarningLine /> {b.overdueCount}</span>
+      ? <span style={{ display: "inline-flex", alignItems: "center", gap: 4, fontWeight: 700, color: "var(--color-danger)" }}><RiAlarmWarningLine /> {b.overdueCount}</span>
       : <span style={{ color: "var(--muted-foreground)" }}>0</span> },
   ];
 
@@ -61,20 +61,20 @@ export function ManagedBuildingsClient({ buildings, obligations, recent, itemTyp
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(190px, 1fr))", gap: 12, marginBottom: 20 }}>
         <StatCard icon={<RiBuilding2Line />} tint="#3B6BB0" value={buildings.length} label="Κτήρια" />
-        <StatCard icon={<RiStackLine />} tint="#2E7D5B" value={buildings.reduce((s, b) => s + b.itemCount, 0)} label="Στοιχεία" />
-        <StatCard icon={<RiToolsLine />} tint="#9A5B00" value={dueSoon.length} label="Επικείμενες" />
-        <StatCard icon={<RiAlarmWarningLine />} tint="#C0392B" value={overdue.length} label="Εκπρόθεσμες" />
+        <StatCard icon={<RiStackLine />} tint="var(--color-success)" value={buildings.reduce((s, b) => s + b.itemCount, 0)} label="Στοιχεία" />
+        <StatCard icon={<RiToolsLine />} tint="var(--color-warning)" value={dueSoon.length} label="Επικείμενες" />
+        <StatCard icon={<RiAlarmWarningLine />} tint="var(--color-danger)" value={overdue.length} label="Εκπρόθεσμες" />
       </div>
 
       {overdue.length > 0 && (
         <section style={panel}>
-          <div style={panelTitle}><RiAlarmWarningLine style={{ color: "#C0392B" }} /> Εκπρόθεσμες υποχρεώσεις</div>
+          <div style={panelTitle}><RiAlarmWarningLine style={{ color: "var(--color-danger)" }} /> Εκπρόθεσμες υποχρεώσεις</div>
           {overdue.map((o) => <ObligationLine key={o.taskId} o={o} />)}
         </section>
       )}
       {dueSoon.length > 0 && (
         <section style={panel}>
-          <div style={panelTitle}><RiToolsLine style={{ color: "#9A5B00" }} /> Επικείμενες υποχρεώσεις</div>
+          <div style={panelTitle}><RiToolsLine style={{ color: "var(--color-warning)" }} /> Επικείμενες υποχρεώσεις</div>
           {dueSoon.map((o) => <ObligationLine key={o.taskId} o={o} />)}
         </section>
       )}
@@ -161,7 +161,7 @@ function ObligationLine({ o }: { o: ObligationRow }) {
 function StatCard({ icon, tint, value, label }: { icon: React.ReactNode; tint: string; value: number; label: string }) {
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 12, background: "var(--card)", border: "1px solid var(--border)", borderRadius: 12, padding: "14px 16px" }}>
-      <span style={{ display: "flex", alignItems: "center", justifyContent: "center", width: 38, height: 38, borderRadius: 10, background: `${tint}1A`, color: tint, flex: "none" }}>{icon}</span>
+      <span style={{ display: "flex", alignItems: "center", justifyContent: "center", width: 38, height: 38, borderRadius: 10, background: `color-mix(in srgb, ${tint} 10%, transparent)`, color: tint, flex: "none" }}>{icon}</span>
       <div>
         <div style={{ fontSize: "var(--fs-20)", fontWeight: 800, lineHeight: 1.1, color: "var(--foreground)", fontVariantNumeric: "tabular-nums" }}>{value}</div>
         <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)", marginTop: 1 }}>{label}</div>
@@ -230,7 +230,7 @@ function AssignItemModal({ buildings, itemTypes, onClose }: { buildings: Managed
         <button onClick={onClose} style={{ padding: "7px 16px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: "var(--fs-13)", color: "var(--foreground)" }}>Ακύρωση</button>
         <button onClick={save} disabled={isPending} style={{ padding: "7px 16px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: "pointer", fontSize: "var(--fs-13)", fontWeight: 600, display: "flex", alignItems: "center", gap: 6 }}>{isPending ? <RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> : <RiCheckLine />} Αποθήκευση</button>
       </>}>
-      {error && <div style={{ padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: "var(--fs-12)", border: "1px solid #fca5a530", marginBottom: 12 }} role="alert">{error}</div>}
+      {error && <div style={{ padding: "8px 12px", borderRadius: 6, background: "var(--danger-soft)", color: "var(--color-danger)", fontSize: "var(--fs-12)", border: "1px solid var(--danger-soft)", marginBottom: 12 }} role="alert">{error}</div>}
       <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
         <FormField label="Κτήριο" required>
           <FieldSelect value={buildingId} onChange={onBuilding} placeholder="— Επίλεξε κτήριο —" options={buildings.map((b) => ({ value: b.id, label: b.name }))} />

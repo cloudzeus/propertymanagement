@@ -45,7 +45,7 @@ export function PropertiesMap({ markers, missing = [], height = 560 }: { markers
 
       for (const m of pts) {
         const popupHtml = `<strong>${escapeHtml(m.name)}</strong>${m.customerName ? `<br/><span style="color:#666">${escapeHtml(m.customerName)}</span>` : ""}${m.city ? `<br/><span style="color:#666">${escapeHtml(m.city)}</span>` : ""}`;
-        new maplibregl.Marker({ color: "#0078D4" })
+        new maplibregl.Marker({ color: "var(--color-info)" })
           .setLngLat([m.lng, m.lat])
           .setPopup(new maplibregl.Popup({ offset: 24, closeButton: false }).setHTML(popupHtml))
           .addTo(map);
@@ -70,8 +70,8 @@ export function PropertiesMap({ markers, missing = [], height = 560 }: { markers
         style={{ height, width: "100%", borderRadius: 8, overflow: "hidden", border: "1px solid var(--border)" }}
       />
       {missing.length > 0 && (
-        <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)", padding: "8px 10px", borderRadius: 6, background: "#CA5D0014", border: "1px solid #CA5D0033" }}>
-          <strong style={{ color: "#CA5D00" }}>{missing.length}</strong> {missing.length === 1 ? "ιδιοκτησία χωρίς" : "ιδιοκτησίες χωρίς"} θέση στον χάρτη: {missing.join(", ")}.
+        <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)", padding: "8px 10px", borderRadius: 6, background: "color-mix(in srgb, var(--color-warning) 8%, transparent)", border: "1px solid color-mix(in srgb, var(--color-warning) 20%, transparent)" }}>
+          <strong style={{ color: "var(--color-warning)" }}>{missing.length}</strong> {missing.length === 1 ? "ιδιοκτησία χωρίς" : "ιδιοκτησίες χωρίς"} θέση στον χάρτη: {missing.join(", ")}.
           {" "}Ορίστε συντεταγμένες από την επεξεργασία της ιδιοκτησίας (κουμπί εύρεσης στίγματος).
         </div>
       )}

@@ -100,10 +100,10 @@ export function WorkCenterClient({ items, filters: initial, viewer, employees, b
   const batchActions = wa.batchActions<WorkItem>((rows) => rows.map(subjectFromWorkItem));
 
   const kpiCards: { key: WorkQuickFilter; label: string; value: number; sub: string; icon: typeof RiAlarmWarningLine; accent: string }[] = [
-    { key: "overdue", label: "Εκπρόθεσμα", value: kpis.overdue, sub: "Πέρασε η προθεσμία / SLA", icon: RiAlarmWarningLine, accent: "#d13438" },
+    { key: "overdue", label: "Εκπρόθεσμα", value: kpis.overdue, sub: "Πέρασε η προθεσμία / SLA", icon: RiAlarmWarningLine, accent: "var(--color-danger)" },
     { key: "today", label: "Σήμερα", value: kpis.today, sub: "Με προθεσμία σήμερα", icon: RiCalendarCheckLine, accent: "var(--color-primary)" },
-    { key: "week", label: "Αυτή την εβδομάδα", value: kpis.week, sub: "Δευτέρα–Κυριακή", icon: RiCalendarLine, accent: "#8764B8" },
-    { key: "unassigned", label: "Χωρίς ανάθεση", value: kpis.unassigned, sub: "Βλάβες ευθύνης εταιρείας", icon: RiUserUnfollowLine, accent: "#CA5D00" },
+    { key: "week", label: "Αυτή την εβδομάδα", value: kpis.week, sub: "Δευτέρα–Κυριακή", icon: RiCalendarLine, accent: "var(--color-purple)" },
+    { key: "unassigned", label: "Χωρίς ανάθεση", value: kpis.unassigned, sub: "Βλάβες ευθύνης εταιρείας", icon: RiUserUnfollowLine, accent: "var(--color-warning)" },
   ];
 
   return (
@@ -136,7 +136,7 @@ export function WorkCenterClient({ items, filters: initial, viewer, employees, b
       <WorkFilterBar filters={filters} onChange={update} buildings={buildings} employees={employees} showMine={viewer.canManage} />
 
       {message && (
-        <div role="status" style={{ padding: "8px 12px", borderRadius: "var(--radius-sm)", fontSize: "var(--fs-13)", background: message.kind === "ok" ? "#dcfce7" : "#fee2e2", color: message.kind === "ok" ? "#166534" : "#991b1b" }}>
+        <div role="status" style={{ padding: "8px 12px", borderRadius: "var(--radius-sm)", fontSize: "var(--fs-13)", background: message.kind === "ok" ? "var(--success-soft)" : "var(--danger-soft)", color: message.kind === "ok" ? "var(--color-success)" : "var(--color-danger)" }}>
           {message.text}
         </div>
       )}

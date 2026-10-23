@@ -47,7 +47,7 @@ export function ManagedItemsPanel({ buildingId, items, itemTypes, floorOptions, 
     <div>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, marginBottom: 14, flexWrap: "wrap" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 14, fontSize: "var(--fs-13)", color: "var(--muted-foreground)", flexWrap: "wrap" }}>
-          <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}><RiShieldCheckLine style={{ color: "#15803d" }} /> {items.length} στοιχεία</span>
+          <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}><RiShieldCheckLine style={{ color: "var(--color-success)" }} /> {items.length} στοιχεία</span>
           {items.length > 0 && (
             <>
               <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}><RiStackLine /> Σύνολο ποσότητας: <b style={{ color: "var(--foreground)" }}>{totalQty}</b></span>
@@ -59,9 +59,9 @@ export function ManagedItemsPanel({ buildingId, items, itemTypes, floorOptions, 
       </div>
 
       {activeTypes.length === 0 && (
-        <div style={{ padding: "10px 14px", borderRadius: 8, border: "1px solid #CA5D0040", background: "#CA5D0010", color: "#CA5D00", fontSize: "var(--fs-13)", marginBottom: 14, display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+        <div style={{ padding: "10px 14px", borderRadius: 8, border: "1px solid color-mix(in srgb, var(--color-warning) 25%, transparent)", background: "color-mix(in srgb, var(--color-warning) 6%, transparent)", color: "var(--color-warning)", fontSize: "var(--fs-13)", marginBottom: 14, display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
           Ο κατάλογος στοιχείων είναι κενός. Δημιούργησε πρώτα τη λίστα στα{" "}
-          <Link href="/super-admin/managed-items" style={{ color: "#CA5D00", fontWeight: 700, display: "inline-flex", alignItems: "center", gap: 3 }}>Στοιχεία Διαχείρισης <RiExternalLinkLine /></Link>
+          <Link href="/super-admin/managed-items" style={{ color: "var(--color-warning)", fontWeight: 700, display: "inline-flex", alignItems: "center", gap: 3 }}>Στοιχεία Διαχείρισης <RiExternalLinkLine /></Link>
         </div>
       )}
 
@@ -94,7 +94,7 @@ export function ManagedItemsPanel({ buildingId, items, itemTypes, floorOptions, 
                   <td style={td}><span style={chip}><RiMapPinLine style={{ fontSize: "var(--fs-12)" }} /> {i.location}</span></td>
                   <td style={td}>
                     {i.schedule ? (
-                      <span style={{ ...chip, background: "var(--color-green-soft, #E4F0EA)", color: "var(--color-green, #22604A)" }}>
+                      <span style={{ ...chip, background: "var(--color-green-soft, var(--success-soft))", color: "var(--color-green, var(--color-success))" }}>
                         <RiRepeatLine style={{ fontSize: "var(--fs-12)" }} /> {FREQ_LABEL[i.schedule.frequency]}
                         {i.schedule.nextDueDate ? ` · ${new Date(i.schedule.nextDueDate).toLocaleDateString("el-GR")}` : ""}
                       </span>
@@ -106,7 +106,7 @@ export function ManagedItemsPanel({ buildingId, items, itemTypes, floorOptions, 
                     {can.manageManagedItems && (
                       <>
                         <button onClick={() => setEditing(i)} style={iconBtn} title="Επεξεργασία"><RiPencilLine /></button>
-                        <button onClick={() => remove(i)} disabled={isPending} style={{ ...iconBtn, color: "#c50f1f" }} title="Διαγραφή"><RiDeleteBinLine /></button>
+                        <button onClick={() => remove(i)} disabled={isPending} style={{ ...iconBtn, color: "var(--color-danger)" }} title="Διαγραφή"><RiDeleteBinLine /></button>
                       </>
                     )}
                   </td>
@@ -257,7 +257,7 @@ export function ManagedItemModal({ buildingId, itemTypes, floorOptions, commonAr
                   style={{ width: 64, height: 64, objectFit: "cover", borderRadius: 8, border: "1px solid var(--border)", display: "block" }}
                 />
                 <button type="button" aria-label="Αφαίρεση φωτογραφίας" onClick={() => { setPhotoFile(null); setPhotoRemoved(true); }}
-                  style={{ position: "absolute", top: -7, right: -7, width: 20, height: 20, borderRadius: "50%", border: "1px solid var(--border)", background: "var(--card)", color: "#c50f1f", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", padding: 0 }}>
+                  style={{ position: "absolute", top: -7, right: -7, width: 20, height: 20, borderRadius: "50%", border: "1px solid var(--border)", background: "var(--card)", color: "var(--color-danger)", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", padding: 0 }}>
                   <RiCloseLine style={{ fontSize: "var(--fs-13)" }} />
                 </button>
               </div>
@@ -307,4 +307,4 @@ const btnPrimary: React.CSSProperties = { background: "var(--color-primary)", co
 const iconBtn: React.CSSProperties = { display: "inline-flex", alignItems: "center", border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)", borderRadius: 4, padding: 6, marginLeft: 6, cursor: "pointer" };
 const cancelBtn: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: "var(--fs-13)", color: "var(--foreground)" };
 const saveBtn: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: "pointer", fontSize: "var(--fs-13)", fontWeight: 600, display: "flex", alignItems: "center", gap: 6 };
-const errBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: "var(--fs-12)", border: "1px solid #fca5a530", marginBottom: 12 };
+const errBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "var(--danger-soft)", color: "var(--color-danger)", fontSize: "var(--fs-12)", border: "1px solid var(--danger-soft)", marginBottom: 12 };

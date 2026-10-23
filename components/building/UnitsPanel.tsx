@@ -162,7 +162,7 @@ function Slot({ unitId, customerId, role, label, current, onDone, onGuided }: { 
             <div style={{ fontSize: "var(--fs-13)", fontWeight: 600, color: "var(--foreground)" }}>{occupant.name || "—"}</div>
             <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>{occupant.email}</div>
           </div>
-          <button onClick={clear} disabled={isPending} style={{ ...btnSmall, color: "#c50f1f" }}><RiCloseLine /> Αφαίρεση</button>
+          <button onClick={clear} disabled={isPending} style={{ ...btnSmall, color: "var(--color-danger)" }}><RiCloseLine /> Αφαίρεση</button>
         </div>
       ) : adding ? (
         <NewOccupantForm role={role} submitLabel="Δημιουργία" pending={isPending} error={error} onCancel={() => setAdding(false)} onSubmit={submitNew} />
@@ -362,7 +362,7 @@ export function UnitModal({ buildingId, editing, onClose, onDone }: { buildingId
         <button onClick={onClose} style={btnCancel}>Ακύρωση</button>
         <button onClick={save} disabled={isPending} style={btnSave}>{isPending ? <RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> : <RiCheckLine />} Αποθήκευση</button>
       </>}>
-      {error && <div style={{ padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: "var(--fs-12)", marginBottom: 12 }}>{error}</div>}
+      {error && <div style={{ padding: "8px 12px", borderRadius: 6, background: "var(--danger-soft)", color: "var(--color-danger)", fontSize: "var(--fs-12)", marginBottom: 12 }}>{error}</div>}
       <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
           <FormField label="Αριθμός" required><FieldInput value={form.unitNumber} onChange={f("unitNumber")} /></FormField>
@@ -404,10 +404,10 @@ export function MillesimesModal({ units, buildingId, onClose, onDone }: { units:
         <button onClick={onClose} style={btnCancel}>Ακύρωση</button>
         <button onClick={apply} disabled={isPending || !canApply} style={{ ...btnSave, opacity: canApply ? 1 : 0.5 }}>{isPending ? <RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> : <RiCheckLine />} Εφαρμογή</button>
       </>}>
-      {error && <div style={{ padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: "var(--fs-12)", marginBottom: 12 }}>{error}</div>}
+      {error && <div style={{ padding: "8px 12px", borderRadius: 6, background: "var(--danger-soft)", color: "var(--color-danger)", fontSize: "var(--fs-12)", marginBottom: 12 }}>{error}</div>}
       <p style={{ margin: "0 0 12px", fontSize: "var(--fs-12)", color: "var(--muted-foreground)" }}>
         Αναλογική κατανομή 1000‰ βάσει τετραγωνικών. Σύνολο τ.μ.: <b style={{ color: "var(--foreground)" }}>{totalSqm}</b> · Νέο σύνολο: <b style={{ color: "var(--foreground)" }}>{totalNew}‰</b>
-        {missing > 0 && <> · <span style={{ color: "#dc2626" }}>{missing} μονάδες χωρίς τ.μ. (θα μηδενιστούν)</span></>}
+        {missing > 0 && <> · <span style={{ color: "var(--color-danger)" }}>{missing} μονάδες χωρίς τ.μ. (θα μηδενιστούν)</span></>}
       </p>
       <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "var(--fs-13)" }}>
         <thead><tr style={{ textAlign: "left", color: "var(--muted-foreground)", fontSize: "var(--fs-11)" }}>
@@ -445,7 +445,7 @@ const btnPrimary: React.CSSProperties = { background: "var(--color-primary)", co
 const btnCancel: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: "var(--fs-13)", color: "var(--foreground)" };
 const btnSave: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: "pointer", fontSize: "var(--fs-13)", fontWeight: 600, display: "flex", alignItems: "center", gap: 6 };
 const btnSmall: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 5, border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)", borderRadius: 6, padding: "6px 11px", fontSize: "var(--fs-12)", fontWeight: 600, cursor: "pointer" };
-const errBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: "var(--fs-12)" };
-const warnBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "#fff7ed", border: "1px solid #fed7aa", color: "#b45309", fontSize: "var(--fs-12)", fontWeight: 600 };
+const errBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "var(--danger-soft)", color: "var(--color-danger)", fontSize: "var(--fs-12)" };
+const warnBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "var(--warning-soft)", border: "1px solid var(--warning-soft)", color: "var(--color-warning)", fontSize: "var(--fs-12)", fontWeight: 600 };
 const tab: React.CSSProperties = { flex: 1, padding: "8px 12px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", color: "var(--muted-foreground)", fontSize: "var(--fs-13)", fontWeight: 600, cursor: "pointer" };
 const tabActive: React.CSSProperties = { ...tab, background: "var(--color-primary)", color: "#fff", borderColor: "var(--color-primary)" };

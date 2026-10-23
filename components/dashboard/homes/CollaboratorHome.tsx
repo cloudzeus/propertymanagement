@@ -51,9 +51,9 @@ export async function CollaboratorHome({ supplierId, supplierName, isSupplierAdm
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
         {[
-          { label: "Ανοιχτές αναθέσεις", value: stats.open, sub: "Αναμένουν ενέργεια", icon: RiToolsLine, href: "/marketplace/requests", color: "#0078D4" },
-          { label: "Σε εξέλιξη", value: stats.inProgress, sub: "Εκτελούνται τώρα", icon: RiTimeLine, href: "/marketplace/requests", color: "#CA5D00" },
-          { label: "Ολοκληρωμένες (μήνας)", value: stats.doneMonth, sub: "Τρέχων μήνας", icon: RiCheckboxCircleLine, href: "/marketplace/requests", color: "#107C10" },
+          { label: "Ανοιχτές αναθέσεις", value: stats.open, sub: "Αναμένουν ενέργεια", icon: RiToolsLine, href: "/marketplace/requests", color: "var(--color-info)" },
+          { label: "Σε εξέλιξη", value: stats.inProgress, sub: "Εκτελούνται τώρα", icon: RiTimeLine, href: "/marketplace/requests", color: "var(--color-warning)" },
+          { label: "Ολοκληρωμένες (μήνας)", value: stats.doneMonth, sub: "Τρέχων μήνας", icon: RiCheckboxCircleLine, href: "/marketplace/requests", color: "var(--color-success)" },
         ].map((card) => {
           const Icon = card.icon;
           return (
@@ -100,7 +100,7 @@ export async function CollaboratorHome({ supplierId, supplierName, isSupplierAdm
         ) : (
           <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
             {tasks.map((t) => {
-              const color = STATUS_COLORS[t.status as FaultStatus] ?? "#6b7280";
+              const color = STATUS_COLORS[t.status as FaultStatus] ?? "var(--muted-foreground)";
               return (
                 <Link key={t.id} href={previewMode ? "#" : `/marketplace/requests/${t.id}`} style={{ display: "flex", alignItems: "center", gap: 12, padding: "10px 14px", background: "var(--bg-canvas)", borderRadius: 6, textDecoration: "none" }}>
                   <RiAlertLine style={{ fontSize: "var(--fs-18)", color, flexShrink: 0 }} />
@@ -111,7 +111,7 @@ export async function CollaboratorHome({ supplierId, supplierName, isSupplierAdm
                       {t.scheduledDate ? ` · Ραντεβού ${t.scheduledDate.toLocaleString("el-GR", { dateStyle: "short", timeStyle: "short" })}` : ""}
                     </div>
                   </div>
-                  <span style={{ fontSize: "var(--fs-11)", fontWeight: 600, padding: "2px 8px", borderRadius: 20, flexShrink: 0, background: `${color}18`, color }}>
+                  <span style={{ fontSize: "var(--fs-11)", fontWeight: 600, padding: "2px 8px", borderRadius: 20, flexShrink: 0, background: `color-mix(in srgb, ${color} 9%, transparent)`, color }}>
                     {PRIORITY_LABELS[t.priority as keyof typeof PRIORITY_LABELS] ?? t.priority}
                   </span>
                 </Link>

@@ -58,7 +58,7 @@ export function RfqSupplierPicker({ candidates, categories, defaultCategoryId, s
               <span style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap", fontSize: "var(--fs-11-5)", color: "var(--muted-foreground)", marginTop: 2 }}>
                 {r.categories.length > 0 && <span>{r.categories.join(" · ")}</span>}
                 {r.distanceKm != null && <span><RiMapPin2Line style={{ verticalAlign: "-2px" }} /> {r.distanceKm.toLocaleString("el-GR", { maximumFractionDigits: 1 })} km</span>}
-                {r.ratingAvg != null && <span style={{ color: "#b45309" }}><RiStarFill style={{ verticalAlign: "-2px" }} /> {r.ratingAvg.toFixed(1)} ({r.ratingCount})</span>}
+                {r.ratingAvg != null && <span style={{ color: "var(--color-warning)" }}><RiStarFill style={{ verticalAlign: "-2px" }} /> {r.ratingAvg.toFixed(1)} ({r.ratingCount})</span>}
                 {r.hasAccounts && <span><RiUserFollowLine style={{ verticalAlign: "-2px" }} /> έχει λογαριασμό</span>}
               </span>
             </span>

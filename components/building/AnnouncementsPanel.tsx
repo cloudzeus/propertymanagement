@@ -192,7 +192,7 @@ export function AnnouncementFormModal({ buildingId, onClose, onDone }: { buildin
         <button onClick={save} disabled={isPending || sent != null} style={btnSave}>{isPending ? <RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> : <RiCheckLine />} Δημοσίευση & αποστολή</button>
       </>}>
       {error && <div style={errBox}>{error}</div>}
-      {sent != null && <div style={{ padding: "8px 12px", borderRadius: 6, background: "#16a34a18", color: "#16a34a", fontSize: "var(--fs-12)", marginBottom: 12, fontWeight: 600 }}>Στάλθηκε σε {sent} παραλήπτες ✓</div>}
+      {sent != null && <div style={{ padding: "8px 12px", borderRadius: 6, background: "color-mix(in srgb, var(--color-success) 9%, transparent)", color: "var(--color-success)", fontSize: "var(--fs-12)", marginBottom: 12, fontWeight: 600 }}>Στάλθηκε σε {sent} παραλήπτες ✓</div>}
       <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
         <FormField label="Θέμα" required><FieldInput value={title} onChange={setTitle} placeholder="π.χ. Διακοπή νερού" /></FormField>
         <FormField label="Κείμενο" required>
@@ -249,4 +249,4 @@ const btn: React.CSSProperties = { display: "inline-flex", alignItems: "center",
 const btnPrimary: React.CSSProperties = { background: "var(--color-primary)", color: "#fff", borderColor: "var(--color-primary)" };
 const btnCancel: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: "var(--fs-13)", color: "var(--foreground)" };
 const btnSave: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: "pointer", fontSize: "var(--fs-13)", fontWeight: 600, display: "flex", alignItems: "center", gap: 6 };
-const errBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: "var(--fs-12)", marginBottom: 12 };
+const errBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "var(--danger-soft)", color: "var(--color-danger)", fontSize: "var(--fs-12)", marginBottom: 12 };

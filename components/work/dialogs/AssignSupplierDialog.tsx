@@ -30,7 +30,7 @@ export function AssignSupplierDialog({ ctx, subject, batchIds, onDone, onClose }
       {ctx.fault && (
         <div style={{
           display: "inline-flex", alignItems: "center", gap: 6, fontSize: "var(--fs-12)", fontWeight: 600, padding: "3px 10px", borderRadius: 999, alignSelf: "flex-start",
-          color: covered ? "#15803d" : "#b45309", background: covered ? "#15803d14" : "#b4530914", border: `1px solid ${covered ? "#15803d40" : "#b4530940"}`,
+          color: covered ? "var(--color-success)" : "var(--color-warning)", background: covered ? "color-mix(in srgb, var(--color-success) 8%, transparent)" : "color-mix(in srgb, var(--color-warning) 8%, transparent)", border: `1px solid ${covered ? "color-mix(in srgb, var(--color-success) 25%, transparent)" : "color-mix(in srgb, var(--color-warning) 25%, transparent)"}`,
         }}>
           {covered ? "Καλύπτεται από τη σύμβαση διαχείρισης — άμεση ανάθεση, χωρίς προσφορά προς τον πελάτη" : "Εκτός σύμβασης — απαιτείται προσφορά και αποδοχή από τον πελάτη"}
         </div>

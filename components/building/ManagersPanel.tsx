@@ -11,8 +11,8 @@ import { RiUserStarLine, RiAddLine, RiDeleteBinLine, RiUserAddLine, RiArrowLeftL
 import type { BuildingCaps } from "@/lib/building-caps";
 
 const ORIGIN_BADGE: Record<ManagerCandidate["origin"], { label: string; color: string }> = {
-  staff: { label: "Εταιρεία", color: "#0078D4" },
-  occupant: { label: "Ένοικος/Ιδιοκτήτης", color: "#16a34a" },
+  staff: { label: "Εταιρεία", color: "var(--color-info)" },
+  occupant: { label: "Ένοικος/Ιδιοκτήτης", color: "var(--color-success)" },
   customer: { label: "Πελάτης", color: "#9333ea" },
 };
 
@@ -178,7 +178,7 @@ export function AddManagerModal({ scope, managed, assignedIds, onClose, onDone }
                     <span style={{ display: "block", fontSize: "var(--fs-13)", fontWeight: 600, color: "var(--foreground)" }}>{c.name || c.email}</span>
                     <span style={{ display: "block", fontSize: "var(--fs-11)", color: "var(--muted-foreground)" }}>{c.email}</span>
                   </span>
-                  <span style={{ flexShrink: 0, fontSize: "var(--fs-10)", fontWeight: 700, padding: "2px 6px", borderRadius: 4, background: `${b.color}18`, color: b.color }}>
+                  <span style={{ flexShrink: 0, fontSize: "var(--fs-10)", fontWeight: 700, padding: "2px 6px", borderRadius: 4, background: `color-mix(in srgb, ${b.color} 9%, transparent)`, color: b.color }}>
                     {b.label}
                   </span>
                 </button>
@@ -219,4 +219,4 @@ const btn: React.CSSProperties = {
 };
 const btnPrimary: React.CSSProperties = { background: "var(--color-primary)", color: "#fff", borderColor: "var(--color-primary)" };
 const btnCancel: React.CSSProperties = { padding: "7px 16px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", cursor: "pointer", fontSize: "var(--fs-13)", color: "var(--foreground)" };
-const errBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: "var(--fs-12)", marginBottom: 12 };
+const errBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "var(--danger-soft)", color: "var(--color-danger)", fontSize: "var(--fs-12)", marginBottom: 12 };

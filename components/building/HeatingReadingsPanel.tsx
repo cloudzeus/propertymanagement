@@ -68,7 +68,7 @@ export function HeatingReadingsPanel({ buildingId, period, rows, heatingMeterUni
       {/* header: period + meter unit */}
       <div style={{ padding: "13px 16px", borderBottom: "1px solid var(--border)", display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
         <span style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: "var(--fs-14)", fontWeight: 700, color: "var(--foreground)" }}>
-          <RiFireLine style={{ color: "#dc2626" }} /> Ενδείξεις θέρμανσης
+          <RiFireLine style={{ color: "var(--color-danger)" }} /> Ενδείξεις θέρμανσης
         </span>
         <label style={{ display: "inline-flex", alignItems: "center", gap: 8, fontSize: "var(--fs-13)", color: "var(--foreground)" }}>
           Περίοδος
@@ -125,7 +125,7 @@ export function HeatingReadingsPanel({ buildingId, period, rows, heatingMeterUni
                     <span>{draft[r.unitId] === "" || draft[r.unitId] == null ? "—" : draft[r.unitId]}</span>
                   )}
                 </td>
-                <td style={{ ...td, textAlign: "right", fontWeight: 600, color: negative ? "#dc2626" : "var(--foreground)" }}>
+                <td style={{ ...td, textAlign: "right", fontWeight: 600, color: negative ? "var(--color-danger)" : "var(--foreground)" }}>
                   {c == null ? "—" : negative ? (
                     <span style={{ display: "inline-flex", alignItems: "center", justifyContent: "flex-end", gap: 4 }}>
                       <RiAlertLine /> {c}

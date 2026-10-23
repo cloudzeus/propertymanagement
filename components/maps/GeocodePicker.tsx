@@ -95,7 +95,7 @@ export function GeocodePicker({ propertyId, address }: Props) {
           style={{
             display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
             padding: "9px 20px", borderRadius: 6, fontSize: "var(--fs-13)", fontWeight: 600,
-            background: "#16a34a", color: "#fff", border: "none", cursor: "pointer",
+            background: "var(--color-success)", color: "#fff", border: "none", cursor: "pointer",
           }}
         >
           {isPending
@@ -109,9 +109,9 @@ export function GeocodePicker({ propertyId, address }: Props) {
       {message && (
         <p style={{
           fontSize: "var(--fs-12)", padding: "8px 12px", borderRadius: 6,
-          background: message.startsWith("Σφάλμα") ? "#fee2e218" : "#dcfce718",
-          color: message.startsWith("Σφάλμα") ? "#dc2626" : "#16a34a",
-          border: `1px solid ${message.startsWith("Σφάλμα") ? "#fca5a530" : "#86efac30"}`,
+          background: message.startsWith("Σφάλμα") ? "var(--danger-soft)" : "var(--success-soft)",
+          color: message.startsWith("Σφάλμα") ? "var(--color-danger)" : "var(--color-success)",
+          border: `1px solid ${message.startsWith("Σφάλμα") ? "var(--danger-soft)" : "var(--success-soft)"}`,
         }}>
           {message}
         </p>

@@ -77,7 +77,7 @@ export function AddPropertyModal({ customerId, customerName, onClose, onCreated 
           {isPending ? <RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> : <RiCheckLine />} Αποθήκευση
         </button>
       </>}>
-      {error && <div style={{ padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: "var(--fs-12)", border: "1px solid #fca5a530", marginBottom: 14 }}>{error}</div>}
+      {error && <div style={{ padding: "8px 12px", borderRadius: 6, background: "var(--danger-soft)", color: "var(--color-danger)", fontSize: "var(--fs-12)", border: "1px solid var(--danger-soft)", marginBottom: 14 }}>{error}</div>}
       <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
         <FormField label="Όνομα ιδιοκτησίας" required>
           <FieldInput value={form.name} onChange={f("name")} placeholder="π.χ. Συγκρότημα Κολωνακίου" />
@@ -103,7 +103,7 @@ export function AddPropertyModal({ customerId, customerName, onClose, onCreated 
           <FormField label="Χώρα"><FieldInput value={form.country} onChange={f("country")} /></FormField>
         </div>
         {lat !== null && lng !== null && (
-          <div style={{ fontSize: "var(--fs-11)", color: "#16a34a", display: "flex", alignItems: "center", gap: 5 }}>
+          <div style={{ fontSize: "var(--fs-11)", color: "var(--color-success)", display: "flex", alignItems: "center", gap: 5 }}>
             <RiMapPin2Line style={{ fontSize: "var(--fs-13)" }} /> Στίγμα: {lat.toFixed(6)}, {lng.toFixed(6)}
           </div>
         )}

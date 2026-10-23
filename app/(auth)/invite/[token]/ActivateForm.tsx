@@ -25,7 +25,7 @@ export function ActivateForm({ token, initialName }: { token: string; initialNam
 
   return (
     <form onSubmit={submit} style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-      {error && <div role="alert" style={{ padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: "var(--fs-12-5)", border: "1px solid #fca5a530" }}>{error}</div>}
+      {error && <div role="alert" style={{ padding: "8px 12px", borderRadius: 6, background: "var(--danger-soft)", color: "var(--color-danger)", fontSize: "var(--fs-12-5)", border: "1px solid var(--danger-soft)" }}>{error}</div>}
       <FormField label="Ονοματεπώνυμο" required><FieldInput value={name} onChange={setName} required /></FormField>
       <FormField label="Κωδικός" required hint="τουλάχιστον 8 χαρακτήρες"><FieldInput type="password" value={password} onChange={setPassword} required /></FormField>
       <FormField label="Επιβεβαίωση κωδικού" required><FieldInput type="password" value={confirm} onChange={setConfirm} required /></FormField>

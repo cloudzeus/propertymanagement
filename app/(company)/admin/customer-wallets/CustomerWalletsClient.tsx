@@ -170,7 +170,7 @@ export default function CustomerWalletsClient() {
                         padding: "6px 14px",
                         borderRadius: 6,
                         border: "1px solid var(--border)",
-                        background: "var(--color-primary, #2563eb)",
+                        background: "var(--color-primary, var(--color-info))",
                         color: "#fff",
                         fontSize: "var(--fs-13)",
                         fontWeight: 500,

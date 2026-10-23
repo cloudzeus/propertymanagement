@@ -35,10 +35,10 @@ async function getAdminContext(companyId: string | undefined) {
 }
 
 const quickLinks = [
-  { label: "Ένοικοι & ιδιοκτήτες", href: "/admin/residents", icon: RiUserLine, color: "#8764B8" },
-  { label: "Ανακοινώσεις", href: "/admin/announcements", icon: RiNotification2Line, color: "#0078D4" },
-  { label: "Ημερολόγιο", href: "/staff/calendar", icon: RiCalendarLine, color: "#107C10" },
-  { label: "Αναφορές", href: "/super-admin/reports", icon: RiBuildingLine, color: "#CA5D00" },
+  { label: "Ένοικοι & ιδιοκτήτες", href: "/admin/residents", icon: RiUserLine, color: "var(--color-purple)" },
+  { label: "Ανακοινώσεις", href: "/admin/announcements", icon: RiNotification2Line, color: "var(--color-info)" },
+  { label: "Ημερολόγιο", href: "/staff/calendar", icon: RiCalendarLine, color: "var(--color-success)" },
+  { label: "Αναφορές", href: "/super-admin/reports", icon: RiBuildingLine, color: "var(--color-warning)" },
 ];
 
 /**
@@ -66,17 +66,17 @@ export async function AdminHome({ companyId, userId }: { companyId: string | und
 
       {/* Primary operational KPIs */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16 }}>
-        <KpiCard label="Managed κτήρια" value={managedBuildings} sub="Υπό ενεργή διαχείριση" icon={RiHome3Line} accent="#038387" href="/admin/properties" />
+        <KpiCard label="Managed κτήρια" value={managedBuildings} sub="Υπό ενεργή διαχείριση" icon={RiHome3Line} accent="var(--color-teal)" href="/admin/properties" />
         <KpiCard label="Ανοιχτές βλάβες" value={faults.open} sub={faults.urgent ? `${faults.urgent} επείγουσες` : "Καμία επείγουσα"} subColor={faults.urgent ? "var(--color-warning)" : undefined} icon={RiToolsLine} accent="var(--color-primary)" href="/admin/maintenance" />
-        <KpiCard label="Σε καθυστέρηση SLA" value={faults.slaBreached} sub="Ξεπέρασαν το όριο" subColor={faults.slaBreached ? "#d13438" : undefined} icon={RiAlarmWarningLine} accent="#d13438" href="/admin/maintenance" />
+        <KpiCard label="Σε καθυστέρηση SLA" value={faults.slaBreached} sub="Ξεπέρασαν το όριο" subColor={faults.slaBreached ? "var(--color-danger)" : undefined} icon={RiAlarmWarningLine} accent="var(--color-danger)" href="/admin/maintenance" />
         <KpiCard label="Εισπράξεις μήνα" value={formatEuro(revenue.monthTotal)} delta={revenue.deltaPct} sub={outstanding.amount > 0 ? `Ανεξόφλητα: ${formatEuro(outstanding.amount)}` : "Χωρίς οφειλές"} subColor={outstanding.amount > 0 ? "var(--color-warning)" : "var(--color-success)"} icon={RiMoneyEuroCircleLine} accent="var(--color-success)" href="/admin/customer-wallets" />
       </div>
 
       {/* Context stats */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
-        <KpiCard label="Μονάδες" value={ctx.totalUnits} sub="Σύνολο μονάδων" icon={RiHome3Line} accent="#038387" href="/admin/properties" />
-        <KpiCard label="Χρήστες" value={ctx.totalUsers} sub="Ενεργά μέλη" icon={RiGroupLine} accent="#0078D4" href="/admin/residents" />
-        <KpiCard label="Ενεργές ανακοινώσεις" value={ctx.announcements} sub="Δημοσιευμένες" icon={RiNotification2Line} accent="#8764B8" href="/admin/announcements" />
+        <KpiCard label="Μονάδες" value={ctx.totalUnits} sub="Σύνολο μονάδων" icon={RiHome3Line} accent="var(--color-teal)" href="/admin/properties" />
+        <KpiCard label="Χρήστες" value={ctx.totalUsers} sub="Ενεργά μέλη" icon={RiGroupLine} accent="var(--color-info)" href="/admin/residents" />
+        <KpiCard label="Ενεργές ανακοινώσεις" value={ctx.announcements} sub="Δημοσιευμένες" icon={RiNotification2Line} accent="var(--color-purple)" href="/admin/announcements" />
       </div>
 
       {/* Faults split by reporter role */}
@@ -116,7 +116,7 @@ export async function AdminHome({ companyId, userId }: { companyId: string | und
             const Icon = link.icon;
             return (
               <Link key={link.href} href={link.href} style={{ display: "flex", alignItems: "center", gap: 10, padding: "12px 14px", borderRadius: 8, background: "var(--bg-canvas)", border: "1px solid var(--border)", textDecoration: "none", color: "var(--foreground)" }}>
-                <div style={{ width: 32, height: 32, borderRadius: 8, flexShrink: 0, background: `${link.color}18`, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <div style={{ width: 32, height: 32, borderRadius: 8, flexShrink: 0, background: `color-mix(in srgb, ${link.color} 9%, transparent)`, display: "flex", alignItems: "center", justifyContent: "center" }}>
                   <Icon style={{ fontSize: "var(--fs-16)", color: link.color }} />
                 </div>
                 <span style={{ fontSize: "var(--fs-13)", fontWeight: 500 }}>{link.label}</span>

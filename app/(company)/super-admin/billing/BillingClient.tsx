@@ -4,10 +4,10 @@ import { DataTable, type ColDef } from "@/components/ui/data-table";
 import { RiFileList3Line } from "react-icons/ri";
 
 const STATUS: Record<string, { label: string; color: string }> = {
-  PENDING: { label: "Εκκρεμεί", color: "#CA5D00" },
-  PAID: { label: "Εξοφλημένο", color: "#107C10" },
-  OVERDUE: { label: "Ληξιπρόθεσμο", color: "#A4262C" },
-  CANCELLED: { label: "Ακυρωμένο", color: "#707070" },
+  PENDING: { label: "Εκκρεμεί", color: "var(--color-warning)" },
+  PAID: { label: "Εξοφλημένο", color: "var(--color-success)" },
+  OVERDUE: { label: "Ληξιπρόθεσμο", color: "var(--color-danger)" },
+  CANCELLED: { label: "Ακυρωμένο", color: "var(--muted-foreground)" },
 };
 
 export type InvoiceRow = {
@@ -45,8 +45,8 @@ export function BillingClient({ rows, stats }: {
       id: "status", header: "Κατάσταση", sortKey: "status", width: 130,
       accessor: (r) => STATUS[r.status]?.label ?? r.status,
       cell: (r) => {
-        const s = STATUS[r.status] ?? { label: r.status, color: "#707070" };
-        return <span style={{ fontSize: "var(--fs-11)", fontWeight: 600, padding: "2px 8px", borderRadius: 20, background: `${s.color}18`, color: s.color }}>{s.label}</span>;
+        const s = STATUS[r.status] ?? { label: r.status, color: "var(--muted-foreground)" };
+        return <span style={{ fontSize: "var(--fs-11)", fontWeight: 600, padding: "2px 8px", borderRadius: 20, background: `color-mix(in srgb, ${s.color} 9%, transparent)`, color: s.color }}>{s.label}</span>;
       },
     },
     {
@@ -62,10 +62,10 @@ export function BillingClient({ rows, stats }: {
   ];
 
   const cards = [
-    { label: "Σύνολο τιμολογίων", value: String(stats.total), color: "#0078D4" },
-    { label: "Εξοφλημένα", value: String(stats.paid), color: "#107C10" },
-    { label: "Εκκρεμή", value: String(stats.pending), color: "#CA5D00" },
-    { label: "Εκκρεμές ποσό", value: `€ ${stats.pendingAmount.toFixed(2)}`, color: "#A4262C" },
+    { label: "Σύνολο τιμολογίων", value: String(stats.total), color: "var(--color-info)" },
+    { label: "Εξοφλημένα", value: String(stats.paid), color: "var(--color-success)" },
+    { label: "Εκκρεμή", value: String(stats.pending), color: "var(--color-warning)" },
+    { label: "Εκκρεμές ποσό", value: `€ ${stats.pendingAmount.toFixed(2)}`, color: "var(--color-danger)" },
   ];
 
   return (
