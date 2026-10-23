@@ -128,7 +128,7 @@ function ActiveAction({ active, data, can, workViewer, faultDetailBase, onGoToTa
     case "announcement-new":
       return <WizardOrForm wizard={(p) => <AnnouncementWizard buildingId={buildingId} {...p} />} form={(p) => <AnnouncementFormModal buildingId={buildingId} {...p} />} onClose={onClose} onDone={() => onDone("Η ανακοίνωση δημοσιεύτηκε.")} />;
     case "assembly-new":
-      return <WizardOrForm wizard={(p) => <AssemblyWizard buildingId={buildingId} {...p} />} form={(p) => <AssemblyFormModal buildingId={buildingId} {...p} />} onClose={onClose} onDone={() => onDone("Η συνέλευση δημιουργήθηκε.")} />;
+      return <WizardOrForm wizard={(p) => <AssemblyWizard buildingId={buildingId} units={data.millesimeUnits.map((u) => ({ unitNumber: u.unitNumber, millesimes: u.millesimes }))} {...p} />} form={(p) => <AssemblyFormModal buildingId={buildingId} {...p} />} onClose={onClose} onDone={() => onDone("Η συνέλευση δημιουργήθηκε.")} />;
     case "printables":
       return null; // opens /print in a new tab (handled by the hook)
     // ── Μετρήσεις ─────────────────────────────────────────────────────────

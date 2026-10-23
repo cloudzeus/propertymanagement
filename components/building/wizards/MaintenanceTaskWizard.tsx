@@ -1,7 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { GuidedFlow, ChoiceCards, SummaryList } from "@/components/ui/guided-flow";
+import { ExampleCard, ExampleTable } from "@/components/ui/guided-flow-parts";
+import { exampleForTask, fmt as fmtDate } from "@/lib/wizards/examples/task";
+import { getWizard } from "@/lib/wizards/registry";
+import { videoForWizard } from "@/lib/wizards/videos";
+import { hubHrefForRole } from "@/lib/help/hub";
 import { FormField, FieldInput, FieldTextarea } from "@/components/ui/modal";
 import { SupplierPicker } from "@/components/suppliers/SupplierPicker";
 import { createRecurringTask, type TaskFrequency, type MaintenanceKind } from "@/app/actions/recurring-tasks";
@@ -54,9 +59,24 @@ export function MaintenanceTaskWizard({ buildingId, onClose, onDone, onSimpleFor
   const [notes, setNotes] = useState("");
   const k = KINDS.find((x) => x.value === kind);
   const supplierName = supplierOptions.find((o) => o.id === supplierId)?.name ?? "";
+  const def = getWizard("task-new");
+  const draftValue = useMemo(() => ({ kind, title, frequency, nextDueDate, supplierId, vendor, inPackage, reminder, notes }), [kind, title, frequency, nextDueDate, supplierId, vendor, inPackage, reminder, notes]);
+  const dirty = !!(kind || title || nextDueDate || supplierId || vendor || notes);
+  const example = exampleForTask({ title, frequency: frequency ?? "MONTHLY", nextDueDate: nextDueDate || null, reminderDaysBefore: Number(reminder ?? 7), inPackage: inPackage === "yes", vendor: [supplierName, vendor].filter(Boolean).join(" · ") || null });
 
   return (
-    <GuidedFlow title="Νέα συντήρηση — βήμα προς βήμα" onClose={onClose} onSimpleForm={onSimpleForm} finishLabel="Αποθήκευση στο ημερολόγιο"
+    <GuidedFlow<typeof draftValue> title="Νέα συντήρηση — βήμα προς βήμα" onClose={onClose} onSimpleForm={onSimpleForm} finishLabel="Αποθήκευση στο ημερολόγιο" dirty={dirty}
+      draft={{ key: "task-new", ctxId: buildingId, value: draftValue, restore: (v) => { setKind(v.kind); setTitle(v.title); setFrequency(v.frequency); setNextDueDate(v.nextDueDate); setSupplierId(v.supplierId); setVendor(v.vendor); setInPackage(v.inPackage); setReminder(v.reminder); setNotes(v.notes); } }}
+      example={{
+        video: videoForWizard("task-new"), guideHref: `${hubHrefForRole("SUPER_ADMIN")}?a=${def.guideSlug}`,
+        render: () => (
+          <>
+            <ExampleCard title={`«${title || "Η εργασία"}» στο ημερολόγιο του κτηρίου`} tone="success">{example.dateLine} {example.whoLine}</ExampleCard>
+            {example.rows.length > 0 && <ExampleTable columns={["Επόμενες φορές", "Υπενθύμιση (email + καμπανάκι)"]} align={["left", "left"]} rows={example.rows.map((r) => [fmtDate(r.due), fmtDate(r.reminder)])} />}
+            <ExampleCard title="Πακέτο & κόστος" tone="info">{example.packageLine}</ExampleCard>
+          </>
+        ),
+      }}
       steps={[
         {
           key: "kind", title: "Τι θέλετε να συντηρείται τακτικά;",
@@ -123,6 +143,7 @@ export function MaintenanceTaskWizard({ buildingId, onClose, onDone, onSimpleFor
         });
         if (res && "error" in res && res.error) return { error: res.error };
         onDone();
+        return { done: { title: `Η συντήρηση «${title.trim()}» προγραμματίστηκε`, lines: [example.rows[0] ? `Επόμενη: ${fmtDate(example.rows[0].due)} · υπενθύμιση ${fmtDate(example.rows[0].reminder)}` : "Ημερομηνία: θα οριστεί αργότερα", inPackage === "yes" ? "Εντός πακέτου" : "Εκτός πακέτου"], next: [] } };
       }}
     />
   );

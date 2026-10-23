@@ -1,7 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { GuidedFlow, ChoiceCards, SummaryList } from "@/components/ui/guided-flow";
+import { ExampleCard } from "@/components/ui/guided-flow-parts";
+import { exampleForAssembly, type QuorumUnit } from "@/lib/wizards/examples/assembly";
+import { getWizard } from "@/lib/wizards/registry";
+import { videoForWizard } from "@/lib/wizards/videos";
+import { hubHrefForRole } from "@/lib/help/hub";
 import { FormField, FieldInput } from "@/components/ui/modal";
 import { createAssembly } from "@/app/actions/assemblies";
 import { RiCalendarCheckLine, RiAlarmWarningLine, RiChat3Line } from "react-icons/ri";
@@ -15,16 +20,32 @@ const KINDS: { value: Kind; label: string; description: string; icon: React.Elem
 const TIMES = ["18:00", "18:30", "19:00", "19:30", "20:00", "20:30"];
 
 /** Step-by-step assembly: kind → when → check. The video room and minutes are set up automatically. */
-export function AssemblyWizard({ buildingId, onClose, onDone, onSimpleForm }: { buildingId: string; onClose: () => void; onDone: () => void; onSimpleForm?: () => void }) {
+export function AssemblyWizard({ buildingId, units = [], prepaidMinutes = 0, onClose, onDone, onSimpleForm }: { buildingId: string; units?: QuorumUnit[]; prepaidMinutes?: number; onClose: () => void; onDone: () => void; onSimpleForm?: () => void }) {
   const [kind, setKind] = useState<Kind | null>(null);
   const [title, setTitle] = useState("");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("19:00");
   const k = KINDS.find((x) => x.value === kind);
   const when = date && time ? new Date(`${date}T${time}`) : null;
+  const def = getWizard("assembly-new");
+  const draftValue = useMemo(() => ({ kind, title, date, time }), [kind, title, date, time]);
+  const dirty = !!(kind || title || date);
+  const example = exampleForAssembly({ title, when: when ? when.toISOString() : null, units, prepaidMinutes, durationMinutes: 60, participants: Math.max(1, Math.min(units.length || 10, 12)) });
 
   return (
-    <GuidedFlow title="Νέα συνέλευση — βήμα προς βήμα" onClose={onClose} onSimpleForm={onSimpleForm} finishLabel="Δημιουργία συνέλευσης"
+    <GuidedFlow<typeof draftValue> title="Νέα συνέλευση — βήμα προς βήμα" onClose={onClose} onSimpleForm={onSimpleForm} finishLabel="Δημιουργία συνέλευσης" dirty={dirty}
+      draft={{ key: "assembly-new", ctxId: buildingId, value: draftValue, restore: (v) => { setKind(v.kind); setTitle(v.title); setDate(v.date); setTime(v.time); } }}
+      example={{
+        video: videoForWizard("assembly-new"), guideHref: `${hubHrefForRole("SUPER_ADMIN")}?a=${def.guideSlug}`,
+        render: () => (
+          <>
+            <ExampleCard title={`Η διαδρομή της «${title || "συνέλευσης"}»`} tone="success">
+              <ol style={{ margin: 0, paddingLeft: 20, display: "flex", flexDirection: "column", gap: 6 }}>{example.timeline.map((t) => <li key={t.title}><b>{t.title}</b> — {t.body}</li>)}</ol>
+            </ExampleCard>
+            <ExampleCard title="Λεπτά-ατόμου" tone={example.balanceAfter == null ? "warn" : "info"}>{example.balanceLine}</ExampleCard>
+          </>
+        ),
+      }}
       steps={[
         {
           key: "kind", title: "Τι είδους συνέλευση;",
@@ -61,6 +82,7 @@ export function AssemblyWizard({ buildingId, onClose, onDone, onSimpleForm }: { 
         try {
           await createAssembly({ buildingId, title: title.trim(), scheduledAt: when!.toISOString() });
           onDone();
+          return { done: { title: `Η συνέλευση «${title.trim()}» δημιουργήθηκε`, lines: [when ? when.toLocaleString("el-GR", { dateStyle: "full", timeStyle: "short" }) : "", "Στείλτε πρόσκληση από τις «Ανακοινώσεις» (τύπος «Συνέλευση»)"], next: [] } };
         } catch (e) {
           return { error: e instanceof Error ? e.message : "Σφάλμα" };
         }

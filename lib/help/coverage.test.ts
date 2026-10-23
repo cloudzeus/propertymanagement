@@ -54,8 +54,7 @@ describe("wiki guides (kind: guide)", () => {
     const unknown = gs.filter((g) => g.meta && !WIZARDS.some((w) => w.key === g.meta!.wizard)).map((g) => `${g.file} → ${g.meta!.wizard}`);
     expect(unknown, `Guides naming unknown wizards: ${unknown.join(", ")}`).toEqual([]);
   });
-  // enabled in Task 15, once all 12 guides exist
-  it.skip("every wizard has a guide", () => {
+  it("every wizard has a guide", () => {
     const slugs = new Set(gs.map((g) => g.slug));
     const missing = WIZARDS.filter((w) => !slugs.has(w.guideSlug)).map((w) => w.key);
     expect(missing, `Wizards without a guide: ${missing.join(", ")}`).toEqual([]);

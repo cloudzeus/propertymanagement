@@ -2,6 +2,11 @@
 
 import { useState } from "react";
 import { GuidedFlow, ChoiceCards, SummaryList } from "@/components/ui/guided-flow";
+import { ExampleCard, ExampleTable } from "@/components/ui/guided-flow-parts";
+import { exampleForOccupant } from "@/lib/wizards/examples/occupant";
+import { getWizard } from "@/lib/wizards/registry";
+import { videoForWizard } from "@/lib/wizards/videos";
+import { hubHrefForRole } from "@/lib/help/hub";
 import { FormField, FieldInput } from "@/components/ui/modal";
 import { UserCombo } from "@/components/ui/user-combo";
 import type { UserOption } from "@/app/actions/employees";
@@ -43,9 +48,24 @@ export function OccupantWizard({ unitId, unitNumber, customerId, initialRole, on
   const f = (k: keyof typeof form) => (v: string) => setForm((p) => ({ ...p, [k]: v }));
   const roleLabel = ROLES.find((r) => r.value === role)?.label ?? "";
   const start = startMode === "today" ? new Date().toISOString().slice(0, 10) : startDate;
+  const def = getWizard("occupant-assign");
+  const dirty = !!(role || mode || form.name || form.email || existing);
+  const example = exampleForOccupant({ role: role ?? "RESIDENT", name: mode === "existing" ? (existing?.name ?? "") : form.name, unitNumber, isNewAccount: mode !== "existing" });
 
   return (
-    <GuidedFlow title={`Μονάδα ${unitNumber} — ποιος μένει / ποιος είναι ιδιοκτήτης`} onClose={onClose} finishLabel="Καταχώρηση"
+    <GuidedFlow title={`Μονάδα ${unitNumber} — ποιος μένει / ποιος είναι ιδιοκτήτης`} onClose={onClose} finishLabel="Καταχώρηση" dirty={dirty}
+      example={{
+        video: videoForWizard("occupant-assign"), guideHref: `${hubHrefForRole("SUPER_ADMIN")}?a=${def.guideSlug}`,
+        render: () => (
+          <>
+            <ExampleCard title={`Τι θα βλέπει ${role === "OWNER" ? "ο ιδιοκτήτης" : "ο ένοικος"} της μονάδας ${unitNumber}`} tone="success">
+              <ul style={{ margin: 0, paddingLeft: 18 }}>{example.sees.map((s) => <li key={s}>{s}</li>)}</ul>
+            </ExampleCard>
+            <ExampleTable columns={["Δαπάνη (παράδειγμα)", "Ποιος πληρώνει", "Γιατί"]} align={["left", "left", "left"]} rows={example.splitRows.map((r) => [r.label, r.pays, r.note])} />
+            <ExampleCard title="Πρόσβαση" tone="info">{example.loginLine}</ExampleCard>
+          </>
+        ),
+      }}
       steps={[
         {
           key: "role", title: "Τι θέλετε να ορίσετε;",
@@ -132,6 +152,7 @@ export function OccupantWizard({ unitId, unitNumber, customerId, initialRole, on
           : await createOccupant(unitId, role!, { ...form, isCompany: type === "COMPANY", startDate: start });
         if (res && "error" in res && res.error) return { error: res.error };
         onDone();
+        return { done: { title: `${roleLabel} της μονάδας ${unitNumber} ορίστηκε`, lines: [mode === "existing" ? (existing?.name ?? existing?.email ?? "") : form.name, `Από ${start ? new Date(start).toLocaleDateString("el-GR") : "σήμερα"}`], next: [] } };
       }}
     />
   );

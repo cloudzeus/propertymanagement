@@ -1,7 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { GuidedFlow, ChoiceCards, SummaryList } from "@/components/ui/guided-flow";
+import { ExampleCard } from "@/components/ui/guided-flow-parts";
+import { exampleForAnnouncement } from "@/lib/wizards/examples/announcement";
+import { getWizard } from "@/lib/wizards/registry";
+import { videoForWizard } from "@/lib/wizards/videos";
+import { hubHrefForRole } from "@/lib/help/hub";
 import { FormField, FieldInput } from "@/components/ui/modal";
 import { RichTextEditor } from "@/components/ui/rich-text";
 import { createAnnouncement, listAnnouncementTargets, type Audience } from "@/app/actions/announcements";
@@ -48,9 +53,31 @@ export function AnnouncementWizard({ buildingId, onClose, onDone, onSimpleForm }
     if (v === "MEETING") setAddToCalendar(true);
   }
   const recipientsLabel = audience === "CUSTOM" ? `${selected.size} επιλεγμένα άτομα` : AUDIENCES.find((a) => a.value === audience)?.label ?? "";
+  const def = getWizard("announcement-new");
+  const draftValue = useMemo(() => ({ kind, audience, selected: [...selected], title, content, publishedAt, addToCalendar }), [kind, audience, selected, title, content, publishedAt, addToCalendar]);
+  const dirty = !!(kind || audience || title || content.replace(/<[^>]*>/g, "").trim());
+  const example = exampleForAnnouncement({ kind: kind ?? "INFO", title, audience: audience ?? "ALL", targets, selectedCount: selected.size, addToCalendar });
 
   return (
-    <GuidedFlow title="Νέα ανακοίνωση — βήμα προς βήμα" onClose={onClose} onSimpleForm={onSimpleForm} finishLabel="Δημοσίευση & αποστολή"
+    <GuidedFlow<typeof draftValue> title="Νέα ανακοίνωση — βήμα προς βήμα" onClose={onClose} onSimpleForm={onSimpleForm} finishLabel="Δημοσίευση & αποστολή" dirty={dirty}
+      draft={{ key: "announcement-new", ctxId: buildingId, value: draftValue, restore: (v) => { setKind(v.kind); setAudience(v.audience); setSelected(new Set(v.selected)); setTitle(v.title); setContent(v.content); setPublishedAt(v.publishedAt); setAddToCalendar(v.addToCalendar); } }}
+      example={{
+        video: videoForWizard("announcement-new"), guideHref: `${hubHrefForRole("SUPER_ADMIN")}?a=${def.guideSlug}`,
+        render: () => (
+          <>
+            <ExampleCard title="Πώς θα το δουν" tone="success">
+              <div style={{ border: "1px solid var(--border)", borderRadius: 10, padding: "10px 12px", background: "var(--card)", marginBottom: 8 }}>
+                <div style={{ fontSize: "var(--fs-11)", fontWeight: 700, color: kind === "URGENT" ? "#b91c1c" : "var(--muted-foreground)", textTransform: "uppercase" }}>{k?.label ?? "Ανακοίνωση"} · {new Date(publishedAt).toLocaleDateString("el-GR")}</div>
+                <div style={{ fontSize: "var(--fs-15)", fontWeight: 700 }}>{title || "Θέμα της ανακοίνωσης"}</div>
+                <div style={{ fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)" }}>{content.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim().slice(0, 160) || "Το κείμενο…"}</div>
+              </div>
+              {example.audienceLine}
+            </ExampleCard>
+            <ExampleCard title="Κανάλια" tone="info"><ul style={{ margin: 0, paddingLeft: 18 }}>{example.channels.map((c) => <li key={c}>{c}</li>)}</ul></ExampleCard>
+            <ExampleCard title="Τι σημαίνει αυτός ο τύπος" tone="warn">{example.kindLine}</ExampleCard>
+          </>
+        ),
+      }}
       steps={[
         {
           key: "kind", title: "Τι είδους ανακοίνωση;",
@@ -120,6 +147,7 @@ export function AnnouncementWizard({ buildingId, onClose, onDone, onSimpleForm }
         });
         if (res && "error" in res && res.error) return { error: res.error };
         onDone();
+        return { done: { title: "Η ανακοίνωση δημοσιεύτηκε", lines: [example.audienceLine, addToCalendar ? "Μπήκε και στο ημερολόγιο" : "Τα email στάλθηκαν"], next: [] } };
       }}
     />
   );
