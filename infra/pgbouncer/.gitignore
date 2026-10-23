@@ -1,0 +1,3 @@
+# The real env and the rendered auth file never enter git.
+.env
+userlist.txt

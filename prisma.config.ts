@@ -3,13 +3,22 @@
 import "dotenv/config";
 import { defineConfig } from "prisma/config";
 
+// Migrations, `migrate diff` and seeds go STRAIGHT to PostgreSQL (DIRECT_URL, :5432):
+// `prisma migrate deploy` takes an advisory lock, which does not survive PgBouncer's
+// transaction mode. The app itself uses DATABASE_URL (the pooler) in lib/db.ts.
+// Spec: docs/superpowers/specs/2026-10-23-pgbouncer-design.md
+const directUrl = process.env["DIRECT_URL"] || process.env["DATABASE_URL"];
+if (!process.env["DIRECT_URL"] && /:6432(\/|$)|[?&]pgbouncer=true/.test(process.env["DATABASE_URL"] ?? "")) {
+  console.warn("[prisma.config] DIRECT_URL is not set and DATABASE_URL points at PgBouncer — migrations would run through the pooler. Set DIRECT_URL to the :5432 URL.");
+}
+
 export default defineConfig({
   schema: "prisma/schema.prisma",
   migrations: {
     path: "prisma/migrations",
   },
   datasource: {
-    url: process.env["DATABASE_URL"],
+    url: directUrl,
   },
   seed: "prisma/seed.ts",
 });

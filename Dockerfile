@@ -39,6 +39,7 @@ ENV NEXT_TELEMETRY_DISABLED=1
 # .next output, node_modules, config, public, and runtime files).
 COPY --from=builder /app ./
 EXPOSE 3000
-# Apply pending DB migrations on boot, then start the server. DATABASE_URL is
-# provided by Coolify at runtime.
+# Apply pending DB migrations on boot, then start the server. Coolify provides the
+# env at runtime: migrations use DIRECT_URL (straight to PostgreSQL, via
+# prisma.config.ts); the app uses DATABASE_URL (PgBouncer). See infra/pgbouncer/README.md.
 CMD ["sh", "-c", "npx prisma migrate deploy && npm run start"]
