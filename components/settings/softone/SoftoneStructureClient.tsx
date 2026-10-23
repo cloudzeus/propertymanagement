@@ -29,7 +29,7 @@ export function SoftoneStructureClient({ maps, lookups, configured, lastPing }: 
   const summary = res ? { ok: res.results.filter((r) => r.status === "ok").length, fail: res.results.filter((r) => r.status === "fail").length, warn: res.results.filter((r) => r.status === "warn").length } : null;
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
       {/* Readiness checks */}
       <div style={S1_CARD}>
         <div style={{ display: "flex", alignItems: "flex-start", gap: 12, flexWrap: "wrap" }}>

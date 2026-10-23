@@ -89,7 +89,7 @@ export async function AppShell({ children, allowedRoles }: Props) {
 
       <div className="app-content" style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0, overflow: "hidden", position: "relative" }}>
         {eff.impersonatorId && <ImpersonationBanner name={eff.user.name ?? eff.user.email ?? ""} role={role} />}
-        <main className="app-main" style={{ flex: 1, overflowY: "auto", padding: 28, minWidth: 0, display: "flex", flexDirection: "column" }}>
+        <main className="app-main" style={{ flex: 1, overflowY: "auto", padding: 20, minWidth: 0, display: "flex", flexDirection: "column" }}>
           {/* PWA: «Προσθήκη στην αρχική οθόνη» — μόνο σε κινητό, όταν δεν τρέχει εγκατεστημένο. */}
           <InstallBanner />
           {children}

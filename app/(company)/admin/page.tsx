@@ -15,10 +15,10 @@ export default async function AdminDashboard() {
   return (
     <DashboardTabs map={<PropertiesMap markers={markers} missing={missing} />}>
       <AdminHome companyId={companyId} userId={userId} />
-      <div style={{ marginTop: 24 }}>
+      <div style={{ marginTop: 16 }}>
         <MaintenanceKanbanSection />
       </div>
-      <div style={{ marginTop: 24 }}>
+      <div style={{ marginTop: 16 }}>
         <SupportTicketSection />
       </div>
     </DashboardTabs>

@@ -91,7 +91,7 @@ export default function CostsPage() {
   const last30DaysTotal = apiCosts.reduce((sum, api) => sum + api.totalCost, 0);
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
       <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
         <RiMoneyEuroCircleLine style={{ fontSize: "var(--fs-24)", color: "var(--color-success)" }} />
         <div>
@@ -117,7 +117,7 @@ export default function CostsPage() {
         ].map((s) => (
           <div key={s.label} style={{
             background: "var(--card)", border: "1px solid var(--border)",
-            borderRadius: "var(--radius)", padding: "20px 24px",
+            borderRadius: "var(--radius)", padding: "16px 18px",
           }}>
             <div style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)", fontWeight: 500, marginBottom: 8 }}>{s.label}</div>
             <div style={{ fontSize: "var(--fs-28)", fontWeight: 700, color: "var(--foreground)" }}>{s.value}</div>
@@ -126,7 +126,7 @@ export default function CostsPage() {
         ))}
       </div>
 
-      <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius)", padding: 24 }}>
+      <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius)", padding: 18 }}>
         <h2 style={{ fontSize: "var(--fs-15)", fontWeight: 600, color: "var(--foreground)", margin: "0 0 16px" }}>Ανάλυση ανά API (30 ημέρες)</h2>
 
         {loading ? (
@@ -161,7 +161,7 @@ export default function CostsPage() {
                     </div>
                   </div>
                   {config && (
-                    <div style={{ display: "flex", gap: 20, fontSize: "var(--fs-12)", marginBottom: 10, flexWrap: "wrap", alignItems: "center" }}>
+                    <div style={{ display: "flex", gap: 14, fontSize: "var(--fs-12)", marginBottom: 10, flexWrap: "wrap", alignItems: "center" }}>
                       <span style={{ color: "var(--muted-foreground)" }}>
                         Πραγματικό: <strong style={{ color: "var(--foreground)" }}>€{api.totalCost.toFixed(2)}</strong>
                       </span>
@@ -206,7 +206,7 @@ export default function CostsPage() {
                   <div style={{ height: 6, background: "var(--border)", borderRadius: 3, overflow: "hidden", marginBottom: 10 }}>
                     <div style={{ height: "100%", width: `${Math.min(percentage, 100)}%`, background: "var(--color-primary)", borderRadius: 3 }} />
                   </div>
-                  <div style={{ display: "flex", gap: 24, fontSize: "var(--fs-12)" }}>
+                  <div style={{ display: "flex", gap: 16, fontSize: "var(--fs-12)" }}>
                     {api.totalRequests > 0 && (
                       <div>
                         <div style={{ color: "var(--muted-foreground)" }}>Αιτήματα</div>
@@ -234,7 +234,7 @@ export default function CostsPage() {
       </div>
 
       {monthlyCosts && monthlyCosts.summary.length > 0 && (
-        <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius)", padding: 24 }}>
+        <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius)", padding: 18 }}>
           <h2 style={{ fontSize: "var(--fs-15)", fontWeight: 600, color: "var(--foreground)", margin: "0 0 16px" }}>
             {new Date().toLocaleDateString("el-GR", { month: "long", year: "numeric" })} — Ανά Υπηρεσία
           </h2>

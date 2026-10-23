@@ -37,7 +37,7 @@ export function PropertyDetailClient({
   }), [buildings]);
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
       <Link href="/super-admin/properties" style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)", display: "flex", alignItems: "center", gap: 4, textDecoration: "none" }}>
         <RiArrowLeftLine /> Πίσω στις Ιδιοκτησίες
       </Link>
@@ -66,7 +66,7 @@ export function PropertyDetailClient({
           <BuildingsTree propertyId={property.id} buildings={buildings} depthBase={0} propertyAddress={property} />
         </div>
       ) : tab === "package" ? (
-        <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
           <PackageTab propertyId={property.id} catalog={catalog} ps={ps} setPs={setPs} />
           <div>
             <h2 style={{ fontSize: "var(--fs-15)", fontWeight: 700, color: "var(--foreground)", margin: "0 0 10px" }}>Πακέτα & πληρωμή</h2>

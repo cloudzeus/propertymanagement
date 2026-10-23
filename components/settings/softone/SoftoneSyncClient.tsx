@@ -59,7 +59,7 @@ export function SoftoneSyncClient({ configured, status, entity, table, logs }: {
   ];
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
       {!configured && <div style={{ padding: "10px 14px", borderRadius: 8, background: "color-mix(in srgb, var(--color-warning) 8%, transparent)", border: "1px solid color-mix(in srgb, var(--color-warning) 25%, transparent)", color: "var(--color-warning)", fontSize: "var(--fs-12-5)" }}>Η σύνδεση SoftOne δεν είναι ενεργή — ο συγχρονισμός και το dry-run απαιτούν ενεργή σύνδεση (καρτέλα «Σύνδεση»).</div>}
 
       {/* Entity cards */}

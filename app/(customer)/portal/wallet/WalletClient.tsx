@@ -53,7 +53,7 @@ export default function WalletClient() {
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
       <h1
         style={{
           fontSize: "var(--fs-22)",
@@ -91,7 +91,7 @@ export default function WalletClient() {
           background: "var(--card)",
           border: "1px solid var(--border)",
           borderRadius: "var(--radius)",
-          padding: "20px 24px",
+          padding: "16px 18px",
         }}
       >
         <div style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }}>Υπόλοιπο</div>

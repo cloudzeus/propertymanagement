@@ -50,11 +50,11 @@ export default async function AssemblyDetailPage({ params }: { params: Promise<{
     background: "var(--card)",
     border: "1px solid var(--border)",
     borderRadius: 10,
-    padding: 20,
+    padding: 16,
   };
 
   return (
-    <div style={{ maxWidth: 1100, margin: "0 auto", padding: "24px 20px", display: "flex", flexDirection: "column", gap: 20 }}>
+    <div style={{ maxWidth: 1100, margin: "0 auto", padding: "24px 20px", display: "flex", flexDirection: "column", gap: 14 }}>
       {/* Header */}
       <div style={cardStyle}>
         <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>

@@ -28,7 +28,7 @@ export async function HelpCenter({ role, base, requested, article, q, firstBuild
   const related = picked?.meta.related.length ? relatedArticles(await loadWikiIndex(), picked.meta.related, role) : [];
 
   return (
-    <div className="dash-page" style={{ display: "grid", gridTemplateColumns: "260px minmax(0, 1fr)", gap: 20, alignItems: "start" }}>
+    <div className="dash-page" style={{ display: "grid", gridTemplateColumns: "260px minmax(0, 1fr)", gap: 14, alignItems: "start" }}>
       <aside style={{ position: "sticky", top: 16, display: "flex", flexDirection: "column", gap: 14 }}>
         <form action={base} method="get" role="search" style={{ display: "flex", gap: 6 }}>
           <input name="q" defaultValue={query} placeholder="Αναζήτηση στους οδηγούς…" aria-label="Αναζήτηση στους οδηγούς" style={{ flex: 1, minHeight: 44, border: "1px solid var(--border)", borderRadius: 10, padding: "0 12px", font: "inherit", fontSize: "var(--fs-13-5)", background: "var(--card)" }} />
@@ -63,7 +63,7 @@ export async function HelpCenter({ role, base, requested, article, q, firstBuild
         </div>
       </aside>
 
-      <article style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 12, padding: "24px 32px", maxWidth: 860, fontSize: "var(--fs-15)", lineHeight: 1.65 }}>
+      <article style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 12, padding: "18px 20px", maxWidth: 860, fontSize: "var(--fs-15)", lineHeight: 1.65 }}>
         {mode === "search" && (
           <>
             <h1 style={{ margin: "0 0 6px", fontSize: "var(--fs-22)" }}>Αποτελέσματα για «{query}»</h1>
@@ -101,7 +101,7 @@ export async function HelpCenter({ role, base, requested, article, q, firstBuild
             {picked.meta.video && <HelpVideo src={picked.meta.video} poster={picked.meta.videoPoster} minutes={picked.meta.minutes} title={picked.meta.title} />}
             <Markdown>{picked.markdown}</Markdown>
             {related.length > 0 && (
-              <div style={{ marginTop: 20, paddingTop: 14, borderTop: "1px solid var(--border)" }}>
+              <div style={{ marginTop: 14, paddingTop: 14, borderTop: "1px solid var(--border)" }}>
                 <div style={{ fontSize: "var(--fs-12)", fontWeight: 700, color: "var(--muted-foreground)", marginBottom: 8 }}>ΣΧΕΤΙΚΟΙ ΟΔΗΓΟΙ</div>
                 <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
                   {related.map((r) => <Link key={r.slug} href={`${base}?a=${encodeURIComponent(r.slug)}`} style={btnGhost}>{r.title}</Link>)}

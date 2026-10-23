@@ -181,7 +181,7 @@ export function ExpenseCategoriesClient({ initial }: { initial: Category[] }) {
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
           <RiPriceTag3Line style={{ fontSize: "var(--fs-24)", color: "var(--color-primary)" }} />

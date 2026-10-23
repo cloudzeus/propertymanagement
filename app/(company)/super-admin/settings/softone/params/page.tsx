@@ -11,7 +11,7 @@ export default async function SoftoneParamsPage() {
   await requirePermission("softone-params", "view");
   const initial = await getSoftoneParamsForEdit();
   return (
-    <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+    <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 14 }}>
       <SoftoneHeader title="Παράμετροι & αντιστοιχίσεις" subtitle="Τα ids της εγκατάστασης SoftOne που χρειάζεται η αντιστοίχιση: χώρα, νόμισμα, τρόποι πληρωμής, τύποι συμβάσεων, σειρές, ΦΠΑ, μονάδες." />
       <SoftoneParamsClient initial={initial} lookups={PARAMETER_LOOKUPS.map((l) => ({ key: l.key, editor: l.editor, label: l.label }))} />
     </div>

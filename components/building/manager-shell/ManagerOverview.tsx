@@ -50,10 +50,10 @@ export function ManagerOverview({ building, data, can, onNavigate }: {
         {total === 0 ? (
           <p style={{ margin: 0, fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }}>Δεν υπάρχουν κατανομές κοινοχρήστων ακόμη.</p>
         ) : (
-          <div style={{ display: "flex", gap: 24, alignItems: "center", flexWrap: "wrap" }}>
+          <div style={{ display: "flex", gap: 16, alignItems: "center", flexWrap: "wrap" }}>
             <Gauge value={data.paid} max={total} big={`${pct}%`} unit="εισπράχθηκαν" />
             <div style={{ flex: 1, minWidth: 260, display: "flex", flexDirection: "column", gap: 12 }}>
-              <div style={{ display: "flex", gap: 24, flexWrap: "wrap" }}>
+              <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
                 <Stat label="Εξοφλημένα" value={eur(data.paid)} color="var(--color-success)" />
                 <Stat label="Ανεξόφλητα" value={eur(data.unpaid)} color="var(--color-danger)" />
                 <Stat label="Ποσοστό είσπραξης" value={`${pct}%`} color="var(--color-info)" />

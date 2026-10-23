@@ -101,7 +101,7 @@ export function Panel({
   children: React.ReactNode;
 }) {
   return (
-    <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius)", padding: 24 }}>
+    <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius)", padding: 18 }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
         <h2 style={{ fontSize: "var(--fs-15)", fontWeight: 600, color: "var(--foreground)", margin: 0 }}>{title}</h2>
         {href && (

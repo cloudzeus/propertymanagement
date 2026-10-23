@@ -45,7 +45,7 @@ export function ExpensesSection({ expensesByMonth }: {
       </div>
 
       {expensesByMonth.length === 0 ? (
-        <div style={{ padding: 28, textAlign: "center", color: "var(--muted-foreground)", fontSize: "var(--fs-13)", border: "1px dashed var(--border-strong)", borderRadius: 8 }}>
+        <div style={{ padding: 16, textAlign: "center", color: "var(--muted-foreground)", fontSize: "var(--fs-13)", border: "1px dashed var(--border-strong)", borderRadius: 8 }}>
           Δεν έχουν καταχωρηθεί έξοδα.
         </div>
       ) : (
@@ -171,7 +171,7 @@ function ExpenseModal({ expense, onClose }: { expense: ExpenseItem | null; onClo
       }
     >
       {e && (
-        <div style={{ display: "flex", gap: 18, flexWrap: "wrap" }}>
+        <div style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
           {/* entry fields */}
           <div style={{ flex: "1 1 260px", minWidth: 0 }}>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: "13px 16px" }}>

@@ -86,7 +86,7 @@ export function DistanceSettings({ overview, canEdit }: { overview: DistanceOver
   const base = overview.base;
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
       {/* Base station */}
       <section style={card}>
         <h2 style={h2}><RiMapPin2Line style={{ color: "var(--color-primary)" }} /> Σταθμός βάσης</h2>

@@ -188,7 +188,7 @@ export function RoleEditor({ roles, modules }: Props) {
   }
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16 }}>
         <div>
           <h1 style={{ fontSize: "var(--fs-22)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}>Ρόλοι & Δικαιώματα</h1>
@@ -410,7 +410,7 @@ export function RoleEditor({ roles, modules }: Props) {
               </div>
             ))}
             {relevantModules.length === 0 && (
-              <div style={{ padding: 24, textAlign: "center", fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }}>
+              <div style={{ padding: 18, textAlign: "center", fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }}>
                 Δεν υπάρχουν διαθέσιμες λειτουργίες για αυτό το surface.
               </div>
             )}

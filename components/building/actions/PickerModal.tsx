@@ -41,7 +41,7 @@ export function PickerModal({ title, hint, items, emptyText, onPick, onClose, wi
           </label>
         )}
         {items.length === 0 ? (
-          <div style={{ padding: 24, textAlign: "center", color: "var(--muted-foreground)", fontSize: "var(--fs-13)", border: "1px dashed var(--border-strong)", borderRadius: 8 }}>{emptyText}</div>
+          <div style={{ padding: 18, textAlign: "center", color: "var(--muted-foreground)", fontSize: "var(--fs-13)", border: "1px dashed var(--border-strong)", borderRadius: 8 }}>{emptyText}</div>
         ) : visible.length === 0 ? (
           <div style={{ padding: 16, textAlign: "center", color: "var(--muted-foreground)", fontSize: "var(--fs-13)" }}>Κανένα αποτέλεσμα για «{q}».</div>
         ) : (

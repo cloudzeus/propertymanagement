@@ -59,7 +59,7 @@ export function ManagedBuildingsClient({ buildings, obligations, recent, itemTyp
         </button>
       </header>
 
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(190px, 1fr))", gap: 12, marginBottom: 20 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(190px, 1fr))", gap: 12, marginBottom: 14 }}>
         <StatCard icon={<RiBuilding2Line />} tint="#3B6BB0" value={buildings.length} label="Κτήρια" />
         <StatCard icon={<RiStackLine />} tint="var(--color-success)" value={buildings.reduce((s, b) => s + b.itemCount, 0)} label="Στοιχεία" />
         <StatCard icon={<RiToolsLine />} tint="var(--color-warning)" value={dueSoon.length} label="Επικείμενες" />
@@ -120,7 +120,7 @@ function BuildingDrilldownPanel({ building, obligations }: { building: ManagedBu
   }, [building.id]);
   const logs = data?.history.slice(0, 8) ?? [];
   return (
-    <div style={{ padding: "12px 16px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
+    <div style={{ padding: "12px 16px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
       <div>
         <div style={sectionTitle}><RiToolsLine /> Προγράμματα συντήρησης</div>
         {rows.length === 0 ? <div style={muted}>Χωρίς προγράμματα</div> : rows.map((o) => (

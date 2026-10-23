@@ -39,7 +39,7 @@ export default async function SiteSettingsPage() {
   };
 
   return (
-    <div style={{ padding: 32 }}>
+    <div style={{ padding: 16 }}>
       <SettingsForm initial={initial} />
     </div>
   );

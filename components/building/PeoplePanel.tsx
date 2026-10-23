@@ -113,7 +113,7 @@ function EditPersonModal({ person, onClose, onDone }: { person: Person; onClose:
 function PersonExpanded({ person, canEdit }: { person: Person; canEdit: boolean }) {
   const [editUnit, setEditUnit] = useState<PUnit | null>(null);
   return (
-    <div style={{ display: "grid", gridTemplateColumns: "260px 1fr", gap: 18, padding: "4px 6px 8px" }}>
+    <div style={{ display: "grid", gridTemplateColumns: "260px 1fr", gap: 14, padding: "4px 6px 8px" }}>
       {/* contact card */}
       <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 8, padding: 14 }}>
         <div style={{ fontSize: "var(--fs-11)", fontWeight: 700, color: "var(--muted-foreground)", textTransform: "uppercase", letterSpacing: ".05em", marginBottom: 10 }}>Στοιχεία επικοινωνίας</div>

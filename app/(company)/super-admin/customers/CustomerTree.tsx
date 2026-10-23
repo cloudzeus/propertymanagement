@@ -539,7 +539,7 @@ function OccupantsModal({ unit, onClose, onDone }: { unit: TUnit; onClose: () =>
   return (
     <Modal open onClose={onClose} title={`Ιδιοκτήτης / Ένοικος — Μονάδα ${unit.unitNumber}`} width={520}
       footer={<button onClick={onClose} style={cancelBtn}>Κλείσιμο</button>}>
-      <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
         <Slot unitId={unit.id} role="OWNER" label="Ιδιοκτήτης" current={unit.owner} onDone={onDone} />
         <Slot unitId={unit.id} role="RESIDENT" label="Ένοικος" current={unit.resident} onDone={onDone} />
       </div>

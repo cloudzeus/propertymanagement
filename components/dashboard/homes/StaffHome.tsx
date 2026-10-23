@@ -53,7 +53,7 @@ export async function StaffHome({ userId, companyId }: { userId: string; company
   ]);
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
       <div>
         <h1 style={{ fontSize: "var(--fs-22)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}>Οι Εργασίες μου</h1>
         <p style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)", marginTop: 4 }}>Επισκόπηση ανατεθειμένων εργασιών</p>
@@ -69,7 +69,7 @@ export async function StaffHome({ userId, companyId }: { userId: string; company
         ].map((card) => {
           const Icon = card.icon;
           return (
-            <Link key={card.label} href={card.href} style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius)", padding: "20px 24px", display: "flex", flexDirection: "column", gap: 8, textDecoration: "none" }}>
+            <Link key={card.label} href={card.href} style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius)", padding: "16px 18px", display: "flex", flexDirection: "column", gap: 8, textDecoration: "none" }}>
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                 <span style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)", fontWeight: 500 }}>{card.label}</span>
                 <Icon style={{ fontSize: "var(--fs-20)", color: card.color, opacity: 0.8 }} />
@@ -81,7 +81,7 @@ export async function StaffHome({ userId, companyId }: { userId: string; company
         })}
       </div>
 
-      <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius)", padding: 24 }}>
+      <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius)", padding: 18 }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
           <h2 style={{ fontSize: "var(--fs-15)", fontWeight: 600, color: "var(--foreground)", margin: 0 }}>Οι Εκκρεμείς Εργασίες μου</h2>
           <Link href="/admin/work?mine=1" style={{ fontSize: "var(--fs-12)", color: "var(--color-primary)", display: "flex", alignItems: "center", gap: 4, textDecoration: "none" }}>

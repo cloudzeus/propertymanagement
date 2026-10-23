@@ -18,7 +18,7 @@ const cardStyle: React.CSSProperties = {
   background: "var(--card)",
   border: "1px solid var(--border)",
   borderRadius: 10,
-  padding: 20,
+  padding: 16,
 };
 
 export function AssemblyRoom({ assemblyId, isStaff }: { assemblyId: string; isStaff: boolean }) {
@@ -143,7 +143,7 @@ function RoomInner({ assemblyId, isStaff }: { assemblyId: string; isStaff: boole
   }
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
       <div style={cardStyle}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12, marginBottom: 14 }}>
           <h2 style={{ fontSize: "var(--fs-15)", fontWeight: 700, color: "var(--foreground)", margin: 0, display: "flex", alignItems: "center", gap: 8 }}>

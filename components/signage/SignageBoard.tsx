@@ -16,7 +16,7 @@ const card: React.CSSProperties = {
   background: CARD_BG,
   border: CARD_BORDER,
   borderRadius: 22,
-  padding: 32,
+  padding: 16,
 };
 
 function fmtDay(iso: string) {
@@ -109,13 +109,13 @@ export function SignageBoard({
             Ανακοινώσεις
           </div>
           {ann ? (
-            <div style={{ flex: 1, minHeight: 0, overflow: "hidden", marginTop: 20 }}>
+            <div style={{ flex: 1, minHeight: 0, overflow: "hidden", marginTop: 14 }}>
               {ann.imageUrl ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
                   src={ann.imageUrl}
                   alt=""
-                  style={{ maxHeight: 240, width: "100%", objectFit: "cover", borderRadius: 18, marginBottom: 20 }}
+                  style={{ maxHeight: 240, width: "100%", objectFit: "cover", borderRadius: 18, marginBottom: 14 }}
                 />
               ) : null}
               <div style={{ fontSize: "var(--fs-34)", fontWeight: 800, lineHeight: 1.2 }}>{ann.title}</div>
@@ -195,7 +195,7 @@ export function SignageBoard({
 
       {/* ── Footer: contacts strip (marquee when >4) ─────────────────────── */}
       {data.contacts.length ? (
-        <footer style={{ ...card, padding: "24px 32px", overflow: "hidden" }}>
+        <footer style={{ ...card, padding: "18px 20px", overflow: "hidden" }}>
           <div
             style={
               marquee

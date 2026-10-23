@@ -48,7 +48,7 @@ export default async function CmsPagesHub() {
               background: "var(--card)",
               border: "1px solid var(--border)",
               borderRadius: "var(--radius)",
-              padding: 20,
+              padding: 16,
               textDecoration: "none",
             }}
           >

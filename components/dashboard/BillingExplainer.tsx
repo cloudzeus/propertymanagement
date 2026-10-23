@@ -47,7 +47,7 @@ export function BillingExplainer({ buildings }: { buildings: BillingExplainerBui
           }}>
             <summary className="billing-summary" style={{
               display: "flex", alignItems: "center", gap: 10, cursor: "pointer",
-              padding: 24, userSelect: "none",
+              padding: 18, userSelect: "none",
             }}>
               <RiScales3Line style={{ fontSize: "var(--fs-18)", color: "var(--color-accent)", flexShrink: 0 }} />
               <h2 style={{ fontSize: "var(--fs-15)", fontWeight: 600, color: "var(--foreground)", margin: 0, flex: 1 }}>
@@ -67,7 +67,7 @@ export function BillingExplainer({ buildings }: { buildings: BillingExplainerBui
               </p>
 
               {/* Παράμετροι κτηρίου */}
-              <div style={{ marginBottom: 20 }}>
+              <div style={{ marginBottom: 14 }}>
                 <h3 style={{ fontSize: "var(--fs-12)", fontWeight: 700, color: "var(--foreground)", margin: "0 0 10px", textTransform: "uppercase", letterSpacing: "0.04em" }}>
                   Παράμετροι κτηρίου
                 </h3>
@@ -85,7 +85,7 @@ export function BillingExplainer({ buildings }: { buildings: BillingExplainerBui
               </div>
 
               {/* Κατανομή ανά κατηγορία δαπάνης */}
-              <div style={{ marginBottom: 20 }}>
+              <div style={{ marginBottom: 14 }}>
                 <h3 style={{ fontSize: "var(--fs-12)", fontWeight: 700, color: "var(--foreground)", margin: "0 0 10px", textTransform: "uppercase", letterSpacing: "0.04em" }}>
                   Κατανομή ανά κατηγορία δαπάνης
                 </h3>

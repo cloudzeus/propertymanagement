@@ -92,7 +92,7 @@ export default function MeteredPlansClient() {
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
       <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
         <RiPriceTag3Line style={{ fontSize: "var(--fs-24)", color: "var(--color-success)" }} />
         <div>
@@ -142,13 +142,13 @@ export default function MeteredPlansClient() {
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan={6} style={{ padding: 24, textAlign: "center", color: "var(--muted-foreground)" }}>
+                <td colSpan={6} style={{ padding: 18, textAlign: "center", color: "var(--muted-foreground)" }}>
                   Φόρτωση…
                 </td>
               </tr>
             ) : rows.length === 0 ? (
               <tr>
-                <td colSpan={6} style={{ padding: 24, textAlign: "center", color: "var(--muted-foreground)" }}>
+                <td colSpan={6} style={{ padding: 18, textAlign: "center", color: "var(--muted-foreground)" }}>
                   Δεν υπάρχουν πελάτες.
                 </td>
               </tr>

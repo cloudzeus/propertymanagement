@@ -54,7 +54,7 @@ export function Modal({ open, onClose, title, children, width = 520, footer }: P
         {/* Header */}
         <div style={{
           display: "flex", alignItems: "center", justifyContent: "space-between",
-          padding: "16px 20px",
+          padding: "12px 20px",
           borderBottom: "1px solid var(--border)",
           flexShrink: 0,
         }}>
@@ -75,14 +75,14 @@ export function Modal({ open, onClose, title, children, width = 520, footer }: P
         </div>
 
         {/* Body */}
-        <div style={{ padding: "20px", overflowY: "auto", flex: 1 }}>
+        <div style={{ padding: "16px 20px", overflowY: "auto", flex: 1 }}>
           {children}
         </div>
 
         {/* Footer */}
         {footer && (
           <div style={{
-            padding: "12px 20px",
+            padding: "10px 20px",
             borderTop: "1px solid var(--border)",
             display: "flex", alignItems: "center", justifyContent: "flex-end", gap: 8,
             flexShrink: 0,

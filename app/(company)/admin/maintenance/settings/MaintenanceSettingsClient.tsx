@@ -44,7 +44,7 @@ export function MaintenanceSettingsClient({ categories, rules, properties }: {
   }
 
   return (
-    <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 18, maxWidth: 980 }}>
+    <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 14, maxWidth: 980 }}>
       <Link href="/admin/maintenance" style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: "var(--fs-13)", color: "var(--muted-foreground)", textDecoration: "none" }}>
         <RiArrowLeftLine /> Πίσω στις βλάβες
       </Link>

@@ -70,7 +70,7 @@ export async function SuperAdminHome() {
     ]);
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
       {/* Primary KPIs */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16 }}>
         <KpiCard label="Έσοδα μήνα" value={formatEuro(revenue.monthTotal)} delta={revenue.deltaPct} sub={`MRR: ${formatEuro(revenue.mrr)}`} icon={RiMoneyEuroCircleLine} accent="var(--color-success)" href="/super-admin/billing" />

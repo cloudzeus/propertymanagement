@@ -70,7 +70,7 @@ export function AnnouncementsPanel({ buildingId, can }: { buildingId: string; ca
   ];
 
   if (loading) {
-    return <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 8, padding: 40, textAlign: "center", color: "var(--muted-foreground)", fontSize: "var(--fs-14)" }}>Φόρτωση…</div>;
+    return <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 8, padding: 18, textAlign: "center", color: "var(--muted-foreground)", fontSize: "var(--fs-14)" }}>Φόρτωση…</div>;
   }
 
   return (
@@ -96,7 +96,7 @@ export function AnnouncementsPanel({ buildingId, can }: { buildingId: string; ca
 
 function AnnouncementExpanded({ a }: { a: AnnouncementRow }) {
   return (
-    <div style={{ display: "grid", gridTemplateColumns: "1.3fr 1fr", gap: 18, padding: "4px 6px 8px" }}>
+    <div style={{ display: "grid", gridTemplateColumns: "1.3fr 1fr", gap: 14, padding: "4px 6px 8px" }}>
       <div>
         <SectionTitle>Κείμενο ανακοίνωσης</SectionTitle>
         <div style={{ border: "1px solid var(--border)", borderRadius: 8, padding: 14, background: "var(--card)", fontSize: "var(--fs-13)", lineHeight: 1.6, color: "var(--foreground)" }}

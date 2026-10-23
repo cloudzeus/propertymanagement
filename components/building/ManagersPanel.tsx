@@ -64,7 +64,7 @@ export function ManagersPanel({ buildingId, can }: { buildingId: string; can: Bu
   ];
 
   if (loading) {
-    return <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 8, padding: 40, textAlign: "center", color: "var(--muted-foreground)", fontSize: "var(--fs-14)" }}>Φόρτωση…</div>;
+    return <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 8, padding: 18, textAlign: "center", color: "var(--muted-foreground)", fontSize: "var(--fs-14)" }}>Φόρτωση…</div>;
   }
 
   return (

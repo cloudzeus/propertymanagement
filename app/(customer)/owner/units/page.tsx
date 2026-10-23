@@ -26,7 +26,7 @@ export default async function OwnerUnitsPage() {
   const buildings = [...byBuilding.values()];
 
   return (
-    <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 18, maxWidth: 980 }}>
+    <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 14, maxWidth: 980 }}>
       <h1 style={{ fontSize: "var(--fs-22)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}>Οι μονάδες μου</h1>
 
       {buildings.length === 0 ? (

@@ -35,7 +35,7 @@ function fmtNum(n: number | null): string {
 export function MeterReadingsPanel({ rows }: { rows: MeterReadingDTO[] }) {
   if (rows.length === 0) {
     return (
-      <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 8, padding: 40, textAlign: "center", color: "var(--muted-foreground)", fontSize: "var(--fs-14)" }}>
+      <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 8, padding: 18, textAlign: "center", color: "var(--muted-foreground)", fontSize: "var(--fs-14)" }}>
         Δεν υπάρχουν ενδείξεις μετρητών. Καταχωρούνται αυτόματα κατά την αναγνώριση λογαριασμών ΔΕΗ/νερού (OCR) στα Έξοδα.
       </div>
     );

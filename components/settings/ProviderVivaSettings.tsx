@@ -180,7 +180,7 @@ export function ProviderVivaSettings({ initial }: { initial: ProviderVivaEditVie
   const sourceColor = source === "db" ? "var(--color-success)" : source === "env" ? "var(--color-warning)" : "var(--color-danger)";
 
   return (
-    <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 24, maxWidth: 760 }}>
+    <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 16, maxWidth: 760 }}>
       {/* Status */}
       <div
         style={{
@@ -203,7 +203,7 @@ export function ProviderVivaSettings({ initial }: { initial: ProviderVivaEditVie
       </div>
 
       {/* Config card */}
-      <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius)", padding: 24, display: "flex", flexDirection: "column", gap: 18 }}>
+      <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius)", padding: 18, display: "flex", flexDirection: "column", gap: 14 }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <div>
             <h2 style={{ fontSize: "var(--fs-15)", fontWeight: 600, color: "var(--foreground)", margin: 0 }}>Λογαριασμός Viva (Provider)</h2>

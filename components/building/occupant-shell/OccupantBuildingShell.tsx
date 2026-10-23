@@ -128,7 +128,7 @@ export function OccupantBuildingShell(props: Props) {
   ].filter(Boolean);
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
       <AutoRefresh buildingId={building.id} />
 
       {/* hero */}
@@ -295,7 +295,7 @@ function Overview({ buildingId, quickPay, myUnits, selectedMonth, statements, an
     <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
       {/* summary hero — money first */}
       <div style={{ ...card, padding: 22 }}>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 18, flexWrap: "wrap" }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 14, flexWrap: "wrap" }}>
           <div style={{ minWidth: 0 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
               <span style={cardCaps}>Συνολική οφειλή</span>
@@ -563,7 +563,7 @@ function AnnouncementsSection({ announcements }: { announcements: OccupantData["
       {announcements.map((a) => (
         <div key={a.id} style={{
           background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius-lg)",
-          boxShadow: "var(--shadow-card)", padding: 20,
+          boxShadow: "var(--shadow-card)", padding: 16,
         }}>
           {a.imageUrl && (
             // eslint-disable-next-line @next/next/no-img-element

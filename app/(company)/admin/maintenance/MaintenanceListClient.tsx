@@ -57,7 +57,7 @@ export function MaintenanceListClient({ items, viewer, canEditSettings, building
   ];
 
   return (
-    <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 18 }}>
+    <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 14 }}>
       <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
         <h1 style={{ fontSize: "var(--fs-22)", fontWeight: 700, color: "var(--foreground)", margin: 0, flex: 1 }}>Βλάβες</h1>
         <NewRequestButton buildings={buildings} categories={categories} detailBase="/admin/maintenance" />

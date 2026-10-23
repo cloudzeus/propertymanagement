@@ -98,7 +98,7 @@ export function BuildingDashboard(props: BuildingDashboardData & { can: Building
   ].filter(Boolean);
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
       {/* breadcrumb */}
       <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }}>
         <Link href="/super-admin/properties" style={{ color: "var(--muted-foreground)", textDecoration: "none" }}>Ιδιοκτησίες</Link>
@@ -204,7 +204,7 @@ export function BuildingDashboard(props: BuildingDashboardData & { can: Building
         ) : tab === "splitsettings" ? (
           <CategorySplitSettings buildingId={building.id} rows={categorySplits} can={can} />
         ) : tab === "millesimes" ? (
-          <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
             <MillesimeGrid
               buildingId={building.id}
               units={millesimeUnits}
@@ -277,7 +277,7 @@ function Overview({ building, data, setTab }: { building: Building; data: Overvi
           <p style={{ margin: 0, fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }}>Δεν υπάρχουν κατανομές κοινοχρήστων ακόμη.</p>
         ) : (
           <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-            <div style={{ display: "flex", gap: 24, flexWrap: "wrap" }}>
+            <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
               <Stat label="Εξοφλημένα" value={eur(data.paid)} color="var(--color-success)" />
               <Stat label="Ανεξόφλητα" value={eur(data.unpaid)} color="var(--color-danger)" />
               <Stat label="Ποσοστό είσπραξης" value={`${pct}%`} color="var(--color-info)" />
@@ -365,7 +365,7 @@ function Card({ title, children }: { title: string; children: React.ReactNode })
 
 function Placeholder({ label }: { label: string }) {
   return (
-    <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 8, padding: 40, textAlign: "center", color: "var(--muted-foreground)", fontSize: "var(--fs-14)" }}>
+    <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 8, padding: 18, textAlign: "center", color: "var(--muted-foreground)", fontSize: "var(--fs-14)" }}>
       «{label}» — ενεργοποιείται σε επόμενη φάση.
     </div>
   );

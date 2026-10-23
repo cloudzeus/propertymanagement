@@ -36,7 +36,7 @@ export default async function ManagerPropertiesPage() {
   const withGeo = properties.filter((p) => p.lat !== null && p.lng !== null).length;
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
       <div>
         <h1 style={{ fontSize: "var(--fs-22)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}>
           Τα κτήριά μου

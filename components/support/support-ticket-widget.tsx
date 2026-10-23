@@ -106,7 +106,7 @@ export function SupportTicketWidget({ userName }: { userName: string }) {
       {/* Dashboard card */}
       <div style={{
         background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius)",
-        padding: "20px 24px", display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap",
+        padding: "16px 18px", display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap",
       }}>
         <RiCustomerService2Line style={{ fontSize: "var(--fs-26)", color: "var(--color-primary)", flexShrink: 0 }} />
         <div style={{ flex: 1, minWidth: 220 }}>
@@ -180,7 +180,7 @@ export function SupportTicketWidget({ userName }: { userName: string }) {
                 <div style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)", marginTop: 8 }}>
                   Θα λάβετε email με κάθε ενημέρωση της πορείας του.
                 </div>
-                <div style={{ display: "flex", gap: 10, justifyContent: "center", marginTop: 20 }}>
+                <div style={{ display: "flex", gap: 10, justifyContent: "center", marginTop: 14 }}>
                   <a href={done.statusUrl} target="_blank" rel="noopener noreferrer" style={{
                     display: "inline-flex", alignItems: "center", gap: 6, padding: "10px 18px", borderRadius: 8,
                     border: "1px solid var(--border)", color: "var(--foreground)", fontSize: "var(--fs-13-5)", fontWeight: 600, textDecoration: "none",

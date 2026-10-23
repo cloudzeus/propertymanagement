@@ -67,7 +67,7 @@ export function IssuanceModal({ buildingId, expenses, initialSelected, onClose, 
         </div>
 
         {candidates.length === 0 ? (
-          <div style={{ padding: 24, textAlign: "center", color: "var(--muted-foreground)", fontSize: "var(--fs-13)", border: "1px dashed var(--border-strong)", borderRadius: 8 }}>
+          <div style={{ padding: 18, textAlign: "center", color: "var(--muted-foreground)", fontSize: "var(--fs-13)", border: "1px dashed var(--border-strong)", borderRadius: 8 }}>
             Δεν υπάρχουν έξοδα προς έκδοση — όλα έχουν ήδη συμπεριληφθεί. Καταχωρήστε πρώτα μια «Νέα δαπάνη».
           </div>
         ) : (

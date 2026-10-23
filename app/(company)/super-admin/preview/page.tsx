@@ -193,7 +193,7 @@ export default async function RolePreviewPage({ searchParams }: { searchParams: 
         {/* Scroll lives on the OUTER (interactive) container so wheel + scrollbar work;
             `inert` sits on the inner wrapper to make the content non-interactive (no clicks/focus/navigation). */}
         <div style={{ maxHeight: "72vh", overflowY: "auto", overscrollBehavior: "contain" }}>
-          <div inert style={{ padding: 24 }}>
+          <div inert style={{ padding: 18 }}>
             {body}
           </div>
         </div>

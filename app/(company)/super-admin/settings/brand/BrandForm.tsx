@@ -147,9 +147,9 @@ export function BrandForm({ settings, action }: Props) {
   }
 
   return (
-    <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+    <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
       {/* Company info */}
-      <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius)", padding: 24 }}>
+      <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius)", padding: 18 }}>
         <h2 style={{ fontSize: "var(--fs-15)", fontWeight: 600, color: "var(--foreground)", margin: "0 0 18px" }}>Στοιχεία Εταιρείας</h2>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
           {[
@@ -195,7 +195,7 @@ export function BrandForm({ settings, action }: Props) {
       </div>
 
       {/* Logos */}
-      <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius)", padding: 24 }}>
+      <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius)", padding: 18 }}>
         <h2 style={{ fontSize: "var(--fs-15)", fontWeight: 600, color: "var(--foreground)", margin: "0 0 6px" }}>Λογότυπα</h2>
         <p style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)", margin: "0 0 18px" }}>
           Full (οριζόντιο) και Square (εικονίδιο), για light & dark mode. SVG αποθηκεύεται ως έχει· οποιαδήποτε άλλη μορφή μετατρέπεται αυτόματα σε WebP με διαφάνεια. Ανεβαίνουν αμέσως (ανεξάρτητα από την Αποθήκευση χρωμάτων).
@@ -208,7 +208,7 @@ export function BrandForm({ settings, action }: Props) {
       </div>
 
       {/* Colors */}
-      <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius)", padding: 24 }}>
+      <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius)", padding: 18 }}>
         <h2 style={{ fontSize: "var(--fs-15)", fontWeight: 600, color: "var(--foreground)", margin: "0 0 6px" }}>Χρώματα Brand</h2>
         <p style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)", margin: "0 0 18px" }}>
           Τα χρώματα εφαρμόζονται άμεσα σε όλη την εφαρμογή ως CSS variables.
@@ -256,7 +256,7 @@ export function BrandForm({ settings, action }: Props) {
       </div>
 
       {/* Color preview */}
-      <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius)", padding: 24 }}>
+      <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius)", padding: 18 }}>
         <h2 style={{ fontSize: "var(--fs-15)", fontWeight: 600, color: "var(--foreground)", margin: "0 0 16px" }}>Προεπισκόπηση</h2>
         <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
           {COLOR_FIELDS.map(({ key, label }) => {

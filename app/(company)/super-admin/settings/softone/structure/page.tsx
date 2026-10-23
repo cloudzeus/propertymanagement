@@ -11,7 +11,7 @@ export default async function SoftoneStructurePage() {
   await requirePermission("softone-structure", "view");
   const [cfg, row] = await Promise.all([getSoftoneConfig().catch(() => null), getSoftoneSettingsRow()]);
   return (
-    <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+    <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 14 }}>
       <SoftoneHeader title="Δομή δεδομένων & έλεγχοι" subtitle="Τι αντιστοιχεί σε τι, και αν η εγκατάσταση SoftOne έχει ό,τι απαιτεί η προδιαγραφή — μόνο με αναγνώσεις." />
       <SoftoneStructureClient
         maps={ENTITY_MAPS}

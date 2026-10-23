@@ -109,7 +109,7 @@ export function ProgrammeClient({ year, buildingId, rows, buildings, caps }: {
             </tr>
           </thead>
           <tbody>
-            {filtered.length === 0 && <tr><td colSpan={15} style={{ padding: 32, textAlign: "center", color: "var(--muted-foreground)", fontSize: "var(--fs-13)" }}>Δεν υπάρχουν ενεργές τακτικές συντηρήσεις για αυτά τα φίλτρα. Ορίζονται από την καρτέλα «Συντηρήσεις» κάθε κτηρίου.</td></tr>}
+            {filtered.length === 0 && <tr><td colSpan={15} style={{ padding: 16, textAlign: "center", color: "var(--muted-foreground)", fontSize: "var(--fs-13)" }}>Δεν υπάρχουν ενεργές τακτικές συντηρήσεις για αυτά τα φίλτρα. Ορίζονται από την καρτέλα «Συντηρήσεις» κάθε κτηρίου.</td></tr>}
             {filtered.map((r) => {
               const byMonth = new Map<number, typeof r.occurrences>();
               for (const o of r.occurrences) { const d = new Date(o.date); if (d.getFullYear() !== year) continue; const arr = byMonth.get(d.getMonth()) ?? []; arr.push(o); byMonth.set(d.getMonth(), arr); }

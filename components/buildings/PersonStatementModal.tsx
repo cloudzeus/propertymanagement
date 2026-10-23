@@ -57,7 +57,7 @@ export function PersonStatementModal({
     <Modal open={open} onClose={onClose} title={data ? `Καρτέλα — ${data.name}` : "Καρτέλα προσώπου"} width={860}>
       {error && <div style={{ padding: 10, borderRadius: 6, background: "color-mix(in srgb, var(--color-danger) 12%, transparent)", border: "1px solid var(--color-danger)", color: "var(--color-danger)", fontSize: "var(--fs-12)", marginBottom: 10 }}>{error}</div>}
       {!data ? (
-        <div style={{ padding: 20, color: "var(--muted-foreground)", display: "flex", alignItems: "center", gap: 6 }}><RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> Φόρτωση…</div>
+        <div style={{ padding: 16, color: "var(--muted-foreground)", display: "flex", alignItems: "center", gap: 6 }}><RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> Φόρτωση…</div>
       ) : (
         <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
           <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>

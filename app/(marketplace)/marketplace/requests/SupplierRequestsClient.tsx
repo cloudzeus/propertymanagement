@@ -29,7 +29,7 @@ export function SupplierRequestsClient({ items }: { items: FaultListItem[] }) {
   ];
 
   return (
-    <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 18 }}>
+    <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 14 }}>
       <div>
         <h1 style={{ display: "flex", alignItems: "center", gap: 10, fontSize: "var(--fs-22)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}><RiToolsLine style={{ color: "var(--color-primary)" }} /> Αναθέσεις</h1>
         <p style={{ margin: "4px 0 0", fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }}>Εργασίες που σας ανέθεσε η εταιρεία διαχείρισης. Ενημερώνετε την κατάσταση και επικοινωνείτε από τη σελίδα κάθε εργασίας.</p>

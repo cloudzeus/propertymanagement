@@ -204,7 +204,7 @@ function DayView({ cursor, now, tasks, onEvent }: { cursor: Date; now: Date; tas
   return (
     <div style={{ border: "1px solid var(--border)", borderRadius: 8, background: "var(--card)", padding: 16 }}>
       {evs.length === 0 ? (
-        <div style={{ color: "var(--muted-foreground)", fontSize: "var(--fs-13)", textAlign: "center", padding: 24 }}>Καμία εργασία για αυτή την ημέρα.</div>
+        <div style={{ color: "var(--muted-foreground)", fontSize: "var(--fs-13)", textAlign: "center", padding: 18 }}>Καμία εργασία για αυτή την ημέρα.</div>
       ) : (
         <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
           {evs.map((t) => {

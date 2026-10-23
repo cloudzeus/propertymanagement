@@ -53,7 +53,7 @@ export default async function SettingsPage() {
   ];
 
   return (
-    <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 20, maxWidth: 1100 }}>
+    <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 14, maxWidth: 1100 }}>
       <div>
         <h1 style={{ display: "flex", alignItems: "center", gap: 10, fontSize: "var(--fs-22)", fontWeight: 700, margin: 0, color: "var(--foreground)" }}><RiSettingsLine style={{ color: "var(--color-primary)" }} /> Ρυθμίσεις</h1>
         <p style={{ margin: "4px 0 0", fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }}>Όλες οι ρυθμίσεις της πλατφόρμας σε ένα μέρος. Βλέπετε μόνο όσες επιτρέπει ο ρόλος σας.</p>

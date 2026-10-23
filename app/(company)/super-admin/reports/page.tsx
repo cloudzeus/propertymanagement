@@ -64,7 +64,7 @@ export default async function ReportsPage() {
   ];
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
       <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
         <RiBarChartLine style={{ fontSize: "var(--fs-24)", color: "var(--color-primary)" }} />
         <div>
@@ -94,7 +94,7 @@ export default async function ReportsPage() {
 
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
         {/* Users by role */}
-        <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius)", padding: 24 }}>
+        <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius)", padding: 18 }}>
           <h2 style={{ fontSize: "var(--fs-15)", fontWeight: 600, color: "var(--foreground)", margin: "0 0 16px" }}>Χρήστες ανά Ρόλο</h2>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             {(data.usersByRole as any[]).map((row) => {
@@ -116,7 +116,7 @@ export default async function ReportsPage() {
         </div>
 
         {/* Companies by status */}
-        <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius)", padding: 24 }}>
+        <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius)", padding: 18 }}>
           <h2 style={{ fontSize: "var(--fs-15)", fontWeight: 600, color: "var(--foreground)", margin: "0 0 16px" }}>Εταιρείες ανά Κατάσταση</h2>
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             {(data.companiesByStatus as any[]).map((row) => {

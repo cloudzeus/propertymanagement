@@ -292,7 +292,7 @@ export function PricingClient({ initial }: { initial: Tier[] }) {
             <FormField label="Σύνδεσμος κουμπιού"><FieldInput value={ctaHref} onChange={setCtaHref} placeholder="/contact" /></FormField>
           </div>
 
-          <div style={{ display: "flex", gap: 24 }}>
+          <div style={{ display: "flex", gap: 16 }}>
             <label style={labelCheck}>
               <input type="checkbox" checked={highlighted} onChange={(e) => setHighlighted(e.target.checked)} />
               Προβεβλημένο

@@ -88,7 +88,7 @@ export function SupplierFormModal({ editing, scope, categories, onClose, onDone,
               <FormField label="ΔΟΥ"><FieldInput value={form.doy} onChange={f("doy")} /></FormField>
               {scope === "company" && <FormField label="Κωδικός (ERP)"><FieldInput value={form.code} onChange={f("code")} placeholder="προαιρετικά" /></FormField>}
             </div>
-            <div style={{ display: "flex", gap: 18, flexWrap: "wrap", marginTop: 4 }}>
+            <div style={{ display: "flex", gap: 14, flexWrap: "wrap", marginTop: 4 }}>
               <label style={chk}><input type="checkbox" checked={isActive} onChange={(e) => setIsActive(e.target.checked)} /> Ενεργός</label>
               <label style={chk}><input type="checkbox" checked={emergency24h} onChange={(e) => setEmergency24h(e.target.checked)} /> Έκτακτα 24/7</label>
             </div>

@@ -123,7 +123,7 @@ export function OccupantsModal({ unit, onClose, onDone, onGuided }: { unit: Unit
   return (
     <Modal open onClose={onClose} title={`Ιδιοκτήτης / Ένοικος — Μονάδα ${unit.unitNumber}`} width={520}
       footer={<button onClick={onClose} style={btnCancel}>Κλείσιμο</button>}>
-      <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
         <Slot unitId={unit.id} customerId={unit.customerId} role="OWNER" label="Ιδιοκτήτης" current={unit.owner} onDone={onDone} onGuided={onGuided ? () => onGuided("OWNER") : undefined} />
         <Slot unitId={unit.id} customerId={unit.customerId} role="RESIDENT" label="Ένοικος" current={unit.resident} onDone={onDone} onGuided={onGuided ? () => onGuided("RESIDENT") : undefined} />
       </div>

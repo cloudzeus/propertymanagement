@@ -350,8 +350,8 @@ function Overlay({ children, onClose }: { children: React.ReactNode; onClose: ()
 function MaintenanceEventModal({ event, onClose }: { event: DemoEvent; onClose: () => void }) {
   const d = new Date(event.scheduledAt);
   return (
-    <div onClick={onClose} style={{ position: "fixed", inset: 0, background: "rgba(27,28,26,.34)", display: "flex", alignItems: "center", justifyContent: "center", padding: 20, zIndex: 60 }}>
-      <div onClick={(e) => e.stopPropagation()} style={{ width: "min(440px, 96vw)", background: "var(--card)", border: "1px solid var(--border)", borderRadius: 14, padding: 20 }}>
+    <div onClick={onClose} style={{ position: "fixed", inset: 0, background: "rgba(27,28,26,.34)", display: "flex", alignItems: "center", justifyContent: "center", padding: 16, zIndex: 60 }}>
+      <div onClick={(e) => e.stopPropagation()} style={{ width: "min(440px, 96vw)", background: "var(--card)", border: "1px solid var(--border)", borderRadius: 14, padding: 16 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
           <span style={{ display: "flex", alignItems: "center", justifyContent: "center", width: 38, height: 38, borderRadius: 10, background: event.overdue ? "var(--danger-soft)" : "var(--success-soft)", color: event.overdue ? "var(--color-danger)" : "var(--color-success)" }}>
             <RiToolsLine />

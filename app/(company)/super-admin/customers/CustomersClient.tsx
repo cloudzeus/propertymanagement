@@ -9,6 +9,7 @@ import { createCustomer, updateCustomer, deleteCustomer, assignAccountManager } 
 import { AddPropertyModal } from "@/app/(company)/super-admin/properties/AddPropertyModal";
 import { CustomerTree, type TProperty } from "./CustomerTree";
 import { CustomerWizard, type CreatedCustomer } from "@/components/wizards/CustomerWizard";
+import { PropertyWizard } from "@/components/wizards/PropertyWizard";
 import { RiCheckLine, RiLoaderLine, RiPencilLine, RiDeleteBinLine, RiSearchLine, RiMapPin2Line, RiEyeLine, RiAddLine, RiRobot2Line, RiUserStarLine } from "react-icons/ri";
 
 type Customer = {
@@ -65,6 +66,7 @@ export function CustomersClient({ initial, managers = [], nextCode = "—" }: { 
   const [aadeLoading, setAadeLoading] = useState(false);
   const [geoLoading, setGeoLoading] = useState(false);
   const [addPropFor, setAddPropFor] = useState<Customer | null>(null);
+  const [addPropSimple, setAddPropSimple] = useState(false);
   const [managerFor, setManagerFor] = useState<Customer | null>(null);
   const [managerSel, setManagerSel] = useState("");
   const [isPending, startTransition] = useTransition();
@@ -248,7 +250,7 @@ export function CustomersClient({ initial, managers = [], nextCode = "—" }: { 
   }
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
       <div>
         <h1 style={{ fontSize: "var(--fs-22)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}>Πελάτες</h1>
         <p style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)", marginTop: 4 }}>{data.length} πελάτες</p>
@@ -371,11 +373,19 @@ export function CustomersClient({ initial, managers = [], nextCode = "—" }: { 
         />
       )}
 
-      {addPropFor && (
+      {addPropFor && !addPropSimple && (
+        <PropertyWizard
+          customer={{ id: addPropFor.id, name: addPropFor.name }}
+          onClose={() => { setAddPropFor(null); setAddPropSimple(false); }}
+          onSimpleForm={() => setAddPropSimple(true)}
+          onDone={() => router.refresh()}
+        />
+      )}
+      {addPropFor && addPropSimple && (
         <AddPropertyModal
           customerId={addPropFor.id}
           customerName={addPropFor.name}
-          onClose={() => setAddPropFor(null)}
+          onClose={() => { setAddPropFor(null); setAddPropSimple(false); }}
           onCreated={() => router.refresh()}
         />
       )}

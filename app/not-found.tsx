@@ -3,7 +3,7 @@ import Link from "next/link";
 /** Greek 404 for every surface (App Router global not-found). */
 export default function NotFound() {
   return (
-    <div style={{ minHeight: "100dvh", display: "flex", alignItems: "center", justifyContent: "center", padding: 24, background: "var(--bg-canvas)", fontFamily: "var(--font-sans, system-ui, sans-serif)" }}>
+    <div style={{ minHeight: "100dvh", display: "flex", alignItems: "center", justifyContent: "center", padding: 18, background: "var(--bg-canvas)", fontFamily: "var(--font-sans, system-ui, sans-serif)" }}>
       <div style={{ maxWidth: 440, textAlign: "center" }}>
         <div style={{ fontSize: "var(--fs-48, 3rem)", fontWeight: 800, color: "var(--color-danger)", lineHeight: 1 }}>404</div>
         <h1 style={{ fontSize: "var(--fs-22, 1.375rem)", fontWeight: 700, margin: "12px 0 8px", color: "var(--foreground)" }}>Η σελίδα δεν βρέθηκε</h1>

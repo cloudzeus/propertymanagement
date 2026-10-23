@@ -34,11 +34,11 @@ export function FilesList({
     return <EmptyState icon={RiFolderLine} label={emptyLabel} />;
   }
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
       {groups.map((g) => (
         <div key={g.building} style={{
           background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius-lg)",
-          boxShadow: "var(--shadow-card)", padding: 20,
+          boxShadow: "var(--shadow-card)", padding: 16,
         }}>
           <div style={{
             fontSize: "var(--fs-12)", fontWeight: 700, color: "var(--muted-foreground)",

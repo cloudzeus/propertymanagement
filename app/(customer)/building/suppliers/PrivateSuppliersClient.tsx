@@ -45,7 +45,7 @@ export function PrivateSuppliersClient({ suppliers, categories, caps, buildings,
   }
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 12, flexWrap: "wrap" }}>
         <div>
           <h1 style={{ display: "flex", alignItems: "center", gap: 10, fontSize: "var(--fs-24)", fontWeight: 800, margin: 0, color: "var(--foreground)" }}>
@@ -81,7 +81,7 @@ export function PrivateSuppliersClient({ suppliers, categories, caps, buildings,
       </div>
 
       {mine.length === 0 ? (
-        <div onClick={() => caps.create && setEditing("new")} style={{ border: "1.5px dashed var(--border-strong)", borderRadius: 8, padding: 40, textAlign: "center", color: "var(--muted-foreground)", cursor: caps.create ? "pointer" : "default", background: "var(--bg-canvas)", fontSize: "var(--fs-13)" }}>
+        <div onClick={() => caps.create && setEditing("new")} style={{ border: "1.5px dashed var(--border-strong)", borderRadius: 8, padding: 18, textAlign: "center", color: "var(--muted-foreground)", cursor: caps.create ? "pointer" : "default", background: "var(--bg-canvas)", fontSize: "var(--fs-13)" }}>
           <RiTruckLine style={{ fontSize: "var(--fs-26)", display: "block", margin: "0 auto 8px" }} />
           <div style={{ fontWeight: 600, color: "var(--foreground)", marginBottom: 3 }}>{q ? "Κανένα αποτέλεσμα" : "Δεν έχετε προσθέσει προμηθευτές"}</div>
           {!q && "Πατήστε για να προσθέσετε τον πρώτο — π.χ. τον ηλεκτρολόγο ή το συνεργείο καθαρισμού σας."}

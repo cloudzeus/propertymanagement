@@ -194,7 +194,7 @@ export function PaymentsTable({ rows, payEnabledByBuilding = {}, managerName = n
   ) : null;
 
   return (
-    <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 18 }}>
+    <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 14 }}>
       <h1 style={{ fontSize: "var(--fs-22)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}>{title}</h1>
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 16, maxWidth: 640 }} className="dash-grid">

@@ -14,13 +14,13 @@ export default async function SupplierWorkOrdersPage() {
   if (!ctx.supplierId) return <UnlinkedNotice />;
   const items = await listSupplierWorkOrders(ctx.supplierId);
   return (
-    <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 18, maxWidth: 900 }}>
+    <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 14, maxWidth: 900 }}>
       <div>
         <h1 style={{ display: "flex", alignItems: "center", gap: 10, fontSize: "var(--fs-22)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}><RiFileListLine style={{ color: "var(--color-primary)" }} /> Συμβάσεις έργου</h1>
         <p style={{ margin: "4px 0 0", fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }}>Οι αναθέσεις που προέκυψαν από προσφορές σας. Αποδεχθείτε, ορίστε ραντεβού, καταθέστε απόδειξη επισκευής.</p>
       </div>
       {items.length === 0 ? (
-        <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 12, padding: 32, textAlign: "center", fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }}>Καμία σύμβαση έργου ακόμη.</div>
+        <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 12, padding: 16, textAlign: "center", fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }}>Καμία σύμβαση έργου ακόμη.</div>
       ) : items.map((w) => {
         const c = WO_STATUS_COLORS[w.status] ?? "var(--muted-foreground)";
         const needs = w.status === "ACCEPTED" && !w.supplierAcceptedAt ? "Αποδεχθείτε την ανάθεση" : w.status === "ACCEPTED" ? "Ορίστε ραντεβού" : w.status === "SCHEDULED" ? "Ραντεβού " + fmt(w.scheduledAt) : w.status === "IN_PROGRESS" ? "Καταθέστε απόδειξη επισκευής" : w.status === "DISPUTED" ? "Αμφισβήτηση — δείτε το σχόλιο" : null;

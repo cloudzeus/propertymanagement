@@ -272,7 +272,7 @@ export function InfraModal({ buildingId, floorOptions, editing, onClose, onDone 
           <button onClick={() => mediaInput.current?.click()} disabled={isPending} style={{ ...saveBtn, marginBottom: 14 }}>{isPending ? <RiLoaderLine style={{ animation: "spin 1s linear infinite" }} /> : <RiImageAddLine />} Προσθήκη φωτο/βίντεο</button>
           <input ref={mediaInput} type="file" accept="image/*,video/*" multiple style={{ display: "none" }} onChange={(e) => pickMedia(e.target.files)} />
           {media.length === 0 ? (
-            <div style={{ color: "var(--muted-foreground)", fontSize: "var(--fs-13)", textAlign: "center", padding: 24 }}>Δεν υπάρχουν αρχεία.</div>
+            <div style={{ color: "var(--muted-foreground)", fontSize: "var(--fs-13)", textAlign: "center", padding: 18 }}>Δεν υπάρχουν αρχεία.</div>
           ) : (
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(110px,1fr))", gap: 10 }}>
               {media.map((m) => (

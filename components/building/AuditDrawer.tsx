@@ -55,7 +55,7 @@ export function AuditDrawer({ buildingId, onGoToTab, open: openProp, onOpenChang
             <div style={{ flex: 1, overflowY: "auto", fontSize: "var(--fs-13)" }}>
               {pending && <div style={{ padding: 16, color: "#888" }}>Έλεγχος…</div>}
               {!pending && findings && findings.length === 0 && (
-                <div style={{ padding: 20, color: "#0a8", display: "flex", gap: 8, alignItems: "center" }}><RiCheckboxCircleLine /> Όλα εντάξει — καμία ένδειξη προβλήματος.</div>
+                <div style={{ padding: 16, color: "#0a8", display: "flex", gap: 8, alignItems: "center" }}><RiCheckboxCircleLine /> Όλα εντάξει — καμία ένδειξη προβλήματος.</div>
               )}
               {!pending && findings && (["error", "warning", "info"] as const).flatMap((sev) =>
                 findings.filter((f) => f.severity === sev).map((f, i) => {

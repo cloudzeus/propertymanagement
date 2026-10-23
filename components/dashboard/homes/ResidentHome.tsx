@@ -31,7 +31,7 @@ export async function ResidentHome({ userId, companyId, userName, previewMode = 
   ].filter(Boolean);
 
   return (
-    <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+    <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 14 }}>
       {!previewMode && unit ? <AutoRefresh buildingId={unit.buildingId} /> : null}
       <Hero
         title={`Καλώς ήρθατε, ${firstName}`}

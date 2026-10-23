@@ -108,7 +108,7 @@ export default async function CustomerDetailPage({ params }: { params: Promise<{
   const addr = [customer.address, customer.city, customer.district, customer.postalCode, customer.country].filter(Boolean).join(", ");
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
       <Link href="/super-admin/customers" style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)", display: "flex", alignItems: "center", gap: 4, textDecoration: "none", width: "fit-content" }}>
         <RiArrowLeftLine /> Πίσω στους Πελάτες
       </Link>

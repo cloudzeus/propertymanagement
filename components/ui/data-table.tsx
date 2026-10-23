@@ -448,7 +448,7 @@ export function DataTable<T extends { id: string }>({
         {isPhone ? (
           <div style={{ overflow: "auto", flex: "1 1 auto", minHeight: 0, padding: 10, display: "flex", flexDirection: "column", gap: 8, background: "var(--paper)" }}>
             {viewRows.length === 0 && (
-              <div style={{ padding: "40px 16px", textAlign: "center", color: "var(--muted-foreground)", fontSize: "var(--fs-13)" }}>Δεν βρέθηκαν εγγραφές</div>
+              <div style={{ padding: "24px 16px", textAlign: "center", color: "var(--muted-foreground)", fontSize: "var(--fs-13)" }}>Δεν βρέθηκαν εγγραφές</div>
             )}
             {viewRows.map((row) => {
               const actions = getRowActions?.(row) ?? [];
@@ -536,7 +536,7 @@ export function DataTable<T extends { id: string }>({
                   {viewRows.length === 0 && (
                     <tr>
                       <td colSpan={99} style={{
-                        padding: "48px 16px", textAlign: "center",
+                        padding: "28px 16px", textAlign: "center",
                         color: "var(--muted-foreground)", fontSize: "var(--fs-13)", fontFamily: "inherit",
                       }}>
                         Δεν βρέθηκαν εγγραφές

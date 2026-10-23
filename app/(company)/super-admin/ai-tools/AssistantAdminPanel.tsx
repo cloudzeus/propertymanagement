@@ -33,7 +33,7 @@ export function AssistantAdminPanel({ actions, chunkCount, embeddedCount }: { ac
     { id: "error", header: "Σφάλμα", cell: (r) => r.error ?? "", accessor: (r) => r.error ?? "", width: 220 },
   ];
   return (
-    <section style={{ display: "flex", flexDirection: "column", gap: 16, marginTop: 24 }}>
+    <section style={{ display: "flex", flexDirection: "column", gap: 16, marginTop: 16 }}>
       <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 12, padding: 16, display: "flex", flexWrap: "wrap", gap: 12, alignItems: "center" }}>
         <RiBookOpenLine style={{ fontSize: "var(--fs-22)", color: "var(--color-primary)" }} />
         <div style={{ flex: 1, minWidth: 220 }}>

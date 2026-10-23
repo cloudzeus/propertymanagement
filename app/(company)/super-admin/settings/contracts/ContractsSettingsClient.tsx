@@ -35,7 +35,7 @@ export function ContractsSettingsClient({ settings, templates }: { settings: { o
   }
 
   return (
-    <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 18, maxWidth: 1000 }}>
+    <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 14, maxWidth: 1000 }}>
       <div>
         <h1 style={{ display: "flex", alignItems: "center", gap: 10, fontSize: "var(--fs-22)", fontWeight: 800, margin: 0, color: "var(--foreground)" }}><RiFileTextLine style={{ color: "var(--color-primary)" }} /> Προσφορές & συμβάσεις έργου</h1>
         <p style={{ margin: "4px 0 0", fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }}>Προεπιλογές για τις προσφορές προς πελάτες και τα πρότυπα των δύο συμβάσεων (Α: πελάτης ↔ εταιρεία, Β: εταιρεία ↔ συνεργάτης).</p>

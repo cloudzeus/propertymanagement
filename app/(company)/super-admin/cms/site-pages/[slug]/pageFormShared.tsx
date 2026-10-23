@@ -77,7 +77,7 @@ export function FormChrome({ locale, setLocale, save, saved, pending, children }
   children: React.ReactNode;
 }) {
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 20, maxWidth: 760 }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: 14, maxWidth: 760 }}>
       <LocaleTabs value={locale} onChange={setLocale} />
       {children}
       <div style={{ position: "sticky", bottom: 0, paddingTop: 8 }}>

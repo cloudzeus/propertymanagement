@@ -260,7 +260,7 @@ export function ArticleEditor({ article, authors }: { article: Article; authors:
       </CmsCard>
 
       <CmsCard title="Πολυμέσα">
-        <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
           <CmsField label="Εικόνα/βίντεο προβολής (featured)">
             <MediaPicker
               value={featuredMediaId}

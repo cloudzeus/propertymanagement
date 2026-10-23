@@ -45,7 +45,7 @@ export default async function ManagerPropertyDetailPage({ params }: Props) {
   const hasGeo = property.lat !== null && property.lng !== null;
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
       <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
         <Link
           href="/manager/properties"
@@ -88,11 +88,11 @@ export default async function ManagerPropertyDetailPage({ params }: Props) {
         ))}
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 300px", gap: 20, alignItems: "start" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 300px", gap: 14, alignItems: "start" }}>
         {/* Map */}
         <div style={{
           background: "var(--card)", border: "1px solid var(--border)",
-          borderRadius: 10, padding: 20, display: "flex", flexDirection: "column", gap: 16,
+          borderRadius: 10, padding: 16, display: "flex", flexDirection: "column", gap: 16,
         }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
             <RiMapPin2Line style={{ fontSize: "var(--fs-18)", color: "var(--color-primary)" }} />

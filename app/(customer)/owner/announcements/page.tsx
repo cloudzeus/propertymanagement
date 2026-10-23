@@ -26,7 +26,7 @@ export default async function OwnerAnnouncementsPage() {
   const fileGroups = [...filesByBuilding.values()];
 
   return (
-    <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 18, maxWidth: 900 }}>
+    <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 14, maxWidth: 900 }}>
       <h1 style={{ fontSize: "var(--fs-22)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}>Ανακοινώσεις</h1>
 
       {announcements.length === 0 ? (
@@ -36,7 +36,7 @@ export default async function OwnerAnnouncementsPage() {
           {announcements.map((a) => (
             <div key={a.id} style={{
               background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius-lg)",
-              boxShadow: "var(--shadow-card)", padding: 20,
+              boxShadow: "var(--shadow-card)", padding: 16,
             }}>
               {a.imageUrl && (
                 // eslint-disable-next-line @next/next/no-img-element

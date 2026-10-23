@@ -79,7 +79,7 @@ export function ExpensesPanel({
       </div>
 
       {expenses.length === 0 ? (
-        <div style={{ padding: 28, textAlign: "center", color: "var(--muted-foreground)", fontSize: "var(--fs-13)", border: "1px dashed var(--border-strong)", borderRadius: 8 }}>
+        <div style={{ padding: 16, textAlign: "center", color: "var(--muted-foreground)", fontSize: "var(--fs-13)", border: "1px dashed var(--border-strong)", borderRadius: 8 }}>
           Δεν υπάρχουν καταχωρημένα έξοδα.
         </div>
       ) : (

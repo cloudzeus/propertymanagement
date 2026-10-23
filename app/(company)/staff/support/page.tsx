@@ -79,7 +79,7 @@ export default async function SupportTicketsPage() {
   const base = process.env.TICKETING_URL ?? "";
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
       <div>
         <h1 style={{ fontSize: "var(--fs-22)", fontWeight: 700, color: "var(--foreground)", margin: 0, display: "flex", alignItems: "center", gap: 10 }}>
           <RiCustomerService2Line style={{ color: "var(--color-primary)" }} /> Αιτήματα Υποστήριξης
@@ -91,7 +91,7 @@ export default async function SupportTicketsPage() {
 
       <SupportTicketSection />
 
-      <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius)", padding: 24 }}>
+      <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius)", padding: 18 }}>
         {tickets.length === 0 ? (
           <div style={{ padding: "32px 0", textAlign: "center", color: "var(--muted-foreground)", fontSize: "var(--fs-13)" }}>
             <RiCustomerService2Line style={{ fontSize: "var(--fs-32)", opacity: 0.4, display: "block", margin: "0 auto 8px" }} />

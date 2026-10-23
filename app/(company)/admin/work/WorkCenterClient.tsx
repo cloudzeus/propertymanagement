@@ -107,7 +107,7 @@ export function WorkCenterClient({ items, filters: initial, viewer, employees, b
   ];
 
   return (
-    <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 18 }}>
+    <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 14 }}>
       <div style={{ display: "flex", alignItems: "flex-start", gap: 12, flexWrap: "wrap" }}>
         <div style={{ flex: 1, minWidth: 240 }}>
           <h1 style={{ display: "flex", alignItems: "center", gap: 10, fontSize: "var(--fs-22)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}>

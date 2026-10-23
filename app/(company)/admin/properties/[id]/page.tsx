@@ -53,7 +53,7 @@ export default async function PropertyDetailPage({ params }: Props) {
   const hasGeo = property.lat !== null && property.lng !== null;
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
       {/* Back + title */}
       <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
         <Link
@@ -110,11 +110,11 @@ export default async function PropertyDetailPage({ params }: Props) {
       </div>
 
       {/* Two-column layout: map + side info */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 340px", gap: 20, alignItems: "start" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 340px", gap: 14, alignItems: "start" }}>
         {/* Map panel */}
         <div style={{
           background: "var(--card)", border: "1px solid var(--border)",
-          borderRadius: 10, padding: 20, display: "flex", flexDirection: "column", gap: 16,
+          borderRadius: 10, padding: 16, display: "flex", flexDirection: "column", gap: 16,
         }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
             <RiMapPin2Line style={{ fontSize: "var(--fs-18)", color: "var(--color-primary)" }} />

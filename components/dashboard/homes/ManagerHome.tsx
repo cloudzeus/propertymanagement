@@ -50,7 +50,7 @@ export async function ManagerHome({ companyId, userId }: { companyId: string | u
   ]);
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
       <div>
         <h1 style={{ fontSize: "var(--fs-22)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}>Διαχείριση Ακινήτων</h1>
         <p style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)", marginTop: 4 }}>Επισκόπηση και εκκρεμότητες</p>
@@ -67,7 +67,7 @@ export async function ManagerHome({ companyId, userId }: { companyId: string | u
         ].map((card) => {
           const Icon = card.icon;
           return (
-            <Link key={card.label} href={card.href} style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius)", padding: "20px 24px", display: "flex", flexDirection: "column", gap: 8, textDecoration: "none" }}>
+            <Link key={card.label} href={card.href} style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius)", padding: "16px 18px", display: "flex", flexDirection: "column", gap: 8, textDecoration: "none" }}>
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                 <span style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)", fontWeight: 500 }}>{card.label}</span>
                 <Icon style={{ fontSize: "var(--fs-20)", color: card.color, opacity: 0.8 }} />
@@ -81,7 +81,7 @@ export async function ManagerHome({ companyId, userId }: { companyId: string | u
 
       <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: 16 }}>
         {/* Recent maintenance */}
-        <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius)", padding: 24 }}>
+        <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius)", padding: 18 }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
             <h2 style={{ fontSize: "var(--fs-15)", fontWeight: 600, color: "var(--foreground)", margin: 0 }}>Εκκρεμή Αιτήματα Συντήρησης</h2>
             <Link href="/admin/maintenance" style={{ fontSize: "var(--fs-12)", color: "var(--color-primary)", display: "flex", alignItems: "center", gap: 4, textDecoration: "none" }}>
@@ -113,7 +113,7 @@ export async function ManagerHome({ companyId, userId }: { companyId: string | u
 
         {/* Announcements + links */}
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-          <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius)", padding: 20 }}>
+          <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius)", padding: 16 }}>
             <h2 style={{ fontSize: "var(--fs-14)", fontWeight: 600, color: "var(--foreground)", margin: "0 0 12px" }}>Ανακοινώσεις</h2>
             <div style={{ fontSize: "var(--fs-32)", fontWeight: 700, color: "var(--color-primary)" }}>{stats.activeAnnouncements}</div>
             <div style={{ fontSize: "var(--fs-12)", color: "var(--muted-foreground)", marginTop: 4 }}>Ενεργές</div>
@@ -121,7 +121,7 @@ export async function ManagerHome({ companyId, userId }: { companyId: string | u
               Διαχείριση <RiArrowRightLine />
             </Link>
           </div>
-          <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius)", padding: 20 }}>
+          <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius)", padding: 16 }}>
             <h2 style={{ fontSize: "var(--fs-14)", fontWeight: 600, color: "var(--foreground)", margin: "0 0 12px" }}>Γρήγορες Ενέργειες</h2>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               {[

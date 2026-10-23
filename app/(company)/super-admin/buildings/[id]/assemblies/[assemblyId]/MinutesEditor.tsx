@@ -9,7 +9,7 @@ const cardStyle: React.CSSProperties = {
   background: "var(--card)",
   border: "1px solid var(--border)",
   borderRadius: 10,
-  padding: 20,
+  padding: 16,
 };
 
 export function MinutesEditor({ assemblyId, initialHtml, readonly }: { assemblyId: string; initialHtml: string; readonly: boolean }) {

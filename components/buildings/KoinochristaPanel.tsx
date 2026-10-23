@@ -68,7 +68,7 @@ export function KoinochristaPanel({ buildingId, can }: { buildingId: string; can
     <div className="kx">
       <style>{CSS}</style>
 
-      <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 16, marginBottom: 20, flexWrap: "wrap" }}>
+      <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 16, marginBottom: 14, flexWrap: "wrap" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
           <div style={{ display: "grid", placeItems: "center", width: 38, height: 38, borderRadius: 10, background: "color-mix(in srgb, var(--color-primary) 14%, transparent)", color: "var(--color-primary)" }}>
             <RiWallet3Line style={{ fontSize: "var(--fs-20)" }} />
@@ -110,7 +110,7 @@ export function KoinochristaPanel({ buildingId, can }: { buildingId: string; can
                     </span>
                   </span>
                   <span style={{ display: "flex", alignItems: "center", gap: 22 }}>
-                    <span className="koino-stats" style={{ display: "none", gap: 20 }}>
+                    <span className="koino-stats" style={{ display: "none", gap: 14 }}>
                       <Mini label="Σύνολο" value={eur(iss.total)} />
                       <Mini label="Πληρωμένα" value={eur(iss.paid)} color="var(--color-success)" />
                       <Mini label="Ανεξόφλητα" value={eur(iss.due)} color={iss.due > 0 ? "var(--color-danger)" : undefined} />

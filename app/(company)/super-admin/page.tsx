@@ -10,10 +10,10 @@ export default async function SuperAdminDashboard() {
   return (
     <DashboardTabs map={<PropertiesMap markers={markers} missing={missing} />}>
       <SuperAdminHome />
-      <div style={{ marginTop: 24 }}>
+      <div style={{ marginTop: 16 }}>
         <MaintenanceKanbanSection />
       </div>
-      <div style={{ marginTop: 24 }}>
+      <div style={{ marginTop: 16 }}>
         <SupportTicketSection />
       </div>
     </DashboardTabs>

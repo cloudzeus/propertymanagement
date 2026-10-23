@@ -67,7 +67,7 @@ export function SuppliersClient({ suppliers, categories, caps }: {
   ];
 
   return (
-    <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 18 }}>
+    <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 14 }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 12, flexWrap: "wrap" }}>
         <div>
           <h1 style={{ display: "flex", alignItems: "center", gap: 10, fontSize: "var(--fs-22)", fontWeight: 800, margin: 0, color: "var(--foreground)" }}>

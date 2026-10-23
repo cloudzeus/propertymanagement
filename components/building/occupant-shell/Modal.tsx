@@ -131,7 +131,7 @@ export function ModalShell({ open, onClose, ariaLabel, title, footer, maxWidth =
               <RiCloseLine size={17} />
             </button>
           </div>
-          <div style={{ overflowY: "auto", padding: 20, flex: "1 1 auto", minHeight: 0 }}>{children}</div>
+          <div style={{ overflowY: "auto", padding: 16, flex: "1 1 auto", minHeight: 0 }}>{children}</div>
           {footer && (
             <div style={{ flex: "none", padding: "12px 20px", borderTop: "1px solid var(--border)", background: "var(--bg-canvas)" }}>
               {footer}

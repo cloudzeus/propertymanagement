@@ -65,7 +65,7 @@ export async function OwnerHome({ userId, userName, previewMode = false }: { use
   ].filter((s) => s.count > 0);
 
   return (
-    <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+    <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 14 }}>
       {!previewMode && buildingIds.slice(0, 5).map((id) => (
         <AutoRefresh key={id} buildingId={id} />
       ))}

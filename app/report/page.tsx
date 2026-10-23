@@ -55,7 +55,7 @@ export default async function ReportPage() {
   const detailBase = STAFF.includes(role) ? "/admin/maintenance" : role === "COLLABORATOR" ? "/marketplace/requests" : role === "PROPERTY_ADMIN" ? "/portal/maintenance" : "/portal/requests";
 
   if (buildings.length === 0) {
-    return <div style={{ maxWidth: 520, margin: "40px auto", background: "var(--card)", border: "1px solid var(--border)", borderRadius: 12, padding: 28, textAlign: "center", fontSize: "var(--fs-13-5)", color: "var(--muted-foreground)" }}>
+    return <div style={{ maxWidth: 520, margin: "40px auto", background: "var(--card)", border: "1px solid var(--border)", borderRadius: 12, padding: 16, textAlign: "center", fontSize: "var(--fs-13-5)", color: "var(--muted-foreground)" }}>
       {role === "COLLABORATOR" ? "Μπορείτε να δηλώσετε βλάβη μόνο σε κτήρια όπου έχετε ανάθεση." : "Δεν έχετε συνδεθεί με κάποιο κτήριο ακόμη — επικοινωνήστε με την εταιρεία διαχείρισης."}
     </div>;
   }

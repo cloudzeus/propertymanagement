@@ -98,7 +98,7 @@ export function OnboardingWizard({ supplier, catalog, categories, existing, user
   }
 
   return (
-    <div className="dash-page" style={{ maxWidth: 860, margin: "0 auto", display: "flex", flexDirection: "column", gap: 18 }}>
+    <div className="dash-page" style={{ maxWidth: 860, margin: "0 auto", display: "flex", flexDirection: "column", gap: 14 }}>
       <div>
         <div style={{ fontSize: "var(--fs-12)", fontWeight: 700, letterSpacing: 0.5, textTransform: "uppercase", color: "var(--muted-foreground)" }}>Πρώτη σύνδεση</div>
         <h1 style={{ fontSize: "var(--fs-24)", fontWeight: 800, margin: "4px 0 0", color: "var(--foreground)" }}>Καλώς ήρθατε{userName ? `, ${userName}` : ""}</h1>
@@ -126,7 +126,7 @@ export function OnboardingWizard({ supplier, catalog, categories, existing, user
 
       {error && <div style={errBox} role="alert">{error}</div>}
 
-      <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 10, padding: 20 }}>
+      <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 10, padding: 16 }}>
         {step === 0 && (
           <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
             <div style={grid3}>

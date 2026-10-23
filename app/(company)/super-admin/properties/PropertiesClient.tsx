@@ -8,6 +8,7 @@ import { createProperty, updateProperty, deleteProperty } from "@/app/actions/pr
 import { BuildingsTree, type TBuilding } from "../customers/CustomerTree";
 import { RiCheckLine, RiLoaderLine, RiPencilLine, RiDeleteBinLine, RiSettings3Line, RiMapPin2Line } from "react-icons/ri";
 import { ManagedBadge } from "@/components/ui/managed-badge";
+import { PropertyWizard } from "@/components/wizards/PropertyWizard";
 
 type Property = {
   id: string;
@@ -44,6 +45,7 @@ export function PropertiesClient({ initial, customers }: { initial: Property[]; 
   const router = useRouter();
   const [data, setData] = useState<Property[]>(initial);
   const [open, setOpen] = useState(false);
+  const [wizard, setWizard] = useState(false);
   const [editing, setEditing] = useState<Property | null>(null);
   const [form, setForm] = useState(initForm());
   const [lat, setLat] = useState<number | null>(null);
@@ -55,7 +57,10 @@ export function PropertiesClient({ initial, customers }: { initial: Property[]; 
 
   const f = (k: keyof ReturnType<typeof initForm>) => (v: string) => setForm((p) => ({ ...p, [k]: v }));
 
-  function openAdd() {
+  // «Νέα Ιδιοκτησία» opens the guided wizard; «Προτιμώ την απλή φόρμα» falls back to the dense form.
+  function openAdd() { setWizard(true); }
+  function openSimpleForm() {
+    setWizard(false);
     setEditing(null);
     setForm({ ...initForm(), customerId: customers[0]?.id ?? "" });
     setLat(null); setLng(null); setSameAddress(true); setError(null); setOpen(true);
@@ -153,7 +158,7 @@ export function PropertiesClient({ initial, customers }: { initial: Property[]; 
   ];
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
       <div>
         <h1 style={{ fontSize: "var(--fs-22)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}>Ιδιοκτησίες</h1>
         <p style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)", marginTop: 4 }}>{data.length} ιδιοκτησίες</p>
@@ -180,6 +185,10 @@ export function PropertiesClient({ initial, customers }: { initial: Property[]; 
           />
         )}
       />
+
+      {wizard && (
+        <PropertyWizard customer={null} customers={customers} onClose={() => setWizard(false)} onSimpleForm={openSimpleForm} onDone={() => router.refresh()} />
+      )}
 
       <Modal
         open={open}

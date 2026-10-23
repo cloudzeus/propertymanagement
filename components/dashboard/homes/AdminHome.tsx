@@ -56,7 +56,7 @@ export async function AdminHome({ companyId, userId }: { companyId: string | und
   ]);
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
       <div>
         <h1 style={{ fontSize: "var(--fs-22)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}>Πίνακας Διαχείρισης</h1>
         <p style={{ fontSize: "var(--fs-13)", color: "var(--muted-foreground)", marginTop: 4 }}>Λειτουργική εικόνα εταιρείας — βλάβες, εισπράξεις, λήξεις</p>

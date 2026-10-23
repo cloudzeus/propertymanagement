@@ -106,7 +106,7 @@ export default async function ManagerBuildingsPage({
   }
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
       <div>
         <h1 style={{ margin: 0, fontSize: "var(--fs-24)", fontWeight: 800, color: "var(--foreground)" }}>Τα κτήριά μου</h1>
         <p style={{ margin: "4px 0 0", fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }}>

@@ -71,7 +71,7 @@ export function RfqInvitationsClient({ rows, faults, canCreate, canEdit, viewer 
   };
 
   return (
-    <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 18 }}>
+    <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 14 }}>
       <div>
         <h1 style={{ display: "flex", alignItems: "center", gap: 10, fontSize: "var(--fs-22)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}><RiMoneyEuroCircleLine style={{ color: "var(--color-primary)" }} /> Αιτήματα προσφοράς</h1>
         <p style={{ margin: "4px 0 0", fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }}>Κάθε γραμμή είναι μία πρόσκληση σε συνεργάτη. Το email περιέχει προσωπικό link 14 ημερών· εδώ βλέπετε αν στάλθηκε, αν ανοίχτηκε και τι απάντησε.</p>

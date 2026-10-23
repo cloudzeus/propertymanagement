@@ -45,7 +45,7 @@ export function SoftoneHeader({ title, subtitle }: { title: string; subtitle: st
 
 export const S1_LABEL: React.CSSProperties = { fontSize: "var(--fs-12)", fontWeight: 600, color: "var(--muted-foreground)", display: "block", marginBottom: 6, letterSpacing: "0.03em" };
 export const S1_INPUT: React.CSSProperties = { width: "100%", minHeight: 38, padding: "8px 12px", border: "1px solid var(--border)", borderRadius: 6, fontSize: "var(--fs-13)", color: "var(--foreground)", background: "var(--bg-canvas)", outline: "none", boxSizing: "border-box" };
-export const S1_CARD: React.CSSProperties = { background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius)", padding: 20, display: "flex", flexDirection: "column", gap: 16 };
+export const S1_CARD: React.CSSProperties = { background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius)", padding: 16, display: "flex", flexDirection: "column", gap: 16 };
 export const S1_BTN = (variant: "primary" | "ghost" | "danger" = "primary", disabled = false): React.CSSProperties => ({
   display: "inline-flex", alignItems: "center", gap: 6, minHeight: 40, padding: "0 18px", borderRadius: "var(--radius)", fontSize: "var(--fs-13)", fontWeight: 600, cursor: disabled ? "not-allowed" : "pointer", opacity: disabled ? 0.65 : 1,
   background: variant === "primary" ? "var(--color-primary)" : variant === "danger" ? "var(--color-danger)" : "var(--card)",

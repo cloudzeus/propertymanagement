@@ -30,7 +30,7 @@ export function WorkOrdersClient({ items, viewer }: { items: WorkOrderDTO[]; vie
   ];
 
   return (
-    <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 18 }}>
+    <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 14 }}>
       <div>
         <h1 style={{ display: "flex", alignItems: "center", gap: 10, fontSize: "var(--fs-22)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}><RiFileListLine style={{ color: "var(--color-primary)" }} /> Συμβάσεις έργου</h1>
         <p style={{ margin: "4px 0 0", fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }}>Back-to-back: τι πληρώνει η εταιρεία στον συνεργάτη και τι χρεώνει στον πελάτη. Μενού ⋯ ανά γραμμή για αποδοχή/παραλαβή εκ μέρους πελάτη και προγραμματισμό· ο αριθμός ανοίγει τη σελίδα της σύμβασης.</p>

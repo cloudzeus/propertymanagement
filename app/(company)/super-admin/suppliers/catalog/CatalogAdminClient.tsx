@@ -44,7 +44,7 @@ export function CatalogAdminClient({ items, categories, canEdit, canDelete }: {
       {err && <div style={errBox} role="alert">{err}</div>}
 
       {items.length === 0 ? (
-        <div onClick={() => canEdit && setEditing("new")} style={{ border: "1.5px dashed var(--border-strong)", borderRadius: 8, padding: 40, textAlign: "center", color: "var(--muted-foreground)", cursor: canEdit ? "pointer" : "default", background: "var(--bg-canvas)", fontSize: "var(--fs-13)" }}>
+        <div onClick={() => canEdit && setEditing("new")} style={{ border: "1.5px dashed var(--border-strong)", borderRadius: 8, padding: 18, textAlign: "center", color: "var(--muted-foreground)", cursor: canEdit ? "pointer" : "default", background: "var(--bg-canvas)", fontSize: "var(--fs-13)" }}>
           <RiPriceTag3Line style={{ fontSize: "var(--fs-26)", display: "block", margin: "0 auto 8px" }} />
           <div style={{ fontWeight: 600, color: "var(--foreground)", marginBottom: 3 }}>Ο κατάλογος είναι κενός</div>
           Προσθέστε π.χ. «Επισκευή θυροτηλεφώνου», «Ετήσια συντήρηση καυστήρα», «Καθαρισμός κοινοχρήστων».

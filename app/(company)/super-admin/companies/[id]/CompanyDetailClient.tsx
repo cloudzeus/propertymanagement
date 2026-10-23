@@ -34,7 +34,7 @@ export function CompanyDetailClient({ company, departments, positions, employees
       <div style={{
         display: "flex", gap: 0,
         borderBottom: "1px solid var(--border)",
-        marginBottom: 24,
+        marginBottom: 16,
       }}>
         {TABS.map(({ id, label, icon: Icon }) => {
           const active = activeTab === id;

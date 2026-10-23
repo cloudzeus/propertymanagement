@@ -8,7 +8,7 @@ export function SectionCard({
   return (
     <section style={{
       background: "var(--card)", border: "1px solid var(--border)",
-      borderRadius: 18, boxShadow: "var(--shadow-card)", padding: 24,
+      borderRadius: 18, boxShadow: "var(--shadow-card)", padding: 18,
     }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
         <h2 style={{ fontSize: "var(--fs-15)", fontWeight: 600, color: "var(--foreground)", margin: 0 }}>{title}</h2>

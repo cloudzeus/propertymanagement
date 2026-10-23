@@ -94,7 +94,7 @@ export function BuildingManagerShell(props: Props) {
   ].filter(Boolean);
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
       <AutoRefresh buildingId={building.id} />
       {/* hero */}
       <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 12, padding: "18px 20px", boxShadow: "0 1px 2px rgba(0,0,0,0.06)" }}>
@@ -224,7 +224,7 @@ export function BuildingManagerShell(props: Props) {
         ) : tab === "splitsettings" ? (
           <CategorySplitSettings buildingId={building.id} rows={categorySplits} can={can} />
         ) : tab === "millesimes" ? (
-          <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
             <MillesimeGrid
               buildingId={building.id}
               units={millesimeUnits}
@@ -286,7 +286,7 @@ function Kpi({ icon: Icon, label, value }: { icon: React.ElementType; label: str
 
 function Placeholder({ label }: { label: string }) {
   return (
-    <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 8, padding: 40, textAlign: "center", color: "var(--muted-foreground)", fontSize: "var(--fs-14)" }}>
+    <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 8, padding: 18, textAlign: "center", color: "var(--muted-foreground)", fontSize: "var(--fs-14)" }}>
       «{label}» — ενεργοποιείται σε επόμενη φάση.
     </div>
   );

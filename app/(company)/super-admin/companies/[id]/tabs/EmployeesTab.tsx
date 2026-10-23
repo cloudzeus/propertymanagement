@@ -306,7 +306,7 @@ export function EmployeesTab({
         }
       >
         {/* Mini tab bar inside modal */}
-        <div style={{ display: "flex", gap: 4, marginBottom: 20, padding: "4px", background: "var(--bg-canvas)", borderRadius: 6, border: "1px solid var(--border)" }}>
+        <div style={{ display: "flex", gap: 4, marginBottom: 14, padding: "4px", background: "var(--bg-canvas)", borderRadius: 6, border: "1px solid var(--border)" }}>
           {(["personal", "employment", "tax"] as const).map((t) => (
             <button key={t} onClick={() => setModalTab(t)} style={tabStyle(modalTab === t)}>
               {{ personal: "Στοιχεία", employment: "Εργασία", tax: "Φορολογικά / Διεύθυνση" }[t]}

@@ -57,7 +57,7 @@ export function SoftoneConnectionClient({ initial }: { initial: SoftoneConnectio
   const sourceColor = source === "db" ? "var(--color-success)" : source === "env" ? "var(--color-warning)" : "var(--color-danger)";
 
   return (
-    <form onSubmit={onSave} style={{ display: "flex", flexDirection: "column", gap: 20, maxWidth: 860 }}>
+    <form onSubmit={onSave} style={{ display: "flex", flexDirection: "column", gap: 14, maxWidth: 860 }}>
       <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "12px 16px", borderRadius: "var(--radius)", border: "1px solid var(--border)", background: "var(--card)", flexWrap: "wrap" }}>
         <SourceIcon size={18} style={{ color: sourceColor }} />
         <div style={{ fontSize: "var(--fs-13)" }}>Ενεργή πηγή ρύθμισης: <strong style={{ color: sourceColor }}>{sourceLabel}</strong></div>

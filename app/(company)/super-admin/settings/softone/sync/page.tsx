@@ -48,7 +48,7 @@ export default async function SoftoneSyncPage({ searchParams }: { searchParams: 
   }));
 
   return (
-    <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+    <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 14 }}>
       <SoftoneHeader title="Συγχρονισμός" subtitle="Master data από το SoftOne (pull), προεπισκόπηση αποστολών (push dry-run) και ιστορικό συγχρονισμού." />
       <SoftoneSyncClient
         configured={cfg !== null}

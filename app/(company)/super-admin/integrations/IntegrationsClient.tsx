@@ -37,7 +37,7 @@ export function IntegrationsClient({ items }: { items: IntegrationItem[] }) {
   }
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
       <div>
         <h1 style={{ fontSize: "var(--fs-24)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}>Ενσωματώσεις</h1>
         <p style={{ fontSize: "var(--fs-14)", color: "var(--muted-foreground)", margin: "4px 0 0" }}>

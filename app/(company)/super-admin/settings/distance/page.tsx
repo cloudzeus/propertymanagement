@@ -12,7 +12,7 @@ export default async function DistanceSettingsPage() {
   const overview = await loadDistanceOverview();
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 24, maxWidth: 1000 }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: 16, maxWidth: 1000 }}>
       <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
         <div style={{ width: 40, height: 40, borderRadius: 10, background: "var(--color-primary)18", display: "flex", alignItems: "center", justifyContent: "center" }}>
           <RiRoadMapLine style={{ fontSize: "var(--fs-20)", color: "var(--color-primary)" }} />

@@ -11,7 +11,7 @@ export default async function PaymentsSettingsPage() {
   const initial = await getProviderVivaForEdit();
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
       <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
         <div
           style={{

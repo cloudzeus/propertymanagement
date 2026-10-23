@@ -31,14 +31,14 @@ export default async function SupplierRfqInbox() {
   );
 
   return (
-    <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 18, maxWidth: 900 }}>
+    <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 14, maxWidth: 900 }}>
       <div>
         <h1 style={{ display: "flex", alignItems: "center", gap: 10, fontSize: "var(--fs-22)", fontWeight: 700, color: "var(--foreground)", margin: 0 }}><RiMoneyEuroCircleLine style={{ color: "var(--color-primary)" }} /> Αιτήματα προσφοράς</h1>
         <p style={{ margin: "4px 0 0", fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }}>Η εταιρεία διαχείρισης σας ζητά τιμή και διαθεσιμότητα. Απαντήστε πριν την προθεσμία — οι γρήγορες απαντήσεις προτιμώνται.</p>
       </div>
       {open.length > 0 && <div style={{ display: "flex", flexDirection: "column", gap: 8 }}><div style={{ fontSize: "var(--fs-12)", fontWeight: 700, color: "var(--muted-foreground)", display: "flex", alignItems: "center", gap: 6 }}><RiTimeLine /> ΑΝΑΜΕΝΟΥΝ ΑΠΑΝΤΗΣΗ ({open.length})</div>{open.map((i) => <Row key={i.invitationId} i={i} />)}</div>}
       {rest.length > 0 && <div style={{ display: "flex", flexDirection: "column", gap: 8 }}><div style={{ fontSize: "var(--fs-12)", fontWeight: 700, color: "var(--muted-foreground)" }}>ΙΣΤΟΡΙΚΟ</div>{rest.map((i) => <Row key={i.invitationId} i={i} />)}</div>}
-      {items.length === 0 && <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 12, padding: 32, textAlign: "center", fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }}>Δεν έχετε λάβει αιτήματα προσφοράς ακόμη.</div>}
+      {items.length === 0 && <div style={{ background: "var(--card)", border: "1px solid var(--border)", borderRadius: 12, padding: 16, textAlign: "center", fontSize: "var(--fs-13)", color: "var(--muted-foreground)" }}>Δεν έχετε λάβει αιτήματα προσφοράς ακόμη.</div>}
     </div>
   );
 }
