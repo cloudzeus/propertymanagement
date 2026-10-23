@@ -12,6 +12,7 @@ import {
   RiImageAddLine, RiCloseLine, RiExternalLinkLine, RiCalendarLine, RiRepeatLine,
 } from "react-icons/ri";
 import type { BuildingCaps } from "@/lib/building-caps";
+import { CommonAreaWizard, type PerAreaService } from "@/components/wizards/CommonAreaWizard";
 
 export type ManagedItemSchedule = { id: string; title: string; frequency: TaskFrequency; nextDueDate: string | null; vendor: string | null; reminderDaysBefore: number; active: boolean };
 export type ManagedItemRow = {
@@ -29,9 +30,10 @@ const LOCATION_SUGGESTIONS = ["Κοινόχρηστοι χώροι", "Κλιμα
 const FREQ_LABEL: Record<TaskFrequency, string> = { WEEKLY: "Εβδομαδιαία", MONTHLY: "Μηνιαία", QUARTERLY: "Τριμηνιαία", SEMIANNUAL: "Εξαμηνιαία", ANNUAL: "Ετήσια", CUSTOM: "Προσαρμοσμένη" };
 const FREQ_OPTIONS: { value: TaskFrequency; label: string }[] = (Object.keys(FREQ_LABEL) as TaskFrequency[]).map((f) => ({ value: f, label: FREQ_LABEL[f] }));
 
-export function ManagedItemsPanel({ buildingId, items, itemTypes, floorOptions, commonAreas, can }: { buildingId: string; items: ManagedItemRow[]; itemTypes: ManagedItemTypeOption[]; floorOptions: string[]; commonAreas: CommonAreaOption[]; can: BuildingCaps }) {
+export function ManagedItemsPanel({ buildingId, items, itemTypes, floorOptions, commonAreas, can, packageServices = [] }: { buildingId: string; items: ManagedItemRow[]; itemTypes: ManagedItemTypeOption[]; floorOptions: string[]; commonAreas: CommonAreaOption[]; can: BuildingCaps; packageServices?: PerAreaService[] }) {
   const router = useRouter();
   const [editing, setEditing] = useState<ManagedItemRow | null | "new">(null);
+  const [wizard, setWizard] = useState(false);
   const [isPending, startTransition] = useTransition();
 
   const totalQty = items.reduce((s, i) => s + i.quantity, 0);
@@ -55,7 +57,12 @@ export function ManagedItemsPanel({ buildingId, items, itemTypes, floorOptions, 
             </>
           )}
         </div>
-        {can.manageManagedItems && <button onClick={() => setEditing("new")} disabled={activeTypes.length === 0} style={{ ...btn, ...btnPrimary, opacity: activeTypes.length === 0 ? 0.5 : 1 }}><RiAddLine /> Προσθήκη στοιχείου</button>}
+        {can.manageManagedItems && (
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+            <button onClick={() => setWizard(true)} style={{ ...btn, ...btnPrimary }}><RiAddLine /> Νέος χώρος & στοιχεία</button>
+            <button onClick={() => setEditing("new")} disabled={activeTypes.length === 0} style={{ ...btn, opacity: activeTypes.length === 0 ? 0.5 : 1 }}><RiAddLine /> Προσθήκη στοιχείου</button>
+          </div>
+        )}
       </div>
 
       {activeTypes.length === 0 && (
@@ -117,6 +124,10 @@ export function ManagedItemsPanel({ buildingId, items, itemTypes, floorOptions, 
         </div>
       )}
 
+      {wizard && (
+        <CommonAreaWizard buildingId={buildingId} itemTypes={itemTypes} floorOptions={floorOptions} services={packageServices} currentCommonAreas={commonAreas.length}
+          onClose={() => setWizard(false)} onSimpleForm={() => { setWizard(false); setEditing("new"); }} onDone={() => { setWizard(false); router.refresh(); }} />
+      )}
       {editing !== null && (
         <ManagedItemModal
           buildingId={buildingId}

@@ -5,7 +5,7 @@ roles: [SUPER_ADMIN]
 area: management
 summary: Ο κατάλογος του «τι διαχειρίζεται η εταιρεία» (λαμπτήρες, πυροσβεστήρες κ.λπ.) που ανατίθεται στα κτήρια.
 prompts: ["Πώς προσθέτω νέο στοιχείο στον κατάλογο;"]
-related: [super-admin-managed-buildings, super-admin-buildings-detail]
+related: [guide-common-area, super-admin-managed-buildings, super-admin-buildings-detail]
 ---
 ## Τι βλέπετε εδώ
 Η λίστα «Στοιχεία Διαχείρισης» — «Τι διαχειρίζεται η εταιρεία» σε επίπεδο καταλόγου (π.χ. «Αλλαγή λαμπτήρων»). Από εδώ ορίζονται οι τύποι· η ανάθεση σε συγκεκριμένο κτήριο γίνεται στα «Διαχειριζόμενα κτήρια» ή στην καρτέλα του κτηρίου.

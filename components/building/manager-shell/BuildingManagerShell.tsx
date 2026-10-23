@@ -214,7 +214,7 @@ export function BuildingManagerShell(props: Props) {
         ) : tab === "infra" ? (
           <InfraPanel buildingId={building.id} points={infraPoints} floorOptions={floorOptions} can={can} />
         ) : tab === "manageditems" && building.propertyManaged ? (
-          <ManagedItemsPanel buildingId={building.id} items={managedItems} itemTypes={managedItemTypes} floorOptions={floorOptions} commonAreas={commonAreas} can={can} />
+          <ManagedItemsPanel buildingId={building.id} items={managedItems} itemTypes={managedItemTypes} floorOptions={floorOptions} commonAreas={commonAreas} can={can} packageServices={props.packageServices} />
         ) : tab === "calendar" ? (
           <CalendarPanel buildingId={building.id} tasks={tasks} today={today} can={can} />
         ) : tab === "expenses" ? (

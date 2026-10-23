@@ -2,6 +2,7 @@ import { db } from "@/lib/db";
 import { listBuildingExpenses } from "@/app/actions/building-expenses";
 import { getBuildingCategorySplits } from "@/app/actions/expense-categories";
 import { listHeatingReadings } from "@/app/actions/heating-readings";
+import { getPropertyPackage } from "@/lib/billing/service-amount";
 import { listMaintenanceHistory } from "@/app/actions/maintenance-logs";
 
 export type BuildingDashboardData = NonNullable<Awaited<ReturnType<typeof getBuildingDashboardData>>>;
@@ -241,6 +242,15 @@ export async function getBuildingDashboardData(id: string, opts: { heatingPeriod
 
   const maintenanceHistory = await listMaintenanceHistory(building.id);
 
+  // ── Package services of the property (the common-area wizard previews «ανά κοινόχρηστο χώρο» charges) ──
+  let packageServices: { name: string; price: number; pricingModel: string; enabled: boolean }[] = [];
+  if (building.property.managed) {
+    try {
+      const pkg = await getPropertyPackage(building.property.id);
+      packageServices = pkg.services.map((s) => ({ name: s.name, price: s.price, pricingModel: s.pricingModel, enabled: s.enabled }));
+    } catch { packageServices = []; }
+  }
+
   // ── Fault requests (full list) + active categories ──────────────────────────
   const [maintenanceRequestRows, maintenanceCategories] = await Promise.all([
     db.maintenanceRequest.findMany({
@@ -326,6 +336,7 @@ export async function getBuildingDashboardData(id: string, opts: { heatingPeriod
     })),
     managedItemTypes,
     commonAreas,
+    packageServices,
     infraPoints: infra,
     floorOptions,
     tasks,

@@ -45,6 +45,7 @@ import { CategorySplitSettings } from "@/components/buildings/CategorySplitSetti
 import { AuditDrawer } from "@/components/building/AuditDrawer";
 import { PickerModal } from "./PickerModal";
 import { MillesimesWizard } from "@/components/wizards/MillesimesWizard";
+import { CommonAreaWizard } from "@/components/wizards/CommonAreaWizard";
 
 export type BuildingActionHostProps = {
   active: BuildingActionKey | null;
@@ -117,7 +118,12 @@ function ActiveAction({ active, data, can, workViewer, faultDetailBase, onGoToTa
     case "task-new":
       return <TaskFlow buildingId={buildingId} onClose={onClose} onDone={onDone} />;
     case "managed-item-new":
-      return <ManagedItemModal buildingId={buildingId} itemTypes={data.managedItemTypes} floorOptions={data.floorOptions} commonAreas={data.commonAreas} editing={null} onClose={onClose} onDone={() => onDone("Το στοιχείο προστέθηκε.")} />;
+      return (
+        <WizardOrForm
+          wizard={(p) => <CommonAreaWizard buildingId={buildingId} itemTypes={data.managedItemTypes} floorOptions={data.floorOptions} services={data.packageServices} currentCommonAreas={data.commonAreas.length} {...p} />}
+          form={(p) => <ManagedItemModal buildingId={buildingId} itemTypes={data.managedItemTypes} floorOptions={data.floorOptions} commonAreas={data.commonAreas} editing={null} {...p} />}
+          onClose={onClose} onDone={() => onDone("Ο κοινόχρηστος χώρος και τα στοιχεία του προστέθηκαν.")} />
+      );
     // ── Επικοινωνία ───────────────────────────────────────────────────────
     case "announcement-new":
       return <WizardOrForm wizard={(p) => <AnnouncementWizard buildingId={buildingId} {...p} />} form={(p) => <AnnouncementFormModal buildingId={buildingId} {...p} />} onClose={onClose} onDone={() => onDone("Η ανακοίνωση δημοσιεύτηκε.")} />;
