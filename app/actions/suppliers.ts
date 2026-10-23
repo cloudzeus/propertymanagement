@@ -12,6 +12,8 @@ import {
   SUPPLIER_KINDS, normalizeAfm, normalizeWorkingHours,
   type SupplierFormInput, type CatalogItemInput, type SupplierOption,
 } from "@/lib/suppliers-shared";
+import { getDistanceZones } from "@/lib/distance/buildings";
+import type { DistanceZone } from "@/lib/distance/zones";
 
 /* ------------------------------------------------------------------ */
 /* Actor + authorization                                               */
@@ -114,6 +116,17 @@ function normalizeForm(input: SupplierFormInput) {
  * Create a supplier. `scope: "company"` → company registry (staff with
  * suppliers:create). `scope: "private"` → the acting PROPERTY_ADMIN's list.
  */
+/** Categories + distance zones for the supplier wizard opened from a deep link (staff with suppliers:create). */
+export async function listSupplierWizardContext(): Promise<{ categories: { id: string; name: string }[]; zones: DistanceZone[] }> {
+  const a = await actor();
+  if (!isStaffRole(a.role) || !can(a.perms, "suppliers", "create")) throw new Error("Forbidden");
+  const [categories, zones] = await Promise.all([
+    db.maintenanceCategory.findMany({ where: { active: true }, orderBy: { sortOrder: "asc" }, select: { id: true, name: true } }),
+    getDistanceZones(),
+  ]);
+  return { categories, zones };
+}
+
 export async function createSupplier(input: SupplierFormInput, scope: "company" | "private") {
   const a = await actor();
   let customerId: string | null = null;

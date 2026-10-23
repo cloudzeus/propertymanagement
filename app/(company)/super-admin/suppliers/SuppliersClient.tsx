@@ -5,17 +5,21 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { DataTable, type ColDef, type RowAction } from "@/components/ui/data-table";
 import { SupplierFormModal, type CategoryOption } from "@/components/suppliers/SupplierFormModal";
+import { SupplierWizard } from "@/components/wizards/SupplierWizard";
+import type { DistanceZone } from "@/lib/distance/zones";
 import { deleteSupplier } from "@/app/actions/suppliers";
 import { SUPPLIER_KIND_LABELS, formatHoursSummary, type SupplierDTO } from "@/lib/suppliers-shared";
 import { RiTeamLine, RiEyeLine, RiPencilLine, RiDeleteBinLine, RiEyeOffLine, RiUserLine, RiAlarmWarningLine, RiPriceTag3Line } from "react-icons/ri";
 
-export function SuppliersClient({ suppliers, categories, caps }: {
+export function SuppliersClient({ suppliers, categories, caps, zones = [] }: {
   suppliers: SupplierDTO[];
   categories: CategoryOption[];
   caps: { create: boolean; edit: boolean; delete: boolean };
+  zones?: DistanceZone[];
 }) {
   const router = useRouter();
   const [editing, setEditing] = useState<SupplierDTO | null | "new">(null);
+  const [wizard, setWizard] = useState(false);
   const [isPending, startTransition] = useTransition();
   const [rowError, setRowError] = useState<string | null>(null);
 
@@ -108,15 +112,19 @@ export function SuppliersClient({ suppliers, categories, caps }: {
         storageKey="suppliers-registry"
         searchPlaceholder="Αναζήτηση συνεργάτη (επωνυμία, ΑΦΜ, πόλη)…"
         getRowActions={rowActions}
-        onAddNew={caps.create ? () => setEditing("new") : undefined}
+        onAddNew={caps.create ? () => setWizard(true) : undefined}
         addNewLabel="Νέος συνεργάτης"
       />
 
+      {wizard && (
+        <SupplierWizard categories={categories} zones={zones} scope="company" onClose={() => setWizard(false)} onSimpleForm={() => { setWizard(false); setEditing("new"); }} onDone={() => router.refresh()} />
+      )}
       {editing !== null && (
         <SupplierFormModal
           editing={editing === "new" ? null : editing}
           scope="company"
           categories={categories}
+          zones={zones}
           onClose={() => setEditing(null)}
           onDone={() => { setEditing(null); router.refresh(); }}
         />

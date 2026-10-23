@@ -16,6 +16,8 @@ import { ServiceWizard } from "./ServiceWizard";
 import { listServiceWizardContext } from "@/app/actions/services";
 import { PackageWizard, type PackageView } from "./PackageWizard";
 import { listPropertyPackage } from "@/app/actions/property-package";
+import { SupplierWizard } from "./SupplierWizard";
+import { listSupplierWizardContext } from "@/app/actions/suppliers";
 import { FieldSelect, FormField } from "@/components/ui/modal";
 import type { WizardHostApi } from "./WizardHost";
 
@@ -134,4 +136,16 @@ export function PackageWizardLoader({ api }: { api: WizardHostApi }) {
       </FormField>
     </Modal>
   );
+}
+
+export function SupplierWizardLoader({ api }: { api: WizardHostApi }) {
+  const [ctx, setCtx] = useState<Awaited<ReturnType<typeof listSupplierWizardContext>> | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  useEffect(() => {
+    let cancelled = false;
+    listSupplierWizardContext().then((c) => { if (!cancelled) setCtx(c); }).catch(() => { if (!cancelled) setError("Δεν ήταν δυνατή η φόρτωση των κατηγοριών."); });
+    return () => { cancelled = true; };
+  }, []);
+  if (!ctx) return <LoadingModal title="Νέος συνεργάτης βήμα-βήμα" error={error} onClose={api.onClose} />;
+  return <SupplierWizard categories={ctx.categories} zones={ctx.zones} scope="company" onClose={api.onClose} onDone={(s) => api.onDone(`Ο συνεργάτης «${s.name}» καταχωρίστηκε.`)} />;
 }

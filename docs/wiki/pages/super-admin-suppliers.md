@@ -5,7 +5,7 @@ roles: [SUPER_ADMIN]
 area: management
 summary: Το μητρώο συνεργατών της εταιρείας: συνεργεία και προμηθευτές με ειδικότητες, ωράριο και λογαριασμούς.
 prompts: ["Πώς προσθέτω νέο συνεργάτη;", "Ποιοι συνεργάτες κάνουν ηλεκτρολογικά;"]
-related: [super-admin-suppliers-detail, super-admin-suppliers-catalog, admin-work-orders]
+related: [guide-supplier, super-admin-suppliers-detail, super-admin-suppliers-catalog, admin-work-orders]
 ---
 ## Τι βλέπετε εδώ
 Πίνακας συνεργατών με «Επωνυμία», ΑΦΜ, «Πόλη», «Είδος», «Ειδικότητες», «Ωράριο», «Έκτακτα 24/7», «Επικοινωνία» και «Λογαριασμοί» (πόσοι χρήστες έχουν πρόσβαση στο /marketplace). Φίλτρα «Ενεργοί», «Με λογαριασμό», «Σύνολο». Πάνω: «Αναζήτηση συνεργάτη (επωνυμία, ΑΦΜ, πόλη)…».
