@@ -75,7 +75,7 @@ export function ServiceWizard({ zones, takenCodes, onClose, onDone, onSimpleForm
                 <div style={{ border: "1px solid var(--border)", borderRadius: 8, padding: "10px 12px", display: "flex", flexDirection: "column", gap: 8 }}>
                   <div style={{ fontSize: "var(--fs-12)", fontWeight: 700 }}>Ποσό ανά ζώνη (€ / κτήριο / μήνα)</div>
                   <div style={{ fontSize: "var(--fs-11)", color: "var(--muted-foreground)" }}>Μηνιαίο = βασική τιμή + το ποσό της ζώνης κάθε κτηρίου. Οι ζώνες ορίζονται στις Ρυθμίσεις → Σταθμός βάσης & ζώνες.</div>
-                  {zones.length === 0 ? <div style={{ fontSize: "var(--fs-12)", color: "#b45309" }}>Δεν έχουν οριστεί ζώνες ακόμη.</div> : (
+                  {zones.length === 0 ? <div style={{ fontSize: "var(--fs-12)", color: "var(--color-warning)" }}>Δεν έχουν οριστεί ζώνες ακόμη.</div> : (
                     <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(150px, 1fr))", gap: 8 }}>
                       {zones.map((z) => <FormField key={z.code} label={`${z.label}${z.maxKm != null ? ` (έως ${z.maxKm} km)` : " (και άνω)"}`}><NumberField unit="€" value={form.zonePrices[z.code] ?? ""} onChange={(v) => setForm((p) => ({ ...p, zonePrices: { ...p.zonePrices, [z.code]: v } }))} min={0} placeholder="0,00" /></FormField>)}
                     </div>

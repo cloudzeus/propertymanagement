@@ -54,7 +54,7 @@ export function UnitsGrid({ units, onChange, floors, basements }: { units: UnitD
                 </td>
                 <td style={{ ...cell, width: 120 }}><NumberField ariaLabel="Τετραγωνικά" unit="τ.μ." value={u.areaSqm == null ? "" : String(u.areaSqm).replace(".", ",")} onChange={(v) => set(i, { areaSqm: parseNumber(v) })} /></td>
                 <td style={{ ...cell, textAlign: "right", fontVariantNumeric: "tabular-nums", color: shares.get(String(i)) == null ? "var(--muted-foreground)" : "var(--foreground)", fontWeight: 600 }}>{shares.get(String(i)) ?? "—"}</td>
-                <td style={{ ...cell, width: 44 }}><button type="button" onClick={() => remove(i)} aria-label={`Διαγραφή μονάδας ${u.unitNumber || i + 1}`} style={{ width: 36, height: 36, borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", color: "#b91c1c", cursor: "pointer", display: "grid", placeItems: "center" }}><RiDeleteBinLine /></button></td>
+                <td style={{ ...cell, width: 44 }}><button type="button" onClick={() => remove(i)} aria-label={`Διαγραφή μονάδας ${u.unitNumber || i + 1}`} style={{ width: 36, height: 36, borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", color: "var(--color-danger)", cursor: "pointer", display: "grid", placeItems: "center" }}><RiDeleteBinLine /></button></td>
               </tr>
             ))}
           </tbody>

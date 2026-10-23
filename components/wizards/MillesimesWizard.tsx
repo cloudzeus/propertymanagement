@@ -81,7 +81,7 @@ export function MillesimesWizard({ buildingId, units, building, usesMeteredHeati
             </FormField>
           ))}
         </div>
-        <div role="status" style={{ fontSize: "var(--fs-13)", fontWeight: 700, color: err ? "#b45309" : "#15803d" }}>{err ?? "Σύνολο 1000‰ ✓"}</div>
+        <div role="status" style={{ fontSize: "var(--fs-13)", fontWeight: 700, color: err ? "var(--color-warning)" : "var(--color-success)" }}>{err ?? "Σύνολο 1000‰ ✓"}</div>
       </div>
     );
   };

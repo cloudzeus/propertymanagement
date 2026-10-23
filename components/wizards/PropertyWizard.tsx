@@ -73,7 +73,7 @@ export function PropertyWizard({ customer, customers = [], onClose, onDone, onSi
             <FormField label="Τ.Κ."><FieldInput value={form.postalCode} onChange={f("postalCode")} /></FormField>
             <FormField label="Χώρα"><FieldInput value={form.country} onChange={f("country")} /></FormField>
           </div>
-          {geo && <div style={{ fontSize: "var(--fs-12)", color: "#16a34a", display: "flex", alignItems: "center", gap: 5 }}><RiMapPin2Line /> Στίγμα βρέθηκε — θα υπολογιστεί η απόσταση από τον σταθμό βάσης.</div>}
+          {geo && <div style={{ fontSize: "var(--fs-12)", color: "var(--color-success)", display: "flex", alignItems: "center", gap: 5 }}><RiMapPin2Line /> Στίγμα βρέθηκε — θα υπολογιστεί η απόσταση από τον σταθμό βάσης.</div>}
         </>
       ),
       validate: () => (form.name.trim() ? null : "Γράψτε ένα όνομα για την ιδιοκτησία"),

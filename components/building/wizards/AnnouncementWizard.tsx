@@ -67,7 +67,7 @@ export function AnnouncementWizard({ buildingId, onClose, onDone, onSimpleForm }
           <>
             <ExampleCard title="Πώς θα το δουν" tone="success">
               <div style={{ border: "1px solid var(--border)", borderRadius: 10, padding: "10px 12px", background: "var(--card)", marginBottom: 8 }}>
-                <div style={{ fontSize: "var(--fs-11)", fontWeight: 700, color: kind === "URGENT" ? "#b91c1c" : "var(--muted-foreground)", textTransform: "uppercase" }}>{k?.label ?? "Ανακοίνωση"} · {new Date(publishedAt).toLocaleDateString("el-GR")}</div>
+                <div style={{ fontSize: "var(--fs-11)", fontWeight: 700, color: kind === "URGENT" ? "var(--color-danger)" : "var(--muted-foreground)", textTransform: "uppercase" }}>{k?.label ?? "Ανακοίνωση"} · {new Date(publishedAt).toLocaleDateString("el-GR")}</div>
                 <div style={{ fontSize: "var(--fs-15)", fontWeight: 700 }}>{title || "Θέμα της ανακοίνωσης"}</div>
                 <div style={{ fontSize: "var(--fs-12-5)", color: "var(--muted-foreground)" }}>{content.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim().slice(0, 160) || "Το κείμενο…"}</div>
               </div>

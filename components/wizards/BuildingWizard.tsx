@@ -91,7 +91,7 @@ export function BuildingWizard({ property, properties = [], onClose, onDone, onS
             <FormField label="Τ.Κ."><FieldInput value={form.postalCode} onChange={f("postalCode")} /></FormField>
             <FormField label="Χώρα"><FieldInput value={form.country} onChange={f("country")} /></FormField>
           </div>
-          {geo && <div style={{ fontSize: "var(--fs-12)", color: "#16a34a", display: "flex", alignItems: "center", gap: 5 }}><RiMapPin2Line /> Στίγμα υπάρχει — η απόσταση από τον σταθμό βάσης θα υπολογιστεί αυτόματα.</div>}
+          {geo && <div style={{ fontSize: "var(--fs-12)", color: "var(--color-success)", display: "flex", alignItems: "center", gap: 5 }}><RiMapPin2Line /> Στίγμα υπάρχει — η απόσταση από τον σταθμό βάσης θα υπολογιστεί αυτόματα.</div>}
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
             <FormField label="Όροφοι (πάνω από το ισόγειο)" required><NumberField value={form.floors} onChange={f("floors")} min={0} placeholder="π.χ. 4" /></FormField>
             <FormField label="Υπόγεια"><NumberField value={form.basements} onChange={f("basements")} min={0} /></FormField>

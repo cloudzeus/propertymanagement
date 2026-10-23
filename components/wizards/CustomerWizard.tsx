@@ -127,8 +127,8 @@ export function CustomerWizard({ managers, nextCode, onClose, onDone, onSimpleFo
                 </FormField>
                 <FormField label="ΔΟΥ"><FieldInput value={form.doy} onChange={f("doy")} /></FormField>
               </div>
-              {aade.info && <div style={{ fontSize: "var(--fs-12)", color: "#16a34a" }}>{aade.info}</div>}
-              {aade.error && <div style={{ fontSize: "var(--fs-12)", color: "#dc2626" }} role="alert">{aade.error}</div>}
+              {aade.info && <div style={{ fontSize: "var(--fs-12)", color: "var(--color-success)" }}>{aade.info}</div>}
+              {aade.error && <div style={{ fontSize: "var(--fs-12)", color: "var(--color-danger)" }} role="alert">{aade.error}</div>}
               <AddressAutocomplete label="Διεύθυνση" value={form.address} onChange={f("address")} onResolved={onAddress} placeholder="Οδός και αριθμός" />
               <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr", gap: 12 }}>
                 <FormField label="Πόλη"><FieldInput value={form.city} onChange={f("city")} /></FormField>

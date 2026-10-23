@@ -7,8 +7,8 @@ import { WizardIcon } from "@/components/wizards/icons";
 export function ExampleCard({ title, children, tone = "info" }: { title?: string; children: React.ReactNode; tone?: "info" | "success" | "warn" }) {
   const palette = {
     info: { bg: "var(--paper)", border: "var(--border)", icon: <RiInformationLine style={{ color: "var(--color-primary)" }} /> },
-    success: { bg: "#ecfdf3", border: "#bbf7d0", icon: <RiCheckboxCircleLine style={{ color: "#15803d" }} /> },
-    warn: { bg: "#fff7ed", border: "#fed7aa", icon: <RiErrorWarningLine style={{ color: "#b45309" }} /> },
+    success: { bg: "var(--success-soft)", border: "color-mix(in srgb, var(--color-success) 30%, transparent)", icon: <RiCheckboxCircleLine style={{ color: "var(--color-success)" }} /> },
+    warn: { bg: "var(--warning-soft)", border: "color-mix(in srgb, var(--color-warning) 30%, transparent)", icon: <RiErrorWarningLine style={{ color: "var(--color-warning)" }} /> },
   }[tone];
   return (
     <section style={{ background: palette.bg, border: `1px solid ${palette.border}`, borderRadius: 10, padding: "12px 14px", display: "flex", flexDirection: "column", gap: 8 }}>
@@ -82,7 +82,7 @@ export type DoneNext = { label: string; onClick: () => void; icon?: string; hint
 export function DoneScreen({ title, lines = [], next = [], onClose }: { title: string; lines?: string[]; next?: DoneNext[]; onClose: () => void }) {
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", gap: 14, padding: "12px 0 4px" }}>
-      <div className="pop" style={{ width: 64, height: 64, borderRadius: 999, background: "#15803d", color: "#fff", display: "grid", placeItems: "center", fontSize: "var(--fs-28)" }}><RiCheckLine /></div>
+      <div className="pop" style={{ width: 64, height: 64, borderRadius: 999, background: "var(--color-success)", color: "#fff", display: "grid", placeItems: "center", fontSize: "var(--fs-28)" }}><RiCheckLine /></div>
       <div style={{ fontSize: "var(--fs-18)", fontWeight: 800, color: "var(--foreground)" }}>{title}</div>
       {lines.length > 0 && <ul style={{ margin: 0, padding: 0, listStyle: "none", color: "var(--muted-foreground)", fontSize: "var(--fs-13-5)", lineHeight: 1.6 }}>{lines.map((l, i) => <li key={i}>{l}</li>)}</ul>}
       {next.length > 0 && (

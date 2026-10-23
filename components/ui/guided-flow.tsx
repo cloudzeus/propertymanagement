@@ -164,8 +164,8 @@ export function GuidedFlow<T extends object = Record<string, unknown>>({ title, 
       ) : (
         <div onKeyDown={onKeyDown}>
           {pendingDraft && (
-            <div role="group" aria-label="Μισοτελειωμένη καταχώριση" style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap", background: "#fff7ed", border: "1px solid #fed7aa", borderRadius: 10, padding: "10px 12px", marginBottom: 14, fontSize: "var(--fs-13)", color: "var(--foreground)" }}>
-              <RiHistoryLine style={{ color: "#b45309", flexShrink: 0, fontSize: "var(--fs-18)" }} />
+            <div role="group" aria-label="Μισοτελειωμένη καταχώριση" style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap", background: "var(--warning-soft)", border: "1px solid color-mix(in srgb, var(--color-warning) 30%, transparent)", borderRadius: 10, padding: "10px 12px", marginBottom: 14, fontSize: "var(--fs-13)", color: "var(--foreground)" }}>
+              <RiHistoryLine style={{ color: "var(--color-warning)", flexShrink: 0, fontSize: "var(--fs-18)" }} />
               <span style={{ flex: 1, minWidth: 180 }}>Βρήκαμε μια μισοτελειωμένη καταχώριση ({formatDraftAge(pendingDraft.savedAt)}).</span>
               <button type="button" style={primarySmall} onClick={() => { const p = pendingDraft; setPendingDraft(null); armed.current = true; draft?.restore(p.value, Math.min(p.step, rail.length - 1)); setStep(Math.min(p.step, rail.length - 1)); }}>Συνέχεια</button>
               <button type="button" style={ghostSmall} onClick={() => { setPendingDraft(null); armed.current = true; clearDraft(); }}>Από την αρχή</button>
@@ -195,7 +195,7 @@ export function GuidedFlow<T extends object = Record<string, unknown>>({ title, 
                         background: state === "active" ? "var(--color-primary)" : "var(--paper)",
                         color: state === "active" ? "#fff" : state === "done" ? "var(--foreground)" : "var(--muted-foreground)" }}>
                       <span style={{ width: 20, height: 20, borderRadius: 999, flexShrink: 0, display: "inline-flex", alignItems: "center", justifyContent: "center", fontSize: "var(--fs-11)",
-                        background: state === "done" ? "#15803d" : "transparent", color: state === "done" ? "#fff" : "inherit", border: state === "done" ? "none" : "1px solid currentColor" }}>
+                        background: state === "done" ? "var(--color-success)" : "transparent", color: state === "done" ? "#fff" : "inherit", border: state === "done" ? "none" : "1px solid currentColor" }}>
                         {state === "done" ? <RiCheckLine /> : i + 1}
                       </span>
                       <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{s.title}</span>
@@ -255,7 +255,7 @@ function ClosePrompt({ hasDraft, onKeep, onDiscard, onBack }: { hasDraft: boolea
       </p>
       <div style={{ display: "flex", gap: 8, flexWrap: "wrap", justifyContent: "flex-end" }}>
         <button type="button" onClick={onBack} style={ghostBtn}>Πίσω</button>
-        <button type="button" onClick={onDiscard} style={{ ...ghostBtn, color: "#b91c1c", borderColor: "#fca5a5" }}>{hasDraft ? "Απόρριψη" : "Κλείσιμο χωρίς αποθήκευση"}</button>
+        <button type="button" onClick={onDiscard} style={{ ...ghostBtn, color: "var(--color-danger)", borderColor: "color-mix(in srgb, var(--color-danger) 40%, transparent)" }}>{hasDraft ? "Απόρριψη" : "Κλείσιμο χωρίς αποθήκευση"}</button>
         {hasDraft && <button type="button" onClick={onKeep} style={primaryBtn}>Ναι, κράτησέ το</button>}
       </div>
     </div>
@@ -308,4 +308,4 @@ const ghostBtn: React.CSSProperties = { display: "inline-flex", alignItems: "cen
 const primaryBtn: React.CSSProperties = { display: "inline-flex", alignItems: "center", gap: 6, minHeight: 40, padding: "9px 18px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: "pointer", fontSize: "var(--fs-13)", fontWeight: 600 };
 const ghostSmall: React.CSSProperties = { ...ghostBtn, minHeight: 36, padding: "6px 12px", fontSize: "var(--fs-12-5)" };
 const primarySmall: React.CSSProperties = { ...primaryBtn, minHeight: 36, padding: "6px 12px", fontSize: "var(--fs-12-5)" };
-const errBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: "var(--fs-12-5)", border: "1px solid #fca5a530", marginBottom: 12 };
+const errBox: React.CSSProperties = { padding: "8px 12px", borderRadius: 6, background: "var(--danger-soft)", color: "var(--color-danger)", fontSize: "var(--fs-12-5)", border: "1px solid color-mix(in srgb, var(--color-danger) 30%, transparent)", marginBottom: 12 };

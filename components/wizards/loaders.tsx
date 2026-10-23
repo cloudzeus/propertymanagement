@@ -24,7 +24,7 @@ import type { WizardHostApi } from "./WizardHost";
 export function LoadingModal({ title, error, onClose }: { title: string; error?: string | null; onClose: () => void }) {
   return (
     <Modal open onClose={onClose} title={title} width={520}>
-      <div style={{ padding: "12px 0", fontSize: "var(--fs-13-5)", color: error ? "#dc2626" : "var(--muted-foreground)" }} role={error ? "alert" : "status"}>
+      <div style={{ padding: "12px 0", fontSize: "var(--fs-13-5)", color: error ? "var(--color-danger)" : "var(--muted-foreground)" }} role={error ? "alert" : "status"}>
         {error ?? "Φόρτωση…"}
       </div>
     </Modal>
