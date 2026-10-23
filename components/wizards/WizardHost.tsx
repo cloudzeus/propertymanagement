@@ -15,7 +15,7 @@ import { useRouter } from "next/navigation";
 import type { WizardCtx, WizardKey } from "@/lib/wizards/registry";
 import { ActionToast, type ToastMessage } from "@/components/work/ActionToast";
 import { useWizardParam } from "./useWizardParam";
-import { CustomerWizardLoader } from "./loaders";
+import { CustomerWizardLoader, PropertyWizardLoader } from "./loaders";
 
 export type WizardHostApi = {
   ctx: WizardCtx;
@@ -47,6 +47,8 @@ function ActiveWizard({ active, api }: { active: WizardKey; api: WizardHostApi }
   switch (active) {
     case "customer-new":
       return <CustomerWizardLoader api={api} />;
+    case "property-new":
+      return <PropertyWizardLoader api={api} />;
     // further cases are added per wizard (Tasks 8–14)
     default:
       return null;

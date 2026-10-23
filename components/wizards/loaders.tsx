@@ -7,8 +7,9 @@
  */
 import { useEffect, useState } from "react";
 import { Modal } from "@/components/ui/modal";
-import { listManagerOptions, peekNextCustomerCode } from "@/app/actions/customers";
+import { listCustomerOptions, listManagerOptions, peekNextCustomerCode } from "@/app/actions/customers";
 import { CustomerWizard } from "./CustomerWizard";
+import { PropertyWizard } from "./PropertyWizard";
 import type { WizardHostApi } from "./WizardHost";
 
 export function LoadingModal({ title, error, onClose }: { title: string; error?: string | null; onClose: () => void }) {
@@ -33,4 +34,19 @@ export function CustomerWizardLoader({ api }: { api: WizardHostApi }) {
   }, []);
   if (!data) return <LoadingModal title="Νέος πελάτης βήμα-βήμα" error={error} onClose={api.onClose} />;
   return <CustomerWizard managers={data.managers} nextCode={data.nextCode} onClose={api.onClose} onDone={(c) => api.onDone(`Ο πελάτης «${c.name}» δημιουργήθηκε.`)} />;
+}
+
+export function PropertyWizardLoader({ api }: { api: WizardHostApi }) {
+  const [customers, setCustomers] = useState<{ id: string; name: string }[] | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  useEffect(() => {
+    let cancelled = false;
+    listCustomerOptions()
+      .then((rows) => { if (!cancelled) setCustomers(rows); })
+      .catch(() => { if (!cancelled) setError("Δεν ήταν δυνατή η φόρτωση των πελατών."); });
+    return () => { cancelled = true; };
+  }, []);
+  if (!customers) return <LoadingModal title="Νέα ιδιοκτησία βήμα-βήμα" error={error} onClose={api.onClose} />;
+  const customer = api.ctx.customerId ? customers.find((c) => c.id === api.ctx.customerId) ?? null : null;
+  return <PropertyWizard customer={customer} customers={customers} onClose={api.onClose} onDone={(p) => api.onDone(`Η ιδιοκτησία «${p.name}» δημιουργήθηκε.`)} />;
 }

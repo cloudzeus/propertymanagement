@@ -94,6 +94,12 @@ export async function listManagerOptions(): Promise<{ id: string; name: string }
   return rows.map((m) => ({ id: m.id, name: m.name ?? m.email }));
 }
 
+/** Customers for pickers (read-only, super-admin). */
+export async function listCustomerOptions(): Promise<{ id: string; name: string }[]> {
+  await requireSuperAdmin();
+  return db.customer.findMany({ select: { id: true, name: true }, orderBy: { name: "asc" } });
+}
+
 export async function createCustomer(data: CustomerInput) {
   await requireSuperAdmin();
   if (!data.name.trim()) return { error: "Το όνομα/επωνυμία είναι υποχρεωτικό" };
