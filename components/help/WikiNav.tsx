@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { RiFileTextLine } from "react-icons/ri";
+import { RiFileTextLine, RiPlayCircleLine } from "react-icons/ri";
 import type { AreaGroup } from "@/lib/help/hub";
 
 /** Per-area accordion of the role's page guides (server component). */
@@ -19,7 +19,7 @@ export function WikiNav({ groups, base, active }: { groups: AreaGroup[]; base: s
                 const on = a.slug === active;
                 return (
                   <Link key={a.slug} href={`${base}?a=${encodeURIComponent(a.slug)}`} style={{ display: "flex", alignItems: "center", gap: 8, padding: "8px 8px", borderRadius: 8, textDecoration: "none", minHeight: 40, fontSize: "var(--fs-13)", fontWeight: on ? 700 : 500, background: on ? "var(--color-primary)" : "transparent", color: on ? "#fff" : "var(--foreground)" }}>
-                    <RiFileTextLine style={{ flexShrink: 0, opacity: 0.7 }} /> <span>{a.title}</span>
+                    {a.video ? <RiPlayCircleLine style={{ flexShrink: 0, color: on ? "#fff" : "var(--color-primary)" }} /> : <RiFileTextLine style={{ flexShrink: 0, opacity: 0.7 }} />} <span>{a.title}</span>
                   </Link>
                 );
               })}

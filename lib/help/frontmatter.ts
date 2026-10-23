@@ -43,17 +43,22 @@ const list = (v: string | string[] | undefined): string[] => (Array.isArray(v) ?
 
 export function toArticleMeta(slug: string, meta: Record<string, string | string[]>): WikiArticleMeta | null {
   const title = typeof meta.title === "string" ? meta.title : "";
+  const kind: WikiArticleMeta["kind"] = meta.kind === "guide" ? "guide" : "page";
   const route = typeof meta.route === "string" ? meta.route : "";
-  if (!title || !route) return null;
-  const surface = (typeof meta.surface === "string" ? meta.surface : surfaceForRoute(route)) as WikiSurface;
+  if (!title || (kind === "page" && !route)) return null;
+  const surface = (typeof meta.surface === "string" ? meta.surface : kind === "guide" ? "company" : surfaceForRoute(route)) as WikiSurface;
+  const str = (k: string) => (typeof meta[k] === "string" && meta[k] ? (meta[k] as string) : undefined);
+  const minutes = str("minutes") ? Number(str("minutes")) : undefined;
   return {
     slug, title, route,
     roles: list(meta.roles),
     surface,
-    area: typeof meta.area === "string" && meta.area ? meta.area : "other",
+    area: kind === "guide" ? "guides" : typeof meta.area === "string" && meta.area ? meta.area : "other",
     summary: typeof meta.summary === "string" ? meta.summary : "",
     prompts: list(meta.prompts),
     related: list(meta.related),
     sections: list(meta.sections),
+    kind,
+    ...(kind === "guide" ? { wizard: str("wizard"), video: str("video"), videoPoster: str("videoPoster"), minutes: Number.isFinite(minutes) ? minutes : undefined } : {}),
   };
 }

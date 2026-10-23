@@ -61,3 +61,26 @@ describe("toArticleMeta", () => {
     expect(toArticleMeta("a", { title: "t", route: "/x" })!.sections).toEqual([]);
   });
 });
+
+describe("guide articles", () => {
+  it("need no route and carry kind/wizard/video/minutes, always in the guides area", () => {
+    const m = toArticleMeta("guide-x", { title: "Τ", kind: "guide", wizard: "customer-new", video: "https://cdn/x.mp4", videoPoster: "https://cdn/x.jpg", minutes: "2", area: "management" })!;
+    expect(m.kind).toBe("guide");
+    expect(m.route).toBe("");
+    expect(m.wizard).toBe("customer-new");
+    expect(m.video).toBe("https://cdn/x.mp4");
+    expect(m.videoPoster).toBe("https://cdn/x.jpg");
+    expect(m.minutes).toBe(2);
+    expect(m.area).toBe("guides");
+    expect(m.surface).toBe("company");
+  });
+  it("page articles default to kind page without video fields", () => {
+    const m = toArticleMeta("a", { title: "T", route: "/x" })!;
+    expect(m.kind).toBe("page");
+    expect(m.video).toBeUndefined();
+    expect(m.minutes).toBeUndefined();
+  });
+  it("a guide still needs a title", () => {
+    expect(toArticleMeta("g", { kind: "guide", wizard: "x" })).toBeNull();
+  });
+});

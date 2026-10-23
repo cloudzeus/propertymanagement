@@ -5,9 +5,10 @@ import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import { RiCloseLine, RiBookOpenLine, RiRobot2Line, RiExternalLinkLine, RiQuestionLine } from "react-icons/ri";
 import { Markdown } from "@/components/cms/Markdown";
+import { HelpVideo } from "./HelpVideo";
 import { ASSISTANT_EVENT } from "@/components/assistant/AssistantDrawer";
 
-type Article = { slug: string; title: string; route: string; markdown: string; prompts: string[]; related: { slug: string; title: string }[]; anchor: string | null; hubHref: string; openInHub: string };
+type Article = { slug: string; title: string; route: string; markdown: string; prompts: string[]; related: { slug: string; title: string }[]; anchor: string | null; hubHref: string; openInHub: string; kind?: "page" | "guide"; video?: string | null; videoPoster?: string | null; minutes?: number | null };
 type Fallback = { title: string; hubHref: string; manualHref: string };
 type State = { kind: "loading" } | { kind: "article"; article: Article } | { kind: "fallback"; fallback: Fallback } | { kind: "error" };
 
@@ -75,6 +76,7 @@ export function HelpDrawer({ open, onClose }: { open: boolean; onClose: () => vo
           {state.kind === "article" && (
             <>
               <div className="ast-msg ast-msg--assistant" style={{ maxWidth: "100%", alignSelf: "stretch" }}>
+                {state.article.video && <HelpVideo src={state.article.video} poster={state.article.videoPoster} minutes={state.article.minutes} title={state.article.title} />}
                 <Markdown>{state.article.markdown}</Markdown>
               </div>
               {state.article.related.length > 0 && (

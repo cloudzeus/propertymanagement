@@ -2,10 +2,12 @@ import { describe, it, expect } from "vitest";
 import { readdirSync, readFileSync, statSync } from "node:fs";
 import path from "node:path";
 import { parseFrontmatter, toArticleMeta } from "./frontmatter";
+import { WIZARDS } from "@/lib/wizards/registry";
 
 const ROOT = path.resolve(__dirname, "..", "..");
 const APP = path.join(ROOT, "app");
 const PAGES = path.join(ROOT, "docs", "wiki", "pages");
+const GUIDES = path.join(ROOT, "docs", "wiki", "guides");
 /** Pages that only redirect (no UI of their own) need no guide. */
 const REDIRECT_ONLY = new Set(["/help", "/home"]);
 
@@ -34,6 +36,35 @@ function articles() {
     return { file: n, meta: toArticleMeta(n.replace(/\.md$/, ""), meta) };
   });
 }
+
+function guides() {
+  let names: string[] = [];
+  try { names = readdirSync(GUIDES).filter((n) => n.endsWith(".md")); } catch { /* no guides yet */ }
+  return names.map((n) => {
+    const { meta } = parseFrontmatter(readFileSync(path.join(GUIDES, n), "utf8"));
+    return { file: n, slug: n.replace(/\.md$/, ""), meta: toArticleMeta(n.replace(/\.md$/, ""), meta) };
+  });
+}
+
+describe("wiki guides (kind: guide)", () => {
+  const gs = guides();
+  it("every guide has valid frontmatter of kind guide naming a wizard", () => {
+    const bad = gs.filter((g) => !g.meta || g.meta.kind !== "guide" || !g.meta.wizard).map((g) => g.file);
+    expect(bad, `Invalid guide frontmatter: ${bad.join(", ")}`).toEqual([]);
+    const unknown = gs.filter((g) => g.meta && !WIZARDS.some((w) => w.key === g.meta!.wizard)).map((g) => `${g.file} → ${g.meta!.wizard}`);
+    expect(unknown, `Guides naming unknown wizards: ${unknown.join(", ")}`).toEqual([]);
+  });
+  // enabled in Task 15, once all 12 guides exist
+  it.skip("every wizard has a guide", () => {
+    const slugs = new Set(gs.map((g) => g.slug));
+    const missing = WIZARDS.filter((w) => !slugs.has(w.guideSlug)).map((w) => w.key);
+    expect(missing, `Wizards without a guide: ${missing.join(", ")}`).toEqual([]);
+  });
+  it("guide video urls, when present, are https and come with a poster", () => {
+    const bad = gs.filter((g) => g.meta?.video && (!/^https:\/\//.test(g.meta.video) || !g.meta.videoPoster)).map((g) => g.file);
+    expect(bad, `Guides with bad video fields: ${bad.join(", ")}`).toEqual([]);
+  });
+});
 
 describe("wiki coverage", () => {
   const routes = appRoutes();

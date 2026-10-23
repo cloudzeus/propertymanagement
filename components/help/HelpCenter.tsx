@@ -5,6 +5,7 @@ import { getArticle, listArticlesForRole, loadWikiIndex, searchWikiArticles } fr
 import { openHref } from "@/lib/help/match";
 import { relatedArticles } from "@/lib/help/hub";
 import { WikiNav } from "./WikiNav";
+import { HelpVideo } from "./HelpVideo";
 import { RiBookOpenLine, RiQuestionLine, RiPhoneLine, RiSearchLine, RiExternalLinkLine, RiCompass3Line } from "react-icons/ri";
 
 /**
@@ -34,7 +35,7 @@ export async function HelpCenter({ role, base, requested, article, q, firstBuild
           <button type="submit" aria-label="Αναζήτηση" style={{ width: 44, height: 44, borderRadius: 10, border: "1px solid var(--color-primary)", background: "var(--color-primary)", color: "var(--color-accent)", display: "inline-flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}><RiSearchLine /></button>
         </form>
         <div>
-          <div style={sectionHead}><RiCompass3Line /> Οδηγός ανά σελίδα</div>
+          <div style={sectionHead}><RiCompass3Line /> Οδηγοί</div>
           <WikiNav groups={groups} base={base} active={article} />
         </div>
         <div>
@@ -74,7 +75,7 @@ export async function HelpCenter({ role, base, requested, article, q, firstBuild
                   {r.summary && <p style={{ margin: "4px 0 8px", color: "var(--muted-foreground)", fontSize: "var(--fs-13-5)" }}>{r.summary}</p>}
                   <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
                     <Link href={`${base}?a=${encodeURIComponent(r.slug)}`} style={btn}>Άνοιγμα οδηγού</Link>
-                    <Link href={openHref(r.route, firstBuildingId)} style={btnGhost}><RiExternalLinkLine /> Άνοιγμα σελίδας</Link>
+                    {r.route && <Link href={openHref(r.route, firstBuildingId)} style={btnGhost}><RiExternalLinkLine /> Άνοιγμα σελίδας</Link>}
                   </div>
                 </div>
               ))}
@@ -91,12 +92,13 @@ export async function HelpCenter({ role, base, requested, article, q, firstBuild
           <>
             <div style={{ display: "flex", gap: 10, alignItems: "flex-start", justifyContent: "space-between", flexWrap: "wrap", marginBottom: 8 }}>
               <div>
-                <div style={{ fontSize: "var(--fs-11)", textTransform: "uppercase", letterSpacing: 0.5, color: "var(--muted-foreground)", fontWeight: 700 }}>Οδηγός σελίδας</div>
+                <div style={{ fontSize: "var(--fs-11)", textTransform: "uppercase", letterSpacing: 0.5, color: "var(--muted-foreground)", fontWeight: 700 }}>{picked.meta.kind === "guide" ? "Οδηγός βήμα-βήμα" : "Οδηγός σελίδας"}</div>
                 <h1 style={{ margin: "2px 0 0", fontSize: "var(--fs-24)" }}>{picked.meta.title}</h1>
                 {picked.meta.summary && <p style={{ margin: "6px 0 0", color: "var(--muted-foreground)", fontSize: "var(--fs-14)" }}>{picked.meta.summary}</p>}
               </div>
-              <Link href={openHref(picked.meta.route, firstBuildingId)} style={btn}><RiExternalLinkLine /> Άνοιγμα σελίδας</Link>
+              {picked.meta.route && <Link href={openHref(picked.meta.route, firstBuildingId)} style={btn}><RiExternalLinkLine /> Άνοιγμα σελίδας</Link>}
             </div>
+            {picked.meta.video && <HelpVideo src={picked.meta.video} poster={picked.meta.videoPoster} minutes={picked.meta.minutes} title={picked.meta.title} />}
             <Markdown>{picked.markdown}</Markdown>
             {related.length > 0 && (
               <div style={{ marginTop: 20, paddingTop: 14, borderTop: "1px solid var(--border)" }}>

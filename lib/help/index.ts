@@ -11,23 +11,35 @@ import type { WikiArticleMeta } from "./types";
 export type WikiArticle = WikiArticleMeta & { body: string };
 
 export const PAGES_DIR = path.join(process.cwd(), "docs", "wiki", "pages");
+/** Step-by-step guides of the wizards (kind: guide, no route) — see lib/wizards/registry. */
+export const GUIDES_DIR = path.join(process.cwd(), "docs", "wiki", "guides");
 
 let cache: { articles: WikiArticle[]; stamp: string } | null = null;
 
-/** All per-page articles (docs/wiki/pages/*.md). Cached by directory mtime in production; re-read in dev. */
+async function listMd(dir: string): Promise<string[]> {
+  try { return (await fs.readdir(dir)).filter((n) => n.endsWith(".md")).sort(); } catch { return []; }
+}
+async function mtime(dir: string): Promise<number> {
+  try { return (await fs.stat(dir)).mtimeMs; } catch { return 0; }
+}
+
+/** All per-page articles (docs/wiki/pages/*.md) + wizard guides (docs/wiki/guides/*.md). Cached by directory mtime in production; re-read in dev. */
 export async function loadWikiIndex(): Promise<WikiArticle[]> {
-  let names: string[];
-  try { names = (await fs.readdir(PAGES_DIR)).filter((n) => n.endsWith(".md")).sort(); } catch { return []; }
+  const dirs = [PAGES_DIR, GUIDES_DIR];
+  const lists = await Promise.all(dirs.map(listMd));
+  if (lists.every((l) => l.length === 0)) return [];
   const stamp = process.env.NODE_ENV === "production"
-    ? String((await fs.stat(PAGES_DIR)).mtimeMs) + ":" + names.length
+    ? (await Promise.all(dirs.map(mtime))).join("/") + ":" + lists.map((l) => l.length).join("/")
     : String(Date.now());
   if (cache && cache.stamp === stamp) return cache.articles;
   const articles: WikiArticle[] = [];
-  for (const n of names) {
-    const raw = await fs.readFile(path.join(PAGES_DIR, n), "utf8");
-    const { meta, body } = parseFrontmatter(raw);
-    const m = toArticleMeta(n.replace(/\.md$/, ""), meta);
-    if (m) articles.push({ ...m, body });
+  for (let i = 0; i < dirs.length; i++) {
+    for (const n of lists[i]) {
+      const raw = await fs.readFile(path.join(dirs[i], n), "utf8");
+      const { meta, body } = parseFrontmatter(raw);
+      const m = toArticleMeta(n.replace(/\.md$/, ""), meta);
+      if (m) articles.push({ ...m, body });
+    }
   }
   cache = { articles, stamp };
   return articles;

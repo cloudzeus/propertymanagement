@@ -4,7 +4,7 @@ import { slugForRoute } from "./slug";
 import type { WikiArticleMeta } from "./types";
 
 const art = (route: string, roles: string[] = [], extra: Partial<WikiArticleMeta> = {}): WikiArticleMeta => ({
-  slug: slugForRoute(route), title: route, route, roles, surface: "company", area: "other", summary: "", prompts: [], related: [], ...extra,
+  slug: slugForRoute(route), title: route, route, roles, surface: "company", area: "other", summary: "", prompts: [], related: [], kind: "page", ...extra,
 });
 
 describe("matchRoute", () => {

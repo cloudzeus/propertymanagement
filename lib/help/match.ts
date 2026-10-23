@@ -16,7 +16,7 @@ export const roleAllowed = (roles: string[], role: string) => roles.length === 0
 export function articleForRoute(articles: WikiArticleMeta[], pathname: string, role: string): WikiArticleMeta | null {
   let best: WikiArticleMeta | null = null, bestScore = -1;
   for (const a of articles) {
-    if (!roleAllowed(a.roles, role) || !matchRoute(a.route, pathname)) continue;
+    if (a.kind === "guide" || !a.route || !roleAllowed(a.roles, role) || !matchRoute(a.route, pathname)) continue;
     const score = segs(a.route).filter((s) => !isDynamic(s)).length * 1000 + a.route.length;
     if (score > bestScore) { best = a; bestScore = score; }
   }

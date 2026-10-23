@@ -27,6 +27,7 @@ export async function GET(request: Request) {
   const anchor = anchorForTab(article.markdown, meta.sections ?? [], url.searchParams.get("s") ?? "");
   return Response.json({
     slug: meta.slug, title: meta.title, route: meta.route, summary: meta.summary, markdown: article.markdown, prompts: meta.prompts, related, anchor,
+    kind: meta.kind, video: meta.video ?? null, videoPoster: meta.videoPoster ?? null, minutes: meta.minutes ?? null,
     hubHref, openInHub: `${hubHref}?a=${encodeURIComponent(meta.slug)}`,
   });
 }
