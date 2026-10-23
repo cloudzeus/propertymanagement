@@ -6,6 +6,7 @@ import {
   RiBankCardLine, RiLockLine,
 } from "react-icons/ri";
 import { listPropertyPackage, setPropertyService } from "@/app/actions/property-package";
+import { lineFor as previewLine } from "@/lib/wizards/examples/package";
 
 // Manager/admin package selection + pay the property's monthly package via the
 // PROVIDER's Viva. The amount is ALWAYS server-computed (listPropertyPackage /
@@ -31,19 +32,11 @@ const PRICING_LABEL: Record<string, string> = {
   FLAT: "σταθερή", METERED_PREPAID: "με μέτρηση", PER_ZONE: "ανά ζώνη απόστασης",
 };
 
-const round2 = (n: number) => Math.round(n * 100) / 100;
-/** Server-computed line when the service is enabled; a local preview otherwise (PER_ZONE needs the server's zones). */
+/** Server-computed line when the service is enabled; the shared client preview otherwise (lib/wizards/examples/package — PER_ZONE needs the server's zones). */
 function lineFor(s: PkgService, c: PkgView["counts"], lines: PkgLine[]): { qty: number | null; amount: number; detail: string | null } {
   const server = lines.find((l) => l.serviceId === s.id);
   if (server) return { qty: server.qty, amount: server.amount, detail: server.detail };
-  switch (s.pricingModel) {
-    case "PER_UNIT": return { qty: c.units, amount: round2(s.price * c.units), detail: null };
-    case "PER_BUILDING": return { qty: c.buildings, amount: round2(s.price * c.buildings), detail: null };
-    case "PER_COMMON_AREA": return { qty: c.commonAreas, amount: round2(s.price * c.commonAreas), detail: null };
-    case "FLAT": return { qty: 1, amount: round2(s.price), detail: null };
-    case "PER_ZONE": return { qty: c.buildings, amount: round2(s.price), detail: "από τη βασική τιμή· το ποσό ζώνης προστίθεται όταν ενεργοποιηθεί" };
-    default: return { qty: null, amount: 0, detail: null };
-  }
+  return previewLine(s, c);
 }
 
 const eur = (n: number) => `€ ${n.toFixed(2)}`;

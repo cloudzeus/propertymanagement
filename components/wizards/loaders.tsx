@@ -12,6 +12,8 @@ import { CustomerWizard } from "./CustomerWizard";
 import { PropertyWizard } from "./PropertyWizard";
 import { BuildingWizard } from "./BuildingWizard";
 import { getPropertyForBuildingWizard, listPropertyOptions, type PropertyForWizard } from "@/app/actions/properties";
+import { ServiceWizard } from "./ServiceWizard";
+import { listServiceWizardContext } from "@/app/actions/services";
 import type { WizardHostApi } from "./WizardHost";
 
 export function LoadingModal({ title, error, onClose }: { title: string; error?: string | null; onClose: () => void }) {
@@ -81,4 +83,16 @@ export function BuildingWizardLoader({ api }: { api: WizardHostApi }) {
   }, [propertyId]);
   if (!state) return <LoadingModal title="Νέο κτήριο με τις μονάδες του" error={error} onClose={api.onClose} />;
   return <BuildingWizard property={state.property} properties={state.properties.map((p) => ({ id: p.id, name: `${p.name} — ${p.customerName}` }))} onClose={api.onClose} onDone={() => api.onDone("Το κτήριο και οι μονάδες του δημιουργήθηκαν.")} />;
+}
+
+export function ServiceWizardLoader({ api }: { api: WizardHostApi }) {
+  const [ctx, setCtx] = useState<Awaited<ReturnType<typeof listServiceWizardContext>> | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  useEffect(() => {
+    let cancelled = false;
+    listServiceWizardContext().then((c) => { if (!cancelled) setCtx(c); }).catch(() => { if (!cancelled) setError("Δεν ήταν δυνατή η φόρτωση του καταλόγου."); });
+    return () => { cancelled = true; };
+  }, []);
+  if (!ctx) return <LoadingModal title="Νέα υπηρεσία καταλόγου βήμα-βήμα" error={error} onClose={api.onClose} />;
+  return <ServiceWizard zones={ctx.zones} takenCodes={ctx.takenCodes} onClose={api.onClose} onDone={(s) => api.onDone(`Η υπηρεσία «${s.name}» προστέθηκε.`)} />;
 }

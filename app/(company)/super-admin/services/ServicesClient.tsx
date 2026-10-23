@@ -6,6 +6,7 @@ import { Modal, FormField, FieldInput, FieldSelect, FieldTextarea } from "@/comp
 import { createService, updateService, deleteService } from "@/app/actions/services";
 import { RiCheckLine, RiLoaderLine, RiPencilLine, RiDeleteBinLine } from "react-icons/ri";
 import type { DistanceZone } from "@/lib/distance/zones";
+import { ServiceWizard } from "@/components/wizards/ServiceWizard";
 
 export const PRICING_MODELS = [
   { value: "PER_UNIT", label: "Ανά μονάδα / μήνα" },
@@ -39,6 +40,7 @@ const eur = (n: number) => `${n.toLocaleString("el-GR", { minimumFractionDigits:
 export function ServicesClient({ initial, zones }: { initial: Service[]; zones: DistanceZone[] }) {
   const [data, setData] = useState<Service[]>(initial);
   const [open, setOpen] = useState(false);
+  const [wizard, setWizard] = useState(false);
   const [editing, setEditing] = useState<Service | null>(null);
   const [form, setForm] = useState(initForm());
   const [zonePrices, setZonePrices] = useState<Record<string, string>>({});
@@ -47,8 +49,10 @@ export function ServicesClient({ initial, zones }: { initial: Service[]; zones: 
 
   const f = (k: keyof ReturnType<typeof initForm>) => (v: string) => setForm((p) => ({ ...p, [k]: v }));
 
-  function openAdd() {
-    setEditing(null); setForm(initForm()); setZonePrices({}); setError(null); setOpen(true);
+  // «Νέα υπηρεσία» opens the guided wizard; «Προτιμώ την απλή φόρμα» falls back to the dense form.
+  function openAdd() { setWizard(true); }
+  function openSimpleForm() {
+    setWizard(false); setEditing(null); setForm(initForm()); setZonePrices({}); setError(null); setOpen(true);
   }
   function openEdit(s: Service) {
     setEditing(s);
@@ -169,6 +173,11 @@ export function ServicesClient({ initial, zones }: { initial: Service[]; zones: 
         onAddNew={openAdd}
         addNewLabel="Νέα Υπηρεσία"
       />
+
+      {wizard && (
+        <ServiceWizard zones={zones} takenCodes={data.map((s) => s.code)} onClose={() => setWizard(false)} onSimpleForm={openSimpleForm}
+          onDone={(s) => setData((prev) => [{ ...s, pricingModel: s.pricingModel }, ...prev])} />
+      )}
 
       <Modal
         open={open}

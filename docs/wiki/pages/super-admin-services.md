@@ -5,7 +5,7 @@ roles: [SUPER_ADMIN]
 area: financials
 summary: Ο κατάλογος υπηρεσιών που πουλά η εταιρεία στους πελάτες της, με τρόπο και τιμή χρέωσης.
 prompts: ["Πώς ορίζω υπηρεσία με χρέωση ανά μονάδα;"]
-related: [super-admin-properties-detail, admin-metered-plans, super-admin-billing, super-admin-settings-distance]
+related: [guide-service, super-admin-properties-detail, admin-metered-plans, super-admin-billing, super-admin-settings-distance]
 ---
 ## Τι βλέπετε εδώ
 Πίνακας υπηρεσιών: «Κωδικός», «Υπηρεσία», «Τύπος», «Τρόπος χρέωσης» («Σταθερή / μήνα», «Ανά μονάδα / μήνα», «Ανά κτήριο / μήνα», «Ανά κοινόχρηστο χώρο / μήνα», «Με μέτρηση + προαγορά», «Ανά ζώνη απόστασης / μήνα»), «Τιμή (€)», «Κατάσταση» («Ενεργή»/«Ανενεργή»).

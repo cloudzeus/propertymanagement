@@ -4,6 +4,8 @@ import { auth } from "@/auth";
 import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import { Prisma } from "@/lib/prisma/client";
+import { getDistanceZones } from "@/lib/distance/buildings";
+import type { DistanceZone } from "@/lib/distance/zones";
 
 async function requireSuperAdmin() {
   const session = await auth();
@@ -43,6 +45,13 @@ function cleanZonePrices(v: Record<string, number> | null | undefined): Record<s
     if (k.trim() && Number.isFinite(n)) out[k.trim()] = Math.max(0, n);
   }
   return out;
+}
+
+/** Zones + existing codes for the service wizard (read-only, super-admin). */
+export async function listServiceWizardContext(): Promise<{ zones: DistanceZone[]; takenCodes: string[] }> {
+  await requireSuperAdmin();
+  const [zones, rows] = await Promise.all([getDistanceZones(), db.service.findMany({ select: { code: true } })]);
+  return { zones, takenCodes: rows.map((r) => r.code) };
 }
 
 export async function createService(data: ServiceInput) {
