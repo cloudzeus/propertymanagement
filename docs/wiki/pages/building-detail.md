@@ -5,7 +5,7 @@ roles: [PROPERTY_ADMIN, PROPERTY_OWNER, PROPERTY_RESIDENT, PROPERTY_VIEWER]
 area: assets
 summary: Το κέντρο ελέγχου του κτηρίου: οικονομικά, μονάδες, άνθρωποι, συντήρηση, επικοινωνία, ρυθμίσεις — για διαχειριστές με πλήρη χειρισμό, για ιδιοκτήτες/ενοίκους μόνο ανάγνωση.
 prompts: ["Πώς καταχωρώ λογαριασμό ΔΕΗ;", "Πώς εκδίδω τα κοινόχρηστα του μήνα;", "Στείλε ανακοίνωση στους ενοίκους για διακοπή νερού", "Τι έξοδα είχε το κτήριο τον προηγούμενο μήνα;"]
-related: [building-home, building-suppliers, print-hub, portal-requests-new]
+related: [guide-millesimes, building-home, building-suppliers, print-hub, portal-requests-new]
 sections: ["overview: Επισκόπηση", "finance: Οικονομικά", "koino: Οικονομικά", "expenses: Οικονομικά", "building: Κτήριο", "units: Κτήριο", "infra: Κτήριο", "items: Κτήριο", "people: Άνθρωποι", "contacts: Άνθρωποι", "maintenance: Συντήρηση", "communication: Επικοινωνία", "ann: Επικοινωνία", "assemblies: Επικοινωνία", "files: Επικοινωνία", "settings: Ρυθμίσεις"]
 ---
 ## Τι βλέπετε εδώ

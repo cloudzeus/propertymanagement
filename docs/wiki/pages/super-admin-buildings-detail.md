@@ -5,7 +5,7 @@ roles: [SUPER_ADMIN]
 area: management
 summary: Το κέντρο ελέγχου ενός κτηρίου: μονάδες, ένοικοι, διαχειριστές, αρχεία, ημερολόγιο, έξοδα, κοινόχρηστα, βλάβες, ανακοινώσεις, συνελεύσεις.
 prompts: ["Πώς εκδίδω κοινόχρηστα μήνα;", "Πώς καταχωρώ δαπάνη σε αυτό το κτήριο;", "Πώς προσθέτω ένοικο σε διαμέρισμα;", "Πώς στέλνω ανακοίνωση στους ενοίκους;"]
-related: [guide-building, super-admin-customers, admin-maintenance, super-admin-settings-expense-categories, print-hub]
+related: [guide-building, guide-millesimes, super-admin-customers, admin-maintenance, super-admin-settings-expense-categories, print-hub]
 ---
 ## Τι βλέπετε εδώ
 Η καρτέλα του κτηρίου έχει επάνω τα βασικά (διεύθυνση, όροφοι, ανελκυστήρας, πελάτης), το κουμπί «Ενέργειες» και μια σειρά από καρτέλες. Κάθε καρτέλα περιγράφεται παρακάτω.

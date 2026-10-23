@@ -5,7 +5,7 @@ wizard: building-new
 roles: [SUPER_ADMIN]
 summary: Πώς καταχωρίζετε ένα κτήριο με όλα τα διαμερίσματα και τα καταστήματά του σε δύο λεπτά, και γιατί τα τετραγωνικά και οι όροφοι είναι η βάση των κοινοχρήστων.
 prompts: ["Πώς προσθέτω κτήριο με όλες τις μονάδες μαζί;", "Τι χρειάζεται για να υπολογιστούν τα χιλιοστά;", "Τι σημαίνει αυτονομία με μετρητές;"]
-related: [super-admin-properties-detail, super-admin-buildings-detail, guide-property, super-admin-onboarding]
+related: [super-admin-properties-detail, super-admin-buildings-detail, guide-property, guide-millesimes, super-admin-onboarding]
 minutes: 2
 ---
 ## Γιατί

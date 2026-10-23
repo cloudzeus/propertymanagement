@@ -142,7 +142,7 @@ export function BuildingsTree({ propertyId, buildings, depthBase = 0, showAddBui
                 { label: "Προσθήκη υπογείου", icon: <RiArrowDownSLine />, onClick: () => act(() => updateBuilding(b.id, { basements: (b.basements ?? 0) + 1 })) },
                 { label: "Προσθήκη μονάδας", icon: <RiAddLine />, onClick: () => setModal({ kind: "unit", buildingId: b.id, editing: null }) },
                 { label: "Προσθήκη κοιν. χώρου", icon: <RiDoorOpenLine />, onClick: () => setModal({ kind: "commonArea", buildingId: b.id }) },
-                { label: "Υπολογισμός χιλιοστών", icon: <RiCalculatorLine />, onClick: () => setModal({ kind: "millesimes", building: b }) },
+                { label: "Χιλιοστά βήμα-βήμα", icon: <RiCalculatorLine />, onClick: () => router.push(buildingActionHref(`/super-admin/buildings/${b.id}`, "millesimes-calc")) },
                 // only where the page loaded distances (the property page); other trees have no base station context
                 ...(b.distance !== undefined ? [{ label: "Επανυπολογισμός απόστασης", icon: <RiRoadMapLine />, onClick: () => act(() => recomputeBuildingDistanceAction(b.id)) }] : []),
                 { label: "Διαχειριστές κτηρίου", icon: <RiUserStarLine />, onClick: () => setModal({ kind: "managers", scope: { buildingId: b.id }, title: `Διαχειριστές — ${b.name}` }) },

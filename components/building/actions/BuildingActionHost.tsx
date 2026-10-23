@@ -44,6 +44,7 @@ import { ExclusionMatrix } from "@/components/building/ExclusionMatrix";
 import { CategorySplitSettings } from "@/components/buildings/CategorySplitSettings";
 import { AuditDrawer } from "@/components/building/AuditDrawer";
 import { PickerModal } from "./PickerModal";
+import { MillesimesWizard } from "@/components/wizards/MillesimesWizard";
 
 export type BuildingActionHostProps = {
   active: BuildingActionKey | null;
@@ -95,7 +96,12 @@ function ActiveAction({ active, data, can, workViewer, faultDetailBase, onGoToTa
     case "statement":
       return <PersonFlow buildingId={buildingId} people={data.people} canPay={active === "payment" ? can.managePayments : can.managePayments} title={active === "payment" ? "Είσπραξη / απόδειξη" : "Καρτέλα προσώπου"} onClose={onClose} onChanged={() => onDone("Η πληρωμή καταχωρήθηκε.")} />;
     case "millesimes-calc":
-      return <MillesimesModal units={data.units} buildingId={buildingId} onClose={onClose} onDone={() => onDone("Τα χιλιοστά υπολογίστηκαν.")} />;
+      return (
+        <WizardOrForm
+          wizard={(p) => <MillesimesWizard buildingId={buildingId} units={data.millesimeUnits} building={{ hasElevator: building.hasElevator, elevatorSurchargePerFloor: building.elevatorSurchargePerFloor, elevatorExemptGroundFloor: building.elevatorExemptGroundFloor }} usesMeteredHeating={data.usesMeteredHeating} {...p} />}
+          form={(p) => <MillesimesModal units={data.units} buildingId={buildingId} {...p} />}
+          onClose={onClose} onDone={() => onDone("Τα χιλιοστά εφαρμόστηκαν.")} />
+      );
     // ── Συντήρηση ─────────────────────────────────────────────────────────
     case "fault-new":
       return (
