@@ -37,3 +37,16 @@ export function lineFor(s: PkgServiceLike, c: PkgCounts, zoneCodes?: (string | n
 export function packageTotal(services: (PkgServiceLike & { enabled: boolean })[], c: PkgCounts, zoneCodes?: (string | null)[]): number {
   return round2(services.filter((s) => s.enabled).reduce((t, s) => t + lineFor(s, c, zoneCodes).amount, 0));
 }
+
+export type PkgCatalogItem = PkgServiceLike & { id: string; name: string; isCore?: boolean; enabled: boolean };
+export type PkgLineRow = { id: string; name: string; isCore: boolean; counted: boolean; metered: boolean; qty: number | null; amount: number; detail: string | null };
+
+/** Every catalog line with its monthly amount; CORE services always count (they cannot be removed from a package). */
+export function packageLines(services: PkgCatalogItem[], c: PkgCounts, zoneCodes?: (string | null)[]): { lines: PkgLineRow[]; total: number } {
+  const lines = services.map((s) => {
+    const l = lineFor(s, c, zoneCodes);
+    const counted = !!s.isCore || s.enabled;
+    return { id: s.id, name: s.name, isCore: !!s.isCore, counted, metered: s.pricingModel === "METERED_PREPAID", qty: l.qty, amount: counted ? l.amount : 0, detail: l.detail };
+  });
+  return { lines, total: round2(lines.reduce((t, l) => t + l.amount, 0)) };
+}

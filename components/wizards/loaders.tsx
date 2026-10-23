@@ -14,6 +14,9 @@ import { BuildingWizard } from "./BuildingWizard";
 import { getPropertyForBuildingWizard, listPropertyOptions, type PropertyForWizard } from "@/app/actions/properties";
 import { ServiceWizard } from "./ServiceWizard";
 import { listServiceWizardContext } from "@/app/actions/services";
+import { PackageWizard, type PackageView } from "./PackageWizard";
+import { listPropertyPackage } from "@/app/actions/property-package";
+import { FieldSelect, FormField } from "@/components/ui/modal";
 import type { WizardHostApi } from "./WizardHost";
 
 export function LoadingModal({ title, error, onClose }: { title: string; error?: string | null; onClose: () => void }) {
@@ -95,4 +98,40 @@ export function ServiceWizardLoader({ api }: { api: WizardHostApi }) {
   }, []);
   if (!ctx) return <LoadingModal title="Νέα υπηρεσία καταλόγου βήμα-βήμα" error={error} onClose={api.onClose} />;
   return <ServiceWizard zones={ctx.zones} takenCodes={ctx.takenCodes} onClose={api.onClose} onDone={(s) => api.onDone(`Η υπηρεσία «${s.name}» προστέθηκε.`)} />;
+}
+
+/** Package wizard for a known property: loads the server-computed package first. */
+export function PackageWizardForProperty({ propertyId, propertyName, onClose, onDone }: { propertyId: string; propertyName?: string; onClose: () => void; onDone: (enabledIds: string[]) => void }) {
+  const [view, setView] = useState<PackageView | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  useEffect(() => {
+    let cancelled = false;
+    listPropertyPackage(propertyId).then((v) => { if (!cancelled) setView(v as PackageView); }).catch((e) => { if (!cancelled) setError(e instanceof Error && e.message === "Forbidden" ? "Δεν έχετε πρόσβαση στο πακέτο αυτής της ιδιοκτησίας." : "Δεν ήταν δυνατή η φόρτωση του πακέτου."); });
+    return () => { cancelled = true; };
+  }, [propertyId]);
+  if (!view) return <LoadingModal title="Πακέτο υπηρεσιών ιδιοκτησίας" error={error} onClose={onClose} />;
+  return <PackageWizard propertyId={propertyId} propertyName={propertyName} view={view} onClose={onClose} onDone={onDone} />;
+}
+
+export function PackageWizardLoader({ api }: { api: WizardHostApi }) {
+  const [propertyId, setPropertyId] = useState<string | null>(api.ctx.propertyId ?? null);
+  const [options, setOptions] = useState<{ id: string; name: string; customerName: string }[] | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [pick, setPick] = useState("");
+  useEffect(() => {
+    if (propertyId) return;
+    let cancelled = false;
+    listPropertyOptions().then((rows) => { if (!cancelled) setOptions(rows); }).catch(() => { if (!cancelled) setError("Δεν ήταν δυνατή η φόρτωση των ιδιοκτησιών."); });
+    return () => { cancelled = true; };
+  }, [propertyId]);
+  if (propertyId) return <PackageWizardForProperty propertyId={propertyId} propertyName={options?.find((o) => o.id === propertyId)?.name} onClose={api.onClose} onDone={() => api.onDone("Το πακέτο της ιδιοκτησίας ενημερώθηκε.")} />;
+  if (!options) return <LoadingModal title="Πακέτο υπηρεσιών ιδιοκτησίας" error={error} onClose={api.onClose} />;
+  return (
+    <Modal open onClose={api.onClose} title="Πακέτο υπηρεσιών ιδιοκτησίας" width={520}
+      footer={<button type="button" disabled={!pick} onClick={() => setPropertyId(pick)} style={{ minHeight: 40, padding: "9px 18px", borderRadius: 6, border: "none", background: "var(--color-primary)", color: "#fff", cursor: pick ? "pointer" : "default", opacity: pick ? 1 : 0.5, fontSize: "var(--fs-13)", fontWeight: 600 }}>Συνέχεια</button>}>
+      <FormField label="Για ποια ιδιοκτησία;" required>
+        <FieldSelect value={pick} onChange={setPick} placeholder="— Επιλογή ιδιοκτησίας —" options={options.map((o) => ({ value: o.id, label: `${o.name} — ${o.customerName}` }))} />
+      </FormField>
+    </Modal>
+  );
 }

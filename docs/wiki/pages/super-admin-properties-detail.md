@@ -5,7 +5,7 @@ roles: [SUPER_ADMIN]
 area: management
 summary: Κτήρια και μονάδες της ιδιοκτησίας, πακέτο υπηρεσιών και ρυθμίσεις πληρωμών Viva του πελάτη.
 prompts: ["Πώς ορίζω πακέτο υπηρεσιών σε ιδιοκτησία;", "Πώς ενεργοποιώ πληρωμές Viva για τον πελάτη;"]
-related: [guide-building, super-admin-settings-distance, super-admin-properties, super-admin-services, super-admin-settings-payments]
+related: [guide-building, guide-package, super-admin-settings-distance, super-admin-properties, super-admin-services, super-admin-settings-payments]
 ---
 ## Τι βλέπετε εδώ
 Τρεις ενότητες: «Κτήρια & Μονάδες» (τα κτήρια της ιδιοκτησίας με τις μονάδες τους), «Πακέτο Υπηρεσιών» (οι υπηρεσίες που έχει αγοράσει ο πελάτης: «σταθερή», «ανά μονάδα», «ανά κτήριο», «ανά κοιν. χώρο», «με μέτρηση», «με χρήση») και «Viva πληρωμές» (ο λογαριασμός Viva του πελάτη για εισπράξεις κοινοχρήστων από τους ενοίκους του).

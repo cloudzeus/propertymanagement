@@ -5,7 +5,7 @@ wizard: millesimes-setup
 roles: [SUPER_ADMIN, ADMIN, MANAGER, PROPERTY_ADMIN]
 summary: Τι είναι τα τρία σετ χιλιοστών (γενικά, ανελκυστήρα, θέρμανσης), πότε υπολογίζονται βάσει νόμου και πότε από κανονισμό, και πώς μοιράζεται μια δαπάνη.
 prompts: ["Πώς ορίζω τα χιλιοστά του κτηρίου;", "Τι είναι τα χιλιοστά ανελκυστήρα;", "Πώς εφαρμόζω τον κανονισμό της πολυκατοικίας;", "Τι σημαίνει 70/30 στη θέρμανση;"]
-related: [super-admin-buildings-detail, building-detail, guide-building]
+related: [super-admin-buildings-detail, building-detail, guide-building, guide-package]
 minutes: 2
 ---
 ## Γιατί

@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { lineFor, packageTotal, type PkgCounts } from "./package";
+import { lineFor, packageTotal, packageLines, type PkgCounts } from "./package";
 
 const c: PkgCounts = { units: 5, buildings: 1, commonAreas: 2 };
 
@@ -36,5 +36,24 @@ describe("packageTotal", () => {
   });
   it("is 0 with nothing enabled", () => {
     expect(packageTotal([{ pricingModel: "FLAT", price: 50, enabled: false }], c)).toBe(0);
+  });
+});
+
+describe("packageLines", () => {
+  const services = [
+    { id: "core", name: "Βασική διαχείριση", isCore: true, pricingModel: "PER_UNIT", price: 3, enabled: false },
+    { id: "clean", name: "Καθαρισμός", isCore: false, pricingModel: "PER_COMMON_AREA", price: 15, enabled: true },
+    { id: "asm", name: "Συνελεύσεις", isCore: false, pricingModel: "METERED_PREPAID", price: 0.1, enabled: true },
+    { id: "flat", name: "Λογιστικά", isCore: false, pricingModel: "FLAT", price: 50, enabled: false },
+  ];
+  it("CORE services are always counted, even when their toggle is off", () => {
+    const r = packageLines(services, c);
+    expect(r.lines.map((l) => [l.id, l.counted])).toEqual([["core", true], ["clean", true], ["asm", true], ["flat", false]]);
+    expect(r.total).toBe(45); // 15 + 30; metered = 0; flat off
+  });
+  it("lines carry name, amount and the metered flag", () => {
+    const r = packageLines(services, c);
+    expect(r.lines[2]).toMatchObject({ name: "Συνελεύσεις", amount: 0, metered: true });
+    expect(r.lines[0].amount).toBe(15);
   });
 });

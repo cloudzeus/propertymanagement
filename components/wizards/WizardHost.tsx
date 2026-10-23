@@ -15,7 +15,7 @@ import { useRouter } from "next/navigation";
 import type { WizardCtx, WizardKey } from "@/lib/wizards/registry";
 import { ActionToast, type ToastMessage } from "@/components/work/ActionToast";
 import { useWizardParam } from "./useWizardParam";
-import { BuildingWizardLoader, CustomerWizardLoader, PropertyWizardLoader, ServiceWizardLoader } from "./loaders";
+import { BuildingWizardLoader, CustomerWizardLoader, PackageWizardLoader, PropertyWizardLoader, ServiceWizardLoader } from "./loaders";
 
 export type WizardHostApi = {
   ctx: WizardCtx;
@@ -53,6 +53,8 @@ function ActiveWizard({ active, api }: { active: WizardKey; api: WizardHostApi }
       return <BuildingWizardLoader api={api} />;
     case "service-new":
       return <ServiceWizardLoader api={api} />;
+    case "package-setup":
+      return <PackageWizardLoader api={api} />;
     // further cases are added per wizard (Tasks 8–14)
     default:
       return null;

@@ -8,6 +8,8 @@ import { RiArrowLeftLine, RiAddLine } from "react-icons/ri";
 import { ManagedBadge } from "@/components/ui/managed-badge";
 import { PropertyVivaSetup } from "@/components/property/PropertyVivaSetup";
 import { PropertyPackages } from "@/components/property/PropertyPackages";
+import { PackageWizardForProperty } from "@/components/wizards/loaders";
+import { RiMagicLine } from "react-icons/ri";
 
 const PRICING_LABEL: Record<string, string> = {
   PER_UNIT: "ανά μονάδα", PER_BUILDING: "ανά κτήριο", PER_COMMON_AREA: "ανά κοιν. χώρο",
@@ -29,6 +31,7 @@ export function PropertyDetailClient({
 }) {
   const [tab, setTab] = useState<"buildings" | "package" | "viva">("buildings");
   const [ps, setPs] = useState<PS[]>(initialPS);
+  const [pkgWizard, setPkgWizard] = useState(false);
 
   const counts = useMemo(() => ({
     buildings: buildings.length,
@@ -67,6 +70,11 @@ export function PropertyDetailClient({
         </div>
       ) : tab === "package" ? (
         <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+          <button type="button" onClick={() => setPkgWizard(true)} style={{ ...primaryBtn, minHeight: 40 }}><RiMagicLine /> Ρύθμιση πακέτου βήμα-βήμα</button>
+          {pkgWizard && (
+            <PackageWizardForProperty propertyId={property.id} propertyName={property.name} onClose={() => setPkgWizard(false)}
+              onDone={(enabledIds) => { setPs((prev) => catalog.map((s) => ({ serviceId: s.id, active: enabledIds.includes(s.id), prepaidPersonMinutes: prev.find((p) => p.serviceId === s.id)?.prepaidPersonMinutes ?? 0 }))); }} />
+          )}
           <PackageTab propertyId={property.id} catalog={catalog} ps={ps} setPs={setPs} />
           <div>
             <h2 style={{ fontSize: "var(--fs-15)", fontWeight: 700, color: "var(--foreground)", margin: "0 0 10px" }}>Πακέτα & πληρωμή</h2>
