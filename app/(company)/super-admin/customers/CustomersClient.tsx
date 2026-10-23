@@ -8,6 +8,7 @@ import { Modal, FormField, FieldInput, FieldSelect } from "@/components/ui/modal
 import { createCustomer, updateCustomer, deleteCustomer, assignAccountManager } from "@/app/actions/customers";
 import { AddPropertyModal } from "@/app/(company)/super-admin/properties/AddPropertyModal";
 import { CustomerTree, type TProperty } from "./CustomerTree";
+import { CustomerWizard, type CreatedCustomer } from "@/components/wizards/CustomerWizard";
 import { RiCheckLine, RiLoaderLine, RiPencilLine, RiDeleteBinLine, RiSearchLine, RiMapPin2Line, RiEyeLine, RiAddLine, RiRobot2Line, RiUserStarLine } from "react-icons/ri";
 
 type Customer = {
@@ -48,12 +49,13 @@ function initForm() {
   };
 }
 
-export function CustomersClient({ initial, managers = [] }: { initial: Customer[]; managers?: ManagerOption[] }) {
+export function CustomersClient({ initial, managers = [], nextCode = "—" }: { initial: Customer[]; managers?: ManagerOption[]; nextCode?: string }) {
   const router = useRouter();
   const [data, setData] = useState<Customer[]>(initial);
   // Keep in sync with fresh server data after router.refresh() (tree mutations).
   useEffect(() => { setData(initial); }, [initial]);
   const [open, setOpen] = useState(false);
+  const [wizard, setWizard] = useState(false);
   const [editing, setEditing] = useState<Customer | null>(null);
   const [form, setForm] = useState(initForm());
   const [lat, setLat] = useState<number | null>(null);
@@ -69,7 +71,9 @@ export function CustomersClient({ initial, managers = [] }: { initial: Customer[
 
   const f = (k: keyof ReturnType<typeof initForm>) => (v: string) => setForm((p) => ({ ...p, [k]: v }));
 
-  function openAdd() { setEditing(null); setForm(initForm()); setLat(null); setLng(null); setError(null); setInfo(null); setOpen(true); }
+  // «Νέος Πελάτης» opens the guided wizard by default; «Προτιμώ την απλή φόρμα» falls back to the dense form below.
+  function openAdd() { setWizard(true); }
+  function openSimpleForm() { setWizard(false); setEditing(null); setForm(initForm()); setLat(null); setLng(null); setError(null); setInfo(null); setOpen(true); }
   function openEdit(c: Customer) {
     setEditing(c);
     setForm({
@@ -176,7 +180,7 @@ export function CustomersClient({ initial, managers = [] }: { initial: Customer[
       cell: (c) => (
         <span style={{
           fontSize: "var(--fs-11)", fontWeight: 600, padding: "2px 8px", borderRadius: 20,
-          background: c.type === "COMPANY" ? "#8764B818" : "#0078D418", color: c.type === "COMPANY" ? "#8764B8" : "#0078D4",
+          background: c.type === "COMPANY" ? "color-mix(in srgb, var(--color-purple) 9%, transparent)" : "color-mix(in srgb, var(--color-info) 9%, transparent)", color: c.type === "COMPANY" ? "var(--color-purple)" : "var(--color-info)",
         }}>{TYPE_LABEL[c.type] ?? c.type}</span>
       ),
     },
@@ -280,8 +284,8 @@ export function CustomersClient({ initial, managers = [] }: { initial: Customer[
           </>
         }
       >
-        {error && <div style={{ padding: "8px 12px", borderRadius: 6, background: "#fee2e218", color: "#dc2626", fontSize: "var(--fs-12)", border: "1px solid #fca5a530", marginBottom: 14 }}>{error}</div>}
-        {info && <div style={{ padding: "8px 12px", borderRadius: 6, background: "#dcfce718", color: "#16a34a", fontSize: "var(--fs-12)", border: "1px solid #86efac30", marginBottom: 14 }}>{info}</div>}
+        {error && <div style={{ padding: "8px 12px", borderRadius: 6, background: "var(--danger-soft)", color: "var(--color-danger)", fontSize: "var(--fs-12)", border: "1px solid var(--danger-soft)", marginBottom: 14 }}>{error}</div>}
+        {info && <div style={{ padding: "8px 12px", borderRadius: 6, background: "var(--success-soft)", color: "var(--color-success)", fontSize: "var(--fs-12)", border: "1px solid var(--success-soft)", marginBottom: 14 }}>{info}</div>}
 
         <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 2fr 1fr", gap: 12 }}>
@@ -292,7 +296,7 @@ export function CustomersClient({ initial, managers = [] }: { initial: Customer[
               <FieldInput value={form.name} onChange={f("name")} placeholder={form.type === "COMPANY" ? "Εταιρεία ΕΠΕ" : "Γιάννης Παπαδόπουλος"} />
             </FormField>
             <FormField label="Κωδικός (S1)">
-              <FieldInput value={editing?.code ?? "— αυτόματος —"} onChange={() => {}} disabled />
+              <FieldInput value={editing?.code ?? nextCode} onChange={() => {}} disabled />
             </FormField>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
@@ -334,7 +338,7 @@ export function CustomersClient({ initial, managers = [] }: { initial: Customer[
             <FormField label="Χώρα"><FieldInput value={form.country} onChange={f("country")} /></FormField>
           </div>
           {lat !== null && lng !== null && (
-            <div style={{ fontSize: "var(--fs-11)", color: "#16a34a", display: "flex", alignItems: "center", gap: 5 }}>
+            <div style={{ fontSize: "var(--fs-11)", color: "var(--color-success)", display: "flex", alignItems: "center", gap: 5 }}>
               <RiMapPin2Line style={{ fontSize: "var(--fs-13)" }} /> Στίγμα: {lat.toFixed(6)}, {lng.toFixed(6)}
             </div>
           )}
@@ -357,6 +361,15 @@ export function CustomersClient({ initial, managers = [] }: { initial: Customer[
 
         <style>{`@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}`}</style>
       </Modal>
+
+      {wizard && (
+        <CustomerWizard
+          managers={managers} nextCode={nextCode}
+          onClose={() => setWizard(false)}
+          onSimpleForm={openSimpleForm}
+          onDone={(c: CreatedCustomer) => { setData((prev) => [{ ...c, doy: null, phone2: null, fax: null, webpage: null, address: null, district: null, postalCode: null, country: null, remarks: null, lat: null, lng: null, propertyCount: 0, properties: [] }, ...prev]); router.refresh(); }}
+        />
+      )}
 
       {addPropFor && (
         <AddPropertyModal

@@ -81,6 +81,19 @@ async function nextCustomerCode(companyId: string): Promise<string> {
   return `C${String(max + 1).padStart(5, "0")}`;
 }
 
+/** The code the next created customer will get (read-only; for the wizard's preview). */
+export async function peekNextCustomerCode(): Promise<string> {
+  await requireSuperAdmin();
+  return nextCustomerCode(await managingCompanyId());
+}
+
+/** Active MANAGER users for the «υπεύθυνος manager» pick (read-only). */
+export async function listManagerOptions(): Promise<{ id: string; name: string }[]> {
+  await requireSuperAdmin();
+  const rows = await db.user.findMany({ where: { role: "MANAGER", status: "ACTIVE" }, orderBy: { name: "asc" }, select: { id: true, name: true, email: true } });
+  return rows.map((m) => ({ id: m.id, name: m.name ?? m.email }));
+}
+
 export async function createCustomer(data: CustomerInput) {
   await requireSuperAdmin();
   if (!data.name.trim()) return { error: "Το όνομα/επωνυμία είναι υποχρεωτικό" };

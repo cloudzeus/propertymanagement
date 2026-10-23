@@ -99,11 +99,12 @@ export function GuidedFlow<T extends object = Record<string, unknown>>({ title, 
     if (!storageKey) return;
     try { window.localStorage.removeItem(storageKey); } catch { /* ignore */ }
   }, [storageKey]);
+  // Persist only real progress: an untouched form never overwrites an earlier draft (e.g. after a remount).
   useEffect(() => {
-    if (!draft || !armed.current || done) return;
+    if (!draft || !armed.current || done || !dirty) return;
     const t = setTimeout(writeDraft, 300);
     return () => clearTimeout(t);
-  }, [draft, draft?.value, step, writeDraft, done]);
+  }, [draft, draft?.value, step, writeDraft, done, dirty]);
 
   // ── Focus the step heading on change (screen readers + keyboard) ────────
   useEffect(() => { headingRef.current?.focus({ preventScroll: true }); }, [step]);
@@ -188,7 +189,7 @@ export function GuidedFlow<T extends object = Record<string, unknown>>({ title, 
                 const state = i < step ? "done" : i === step ? "active" : "todo";
                 const Tag = state === "done" ? "button" : "div";
                 return (
-                  <li key={s.key} aria-current={state === "active" ? "step" : undefined}>
+                  <li key={s.key} aria-current={state === "active" ? "step" : undefined} style={{ minWidth: 0 }}>
                     <Tag type={state === "done" ? "button" : undefined} onClick={state === "done" ? () => goTo(i) : undefined}
                       style={{ width: "100%", display: "flex", alignItems: "center", gap: 6, padding: "7px 8px", borderRadius: 8, fontSize: "var(--fs-12)", fontWeight: 600, minWidth: 0, border: "none", cursor: state === "done" ? "pointer" : "default", font: "inherit",
                         background: state === "active" ? "var(--color-primary)" : "var(--paper)",

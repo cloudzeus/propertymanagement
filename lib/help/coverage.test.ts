@@ -81,8 +81,8 @@ describe("wiki coverage", () => {
     const stale = arts.filter((a) => a.meta && !routes.includes(a.meta.route)).map((a) => `${a.file} → ${a.meta!.route}`);
     expect(stale, `Articles for non-existent pages: ${stale.join(", ")}`).toEqual([]);
   });
-  it("related slugs resolve to articles (or manual-* keys)", () => {
-    const slugs = new Set(arts.map((a) => a.file.replace(/\.md$/, "")));
+  it("related slugs resolve to articles, guides (or manual-* keys)", () => {
+    const slugs = new Set([...arts.map((a) => a.file.replace(/\.md$/, "")), ...guides().map((g) => g.slug)]);
     const broken = arts.flatMap((a) => (a.meta?.related ?? []).filter((r) => !slugs.has(r) && !r.startsWith("manual-")).map((r) => `${a.file}: ${r}`));
     expect(broken, `Broken related links: ${broken.join(", ")}`).toEqual([]);
   });

@@ -3,6 +3,7 @@ import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 import { requirePermission } from "@/lib/rbac/permissions";
 import { CustomersClient } from "./CustomersClient";
+import { peekNextCustomerCode } from "@/app/actions/customers";
 
 export const metadata = { title: "Πελάτες — Super Admin" };
 
@@ -67,6 +68,7 @@ export default async function CustomersPage() {
           })),
         })),
       }))}
+      nextCode={await peekNextCustomerCode()}
       managers={(await db.user.findMany({
         where: { role: "MANAGER", status: "ACTIVE" },
         orderBy: { name: "asc" },
