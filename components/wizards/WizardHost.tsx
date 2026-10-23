@@ -32,7 +32,8 @@ export function WizardHost({ allowed }: { allowed: WizardKey[] }) {
   const api: WizardHostApi | null = active ? {
     ctx: active.ctx,
     onClose: close,
-    onDone: (text) => { close(); setMessage({ kind: "ok", text }); startTransition(() => router.refresh()); },
+    // The wizard stays open to show its «Έγινε!» screen (next-step chain); it closes itself through onClose.
+    onDone: (text) => { setMessage({ kind: "ok", text }); startTransition(() => router.refresh()); },
   } : null;
 
   return (

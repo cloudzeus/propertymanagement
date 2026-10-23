@@ -244,10 +244,12 @@ export async function getBuildingDashboardData(id: string, opts: { heatingPeriod
 
   // ── Package services of the property (the common-area wizard previews «ανά κοινόχρηστο χώρο» charges) ──
   let packageServices: { name: string; price: number; pricingModel: string; enabled: boolean }[] = [];
+  let propertyCommonAreaCount = commonAreas.length; // PER_COMMON_AREA bills across the whole property, not this building
   if (building.property.managed) {
     try {
       const pkg = await getPropertyPackage(building.property.id);
       packageServices = pkg.services.map((s) => ({ name: s.name, price: s.price, pricingModel: s.pricingModel, enabled: s.enabled }));
+      propertyCommonAreaCount = pkg.counts.commonAreas;
     } catch { packageServices = []; }
   }
 
@@ -337,6 +339,7 @@ export async function getBuildingDashboardData(id: string, opts: { heatingPeriod
     managedItemTypes,
     commonAreas,
     packageServices,
+    propertyCommonAreaCount,
     infraPoints: infra,
     floorOptions,
     tasks,

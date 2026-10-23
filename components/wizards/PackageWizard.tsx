@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { RiCheckboxCircleFill, RiCheckboxBlankCircleLine, RiLockLine } from "react-icons/ri";
 import { GuidedFlow, SummaryList } from "@/components/ui/guided-flow";
 import { ExampleCard, ExampleTable, NumberField, parseNumber } from "@/components/ui/guided-flow-parts";
@@ -42,6 +42,7 @@ export function PackageWizard({ propertyId, propertyName, view, onClose, onDone 
   const services = view.services.map((s) => ({ ...s, enabled: !!form.enabled[s.id] }));
   const pkg = packageLines(services, view.counts, view.counts.buildingZones);
   const metered = services.filter((s) => s.pricingModel === "METERED_PREPAID" && (s.isCore || form.enabled[s.id]));
+  const prepaidDone = useRef(new Set<string>()); // a retry after a partial failure must not add the minutes twice
   const toggle = (id: string) => setForm((p) => ({ ...p, enabled: { ...p.enabled, [id]: !p.enabled[id] } }));
 
   return (
@@ -64,7 +65,7 @@ export function PackageWizard({ propertyId, propertyName, view, onClose, onDone 
                 const on = l.counted;
                 return (
                   <button key={l.id} type="button" role="checkbox" aria-checked={on} disabled={l.isCore} onClick={() => !l.isCore && toggle(l.id)}
-                    style={{ display: "flex", alignItems: "center", gap: 12, textAlign: "left", minHeight: 56, padding: "10px 14px", borderRadius: 10, cursor: l.isCore ? "default" : "pointer", border: `2px solid ${on ? "var(--color-primary)" : "var(--border)"}`, background: on ? "var(--color-primary)0f" : "var(--card)", color: "var(--foreground)" }}>
+                    style={{ display: "flex", alignItems: "center", gap: 12, textAlign: "left", minHeight: 56, padding: "10px 14px", borderRadius: 10, cursor: l.isCore ? "default" : "pointer", border: `2px solid ${on ? "var(--color-primary)" : "var(--border)"}`, background: on ? "color-mix(in srgb, var(--color-primary) 6%, var(--card))" : "var(--card)", color: "var(--foreground)" }}>
                     {l.isCore ? <RiLockLine style={{ fontSize: "var(--fs-20)", color: "var(--color-primary)", flexShrink: 0 }} /> : on ? <RiCheckboxCircleFill style={{ fontSize: "var(--fs-22)", color: "var(--color-primary)", flexShrink: 0 }} /> : <RiCheckboxBlankCircleLine style={{ fontSize: "var(--fs-22)", color: "var(--muted-foreground)", flexShrink: 0 }} />}
                     <span style={{ flex: 1, minWidth: 0 }}>
                       <span style={{ display: "block", fontSize: "var(--fs-14)", fontWeight: 700 }}>{l.name} {l.isCore && <small style={{ fontWeight: 600, color: "var(--muted-foreground)" }}>· βασική</small>}</span>
@@ -126,13 +127,18 @@ export function PackageWizard({ propertyId, propertyName, view, onClose, onDone 
       onFinish={async () => {
         try {
           for (const s of services) {
-            if (s.isCore) continue;
             const was = view.services.find((x) => x.id === s.id)?.enabled ?? false;
-            if (was !== s.enabled) await setPropertyService(propertyId, s.id, s.enabled);
+            // Core services are billed only when active on the property (the invoice counts PropertyService rows), so they are activated here.
+            const want = s.isCore ? true : s.enabled;
+            if (was !== want) await setPropertyService(propertyId, s.id, want);
           }
           for (const s of metered) {
             const hours = parseNumber(form.prepaidHours[s.id] ?? "") ?? 0;
-            if (hours > 0) { const r = await addPrepaidMinutes(propertyId, s.id, Math.round(hours * 60)); if ("error" in r && r.error) return { error: r.error }; }
+            if (hours > 0 && !prepaidDone.current.has(s.id)) {
+              const r = await addPrepaidMinutes(propertyId, s.id, Math.round(hours * 60));
+              if ("error" in r && r.error) return { error: r.error };
+              prepaidDone.current.add(s.id);
+            }
           }
         } catch (e) {
           return { error: e instanceof Error && e.message === "Forbidden" ? "Δεν έχετε δικαίωμα αλλαγής του πακέτου αυτής της ιδιοκτησίας." : "Η αποθήκευση απέτυχε. Δοκιμάστε ξανά." };

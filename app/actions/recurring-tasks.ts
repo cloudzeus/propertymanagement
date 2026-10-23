@@ -1,6 +1,7 @@
 "use server";
 
 import { db } from "@/lib/db";
+import { advanceDue, type AdvanceFrequency } from "@/lib/tasks/advance";
 import { revalidatePath } from "next/cache";
 import { requireBuildingCap } from "@/lib/building-access";
 import { publishBuildingEvent } from "@/lib/realtime/bus";
@@ -32,18 +33,7 @@ async function resolveManagedItem(buildingId: string, managedItemId?: string | n
   return { ok: true, id: item.id };
 }
 
-function advance(date: Date, freq: TaskFrequency): Date {
-  const d = new Date(date);
-  switch (freq) {
-    case "WEEKLY": d.setDate(d.getDate() + 7); break;
-    case "MONTHLY": d.setMonth(d.getMonth() + 1); break;
-    case "QUARTERLY": d.setMonth(d.getMonth() + 3); break;
-    case "SEMIANNUAL": d.setMonth(d.getMonth() + 6); break;
-    case "ANNUAL": d.setFullYear(d.getFullYear() + 1); break;
-    case "CUSTOM": break;
-  }
-  return d;
-}
+const advance = (date: Date, freq: TaskFrequency): Date => advanceDue(date, freq as AdvanceFrequency);
 
 export async function createRecurringTask(buildingId: string, data: TaskInput) {
   await requireBuildingCap(buildingId, "manageCalendar");

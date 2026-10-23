@@ -13,6 +13,7 @@ export type WizardVideo = { src: string; poster?: string; seconds?: number; titl
  */
 export function HelpVideoPlayer({ video, compact = false, autoOpen = false }: { video: WizardVideo; compact?: boolean; autoOpen?: boolean }) {
   const [open, setOpen] = useState(autoOpen);
+  const [reducedMotion] = useState(() => typeof window !== "undefined" && !!window.matchMedia?.("(prefers-reduced-motion: reduce)").matches);
   const len = video.seconds ? ` (${formatSeconds(video.seconds)})` : "";
   if (!open) {
     return (
@@ -24,7 +25,7 @@ export function HelpVideoPlayer({ video, compact = false, autoOpen = false }: { 
   return (
     <figure style={{ margin: 0, display: "flex", flexDirection: "column", gap: 6 }}>
       <div style={{ position: "relative", aspectRatio: "16 / 9", background: "#000", borderRadius: 10, overflow: "hidden" }}>
-        <video src={video.src} poster={video.poster} controls playsInline muted autoPlay preload="metadata" title={video.title} style={{ width: "100%", height: "100%", display: "block" }} />
+        <video src={video.src} poster={video.poster} controls playsInline muted autoPlay={!reducedMotion} preload="metadata" title={video.title} style={{ width: "100%", height: "100%", display: "block" }} />
         {!compact && (
           <button type="button" onClick={() => setOpen(false)} aria-label="Κλείσιμο video" style={{ position: "absolute", top: 8, right: 8, width: 32, height: 32, borderRadius: 999, border: "none", background: "rgba(0,0,0,.55)", color: "var(--primary-foreground)", display: "grid", placeItems: "center", cursor: "pointer" }}><RiCloseLine /></button>
         )}

@@ -106,7 +106,10 @@ export type BuildingWizardInput = BuildingInput & {
   elevatorExemptGroundFloor?: boolean;
   /** Common boiler → heating is a κοινόχρηστα expense (heating millesimes); false = individual heating (GAS). */
   heatingShared?: boolean;
+  /** CENTRAL = κοινός λέβητας, AUTONOMOUS = κοινός λέβητας με μετρητές (70/30 override), GAS = ατομική. Overrides heatingShared when set. */
+  heatingType?: "CENTRAL" | "AUTONOMOUS" | "GAS";
 };
+const UNIT_TYPES = new Set(["APARTMENT", "SHOP", "PARKING", "OTHER"]);
 export type WizardUnitInput = { unitNumber: string; floor: number | null; areaSqm: number | null; unitType: "APARTMENT" | "SHOP" | "PARKING" | "OTHER" };
 
 /**
@@ -123,31 +126,41 @@ export async function createBuildingWithUnits(propertyId: string, data: Building
   const dup = duplicateUnitNumbers(clean);
   if (dup.length) return { error: `Διπλοί αριθμοί μονάδων: ${dup.join(", ")}` };
   if (clean.length > 500) return { error: "Μέγιστο 500 μονάδες ανά κτήριο" };
+  for (const u of clean) {
+    if (!UNIT_TYPES.has(u.unitType)) return { error: `Άγνωστος τύπος μονάδας στη «${u.unitNumber}»` };
+    if (u.areaSqm != null && (!Number.isFinite(u.areaSqm) || u.areaSqm < 0 || u.areaSqm > 100000)) return { error: `Μη έγκυρα τετραγωνικά στη «${u.unitNumber}»` };
+    if (u.floor != null && (!Number.isInteger(u.floor) || u.floor < -10 || u.floor > 200)) return { error: `Μη έγκυρος όροφος στη «${u.unitNumber}»` };
+  }
 
   const { companyId, customerId } = await scopeOfProperty(propertyId);
+  const heatingType = data.heatingType ?? ((data.heatingShared ?? true) ? "CENTRAL" : "GAS");
   const payload = buildOnboardingPayload({
     building: {
       hasElevator: data.hasElevator ?? false,
       elevatorSurchargePerFloor: data.elevatorSurchargePerFloor ?? 0.1,
       elevatorExemptGroundFloor: data.elevatorExemptGroundFloor ?? true,
-      heatingType: (data.heatingShared ?? true) ? "CENTRAL" : "GAS",
+      heatingType: heatingType === "AUTONOMOUS" ? "AUTONOMOUS_METERS" : heatingType,
     },
     units: clean.map((u) => ({ unitNumber: u.unitNumber, floor: u.floor ?? undefined, areaSqm: u.areaSqm != null && u.areaSqm > 0 ? u.areaSqm : undefined, unitType: u.unitType })),
   });
 
+  // createProperty always adds one default building; when it is still the property's only building and
+  // has no units, the wizard fills it instead of leaving an empty phantom (which PER_BUILDING services would bill).
+  const existing = await db.building.findMany({ where: { propertyId }, select: { id: true, _count: { select: { units: true } } } });
+  const reuseId = existing.length === 1 && existing[0]._count.units === 0 ? existing[0].id : null;
+  const fields = {
+    name: data.name.trim(), address: data.address.trim(),
+    city: data.city?.trim() ?? "", postalCode: data.postalCode?.trim() ?? "", country: data.country?.trim() || "Greece",
+    floors: data.floors ?? null, basements: data.basements ?? null,
+    hasElevator: data.hasElevator ?? false, hasBoiler: data.hasBoiler ?? false, hasFireSafety: data.hasFireSafety ?? false,
+    technicalNotes: s(data.technicalNotes), lat: data.lat ?? null, lng: data.lng ?? null,
+    elevatorSurchargePerFloor: payload.building.elevatorSurchargePerFloor,
+    elevatorExemptGroundFloor: payload.building.elevatorExemptGroundFloor,
+  };
+
   const buildingId = await db.$transaction(async (tx) => {
-    const b = await tx.building.create({
-      data: {
-        companyId, customerId, propertyId,
-        name: data.name.trim(), address: data.address.trim(),
-        city: data.city?.trim() ?? "", postalCode: data.postalCode?.trim() ?? "", country: data.country?.trim() || "Greece",
-        floors: data.floors ?? null, basements: data.basements ?? null,
-        hasElevator: data.hasElevator ?? false, hasBoiler: data.hasBoiler ?? false, hasFireSafety: data.hasFireSafety ?? false,
-        technicalNotes: s(data.technicalNotes), lat: data.lat ?? null, lng: data.lng ?? null,
-        elevatorSurchargePerFloor: payload.building.elevatorSurchargePerFloor,
-        elevatorExemptGroundFloor: payload.building.elevatorExemptGroundFloor,
-      },
-    });
+    if (reuseId) await tx.building.update({ where: { id: reuseId }, data: fields });
+    const b = reuseId ? { id: reuseId } : await tx.building.create({ data: { companyId, customerId, propertyId, ...fields }, select: { id: true } });
     await tx.unit.createMany({
       data: payload.units.map((u) => ({
         buildingId: b.id, customerId, unitNumber: u.unitNumber, unitType: u.unitType, floor: u.floor, areaSqm: u.areaSqm,
@@ -155,6 +168,18 @@ export async function createBuildingWithUnits(propertyId: string, data: Building
       })),
     });
     await tx.building.update({ where: { id: b.id }, data: { unitsCount: payload.units.length } });
+    // Metered heating: 70% by consumption / 30% by heating millesimes — an override on the heating category,
+    // exactly as the AI onboarding and the «Χιλιοστά βήμα-βήμα» wizard write it.
+    if (heatingType === "AUTONOMOUS") {
+      const heatingCat = await tx.expenseCategory.findFirst({ where: { defaultBasis: { in: ["HEATING_MILLESIMES", "METERED_70_30"] } }, select: { id: true, defaultTenantPct: true, defaultOwnerPct: true } });
+      if (heatingCat) {
+        await tx.buildingCategoryOverride.upsert({
+          where: { buildingId_categoryId: { buildingId: b.id, categoryId: heatingCat.id } },
+          create: { buildingId: b.id, categoryId: heatingCat.id, distributionBasis: "METERED_70_30", tenantPct: heatingCat.defaultTenantPct, ownerPct: heatingCat.defaultOwnerPct },
+          update: { distributionBasis: "METERED_70_30" },
+        });
+      }
+    }
     return b.id;
   });
 

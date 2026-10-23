@@ -60,7 +60,7 @@ export function AnnouncementWizard({ buildingId, onClose, onDone, onSimpleForm }
 
   return (
     <GuidedFlow<typeof draftValue> title="Νέα ανακοίνωση — βήμα προς βήμα" onClose={onClose} onSimpleForm={onSimpleForm} finishLabel="Δημοσίευση & αποστολή" dirty={dirty}
-      draft={{ key: "announcement-new", ctxId: buildingId, value: draftValue, restore: (v) => { setKind(v.kind); setAudience(v.audience); setSelected(new Set(v.selected)); setTitle(v.title); setContent(v.content); setPublishedAt(v.publishedAt); setAddToCalendar(v.addToCalendar); } }}
+      draft={{ key: "announcement-new", ctxId: buildingId, value: draftValue, omit: ["publishedAt"], restore: (v) => { setKind(v.kind); setAudience(v.audience); setSelected(new Set(v.selected)); setTitle(v.title); setContent(v.content); setAddToCalendar(v.addToCalendar); } }}
       example={{
         video: videoForWizard("announcement-new"), guideHref: `${hubHrefForRole("SUPER_ADMIN")}?a=${def.guideSlug}`,
         render: () => (

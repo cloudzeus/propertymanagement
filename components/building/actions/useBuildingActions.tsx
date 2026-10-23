@@ -83,7 +83,7 @@ export function useBuildingActions({ data, can, workViewer = null, superAdmin = 
       <BuildingActionHost
         active={active} data={data} can={can} workViewer={workViewer} faultDetailBase={faultDetailBase} onGoToTab={onGoToTab}
         onClose={close}
-        onDone={(text) => { setActive(null); setMessage({ kind: "ok", text }); startTransition(() => router.refresh()); }}
+        onDone={(text, keepOpen) => { if (!keepOpen) setActive(null); setMessage({ kind: "ok", text }); startTransition(() => router.refresh()); }}
       />
       <ActionToast message={message} onClose={() => setMessage(null)} />
     </>

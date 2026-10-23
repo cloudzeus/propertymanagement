@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import type { ElementType } from "react";
 import { RiStairsLine, RiDoorOpenLine, RiFireLine, RiHome8Line, RiPlantLine, RiParkingBoxLine, RiArchiveLine, RiMoreLine } from "react-icons/ri";
 import { GuidedFlow, ChoiceCards, SummaryList } from "@/components/ui/guided-flow";
@@ -34,6 +34,9 @@ export function CommonAreaWizard({ buildingId, itemTypes, floorOptions, services
   onSimpleForm?: () => void;
 }) {
   const [form, setForm] = useState<Form>(initForm());
+  // What a previous (partially failed) finish already created — a retry continues instead of duplicating.
+  const createdArea = useRef<string | null>(null);
+  const createdItems = useRef(new Set<string>());
   const dirty = useMemo(() => JSON.stringify(form) !== JSON.stringify(initForm()), [form]);
   const def = getWizard("common-area-new");
   const next = nextWizard("common-area-new");
@@ -115,18 +118,25 @@ export function CommonAreaWizard({ buildingId, itemTypes, floorOptions, services
       }}
       onFinish={async () => {
         const floorNum = (() => { const m = form.floor.match(/-?\d+/); if (/Ισόγειο/.test(form.floor)) return 0; if (/Υπόγειο/.test(form.floor) && m) return -Number(m[0]); return m ? Number(m[0]) : null; })();
-        let res: Awaited<ReturnType<typeof createCommonArea>>;
-        try {
-          res = await createCommonArea(buildingId, { name: form.name.trim(), type: form.type && form.type !== "other" ? areaTypeLabel(form.type) : null, floor: floorNum });
-        } catch {
-          return { error: "Η δημιουργία κοινόχρηστου χώρου επιτρέπεται μόνο στον Super Admin. Ζητήστε το από την εταιρεία ή προσθέστε μόνο στοιχεία («Προτιμώ την απλή φόρμα»)." };
+        let areaId = createdArea.current;
+        if (!areaId) {
+          let res: Awaited<ReturnType<typeof createCommonArea>>;
+          try {
+            res = await createCommonArea(buildingId, { name: form.name.trim(), type: form.type && form.type !== "other" ? areaTypeLabel(form.type) : null, floor: floorNum });
+          } catch (e) {
+            if (e instanceof Error && /forbidden/i.test(e.message)) return { error: "Η δημιουργία κοινόχρηστου χώρου επιτρέπεται μόνο στον Super Admin. Ζητήστε το από την εταιρεία ή προσθέστε μόνο στοιχεία («Προτιμώ την απλή φόρμα»)." };
+            return { error: "Η δημιουργία του χώρου απέτυχε. Ελέγξτε τη σύνδεση και πατήστε ξανά." };
+          }
+          if ("error" in res && res.error) return { error: res.error };
+          areaId = (res as { area?: { id: string } }).area?.id ?? null;
+          createdArea.current = areaId;
         }
-        if ("error" in res && res.error) return { error: res.error };
-        const areaId = (res as { area?: { id: string } }).area?.id ?? null;
-        let created = 0;
+        let created = createdItems.current.size;
         for (const c of chosen) {
+          if (createdItems.current.has(c.id)) continue;
           const r = await createManagedItem(buildingId, { itemTypeId: c.id, location: form.name.trim(), floorLabel: form.floor || null, quantity: c.quantity, notes: form.notes || null, commonAreaId: areaId });
-          if ("error" in r && r.error) return { error: `Ο χώρος δημιουργήθηκε, αλλά το στοιχείο «${c.typeName}» απέτυχε: ${r.error}. Προσθέστε τα υπόλοιπα από τα «Στοιχεία διαχείρισης».` };
+          if ("error" in r && r.error) return { error: `Ο χώρος δημιουργήθηκε, αλλά το στοιχείο «${c.typeName}» απέτυχε: ${r.error}. Πατήστε ξανά για να συνεχίσει από εκεί, ή προσθέστε τα υπόλοιπα από τα «Στοιχεία διαχείρισης».` };
+          createdItems.current.add(c.id);
           created++;
         }
         onDone();

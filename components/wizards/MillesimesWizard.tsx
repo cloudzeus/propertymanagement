@@ -70,21 +70,6 @@ export function MillesimesWizard({ buildingId, units, building, usesMeteredHeati
   const preview = previewMillesimes(units, plan);
   const example = exampleForMillesimes(units, plan, DEFAULT_EXAMPLE_EXPENSES);
 
-  const ManualGrid = ({ cells, onChange, column }: { cells: Record<string, string>; onChange: (c: Record<string, string>) => void; column: "general" | "elevator" | "heating" }) => {
-    const err = manualSumError(cellsToManual(units, cells));
-    return (
-      <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(150px, 1fr))", gap: 8 }}>
-          {units.map((u) => (
-            <FormField key={u.id} label={`${u.unitNumber}${u.areaSqm ? ` · ${u.areaSqm} τ.μ.` : ""}`}>
-              <NumberField unit="‰" value={cells[u.id] ?? ""} onChange={(v) => onChange({ ...cells, [u.id]: v })} placeholder={fmt(preview.rows.find((r) => r.unitId === u.id)?.[column] ?? null)} />
-            </FormField>
-          ))}
-        </div>
-        <div role="status" style={{ fontSize: "var(--fs-13)", fontWeight: 700, color: err ? "var(--color-warning)" : "var(--color-success)" }}>{err ?? "Σύνολο 1000‰ ✓"}</div>
-      </div>
-    );
-  };
 
   return (
     <GuidedFlow<Form>
@@ -101,7 +86,7 @@ export function MillesimesWizard({ buildingId, units, building, usesMeteredHeati
           key: "general", title: "Γενικά χιλιοστά",
           help: form.regulation === "manual" ? "Γράψτε τα χιλιοστά κάθε μονάδας από τον κανονισμό. Πρέπει να αθροίζουν 1000." : "Υπολογίζονται από τα τετραγωνικά κάθε μονάδας. Μονάδες χωρίς τ.μ. δεν παίρνουν χιλιοστά.",
           render: () => form.regulation === "manual"
-            ? <ManualGrid cells={form.general} onChange={(general) => setForm((p) => ({ ...p, general }))} column="general" />
+            ? <ManualGrid units={units} preview={preview} cells={form.general} onChange={(general) => setForm((p) => ({ ...p, general }))} column="general" />
             : (
               <>
                 <ExampleTable columns={["Μονάδα", "τ.μ.", "Γενικά ‰"]} rows={preview.rows.map((r) => { const u = units.find((x) => x.id === r.unitId)!; return [r.unitNumber, fmt(u.areaSqm), fmt(r.general)]; })} footer={["Σύνολο", fmt(units.reduce((s, u) => s + (u.areaSqm ?? 0), 0)), fmt(preview.totals.general)]} />
@@ -122,7 +107,7 @@ export function MillesimesWizard({ buildingId, units, building, usesMeteredHeati
                     <FormField label="Χιλιοστά ανελκυστήρα"><FieldSelect value={form.elevatorMode} onChange={(v) => setForm((p) => ({ ...p, elevatorMode: v as "auto" | "manual" }))} options={[{ value: "auto", label: "Υπολογισμός βάσει νόμου (τ.μ. × όροφος)" }, { value: "manual", label: "Από τον κανονισμό — θα τα γράψω" }]} /></FormField>
                   )}
                   {form.regulation === "manual" && form.elevatorMode === "manual"
-                    ? <ManualGrid cells={form.elevatorCells} onChange={(elevatorCells) => setForm((p) => ({ ...p, elevatorCells }))} column="elevator" />
+                    ? <ManualGrid units={units} preview={preview} cells={form.elevatorCells} onChange={(elevatorCells) => setForm((p) => ({ ...p, elevatorCells }))} column="elevator" />
                     : (
                       <>
                         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
@@ -147,7 +132,7 @@ export function MillesimesWizard({ buildingId, units, building, usesMeteredHeati
               {form.heating && form.heating !== "NONE" && form.regulation === "manual" && (
                 <FormField label="Χιλιοστά θέρμανσης"><FieldSelect value={form.heatingMode} onChange={(v) => setForm((p) => ({ ...p, heatingMode: v as "auto" | "manual" }))} options={[{ value: "auto", label: "Υπολογισμός βάσει νόμου (τ.μ.)" }, { value: "manual", label: "Από τον κανονισμό — θα τα γράψω" }]} /></FormField>
               )}
-              {form.heating && form.heating !== "NONE" && form.regulation === "manual" && form.heatingMode === "manual" && <ManualGrid cells={form.heatingCells} onChange={(heatingCells) => setForm((p) => ({ ...p, heatingCells }))} column="heating" />}
+              {form.heating && form.heating !== "NONE" && form.regulation === "manual" && form.heatingMode === "manual" && <ManualGrid units={units} preview={preview} cells={form.heatingCells} onChange={(heatingCells) => setForm((p) => ({ ...p, heatingCells }))} column="heating" />}
               {form.heating && form.heating !== "NONE" && !(form.regulation === "manual" && form.heatingMode === "manual") && (
                 <ExampleTable columns={["Μονάδα", "τ.μ.", "Θέρμανσης ‰"]} rows={preview.rows.map((r) => { const u = units.find((x) => x.id === r.unitId)!; return [r.unitNumber, fmt(u.areaSqm), fmt(r.heating)]; })} footer={["Σύνολο", "", fmt(preview.totals.heating)]} />
               )}
@@ -205,5 +190,22 @@ export function MillesimesWizard({ buildingId, units, building, usesMeteredHeati
         return { done: { title: "Τα χιλιοστά εφαρμόστηκαν", lines: [`${res.updated} μονάδες ενημερώθηκαν`, "Τα ειδοποιητήρια κοινοχρήστων θα χρησιμοποιούν τα νέα σετ"], next: [] } };
       }}
     />
+  );
+}
+
+/** Module-level (not recreated per render — an inline component would remount its inputs on every keystroke). */
+function ManualGrid({ units, preview, cells, onChange, column }: { units: MillesimesWizardUnit[]; preview: ReturnType<typeof previewMillesimes>; cells: Record<string, string>; onChange: (c: Record<string, string>) => void; column: "general" | "elevator" | "heating" }) {
+  const err = manualSumError(cellsToManual(units, cells));
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(150px, 1fr))", gap: 8 }}>
+        {units.map((u) => (
+          <FormField key={u.id} label={`${u.unitNumber}${u.areaSqm ? ` · ${u.areaSqm} τ.μ.` : ""}`}>
+            <NumberField unit="‰" value={cells[u.id] ?? ""} onChange={(v) => onChange({ ...cells, [u.id]: v })} placeholder={fmt(preview.rows.find((r) => r.unitId === u.id)?.[column] ?? null)} />
+          </FormField>
+        ))}
+      </div>
+      <div role="status" style={{ fontSize: "var(--fs-13)", fontWeight: 700, color: err ? "var(--color-warning)" : "var(--color-success)" }}>{err ?? "Σύνολο 1000‰ ✓"}</div>
+    </div>
   );
 }

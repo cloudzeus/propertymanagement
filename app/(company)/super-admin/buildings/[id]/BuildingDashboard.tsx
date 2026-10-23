@@ -194,7 +194,7 @@ export function BuildingDashboard(props: BuildingDashboardData & { can: Building
         ) : tab === "infra" ? (
           <InfraPanel buildingId={building.id} points={infraPoints} floorOptions={floorOptions} can={can} />
         ) : tab === "manageditems" && building.propertyManaged ? (
-          <ManagedItemsPanel buildingId={building.id} items={managedItems} itemTypes={managedItemTypes} floorOptions={floorOptions} commonAreas={commonAreas} can={can} packageServices={props.packageServices} />
+          <ManagedItemsPanel buildingId={building.id} items={managedItems} itemTypes={managedItemTypes} floorOptions={floorOptions} commonAreas={commonAreas} can={can} packageServices={props.packageServices} propertyCommonAreaCount={props.propertyCommonAreaCount} />
         ) : tab === "calendar" ? (
           <CalendarPanel buildingId={building.id} tasks={tasks} today={today} can={can} />
         ) : tab === "expenses" ? (

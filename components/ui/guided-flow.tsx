@@ -76,6 +76,7 @@ export function GuidedFlow<T extends object = Record<string, unknown>>({ title, 
   const [done, setDone] = useState<FlowDone | null>(null);
   const [closing, setClosing] = useState(false);
   const headingRef = useRef<HTMLDivElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
   const cur = rail[step];
   const last = step === rail.length - 1;
   const isExample = cur?.key === EXAMPLE_STEP_KEY;
@@ -108,6 +109,8 @@ export function GuidedFlow<T extends object = Record<string, unknown>>({ title, 
 
   // ── Focus the step heading on change (screen readers + keyboard) ────────
   useEffect(() => { headingRef.current?.focus({ preventScroll: true }); }, [step]);
+  // The done screen and the close prompt replace the step: move focus there too.
+  useEffect(() => { if (done || closing) panelRef.current?.focus({ preventScroll: true }); }, [done, closing]);
 
   function next() {
     const e = cur.validate?.() ?? null;
@@ -118,11 +121,15 @@ export function GuidedFlow<T extends object = Record<string, unknown>>({ title, 
   function back() { setError(null); setStep((s) => Math.max(s - 1, 0)); }
   function goTo(i: number) { if (i < step) { setError(null); setStep(i); } }
   function finish() {
-    const e = cur.validate?.() ?? null;
-    if (e) { setError(e); return; }
+    // Every step is re-validated (a restored draft or a clicked rail step may have skipped one); jump to the first that fails.
+    for (let i = 0; i < rail.length; i++) {
+      const e = rail[i].validate?.() ?? null;
+      if (e) { setStep(i); setError(e); return; }
+    }
     setError(null);
     startTransition(async () => {
-      const res = await onFinish();
+      let res: FinishResult;
+      try { res = await onFinish(); } catch (e) { setError(finishErrorMessage(e)); return; }
       if (res && "error" in res && res.error) { setError(res.error); return; }
       clearDraft();
       if (res && "done" in res && res.done) setDone(res.done);
@@ -130,6 +137,7 @@ export function GuidedFlow<T extends object = Record<string, unknown>>({ title, 
   }
   function requestClose() {
     if (done) { onClose(); return; }
+    if (closing) { setClosing(false); return; } // Escape in the close prompt = «Πίσω»
     if (dirty) { setClosing(true); return; }
     onClose();
   }
@@ -158,9 +166,9 @@ export function GuidedFlow<T extends object = Record<string, unknown>>({ title, 
         </div>
       )}>
       {done ? (
-        <DoneScreen title={done.title} lines={done.lines} next={done.next} onClose={onClose} />
+        <div ref={panelRef} tabIndex={-1} role="status" style={{ outline: "none" }}><DoneScreen title={done.title} lines={done.lines} next={done.next} onClose={onClose} /></div>
       ) : closing ? (
-        <ClosePrompt hasDraft={!!draft} onKeep={() => { writeDraft(); onClose(); }} onDiscard={() => { clearDraft(); onClose(); }} onBack={() => setClosing(false)} />
+        <div ref={panelRef} tabIndex={-1} style={{ outline: "none" }}><ClosePrompt hasDraft={!!draft} onKeep={() => { writeDraft(); onClose(); }} onDiscard={() => { clearDraft(); onClose(); }} onBack={() => setClosing(false)} /></div>
       ) : (
         <div onKeyDown={onKeyDown}>
           {pendingDraft && (
@@ -244,6 +252,14 @@ export function GuidedFlow<T extends object = Record<string, unknown>>({ title, 
   );
 }
 
+/** A server action that throws (lost session, missing record, network) must not reach the route error boundary. */
+function finishErrorMessage(e: unknown): string {
+  const msg = e instanceof Error ? e.message : "";
+  if (/forbidden|unauthori[sz]ed/i.test(msg)) return "Δεν έχετε δικαίωμα για αυτή την ενέργεια — ίσως έληξε η σύνδεσή σας.";
+  if (/not found|δεν βρέθηκε/i.test(msg)) return "Κάτι από αυτά που επιλέξατε δεν υπάρχει πια. Κλείστε και ξαναδοκιμάστε.";
+  return "Η αποθήκευση απέτυχε. Ελέγξτε τη σύνδεση και πατήστε ξανά — τίποτα δεν χάθηκε.";
+}
+
 function ClosePrompt({ hasDraft, onKeep, onDiscard, onBack }: { hasDraft: boolean; onKeep: () => void; onDiscard: () => void; onBack: () => void }) {
   return (
     <div role="alertdialog" aria-labelledby="gf-close-title" style={{ display: "flex", flexDirection: "column", gap: 14, padding: "6px 0" }}>
@@ -276,7 +292,7 @@ export function ChoiceCards<T extends string>({ options, value, onChange, column
         return (
           <button key={o.value} type="button" role="radio" aria-checked={on} onClick={() => onChange(o.value)}
             style={{ display: "flex", alignItems: "flex-start", gap: 10, textAlign: "left", padding: "12px 14px", borderRadius: 10, cursor: "pointer", minHeight: 58,
-              border: `2px solid ${on ? "var(--color-primary)" : "var(--border)"}`, background: on ? "var(--color-primary)0f" : "var(--card)", color: "var(--foreground)" }}>
+              border: `2px solid ${on ? "var(--color-primary)" : "var(--border)"}`, background: on ? "color-mix(in srgb, var(--color-primary) 6%, var(--card))" : "var(--card)", color: "var(--foreground)" }}>
             {Icon && <Icon style={{ fontSize: "var(--fs-22)", flexShrink: 0, marginTop: 1, color: on ? "var(--color-primary)" : "var(--muted-foreground)" }} />}
             <span style={{ minWidth: 0 }}>
               <span style={{ display: "block", fontSize: "var(--fs-14)", fontWeight: 700 }}>{o.label}</span>

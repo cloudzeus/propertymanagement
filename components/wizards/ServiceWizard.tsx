@@ -108,7 +108,7 @@ export function ServiceWizard({ zones, takenCodes, onClose, onDone, onSimpleForm
             />
             {example.scenarios[0].line.detail && <ExampleCard tone="info" title="Λεπτομέρεια">{example.scenarios.map((s) => `${s.label}: ${s.line.detail}`).join(" · ")}</ExampleCard>}
             {form.pricingModel === "METERED_PREPAID" && <ExampleCard tone="info" title="Προαγορά">Η υπηρεσία δεν έχει μηνιαίο ποσό: ο πελάτης προαγοράζει λεπτά (π.χ. 600 λεπτά × {eur(price)} = {eur(price * 600)}) και μια συνέλευση 60′ με 10 συμμετέχοντες καταναλώνει 600 λεπτά.</ExampleCard>}
-            {form.kind === "core" && <ExampleCard tone="warn" title="Βασική υπηρεσία">Θα ενεργοποιηθεί αυτόματα σε κάθε νέα ιδιοκτησία και δεν μπορεί να αφαιρεθεί από το πακέτο.</ExampleCard>}
+            {form.kind === "core" && <ExampleCard tone="warn" title="Βασική υπηρεσία">Προεπιλεγμένη σε κάθε πακέτο: το «Πακέτο υπηρεσιών βήμα-βήμα» την ενεργοποιεί στην ιδιοκτησία και δεν μπορεί να αφαιρεθεί από εκεί.</ExampleCard>}
           </>
         ),
       }}

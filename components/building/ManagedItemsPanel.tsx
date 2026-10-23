@@ -30,7 +30,7 @@ const LOCATION_SUGGESTIONS = ["Κοινόχρηστοι χώροι", "Κλιμα
 const FREQ_LABEL: Record<TaskFrequency, string> = { WEEKLY: "Εβδομαδιαία", MONTHLY: "Μηνιαία", QUARTERLY: "Τριμηνιαία", SEMIANNUAL: "Εξαμηνιαία", ANNUAL: "Ετήσια", CUSTOM: "Προσαρμοσμένη" };
 const FREQ_OPTIONS: { value: TaskFrequency; label: string }[] = (Object.keys(FREQ_LABEL) as TaskFrequency[]).map((f) => ({ value: f, label: FREQ_LABEL[f] }));
 
-export function ManagedItemsPanel({ buildingId, items, itemTypes, floorOptions, commonAreas, can, packageServices = [] }: { buildingId: string; items: ManagedItemRow[]; itemTypes: ManagedItemTypeOption[]; floorOptions: string[]; commonAreas: CommonAreaOption[]; can: BuildingCaps; packageServices?: PerAreaService[] }) {
+export function ManagedItemsPanel({ buildingId, items, itemTypes, floorOptions, commonAreas, can, packageServices = [], propertyCommonAreaCount }: { buildingId: string; items: ManagedItemRow[]; itemTypes: ManagedItemTypeOption[]; floorOptions: string[]; commonAreas: CommonAreaOption[]; can: BuildingCaps; packageServices?: PerAreaService[]; propertyCommonAreaCount?: number }) {
   const router = useRouter();
   const [editing, setEditing] = useState<ManagedItemRow | null | "new">(null);
   const [wizard, setWizard] = useState(false);
@@ -125,8 +125,8 @@ export function ManagedItemsPanel({ buildingId, items, itemTypes, floorOptions, 
       )}
 
       {wizard && (
-        <CommonAreaWizard buildingId={buildingId} itemTypes={itemTypes} floorOptions={floorOptions} services={packageServices} currentCommonAreas={commonAreas.length}
-          onClose={() => setWizard(false)} onSimpleForm={() => { setWizard(false); setEditing("new"); }} onDone={() => { setWizard(false); router.refresh(); }} />
+        <CommonAreaWizard buildingId={buildingId} itemTypes={itemTypes} floorOptions={floorOptions} services={packageServices} currentCommonAreas={propertyCommonAreaCount ?? commonAreas.length}
+          onClose={() => setWizard(false)} onSimpleForm={() => { setWizard(false); setEditing("new"); }} onDone={() => router.refresh()} />
       )}
       {editing !== null && (
         <ManagedItemModal

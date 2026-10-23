@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { RiAddLine, RiDeleteBinLine } from "react-icons/ri";
 import { NumberField, parseNumber } from "@/components/ui/guided-flow-parts";
 import { distributeWeights } from "@/lib/millesimes";
@@ -22,11 +23,18 @@ export function UnitsGrid({ units, onChange, floors, basements }: { units: UnitD
   floorOptions.push({ value: "0", label: "Ισόγειο" });
   for (let f = 1; f <= Math.max(floors, 0); f++) floorOptions.push({ value: String(f), label: `${f}ος όροφος` });
   const set = (i: number, patch: Partial<UnitDraft>) => onChange(units.map((u, j) => (j === i ? { ...u, ...patch } : u)));
-  const remove = (i: number) => onChange(units.filter((_, j) => j !== i));
+  const remove = (i: number) => { setAreaText({}); onChange(units.filter((_, j) => j !== i)); };
   const add = () => onChange([...units, { unitNumber: "", floor: units[units.length - 1]?.floor ?? 1, areaSqm: null, unitType: "APARTMENT" }]);
   const cell: React.CSSProperties = { padding: "4px 6px" };
   const input: React.CSSProperties = { width: "100%", height: 36, padding: "0 8px", border: "1px solid var(--border)", borderRadius: "var(--radius-sm)", fontSize: "var(--fs-13)", color: "var(--foreground)", background: "var(--card)", boxSizing: "border-box" };
   const totalArea = units.reduce((s, u) => s + (u.areaSqm ?? 0), 0);
+  // Raw text per row so «75,» survives the keystroke (the parsed number alone would drop the comma → 755).
+  const [areaText, setAreaText] = useState<Record<number, string>>({});
+  const areaValue = (i: number, u: UnitDraft) => {
+    const raw = areaText[i];
+    if (raw != null && parseNumber(raw) === u.areaSqm) return raw;
+    return u.areaSqm == null ? "" : String(u.areaSqm).replace(".", ",");
+  };
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
@@ -52,7 +60,7 @@ export function UnitsGrid({ units, onChange, floors, basements }: { units: UnitD
                     {(Object.keys(TYPE_LABEL) as UnitDraft["unitType"][]).map((t) => <option key={t} value={t}>{TYPE_LABEL[t]}</option>)}
                   </select>
                 </td>
-                <td style={{ ...cell, width: 120 }}><NumberField ariaLabel="Τετραγωνικά" unit="τ.μ." value={u.areaSqm == null ? "" : String(u.areaSqm).replace(".", ",")} onChange={(v) => set(i, { areaSqm: parseNumber(v) })} /></td>
+                <td style={{ ...cell, width: 120 }}><NumberField ariaLabel="Τετραγωνικά" unit="τ.μ." value={areaValue(i, u)} onChange={(v) => { setAreaText((t) => ({ ...t, [i]: v })); set(i, { areaSqm: parseNumber(v) }); }} /></td>
                 <td style={{ ...cell, textAlign: "right", fontVariantNumeric: "tabular-nums", color: shares.get(String(i)) == null ? "var(--muted-foreground)" : "var(--foreground)", fontWeight: 600 }}>{shares.get(String(i)) ?? "—"}</td>
                 <td style={{ ...cell, width: 44 }}><button type="button" onClick={() => remove(i)} aria-label={`Διαγραφή μονάδας ${u.unitNumber || i + 1}`} style={{ width: 36, height: 36, borderRadius: 6, border: "1px solid var(--border)", background: "var(--card)", color: "var(--color-danger)", cursor: "pointer", display: "grid", placeItems: "center" }}><RiDeleteBinLine /></button></td>
               </tr>

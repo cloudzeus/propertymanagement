@@ -66,4 +66,14 @@ describe("applyMillesimesSetup", () => {
     expect(res).toEqual({ error: expect.stringContaining("Λείπουν") });
     expect(m.unitUpdates).toHaveLength(0);
   });
+  it("rejects negative cells and duplicate unit ids", async () => {
+    const plan = (general: { unitId: string; value: number }[]) => ({ general, elevator: { enabled: false, surchargePerFloor: 0.1, exemptGroundFloor: true, manual: null }, heating: { basis: "NONE" as const, manual: null } });
+    expect(await applyMillesimesSetup("b1", plan([{ unitId: "a", value: -100 }, { unitId: "b", value: 600 }, { unitId: "c", value: 500 }]))).toEqual({ error: expect.stringContaining("αρνητικ") });
+    expect(await applyMillesimesSetup("b1", plan([{ unitId: "a", value: 500 }, { unitId: "a", value: 500 }]))).toEqual({ error: expect.stringContaining("δύο φορές") });
+    expect(m.unitUpdates).toHaveLength(0);
+  });
+  it("saves hasElevator with the elevator parameters", async () => {
+    await applyMillesimesSetup("b1", { general: "AUTO", elevator: { enabled: true, surchargePerFloor: 0.2, exemptGroundFloor: false, manual: null }, heating: { basis: "NONE", manual: null } });
+    expect(m.buildingUpdates[0]).toMatchObject({ data: { hasElevator: true, elevatorSurchargePerFloor: 0.2, elevatorExemptGroundFloor: false } });
+  });
 });

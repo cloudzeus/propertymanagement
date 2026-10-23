@@ -188,7 +188,7 @@ export function BuildingsTree({ propertyId, buildings, depthBase = 0, showAddBui
 
       {modal?.kind === "building" && (modal.editing || modal.simple) && <BuildingModal propertyId={modal.propertyId} editing={modal.editing} propertyAddress={propertyAddress} onClose={close} onDone={done} />}
       {modal?.kind === "building" && !modal.editing && !modal.simple && (
-        <BuildingWizardForProperty propertyId={modal.propertyId} onClose={close} onDone={done} onSimpleForm={() => setModal({ kind: "building", propertyId: modal.propertyId, editing: null, simple: true })} />
+        <BuildingWizardForProperty propertyId={modal.propertyId} onClose={close} onDone={() => { router.refresh(); reloadManagers(); }} onSimpleForm={() => setModal({ kind: "building", propertyId: modal.propertyId, editing: null, simple: true })} />
       )}
       {modal?.kind === "unit" && <UnitModal buildingId={modal.buildingId} editing={modal.editing} defaultFloor={modal.defaultFloor} onClose={close} onDone={done} />}
       {modal?.kind === "commonArea" && <CommonAreaModal buildingId={modal.buildingId} defaultFloor={modal.defaultFloor} onClose={close} onDone={done} />}

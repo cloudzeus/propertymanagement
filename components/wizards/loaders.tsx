@@ -83,7 +83,7 @@ export function BuildingWizardLoader({ api }: { api: WizardHostApi }) {
     let cancelled = false;
     (propertyId ? getPropertyForBuildingWizard(propertyId).then((p) => ({ property: p, properties: [] })) : listPropertyOptions().then((properties) => ({ property: null, properties })))
       .then((st) => { if (!cancelled) setState(st); })
-      .catch(() => { if (!cancelled) setError("Δεν ήταν δυνατή η φόρτωση των ιδιοκτησιών."); });
+      .catch(() => { if (!cancelled) setError("Η λίστα ιδιοκτησιών είναι διαθέσιμη μόνο στον Super Admin — ανοίξτε το πακέτο από την καρτέλα της ιδιοκτησίας («Ρύθμιση πακέτου βήμα-βήμα»)."); });
     return () => { cancelled = true; };
   }, [propertyId]);
   if (!state) return <LoadingModal title="Νέο κτήριο με τις μονάδες του" error={error} onClose={api.onClose} />;

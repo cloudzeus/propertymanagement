@@ -193,7 +193,7 @@ export function BuildingWizard({ property, properties = [], onClose, onDone, onS
           name: form.name.trim(), address: form.address, city: form.city, postalCode: form.postalCode, country: form.country,
           floors, basements, hasElevator: form.elevator === "yes", hasBoiler: form.boiler === "yes", hasFireSafety: form.fire === "yes",
           technicalNotes: form.technicalNotes || null, lat: geo?.lat ?? null, lng: geo?.lng ?? null,
-          elevatorSurchargePerFloor: surcharge, elevatorExemptGroundFloor: form.exemptGround === "yes", heatingShared,
+          elevatorSurchargePerFloor: surcharge, elevatorExemptGroundFloor: form.exemptGround === "yes", heatingShared, heatingType: form.heating ?? undefined,
         }, form.units.filter((u) => u.unitNumber.trim()));
         if ("error" in res) return { error: res.error };
         onDone({ id: res.buildingId });

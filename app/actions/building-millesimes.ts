@@ -106,6 +106,8 @@ export async function applyMillesimesSetup(buildingId: string, plan: MillesimesP
   for (const [label, cells] of [["γενικά", plan.general === "AUTO" ? null : plan.general], ["ανελκυστήρα", plan.elevator.enabled ? plan.elevator.manual : null], ["θέρμανσης", plan.heating.basis === "NONE" ? null : plan.heating.manual]] as const) {
     if (!cells) continue;
     if (cells.some((c) => !ids.has(c.unitId))) return { error: "Μονάδα εκτός κτηρίου" };
+    if (cells.some((c) => c.value != null && (!Number.isFinite(c.value) || c.value < 0))) return { error: `Χιλιοστά ${label}: δεν επιτρέπονται αρνητικές τιμές` };
+    if (new Set(cells.map((c) => c.unitId)).size !== cells.length) return { error: `Χιλιοστά ${label}: μια μονάδα δόθηκε δύο φορές` };
     const err = manualSumError(cells);
     if (err) return { error: `Χιλιοστά ${label}: ${err}` };
   }
@@ -116,7 +118,7 @@ export async function applyMillesimesSetup(buildingId: string, plan: MillesimesP
   const manualH = plan.heating.basis === "NONE" ? null : plan.heating.manual;
 
   await db.$transaction(async (tx) => {
-    await tx.building.update({ where: { id: buildingId }, data: { elevatorSurchargePerFloor: plan.elevator.surchargePerFloor, elevatorExemptGroundFloor: plan.elevator.exemptGroundFloor } });
+    await tx.building.update({ where: { id: buildingId }, data: { hasElevator: plan.elevator.enabled, elevatorSurchargePerFloor: plan.elevator.surchargePerFloor, elevatorExemptGroundFloor: plan.elevator.exemptGroundFloor } });
     for (const u of units) {
       await tx.unit.update({
         where: { id: u.id },

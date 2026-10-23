@@ -58,7 +58,8 @@ export type BuildingActionHostProps = {
   onGoToTab?: (tab: AuditTab) => void;
   onClose: () => void;
   /** Called after a successful mutation; the hook refreshes and toasts. */
-  onDone: (message: string) => void;
+  /** keepOpen: a guided wizard shows its own «Έγινε!» screen and closes itself later via onClose */
+  onDone: (message: string, keepOpen?: boolean) => void;
 };
 
 const CLOSED_FAULT = new Set(["COMPLETED", "CANCELLED"]);
@@ -120,7 +121,7 @@ function ActiveAction({ active, data, can, workViewer, faultDetailBase, onGoToTa
     case "managed-item-new":
       return (
         <WizardOrForm
-          wizard={(p) => <CommonAreaWizard buildingId={buildingId} itemTypes={data.managedItemTypes} floorOptions={data.floorOptions} services={data.packageServices} currentCommonAreas={data.commonAreas.length} {...p} />}
+          wizard={(p) => <CommonAreaWizard buildingId={buildingId} itemTypes={data.managedItemTypes} floorOptions={data.floorOptions} services={data.packageServices} currentCommonAreas={data.propertyCommonAreaCount} {...p} />}
           form={(p) => <ManagedItemModal buildingId={buildingId} itemTypes={data.managedItemTypes} floorOptions={data.floorOptions} commonAreas={data.commonAreas} editing={null} {...p} />}
           onClose={onClose} onDone={() => onDone("Ο κοινόχρηστος χώρος και τα στοιχεία του προστέθηκαν.")} />
       );
@@ -242,10 +243,11 @@ function TaskFlow({ buildingId, onClose, onDone }: { buildingId: string; onClose
 function WizardOrForm({ wizard, form, onClose, onDone }: {
   wizard: (p: { onClose: () => void; onDone: () => void; onSimpleForm: () => void }) => React.ReactNode;
   form: (p: { onClose: () => void; onDone: () => void }) => React.ReactNode;
-  onClose: () => void; onDone: () => void;
+  onClose: () => void; onDone: (keepOpen: boolean) => void;
 }) {
   const [simple, setSimple] = useState(false);
-  return <>{simple ? form({ onClose, onDone }) : wizard({ onClose, onDone, onSimpleForm: () => setSimple(true) })}</>;
+  // The plain form closes on save; the wizard stays open for its «Έγινε!» screen and closes itself.
+  return <>{simple ? form({ onClose, onDone: () => onDone(false) }) : wizard({ onClose, onDone: () => onDone(true), onSimpleForm: () => setSimple(true) })}</>;
 }
 
 function ManagerAddFlow({ buildingId, managed, onClose, onDone }: { buildingId: string; managed: boolean; onClose: () => void; onDone: (m: string) => void }) {
