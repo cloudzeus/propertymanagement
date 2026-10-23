@@ -14,15 +14,17 @@ export default async function ViewAsPage() {
   });
 
   return (
-    <div className="p-8 max-w-2xl">
-      <h1 className="text-2xl font-semibold mb-4">Προεπισκόπηση ως χρήστης</h1>
-      <p className="text-[var(--muted-foreground)] mb-6">Διάλεξε χρήστη για να δεις την εφαρμογή με τα δεδομένα του. Έξοδος από το banner.</p>
-      <ul className="divide-y">
+    <div className="dash-page" style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+      <div>
+        <h1 style={{ margin: 0, fontSize: "var(--fs-22)", fontWeight: 700, color: "var(--foreground)" }}>Προεπισκόπηση ως χρήστης</h1>
+        <p style={{ margin: "4px 0 0", color: "var(--muted-foreground)", fontSize: "var(--fs-13)" }}>Διάλεξε χρήστη για να δεις την εφαρμογή με τα δεδομένα του. Έξοδος από το banner.</p>
+      </div>
+      <ul className="divide-y" style={{ listStyle: "none", margin: 0, padding: "4px 18px", maxWidth: 860, background: "var(--card)", border: "1px solid var(--border)", borderRadius: "var(--radius-lg)", boxShadow: "var(--shadow-ghost)" }}>
         {users.map((u) => (
           <li key={u.id} className="flex items-center justify-between py-3">
             <span>{u.name ?? u.email} <span className="text-[var(--muted-foreground)]">· {u.role}</span></span>
             <form action={startImpersonation.bind(null, u.id)}>
-              <button type="submit" className="px-3 py-1 text-[var(--color-info)] border border-blue-600 rounded hover:bg-[var(--info-soft)]">View as</button>
+              <button type="submit" className="min-h-9 px-3 py-1 text-[var(--color-info)] border border-[var(--color-info)] rounded-lg hover:bg-[var(--info-soft)]">View as</button>
             </form>
           </li>
         ))}

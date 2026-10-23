@@ -72,7 +72,7 @@ export function MobileReportForm({ buildings, categories, detailBase }: {
   }
 
   return (
-    <div style={{ maxWidth: 520, margin: "0 auto", display: "flex", flexDirection: "column", gap: 14 }}>
+    <div style={{ maxWidth: 600, margin: "0 auto", display: "flex", flexDirection: "column", gap: 14, background: "var(--card)", border: "1px solid var(--border)", borderRadius: 14, padding: 16, boxShadow: "var(--shadow-ghost)" }}>
       <div>
         <div style={{ fontSize: "var(--fs-11-5)", fontWeight: 700, letterSpacing: 0.5, textTransform: "uppercase", color: "var(--muted-foreground)" }}>Νέα βλάβη</div>
         <h1 style={{ fontSize: "var(--fs-22)", fontWeight: 800, margin: "2px 0 0", color: "var(--foreground)" }}>Τι συμβαίνει;</h1>
@@ -171,8 +171,8 @@ function Field({ label, required, children }: { label: string; required?: boolea
 }
 
 const select: React.CSSProperties = { width: "100%", height: 46, padding: "0 12px", border: "1px solid var(--border)", borderRadius: 10, fontSize: "var(--fs-15)", color: "var(--foreground)", background: "var(--card)", boxSizing: "border-box" };
-const bigBtn: React.CSSProperties = { height: 92, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 6, border: "1px solid var(--border)", borderRadius: 12, background: "var(--card)", color: "var(--foreground)", fontSize: "var(--fs-13)", fontWeight: 600, cursor: "pointer" };
-const chip: React.CSSProperties = { border: "1px solid var(--border)", background: "var(--card)", color: "var(--foreground)", borderRadius: 999, padding: "9px 14px", fontSize: "var(--fs-14)", cursor: "pointer" };
+const bigBtn: React.CSSProperties = { height: 92, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 6, border: "1px solid var(--border)", borderRadius: 12, background: "var(--paper)", color: "var(--foreground)", fontSize: "var(--fs-13)", fontWeight: 600, cursor: "pointer" };
+const chip: React.CSSProperties = { border: "1px solid var(--border)", background: "var(--paper)", color: "var(--foreground)", borderRadius: 999, padding: "9px 14px", fontSize: "var(--fs-14)", cursor: "pointer" };
 const chipOn: React.CSSProperties = { background: "var(--color-primary)", borderColor: "var(--color-primary)", color: "#fff", fontWeight: 600 };
 const cta: React.CSSProperties = { height: 52, border: "none", borderRadius: 12, background: "var(--color-primary)", color: "#fff", fontSize: "var(--fs-16)", fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8, marginTop: 6 };
 const errBox: React.CSSProperties = { padding: "10px 12px", borderRadius: 8, background: "var(--danger-soft)", color: "var(--color-danger)", fontSize: "var(--fs-13)", border: "1px solid var(--danger-soft)" };

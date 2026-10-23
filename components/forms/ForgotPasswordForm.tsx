@@ -85,7 +85,7 @@ export function ForgotPasswordForm() {
   // Step 1: Email Entry
   if (step === "email") {
     return (
-      <div className="w-full max-w-md mx-auto">
+      <div className="w-full max-w-md mx-auto rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--card)] p-6 shadow-[var(--shadow-card)]">
         <form onSubmit={handleEmailSubmit} className="space-y-6">
           <div className="space-y-2">
             <h1 className="text-3xl font-bold text-center">
@@ -145,7 +145,7 @@ export function ForgotPasswordForm() {
   // Step 3: New Password
   if (step === "reset") {
     return (
-      <div className="w-full max-w-md mx-auto">
+      <div className="w-full max-w-md mx-auto rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--card)] p-6 shadow-[var(--shadow-card)]">
         <form onSubmit={handleResetPassword} className="space-y-6">
           <div className="space-y-2">
             <h1 className="text-3xl font-bold text-center">

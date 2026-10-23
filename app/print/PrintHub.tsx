@@ -26,7 +26,7 @@ export function HubSelectors({ buildings, buildingId, months, month }: { buildin
         .hub-field{display:flex;flex-direction:column;gap:4px;font-size:var(--fs-12);font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#555;min-width:0}
         .hub-input, .hub-card input, .hub-card select, .hub-card textarea{width:100%;font:inherit;font-size:var(--fs-13);font-weight:500;letter-spacing:0;text-transform:none;color:#111;background:#fff;border:1px solid #cfcac2;border-radius:8px;padding:8px 10px;min-height:38px}
         .hub-card textarea{min-height:0;resize:vertical}
-        .hub-card{border:1px solid #d9d4cb;border-radius:12px;padding:14px 14px 12px;display:flex;flex-direction:column;gap:10px;background:#fbfaf8}
+        .hub-card{border:1px solid #d9d4cb;border-radius:12px;padding:14px 14px 12px;display:flex;flex-direction:column;gap:10px;background:#fff}
         .hub-card .hd{display:flex;gap:10px;align-items:flex-start}
         .hub-card .ic{width:36px;height:36px;border-radius:9px;background:#111;color:#f4f1ea;display:flex;align-items:center;justify-content:center;font-size:18px;flex:0 0 auto}
         .hub-card h3{margin:0;font-size:var(--fs-14-5);font-weight:800;line-height:1.2}

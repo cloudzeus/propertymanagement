@@ -48,7 +48,7 @@ export function LoginForm() {
   }
 
   return (
-    <div className="w-full max-w-md mx-auto">
+    <div className="w-full max-w-md mx-auto rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--card)] p-6 shadow-[var(--shadow-card)]">
       <form onSubmit={onSubmit} className="space-y-6">
         <div className="space-y-2">
           <h1 className="text-3xl font-bold text-center">{t("auth.login.title")}</h1>
